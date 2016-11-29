@@ -1,0 +1,16 @@
+--dm--
+random:
+	random_1.ogg
+hit:
+	hit.ogg
+die:
+	die.ogg
+melee:
+	hit.ogg
+distance:
+	fireball.ogg
+
+
+
+
+
