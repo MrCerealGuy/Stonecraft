@@ -1,0 +1,130 @@
+# Translation by Xanthin
+
+### alias.lua ###
+
+### init.lua ###
+
+### nodes_anvil.lua ###
+Steel hammer for repairing tools on the anvil = Stahlhammer um Werkzeuge auf dem Amboss zu reparieren
+anvil = Amboss
+Anvil = Amboss
+The workpiece slot is for damaged tools only. = Das Werkstueckfeld gilt nur fuer beschaedigtes Werkzeug.
+Your tool has been repaired successfully. = Dein Werkzeug wurde erfolgreich repariert.
+Your workpiece improves. = Dein Werkstueck verbessert sich.
+Anvil (owned by %s) = Amboss (gehoert %s)
+Workpiece: = Werkstueck
+Optional = Moegliche
+storage for = Aufbewahrung fuer
+your hammer = deinen Hammer
+Owner: %s = Besitzer: %s
+Punch anvil with hammer to = Schlage mit dem Hammer auf den Amboss um
+repair tool in workpiece-slot. = das Werkzeug im Werkstueckfeld zu reparieren.
+
+### nodes_barrel.lua ###
+Pour: = Eingiessen
+Fill: = Ausgiessen
+barrel (closed) = Fass (geschlossen)
+barrel (open) = Fass (offen)
+barrel (closed), lying somewhere = Liegendes Fass (geschlossen)
+barrel (opened), lying somewhere = Liegendes Fass (offen)
+tub = Bottich
+
+### nodes_chests.lua ###
+private NPC chest = Private NSC-Truhe
+chest for work utils and kitchens = NSC-Truhe fuer Arbeitsutensilien und Kuechen
+storage chest = NSC-Lagertruhe
+
+### nodes_doorlike.lua ###
+opened window shutters = Offene Fensterlaeden
+closed window shutters = Geschlossene Fensterlaeden
+half door = Kloentuer
+half door inverted = Umgekehrte Kloentuer
+closed fence gate = Geschlossenes Zauntor
+opened fence gate = Offenes Zauntor
+wooden hatch = Holzfalltuer
+metal hatch = Metallfalltuer
+
+### nodes_fences.lua ###
+small fence = Kleiner Zaun
+small fence corner = Kleiner Zaun (Ecke)
+small fence end = Kleiner Zaun (Ende)
+
+### nodes_furniture.lua ###
+Bed (foot region) = Bett (Fussende)
+Bed (head region) = Bett (Kopfende)
+sleeping mat = Schlafmatte
+simple wooden bench = Einfache Holzbank
+table = Tisch
+open storage shelf = Offenes Lagerregal
+open storage shelf (in use) = Offenes Lagerregal (in Gebrauch)
+open storage shelf (empty) = Offenes Lagerregal (leer)
+stovepipe = Ofenrohr
+washing place = Waschplatz
+Sorry. This washing place is out of water. Please place it above water! = Entschuldige, dieser Waschplatz hat kein Wasser mehr. Bitte platziere ihn ueber Wasser!
+You feel much cleaner after some washing. = Nach einer kleinen Waesche fuehlst du dich nun sauberer.
+
+### nodes_historic.lua ###
+wagon wheel = Wagenrad
+dirt road = Feldweg
+loam = Lehm
+Dirt Road Stairs = Feldwegtreppe
+Dirt Road, half height = Feldwegstufe
+Loam Stairs = Lehmtreppe
+Loam Slab = Lehmstufe
+Clay Stairs = Tontreppe
+Clay Slab = Tonstufe
+straw ground for animals = Strohboden fuer Tiere
+simple glass pane = Einfache Fensterscheibe
+
+### nodes_roof.lua ###
+Roof straw = Strohdach
+Roof wood = Holzdach
+Roof black = Schwarzes Dach
+Roof red = Rotes Dach
+Roof brown = Braunes Dach
+Roof reet = Reetdach
+Roof slate = Schieferdach
+Roof connector straw = Strohdachverbinder
+Roof connector wood = Holzdachverbinder
+Roof connector black = Schwarzer Dachverbinder
+Roof connector red = Roter Dachverbinder
+Roof connector brown = Brauner Dachverbinder
+Roof connector reet = Reet-Dachverbinder
+Roof connector slate = Schiefer-Dachverbinder
+Roof (flat) straw = Strohdach (flach)
+Roof (flat) wood = Holzdach (flach)
+Roof (flat) black = Schwarzes Dach (flach)
+Roof (flat) red = Rotes Dach (flach)
+Roof (flat) brown = Braunes Dach (flach)
+Roof (flat) reet = Reetdach (flach)
+Roof (flat) slate = Schieferdach (flach)
+Vertical Slate = Vertikaler Schiefer
+Reet for thatching = Reet
+
+
+### nodes_straw.lua ###
+layer of straw = Strohschicht
+straw bale = Strohballen
+straw = Stroh
+threshing floor = Dreschboden
+Threshing floor = Dreschboden
+Threshing floor (owned by %s) = Dreschboden (gehoert %s)
+Harvested wheat: = Geernteter Weizen
+Straw: = Stroh
+Seeds: = Koerner
+Owner: %s = Besitzer: %s
+Punch threshing floor with a stick = Schlage mit einem Stock auf den Dreschboden 
+to get straw and seeds from wheat. = um Stroh und Koerner vom Weizen zu bekommen.
+You have threshed %s wheat (%s are left). =  Du hast %s Weizenaehren gedroschen (%s bleiben uebrig).
+You have threshed the last %s wheat. =  Du hast die letzten %s Weizenaehren gedroschen.
+mill, powered by punching = Muehle, durch Schlagen antreiben
+Mill, powered by punching = Muehle, durch Schlagen antreiben
+Mill, powered by punching (owned by %s) = Muehle, durch Schlagen antreiben (gehoert %s)
+Wheat seeds: = Weizenkoerner
+Flour: = Mehl
+Mill = Muehle
+Owner: %s = Besitzer: %s
+Punch this hand-driven mill = Schlage auf diese handbetriebene Muehle
+to convert wheat seeds into flour. = um Weizenkoerner in Mehl umzuwandeln.
+You have grinded %s wheat seeds (%s are left). = Du hast %s Weizenkoerner gemahlen (%s bleiben uebrig).
+You have grinded the last %s wheat seeds. = Du hast die letzten %s Weizenkoerner gemahlen.
