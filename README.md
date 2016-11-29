@@ -221,10 +221,8 @@ $ ./build/build_win64_client.sh
 		  select **"Release"**, unless you want to debug some stuff (it's slower
 		  and might not even work at all)
 		- Add to the stonecraft project under Linker/command line "/NODEFAULTLIB:libcmt.lib"
-		
 		- Build the **ALL_BUILD project**
 		- You now find **stonecraft.exe** in DIR/bin
-		
 		- Build the **INSTALL project** (optional)
 		- You should now have a working game with the executable in
 			DIR/bin/stonecraft.exe
