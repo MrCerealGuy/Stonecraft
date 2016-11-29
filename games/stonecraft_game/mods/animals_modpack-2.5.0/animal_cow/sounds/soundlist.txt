@@ -1,0 +1,14 @@
+--cow--
+random:
+	random_1.ogg
+hit:
+	animal_cow_hit.ogg
+die:
+	--missing--
+harvest:
+	animal_cow_harvest.ogg
+
+
+
+
+
