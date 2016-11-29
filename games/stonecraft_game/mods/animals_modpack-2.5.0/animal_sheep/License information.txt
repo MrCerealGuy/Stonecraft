@@ -1,0 +1,27 @@
+Sounds from:
+
+From http://commons.wikimedia.org/wiki/Category:Mudchute_Park_and_Farm
+By Secretlondon http://commons.wikimedia.org/wiki/User:Secretlondon
+Hosted by OpenGameArt.org
+
+Files:
+	Mudchute_sheep_1.ogg
+
+Available under GFDL 1.2 or later or CC-BY-SA 3.0 or later
+
+
+CC-BY-SA 3.0, Author: sapier
+URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+
+Files:
+	animal_sheep_harvest.ogg
+	animal_sheep_catch.ogg
+	
+
+CC-BY-SA-3.0 Author: Blender Foundation
+URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+
+Files:
+	animal_sheep_hit_1.ogg
+	animal_sheep_random_2.ogg
+	animal_sheep_lamb_random_1.ogg
