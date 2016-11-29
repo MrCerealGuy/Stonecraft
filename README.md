@@ -64,13 +64,13 @@ Most controls are settable in the configuration file, see the section below.
 ## World directory
 
 - Worlds can be found as separate folders in:
-    ./worlds/
+    <stonecraft-folder>/worlds/
 
 
 ## Configuration file
 
 - Default location:
-    ./stonecraft.conf
+    <stonecraft-folder>/stonecraft.conf
 
 - It is created by Stonecraft when it is ran the first time.
 - A specific file can be specified on the command line:
@@ -98,21 +98,24 @@ $ make -j$(grep -c processor /proc/cpuinfo)
 or run build script
 
 $ cd build
-$ ./build_linux_client.sh
+$ <stonecraft-folder>/build_linux_client.sh
 
 Run it:
-$ ./bin/stonecraft
+$ <stonecraft-folder>/bin/stonecraft
 
 
 # Cross-Compiling for Windows on GNU/Linux
 
-Please install dependencies like above.
+Please install source and dependencies like above.
+
+**Download libraries**
+Please download the Windows libraries from http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
 
 **Win 32-Bit**
-$ ./build/build_win32_client.sh
+$ <stonecraft-folder>/build/build_win32_client.sh
 
 **Win 64-Bit**
-$ ./build/build_win64_client.sh
+$ <stonecraft-folder>/build/build_win64_client.sh
 
 
 # Compiling on Windows with MSVC
@@ -124,10 +127,13 @@ $ ./build/build_win64_client.sh
 		http://msdn.microsoft.com/en-us/vstudio/default
 	* Stonecraft source
 		https://github.com/mrcerealguy/stonecraft/
+	* Windows libraries
+		http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip
 
 - **Steps**
 	- Select a directory called DIR (e.g. Stonecraft) hereafter in which you will operate.
-	- Extract the stonecraft in DIR
+	- Extract stonecraft in DIR
+	- Extract Windows libraries in DIR
 	- Make sure you have CMake and a compiler installed.
 	- You will end up with a directory structure like this (+=dir, -=file):
 
