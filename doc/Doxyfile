@@ -1,0 +1,53 @@
+# Project properties
+PROJECT_NAME           = Stonecraft
+PROJECT_NUMBER         = 1.0.0--alpha
+PROJECT_LOGO           = /home/andreas/Stonecraft/stonecraft-source/misc/minetest.svg
+
+# Parsing
+JAVADOC_AUTOBRIEF      = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+SORT_MEMBERS_CTORS_1ST = YES
+WARN_IF_UNDOCUMENTED   = NO
+BUILTIN_STL_SUPPORT    = YES
+PREDEFINED             = "USE_SPATIAL=1" \
+		"USE_LEVELDB=1" \
+		"USE_REDIS=1" \
+		"USE_SOUND=1" \
+		"USE_CURL=1" \
+		"USE_FREETYPE=1" \
+		"USE_GETTEXT=1"
+
+# Input
+RECURSIVE              = NO
+STRIP_FROM_PATH        = /home/andreas/Stonecraft/stonecraft-source/src
+INPUT = /home/andreas/Stonecraft/stonecraft-source/doc/main_page.dox \
+	/home/andreas/Stonecraft/stonecraft-source/src/ \
+	/home/andreas/Stonecraft/stonecraft-source/src/client \
+	/home/andreas/Stonecraft/stonecraft-source/src/network \
+	/home/andreas/Stonecraft/stonecraft-source/src/util \
+	/home/andreas/Stonecraft/stonecraft-source/src/script \
+	/home/andreas/Stonecraft/stonecraft-source/src/script/common \
+	/home/andreas/Stonecraft/stonecraft-source/src/script/cpp_api \
+	/home/andreas/Stonecraft/stonecraft-source/src/script/lua_api \
+	/home/andreas/Stonecraft/stonecraft-source/src/threading
+
+# Dot graphs
+HAVE_DOT               = NO
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+MAX_DOT_GRAPH_DEPTH    = 3
+DOT_MULTI_TARGETS      = YES
+DOT_IMAGE_FORMAT       = svg
+
+# Output
+GENERATE_LATEX         = NO
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+SEARCHENGINE           = YES
+DISABLE_INDEX          = YES
+GENERATE_TREEVIEW      = YES
+HTML_DYNAMIC_SECTIONS  = YES
+HTML_TIMESTAMP         = YES
+
