@@ -135,24 +135,24 @@ $ ./build/build_win64_client.sh
 		+ bin
 		+ builtin
 		+ client
-		...
+		+ ...
 		+ libs
 			+ msvc2013-win-i686
 				+ zlib-1.2.8
 					- zlib.h
 					+ win32
-					...
+					+ ...
 				+ irrlicht-1.8.3
 					+ lib
 					+ include
-					...
+					+ ...
 				+ gettext (optional)
 					+bin
 					+include
 					+lib
-					...
+					+ ...
 		+ src
-		...
+		+ ...
 
 	- Start up the **CMake GUI**
 	- Select "Browse Source..." and select DIR
@@ -164,6 +164,7 @@ $ ./build/build_win64_client.sh
 	- Make sure the configuration is as follows
 	  (note that the versions may differ for you):
 
+	```
 	BUILD_CLIENT					[X]
 	BUILD_SERVER					[ ]
 	CMAKE_BUILD_TYPE				Release
@@ -208,8 +209,8 @@ $ ./build/build_win64_client.sh
 	ZLIB_DLL						DIR/libs/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.dll
 	ZLIB_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/zlib-1.2.8/include
 	ZLIB_LIBRARIES					DIR/libraries/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.lib
+	```
 
-	
 	- Hit "Configure"
 	- Hit "Configure" once again 8)
 	- If something is still coloured red, you have a problem.
