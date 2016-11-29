@@ -86,7 +86,7 @@ Most controls are settable in the configuration file, see the section below.
 ## Command-line options
 
 	```
-	Use --help
+    Use --help
 	```
 
 
