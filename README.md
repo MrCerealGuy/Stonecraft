@@ -64,45 +64,60 @@ Most controls are settable in the configuration file, see the section below.
 ## World directory
 
 - Worlds can be found as separate folders in:
+	```
     <stonecraft-folder>/worlds/
+	```
 
 
 ## Configuration file
 
 - Default location:
+	```
     <stonecraft-folder>/stonecraft.conf
+	```
 
 - It is created by Stonecraft when it is ran the first time.
 - A specific file can be specified on the command line:
+	```
     --config <path-to-file>
+	```
 
 
 ## Command-line options
 
-- Use --help
+	```
+	Use --help
+	```
 
 
 # Compiling on GNU/Linux
 
 **Install dependencies**. Here's an example for Debian/Ubuntu:
+```
 $ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev libpng12-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64
+```
 
 **Download source** (this is the URL to the latest of source repository, which might not work at all times) using git:
+```
 $ git clone --depth 1 https://github.com/mrcerealguy/stonecraft.git
 $ cd stonecraft
+```
 
 Build a version that **runs directly** from the stonecraft directory:
+```
 $ cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 
 $ make -j$(grep -c processor /proc/cpuinfo) 
-
+```
 or run build script
-
+```
 $ cd build
 $ <stonecraft-folder>/build_linux_client.sh
+```
 
 Run it:
+```
 $ <stonecraft-folder>/bin/stonecraft
-
+```
 
 # Cross-Compiling for Windows on GNU/Linux
 
@@ -112,10 +127,14 @@ Please install source and dependencies like above.
 Please download the Windows libraries from http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
 
 **Win 32-Bit**
+```
 $ <stonecraft-folder>/build/build_win32_client.sh
+```
 
 **Win 64-Bit**
+```
 $ <stonecraft-folder>/build/build_win64_client.sh
+```
 
 
 # Compiling on Windows with MSVC
