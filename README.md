@@ -217,6 +217,8 @@ $ ./build/build_win64_client.sh
 	- Hit "Generate"
 
 	Now change to **DIR/build/win-msvc2013**
+	
+	```
 		- Open the generated **stonecraft.sln**
 		- The project defaults to the "Debug" configuration. Make very sure to
 		  select **"Release"**, unless you want to debug some stuff (it's slower
@@ -228,6 +230,7 @@ $ ./build/build_win64_client.sh
 		- You should now have a working game with the executable in
 			DIR/bin/stonecraft.exe
 		- Additionally you may create a zip package by building the **PACKAGE project**.
+	```
 
 
 # License of Stonecraft textures and sounds
