@@ -9,8 +9,8 @@ and contributors (see source file comments and the version control log)
 ## Further documentation
 
 - Website: http://bc547.de/stonecraft
-- Wiki: http://bc547.de/stonecraft/wiki (work in progress)
-- Github: https://github.com/mrcerealguy/stonecraft/
+- Wiki: http://bc547.de/stonecraft/wiki
+- Github: https://github.com/mrcerealguy/stonecraft
 
 
 ## This game is not finished
@@ -24,13 +24,13 @@ and contributors (see source file comments and the version control log)
 - Move mouse: Look around
 - W, A, S, D: Move
 - Space: Jump/move up
-- Shift: Sneak/move down
+- Strg: Sneak/move down
 - Q: Drop itemstack
 - Shift + Q: Drop single item
 - Left mouse button: Dig/punch/take item
 - Right mouse button: Place/use
 - Shift + right mouse button: Build (without using)
-- I: Inventory menu
+- E: Inventory menu
 - Mouse wheel: Select item
 - 0-9: Select item
 - Z: Zoom (needs zoom privilege)
@@ -44,15 +44,15 @@ and contributors (see source file comments and the version control log)
 - J: Enable/disable fast mode (needs fast privilege)
 - H: Enable/disable noclip mode (needs noclip privilege)
 
-- F1:  Hide/show HUD
-- F2:  Hide/show chat
-- F3:  Disable/enable fog
-- F4:  Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)
-- F5:  Cycle through debug info screens
-- F6:  Cycle through profiler info screens
-- F7:  Cycle through camera modes
-- F8:  Toggle cinematic mode
-- F9:  Cycle through minimap modes
+- F1: Hide/show HUD
+- F2: Hide/show chat
+- F3: Disable/enable fog
+- F4: Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)
+- F5: Cycle through debug info screens
+- F6: Cycle through profiler info screens
+- F7: Cycle through camera modes
+- F8: Toggle cinematic mode
+- F9: Cycle through minimap modes
 - Shift + F9: Change minimap orientation
 - F10: Show/hide console
 - F12: Take screenshot
