@@ -65,30 +65,30 @@ Most controls are settable in the configuration file, see the section below.
 ## World directory
 
 - Worlds can be found as separate folders in:
-	```
-    <stonecraft-folder>/worlds/
-	```
+```
+<stonecraft-folder>/worlds/
+```
 
 
 ## Configuration file
 
 - Default location:
-	```
-    <stonecraft-folder>/stonecraft.conf
-	```
+```
+<stonecraft-folder>/stonecraft.conf
+```
 
 - It is created by Stonecraft when it is ran the first time.
 - A specific file can be specified on the command line:
-	```
-    --config <path-to-file>
-	```
+```
+--config <path-to-file>
+```
 
 
 ## Command-line options
 
-	```
-    Use --help
-	```
+```
+Use --help
+```
 
 
 # Compiling on GNU/Linux
