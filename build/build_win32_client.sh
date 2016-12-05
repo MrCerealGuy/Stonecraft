@@ -24,18 +24,24 @@ sqlite3_version=3.14.2
 luajit_version=2.0.1
 leveldb_version=1.18
 zlib_version=1.2.8
+mingw32_version=5.3.1
 
 
 # Get stonecraft
 cd $builddir
 
-cp $stonecraftdir/{CMakeLists.txt,*.cmake} ./
+cp $stonecraftdir/CMakeLists.txt ./
+cp -R $stonecraftdir/builtin ./
+cp -R $stonecraftdir/client ./
 cp -R $stonecraftdir/cmake ./
 cp -R $stonecraftdir/doc ./
+cp -R $stonecraftdir/fonts ./
+cp -R $stonecraftdir/games ./
 cp -R $stonecraftdir/misc ./
 cp -R $stonecraftdir/po ./
 cp -R $stonecraftdir/locale ./
 cp -R $stonecraftdir/src ./
+cp -R $stonecraftdir/textures ./
 
 rm ./src/cmake_config*.h
 
@@ -108,5 +114,22 @@ cmake .. \
 	-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
 
 make package -j$(grep -c processor /proc/cpuinfo)
+
+# Copy dll files into bin dir
+cd ../bin
+
+cp $libdir/mingw32-$mingw32_version/* ./
+cp $libdir/irrlicht-$irrlicht_version/bin/Win32-gcc/Irrlicht.dll ./
+cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./
+cp $libdir/libogg-$ogg_version/bin/libogg-0.dll ./
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./
+cp $libdir/openal_stripped/bin/OpenAL32.dll ./
+cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./
+cp $libdir/gettext-$gettext_version/bin/libintl3.dll ./
+cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./
+cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./
+cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./
+cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
 
 # EOF
