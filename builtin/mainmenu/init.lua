@@ -145,11 +145,11 @@ local function init_globals()
 		tv_main:add(tabs.multiplayer)
 		tv_main:add(tabs.server)
 		tv_main:add(tabs.settings)
-		-- tv_main:add(tabs.texturepacks)
+		tv_main:add(tabs.texturepacks)
 	end
 
 	-- tv_main:add(tabs.mods)
-	-- tv_main:add(tabs.credits)
+	tv_main:add(tabs.credits)
 
 	tv_main:set_global_event_handler(main_event_handler)
 	tv_main:set_fixed_size(false)
