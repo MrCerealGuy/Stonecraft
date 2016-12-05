@@ -122,7 +122,7 @@ $ <stonecraft-folder>/bin/stonecraft
 
 # Cross-Compiling for Windows on GNU/Linux
 
-Please install source and dependencies like above.
+Please install source and dependencies like above. I've used MinGW-w64 5.3.1 for the Windows builds.
 
 **Download libraries**
 Please download the Windows libraries from http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
@@ -132,10 +132,14 @@ Please download the Windows libraries from http://www.megafileupload.com/80wj/st
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
 
+You'll find the build in <stonecraft-foler>/build/win-i686.
+
 **Win 64-Bit**
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
+
+You'll find the build in <stonecraft-foler>/build/win-x86_64.
 
 
 # Compiling on Windows with MSVC
