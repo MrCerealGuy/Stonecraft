@@ -29,7 +29,7 @@ zlib_version=1.2.8
 # Get stonecraft
 cd $builddir
 
-cp $stonecraftdir/{CMakeLists.txt,*.cmake} ./
+cp $stonecraftdir/CMakeLists.txt ./
 cp -R $stonecraftdir/cmake ./
 cp -R $stonecraftdir/doc ./
 cp -R $stonecraftdir/misc ./
@@ -94,10 +94,10 @@ cmake .. \
 	-DGETTEXT_INCLUDE_DIR=$libdir/gettext-$gettext_version/include \
 	-DGETTEXT_LIBRARY=$libdir/gettext-$gettext_version/lib/libintl.dll.a \
 	\
-	-DFREETYPE_INCLUDE_DIR_freetype2=$libdir/freetype-$freetype_version/include/freetype2 \
-	-DFREETYPE_INCLUDE_DIR_ft2build=$libdir/freetype-$freetype_version/include/freetype2 \
-	-DFREETYPE_LIBRARY=$libdir/freetype-$freetype_version/lib/libfreetype.dll.a \
-	-DFREETYPE_DLL=$libdir/freetype-$freetype_version/bin/libfreetype-6.dll \
+	-DFREETYPE_INCLUDE_DIR_freetype2=$libdir/freetype2-$freetype_version/include/freetype2 \
+	-DFREETYPE_INCLUDE_DIR_ft2build=$libdir/freetype2-$freetype_version/include/freetype2 \
+	-DFREETYPE_LIBRARY=$libdir/freetype2-$freetype_version/lib/libfreetype.dll.a \
+	-DFREETYPE_DLL=$libdir/freetype2-$freetype_version/bin/libfreetype-6.dll \
 	\
 	-DSQLITE3_INCLUDE_DIR=$libdir/sqlite3-$sqlite3_version/include \
 	-DSQLITE3_LIBRARY=$libdir/sqlite3-$sqlite3_version/lib/libsqlite3.dll.a \
