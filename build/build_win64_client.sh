@@ -76,7 +76,7 @@ cmake .. \
 	-DVORBIS_INCLUDE_DIR=$libdir/libvorbis-$vorbis_version/include \
 	-DVORBIS_LIBRARY=$libdir/libvorbis-$vorbis_version/lib/libvorbis.dll.a \
 	-DVORBIS_DLL=$libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll \
-	-DVORBISFILE_LIBRARY=$libdir/libvorbis/lib/libvorbisfile.dll.a \
+	-DVORBISFILE_LIBRARY=$libdir/libvorbis-$vorbis_version/lib/libvorbisfile.dll.a \
 	-DVORBISFILE_DLL=$libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll \
 	\
 	-DOPENAL_INCLUDE_DIR=$libdir/openal_stripped/include/AL \
