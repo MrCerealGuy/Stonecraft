@@ -258,6 +258,8 @@ $ <stonecraft-folder>/build/build_win64_client.sh
 		- Additionally you may create a zip package by building the **PACKAGE project**.
 	```
 
+	**Pre-generated CMakeCache.txt**
+	If you wish, you can use this example file **DIR/build/win-msvc2013/CMakeCache.txt.example**. You only have to rename it to CMakeCache.txt and to adjust the directories by search & replace with a text edtior. After loading it in CMake GUI, you can generate the project files.
 
 # License of Stonecraft textures and sounds
 
