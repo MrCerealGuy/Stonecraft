@@ -74,19 +74,19 @@ echo -e "\E[34;47mdone!"
 
 # Copy dll files into bin dir
 echo -e "\E[34;47mCopy dll files into bin dir..."
-cp $libdir/mingw32-$mingw32_version/* ./
-cp $libdir/irrlicht-$irrlicht_version/bin/Win64-gcc/Irrlicht.dll ./
-cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./
-cp $libdir/libogg-$ogg_version/bin/libogg-0.dll ./
-cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./
-cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./
-cp $libdir/openal_stripped/bin/OpenAL32.dll ./
-cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./
-cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./
-cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./
-cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./
-cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./
-#cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
+cp $libdir/mingw32-$mingw32_version/* ./bin
+cp $libdir/irrlicht-$irrlicht_version/bin/Win64-gcc/Irrlicht.dll ./bin
+cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./bin
+cp $libdir/libogg-$ogg_version/bin/libogg-0.dll ./bin
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./bin
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./bin
+cp $libdir/openal_stripped/bin/OpenAL32.dll ./bin
+cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./bin
+cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./bin
+cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./bin
+cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./bin
+cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./bin
+#cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./bin
 echo -e "\E[34;47mdone!"
 
 
