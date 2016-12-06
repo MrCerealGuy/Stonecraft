@@ -238,7 +238,7 @@ You'll find the build in <stonecraft-foler>/build/win-x86_64 and the ZIP-package
 	VORBIS_LIBRARY					DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbis.lib
 	ZLIB_DLL						DIR/libs/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.dll
 	ZLIB_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/zlib-1.2.8/include
-	ZLIB_LIBRARIES					DIR/libraries/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.lib
+	ZLIB_LIBRARIES					DIR/libs/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.lib
 	```
 
 	- Hit "Configure"
