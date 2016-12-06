@@ -2,8 +2,7 @@
 
 An InfiniMiner/Minecraft inspired game powered by Minetest <http://www.minetest.net/>.
 
-Copyright (c) 2016 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
-and contributors (see source file comments and the version control log)
+Copyright (c) 2016 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
 
 ## Further documentation
