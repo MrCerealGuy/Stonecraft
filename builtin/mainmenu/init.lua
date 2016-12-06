@@ -1,8 +1,5 @@
 --[[
 
-Stonecraft - based on Minetest engine
-Copyright (C) 2016 MrCerealGuy <mrcerealguy@gmx.de>
-
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or
@@ -16,8 +13,6 @@ GNU Lesser General Public License for more details.
 You should have received a copy of the GNU Lesser General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-2016 modified by MrCerealGuy <mrcerealguy@gmx.de>
 
 --]]
 
@@ -148,7 +143,7 @@ local function init_globals()
 		tv_main:add(tabs.texturepacks)
 	end
 
-	-- tv_main:add(tabs.mods)
+	tv_main:add(tabs.mods)
 	tv_main:add(tabs.credits)
 
 	tv_main:set_global_event_handler(main_event_handler)
@@ -169,7 +164,6 @@ local function init_globals()
 
 	ui.update()
 
-	--core.sound_play("main_menu", {loop = true, gain = 1.0})
 end
 
 init_globals()
