@@ -17,6 +17,17 @@
 
 --------------------------------------------------------------------------------
 
+--[[
+
+2016-12-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added credits
+
+--]]
+
+local stonecraft_developers = {
+	"Andreas Zahnleiter (MrCerealGuy) <mrcerealguy@gmx.de>",
+}
+
 local core_developers = {
 	"Perttu Ahola (celeron55) <celeron55@gmail.com>",
 	"Ryan Kwolek (kwolekr) <kwolekr@minetest.net>",
@@ -79,22 +90,25 @@ return {
 		local version = core.get_version()
 		return "image[0.5,1;" .. core.formspec_escape(logofile) .. "]" ..
 			"label[0.5,3.2;" .. version.project .. " " .. version.string .. "]" ..
-			"label[0.5,3.5;http://minetest.net]" ..
+			"label[0.5,3.5;http://bc547.de/stonecraft]" ..
 			"tablecolumns[color;text]" ..
 			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
 			"table[3.5,-0.25;8.5,5.8;list_credits;" ..
+			"#FFFF00," .. fgettext("Stonecraft Developers") .. ",," ..
+			table.concat(stonecraft_developers, ",,") .. ",," ..
+			"Thanks a lot to the minetest community." .. ",,," ..
 			"#FFFF00," .. "Dedication of the current release" .. ",," ..
-			"The 0.4.14 release is dedicated to the memory of" .. ",," ..
+			"The 0.4.14 release of the minetest engine is dedicated to the memory of" .. ",," ..
 			"Minetest developer Maciej Kasatkin (RealBadAngel)" .. ",," ..
 			"who died on March 24 2016." .. ",," ..
 			"Our thoughts are with his family and friends." .. ",,," ..
-			"#FFFF00," .. fgettext("Core Developers") .. ",," ..
+			"#FFFF00," .. fgettext("Core Minetest Developers") .. ",," ..
 			table.concat(core_developers, ",,") .. ",,," ..
-			"#FFFF00," .. fgettext("Active Contributors") .. ",," ..
+			"#FFFF00," .. fgettext("Active Minetest Contributors") .. ",," ..
 			table.concat(active_contributors, ",,") .. ",,," ..
-			"#FFFF00," .. fgettext("Previous Core Developers") ..",," ..
+			"#FFFF00," .. fgettext("Previous Minetest Core Developers") ..",," ..
 			table.concat(previous_core_developers, ",,") .. ",,," ..
-			"#FFFF00," .. fgettext("Previous Contributors") .. ",," ..
+			"#FFFF00," .. fgettext("Previous Minetest Contributors") .. ",," ..
 			table.concat(previous_contributors, ",,") .. "," ..
 			";1]"
 	end
