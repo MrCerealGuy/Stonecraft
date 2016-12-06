@@ -216,9 +216,9 @@ You'll find the build in <stonecraft-foler>/build/win-x86_64 and the ZIP-package
 	GETTEXT_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/gettext/include
 	GETTEXT_LIBRARY					DIR/libs/msvc2013-win-i686/gettext/lib/libintl.lib
 	GETTEXT_MSGFMT					DIR/libs/msvc2013-win-i686/gettext/bin/msgfmt.exe
-	IRRLICHT_DLL					DIR/libs/msvc2013-win-i686/irrlicht-1.8.1/bin/Irrlicht.dll
-	IRRLICHT_INCLUDE_DIR			DIR/libs/msvc2013-win-i686/irrlicht-1.8.1/include
-	IRRLICHT_LIBRARY				DIR/libs/msvc2013-win-i686/irrlicht-1.8.1/bin/Irrlicht.lib
+	IRRLICHT_DLL					DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.dll
+	IRRLICHT_INCLUDE_DIR			DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/include
+	IRRLICHT_LIBRARY				DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.lib
 	LUA_INCLUDE_DIR					DIR/libs/msvc2013-win-i686/LuaJIT-2.0.3/include
 	LUA_LIBRARY						DIR/libs/msvc2013-win-i686/LuaJIT-2.0.3/bin/lua51.lib
 	OGG_DLL							DIR/libs/msvc2013-win-i686/libogg-1.3.1/bin/libogg.dll
