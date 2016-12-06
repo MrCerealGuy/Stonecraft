@@ -31,7 +31,7 @@ Shift + Q: Drop single item
 Left mouse button: Dig/punch/take item
 Right mouse button: Place/use
 Shift + right mouse button: Build (without using)
-E: Inventory menu
+I: Inventory menu
 Mouse wheel: Select item
 0-9: Select item
 Z: Zoom (needs zoom privilege)
