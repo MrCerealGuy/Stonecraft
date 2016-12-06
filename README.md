@@ -1,6 +1,6 @@
 # Stonecraft
 
-An InfiniMiner/Minecraft inspired game powered by Minetest <http://www.minetest.net/>.
+An InfiniMiner/Minecraft inspired game powered by Minetest minetest.net.
 
 Copyright (c) 2016 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
