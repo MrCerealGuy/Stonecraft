@@ -132,14 +132,14 @@ Please download the Windows libraries from http://www.mediafire.com/file/ebybqhd
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
 
-You'll find the build in <stonecraft-foler>/build/win-i686.
+You'll find the build in <stonecraft-foler>/build/win-i686 and the ZIP-package in the subdirectory _build.
 
 **Win 64-Bit**
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
 
-You'll find the build in <stonecraft-foler>/build/win-x86_64.
+You'll find the build in <stonecraft-foler>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
 
 # Compiling on Windows with MSVC
