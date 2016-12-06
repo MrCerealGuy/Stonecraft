@@ -62,6 +62,7 @@ rsync -r --info=progress2 $stonecraftdir/doc ./
 rsync -r --info=progress2 $stonecraftdir/fonts ./
 rsync -r --info=progress2 $stonecraftdir/games ./
 rsync -r --info=progress2 $stonecraftdir/misc ./
+rsync -r --info=progress2 $stonecraftdir/mods ./
 rsync -r --info=progress2 $stonecraftdir/po ./
 rsync -r --info=progress2 $stonecraftdir/locale ./
 rsync -r --info=progress2 $stonecraftdir/src ./
@@ -85,7 +86,7 @@ cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./
 cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./
 cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./
 cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./
-cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
+#cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
 echo -e "\E[34;47mdone!"
 
 
@@ -152,10 +153,10 @@ cmake .. \
 	-DSQLITE3_INCLUDE_DIR=$libdir/sqlite3-$sqlite3_version/include \
 	-DSQLITE3_LIBRARY=$libdir/sqlite3-$sqlite3_version/lib/libsqlite3.dll.a \
 	-DSQLITE3_DLL=$libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll \
-	\
-	-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
-	-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
-	-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
+	#\
+	#-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
+	#-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
+	#-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
 
 echo -e "\E[34;47mdone!"
 
