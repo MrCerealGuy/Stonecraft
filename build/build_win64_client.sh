@@ -27,26 +27,70 @@ zlib_version=1.2.8
 mingw32_version=5.3.1
 
 
+dialog --backtitle "Stonecraft Build" --title "Stonecraft Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
+antwort=${?}
+
+if [ "$antwort" -eq "255" ]
+  then
+    echo "Aborted"
+    exit 255
+fi
+
+if [ "$antwort" -eq "1" ]
+  then
+    exit 1
+fi
+
+if [ "$antwort" -eq "0" ]
+  then
+    $stonecraftdir/util/remove_generated_cmakefiles.sh
+fi
+
+
 # Get stonecraft
+echo -e "\E[34;47mCopy stonecraft files into build dir..."
+
 cd $builddir
 
-cp $stonecraftdir/CMakeLists.txt ./
-cp -R $stonecraftdir/builtin ./
-cp -R $stonecraftdir/client ./
-cp -R $stonecraftdir/cmake ./
-cp -R $stonecraftdir/doc ./
-cp -R $stonecraftdir/fonts ./
-cp -R $stonecraftdir/games ./
-cp -R $stonecraftdir/misc ./
-cp -R $stonecraftdir/po ./
-cp -R $stonecraftdir/locale ./
-cp -R $stonecraftdir/src ./
-cp -R $stonecraftdir/textures ./
+rsync --info=progress2 $stonecraftdir/README.md ./
+rsync --info=progress2 $stonecraftdir/CMakeLists.txt ./
+rsync --info=progress2 $stonecraftdir/stonecraft.conf.example .//
+rsync -r --info=progress2 $stonecraftdir/builtin ./
+rsync -r --info=progress2 $stonecraftdir/client ./
+rsync -r --info=progress2 $stonecraftdir/cmake ./
+rsync -r --info=progress2 $stonecraftdir/doc ./
+rsync -r --info=progress2 $stonecraftdir/fonts ./
+rsync -r --info=progress2 $stonecraftdir/games ./
+rsync -r --info=progress2 $stonecraftdir/misc ./
+rsync -r --info=progress2 $stonecraftdir/po ./
+rsync -r --info=progress2 $stonecraftdir/locale ./
+rsync -r --info=progress2 $stonecraftdir/src ./
+rsync -r --info=progress2 $stonecraftdir/textures ./
 
 rm ./src/cmake_config*.h
+echo -e "\E[34;47mdone!"
+
+
+# Copy dll files into bin dir
+echo -e "\E[34;47mCopy dll files into bin dir..."
+cp $libdir/mingw32-$mingw32_version/* ./
+cp $libdir/irrlicht-$irrlicht_version/bin/Win64-gcc/Irrlicht.dll ./
+cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./
+cp $libdir/libogg-$ogg_version/bin/libogg-0.dll ./
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./
+cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./
+cp $libdir/openal_stripped/bin/OpenAL32.dll ./
+cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./
+cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./
+cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./
+cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./
+cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./
+cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
+echo -e "\E[34;47mdone!"
 
 
 # Build the thing
+echo -e "\E[34;47mRun cmake..."
 [ -d _build ] && rm -Rf _build/
 mkdir _build
 cd _build
@@ -113,24 +157,11 @@ cmake .. \
 	-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
 	-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
 
+echo -e "\E[34;47mdone!"
+
+echo -e "\E[34;47mRun make..."
 make package -j$(grep -c processor /proc/cpuinfo)
-
-# Copy dll files into bin dir
-cd ../bin
-
-cp $libdir/mingw32-$mingw32_version/* ./
-cp $libdir/irrlicht-$irrlicht_version/bin/Win64-gcc/Irrlicht.dll ./
-cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./
-cp $libdir/libogg-$ogg_version/bin/libogg-0.dll ./
-cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./
-cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./
-cp $libdir/openal_stripped/bin/OpenAL32.dll ./
-cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./
-cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./
-cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./
-cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./
-cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./
-cp $libdir/leveldb-$leveldb_version/bin/libleveldb.dll ./
+echo -e "\E[34;47mdone!"
 
 
 # EOF
