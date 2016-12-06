@@ -125,7 +125,7 @@ $ <stonecraft-folder>/bin/stonecraft
 Please install source and dependencies like above. I've used **MinGW-w64 5.3.1** for cross-compiling.
 
 **Download libraries**  
-Please download the Windows libraries from http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
+Please download the Windows libraries from http://www.mediafire.com/file/ebybqhdt44rb22n/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
 
 **Win 32-Bit**
 ```
@@ -152,7 +152,7 @@ You'll find the build in <stonecraft-foler>/build/win-x86_64.
 	* Stonecraft source
 		https://github.com/mrcerealguy/stonecraft/
 	* Windows libraries
-		http://www.megafileupload.com/80wj/stonecraft-master-win-libs.zip
+		http://www.mediafire.com/file/ebybqhdt44rb22n/stonecraft-master-win-libs.zip
 
 - **Steps**
 	- Select a directory called DIR (e.g. Stonecraft) hereafter in which you will operate.
