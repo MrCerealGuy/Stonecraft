@@ -149,9 +149,9 @@ You'll find the build in <stonecraft-foler>/build/win-x86_64.
 		http://www.cmake.org/cmake/resources/software.html
 	* Visual Studio 2013
 		http://msdn.microsoft.com/en-us/vstudio/default
-	* Stonecraft source
-		https://github.com/mrcerealguy/stonecraft/
-	* Windows libraries
+	* Stonecraft source (master)
+		https://github.com/MrCerealGuy/Stonecraft/archive/master.zip
+	* Windows libraries (master)
 		http://www.mediafire.com/file/ebybqhdt44rb22n/stonecraft-master-win-libs.zip
 
 - **Steps**
