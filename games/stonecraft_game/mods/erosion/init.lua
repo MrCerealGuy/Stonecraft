@@ -3,29 +3,9 @@
 --[[
 
 2016-11-28 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	added ffi for data/prm2
+	some modifications
 
 --]]
-
-local ffi = require 'ffi'
-
-ffi.cdef[[
-    void* malloc(size_t);
-    void free(void*);
-]]
-
-local N = 1404928 -- size of vm:get_data() and vm:get_param2_data()
-local data, prm2
-
-function alloc_data()
-    local obj = ffi.C.malloc(ffi.sizeof("int")*N)  
-    return ffi.cast("int*", obj)
-end
-
-function free_data(obj)
-    ffi.C.free(obj)
-end
-
 
 if not rawget(_G,"stairsplus") then
 	minetest.log("info", "erosion: stairsplus not found")
@@ -207,12 +187,7 @@ for k,v in pairs(eroding_nodes) do
 			})
 		end
 	end
-	
-	-- minetest.log("action", table.tostring(eroded_lut))
-	
-	-- looks like this
-	--["erosion:slope_dirt_with_dry_grass"]={"dirt_with_dry_grass",""},
-	--["erosion:slope_dirt_with_dry_grass_cut"]={"dirt_with_dry_grass","_cut"}
+
 end
 
 local bstbl = {{"_half","","_half_raised"},{"_outer_cut_half","_cut","_inner_cut_half_raised"}}
@@ -452,76 +427,26 @@ if minetest.setting_getbool("enable_erosion") then
 		
 		collectgarbage("collect")
 	
-		if minp.y > 256 then
-			return
-		end
-		
+		if minp.y > 256 then return end
 		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-
-		data = alloc_data() -- get memory via malloc
-		prm2 = alloc_data()
-		
-		assert(data ~= nil, "data=alloc_data() failed, out of memory")
-		assert(prm2 ~= nil, "prm2=alloc_data() failed, out of memory")
-		
-		local data_l = vm:get_data()
-		local prm2_l = vm:get_param2_data()
-		
-		assert(data_l ~= nil, "data_l == nil")
-		assert(prm2_l ~= nil, "prm2_l == nil")
-		
-		-- copy lua table to cdata
-		for x=1,N do
-			data[x] = data_l[x]
-			prm2[x] = prm2_l[x]
-		end
-		
-		data_l = nil
-		prm2_l = nil
-		
+		local data,prm2 = vm:get_data(),vm:get_param2_data()
 		local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-		
-		for x=-1,1 do
-			for y=-1,1 do
-				for z=-1,1 do
-					cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride
-				end
-			end
-		end
-		
+		for x=-1,1 do for y=-1,1 do	for z=-1,1 do cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride end end end
 		for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do
-			 if data[vpos] == dpstn.air then
-				for i=1,#gen_nodes do
-					place_slope(vpos,gen_nodes[i])
-				end
-			end
+			 if data[vpos] == dpstn.air then for i=1,#gen_nodes do place_slope(data,prm2,vpos,gen_nodes[i]) end end
 		end
-		
 		if maxp.y > 2 then
 			local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1
-			
-			for z=minp.z,maxp.z do
-				for x=minp.x,maxp.x do
-					vpos = vxa:index(x,heightmap[hndx]+1,z)
-					
-					if data[vpos] == dpstn.air then
-						for k,_ in pairs(eroding_nodes) do
-							place_slope(vpos,k)
-						end
-					end
-					
-					hndx = hndx+1
-				end
-			end
+			for z=minp.z,maxp.z do for x=minp.x,maxp.x do
+				vpos = vxa:index(x,heightmap[hndx]+1,z)
+				if data[vpos] == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(data,prm2,vpos,k) end end
+				hndx = hndx+1
+			end end
 		end
-		
 		vm:set_data(data)
 		vm:set_param2_data(prm2)
 		vm:calc_lighting()
 		vm:write_to_map(data)
-		
-		free_data(data)
-		free_data(prm2)
 	end)
 end
 
@@ -539,7 +464,7 @@ if minetest.setting_getbool("enable_erosion") then
 	minetest.register_abm({
 		nodenames = nntbl,
 		neighbors = {"air"},
-		interval = 37,
+		interval = 370,
 		chance = 9,
 		action = wwthrngCL,
 	})
@@ -547,7 +472,7 @@ if minetest.setting_getbool("enable_erosion") then
 	minetest.register_abm({
 		nodenames = lntbl,
 		neighbors = {"air"},
-		interval = 17,
+		interval = 170,
 		chance = 7,
 		action = wwthrngCL,
 	})
@@ -555,7 +480,7 @@ if minetest.setting_getbool("enable_erosion") then
 	minetest.register_abm({
 		nodenames = sntbl,
 		neighbors = {"air"},
-		interval = 7,
+		interval = 70,
 		chance = 3,
 		action = slide_off,
 	})
