@@ -427,21 +427,49 @@ if minetest.setting_getbool("enable_erosion") then
 		
 		collectgarbage("collect")
 	
-		if minp.y > 256 then return end
+		if minp.y > 256 then
+			return
+		end
+		
 		local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 		local data,prm2 = vm:get_data(),vm:get_param2_data()
 		local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-		for x=-1,1 do for y=-1,1 do	for z=-1,1 do cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride end end end
-		for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do
-			 if data[vpos] == dpstn.air then for i=1,#gen_nodes do place_slope(data,prm2,vpos,gen_nodes[i]) end end
+		
+		for x=-1,1 do 
+			for y=-1,1 do
+				for z=-1,1 do
+					cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride
+				end
+			end
 		end
+		
+		for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do
+			 if data[vpos] == dpstn.air then
+				for i=1,#gen_nodes do 
+					place_slope(data,prm2,vpos,gen_nodes[i])
+				end
+			end
+		end
+		
 		if maxp.y > 2 then
 			local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1
-			for z=minp.z,maxp.z do for x=minp.x,maxp.x do
-				vpos = vxa:index(x,heightmap[hndx]+1,z)
-				if data[vpos] == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(data,prm2,vpos,k) end end
-				hndx = hndx+1
-			end end
+			
+			if heightmap ~= nil then
+			
+				for z=minp.z,maxp.z do
+					for x=minp.x,maxp.x do
+						vpos = vxa:index(x,heightmap[hndx]+1,z)
+						
+						if data[vpos] == dpstn.air then 
+							for k,_ in pairs(eroding_nodes) do 
+								place_slope(data,prm2,vpos,k)
+							end
+						end
+						
+						hndx = hndx+1
+					end
+				end
+			end
 		end
 		vm:set_data(data)
 		vm:set_param2_data(prm2)
