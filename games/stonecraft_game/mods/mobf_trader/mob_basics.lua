@@ -504,7 +504,7 @@ mob_basics.initialize_mob = function( self, mob_name, mob_typ, mob_owner, mob_ho
 	self[ prefix..'_sold']      = {};              -- the trader is new and had no time to sell anything yet (only makes sense for traders)
 
 	-- select a random texture for the mob depending on the mob type
-	if( typ_data[ mob_typ ].textures ~= nil and #typ_data[ mob_typ ].textures ) then
+	if( typ_data[ mob_typ ].textures ~= nil and #typ_data[ mob_typ ].textures > 1 ) then
 		local texture = typ_data[ mob_typ ].textures[ math.random( 1, #typ_data[ mob_typ ].textures )];
 		self[ prefix..'_texture'] = texture;
 		mob_basics.update_texture( self, prefix, nil );
