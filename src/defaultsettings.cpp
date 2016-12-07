@@ -38,7 +38,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_left", "KEY_KEY_A");
 	settings->setDefault("keymap_right", "KEY_KEY_D");
 	settings->setDefault("keymap_jump", "KEY_SPACE");
-	settings->setDefault("keymap_run", "KEY_LSHIFT");
+	//settings->setDefault("keymap_run", "KEY_LSHIFT");
 	settings->setDefault("keymap_sneak", "KEY_LCONTROL");
 	settings->setDefault("keymap_drop", "KEY_KEY_Q");
 	settings->setDefault("keymap_zoom", "KEY_KEY_Z");
@@ -98,7 +98,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("map_generation_limit", "31000");
 	settings->setDefault("screenW", "800");
 	settings->setDefault("screenH", "600");
-	settings->setDefault("fullscreen", "false");
+	settings->setDefault("fullscreen", "true");
 	settings->setDefault("fullscreen_bpp", "24");
 	settings->setDefault("fsaa", "0");
 	settings->setDefault("vsync", "false");
@@ -245,7 +245,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("max_packets_per_iteration","1024");
 	settings->setDefault("port", "30000");
 	settings->setDefault("bind_address", "");
-	settings->setDefault("default_game", "minetest");
+	settings->setDefault("default_game", "stonecraft");
 	settings->setDefault("motd", "");
 	settings->setDefault("max_users", "15");
 	settings->setDefault("strict_protocol_version_checking", "false");

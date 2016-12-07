@@ -49,7 +49,7 @@ enum
 	GUI_ID_KEY_FLY_BUTTON,
 	GUI_ID_KEY_FAST_BUTTON,
 	GUI_ID_KEY_JUMP_BUTTON,
-	GUI_ID_KEY_RUN_BUTTON,
+	//GUI_ID_KEY_RUN_BUTTON,
 	GUI_ID_KEY_NOCLIP_BUTTON,
 	GUI_ID_KEY_CINEMATIC_BUTTON,
 	GUI_ID_KEY_CHAT_BUTTON,
@@ -404,7 +404,7 @@ void GUIKeyChangeMenu::init_keys()
 	this->add_key(GUI_ID_KEY_RIGHT_BUTTON,     wgettext("Right"),            "keymap_right");
 	this->add_key(GUI_ID_KEY_USE_BUTTON,       wgettext("Use"),              "keymap_special1");
 	this->add_key(GUI_ID_KEY_JUMP_BUTTON,      wgettext("Jump"),             "keymap_jump");
-	this->add_key(GUI_ID_KEY_RUN_BUTTON,       wgettext("Run"),              "keymap_run");
+	//this->add_key(GUI_ID_KEY_RUN_BUTTON,       wgettext("Run"),              "keymap_run");
 	this->add_key(GUI_ID_KEY_SNEAK_BUTTON,     wgettext("Sneak"),            "keymap_sneak");
 	this->add_key(GUI_ID_KEY_DROP_BUTTON,      wgettext("Drop"),             "keymap_drop");
 	this->add_key(GUI_ID_KEY_INVENTORY_BUTTON, wgettext("Inventory"),        "keymap_inventory");
