@@ -21,7 +21,7 @@ curl_version=7.50.3
 gettext_version=0.14.4
 freetype_version=2.7
 sqlite3_version=3.14.2
-luajit_version=2.0.1-static-win32
+#luajit_version=2.0.1-static-win32	# LuaJIT disabled, see issue https://github.com/minetest/minetest/issues/2988
 leveldb_version=1.18
 zlib_version=1.2.8
 mingw32_version=5.3.1
@@ -95,7 +95,7 @@ echo -e "\E[34;47mRun cmake..."
 mkdir _build
 cd _build
 
-# LEVELDB disabled, see issue 4665 -> https://github.com/minetest/minetest/issues/4665
+# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 
 cmake .. \
 	-DCMAKE_TOOLCHAIN_FILE=$toolchain_file \
@@ -115,9 +115,9 @@ cmake .. \
 	-DZLIB_INCLUDE_DIR=$libdir/zlib-$zlib_version/include \
 	-DZLIB_LIBRARIES=$libdir/zlib-$zlib_version/lib/libz.dll.a \
 	-DZLIB_DLL=$libdir/zlib-$zlib_version/bin/zlib1.dll \
-	\
-	-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
-	-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a \
+	#\
+	#-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
+	#-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a \
 	\
 	-DOGG_INCLUDE_DIR=$libdir/libogg-$ogg_version/include \
 	-DOGG_LIBRARY=$libdir/libogg-$ogg_version/lib/libogg.dll.a \
