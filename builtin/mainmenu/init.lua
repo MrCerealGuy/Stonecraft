@@ -16,6 +16,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 --]]
 
+--[[
+
+2016-12-07 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	changed default_game
+
+--]]
+
 mt_color_grey  = "#AAAAAA"
 mt_color_blue  = "#0000DD"
 mt_color_green = "#00DD00"
@@ -121,7 +128,7 @@ local function init_globals()
 		menudata.worldlist:set_sortmode("alphabetic")
 
 		if not core.setting_get("menu_last_game") then
-			local default_game = core.setting_get("default_game") or "minetest"
+			local default_game = core.setting_get("default_game") or "stonecraft"
 			core.setting_set("menu_last_game", default_game)
 		end
 
