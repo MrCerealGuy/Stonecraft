@@ -18,6 +18,6 @@ if [ "$antwort" -eq "0" ]
 fi
 
 cd ../
-cmake . -DBUILD_CLIENT=0 -DIRRLICHT_SOURCE_DIR=./libs/msvc2013-win-i686/irrlicht-1.8.3/source/Irrlicht/
+cmake . -DBUILD_CLIENT=0 -DRUN_IN_PLACE=1 -DIRRLICHT_SOURCE_DIR=./libs/msvc2013-win-i686/irrlicht-1.8.3/source/Irrlicht/ -DIRRLICHT_INCLUDE_DIR=./libs/msvc2013-win-i686/irrlicht-1.8.3/include/
 make -j$(grep -c processor /proc/cpuinfo)
  
