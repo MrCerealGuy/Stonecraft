@@ -116,9 +116,6 @@ cmake .. \
 	-DZLIB_INCLUDE_DIR=$libdir/zlib-$zlib_version/include \
 	-DZLIB_LIBRARIES=$libdir/zlib-$zlib_version/lib/libz.dll.a \
 	-DZLIB_DLL=$libdir/zlib-$zlib_version/bin/zlib1.dll \
-	#\
-	#-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
-	#-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a \
 	\
 	-DOGG_INCLUDE_DIR=$libdir/libogg-$ogg_version/include \
 	-DOGG_LIBRARY=$libdir/libogg-$ogg_version/lib/libogg.dll.a \
@@ -152,7 +149,10 @@ cmake .. \
 	\
 	-DSQLITE3_INCLUDE_DIR=$libdir/sqlite3-$sqlite3_version/include \
 	-DSQLITE3_LIBRARY=$libdir/sqlite3-$sqlite3_version/lib/libsqlite3.dll.a \
-	-DSQLITE3_DLL=$libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll \
+	-DSQLITE3_DLL=$libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll
+	#\
+	#-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
+	#-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a \
 	#\
 	#-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
 	#-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
