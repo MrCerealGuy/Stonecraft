@@ -7,6 +7,7 @@
 default = {}
 
 default.LIGHT_MAX = 14
+SAVEDIR = "LOTT" -- lott* mobs
 
 -- GUI related stuff
 default.gui_bg = "bgcolor[#080808BB;true]"
