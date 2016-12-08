@@ -225,6 +225,7 @@ end
 
 local function pile_up(k,m,p) p.y = p.y-1
 	local un,p1,n = minetest.get_node(p),"erosion:slope_"
+	local a
 	if erosion_materials[eroding_lut[un.name]] then erosionCL(p,un) un = minetest.get_node(p) end
 	if un.name == "air" or un.name == "default:water_source" then
 	elseif eroded_lut[un.name] then
