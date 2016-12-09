@@ -37,8 +37,8 @@ BEGIN
         BLOCK "040904b0"
     BEGIN
         VALUE "Comments", ""
-        VALUE "CompanyName", PROJECT_NAME_C " community"
-        VALUE "FileDescription", PROJECT_NAME_C " engine"
+        VALUE "CompanyName", PROJECT_NAME_C
+        VALUE "FileDescription", PROJECT_NAME_C
         VALUE "FileVersion", VERSION_STRING
         VALUE "InternalName", PROJECT_NAME
         VALUE "LegalCopyright", "(c) 2016 Andreas Zahnleiter"
