@@ -19,5 +19,5 @@ fi
 
 cd ../
 cmake . -DBUILD_CLIENT=0 -DRUN_IN_PLACE=1
-make -j$(grep -c processor /proc/cpuinfo)
+make package -j$(grep -c processor /proc/cpuinfo)
  
