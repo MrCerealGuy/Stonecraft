@@ -65,7 +65,7 @@ rsync -r --info=progress2 $stonecraftdir/games ./
 rsync -r --info=progress2 $stonecraftdir/misc ./
 rsync -r --info=progress2 $stonecraftdir/mods ./
 rsync -r --info=progress2 $stonecraftdir/po ./
-rsync -r --info=progress2 $stonecraftdir/locale ./
+#rsync -r --info=progress2 $stonecraftdir/locale ./
 rsync -r --info=progress2 $stonecraftdir/src ./
 rsync -r --info=progress2 $stonecraftdir/textures ./
 
