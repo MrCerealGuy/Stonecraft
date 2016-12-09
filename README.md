@@ -94,7 +94,7 @@ Use --help
 
 **Install dependencies**. Here's an example for Debian/Ubuntu:
 ```
-$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev libpng12-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64
+$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev libpng12-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev
 ```
 
 **Download source** (this is the URL to the latest of source repository, which might not work at all times) using git:
@@ -105,19 +105,21 @@ $ cd stonecraft
 
 Build a version that **runs directly** from the stonecraft directory:
 ```
-$ cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 
+$ cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 -DRUN_IN_PLACE=1
 $ make -j$(grep -c processor /proc/cpuinfo) 
 ```
-or run build script
+or run the build script
 ```
 $ cd build
-$ <stonecraft-folder>/build_linux_client.sh
+$ <stonecraft-folder>/build/build_linux_client.sh
 ```
 
 Run it:
 ```
 $ <stonecraft-folder>/bin/stonecraft
 ```
+
+To build the **dedicated server** without the client, you have to run the script build_linux_server.sh.
 
 # Cross-Compiling for Windows on GNU/Linux
 
@@ -131,14 +133,14 @@ Please download the Windows libraries from http://www.mediafire.com/file/ebybqhd
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
 
-You'll find the build in <stonecraft-foler>/build/win-i686 and the ZIP-package in the subdirectory _build.
+You'll find the build in <stonecraft-folder>/build/win-i686 and the ZIP-package in the subdirectory _build.
 
 **Win 64-Bit**
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
 
-You'll find the build in <stonecraft-foler>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
+You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
 
 # Compiling on Windows with MSVC
