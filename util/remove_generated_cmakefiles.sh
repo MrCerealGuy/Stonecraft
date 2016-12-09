@@ -9,4 +9,5 @@ find . -type f -name "cmake_install.cmake" -exec rm -vf {} \;
 find . -type f -name "CPackConfig.cmake" -exec rm -vf {} \;
 find . -type f -name "CPackSourceConfig.cmake" -exec rm -vf {} \;
 find . -type d -name CMakeFiles -exec rm -rvf {} \;
+find . -type d -name _CPack_Packages -exec rm -rvf {} \;
 echo -e "\E[34;47mdone!"
