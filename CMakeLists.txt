@@ -175,10 +175,10 @@ if(UNIX AND NOT APPLE)
 	install(FILES "doc/stonecraft.6" "doc/stonecraftserver.6" DESTINATION "${MANDIR}/man6")
 	install(FILES "misc/stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
 	install(FILES "misc/stonecraft.appdata.xml" DESTINATION "${APPDATADIR}")
-	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
-	install(FILES "misc/minetest-xorg-icon-128.png"
-		DESTINATION "${ICONDIR}/hicolor/128x128/apps"
-		RENAME "minetest.png")
+#	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
+#	install(FILES "misc/minetest-xorg-icon-128.png"
+#		DESTINATION "${ICONDIR}/hicolor/128x128/apps"
+#		RENAME "minetest.png")
 endif()
 
 if(APPLE)
