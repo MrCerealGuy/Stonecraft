@@ -3,8 +3,9 @@ set -e
 
 dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Set directories
+# Set directories and delete existing build dir
 platform="win-i686"
+[ -d $platform ] && rm -Rf $platform
 mkdir -p $platform
 builddir="$( cd "$platform" && pwd )"
 stonecraftdir="$( cd .. && pwd)"
@@ -22,7 +23,7 @@ gettext_version=0.14.4
 freetype_version=2.7
 sqlite3_version=3.14.2
 #luajit_version=2.0.1-static-win32	# LuaJIT disabled, see issue https://github.com/minetest/minetest/issues/2988
-leveldb_version=1.18
+#leveldb_version=1.18	# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 zlib_version=1.2.8
 mingw32_version=5.3.1
 
@@ -46,6 +47,7 @@ if [ "$antwort" -eq "0" ]
     $stonecraftdir/util/remove_generated_cmakefiles.sh
 fi
 
+
 # Get stonecraft
 echo -e "\E[34;47mCopy stonecraft files into build dir..."
 
@@ -63,7 +65,7 @@ rsync -r --info=progress2 $stonecraftdir/games ./
 rsync -r --info=progress2 $stonecraftdir/misc ./
 rsync -r --info=progress2 $stonecraftdir/mods ./
 rsync -r --info=progress2 $stonecraftdir/po ./
-rsync -r --info=progress2 $stonecraftdir/locale ./
+#rsync -r --info=progress2 $stonecraftdir/locale ./
 rsync -r --info=progress2 $stonecraftdir/src ./
 rsync -r --info=progress2 $stonecraftdir/textures ./
 
@@ -73,6 +75,7 @@ echo -e "\E[34;47mdone!"
 
 # Copy dll files into bin dir
 echo -e "\E[34;47mCopy dll files into bin dir..."
+mkdir -p bin
 cp $libdir/mingw32-$mingw32_version/* ./bin
 cp $libdir/irrlicht-$irrlicht_version/bin/Win32-gcc/Irrlicht.dll ./bin
 cp $libdir/zlib-$zlib_version/bin/zlib1.dll ./bin
