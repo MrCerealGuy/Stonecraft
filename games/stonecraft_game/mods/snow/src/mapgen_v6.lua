@@ -204,7 +204,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local data = vm:get_data()
 	local param2s = vm:get_param2_data()
 
-	local heightmap = minetest.get_mapgen_object"heightmap"
+	local heightmap = minetest.get_mapgen_object("heightmap")
+	
+	if heightmap == nil then
+		do return end
+	end
 
 	local snow_tab,num = {},1
 	local pines_tab,pnum = {},1
