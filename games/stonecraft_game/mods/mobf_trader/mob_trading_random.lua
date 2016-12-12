@@ -45,7 +45,7 @@ mobf_trader.trader_with_stock_add_random_offer = function( self, anz_new_offers,
 		-- give the trader a random amount of these trade goods
 		if( not( found ) and trader_goods[ nr ]) then
 			local stock_size = 1;
-			if( trader_goods[ nr ].min and trader_goods[ nr ].max and trader_goods[ nr ].min > trader_goods[ nr ].max ) then
+			if( trader_goods[ nr ].min and trader_goods[ nr ].max and trader_goods[ nr ].min < trader_goods[ nr ].max ) then
 				stock_size = math.random( trader_goods[ nr ].min, trader_goods[ nr ].max );
 			else
 				-- TODO: make this configurable for each trader?
