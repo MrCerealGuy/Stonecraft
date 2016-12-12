@@ -234,7 +234,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				in_biome = true
 			end
 
-			if in_biome then
+			if in_biome and heightmap ~= nil then
 
 				local ymin = math.max(heightmap[hmi]-5, minp.y) -- -5 because of caves
 
