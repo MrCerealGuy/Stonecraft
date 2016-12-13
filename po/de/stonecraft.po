@@ -840,7 +840,7 @@ msgid "Exit to Menu"
 msgstr "Hauptmenü"
 
 #: src/game.cpp
-msgid "Quit Stonecraft"
+msgid "Exit to OS"
 msgstr "Stonecraft beenden"
 
 #: src/game.cpp
