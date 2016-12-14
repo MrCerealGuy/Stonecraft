@@ -30,7 +30,7 @@ mg_villages.REQUIRE_PRIV_FOR_TELEPORT = false;
 mg_villages.ENABLE_PROTECTION = true;
 
 -- the first village - the one the player spawns in - will be of this type
-mg_villages.FIRST_VILLAGE_TYPE = 'lumberjack';
+mg_villages.FIRST_VILLAGE_TYPE = 'medieval';
 
 -- the mapgen will disregard mapchunks where min.y > mg_villages.MAX_HEIGHT_TREATED;
 -- you can set this value to 64 if you have a slow machine and a mapgen which does not create extreme mountains

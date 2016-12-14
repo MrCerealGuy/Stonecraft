@@ -1192,11 +1192,6 @@ end
 -- the actual mapgen
 -- It only does changes if there is at least one village in the area that is to be generated.
 minetest.register_on_generated(function(minp, maxp, seed)
-
-	minetest.log("action", "mg_villages:on_generated")
-	
-	collectgarbage("collect")
-
 -- this is just for learning more about dungeons and caves; it is not used anywhere here
 --	local structures = minetest.get_mapgen_object('gennotify');
 --	print('STRUCTURES BY MAPGEN: '..minetest.serialize( structures ));

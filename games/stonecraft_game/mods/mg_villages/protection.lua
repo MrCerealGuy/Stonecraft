@@ -1,16 +1,5 @@
---[[
-
-2016-11-28 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	modified mg_villages.form_input_handler, crashes if pos == nil
-
---]]
-
 -- get the id of the village pos lies in (or nil if outside of villages)
 mg_villages.get_town_id_at_pos = function( pos )
-	if (mg_villages.all_villages == nil) then
-		return nil;
-	end
-	
 	for id, v in pairs( mg_villages.all_villages ) do
 		local size = v.vs * 3;
 		if(   ( math.abs( pos.x - v.vx ) < size )
@@ -564,12 +553,6 @@ mg_villages.form_input_handler = function( player, formname, fields)
 	end
 	if( (formname == "mg_villages:plotmarker") and fields.pos2str and not( fields.abort )) then
 		local pos = minetest.string_to_pos( fields.pos2str );
-		
-		if (pos == nil) then  -- added by MrCerealGuy
-			minetest.log("error", "mg_villages/protection.lua invalid pos");
-			return true;
-		end
-		
 		mg_villages.plotmarker_formspec( pos, formname, fields, player );
 		return true;
 	end

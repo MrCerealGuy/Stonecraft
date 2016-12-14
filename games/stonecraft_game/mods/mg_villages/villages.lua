@@ -43,13 +43,11 @@ mg_villages.villages_at_point = function(minp, noise1)
 	if( not( mg_villages.village_type_data[ village_type ] )) then
 		mg_villages.village_type_data[  village_type ] = { min = mg_villages.VILLAGE_MIN_SIZE, max = mg_villages.VILLAGE_MAX_SIZE };
 	end
-	
 	local size = pr:next(mg_villages.village_type_data[ village_type ].min, mg_villages.village_type_data[ village_type ].max) 
 --	local height = pr:next(5, 20)
 	local height = pr:next(1, 5)
-	
 	-- villages of a size >= 40 are always placed at a height of 1
-	if( size >= 40 ) then
+	if(     size >= 40 ) then
 		height = 1;
 	-- slightly smaller but still relatively large villages have a deterministic height now as well
 	elseif( size >= 30 ) then

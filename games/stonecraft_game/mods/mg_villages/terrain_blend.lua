@@ -30,9 +30,6 @@ mg_villages.village_area_mark_single_house_area = function(village_area, minp, m
 	-- 2D noise perlinmap
 	local chulens = {x=sidelen, y=sidelen, z=sidelen}
 	local minpos = {x=minp.x, y=minp.z}
-	
-	collectgarbage("collect")  -- added by MrCerealGuy
-	
 	local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos)
 
 	-- mark mapchunk-sized house area
