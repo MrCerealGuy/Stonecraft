@@ -7,6 +7,10 @@
 
 -- get the id of the village pos lies in (or nil if outside of villages)
 mg_villages.get_town_id_at_pos = function( pos )
+	if (mg_villages.all_villages == nil) then
+		return nil;
+	end
+	
 	for id, v in pairs( mg_villages.all_villages ) do
 		local size = v.vs * 3;
 		if(   ( math.abs( pos.x - v.vx ) < size )
