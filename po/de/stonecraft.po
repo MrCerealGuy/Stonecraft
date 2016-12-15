@@ -3260,6 +3260,10 @@ msgid "Mapgen flags"
 msgstr "Kartengenerator-Flags"
 
 #: src/settings_translation_file.cpp
+msgid "Simulation of erosion effects"
+msgstr "Simulation von Erosionseffekten"
+
+#: src/settings_translation_file.cpp
 msgid "Mapgen flat"
 msgstr "Flacher Kartengenerator"
 
