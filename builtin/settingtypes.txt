@@ -685,7 +685,7 @@ max_packets_per_iteration (Max. packets per iteration) int 1024
 
 #    Default game when creating a new world.
 #    This will be overridden when creating a world from the main menu.
-default_game (Default game) string minetest
+default_game (Default game) string stonecraft
 
 #    Message of the day displayed to players connecting.
 motd (Message of the day) string
@@ -713,10 +713,10 @@ default_password (Default password) string
 
 #    The privileges that new users automatically get.
 #    See /privs in game for a full list on your server and mod configuration.
-default_privs (Default privileges) string interact, shout
+default_privs (Default privileges) string interact, shout, home, zoom
 
 #    Privileges that players with basic_privs can grant
-basic_privs (Basic Privileges) string interact, shout
+basic_privs (Basic Privileges) string interact, shout, home, zoom
 
 #    Whether players are shown to clients without any range limit.
 #    Deprecated, use the setting player_transfer_distance instead.
