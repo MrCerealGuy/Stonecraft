@@ -610,3 +610,6 @@
 #    Comma-separated list of trusted mods that are allowed to access insecure
 #    functions even when mod security is on (via request_insecure_environment()).
 #secure.trusted_mods =
+
+#    If true, then the mod ersion will be active.
+#enable_erosion = true
