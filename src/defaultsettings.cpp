@@ -38,7 +38,6 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_left", "KEY_KEY_A");
 	settings->setDefault("keymap_right", "KEY_KEY_D");
 	settings->setDefault("keymap_jump", "KEY_SPACE");
-	//settings->setDefault("keymap_run", "KEY_LSHIFT");
 	settings->setDefault("keymap_sneak", "KEY_LCONTROL");
 	settings->setDefault("keymap_drop", "KEY_KEY_Q");
 	settings->setDefault("keymap_zoom", "KEY_KEY_Z");
@@ -98,7 +97,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("map_generation_limit", "31000");
 	settings->setDefault("screenW", "800");
 	settings->setDefault("screenH", "600");
-	settings->setDefault("fullscreen", "true");
+	settings->setDefault("fullscreen", "true");	// changed by MrCerealGuy
 	settings->setDefault("fullscreen_bpp", "24");
 	settings->setDefault("fsaa", "0");
 	settings->setDefault("vsync", "false");
@@ -254,7 +253,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("fixed_map_seed", "");
 	settings->setDefault("give_initial_stuff", "false");
 	settings->setDefault("default_password", "");
-	settings->setDefault("default_privs", "interact, shout");
+	settings->setDefault("default_privs", "interact, shout, home, zoom");
 	settings->setDefault("player_transfer_distance", "0");
 	settings->setDefault("enable_pvp", "true");
 	settings->setDefault("disallow_empty_password", "false");
@@ -302,8 +301,8 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("emergequeue_limit_total", "256");
 	settings->setDefault("emergequeue_limit_diskonly", "32");
 	settings->setDefault("emergequeue_limit_generate", "32");
-	settings->setDefault("num_emerge_threads", "1");
-	settings->setDefault("secure.enable_security", "true");
+	settings->setDefault("num_emerge_threads", "");
+	settings->setDefault("secure.enable_security", "false");	// changed by MrCerealGuy, because of mod intllib
 	settings->setDefault("secure.trusted_mods", "");
 	settings->setDefault("secure.http_mods", "");
 
@@ -331,6 +330,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("water_level", "1");
 	settings->setDefault("chunksize", "5");
 	settings->setDefault("mg_flags", "dungeons");
+	settings->setDefault("enable_erosion", "true");	// changed by MrCerealGuy
 
 	// IPv6
 	settings->setDefault("enable_ipv6", "true");
@@ -351,7 +351,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("screenW", "0");
 	settings->setDefault("screenH", "0");
 	settings->setDefault("enable_shaders", "false");
-	settings->setDefault("fullscreen", "true");
+	settings->setDefault("fullscreen", "true");	// changed by MrCerealGuy
 	settings->setDefault("video_driver", "ogles1");
 	settings->setDefault("touchtarget", "true");
 	settings->setDefault("TMPFolder","/sdcard/" PROJECT_NAME_C "/tmp/");
