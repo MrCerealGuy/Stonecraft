@@ -1,0 +1,6 @@
+# Translation by Xanthin
+
+Cow = Kuh
+Steer = Bulle
+Baby Calf female = Kuhkalb
+Baby Calf male = Bullenkalb

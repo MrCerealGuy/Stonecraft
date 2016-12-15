@@ -1,0 +1,9 @@
+Licenses
+
+CC0
+	sounds/bomb_explosion.ogg
+	sounds/animal_creeper_random1.ogg
+
+Everything not mentioned:
+	CC-BY-SA 3.0, Author sapier
+	URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode

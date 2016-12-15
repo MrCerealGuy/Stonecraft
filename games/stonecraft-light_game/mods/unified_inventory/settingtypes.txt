@@ -1,0 +1,7 @@
+#Enabling lite mode enables a smaller and simpler version of the Unified
+#Inventory, optimized for small displays.
+unified_inventory_lite (Lite mode) bool false
+
+#If enabled, bags will be made available which can be used to extend
+#inventory storage size.
+unified_inventory_bags (Enable bags) bool true

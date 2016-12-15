@@ -1,0 +1,6 @@
+# Spanish translation for Animals Modpack.
+# Traducción al español de Animals Modpack.
+# Author/Autor: Diego Martínez <kaeza>
+
+Barn to breed animals = Granero para criar animales
+Barn to breed small animals = Granero para criar animales pequenos

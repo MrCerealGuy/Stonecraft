@@ -1,0 +1,3 @@
+# Translation by Xanthin
+
+Shark = Hai

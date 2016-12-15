@@ -1,0 +1,9 @@
+Licenses
+
+CC0
+	sounds/animal_big_red_hit.ogg
+	sounds/animal_big_red_random_1.ogg
+
+Everything not mentioned:
+	CC-BY-SA 3.0, Author sapier
+	URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode

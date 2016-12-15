@@ -1,0 +1,4 @@
+# Translation by Xanthin
+
+Barn to breed animals = Raufe um Tiere zu zuechten
+Barn to breed small animals = Raufe um kleine Tiere zu zuechten
