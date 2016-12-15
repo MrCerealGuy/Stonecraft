@@ -905,7 +905,7 @@ emergequeue_limit_generate (Limit of emerge queues to generate) int 32
 #    Number of emerge threads to use. Make this field blank, or increase this number
 #    to use multiple threads. On multiprocessor systems, this will improve mapgen speed greatly
 #    at the cost of slightly buggy caves.
-num_emerge_threads (Number of emerge threads) int 1
+num_emerge_threads (Number of emerge threads) int
 
 #    Noise parameters for biome API temperature, humidity and biome blend.
 mg_biome_np_heat (Mapgen biome heat noise parameters) noise_params 50, 50, (750, 750, 750), 5349, 3, 0.5, 2.0
@@ -1168,7 +1168,7 @@ mgvalleys_np_inter_valley_slope (Valley Slope) noise_params 0.5, 0.5, (128, 128,
 [*Security]
 
 #    Prevent mods from doing insecure things like running shell commands.
-secure.enable_security (Enable mod security) bool true
+secure.enable_security (Enable mod security) bool false
 
 #    Comma-separated list of trusted mods that are allowed to access insecure
 #    functions even when mod security is on (via request_insecure_environment()).
