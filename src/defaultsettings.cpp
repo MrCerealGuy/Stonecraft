@@ -301,7 +301,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("emergequeue_limit_total", "256");
 	settings->setDefault("emergequeue_limit_diskonly", "32");
 	settings->setDefault("emergequeue_limit_generate", "32");
-	settings->setDefault("num_emerge_threads", "");
+	settings->setDefault("num_emerge_threads", "4");
 	settings->setDefault("secure.enable_security", "false");	// changed by MrCerealGuy, because of mod intllib
 	settings->setDefault("secure.trusted_mods", "");
 	settings->setDefault("secure.http_mods", "");
