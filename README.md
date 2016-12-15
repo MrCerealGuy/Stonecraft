@@ -33,7 +33,7 @@ Shift + right mouse button: Build (without using)
 I: Inventory menu
 Mouse wheel: Select item
 0-9: Select item
-Z: Zoom (needs zoom privilege)
+Z: Zoom
 T: Chat
 /: Commad
 Esc: Pause menu/abort/exit (pauses only singleplayer game)
