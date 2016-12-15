@@ -444,6 +444,7 @@ fake_function() {
 	gettext("Map generation limit");
 	gettext("Where the map generator stops.\nPlease note:\n-    Limited to 31000 (setting above has no effect)\n-    The map generator works in groups of 80x80x80 nodes (5x5x5 MapBlocks).\n-    Those groups have an offset of -32, -32 nodes from the origin.\n-    Only groups which are within the map_generation_limit are generated");
 	gettext("Mapgen flags");
+	gettext("Simulation of erosion effects");
 	gettext("Global map generation attributes.\nIn Mapgen v6 the 'decorations' flag controls all decorations except trees\nand junglegrass, in all other mapgens this flag controls all decorations.\nFlags that are not specified in the flag string are not modified from the default.\nFlags starting with 'no' are used to explicitly disable them.");
 	gettext("Advanced");
 	gettext("Chunk size");
