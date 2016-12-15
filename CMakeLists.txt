@@ -14,7 +14,7 @@ set(PROJECT_NAME_CAPITALIZED "Stonecraft")
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 2)
-set(VERSION_EXTRA "-alpha" CACHE STRING "Stuff to append to version string")
+set(VERSION_EXTRA "alpha" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
 set(DEVELOPMENT_BUILD TRUE)
