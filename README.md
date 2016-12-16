@@ -101,6 +101,8 @@ $ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev
 ```
 $ git clone --depth 1 https://github.com/mrcerealguy/stonecraft.git
 $ cd stonecraft
+$ chmod +x ./util/*.sh
+$ chmod +x ./build/*.sh
 ```
 
 Build a version that **runs directly** from the stonecraft directory:
