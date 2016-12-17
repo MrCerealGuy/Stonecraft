@@ -23,6 +23,7 @@ gettext_version=0.18.2
 freetype_version=2.7
 sqlite3_version=3.14.2
 #luajit_version=2.0.3	# LuaJIT disabled, see issue https://github.com/minetest/minetest/issues/2988
+#luajit_version=2.1.0-beta2
 #leveldb_version=1.18	# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 zlib_version=1.2.8
 mingw32_version=5.3.1
@@ -65,7 +66,6 @@ rsync -r --info=progress2 $stonecraftdir/games ./
 rsync -r --info=progress2 $stonecraftdir/misc ./
 rsync -r --info=progress2 $stonecraftdir/mods ./
 rsync -r --info=progress2 $stonecraftdir/po ./
-#rsync -r --info=progress2 $stonecraftdir/locale ./
 rsync -r --info=progress2 $stonecraftdir/src ./
 rsync -r --info=progress2 $stonecraftdir/textures ./
 
@@ -154,7 +154,11 @@ cmake .. \
 	-DSQLITE3_DLL=$libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll
 	#\
 	#-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
-	#-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a \
+	#-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a
+	#\
+	#-LIBGCC_DLL=$libdir/mingw32-$mingw32_version/libgcc_s_seh-1.dll \
+	#-LIBSTDCXX_DLL=$libdir/mingw32-$mingw32_version/libstdc++-6.dll \
+	#-LIBWINPHTHREAD_DLL=$libdir/mingw32-$mingw32_version/libwinpthread-1.dll
 	#\
 	#-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
 	#-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
@@ -165,6 +169,5 @@ echo -e "\E[34;47mdone!"
 echo -e "\E[34;47mRun make..."
 make package -j$(grep -c processor /proc/cpuinfo)
 echo -e "\E[34;47mdone!"
-
 
 # EOF
