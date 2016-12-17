@@ -1,0 +1,14 @@
+#    drop items, else get them in the inventory
+treecapitator.drop_items (drop items) bool false
+
+#    if set to false, do not drop leaves, just saplings (leafdecay behaviour)
+treecapitator.drop_leaf (give leaves) bool false
+
+#    play a sound after digging a tree
+treecapitator.play_sound (play sound) bool true
+
+#    capitate moretrees' trees, experimental, use with caution
+treecapitator.moretrees_support (support moretrees) bool false
+
+#    lets trees become capitated <delay> seconds later, only works if it's > 0
+treecapitator.delay (delay) float 0 0
