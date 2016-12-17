@@ -1,0 +1,2 @@
+Surprise block=Überraschungsblock
+If this block is mined, a few surprise items may drop out of it.=Wenn dieser Block abgebaut wird, könnten ein paar Überraschungen hinausfallen.
