@@ -8,71 +8,71 @@ msgstr ""
 "Project-Id-Version: minetest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-30 06:18+0200\n"
-"PO-Revision-Date: 2016-12-13 22:32+0000\n"
-"Last-Translator: Fixer <artem.brz@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/minetest/"
-"minetest/uk/>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2016-07-13 09:50+0000\n"
+"Last-Translator: lisacvuk <lisacvukhome@gmail.com>\n"
+"Language-Team: Serbian (cyrillic) <https://hosted.weblate.org/projects/"
+"minetest/minetest/sr_Cyrl/>\n"
+"Language: sr_Cyrl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.10-dev\n"
+"X-Generator: Weblate 2.8-dev\n"
 
 #: builtin/fstk/ui.lua
 msgid "An error occured in a Lua script, such as a mod:"
-msgstr "Трапилася помилка у Lua-скрипті модифікації:"
+msgstr "Догодила се грешка у Lua скрипти, у моду:"
 
 #: builtin/fstk/ui.lua
 msgid "An error occured:"
-msgstr "Трапилася помилка:"
+msgstr "Догодила се грешка:"
 
 #: builtin/fstk/ui.lua
 msgid "Main menu"
-msgstr "Головне меню"
+msgstr "Главни мени"
 
 #: builtin/fstk/ui.lua builtin/mainmenu/store.lua
 msgid "Ok"
-msgstr "Гаразд"
+msgstr "Уреду"
 
 #: builtin/fstk/ui.lua
 msgid "Reconnect"
-msgstr "Повторне підключення"
+msgstr "Поновно повезивање"
 
 #: builtin/fstk/ui.lua
 msgid "The server has requested a reconnect:"
-msgstr "Сервер запросив перез'єднання:"
+msgstr "Сервер тражи поновно повезивање:"
 
 #: builtin/mainmenu/common.lua src/game.cpp
 msgid "Loading..."
-msgstr "Завантаження..."
+msgstr "Учитавање..."
 
 #: builtin/mainmenu/common.lua
 msgid "Protocol version mismatch. "
-msgstr "Версія протоколу не співпадає. "
+msgstr "Неслагање верзија протокола. "
 
 #: builtin/mainmenu/common.lua
 msgid "Server enforces protocol version $1. "
-msgstr "Сервер працює за протоколом версії $1. "
+msgstr "Сервер примењује $1 верзију протокола. "
 
 #: builtin/mainmenu/common.lua
 msgid "Server supports protocol versions between $1 and $2. "
-msgstr "Сервер підтримує версії протоколу між $1 і $2. "
+msgstr "Сервер подржава верзије протокола између $1 и $2. "
 
 #: builtin/mainmenu/common.lua
 msgid "Try reenabling public serverlist and check your internet connection."
 msgstr ""
-"Спробуйте оновити список публічних серверів та перевірте своє Інтернет-"
-"з'єднання."
+"Покушајте да поновно укључите листу сервера и проверите вашу интернет "
+"конекцију."
 
 #: builtin/mainmenu/common.lua
 msgid "We only support protocol version $1."
-msgstr "Ми підтримуємо тільки протокол версії $1."
+msgstr "Ми подржавамо само $1 верзију протокола."
 
 #: builtin/mainmenu/common.lua
 msgid "We support protocol versions between version $1 and $2."
-msgstr "Ми підтримуємо протокол між версіями $1 і $2."
+msgstr "Ми подржавамо верзије протокола између верзије $1 и $2."
 
 #: builtin/mainmenu/dlg_config_world.lua builtin/mainmenu/dlg_create_world.lua
 #: builtin/mainmenu/dlg_delete_mod.lua builtin/mainmenu/dlg_delete_world.lua
@@ -80,39 +80,39 @@ msgstr "Ми підтримуємо протокол між версіями $1 
 #: builtin/mainmenu/dlg_settings_advanced.lua src/guiKeyChangeMenu.cpp
 #: src/keycode.cpp
 msgid "Cancel"
-msgstr "Скасувати"
+msgstr "Прекини"
 
 #: builtin/mainmenu/dlg_config_world.lua builtin/mainmenu/tab_mods.lua
 msgid "Depends:"
-msgstr "Залежить від:"
+msgstr "Зависи од:"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Disable MP"
-msgstr "Вимкнути модпак"
+msgstr "Онемогући мод-паковање"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Enable MP"
-msgstr "Увімкнути модпак"
+msgstr "Омогући мод-паковање"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Enable all"
-msgstr "Увімкнути все"
+msgstr "Укључи све"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid ""
 "Failed to enable mod \"$1\" as it contains disallowed characters. Only "
 "chararacters [a-z0-9_] are allowed."
 msgstr ""
-"Не вдалося ввімкнути модифікацію \"$1\", тому що вона містить заборонені "
-"символи. Дозволяється використання таких символів: [a-z0-9_]."
+"Неуспело укључивање мода \"$1\" зато што садржи неподржане симболе.Само "
+"симболи [a-z0-9_] су дозвољени."
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Hide Game"
-msgstr "Приховати гру"
+msgstr "Сакриј игру"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Hide mp content"
-msgstr "Сховати вміст модпаку"
+msgstr "Сакриј садржину мод-паковања"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Mod:"
@@ -121,138 +121,137 @@ msgstr "Мод:"
 #: builtin/mainmenu/dlg_config_world.lua
 #: builtin/mainmenu/dlg_settings_advanced.lua src/guiKeyChangeMenu.cpp
 msgid "Save"
-msgstr "Зберегти"
+msgstr "Сачувај"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "World:"
-msgstr "Світ:"
+msgstr "Свет:"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "enabled"
-msgstr "увімкнено"
+msgstr "укључено"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "A world named \"$1\" already exists"
-msgstr "Світ з такою назвою  \"$1\" вже існує"
+msgstr "Свет \"$1\" већ постоји"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Create"
-msgstr "Створити"
+msgstr "Направи"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as minetest_game, from minetest.net"
-msgstr "Завантажте гру, наприклад, minetest_game з minetest.net"
+msgstr "Преузми подигру, као што је minetest_game, са minetest.net"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download one from minetest.net"
-msgstr "Завантажте з minetest.net"
+msgstr "Преузми један са minetest.net"
 
 #: builtin/mainmenu/dlg_create_world.lua src/settings_translation_file.cpp
 msgid "Game"
-msgstr "Гра"
+msgstr "Игра"
 
 #: builtin/mainmenu/dlg_create_world.lua src/settings_translation_file.cpp
 msgid "Mapgen"
-msgstr "Генератор світу"
+msgstr "Генератор мапе"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "No worldname given or no game selected"
-msgstr "Назву світу не задано або не обрано гру"
+msgstr "Име није дато или ниједна игра није изабрана"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Seed"
-msgstr "Зерно"
+msgstr "Семе"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Warning: The minimal development test is meant for developers."
-msgstr "Увага: мінімальна тестова версія призначена для розробників."
+msgstr "Упозорење: Минимални развојни тест је намењен развијачима."
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "World name"
-msgstr "Назва світу"
+msgstr "Име света"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "You have no subgames installed."
-msgstr "Ви не маєте встановлених ігор."
+msgstr "Нема инсталираних подигара."
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Are you sure you want to delete \"$1\"?"
-msgstr "Ви впевнені, що бажаєте видалити \"$1\"?"
+msgstr "Да ли сте сигурни да желите да обришете \"$1\"?"
 
 #: builtin/mainmenu/dlg_delete_mod.lua builtin/mainmenu/dlg_delete_world.lua
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 #: src/keycode.cpp
 msgid "Delete"
-msgstr "Видалити"
+msgstr "Обриши"
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Modmgr: failed to delete \"$1\""
-msgstr "Modmgr: не вдалося видалити \"$1\""
+msgstr "Modmgr: неуспело брисање \"$1\""
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Modmgr: invalid modpath \"$1\""
-msgstr "Modmgr: недійсний шлях модифікації \"$1\""
+msgstr "Modmgr: локација мода \"$1\" није валидна"
 
 #: builtin/mainmenu/dlg_delete_world.lua
 msgid "Delete World \"$1\"?"
-msgstr "Видалити світ \"$1\"?"
+msgstr "Обриши свет \"$1\"?"
 
 #: builtin/mainmenu/dlg_rename_modpack.lua src/keycode.cpp
 msgid "Accept"
-msgstr "Прийняти"
+msgstr "Прихвати"
 
 #: builtin/mainmenu/dlg_rename_modpack.lua
 msgid "Rename Modpack:"
-msgstr "Перейменувати збірку модифікацій:"
+msgstr "Преименуј мод-паковање:"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "\"$1\" is not a valid flag."
-msgstr "\"$1\" не є правильним параметром."
+msgstr "\"$1\" није валидна ознака."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "(No description of setting given)"
-msgstr "(пояснення відсутнє)"
+msgstr "(Није дат опис поставке)"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "< Back to Settings page"
-msgstr "< Назад до Налаштувань"
+msgstr "< Назад на страну са поставкама"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Browse"
-msgstr "Проглянути"
+msgstr "Прегледај"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Disabled"
-msgstr "Вимкнено"
+msgstr "Онемогућено"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Edit"
-msgstr "Правити"
+msgstr "Промени"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Enabled"
-msgstr "Увімкнено"
+msgstr "Омогућено"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Format is 3 numbers separated by commas and inside brackets."
-msgstr "Формат: 3 номера, відокремлених комами і всередині дужок."
+msgstr "Формат су три броја унутар заграда раздвојени зарезима."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
-#, fuzzy
 msgid ""
 "Format: <offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>), <seed>, "
 "<octaves>, <persistence>"
 msgstr ""
-"Формат: <offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>), <seed>, "
-"<octaves>, <persistence>"
+"Формат:  <офсет>, <скала>, (<распонX>, <распонY>, <распонZ>), <семе>, "
+"<октаве>, <упорност>"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Games"
-msgstr "Ігри"
+msgstr "Игре"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua builtin/mainmenu/tab_mods.lua
 msgid "Mods"
-msgstr "Модифікації"
+msgstr "Модови"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Optionally the lacunarity can be appended with a leading comma."
@@ -260,39 +259,39 @@ msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a comma seperated list of flags."
-msgstr "Будь-ласка введіть перелік параметрів через кому."
+msgstr "Молим вас унесите листу ознака раздвојену зарезима."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a valid integer."
-msgstr "Будь-ласка введіть дійсне ціле число."
+msgstr "Молим вас унесите валидан број."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a valid number."
-msgstr "Будь-ласка введіть дійсний номер."
+msgstr "Молим вас унесите валидан број."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Possible values are: "
-msgstr "Можливі значення: "
+msgstr "Могуће вредности су: "
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Restore Default"
-msgstr "Відновити як було"
+msgstr "Поврати уобичајено"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Select path"
-msgstr "Вибрати шлях"
+msgstr "Одабери локацију"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Show technical names"
-msgstr "Показувати технічні назви"
+msgstr "Прикажи техничка имена"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "The value must be greater than $1."
-msgstr "Значення має бути більше за $1."
+msgstr "Вредност мора бити већа од $1."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "The value must be lower than $1."
-msgstr "Значення має бути менше ніж $1."
+msgstr "Вредност мора бити мања од $1."
 
 #: builtin/mainmenu/modmgr.lua
 msgid ""
@@ -300,115 +299,113 @@ msgid ""
 "Install Mod: unsupported filetype \"$1\" or broken archive"
 msgstr ""
 "\n"
-"Встановлення модифікації: тип файлу \"$1\" не підтримується або архів "
-"пошкоджено"
+"Инсталирај мод: неподржан тип фајла \"$1\" или оштећена архива"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Failed to install $1 to $2"
-msgstr "Не вдалося встановити $1 у $2"
+msgstr "Неуспела инсталација $1 у $2"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: file: \"$1\""
-msgstr "Встановлення модифікації: файл \"$1\""
+msgstr "Инсталирај мод: фајл: \"$1\""
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: unable to find real modname for: $1"
-msgstr ""
-"Встановлення модифікації: не вдається знайти дійсну назву модифікації $1"
+msgstr "Инсталирај мод: не може се пронаћи право име за: $1"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: unable to find suitable foldername for modpack $1"
 msgstr ""
-"Встановлення модифікації: неможливо знайти відповідну назву папки для збірки "
-"модифікацій $1"
+"Инсталирај мод: не може се пронаћи одговарајуће име за фасциклу мод-паковања "
+"$1"
 
 #: builtin/mainmenu/store.lua
 msgid "Close store"
-msgstr "Вийти з крамнички"
+msgstr "Затвори складиште"
 
 #: builtin/mainmenu/store.lua
 msgid "Downloading $1, please wait..."
-msgstr "Завантаження $1, зачекайте..."
+msgstr "Преузима се $1, молим вас сачекајте..."
 
 #: builtin/mainmenu/store.lua
 msgid "Install"
-msgstr "Встановити"
+msgstr "Инсталирај"
 
 #: builtin/mainmenu/store.lua
 msgid "Page $1 of $2"
-msgstr "Сторінка $1 з $2"
+msgstr "Страна $1 од $2"
 
 #: builtin/mainmenu/store.lua
 msgid "Rating"
-msgstr "Оцінка"
+msgstr "Оцена"
 
 #: builtin/mainmenu/store.lua
 msgid "Search"
-msgstr "Пошук"
+msgstr "Тражи"
 
 #: builtin/mainmenu/store.lua
 msgid "Shortname:"
-msgstr "Коротка назва:"
+msgstr "Краће име:"
 
 #: builtin/mainmenu/store.lua
 msgid "Successfully installed:"
-msgstr "Успішно встановлено:"
+msgstr "Успешно инсталиран:"
 
 #: builtin/mainmenu/store.lua
 msgid "Unsorted"
-msgstr "Невідсортоване"
+msgstr "Нераспоређено"
 
 #: builtin/mainmenu/store.lua
 msgid "re-Install"
-msgstr "Перевстановити"
+msgstr "поново инсталирај"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Active Contributors"
-msgstr "Активні учасники"
+msgstr "Активни сарадници"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Core Developers"
-msgstr "Основні розробники ядра гри"
+msgstr "Главни развијачи"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Credits"
-msgstr "Подяка"
+msgstr "Заслуге"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Previous Contributors"
-msgstr "Колишні учасники"
+msgstr "Предходни сарадници"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Previous Core Developers"
-msgstr "Попередні основні розробники ядра"
+msgstr "Предходни главни развијачи"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Installed Mods:"
-msgstr "Встановлені модифікації:"
+msgstr "Инсталирани модови:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Mod information:"
-msgstr "Інформація модифікації:"
+msgstr "Информације о моду:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "No mod description available"
-msgstr "Опис модифікації відсутній"
+msgstr "Није доступан опис мода"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Rename"
-msgstr "Перейменувати"
+msgstr "Преименуј"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Select Mod File:"
-msgstr "Оберіть файл модифікації:"
+msgstr "Изаберите фајл мода:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Uninstall selected mod"
-msgstr "Видалити обрану модифікацію"
+msgstr "Уклони изабрани мод"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Uninstall selected modpack"
-msgstr "Видалити обрану збірку модифікацій"
+msgstr "Уклони одабрано мод-паковање"
 
 #: builtin/mainmenu/tab_multiplayer.lua
 msgid "Address / Port"
@@ -416,66 +413,65 @@ msgstr "Адреса / Порт"
 
 #: builtin/mainmenu/tab_multiplayer.lua src/settings_translation_file.cpp
 msgid "Client"
-msgstr "Клієнт"
+msgstr "Клијент"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Connect"
-msgstr "Під'єднатися"
+msgstr "Прикључи се"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Creative mode"
-msgstr "Творчість"
+msgstr "Слободни мод"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
-#, fuzzy
 msgid "Damage enabled"
-msgstr "Поранення"
+msgstr "Оштећење омогућено"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Del. Favorite"
-msgstr "Видалити мітку"
+msgstr "Обриши Омиљени"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Favorite"
-msgstr "Улюблені"
+msgstr "Омиљени"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Name / Password"
-msgstr "Ім'я / Пароль"
+msgstr "Име / Шифра"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "PvP enabled"
-msgstr "Бої увімкнено"
+msgstr "Туча омогућена"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Bind Address"
-msgstr "Закріпити адресу"
+msgstr "Вежи адресу"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "Configure"
-msgstr "Налаштувати"
+msgstr "Подеси"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_simple_main.lua
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Creative Mode"
-msgstr "Творчість"
+msgstr "Слободни мод"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_simple_main.lua
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Enable Damage"
-msgstr "Поранення"
+msgstr "Омогући оштећење"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Name/Password"
-msgstr "Ім'я/Пароль"
+msgstr "Име/Шифра"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "New"
-msgstr "Новий"
+msgstr "Нови"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "No world created or selected!"
-msgstr "Світ не створено або не обрано!"
+msgstr "Ниједан свет није направљен или изабран!"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Port"
@@ -483,11 +479,11 @@ msgstr "Порт"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Public"
-msgstr "Публічний"
+msgstr "Јавни"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "Select World:"
-msgstr "Виберіть світ:"
+msgstr "Одабери свет:"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Server"
@@ -495,11 +491,11 @@ msgstr "Сервер"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Server Port"
-msgstr "Порт сервера"
+msgstr "Серверски порт"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Start Game"
-msgstr "Почати гру"
+msgstr "Почни игру"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "2x"
@@ -507,7 +503,7 @@ msgstr "2x"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "3D Clouds"
-msgstr "Об'ємні хмари"
+msgstr "3Д Облаци"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "4x"
@@ -519,230 +515,228 @@ msgstr "8x"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Advanced Settings"
-msgstr "Додаткові налаштування"
+msgstr "Напредне поставке"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Antialiasing:"
-msgstr "Згладжування:"
+msgstr "Гланчање текстура:"
 
 #: builtin/mainmenu/tab_settings.lua
-#, fuzzy
 msgid "Are you sure to reset your singleplayer world?"
-msgstr "Ви впевнені, що бажаєте скинути свій світ однокористувацької гри?"
+msgstr "Да ли сте сигурни да желите да ресетујете ваш свет?"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Bilinear Filter"
-msgstr "Білінійна фільтрація"
+msgstr "Билинеарни филтер"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Bump Mapping"
-msgstr "Бамп маппінг"
+msgstr "Bump-Мапирање"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Change keys"
-msgstr "Змінити клавіші"
+msgstr "Промени дугмад"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Connected Glass"
-msgstr "З'єднувати скло"
+msgstr "Спојено стакло"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Fancy Leaves"
-msgstr "Гарне листя"
+msgstr "Елегантно лишће"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Mipmap"
-msgstr "Міпмапи"
+msgstr "Мипмап"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Mipmap + Aniso. Filter"
-msgstr "Міпмапи і анізотропний фільтр"
+msgstr "Mipmap + Анизотропни филтер"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No"
-msgstr "Ні"
+msgstr "Не"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No Filter"
-msgstr "Без фільтрації"
+msgstr "Без филтера"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No Mipmap"
-msgstr "Без міпмап"
+msgstr "Без Mipmap-а"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Node Highlighting"
-msgstr "Підсвічувати блок"
+msgstr "Истицање блокова"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Node Outlining"
-msgstr "Виділяти блок рамкою"
+msgstr "Обцртавање блокова"
 
 #: builtin/mainmenu/tab_settings.lua builtin/mainmenu/tab_texturepacks.lua
 msgid "None"
-msgstr "Нічого"
+msgstr "Ништа"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Normal Mapping"
-msgstr "Текстурування нормалів"
+msgstr "Нормал-мапирање"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Opaque Leaves"
-msgstr "Непрозоре листя"
+msgstr "Непровидно лишће"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Opaque Water"
-msgstr "Непрозора вода"
+msgstr "Непрозирна вода"
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Parallax Occlusion"
-msgstr "Паралаксова оклюзія"
+msgstr "Parallax Occlusion Мапирање"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Particles"
-msgstr "Часточки"
+msgstr "Честице"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Reset singleplayer world"
-msgstr "Скинути світ однокористувацької гри"
+msgstr "Ресетуј свет"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Settings"
-msgstr "Налаштування"
+msgstr "Поставке"
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Shaders"
-msgstr "Шейдери"
+msgstr "Шејдери"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Simple Leaves"
-msgstr "Просте листя"
+msgstr "Једноставно лишће"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Smooth Lighting"
-msgstr "Згладжене освітлення"
+msgstr "Глатко осветљење"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Texturing:"
-msgstr "Текстурування:"
+msgstr "Филтери за текстуре:"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "To enable shaders the OpenGL driver needs to be used."
-msgstr ""
-"Для того, щоб увімкнути шейдери, потрібно використовувати драйвер OpenGL."
+msgstr "Да би се омогућили шејдери мора се користити OpenGL драјвер."
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Tone Mapping"
-msgstr "Тоновий шейдер"
+msgstr "Тонско Мапирање"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Touchthreshold (px)"
-msgstr ""
+msgstr "Праг додиривања (px)"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Trilinear Filter"
-msgstr "Трилінійна фільтрація"
+msgstr "Трилинеарни филтер"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Waving Leaves"
-msgstr "Коливати листя"
+msgstr "Лепршајуће лишће"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Waving Plants"
-msgstr "Коливати квіти"
+msgstr "Лепршајуће биљке"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Waving Water"
-msgstr "Коливати воду"
+msgstr "Веслајућа вода"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Yes"
-msgstr "Так"
+msgstr "Да"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Config mods"
-msgstr "Налаштувати модифікації"
+msgstr "Подеси модове"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Main"
-msgstr "Головне Меню"
+msgstr "Главно"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Start Singleplayer"
-msgstr "Почати одиночну гру"
+msgstr "Започни игру за једног играча"
 
 #: builtin/mainmenu/tab_singleplayer.lua src/keycode.cpp
 msgid "Play"
-msgstr "Грати"
+msgstr "Играј"
 
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Singleplayer"
-msgstr "Одиночна гра"
+msgstr "Један играч"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "No information available"
-msgstr "Інформація відсутня"
+msgstr "Нема доступних информација"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "Select texture pack:"
-msgstr "Оберіть набір текстур:"
+msgstr "Одабери сет текстура:"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "Texturepacks"
-msgstr "Набори текстур"
+msgstr "Сетови текстура"
 
 #: src/client.cpp
 msgid "Connection timed out."
-msgstr "Час очікування вийшов."
+msgstr "Конекцији је истекло време."
 
 #: src/client.cpp
 msgid "Done!"
-msgstr "Виконано!"
+msgstr "Готово!"
 
 #: src/client.cpp
 msgid "Initializing nodes"
-msgstr "Ініціалізація блоків"
+msgstr "Припремам блокове"
 
 #: src/client.cpp
 msgid "Initializing nodes..."
-msgstr "Ініціалізація блоків..."
+msgstr "Припремам блокове..."
 
 #: src/client.cpp
 msgid "Loading textures..."
-msgstr "Завантаження текстур..."
+msgstr "Учитавам текстуре..."
 
 #: src/client.cpp
 msgid "Rebuilding shaders..."
-msgstr "Перебудова шейдерів..."
+msgstr "Обнављам шејдере..."
 
 #: src/client/clientlauncher.cpp
 msgid "Connection error (timed out?)"
-msgstr "Помилка з'єднання (час вийшов?)"
+msgstr "Грешка у конекцији (истекло време?)"
 
 #: src/client/clientlauncher.cpp
 msgid "Could not find or load game \""
-msgstr "Неможливо знайти або завантажити гру \""
+msgstr "Немогу пронаћи или учитати игру \""
 
 #: src/client/clientlauncher.cpp
-#, fuzzy
 msgid "Invalid gamespec."
-msgstr "Помилкова конфігурація гри."
+msgstr "Неважећи gamespec."
 
 #: src/client/clientlauncher.cpp
 msgid "Main Menu"
-msgstr "Головне Меню"
+msgstr "Главни мени"
 
 #: src/client/clientlauncher.cpp
 msgid "No world selected and no address provided. Nothing to do."
-msgstr "Жоден світ не вибрано та не надано адреси. Нічого робити."
+msgstr ""
+"Ниједан свет није изабран и ниједна адреса није дата. Немогу ништа да урадим."
 
 #: src/client/clientlauncher.cpp
 msgid "Player name too long."
-msgstr "Ім'я гравця занадто довге."
+msgstr "Име играча је предуачко."
 
 #: src/client/clientlauncher.cpp
 msgid "Provided world path doesn't exist: "
-msgstr "Вказаний шлях до світу не існує: "
+msgstr "Дата локација света не постоји: "
 
 #: src/fontengine.cpp
 msgid "needs_fallback_font"
@@ -754,31 +748,31 @@ msgid ""
 "Check debug.txt for details."
 msgstr ""
 "\n"
-"Деталі у файлі debug.txt."
+"Проверите debug.txt за више детаља."
 
 #: src/game.cpp
 msgid "Change Keys"
-msgstr "Змінити клавіші"
+msgstr "Подеси контроле"
 
 #: src/game.cpp
 msgid "Change Password"
-msgstr "Змінити Пароль"
+msgstr "Промени шифру"
 
 #: src/game.cpp
 msgid "Connecting to server..."
-msgstr "Підключення до сервера..."
+msgstr "Повезујем се на сервер..."
 
 #: src/game.cpp
 msgid "Continue"
-msgstr "Продовжити"
+msgstr "Настави"
 
 #: src/game.cpp
 msgid "Creating client..."
-msgstr "Створення клієнта..."
+msgstr "Правим клијента..."
 
 #: src/game.cpp
 msgid "Creating server..."
-msgstr "Створення сервера..."
+msgstr "Правим сервер..."
 
 #: src/game.cpp
 msgid ""
@@ -794,17 +788,17 @@ msgid ""
 "- Mouse wheel: select item\n"
 "- T: chat\n"
 msgstr ""
-"Стандартне керування клавішами:\n"
-"- WASD: рух\n"
-"- Space: стрибок/лізти вгору\n"
-"- Shift: крастися/лізти вниз\n"
-"- Q: кинути предмет\n"
-"- I: інвентар\n"
-"- Мишка: поворот/дивитися\n"
-"- Ліва клавіша миші: копати/удар\n"
-"- Права клавіша миші: поставити/використовувати\n"
-"- Колесо миші: вибір предмета\n"
-"- T: чат\n"
+"Уобичајене контроле:\n"
+"- WASD: кретање\n"
+"- Space: скакање/пењање\n"
+"- Shift: шуњање/силажење\n"
+"- Q: баци ставку\n"
+"- I: инвентар\n"
+"- Миш: окретање/гледање\n"
+"- Леви клик миша: копање/ударање\n"
+"- Десни клик миша: постављање/коришћење\n"
+"- Точкић миша: одабирање ставке\n"
+"- T: причање\n"
 
 #: src/game.cpp
 msgid ""
@@ -821,82 +815,82 @@ msgid ""
 "- touch&drag, tap 2nd finger\n"
 " --> place single item to slot\n"
 msgstr ""
-"Стандартне керування дотиком:\n"
-"Коли меню не відображається:\n"
-"- один дотик: активувати кнопку\n"
-"- дотикнутися двічі: встановити/використати\n"
-"- провести пальцем: роззирнутися\n"
-"Коли відображається меню або інвертар:\n"
-"- дотикнутися двічі (поза межами):\n"
-" --> закрити\n"
-"- Торкнутися купи, торкнутися комірки:\n"
-" --> перемістити купу\n"
-"- Торкнутися і тягнути, дотикнутися лругим пальцем\n"
-" --> помістити один предмет у комірку\n"
+"Подразумеване контроле:\n"
+"Ни један приказан мени:\n"
+"- један тап: копај\n"
+"- дупли тап: постави блок/користи\n"
+"- превуци прстом: гледај около\n"
+"Мени/Инвертар приказан:\n"
+"- дупли тап (изван):\n"
+" -->Искључи\n"
+"- додирни ствари, додирни празно место:\n"
+" --> помери ствари\n"
+"- држи и превлачи, тапни другим прстом:\n"
+" --> пребаци само једну ствар из групе\n"
 
 #: src/game.cpp
 msgid "Exit to Menu"
-msgstr "Вихід в меню"
+msgstr "Изађи у мени"
 
 #: src/game.cpp
 msgid "Exit to OS"
-msgstr "Вихід з гри"
+msgstr "Изађи из програма"
 
 #: src/game.cpp
 msgid "Item definitions..."
-msgstr "Визначення предметів..."
+msgstr "Дефиниције предмета..."
 
 #: src/game.cpp
 msgid "KiB/s"
-msgstr "КіБ/сек"
+msgstr "КиБ/с"
 
 #: src/game.cpp
 msgid "Media..."
-msgstr "Ресурси..."
+msgstr "Медија..."
 
 #: src/game.cpp
 msgid "MiB/s"
-msgstr "МіБ/сек"
+msgstr "МиБ/с"
 
 #: src/game.cpp
 msgid "Node definitions..."
-msgstr "Визначення блоків..."
+msgstr "Дефиниције блокова..."
 
 #: src/game.cpp
 msgid "Resolving address..."
-msgstr "Отримання адреси..."
+msgstr "Разлучујем адресу..."
 
 #: src/game.cpp
 msgid "Respawn"
-msgstr "Переродитися"
+msgstr "Врати се у живот"
 
 #: src/game.cpp
 msgid "Shutting down..."
-msgstr "Вимкнення..."
+msgstr "Искључивање..."
 
 #: src/game.cpp
 msgid "Sound Volume"
-msgstr "Гучність звуку"
+msgstr "Јачина звука"
 
 #: src/game.cpp
 msgid "You died."
-msgstr "Ви загинули."
+msgstr "Умро/ла си."
 
 #: src/game.cpp src/guiFormSpecMenu.cpp
 msgid "ok"
-msgstr "гаразд"
+msgstr "уреду"
 
 #: src/guiFormSpecMenu.cpp
 msgid "Enter "
-msgstr "Ввід "
+msgstr "Уреду "
 
 #: src/guiFormSpecMenu.cpp
 msgid "Proceed"
-msgstr "Далі"
+msgstr "Настави"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "\"Use\" = climb down"
-msgstr "\"Використовувати\" = підніматися вгору"
+msgstr "\"Користи\" = Силажење"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Backward"
@@ -904,7 +898,7 @@ msgstr "Назад"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Chat"
-msgstr "Чат"
+msgstr "Чет"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Command"
@@ -912,122 +906,121 @@ msgstr "Команда"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Console"
-msgstr "Консоль"
+msgstr "Конзола"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Double tap \"jump\" to toggle fly"
-msgstr "Двічі доторкніться до \"стрибок\" щоб полетіти"
+msgstr "Дупли скок за летење"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Drop"
-msgstr "Викинути"
+msgstr "Бацање"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Forward"
-msgstr "Уперед"
+msgstr "Напред"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Inventory"
-msgstr "Інвентар"
+msgstr "Инвентар"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Jump"
-msgstr "Стрибок"
+msgstr "Скакање"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Key already in use"
-msgstr "Клавіша вже використовується"
+msgstr "Дугме се већ користи"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Keybindings. (If this menu screws up, remove stuff from minetest.conf)"
 msgstr ""
-"Комбінації клавіш. (Якщо це меню зламалося, видаліть налаштування з minetest."
-"conf)"
+"Подешавање контрола.(Ако овај мени нешто поквари, обришите ствари из "
+"minetest.conf)"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Left"
-msgstr "Ліворуч"
+msgstr "Лево"
 
 #: src/guiKeyChangeMenu.cpp src/settings_translation_file.cpp
 msgid "Print stacks"
-msgstr "Надрукувати стак"
+msgstr "Прикажи stack-ове"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Range select"
-msgstr "Вибір діапазону"
+msgstr "Одабир домета"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Right"
-msgstr "Праворуч"
+msgstr "Десно"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Sneak"
-msgstr "Крастися"
+msgstr "Шуњање"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle Cinematic"
-msgstr "Переключити кінематографічний режим"
+msgstr "Укључи/Искључи Cinematic мод"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fast"
-msgstr "Переключити швидкий режим"
+msgstr "Укључи/Искључи трчање"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fly"
-msgstr "Переключити режим польоту"
+msgstr "Укључи/Искључи летење"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle noclip"
-msgstr "Переключити режим проходження крізь стіни"
+msgstr "Укључи/искључи пролажење кроз препреке"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Use"
-msgstr "Використовувати"
+msgstr "Коришћење"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
-#, fuzzy
 msgid "Zoom"
-msgstr "Збільшити"
+msgstr "Зумирај"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "press key"
-msgstr "Натисніть клавішу"
+msgstr "притисните дугме"
 
 #: src/guiPasswordChange.cpp
 msgid "Change"
-msgstr "Змінити"
+msgstr "Промени"
 
 #: src/guiPasswordChange.cpp
 msgid "Confirm Password"
-msgstr "Підтвердження нового пароля"
+msgstr "Потврди шифру"
 
 #: src/guiPasswordChange.cpp
 msgid "New Password"
-msgstr "Новий Пароль"
+msgstr "Нова шифра"
 
 #: src/guiPasswordChange.cpp
 msgid "Old Password"
-msgstr "Старий Пароль"
+msgstr "Стара шифра"
 
 #: src/guiPasswordChange.cpp
 msgid "Passwords do not match!"
-msgstr "Паролі не збігаються!"
+msgstr "Шифре се не поклапају!"
 
 #: src/guiVolumeChange.cpp
 msgid "Exit"
-msgstr "Вихід"
+msgstr "Изађи"
 
 #: src/guiVolumeChange.cpp
 msgid "Sound Volume: "
-msgstr "Гучність Звуку: "
+msgstr "Јачина звука: "
 
 #: src/keycode.cpp
 msgid "Apps"
-msgstr "Додатки"
+msgstr "Апликације"
 
 #: src/keycode.cpp
 msgid "Attn"
-msgstr "Увага"
+msgstr "Аттн"
 
 #: src/keycode.cpp
 msgid "Back"
@@ -1035,35 +1028,35 @@ msgstr "Назад"
 
 #: src/keycode.cpp
 msgid "Capital"
-msgstr "Caps Lock"
+msgstr "Главно"
 
 #: src/keycode.cpp
 msgid "Clear"
-msgstr "Очистити"
+msgstr "Очисти"
 
 #: src/keycode.cpp
 msgid "Comma"
-msgstr "Кома"
+msgstr "Зарез"
 
 #: src/keycode.cpp
 msgid "Control"
-msgstr "Ctrl"
+msgstr "Контрола"
 
 #: src/keycode.cpp
 msgid "Convert"
-msgstr "Конвертувати"
+msgstr "Конвертуј"
 
 #: src/keycode.cpp
 msgid "CrSel"
-msgstr ""
+msgstr "ЦрСел"
 
 #: src/keycode.cpp
 msgid "Down"
-msgstr "Вниз"
+msgstr "Доле"
 
 #: src/keycode.cpp
 msgid "End"
-msgstr ""
+msgstr "Крај"
 
 #: src/keycode.cpp
 msgid "Erase OEF"
@@ -1071,7 +1064,7 @@ msgstr ""
 
 #: src/keycode.cpp
 msgid "Escape"
-msgstr "Esc"
+msgstr "Побегни"
 
 #: src/keycode.cpp
 msgid "ExSel"
@@ -1079,23 +1072,23 @@ msgstr ""
 
 #: src/keycode.cpp
 msgid "Execute"
-msgstr "Виконати"
+msgstr "Изврши"
 
 #: src/keycode.cpp
 msgid "Final"
-msgstr "Кінець"
+msgstr "Крајњи"
 
 #: src/keycode.cpp
 msgid "Help"
-msgstr "Допомога"
+msgstr "Помоћ"
 
 #: src/keycode.cpp
 msgid "Home"
-msgstr ""
+msgstr "Кућа"
 
 #: src/keycode.cpp
 msgid "Insert"
-msgstr "Insert"
+msgstr "Убаци"
 
 #: src/keycode.cpp
 msgid "Junja"
@@ -1111,201 +1104,199 @@ msgstr ""
 
 #: src/keycode.cpp
 msgid "Left Button"
-msgstr "Ліва кнопка"
+msgstr "Лево дугме"
 
 #: src/keycode.cpp
 msgid "Left Control"
-msgstr "Ліва клавіша Ctrl"
+msgstr "Леви Control"
 
 #: src/keycode.cpp
 msgid "Left Menu"
-msgstr "Ліва клавіша Menu"
+msgstr "Леви мени"
 
 #: src/keycode.cpp
 msgid "Left Shift"
-msgstr "Ліва клавіша Shift"
+msgstr "Леви Shift"
 
 #: src/keycode.cpp
 msgid "Left Windows"
-msgstr "Ліва клавіша Win"
+msgstr "Леви Windows"
 
 #: src/keycode.cpp
 msgid "Menu"
-msgstr "Меню"
+msgstr "Мени"
 
 #: src/keycode.cpp
 msgid "Middle Button"
-msgstr "Середня кнопка"
+msgstr "Средње дугме"
 
 #: src/keycode.cpp
 msgid "Minus"
-msgstr "Мінус"
+msgstr "Минус"
 
 #: src/keycode.cpp
 msgid "Mode Change"
-msgstr "Змінити режим"
+msgstr "Промена мода"
 
 #: src/keycode.cpp
 msgid "Next"
-msgstr ""
+msgstr "Следеће"
 
 #: src/keycode.cpp
 msgid "Nonconvert"
-msgstr "Не обернено"
+msgstr "Не конвертуј"
 
 #: src/keycode.cpp
 msgid "Num Lock"
-msgstr "Num Lock"
+msgstr "Закључавање нумеричке тастатуре"
 
 #: src/keycode.cpp
 msgid "Numpad *"
-msgstr "Num *"
+msgstr "Нумеричка тастатура *"
 
 #: src/keycode.cpp
 msgid "Numpad +"
-msgstr "Num +"
+msgstr "Нумеричка тастатура +"
 
 #: src/keycode.cpp
 msgid "Numpad -"
-msgstr "Num -"
+msgstr "Нумеричка тастатура -"
 
 #: src/keycode.cpp
 msgid "Numpad /"
-msgstr "Num /"
+msgstr "Нумеричка тастатура /"
 
 #: src/keycode.cpp
 msgid "Numpad 0"
-msgstr "Num 0"
+msgstr "Нумеричка тастатура 0"
 
 #: src/keycode.cpp
 msgid "Numpad 1"
-msgstr "Num 1"
+msgstr "Нумеричка тастатура 1"
 
 #: src/keycode.cpp
 msgid "Numpad 2"
-msgstr "Num 2"
+msgstr "Нумеричка тастатура 2"
 
 #: src/keycode.cpp
 msgid "Numpad 3"
-msgstr "Num 3"
+msgstr "Нумеричка тастатура 3"
 
 #: src/keycode.cpp
 msgid "Numpad 4"
-msgstr "Num 4"
+msgstr "Нумеричка тастатура 4"
 
 #: src/keycode.cpp
 msgid "Numpad 5"
-msgstr "Num 5"
+msgstr "Нумеричка тастатура 5"
 
 #: src/keycode.cpp
 msgid "Numpad 6"
-msgstr "Num 6"
+msgstr "Нумеричка тастатура 6"
 
 #: src/keycode.cpp
 msgid "Numpad 7"
-msgstr "Num 7"
+msgstr "Нумеричка тастатура 7"
 
 #: src/keycode.cpp
 msgid "Numpad 8"
-msgstr "Num 8"
+msgstr "Нумеричка тастатура 8"
 
 #: src/keycode.cpp
 msgid "Numpad 9"
-msgstr "Num 9"
+msgstr "Нумеричка тастатура 9"
 
 #: src/keycode.cpp
 msgid "OEM Clear"
-msgstr ""
+msgstr "ОЕМ очисти"
 
 #: src/keycode.cpp
 msgid "PA1"
-msgstr "PA1"
+msgstr ""
 
 #: src/keycode.cpp
 msgid "Pause"
-msgstr "Пауза"
+msgstr "Заустави"
 
 #: src/keycode.cpp
 msgid "Period"
-msgstr "Крапка"
+msgstr "Тачка"
 
 #: src/keycode.cpp
 msgid "Plus"
-msgstr "Плюс"
+msgstr "Плус"
 
 #: src/keycode.cpp
 msgid "Print"
-msgstr "Print Screen"
+msgstr "Прикажи"
 
 #: src/keycode.cpp
-#, fuzzy
 msgid "Prior"
-msgstr "Page Down"
+msgstr "Пре"
 
 #: src/keycode.cpp
 msgid "Return"
-msgstr "Ввід"
+msgstr "Повратак"
 
 #: src/keycode.cpp
-#, fuzzy
 msgid "Right Button"
-msgstr "Права кнопка"
+msgstr "Десно дугме"
 
 #: src/keycode.cpp
 msgid "Right Control"
-msgstr "Права клавіша Ctrl"
+msgstr "Десни Control"
 
 #: src/keycode.cpp
 msgid "Right Menu"
-msgstr "Права клавіша Menu"
+msgstr "Десни мени"
 
 #: src/keycode.cpp
 msgid "Right Shift"
-msgstr "Права клавіша Shift"
+msgstr "Десни Shift"
 
 #: src/keycode.cpp
 msgid "Right Windows"
-msgstr "Права клавіша Win"
+msgstr "Десни Windows"
 
 #: src/keycode.cpp
 msgid "Scroll Lock"
-msgstr "Scroll Lock"
+msgstr "Закључавање скроловања"
 
 #: src/keycode.cpp
 msgid "Select"
-msgstr "Обрати"
+msgstr "Одабери"
 
 #: src/keycode.cpp
 msgid "Shift"
-msgstr "Shift"
+msgstr "Шифт"
 
 #: src/keycode.cpp
 msgid "Sleep"
-msgstr "Сон"
+msgstr "Спавај"
 
 #: src/keycode.cpp
 msgid "Snapshot"
-msgstr "Знімок"
+msgstr ""
 
 #: src/keycode.cpp
 msgid "Space"
-msgstr "Пробіл"
+msgstr "Простор"
 
 #: src/keycode.cpp
 msgid "Tab"
-msgstr "Tab"
+msgstr "Таб"
 
 #: src/keycode.cpp
 msgid "Up"
-msgstr "Вгору"
+msgstr "Горе"
 
 #: src/keycode.cpp
 msgid "X Button 1"
-msgstr "Додаткова кнопка 1"
+msgstr "X Дугме 1"
 
 #: src/keycode.cpp
 msgid "X Button 2"
-msgstr "Додаткова кнопка 2"
+msgstr "X Дугме 2"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1315,23 +1306,26 @@ msgid ""
 "sets.\n"
 "Range roughly -2 to 2. Multiply by 'scale' for offset in nodes."
 msgstr ""
+"(X,Y,Z) офсет фрактала од центра света у мерној јединици 'скала'.\n"
+"Користи се за пребацивање стартне позиције што ближе (0, 0).\n"
+"Подразумевани је добар за манделброт сетове, али мора се наместити за јулија "
+"сетове.\n"
+"Даљина је око -2 до 2. Помножити са 'скалом' да би се добио офсет у "
+"блоковима."
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid ""
 "0 = parallax occlusion with slope information (faster).\n"
 "1 = relief mapping (slower, more accurate)."
 msgstr ""
-"0 = технологія \"parallax occlusion\" з інформацією про криві (швидше)\n"
-"1 = технологія \"relief mapping\" (повільніше, більш акуратніше)"
 
 #: src/settings_translation_file.cpp
 msgid "3D clouds"
-msgstr "Об'ємні хмари"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "3D mode"
-msgstr "3D режим"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1408,7 +1402,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Advanced"
-msgstr "Додатково"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Altitude Chill"
@@ -1428,7 +1422,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Anisotropic filtering"
-msgstr "Анізотропна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Announce server"
@@ -1458,9 +1452,8 @@ msgid "Autorun key"
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Backward key"
-msgstr "Назад"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Base terrain height"
@@ -1476,11 +1469,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bilinear filtering"
-msgstr "Білінійна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bind address"
-msgstr "Закріплення адреси"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bits per pixel (aka color depth) in fullscreen mode."
@@ -1488,7 +1481,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Build inside player"
-msgstr "Будувати в межах гравця"
+msgstr "Градња унутар играча"
 
 #: src/settings_translation_file.cpp
 msgid "Builtin"
@@ -1496,20 +1489,19 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bumpmapping"
-msgstr "Бамп-маппінг"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Camera smoothing"
-msgstr "Згладжування руху камери"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Camera smoothing in cinematic mode"
-msgstr "Згладжування руху камери у кінорежимі"
+msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Camera update toggle key"
-msgstr "Клавіша для контролю оновлення камери"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Cave noise #1"
@@ -1529,16 +1521,16 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Chat key"
-msgstr "Чат"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Chat toggle key"
-msgstr "Чат"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 #, fuzzy
 msgid "Chatcommands"
-msgstr "Команди чату"
+msgstr "Команда"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1569,11 +1561,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Cinematic mode"
-msgstr "Кінорежим"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Cinematic mode key"
-msgstr "Кінорежим"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Clean transparent textures"
@@ -1581,7 +1573,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Client and Server"
-msgstr "Клієнт і сервер"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Climbing speed"
@@ -1597,7 +1589,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Clouds"
-msgstr "Хмари"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Clouds are a client side effect."
@@ -1605,7 +1597,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Clouds in menu"
-msgstr "Хмари в меню"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Colored fog"
@@ -1625,15 +1617,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Command key"
-msgstr "Команда"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Connect glass"
-msgstr "З'єднувати скло"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Connect to external media server"
-msgstr "Підключення до зовнішнього медіасервера"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Connects glass if supported by node."
@@ -1641,15 +1633,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Console alpha"
-msgstr "Консоль (альфа)"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Console color"
-msgstr "Колір консолі"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Console key"
-msgstr "Консоль"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Continuous forward"
@@ -1661,7 +1653,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Controls"
-msgstr "Керування"
+msgstr "Контроле"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1730,7 +1722,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Damage"
-msgstr "Поранення"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Debug info toggle key"
@@ -1760,11 +1752,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Default password"
-msgstr "Стандартний пароль"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Default privileges"
-msgstr "Стандартні права"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Default report format"
@@ -1829,7 +1821,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Disable anticheat"
-msgstr "Вимкнути античіт"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Disable escape sequences"
@@ -1853,11 +1845,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Double tap jump for fly"
-msgstr "Подвійний дотик до \"стрибок\" щоб полетіти"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Double-tapping the jump key toggles fly mode."
-msgstr "Подвійний дотик \"стрибок\" вмикає режим польоту."
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Drop item key"
@@ -1873,7 +1865,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Enable VBO"
-msgstr "Увімкнути VBO"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Enable mod security"
@@ -2009,7 +2001,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fast movement"
-msgstr ""
+msgstr "Брзо кретање"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -2030,10 +2022,13 @@ msgid "Field of view in degrees."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid ""
 "Field of view while zooming in degrees.\n"
 "This requires the \"zoom\" privilege on the server."
 msgstr ""
+"Играч је у могућности д лети без утицаја гравитације.\n"
+"Ово захтева \"fly\" привилегију на серверима."
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -2059,7 +2054,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Filtering"
-msgstr "Фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fixed map seed"
@@ -2071,11 +2066,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Flying"
-msgstr ""
+msgstr "Летење"
 
 #: src/settings_translation_file.cpp
 msgid "Fog"
-msgstr "Туман"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fog toggle key"
@@ -2111,7 +2106,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Forward key"
-msgstr "Вперед"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Freetype fonts"
@@ -2135,7 +2130,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Full screen"
-msgstr "Повний екран"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Full screen BPP"
@@ -2143,16 +2138,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fullscreen mode."
-msgstr "Повноекранний режим."
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "GUI scaling"
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "GUI scaling filter"
-msgstr "Масштаб інтерфейсу"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "GUI scaling filter txr2img"
@@ -2168,7 +2162,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Generate normalmaps"
-msgstr "Генерувати карти нормалів"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Global callbacks"
@@ -2186,15 +2180,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Graphics"
-msgstr "Графіка"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Gravity"
-msgstr "Гравітація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "HTTP Mods"
-msgstr "HTTP Модифікації"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "HUD toggle key"
@@ -2317,6 +2311,8 @@ msgid ""
 "you stand.\n"
 "This is helpful when working with nodeboxes in small areas."
 msgstr ""
+"Ако је укључено, можете стављати блокове унутар позиције где стојите.\n"
+"Ово је корисно при раду са nodebox-евима у малим местима."
 
 #: src/settings_translation_file.cpp
 msgid "If this is set, players will always (re)spawn at the given position."
@@ -2328,7 +2324,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "In-Game"
-msgstr "У грі"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "In-game chat console background alpha (opaqueness, between 0 and 255)."
@@ -2386,7 +2382,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Inventory key"
-msgstr "Інвентар"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Invert mouse"
@@ -2445,7 +2441,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Jump key"
-msgstr "Стрибок"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Jumping speed"
@@ -2669,7 +2665,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Language"
-msgstr "Мова"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Large cave depth"
@@ -2693,7 +2689,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Left key"
-msgstr "Ліва клавіша"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3276,7 +3272,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Menus"
-msgstr "Меню"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Mesh cache"
@@ -3312,7 +3308,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Mipmapping"
-msgstr "Mіп-текстурування"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Modstore details URL"
@@ -3374,7 +3370,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Network"
-msgstr "Мережа"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3452,7 +3448,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Parallax occlusion"
-msgstr "Паралаксова оклюзія"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Parallax occlusion Scale"
@@ -3495,10 +3491,12 @@ msgid ""
 "Player is able to fly without being affected by gravity.\n"
 "This requires the \"fly\" privilege on the server."
 msgstr ""
+"Играч је у могућности д лети без утицаја гравитације.\n"
+"Ово захтева \"fly\" привилегију на серверима."
 
 #: src/settings_translation_file.cpp
 msgid "Player name"
-msgstr "Ім'я гравця"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Player transfer distance"
@@ -3557,7 +3555,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Range select key"
-msgstr "Вибір діапазону"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Remote media"
@@ -3574,11 +3572,11 @@ msgstr ""
 #: src/settings_translation_file.cpp
 #, fuzzy
 msgid "Report path"
-msgstr "Вибрати шлях"
+msgstr "Одабери локацију"
 
 #: src/settings_translation_file.cpp
 msgid "Right key"
-msgstr "Права клавіша"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Rightclick repetition interval"
@@ -3635,7 +3633,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot"
-msgstr "Знімок екрану"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot folder"
@@ -3643,11 +3641,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot format"
-msgstr "Формат знімку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot quality"
-msgstr "Якість знімку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3658,7 +3656,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Security"
-msgstr "Безпека"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "See http://www.sqlite.org/pragma.html#pragma_synchronous"
@@ -3678,15 +3676,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server / Singleplayer"
-msgstr "Сервер / Гра"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server URL"
-msgstr "Адреса сервера"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server address"
-msgstr "Адреса сервера"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server description"
@@ -3694,19 +3692,19 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server name"
-msgstr "Назва сервера"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Server port"
-msgstr "Порт сервера"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Serverlist URL"
-msgstr "Адреса списку публічних серверів"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Serverlist file"
-msgstr "Файл списку публічних серверів"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3767,7 +3765,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Smooth lighting"
-msgstr "Згладжене освітлення"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3785,11 +3783,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Sneak key"
-msgstr "Крастися"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Sound"
-msgstr "Звук"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3843,7 +3841,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Texture path"
-msgstr "Шлях до текстури"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "The altitude at which temperature drops by 20C"
@@ -3956,7 +3954,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Trilinear filtering"
-msgstr "Трилінійна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -4069,7 +4067,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Volume"
-msgstr "Гучність звуку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -4096,13 +4094,12 @@ msgid "Water surface level of the world."
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Waving Nodes"
-msgstr "Блоки, що коливаються"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Waving leaves"
-msgstr "Листя, що коливається"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Waving plants"
@@ -4235,97 +4232,3 @@ msgstr ""
 #: src/settings_translation_file.cpp
 msgid "cURL timeout"
 msgstr ""
-
-#~ msgid "No of course not!"
-#~ msgstr "Ні, звісно ні!"
-
-#~ msgid "Public Serverlist"
-#~ msgstr "Список публічних серверів"
-
-#, fuzzy
-#~ msgid "Generate Normalmaps"
-#~ msgstr "Генерувати карти нормалей"
-
-#~ msgid "No!!!"
-#~ msgstr "Ні!!!"
-
-#, fuzzy
-#~ msgid "If disabled "
-#~ msgstr "Вимкнути багатокористувацьку гру"
-
-#, fuzzy
-#~ msgid "If enabled, "
-#~ msgstr "Увімкнено"
-
-#, fuzzy
-#~ msgid "Game Name"
-#~ msgstr "Гра"
-
-#, fuzzy
-#~ msgid "Password"
-#~ msgstr "Старий Пароль"
-
-#~ msgid "Preload item visuals"
-#~ msgstr "Попереднє завантаження зображень"
-
-#, fuzzy
-#~ msgid "Finite Liquid"
-#~ msgstr "Кінцеві рідини"
-
-#~ msgid "Failed to delete all world files"
-#~ msgstr "Помилка при видаленні файлів світу"
-
-#~ msgid "Cannot configure world: Nothing selected"
-#~ msgstr "Неможливо налаштувати світ: Нічого не вибрано"
-
-#~ msgid "Cannot create world: No games found"
-#~ msgstr "Неможливо створити світ: Не знайдено жодної гри"
-
-#~ msgid "Files to be deleted"
-#~ msgstr "Файлів, що підлягають видаленню"
-
-#~ msgid "Cannot delete world: Nothing selected"
-#~ msgstr "Неможливо видалити світ: Нічого не вибрано"
-
-#~ msgid "Address required."
-#~ msgstr "Адреса необхідна."
-
-#~ msgid "Create world"
-#~ msgstr "Створити світ"
-
-#~ msgid "Leave address blank to start a local server."
-#~ msgstr "Залишіть адресу незаповненою для створення локального серверу."
-
-#~ msgid "Show Favorites"
-#~ msgstr "Показати Улюблені"
-
-#~ msgid "Show Public"
-#~ msgstr "Показати Публічні"
-
-#~ msgid "Cannot create world: Name contains invalid characters"
-#~ msgstr "Неможливо створити світ: Ім'я містить недопустимі символи"
-
-#~ msgid "Warning: Configuration not consistent.  "
-#~ msgstr "Попередження: Помилкова конфігурація.  "
-
-#~ msgid "Configuration saved.  "
-#~ msgstr "Налаштування Збережено.  "
-
-#~ msgid "is required by:"
-#~ msgstr "необхідний для:"
-
-#~ msgid "Left click: Move all items, Right click: Move single item"
-#~ msgstr ""
-#~ "Ліва кнопка миші: Перемістити усі предмети, Права кнопка миші: "
-#~ "Перемістити один предмет"
-
-#, fuzzy
-#~ msgid "Downloading"
-#~ msgstr "Вниз"
-
-#~ msgid "Scaling factor applied to menu elements: "
-#~ msgstr "Масштабування елементів меню: "
-
-#, fuzzy
-#~ msgid "Preload inventory textures"
-#~ msgstr "Завантаження текстур..."

@@ -8,71 +8,71 @@ msgstr ""
 "Project-Id-Version: minetest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-08-30 06:18+0200\n"
-"PO-Revision-Date: 2016-12-13 22:32+0000\n"
-"Last-Translator: Fixer <artem.brz@gmail.com>\n"
-"Language-Team: Ukrainian <https://hosted.weblate.org/projects/minetest/"
-"minetest/uk/>\n"
-"Language: uk\n"
+"PO-Revision-Date: 2016-12-10 20:29+0000\n"
+"Last-Translator: Zygi Mantus <zygimantus@gmail.com>\n"
+"Language-Team: Lithuanian <https://hosted.weblate.org/projects/minetest/"
+"minetest/lt/>\n"
+"Language: lt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.10-dev\n"
 
 #: builtin/fstk/ui.lua
 msgid "An error occured in a Lua script, such as a mod:"
-msgstr "Трапилася помилка у Lua-скрипті модифікації:"
+msgstr "Klaida įvyko Lua scenarijuje, tokiame kaip papildinys:"
 
 #: builtin/fstk/ui.lua
 msgid "An error occured:"
-msgstr "Трапилася помилка:"
+msgstr "Įvyko klaida:"
 
 #: builtin/fstk/ui.lua
 msgid "Main menu"
-msgstr "Головне меню"
+msgstr "Pagrindinis meniu"
 
 #: builtin/fstk/ui.lua builtin/mainmenu/store.lua
 msgid "Ok"
-msgstr "Гаразд"
+msgstr "Gerai"
 
 #: builtin/fstk/ui.lua
 msgid "Reconnect"
-msgstr "Повторне підключення"
+msgstr "Prisijungti iš naujo"
 
 #: builtin/fstk/ui.lua
 msgid "The server has requested a reconnect:"
-msgstr "Сервер запросив перез'єднання:"
+msgstr "Serveris paprašė prisijungti iš naujo:"
 
 #: builtin/mainmenu/common.lua src/game.cpp
 msgid "Loading..."
-msgstr "Завантаження..."
+msgstr "Įkeliama..."
 
 #: builtin/mainmenu/common.lua
 msgid "Protocol version mismatch. "
-msgstr "Версія протоколу не співпадає. "
+msgstr "Neatitinka protokolo versija. "
 
 #: builtin/mainmenu/common.lua
 msgid "Server enforces protocol version $1. "
-msgstr "Сервер працює за протоколом версії $1. "
+msgstr "Serveris reikalauja naudoti versijos $1 protokolą. "
 
 #: builtin/mainmenu/common.lua
 msgid "Server supports protocol versions between $1 and $2. "
-msgstr "Сервер підтримує версії протоколу між $1 і $2. "
+msgstr ""
 
 #: builtin/mainmenu/common.lua
 msgid "Try reenabling public serverlist and check your internet connection."
 msgstr ""
-"Спробуйте оновити список публічних серверів та перевірте своє Інтернет-"
-"з'єднання."
+"Pabandykite dar kart įjungti viešą serverių sąrašą ir patikrinkite savo "
+"interneto ryšį."
 
 #: builtin/mainmenu/common.lua
 msgid "We only support protocol version $1."
-msgstr "Ми підтримуємо тільки протокол версії $1."
+msgstr "Mes palaikome tik $1 protokolo versiją."
 
 #: builtin/mainmenu/common.lua
 msgid "We support protocol versions between version $1 and $2."
-msgstr "Ми підтримуємо протокол між версіями $1 і $2."
+msgstr ""
 
 #: builtin/mainmenu/dlg_config_world.lua builtin/mainmenu/dlg_create_world.lua
 #: builtin/mainmenu/dlg_delete_mod.lua builtin/mainmenu/dlg_delete_world.lua
@@ -80,179 +80,178 @@ msgstr "Ми підтримуємо протокол між версіями $1 
 #: builtin/mainmenu/dlg_settings_advanced.lua src/guiKeyChangeMenu.cpp
 #: src/keycode.cpp
 msgid "Cancel"
-msgstr "Скасувати"
+msgstr "Atsisakyti"
 
 #: builtin/mainmenu/dlg_config_world.lua builtin/mainmenu/tab_mods.lua
 msgid "Depends:"
-msgstr "Залежить від:"
+msgstr "Priklauso:"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Disable MP"
-msgstr "Вимкнути модпак"
+msgstr "Išjungti papildinį"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Enable MP"
-msgstr "Увімкнути модпак"
+msgstr "Įjungti papildinį"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Enable all"
-msgstr "Увімкнути все"
+msgstr "Įjungti visus"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid ""
 "Failed to enable mod \"$1\" as it contains disallowed characters. Only "
 "chararacters [a-z0-9_] are allowed."
 msgstr ""
-"Не вдалося ввімкнути модифікацію \"$1\", тому що вона містить заборонені "
-"символи. Дозволяється використання таких символів: [a-z0-9_]."
+"Nepavyko įjungti papildinio „$1“, nes jis turi neleistų rašmenų. Tik "
+"rašmenys [a-z0-9_] yra leidžiami."
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Hide Game"
-msgstr "Приховати гру"
+msgstr "Slėpti vidinius"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Hide mp content"
-msgstr "Сховати вміст модпаку"
+msgstr "Slėpti papild. pakų turinį"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Mod:"
-msgstr "Мод:"
+msgstr "Papildinys:"
 
 #: builtin/mainmenu/dlg_config_world.lua
 #: builtin/mainmenu/dlg_settings_advanced.lua src/guiKeyChangeMenu.cpp
 msgid "Save"
-msgstr "Зберегти"
+msgstr "Įrašyti"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "World:"
-msgstr "Світ:"
+msgstr "Pasaulis:"
 
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "enabled"
-msgstr "увімкнено"
+msgstr "įjungtas"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "A world named \"$1\" already exists"
-msgstr "Світ з такою назвою  \"$1\" вже існує"
+msgstr "Pasaulis, pavadintas „$1“ jau yra"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Create"
-msgstr "Створити"
+msgstr "Sukurti"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as minetest_game, from minetest.net"
-msgstr "Завантажте гру, наприклад, minetest_game з minetest.net"
+msgstr "Atsisiųskite sub žaidimą, tokį kaip minetest_game, iš minetest.net"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download one from minetest.net"
-msgstr "Завантажте з minetest.net"
+msgstr "Atsisiųsti vieną iš minetest.net"
 
 #: builtin/mainmenu/dlg_create_world.lua src/settings_translation_file.cpp
 msgid "Game"
-msgstr "Гра"
+msgstr "Žaidimas"
 
 #: builtin/mainmenu/dlg_create_world.lua src/settings_translation_file.cpp
 msgid "Mapgen"
-msgstr "Генератор світу"
+msgstr "Žemėlapių generavimas"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "No worldname given or no game selected"
-msgstr "Назву світу не задано або не обрано гру"
+msgstr "Nepateiktas joks pasaulio pavadinimas, arba nepasirinktas žaidimas"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Seed"
-msgstr "Зерно"
+msgstr "Sėkla"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Warning: The minimal development test is meant for developers."
-msgstr "Увага: мінімальна тестова версія призначена для розробників."
+msgstr "Dėmesio: Minimalus kūrimo bandymas yra skirtas vystytojams."
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "World name"
-msgstr "Назва світу"
+msgstr "Pasaulio pavadinimas"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "You have no subgames installed."
-msgstr "Ви не маєте встановлених ігор."
+msgstr "Neturite įdiegę sub žaidimų."
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Are you sure you want to delete \"$1\"?"
-msgstr "Ви впевнені, що бажаєте видалити \"$1\"?"
+msgstr "Ar tikrai norite ištrinti „$1“?"
 
 #: builtin/mainmenu/dlg_delete_mod.lua builtin/mainmenu/dlg_delete_world.lua
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 #: src/keycode.cpp
 msgid "Delete"
-msgstr "Видалити"
+msgstr "Ištrinti"
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Modmgr: failed to delete \"$1\""
-msgstr "Modmgr: не вдалося видалити \"$1\""
+msgstr "Papildtvrk: nepavyko ištrinti „$1“"
 
 #: builtin/mainmenu/dlg_delete_mod.lua
 msgid "Modmgr: invalid modpath \"$1\""
-msgstr "Modmgr: недійсний шлях модифікації \"$1\""
+msgstr "Papildtvrk: netinkamas papildinio kelias „$1“"
 
 #: builtin/mainmenu/dlg_delete_world.lua
 msgid "Delete World \"$1\"?"
-msgstr "Видалити світ \"$1\"?"
+msgstr "Ištrinti pasaulį „$1“?"
 
 #: builtin/mainmenu/dlg_rename_modpack.lua src/keycode.cpp
 msgid "Accept"
-msgstr "Прийняти"
+msgstr "Priimti"
 
 #: builtin/mainmenu/dlg_rename_modpack.lua
 msgid "Rename Modpack:"
-msgstr "Перейменувати збірку модифікацій:"
+msgstr "Pervadinti papildinių paką:"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "\"$1\" is not a valid flag."
-msgstr "\"$1\" не є правильним параметром."
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "(No description of setting given)"
-msgstr "(пояснення відсутнє)"
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "< Back to Settings page"
-msgstr "< Назад до Налаштувань"
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Browse"
-msgstr "Проглянути"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Disabled"
-msgstr "Вимкнено"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Edit"
-msgstr "Правити"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Enabled"
-msgstr "Увімкнено"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Format is 3 numbers separated by commas and inside brackets."
-msgstr "Формат: 3 номера, відокремлених комами і всередині дужок."
+msgstr "Naršyti"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 #, fuzzy
+msgid "Disabled"
+msgstr "Išjungti papildinį"
+
+#: builtin/mainmenu/dlg_settings_advanced.lua
+msgid "Edit"
+msgstr ""
+
+#: builtin/mainmenu/dlg_settings_advanced.lua
+#, fuzzy
+msgid "Enabled"
+msgstr "įjungtas"
+
+#: builtin/mainmenu/dlg_settings_advanced.lua
+msgid "Format is 3 numbers separated by commas and inside brackets."
+msgstr ""
+
+#: builtin/mainmenu/dlg_settings_advanced.lua
 msgid ""
 "Format: <offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>), <seed>, "
 "<octaves>, <persistence>"
 msgstr ""
-"Формат: <offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>), <seed>, "
-"<octaves>, <persistence>"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Games"
-msgstr "Ігри"
+msgstr "Žaidimai"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua builtin/mainmenu/tab_mods.lua
 msgid "Mods"
-msgstr "Модифікації"
+msgstr "Papildiniai"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Optionally the lacunarity can be appended with a leading comma."
@@ -260,39 +259,39 @@ msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a comma seperated list of flags."
-msgstr "Будь-ласка введіть перелік параметрів через кому."
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a valid integer."
-msgstr "Будь-ласка введіть дійсне ціле число."
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a valid number."
-msgstr "Будь-ласка введіть дійсний номер."
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Possible values are: "
-msgstr "Можливі значення: "
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Restore Default"
-msgstr "Відновити як було"
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Select path"
-msgstr "Вибрати шлях"
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Show technical names"
-msgstr "Показувати технічні назви"
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "The value must be greater than $1."
-msgstr "Значення має бути більше за $1."
+msgstr ""
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "The value must be lower than $1."
-msgstr "Значення має бути менше ніж $1."
+msgstr ""
 
 #: builtin/mainmenu/modmgr.lua
 msgid ""
@@ -300,340 +299,350 @@ msgid ""
 "Install Mod: unsupported filetype \"$1\" or broken archive"
 msgstr ""
 "\n"
-"Встановлення модифікації: тип файлу \"$1\" не підтримується або архів "
-"пошкоджено"
+"Papildinio diegimas: nepalaikomas failo tipas „$1“, arba sugadintas archyvas"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Failed to install $1 to $2"
-msgstr "Не вдалося встановити $1 у $2"
+msgstr "Nepavyko įdiegti $1 į $2"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: file: \"$1\""
-msgstr "Встановлення модифікації: файл \"$1\""
+msgstr "Įdiegti papildinį: failas: „$1“"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: unable to find real modname for: $1"
-msgstr ""
-"Встановлення модифікації: не вдається знайти дійсну назву модифікації $1"
+msgstr "Papildinio diegimas: nepavyksta rasti tikro pavadinimo skirto: $1"
 
 #: builtin/mainmenu/modmgr.lua
 msgid "Install Mod: unable to find suitable foldername for modpack $1"
 msgstr ""
-"Встановлення модифікації: неможливо знайти відповідну назву папки для збірки "
-"модифікацій $1"
+"Papildinio diegimas: nepavyksta rasti tinkamo aplanko pavadinimo papildinio "
+"paketui $1"
 
 #: builtin/mainmenu/store.lua
 msgid "Close store"
-msgstr "Вийти з крамнички"
+msgstr "Užverti parduotuvę"
 
 #: builtin/mainmenu/store.lua
 msgid "Downloading $1, please wait..."
-msgstr "Завантаження $1, зачекайте..."
+msgstr "Atsiunčiama $1, prašome palaukti..."
 
 #: builtin/mainmenu/store.lua
 msgid "Install"
-msgstr "Встановити"
+msgstr "Įdiegti"
 
 #: builtin/mainmenu/store.lua
 msgid "Page $1 of $2"
-msgstr "Сторінка $1 з $2"
+msgstr "Puslapis $1 iš $2"
 
 #: builtin/mainmenu/store.lua
 msgid "Rating"
-msgstr "Оцінка"
+msgstr "Įvertinimas"
 
 #: builtin/mainmenu/store.lua
 msgid "Search"
-msgstr "Пошук"
+msgstr "Ieškoti"
 
 #: builtin/mainmenu/store.lua
 msgid "Shortname:"
-msgstr "Коротка назва:"
+msgstr "Trumpas pavadinimas:"
 
 #: builtin/mainmenu/store.lua
 msgid "Successfully installed:"
-msgstr "Успішно встановлено:"
+msgstr "Sėkmingai įdiegta:"
 
 #: builtin/mainmenu/store.lua
 msgid "Unsorted"
-msgstr "Невідсортоване"
+msgstr "Nerikiuota"
 
 #: builtin/mainmenu/store.lua
 msgid "re-Install"
-msgstr "Перевстановити"
+msgstr "Įdiegti iš naujo"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Active Contributors"
-msgstr "Активні учасники"
+msgstr "Aktyvūs pagalbininkai"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Core Developers"
-msgstr "Основні розробники ядра гри"
+msgstr "Pagrindiniai kūrėjai"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Credits"
-msgstr "Подяка"
+msgstr "Padėkos"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Previous Contributors"
-msgstr "Колишні учасники"
+msgstr "Ankstesni bendradarbiai"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Previous Core Developers"
-msgstr "Попередні основні розробники ядра"
+msgstr "Ankstesni pagrindiniai kūrėjai"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Installed Mods:"
-msgstr "Встановлені модифікації:"
+msgstr "Įdiegti papildiniai:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Mod information:"
-msgstr "Інформація модифікації:"
+msgstr "Papildinio informacija:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "No mod description available"
-msgstr "Опис модифікації відсутній"
+msgstr "Papildinio aprašymas nepateiktas"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Rename"
-msgstr "Перейменувати"
+msgstr "Pervadinti"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Select Mod File:"
-msgstr "Оберіть файл модифікації:"
+msgstr "Pasirinkite papildinio failą:"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Uninstall selected mod"
-msgstr "Видалити обрану модифікацію"
+msgstr "Pašalinti pasirinktą papildinį"
 
 #: builtin/mainmenu/tab_mods.lua
 msgid "Uninstall selected modpack"
-msgstr "Видалити обрану збірку модифікацій"
+msgstr "Pašalinti pasirinktą papildinį"
 
 #: builtin/mainmenu/tab_multiplayer.lua
+#, fuzzy
 msgid "Address / Port"
-msgstr "Адреса / Порт"
+msgstr "Adresas / Prievadas :"
 
 #: builtin/mainmenu/tab_multiplayer.lua src/settings_translation_file.cpp
 msgid "Client"
-msgstr "Клієнт"
+msgstr "Žaisti tinkle(klientas)"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Connect"
-msgstr "Під'єднатися"
+msgstr "Jungtis"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Creative mode"
-msgstr "Творчість"
+msgstr "Kūrybinė veiksena"
+
+#: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
+msgid "Damage enabled"
+msgstr "Žalojimas įjungtas"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 #, fuzzy
-msgid "Damage enabled"
-msgstr "Поранення"
-
-#: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "Del. Favorite"
-msgstr "Видалити мітку"
+msgstr "Mėgiami:"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
+#, fuzzy
 msgid "Favorite"
-msgstr "Улюблені"
+msgstr "Mėgiami:"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
+#, fuzzy
 msgid "Name / Password"
-msgstr "Ім'я / Пароль"
+msgstr "Vardas / Slaptažodis :"
 
 #: builtin/mainmenu/tab_multiplayer.lua builtin/mainmenu/tab_simple_main.lua
 msgid "PvP enabled"
-msgstr "Бої увімкнено"
+msgstr "PvP įjungtas"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Bind Address"
-msgstr "Закріпити адресу"
+msgstr "Susieti adresą"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "Configure"
-msgstr "Налаштувати"
+msgstr "Konfigūruoti"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_simple_main.lua
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Creative Mode"
-msgstr "Творчість"
+msgstr "Kūrybinė veiksena"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_simple_main.lua
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Enable Damage"
-msgstr "Поранення"
+msgstr "Leisti sužeidimus"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Name/Password"
-msgstr "Ім'я/Пароль"
+msgstr "Vardas/slaptažodis"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "New"
-msgstr "Новий"
+msgstr "Naujas"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "No world created or selected!"
-msgstr "Світ не створено або не обрано!"
+msgstr "Nesukurtas ar pasirinktas joks pasaulis!"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Port"
-msgstr "Порт"
+msgstr "Prievadas"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Public"
-msgstr "Публічний"
+msgstr "Viešas"
 
 #: builtin/mainmenu/tab_server.lua builtin/mainmenu/tab_singleplayer.lua
 msgid "Select World:"
-msgstr "Виберіть світ:"
+msgstr "Pasirinkite pasaulį:"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Server"
-msgstr "Сервер"
+msgstr "Serveris"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Server Port"
-msgstr "Порт сервера"
+msgstr "Serverio prievadas"
 
 #: builtin/mainmenu/tab_server.lua
 msgid "Start Game"
-msgstr "Почати гру"
+msgstr "Pradėti žaidimą"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "2x"
-msgstr "2x"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "3D Clouds"
-msgstr "Об'ємні хмари"
+msgstr "Trimačiai debesys"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "4x"
-msgstr "4x"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "8x"
-msgstr "8x"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Advanced Settings"
-msgstr "Додаткові налаштування"
+msgstr "Nustatymai"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Antialiasing:"
-msgstr "Згладжування:"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 #, fuzzy
 msgid "Are you sure to reset your singleplayer world?"
-msgstr "Ви впевнені, що бажаєте скинути свій світ однокористувацької гри?"
+msgstr "Atstatyti vieno žaidėjo pasaulį"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Bilinear Filter"
-msgstr "Білінійна фільтрація"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Bump Mapping"
-msgstr "Бамп маппінг"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Change keys"
-msgstr "Змінити клавіші"
+msgstr "Nustatyti klavišus"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Connected Glass"
-msgstr "З'єднувати скло"
+msgstr "Jungtis"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Fancy Leaves"
-msgstr "Гарне листя"
+msgstr "Nepermatomi lapai"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Mipmap"
-msgstr "Міпмапи"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Mipmap + Aniso. Filter"
-msgstr "Міпмапи і анізотропний фільтр"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No"
-msgstr "Ні"
+msgstr "Ne"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No Filter"
-msgstr "Без фільтрації"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "No Mipmap"
-msgstr "Без міпмап"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Node Highlighting"
-msgstr "Підсвічувати блок"
+msgstr "Apšvietimo efektai"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Node Outlining"
-msgstr "Виділяти блок рамкою"
+msgstr "Apšvietimo efektai"
 
 #: builtin/mainmenu/tab_settings.lua builtin/mainmenu/tab_texturepacks.lua
 msgid "None"
-msgstr "Нічого"
+msgstr "Joks"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Normal Mapping"
-msgstr "Текстурування нормалів"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Opaque Leaves"
-msgstr "Непрозоре листя"
+msgstr "Nepermatomi lapai"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Opaque Water"
-msgstr "Непрозора вода"
+msgstr "Nepermatomas vanduo"
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Parallax Occlusion"
-msgstr "Паралаксова оклюзія"
+msgstr "Paralaksinė okliuzija"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Particles"
-msgstr "Часточки"
+msgstr "Įjungti visus"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Reset singleplayer world"
-msgstr "Скинути світ однокористувацької гри"
+msgstr "Atstatyti vieno žaidėjo pasaulį"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Settings"
-msgstr "Налаштування"
+msgstr "Nustatymai"
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Shaders"
-msgstr "Шейдери"
+msgstr "Šešėliavimai"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Simple Leaves"
-msgstr "Просте листя"
+msgstr "Nepermatomi lapai"
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Smooth Lighting"
-msgstr "Згладжене освітлення"
+msgstr "Apšvietimo efektai"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Texturing:"
-msgstr "Текстурування:"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "To enable shaders the OpenGL driver needs to be used."
 msgstr ""
-"Для того, щоб увімкнути шейдери, потрібно використовувати драйвер OpenGL."
 
 #: builtin/mainmenu/tab_settings.lua src/settings_translation_file.cpp
 msgid "Tone Mapping"
-msgstr "Тоновий шейдер"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Touchthreshold (px)"
@@ -641,112 +650,113 @@ msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Trilinear Filter"
-msgstr "Трилінійна фільтрація"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
+#, fuzzy
 msgid "Waving Leaves"
-msgstr "Коливати листя"
+msgstr "Nepermatomi lapai"
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Waving Plants"
-msgstr "Коливати квіти"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Waving Water"
-msgstr "Коливати воду"
+msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua
 msgid "Yes"
-msgstr "Так"
+msgstr "Taip"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Config mods"
-msgstr "Налаштувати модифікації"
+msgstr "Konfigūruoti papildinius"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Main"
-msgstr "Головне Меню"
+msgstr "Pagrindinis"
 
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Start Singleplayer"
-msgstr "Почати одиночну гру"
+msgstr "Atstatyti vieno žaidėjo pasaulį"
 
 #: builtin/mainmenu/tab_singleplayer.lua src/keycode.cpp
 msgid "Play"
-msgstr "Грати"
+msgstr "Žaisti"
 
 #: builtin/mainmenu/tab_singleplayer.lua
 msgid "Singleplayer"
-msgstr "Одиночна гра"
+msgstr "Žaisti vienam"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "No information available"
-msgstr "Інформація відсутня"
+msgstr "Nėra pasiekiamos informacijos"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "Select texture pack:"
-msgstr "Оберіть набір текстур:"
+msgstr "Pasirinkite tekstūros paketą:"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "Texturepacks"
-msgstr "Набори текстур"
+msgstr "Tekstūrų paketai"
 
 #: src/client.cpp
 msgid "Connection timed out."
-msgstr "Час очікування вийшов."
+msgstr "Baigėsi prijungimo laikas."
 
 #: src/client.cpp
 msgid "Done!"
-msgstr "Виконано!"
+msgstr "Atlikta!"
 
 #: src/client.cpp
 msgid "Initializing nodes"
-msgstr "Ініціалізація блоків"
+msgstr "Inicijuojami mazgai"
 
 #: src/client.cpp
 msgid "Initializing nodes..."
-msgstr "Ініціалізація блоків..."
+msgstr "Inicijuojami mazgai..."
 
 #: src/client.cpp
 msgid "Loading textures..."
-msgstr "Завантаження текстур..."
+msgstr "Įkeliamos tekstūros..."
 
 #: src/client.cpp
 msgid "Rebuilding shaders..."
-msgstr "Перебудова шейдерів..."
+msgstr "Perstatomi šešėliavimai..."
 
 #: src/client/clientlauncher.cpp
 msgid "Connection error (timed out?)"
-msgstr "Помилка з'єднання (час вийшов?)"
+msgstr "Ryšio klaida (baigėsi prijungimo laikas?)"
 
 #: src/client/clientlauncher.cpp
 msgid "Could not find or load game \""
-msgstr "Неможливо знайти або завантажити гру \""
+msgstr "Nepavyko rasti ar įkelti žaidimo „"
 
 #: src/client/clientlauncher.cpp
-#, fuzzy
 msgid "Invalid gamespec."
-msgstr "Помилкова конфігурація гри."
+msgstr "Klaidingi žaidimo nustatymai."
 
 #: src/client/clientlauncher.cpp
 msgid "Main Menu"
-msgstr "Головне Меню"
+msgstr "Pagrindinis meniu"
 
 #: src/client/clientlauncher.cpp
 msgid "No world selected and no address provided. Nothing to do."
-msgstr "Жоден світ не вибрано та не надано адреси. Нічого робити."
+msgstr ""
+"Nepasirinktas joks pasaulis ir nepateiktas joks adresas. Nėra ką daryti."
 
 #: src/client/clientlauncher.cpp
 msgid "Player name too long."
-msgstr "Ім'я гравця занадто довге."
+msgstr "Žaidėjo vardas per ilgas."
 
 #: src/client/clientlauncher.cpp
 msgid "Provided world path doesn't exist: "
-msgstr "Вказаний шлях до світу не існує: "
+msgstr "Pateiktas pasaulio kelias neegzistuoja: "
 
 #: src/fontengine.cpp
 msgid "needs_fallback_font"
-msgstr ""
+msgstr "reikia_atsarginio_šrifto"
 
 #: src/game.cpp
 msgid ""
@@ -754,31 +764,31 @@ msgid ""
 "Check debug.txt for details."
 msgstr ""
 "\n"
-"Деталі у файлі debug.txt."
+"Patikrinkite debug.txt dėl papildomos informacijos."
 
 #: src/game.cpp
 msgid "Change Keys"
-msgstr "Змінити клавіші"
+msgstr "Nustatyti klavišus"
 
 #: src/game.cpp
 msgid "Change Password"
-msgstr "Змінити Пароль"
+msgstr "Keisti slaptažodį"
 
 #: src/game.cpp
 msgid "Connecting to server..."
-msgstr "Підключення до сервера..."
+msgstr "Jungiamasi prie serverio..."
 
 #: src/game.cpp
 msgid "Continue"
-msgstr "Продовжити"
+msgstr "Tęsti"
 
 #: src/game.cpp
 msgid "Creating client..."
-msgstr "Створення клієнта..."
+msgstr "Kuriamas klientas..."
 
 #: src/game.cpp
 msgid "Creating server..."
-msgstr "Створення сервера..."
+msgstr "Kuriamas serveris...."
 
 #: src/game.cpp
 msgid ""
@@ -794,17 +804,17 @@ msgid ""
 "- Mouse wheel: select item\n"
 "- T: chat\n"
 msgstr ""
-"Стандартне керування клавішами:\n"
-"- WASD: рух\n"
-"- Space: стрибок/лізти вгору\n"
-"- Shift: крастися/лізти вниз\n"
-"- Q: кинути предмет\n"
-"- I: інвентар\n"
-"- Мишка: поворот/дивитися\n"
-"- Ліва клавіша миші: копати/удар\n"
-"- Права клавіша миші: поставити/використовувати\n"
-"- Колесо миші: вибір предмета\n"
-"- T: чат\n"
+"Numatytas valdymas:\n"
+"- WASD: judėti\n"
+"- Tarpas: šokti/lipti\n"
+"- Lyg2: leistis/eiti žemyn\n"
+"- Q: išmesti elementą\n"
+"- I: inventorius\n"
+"- Pelė: sukti/žiūrėti\n"
+"- Pelės kairys: kasti/smugiuoti\n"
+"- Pelės dešinys: padėti/naudoti\n"
+"- Pelės ratukas: pasirinkti elementą\n"
+"- T: kalbėtis\n"
 
 #: src/game.cpp
 msgid ""
@@ -821,237 +831,234 @@ msgid ""
 "- touch&drag, tap 2nd finger\n"
 " --> place single item to slot\n"
 msgstr ""
-"Стандартне керування дотиком:\n"
-"Коли меню не відображається:\n"
-"- один дотик: активувати кнопку\n"
-"- дотикнутися двічі: встановити/використати\n"
-"- провести пальцем: роззирнутися\n"
-"Коли відображається меню або інвертар:\n"
-"- дотикнутися двічі (поза межами):\n"
-" --> закрити\n"
-"- Торкнутися купи, торкнутися комірки:\n"
-" --> перемістити купу\n"
-"- Торкнутися і тягнути, дотикнутися лругим пальцем\n"
-" --> помістити один предмет у комірку\n"
+"Numatytas valdymas:\n"
+"Nematomi meniu:\n"
+"- vienas palietimas: mygtukas aktyvuoti\n"
+"- dvigubas palietimas: padėti/naudoti\n"
+"- slinkti pirštu: žvalgytis aplink\n"
+"Meniu/Inventorius matomi:\n"
+"- dvigubas palietimas (išorėje):\n"
+" -->uždaryti\n"
+"- liesti rietuvę, liesti angą:\n"
+" --> judinti rietuvę\n"
+"- liesti&tempti, liesti antru pirštu\n"
+" --> padėti vieną elementą į angą\n"
 
 #: src/game.cpp
 msgid "Exit to Menu"
-msgstr "Вихід в меню"
+msgstr "Grįžti į meniu"
 
 #: src/game.cpp
 msgid "Exit to OS"
-msgstr "Вихід з гри"
+msgstr "Išeiti iš žaidimo"
 
 #: src/game.cpp
 msgid "Item definitions..."
-msgstr "Визначення предметів..."
+msgstr "Elemento apibrėžimai..."
 
 #: src/game.cpp
 msgid "KiB/s"
-msgstr "КіБ/сек"
+msgstr "KiB/s"
 
 #: src/game.cpp
 msgid "Media..."
-msgstr "Ресурси..."
+msgstr "Medija..."
 
 #: src/game.cpp
 msgid "MiB/s"
-msgstr "МіБ/сек"
+msgstr "MiB/s"
 
 #: src/game.cpp
 msgid "Node definitions..."
-msgstr "Визначення блоків..."
+msgstr "Mazgo apibrėžimai..."
 
 #: src/game.cpp
 msgid "Resolving address..."
-msgstr "Отримання адреси..."
+msgstr "Ieškoma adreso..."
 
 #: src/game.cpp
 msgid "Respawn"
-msgstr "Переродитися"
+msgstr "Prisikelti"
 
 #: src/game.cpp
 msgid "Shutting down..."
-msgstr "Вимкнення..."
+msgstr "Išjungiama..."
 
 #: src/game.cpp
 msgid "Sound Volume"
-msgstr "Гучність звуку"
+msgstr "Garso lygis"
 
 #: src/game.cpp
 msgid "You died."
-msgstr "Ви загинули."
+msgstr "Jūs numirėte."
 
 #: src/game.cpp src/guiFormSpecMenu.cpp
 msgid "ok"
-msgstr "гаразд"
+msgstr "gerai"
 
 #: src/guiFormSpecMenu.cpp
 msgid "Enter "
-msgstr "Ввід "
+msgstr "Įvesti"
 
 #: src/guiFormSpecMenu.cpp
 msgid "Proceed"
-msgstr "Далі"
+msgstr "Vykdyti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "\"Use\" = climb down"
-msgstr "\"Використовувати\" = підніматися вгору"
+msgstr "„Naudoti“ = kopti žemyn"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Backward"
-msgstr "Назад"
+msgstr "Atgal"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Chat"
-msgstr "Чат"
+msgstr "Susirašinėti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Command"
-msgstr "Команда"
+msgstr "Komanda"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Console"
-msgstr "Консоль"
+msgstr "Pultas"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Double tap \"jump\" to toggle fly"
-msgstr "Двічі доторкніться до \"стрибок\" щоб полетіти"
+msgstr "Du kart paliesti „šokti“, kad įjungti skrydį"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Drop"
-msgstr "Викинути"
+msgstr "Mesti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Forward"
-msgstr "Уперед"
+msgstr "Pirmyn"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Inventory"
-msgstr "Інвентар"
+msgstr "Inventorius"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Jump"
-msgstr "Стрибок"
+msgstr "Pašokti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Key already in use"
-msgstr "Клавіша вже використовується"
+msgstr "Klavišas jau naudojamas"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Keybindings. (If this menu screws up, remove stuff from minetest.conf)"
-msgstr ""
-"Комбінації клавіш. (Якщо це меню зламалося, видаліть налаштування з minetest."
-"conf)"
+msgstr "Klavišai. (Jei šis meniu sugenda, pašalinkite įrašus iš minetest.conf)"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Left"
-msgstr "Ліворуч"
+msgstr "Kairėn"
 
 #: src/guiKeyChangeMenu.cpp src/settings_translation_file.cpp
 msgid "Print stacks"
-msgstr "Надрукувати стак"
+msgstr "Spausdinti rietuves"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Range select"
-msgstr "Вибір діапазону"
+msgstr "Intervalo pasirinkimas"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Right"
-msgstr "Праворуч"
+msgstr "Dešinėn"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Sneak"
-msgstr "Крастися"
+msgstr "Sėlinti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle Cinematic"
-msgstr "Переключити кінематографічний режим"
+msgstr "Įjungti kinematografinį"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fast"
-msgstr "Переключити швидкий режим"
+msgstr "Įjungti greitą"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fly"
-msgstr "Переключити режим польоту"
+msgstr "Įjungti skrydį"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle noclip"
-msgstr "Переключити режим проходження крізь стіни"
+msgstr "Įjungti noclip"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Use"
-msgstr "Використовувати"
+msgstr "Naudoti"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
-#, fuzzy
 msgid "Zoom"
-msgstr "Збільшити"
+msgstr "Pritraukti"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "press key"
-msgstr "Натисніть клавішу"
+msgstr "paspauskite klavišą"
 
 #: src/guiPasswordChange.cpp
 msgid "Change"
-msgstr "Змінити"
+msgstr "Pakeisti"
 
 #: src/guiPasswordChange.cpp
 msgid "Confirm Password"
-msgstr "Підтвердження нового пароля"
+msgstr "Patvirtinti slaptažodį"
 
 #: src/guiPasswordChange.cpp
 msgid "New Password"
-msgstr "Новий Пароль"
+msgstr "Naujas slaptažodis"
 
 #: src/guiPasswordChange.cpp
 msgid "Old Password"
-msgstr "Старий Пароль"
+msgstr "Senas slaptažodis"
 
 #: src/guiPasswordChange.cpp
 msgid "Passwords do not match!"
-msgstr "Паролі не збігаються!"
+msgstr "Slaptažodžiai nesutampa!"
 
 #: src/guiVolumeChange.cpp
 msgid "Exit"
-msgstr "Вихід"
+msgstr "Išeiti"
 
 #: src/guiVolumeChange.cpp
 msgid "Sound Volume: "
-msgstr "Гучність Звуку: "
+msgstr "Garso lygis: "
 
 #: src/keycode.cpp
 msgid "Apps"
-msgstr "Додатки"
+msgstr "Programos"
 
 #: src/keycode.cpp
 msgid "Attn"
-msgstr "Увага"
+msgstr ""
 
 #: src/keycode.cpp
 msgid "Back"
-msgstr "Назад"
+msgstr "Atgal"
 
 #: src/keycode.cpp
 msgid "Capital"
-msgstr "Caps Lock"
+msgstr "Sostinė"
 
 #: src/keycode.cpp
 msgid "Clear"
-msgstr "Очистити"
+msgstr "Išvalyti"
 
 #: src/keycode.cpp
 msgid "Comma"
-msgstr "Кома"
+msgstr "Kablelis"
 
 #: src/keycode.cpp
 msgid "Control"
-msgstr "Ctrl"
+msgstr "Valdymas"
 
 #: src/keycode.cpp
 msgid "Convert"
-msgstr "Конвертувати"
+msgstr "Konvertuoti"
 
 #: src/keycode.cpp
 msgid "CrSel"
@@ -1059,19 +1066,19 @@ msgstr ""
 
 #: src/keycode.cpp
 msgid "Down"
-msgstr "Вниз"
+msgstr "Žemyn"
 
 #: src/keycode.cpp
 msgid "End"
-msgstr ""
+msgstr "Baigti"
 
 #: src/keycode.cpp
 msgid "Erase OEF"
-msgstr ""
+msgstr "Ištrinti OEF"
 
 #: src/keycode.cpp
 msgid "Escape"
-msgstr "Esc"
+msgstr "Atšaukti"
 
 #: src/keycode.cpp
 msgid "ExSel"
@@ -1079,79 +1086,79 @@ msgstr ""
 
 #: src/keycode.cpp
 msgid "Execute"
-msgstr "Виконати"
+msgstr "Vykdyti"
 
 #: src/keycode.cpp
 msgid "Final"
-msgstr "Кінець"
+msgstr "Galutinis"
 
 #: src/keycode.cpp
 msgid "Help"
-msgstr "Допомога"
+msgstr "Pagalba"
 
 #: src/keycode.cpp
 msgid "Home"
-msgstr ""
+msgstr "Pradžia"
 
 #: src/keycode.cpp
 msgid "Insert"
-msgstr "Insert"
+msgstr "Įterpti"
 
 #: src/keycode.cpp
 msgid "Junja"
-msgstr ""
+msgstr "Junja"
 
 #: src/keycode.cpp
 msgid "Kana"
-msgstr ""
+msgstr "Kana"
 
 #: src/keycode.cpp
 msgid "Kanji"
-msgstr ""
+msgstr "Kanji"
 
 #: src/keycode.cpp
 msgid "Left Button"
-msgstr "Ліва кнопка"
+msgstr "Kairysis mygtukas"
 
 #: src/keycode.cpp
 msgid "Left Control"
-msgstr "Ліва клавіша Ctrl"
+msgstr "Kairysis Control"
 
 #: src/keycode.cpp
 msgid "Left Menu"
-msgstr "Ліва клавіша Menu"
+msgstr "Kairysis meniu"
 
 #: src/keycode.cpp
 msgid "Left Shift"
-msgstr "Ліва клавіша Shift"
+msgstr "Kairysis Shift"
 
 #: src/keycode.cpp
 msgid "Left Windows"
-msgstr "Ліва клавіша Win"
+msgstr "Kairieji langai"
 
 #: src/keycode.cpp
 msgid "Menu"
-msgstr "Меню"
+msgstr "Meniu"
 
 #: src/keycode.cpp
 msgid "Middle Button"
-msgstr "Середня кнопка"
+msgstr "Vidurinis mygtukas"
 
 #: src/keycode.cpp
 msgid "Minus"
-msgstr "Мінус"
+msgstr "Minus"
 
 #: src/keycode.cpp
 msgid "Mode Change"
-msgstr "Змінити режим"
+msgstr "Būsenos keitimas"
 
 #: src/keycode.cpp
 msgid "Next"
-msgstr ""
+msgstr "Kitas"
 
 #: src/keycode.cpp
 msgid "Nonconvert"
-msgstr "Не обернено"
+msgstr ""
 
 #: src/keycode.cpp
 msgid "Num Lock"
@@ -1159,113 +1166,111 @@ msgstr "Num Lock"
 
 #: src/keycode.cpp
 msgid "Numpad *"
-msgstr "Num *"
+msgstr "SkaitKlav *"
 
 #: src/keycode.cpp
 msgid "Numpad +"
-msgstr "Num +"
+msgstr "SkaitKlav +"
 
 #: src/keycode.cpp
 msgid "Numpad -"
-msgstr "Num -"
+msgstr "SkaitKlav -"
 
 #: src/keycode.cpp
 msgid "Numpad /"
-msgstr "Num /"
+msgstr "SkaitKlav /"
 
 #: src/keycode.cpp
 msgid "Numpad 0"
-msgstr "Num 0"
+msgstr "SkaitKlav 0"
 
 #: src/keycode.cpp
 msgid "Numpad 1"
-msgstr "Num 1"
+msgstr "SkaitKlav 1"
 
 #: src/keycode.cpp
 msgid "Numpad 2"
-msgstr "Num 2"
+msgstr "SkaitKlav 2"
 
 #: src/keycode.cpp
 msgid "Numpad 3"
-msgstr "Num 3"
+msgstr "SkaitKlav 3"
 
 #: src/keycode.cpp
 msgid "Numpad 4"
-msgstr "Num 4"
+msgstr "SkaitKlav 4"
 
 #: src/keycode.cpp
 msgid "Numpad 5"
-msgstr "Num 5"
+msgstr "SkaitKlav 5"
 
 #: src/keycode.cpp
 msgid "Numpad 6"
-msgstr "Num 6"
+msgstr "SkaitKlav 6"
 
 #: src/keycode.cpp
 msgid "Numpad 7"
-msgstr "Num 7"
+msgstr "SkaitKlav 7"
 
 #: src/keycode.cpp
 msgid "Numpad 8"
-msgstr "Num 8"
+msgstr "SkaitKlav 8"
 
 #: src/keycode.cpp
 msgid "Numpad 9"
-msgstr "Num 9"
+msgstr "SkaitKlav 9"
 
 #: src/keycode.cpp
 msgid "OEM Clear"
-msgstr ""
+msgstr "OEM valymas"
 
 #: src/keycode.cpp
 msgid "PA1"
-msgstr "PA1"
+msgstr ""
 
 #: src/keycode.cpp
 msgid "Pause"
-msgstr "Пауза"
+msgstr "Pause"
 
 #: src/keycode.cpp
 msgid "Period"
-msgstr "Крапка"
+msgstr "Periodas"
 
 #: src/keycode.cpp
 msgid "Plus"
-msgstr "Плюс"
+msgstr "Plius"
 
 #: src/keycode.cpp
 msgid "Print"
-msgstr "Print Screen"
+msgstr "Spausdinti"
 
 #: src/keycode.cpp
-#, fuzzy
 msgid "Prior"
-msgstr "Page Down"
+msgstr "Ankstesnis"
 
 #: src/keycode.cpp
 msgid "Return"
-msgstr "Ввід"
+msgstr "Grįžti"
 
 #: src/keycode.cpp
-#, fuzzy
 msgid "Right Button"
-msgstr "Права кнопка"
+msgstr "Dešinysis mygtukas"
 
 #: src/keycode.cpp
 msgid "Right Control"
-msgstr "Права клавіша Ctrl"
+msgstr "Dešinysis Control"
 
 #: src/keycode.cpp
 msgid "Right Menu"
-msgstr "Права клавіша Menu"
+msgstr "Dešinysis meniu"
 
 #: src/keycode.cpp
 msgid "Right Shift"
-msgstr "Права клавіша Shift"
+msgstr "Dešinysis Shift"
 
 #: src/keycode.cpp
 msgid "Right Windows"
-msgstr "Права клавіша Win"
+msgstr "Dešinieji langai"
 
 #: src/keycode.cpp
 msgid "Scroll Lock"
@@ -1273,39 +1278,39 @@ msgstr "Scroll Lock"
 
 #: src/keycode.cpp
 msgid "Select"
-msgstr "Обрати"
+msgstr "Pasirinkti"
 
 #: src/keycode.cpp
 msgid "Shift"
-msgstr "Shift"
+msgstr "Shift (Lyg2)"
 
 #: src/keycode.cpp
 msgid "Sleep"
-msgstr "Сон"
+msgstr "Užmigdyti"
 
 #: src/keycode.cpp
 msgid "Snapshot"
-msgstr "Знімок"
+msgstr "Užlaikymas"
 
 #: src/keycode.cpp
 msgid "Space"
-msgstr "Пробіл"
+msgstr "Tarpas"
 
 #: src/keycode.cpp
 msgid "Tab"
-msgstr "Tab"
+msgstr "Tabuliacija"
 
 #: src/keycode.cpp
 msgid "Up"
-msgstr "Вгору"
+msgstr "Aukštyn"
 
 #: src/keycode.cpp
 msgid "X Button 1"
-msgstr "Додаткова кнопка 1"
+msgstr "X mygtukas 1"
 
 #: src/keycode.cpp
 msgid "X Button 2"
-msgstr "Додаткова кнопка 2"
+msgstr "X mygtukas 2"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1317,21 +1322,19 @@ msgid ""
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid ""
 "0 = parallax occlusion with slope information (faster).\n"
 "1 = relief mapping (slower, more accurate)."
 msgstr ""
-"0 = технологія \"parallax occlusion\" з інформацією про криві (швидше)\n"
-"1 = технологія \"relief mapping\" (повільніше, більш акуратніше)"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "3D clouds"
-msgstr "Об'ємні хмари"
+msgstr "Trimačiai debesys"
 
 #: src/settings_translation_file.cpp
 msgid "3D mode"
-msgstr "3D режим"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1408,7 +1411,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Advanced"
-msgstr "Додатково"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Altitude Chill"
@@ -1428,7 +1431,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Anisotropic filtering"
-msgstr "Анізотропна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Announce server"
@@ -1460,7 +1463,7 @@ msgstr ""
 #: src/settings_translation_file.cpp
 #, fuzzy
 msgid "Backward key"
-msgstr "Назад"
+msgstr "Atgal"
 
 #: src/settings_translation_file.cpp
 msgid "Base terrain height"
@@ -1476,11 +1479,12 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bilinear filtering"
-msgstr "Білінійна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Bind address"
-msgstr "Закріплення адреси"
+msgstr "Ieškoma adreso..."
 
 #: src/settings_translation_file.cpp
 msgid "Bits per pixel (aka color depth) in fullscreen mode."
@@ -1488,7 +1492,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Build inside player"
-msgstr "Будувати в межах гравця"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Builtin"
@@ -1496,20 +1500,19 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Bumpmapping"
-msgstr "Бамп-маппінг"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Camera smoothing"
-msgstr "Згладжування руху камери"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Camera smoothing in cinematic mode"
-msgstr "Згладжування руху камери у кінорежимі"
+msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Camera update toggle key"
-msgstr "Клавіша для контролю оновлення камери"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Cave noise #1"
@@ -1528,17 +1531,19 @@ msgid "Caves and tunnels form at the intersection of the two noises"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Chat key"
-msgstr "Чат"
+msgstr "Nustatyti klavišus"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Chat toggle key"
-msgstr "Чат"
+msgstr "Nustatyti klavišus"
 
 #: src/settings_translation_file.cpp
 #, fuzzy
 msgid "Chatcommands"
-msgstr "Команди чату"
+msgstr "Komanda"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1568,12 +1573,14 @@ msgid "Chunk size"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Cinematic mode"
-msgstr "Кінорежим"
+msgstr "Kūrybinė veiksena"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Cinematic mode key"
-msgstr "Кінорежим"
+msgstr "Kūrybinė veiksena"
 
 #: src/settings_translation_file.cpp
 msgid "Clean transparent textures"
@@ -1581,7 +1588,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Client and Server"
-msgstr "Клієнт і сервер"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Climbing speed"
@@ -1596,16 +1603,18 @@ msgid "Cloud radius"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Clouds"
-msgstr "Хмари"
+msgstr "Trimačiai debesys"
 
 #: src/settings_translation_file.cpp
 msgid "Clouds are a client side effect."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Clouds in menu"
-msgstr "Хмари в меню"
+msgstr "Pagrindinis meniu"
 
 #: src/settings_translation_file.cpp
 msgid "Colored fog"
@@ -1624,16 +1633,19 @@ msgid ""
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Command key"
-msgstr "Команда"
+msgstr "Komanda"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Connect glass"
-msgstr "З'єднувати скло"
+msgstr "Jungtis"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Connect to external media server"
-msgstr "Підключення до зовнішнього медіасервера"
+msgstr "Jungiamasi prie serverio..."
 
 #: src/settings_translation_file.cpp
 msgid "Connects glass if supported by node."
@@ -1641,15 +1653,16 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Console alpha"
-msgstr "Консоль (альфа)"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Console color"
-msgstr "Колір консолі"
+msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Console key"
-msgstr "Консоль"
+msgstr "Nustatyti klavišus"
 
 #: src/settings_translation_file.cpp
 msgid "Continuous forward"
@@ -1660,8 +1673,9 @@ msgid "Continuous forward movement (only used for testing)."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Controls"
-msgstr "Керування"
+msgstr "Kairysis Control"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1729,8 +1743,9 @@ msgid "DPI"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Damage"
-msgstr "Поранення"
+msgstr "Leisti sužeidimus"
 
 #: src/settings_translation_file.cpp
 msgid "Debug info toggle key"
@@ -1749,8 +1764,9 @@ msgid "Default acceleration"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Default game"
-msgstr ""
+msgstr "keisti žaidimą"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -1759,12 +1775,13 @@ msgid ""
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Default password"
-msgstr "Стандартний пароль"
+msgstr "Naujas slaptažodis"
 
 #: src/settings_translation_file.cpp
 msgid "Default privileges"
-msgstr "Стандартні права"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Default report format"
@@ -1829,7 +1846,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Disable anticheat"
-msgstr "Вимкнути античіт"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Disable escape sequences"
@@ -1853,11 +1870,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Double tap jump for fly"
-msgstr "Подвійний дотик до \"стрибок\" щоб полетіти"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Double-tapping the jump key toggles fly mode."
-msgstr "Подвійний дотик \"стрибок\" вмикає режим польоту."
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Drop item key"
@@ -1872,12 +1889,14 @@ msgid "Enable Joysticks"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Enable VBO"
-msgstr "Увімкнути VBO"
+msgstr "Įjungti papildinį"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Enable mod security"
-msgstr ""
+msgstr "Papildiniai internete"
 
 #: src/settings_translation_file.cpp
 msgid "Enable players getting damage and dying."
@@ -1934,12 +1953,14 @@ msgid "Enables caching of facedir rotated meshes."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Enables filmic tone mapping"
-msgstr ""
+msgstr "Leisti sužeidimus"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Enables minimap."
-msgstr ""
+msgstr "Leisti sužeidimus"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -2059,7 +2080,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Filtering"
-msgstr "Фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fixed map seed"
@@ -2075,7 +2096,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fog"
-msgstr "Туман"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fog toggle key"
@@ -2110,8 +2131,9 @@ msgid "Format of screenshots."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Forward key"
-msgstr "Вперед"
+msgstr "Pirmyn"
 
 #: src/settings_translation_file.cpp
 msgid "Freetype fonts"
@@ -2135,7 +2157,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Full screen"
-msgstr "Повний екран"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Full screen BPP"
@@ -2143,16 +2165,15 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Fullscreen mode."
-msgstr "Повноекранний режим."
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "GUI scaling"
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "GUI scaling filter"
-msgstr "Масштаб інтерфейсу"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "GUI scaling filter txr2img"
@@ -2168,7 +2189,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Generate normalmaps"
-msgstr "Генерувати карти нормалів"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Global callbacks"
@@ -2186,15 +2207,16 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Graphics"
-msgstr "Графіка"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Gravity"
-msgstr "Гравітація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "HTTP Mods"
-msgstr "HTTP Модифікації"
+msgstr "Papildiniai"
 
 #: src/settings_translation_file.cpp
 msgid "HUD toggle key"
@@ -2327,8 +2349,9 @@ msgid "Ignore world errors"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "In-Game"
-msgstr "У грі"
+msgstr "Žaidimas"
 
 #: src/settings_translation_file.cpp
 msgid "In-game chat console background alpha (opaqueness, between 0 and 255)."
@@ -2385,8 +2408,9 @@ msgid "Inventory items animations"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Inventory key"
-msgstr "Інвентар"
+msgstr "Inventorius"
 
 #: src/settings_translation_file.cpp
 msgid "Invert mouse"
@@ -2444,8 +2468,9 @@ msgid ""
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Jump key"
-msgstr "Стрибок"
+msgstr "Pašokti"
 
 #: src/settings_translation_file.cpp
 msgid "Jumping speed"
@@ -2669,7 +2694,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Language"
-msgstr "Мова"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Large cave depth"
@@ -2692,8 +2717,9 @@ msgid ""
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Left key"
-msgstr "Ліва клавіша"
+msgstr "Kairėn"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -2786,12 +2812,14 @@ msgid "Main menu game manager"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Main menu mod manager"
-msgstr ""
+msgstr "Pagrindinis meniu"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Main menu script"
-msgstr ""
+msgstr "Pagrindinis meniu"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -2864,8 +2892,9 @@ msgid "Mapblock unload timeout"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Mapgen Valleys"
-msgstr ""
+msgstr "Žemėlapių generavimas"
 
 #: src/settings_translation_file.cpp
 msgid "Mapgen biome heat noise parameters"
@@ -2888,12 +2917,14 @@ msgid "Mapgen flags"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Mapgen flat"
-msgstr ""
+msgstr "Žemėlapių generavimas"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Mapgen flat cave width"
-msgstr ""
+msgstr "Žemėlapių generavimas"
 
 #: src/settings_translation_file.cpp
 msgid "Mapgen flat cave1 noise parameters"
@@ -2944,8 +2975,9 @@ msgid "Mapgen fractal"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Mapgen fractal cave width"
-msgstr ""
+msgstr "Žemėlapių generavimas"
 
 #: src/settings_translation_file.cpp
 msgid "Mapgen fractal cave1 noise parameters"
@@ -3275,8 +3307,9 @@ msgid "Maximum users"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Menus"
-msgstr "Меню"
+msgstr "Meniu"
 
 #: src/settings_translation_file.cpp
 msgid "Mesh cache"
@@ -3312,7 +3345,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Mipmapping"
-msgstr "Mіп-текстурування"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Modstore details URL"
@@ -3374,7 +3407,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Network"
-msgstr "Мережа"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3452,7 +3485,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Parallax occlusion"
-msgstr "Паралаксова оклюзія"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Parallax occlusion Scale"
@@ -3498,7 +3531,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Player name"
-msgstr "Ім'я гравця"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Player transfer distance"
@@ -3557,7 +3590,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Range select key"
-msgstr "Вибір діапазону"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Remote media"
@@ -3572,13 +3605,13 @@ msgid "Replaces the default main menu with a custom one."
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Report path"
-msgstr "Вибрати шлях"
+msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Right key"
-msgstr "Права клавіша"
+msgstr "Dešinėn"
 
 #: src/settings_translation_file.cpp
 msgid "Rightclick repetition interval"
@@ -3635,7 +3668,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot"
-msgstr "Знімок екрану"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot folder"
@@ -3643,11 +3676,11 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot format"
-msgstr "Формат знімку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Screenshot quality"
-msgstr "Якість знімку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3658,7 +3691,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Security"
-msgstr "Безпека"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "See http://www.sqlite.org/pragma.html#pragma_synchronous"
@@ -3677,36 +3710,44 @@ msgid "Selection box width"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server / Singleplayer"
-msgstr "Сервер / Гра"
+msgstr "Žaisti vienam"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server URL"
-msgstr "Адреса сервера"
+msgstr "Serveris"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server address"
-msgstr "Адреса сервера"
+msgstr "Serverio prievadas"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server description"
-msgstr ""
+msgstr "Serverio prievadas"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server name"
-msgstr "Назва сервера"
+msgstr "Serveris"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Server port"
-msgstr "Порт сервера"
+msgstr "Serverio prievadas"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Serverlist URL"
-msgstr "Адреса списку публічних серверів"
+msgstr "Viešų serverių sąrašas"
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Serverlist file"
-msgstr "Файл списку публічних серверів"
+msgstr "Viešų serverių sąrašas"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3766,8 +3807,9 @@ msgid "Slope and fill work together to modify the heights"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Smooth lighting"
-msgstr "Згладжене освітлення"
+msgstr "Apšvietimo efektai"
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3784,12 +3826,13 @@ msgid "Smooths rotation of camera. 0 to disable."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Sneak key"
-msgstr "Крастися"
+msgstr "Nustatyti klavišus"
 
 #: src/settings_translation_file.cpp
 msgid "Sound"
-msgstr "Звук"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3843,7 +3886,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Texture path"
-msgstr "Шлях до текстури"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "The altitude at which temperature drops by 20C"
@@ -3956,7 +3999,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Trilinear filtering"
-msgstr "Трилінійна фільтрація"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -3998,8 +4041,9 @@ msgid "Use bilinear filtering when scaling textures."
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Use key"
-msgstr ""
+msgstr "paspauskite klavišą"
 
 #: src/settings_translation_file.cpp
 msgid "Use mip mapping to scale textures. May slightly increase performance."
@@ -4069,7 +4113,7 @@ msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Volume"
-msgstr "Гучність звуку"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid ""
@@ -4084,8 +4128,9 @@ msgid "Walking speed"
 msgstr ""
 
 #: src/settings_translation_file.cpp
+#, fuzzy
 msgid "Water Features"
-msgstr ""
+msgstr "Elemento tekstūros..."
 
 #: src/settings_translation_file.cpp
 msgid "Water level"
@@ -4096,13 +4141,12 @@ msgid "Water surface level of the world."
 msgstr ""
 
 #: src/settings_translation_file.cpp
-#, fuzzy
 msgid "Waving Nodes"
-msgstr "Блоки, що коливаються"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Waving leaves"
-msgstr "Листя, що коливається"
+msgstr ""
 
 #: src/settings_translation_file.cpp
 msgid "Waving plants"
@@ -4236,96 +4280,70 @@ msgstr ""
 msgid "cURL timeout"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Useful for mod developers."
+#~ msgstr "Pagrindiniai kūrėjai"
+
 #~ msgid "No of course not!"
-#~ msgstr "Ні, звісно ні!"
+#~ msgstr "Ne, tikrai ne!"
 
 #~ msgid "Public Serverlist"
-#~ msgstr "Список публічних серверів"
-
-#, fuzzy
-#~ msgid "Generate Normalmaps"
-#~ msgstr "Генерувати карти нормалей"
-
-#~ msgid "No!!!"
-#~ msgstr "Ні!!!"
+#~ msgstr "Viešų serverių sąrašas"
 
 #, fuzzy
 #~ msgid "If disabled "
-#~ msgstr "Вимкнути багатокористувацьку гру"
+#~ msgstr "Išjungti papildinį"
 
 #, fuzzy
 #~ msgid "If enabled, "
-#~ msgstr "Увімкнено"
+#~ msgstr "įjungtas"
 
-#, fuzzy
 #~ msgid "Game Name"
-#~ msgstr "Гра"
+#~ msgstr "Žaidimo pavadinimas"
+
+#~ msgid "GAMES"
+#~ msgstr "ŽAIDIMAI"
+
+#~ msgid "Mods:"
+#~ msgstr "Papildiniai:"
+
+#~ msgid "new game"
+#~ msgstr "naujas žaidimas"
 
 #, fuzzy
+#~ msgid "EDIT GAME"
+#~ msgstr "KEISTI ŽAIDIMĄ"
+
+#~ msgid "Remove selected mod"
+#~ msgstr "Pašalinti pasirinktą papildinį"
+
+#~ msgid "<<-- Add mod"
+#~ msgstr "<<-- Pridėti papildinį"
+
+#~ msgid "CLIENT"
+#~ msgstr "ŽAISTI TINKLE"
+
+#~ msgid "START SERVER"
+#~ msgstr "PALEISTI SERVERĮ"
+
+#~ msgid "Name"
+#~ msgstr "Vardas"
+
 #~ msgid "Password"
-#~ msgstr "Старий Пароль"
+#~ msgstr "Slaptažodis"
 
-#~ msgid "Preload item visuals"
-#~ msgstr "Попереднє завантаження зображень"
+#~ msgid "SETTINGS"
+#~ msgstr "NUSTATYMAI"
 
-#, fuzzy
-#~ msgid "Finite Liquid"
-#~ msgstr "Кінцеві рідини"
+#~ msgid "SINGLE PLAYER"
+#~ msgstr "VIENAS ŽAIDĖJAS"
 
-#~ msgid "Failed to delete all world files"
-#~ msgstr "Помилка при видаленні файлів світу"
+#~ msgid "MODS"
+#~ msgstr "PAPILDINIAI"
 
-#~ msgid "Cannot configure world: Nothing selected"
-#~ msgstr "Неможливо налаштувати світ: Нічого не вибрано"
-
-#~ msgid "Cannot create world: No games found"
-#~ msgstr "Неможливо створити світ: Не знайдено жодної гри"
-
-#~ msgid "Files to be deleted"
-#~ msgstr "Файлів, що підлягають видаленню"
-
-#~ msgid "Cannot delete world: Nothing selected"
-#~ msgstr "Неможливо видалити світ: Нічого не вибрано"
-
-#~ msgid "Address required."
-#~ msgstr "Адреса необхідна."
-
-#~ msgid "Create world"
-#~ msgstr "Створити світ"
-
-#~ msgid "Leave address blank to start a local server."
-#~ msgstr "Залишіть адресу незаповненою для створення локального серверу."
-
-#~ msgid "Show Favorites"
-#~ msgstr "Показати Улюблені"
-
-#~ msgid "Show Public"
-#~ msgstr "Показати Публічні"
-
-#~ msgid "Cannot create world: Name contains invalid characters"
-#~ msgstr "Неможливо створити світ: Ім'я містить недопустимі символи"
-
-#~ msgid "Warning: Configuration not consistent.  "
-#~ msgstr "Попередження: Помилкова конфігурація.  "
-
-#~ msgid "Configuration saved.  "
-#~ msgstr "Налаштування Збережено.  "
-
-#~ msgid "is required by:"
-#~ msgstr "необхідний для:"
-
-#~ msgid "Left click: Move all items, Right click: Move single item"
-#~ msgstr ""
-#~ "Ліва кнопка миші: Перемістити усі предмети, Права кнопка миші: "
-#~ "Перемістити один предмет"
-
-#, fuzzy
-#~ msgid "Downloading"
-#~ msgstr "Вниз"
-
-#~ msgid "Scaling factor applied to menu elements: "
-#~ msgstr "Масштабування елементів меню: "
+#~ msgid "Add mod:"
+#~ msgstr "Pridėti papildinį:"
 
 #, fuzzy
 #~ msgid "Preload inventory textures"
-#~ msgstr "Завантаження текстур..."
+#~ msgstr "Įkeliama..."
