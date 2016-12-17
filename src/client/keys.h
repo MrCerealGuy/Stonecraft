@@ -31,7 +31,6 @@ public:
 		LEFT,
 		RIGHT,
 		JUMP,
-		RUN,
 		SPECIAL1,
 		SNEAK,
 		AUTORUN,
