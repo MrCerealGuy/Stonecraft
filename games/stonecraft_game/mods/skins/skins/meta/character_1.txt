@@ -1,0 +1,4 @@
+name = "Sam",
+author = "Jordach",
+description = "The default skin.",
+comment = "Sam Ain't Minecraft",
