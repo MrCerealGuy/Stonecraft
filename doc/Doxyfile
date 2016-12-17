@@ -1,6 +1,6 @@
 # Project properties
 PROJECT_NAME           = Stonecraft
-PROJECT_NUMBER         = 1.0.0--alpha
+PROJECT_NUMBER         = 1.0.2-alpha
 PROJECT_LOGO           = /home/andreas/Stonecraft/stonecraft-source/misc/minetest.svg
 
 # Parsing
