@@ -418,8 +418,7 @@ fps_max (Maximum FPS) int 60
 pause_fps_max (FPS in pause menu) int 20
 
 #    View distance in nodes.
-#    Min = 20
-viewing_range (Viewing range) int 100
+viewing_range (Viewing range) int 100 20 4000
 
 #    Width component of the initial window size.
 screenW (Screen width) int 800
@@ -528,6 +527,9 @@ ambient_occlusion_gamma (Ambient occlusion gamma) float 2.2 0.25 4.0
 
 #    Enables animation of inventory items.
 inventory_items_animations (Inventory items animations) bool false
+
+#    Fraction of the visible distance at which fog starts to be rendered
+fog_start (Fog Start) float 0.4 0.0 0.99
 
 [**Menus]
 
@@ -860,7 +862,7 @@ block_send_optimize_distance (block send optimize distance) int 4 2
 
 #    Name of map generator to be used when creating a new world.
 #    Creating a world in the main menu will override this.
-mg_name (Mapgen name) enum v6 v5,v6,v7,flat,valleys,fractal,singlenode
+mg_name (Mapgen name) enum v7 v5,v6,v7,flat,valleys,fractal,singlenode
 
 #    Water surface level of the world.
 water_level (Water level) int 1
@@ -967,13 +969,27 @@ mgv6_np_apple_trees (Mapgen v6 apple trees noise parameters) noise_params 0, 1, 
 [***Mapgen v7]
 
 #    Map generation attributes specific to Mapgen v7.
-#    The 'ridges' flag controls the rivers.
+#    The 'ridges' flag enables the rivers.
+#    Floatlands are currently experimental and subject to change.
 #    Flags that are not specified in the flag string are not modified from the default.
 #    Flags starting with 'no' are used to explicitly disable them.
-mgv7_spflags (Mapgen v7 flags) flags mountains,ridges mountains,ridges,nomountains,noridges
+mgv7_spflags (Mapgen v7 flags) flags mountains,ridges mountains,ridges,floatlands,nomountains,noridges,nofloatlands
 
 #    Controls width of tunnels, a smaller value creates wider tunnels.
-mgv7_cave_width (Mapgen v7 cave width) float 0.2
+mgv7_cave_width (Mapgen v7 cave width) float 0.09
+
+#    Controls the density of floatland mountain terrain.
+#    Is an offset added to the 'np_mountain' noise value.
+mgv7_float_mount_density (Mapgen v7 floatland mountain density) float 0.6
+
+#    Typical maximum height, above and below midpoint, of floatland mountain terrain.
+mgv7_float_mount_height (Mapgen v7 floatland mountain height) float 128.0
+
+#    Y-level of floatland midpoint and lake surface.
+mgv7_floatland_level (Mapgen v7 floatland level) int 1280
+
+#    Y-level to which floatland shadows extend.
+mgv7_shadow_limit (Mapgen v7 shadow limit) int 1024
 
 mgv7_np_terrain_base (Mapgen v7 terrain base noise parameters) noise_params 4, 70, (600, 600, 600), 82341, 5, 0.6, 2.0
 mgv7_np_terrain_alt (Mapgen v7 terrain altitude noise parameters) noise_params 4, 25, (600, 600, 600), 5934, 5, 0.6, 2.0
@@ -981,9 +997,11 @@ mgv7_np_terrain_persist (Mapgen v7 terrain persistation noise parameters) noise_
 mgv7_np_height_select (Mapgen v7 height select noise parameters) noise_params -8, 16, (500, 500, 500), 4213, 6, 0.7, 2.0
 mgv7_np_filler_depth (Mapgen v7 filler depth noise parameters) noise_params 0, 1.2, (150, 150, 150), 261, 3, 0.7, 2.0
 mgv7_np_mount_height (Mapgen v7 mount height noise parameters) noise_params 256, 112, (1000, 1000, 1000), 72449, 3, 0.6, 2.0
-mgv7_np_ridge_uwater (Mapgen v7 ridge water noise parameters) noise_params 0, 1, (1000, 1000, 1000), 85039, 5, 0.6, 2.0
+mgv7_np_ridge_uwater (Mapgen v7 river course noise parameters) noise_params 0, 1, (1000, 1000, 1000), 85039, 5, 0.6, 2.0
+mgv7_np_floatland_base (Mapgen v7 floatland base terrain noise parameters) noise_params -0.6, 1.5, (600, 600, 600), 114, 5, 0.6, 2.0
+mgv7_np_float_base_height (Mapgen v7 floatland base terrain height noise parameters) noise_params 48, 24, (300, 300, 300), 907, 4, 0.7, 2.0
 mgv7_np_mountain (Mapgen v7 mountain noise parameters) noise_params -0.6, 1, (250, 350, 250), 5333, 5, 0.63, 2.0
-mgv7_np_ridge (Mapgen v7 ridge noise parameters) noise_params 0, 1, (100, 100, 100), 6467, 4, 0.75, 2.0
+mgv7_np_ridge (Mapgen v7 river channel wall noise parameters) noise_params 0, 1, (100, 100, 100), 6467, 4, 0.75, 2.0
 mgv7_np_cave1 (Mapgen v7 cave1 noise parameters) noise_params 0, 12, (61, 61, 61), 52534, 3, 0.5, 2.0
 mgv7_np_cave2 (Mapgen v7 cave2 noise parameters) noise_params 0, 12, (67, 67, 67), 10325, 3, 0.5, 2.0
 
@@ -1002,7 +1020,7 @@ mgflat_ground_level (Mapgen flat ground level) int 8
 mgflat_large_cave_depth (Mapgen flat large cave depth) int -33
 
 #    Controls width of tunnels, a smaller value creates wider tunnels.
-mgflat_cave_width (Mapgen flat cave width) float 0.2
+mgflat_cave_width (Mapgen flat cave width) float 0.09
 
 #    Terrain noise threshold for lakes.
 #    Controls proportion of world area covered by lakes.
@@ -1032,7 +1050,7 @@ mgflat_np_cave2 (Mapgen flat cave2 noise parameters) noise_params 0, 12, (67, 67
 [***Mapgen fractal]
 
 #    Controls width of tunnels, a smaller value creates wider tunnels.
-mgfractal_cave_width (Mapgen fractal cave width) float 0.2
+mgfractal_cave_width (Mapgen fractal cave width) float 0.09
 
 #    Choice of 18 fractals from 9 formulas.
 #    1 = 4D "Roundy" mandelbrot set.
@@ -1134,7 +1152,7 @@ mgvalleys_river_size (River Size) int 5
 mgvalleys_water_features (Water Features) int 0
 
 #    Controls width of tunnels, a smaller value creates wider tunnels.
-mgvalleys_cave_width (Cave width) float 0.2
+mgvalleys_cave_width (Cave width) float 0.09
 
 # Noise parameters
 [****Noises]
