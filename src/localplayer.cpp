@@ -56,6 +56,8 @@ LocalPlayer::LocalPlayer(Client *gamedef, const char *name):
 	last_pitch(0),
 	last_yaw(0),
 	last_keyPressed(0),
+	last_camera_fov(0),
+	last_wanted_range(0),
 	camera_impact(0.f),
 	last_animation(NO_ANIM),
 	hotbar_image(""),
@@ -118,13 +120,6 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 		return;
 	}
 
-	// If player is running, then increase position
-	if (control.run)
-	{
-		position += m_speed * dtime;
-		setPosition(position);
-	}
-	
 	/*
 		Collision detection
 	*/

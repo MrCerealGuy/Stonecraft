@@ -781,6 +781,8 @@ PlayerSAO::PlayerSAO(ServerEnvironment *env_, u16 peer_id_, bool is_singleplayer
 	m_attachment_sent(false),
 	m_breath(PLAYER_MAX_BREATH),
 	m_pitch(0),
+	m_fov(0),
+	m_wanted_range(0),
 	// public
 	m_physics_override_speed(1),
 	m_physics_override_jump(1),
@@ -1099,6 +1101,22 @@ void PlayerSAO::setYaw(const float yaw)
 	UnitSAO::setYaw(yaw);
 }
 
+void PlayerSAO::setFov(const float fov)
+{
+	if (m_player && fov != m_fov)
+		m_player->setDirty(true);
+
+	m_fov = fov;
+}
+
+void PlayerSAO::setWantedRange(const s16 range)
+{
+	if (m_player && range != m_wanted_range)
+		m_player->setDirty(true);
+
+	m_wanted_range = range;
+}
+
 void PlayerSAO::setYawAndSend(const float yaw)
 {
 	setYaw(yaw);
@@ -1339,6 +1357,42 @@ InventoryLocation PlayerSAO::getInventoryLocation() const
 std::string PlayerSAO::getWieldList() const
 {
 	return "main";
+}
+
+ItemStack PlayerSAO::getWieldedItem() const
+{
+	const Inventory *inv = getInventory();
+	ItemStack ret;
+	const InventoryList *mlist = inv->getList(getWieldList());
+	if (mlist && getWieldIndex() < (s32)mlist->getSize())
+		ret = mlist->getItem(getWieldIndex());
+	if (ret.name.empty()) {
+		const InventoryList *hlist = inv->getList("hand");
+		if (hlist)
+			ret = hlist->getItem(0);
+	}
+	return ret;
+}
+
+bool PlayerSAO::setWieldedItem(const ItemStack &item)
+{
+	Inventory *inv = getInventory();
+	if (inv) {
+		InventoryList *mlist = inv->getList(getWieldList());
+		if (mlist) {
+			ItemStack olditem = mlist->getItem(getWieldIndex());
+			if (olditem.name.empty()) {
+				InventoryList *hlist = inv->getList("hand");
+				if (hlist) {
+					hlist->changeItem(0, item);
+					return true;
+				}
+			}
+			mlist->changeItem(getWieldIndex(), item);
+			return true;
+		}
+	}
+	return false;
 }
 
 int PlayerSAO::getWieldIndex() const

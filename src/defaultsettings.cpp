@@ -51,7 +51,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_freemove", "KEY_KEY_K");
 	settings->setDefault("keymap_fastmove", "KEY_KEY_J");
 	settings->setDefault("keymap_noclip", "KEY_KEY_H");
-	settings->setDefault("keymap_cinematic", "KEY_F8");
+	settings->setDefault("keymap_cinematic", "");
 	settings->setDefault("keymap_screenshot", "KEY_F12");
 	settings->setDefault("keymap_toggle_hud", "KEY_F1");
 	settings->setDefault("keymap_toggle_chat", "KEY_F2");
@@ -106,6 +106,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("client_unload_unused_data_timeout", "600");
 	settings->setDefault("client_mapblock_limit", "5000");
 	settings->setDefault("enable_fog", "true");
+	settings->setDefault("fog_start", "0.4");
 	settings->setDefault("fov", "72");
 	settings->setDefault("view_bobbing", "true");
 	settings->setDefault("leaves_style", "fancy");
@@ -326,7 +327,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("liquid_update", "1.0");
 
 	//mapgen stuff
-	settings->setDefault("mg_name", "v6");
+	settings->setDefault("mg_name", "v7");
 	settings->setDefault("water_level", "1");
 	settings->setDefault("chunksize", "5");
 	settings->setDefault("mg_flags", "dungeons");
@@ -351,7 +352,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("screenW", "0");
 	settings->setDefault("screenH", "0");
 	settings->setDefault("enable_shaders", "false");
-	settings->setDefault("fullscreen", "true");	// changed by MrCerealGuy
+	settings->setDefault("fullscreen", "true");
 	settings->setDefault("video_driver", "ogles1");
 	settings->setDefault("touchtarget", "true");
 	settings->setDefault("TMPFolder","/sdcard/" PROJECT_NAME_C "/tmp/");

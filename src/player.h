@@ -40,7 +40,6 @@ struct PlayerControl
 		left = false;
 		right = false;
 		jump = false;
-		run = false;
 		aux1 = false;
 		sneak = false;
 		LMB = false;
@@ -57,7 +56,6 @@ struct PlayerControl
 		bool a_left,
 		bool a_right,
 		bool a_jump,
-		bool a_run,
 		bool a_aux1,
 		bool a_sneak,
 		bool a_zoom,
@@ -74,7 +72,6 @@ struct PlayerControl
 		left = a_left;
 		right = a_right;
 		jump = a_jump;
-		run = a_run;
 		aux1 = a_aux1;
 		sneak = a_sneak;
 		zoom = a_zoom;
@@ -90,7 +87,6 @@ struct PlayerControl
 	bool left;
 	bool right;
 	bool jump;
-	bool run;
 	bool aux1;
 	bool sneak;
 	bool zoom;

@@ -1,14 +1,17 @@
 /*
 Minetest
 Copyright (C) 2010-2014 celeron55, Perttu Ahola <celeron55@gmail.com>
+
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation; either version 2.1 of the License, or
 (at your option) any later version.
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU Lesser General Public License for more details.
+
 You should have received a copy of the GNU Lesser General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -145,6 +148,7 @@ void RemoteClient::GetNextBlocks (
 
 	/*
 		Check the time from last addNode/removeNode.
+
 		Decrease send rate if player is building stuff.
 	*/
 	m_time_from_building += dtime;
@@ -163,17 +167,26 @@ void RemoteClient::GetNextBlocks (
 	/*
 		next time d will be continued from the d from which the nearest
 		unsent block was found this time.
+
 		This is because not necessarily any of the blocks found this
 		time are actually sent.
 	*/
 	s32 new_nearest_unsent_d = -1;
 
-	const s16 full_d_max = g_settings->getS16("max_block_send_distance");
-	const s16 d_opt = g_settings->getS16("block_send_optimize_distance");
+	// get view range and camera fov from the client
+	s16 wanted_range = sao->getWantedRange();
+	float camera_fov = sao->getFov();
+	// if FOV, wanted_range are not available (old client), fall back to old default
+	if (wanted_range <= 0) wanted_range = 1000;
+	if (camera_fov <= 0) camera_fov = (72.0*M_PI/180) * 4./3.;
+
+	const s16 full_d_max = MYMIN(g_settings->getS16("max_block_send_distance"), wanted_range);
+	const s16 d_opt = MYMIN(g_settings->getS16("block_send_optimize_distance"), wanted_range);
 	const s16 d_blocks_in_sight = full_d_max * BS * MAP_BLOCKSIZE;
+	//infostream << "Fov from client " << camera_fov << " full_d_max " << full_d_max << std::endl;
 
 	s16 d_max = full_d_max;
-	s16 d_max_gen = g_settings->getS16("max_block_generate_distance");
+	s16 d_max_gen = MYMIN(g_settings->getS16("max_block_generate_distance"), wanted_range);
 
 	// Don't loop very much at a time
 	s16 max_d_increment_at_time = 2;
@@ -201,6 +214,7 @@ void RemoteClient::GetNextBlocks (
 				Send throttling
 				- Don't allow too many simultaneous transfers
 				- EXCEPT when the blocks are very close
+
 				Also, don't send blocks that are already flying.
 			*/
 
@@ -236,7 +250,6 @@ void RemoteClient::GetNextBlocks (
 				FOV setting. The default of 72 degrees is fine.
 			*/
 
-			float camera_fov = (72.0*M_PI/180) * 4./3.;
 			if(isBlockInSight(p, camera_pos, camera_dir, camera_fov, d_blocks_in_sight) == false)
 			{
 				continue;
@@ -283,6 +296,7 @@ void RemoteClient::GetNextBlocks (
 				/*
 					If block is not close, don't send it unless it is near
 					ground level.
+
 					Block is near ground level if night-time mesh
 					differs from day-time mesh.
 				*/
@@ -343,7 +357,7 @@ queue_full_break:
 	} else if(nearest_emergefull_d != -1){
 		new_nearest_unsent_d = nearest_emergefull_d;
 	} else {
-		if(d > g_settings->getS16("max_block_send_distance")){
+		if(d > full_d_max){
 			new_nearest_unsent_d = 0;
 			m_nothing_to_send_pause_timer = 2.0;
 		} else {
