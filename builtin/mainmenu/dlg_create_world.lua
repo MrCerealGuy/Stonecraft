@@ -66,11 +66,15 @@ local function create_world_formspec(dialogdata)
 	if #gamemgr.games == 0 then
 		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
 				fgettext("You have no subgames installed.") .. "]label[2.25,4.4;" ..
-				fgettext("Download one from minetest.net") .. "]"
+				fgettext("Download one from bc547.de/stonecraft") .. "]"
 	elseif #gamemgr.games == 1 and gamemgr.games[1].id == "minimal" then
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
 				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
-				fgettext("Download a subgame, such as minetest_game, from minetest.net") .. "]"
+				fgettext("Download a subgame, such as stonecraft_game, from bc547.de/stonecraft") .. "]"
+	elseif #gamemgr.games == 2 and gamemgr.games[2].id == "stonecraft-light" then
+		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
+				fgettext("In Stonecraft Light are only the basic mods activated.") .. "]label[2,4.4;" ..
+				fgettext("Recommend if you experience performance lags.") .. "]"
 	end
 
 	return retval
