@@ -88,7 +88,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define PLAYER_INVENTORY_SIZE (8*4)
 
 // Maximum hit points of a player
-#define PLAYER_MAX_HP 100
+#define PLAYER_MAX_HP 20
 
 // Maximal breath of a player
 #define PLAYER_MAX_BREATH 11
