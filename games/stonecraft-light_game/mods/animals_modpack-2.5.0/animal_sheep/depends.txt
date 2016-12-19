@@ -1,6 +1,0 @@
-default
-animalmaterials
-mob_environments
-mobf
-wool
-intllib?

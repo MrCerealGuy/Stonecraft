@@ -1,5 +1,0 @@
-default
-mob_environments
-mobf
-intllib?
-animal_resources

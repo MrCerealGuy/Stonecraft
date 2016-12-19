@@ -1,6 +1,0 @@
-# Template
-
-Cow = 
-Steer = 
-Baby Calf female = 
-Baby Calf male = 

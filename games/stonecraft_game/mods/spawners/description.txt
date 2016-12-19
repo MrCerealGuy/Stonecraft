@@ -1,1 +1,0 @@
-This MOD for Minetest let the player craft mob and ore Spawner blocks. Mobs/Ores are spawning randomly in a short intervals.

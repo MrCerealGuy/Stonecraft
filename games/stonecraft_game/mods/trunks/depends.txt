@@ -1,6 +1,0 @@
-default
-biome_lib
-bushes?
-ferns?
-moretrees?
-trees?

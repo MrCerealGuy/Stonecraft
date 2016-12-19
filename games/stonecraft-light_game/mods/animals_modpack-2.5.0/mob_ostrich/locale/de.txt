@@ -1,4 +1,0 @@
-# Translation by Xanthin
-
-Ostrich (f) = Straussenhenne
-Ostrich (m) = Straussenhahn

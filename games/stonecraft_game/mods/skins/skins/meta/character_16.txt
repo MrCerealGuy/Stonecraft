@@ -1,2 +1,0 @@
-name = "Hybrid Sam",
-author = "Hybrid Dog",

@@ -1,2 +1,0 @@
-name = "Slenderman",
-author = "prof_turbo",

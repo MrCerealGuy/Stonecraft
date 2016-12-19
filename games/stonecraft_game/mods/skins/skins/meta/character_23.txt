@@ -1,3 +1,0 @@
-name = "Celeron55",
-author = "Jordach",
-comment = "Based on a picture from the wiki.",

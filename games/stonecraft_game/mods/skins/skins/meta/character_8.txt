@@ -1,2 +1,0 @@
-name = "Tux",
-author = "jmf",

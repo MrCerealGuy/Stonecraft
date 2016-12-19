@@ -1,5 +1,0 @@
-# Template
-
-Sheep = 
-Lamb = 
-Naked sheep = 

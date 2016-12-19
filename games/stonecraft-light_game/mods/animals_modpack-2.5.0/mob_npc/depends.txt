@@ -1,5 +1,0 @@
-default
-mob_environments
-doors
-mobf
-intllib?

@@ -1,3 +1,0 @@
-treasurer
-intllib?
-doc_items?

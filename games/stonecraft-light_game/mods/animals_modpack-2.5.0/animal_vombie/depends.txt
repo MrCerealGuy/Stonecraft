@@ -1,3 +1,0 @@
-default
-mob_environments
-mobf
