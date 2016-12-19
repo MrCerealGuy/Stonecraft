@@ -1,0 +1,11 @@
+Licenses
+
+CC0
+	sounds/mob_slime_bounce.ogg
+	
+CC-BY-3.0 Author Blender Foundation
+	sounds/mob_slime_die.ogg
+
+Everything not mentioned:
+	CC-BY-SA 3.0, Author sapier
+	URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode

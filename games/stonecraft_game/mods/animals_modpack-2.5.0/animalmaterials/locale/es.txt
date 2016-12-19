@@ -1,0 +1,35 @@
+# Spanish translation for Animals Modpack.
+# Traducción al español de Animals Modpack.
+# Author/Autor: Diego Martínez <kaeza>
+
+Sword (Deamondeath) = Espada (Matademonios)
+Scissors = Tijeras
+Lasso = Lazo
+Net = Red
+Saddle = Silla
+Contract = Contrato
+Raw meat = Carne cruda
+Pork (raw) = Puerco (crudo)
+Beef (raw) = Res (cruda)
+Chicken (raw) = Pollo (crudo)
+Lamb (raw) = Cordero (crudo)
+Venison (raw) = Venado (crudo)
+Meat (not quite dead) = Carne (no tan muerta)
+Toxic Meat = Carne Toxica
+Ostrich Meat = Carne de Avestruz
+Fish (bluewhite) = Pescado (azul blanco)
+Fish (clownfish) = Pescado (pez payaso)
+Feather = Pluma
+Milk = Leche
+Egg = Huevo
+Egg (big) = Huevo (grande)
+Bone = Hueso
+Fur = Piel
+Deer fur = Piel de venado
+Cattle coat = Piel de vaca
+Deer horns = Cuernos de venado
+Ivory = Marfil
+Scale (golden) = Escama (dorada)
+Scale (white) = Escama (blanca)
+Scale (grey) = Escama (gris)
+Scale (blue) = Escama (azul)

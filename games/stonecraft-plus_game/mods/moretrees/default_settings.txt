@@ -1,0 +1,68 @@
+-- Global configuration variables
+
+-- Enable the various kinds of trees.
+
+moretrees.enable_apple_tree		= true
+moretrees.enable_oak			= true
+moretrees.enable_sequoia		= true
+moretrees.enable_palm			= true
+moretrees.enable_pine			= true
+moretrees.enable_rubber_tree	= true
+moretrees.enable_willow			= true
+moretrees.enable_acacia			= true
+moretrees.enable_birch			= true
+moretrees.enable_spruce			= true
+moretrees.enable_jungle_tree	= true
+moretrees.enable_fir			= true
+moretrees.enable_beech			= false
+
+-- set this to true to make moretrees spawn saplings at mapgen time instead
+-- of fully-grown trees, which will grow into full trees after a very short
+-- delay.  This reduces mapgen lag in some situations.
+
+moretrees.spawn_saplings		= false
+
+-- Set this to true to allow defining stairs/slabs/etc.  If Moreblocks is
+-- installed, this will use that mod's Stairs Plus component.  Otherwise, it 
+-- will use the default stairs mod in minetest_game, if present
+
+moretrees.enable_stairs			= true
+
+-- Set this to true if you want the plantlike drawtype for leaves, which 
+-- improves some peoples' framerates without resorting to making leaf nodes opaque.
+-- Affects default leaves and default jungle leaves also.
+
+moretrees.plantlike_leaves		= false
+
+-- Enable this if you want moretrees to redefine default apples so that they
+-- fall when leaves decay/are dug.
+
+moretrees.enable_redefine_apple		= true
+
+-- Set this to true to enable leaf decay of all trees except the default ones.
+
+moretrees.enable_leafdecay		= true
+
+-- various related settings to configure leaf decay.
+
+moretrees.leafdecay_delay		= 2
+moretrees.leafdecay_chance		= 5
+moretrees.leafdecay_radius		= 5
+moretrees.palm_leafdecay_radius		= 10
+
+-- Change these settings if you want default trees to be gradually cut down
+-- above the elevation where firs normally generate.
+
+moretrees.firs_remove_default_trees	= false
+moretrees.firs_remove_interval		= 2
+moretrees.firs_remove_chance		= 150
+
+-- Sapling settings
+
+moretrees.sapling_interval		= 500
+moretrees.sapling_chance		= 20
+
+-- If this variable is set to true, drop leaves out as entities during leaf
+-- decay, rather than just disappearing them.
+
+moretrees.decay_leaves_as_items = false

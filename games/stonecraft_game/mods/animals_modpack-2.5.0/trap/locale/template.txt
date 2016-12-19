@@ -1,0 +1,4 @@
+# Template
+
+Trap for undead mobs = 
+Trap containing vombie = 

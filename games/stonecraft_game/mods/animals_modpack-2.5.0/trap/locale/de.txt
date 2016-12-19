@@ -1,0 +1,4 @@
+# Translation by Xanthin
+
+Trap for undead mobs = Falle fuer untote Wesen
+Trap containing vombie = Falle mit Vombie

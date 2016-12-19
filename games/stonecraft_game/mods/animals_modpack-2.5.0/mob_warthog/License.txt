@@ -1,0 +1,11 @@
+Licenses
+
+CC-BY 3.0 (c) Copyright BlockMen (2014)
+	mob_ghost_ghost.1.ogg
+	mob_ghost_ghost.2.ogg
+	mob_ghost_ghost_hit.ogg
+	mob_ghost_ghost_death.ogg
+
+Everything not mentioned:
+	CC-BY-SA 3.0, Author sapier
+	URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode

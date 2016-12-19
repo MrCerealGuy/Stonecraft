@@ -1,0 +1,4 @@
+# Translation by Xanthin
+
+Wolf = Wolf
+Tamed Wolf = Gezaehmter Wolf

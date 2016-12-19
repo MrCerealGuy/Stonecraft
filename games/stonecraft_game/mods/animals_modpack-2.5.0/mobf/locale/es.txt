@@ -1,0 +1,14 @@
+# Spanish translation for Animals Modpack.
+# Traducción al español de Animals Modpack.
+# Author/Autor: Diego Martínez <kaeza>
+
+Path marker tool = Herramienta de marcado de camino
+
+###Inventory.lua###
+Trader %s Inventory = Inventario de Mercader %s
+Selling: = Vende:
+Selection = Seleccion
+Price = Precio
+or = o
+Pay = Paga
+Takeaway = Toma

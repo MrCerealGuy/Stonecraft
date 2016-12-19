@@ -1,0 +1,6 @@
+# Template
+
+Chicken = 
+Rooster = 
+Chick - male = 
+Chick - female = 

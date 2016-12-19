@@ -1,0 +1,5 @@
+Sounds from: http://www.freesound.org/people/dobroide/sounds/16771/ (CC by 3.0)
+Textures made with gimp (WTFPL)
+I looked at snow mod for mapgen and
+at the jungletree mod for birches. (WTFPL)
+rest WTFPL

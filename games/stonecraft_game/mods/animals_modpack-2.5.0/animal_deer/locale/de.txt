@@ -1,0 +1,4 @@
+# Translation by Xanthin
+
+Deer (m) = Hirsch
+Deer (f) = Hirschkuh

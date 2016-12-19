@@ -1,0 +1,19 @@
+{
+    "name": "homedecor_modpack",
+    "description": "This mod adds a whole bunch of new items to Minetest suitable for decorating inside and outside a home.",
+    "keywords": [
+		"building",
+		"cosmetic",
+        "homedecor modpack",
+		"homedecor_modpack"
+    ],
+    "homepage": "http://daconcepts.com/vanessa/hobbies/minetest/homedecor-crafting-guide/homedecor-craft-guide.html",
+	"project": "https://github.com/minetest-mods/homedecor_modpack",
+    "forum": "http://forum.minetest.net/viewtopic.php?f=11&t=2041",
+    "screenshots": [
+        "http://daconcepts.com/vanessa/hobbies/minetest/screenshots/homedecor1.png"
+    ],
+    "authors": [
+        "VanessaE"
+    ]
+}

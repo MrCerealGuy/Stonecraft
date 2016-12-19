@@ -1,0 +1,7 @@
+# Spanish translation for Animals Modpack.
+# Traducción al español de Animals Modpack.
+# Author/Autor: Diego Martínez <kaeza>
+
+Sheep = Oveja
+Lamb = Cordero
+Naked sheep = Oveja Esquilada

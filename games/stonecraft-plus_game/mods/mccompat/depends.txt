@@ -1,0 +1,4 @@
+default
+stairs
+doors
+xconnected

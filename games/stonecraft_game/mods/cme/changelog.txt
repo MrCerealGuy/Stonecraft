@@ -1,0 +1,40 @@
+Version 2.1
+-----------
+- Added death animations
+- Zombie spawners are now generated in dungeons (if they have more than 4 rooms)
+- Fixed bug that hostile mobs did sometimes not attack
+- Reduced sheep model size
+- Tweak codestyle a bit/ added missing documentation of combat values
+
+Version 2.2
+-----------
+- Added chicken
+- Readded sheep spawner (by LNJ)
+- Fix possible crash (reported by bbaez)
+- Added descriptions to spawners
+- Added option to set custom panic and swim animations
+
+Version 2.2.1
+-------------
+- Fixed crash caused by not existing node
+
+Version 2.2.2
+-------------
+- Eggs can be thrown to spawn chicken (rare)
+- Chicken drop chicken meat and feather(s) on death
+- Fixed spawn eggs being endless in singleplayer
+- Fix searching for target if in panic mode
+
+Version 2.3
+-----------
+- Added Oerrki
+- Added fried eggs
+- Fixed moveing facement being reset
+- Fixed chicken model
+- Fixed sneaky variable not working
+- Fixed feathers being eatable
+
+Version 2.3.1
+-------------
+- Added colored sheep
+- Fixed Oerrki spawning times (spawns on night as intended)

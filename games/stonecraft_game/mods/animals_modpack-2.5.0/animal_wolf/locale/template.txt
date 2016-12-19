@@ -1,0 +1,4 @@
+# Template
+
+Wolf = 
+Tamed Wolf = 

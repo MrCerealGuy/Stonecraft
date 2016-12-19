@@ -1,0 +1,6 @@
+# Spanish translation for Animals Modpack.
+# Traducción al español de Animals Modpack.
+# Author/Autor: Diego Martínez <kaeza>
+
+Trap for undead mobs = Trampa para no muertos
+Trap containing vombie = Trampa conteniendo vombie
