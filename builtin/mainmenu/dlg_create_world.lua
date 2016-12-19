@@ -71,10 +71,10 @@ local function create_world_formspec(dialogdata)
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
 				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
 				fgettext("Download a subgame, such as stonecraft_game, from bc547.de/stonecraft") .. "]"
-	elseif #gamemgr.games == 2 and gamemgr.games[2].id == "stonecraft-light" then
+	elseif #gamemgr.games == 2 and gamemgr.games[2].id == "stonecraft-plus" then
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
-				fgettext("In Stonecraft Light are only the basic mods activated.") .. "]label[2,4.4;" ..
-				fgettext("Recommend if you experience performance lags.") .. "]"
+				fgettext("Stonecraft Plus uses enhanced worldgen mods.") .. "]label[2,4.4;" ..
+				fgettext("Actually you can experience performance lags.") .. "]"
 	end
 
 	return retval
