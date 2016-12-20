@@ -91,20 +91,45 @@ local function get_formspec(tabview, name, tabdata)
 	local index = filterlist.get_current_index(menudata.worldlist,
 				tonumber(core.setting_get("mainmenu_last_selected_world"))
 				)
-
-	retval = retval ..
-			"button[4,4.15;2.6,0.5;world_delete;".. fgettext("Delete") .. "]" ..
-			"button[6.5,4.15;2.8,0.5;world_create;".. fgettext("New") .. "]" ..
-			"button[9.2,4.15;2.55,0.5;world_configure;".. fgettext("Configure") .. "]" ..
-			"button[8.5,4.95;3.25,0.5;play;".. fgettext("Play") .. "]" ..
-			"label[4,-0.25;".. fgettext("Select World:") .. "]"..
-			"checkbox[0.25,0.25;cb_creative_mode;".. fgettext("Creative Mode") .. ";" ..
-			dump(core.setting_getbool("creative_mode")) .. "]"..
-			"checkbox[0.25,0.7;cb_enable_damage;".. fgettext("Enable Damage") .. ";" ..
-			dump(core.setting_getbool("enable_damage")) .. "]"..
-			"textlist[4,0.25;7.5,3.7;sp_worlds;" ..
-			menu_render_worldlist() ..
-			";" .. index .. "]"
+				
+	local game = current_game()
+	
+	if game.id == "stonecraft-plus" then
+		retval = retval ..
+				"button[4,4.15;2.6,0.5;world_delete;".. fgettext("Delete") .. "]" ..
+				"button[6.5,4.15;2.8,0.5;world_create;".. fgettext("New") .. "]" ..
+				"button[9.2,4.15;2.55,0.5;world_configure;".. fgettext("Configure") .. "]" ..
+				"button[8.5,4.95;3.25,0.5;play;".. fgettext("Play") .. "]" ..
+				"label[4,-0.25;".. fgettext("Select World:") .. "]"..
+				"checkbox[0.25,0.25;cb_creative_mode;".. fgettext("Creative Mode") .. ";" ..
+				dump(core.setting_getbool("creative_mode")) .. "]"..
+				"checkbox[0.25,0.7;cb_enable_damage;".. fgettext("Enable Damage") .. ";" ..
+				dump(core.setting_getbool("enable_damage")) .. "]"..
+				"checkbox[0.25,1.15;cb_enable_erosion;".. fgettext("Enable Erosion") .. ";" ..
+				dump(core.setting_getbool("enable_erosion")) .. "]"..
+				"checkbox[0.25,1.60;cb_enable_forests;".. fgettext("Enable More Forests") .. ";" ..
+				dump(core.setting_getbool("enable_forests")) .. "]"..
+				"checkbox[0.25,2.05;cb_enable_villages;".. fgettext("Enable Villages") .. ";" ..
+				dump(core.setting_getbool("enable_villages")) .. "]"..
+				"textlist[4,0.25;7.5,3.7;sp_worlds;" ..
+				menu_render_worldlist() ..
+				";" .. index .. "]"
+	else
+		retval = retval ..
+				"button[4,4.15;2.6,0.5;world_delete;".. fgettext("Delete") .. "]" ..
+				"button[6.5,4.15;2.8,0.5;world_create;".. fgettext("New") .. "]" ..
+				"button[9.2,4.15;2.55,0.5;world_configure;".. fgettext("Configure") .. "]" ..
+				"button[8.5,4.95;3.25,0.5;play;".. fgettext("Play") .. "]" ..
+				"label[4,-0.25;".. fgettext("Select World:") .. "]"..
+				"checkbox[0.25,0.25;cb_creative_mode;".. fgettext("Creative Mode") .. ";" ..
+				dump(core.setting_getbool("creative_mode")) .. "]"..
+				"checkbox[0.25,0.7;cb_enable_damage;".. fgettext("Enable Damage") .. ";" ..
+				dump(core.setting_getbool("enable_damage")) .. "]"..
+				"textlist[4,0.25;7.5,3.7;sp_worlds;" ..
+				menu_render_worldlist() ..
+				";" .. index .. "]"
+	end
+			
 	return retval
 end
 
@@ -147,6 +172,30 @@ local function main_button_handler(this, fields, name, tabdata)
 		core.setting_set("enable_damage", fields["cb_enable_damage"])
 		local selected = core.get_textlist_index("sp_worlds")
 		menu_worldmt(selected, "enable_damage", fields["cb_enable_damage"])
+
+		return true
+	end
+	
+	if fields["cb_enable_erosion"] then
+		core.setting_set("enable_erosion", fields["cb_enable_erosion"])
+		local selected = core.get_textlist_index("sp_worlds")
+		menu_worldmt(selected, "enable_erosion", fields["cb_enable_erosion"])
+
+		return true
+	end
+	
+	if fields["cb_enable_forests"] then
+		core.setting_set("enable_forests", fields["cb_enable_forests"])
+		local selected = core.get_textlist_index("sp_worlds")
+		menu_worldmt(selected, "enable_forests", fields["cb_enable_forests"])
+
+		return true
+	end
+	
+	if fields["cb_enable_villages"] then
+		core.setting_set("enable_villages", fields["cb_enable_villages"])
+		local selected = core.get_textlist_index("sp_worlds")
+		menu_worldmt(selected, "enable_villages", fields["cb_enable_villages"])
 
 		return true
 	end
