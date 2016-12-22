@@ -4,8 +4,18 @@
 
 2016-11-28 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	some modifications
+	
+2016-12-22 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
 
 --]]
+
+local DIR_DELIM = DIR_DELIM or "/"
+local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
+local world_conf = Settings(world_file)
+local enable_erosion = world_conf:get("enable_erosion")
+
+-- --------------------------------------------------------------------------------------------------------
 
 if not rawget(_G,"stairsplus") then
 	minetest.log("info", "erosion: stairsplus not found")
@@ -422,7 +432,7 @@ local function place_slope(vpos,m)
 	end
 end
 
-if minetest.setting_getbool("enable_erosion") then
+if enable_erosion == "true" then
 	minetest.register_on_generated(function(minp, maxp)
 		minetest.log("action", "erosion:on_generated")
 		
@@ -488,10 +498,7 @@ local function wwthrngCL(p,n) p.y = p.y+1
 	end
 end
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_erosion = world_conf:get("enable_erosion")
+
 
 if enable_erosion == "true" then
 	minetest.register_abm({

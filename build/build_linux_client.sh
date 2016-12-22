@@ -20,4 +20,3 @@ fi
 cd ../
 cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=0 -DENABLE_REDIS=0 -DRUN_IN_PLACE=1
 make package -j$(grep -c processor /proc/cpuinfo)
- 
