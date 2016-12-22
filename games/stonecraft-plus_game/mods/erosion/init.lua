@@ -488,8 +488,12 @@ local function wwthrngCL(p,n) p.y = p.y+1
 	end
 end
 
+local DIR_DELIM = DIR_DELIM or "/"
+local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
+local world_conf = Settings(world_file)
+local enable_erosion = world_conf:get("enable_erosion")
 
-if minetest.setting_getbool("enable_erosion") then
+if enable_erosion == "true" then
 	minetest.register_abm({
 		nodenames = nntbl,
 		neighbors = {"air"},

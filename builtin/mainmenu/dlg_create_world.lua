@@ -45,23 +45,42 @@ local function create_world_formspec(dialogdata)
 	end
 
 	current_seed = core.formspec_escape(current_seed)
-	local retval =
-		"size[11.5,6.5,true]" ..
+	local retval = ""
+	
+	if game.id == "stonecraft-plus" then
+		retval = retval .. "size[11.5,6.5,true]"
+	else
+		retval = retval .. "size[11.5,4.5,true]"
+	end
+	
+	retval = retval ..		
 		"label[2,0;" .. fgettext("World name") .. "]"..
 		"field[4.5,0.4;6,0.5;te_world_name;;]" ..
-
+		
 		"label[2,1;" .. fgettext("Seed") .. "]"..
 		"field[4.5,1.4;6,0.5;te_seed;;".. current_seed .. "]" ..
-
+		
 		"label[2,2;" .. fgettext("Mapgen") .. "]"..
 		"dropdown[4.2,2;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]" ..
 
-		"label[2,3;" .. fgettext("Game") .. "]"..
-		"textlist[4.2,3;5.8,2.3;games;" .. gamemgr.gamelist() ..
-		";" .. gameidx .. ";true]" ..
-
-		"button[3.25,6;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
-		"button[5.75,6;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+		--"label[2,3;" .. fgettext("Game") .. "]"..
+		"textlist[-10,3;7,2.3;games;" .. gamemgr.gamelist() ..
+		";" .. gameidx .. ";true]"
+		
+		if game.id == "stonecraft-plus" then
+			retval = retval .. "checkbox[0.25,4.50;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]" ..
+							"checkbox[2.80,4.50;cb_enable_forests;" .. fgettext("Enable more forests") .. ";false]" ..
+							"checkbox[6.05,4.50;cb_enable_villages;" .. fgettext("Enable villages") .. ";false]" ..
+							"checkbox[8.55,4.50;cb_enable_biomes;" .. fgettext("Enable more biomes") .. ";false]"
+		end
+		
+		if game.id == "stonecraft-plus" then
+			retval = retval .. "button[3.25,6;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
+				"button[5.75,6;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+		else
+			retval = retval .. "button[3.25,4;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
+				"button[5.75,4;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+		end
 		
 	if #gamemgr.games == 0 then
 		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
@@ -71,10 +90,11 @@ local function create_world_formspec(dialogdata)
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
 				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
 				fgettext("Download a subgame, such as stonecraft_game, from bc547.de/stonecraft") .. "]"
-	elseif #gamemgr.games == 2 and gamemgr.games[2].id == "stonecraft-plus" then
-		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
-				fgettext("Stonecraft Plus uses enhanced worldgen mods.") .. "]label[2,4.4;" ..
-				fgettext("Actually you can experience performance lags.") .. "]"
+	elseif game.id == "stonecraft-plus" then
+		retval = retval .. "box[1.75,3.30;8.7,1;#ff8800]label[2,3.3;" ..
+				fgettext("In Stonecraft Plus you can use enhanced worldgen options.") .. "]label[2,3.70;" ..
+				fgettext("Actually you can experience performance lags if activated.") .. "]"
+	
 	end
 
 	return retval
@@ -82,7 +102,49 @@ local function create_world_formspec(dialogdata)
 end
 
 local function create_world_buttonhandler(this, fields)
+	
+	-- handle Stonecraft Plus selected mods
+	if fields["cb_enable_erosion"] ~= nil then
+		if core.is_yes(fields["cb_enable_erosion"]) then
+			core.setting_set("world_create_enable_erosion", "true")
+		else
+			core.setting_set("world_create_enable_erosion", "false")
+		end
+						
+		return true
+	end
+	
+	if fields["cb_enable_forests"] ~= nil then
+		if core.is_yes(fields["cb_enable_forests"]) then
+			core.setting_set("world_create_enable_forests", "true")
+		else
+			core.setting_set("world_create_enable_forests", "false")
+		end
+						
+		return true
+	end
+	
+	if fields["cb_enable_villages"] ~= nil then
+		if core.is_yes(fields["cb_enable_villages"]) then
+			core.setting_set("world_create_enable_villages", "true")
+		else
+			core.setting_set("world_create_enable_villages", "false")
+		end
+						
+		return true
+	end
+	
+	if fields["cb_enable_biomes"] ~= nil then
+		if core.is_yes(fields["cb_enable_biomes"]) then
+			core.setting_set("world_create_enable_biomes", "true")
+		else
+			core.setting_set("world_create_enable_biomes", "false")
+		end
+						
+		return true
+	end
 
+	
 	if fields["world_create_confirm"] or
 		fields["key_enter"] then
 
@@ -93,9 +155,9 @@ local function create_world_buttonhandler(this, fields)
 			worldname ~= "" then
 
 			local message = nil
-
+			
 			core.setting_set("fixed_map_seed", fields["te_seed"])
-
+			
 			if not menudata.worldlist:uid_exists_raw(worldname) then
 				core.setting_set("mg_name",fields["dd_mapgen"])
 				message = core.create_world(worldname,gameindex)
@@ -107,13 +169,42 @@ local function create_world_buttonhandler(this, fields)
 				gamedata.errormessage = message
 			else
 				core.setting_set("menu_last_game",gamemgr.games[gameindex].id)
+				
 				if this.data.update_worldlist_filter then
 					menudata.worldlist:set_filtercriteria(gamemgr.games[gameindex].id)
 					mm_texture.update("singleplayer", gamemgr.games[gameindex].id)
 				end
+				
 				menudata.worldlist:refresh()
 				core.setting_set("mainmenu_last_selected_world",
 									menudata.worldlist:raw_index_by_uid(worldname))
+									
+				
+				-- write selected Stonecraft Plus mods in world.mt
+				if core.setting_getbool("world_create_enable_erosion") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", "false")
+				end
+				
+				if core.setting_getbool("world_create_enable_forests") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", "false")
+				end
+				
+				if core.setting_getbool("world_create_enable_villages") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "false")
+				end
+				
+				if core.setting_getbool("world_create_enable_biomes") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", "false")
+				end
+
 			end
 		else
 			gamedata.errormessage =
@@ -122,7 +213,7 @@ local function create_world_buttonhandler(this, fields)
 		this:delete()
 		return true
 	end
-
+	
 	if fields["games"] then
 		return true
 	end
@@ -135,13 +226,17 @@ local function create_world_buttonhandler(this, fields)
 	return false
 end
 
-
 function create_create_world_dlg(update_worldlistfilter)
-	local retval = dialog_create("sp_create_world",
+	core.setting_set("world_create_enable_erosion", "false")
+	core.setting_set("world_create_enable_forests", "false")
+	core.setting_set("world_create_enable_villages", "false")
+	core.setting_set("world_create_enable_biomes", "false")
+	
+	local dlg = dialog_create("sp_create_world",
 					create_world_formspec,
 					create_world_buttonhandler,
 					nil)
-	retval.update_worldlist_filter = update_worldlistfilter
+	dlg.update_worldlist_filter = update_worldlistfilter
 	
-	return retval
+	return dlg
 end

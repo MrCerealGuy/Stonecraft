@@ -417,6 +417,7 @@ nssb_register_buildings ('doppiopiccosabbia', 11, "default:desert_sand", 1, "def
 nssb_register_buildings ('piccoscrausics', 8, "default:desert_sand", 1, "default:desert_stone",  1, "air", 3, "default:desert_sand", 3, false, nil, false, false)
 nssb_register_buildings ('fossasand', 1, "default:desert_sand", 1, "default:desert_stone",  1, "air", 3, "default:desert_sand", 16, false, nil, false, false)
 
+
 --Eggs
 
 function nssb_register_eggs (

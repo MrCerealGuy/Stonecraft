@@ -885,17 +885,6 @@ map_generation_limit (Map generation limit) int 31000 0 31000
 #    Flags starting with 'no' are used to explicitly disable them.
 mg_flags (Mapgen flags) flags caves,dungeons,light,decorations caves,dungeons,light,decorations,nocaves,nodungeons,nolight,nodecorations
 
-#    A mod that uses default (the base mod of the Minetest game) 
-#    and moreblocks to provide sloping terrain and some simulated erosion effects.
-enable_erosion (Simulation of erosion effects) bool false
-
-#    This mod change the default map generation and add numerous trees.
-#    Don't use in worlds you have created before installing this mod.
-enable_forests (Simulation of erosion effects) bool false
-
-#    A mod that adds villages to your world 
-enable_villages (Simulation of erosion effects) bool false
-
 [**Advanced]
 
 #    Size of chunks to be generated at once by mapgen, stated in mapblocks (16 nodes).

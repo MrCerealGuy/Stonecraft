@@ -8,6 +8,20 @@
 
 ]]
 
+--[[
+
+2016-12-22 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+local DIR_DELIM = DIR_DELIM or "/"
+local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
+local world_conf = Settings(world_file)
+local enable_biomes = world_conf:get("enable_biomes")
+
+-- --------------------------------------------------------------------------------------------------------
+
 ethereal = {}
 ethereal.leaftype = 0 -- 0 for 2D plantlike, 1 for 3D allfaces
 ethereal.leafwalk = false -- true for walkable leaves, false to fall through
@@ -47,31 +61,33 @@ else
 end
 ethereal.intllib = S
 
-local path = minetest.get_modpath("ethereal")
+if enable_biomes == "true" then
+	local path = minetest.get_modpath("ethereal")
 
-dofile(path .. "/plantlife.lua")
-dofile(path .. "/mushroom.lua")
-dofile(path .. "/onion.lua")
-dofile(path .. "/crystal.lua")
-dofile(path .. "/water.lua")
-dofile(path .. "/dirt.lua")
-dofile(path .. "/leaves.lua")
-dofile(path .. "/wood.lua")
-dofile(path .. "/sapling.lua")
-dofile(path .. "/strawberry.lua")
-dofile(path .. "/fishing.lua")
-dofile(path .. "/extra.lua")
-dofile(path .. "/sealife.lua")
-dofile(path .. "/fences.lua")
-dofile(path .. "/gates.lua")
-dofile(path .. "/mapgen.lua")
-dofile(path .. "/food.lua")
-dofile(path .. "/bonemeal.lua")
-dofile(path .. "/compatibility.lua")
-dofile(path .. "/stairs.lua")
+	dofile(path .. "/plantlife.lua")
+	dofile(path .. "/mushroom.lua")
+	dofile(path .. "/onion.lua")
+	dofile(path .. "/crystal.lua")
+	dofile(path .. "/water.lua")
+	dofile(path .. "/dirt.lua")
+	dofile(path .. "/leaves.lua")
+	dofile(path .. "/wood.lua")
+	dofile(path .. "/sapling.lua")
+	dofile(path .. "/strawberry.lua")
+	dofile(path .. "/fishing.lua")
+	dofile(path .. "/extra.lua")
+	dofile(path .. "/sealife.lua")
+	dofile(path .. "/fences.lua")
+	dofile(path .. "/gates.lua")
+	dofile(path .. "/mapgen.lua")
+	dofile(path .. "/food.lua")
+	dofile(path .. "/bonemeal.lua")
+	dofile(path .. "/compatibility.lua")
+	dofile(path .. "/stairs.lua")
 
-if minetest.get_modpath("xanadu") then
-	dofile(path .. "/plantpack.lua")
+	if minetest.get_modpath("xanadu") then
+		dofile(path .. "/plantpack.lua")
+	end
+
+	print (S("[MOD] Ethereal loaded"))
 end
-
-print (S("[MOD] Ethereal loaded"))
