@@ -1,5 +1,0 @@
-# Translation by Xanthin
-
-Sheep = Schaf
-Lamb = Lamm
-Naked sheep = Geschorenes Schaf
