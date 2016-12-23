@@ -1,3 +1,0 @@
-# Translation by Xanthin
-
-Gull = Moewe

@@ -1,4 +1,0 @@
-Texture License unknown
-
-CC-BY 3.0 Author: Brandon Morris/Brandon75689 opengameart.org
-	mob_npc_letstrade.ogg

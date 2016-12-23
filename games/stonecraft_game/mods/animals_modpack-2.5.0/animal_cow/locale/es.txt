@@ -1,8 +1,0 @@
-# Spanish translation for Animals Modpack.
-# Traducción al español de Animals Modpack.
-# Author/Autor: Diego Martínez <kaeza>
-
-Cow = Vaca
-Steer = Novillo
-Baby Calf female = Ternero
-Baby Calf male = Ternera
