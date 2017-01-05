@@ -1,4 +1,4 @@
-# Stonecraft
+﻿# Stonecraft
 
 An InfiniMiner/Minecraft inspired game powered by Minetest 0.4.14
 
@@ -35,7 +35,7 @@ Mouse wheel: Select item
 0-9: Select item
 Z: Zoom
 T: Chat
-/: Commad
+/: Command
 Esc: Pause menu/abort/exit (pauses only singleplayer game)
 R: Enable/disable full range view
 +: Increase view range
