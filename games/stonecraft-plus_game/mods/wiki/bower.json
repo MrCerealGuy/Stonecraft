@@ -1,0 +1,18 @@
+{
+  "name": "wiki",
+  "description": "Online collaborative documentation browser.",
+  "keywords": [
+    "wiki",
+    "doc",
+    "documentation",
+    "browser"
+  ],
+  "homepage": "https://github.com/kaeza/minetest-wiki.git",
+  "screenshots": [
+    "https://dl.dropboxusercontent.com/u/100008207/minetest/mods/Kaeza-minetest-wiki.jpg"
+  ],
+  "authors": [
+    "Diego Martínez <lkaezadl3@yahoo.com>"
+  ],
+  "license": "BSD 2-Clause"
+}
