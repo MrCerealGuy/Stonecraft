@@ -366,7 +366,7 @@
 #default_password =
 #    Available privileges: interact, shout, teleport, settime, privs, ...
 #    See /privs in game for a full list on your server and mod configuration.
-#default_privs = interact, shout, home, zoom
+#default_privs = interact, shout, home, zoom, areas
 #    Whether players are shown to clients without any range limit.
 #    Deprecated, use the setting player_transfer_distance instead.
 #unlimited_player_transfer_distance = true
