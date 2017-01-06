@@ -1,4 +1,0 @@
-default
-mob_environments
-mobf
-animalmaterials
