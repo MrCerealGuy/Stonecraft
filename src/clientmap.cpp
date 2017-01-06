@@ -132,9 +132,9 @@ static bool isOccluded(Map *map, v3s16 p0, v3s16 p1, float step, float stepfac,
 		else
 			is_transparent = (f.solidness != 2);
 		if(!is_transparent){
-			if(count == needed_count)
-				return true;
 			count++;
+			if(count >= needed_count)
+				return true;
 		}
 		step *= stepfac;
 	}
@@ -301,7 +301,10 @@ void ClientMap::updateDrawList(video::IVideoDriver* driver)
 			float endoff = -BS * MAP_BLOCKSIZE * 1.732050807569;
 			v3s16 spn = cam_pos_nodes;
 			s16 bs2 = MAP_BLOCKSIZE / 2 + 1;
-			u32 needed_count = 1;
+			// to reduce the likelihood of falsely occluded blocks
+			// require at least two solid blocks
+			// this is a HACK, we should think of a more precise algorithm
+			u32 needed_count = 2;
 			if (occlusion_culling_enabled &&
 					// For the central point of the mapblock 'endoff' can be halved
 					isOccluded(this, spn, cpn,

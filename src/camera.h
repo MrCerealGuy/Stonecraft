@@ -155,8 +155,8 @@ public:
 	void toggleCameraMode() {
 		if (m_camera_mode == CAMERA_MODE_FIRST)
 			m_camera_mode = CAMERA_MODE_THIRD;
-		//else if (m_camera_mode == CAMERA_MODE_THIRD)
-			//m_camera_mode = CAMERA_MODE_THIRD_FRONT;
+		else if (m_camera_mode == CAMERA_MODE_THIRD)
+			m_camera_mode = CAMERA_MODE_THIRD_FRONT;
 		else
 			m_camera_mode = CAMERA_MODE_FIRST;
 	}
