@@ -1,0 +1,4 @@
+2 images taken from the open icon libary:
+
+teleporter_world.png / famfamfam-silk / CC-BY-2.5 or CC-BY-3.0
+teleporter_bookmark.png / intrigue / GPLv2

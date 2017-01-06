@@ -1,0 +1,33 @@
+# Template
+
+Sword (Deamondeath) = 
+Scissors = 
+Lasso = 
+Net = 
+Saddle = 
+Contract = 
+Raw meat = 
+Pork (raw) = 
+Beef (raw) = 
+Chicken (raw) = 
+Lamb (raw) = 
+Venison (raw) = 
+Meat (not quite dead) = 
+Toxic Meat = 
+Ostrich Meat = 
+Fish (bluewhite) = 
+Fish (clownfish) = 
+Feather = 
+Milk = 
+Egg = 
+Egg (big) = 
+Bone = 
+Fur = 
+Deer fur = 
+Cattle coat = 
+Deer horns = 
+Ivory = 
+Scale (golden) = 
+Scale (white) = 
+Scale (grey) = 
+Scale (blue) = 

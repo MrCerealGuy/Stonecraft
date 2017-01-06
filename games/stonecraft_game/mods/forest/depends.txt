@@ -1,0 +1,6 @@
+default
+fire
+dye
+bucket
+stairs
+flowers

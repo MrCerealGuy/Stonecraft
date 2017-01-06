@@ -1,0 +1,232 @@
+
+#
+# Language: Italiano
+# Author: Emon
+#
+
+### Special strings ###
+
+### kitchen_cabinet.lua ###
+Kitchen Cabinet = Armadietto della cucina
+## 1: Player name, 2: position
+%s moves stuff in kitchen cabinet at %s = %s sposta delle cose nell'armadietto della cucina a %s
+%s moves stuff to kitchen cabinet at %s = %s mette delle cose nell'armadietto della cucina a %s
+%s takes stuff from kitchen cabinet at %s = %s prende delle cose nell'armadietto della cucina a %s
+Half-height Kitchen Cabinet (on ceiling) = Armadietto della cucina di altezza dimezzata (sul soffitto)
+Under-sink cabinet = Armadietto sotto il lavandino
+Kitchen Cabinet with sink = Armadietto della cucina con il lavandino
+
+### door_models.lua ###
+Mahogany Closet Door = Porta dell'armadio in mogano
+Oak Closet Door = Porta dell'armadio in quercia
+Fancy Wood/Glass Door = Porta decorativa in vetro e legno
+Glass Office Door = Porta dell'ufficio in vetro
+Glass and Wood, Mahogany-colored = Vetro e legno, color mogano
+Glass and Wood, Oak-colored = Vetro e legno, color quercia
+Glass and Wood, White = Vetro e legno, bianca
+Plain Wooden Door = Porta in legno semplice
+left = sinistra
+right = destra
+## 1: Side the doors opens to
+(Top Half, %s-opening) = (Metà superiore, apertura a %s)
+(%s-opening) = (apertura a %s)
+
+
+### door_nodes.lua ###
+Not enough space above that spot to place a door! = Non c'è abbastanza spazio sopra quel punto per mettere una porta!
+
+### crafts.lua ###
+Brass Ingot = Lingotto di ottone
+Bucket of white paint = Secchio di vernice bianca
+Legs for Small Utility table = Gambe per il tavolo da lavoro piccolo
+Plastic sheet = Foglio di plastica
+Silicon lump = Grumo di silicone
+Simple Integrated Circuit = Circuito integrato semplice
+Small Wooden Drawer = Bauletto in legno
+Terracotta Roof Tile = Tegole di terracotta
+Titanium Dioxide = Biossido di titanio
+Uncooked Terracotta Base = Base cruda di terracotta
+Unprocessed Plastic base = Base non lavorata di plastica
+
+### door_models.lua ###
+
+### door_nodes.lua ###
+
+### fences.lua ###
+Barbed Wire Fence = Recinzione di filo spinato
+Barbed Wire Fence Corner = Angolo della recinzione di filo spinato
+Barbed Wire Fence Gate = Cancello della recinzione di filo spinato
+Brass Fence/railing = Recinzione di ottone/ringhiera
+Brass Fence/railing with sign = Recinzione di ottone/ringhiera con cartello
+Chainlink Fence = Rete metallica
+Chainlink Fence Corner = Angolo della rete metallica
+Chainlink Fence Gate = Cancello della rete metallica
+Unpainted Picket Fence = Recinzione non verniciata di paletti
+Unpainted Picket Fence Corner = Angolo della recinzione non verniciata di paletti
+Unpainted Picket Fence Gate = Cancello della recinzione non verniciata di paletti
+White Picket Fence = Recinzione di paletti bianca
+White Picket Fence Corner = Angolo della recinzione di paletti bianca
+White Picket Fence Gate = Cancello della recinzione di paletti bianca
+Wooden Privacy Fence = Recinzione di isolamento in legno
+Wooden Privacy Fence Corner = Angolo della recinzione di isolamento in legno
+Wrought Iron Fence/railing = Recinzione/ringhiera in ferro battuto
+Wrought Iron Fence/railing with sign = Recinzione/ringhiera in ferro battuto con cartello
+want to simply place the wielded item like usual. = vuole mettere l'oggetto impugnato come sempre.
+
+### furniture.lua ###
+Table = Tavolo
+Chair = Sedia
+Black = nero
+Red = rosso
+Pink = rosa
+Violet = viola
+Blue = blu
+Dark Green = verde scuro
+## 1: Color name
+Armchair (%s) = Poltrona (%s)
+Table Lamp = Lampada da tavolo
+
+### furniture_medieval.lua ###
+Bars = Sbarre
+Binding Bars = Ceppi
+Chains = Catene
+Wall Torch = Torcia a muro
+
+### furniture_bathroom.lua ###
+Toilet = Water
+Sink = Lavandino
+Taps = Rubinetti
+Shower Tray = Piatto della doccia
+Shower Head = Pigna della doccia
+
+### init.lua ###
+Loaded! = Caricato!
+Air Conditioner = Condizionatore dell'aria
+Asphalt Shingles = Mattonelle di asfalto
+Asphalt Shingles (outer corner) = Mattonelle di asfalto (angolo esterno)
+Asphalt Shingles (inner corner) = Mattonelle di asfalto (angolo interno)
+Black Plastic Flower Pot = Vaso per fiori di plastica nera
+Brass Pole = Palo di ottone
+Brass Table Legs = Gambe in ottone del tavolo
+Wrought Iron Table Legs = Gambe in ferro battuto del tavolo
+red = rosso
+green = verde
+blue = blu
+white = bianco
+pink = rosa
+violet = viola
+## 1: Color name
+Curtains (%s) = Tende (%s)
+Drop-Ceiling Tile = Piastrella del controsoffitto
+Glass Skylight = Lucernario di vetro
+Glass Skylight Frosted  = Lucernario di vetro satinato
+Glass Table (Small, Round) = Tavolo di vetro (piccolo, rotondo)
+Glass Table (Small, Square) = Tavolo di vetro (piccolo, quadrato)
+Glass Table Piece (large) = Pezzo di tavolo di vetro (grande)
+Green Plastic Flower Pot = Vaso per fiori di plastica verde
+Large Area Rug = Tappeto per aree grandi
+Glass Table Piece (large) = Pezzo di tavolo di vetro (grande)
+Large Stereo Speaker = Altoparlante stereo grande
+Legs for Utility Table = Gambe per il tavolo da lavoro
+Projection Screen Material = Materiale per lo schermo di proiezione
+Small Surround Speaker = Altoparlante audio surround piccolo
+Small Throw Rug = Tappetino
+Stereo Receiver = Ricevitore stereo
+Terracotta Flower Pot = Vaso per fiori in terracotta
+Terracotta Shingles = Tegole di terracotta
+Terracotta Shingles (outer corner) = Tegole di terracotta (angolo esterno)
+Terracotta Shingles (inner corner) = Tegole di terracotta (angolo interno)
+Textured Ceiling Paint = Vernice con trama per il soffitto
+Utility Table = Tavolo di lavoro
+Utility table mk2 = Tavolo di lavoro mk2
+Wooden Shutter (Black) = Persiana in legno (nera)
+Wooden Shutter (Dark grey) = Persiana in legno (grigia scura)
+Wooden Shutter (Forest green) = Persiana in legno (verde foresta)
+Wooden Shutter (Grey) = Persiana in legno (grigia)
+Wooden Shutter (Light blue) = Persiana in legno (blu chiaro)
+Wooden Shutter (Violet) = Persiana in legno (viola)
+Wooden Shutter (Red) = Persiana in legno (rossa)
+Wooden Shutter (Mahogany) = Persiana in legno (mogano)
+Wooden Shutter (Unpainted oak) = Persiana in legno (quercia non verniciata)
+Wooden Shutter (White) = Persiana in legno (bianca)
+Wooden Shutter (Yellow) = Persiana in legno (gialla)
+Wood Table Piece (large)= Pezzo di tavolo in legno (grande)
+Wood Table (Small, Round) = Tavolo in legno (piccolo, rotondo)
+Wood Table (Small, Square) = Tavolo in legno (piccolo, quadrato)
+Wood Shingles = Tegole in legno
+Wood Shingles (outer corner) = Tegole in legno (angolo esterno)
+Wood Shingles (inner corner) = Tegole in legno (angolo interno)
+Wrought Iron Pole = Palo di ferro battuto
+someone = qualcuno
+## 1: Player name
+Sorry, %s owns that spot. = Spiacente, quel punto è di proprietà di %s.
+
+### lighting.lua ###
+White Glowlight (small cube) = Luce fosforescente bianca (cubo piccolo)
+White Glowlight (small cube, on ceiling) = Luce fosforescente bianca (cubo piccolo, sul soffitto)
+White Glowlight (thick) = Luce fosforescente bianca (spessa)
+White Glowlight (thick, on wall) = Luce fosforescente bianca (spessa, a muro)
+White Glowlight (thin) = Luce fosforescente bianca (sottile)
+White Glowlight (thin, on wall) = Luce fosforescente bianca (sottile, a muro)
+Yellow Glowlight (small cube) = Luce fosforescente gialla (cubo piccolo)
+Yellow Glowlight (small cube, on ceiling) = Luce fosforescente gialla (cubo piccolo, sul soffitto)
+Yellow Glowlight (thick) = Luce fosforescente gialla (spessa)
+Yellow Glowlight (thick, on wall) = Luce fosforescente gialla (spessa, a muro)
+Yellow Glowlight (thin) = Luce fosforescente gialla (sottile)
+Yellow Glowlight (thin, on wall) = Luce fosforescente gialla (sottile, a muro)
+
+### locked.lua ###
+## 1: Item description, 2: Owner name
+%s (owned by %s) = %s (di proprietà di %s)
+## 1: Player name, 2: Item description, 3: Owner name, 4: Position
+%s tried to access a %s belonging to %s at %s = %s ha provato ad accedere a %s di proprietà di %s alla posizione %s
+## 1: Item description
+%s (Locked) = %s (Con lucchetto)
+Locked Fridge = Frigorifero con lucchetto
+Locked Cabinet = Armadietto con lucchetto
+Locked Nightstand = Comodino con lucchetto
+Locked Oven = Forno con lucchetto
+Locked Oven (active) = Forno con lucchetto (attivo)
+Locked Microwave Oven = Forno a microonde con lucchetto
+Locked Microwave Oven (active) = Forno a microonde con lucchetto (attivo)
+
+### nightstands.lua ###
+Mahogany Nightstand with One Drawer = Comodino in mogano con un cassetto
+Mahogany Nightstand with Two Drawers = Comodino in mogano con due cassetti
+Oak Nightstand with One Drawer = Comodino in quercia con un cassetto
+Oak Nightstand with Two Drawers = Comodino in quercia con due cassetti
+## 1: Player name, 2: position
+%s moves stuff in nightstand at %s = %s sposta delle cose nel comodino alla posizione %s
+%s moves stuff to nightstand at %s = %s mette delle cose nel comodino alla posizione %s
+%s takes stuff from nightstand at %s = %s prende delle cose nel comodino alla posizione %s
+One-drawer Nightstand = Comodino a singolo cassetto
+Two-drawer Nightstand = Comodino a doppio cassetto
+
+### oven.lua ###
+Oven = Forno
+Microwave Oven = Forno a microonde
+## 1: Item description, 2: Percentage
+%s active: %d%% = %s attivo: %d%% = 
+## 1: Item description
+%s is empty = %s è vuoto
+: Out of fuel = Senza combustibile
+: output bins are full = i contenitori sono pieni
+
+### refrigerator.lua ###
+Refrigerator = Frigorifero
+## 1: Player name, 2: position
+%s moves stuff in refrigerator at %s = %s sposta delle cose nel frigorifero alla posizione %s
+%s moves stuff to refrigerator at %s = %s mette delle cose nel comodino alla posizione %s
+%s takes stuff from refrigerator at %s = %s prende delle cose nel comodino alla posizione %s
+Not enough vertical space to place a refrigerator! = Non c'è abbastanza spazio verticale per mettere un frigorifero!
+
+### television.lua ###
+Small CRT Television = Piccola televisione a tubo catodico
+
+### signs_lib.lua ###
+%s wrote "%s" to sign at %s = %s ha scritto "%s" sul cartello alla posizione %s
+Reading cached character database. = Lettura della banca dati dei caratteri nella cache.
+Font seems to have changed. Rebuilding cache. = Sembra che i caratteri siano cambiati. Ricostruzione della cache.
+Could not find font line height in cached DB. Trying brute force. = Non è stato possibile trovare l'altezza della riga del carattere nella banca dati nella cache.
+Registered %s and %s = Registrato %s e %s
+signs loaded = cartelli caricati

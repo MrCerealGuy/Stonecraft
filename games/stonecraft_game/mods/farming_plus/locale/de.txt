@@ -1,0 +1,50 @@
+# Translation by Xanthin
+
+### bananas.lua ###
+Banana Tree Sapling = Bananenbaumsetzling
+Banana = Banane
+
+### carrots.lua ###
+Carrot Seeds = Karottensamen
+Carrot = Karotte
+
+### cocoa.lua ###
+Cocoa Tree Sapling = Kakaobaumsetzling
+Cocoa = Kakao
+Cocoa Bean = Kakaobohne
+
+### oranges.lua ###
+Orange Seeds = Orangensamen
+Orange = Orange
+
+### potatoes.lua ###
+Potato Seeds = Kartoffelsamen
+Potato = Kartoffel
+
+### pumpkin.lua ###
+Pumpkin Seed = Kuerbissamen
+Pumpkin = Kuerbis
+Pumpkin Face = Kuerbislaterne
+Pumpkin Face With Light = Leuchtende Kuerbislaterne
+Big Pumpkin = Riesen-Kuerbis
+Scarecrow = Vogelscheuche
+Scarecrow With Light = Leuchtende Vogelscheuche
+Pumpkin Bread = Kuerbisbrot
+Pumpkin Flour = Kuerbismehl
+
+### rhubarb.lua ###
+Rhubarb Seeds = Rhabarbersamen
+Rhubarb = Rhabarber
+
+### strawberries.lua ###
+Strawberry Seeds = Erdbeersamen
+Strawberry = Erdbeere
+
+### tomatoes.lua ###
+Tomato Seeds = Tomatensamen
+Tomato = Tomate
+
+### init.lua ###
+
+### weed.lua ###
+Weed = Unkraut

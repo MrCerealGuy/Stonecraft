@@ -1,0 +1,12 @@
+# Template
+
+Path marker tool = 
+
+###Inventory.lua###
+Trader %s Inventory = 
+Selling: = 
+Selection = 
+Price = 
+or = 
+Pay = 
+Takeaway = 

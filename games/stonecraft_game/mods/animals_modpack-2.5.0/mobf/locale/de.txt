@@ -1,0 +1,12 @@
+# Translation by Xanthin
+
+Path marker tool = Pfadmarkierer
+
+###Inventory.lua###
+Trader %s Inventory = Haendler %s Waren
+Selling: = Zu verkaufen:
+Selection = Auswahl
+Price = Preis
+or = oder
+Pay = Bezahlen
+Takeaway = Wegnehmen

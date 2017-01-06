@@ -1,0 +1,3 @@
+This mod change the default map generation and add numerous trees.
+Don't use in worlds you have created before installing this mod.
+And it is incompatible with others mods which control completely the map generation. 

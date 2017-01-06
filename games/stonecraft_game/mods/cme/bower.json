@@ -1,0 +1,25 @@
+{
+    "name": "Creatures MOB-Engine",
+    "description": "A Mod(pack) for Minetest that provides a MOB-Engine and adds several creatures to the game.\n",
+    "keywords": [
+        "creatures",
+        "mobs",
+        "MOB",
+        "MOB-Engine",
+        "Creatures MOB-Engine",
+        "cme",
+        "zombies",
+        "sheep",
+        "ghost",
+        "monsters",
+        "hostile"
+    ],
+    "homepage": "https://github.com/BlockMen/cme",
+    "forum": "http://forum.minetest.net/viewtopic.php?f=11&t=8638",
+    "screenshots": [
+        "https://raw.githubusercontent.com/BlockMen/cme/master/screenshot.png"
+    ],
+    "authors": [
+        "BlockMen"
+    ]
+}
