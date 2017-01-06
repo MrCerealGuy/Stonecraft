@@ -1,3 +1,0 @@
-name = "VanessaE",
-author = "Jordach",
-comment = "Actually based from an old picture",

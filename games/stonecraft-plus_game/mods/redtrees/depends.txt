@@ -1,6 +1,0 @@
-default
-stairs
-doors
-farming
-biome_lib
-intlib?

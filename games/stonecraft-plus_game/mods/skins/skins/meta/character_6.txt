@@ -1,2 +1,0 @@
-name = "Ninja",
-author = "jmf",

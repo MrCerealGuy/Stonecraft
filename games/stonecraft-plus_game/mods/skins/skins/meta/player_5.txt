@@ -1,2 +1,0 @@
-name = "Bride",
-author = "InfinityProject",

@@ -1,6 +1,0 @@
-# Spanish translation for Animals Modpack.
-# Traducción al español de Animals Modpack.
-# Author/Autor: Diego Martínez <kaeza>
-
-Deer (m) = Venado (macho)
-Deer (f) = Venado (hembra)
