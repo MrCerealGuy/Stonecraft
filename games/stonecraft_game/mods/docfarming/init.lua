@@ -6,7 +6,7 @@ dofile(minetest.get_modpath("docfarming").."/cucumber.lua")
 
 minetest.register_node("docfarming:plowed", {
 	description = "You hacker you!",
-	tile_images = {'dirt.png^plowed.png', 'dirt.png', 	'dirt.png'},
+	tiles = {'dirt.png^plowed.png', 'dirt.png', 	'dirt.png'},
      is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_dirt_defaults(),
