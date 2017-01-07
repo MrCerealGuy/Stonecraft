@@ -42,7 +42,7 @@ minetest.register_node("metals:pipe_ud", {
 
 minetest.register_node("metals:pipe_lr", {
 	description = "Pipe",
-	tile_images = { 'metals_pipe_lr.png',
+	tiles = { 'metals_pipe_lr.png',
 			'metals_pipe_lr.png',
 			'metals_pipe_lr.png',
 			'metals_pipe_lr.png',
