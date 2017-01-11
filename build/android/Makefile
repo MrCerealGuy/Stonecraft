@@ -726,7 +726,7 @@ assets : $(ASSETS_TIMESTAMP)
 	if [ $$REFRESH -ne 0 ] ; then                                              \
 	echo "assets changed, refreshing...";                                      \
 	$(MAKE) clean_assets;                                                      \
-	mkdir -p ${APP_ROOT}/assets/stonecraft;                                      \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft;                                      \
 	cp ${PROJ_ROOT}/stonecraft.conf.example ${APP_ROOT}/assets/Stonecraft;         \
 	cp ${PROJ_ROOT}/README.md ${APP_ROOT}/assets/Stonecraft;                    \
 	cp -r ${PROJ_ROOT}/builtin ${APP_ROOT}/assets/Stonecraft;                    \
