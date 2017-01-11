@@ -1,7 +1,7 @@
 # Project properties
 PROJECT_NAME           = Stonecraft
 PROJECT_NUMBER         = 1.0.6-alpha
-PROJECT_LOGO           = /home/andreas/Stonecraft/stonecraft/misc/minetest.svg
+PROJECT_LOGO           = /home/andreas/stonecraft/misc/minetest.svg
 
 # Parsing
 JAVADOC_AUTOBRIEF      = YES
@@ -21,17 +21,17 @@ PREDEFINED             = "USE_SPATIAL=1" \
 
 # Input
 RECURSIVE              = NO
-STRIP_FROM_PATH        = /home/andreas/Stonecraft/stonecraft/src
-INPUT = /home/andreas/Stonecraft/stonecraft/doc/main_page.dox \
-	/home/andreas/Stonecraft/stonecraft/src/ \
-	/home/andreas/Stonecraft/stonecraft/src/client \
-	/home/andreas/Stonecraft/stonecraft/src/network \
-	/home/andreas/Stonecraft/stonecraft/src/util \
-	/home/andreas/Stonecraft/stonecraft/src/script \
-	/home/andreas/Stonecraft/stonecraft/src/script/common \
-	/home/andreas/Stonecraft/stonecraft/src/script/cpp_api \
-	/home/andreas/Stonecraft/stonecraft/src/script/lua_api \
-	/home/andreas/Stonecraft/stonecraft/src/threading
+STRIP_FROM_PATH        = /home/andreas/stonecraft/src
+INPUT = /home/andreas/stonecraft/doc/main_page.dox \
+	/home/andreas/stonecraft/src/ \
+	/home/andreas/stonecraft/src/client \
+	/home/andreas/stonecraft/src/network \
+	/home/andreas/stonecraft/src/util \
+	/home/andreas/stonecraft/src/script \
+	/home/andreas/stonecraft/src/script/common \
+	/home/andreas/stonecraft/src/script/cpp_api \
+	/home/andreas/stonecraft/src/script/lua_api \
+	/home/andreas/stonecraft/src/threading
 
 # Dot graphs
 HAVE_DOT               = NO
