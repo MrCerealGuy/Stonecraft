@@ -97,7 +97,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("map_generation_limit", "31000");
 	settings->setDefault("screenW", "800");
 	settings->setDefault("screenH", "600");
-	settings->setDefault("fullscreen", "true");	// changed by MrCerealGuy
+	settings->setDefault("fullscreen", "false");
 	settings->setDefault("fullscreen_bpp", "24");
 	settings->setDefault("fsaa", "0");
 	settings->setDefault("vsync", "false");
@@ -351,7 +351,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("screenW", "0");
 	settings->setDefault("screenH", "0");
 	settings->setDefault("enable_shaders", "false");
-	settings->setDefault("fullscreen", "true");
+	settings->setDefault("fullscreen", "false");
 	settings->setDefault("video_driver", "ogles1");
 	settings->setDefault("touchtarget", "true");
 	settings->setDefault("TMPFolder","/sdcard/" PROJECT_NAME_C "/tmp/");
