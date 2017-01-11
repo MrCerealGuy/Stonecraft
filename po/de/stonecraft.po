@@ -139,74 +139,78 @@ msgid "Create"
 msgstr "Erstellen"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "World options"
+msgstr "Welteinstellungen"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable erosion"
-msgstr "Aktiviere Erosion"
+msgstr "Erosion aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable more forests/red trees"
-msgstr "Aktiviere mehr Wälder/rote Bäume"
+msgstr "Mehr Wälder/rote Bäume aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable villages"
-msgstr "Aktiviere Dörfer"
+msgstr "Dörfer aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable more biomes"
-msgstr "Aktiviere mehr Biome"
+msgstr "Mehr Biome aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable cave realms"
-msgstr "Aktiviere Höhlenbiom"
+msgstr "Höhlenbiom aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable creatures"
-msgstr "Aktiviere Kreaturen"
+msgstr "Kreaturen aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable home decor"
-msgstr "Aktiviere Heimdekorationen"
+msgstr "Heimdekorationen aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable mesecons/pipes/technic"
-msgstr "Aktiviere Mesecons/Rohre/Technik"
+msgstr "Mesecons/Rohre/Technik aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable not so simple mobs"
-msgstr "Aktiviere gefährliche Mobs"
+msgstr "Gefährliche Mobs aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable pyramids/spawners"
-msgstr "Aktiviere Pyramiden/Spawner"
+msgstr "Pyramiden/Spawner aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable giant mushrooms"
-msgstr "Aktiviere Riesenpilze"
+msgstr "Riesenpilze aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable sea plants"
-msgstr "Aktiviere Meerespflanzen"
+msgstr "Meerespflanzen aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable swamps"
-msgstr "Aktiviere Sümpfe"
+msgstr "Sümpfe aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable snow biomes"
-msgstr "Aktiviere Schneebiome"
+msgstr "Schneebiome aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable wood soils/vines"
-msgstr "Aktiviere Waldboden/Wein"
+msgstr "Waldboden/Wein aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download a subgame, such as minetest_game, from minetest.net"
+msgid "Download a subgame, such as stonecraft_game, from bc547.de/stonecraft"
 msgstr ""
-"Andere Spiele (wie minetest_game) können von minetest.net heruntergeladen "
+"Andere Spiele (wie stonecraft_game) können von bc547.de/stonecraft heruntergeladen "
 "werden"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download one from minetest.net"
-msgstr "Spiele können von minetest.net heruntergeladen werden"
+msgid "Download one from bc547.de/stonecraft"
+msgstr "Spiele können von bc547.de/stonecraft heruntergeladen werden"
 
 #: builtin/mainmenu/dlg_create_world.lua src/settings_translation_file.cpp
 msgid "Game"
@@ -1001,10 +1005,10 @@ msgid "Key already in use"
 msgstr "Taste bereits in Benutzung"
 
 #: src/guiKeyChangeMenu.cpp
-msgid "Keybindings. (If this menu screws up, remove stuff from minetest.conf)"
+msgid "Keybindings. (If this menu screws up, remove stuff from stonecraft.conf)"
 msgstr ""
 "Steuerung (Falls dieses Menü fehlerhaft formatiert ist, entfernen Sie "
-"Einstellungen aus minetest.conf)"
+"Einstellungen aus stonecraft.conf)"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Left"
@@ -4937,7 +4941,7 @@ msgstr "cURL-Zeitüberschreitung"
 #~ msgid "Rendering:"
 #~ msgstr "Rendering:"
 
-#~ msgid "Restart minetest for driver change to take effect"
+#~ msgid "Restart Stonecraft for driver change to take effect"
 #~ msgstr "Neustart nach Ändern des Treibers erforderlich"
 
 #~ msgid "Downloading"
