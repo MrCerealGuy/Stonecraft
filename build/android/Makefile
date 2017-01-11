@@ -12,7 +12,7 @@ ANDR_ROOT = $(shell pwd)
 PROJ_ROOT = $(shell realpath $(ANDR_ROOT)/../..)
 APP_ROOT = $(ANDR_ROOT)/src/main
 
-GAMES_TO_COPY = minetest_game
+GAMES_TO_COPY = stonecraft_game
 MODS_TO_COPY =
 
 
@@ -701,7 +701,7 @@ $(ASSETS_TIMESTAMP) : $(IRRLICHT_LIB)
 		touch ${IRRLICHT_DIR}/media/timestamp;                                 \
 		touch ${ASSETS_TIMESTAMP};                                             \
 	fi;                                                                        \
-	if [ ${PROJ_ROOT}/minetest.conf.example -nt ${ASSETS_TIMESTAMP} ] ; then   \
+	if [ ${PROJ_ROOT}/stonecraft.conf.example -nt ${ASSETS_TIMESTAMP} ] ; then   \
 		echo "conf changed";                                                   \
 		touch ${ASSETS_TIMESTAMP};                                             \
 	fi;                                                                        \
@@ -726,27 +726,27 @@ assets : $(ASSETS_TIMESTAMP)
 	if [ $$REFRESH -ne 0 ] ; then                                              \
 	echo "assets changed, refreshing...";                                      \
 	$(MAKE) clean_assets;                                                      \
-	mkdir -p ${APP_ROOT}/assets/Minetest;                                      \
-	cp ${PROJ_ROOT}/minetest.conf.example ${APP_ROOT}/assets/Minetest;         \
-	cp ${PROJ_ROOT}/README.txt ${APP_ROOT}/assets/Minetest;                    \
-	cp -r ${PROJ_ROOT}/builtin ${APP_ROOT}/assets/Minetest;                    \
-	mkdir -p ${APP_ROOT}/assets/Minetest/client;                                  \
-	cp -r ${PROJ_ROOT}/client/shaders ${APP_ROOT}/assets/Minetest/client;      \
-	cp ${PROJ_ROOT}/doc/lgpl-2.1.txt ${APP_ROOT}/assets/Minetest/LICENSE.txt;  \
-	mkdir -p ${APP_ROOT}/assets/Minetest/fonts;                                   \
-	cp -r ${PROJ_ROOT}/fonts/*.ttf ${APP_ROOT}/assets/Minetest/fonts/;         \
-	mkdir -p ${APP_ROOT}/assets/Minetest/games;                                   \
+	mkdir -p ${APP_ROOT}/assets/stonecraft;                                      \
+	cp ${PROJ_ROOT}/stonecraft.conf.example ${APP_ROOT}/assets/Stonecraft;         \
+	cp ${PROJ_ROOT}/README.txt ${APP_ROOT}/assets/Stonecraft;                    \
+	cp -r ${PROJ_ROOT}/builtin ${APP_ROOT}/assets/Stonecraft;                    \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft/client;                                  \
+	cp -r ${PROJ_ROOT}/client/shaders ${APP_ROOT}/assets/Stonecraft/client;      \
+	cp ${PROJ_ROOT}/doc/lgpl-2.1.txt ${APP_ROOT}/assets/Stonecraft/LICENSE.txt;  \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft/fonts;                                   \
+	cp -r ${PROJ_ROOT}/fonts/*.ttf ${APP_ROOT}/assets/Stonecraft/fonts/;         \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft/games;                                   \
 	for game in ${GAMES_TO_COPY}; do                                           \
-	    cp -r ${PROJ_ROOT}/games/$$game ${APP_ROOT}/assets/Minetest/games/;    \
+	    cp -r ${PROJ_ROOT}/games/$$game ${APP_ROOT}/assets/Stonecraft/games/;    \
 	done;                                                                      \
-	mkdir -p ${APP_ROOT}/assets/Minetest/mods;                                    \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft/mods;                                    \
 	for mod in ${MODS_TO_COPY}; do                                             \
-	    cp -r ${PROJ_ROOT}/mods/$$mod ${APP_ROOT}/assets/Minetest/mods/;       \
+	    cp -r ${PROJ_ROOT}/mods/$$mod ${APP_ROOT}/assets/Stonecraft/mods/;       \
 	done;                                                                      \
-	cp -r ${PROJ_ROOT}/po ${APP_ROOT}/assets/Minetest;                         \
-	cp -r ${PROJ_ROOT}/textures ${APP_ROOT}/assets/Minetest;                   \
-	mkdir -p ${APP_ROOT}/assets/Minetest/media;                                \
-	cp -r ${IRRLICHT_DIR}/media/Shaders ${APP_ROOT}/assets/Minetest/media;     \
+	cp -r ${PROJ_ROOT}/po ${APP_ROOT}/assets/Stonecraft;                         \
+	cp -r ${PROJ_ROOT}/textures ${APP_ROOT}/assets/Stonecraft;                   \
+	mkdir -p ${APP_ROOT}/assets/Stonecraft/media;                                \
+	cp -r ${IRRLICHT_DIR}/media/Shaders ${APP_ROOT}/assets/Stonecraft/media;     \
 	cd ${APP_ROOT}/assets ||  exit 1;                                          \
 	find . -name "timestamp" -exec rm {} \; ;                                  \
 	find . -name "*.blend" -exec rm {} \; ;                                    \
@@ -755,7 +755,7 @@ assets : $(ASSETS_TIMESTAMP)
 	find . -type d -path "*.svn" -exec rm -rf {} \; ;                          \
 	find . -type f -path "*.gitignore" -exec rm -rf {} \; ;                    \
 	ls -R | grep ":$$" | sed -e 's/:$$//' -e 's/\.//' -e 's/^\///' > "index.txt"; \
-	find -L Minetest > filelist.txt;                                             \
+	find -L Stonecraft > filelist.txt;                                             \
 	cp ${ANDR_ROOT}/${ASSETS_TIMESTAMP} ${ANDR_ROOT}/${ASSETS_TIMESTAMP}.old;  \
 	else                                                                       \
 		echo "nothing to be done for assets";                                  \
@@ -782,16 +782,16 @@ apk: local.properties assets $(ICONV_LIB) $(IRRLICHT_LIB) $(CURL_LIB) $(GMP_LIB)
 	export VERSION_STR="${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}" && \
 	export BUILD_TYPE_C=$$(echo "$${BUILD_TYPE}" | sed 's/./\U&/') &&          \
 	gradle assemble$$BUILD_TYPE_C &&                                           \
-	echo "APK stored at: build/outputs/apk/Minetest-$$BUILD_TYPE.apk" &&       \
+	echo "APK stored at: build/outputs/apk/Stonecraft-$$BUILD_TYPE.apk" &&       \
 	echo "You can install it with \`make install_$$BUILD_TYPE\`"
 
 # These Intentionally doesn't depend on their respective build steps,
 # because it takes a while to verify that everything's up-to-date.
 install_debug:
-	${ANDROID_SDK}/platform-tools/adb install -r build/outputs/apk/Minetest-debug.apk
+	${ANDROID_SDK}/platform-tools/adb install -r build/outputs/apk/Stonecraft-debug.apk
 
 install_release:
-	${ANDROID_SDK}/platform-tools/adb install -r build/outputs/apk/Minetest-release.apk
+	${ANDROID_SDK}/platform-tools/adb install -r build/outputs/apk/Stonecraft-release.apk
 
 prep_srcdir :
 	@if [ ! -e ${ANDR_ROOT}/jni/src ]; then                                    \
