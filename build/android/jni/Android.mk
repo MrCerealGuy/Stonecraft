@@ -60,7 +60,7 @@ LOCAL_SRC_FILES := deps/openssl/libcrypto.a
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
-LOCAL_MODULE := minetest
+LOCAL_MODULE := stonecraft
 
 LOCAL_CPP_FEATURES += exceptions
 
