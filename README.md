@@ -278,6 +278,7 @@ Git, Make, and other basic tools are neccessary:
 ```
 $ sudo apt-get update
 $ sudo apt-get install make m4 subversion git-core build-essential realpath openjdk-8-jdk 
+$ sudo apt-get install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
 ```
 
 Gradle is required as well. If your distribution gives you gradle 2.10 or later (like Ubuntu 16.04 does), you may simply do:
@@ -333,6 +334,13 @@ $ git clone --depth 1 https://github.com/mrcerealguy/stonecraft.git
 $ cd stonecraft/build/android 
 $ make 
 ```
+
+To install Stonecraft to your android device, type:
+
+```
+$ make install_debug
+```
+
 
 The make file will ask you for the paths to your SDK and NDK. It will then download and build all required libraries. Finally it will build Stonecraft and the Java sources and pack everything into a debug-signed APK.
 	
