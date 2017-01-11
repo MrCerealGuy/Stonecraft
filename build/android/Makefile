@@ -705,7 +705,7 @@ $(ASSETS_TIMESTAMP) : $(IRRLICHT_LIB)
 		echo "conf changed";                                                   \
 		touch ${ASSETS_TIMESTAMP};                                             \
 	fi;                                                                        \
-	if [ ${PROJ_ROOT}/README.txt -nt ${ASSETS_TIMESTAMP} ] ; then              \
+	if [ ${PROJ_ROOT}/README.md -nt ${ASSETS_TIMESTAMP} ] ; then              \
 		touch ${ASSETS_TIMESTAMP};                                             \
 	fi;                                                                        \
 	if [ ! -e $(ASSETS_TIMESTAMP) ] ; then                                     \
