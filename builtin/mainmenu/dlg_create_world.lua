@@ -189,10 +189,12 @@ local function create_world_buttonhandler(this, fields)
 			core.setting_set("world_create_enable_mesecons", "true")
 			core.setting_set("world_create_enable_pipeworks", "true")
 			core.setting_set("world_create_enable_technic", "true")
+			core.setting_set("world_create_enable_digilines", "true")
 		else
 			core.setting_set("world_create_enable_mesecons", "false")
 			core.setting_set("world_create_enable_pipeworks", "false")
 			core.setting_set("world_create_enable_technic", "false")
+			core.setting_set("world_create_enable_digilines", "false")
 		end
 						
 		return true
@@ -361,10 +363,12 @@ local function create_world_buttonhandler(this, fields)
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", "true")
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", "true")
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", "true")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", "true")
 				else
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", "false")
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", "false")
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", "false")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", "false")
 				end
 
 				if core.setting_getbool("world_create_enable_nssm") then
