@@ -94,7 +94,7 @@ Use --help
 
 **Install dependencies**. Here's an example for Debian/Ubuntu:
 ```
-$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev libpng12-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses-dev liblua5.2-dev libluajit-5.1-dev
+$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libbz2-dev libpng12-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses-dev liblua5.2-dev dialog libluajit-5.1-dev
 ```
 
 **Download source** (this is the URL to the latest of source repository, which might not work at all times) using git:
@@ -129,7 +129,7 @@ Please install source and dependencies like above. I've used **MinGW-w64 5.3.1**
 
 **Download libraries**  
 
-Please download the Windows libraries via github into <stonecraft-folder> and rename the folder to libs.
+Please download the Windows libraries via github into &lt;stonecraft-folder&gt; and rename the folder to libs.
 
 ```
 $ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
@@ -140,14 +140,14 @@ $ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
 
-You'll find the build in <stonecraft-folder>/build/win-i686 and the ZIP-package in the subdirectory _build.
+You'll find the build in &lt;stonecraft-folder&gt;/build/win-i686 and the ZIP-package in the subdirectory _build.
 
 **Win 64-Bit**
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
 
-You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
+You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
 
 # Building Windows with MSVC
