@@ -739,6 +739,31 @@ assets : $(ASSETS_TIMESTAMP)
 	for game in ${GAMES_TO_COPY}; do                                           \
 	    cp -r ${PROJ_ROOT}/games/$$game ${APP_ROOT}/assets/Stonecraft/games/;    \
 	done;                                                                      \
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/caverealms;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/darkage;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/digilines;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/erosion;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/ethereal;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/forest;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/homedecor_modpack;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/mesecons;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/mg_villages;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/moresnow;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/nssb;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/nssm;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/nyancat;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/pipeworks;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/pyramids;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/redtrees;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/riesenpilz;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/sea;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/snow;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/spawners;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/sumpf;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/technic;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/vines;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/woodsoils;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/WorldEdit;		\
 	mkdir -p ${APP_ROOT}/assets/Stonecraft/mods;                                    \
 	for mod in ${MODS_TO_COPY}; do                                             \
 	    cp -r ${PROJ_ROOT}/mods/$$mod ${APP_ROOT}/assets/Stonecraft/mods/;       \
