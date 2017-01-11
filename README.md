@@ -2,7 +2,7 @@
 
 An InfiniMiner/Minecraft inspired game powered by Minetest 0.4.15
 
-Copyright (c) 2016 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
+Copyright (c) 2016-2017 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
 
 ## Further documentation
@@ -128,7 +128,12 @@ To build the **dedicated server** without the client, you have to run the script
 Please install source and dependencies like above. I've used **MinGW-w64 5.3.1** for cross-compiling.
 
 **Download libraries**  
-Please download the Windows libraries from http://www.mediafire.com/file/ebybqhdt44rb22n/stonecraft-master-win-libs.zip and install it in your Stonecraft folder.
+
+Please download the Windows libraries via github into <stonecraft-folder> and rename the folder to libs.
+
+```
+$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
+```
 
 **Win 32-Bit**
 ```
@@ -155,12 +160,12 @@ You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-packag
 	* Stonecraft source (master)
 		https://github.com/MrCerealGuy/Stonecraft/archive/master.zip
 	* Windows libraries (master)
-		http://www.mediafire.com/file/ebybqhdt44rb22n/stonecraft-master-win-libs.zip
+		https://github.com/MrCerealGuy/Stonecraft-libdev-win/archive/master.zip
 
 - **Steps**
 	- Select a directory called DIR (e.g. Stonecraft) hereafter in which you will operate.
-	- Extract stonecraft in DIR
-	- Extract Windows libraries in DIR
+	- Extract Stonecraft in DIR
+	- Extract Windows libraries in DIR/libs
 	- Make sure you have CMake and a compiler installed.
 	- You will end up with a directory structure like this (+=dir, -=file):
 
