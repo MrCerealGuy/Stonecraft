@@ -272,7 +272,7 @@ You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-packag
 
 This is a simple guide on how to build Stonecraft for Android on a Debian-based 64 bit system. Building on 32 bit systems should work too when the URLs and paths are replaced accordingly. This guide covers all preparation needed. Once everything is set up, Stonecraft only needs cd build/android && make to compile.
 
-**Required packages**
+**Required packages**  
 Git, Make, and other basic tools are neccessary: 
 
 ```
@@ -307,7 +307,7 @@ On older systems do:
 $ sudo apt-get install --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
 ```
 
-**Getting the SDK and NDK**
+**Getting the SDK and NDK**  
 Both SDK and NDK are needed:
 
 ```
@@ -325,7 +325,7 @@ $ android-sdk-linux/tools/android update sdk --no-ui -a --filter platform-tool,a
 
 The last line will ask for your confirmation multiple times.
 
-**Obtaining and building Stonecraft**
+**Obtaining and building Stonecraft**  
 Clone Stonecraft, and build it:
 
 ```
