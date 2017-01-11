@@ -90,7 +90,7 @@ Use --help
 ```
 
 
-# Compiling on GNU/Linux
+# Building GNU/Linux 
 
 **Install dependencies**. Here's an example for Debian/Ubuntu:
 ```
@@ -123,7 +123,7 @@ $ <stonecraft-folder>/bin/stonecraft
 
 To build the **dedicated server** without the client, you have to run the script build_linux_server.sh.
 
-# Cross-Compiling for Windows on GNU/Linux
+# Building Windows on GNU/Linux (cross-compiling)
 
 Please install source and dependencies like above. I've used **MinGW-w64 5.3.1** for cross-compiling.
 
@@ -145,7 +145,7 @@ $ <stonecraft-folder>/build/build_win64_client.sh
 You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
 
-# Compiling on Windows with MSVC
+# Building Windows with MSVC
 
 - **You need**
 	* CMake:
@@ -268,6 +268,74 @@ You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-packag
 	**Pre-generated CMakeCache.txt**  
 	If you wish, you can use this example file **DIR/build/win-msvc2013/CMakeCache.txt.example**. You only have to rename it to CMakeCache.txt and to adjust the directories by search & replace with a text edtior. After loading it in CMake GUI, you can generate the project files.
 
+# Building Android on GNU/Linux
+
+This is a simple guide on how to build Stonecraft for Android on a Debian-based 64 bit system. Building on 32 bit systems should work too when the URLs and paths are replaced accordingly. This guide covers all preparation needed. Once everything is set up, Stonecraft only needs cd build/android && make to compile.
+
+**Required packages**
+Git, Make, and other basic tools are neccessary: 
+
+```
+$ sudo apt-get update
+$ sudo apt-get install make m4 subversion git-core build-essential realpath openjdk-8-jdk 
+```
+
+Gradle is required as well. If your distribution gives you gradle 2.10 or later (like Ubuntu 16.04 does), you may simply do:
+
+```
+$ sudo apt-get install gradle
+```
+
+If your distribution ships with an older version of gradle, you may grab a recent version of gradle via a PPA:
+
+```
+$ sudo add-apt-repository ppa:cwchien/gradle
+$ sudo apt-get install gradle-2.13 
+```
+
+As your architecture is 64 bit, you need additional packages.
+
+On newer systems do: (Ubuntu 16.04-ish): 
+
+```
+$ sudo apt-get install lib32z1 
+```
+
+On older systems do:
+
+```
+$ sudo apt-get install --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
+```
+
+**Getting the SDK and NDK**
+Both SDK and NDK are needed:
+
+```
+$ wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz 
+$ wget https://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip 
+```
+```
+$ tar xf android-sdk_r24.4.1-linux.tgz 
+$ unzip android-ndk-r11c-linux-x86_64.zip 
+```
+
+```
+$ android-sdk-linux/tools/android update sdk --no-ui -a --filter platform-tool,android-25,build-tools-25.0.1 
+```
+
+The last line will ask for your confirmation multiple times.
+
+**Obtaining and building Stonecraft**
+Clone Stonecraft, and build it:
+
+```
+$ git clone --depth 1 https://github.com/mrcerealguy/stonecraft.git
+$ cd stonecraft/build/android 
+$ make 
+```
+
+The make file will ask you for the paths to your SDK and NDK. It will then download and build all required libraries. Finally it will build Stonecraft and the Java sources and pack everything into a debug-signed APK.
+	
 # License of Stonecraft textures and sounds
 
 This applies to textures and sounds contained in the main Stonecraft distribution.
