@@ -129,7 +129,7 @@ Please install source and dependencies like above. I've used **MinGW-w64 5.3.1**
 
 **Download libraries**  
 
-Please download the Windows libraries via github into <stonecraft-folder> and rename the folder to libs.
+Please download the Windows libraries via github into &lt;stonecraft-folder&gt; and rename the folder to libs.
 
 ```
 $ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
@@ -140,14 +140,14 @@ $ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
 
-You'll find the build in <stonecraft-folder>/build/win-i686 and the ZIP-package in the subdirectory _build.
+You'll find the build in &lt;stonecraft-folder&gt;/build/win-i686 and the ZIP-package in the subdirectory _build.
 
 **Win 64-Bit**
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
 
-You'll find the build in <stonecraft-folder>/build/win-x86_64 and the ZIP-package in the subdirectory _build.
+You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
 
 # Building Windows with MSVC
