@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-		package="net.minetest.minetest"
+		package="net.stonecraft.stonecraft"
 		android:installLocation="auto">
 	<uses-feature android:glEsVersion="0x00010000" android:required="true"/>
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -20,13 +20,13 @@
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
 			</intent-filter>
-			<meta-data android:name="android.app.lib_name" android:value="minetest" />
+			<meta-data android:name="android.app.lib_name" android:value="stonecraft" />
 		</activity>
-		<activity android:name=".MinetestTextEntry"
+		<activity android:name=".StonecraftTextEntry"
 				android:theme="@style/Theme.Transparent"
 				android:excludeFromRecents="true">
 		</activity>
-		<activity android:name=".MinetestAssetCopy"
+		<activity android:name=".StonecraftAssetCopy"
 				android:theme="@style/Theme.Transparent"
 				android:excludeFromRecents="true">
 		</activity>
