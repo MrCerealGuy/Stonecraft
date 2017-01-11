@@ -728,7 +728,7 @@ assets : $(ASSETS_TIMESTAMP)
 	$(MAKE) clean_assets;                                                      \
 	mkdir -p ${APP_ROOT}/assets/stonecraft;                                      \
 	cp ${PROJ_ROOT}/stonecraft.conf.example ${APP_ROOT}/assets/Stonecraft;         \
-	cp ${PROJ_ROOT}/README.txt ${APP_ROOT}/assets/Stonecraft;                    \
+	cp ${PROJ_ROOT}/README.md ${APP_ROOT}/assets/Stonecraft;                    \
 	cp -r ${PROJ_ROOT}/builtin ${APP_ROOT}/assets/Stonecraft;                    \
 	mkdir -p ${APP_ROOT}/assets/Stonecraft/client;                                  \
 	cp -r ${PROJ_ROOT}/client/shaders ${APP_ROOT}/assets/Stonecraft/client;      \
