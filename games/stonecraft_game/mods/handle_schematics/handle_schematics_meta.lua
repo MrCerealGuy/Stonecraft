@@ -128,7 +128,7 @@ end
 handle_schematics.restore_meta = function( filename, all_meta, start_pos, end_pos, rotate, mirror )
 
 	if( not( all_meta ) and filename ) then
-		all_meta = save_restore.restore_data( 'schems/'..filename..'.meta' );	
+		all_meta = save_restore.restore_data( filename..'.meta' );
 	end
 	for _,pos in ipairs( all_meta ) do
 		local p = {};
@@ -151,7 +151,7 @@ end
 handle_schematics.create_schematic_with_meta = function( p1, p2, base_filename )
 
 	-- create directory for the schematics (same path as WorldEdit uses)
-	save_restore.create_directory( '/schems' );
+	save_restore.create_schems_directory();
 	local complete_filename = minetest.get_worldpath()..'/schems/'..base_filename..'.mts';
 	-- actually create the schematic
 	minetest.create_schematic( p1, p2, nil, complete_filename, nil);

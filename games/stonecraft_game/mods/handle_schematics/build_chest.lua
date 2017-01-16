@@ -277,19 +277,87 @@ end
 
 
 
+-- offer diffrent replacement groups
+handle_schematics.get_formspec_group_replacement = function( pos, fields, formspec )
+
+	if( fields.set_wood and fields.set_wood ~= "" ) then
+		return formspec..
+			"label[1,2.2;Select replacement for "..tostring( fields.set_wood )..".]"..
+			"label[1,2.5;Trees, saplings and other blocks will be replaced accordingly as well.]"..
+			-- invisible field that encodes the value given here
+			"field[-20,-20;0.1,0.1;set_wood;;"..minetest.formspec_escape( fields.set_wood ).."]"..
+			build_chest.replacements_get_group_list_formspec( pos, 'wood',    'wood_selection' );
+	end
+
+	if( fields.set_farming and fields.set_farming ~= "" ) then
+		return formspec..
+			"label[1,2.5;Select the fruit the farm is going to grow:]"..
+			-- invisible field that encodes the value given here
+			"field[-20,-20;0.1,0.1;set_farming;;"..minetest.formspec_escape( fields.set_farming ).."]"..
+			build_chest.replacements_get_group_list_formspec( pos, 'farming', 'farming_selection' );
+	end
+
+	if( fields.set_roof and fields.set_roof ~= "" ) then
+		return formspec..
+			"label[1,2.5;Select a roof type for the house:]"..
+			-- invisible field that encodes the value given here
+			"field[-20,-20;0.1,0.1;set_roof;;"..minetest.formspec_escape( fields.set_roof ).."]"..
+			build_chest.replacements_get_group_list_formspec( pos, 'roof',    'roof_selection' );
+	end
+	return nil;
+end
+
+
+
 build_chest.update_formspec = function( pos, page, player, fields )
 
 	-- information about the village the build chest may belong to and about the owner
 	local meta = minetest.get_meta( pos );
+
 	local village_name = meta:get_string( 'village' );
 	local village_pos  = minetest.deserialize( meta:get_string( 'village_pos' ));
 	local owner_name   = meta:get_string( 'owner' );
 	local building_name = meta:get_string('building_name' );
 
+	-- are we dealing with a plotmarker inside a village?
+	local village_id   = meta:get_string( 'village_id' );
+	local plot_nr      = meta:get_int(    'plot_nr' );
+	if(     village_id
+	    and village_id~=""
+	    and plot_nr
+	    and plot_nr>0
+	    and mg_villages.all_villages
+	    and mg_villages.all_villages[ village_id ]
+	    and mg_villages.all_villages[ village_id ].to_add_data.bpos
+	    and mg_villages.all_villages[ village_id ].to_add_data.bpos[ plot_nr ]) then
+
+		local v = mg_villages.all_villages[ village_id ];
+		village_name  = v.name;
+		-- the center of the village
+		village_pos   = { x = v.vx, y = v.vh, z = v.vz };
+		-- who has bought the plot?
+		owner_name    = v.to_add_data.bpos[ plot_nr ].owner;
+		building_name = v.to_add_data.bpos[ plot_nr ].btype;
+		-- get the name of the blueprint the building was created from
+		if( mg_villages.BUILDINGS[ building_name ] ) then
+			building_name = tostring( mg_villages.BUILDINGS[ building_name ].scm );
+		end
+		-- we also know where the building will start and end
+
+		-- TODO: these may need to be set
+		--local start_pos     = meta:get_string('start_pos');
+		--local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
+		--local rotate = meta:get_string('rotate');
+		--local mirror = meta:get_string('mirror');
+	else
+		village_id = "";
+		plot_nr    = -1;
+	end
+
 	-- distance from village center
 	local distance = math.floor( math.sqrt( (village_pos.x - pos.x ) * (village_pos.x - pos.x ) 
-					      + (village_pos.y - pos.y ) * (village_pos.x - pos.y )
-					      + (village_pos.z - pos.z ) * (village_pos.x - pos.z ) ));
+					      + (village_pos.y - pos.y ) * (village_pos.y - pos.y )
+					      + (village_pos.z - pos.z ) * (village_pos.z - pos.z ) ));
 
 	-- the statistic is needed for all the replacements later on as it also contains the list of nodenames
 	if( building_name and building_name~=""and not( build_chest.building[ building_name ].size )) then
@@ -317,9 +385,31 @@ build_chest.update_formspec = function( pos, page, player, fields )
                                                               .."label[7.3,0.4;from the village center]".. 
                             "label[0.3,0.8;Part of village:]" .."label[3.3,0.8;"..(village_name or "?").."]"
                                                               .."label[7.3,0.8;located at "..(minetest.pos_to_string( village_pos ) or '?').."]"..
-                            "label[0.3,1.2;Owned by:]"        .."label[3.3,1.2;"..(owner_name or "?").."]"..
+                            "label[0.3,1.2;Owned by:]"        .."label[3.3,1.2;"..(owner_name or "- for sale -").."]"..
                             "label[3.3,1.6;Click on a menu entry to select it:]"..
 			    build_chest.show_size_data( building_name );
+
+	if( fields.show_materials and fields.show_materials ~= "" ) then
+		-- do not allow any changes; just show the materials and their replacements
+		return formspec..build_chest.replacements_get_list_formspec( pos, nil, 0, meta, village_id, building_name, -1 );
+	end
+
+	-- are we dealing with a plotmarker? if so, we are finished here
+	-- (we mostly wanted the header and the option to see the replacements)
+	if( village_id and village_id ~= "" ) then
+		-- TODO: actually implement the villages_* functions
+		return formspec.."button[3,3;3,0.5;villages_create_backup;Create backup of current stage]"..
+		                 "button[3,4;3,0.5;show_materials;Show materials used]"..
+		                 "button[3,5;3,0.5;villages_reset_building;Reset building]"..
+		                 "button[3,3;3,0.5;villages_remove_building;Remove building]";
+	end
+
+	-- the building has been placed; offer to restore a backup
+	local backup_file   = meta:get_string('backup');
+	if( backup_file and backup_file ~= "" ) then
+		return formspec.."button[3,3;3,0.5;restore_backup;Restore original landscape]"..
+		                 "button[3,4;3,0.5;show_materials;Show materials used]";
+	end
 
 	local current_path = minetest.deserialize( meta:get_string( 'current_path' ) or 'return {}' );
 	if( #current_path > 0 ) then
@@ -333,48 +423,24 @@ build_chest.update_formspec = function( pos, page, player, fields )
 	end
 
 
-	-- the building has been placed; offer to restore a backup
-	local backup_file   = meta:get_string('backup');
-	if( backup_file and backup_file ~= "" ) then
-		return formspec.."button[3,3;3,0.5;restore_backup;Restore original landscape]";
-	end
-
 	-- offer diffrent replacement groups
-	if( fields.set_wood and fields.set_wood ~= "" ) then
-		return formspec..
-			"label[1,2.2;Select replacement for "..tostring( fields.set_wood )..".]"..
-			"label[1,2.5;Trees, saplings and other blocks will be replaced accordingly as well.]"..
-			-- invisible field that encodes the value given here
-			"field[-20,-20;0.1,0.1;set_wood;;"..minetest.formspec_escape( fields.set_wood ).."]"..
-			build_chest.replacements_get_group_list_formspec( pos, 'wood',    'wood_selection' );
-	end
-
-	if( fields.set_farming and fields.set_farming ~= "" ) then
-		return formspec..
-			"label[1,2.5;Select the fruit the farm is going to grow:]"..
-			-- invisible field that encodes the value given here
-			"field[-20,-20;0.1,0.1;set_farming;;"..minetest.formspec_escape( fields.set_farming ).."]"..
-			build_chest.replacements_get_group_list_formspec( pos, 'farming', 'farming_selection' );
-	end
-
-	if( fields.set_roof and fields.set_roof ~= "" ) then
-		return formspec..
-			"label[1,2.5;Select a roof type for the house:]"..
-			-- invisible field that encodes the value given here
-			"field[-20,-20;0.1,0.1;set_roof;;"..minetest.formspec_escape( fields.set_roof ).."]"..
-			build_chest.replacements_get_group_list_formspec( pos, 'roof',    'roof_selection' );
+	local formspec_group_replacement = handle_schematics.get_formspec_group_replacement( pos, fields, formspec );
+	if( formspec_group_replacement ) then
+		return formspec_group_replacement;
 	end
 
 	if( fields.preview and building_name ) then
+		meta:set_string('preview',fields.preview); -- just so that we know what to do when the back-button is hit
 		return formspec..build_chest.preview_image_formspec( building_name,
-				minetest.deserialize( meta:get_string( 'replacements' )), fields.preview);
+					build_chest.replacements_get_current( meta, village_id ), fields.preview);
 	end
 
 
 	-- show list of all node names used
 	local start_pos     = meta:get_string('start_pos');
 	if( building_name and building_name ~= '' and start_pos and start_pos ~= '' and meta:get_string('replacements')) then
-		return formspec..build_chest.replacements_get_list_formspec( pos );
+		-- allow changes to the replacement list
+		return formspec..build_chest.replacements_get_list_formspec( pos, nil, 1, meta, village_id, building_name, meta:get_int('replace_row') );
 	end
 
 	-- find out where we currently are in the menu tree
@@ -412,7 +478,8 @@ build_chest.update_formspec = function( pos, page, player, fields )
 			replacements_group['discontinued_nodes'].replace( replacements );
 			meta:set_string( 'replacements', minetest.serialize( replacements ));
 
-			return formspec..build_chest.replacements_get_list_formspec( pos );
+			-- allow changes to be made
+			return formspec..build_chest.replacements_get_list_formspec( pos, nil, 1, meta, village_id, building_name, meta:get_int('replace_row') );
 		elseif( type(start_pos)=='string' ) then
 			return formspec.."label[3,3;Error reading building data:]"..
 					 "label[3.5,3.5;"..start_pos.."]";
@@ -504,7 +571,7 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 
 	local building_name = meta:get_string('building_name' );
 	-- the statistic is needed for all the replacements later on as it also contains the list of nodenames
-	if( building_name and building_name~=""and not( build_chest.building[ building_name ].size )) then
+	if( building_name and building_name~="" and not( build_chest.building[ building_name ].size )) then
 		build_chest.read_building( building_name );
 	end
 
@@ -512,14 +579,19 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 	-- back button selected
 	if( fields.back ) then
 
-		local current_path = minetest.deserialize( meta:get_string( 'current_path' ) or 'return {}' );
+		local preview = meta:get_string('preview');
+		if( preview and preview ~= "" ) then
+			meta:set_string('preview',"");
+		else
+			local current_path = minetest.deserialize( meta:get_string( 'current_path' ) or 'return {}' );
 
-		table.remove( current_path ); -- revert latest selection
-		meta:set_string( 'current_path', minetest.serialize( current_path ));
-		meta:set_string( 'building_name', '');
-		meta:set_int(    'replace_row', 0 );
-		meta:set_int(    'page_nr',     0 );
-		meta:set_string( 'saved_as_filename', nil);
+			table.remove( current_path ); -- revert latest selection
+			meta:set_string( 'current_path', minetest.serialize( current_path ));
+			meta:set_string( 'building_name', '');
+			meta:set_int(    'replace_row', 0 );
+			meta:set_int(    'page_nr',     0 );
+			meta:set_string( 'saved_as_filename', nil);
+		end
 
 	-- menu entry selected
 	elseif( fields.selection ) then
@@ -562,21 +634,21 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 	    and fields.replace_row_with     and fields.replace_row_with ~= ""
 	    and fields.replace_row_material and fields.replace_row_material ~= "") then
    
-		build_chest.replacements_apply( pos, meta, fields.replace_row_material, fields.replace_row_with );
+		build_chest.replacements_apply( pos, meta, fields.replace_row_material, fields.replace_row_with, nil );
 
 	elseif( fields.replace_rest_with_air ) then
 		build_chest.replacements_replace_rest_with_air( pos, meta );
 
 	elseif( fields.wood_selection ) then
-		build_chest.replacements_apply_for_group( pos, meta, 'wood',    fields.wood_selection,    fields.set_wood );
+		build_chest.replacements_apply_for_group( pos, meta, 'wood',    fields.wood_selection,    fields.set_wood,    nil );
 		fields.set_wood    = nil;
 
 	elseif( fields.farming_selection ) then
-		build_chest.replacements_apply_for_group( pos, meta, 'farming', fields.farming_selection, fields.set_farming );
+		build_chest.replacements_apply_for_group( pos, meta, 'farming', fields.farming_selection, fields.set_farming, nil );
 		fields.set_farming = nil;
 
 	elseif( fields.roof_selection ) then
-		build_chest.replacements_apply_for_group( pos, meta, 'roof',    fields.roof_selection,    fields.set_roof );
+		build_chest.replacements_apply_for_group( pos, meta, 'roof',    fields.roof_selection,    fields.set_roof,    nil );
 		fields.set_roof    = nil;
 
 
@@ -602,7 +674,7 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 		end
 		
 -- TODO: use scaffolding here (exchange some replacements)
-		local replacement_list = minetest.deserialize( meta:get_string( 'replacements' ));
+		local replacement_list = build_chest.replacements_get_current( meta, village_id );
 		local rotate = meta:get_string('rotate');
 		local mirror = meta:get_string('mirror');
 		local axis   = build_chest.building[ building_name ].axis;
@@ -610,7 +682,7 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 		-- actually place the building
 		--minetest.place_schematic( start_pos, building_name..'.mts', rotate, replacement_list, true );
 mirror = nil;
-		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker );
+		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, false );
 		if( fields.error_msg ) then
 			fields.error_msg = 'Error: '..tostring( fields.error_msg );
 		end
@@ -621,16 +693,15 @@ mirror = nil;
 		local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
 		local backup_file   = meta:get_string( 'backup' );
 		if( start_pos and end_pos and start_pos.x and end_pos.x and backup_file and backup_file ~= "" ) then
-			if( save_restore.file_exists( 'schems/'..backup_file..'.mts' )) then
-				filename = minetest.get_worldpath()..'/schems/'..backup_file..'.mts';
-				minetest.place_schematic( start_pos, filename, "0", {}, true );
+			local filename = minetest.get_worldpath()..'/schems/'..backup_file;
+			if( save_restore.file_exists( filename..'.mts' )) then
+				minetest.place_schematic( start_pos, filename..'.mts', "0", {}, true );
 				-- no rotation needed - the metadata can be applied as-is (with the offset applied)
-				handle_schematics.restore_meta( backup_file, nil, start_pos, end_pos, 0, nil);
+				handle_schematics.restore_meta( filename, nil, start_pos, end_pos, 0, nil);
 				meta:set_string('backup', nil );
 			end
 		end
 	
-
 	-- store a new end position
 	elseif( fields.set_end_pos ) then
 		local node = minetest.get_node( pos );

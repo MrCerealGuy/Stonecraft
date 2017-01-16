@@ -641,7 +641,7 @@ end
 -- 
 -- replacement_list		contains replacements in the same list format as place_schematic uses
 --
-handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replacement_list)
+handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replacement_list, keep_ground)
 
 	if( not( replacement_list ) or type( replacement_list ) ~= 'table' ) then
 		return;
@@ -700,7 +700,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 	local extra_calls = { on_constr = {}, trees = {}, chests = {}, signs = {}, traders = {}, door_a = {}, door_b = {} };
 
 	-- last parameter false -> place dirt nodes instead of trying to keep the ground nodes
-	generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, false);
+	generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, keep_ground);
 
 	-- store the changed map data
 	vm:set_data(data);
@@ -718,7 +718,7 @@ end
 
 -- places a building read from file "building_name" on the map between start_pos and end_pos using luavoxelmanip
 -- returns error message on failure and nil on success
-handle_schematics.place_building_from_file = function( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker )
+handle_schematics.place_building_from_file = function( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, keep_ground )
 	if( not( building_name )) then
 		return "No file name given. Cannot find the schematic.";
 	end
@@ -768,7 +768,7 @@ handle_schematics.place_building_from_file = function( start_pos, end_pos, build
 	start_pos.no_plotmarker = no_plotmarker;
 
 	-- all those calls to on_construct need to be done now
-	local res = handle_schematics.place_building_using_voxelmanip( start_pos, binfo, replacement_list);
+	local res = handle_schematics.place_building_using_voxelmanip( start_pos, binfo, replacement_list, keep_ground);
 	if( not(res) or not( res.extra_calls )) then
 		return;
 	end
@@ -861,6 +861,51 @@ handle_schematics.place_road = function(minp, maxp, data, param2_data, a, c_road
 --]]
 		end
 	end
+end
+
+
+
+-- the node layer at height "ground_level" is not touched; thus
+-- dirt/sand/whatever can remain there (=biome dependant); this
+-- also means that the foundations for the ex-building's walls
+-- will keep standing
+handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
+
+	local vm = minetest.get_voxel_manip()
+	local minp, maxp = vm:read_from_map(
+		{x = start_pos.x, y = start_pos.y, z = start_pos.z},
+		{x = end_pos.x,   y = end_pos.y,   z = end_pos.z}
+        )
+	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
+	local data        = vm:get_data()
+
+	if( ground_level < start_pos.y or ground_level > end_pos.y ) then
+		ground_level = start_pos.y;
+	end
+
+	local cid_air = minetest.get_content_id("air");
+	for y=ground_level+1, end_pos.y do
+	for x=start_pos.x, end_pos.x do
+	for z=start_pos.z, end_pos.z do
+		data[ a:index( x, y, z ) ] = cid_air;
+	end
+	end
+	end
+
+	local cid_dirt = minetest.get_content_id("default:dirt");
+	for y=start_pos.y, ground_level-1 do
+	for x=start_pos.x, end_pos.x do
+	for z=start_pos.z, end_pos.z do
+		data[ a:index( x, y, z ) ] = cid_dirt;
+	end
+	end
+	end
+
+	-- store the changed map data
+	vm:set_data(data);
+	vm:write_to_map();
+	vm:update_liquids();
+	vm:update_map();
 end
 
 

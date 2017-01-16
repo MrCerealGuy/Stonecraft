@@ -21,14 +21,13 @@ end
 
 
 save_restore.restore_data = function( filename )
-	local path = minetest.get_worldpath()..'/'..filename;
-	local file = io.open( path, 'r' );
+	local file = io.open( filename, 'r' );
 	if( file ) then
 		local data = file:read("*all");
 		file:close();
 		return minetest.deserialize( data );
 	else
-		print("[save_restore] Error: Savefile '"..tostring( path ).."' not found.");
+		print("[save_restore] Error: Savefile '"..tostring( filename ).."' not found.");
 		return {}; -- return empty table
 	end
 end
@@ -37,9 +36,7 @@ end
 
 save_restore.file_exists = function( filename )
 
-	local path = minetest.get_worldpath()..'/'..filename;
-
-	local file = save_restore.file_access( path, 'r' );
+	local file = save_restore.file_access( filename, 'r' );
 	if( file ) then
 		file:close();
 		return true;
@@ -48,15 +45,15 @@ save_restore.file_exists = function( filename )
 end
 
 
-save_restore.create_directory = function( filename )
+save_restore.create_schems_directory = function()
 
-	local path = minetest.get_worldpath()..'/'..filename;
+	local directory = minetest.get_worldpath()..'/schems';
 
-	if( not( save_restore.file_exists( filename ))) then
+	if( not( save_restore.file_exists( directory ))) then
 		if( minetest.mkdir ) then
-			minetest.mkdir( minetest.get_worldpath().."/schems");
+			minetest.mkdir( directory );
 		else
-			os.execute("mkdir \""..minetest.get_worldpath().."/schems".. "\"");
+			os.execute("mkdir \""..directory.. "\"");
 		end
 	end
 end
