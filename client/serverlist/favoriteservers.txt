@@ -3,3 +3,4 @@ Stonecraft Server by MrCerealGuy
 stonecraft.ddns.net
 30000
 MrCerealGuy's Stonecraft Survival Server. Check my website bc547.de/stonecraft. Have fun!
+
