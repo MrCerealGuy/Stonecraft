@@ -739,6 +739,24 @@ assets : $(ASSETS_TIMESTAMP)
 	for game in ${GAMES_TO_COPY}; do                                           \
 	    cp -r ${PROJ_ROOT}/games/$$game ${APP_ROOT}/assets/Stonecraft/games/;    \
 	done;                                                                      \
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/3d_armor;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/3dmushrooms;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/along_shore;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/ambience;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/areas;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/cavestuff;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/cottages;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/unified_inventory;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/wiki;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/treecapitator;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/treasurer;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/teleporter;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/skins;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/mobf_trader;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/handle_schematics;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/hbhunger;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/habitat;		\
+	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/fence_registration;		\
 	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/caverealms;		\
 	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/darkage;		\
 	rm -r ${APP_ROOT}/assets/Stonecraft/games/stonecraft_game/mods/digilines;		\
