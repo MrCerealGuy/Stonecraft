@@ -326,7 +326,7 @@ $ unzip android-ndk-r11c-linux-x86_64.zip
 ```
 
 ```
-$ android-sdk-linux/tools/android update sdk --no-ui -a --filter platform-tool,android-23,build-tools-23.0.3 
+$ android-sdk-linux/tools/android update sdk --no-ui -a --filter platform-tool,android-25,build-tools-25.0.1 
 ```
 
 The last line will ask for your confirmation multiple times.
