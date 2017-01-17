@@ -83,7 +83,8 @@ local function create_world_formspec(dialogdata)
 							"checkbox[6.05,6.00;cb_enable_seaplants;" .. fgettext("Enable sea plants") .. ";false]" ..
 							"checkbox[0.25,6.50;cb_enable_swamps;" .. fgettext("Enable swamps") .. ";false]" ..
 							"checkbox[6.05,6.50;cb_enable_snow;" .. fgettext("Enable snow biomes") .. ";false]" ..
-							"checkbox[0.25,7.00;cb_enable_woodsoils;" .. fgettext("Enable wood soils/vines") .. ";false]"
+							"checkbox[0.25,7.00;cb_enable_woodsoils;" .. fgettext("Enable wood soils/vines") .. ";false]" ..
+							"checkbox[6.05,7.00;cb_enable_surprise;" .. fgettext("Enable surprise blocks") .. ";false]"
 		end
 		
 		if game.id == "stonecraft" then
@@ -277,7 +278,17 @@ local function create_world_buttonhandler(this, fields)
 		end
 						
 		return true
-	end	
+	end
+
+	if fields["cb_enable_surprise"] ~= nil then
+		if core.is_yes(fields["cb_enable_surprise"]) then
+			core.setting_set("world_create_enable_surprise", "true")
+		else
+			core.setting_set("world_create_enable_surprise", "false")
+		end
+						
+		return true
+	end
 	
 	if fields["world_create_confirm"] or
 		fields["key_enter"] then
@@ -419,6 +430,12 @@ local function create_world_buttonhandler(this, fields)
 				else
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", "false")
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", "false")
+				end
+
+				if core.setting_getbool("world_create_enable_surprise") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "false")
 				end
 			end
 		else
