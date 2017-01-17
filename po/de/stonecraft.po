@@ -203,6 +203,10 @@ msgid "Enable wood soils/vines"
 msgstr "Waldboden/Wein aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Enable surprise blocks"
+msgstr "Überraschungsblöcke aktivieren"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as stonecraft_game, from bc547.de/stonecraft"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von bc547.de/stonecraft heruntergeladen "
