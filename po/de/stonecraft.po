@@ -98,6 +98,10 @@ msgid "Enable all"
 msgstr "Alle an"
 
 #: builtin/mainmenu/dlg_config_world.lua
+msgid "Disable all"
+msgstr "Alle aus"
+
+#: builtin/mainmenu/dlg_config_world.lua
 msgid ""
 "Failed to enable mod \"$1\" as it contains disallowed characters. Only "
 "chararacters [a-z0-9_] are allowed."
@@ -129,6 +133,14 @@ msgstr "Welt:"
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "enabled"
 msgstr "Aktiviert"
+
+#: builtin/mainmenu/dlg_config_world.lua
+msgid "Dependencies:"
+msgstr "Abhängigkeiten:"
+
+#: builtin/mainmenu/dlg_config_world.lua
+msgid "Optional dependencies:"
+msgstr "Optionale Abhängigkeiten:"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "A world named \"$1\" already exists"
