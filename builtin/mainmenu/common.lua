@@ -284,7 +284,9 @@ function is_server_protocol_compat_or_error(server_proto_min, server_proto_max)
 end
 --------------------------------------------------------------------------------
 function menu_worldmt(selected, setting, value)
-	local world = menudata.worldlist:get_list()[selected]
+	--local world = menudata.worldlist:get_list()[selected] -- MrCerealGuy: filterlist.raw_index_by_uid uses m_raw_list!!
+															-- get_list() returns other sorted list
+	local world = menudata.worldlist.m_raw_list[selected]
 	if world then
 		local filename = world.path .. DIR_DELIM .. "world.mt"
 		local world_conf = Settings(filename)
