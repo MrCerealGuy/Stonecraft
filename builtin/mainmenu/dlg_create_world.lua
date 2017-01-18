@@ -300,9 +300,9 @@ local function create_world_buttonhandler(this, fields)
 			worldname ~= "" then
 
 			local message = nil
-			
+
 			core.setting_set("fixed_map_seed", fields["te_seed"])
-			
+
 			if not menudata.worldlist:uid_exists_raw(worldname) then
 				core.setting_set("mg_name",fields["dd_mapgen"])
 				message = core.create_world(worldname,gameindex)
@@ -314,17 +314,14 @@ local function create_world_buttonhandler(this, fields)
 				gamedata.errormessage = message
 			else
 				core.setting_set("menu_last_game",gamemgr.games[gameindex].id)
-				
 				if this.data.update_worldlist_filter then
 					menudata.worldlist:set_filtercriteria(gamemgr.games[gameindex].id)
 					mm_texture.update("singleplayer", gamemgr.games[gameindex].id)
 				end
-				
 				menudata.worldlist:refresh()
 				core.setting_set("mainmenu_last_selected_world",
 									menudata.worldlist:raw_index_by_uid(worldname))
-									
-				
+		
 				-- write selected Stonecraft mods in world.mt
 				if core.setting_getbool("world_create_enable_erosion") then
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", "true")
@@ -437,6 +434,10 @@ local function create_world_buttonhandler(this, fields)
 				else
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "false")
 				end
+
+
+				
+
 			end
 		else
 			gamedata.errormessage =
@@ -459,16 +460,11 @@ local function create_world_buttonhandler(this, fields)
 end
 
 function create_create_world_dlg(update_worldlistfilter)
-	core.setting_set("world_create_enable_erosion", "false")
-	core.setting_set("world_create_enable_forests", "false")
-	core.setting_set("world_create_enable_villages", "false")
-	core.setting_set("world_create_enable_biomes", "false")
-	
-	local dlg = dialog_create("sp_create_world",
+	local retval = dialog_create("sp_create_world",
 					create_world_formspec,
 					create_world_buttonhandler,
 					nil)
-	dlg.update_worldlist_filter = update_worldlistfilter
+	retval.update_worldlist_filter = update_worldlistfilter
 	
-	return dlg
+	return retval
 end
