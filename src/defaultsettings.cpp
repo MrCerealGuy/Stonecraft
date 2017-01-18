@@ -260,7 +260,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("fixed_map_seed", "");
 	settings->setDefault("give_initial_stuff", "false");
 	settings->setDefault("default_password", "");
-	settings->setDefault("default_privs", "interact, shout, home, zoom, areas");
+	settings->setDefault("default_privs", "interact, shout, home, zoom");
 	settings->setDefault("player_transfer_distance", "0");
 	settings->setDefault("enable_pvp", "true");
 	settings->setDefault("disallow_empty_password", "false");
