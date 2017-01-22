@@ -129,10 +129,11 @@ Please install source and dependencies like above. I've used **MinGW-w64 5.3.1**
 
 **Download libraries**  
 
-Please download the Windows libraries via github into &lt;stonecraft-folder&gt; and rename the folder to libs.
+Please clone the Windows libraries for MinGW via github:
 
 ```
-$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git
+$ cd <stonecraft-folder>
+$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git libs
 ```
 
 **Win 32-Bit**
