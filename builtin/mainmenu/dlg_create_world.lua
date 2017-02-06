@@ -68,23 +68,25 @@ local function create_world_formspec(dialogdata)
 		";" .. gameidx .. ";true]"
 		
 		if game.id == "stonecraft" then
-			retval = retval .. "label[0.25,3.00;" .. fgettext("World options") .. "]"..
-							"checkbox[0.25,3.50;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]" ..
-							"checkbox[0.25,4.00;cb_enable_forests;" .. fgettext("Enable more forests/red trees") .. ";false]" ..
+			retval = retval .. "label[0.25,3.00;" .. fgettext("World options: (some options can cause lag issues.)") .. "]"..
+							
+							"checkbox[0.25,3.50;cb_enable_creatures;" .. fgettext("Enable creatures") .. ";false]" ..
 							"checkbox[6.05,3.50;cb_enable_villages;" .. fgettext("Enable villages") .. ";false]" ..
-							"checkbox[6.05,4.00;cb_enable_biomes;" .. fgettext("Enable more biomes") .. ";false]" ..
-							"checkbox[0.25,4.50;cb_enable_caverealms;" .. fgettext("Enable cave realms") .. ";false]" ..
-							"checkbox[6.05,4.50;cb_enable_creatures;" .. fgettext("Enable creatures") .. ";false]" ..
-							"checkbox[0.25,5.00;cb_enable_homedecor;" .. fgettext("Enable home decor") .. ";false]" ..
-							"checkbox[6.05,5.00;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
-							"checkbox[0.25,5.50;cb_enable_nssm;" .. fgettext("Enable not so simple mobs") .. ";false]" ..
-							"checkbox[6.05,5.50;cb_enable_pyramids;" .. fgettext("Enable pyramids/spawners") .. ";false]" ..
-							"checkbox[0.25,6.00;cb_enable_giantmushrooms;" .. fgettext("Enable giant mushrooms") .. ";false]" ..
-							"checkbox[6.05,6.00;cb_enable_seaplants;" .. fgettext("Enable sea plants") .. ";false]" ..
-							"checkbox[0.25,6.50;cb_enable_swamps;" .. fgettext("Enable swamps") .. ";false]" ..
-							"checkbox[6.05,6.50;cb_enable_snow;" .. fgettext("Enable snow biomes") .. ";false]" ..
-							"checkbox[0.25,7.00;cb_enable_woodsoils;" .. fgettext("Enable wood soils/vines") .. ";false]" ..
-							"checkbox[6.05,7.00;cb_enable_surprise;" .. fgettext("Enable surprise blocks") .. ";false]"
+							"checkbox[0.25,4.00;cb_enable_forests;" .. fgettext("Enable more forests/red trees") .. ";false]" ..
+							"checkbox[6.05,4.00;cb_enable_woodsoils;" .. fgettext("Enable wood soils/vines") .. ";false]" ..
+							"checkbox[0.25,4.50;cb_enable_biomes;" .. fgettext("Enable Ethereal biomes") .. ";false]" ..
+							"checkbox[6.05,4.50;cb_enable_snow;" .. fgettext("Enable snow biomes") .. ";false]" ..
+							"checkbox[0.25,5.00;cb_enable_seaplants;" .. fgettext("Enable sea plants") .. ";false]" ..
+							"checkbox[6.05,5.00;cb_enable_swamps;" .. fgettext("Enable swamps") .. ";false]" ..
+							"checkbox[0.25,5.50;cb_enable_caverealms;" .. fgettext("Enable cave realms") .. ";false]" ..							
+							"checkbox[6.05,5.50;cb_enable_mines;" .. fgettext("Enable mines") .. ";false]" ..
+							"checkbox[0.25,6.00;cb_enable_surprise;" .. fgettext("Enable surprise blocks") .. ";false]" ..
+							"checkbox[6.05,6.00;cb_enable_homedecor;" .. fgettext("Enable home decor") .. ";false]" ..
+							"checkbox[0.25,6.50;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
+							"checkbox[6.05,6.50;cb_enable_nssm;" .. fgettext("Enable not so simple mobs") .. ";false]" ..
+							"checkbox[0.25,7.00;cb_enable_pyramids;" .. fgettext("Enable pyramids/spawners") .. ";false]" ..
+							"checkbox[6.05,7.00;cb_enable_giantmushrooms;" .. fgettext("Enable giant mushrooms") .. ";false]" ..
+							"checkbox[0.25,7.50;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]"
 		end
 		
 		if game.id == "stonecraft" then
@@ -138,8 +140,12 @@ local function create_world_buttonhandler(this, fields)
 	if fields["cb_enable_villages"] ~= nil then
 		if core.is_yes(fields["cb_enable_villages"]) then
 			core.setting_set("world_create_enable_villages", "true")
+			--core.setting_set("world_create_enable_darkage", "true")
+			core.setting_set("world_create_enable_mobf_trader", "true")
 		else
 			core.setting_set("world_create_enable_villages", "false")
+			--core.setting_set("world_create_enable_darkage", "false")
+			core.setting_set("world_create_enable_mobf_trader", "false")
 		end
 						
 		return true
@@ -289,6 +295,18 @@ local function create_world_buttonhandler(this, fields)
 						
 		return true
 	end
+
+	if fields["cb_enable_mines"] ~= nil then
+		if core.is_yes(fields["cb_enable_mines"]) then
+			core.setting_set("world_create_enable_mines", "true")
+			core.setting_set("world_create_enable_boost_carts", "true")
+		else
+			core.setting_set("world_create_enable_mines", "false")
+			core.setting_set("world_create_enable_boost_carts", "false")
+		end
+						
+		return true
+	end
 	
 	if fields["world_create_confirm"] or
 		fields["key_enter"] then
@@ -339,8 +357,12 @@ local function create_world_buttonhandler(this, fields)
 				
 				if core.setting_getbool("world_create_enable_villages") then
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "true")
+					--menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "true")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", "true")
 				else
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "false")
+					--menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "false")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", "false")
 				end
 				
 				if core.setting_getbool("world_create_enable_biomes") then
@@ -435,9 +457,13 @@ local function create_world_buttonhandler(this, fields)
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "false")
 				end
 
-
-				
-
+				if core.setting_getbool("world_create_enable_mines") then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", "true")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", "false")
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", "false")
+				end
 			end
 		else
 			gamedata.errormessage =
