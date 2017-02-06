@@ -151,8 +151,8 @@ msgid "Create"
 msgstr "Erstellen"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "World options"
-msgstr "Welteinstellungen"
+msgid "World options: (some options can cause lag issues.)"
+msgstr "Welteinstellungen: (einige Optionen können Performance-Einbrüche verursachen.)"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable erosion"
@@ -167,8 +167,8 @@ msgid "Enable villages"
 msgstr "Dörfer aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable more biomes"
-msgstr "Mehr Biome aktivieren"
+msgid "Enable Ethereal biomes"
+msgstr "Ethereal Biome aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable cave realms"
@@ -217,6 +217,10 @@ msgstr "Waldboden/Wein aktivieren"
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable surprise blocks"
 msgstr "Überraschungsblöcke aktivieren"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Enable mines"
+msgstr "Minen aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as stonecraft_game, from bc547.de/stonecraft"
