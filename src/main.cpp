@@ -236,6 +236,17 @@ int main(int argc, char *argv[])
 	// Stop httpfetch thread (if started)
 	httpfetch_cleanup();
 
+#ifdef _WIN32
+	DWORD dwError, dwPriClass;
+
+   if(SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS) == 0)
+   {
+      dwError = GetLastError();
+      
+      infostream << "Failed to set high priority mode (" << dwError << ")" << std::endl;      
+   } 
+#endif
+
 	END_DEBUG_EXCEPTION_HANDLER
 
 	return retval;
