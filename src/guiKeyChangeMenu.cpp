@@ -123,7 +123,7 @@ void GUIKeyChangeMenu::regenerateGui(v2u32 screensize)
 		core::rect < s32 > rect(0, 0, 600, 40);
 		rect += topleft + v2s32(25, 3);
 		//gui::IGUIStaticText *t =
-		const wchar_t *text = wgettext("Keybindings. (If this menu screws up, remove stuff from minetest.conf)");
+		const wchar_t *text = wgettext("Keybindings. (If this menu screws up, remove stuff from stonecraft.conf)");
 		Environment->addStaticText(text,
 								   rect, false, true, this, -1);
 		delete[] text;
