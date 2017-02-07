@@ -367,7 +367,7 @@ See README.txt in each mod/textures directory for information about other author
 # License of Stonecraft source code
 
 Stonecraft
-Copyright (C) 2016 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
+Copyright (C) 2016-2017 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
