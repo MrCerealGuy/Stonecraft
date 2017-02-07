@@ -15,6 +15,24 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+local world_create_enable_erosion = false
+local world_create_enable_forests = false
+local world_create_enable_villages = false
+local world_create_enable_biomes = false
+local world_create_enable_caverealms = false
+local world_create_enable_creatures = false
+local world_create_enable_homedecor = false
+local world_create_enable_mesecons = false
+local world_create_enable_nssm = false
+local world_create_enable_pyramids = false
+local world_create_enable_giantmushrooms = false
+local world_create_enable_seaplants = false
+local world_create_enable_swamps = false
+local world_create_enable_snow = false
+local world_create_enable_woodsoils = false
+local world_create_enable_surprise = false
+local world_create_enable_mines = false
+
 local function create_world_formspec(dialogdata)
 	local mapgens = core.get_mapgen_names()
 
@@ -111,200 +129,112 @@ local function create_world_formspec(dialogdata)
 
 end
 
+local function b2s(value)
+	if value then
+		return "true"
+	else
+		return "false"
+	end
+end
+
 local function create_world_buttonhandler(this, fields)
 	
 	-- handle Stonecraft selected optional mods
-	if fields["cb_enable_erosion"] ~= nil then
+	--[[if fields["cb_enable_erosion"] ~= nil then
 		if core.is_yes(fields["cb_enable_erosion"]) then
-			core.setting_set("world_create_enable_erosion", "true")
+			world_create_enable_erosion = true
 		else
-			core.setting_set("world_create_enable_erosion", "false")
+			world_create_enable_erosion = false
 		end
 						
 		return true
+	end]]--
+
+	if fields["cb_enable_erosion"] ~= nil then
+		world_create_enable_erosion = core.is_yes(fields["cb_enable_erosion"])						
+		return true
 	end
+
 	
 	if fields["cb_enable_forests"] ~= nil then
-		if core.is_yes(fields["cb_enable_forests"]) then
-			core.setting_set("world_create_enable_forests", "true")
-			core.setting_set("world_create_enable_redtrees", "true")
-		else
-			core.setting_set("world_create_enable_forests", "false")
-			core.setting_set("world_create_enable_redtrees", "false")
-		end
-						
+		world_create_enable_forests = core.is_yes(fields["cb_enable_forests"])			
 		return true
 	end
 
 	
 	if fields["cb_enable_villages"] ~= nil then
-		if core.is_yes(fields["cb_enable_villages"]) then
-			core.setting_set("world_create_enable_villages", "true")
-			--core.setting_set("world_create_enable_darkage", "true")
-			core.setting_set("world_create_enable_mobf_trader", "true")
-		else
-			core.setting_set("world_create_enable_villages", "false")
-			--core.setting_set("world_create_enable_darkage", "false")
-			core.setting_set("world_create_enable_mobf_trader", "false")
-		end
-						
+		world_create_enable_villages = core.is_yes(fields["cb_enable_villages"])	
 		return true
 	end
 	
 	if fields["cb_enable_biomes"] ~= nil then
-		if core.is_yes(fields["cb_enable_biomes"]) then
-			core.setting_set("world_create_enable_biomes", "true")
-		else
-			core.setting_set("world_create_enable_biomes", "false")
-		end
-						
+		world_create_enable_biomes = core.is_yes(fields["cb_enable_biomes"])			
 		return true
 	end
 	
 	if fields["cb_enable_caverealms"] ~= nil then
-		if core.is_yes(fields["cb_enable_caverealms"]) then
-			core.setting_set("world_create_enable_caverealms", "true")
-		else
-			core.setting_set("world_create_enable_caverealms", "false")
-		end
-						
+		world_create_enable_caverealms = core.is_yes(fields["cb_enable_caverealms"])
 		return true
 	end
 	
 	if fields["cb_enable_creatures"] ~= nil then
-		if core.is_yes(fields["cb_enable_creatures"]) then
-			core.setting_set("world_create_enable_creatures", "true")
-		else
-			core.setting_set("world_create_enable_creatures", "false")
-		end
-						
+		world_create_enable_creatures = core.is_yes(fields["cb_enable_creatures"])
 		return true
 	end
 	
 	if fields["cb_enable_homedecor"] ~= nil then
-		if core.is_yes(fields["cb_enable_homedecor"]) then
-			core.setting_set("world_create_enable_homedecor", "true")
-		else
-			core.setting_set("world_create_enable_homedecor", "false")
-		end
-						
+		world_create_enable_homedecor = core.is_yes(fields["cb_enable_homedecor"])			
 		return true
 	end
 	
 	if fields["cb_enable_mesecons"] ~= nil then
-		if core.is_yes(fields["cb_enable_mesecons"]) then
-			core.setting_set("world_create_enable_mesecons", "true")
-			core.setting_set("world_create_enable_pipeworks", "true")
-			core.setting_set("world_create_enable_technic", "true")
-			core.setting_set("world_create_enable_digilines", "true")
-		else
-			core.setting_set("world_create_enable_mesecons", "false")
-			core.setting_set("world_create_enable_pipeworks", "false")
-			core.setting_set("world_create_enable_technic", "false")
-			core.setting_set("world_create_enable_digilines", "false")
-		end
-						
+		world_create_enable_mesecons = core.is_yes(fields["cb_enable_mesecons"])
 		return true
 	end
 	
 	
 	if fields["cb_enable_nssm"] ~= nil then
-		if core.is_yes(fields["cb_enable_nssm"]) then
-			core.setting_set("world_create_enable_nssm", "true")
-			core.setting_set("world_create_enable_nssb", "true")
-		else
-			core.setting_set("world_create_enable_nssm", "false")
-			core.setting_set("world_create_enable_nssb", "false")
-		end
-						
+		world_create_enable_nssm = core.is_yes(fields["cb_enable_nssm"])			
 		return true
 	end
 	
 	if fields["cb_enable_pyramids"] ~= nil then
-		if core.is_yes(fields["cb_enable_pyramids"]) then
-			core.setting_set("world_create_enable_pyramids", "true")
-			core.setting_set("world_create_enable_spawners", "true")
-		else
-			core.setting_set("world_create_enable_pyramids", "false")
-			core.setting_set("world_create_enable_spawners", "false")
-		end
-						
+		world_create_enable_pyramids = core.is_yes(fields["cb_enable_pyramids"])
 		return true
 	end
 	
 	if fields["cb_enable_giantmushrooms"] ~= nil then
-		if core.is_yes(fields["cb_enable_giantmushrooms"]) then
-			core.setting_set("world_create_enable_giantmushrooms", "true")
-		else
-			core.setting_set("world_create_enable_giantmushrooms", "false")
-		end
-						
+		world_create_enable_giantmushrooms = core.is_yes(fields["cb_enable_giantmushrooms"])				
 		return true
 	end
 	
 	if fields["cb_enable_seaplants"] ~= nil then
-		if core.is_yes(fields["cb_enable_seaplants"]) then
-			core.setting_set("world_create_enable_seaplants", "true")
-		else
-			core.setting_set("world_create_enable_seaplants", "false")
-		end
-						
+		world_create_enable_seaplants = core.is_yes(fields["cb_enable_seaplants"])		
 		return true
 	end
 	
 	if fields["cb_enable_swamps"] ~= nil then
-		if core.is_yes(fields["cb_enable_swamps"]) then
-			core.setting_set("world_create_enable_swamps", "true")
-		else
-			core.setting_set("world_create_enable_swamps", "false")
-		end
-						
+		world_create_enable_swamps = core.is_yes(fields["cb_enable_swamps"])			
 		return true
 	end
 	
 	if fields["cb_enable_snow"] ~= nil then
-		if core.is_yes(fields["cb_enable_snow"]) then
-			core.setting_set("world_create_enable_snow", "true")
-			core.setting_set("world_create_enable_moresnow", "true")
-		else
-			core.setting_set("world_create_enable_snow", "false")
-			core.setting_set("world_create_enable_moresnow", "false")
-		end
-						
+		world_create_enable_snow = core.is_yes(fields["cb_enable_snow"])	
 		return true
 	end
 	
 	if fields["cb_enable_woodsoils"] ~= nil then
-		if core.is_yes(fields["cb_enable_woodsoils"]) then
-			core.setting_set("world_create_enable_woodsoils", "true")
-			core.setting_set("world_create_enable_vines", "true")
-		else
-			core.setting_set("world_create_enable_woodsoils", "false")
-			core.setting_set("world_create_enable_vines", "false")
-		end
-						
+		world_create_enable_woodsoils = core.is_yes(fields["cb_enable_woodsoils"])			
 		return true
 	end
 
 	if fields["cb_enable_surprise"] ~= nil then
-		if core.is_yes(fields["cb_enable_surprise"]) then
-			core.setting_set("world_create_enable_surprise", "true")
-		else
-			core.setting_set("world_create_enable_surprise", "false")
-		end
-						
+		world_create_enable_surprise = core.is_yes(fields["cb_enable_surprise"])			
 		return true
 	end
 
 	if fields["cb_enable_mines"] ~= nil then
-		if core.is_yes(fields["cb_enable_mines"]) then
-			core.setting_set("world_create_enable_mines", "true")
-			core.setting_set("world_create_enable_boost_carts", "true")
-		else
-			core.setting_set("world_create_enable_mines", "false")
-			core.setting_set("world_create_enable_boost_carts", "false")
-		end
-						
+		world_create_enable_mines = core.is_yes(fields["cb_enable_mines"])
 		return true
 	end
 	
@@ -341,129 +271,35 @@ local function create_world_buttonhandler(this, fields)
 									menudata.worldlist:raw_index_by_uid(worldname))
 		
 				-- write selected Stonecraft mods in world.mt
-				if core.setting_getbool("world_create_enable_erosion") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_forests") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_redtrees", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_redtrees", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_villages") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "true")
-					--menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", "false")
-					--menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_biomes") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_caverealms") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_caverealms", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_caverealms", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_creatures") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_creatures", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_creatures", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_homedecor") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_homedecor", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_homedecor", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_mesecons") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", "false")
-				end
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", b2s(world_create_enable_erosion))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", b2s(world_create_enable_forests))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_redtrees", b2s(world_create_enable_forests))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", b2s(world_create_enable_villages))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "false")  --deactivated
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", b2s(world_create_enable_villages))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", b2s(world_create_enable_biomes))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_caverealms", b2s(world_create_enable_caverealms))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_creatures", b2s(world_create_enable_creatures))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_homedecor", b2s(world_create_enable_homedecor))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", b2s(world_create_enable_mesecons))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", b2s(world_create_enable_mesecons))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", b2s(world_create_enable_mesecons))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", b2s(world_create_enable_mesecons))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssm", b2s(world_create_enable_nssm))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssb", b2s(world_create_enable_nssm))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pyramids", b2s(world_create_enable_pyramids))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_spawners", b2s(world_create_enable_pyramids))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_giantmushrooms", b2s(world_create_enable_giantmushrooms))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", b2s(world_create_enable_seaplants))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", b2s(world_create_enable_swamps))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", b2s(world_create_enable_snow))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", b2s(world_create_enable_snow))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", b2s(world_create_enable_woodsoils))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", b2s(world_create_enable_woodsoils))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", b2s(world_create_enable_surprise))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", b2s(world_create_enable_mines))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", b2s(world_create_enable_mines))
 
-				if core.setting_getbool("world_create_enable_nssm") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssm", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssb", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssm", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssb", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_pyramids") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pyramids", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_spawners", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pyramids", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_spawners", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_giantmushrooms") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_giantmushrooms", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_giantmushrooms", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_seaplants") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_swamps") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_snow") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "false")
-				end
-				
-				if core.setting_getbool("world_create_enable_woodsoils") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", "false")
-				end
-
-				if core.setting_getbool("world_create_enable_surprise") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", "false")
-				end
-
-				if core.setting_getbool("world_create_enable_mines") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", "true")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", "false")
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", "false")
-				end
 			end
 		else
 			gamedata.errormessage =
