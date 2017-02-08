@@ -54,6 +54,7 @@ echo -e "\E[34;47mCopy stonecraft files into build dir..."
 cd $builddir
 
 rsync --info=progress2 $stonecraftdir/README.md ./
+rsync --info=progress2 $stonecraftdir/Manual.pdf ./
 rsync --info=progress2 $stonecraftdir/CMakeLists.txt ./
 rsync --info=progress2 $stonecraftdir/stonecraft.conf.example ./
 rsync -r --info=progress2 $stonecraftdir/builtin ./
