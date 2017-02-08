@@ -1,3 +1,21 @@
+--[[
+
+2017-02-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+local DIR_DELIM = DIR_DELIM or "/"
+local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
+local world_conf = Settings(world_file)
+local enable_carts = world_conf:get("enable_carts")
+
+if enable_carts ~= nil and enable_carts == "false" then
+	minetest.log("info", "[carts] skip loading mod.")
+	return
+end
+
+-- --------------------------------------------------------------------------------------------------------
 
 dofile(minetest.get_modpath("carts").."/functions.lua")
 
