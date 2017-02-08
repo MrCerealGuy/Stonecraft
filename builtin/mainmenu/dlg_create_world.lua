@@ -298,7 +298,9 @@ local function create_world_buttonhandler(this, fields)
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", b2s(world_create_enable_woodsoils))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", b2s(world_create_enable_surprise))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", b2s(world_create_enable_mines))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_carts", b2s(world_create_enable_mines))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", b2s(world_create_enable_mines))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_railcorridors", b2s(world_create_enable_mines))
 
 			end
 		else
