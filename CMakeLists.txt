@@ -13,7 +13,7 @@ set(PROJECT_NAME_CAPITALIZED "Stonecraft")
 # Also remember to set PROTOCOL_VERSION in network/networkprotocol.h when releasing
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
-set(VERSION_PATCH 8)
+set(VERSION_PATCH 9)
 set(VERSION_EXTRA "alpha" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
@@ -165,6 +165,7 @@ endif()
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/fonts" DESTINATION "${SHAREDIR}")
 
 install(FILES "README.md" DESTINATION "${EXAMPLE_CONF_DIR}")
+install(FILES "Manual.pdf" DESTINATION "${EXAMPLE_CONF_DIR}")
 install(FILES "doc/lua_api.txt" DESTINATION "${DOCDIR}")
 install(FILES "doc/menu_lua_api.txt" DESTINATION "${DOCDIR}")
 install(FILES "doc/texture_packs.txt" DESTINATION "${DOCDIR}")
@@ -176,9 +177,9 @@ if(UNIX AND NOT APPLE)
 	install(FILES "misc/stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
 	install(FILES "misc/stonecraft.appdata.xml" DESTINATION "${APPDATADIR}")
 #	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
-#	install(FILES "misc/minetest-xorg-icon-128.png"
-#		DESTINATION "${ICONDIR}/hicolor/128x128/apps"
-#		RENAME "minetest.png")
+	install(FILES "misc/stonecraft-xorg-icon-128.png"
+		DESTINATION "${ICONDIR}/hicolor/128x128/apps"
+		RENAME "stonecraft.png")
 endif()
 
 if(APPLE)
