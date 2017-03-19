@@ -1,4 +1,4 @@
-﻿# Stonecraft
+# Stonecraft
 
 An InfiniMiner/Minecraft inspired game powered by Minetest 0.4.15
 
