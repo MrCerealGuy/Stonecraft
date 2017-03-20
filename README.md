@@ -7,8 +7,8 @@ Copyright (c) 2016-2017 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> an
 
 ## Further documentation
 
-- Website: http://bc547.de/stonecraft
-- Wiki: http://bc547.de/stonecraft/wiki
+- Website: http://mrcerealguy.github.io/stonecraft
+- Wiki: http://github.com/MrCerealGuy/stonecraft/wiki
 - Github: https://github.com/mrcerealguy/stonecraft
 
 
