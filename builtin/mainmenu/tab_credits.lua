@@ -26,6 +26,7 @@
 
 local stonecraft_developers = {
 	"Andreas Zahnleiter (MrCerealGuy) <mrcerealguy@gmx.de>",
+	"Web: http://mrcerealguy.github.io/stonecraft",
 }
 
 local core_developers = {
@@ -93,7 +94,6 @@ return {
 		local version = core.get_version()
 		return "image[0.5,1;" .. core.formspec_escape(logofile) .. "]" ..
 			"label[0.5,3.2;" .. version.project .. " " .. version.string .. "]" ..
-			"label[0.5,3.5;http://bc547.de/stonecraft]" ..
 			"tablecolumns[color;text]" ..
 			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
 			"table[3.5,-0.25;8.5,5.8;list_credits;" ..
