@@ -1,3 +1,0 @@
-name = "Zeg9",
-author = "Zeg9",
-description = "My own skin.",

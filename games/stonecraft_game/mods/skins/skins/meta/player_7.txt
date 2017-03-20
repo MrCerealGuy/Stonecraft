@@ -1,2 +1,0 @@
-name = "Elmo",
-author = "InfinityProject",

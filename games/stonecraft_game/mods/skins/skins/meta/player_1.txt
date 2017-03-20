@@ -1,3 +1,0 @@
-name = "player.png",
-author = "celeron55",
-description = "The first minetest skin.",
