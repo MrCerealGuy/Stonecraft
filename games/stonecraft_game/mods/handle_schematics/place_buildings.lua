@@ -178,6 +178,18 @@ local function generate_building_translate_nodenames( nodenames, replacements, c
 			-- TODO: perhaps use a locked chest owned by the mob living there?
 			-- place a normal chest here
 			new_nodes[ i ].new_content   = cid.c_chest;
+
+		elseif(     node_name == 'default:chest'
+		   or   new_node_name == 'default:chest' ) then
+			new_nodes[ i ].is_replaced   = 1; -- currently unused
+			new_nodes[ i ].special_chest = 'default:chest';
+			new_nodes[ i ].new_content   = cid.c_chest;
+
+		elseif(     node_name == 'default:bookshelf'
+		    or  new_node_name == 'default:bookshelf' ) then
+			new_nodes[ i ].is_replaced   = 1; -- currently unused
+			new_nodes[ i ].special_chest = 'default:bookshelf';
+			new_nodes[ i ].new_content   = cid.c_bookshelf;
 		end
 
 		-- only existing nodes can be placed
@@ -204,6 +216,7 @@ local function generate_building_translate_nodenames( nodenames, replacements, c
 				new_nodes[ i ].is_tree      = 1;
 
 			elseif( new_content == cid.c_chest
+			   or   new_content == cid.c_bookshelf
 			   or   new_content == cid.c_chest_locked 
 			   or   new_content == cid.c_chest_shelf
 			   or   new_content == cid.c_chest_ash
@@ -228,6 +241,15 @@ local function generate_building_translate_nodenames( nodenames, replacements, c
 				elseif( string.sub( new_node_name, -2 ) =="_b") then
 					new_nodes[ i ].is_door_b    = 1;
 				end
+
+			-- if we are placing a glass node, param2 needs to be set to 0
+			elseif( regnode and regnode.drawtype
+			    and (regnode.drawtype=="glasslike" or regnode.drawtype=="glasslike_framed" or regnode.drawtype=="glasslike_framed_optional")) then
+				new_nodes[ i ].set_param2_to_0  = 1;
+
+			-- torches can be 3d now; for that, they use diffrent nodes
+			elseif( new_node_name == 'mg_villages:torch' or new_node_name == 'default:torch' ) then
+				new_nodes[ i ].is_torch        = 1;
 			end
 
 
@@ -270,7 +292,7 @@ local function generate_building_translate_nodenames( nodenames, replacements, c
 end
 
 
-local function generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground)
+local function generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground, scaffolding_only)
 
 	local binfo = binfo_extra;
 	if( not( binfo ) and mg_villages) then
@@ -337,6 +359,9 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 	local c_dirt                 = minetest.get_content_id( "default:dirt" );
 	local c_dirt_with_grass      = minetest.get_content_id( "default:dirt_with_grass" );
 	local c_dirt_with_snow       = minetest.get_content_id( "default:dirt_with_snow" );
+
+	local c_scaffolding          = minetest.get_content_id( "handle_schematics:support" );
+	local c_dig_here             = minetest.get_content_id( "handle_schematics:dig_here" );
 
 	local scm_x = 0;
 	local scm_z = 0;
@@ -427,8 +452,8 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 	
 				local new_content = c_air;
 				local t = scm[y+1][xoff][zoff];
-
 				local node_content = data[a:index(ax, ay, az)];
+
 				if( binfo.yoff+y == 0 ) then
 					-- no snow on the gravel roads
 					if( node_content == c_dirt_with_snow or data[a:index(ax, ay+1, az)]==c_snow) then
@@ -438,7 +463,30 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 					ground_type = node_content;
 				end
 
-				if( not( t )) then
+				-- scaffolding nodes are only placed when there is air and there ought to be some node
+				if( scaffolding_only ) then
+					local current_content = data[a:index(ax, ay, az)];
+
+					-- there is air there right now, but there ought to be a node from the building
+					if( current_content == cid.c_air and t) then
+						data[ a:index(ax, ay, az)] = c_scaffolding;
+
+					-- we have the wrong node there
+					elseif( ((not(t) and current_content ~= cid.c_air)
+						 or (t and new_nodes[t[1]] and not(new_nodes[t[1]].ignore) and current_content ~= new_nodes[ t[1]].new_content))
+						-- TODO: detect wrong rotation (param2)
+
+						and current_content ~= c_scaffolding
+						and current_content ~= c_dig_here
+						and ay<maxp.y) then
+						-- there is air above; we can place a digging indicator
+						if( data[a:index(ax, ay+1, az)] == cid.c_air or data[a:index(ax, ay+1, az)]==c_scaffolding) then
+							data[ a:index(ax, ay+1, az)] = c_dig_here;
+						end
+					end
+
+				-- normal operations
+				elseif( not( t )) then
 					if( node_content ~= cid.c_plotmarker
 					   and (not(handle_schematics.moresnow_installed) or not(moresnow) or node_content ~= moresnow.c_snow_top )) then
 						data[ a:index(ax, ay, az)] = cid.c_air;
@@ -452,7 +500,7 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 					end
 
 					-- replace all dirt and dirt with grass at that x,z coordinate with the stored ground grass node;
-					if( n.is_grass and keep_ground) then
+					if( n.is_grass and keep_ground and ground_type) then
 						new_content = ground_type;
 					end
 
@@ -527,6 +575,20 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 					elseif( n.is_sign ) then
 						table.insert( extra_calls.signs,  {x=ax, y=ay, z=az, typ=new_content, bpos_i=building_nr_in_bpos});
 
+					-- glasslike nodes need to have param2 set to 0 (else they get a strange fill state)
+					elseif( n.set_param2_to_0 ) then
+						param2_data[a:index(ax, ay, az)] = 0;
+
+					-- the old torch is split up into three new types
+					elseif( n.is_torch ) then
+						if( t[2]==0 ) then
+							data[ a:index(ax, ay, az )] = cid.c_torch_ceiling;
+						elseif( t[2]==1 ) then
+							data[ a:index(ax, ay, az )] = cid.c_torch;
+						else
+							data[ a:index(ax, ay, az )] = cid.c_torch_wall;
+						end
+
 					-- doors need the state param to be set (which depends on param2)
 					elseif( n.is_door_a ) then
 						table.insert( extra_calls.door_a, {x=ax, y=ay, z=az, typ=new_content, p2=param2_data[a:index(ax, ay, az)]});
@@ -579,6 +641,7 @@ handle_schematics.place_buildings = function(village, minp, maxp, data, param2_d
 	local replacements = mg_villages.get_replacement_table( village.village_type, nil, village.to_add_data.replacements );
 
 	cid.c_chest            = handle_schematics.get_content_id_replaced( 'default:chest',          replacements );
+	cid.c_bookshelf        = handle_schematics.get_content_id_replaced( 'default:bookshelf',      replacements );
 	cid.c_chest_locked     = handle_schematics.get_content_id_replaced( 'default:chest_locked',   replacements );
 	cid.c_chest_shelf      = handle_schematics.get_content_id_replaced( 'cottages:shelf',         replacements );
 	cid.c_chest_ash        = handle_schematics.get_content_id_replaced( 'trees:chest_ash',        replacements );
@@ -589,6 +652,10 @@ handle_schematics.place_buildings = function(village, minp, maxp, data, param2_d
 	cid.c_chest_pine       = handle_schematics.get_content_id_replaced( 'trees:chest_pine',       replacements );
 	cid.c_chest_spruce     = handle_schematics.get_content_id_replaced( 'trees:chest_spruce',     replacements );
 	cid.c_sign             = handle_schematics.get_content_id_replaced( 'default:sign_wall',      replacements );
+
+	cid.c_torch            = handle_schematics.get_content_id_replaced( 'default:torch',          replacements );
+	cid.c_torch_ceiling    = handle_schematics.get_content_id_replaced( 'default:torch_ceiling',  replacements );
+	cid.c_torch_wall       = handle_schematics.get_content_id_replaced( 'default:torch_wall',     replacements );
 --print('REPLACEMENTS: '..minetest.serialize( replacements.table )..' CHEST: '..tostring( minetest.get_name_from_content_id( cid.c_chest ))); -- TODO
 
 	local extranodes = {}
@@ -602,7 +669,8 @@ handle_schematics.place_buildings = function(village, minp, maxp, data, param2_d
 			if( pos.road_material ) then
 				road_material = pos.road_material;
 			end
-			generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true )
+			-- do not use scaffolding here; place the building directly
+			generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true, false )
 		end
 	end
 
@@ -640,8 +708,10 @@ end
 -- 	binfo.axis		optional; relevant for some mirroring operations
 -- 
 -- replacement_list		contains replacements in the same list format as place_schematic uses
+-- keep_ground                  keep biome-specific ground nodes
+-- scaffolding_only             when true: place a scaffolding node where there is air; place nothing if there is a solid node
 --
-handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replacement_list, keep_ground)
+handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replacement_list, keep_ground, scaffolding_only)
 
 	if( not( replacement_list ) or type( replacement_list ) ~= 'table' ) then
 		return;
@@ -658,7 +728,8 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 	local vm = minetest.get_voxel_manip()
 	local minp, maxp = vm:read_from_map(
 		{x = pos.x, y = pos.y, z = pos.z},
-		{x = pos.x+pos.bsizex, y = pos.y+binfo.ysize, z = pos.z+pos.bsizez} -- TODO
+		-- add one in height in case we need to add a dig_here-indicator
+		{x = pos.x+pos.bsizex, y = pos.y+binfo.ysize+1, z = pos.z+pos.bsizez} -- TODO
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
 	local data        = vm:get_data()
@@ -700,7 +771,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 	local extra_calls = { on_constr = {}, trees = {}, chests = {}, signs = {}, traders = {}, door_a = {}, door_b = {} };
 
 	-- last parameter false -> place dirt nodes instead of trying to keep the ground nodes
-	generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, keep_ground);
+	generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, keep_ground, scaffolding_only);
 
 	-- store the changed map data
 	vm:set_data(data);
@@ -718,7 +789,7 @@ end
 
 -- places a building read from file "building_name" on the map between start_pos and end_pos using luavoxelmanip
 -- returns error message on failure and nil on success
-handle_schematics.place_building_from_file = function( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, keep_ground )
+handle_schematics.place_building_from_file = function( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, keep_ground, scaffolding_only )
 	if( not( building_name )) then
 		return "No file name given. Cannot find the schematic.";
 	end
@@ -768,7 +839,7 @@ handle_schematics.place_building_from_file = function( start_pos, end_pos, build
 	start_pos.no_plotmarker = no_plotmarker;
 
 	-- all those calls to on_construct need to be done now
-	local res = handle_schematics.place_building_using_voxelmanip( start_pos, binfo, replacement_list, keep_ground);
+	local res = handle_schematics.place_building_using_voxelmanip( start_pos, binfo, replacement_list, keep_ground, scaffolding_only);
 	if( not(res) or not( res.extra_calls )) then
 		return;
 	end

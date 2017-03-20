@@ -21,7 +21,7 @@ end
 
 
 save_restore.restore_data = function( filename )
-	local file = io.open( filename, 'r' );
+	local file = io.open(  minetest.get_worldpath()..'/'..filename, 'r' );
 	if( file ) then
 		local data = file:read("*all");
 		file:close();

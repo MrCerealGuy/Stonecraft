@@ -293,7 +293,13 @@ local function create_world_buttonhandler(this, fields)
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", b2s(world_create_enable_seaplants))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", b2s(world_create_enable_swamps))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", b2s(world_create_enable_snow))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", b2s(world_create_enable_snow))
+
+				if world_create_enable_snow or world_create_enable_villages then
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "true")
+				else
+					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "false")
+				end
+
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", b2s(world_create_enable_woodsoils))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", b2s(world_create_enable_woodsoils))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", b2s(world_create_enable_surprise))

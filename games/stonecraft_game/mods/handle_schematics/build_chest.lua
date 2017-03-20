@@ -116,7 +116,8 @@ build_chest.get_start_pos = function( pos )
 
 	-- save the data for later removal/improvement of the building in the chest
 	meta:set_string( 'start_pos',    minetest.serialize( param2_rotated.start_pos ));
-	meta:set_string( 'end_pos',      minetest.serialize( param2_rotated.end_pos ));
+	-- one higher so that there is place for "dig here" indicators
+	meta:set_string( 'end_pos',      minetest.serialize( {x=param2_rotated.end_pos.x, y=param2_rotated.end_pos.y+1, z=param2_rotated.end_pos.z} ));
 	meta:set_string( 'rotate',       tostring(param2_rotated.rotate ));
 	meta:set_int(    'mirror',       mirror );
 	-- no replacements yet
@@ -571,7 +572,7 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 
 	local building_name = meta:get_string('building_name' );
 	-- the statistic is needed for all the replacements later on as it also contains the list of nodenames
-	if( building_name and building_name~="" and not( build_chest.building[ building_name ].size )) then
+	if( building_name and building_name~="" and (not( build_chest.building[ building_name ]) or not( build_chest.building[ building_name ].size ))) then
 		build_chest.read_building( building_name );
 	end
 
@@ -673,7 +674,6 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 			minetest.chat_send_player( pname, 'CREATING backup schematic for this place in \"schems/'..base_filename..'.mts\".');
 		end
 		
--- TODO: use scaffolding here (exchange some replacements)
 		local replacement_list = build_chest.replacements_get_current( meta, village_id );
 		local rotate = meta:get_string('rotate');
 		local mirror = meta:get_string('mirror');
@@ -682,7 +682,13 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 		-- actually place the building
 		--minetest.place_schematic( start_pos, building_name..'.mts', rotate, replacement_list, true );
 mirror = nil;
-		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, false );
+
+		-- players who do not have the creative priv cannot produce nodes out of thin air
+		local use_scaffolding = false;
+		if( not( minetest.check_player_privs( pname, {creative=true}))) then
+			use_scaffolding = true;
+		end
+		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, false, use_scaffolding );
 		if( fields.error_msg ) then
 			fields.error_msg = 'Error: '..tostring( fields.error_msg );
 		end
@@ -697,7 +703,8 @@ mirror = nil;
 			if( save_restore.file_exists( filename..'.mts' )) then
 				minetest.place_schematic( start_pos, filename..'.mts', "0", {}, true );
 				-- no rotation needed - the metadata can be applied as-is (with the offset applied)
-				handle_schematics.restore_meta( filename, nil, start_pos, end_pos, 0, nil);
+				-- restore_meta adds the worldpath automaticly
+				handle_schematics.restore_meta( '/schems/'..backup_file, nil, start_pos, end_pos, 0, nil);
 				meta:set_string('backup', nil );
 			end
 		end

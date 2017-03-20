@@ -36,12 +36,9 @@ http://github.com/Splizard/minetest-mod-snow/
    MA 02110-1301, USA.
 ]]--
 
-
 --[[
-
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
-
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -55,7 +52,6 @@ if enable_snow ~= nil and enable_snow == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
-
 
 -- Original Lua Files
 --dofile(modpath.."/util.lua")

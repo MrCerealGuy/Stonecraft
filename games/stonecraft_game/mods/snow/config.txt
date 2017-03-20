@@ -1,0 +1,24 @@
+# Disable this to stop snow from being smoothed.
+smooth_snow = true
+# The minumum height a snow biome will generate (mgv7)
+min_height = 3
+# The gravity of thrown snowballs
+snowball_gravity = 0.91743119266055
+# Reduces the amount of resources and fps used by snowfall.
+lighter_snowfall = false
+# How fast players throw snowballs
+snowball_velocity = 19
+# Disable this to prevent sleds from being riden.
+sleds = true
+# mapgen rarity in %
+mapgen_rarity = 18
+# Disable this to remove christmas saplings from being found.
+christmas_content = true
+# Enables smooth transition of biomes (mgv6)
+smooth_biomes = true
+# size of the generated… (has an effect to the rarity, too)
+mapgen_size = 210
+# Enables debug output. Currently it only prints mgv6 info.
+debug = false
+# Enables falling snow.
+enable_snowfall = true
