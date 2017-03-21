@@ -31,10 +31,10 @@
 		</ul>
 	</description>
 	<screenshots>
-		<screenshot type="default" width="1770" height="1080">http://www.bc547.de/stonecraft/gfx/gallery/screenshot_20160410_162735.png</screenshot>
-		<screenshot width="898" height="505">http://www.bc547.de/stonecraft/gfx/gallery/screenshot_20161128_141100.png</screenshot>
-		<screenshot width="898" height="505">http://www.bc547.de/stonecraft/gfx/gallery/screenshot_20161129_115518.png</screenshot>
+		<screenshot type="default" width="1770" height="1080">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20160410_162735.png</screenshot>
+		<screenshot width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161128_141100.png</screenshot>
+		<screenshot width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161129_115518.png</screenshot>
 	</screenshots>
-	<url type="homepage">http://bc547.de/stonecraft</url>
+	<url type="homepage">http://mrcerealguy.github.io/stonecraft</url>
 	<updatecontact>mrcerealguy@gmx.de</updatecontact>
 </application>

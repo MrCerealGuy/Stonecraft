@@ -9,6 +9,6 @@
 	<key>CFBundleIconFile</key>
 	<string>stonecraft-icon.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>bc547.de/stonecraft</string>
+	<string>mrcerealguy.github.io/stonecraft</string>
 </dict>
 </plist>
