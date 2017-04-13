@@ -40,6 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "lua_api/l_vmanip.h"
 #include "lua_api/l_settings.h"
 #include "lua_api/l_http.h"
+#include "lua_api/l_cppmod.h"
 
 extern "C" {
 #include "lualib.h"
@@ -91,6 +92,7 @@ void GameScripting::InitializeModApi(lua_State *L, int top)
 	ModApiServer::Initialize(L, top);
 	ModApiUtil::Initialize(L, top);
 	ModApiHttp::Initialize(L, top);
+	ModApiCPPMod::Initialize(L, top);
 
 	// Register reference classes (userdata)
 	InvRef::Register(L);
