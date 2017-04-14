@@ -42,6 +42,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "lua_api/l_settings.h"
 #include "lua_api/l_http.h"
 #include "lua_api/l_storage.h"
+#include "lua_api/l_cppmod.h"
 
 extern "C" {
 #include "lualib.h"
@@ -94,6 +95,7 @@ void ServerScripting::InitializeModApi(lua_State *L, int top)
 	ModApiUtil::Initialize(L, top);
 	ModApiHttp::Initialize(L, top);
 	ModApiStorage::Initialize(L, top);
+	ModApiCPPMod::Initialize(L, top);
 
 	// Register reference classes (userdata)
 	InvRef::Register(L);
