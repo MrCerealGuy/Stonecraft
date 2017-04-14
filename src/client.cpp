@@ -32,27 +32,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client.h"
 #include "network/clientopcodes.h"
 #include "filesys.h"
-#include "porting.h"
 #include "mapblock_mesh.h"
 #include "mapblock.h"
 #include "minimap.h"
-#include "settings.h"
+#include "mods.h"
 #include "profiler.h"
 #include "gettext.h"
-#include "log.h"
-#include "nodemetadata.h"
-#include "itemdef.h"
-#include "shader.h"
 #include "clientmap.h"
 #include "clientmedia.h"
-#include "sound.h"
-#include "IMeshCache.h"
-#include "config.h"
 #include "version.h"
 #include "drawscene.h"
 #include "database-sqlite3.h"
 #include "serialization.h"
 #include "guiscalingfilter.h"
+#include "script/clientscripting.h"
+#include "game.h"
 
 extern gui::IGUIEnvironment* guienv;
 
@@ -163,6 +157,12 @@ QueuedMeshUpdate *MeshUpdateQueue::pop()
 	MeshUpdateThread
 */
 
+MeshUpdateThread::MeshUpdateThread() : UpdateThread("Mesh")
+{
+	m_generation_interval = g_settings->getU16("mesh_generation_interval");
+	m_generation_interval = rangelim(m_generation_interval, 0, 50);
+}
+
 void MeshUpdateThread::enqueueUpdate(v3s16 p, MeshMakeData *data,
 		bool ack_block_to_server, bool urgent)
 {
@@ -174,7 +174,8 @@ void MeshUpdateThread::doUpdate()
 {
 	QueuedMeshUpdate *q;
 	while ((q = m_queue_in.pop())) {
-
+		if (m_generation_interval)
+			sleep_ms(m_generation_interval);
 		ScopeProfiler sp(g_profiler, "Client: Mesh making");
 
 		MapBlockMesh *mesh_new = new MapBlockMesh(q->data, m_camera_offset);
@@ -205,7 +206,8 @@ Client::Client(
 		IWritableNodeDefManager *nodedef,
 		ISoundManager *sound,
 		MtEventManager *event,
-		bool ipv6
+		bool ipv6,
+		GameUIFlags *game_ui_flags
 ):
 	m_packetcounter_timer(0.0),
 	m_connection_reinit_timer(0.1),
@@ -220,7 +222,7 @@ Client::Client(
 	m_event(event),
 	m_mesh_update_thread(),
 	m_env(
-		new ClientMap(this, this, control,
+		new ClientMap(this, control,
 			device->getSceneManager()->getRootSceneNode(),
 			device->getSceneManager(), 666),
 		device->getSceneManager(),
@@ -255,12 +257,16 @@ Client::Client(
 	m_recommended_send_interval(0.1),
 	m_removed_sounds_check_timer(0),
 	m_state(LC_Created),
-	m_localdb(NULL)
+	m_localdb(NULL),
+	m_script(NULL),
+	m_mod_storage_save_timer(10.0f),
+	m_game_ui_flags(game_ui_flags),
+	m_shutdown(false)
 {
 	// Add local player
 	m_env.setLocalPlayer(new LocalPlayer(this, playername));
 
-	m_mapper = new Mapper(device, this);
+	m_minimap = new Minimap(device, this);
 	m_cache_save_interval = g_settings->getU16("server_map_save_interval");
 
 	m_cache_smooth_lighting = g_settings->getBool("smooth_lighting");
@@ -268,10 +274,82 @@ Client::Client(
 	m_cache_use_tangent_vertices = m_cache_enable_shaders && (
 		g_settings->getBool("enable_bumpmapping") ||
 		g_settings->getBool("enable_parallax_occlusion"));
+
+	m_modding_enabled = g_settings->getBool("enable_client_modding");
+	m_script = new ClientScripting(this);
+	m_env.setScript(m_script);
+	m_script->setEnv(&m_env);
+}
+
+void Client::initMods()
+{
+	m_script->loadMod(getBuiltinLuaPath() + DIR_DELIM "init.lua", BUILTIN_MOD_NAME);
+
+	// If modding is not enabled, don't load mods, just builtin
+	if (!m_modding_enabled) {
+		return;
+	}
+
+	ClientModConfiguration modconf(getClientModsLuaPath());
+	std::vector<ModSpec> mods = modconf.getMods();
+	std::vector<ModSpec> unsatisfied_mods = modconf.getUnsatisfiedMods();
+	// complain about mods with unsatisfied dependencies
+	if (!modconf.isConsistent()) {
+		modconf.printUnsatisfiedModsError();
+	}
+
+	// Print mods
+	infostream << "Client Loading mods: ";
+	for (std::vector<ModSpec>::const_iterator i = mods.begin();
+		i != mods.end(); ++i) {
+		infostream << (*i).name << " ";
+	}
+
+	infostream << std::endl;
+	// Load and run "mod" scripts
+	for (std::vector<ModSpec>::const_iterator it = mods.begin();
+		it != mods.end(); ++it) {
+		const ModSpec &mod = *it;
+		if (!string_allowed(mod.name, MODNAME_ALLOWED_CHARS)) {
+			throw ModError("Error loading mod \"" + mod.name +
+				"\": Mod name does not follow naming conventions: "
+					"Only chararacters [a-z0-9_] are allowed.");
+		}
+		std::string script_path = mod.path + DIR_DELIM + "init.lua";
+		infostream << "  [" << padStringRight(mod.name, 12) << "] [\""
+			<< script_path << "\"]" << std::endl;
+		m_script->loadMod(script_path, mod.name);
+	}
+}
+
+const std::string &Client::getBuiltinLuaPath()
+{
+	static const std::string builtin_dir = porting::path_share + DIR_DELIM + "builtin";
+	return builtin_dir;
+}
+
+const std::string &Client::getClientModsLuaPath()
+{
+	static const std::string clientmods_dir = porting::path_share + DIR_DELIM + "clientmods";
+	return clientmods_dir;
+}
+
+const std::vector<ModSpec>& Client::getMods() const
+{
+	static std::vector<ModSpec> client_modspec_temp;
+	return client_modspec_temp;
+}
+
+const ModSpec* Client::getModSpec(const std::string &modname) const
+{
+	return NULL;
 }
 
 void Client::Stop()
 {
+	m_shutdown = true;
+	// Don't disable this part when modding is disabled, it's used in builtin
+	m_script->on_shutdown();
 	//request all client managed threads to stop
 	m_mesh_update_thread.stop();
 	// Save local server map
@@ -279,18 +357,18 @@ void Client::Stop()
 		infostream << "Local map saving ended." << std::endl;
 		m_localdb->endSave();
 	}
+
+	delete m_script;
 }
 
 bool Client::isShutdown()
 {
-
-	if (!m_mesh_update_thread.isRunning()) return true;
-
-	return false;
+	return m_shutdown || !m_mesh_update_thread.isRunning();
 }
 
 Client::~Client()
 {
+	m_shutdown = true;
 	m_con.Disconnect();
 
 	m_mesh_update_thread.stop();
@@ -319,7 +397,7 @@ Client::~Client()
 			m_device->getSceneManager()->getMeshCache()->removeMesh(mesh);
 	}
 
-	delete m_mapper;
+	delete m_minimap;
 }
 
 void Client::connect(Address address,
@@ -499,9 +577,10 @@ void Client::step(float dtime)
 				m_client_event_queue.push(event);
 			}
 		}
-		else if(event.type == CEE_PLAYER_BREATH) {
-				u16 breath = event.player_breath.amount;
-				sendBreath(breath);
+		// Protocol v29 or greater obsoleted this event
+		else if (event.type == CEE_PLAYER_BREATH && m_proto_ver < 29) {
+			u16 breath = event.player_breath.amount;
+			sendBreath(breath);
 		}
 	}
 
@@ -568,7 +647,7 @@ void Client::step(float dtime)
 			}
 
 			if (do_mapper_update)
-				m_mapper->addBlock(r.p, minimap_mapblock);
+				m_minimap->addBlock(r.p, minimap_mapblock);
 
 			if (r.ack_block_to_server) {
 				/*
@@ -660,6 +739,18 @@ void Client::step(float dtime)
 		// Sync to server
 		if(!removed_server_ids.empty()) {
 			sendRemovedSounds(removed_server_ids);
+		}
+	}
+
+	m_mod_storage_save_timer -= dtime;
+	if (m_mod_storage_save_timer <= 0.0f) {
+		verbosestream << "Saving registered mod storages." << std::endl;
+		m_mod_storage_save_timer = g_settings->getFloat("server_map_save_interval");
+		for (UNORDERED_MAP<std::string, ModMetadata *>::const_iterator
+				it = m_mod_storages.begin(); it != m_mod_storages.end(); ++it) {
+			if (it->second->isModified()) {
+				it->second->save(getModStoragePath());
+			}
 		}
 	}
 
@@ -1270,6 +1361,10 @@ void Client::sendBreath(u16 breath)
 {
 	DSTACK(FUNCTION_NAME);
 
+	// Protocol v29 make this obsolete
+	if (m_proto_ver >= 29)
+		return;
+
 	NetworkPacket pkt(TOSERVER_BREATH, sizeof(u16));
 	pkt << breath;
 	Send(&pkt);
@@ -1384,6 +1479,11 @@ void Client::removeNode(v3s16 p)
 	}
 }
 
+MapNode Client::getNode(v3s16 p, bool *is_valid_position)
+{
+	return m_env.getMap().getNodeNoEx(p, is_valid_position);
+}
+
 void Client::addNode(v3s16 p, MapNode n, bool remove_metadata)
 {
 	//TimeTaker timer1("Client::addNode()");
@@ -1495,44 +1595,6 @@ void Client::inventoryAction(InventoryAction *a)
 	delete a;
 }
 
-ClientActiveObject * Client::getSelectedActiveObject(
-		f32 max_d,
-		v3f from_pos_f_on_map,
-		core::line3d<f32> shootline_on_map
-	)
-{
-	std::vector<DistanceSortedActiveObject> objects;
-
-	m_env.getActiveObjects(from_pos_f_on_map, max_d, objects);
-
-	// Sort them.
-	// After this, the closest object is the first in the array.
-	std::sort(objects.begin(), objects.end());
-
-	for(unsigned int i=0; i<objects.size(); i++)
-	{
-		ClientActiveObject *obj = objects[i].obj;
-
-		aabb3f *selection_box = obj->getSelectionBox();
-		if(selection_box == NULL)
-			continue;
-
-		v3f pos = obj->getPosition();
-
-		aabb3f offsetted_box(
-				selection_box->MinEdge + pos,
-				selection_box->MaxEdge + pos
-		);
-
-		if(offsetted_box.intersectsWithLine(shootline_on_map))
-		{
-			return obj;
-		}
-	}
-
-	return NULL;
-}
-
 float Client::getAnimationTime()
 {
 	return m_animation_time;
@@ -1585,20 +1647,24 @@ void Client::typeChatMessage(const std::wstring &message)
 	if(message == L"")
 		return;
 
+	// If message was ate by script API, don't send it to server
+	if (m_script->on_sending_message(wide_to_utf8(message))) {
+		return;
+	}
+
 	// Send to others
 	sendChatMessage(message);
 
 	// Show locally
-	if (message[0] == L'/')
+	if (message[0] != L'/')
 	{
-		m_chat_queue.push((std::wstring)L"issued command: " + message);
-	}
-	else
-	{
-		LocalPlayer *player = m_env.getLocalPlayer();
-		assert(player != NULL);
-		std::wstring name = narrow_to_wide(player->getName());
-		m_chat_queue.push((std::wstring)L"<" + name + L"> " + message);
+		// compatibility code
+		if (m_proto_ver < 29) {
+			LocalPlayer *player = m_env.getLocalPlayer();
+			assert(player != NULL);
+			std::wstring name = narrow_to_wide(player->getName());
+			pushToChatQueue((std::wstring)L"<" + name + L"> " + message);
+		}
 	}
 }
 
@@ -1798,27 +1864,27 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 
 	m_state = LC_Ready;
 	sendReady();
+
+	if (g_settings->getBool("enable_client_modding")) {
+		m_script->on_client_ready(m_env.getLocalPlayer());
+		m_script->on_connect();
+	}
+
 	text = wgettext("Done!");
 	draw_load_screen(text, device, guienv, 0, 100);
 	infostream<<"Client::afterContentReceived() done"<<std::endl;
 	delete[] text;
 }
 
-float Client::getRTT(void)
+float Client::getRTT()
 {
 	return m_con.getPeerStat(PEER_ID_SERVER,con::AVG_RTT);
 }
 
-float Client::getCurRate(void)
+float Client::getCurRate()
 {
 	return ( m_con.getLocalStat(con::CUR_INC_RATE) +
 			m_con.getLocalStat(con::CUR_DL_RATE));
-}
-
-float Client::getAvgRate(void)
-{
-	return ( m_con.getLocalStat(con::AVG_INC_RATE) +
-			m_con.getLocalStat(con::AVG_DL_RATE));
 }
 
 void Client::makeScreenshot(IrrlichtDevice *device)
@@ -1871,13 +1937,48 @@ void Client::makeScreenshot(IrrlichtDevice *device)
 			} else {
 				sstr << "Failed to save screenshot '" << filename << "'";
 			}
-			m_chat_queue.push(narrow_to_wide(sstr.str()));
+			pushToChatQueue(narrow_to_wide(sstr.str()));
 			infostream << sstr.str() << std::endl;
 			image->drop();
 		}
 	}
 
 	raw_image->drop();
+}
+
+bool Client::shouldShowMinimap() const
+{
+	return !m_minimap_disabled_by_server;
+}
+
+void Client::showGameChat(const bool show)
+{
+	m_game_ui_flags->show_chat = show;
+}
+
+void Client::showGameHud(const bool show)
+{
+	m_game_ui_flags->show_hud = show;
+}
+
+void Client::showMinimap(const bool show)
+{
+	m_game_ui_flags->show_minimap = show;
+}
+
+void Client::showProfiler(const bool show)
+{
+	m_game_ui_flags->show_profiler_graph = show;
+}
+
+void Client::showGameFog(const bool show)
+{
+	m_game_ui_flags->force_fog_off = !show;
+}
+
+void Client::showGameDebug(const bool show)
+{
+	m_game_ui_flags->show_debug = show;
 }
 
 // IGameDef interface
@@ -1956,3 +2057,31 @@ scene::IAnimatedMesh* Client::getMesh(const std::string &filename)
 	smgr->getMeshCache()->removeMesh(mesh);
 	return mesh;
 }
+
+bool Client::registerModStorage(ModMetadata *storage)
+{
+	if (m_mod_storages.find(storage->getModName()) != m_mod_storages.end()) {
+		errorstream << "Unable to register same mod storage twice. Storage name: "
+				<< storage->getModName() << std::endl;
+		return false;
+	}
+
+	m_mod_storages[storage->getModName()] = storage;
+	return true;
+}
+
+void Client::unregisterModStorage(const std::string &name)
+{
+	UNORDERED_MAP<std::string, ModMetadata *>::const_iterator it = m_mod_storages.find(name);
+	if (it != m_mod_storages.end()) {
+		// Save unconditionaly on unregistration
+		it->second->save(getModStoragePath());
+		m_mod_storages.erase(name);
+	}
+}
+
+std::string Client::getModStoragePath() const
+{
+	return porting::path_user + DIR_DELIM + "client" + DIR_DELIM + "mod_storage";
+}
+

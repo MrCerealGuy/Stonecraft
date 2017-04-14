@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define CLIENT_HEADER
 
 #include "network/connection.h"
-#include "environment.h"
+#include "clientenvironment.h"
 #include "irrlichttypes_extrabloated.h"
 #include "threading/mutex.h"
 #include <ostream>
@@ -34,7 +34,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "localplayer.h"
 #include "hud.h"
 #include "particles.h"
-#include "network/networkpacket.h"
+#include "mapnode.h"
+#include "tileanimation.h"
 
 struct MeshMakeData;
 class MapBlockMesh;
@@ -48,9 +49,10 @@ struct MapDrawControl;
 class MtEventManager;
 struct PointedThing;
 class Database;
-class Mapper;
+class Minimap;
 struct MinimapMapblock;
 class Camera;
+class NetworkPacket;
 
 struct QueuedMeshUpdate
 {
@@ -118,13 +120,14 @@ class MeshUpdateThread : public UpdateThread
 {
 private:
 	MeshUpdateQueue m_queue_in;
+	int m_generation_interval;
 
 protected:
 	virtual void doUpdate();
 
 public:
 
-	MeshUpdateThread() : UpdateThread("Mesh") {}
+	MeshUpdateThread();
 
 	void enqueueUpdate(v3s16 p, MeshMakeData *data,
 			bool ack_block_to_server, bool urgent);
@@ -140,6 +143,7 @@ enum ClientEventType
 	CE_PLAYER_FORCE_MOVE,
 	CE_DEATHSCREEN,
 	CE_SHOW_FORMSPEC,
+	CE_SHOW_LOCAL_FORMSPEC,
 	CE_SPAWN_PARTICLE,
 	CE_ADD_PARTICLESPAWNER,
 	CE_DELETE_PARTICLESPAWNER,
@@ -185,6 +189,8 @@ struct ClientEvent
 			bool collision_removal;
 			bool vertical;
 			std::string *texture;
+			struct TileAnimationParams animation;
+			u8 glow;
 		} spawn_particle;
 		struct{
 			u16 amount;
@@ -205,6 +211,8 @@ struct ClientEvent
 			bool vertical;
 			std::string *texture;
 			u32 id;
+			struct TileAnimationParams animation;
+			u8 glow;
 		} add_particlespawner;
 		struct{
 			u32 id;
@@ -299,6 +307,9 @@ private:
 	std::map<u16, u16> m_packets;
 };
 
+class ClientScripting;
+struct GameUIFlags;
+
 class Client : public con::PeerHandler, public InventoryManager, public IGameDef
 {
 public:
@@ -317,10 +328,13 @@ public:
 			IWritableNodeDefManager *nodedef,
 			ISoundManager *sound,
 			MtEventManager *event,
-			bool ipv6
+			bool ipv6,
+			GameUIFlags *game_ui_flags
 	);
 
 	~Client();
+
+	void initMods();
 
 	/*
 	 request all threads managed by client to be stopped
@@ -402,9 +416,6 @@ public:
 
 	void ProcessData(NetworkPacket *pkt);
 
-	// Returns true if something was received
-	bool AsyncProcessPacket();
-	bool AsyncProcessData();
 	void Send(NetworkPacket* pkt);
 
 	void interact(u8 action, const PointedThing& pointed);
@@ -422,11 +433,18 @@ public:
 	void sendRespawn();
 	void sendReady();
 
-	ClientEnvironment& getEnv()
-	{ return m_env; }
+	ClientEnvironment& getEnv() { return m_env; }
+	ITextureSource *tsrc() { return getTextureSource(); }
+	ISoundManager *sound() { return getSoundManager(); }
+	static const std::string &getBuiltinLuaPath();
+	static const std::string &getClientModsLuaPath();
+
+	virtual const std::vector<ModSpec> &getMods() const;
+	virtual const ModSpec* getModSpec(const std::string &modname) const;
 
 	// Causes urgent mesh updates (unlike Map::add/removeNodeWithEvent)
 	void removeNode(v3s16 p);
+	MapNode getNode(v3s16 p, bool *is_valid_position);
 	void addNode(v3s16 p, MapNode n, bool remove_metadata = true);
 
 	void setPlayerControl(PlayerControl &control);
@@ -444,14 +462,6 @@ public:
 	/* InventoryManager interface */
 	Inventory* getInventory(const InventoryLocation &loc);
 	void inventoryAction(InventoryAction *a);
-
-	// Gets closest object pointed by the shootline
-	// Returns NULL if not found
-	ClientActiveObject * getSelectedActiveObject(
-			f32 max_d,
-			v3f from_pos_f_on_map,
-			core::line3d<f32> shootline_on_map
-	);
 
 	const std::list<std::string> &getConnectedPlayerNames()
 	{
@@ -484,13 +494,19 @@ public:
 	// Get event from queue. CE_NONE is returned if queue is empty.
 	ClientEvent getClientEvent();
 
-	bool accessDenied()
-	{ return m_access_denied; }
+	bool accessDenied() const { return m_access_denied; }
 
-	bool reconnectRequested() { return m_access_denied_reconnect; }
+	bool reconnectRequested() const { return m_access_denied_reconnect; }
 
-	std::string accessDeniedReason()
-	{ return m_access_denied_reason; }
+	void setFatalError(const std::string &reason)
+	{
+		m_access_denied = true;
+		m_access_denied_reason = reason;
+	}
+
+	// Renaming accessDeniedReason to better name could be good as it's used to
+	// disconnect client when CSM failed.
+	const std::string &accessDeniedReason() const { return m_access_denied_reason; }
 
 	bool itemdefReceived()
 	{ return m_itemdef_received; }
@@ -509,36 +525,36 @@ public:
 
 	void afterContentReceived(IrrlichtDevice *device);
 
-	float getRTT(void);
-	float getCurRate(void);
-	float getAvgRate(void);
+	float getRTT();
+	float getCurRate();
 
-	Mapper* getMapper ()
-	{ return m_mapper; }
-
-	void setCamera(Camera* camera)
-	{ m_camera = camera; }
+	Minimap* getMinimap() { return m_minimap; }
+	void setCamera(Camera* camera) { m_camera = camera; }
 
 	Camera* getCamera ()
 	{ return m_camera; }
 
-	bool isMinimapDisabledByServer()
-	{ return m_minimap_disabled_by_server; }
+	bool shouldShowMinimap() const;
 
 	// IGameDef interface
 	virtual IItemDefManager* getItemDefManager();
 	virtual INodeDefManager* getNodeDefManager();
 	virtual ICraftDefManager* getCraftDefManager();
-	virtual ITextureSource* getTextureSource();
+	ITextureSource* getTextureSource();
 	virtual IShaderSource* getShaderSource();
-	virtual scene::ISceneManager* getSceneManager();
+	IShaderSource *shsrc() { return getShaderSource(); }
+	scene::ISceneManager* getSceneManager();
 	virtual u16 allocateUnknownNodeId(const std::string &name);
 	virtual ISoundManager* getSoundManager();
 	virtual MtEventManager* getEventManager();
 	virtual ParticleManager* getParticleManager();
-	virtual bool checkLocalPrivilege(const std::string &priv)
+	bool checkLocalPrivilege(const std::string &priv)
 	{ return checkPrivilege(priv); }
 	virtual scene::IAnimatedMesh* getMesh(const std::string &filename);
+
+	virtual std::string getModStoragePath() const;
+	virtual bool registerModStorage(ModMetadata *meta);
+	virtual void unregisterModStorage(const std::string &name);
 
 	// The following set of functions is used by ClientMediaDownloader
 	// Insert a media file appropriately into the appropriate manager
@@ -551,6 +567,26 @@ public:
 	LocalClientState getState() { return m_state; }
 
 	void makeScreenshot(IrrlichtDevice *device);
+
+	inline void pushToChatQueue(const std::wstring &input)
+	{
+		m_chat_queue.push(input);
+	}
+
+	ClientScripting *getScript() { return m_script; }
+	const bool moddingEnabled() const { return m_modding_enabled; }
+
+	inline void pushToEventQueue(const ClientEvent &event)
+	{
+		m_client_event_queue.push(event);
+	}
+
+	void showGameChat(const bool show = true);
+	void showGameHud(const bool show = true);
+	void showMinimap(const bool show = true);
+	void showProfiler(const bool show = true);
+	void showGameFog(const bool show = true);
+	void showGameDebug(const bool show = false);
 
 private:
 
@@ -605,7 +641,7 @@ private:
 	con::Connection m_con;
 	IrrlichtDevice *m_device;
 	Camera *m_camera;
-	Mapper *m_mapper;
+	Minimap *m_minimap;
 	bool m_minimap_disabled_by_server;
 	// Server serialization version
 	u8 m_server_ser_ver;
@@ -695,6 +731,13 @@ private:
 	bool m_cache_enable_shaders;
 	bool m_cache_use_tangent_vertices;
 
+	ClientScripting *m_script;
+	bool m_modding_enabled;
+	UNORDERED_MAP<std::string, ModMetadata *> m_mod_storages;
+	float m_mod_storage_save_timer;
+	GameUIFlags *m_game_ui_flags;
+
+	bool m_shutdown;
 	DISABLE_CLASS_COPY(Client);
 };
 

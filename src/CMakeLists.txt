@@ -156,26 +156,6 @@ if(ENABLE_FREETYPE)
 	endif()
 endif(ENABLE_FREETYPE)
 
-# LuaJIT
-option(ENABLE_LUAJIT "Enable LuaJIT support" TRUE)
-set(USE_LUAJIT FALSE)
-if(ENABLE_LUAJIT)
-	find_package(LuaJIT)
-	if(LUAJIT_FOUND)
-		set(USE_LUAJIT TRUE)
-	endif(LUAJIT_FOUND)
-else()
-	message (STATUS "LuaJIT detection disabled! (ENABLE_LUAJIT=0)")
-endif()
-if(NOT USE_LUAJIT)
-	message(STATUS "LuaJIT not found, using bundled Lua.")
-	set(LUA_LIBRARY "lua")
-	set(LUA_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/lua/src")
-	add_subdirectory(lua)
-endif()
-
-find_package(GMP REQUIRED)
-
 option(ENABLE_CURSES "Enable ncurses console" TRUE)
 set(USE_CURSES FALSE)
 
@@ -253,7 +233,6 @@ endif(ENABLE_REDIS)
 
 
 find_package(SQLite3 REQUIRED)
-find_package(Json REQUIRED)
 
 OPTION(ENABLE_SPATIAL "Enable SpatialIndex AreaStore backend" TRUE)
 set(USE_SPATIAL FALSE)
@@ -284,6 +263,8 @@ if(WIN32)
 		set(PLATFORM_LIBS dbghelp.lib ${PLATFORM_LIBS})
 		# Surpress some useless warnings
 		add_definitions ( /D "_CRT_SECURE_NO_DEPRECATE" /W1 )
+		# Get M_PI to work
+		add_definitions(/D "_USE_MATH_DEFINES")
 	else() # Probably MinGW = GCC
 		set(PLATFORM_LIBS "")
 	endif()
@@ -413,6 +394,7 @@ set(common_SRCS
 	inventory.cpp
 	inventorymanager.cpp
 	itemdef.cpp
+	itemstackmetadata.cpp
 	light.cpp
 	log.cpp
 	map.cpp
@@ -428,6 +410,7 @@ set(common_SRCS
 	mapgen_valleys.cpp
 	mapnode.cpp
 	mapsector.cpp
+	metadata.cpp
 	mg_biome.cpp
 	mg_decoration.cpp
 	mg_ore.cpp
@@ -447,10 +430,12 @@ set(common_SRCS
 	quicktune.cpp
 	reflowscan.cpp
 	remoteplayer.cpp
+	raycast.cpp
 	rollback.cpp
 	rollback_interface.cpp
 	serialization.cpp
 	server.cpp
+	serverenvironment.cpp
 	serverlist.cpp
 	serverobject.cpp
 	settings.cpp
@@ -459,6 +444,7 @@ set(common_SRCS
 	staticobject.cpp
 	subgame.cpp
 	terminal_chat_console.cpp
+	tileanimation.cpp
 	tool.cpp
 	treegen.cpp
 	version.cpp
@@ -506,6 +492,7 @@ set(client_SRCS
 	${client_irrlicht_changes_SRCS}
 	camera.cpp
 	client.cpp
+	clientenvironment.cpp
 	clientmap.cpp
 	clientmedia.cpp
 	clientobject.cpp
@@ -722,7 +709,11 @@ if(MSVC)
 	# EHa enables SEH exceptions (used for catching segfaults)
 	set(CMAKE_CXX_FLAGS_RELEASE "/EHa /Ox /GL /FD /MT /GS- /Zi /arch:SSE /fp:fast /D NDEBUG /D _HAS_ITERATOR_DEBUGGING=0 /TP")
 	#set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /NODEFAULTLIB:\"libcmtd.lib\" /NODEFAULTLIB:\"libcmt.lib\"")
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /DEBUG /OPT:REF /OPT:ICF")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "/LTCG /INCREMENTAL:NO /DEBUG /OPT:REF /OPT:ICF")
+
+
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} /SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
+
 
 	set(CMAKE_CXX_FLAGS_SEMIDEBUG "/MDd /Zi /Ob0 /O1 /RTC1")
 
@@ -760,7 +751,7 @@ else()
 		set(OTHER_FLAGS "${OTHER_FLAGS} -mthreads -fexceptions")
 	endif()
 
-	set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} ${OTHER_FLAGS} -ffast-math -Wall -pipe -funroll-loops")
+	set(CMAKE_CXX_FLAGS_RELEASE "-DNDEBUG ${RELEASE_WARNING_FLAGS} ${WARNING_FLAGS} ${OTHER_FLAGS} -ffast-math -Wall -pipe -funroll-loops -fopenmp")
 	if(APPLE)
 		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -Os")
 	else()
@@ -771,6 +762,10 @@ else()
 
 	if(USE_GPROF)
 		set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -pg")
+	endif()
+
+	if(MINGW)
+		set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows")
 	endif()
 endif()
 
@@ -887,4 +882,3 @@ endif()
 if (BUILD_CLIENT AND USE_FREETYPE)
 	add_subdirectory(cguittfont)
 endif()
-

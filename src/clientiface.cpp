@@ -21,12 +21,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "clientiface.h"
 #include "util/numeric.h"
-#include "util/mathconstants.h"
 #include "remoteplayer.h"
 #include "settings.h"
 #include "mapblock.h"
 #include "network/connection.h"
-#include "environment.h"
+#include "serverenvironment.h"
 #include "map.h"
 #include "emerge.h"
 #include "content_sao.h"              // TODO this is used for cleanup of only
@@ -198,6 +197,9 @@ void RemoteClient::GetNextBlocks (
 	s32 nearest_sent_d = -1;
 	//bool queue_is_full = false;
 
+	const v3s16 cam_pos_nodes = floatToInt(camera_pos, BS);
+	const bool occ_cull = g_settings->getBool("server_side_occlusion_culling");
+
 	s16 d;
 	for(d = d_start; d <= d_max; d++) {
 		/*
@@ -236,9 +238,9 @@ void RemoteClient::GetNextBlocks (
 				continue;
 
 			/*
-				Do not go over-limit
+				Do not go over max mapgen limit
 			*/
-			if (blockpos_over_limit(p))
+			if (blockpos_over_max_limit(p))
 				continue;
 
 			// If this is true, inexistent block will be made from scratch
@@ -250,8 +252,8 @@ void RemoteClient::GetNextBlocks (
 				FOV setting. The default of 72 degrees is fine.
 			*/
 
-			if(isBlockInSight(p, camera_pos, camera_dir, camera_fov, d_blocks_in_sight) == false)
-			{
+			f32 dist;
+			if (!isBlockInSight(p, camera_pos, camera_dir, camera_fov, d_blocks_in_sight, &dist)) {
 				continue;
 			}
 
@@ -284,12 +286,6 @@ void RemoteClient::GetNextBlocks (
 					surely_not_found_on_disk = true;
 				}
 
-				// Block is valid if lighting is up-to-date and data exists
-				if(block->isValid() == false)
-				{
-					block_is_invalid = true;
-				}
-
 				if(block->isGenerated() == false)
 					block_is_invalid = true;
 
@@ -304,6 +300,11 @@ void RemoteClient::GetNextBlocks (
 				{
 					if(block->getDayNightDiff() == false)
 						continue;
+				}
+
+				if (occ_cull && !block_is_invalid &&
+						env->getMap().isBlockOccluded(block, cam_pos_nodes)) {
+					continue;
 				}
 			}
 
@@ -341,7 +342,7 @@ void RemoteClient::GetNextBlocks (
 			/*
 				Add block to send queue
 			*/
-			PrioritySortedBlockTransfer q((float)d, p, peer_id);
+			PrioritySortedBlockTransfer q((float)dist, p, peer_id);
 
 			dest.push_back(q);
 
