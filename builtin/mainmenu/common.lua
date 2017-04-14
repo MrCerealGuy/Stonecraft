@@ -54,7 +54,12 @@ end
 function image_column(tooltip, flagname)
 	return "image,tooltip=" .. core.formspec_escape(tooltip) .. "," ..
 		"0=" .. core.formspec_escape(defaulttexturedir .. "blank.png") .. "," ..
-		"1=" .. core.formspec_escape(defaulttexturedir .. "server_flags_" .. flagname .. ".png")
+		"1=" .. core.formspec_escape(defaulttexturedir ..
+			(flagname and "server_flags_" .. flagname .. ".png" or "blank.png")) .. "," ..
+		"2=" .. core.formspec_escape(defaulttexturedir .. "server_ping_4.png") .. "," ..
+		"3=" .. core.formspec_escape(defaulttexturedir .. "server_ping_3.png") .. "," ..
+		"4=" .. core.formspec_escape(defaulttexturedir .. "server_ping_2.png") .. "," ..
+		"5=" .. core.formspec_escape(defaulttexturedir .. "server_ping_1.png")
 end
 
 --------------------------------------------------------------------------------
@@ -77,7 +82,7 @@ function order_favorite_list(list)
 end
 
 --------------------------------------------------------------------------------
-function render_favorite(spec, is_favorite)
+function render_serverlist_row(spec, is_favorite)
 	local text = ""
 	if spec.name then
 		text = text .. core.formspec_escape(spec.name:trim())
@@ -95,6 +100,21 @@ function render_favorite(spec, is_favorite)
 		details = "1,"
 	else
 		details = "0,"
+	end
+
+	if spec.ping then
+		local ping = spec.ping * 1000
+		if ping <= 50 then
+			details = details .. "2,"
+		elseif ping <= 100 then
+			details = details .. "3,"
+		elseif ping <= 250 then
+			details = details .. "4,"
+		else
+			details = details .. "5,"
+		end
+	else
+		details = details .. "0,"
 	end
 
 	if spec.clients and spec.clients_max then

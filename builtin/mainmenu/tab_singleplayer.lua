@@ -42,7 +42,6 @@ local function get_formspec(tabview, name, tabdata)
 			"textlist[4,0.25;7.5,3.7;sp_worlds;" ..
 			menu_render_worldlist() ..
 			";" .. index .. "]"
-			
 	return retval
 end
 
@@ -88,7 +87,7 @@ local function main_button_handler(this, fields, name, tabdata)
 
 		return true
 	end
-	
+
 	if fields["play"] ~= nil or
 		world_doubleclick or
 		fields["key_enter"] then

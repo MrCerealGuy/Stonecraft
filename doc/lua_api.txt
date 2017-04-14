@@ -403,6 +403,11 @@ Apply a mask to the base image.
 
 The mask is applied using binary AND.
 
+#### `[sheet:<w>x<h>:<x>,<y>`
+Retrieves a tile at position x,y from the base image
+which it assumes to be a tilesheet with dimensions w,h.
+
+
 #### `[colorize:<color>:<ratio>`
 Colorize the textures with the given color.
 `<color>` is specified as a `ColorString`.
@@ -413,6 +418,13 @@ omitted, the alpha of `<color>` will be used as the ratio.  If it is
 the word "`alpha`", then each texture pixel will contain the RGB of
 `<color>` and the alpha of `<color>` multiplied by the alpha of the
 texture pixel.
+
+#### `[multiply:<color>`
+Multiplies texture colors with the given color.
+`<color>` is specified as a `ColorString`.
+Result is more like what you'd expect if you put a color on top of another
+color. Meaning white surfaces get a lot of your new color while black parts don't
+change very much.
 
 Sounds
 ------
@@ -633,6 +645,23 @@ node definition:
         bit 4 (0x10) - Makes the plant mesh 1.4x larger
         bit 5 (0x20) - Moves each face randomly a small bit down (1/8 max)
         bits 6-7 are reserved for future use.
+    paramtype2 == "color"
+    ^ `param2` tells which color is picked from the palette.
+      The palette should have 256 pixels.
+    paramtype2 == "colorfacedir"
+    ^ Same as `facedir`, but with colors.
+      The first three bits of `param2` tells which color
+      is picked from the palette.
+      The palette should have 8 pixels.
+    paramtype2 == "colorwallmounted"
+    ^ Same as `wallmounted`, but with colors.
+      The first five bits of `param2` tells which color
+      is picked from the palette.
+      The palette should have 32 pixels.
+    paramtype2 == "glasslikeliquidlevel"
+    ^ Only valid for "glasslike_framed" or "glasslike_framed_optional" drawtypes.
+      param2 defines 64 levels of internal liquid.
+      Liquid texture is defined using `special_tiles = {"modname_tilename.png"},`
     collision_box = {
       type = "fixed",
       fixed = {
@@ -1374,7 +1403,7 @@ a non-tool item, so that it can do something else than take damage.
 
 On the Lua side, every punch calls:
 
-    entity:on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
+    entity:on_punch(puncher, time_from_last_punch, tool_capabilities, direction, damage)
 
 This should never be called directly, because damage is usually not handled by
 the entity itself.
@@ -1385,6 +1414,9 @@ the entity itself.
 * `tool_capabilities` can be `nil`.
 * `direction` is a unit vector, pointing from the source of the punch to
    the punched object.
+* `damage` damage that will be done to entity
+Return value of this function will determin if damage is done by this function
+(retval true) or shall be done by engine (retval false)
 
 To punch an entity/object in Lua, call:
 
@@ -1399,9 +1431,9 @@ Node Metadata
 -------------
 The instance of a node in the world normally only contains the three values
 mentioned in "Nodes". However, it is possible to insert extra data into a
-node. It is called "node metadata"; See "`NodeMetaRef`".
+node. It is called "node metadata"; See `NodeMetaRef`.
 
-Metadata contains two things:
+Node metadata contains two things:
 
 * A key-value store
 * An inventory
@@ -1438,6 +1470,25 @@ Example stuff:
             infotext = "Chest"
         }
     })
+
+Item Metadata
+-------------
+Item stacks can store metadata too. See `ItemStackMetaRef`.
+
+Item metadata only contains a key-value store.
+
+Some of the values in the key-value store are handled specially:
+
+* `description`: Set the itemstack's description. Defaults to idef.description
+* `color`: A `ColorString`, which sets the stack's color.
+* `palette_index`: If the item has a palette, this is used to get the
+                  current color from the palette.
+
+Example stuff:
+
+    local meta = stack:get_meta()
+    meta:set_string("key", "value")
+    print(dump(meta:to_table()))
 
 Formspec
 --------
@@ -1477,6 +1528,16 @@ examples.
 * Define the size of the menu in inventory slots
 * `fixed_size`: `true`/`false` (optional)
 * deprecated: `invsize[<W>,<H>;]`
+
+#### `position[<X>,<Y>]`
+* Define the position of the formspec
+* A value between 0.0 and 1.0 represents a position inside the screen
+* The default value is the center of the screen (0.5, 0.5)
+
+#### `anchor[<X>,<Y>]`
+* Define the anchor of the formspec
+* A value between 0.0 and 1.0 represents an anchor inside the formspec
+* The default value is the center of the formspec (0.5, 0.5)
 
 #### `container[<X>,<Y>]`
 * Start of a container block, moves all physical elements in the container by (X, Y)
@@ -1818,6 +1879,12 @@ The following functions provide escape sequences:
     * `color` is a ColorString
     * The escape sequence sets the background of the whole text element to
       `color`. Only defined for item descriptions and tooltips.
+* `color.strip_foreground_colors(str)`
+    * Removes foreground colors added by `get_color_escape_sequence`.
+* `color.strip_background_colors(str)`
+    * Removes background colors added by `get_background_escape_sequence`.
+* `color.strip_colors(str)`
+    * Removes all color escape sequences.
 
 Spatial Vectors
 ---------------
@@ -1832,6 +1899,7 @@ Spatial Vectors
 * `vector.round(v)`: returns a vector, each dimension rounded to nearest int
 * `vector.apply(v, func)`: returns a vector
 * `vector.equals(v1, v2)`: returns a boolean
+* `vector.sort(v1, v2)`: returns minp, maxp vectors of the cuboid defined by v1 and v2
 
 For the following functions `x` can be either a vector or a number:
 
@@ -1869,11 +1937,13 @@ Helper functions
 * `minetest.formspec_escape(string)`: returns a string
     * escapes the characters "[", "]", "\", "," and ";", which can not be used in formspecs
 * `minetest.is_yes(arg)`
-    * returns whether `arg` can be interpreted as yes
+    * returns true if passed 'y', 'yes', 'true' or a number that isn't zero.
 * `minetest.get_us_time()`
     * returns time with microsecond precision. May not return wall time.
 * `table.copy(table)`: returns a table
     * returns a deep copy of `table`
+* `minetest.pointed_thing_to_face_pos(placer, pointed_thing)`: returns a position
+    * returns the exact position on the surface of a pointed node
 
 `minetest` namespace reference
 ------------------------------
@@ -1888,13 +1958,31 @@ Helper functions
 * `minetest.get_worldpath()`: returns e.g. `"/home/user/.minetest/world"`
     * Useful for storing custom data
 * `minetest.is_singleplayer()`
-* `minetest.features`
-    * Table containing API feature flags: `{foo=true, bar=true}`
+* `minetest.features`: Table containing API feature flags
+      {
+         glasslike_framed = true,
+         nodebox_as_selectionbox = true,
+         chat_send_player_param3 = true,
+         get_all_craft_recipes_works = true,
+         use_texture_alpha = true,
+      -- ^ The transparency channel of textures can be used optionally
+         no_legacy_abms = true,
+      -- ^ Tree and grass ABMs are no longer done from C++
+         texture_names_parens = true,
+      -- ^ Texture grouping is possible using parentheses
+         area_store_custom_ids = true,
+      -- ^ Unique Area ID for AreaStore:insert_area
+         add_entity_with_staticdata = true,
+      -- ^ add_entity supports passing initial staticdata to on_activate
+         no_chat_message_prediction = true,
+      -- ^ Chat messages are no longer predicted
+      }
 * `minetest.has_feature(arg)`: returns `boolean, missing_features`
     * `arg`: string or table in format `{foo=true, bar=true}`
     * `missing_features`: `{foo=true, bar=true}`
-* `minetest.get_player_information(player_name)`: returns a table containing
-  information about player. Example return value:
+* `minetest.get_player_information(player_name)`:
+    * Returns a table containing information about a player
+      Example return value:
         {
             address = "127.0.0.1",     -- IP address of client
             ip_version = 4,            -- IPv4 / IPv6
@@ -2036,9 +2124,10 @@ Call these functions only at load time!
 * `minetest.register_on_cheat(func(ObjectRef, cheat))`
     * Called when a player cheats
     * `cheat`: `{type=<cheat_type>}`, where `<cheat_type>` is one of:
-        * `"moved_too_fast"`
-        * `"interacted_too_far"`
-        * `"finished_unknown_dig"`
+        * `moved_too_fast`
+        * `interacted_too_far`
+        * `interacted_while_dead`
+        * `finished_unknown_dig`
         * `dug_unbreakable`
         * `dug_too_fast`
 * `minetest.register_on_chat_message(func(name, message))`
@@ -2070,6 +2159,11 @@ Call these functions only at load time!
 
 ### Other registration functions
 * `minetest.register_chatcommand(cmd, chatcommand definition)`
+    * Adds definition to minetest.registered_chatcommands
+* `minetest.override_chatcommand(name, redefinition)`
+    * Overrides fields of a chatcommand registered with register_chatcommand.
+* `minetest.unregister_chatcommand(name)`
+    * Unregisters a chatcommands registered with register_chatcommand.
 * `minetest.register_privilege(name, definition)`
     * `definition`: `"description text"`
     * `definition`: `{ description = "description text", give_to_singleplayer = boolean}`
@@ -2158,6 +2252,9 @@ and `minetest.auth_reload` call the authetification handler.
     * Returns `true` if successful, `false` on failure (e.g. protected location)
 * `minetest.punch_node(pos)`
     * Punch node with the same effects that a player would cause
+* `minetest.spawn_falling_node(pos)`
+    * Change node into falling node
+    * Returns `true` if successful, `false` on failure
 
 * `minetest.find_nodes_with_meta(pos1, pos2)`
     * Get a table of positions of nodes that have metadata within a region {pos1, pos2}
@@ -2166,7 +2263,7 @@ and `minetest.auth_reload` call the authetification handler.
 * `minetest.get_node_timer(pos)`
     * Get `NodeTimerRef`
 
-* `minetest.add_entity(pos, name)`: Spawn Lua-defined entity at position
+* `minetest.add_entity(pos, name, [staticdata])`: Spawn Lua-defined entity at position
     * Returns `ObjectRef`, or `nil` if failed
 * `minetest.add_item(pos, item)`: Spawn item
     * Returns `ObjectRef`, or `nil` if failed
@@ -2378,6 +2475,10 @@ and `minetest.auth_reload` call the authetification handler.
     * Convert a vector to a wallmounted value, used for `paramtype2="wallmounted"`
 * `minetest.wallmounted_to_dir(wallmounted)`
     * Convert a wallmounted value back into a vector aimed directly out the "back" of a node
+* `minetest.dir_to_yaw(dir)`
+    * Convert a vector into a yaw (angle)
+* `minetest.yaw_to_dir(yaw)`
+    * Convert yaw (angle) to a vector
 * `minetest.get_node_drops(nodename, toolname)`
     * Returns list of item names.
     * **Note**: This will be removed or modified in a future version.
@@ -2574,8 +2675,14 @@ These functions return the leftover itemstack.
 * `HTTPApiTable.fetch_async_get(handle)`: returns HTTPRequestResult
     * Return response data for given asynchronous HTTP request
 
+### Storage API:
+* `minetest.get_mod_storage()`:
+    * returns reference to mod private `StorageRef`
+    * must be called during mod load time
+
 ### Misc.
 * `minetest.get_connected_players()`: returns list of `ObjectRefs`
+* `minetest.player_exists(name)`: boolean, whether player exists (regardless of online status)
 * `minetest.hud_replace_builtin(name, hud_definition)`
     * Replaces definition of a builtin hud element
     * `name`: `"breath"` or `"health"`
@@ -2605,7 +2712,7 @@ These functions return the leftover itemstack.
 * `minetest.write_json(data[, styled])`: returns a string or `nil` and an error message
     * Convert a Lua table into a JSON string
     * styled: Outputs in a human-readable format if this is set, defaults to false
-    * Unserializable things like functions and userdata are saved as null.
+    * Unserializable things like functions and userdata will cause an error.
     * **Warning**: JSON is more strict than the Lua table format.
         1. You can only use strings and positive integers of at least one as keys.
         2. You can not mix string and integer keys.
@@ -2722,6 +2829,8 @@ These functions return the leftover itemstack.
     * Map of object references, indexed by active object id
 * `minetest.luaentities`
     * Map of Lua entities, indexed by active object id
+* `minetest.registered_chatcommands`
+    * Map of registered chat command definitions, indexed by name
 * `minetest.registered_ores`
     * List of registered ore definitions.
 * `minetest.registered_biomes`
@@ -2732,9 +2841,8 @@ These functions return the leftover itemstack.
 Class reference
 ---------------
 
-### `NodeMetaRef`
-Node metadata: reference extra data and functionality stored in a node.
-Can be gotten via `minetest.get_meta(pos)`.
+### `MetaDataRef`
+See `StorageRef`, `NodeMetaRef` and `ItemStackMetaRef`.
 
 #### Methods
 * `set_string(name, value)`
@@ -2743,11 +2851,37 @@ Can be gotten via `minetest.get_meta(pos)`.
 * `get_int(name)`
 * `set_float(name, value)`
 * `get_float(name)`
-* `get_inventory()`: returns `InvRef`
-* `to_table()`: returns `nil` or `{fields = {...}, inventory = {list1 = {}, ...}}`
+* `to_table()`: returns `nil` or a table with keys:
+    * `fields`: key-value storage
+    * `inventory`: `{list1 = {}, ...}}` (NodeMetaRef only)
 * `from_table(nil or {})`
-    * to clear metadata, use from_table(nil)
-    * See "Node Metadata"
+    * Any non-table value will clear the metadata
+    * See "Node Metadata" for an example
+    * returns `true` on success
+* `equals(other)`
+    * returns `true` if this metadata has the same key-value pairs as `other`
+
+### `NodeMetaRef`
+Node metadata: reference extra data and functionality stored in a node.
+Can be obtained via `minetest.get_meta(pos)`.
+
+#### Methods
+* All methods in MetaDataRef
+* `get_inventory()`: returns `InvRef`
+
+### `ItemStackMetaRef`
+ItemStack metadata: reference extra data and functionality stored in a stack.
+Can be obtained via `item:get_meta()`.
+
+#### Methods
+* All methods in MetaDataRef
+
+### `StorageRef`
+Mod metadata: per mod metadata, saved automatically.
+Can be obtained via `minetest.get_mod_storage()` during load time.
+
+#### Methods
+* All methods in MetaDataRef
 
 ### `NodeTimerRef`
 Node Timers: a high resolution persistent per-node timer.
@@ -2779,9 +2913,9 @@ This is basically a reference to a C++ `ServerActiveObject`
 #### Methods
 * `remove()`: remove object (after returning from Lua)
     * Note: Doesn't work on players, use minetest.kick_player instead
-* `getpos()`: returns `{x=num, y=num, z=num}`
-* `setpos(pos)`; `pos`=`{x=num, y=num, z=num}`
-* `moveto(pos, continuous=false)`: interpolated move
+* `get_pos()`: returns `{x=num, y=num, z=num}`
+* `set_pos(pos)`; `pos`=`{x=num, y=num, z=num}`
+* `move_to(pos, continuous=false)`: interpolated move
 * `punch(puncher, time_from_last_punch, tool_capabilities, direction)`
     * `puncher` = another `ObjectRef`,
     * `time_from_last_punch` = time since last punch action of the puncher
@@ -2827,14 +2961,15 @@ This is basically a reference to a C++ `ServerActiveObject`
       }
 
 ##### LuaEntitySAO-only (no-op for other objects)
-* `setvelocity({x=num, y=num, z=num})`
-* `getvelocity()`: returns `{x=num, y=num, z=num}`
-* `setacceleration({x=num, y=num, z=num})`
-* `getacceleration()`: returns `{x=num, y=num, z=num}`
-* `setyaw(radians)`
-* `getyaw()`: returns number in radians
-* `settexturemod(mod)`
-* `setsprite(p={x=0,y=0}, num_frames=1, framelength=0.2,
+* `set_velocity({x=num, y=num, z=num})`
+* `get_velocity()`: returns `{x=num, y=num, z=num}`
+* `set_acceleration({x=num, y=num, z=num})`
+* `get_acceleration()`: returns `{x=num, y=num, z=num}`
+* `set_yaw(radians)`
+* `get_yaw()`: returns number in radians
+* `set_texture_mod(mod)`
+* `get_texture_mod()` returns current texture modifier
+* `set_sprite(p={x=0,y=0}, num_frames=1, framelength=0.2,
   select_horiz_by_yawpitch=false)`
     * Select sprite from spritesheet with optional animation and DM-style
       texture selection based on yaw relative to camera
@@ -2866,6 +3001,8 @@ This is basically a reference to a C++ `ServerActiveObject`
         * `0`: player is drowning,
         * `1`-`10`: remaining number of bubbles
         * `11`: bubbles bar is not shown
+* `set_attribute(attribute, value)`: sets an extra attribute with value on player
+* `get_attribute(attribute)`: returns value for extra attribute. Returns nil if no attribute found.
 * `set_inventory_formspec(formspec)`
     * Redefine player's inventory form
     * Should usually be called in on_joinplayer
@@ -3015,8 +3152,9 @@ an itemstring, a table or `nil`.
 * `set_count(count)`: Returns boolean whether item was cleared
 * `get_wear()`: Returns tool wear (`0`-`65535`), `0` for non-tools.
 * `set_wear(wear)`: Returns boolean whether item was cleared
-* `get_metadata()`: Returns metadata (a string attached to an item stack).
-* `set_metadata(metadata)`: Returns true.
+* `get_meta()`: Returns ItemStackMetaRef. See section for more details
+* `get_metadata()`: (DEPRECATED) Returns metadata (a string attached to an item stack).
+* `set_metadata(metadata)`: (DEPRECATED) Returns true.
 * `clear()`: removes all items from the stack, making it empty.
 * `replace(item)`: replace the contents of this stack.
     * `item` can also be an itemstring or table.
@@ -3179,9 +3317,6 @@ format as produced by get_data() et al. and is *not required* to be a table retr
 Once the internal VoxelManip state has been modified to your liking, the changes can be committed back
 to the map by calling `VoxelManip:write_to_map()`.
 
-Finally, a call to `VoxelManip:update_map()` is required to re-calculate lighting and set the blocks
-as being modified so that connected clients are sent the updated parts of map.
-
 
 ##### Flat array format
 Let
@@ -3246,8 +3381,6 @@ but with a few differences:
   will also update the Mapgen VoxelManip object's internal state active on the current thread.
 * After modifying the Mapgen VoxelManip object's internal buffer, it may be necessary to update lighting
   information using either: `VoxelManip:calc_lighting()` or `VoxelManip:set_lighting()`.
-* `VoxelManip:update_map()` does not need to be called after `write_to_map()`.  The map update is performed
-  automatically after all on_generated callbacks have been run for that generated block.
 
 ##### Other API functions operating on a VoxelManip
 If any VoxelManip contents were set to a liquid node, `VoxelManip:update_liquids()` must be called
@@ -3290,9 +3423,7 @@ will place the schematic inside of the VoxelManip.
     * returns raw node data in the form of an array of node content IDs
     * if the param `buffer` is present, this table will be used to store the result instead
 * `set_data(data)`: Sets the data contents of the `VoxelManip` object
-* `update_map()`: Update map after writing chunk back to map.
-    * To be used only by `VoxelManip` objects created by the mod itself;
-      not a `VoxelManip` that was retrieved from `minetest.get_mapgen_object`
+* `update_map()`: Does nothing, kept for compatibility.
 * `set_lighting(light, [p1, p2])`: Set the lighting within the `VoxelManip` to a uniform value
     * `light` is a table, `{day=<0...15>, night=<0...15>}`
     * To be used only by a `VoxelManip` object from `minetest.get_mapgen_object`
@@ -3609,6 +3740,19 @@ Definition tables
                             {hard = 1, metal = 1, spikes = 1}
         inventory_image = "default_tool_steelaxe.png",
         wield_image = "",
+        palette = "",
+        --[[
+        ^ An image file containing the palette of a node.
+        ^ You can set the currently used color as the
+        ^ "palette_index" field of the item stack metadata.
+        ^ The palette is always stretched to fit indices
+        ^ between 0 and 255, to ensure compatibility with
+        ^ "colorfacedir" and "colorwallmounted" nodes.
+        ]]
+        color = "0xFFFFFFFF",
+        --[[
+        ^ The color of the item. The palette overrides this.
+        ]]
         wield_scale = {x = 1, y = 1, z = 1},
         stack_max = 99,
         range = 4.0,
@@ -3692,11 +3836,33 @@ Definition tables
 	  when displacement mapping is used
 	  Directions are from the point of view of the tile texture,
 	  not the node it's on
+* `{name="image.png", color=ColorSpec}`
+    * the texture's color will be multiplied with this color.
+    * the tile's color overrides the owning node's color in all cases.
 * deprecated, yet still supported field names:
     * `image` (name)
 
 ### Tile animation definition
-* `{type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}`
+
+	{
+		type = "vertical_frames",
+		aspect_w = 16,
+		-- ^ specify width of a frame in pixels
+		aspect_h = 16,
+		-- ^ specify height of a frame in pixels
+		length = 3.0,
+		-- ^ specify full loop length
+	}
+
+	{
+		type = "sheet_2d",
+		frames_w = 5,
+		-- ^ specify width in number of frames
+		frames_h = 3,
+		-- ^ specify height in number of frames
+		frame_length = 0.5,
+		-- ^ specify length of a single frame
+	}
 
 ### Node definition (`register_node`)
 
@@ -3705,9 +3871,10 @@ Definition tables
 
         drawtype = "normal", -- See "Node drawtypes"
         visual_scale = 1.0, --[[
-        ^ Supported for drawtypes "plantlike", "signlike", "torchlike", "mesh".
-        ^ For plantlike, the image will start at the bottom of the node; for the
-        ^ other drawtypes, the image will be centered on the node.
+        ^ Supported for drawtypes "plantlike", "signlike", "torchlike",
+        ^ "firelike", "mesh".
+        ^ For plantlike and firelike, the image will start at the bottom of the
+        ^ node, for the other drawtypes the image will be centered on the node.
         ^ Note that positioning for "torchlike" may still change. ]]
         tiles = {tile definition 1, def2, def3, def4, def5, def6}, --[[
         ^ Textures of node; +Y, -Y, +X, -X, +Z, -Z (old field name: tile_images)
@@ -3715,8 +3882,17 @@ Definition tables
         special_tiles = {tile definition 1, Tile definition 2}, --[[
         ^ Special textures of node; used rarely (old field name: special_materials)
         ^ List can be shortened to needed length ]]
-        alpha = 255,
+        color = ColorSpec, --[[
+        ^ The node's original color will be multiplied with this color.
+        ^ If the node has a palette, then this setting only has an effect
+        ^ in the inventory and on the wield item. ]]
         use_texture_alpha = false, -- Use texture's alpha channel
+        palette = "palette.png", --[[
+        ^ The node's `param2` is used to select a pixel from the image
+        ^ (pixels are arranged from left to right and from top to bottom).
+        ^ The node's color will be multiplied with the selected pixel's
+        ^ color. Tiles can override this behavior.
+        ^ Only when `paramtype2` supports palettes. ]]
         post_effect_color = "green#0F", -- If player is inside node, see "ColorSpec"
         paramtype = "none", -- See "Nodes" --[[
         ^ paramtype = "light" allows light to propagate from or through the node with light value
@@ -4151,9 +4327,14 @@ The Biome API is still in an experimental phase and subject to change.
     --  ^ vertical: if true faces player using y axis only
         texture = "image.png",
     --  ^ Uses texture (string)
-        playername = "singleplayer"
+        playername = "singleplayer",
     --  ^ optional, if specified spawns particle only on the player's client
+        animation = {Tile Animation definition},
+    --  ^ optional, specifies how to animate the particle texture
+        glow = 0
+    --  ^ optional, specify particle self-luminescence in darkness
     }
+
 
 ### `ParticleSpawner` definition (`add_particlespawner`)
 

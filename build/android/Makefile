@@ -838,11 +838,14 @@ install_release:
 
 prep_srcdir :
 	@if [ ! -e ${ANDR_ROOT}/jni/src ]; then                                    \
-		ln -s ${PROJ_ROOT}/src ${ANDR_ROOT}/jni/src;                           \
+		ln -s ${PROJ_ROOT}/src ${ANDR_ROOT}/jni/src;                       \
+	fi;                                                                        \
+	if [ ! -e ${ANDR_ROOT}/jni/lib ]; then                                     \
+		ln -s ${PROJ_ROOT}/lib ${ANDR_ROOT}/jni/lib;                       \
 	fi
 
 clean_apk :
-	gradle clean
+	./gradlew clean
 
 clean_all :
 	@$(MAKE) clean_apk;                                                        \

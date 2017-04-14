@@ -17,11 +17,13 @@ if core.setting_getbool("profiler.load") then
 	profiler = dofile(scriptpath.."profiler"..DIR_DELIM.."init.lua")
 end
 
+dofile(commonpath .. "after.lua")
 dofile(gamepath.."item_entity.lua")
 dofile(gamepath.."deprecated.lua")
 dofile(gamepath.."misc.lua")
 dofile(gamepath.."privileges.lua")
 dofile(gamepath.."auth.lua")
+dofile(commonpath .. "chatcommands.lua")
 dofile(gamepath.."chatcommands.lua")
 dofile(gamepath.."static_spawn.lua")
 dofile(gamepath.."detached_inventory.lua")

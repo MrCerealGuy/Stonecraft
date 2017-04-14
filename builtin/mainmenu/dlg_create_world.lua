@@ -316,7 +316,7 @@ local function create_world_buttonhandler(this, fields)
 		this:delete()
 		return true
 	end
-	
+
 	if fields["games"] then
 		return true
 	end
@@ -328,6 +328,7 @@ local function create_world_buttonhandler(this, fields)
 
 	return false
 end
+
 
 function create_create_world_dlg(update_worldlistfilter)
 	local retval = dialog_create("sp_create_world",

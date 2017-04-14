@@ -9,7 +9,7 @@ platform="win-x86_64"
 mkdir -p $platform
 builddir="$( cd "$platform" && pwd )"
 stonecraftdir="$( cd .. && pwd)"
-libdir=$stonecraftdir/libs/mingw-$platform
+libdir=$stonecraftdir/lib/mingw-$platform
 cd $builddir
 
 
@@ -60,10 +60,15 @@ rsync --info=progress2 $stonecraftdir/CMakeLists.txt ./
 rsync --info=progress2 $stonecraftdir/stonecraft.conf.example .//
 rsync -r --info=progress2 $stonecraftdir/builtin ./
 rsync -r --info=progress2 $stonecraftdir/client ./
+rsync -r --info=progress2 $stonecraftdir/clientmods ./
 rsync -r --info=progress2 $stonecraftdir/cmake ./
 rsync -r --info=progress2 $stonecraftdir/doc ./
 rsync -r --info=progress2 $stonecraftdir/fonts ./
 rsync -r --info=progress2 $stonecraftdir/games ./
+rsync -r --info=progress2 $stonecraftdir/lib ./
+#rsync -r --info=progress2 $stonecraftdir/lib/lua ./lib/lua
+#rsync -r --info=progress2 $stonecraftdir/lib/gmp ./lib/gmp
+#rsync -r --info=progress2 $stonecraftdir/lib/jsoncpp ./lib/jsoncpp
 rsync -r --info=progress2 $stonecraftdir/misc ./
 rsync -r --info=progress2 $stonecraftdir/mods ./
 rsync -r --info=progress2 $stonecraftdir/po ./

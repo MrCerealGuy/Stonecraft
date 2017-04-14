@@ -131,7 +131,7 @@ Please clone the Windows libraries for MinGW via github:
 
 ```
 $ cd <stonecraft-folder>
-$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git libs
+$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git lib
 ```
 
 **Win 32-Bit**
@@ -164,7 +164,7 @@ You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-
 - **Steps**
 	- Select a directory called DIR (e.g. Stonecraft) hereafter in which you will operate.
 	- Extract Stonecraft in DIR
-	- Extract Windows libraries in DIR/libs
+	- Extract Windows libraries in DIR/lib
 	- Make sure you have CMake and a compiler installed.
 	- You will end up with a directory structure like this (+=dir, -=file):
 
@@ -173,7 +173,7 @@ You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-
 		+ builtin
 		+ client
 		+ ...
-		+ libs
+		+ lib
 			+ msvc2013-win-i686
 				+ zlib-1.2.8
 					- zlib.h
@@ -215,37 +215,37 @@ You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-
 	RUN_IN_PLACE					[X]
 	WARN_ALL						[X]
 	CMAKE_INSTALL_PREFIX			DIR/stonecraft-install
-	FREETYPE_INCLUDE_DIR_freetype2	DIR/libs/msvc2013-win-i686/freetype-2.3.5-1/include/freetype2
-	FREETYPE_INCLUDE_DIR_ft2build	DIR/libs/msvc2013-win-i686/freetype-2.3.5-1/include/
-	FREETYPE_LIBRARY				DIR/libs/msvc2013-win-i686/freetype-2.3.5-1/lib/freetype.lib
-	GETTEXT_DLL						DIR/libs/msvc2013-win-i686/gettext/bin/libintl3.dll
-	GETTEXT_ICONV_DLL				DIR/libs/msvc2013-win-i686/gettext/bin/libiconv2.dll
-	GETTEXT_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/gettext/include
-	GETTEXT_LIBRARY					DIR/libs/msvc2013-win-i686/gettext/lib/libintl.lib
-	GETTEXT_MSGFMT					DIR/libs/msvc2013-win-i686/gettext/bin/msgfmt.exe
-	IRRLICHT_DLL					DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.dll
-	IRRLICHT_INCLUDE_DIR			DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/include
-	IRRLICHT_LIBRARY				DIR/libs/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.lib
-	LUA_INCLUDE_DIR					DIR/libs/msvc2013-win-i686/LuaJIT-2.0.3/include
-	LUA_LIBRARY						DIR/libs/msvc2013-win-i686/LuaJIT-2.0.3/bin/lua51.lib
-	OGG_DLL							DIR/libs/msvc2013-win-i686/libogg-1.3.1/bin/libogg.dll
-	OGG_INCLUDE_DIR					DIR/libs/msvc2013-win-i686/libogg-1.3.1/include
-	OGG_LIBRARY						DIR/libs/msvc2013-win-i686/libogg-1.3.1/bin/libogg.lib
-	OPENAL_DLL						DIR/libs/msvc2013-win-i686/openal-soft-1.15.1/bin/OpenAL32.dll
-	OPENAL_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/openal-soft-1.15.1/include/AL
-	OPENAL_LIBRARY					DIR/libs/msvc2013-win-i686/openal-soft-1.15.1/bin/OpenAL32.lib
-	SPATIAL_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/spatialindex-1.8.5/include
-	SPATIAL_LIBRARY					DIR/libs/msvc2013-win-i686/spatialindex-1.8.5/bin/spatialindex-32.lib
-	SQLITE3_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/sqlite-3.8.7.4/include
-	SQLITE3_LIBRARY					DIR/libs/msvc2013-win-i686/sqlite-3.8.7.4/bin/sqlite3.lib
-	VORBISFILE_DLL					DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbisfile.dll
-	VORBISFILE_LIBRARY				DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbisfile.lib
-	VORBIS_DLL						DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbis.dll
-	VORBIS_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/include
-	VORBIS_LIBRARY					DIR/libs/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbis.lib
-	ZLIB_DLL						DIR/libs/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.dll
-	ZLIB_INCLUDE_DIR				DIR/libs/msvc2013-win-i686/zlib-1.2.8/include
-	ZLIB_LIBRARIES					DIR/libs/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.lib
+	FREETYPE_INCLUDE_DIR_freetype2	DIR/lib/msvc2013-win-i686/freetype-2.3.5-1/include/freetype2
+	FREETYPE_INCLUDE_DIR_ft2build	DIR/lib/msvc2013-win-i686/freetype-2.3.5-1/include/
+	FREETYPE_LIBRARY				DIR/lib/msvc2013-win-i686/freetype-2.3.5-1/lib/freetype.lib
+	GETTEXT_DLL						DIR/lib/msvc2013-win-i686/gettext/bin/libintl3.dll
+	GETTEXT_ICONV_DLL				DIR/lib/msvc2013-win-i686/gettext/bin/libiconv2.dll
+	GETTEXT_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/gettext/include
+	GETTEXT_LIBRARY					DIR/lib/msvc2013-win-i686/gettext/lib/libintl.lib
+	GETTEXT_MSGFMT					DIR/lib/msvc2013-win-i686/gettext/bin/msgfmt.exe
+	IRRLICHT_DLL					DIR/lib/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.dll
+	IRRLICHT_INCLUDE_DIR			DIR/lib/msvc2013-win-i686/irrlicht-1.8.3/include
+	IRRLICHT_LIBRARY				DIR/lib/msvc2013-win-i686/irrlicht-1.8.3/bin/Irrlicht.lib
+	LUA_INCLUDE_DIR					DIR/lib/msvc2013-win-i686/LuaJIT-2.0.3/include
+	LUA_LIBRARY						DIR/lib/msvc2013-win-i686/LuaJIT-2.0.3/bin/lua51.lib
+	OGG_DLL							DIR/lib/msvc2013-win-i686/libogg-1.3.1/bin/libogg.dll
+	OGG_INCLUDE_DIR					DIR/lib/msvc2013-win-i686/libogg-1.3.1/include
+	OGG_LIBRARY						DIR/lib/msvc2013-win-i686/libogg-1.3.1/bin/libogg.lib
+	OPENAL_DLL						DIR/lib/msvc2013-win-i686/openal-soft-1.15.1/bin/OpenAL32.dll
+	OPENAL_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/openal-soft-1.15.1/include/AL
+	OPENAL_LIBRARY					DIR/lib/msvc2013-win-i686/openal-soft-1.15.1/bin/OpenAL32.lib
+	SPATIAL_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/spatialindex-1.8.5/include
+	SPATIAL_LIBRARY					DIR/lib/msvc2013-win-i686/spatialindex-1.8.5/bin/spatialindex-32.lib
+	SQLITE3_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/sqlite-3.8.7.4/include
+	SQLITE3_LIBRARY					DIR/lib/msvc2013-win-i686/sqlite-3.8.7.4/bin/sqlite3.lib
+	VORBISFILE_DLL					DIR/lib/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbisfile.dll
+	VORBISFILE_LIBRARY				DIR/lib/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbisfile.lib
+	VORBIS_DLL						DIR/lib/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbis.dll
+	VORBIS_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/libvorbis-1.3.3/include
+	VORBIS_LIBRARY					DIR/lib/msvc2013-win-i686/libvorbis-1.3.3/bin/libvorbis.lib
+	ZLIB_DLL						DIR/lib/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.dll
+	ZLIB_INCLUDE_DIR				DIR/lib/msvc2013-win-i686/zlib-1.2.8/include
+	ZLIB_LIBRARIES					DIR/lib/msvc2013-win-i686/zlib-1.2.8/bin/ZlibDllRelease/zlibwapi.lib
 	```
 
 	- Hit "Configure"
