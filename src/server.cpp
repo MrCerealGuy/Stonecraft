@@ -38,7 +38,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "settings.h"
 #include "profiler.h"
 #include "log.h"
-#include "scripting_game.h"
+#include "serverscripting.h"
 #include "nodedef.h"
 #include "itemdef.h"
 #include "craftdef.h"
@@ -50,11 +50,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "content_abm.h"
 #include "content_sao.h"
 #include "mods.h"
-#include "sound.h" // dummySoundManager
 #include "event_manager.h"
 #include "serverlist.h"
 #include "util/string.h"
-#include "util/mathconstants.h"
 #include "rollback.h"
 #include "util/serialize.h"
 #include "util/thread.h"
@@ -108,7 +106,8 @@ void *ServerThread::run()
 		} catch (con::ConnectionBindFailed &e) {
 			m_server->setAsyncFatalError(e.what());
 		} catch (LuaError &e) {
-			m_server->setAsyncFatalError("Lua: " + std::string(e.what()));
+			m_server->setAsyncFatalError(
+					"ServerThread::run Lua: " + std::string(e.what()));
 		}
 	}
 
@@ -149,11 +148,13 @@ Server::Server(
 		const SubgameSpec &gamespec,
 		bool simple_singleplayer_mode,
 		bool ipv6,
+		bool dedicated,
 		ChatInterface *iface
 	):
 	m_path_world(path_world),
 	m_gamespec(gamespec),
 	m_simple_singleplayer_mode(simple_singleplayer_mode),
+	m_dedicated(dedicated),
 	m_async_fatal_error(""),
 	m_env(NULL),
 	m_con(PROTOCOL_ID,
@@ -179,8 +180,8 @@ Server::Server(
 	m_admin_chat(iface),
 	m_ignore_map_edit_events(false),
 	m_ignore_map_edit_events_peer_id(0),
-	m_next_sound_id(0)
-
+	m_next_sound_id(0),
+	m_mod_storage_save_timer(10.0f)
 {
 	m_liquid_transform_timer = 0.0;
 	m_liquid_transform_every = 1.0;
@@ -219,20 +220,12 @@ Server::Server(
 	std::string ban_path = m_path_world + DIR_DELIM "ipban.txt";
 	m_banmanager = new BanManager(ban_path);
 
-	ModConfiguration modconf(m_path_world);
+	ServerModConfiguration modconf(m_path_world);
 	m_mods = modconf.getMods();
 	std::vector<ModSpec> unsatisfied_mods = modconf.getUnsatisfiedMods();
 	// complain about mods with unsatisfied dependencies
-	if(!modconf.isConsistent()) {
-		for(std::vector<ModSpec>::iterator it = unsatisfied_mods.begin();
-			it != unsatisfied_mods.end(); ++it) {
-			ModSpec mod = *it;
-			errorstream << "mod \"" << mod.name << "\" has unsatisfied dependencies: ";
-			for(std::set<std::string>::iterator dep_it = mod.unsatisfied_depends.begin();
-				dep_it != mod.unsatisfied_depends.end(); ++dep_it)
-				errorstream << " \"" << *dep_it << "\"";
-			errorstream << std::endl;
-		}
+	if (!modconf.isConsistent()) {
+		modconf.printUnsatisfiedModsError();
 	}
 
 	Settings worldmt_settings;
@@ -270,22 +263,19 @@ Server::Server(
 	// Initialize scripting
 	infostream<<"Server: Initializing Lua"<<std::endl;
 
-	m_script = new GameScripting(this);
+	m_script = new ServerScripting(this);
 
-	std::string script_path = getBuiltinLuaPath() + DIR_DELIM "init.lua";
-
-	m_script->loadMod(script_path, BUILTIN_MOD_NAME);
+	m_script->loadMod(getBuiltinLuaPath() + DIR_DELIM "init.lua", BUILTIN_MOD_NAME);
 
 	// Print mods
 	infostream << "Server: Loading mods: ";
-	for(std::vector<ModSpec>::iterator i = m_mods.begin();
+	for (std::vector<ModSpec>::const_iterator i = m_mods.begin();
 			i != m_mods.end(); ++i) {
-		const ModSpec &mod = *i;
-		infostream << mod.name << " ";
+		infostream << (*i).name << " ";
 	}
 	infostream << std::endl;
 	// Load and run "mod" scripts
-	for (std::vector<ModSpec>::iterator it = m_mods.begin();
+	for (std::vector<ModSpec>::const_iterator it = m_mods.begin();
 			it != m_mods.end(); ++it) {
 		const ModSpec &mod = *it;
 		if (!string_allowed(mod.name, MODNAME_ALLOWED_CHARS)) {
@@ -488,7 +478,7 @@ void Server::step(float dtime)
 				g_settings->get("kick_msg_crash"),
 				g_settings->getBool("ask_reconnect_on_crash"));
 		}
-		throw ServerError(async_err);
+		throw ServerError("AsyncErr: " + async_err);
 	}
 }
 
@@ -641,10 +631,10 @@ void Server::AsyncRunStep(bool initial_step)
 	// send masterserver announce
 	{
 		float &counter = m_masterserver_timer;
-		if(!isSingleplayer() && (!counter || counter >= 300.0) &&
-				g_settings->getBool("server_announce"))
-		{
-			ServerList::sendAnnounce(counter ? "update" : "start",
+		if (!isSingleplayer() && (!counter || counter >= 300.0) &&
+				g_settings->getBool("server_announce")) {
+			ServerList::sendAnnounce(counter ? ServerList::AA_UPDATE :
+						ServerList::AA_START,
 					m_bind_addr.getPort(),
 					m_clients.getPlayerNames(),
 					m_uptime.get(),
@@ -652,7 +642,8 @@ void Server::AsyncRunStep(bool initial_step)
 					m_lag,
 					m_gamespec.id,
 					Mapgen::getMapgenName(m_emerge->mgparams->mgtype),
-					m_mods);
+					m_mods,
+					m_dedicated);
 			counter = 0.01;
 		}
 		counter += dtime;
@@ -789,6 +780,18 @@ void Server::AsyncRunStep(bool initial_step)
 					<< "packet size is " << pktSize << std::endl;
 		}
 		m_clients.unlock();
+
+		m_mod_storage_save_timer -= dtime;
+		if (m_mod_storage_save_timer <= 0.0f) {
+			infostream << "Saving registered mod storages." << std::endl;
+			m_mod_storage_save_timer = g_settings->getFloat("server_map_save_interval");
+			for (UNORDERED_MAP<std::string, ModMetadata *>::const_iterator
+				it = m_mod_storages.begin(); it != m_mod_storages.end(); ++it) {
+				if (it->second->isModified()) {
+					it->second->save(getModStoragePath());
+				}
+			}
+		}
 	}
 
 	/*
@@ -1076,8 +1079,7 @@ PlayerSAO* Server::StageTwoClientInit(u16 peer_id)
 	}
 	m_clients.unlock();
 
-	RemotePlayer *player =
-		static_cast<RemotePlayer*>(m_env->getPlayer(playername.c_str()));
+	RemotePlayer *player = m_env->getPlayer(playername.c_str());
 
 	// If failed, cancel
 	if ((playersao == NULL) || (player == NULL)) {
@@ -1109,18 +1111,17 @@ PlayerSAO* Server::StageTwoClientInit(u16 peer_id)
 	// Send inventory
 	SendInventory(playersao);
 
-	// Send HP
-	SendPlayerHPOrDie(playersao);
-
-	// Send Breath
-	SendPlayerBreath(peer_id);
-
-	// Show death screen if necessary
+	// Send HP or death screen
 	if (playersao->isDead())
 		SendDeathscreen(peer_id, false, v3f(0,0,0));
+	else
+		SendPlayerHPOrDie(playersao);
+
+	// Send Breath
+	SendPlayerBreath(playersao);
 
 	// Note things in chat if not in simple singleplayer mode
-	if(!m_simple_singleplayer_mode) {
+	if (!m_simple_singleplayer_mode && g_settings->getBool("show_statusline_on_connect")) {
 		// Send information about server to player in chat
 		SendChatMessage(peer_id, getStatusString());
 	}
@@ -1663,12 +1664,28 @@ void Server::SendShowFormspecMessage(u16 peer_id, const std::string &formspec,
 }
 
 // Spawns a particle on peer with peer_id
-void Server::SendSpawnParticle(u16 peer_id, v3f pos, v3f velocity, v3f acceleration,
+void Server::SendSpawnParticle(u16 peer_id, u16 protocol_version,
+				v3f pos, v3f velocity, v3f acceleration,
 				float expirationtime, float size, bool collisiondetection,
 				bool collision_removal,
-				bool vertical, const std::string &texture)
+				bool vertical, const std::string &texture,
+				const struct TileAnimationParams &animation, u8 glow)
 {
 	DSTACK(FUNCTION_NAME);
+	if (peer_id == PEER_ID_INEXISTENT) {
+		// This sucks and should be replaced by a better solution in a refactor:
+		std::vector<u16> clients = m_clients.getClientIDs();
+		for (std::vector<u16>::iterator i = clients.begin(); i != clients.end(); ++i) {
+			RemotePlayer *player = m_env->getPlayer(*i);
+			if (!player)
+				continue;
+			SendSpawnParticle(*i, player->protocol_version,
+					pos, velocity, acceleration,
+					expirationtime, size, collisiondetection,
+					collision_removal, vertical, texture, animation, glow);
+		}
+		return;
+	}
 
 	NetworkPacket pkt(TOCLIENT_SPAWN_PARTICLE, 0, peer_id);
 
@@ -1677,22 +1694,39 @@ void Server::SendSpawnParticle(u16 peer_id, v3f pos, v3f velocity, v3f accelerat
 	pkt.putLongString(texture);
 	pkt << vertical;
 	pkt << collision_removal;
+	// This is horrible but required (why are there two ways to serialize pkts?)
+	std::ostringstream os(std::ios_base::binary);
+	animation.serialize(os, protocol_version);
+	pkt.putRawString(os.str());
+	pkt << glow;
 
-	if (peer_id != PEER_ID_INEXISTENT) {
-		Send(&pkt);
-	}
-	else {
-		m_clients.sendToAll(0, &pkt, true);
-	}
+	Send(&pkt);
 }
 
 // Adds a ParticleSpawner on peer with peer_id
-void Server::SendAddParticleSpawner(u16 peer_id, u16 amount, float spawntime, v3f minpos, v3f maxpos,
+void Server::SendAddParticleSpawner(u16 peer_id, u16 protocol_version,
+	u16 amount, float spawntime, v3f minpos, v3f maxpos,
 	v3f minvel, v3f maxvel, v3f minacc, v3f maxacc, float minexptime, float maxexptime,
 	float minsize, float maxsize, bool collisiondetection, bool collision_removal,
-	u16 attached_id, bool vertical, const std::string &texture, u32 id)
+	u16 attached_id, bool vertical, const std::string &texture, u32 id,
+	const struct TileAnimationParams &animation, u8 glow)
 {
 	DSTACK(FUNCTION_NAME);
+	if (peer_id == PEER_ID_INEXISTENT) {
+		// This sucks and should be replaced:
+		std::vector<u16> clients = m_clients.getClientIDs();
+		for (std::vector<u16>::iterator i = clients.begin(); i != clients.end(); ++i) {
+			RemotePlayer *player = m_env->getPlayer(*i);
+			if (!player)
+				continue;
+			SendAddParticleSpawner(*i, player->protocol_version,
+					amount, spawntime, minpos, maxpos,
+					minvel, maxvel, minacc, maxacc, minexptime, maxexptime,
+					minsize, maxsize, collisiondetection, collision_removal,
+					attached_id, vertical, texture, id, animation, glow);
+		}
+		return;
+	}
 
 	NetworkPacket pkt(TOCLIENT_ADD_PARTICLESPAWNER, 0, peer_id);
 
@@ -1705,13 +1739,13 @@ void Server::SendAddParticleSpawner(u16 peer_id, u16 amount, float spawntime, v3
 	pkt << id << vertical;
 	pkt << collision_removal;
 	pkt << attached_id;
+	// This is horrible but required
+	std::ostringstream os(std::ios_base::binary);
+	animation.serialize(os, protocol_version);
+	pkt.putRawString(os.str());
+	pkt << glow;
 
-	if (peer_id != PEER_ID_INEXISTENT) {
-		Send(&pkt);
-	}
-	else {
-		m_clients.sendToAll(0, &pkt, true);
-	}
+	Send(&pkt);
 }
 
 void Server::SendDeleteParticleSpawner(u16 peer_id, u32 id)
@@ -1857,14 +1891,13 @@ void Server::SendPlayerHP(u16 peer_id)
 	playersao->m_messages_out.push(aom);
 }
 
-void Server::SendPlayerBreath(u16 peer_id)
+void Server::SendPlayerBreath(PlayerSAO *sao)
 {
 	DSTACK(FUNCTION_NAME);
-	PlayerSAO *playersao = getPlayerSAO(peer_id);
-	assert(playersao);
+	assert(sao);
 
-	m_script->player_event(playersao, "breath_changed");
-	SendBreath(peer_id, playersao->getBreath());
+	m_script->player_event(sao, "breath_changed");
+	SendBreath(sao->getPeerID(), sao->getBreath());
 }
 
 void Server::SendMovePlayer(u16 peer_id)
@@ -2113,14 +2146,6 @@ void Server::sendAddNode(v3s16 p, MapNode n, u16 ignore_id,
 		if (client != 0) {
 			pkt << p << n.param0 << n.param1 << n.param2
 					<< (u8) (remove_metadata ? 0 : 1);
-
-			if (!remove_metadata) {
-				if (client->net_proto_version <= 21) {
-					// Old clients always clear metadata; fix it
-					// by sending the full block again.
-					client->SetBlockNotSent(getNodeBlockPos(p));
-				}
-			}
 		}
 		m_clients.unlock();
 
@@ -2154,7 +2179,7 @@ void Server::SendBlockNoLock(u16 peer_id, MapBlock *block, u8 ver, u16 net_proto
 
 	std::ostringstream os(std::ios_base::binary);
 	block->serialize(os, ver, false);
-	block->serializeNetworkSpecific(os, net_proto_version);
+	block->serializeNetworkSpecific(os);
 	std::string s = os.str();
 
 	NetworkPacket pkt(TOCLIENT_BLOCKDATA, 2 + 2 + 2 + 2 + s.size(), peer_id);
@@ -2557,15 +2582,14 @@ void Server::RespawnPlayer(u16 peer_id)
 	playersao->setHP(PLAYER_MAX_HP);
 	playersao->setBreath(PLAYER_MAX_BREATH);
 
-	SendPlayerHP(peer_id);
-	SendPlayerBreath(peer_id);
-
 	bool repositioned = m_script->on_respawnplayer(playersao);
-	if(!repositioned){
+	if (!repositioned) {
 		v3f pos = findSpawnPos();
 		// setPos will send the new position to client
 		playersao->setPos(pos);
 	}
+
+	SendPlayerHP(peer_id);
 }
 
 
@@ -2761,59 +2785,49 @@ std::wstring Server::handleChat(const std::string &name, const std::wstring &wna
 	RollbackScopeActor rollback_scope(m_rollback,
 		std::string("player:") + name);
 
-	// Line to send
-	std::wstring line;
-	// Whether to send line to the player that sent the message, or to all players
-	bool broadcast_line = true;
-
-	// Run script hook
-	bool ate = m_script->on_chat_message(name,
-		wide_to_utf8(wmessage));
-	// If script ate the message, don't proceed
-	if (ate)
-		return L"";
-
 	if (player) {
 		switch (player->canSendChatMessage()) {
 			case RPLAYER_CHATRESULT_FLOODING: {
 				std::wstringstream ws;
 				ws << L"You cannot send more messages. You are limited to "
-				<< g_settings->getFloat("chat_message_limit_per_10sec")
-				<< L" messages per 10 seconds.";
+				   << g_settings->getFloat("chat_message_limit_per_10sec")
+				   << L" messages per 10 seconds.";
 				return ws.str();
 			}
 			case RPLAYER_CHATRESULT_KICK:
-				DenyAccess_Legacy(player->peer_id, L"You have been kicked due to message flooding.");
+				DenyAccess_Legacy(player->peer_id,
+						L"You have been kicked due to message flooding.");
 				return L"";
-			case RPLAYER_CHATRESULT_OK: break;
-			default: FATAL_ERROR("Unhandled chat filtering result found.");
+			case RPLAYER_CHATRESULT_OK:
+				break;
+			default:
+				FATAL_ERROR("Unhandled chat filtering result found.");
 		}
 	}
 
-	if (m_max_chatmessage_length > 0 && wmessage.length() > m_max_chatmessage_length) {
+	if (m_max_chatmessage_length > 0
+			&& wmessage.length() > m_max_chatmessage_length) {
 		return L"Your message exceed the maximum chat message limit set on the server. "
-			L"It was refused. Send a shorter message";
+				L"It was refused. Send a shorter message";
 	}
 
-	// Commands are implemented in Lua, so only catch invalid
-	// commands that were not "eaten" and send an error back
-	if (wmessage[0] == L'/') {
-		std::wstring wcmd = wmessage.substr(1);
+	// Run script hook, exit if script ate the chat message
+	if (m_script->on_chat_message(name, wide_to_utf8(wmessage)))
+		return L"";
+
+	// Line to send
+	std::wstring line;
+	// Whether to send line to the player that sent the message, or to all players
+	bool broadcast_line = true;
+
+	if (check_shout_priv && !checkPriv(name, "shout")) {
+		line += L"-!- You don't have permission to shout.";
 		broadcast_line = false;
-		if (wcmd.length() == 0)
-			line += L"-!- Empty command";
-		else
-			line += L"-!- Invalid command: " + str_split(wcmd, L' ')[0];
 	} else {
-		if (check_shout_priv && !checkPriv(name, "shout")) {
-			line += L"-!- You don't have permission to shout.";
-			broadcast_line = false;
-		} else {
-			line += L"<";
-			line += wname;
-			line += L"> ";
-			line += wmessage;
-		}
+		line += L"<";
+		line += wname;
+		line += L"> ";
+		line += wmessage;
 	}
 
 	/*
@@ -2829,7 +2843,15 @@ std::wstring Server::handleChat(const std::string &name, const std::wstring &wna
 
 		std::vector<u16> clients = m_clients.getClientIDs();
 
+		/*
+			Send the message back to the inital sender
+			if they are using protocol version >= 29
+		*/
+
 		u16 peer_id_to_avoid_sending = (player ? player->peer_id : PEER_ID_INEXISTENT);
+		if (player && player->protocol_version >= 29)
+			peer_id_to_avoid_sending = PEER_ID_INEXISTENT;
+
 		for (u16 i = 0; i < clients.size(); i++) {
 			u16 cid = clients[i];
 			if (cid != peer_id_to_avoid_sending)
@@ -3160,23 +3182,25 @@ void Server::spawnParticle(const std::string &playername, v3f pos,
 	v3f velocity, v3f acceleration,
 	float expirationtime, float size, bool
 	collisiondetection, bool collision_removal,
-	bool vertical, const std::string &texture)
+	bool vertical, const std::string &texture,
+	const struct TileAnimationParams &animation, u8 glow)
 {
 	// m_env will be NULL if the server is initializing
 	if (!m_env)
 		return;
 
-	u16 peer_id = PEER_ID_INEXISTENT;
+	u16 peer_id = PEER_ID_INEXISTENT, proto_ver = 0;
 	if (playername != "") {
 		RemotePlayer *player = m_env->getPlayer(playername.c_str());
 		if (!player)
 			return;
 		peer_id = player->peer_id;
+		proto_ver = player->protocol_version;
 	}
 
-	SendSpawnParticle(peer_id, pos, velocity, acceleration,
+	SendSpawnParticle(peer_id, proto_ver, pos, velocity, acceleration,
 			expirationtime, size, collisiondetection,
-			collision_removal, vertical, texture);
+			collision_removal, vertical, texture, animation, glow);
 }
 
 u32 Server::addParticleSpawner(u16 amount, float spawntime,
@@ -3184,18 +3208,20 @@ u32 Server::addParticleSpawner(u16 amount, float spawntime,
 	float minexptime, float maxexptime, float minsize, float maxsize,
 	bool collisiondetection, bool collision_removal,
 	ServerActiveObject *attached, bool vertical, const std::string &texture,
-	const std::string &playername)
+	const std::string &playername, const struct TileAnimationParams &animation,
+	u8 glow)
 {
 	// m_env will be NULL if the server is initializing
 	if (!m_env)
 		return -1;
 
-	u16 peer_id = PEER_ID_INEXISTENT;
+	u16 peer_id = PEER_ID_INEXISTENT, proto_ver = 0;
 	if (playername != "") {
 		RemotePlayer *player = m_env->getPlayer(playername.c_str());
 		if (!player)
 			return -1;
 		peer_id = player->peer_id;
+		proto_ver = player->protocol_version;
 	}
 
 	u16 attached_id = attached ? attached->getId() : 0;
@@ -3206,11 +3232,11 @@ u32 Server::addParticleSpawner(u16 amount, float spawntime,
 	else
 		id = m_env->addParticleSpawner(spawntime, attached_id);
 
-	SendAddParticleSpawner(peer_id, amount, spawntime,
+	SendAddParticleSpawner(peer_id, proto_ver, amount, spawntime,
 		minpos, maxpos, minvel, maxvel, minacc, maxacc,
 		minexptime, maxexptime, minsize, maxsize,
 		collisiondetection, collision_removal, attached_id, vertical,
-		texture, id);
+		texture, id, animation, glow);
 
 	return id;
 }
@@ -3313,27 +3339,10 @@ ICraftDefManager *Server::getCraftDefManager()
 {
 	return m_craftdef;
 }
-ITextureSource *Server::getTextureSource()
-{
-	return NULL;
-}
-IShaderSource *Server::getShaderSource()
-{
-	return NULL;
-}
-scene::ISceneManager *Server::getSceneManager()
-{
-	return NULL;
-}
 
 u16 Server::allocateUnknownNodeId(const std::string &name)
 {
 	return m_nodedef->allocateDummy(name);
-}
-
-ISoundManager *Server::getSoundManager()
-{
-	return &dummySoundManager;
 }
 
 MtEventManager *Server::getEventManager()
@@ -3377,6 +3386,11 @@ void Server::getModNames(std::vector<std::string> &modlist)
 std::string Server::getBuiltinLuaPath()
 {
 	return porting::path_share + DIR_DELIM + "builtin";
+}
+
+std::string Server::getModStoragePath() const
+{
+	return m_path_world + DIR_DELIM + "mod_storage";
 }
 
 v3f Server::findSpawnPos()
@@ -3500,6 +3514,28 @@ PlayerSAO* Server::emergePlayer(const char *name, u16 peer_id, u16 proto_version
 	return playersao;
 }
 
+bool Server::registerModStorage(ModMetadata *storage)
+{
+	if (m_mod_storages.find(storage->getModName()) != m_mod_storages.end()) {
+		errorstream << "Unable to register same mod storage twice. Storage name: "
+				<< storage->getModName() << std::endl;
+		return false;
+	}
+
+	m_mod_storages[storage->getModName()] = storage;
+	return true;
+}
+
+void Server::unregisterModStorage(const std::string &name)
+{
+	UNORDERED_MAP<std::string, ModMetadata *>::const_iterator it = m_mod_storages.find(name);
+	if (it != m_mod_storages.end()) {
+		// Save unconditionaly on unregistration
+		it->second->save(getModStoragePath());
+		m_mod_storages.erase(name);
+	}
+}
+
 void dedicated_server_loop(Server &server, bool &kill)
 {
 	DSTACK(FUNCTION_NAME);
@@ -3521,15 +3557,8 @@ void dedicated_server_loop(Server &server, bool &kill)
 		}
 		server.step(steplen);
 
-		if(server.getShutdownRequested() || kill)
-		{
-			infostream<<"Dedicated server quitting"<<std::endl;
-#if USE_CURL
-			if(g_settings->getBool("server_announce"))
-				ServerList::sendAnnounce("delete", server.m_bind_addr.getPort());
-#endif
+		if (server.getShutdownRequested() || kill)
 			break;
-		}
 
 		/*
 			Profiler
@@ -3543,4 +3572,11 @@ void dedicated_server_loop(Server &server, bool &kill)
 			}
 		}
 	}
+
+	infostream << "Dedicated server quitting" << std::endl;
+#if USE_CURL
+	if (g_settings->getBool("server_announce"))
+		ServerList::sendAnnounce(ServerList::AA_DELETE,
+			server.m_bind_addr.getPort());
+#endif
 }
