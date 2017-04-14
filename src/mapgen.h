@@ -124,6 +124,7 @@ struct MapgenParams {
 	s16 chunksize;
 	u64 seed;
 	s16 water_level;
+	s16 mapgen_limit;
 	u32 flags;
 
 	BiomeParams *bparams;
@@ -133,6 +134,7 @@ struct MapgenParams {
 		chunksize(5),
 		seed(0),
 		water_level(1),
+		mapgen_limit(MAX_MAP_GENERATION_LIMIT),
 		flags(MG_CAVES | MG_LIGHT | MG_DECORATIONS),
 		bparams(NULL)
 	{
@@ -158,6 +160,7 @@ class Mapgen {
 public:
 	s32 seed;
 	int water_level;
+	int mapgen_limit;
 	u32 flags;
 	bool generating;
 	int id;
@@ -240,6 +243,7 @@ public:
 	virtual ~MapgenBasic();
 
 	virtual void generateCaves(s16 max_stone_y, s16 large_cave_depth);
+	virtual bool generateCaverns(s16 max_stone_y);
 	virtual void generateDungeons(s16 max_stone_y, MgStoneType stone_type);
 	virtual MgStoneType generateBiomes();
 	virtual void dustTopNodes();
@@ -257,17 +261,19 @@ protected:
 
 	// Content required for generateBiomes
 	content_t c_stone;
-	content_t c_water_source;
-	content_t c_river_water_source;
 	content_t c_desert_stone;
 	content_t c_sandstone;
+	content_t c_water_source;
+	content_t c_river_water_source;
+	content_t c_lava_source;
 
 	// Content required for generateDungeons
 	content_t c_cobble;
 	content_t c_stair_cobble;
 	content_t c_mossycobble;
+	content_t c_stair_desert_stone;
 	content_t c_sandstonebrick;
-	content_t c_stair_sandstonebrick;
+	content_t c_stair_sandstone_block;
 
 	int ystride;
 	int zstride;
@@ -278,7 +284,11 @@ protected:
 
 	NoiseParams np_cave1;
 	NoiseParams np_cave2;
+	NoiseParams np_cavern;
 	float cave_width;
+	float cavern_limit;
+	float cavern_taper;
+	float cavern_threshold;
 };
 
 #endif

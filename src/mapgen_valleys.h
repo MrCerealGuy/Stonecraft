@@ -101,8 +101,6 @@ public:
 private:
 	BiomeGenOriginal *m_bgen;
 
-	float map_gen_limit;
-
 	bool humid_rivers;
 	bool use_altitude_chill;
 	float humidity_adjust;
@@ -125,8 +123,6 @@ private:
 	Noise *noise_terrain_height;
 	Noise *noise_valley_depth;
 	Noise *noise_valley_profile;
-
-	content_t c_lava_source;
 
 	float terrainLevelAtPoint(s16 x, s16 z);
 

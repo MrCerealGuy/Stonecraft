@@ -25,11 +25,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/string.h"
 
 class Map;
+class ServerMap;
 class Mapgen;
 class MMVManip;
 class PseudoRandom;
 class NodeResolver;
-class IGameDef;
+class Server;
 
 /*
 	Minetest Schematic File Format
@@ -108,7 +109,7 @@ public:
 
 	void blitToVManip(MMVManip *vm, v3s16 p, Rotation rot, bool force_place);
 	bool placeOnVManip(MMVManip *vm, v3s16 p, u32 flags, Rotation rot, bool force_place);
-	void placeOnMap(Map *map, v3s16 p, u32 flags, Rotation rot, bool force_place);
+	void placeOnMap(ServerMap *map, v3s16 p, u32 flags, Rotation rot, bool force_place);
 
 	void applyProbabilities(v3s16 p0,
 		std::vector<std::pair<v3s16, u8> > *plist,
@@ -123,7 +124,7 @@ public:
 
 class SchematicManager : public ObjDefManager {
 public:
-	SchematicManager(IGameDef *gamedef);
+	SchematicManager(Server *server);
 	virtual ~SchematicManager() {}
 
 	virtual void clear();
@@ -139,7 +140,7 @@ public:
 	}
 
 private:
-	IGameDef *m_gamedef;
+	Server *m_server;
 };
 
 void generate_nodelist_and_update_ids(MapNode *nodes, size_t nodecount,

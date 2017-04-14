@@ -99,18 +99,12 @@ MapgenV6::MapgenV6(int mapgenid, MapgenV6Params *params, EmergeManager *emerge)
 	c_snowblock       = ndef->getId("mapgen_snowblock");
 	c_ice             = ndef->getId("mapgen_ice");
 
-	c_cobble          = ndef->getId("mapgen_cobble");
-	c_stair_cobble    = ndef->getId("mapgen_stair_cobble");
-	c_mossycobble     = ndef->getId("mapgen_mossycobble");
-
-	if (c_desert_sand == CONTENT_IGNORE)
-		c_desert_sand = c_sand;
+	if (c_gravel == CONTENT_IGNORE)
+		c_gravel = c_stone;
 	if (c_desert_stone == CONTENT_IGNORE)
 		c_desert_stone = c_stone;
-	if (c_mossycobble == CONTENT_IGNORE)
-		c_mossycobble = c_cobble;
-	if (c_stair_cobble == CONTENT_IGNORE)
-		c_stair_cobble = c_cobble;
+	if (c_desert_sand == CONTENT_IGNORE)
+		c_desert_sand = c_sand;
 	if (c_dirt_with_snow == CONTENT_IGNORE)
 		c_dirt_with_snow = c_dirt_with_grass;
 	if (c_snow == CONTENT_IGNORE)
@@ -119,6 +113,18 @@ MapgenV6::MapgenV6(int mapgenid, MapgenV6Params *params, EmergeManager *emerge)
 		c_snowblock = c_dirt_with_grass;
 	if (c_ice == CONTENT_IGNORE)
 		c_ice = c_water_source;
+
+	c_cobble             = ndef->getId("mapgen_cobble");
+	c_mossycobble        = ndef->getId("mapgen_mossycobble");
+	c_stair_cobble       = ndef->getId("mapgen_stair_cobble");
+	c_stair_desert_stone = ndef->getId("mapgen_stair_desert_stone");
+
+	if (c_mossycobble == CONTENT_IGNORE)
+		c_mossycobble = c_cobble;
+	if (c_stair_cobble == CONTENT_IGNORE)
+		c_stair_cobble = c_cobble;
+	if (c_stair_desert_stone == CONTENT_IGNORE)
+		c_stair_desert_stone = c_desert_stone;
 }
 
 
@@ -558,34 +564,47 @@ void MapgenV6::makeChunk(BlockMakeData *data)
 	if ((flags & MG_DUNGEONS) && (stone_surface_max_y >= node_min.Y)) {
 		DungeonParams dp;
 
-		dp.seed = seed;
-		dp.c_water       = c_water_source;
-		dp.c_river_water = c_water_source;
-		dp.rooms_min     = 2;
-		dp.rooms_max     = 16;
-		dp.y_min         = -MAX_MAP_GENERATION_LIMIT;
-		dp.y_max         = MAX_MAP_GENERATION_LIMIT;
-		dp.np_density    = NoiseParams(0.9, 0.5, v3f(500.0, 500.0, 500.0), 0, 2, 0.8, 2.0);
-		dp.np_alt_wall   = NoiseParams(-0.4, 1.0, v3f(40.0, 40.0, 40.0), 32474, 6, 1.1, 2.0);
+		dp.seed             = seed;
+		dp.c_water          = c_water_source;
+		dp.c_river_water    = c_water_source;
+
+		dp.only_in_ground   = true;
+		dp.corridor_len_min = 1;
+		dp.corridor_len_max = 13;
+		dp.rooms_min        = 2;
+		dp.rooms_max        = 16;
+		dp.y_min            = -MAX_MAP_GENERATION_LIMIT;
+		dp.y_max            = MAX_MAP_GENERATION_LIMIT;
+
+		dp.np_density
+			= NoiseParams(0.9, 0.5, v3f(500.0, 500.0, 500.0), 0, 2, 0.8, 2.0);
+		dp.np_alt_wall
+			= NoiseParams(-0.4, 1.0, v3f(40.0, 40.0, 40.0), 32474, 6, 1.1, 2.0);
 
 		if (getBiome(0, v2s16(node_min.X, node_min.Z)) == BT_DESERT) {
-			dp.c_wall     = c_desert_stone;
-			dp.c_alt_wall = CONTENT_IGNORE;
-			dp.c_stair    = c_desert_stone;
+			dp.c_wall              = c_desert_stone;
+			dp.c_alt_wall          = CONTENT_IGNORE;
+			dp.c_stair             = c_stair_desert_stone;
 
-			dp.diagonal_dirs = true;
-			dp.holesize      = v3s16(2, 3, 2);
-			dp.roomsize      = v3s16(2, 5, 2);
-			dp.notifytype    = GENNOTIFY_TEMPLE;
+			dp.diagonal_dirs       = true;
+			dp.holesize            = v3s16(2, 3, 2);
+			dp.room_size_min       = v3s16(6, 9, 6);
+			dp.room_size_max       = v3s16(10, 11, 10);
+			dp.room_size_large_min = v3s16(10, 13, 10);
+			dp.room_size_large_max = v3s16(18, 21, 18);
+			dp.notifytype          = GENNOTIFY_TEMPLE;
 		} else {
-			dp.c_wall     = c_cobble;
-			dp.c_alt_wall = c_mossycobble;
-			dp.c_stair    = c_stair_cobble;
+			dp.c_wall              = c_cobble;
+			dp.c_alt_wall          = c_mossycobble;
+			dp.c_stair             = c_stair_cobble;
 
-			dp.diagonal_dirs = false;
-			dp.holesize      = v3s16(1, 2, 1);
-			dp.roomsize      = v3s16(0, 0, 0);
-			dp.notifytype    = GENNOTIFY_DUNGEON;
+			dp.diagonal_dirs       = false;
+			dp.holesize            = v3s16(1, 2, 1);
+			dp.room_size_min       = v3s16(4, 4, 4);
+			dp.room_size_max       = v3s16(8, 6, 8);
+			dp.room_size_large_min = v3s16(8, 8, 8);
+			dp.room_size_large_max = v3s16(16, 16, 16);
+			dp.notifytype          = GENNOTIFY_DUNGEON;
 		}
 
 		DungeonGen dgen(ndef, &gennotify, &dp);
