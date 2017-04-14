@@ -38,6 +38,7 @@ extern "C" {
 #include "irrlichttypes_bloated.h"
 #include "util/string.h"
 #include "itemgroup.h"
+#include "itemdef.h"
 
 namespace Json { class Value; }
 
@@ -77,8 +78,9 @@ void               push_dig_params           (lua_State *L,
 void               push_hit_params           (lua_State *L,
                                               const HitParams &params);
 
-ItemStack          read_item                 (lua_State *L, int index, Server *srv);
+ItemStack          read_item                 (lua_State *L, int index, IItemDefManager *idef);
 
+struct TileAnimationParams read_animation_definition(lua_State *L, int index);
 
 ToolCapabilities   read_tool_capabilities    (lua_State *L, int table);
 void               push_tool_capabilities    (lua_State *L,
@@ -87,7 +89,8 @@ void               push_tool_capabilities    (lua_State *L,
 ItemDefinition     read_item_definition      (lua_State *L, int index,
                                               ItemDefinition default_def);
 void               read_object_properties    (lua_State *L, int index,
-                                              ObjectProperties *prop);
+                                              ObjectProperties *prop,
+                                              IItemDefManager *idef);
 void               push_object_properties    (lua_State *L,
                                               ObjectProperties *prop);
 

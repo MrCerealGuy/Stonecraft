@@ -138,19 +138,29 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 		Add nodedef v3 - connected nodeboxes
 	PROTOCOL_VERSION 28:
 		CPT2_MESHOPTIONS
+	PROTOCOL_VERSION 29:
+		Server doesn't accept TOSERVER_BREATH anymore
+		serialization of TileAnimation params changed
+		TAT_SHEET_2D
+		Removed client-sided chat perdiction
+	PROTOCOL VERSION 30:
+		New ContentFeatures serialization version
+		Add node and tile color and palette
+		Fix plantlike visual_scale being applied squared and add compatibility
+			with pre-30 clients by sending sqrt(visual_scale)
 */
 
-#define LATEST_PROTOCOL_VERSION 28
+#define LATEST_PROTOCOL_VERSION 30
 
 // Server's supported network protocol range
-#define SERVER_PROTOCOL_VERSION_MIN 13
+#define SERVER_PROTOCOL_VERSION_MIN 24
 #define SERVER_PROTOCOL_VERSION_MAX LATEST_PROTOCOL_VERSION
 
 // Client's supported network protocol range
 // The minimal version depends on whether
 // send_pre_v25_init is enabled or not
 #define CLIENT_PROTOCOL_VERSION_MIN 25
-#define CLIENT_PROTOCOL_VERSION_MIN_LEGACY 13
+#define CLIENT_PROTOCOL_VERSION_MIN_LEGACY 24
 #define CLIENT_PROTOCOL_VERSION_MAX LATEST_PROTOCOL_VERSION
 
 // Constant that differentiates the protocol from random data and other protocols
@@ -833,7 +843,7 @@ enum ToServerCommand
 		<no payload data>
 	*/
 
-	TOSERVER_BREATH = 0x42,
+	TOSERVER_BREATH = 0x42, // Obsolete
 	/*
 		u16 breath
 	*/

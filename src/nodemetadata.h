@@ -20,10 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef NODEMETADATA_HEADER
 #define NODEMETADATA_HEADER
 
-#include "irr_v3d.h"
-#include <iostream>
-#include <vector>
-#include "util/string.h"
+#include "metadata.h"
 
 /*
 	NodeMetadata stores arbitary amounts of data for special blocks.
@@ -37,7 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Inventory;
 class IItemDefManager;
 
-class NodeMetadata
+class NodeMetadata : public Metadata
 {
 public:
 	NodeMetadata(IItemDefManager *item_def_mgr);
@@ -49,16 +46,6 @@ public:
 	void clear();
 	bool empty() const;
 
-	// Generic key/value store
-	std::string getString(const std::string &name, unsigned short recursion = 0) const;
-	void setString(const std::string &name, const std::string &var);
-	// Support variable names in values
-	std::string resolveString(const std::string &str, unsigned short recursion = 0) const;
-	StringMap getStrings() const
-	{
-		return m_stringvars;
-	}
-
 	// The inventory
 	Inventory *getInventory()
 	{
@@ -66,7 +53,6 @@ public:
 	}
 
 private:
-	StringMap m_stringvars;
 	Inventory *m_inventory;
 };
 
@@ -101,4 +87,3 @@ private:
 };
 
 #endif
-

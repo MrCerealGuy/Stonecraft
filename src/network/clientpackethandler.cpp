@@ -30,8 +30,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server.h"
 #include "util/strfnd.h"
 #include "network/clientopcodes.h"
+#include "script/clientscripting.h"
 #include "util/serialize.h"
 #include "util/srp.h"
+#include "tileanimation.h"
 
 void Client::handleCommand_Deprecated(NetworkPacket* pkt)
 {
@@ -140,7 +142,7 @@ void Client::handleCommand_AcceptSudoMode(NetworkPacket* pkt)
 }
 void Client::handleCommand_DenySudoMode(NetworkPacket* pkt)
 {
-	m_chat_queue.push(L"Password change denied. Password NOT changed.");
+	pushToChatQueue(L"Password change denied. Password NOT changed.");
 	// reset everything and be sad
 	deleteAuthData();
 }
@@ -410,7 +412,10 @@ void Client::handleCommand_ChatMessage(NetworkPacket* pkt)
 		message += (wchar_t)read_wchar;
 	}
 
-	m_chat_queue.push(message);
+	// If chat message not consummed by client lua API
+	if (!moddingEnabled() || !m_script->on_receiving_message(wide_to_utf8(message))) {
+		pushToChatQueue(message);
+	}
 }
 
 void Client::handleCommand_ActiveObjectRemoveAdd(NetworkPacket* pkt)
@@ -520,6 +525,10 @@ void Client::handleCommand_HP(NetworkPacket* pkt)
 	*pkt >> hp;
 
 	player->hp = hp;
+
+	if (moddingEnabled()) {
+		m_script->on_hp_modification(hp);
+	}
 
 	if (hp < oldhp) {
 		// Add to ClientEvent queue
@@ -724,9 +733,7 @@ void Client::handleCommand_NodeDef(NetworkPacket* pkt)
 	sanity_check(!m_mesh_update_thread.isRunning());
 
 	// Decompress node definitions
-	std::string datastring(pkt->getString(0), pkt->getSize());
-	std::istringstream is(datastring, std::ios_base::binary);
-	std::istringstream tmp_is(deSerializeLongString(is), std::ios::binary);
+	std::istringstream tmp_is(pkt->readLongString(), std::ios::binary);
 	std::ostringstream tmp_os;
 	decompressZlib(tmp_is, tmp_os);
 
@@ -751,9 +758,7 @@ void Client::handleCommand_ItemDef(NetworkPacket* pkt)
 	sanity_check(!m_mesh_update_thread.isRunning());
 
 	// Decompress item definitions
-	std::string datastring(pkt->getString(0), pkt->getSize());
-	std::istringstream is(datastring, std::ios_base::binary);
-	std::istringstream tmp_is(deSerializeLongString(is), std::ios::binary);
+	std::istringstream tmp_is(pkt->readLongString(), std::ios::binary);
 	std::ostringstream tmp_os;
 	decompressZlib(tmp_is, tmp_os);
 
@@ -896,9 +901,14 @@ void Client::handleCommand_SpawnParticle(NetworkPacket* pkt)
 	std::string texture     = deSerializeLongString(is);
 	bool vertical           = false;
 	bool collision_removal  = false;
+	struct TileAnimationParams animation;
+	animation.type = TAT_NONE;
+	u8 glow = 0;
 	try {
 		vertical = readU8(is);
 		collision_removal = readU8(is);
+		animation.deSerialize(is, m_proto_ver);
+		glow = readU8(is);
 	} catch (...) {}
 
 	ClientEvent event;
@@ -912,6 +922,8 @@ void Client::handleCommand_SpawnParticle(NetworkPacket* pkt)
 	event.spawn_particle.collision_removal  = collision_removal;
 	event.spawn_particle.vertical           = vertical;
 	event.spawn_particle.texture            = new std::string(texture);
+	event.spawn_particle.animation          = animation;
+	event.spawn_particle.glow               = glow;
 
 	m_client_event_queue.push(event);
 }
@@ -943,12 +955,20 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 
 	bool vertical = false;
 	bool collision_removal = false;
+	struct TileAnimationParams animation;
+	animation.type = TAT_NONE;
+	u8 glow = 0;
 	u16 attached_id = 0;
 	try {
 		*pkt >> vertical;
 		*pkt >> collision_removal;
 		*pkt >> attached_id;
 
+		// This is horrible but required (why are there two ways to deserialize pkts?)
+		std::string datastring(pkt->getRemainingString(), pkt->getRemainingBytes());
+		std::istringstream is(datastring, std::ios_base::binary);
+		animation.deSerialize(is, m_proto_ver);
+		glow = readU8(is);
 	} catch (...) {}
 
 	ClientEvent event;
@@ -971,6 +991,8 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 	event.add_particlespawner.vertical           = vertical;
 	event.add_particlespawner.texture            = new std::string(texture);
 	event.add_particlespawner.id                 = id;
+	event.add_particlespawner.animation          = animation;
+	event.add_particlespawner.glow               = glow;
 
 	m_client_event_queue.push(event);
 }
@@ -1114,7 +1136,7 @@ void Client::handleCommand_HudSetFlags(NetworkPacket* pkt)
 	if (m_minimap_disabled_by_server && was_minimap_visible) {
 		// defers a minimap update, therefore only call it if really
 		// needed, by checking that minimap was visible before
-		m_mapper->setMinimapMode(MINIMAP_MODE_OFF);
+		m_minimap->setMinimapMode(MINIMAP_MODE_OFF);
 	}
 }
 

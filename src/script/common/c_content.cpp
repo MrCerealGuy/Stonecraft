@@ -20,7 +20,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "common/c_converter.h"
 #include "common/c_types.h"
 #include "nodedef.h"
-#include "itemdef.h"
 #include "object_properties.h"
 #include "cpp_api/s_node.h"
 #include "lua_api/l_object.h"
@@ -39,6 +38,7 @@ struct EnumString es_TileAnimationType[] =
 {
 	{TAT_NONE, "none"},
 	{TAT_VERTICAL_FRAMES, "vertical_frames"},
+	{TAT_SHEET_2D, "sheet_2d"},
 	{0, NULL},
 };
 
@@ -58,6 +58,12 @@ ItemDefinition read_item_definition(lua_State* L,int index,
 	getstringfield(L, index, "description", def.description);
 	getstringfield(L, index, "inventory_image", def.inventory_image);
 	getstringfield(L, index, "wield_image", def.wield_image);
+	getstringfield(L, index, "palette", def.palette_image);
+
+	// Read item color.
+	lua_getfield(L, index, "color");
+	read_color(L, -1, &def.color);
+	lua_pop(L, 1);
 
 	lua_getfield(L, index, "wield_scale");
 	if(lua_istable(L, -1)){
@@ -118,7 +124,7 @@ ItemDefinition read_item_definition(lua_State* L,int index,
 
 /******************************************************************************/
 void read_object_properties(lua_State *L, int index,
-		ObjectProperties *prop)
+		ObjectProperties *prop, IItemDefManager *idef)
 {
 	if(index < 0)
 		index = lua_gettop(L) + 1 + index;
@@ -216,6 +222,10 @@ void read_object_properties(lua_State *L, int index,
 	}
 	lua_pop(L, 1);
 	getstringfield(L, -1, "infotext", prop->infotext);
+	lua_getfield(L, -1, "wield_item");
+	if (!lua_isnil(L, -1))
+		prop->wield_item = read_item(L, -1, idef).getItemString();
+	lua_pop(L, 1);
 }
 
 /******************************************************************************/
@@ -284,6 +294,8 @@ void push_object_properties(lua_State *L, ObjectProperties *prop)
 	lua_setfield(L, -2, "automatic_face_movement_max_rotation_per_sec");
 	lua_pushlstring(L, prop->infotext.c_str(), prop->infotext.size());
 	lua_setfield(L, -2, "infotext");
+	lua_pushlstring(L, prop->wield_item.c_str(), prop->wield_item.size());
+	lua_setfield(L, -2, "wield_item");
 }
 
 /******************************************************************************/
@@ -321,7 +333,7 @@ TileDef read_tiledef(lua_State *L, int index, u8 drawtype)
 	}
 	else if(lua_istable(L, index))
 	{
-		// {name="default_lava.png", animation={}}
+		// name="default_lava.png"
 		tiledef.name = "";
 		getstringfield(L, index, "name", tiledef.name);
 		getstringfield(L, index, "image", tiledef.name); // MaterialSpec compat.
@@ -331,20 +343,13 @@ TileDef read_tiledef(lua_State *L, int index, u8 drawtype)
 			L, index, "tileable_horizontal", default_tiling);
 		tiledef.tileable_vertical = getboolfield_default(
 			L, index, "tileable_vertical", default_tiling);
+		// color = ...
+		lua_getfield(L, index, "color");
+		tiledef.has_color = read_color(L, -1, &tiledef.color);
+		lua_pop(L, 1);
 		// animation = {}
 		lua_getfield(L, index, "animation");
-		if(lua_istable(L, -1)){
-			// {type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0}
-			tiledef.animation.type = (TileAnimationType)
-				getenumfield(L, -1, "type", es_TileAnimationType,
-				TAT_NONE);
-			tiledef.animation.aspect_w =
-				getintfield_default(L, -1, "aspect_w", 16);
-			tiledef.animation.aspect_h =
-				getintfield_default(L, -1, "aspect_h", 16);
-			tiledef.animation.length =
-				getfloatfield_default(L, -1, "length", 1.0);
-		}
+		tiledef.animation = read_animation_definition(L, -1);
 		lua_pop(L, 1);
 	}
 
@@ -460,6 +465,13 @@ ContentFeatures read_content_features(lua_State *L, int index)
 	if (usealpha)
 		f.alpha = 0;
 
+	// Read node color.
+	lua_getfield(L, index, "color");
+	read_color(L, -1, &f.color);
+	lua_pop(L, 1);
+
+	getstringfield(L, index, "palette", f.palette_name);
+
 	/* Other stuff */
 
 	lua_getfield(L, index, "post_effect_color");
@@ -470,6 +482,13 @@ ContentFeatures read_content_features(lua_State *L, int index)
 			ScriptApiNode::es_ContentParamType, CPT_NONE);
 	f.param_type_2 = (ContentParamType2)getenumfield(L, index, "paramtype2",
 			ScriptApiNode::es_ContentParamType2, CPT2_NONE);
+
+	if (f.palette_name != "" &&
+			!(f.param_type_2 == CPT2_COLOR ||
+			f.param_type_2 == CPT2_COLORED_FACEDIR ||
+			f.param_type_2 == CPT2_COLORED_WALLMOUNTED))
+		warningstream << "Node " << f.name.c_str()
+			<< " has a palette, but not a suitable paramtype2." << std::endl;
 
 	// Warn about some deprecated fields
 	warn_if_field_exists(L, index, "wall_mounted",
@@ -776,7 +795,7 @@ bool string_to_enum(const EnumString *spec, int &result,
 }
 
 /******************************************************************************/
-ItemStack read_item(lua_State* L, int index,Server* srv)
+ItemStack read_item(lua_State* L, int index, IItemDefManager *idef)
 {
 	if(index < 0)
 		index = lua_gettop(L) + 1 + index;
@@ -795,7 +814,6 @@ ItemStack read_item(lua_State* L, int index,Server* srv)
 	{
 		// Convert from itemstring
 		std::string itemstring = lua_tostring(L, index);
-		IItemDefManager *idef = srv->idef();
 		try
 		{
 			ItemStack item;
@@ -812,15 +830,34 @@ ItemStack read_item(lua_State* L, int index,Server* srv)
 	else if(lua_istable(L, index))
 	{
 		// Convert from table
-		IItemDefManager *idef = srv->idef();
 		std::string name = getstringfield_default(L, index, "name", "");
 		int count = getintfield_default(L, index, "count", 1);
 		int wear = getintfield_default(L, index, "wear", 0);
-		std::string metadata = getstringfield_default(L, index, "metadata", "");
-		return ItemStack(name, count, wear, metadata, idef);
-	}
-	else
-	{
+
+		ItemStack istack(name, count, wear, idef);
+
+		// BACKWARDS COMPATIBLITY
+		std::string value = getstringfield_default(L, index, "metadata", "");
+		istack.metadata.setString("", value);
+
+		// Get meta
+		lua_getfield(L, index, "meta");
+		int fieldstable = lua_gettop(L);
+		if (lua_istable(L, fieldstable)) {
+			lua_pushnil(L);
+			while (lua_next(L, fieldstable) != 0) {
+				// key at index -2 and value at index -1
+				std::string key = lua_tostring(L, -2);
+				size_t value_len;
+				const char *value_cs = lua_tolstring(L, -1, &value_len);
+				std::string value(value_cs, value_len);
+				istack.metadata.setString(key, value);
+				lua_pop(L, 1); // removes value, keeps key for next iteration
+			}
+		}
+
+		return istack;
+	} else {
 		throw LuaError("Expecting itemstack, itemstring, table or nil");
 	}
 }
@@ -912,6 +949,41 @@ void read_inventory_list(lua_State *L, int tableindex,
 		invlist->deleteItem(index);
 		index++;
 	}
+}
+
+/******************************************************************************/
+struct TileAnimationParams read_animation_definition(lua_State *L, int index)
+{
+	if(index < 0)
+		index = lua_gettop(L) + 1 + index;
+
+	struct TileAnimationParams anim;
+	anim.type = TAT_NONE;
+	if (!lua_istable(L, index))
+		return anim;
+
+	anim.type = (TileAnimationType)
+		getenumfield(L, index, "type", es_TileAnimationType,
+		TAT_NONE);
+	if (anim.type == TAT_VERTICAL_FRAMES) {
+		// {type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0}
+		anim.vertical_frames.aspect_w =
+			getintfield_default(L, index, "aspect_w", 16);
+		anim.vertical_frames.aspect_h =
+			getintfield_default(L, index, "aspect_h", 16);
+		anim.vertical_frames.length =
+			getfloatfield_default(L, index, "length", 1.0);
+	} else if (anim.type == TAT_SHEET_2D) {
+		// {type="sheet_2d", frames_w=5, frames_h=3, frame_length=0.5}
+		getintfield(L, index, "frames_w",
+			anim.sheet_2d.frames_w);
+		getintfield(L, index, "frames_h",
+			anim.sheet_2d.frames_h);
+		getfloatfield(L, index, "frame_length",
+			anim.sheet_2d.frame_length);
+	}
+
+	return anim;
 }
 
 /******************************************************************************/
@@ -1124,7 +1196,7 @@ std::vector<ItemStack> read_items(lua_State *L, int index, Server *srv)
 		if (items.size() < (u32) key) {
 			items.resize(key);
 		}
-		items[key - 1] = read_item(L, -1, srv);
+		items[key - 1] = read_item(L, -1, srv->idef());
 		lua_pop(L, 1);
 	}
 	return items;

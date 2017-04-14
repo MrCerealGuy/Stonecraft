@@ -19,12 +19,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "remoteplayer.h"
+#include <json/json.h>
 #include "content_sao.h"
 #include "filesys.h"
 #include "gamedef.h"
 #include "porting.h"  // strlcpy
+#include "server.h"
 #include "settings.h"
-
 
 /*
 	RemotePlayer
@@ -112,8 +113,22 @@ void RemotePlayer::save(std::string savedir, IGameDef *gamedef)
 	}
 
 	infostream << "Didn't find free file for player " << m_name << std::endl;
-	return;
 }
+
+void RemotePlayer::serializeExtraAttributes(std::string &output)
+{
+	assert(m_sao);
+	Json::Value json_root;
+	const PlayerAttributes &attrs = m_sao->getExtendedAttributes();
+	for (PlayerAttributes::const_iterator it = attrs.begin(); it != attrs.end(); ++it) {
+		json_root[(*it).first] = (*it).second;
+	}
+
+	Json::FastWriter writer;
+	output = writer.write(json_root);
+	m_sao->setExtendedAttributeModified(false);
+}
+
 
 void RemotePlayer::deSerialize(std::istream &is, const std::string &playername,
 		PlayerSAO *sao)
@@ -126,7 +141,7 @@ void RemotePlayer::deSerialize(std::istream &is, const std::string &playername,
 
 	m_dirty = true;
 	//args.getS32("version"); // Version field value not used
-	std::string name = args.get("name");
+	const std::string &name = args.get("name");
 	strlcpy(m_name, name.c_str(), PLAYERNAME_SIZE);
 
 	if (sao) {
@@ -148,7 +163,21 @@ void RemotePlayer::deSerialize(std::istream &is, const std::string &playername,
 		} catch (SettingNotFoundException &e) {}
 
 		try {
-			sao->setBreath(args.getS32("breath"));
+			sao->setBreath(args.getS32("breath"), false);
+		} catch (SettingNotFoundException &e) {}
+
+		try {
+			const std::string &extended_attributes = args.get("extended_attributes");
+			Json::Reader reader;
+			Json::Value attr_root;
+			reader.parse(extended_attributes, attr_root);
+
+			const Json::Value::Members attr_list = attr_root.getMemberNames();
+			for (Json::Value::Members::const_iterator it = attr_list.begin();
+					it != attr_list.end(); ++it) {
+				Json::Value attr_value = attr_root[*it];
+				sao->setExtendedAttribute(*it, attr_value.asString());
+			}
 		} catch (SettingNotFoundException &e) {}
 	}
 
@@ -175,7 +204,6 @@ void RemotePlayer::serialize(std::ostream &os)
 	Settings args;
 	args.setS32("version", 1);
 	args.set("name", m_name);
-	//args.set("password", m_password);
 
 	// This should not happen
 	assert(m_sao);
@@ -184,6 +212,10 @@ void RemotePlayer::serialize(std::ostream &os)
 	args.setFloat("pitch", m_sao->getPitch());
 	args.setFloat("yaw", m_sao->getYaw());
 	args.setS32("breath", m_sao->getBreath());
+
+	std::string extended_attrs = "";
+	serializeExtraAttributes(extended_attrs);
+	args.set("extended_attributes", extended_attrs);
 
 	args.writeLines(os);
 
