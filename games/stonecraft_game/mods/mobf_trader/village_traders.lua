@@ -191,7 +191,11 @@ mob_village_traders.choose_trader_pos = function(pos, minp, maxp, data, param2_d
 				end
 
 				-- check if this position is really suitable? traders standing on the roof are a bit odd
-				local def = minetest.registered_nodes[ minetest.get_name_from_content_id( data[ a:index( pt.x, pt.y-1, pt.z)])];
+				local node_id = data[ a:index( pt.x, pt.y-1, pt.z)];
+				local def = {};
+				if( node_id and minetest.get_name_from_content_id( node_id )) then
+					def = minetest.registered_nodes[ minetest.get_name_from_content_id( node_id)];
+				end
 				if( not(def) or not(def.drawtype) or def.drawtype=="nodebox" or def.drawtype=="mesh" or def.name=='air') then
 					found = false;
 				elseif( def and def.name ) then

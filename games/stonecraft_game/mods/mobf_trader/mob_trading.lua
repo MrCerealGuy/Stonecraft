@@ -468,9 +468,11 @@ mob_trading.show_trader_formspec_item = function( offset_x, offset_y, text_offse
 	local anz   = stack:get_count();
 	local name  = stack:get_name();
 	local label = '';
+	local label_amount = '';
+
 	-- show the label with the amount of item showed only if more than one is sold and the button is large enough
 	if( anz > 1 and size>0.7) then
-		label = 'label['..(offset_x+0.5*size)..','..(offset_y+0.4*size)..';'..tostring( anz )..'x]';
+		label_amount = '\n\n\t\t'..tostring( anz )..'x';
 	else
 		label = '';
 	end
@@ -481,16 +483,14 @@ mob_trading.show_trader_formspec_item = function( offset_x, offset_y, text_offse
 			      'mobf_trader_money.png;'..
 			      prefix..'_'..tostring( nr )..';;;]'..
 			      label,
-			 error_msg = '',
 			 anz_avail = 0 };
 	end
 
 	-- do not show unknown blocks
 	if( not( minetest.registered_items[ name ] )) then
-		return { text='', error_msg='', anz_avail=0};
+		return { text='', anz_avail=0};
 	end
 
-	local error_msg = '';
 	local anz_avail = 0;
 
 	if( counted_inv and self and self.trader_inv) then
@@ -502,12 +502,10 @@ mob_trading.show_trader_formspec_item = function( offset_x, offset_y, text_offse
 			     and self.trader_limit.sell_if_more[ name ] 
 		             -- ...or less than what the trader is supposed to keep as a reserve
 			     and self.trader_limit.sell_if_more[ name ] > (counted_inv[name]-anz) ))) then 
-			error_msg = 'label['..(text_offset_x+0.05)..','..(text_offset_y-0.05)..';SOLD]'..
-			            'label['..(text_offset_x+0.10)..','..(text_offset_y+0.15)..';OUT]';
+			label_amount = "SOLD\nOUT";
 			anz_avail = 0;
 
 		elseif( is_offer ) then
-			error_msg = '';
 			-- how many more of these items are on sale?
 		        if (     self.trader_limit 
                              and self.trader_limit.sell_if_more
@@ -519,9 +517,7 @@ mob_trading.show_trader_formspec_item = function( offset_x, offset_y, text_offse
 
 		-- is there enough free space?
 		elseif( not(is_offer) and not( self.trader_inv:room_for_item( 'main', stack ))) then
-			error_msg = 'label['..(text_offset_x+0.30)..','..(text_offset_y-0.25)..';NO]'..
-			            'label['..(text_offset_x+0.10)..','..(text_offset_y-0.05)..';SPACE]'..
-			            'label['..(text_offset_x+0.15)..','..(text_offset_y+0.15)..';LEFT]';
+			label_amount = "NO\nSPACE\nLEFT";
 
 		-- upper storage limit reached
 		elseif( not(is_offer)
@@ -531,18 +527,16 @@ mob_trading.show_trader_formspec_item = function( offset_x, offset_y, text_offse
 		        -- only buy up to buy_if_less items of this kind
 			and self.trader_limit.buy_if_less[ name ] < (counted_inv[name]+anz)) then 
 
-			error_msg = 'label['..(text_offset_x     )..','..(text_offset_y-0.05)..';NO MORE]'..
-			            'label['..(text_offset_x+0.05)..','..(text_offset_y+0.15)..';WANTED]';
+			label_amount = "NO MORE\nWANTED";
 		end
 	end
 
 	return { text='item_image_button['..offset_x..','..offset_y..';'..size..','..size..';'..
 		      ( name or '?')..';'..
-		      prefix..'_'..tostring( nr )..';]'..
+		      prefix..'_'..tostring( nr )..';'..label_amount..']'..
 		      -- SOLD OUT etc. have to be seperate labels instead of labels of the item_image_buttons because
 		      -- the item_image_buttons can't handle multiple lines of text
 		      label,
-		 error_msg = error_msg,
 		 anz_avail = anz_avail };
 end
 
@@ -581,10 +575,6 @@ mob_trading.show_trader_formspec_item_list = function( offset_x, offset_y, stack
 					offset_x+error_msg_offset, offset_y+error_msg_offset,
 					stack_desc[i], nr, prefix, quarter_button_size, counted_inv, is_offer, self );
 			formspec = formspec..res.text;
-			-- make sure the error_msg (i.e. 'SOLD OUT') is printed last - and not covered by other images
-			if( res.error_msg ~= '' ) then
-				error_msg = res.error_msg;
-			end
 			-- the item of which the least amount is available determines how many packages can be sold
 			if( res.anz_avail < anz_avail ) then
 				anz_avail = res.anz_avail;
@@ -603,7 +593,7 @@ mob_trading.show_trader_formspec_item_list = function( offset_x, offset_y, stack
 		if( stretch_x > 0.7 and is_offer and anz_avail>0) then
 			formspec = formspec..'label[9.0,'..(offset_y+0.75)..';Left: '..tostring(anz_avail)..']';
 		end
-		return formspec..error_msg;
+		return formspec;
 	else
 
 		-- put the only image we have to display in a central position
@@ -616,7 +606,7 @@ mob_trading.show_trader_formspec_item_list = function( offset_x, offset_y, stack
 		if( stretch_x > 0.7 and is_offer and res.anz_avail>0) then
 			res.text = res.text..'label[9.0,'..(offset_y+0.25)..';Left: '..tostring(res.anz_avail)..']';
 		end
-		return res.text .. res.error_msg;
+		return res.text;
 	end
 end
 
