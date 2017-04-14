@@ -1,25 +1,22 @@
-Minetest 0.4 mod: carts
-=======================
-by PilzAdam
+Carts (formerly boost_cart)
+==========================
 
-License of source code:
------------------------
-WTFPL
+Carts, based almost entirely on the mod boost_cart [1], which
+itself is based on (and fully compatible with) the carts mod [2].
 
-License of media (textures, sounds and models):
------------------------------------------------
-CC-0
+The model was originally designed by stujones11 [3] (CC-0).
 
-Authors of media files:
------------------------
-kddekadenz:
-  cart_bottom.png
-  cart_side.png
-  cart_top.png
+Cart textures are based on original work from PixelBOX (WTFPL).
 
-Zeg9:
-  cart.x
-  cart.png
 
-rarkenin:
-  cart_rail_*.png
+[1] https://github.com/SmallJoker/boost_cart/
+[2] https://github.com/PilzAdam/carts/
+[3] https://github.com/stujones11/railcart/
+
+
+Features
+----------
+- A fast cart for your railway or roller coaster (up to 7 m/s!)
+- Boost and brake rails
+- Rail junction switching with the 'right-left' walking keys
+- Handbrake with the 'back' key

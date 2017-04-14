@@ -41,6 +41,8 @@ Copyright (C) 2010-2016:
   asl97
   KevDoy
   Mito551
+  GreenXenith
+  kaeza
 
 You are free to:
 Share — copy and redistribute the material in any medium or format.
@@ -144,6 +146,9 @@ Copyright (C) 2009 cmusounddesign
 Copyright (C) 2010 Tomlija
 Copyright (C) 2010 lsprice
 Copyright (C) 2014 sonictechtonic
+Copyright (C) 2015 yadronoff
+Copyright (C) 2007 HerbertBoland
+Copyright (C) 2006 AGFX
 
 You are free to:
 Share — copy and redistribute the material in any medium or format.

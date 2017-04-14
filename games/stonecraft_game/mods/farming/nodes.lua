@@ -22,6 +22,14 @@ minetest.override_item("default:dirt_with_dry_grass", {
 	}
 })
 
+minetest.override_item("default:dirt_with_rainforest_litter", {
+	soil = {
+		base = "default:dirt_with_rainforest_litter",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
+})
+
 minetest.register_node("farming:soil", {
 	description = "Soil",
 	tiles = {"default_dirt.png^farming_soil.png", "default_dirt.png"},
@@ -111,7 +119,7 @@ minetest.register_abm({
 		end
 		local nn_def = minetest.registered_nodes[nn.name] or nil
 		pos.y = pos.y - 1
-		
+
 		if nn_def and nn_def.walkable and minetest.get_item_group(nn.name, "plant") == 0 then
 			minetest.set_node(pos, {name = base})
 			return
@@ -133,7 +141,7 @@ minetest.register_abm({
 					if minetest.get_item_group(nn.name, "plant") == 0 and minetest.get_item_group(nn.name, "seed") == 0 then
 						minetest.set_node(pos, {name = base})
 					end
-					
+
 				-- if its wet turn it back into dry soil
 				elseif wet_lvl == 1 then
 					minetest.set_node(pos, {name = dry})
@@ -144,7 +152,7 @@ minetest.register_abm({
 })
 
 
-for i = 1, 5 do		
+for i = 1, 5 do
 	minetest.override_item("default:grass_"..i, {drop = {
 		max_items = 1,
 		items = {
@@ -153,7 +161,7 @@ for i = 1, 5 do
 		}
 	}})
 end
-	
+
 minetest.override_item("default:junglegrass", {drop = {
 	max_items = 1,
 	items = {

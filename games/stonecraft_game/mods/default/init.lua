@@ -7,7 +7,6 @@
 default = {}
 
 default.LIGHT_MAX = 14
-SAVEDIR = "LOTT" -- lott* mobs
 
 -- GUI related stuff
 default.gui_bg = "bgcolor[#080808BB;true]"
@@ -42,6 +41,7 @@ dofile(default_path.."/functions.lua")
 dofile(default_path.."/trees.lua")
 dofile(default_path.."/nodes.lua")
 dofile(default_path.."/furnace.lua")
+dofile(default_path.."/torch.lua")
 dofile(default_path.."/tools.lua")
 dofile(default_path.."/item_entity.lua")
 dofile(default_path.."/craftitems.lua")

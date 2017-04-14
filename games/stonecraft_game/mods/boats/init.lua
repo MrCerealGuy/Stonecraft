@@ -79,7 +79,7 @@ function boat.on_rightclick(self, clicker)
 		minetest.after(0.2, function()
 			default.player_set_animation(clicker, "sit" , 30)
 		end)
-		self.object:setyaw(clicker:get_look_horizontal() - math.pi / 2)
+		clicker:set_look_horizontal(self.object:getyaw())
 	end
 end
 
@@ -109,18 +109,20 @@ function boat.on_punch(self, puncher)
 	end
 	if not self.driver then
 		self.removed = true
+		local inv = puncher:get_inventory()
+		if not (creative and creative.is_enabled_for
+				and creative.is_enabled_for(puncher:get_player_name()))
+				or not inv:contains_item("main", "boats:boat") then
+			local leftover = inv:add_item("main", "boats:boat")
+			-- if no room in inventory add a replacement boat to the world
+			if not leftover:is_empty() then
+				minetest.add_item(self.object:getpos(), leftover)
+			end
+		end
 		-- delay remove to ensure player is detached
 		minetest.after(0.1, function()
 			self.object:remove()
 		end)
-		if not minetest.setting_getbool("creative_mode") then
-			local inv = puncher:get_inventory()
-			if inv:room_for_item("main", "boats:boat") then
-				inv:add_item("main", "boats:boat")
-			else
-				minetest.add_item(self.object:getpos(), "boats:boat")
-			end
-		end
 	end
 end
 
@@ -224,6 +226,15 @@ minetest.register_craftitem("boats:boat", {
 	groups = {flammable = 2},
 
 	on_place = function(itemstack, placer, pointed_thing)
+		local under = pointed_thing.under
+		local node = minetest.get_node(under)
+		local udef = minetest.registered_nodes[node.name]
+		if udef and udef.on_rightclick and
+				not (placer and placer:get_player_control().sneak) then
+			return udef.on_rightclick(under, node, placer, itemstack,
+				pointed_thing) or itemstack
+		end
+
 		if pointed_thing.type ~= "node" then
 			return itemstack
 		end
@@ -231,9 +242,13 @@ minetest.register_craftitem("boats:boat", {
 			return itemstack
 		end
 		pointed_thing.under.y = pointed_thing.under.y + 0.5
-		minetest.add_entity(pointed_thing.under, "boats:boat")
-		if not minetest.setting_getbool("creative_mode") then
-			itemstack:take_item()
+		boat = minetest.add_entity(pointed_thing.under, "boats:boat")
+		if boat then
+			boat:setyaw(placer:get_look_horizontal())
+			if not (creative and creative.is_enabled_for
+					and creative.is_enabled_for(placer:get_player_name())) then
+				itemstack:take_item()
+			end
 		end
 		return itemstack
 	end,
