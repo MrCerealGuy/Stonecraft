@@ -345,7 +345,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("chunksize", "5");
 	settings->setDefault("mg_flags", "dungeons");
 	settings->setDefault("fixed_map_seed", "");
-	settings->setDefault("max_block_generate_distance", "7");
+	settings->setDefault("max_block_generate_distance", "1");
 	settings->setDefault("enable_mapgen_debug_info", "false");
 
 	// Server list announcing
@@ -371,7 +371,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("max_simultaneous_block_sends_per_client", "3");
 	settings->setDefault("emergequeue_limit_diskonly", "8");
 	settings->setDefault("emergequeue_limit_generate", "8");
-	settings->setDefault("max_block_generate_distance", "3");
+	settings->setDefault("max_block_generate_distance", "1");
 	settings->setDefault("enable_3d_clouds", "false");
 	settings->setDefault("fps_max", "30");
 	settings->setDefault("pause_fps_max", "10");
