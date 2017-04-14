@@ -398,7 +398,8 @@ int ModApiUtil::l_get_dir_list(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 	const char *path = luaL_checkstring(L, 1);
-	short is_dir = lua_isboolean(L, 2) ? lua_toboolean(L, 2) : -1;
+	bool list_all = !lua_isboolean(L, 2); // if its not a boolean list all
+	bool list_dirs = lua_toboolean(L, 2); // true: list dirs, false: list files
 
 	CHECK_SECURE_PATH(L, path, false);
 
@@ -408,7 +409,7 @@ int ModApiUtil::l_get_dir_list(lua_State *L)
 	lua_newtable(L);
 
 	for (size_t i = 0; i < list.size(); i++) {
-		if (is_dir == -1 || is_dir == list[i].dir) {
+		if (list_all || list_dirs == list[i].dir) {
 			lua_pushstring(L, list[i].name.c_str());
 			lua_rawseti(L, -2, ++index);
 		}
@@ -518,6 +519,28 @@ void ModApiUtil::Initialize(lua_State *L, int top)
 	API_FCT(get_dir_list);
 
 	API_FCT(request_insecure_environment);
+
+	API_FCT(encode_base64);
+	API_FCT(decode_base64);
+
+	API_FCT(get_version);
+}
+
+void ModApiUtil::InitializeClient(lua_State *L, int top)
+{
+	API_FCT(log);
+
+	API_FCT(get_us_time);
+
+	API_FCT(parse_json);
+	API_FCT(write_json);
+
+	API_FCT(is_yes);
+
+	API_FCT(get_builtin_path);
+
+	API_FCT(compress);
+	API_FCT(decompress);
 
 	API_FCT(encode_base64);
 	API_FCT(decode_base64);

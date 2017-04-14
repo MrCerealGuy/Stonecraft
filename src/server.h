@@ -29,9 +29,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mods.h"
 #include "inventorymanager.h"
 #include "subgame.h"
+#include "tileanimation.h" // struct TileAnimationParams
 #include "util/numeric.h"
 #include "util/thread.h"
-#include "environment.h"
+#include "util/basic_macros.h"
+#include "serverenvironment.h"
 #include "chat_interface.h"
 #include "clientiface.h"
 #include "remoteplayer.h"
@@ -40,8 +42,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <list>
 #include <map>
 #include <vector>
-
-#define PP(x) "("<<(x).X<<","<<(x).Y<<","<<(x).Z<<")"
 
 class IWritableItemDefManager;
 class IWritableNodeDefManager;
@@ -53,7 +53,7 @@ class PlayerSAO;
 class IRollbackManager;
 struct RollbackAction;
 class EmergeManager;
-class GameScripting;
+class ServerScripting;
 class ServerEnvironment;
 struct SimpleSoundSpec;
 class ServerThread;
@@ -148,6 +148,7 @@ public:
 		const SubgameSpec &gamespec,
 		bool simple_singleplayer_mode,
 		bool ipv6,
+		bool dedicated,
 		ChatInterface *iface = NULL
 	);
 	~Server();
@@ -181,7 +182,6 @@ public:
 	void handleCommand_InventoryAction(NetworkPacket* pkt);
 	void handleCommand_ChatMessage(NetworkPacket* pkt);
 	void handleCommand_Damage(NetworkPacket* pkt);
-	void handleCommand_Breath(NetworkPacket* pkt);
 	void handleCommand_Password(NetworkPacket* pkt);
 	void handleCommand_PlayerItem(NetworkPacket* pkt);
 	void handleCommand_Respawn(NetworkPacket* pkt);
@@ -254,7 +254,8 @@ public:
 		v3f pos, v3f velocity, v3f acceleration,
 		float expirationtime, float size,
 		bool collisiondetection, bool collision_removal,
-		bool vertical, const std::string &texture);
+		bool vertical, const std::string &texture,
+		const struct TileAnimationParams &animation, u8 glow);
 
 	u32 addParticleSpawner(u16 amount, float spawntime,
 		v3f minpos, v3f maxpos,
@@ -265,7 +266,8 @@ public:
 		bool collisiondetection, bool collision_removal,
 		ServerActiveObject *attached,
 		bool vertical, const std::string &texture,
-		const std::string &playername);
+		const std::string &playername, const struct TileAnimationParams &animation,
+		u8 glow);
 
 	void deleteParticleSpawner(const std::string &playername, u32 id);
 
@@ -273,7 +275,7 @@ public:
 	Inventory* createDetachedInventory(const std::string &name, const std::string &player="");
 
 	// Envlock and conlock should be locked when using scriptapi
-	GameScripting *getScriptIface(){ return m_script; }
+	ServerScripting *getScriptIface(){ return m_script; }
 
 	// actions: time-reversed list
 	// Return value: success/failure
@@ -285,24 +287,21 @@ public:
 	virtual IItemDefManager* getItemDefManager();
 	virtual INodeDefManager* getNodeDefManager();
 	virtual ICraftDefManager* getCraftDefManager();
-	virtual ITextureSource* getTextureSource();
-	virtual IShaderSource* getShaderSource();
 	virtual u16 allocateUnknownNodeId(const std::string &name);
-	virtual ISoundManager* getSoundManager();
 	virtual MtEventManager* getEventManager();
-	virtual scene::ISceneManager* getSceneManager();
-	virtual IRollbackManager *getRollbackManager() { return m_rollback; }
+	IRollbackManager *getRollbackManager() { return m_rollback; }
 	virtual EmergeManager *getEmergeManager() { return m_emerge; }
 
 	IWritableItemDefManager* getWritableItemDefManager();
 	IWritableNodeDefManager* getWritableNodeDefManager();
 	IWritableCraftDefManager* getWritableCraftDefManager();
 
-	const std::vector<ModSpec> &getMods() const { return m_mods; }
-	const ModSpec* getModSpec(const std::string &modname) const;
+	virtual const std::vector<ModSpec> &getMods() const { return m_mods; }
+	virtual const ModSpec* getModSpec(const std::string &modname) const;
 	void getModNames(std::vector<std::string> &modlist);
 	std::string getBuiltinLuaPath();
-	inline std::string getWorldPath() const { return m_path_world; }
+	virtual std::string getWorldPath() const { return m_path_world; }
+	virtual std::string getModStoragePath() const;
 
 	inline bool isSingleplayer()
 			{ return m_simple_singleplayer_mode; }
@@ -359,9 +358,12 @@ public:
 	void printToConsoleOnly(const std::string &text);
 
 	void SendPlayerHPOrDie(PlayerSAO *player);
-	void SendPlayerBreath(u16 peer_id);
+	void SendPlayerBreath(PlayerSAO *sao);
 	void SendInventory(PlayerSAO* playerSAO);
 	void SendMovePlayer(u16 peer_id);
+
+	virtual bool registerModStorage(ModMetadata *storage);
+	virtual void unregisterModStorage(const std::string &name);
 
 	// Bind address
 	Address m_bind_addr;
@@ -434,7 +436,8 @@ private:
 	void sendDetachedInventories(u16 peer_id);
 
 	// Adds a ParticleSpawner on peer with peer_id (PEER_ID_INEXISTENT == all)
-	void SendAddParticleSpawner(u16 peer_id, u16 amount, float spawntime,
+	void SendAddParticleSpawner(u16 peer_id, u16 protocol_version,
+		u16 amount, float spawntime,
 		v3f minpos, v3f maxpos,
 		v3f minvel, v3f maxvel,
 		v3f minacc, v3f maxacc,
@@ -442,16 +445,18 @@ private:
 		float minsize, float maxsize,
 		bool collisiondetection, bool collision_removal,
 		u16 attached_id,
-		bool vertical, const std::string &texture, u32 id);
+		bool vertical, const std::string &texture, u32 id,
+		const struct TileAnimationParams &animation, u8 glow);
 
 	void SendDeleteParticleSpawner(u16 peer_id, u32 id);
 
 	// Spawns particle on peer with peer_id (PEER_ID_INEXISTENT == all)
-	void SendSpawnParticle(u16 peer_id,
+	void SendSpawnParticle(u16 peer_id, u16 protocol_version,
 		v3f pos, v3f velocity, v3f acceleration,
 		float expirationtime, float size,
 		bool collisiondetection, bool collision_removal,
-		bool vertical, const std::string &texture);
+		bool vertical, const std::string &texture,
+		const struct TileAnimationParams &animation, u8 glow);
 
 	u32 SendActiveObjectRemoveAdd(u16 peer_id, const std::string &datas);
 	void SendActiveObjectMessages(u16 peer_id, const std::string &datas, bool reliable = true);
@@ -506,6 +511,8 @@ private:
 	// functionality
 	bool m_simple_singleplayer_mode;
 	u16 m_max_chatmessage_length;
+	// For "dedicated" server list flag
+	bool m_dedicated;
 
 	// Thread can set; step() will throw as ServerError
 	MutexedVariable<std::string> m_async_fatal_error;
@@ -536,7 +543,7 @@ private:
 
 	// Scripting
 	// Envlock and conlock should be locked when using Lua
-	GameScripting *m_script;
+	ServerScripting *m_script;
 
 	// Item definition manager
 	IWritableItemDefManager *m_itemdef;
@@ -576,7 +583,6 @@ private:
 	float m_time_of_day_send_timer;
 	// Uptime of server in seconds
 	MutexedVariable<double> m_uptime;
-
 	/*
 	 Client interface
 	 */
@@ -650,6 +656,9 @@ private:
 	std::map<std::string, Inventory*> m_detached_inventories;
 	// value = "" (visible to all players) or player name
 	std::map<std::string, std::string> m_detached_inventories_player;
+
+	UNORDERED_MAP<std::string, ModMetadata *> m_mod_storages;
+	float m_mod_storage_save_timer;
 
 	DISABLE_CLASS_COPY(Server);
 };
