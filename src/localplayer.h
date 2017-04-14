@@ -35,7 +35,7 @@ enum LocalPlayerAnimations {NO_ANIM, WALK_ANIM, DIG_ANIM, WD_ANIM};  // no local
 class LocalPlayer : public Player
 {
 public:
-	LocalPlayer(Client *gamedef, const char *name);
+	LocalPlayer(Client *client, const char *name);
 	virtual ~LocalPlayer();
 
 	ClientActiveObject *parent;
@@ -68,6 +68,7 @@ public:
 	void applyControl(float dtime);
 
 	v3s16 getStandingNodePos();
+	v3s16 getFootstepNodePos();
 
 	// Used to check if anything changed and prevent sending packets if not
 	v3f last_position;
@@ -105,10 +106,7 @@ public:
 	u16 getBreath() const { return m_breath; }
 	void setBreath(u16 breath) { m_breath = breath; }
 
-	v3s16 getLightPosition() const
-	{
-		return floatToInt(m_position + v3f(0,BS+BS/2,0), BS);
-	}
+	v3s16 getLightPosition() const;
 
 	void setYaw(f32 yaw)
 	{
@@ -131,25 +129,27 @@ public:
 
 	v3f getPosition() const { return m_position; }
 	v3f getEyePosition() const { return m_position + getEyeOffset(); }
-	v3f getEyeOffset() const
-	{
-		float eye_height = camera_barely_in_ceiling ? 1.5f : 1.625f;
-		return v3f(0, BS * eye_height, 0);
-	}
+	v3f getEyeOffset() const;
 private:
 	void accelerateHorizontal(const v3f &target_speed, const f32 max_increase);
 	void accelerateVertical(const v3f &target_speed, const f32 max_increase);
 
 	v3f m_position;
-	// This is used for determining the sneaking range
+
 	v3s16 m_sneak_node;
+	// Stores the top bounding box of m_sneak_node
+	aabb3f m_sneak_node_bb_top;
 	// Whether the player is allowed to sneak
 	bool m_sneak_node_exists;
-	// Whether recalculation of the sneak node is needed
+	// Whether recalculation of m_sneak_node and its top bbox is needed
 	bool m_need_to_get_new_sneak_node;
-	// Stores the max player uplift by m_sneak_node and is updated
-	// when m_need_to_get_new_sneak_node == true
-	f32 m_sneak_node_bb_ymax;
+	// Whether a "sneak ladder" structure is detected at the players pos
+	// see detectSneakLadder() in the .cpp for more info (always false if disabled)
+	bool m_sneak_ladder_detected;
+	// Whether a 2-node-up ledge is detected at the players pos,
+	// see detectLedge() in the .cpp for more info (always false if disabled).
+	bool m_ledge_detected;
+
 	// Node below player, used to determine whether it has been removed,
 	// and its old type
 	v3s16 m_old_node_below;
@@ -162,7 +162,7 @@ private:
 	aabb3f m_collisionbox;
 
 	GenericCAO* m_cao;
-	Client *m_gamedef;
+	Client *m_client;
 };
 
 #endif
