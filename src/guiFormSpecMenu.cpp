@@ -42,7 +42,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "filesys.h"
 #include "gettime.h"
 #include "gettext.h"
-#include "scripting_game.h"
+#include "serverscripting.h"
 #include "porting.h"
 #include "settings.h"
 #include "client.h"
@@ -81,13 +81,12 @@ static unsigned int font_line_height(gui::IGUIFont *font)
 GUIFormSpecMenu::GUIFormSpecMenu(irr::IrrlichtDevice* dev,
 		JoystickController *joystick,
 		gui::IGUIElement* parent, s32 id, IMenuManager *menumgr,
-		InventoryManager *invmgr, IGameDef *gamedef,
+		Client *client,
 		ISimpleTextureSource *tsrc, IFormSource* fsrc, TextDest* tdst,
-		Client* client, bool remap_dbl_click) :
+		bool remap_dbl_click) :
 	GUIModalMenu(dev->getGUIEnvironment(), parent, id, menumgr),
 	m_device(dev),
-	m_invmgr(invmgr),
-	m_gamedef(gamedef),
+	m_invmgr(client),
 	m_tsrc(tsrc),
 	m_client(client),
 	m_selected_item(NULL),
@@ -307,8 +306,8 @@ void GUIFormSpecMenu::parseContainerEnd(parserData* data)
 
 void GUIFormSpecMenu::parseList(parserData* data,std::string element)
 {
-	if (m_gamedef == 0) {
-		warningstream<<"invalid use of 'list' with m_gamedef==0"<<std::endl;
+	if (m_client == 0) {
+		warningstream<<"invalid use of 'list' with m_client==0"<<std::endl;
 		return;
 	}
 
@@ -362,8 +361,8 @@ void GUIFormSpecMenu::parseList(parserData* data,std::string element)
 
 void GUIFormSpecMenu::parseListRing(parserData* data, std::string element)
 {
-	if (m_gamedef == 0) {
-		errorstream << "WARNING: invalid use of 'listring' with m_gamedef==0" << std::endl;
+	if (m_client == 0) {
+		errorstream << "WARNING: invalid use of 'listring' with m_client==0" << std::endl;
 		return;
 	}
 
@@ -1486,8 +1485,8 @@ void GUIFormSpecMenu::parseTabHeader(parserData* data,std::string element)
 void GUIFormSpecMenu::parseItemImageButton(parserData* data,std::string element)
 {
 
-	if (m_gamedef == 0) {
-		warningstream << "invalid use of item_image_button with m_gamedef==0"
+	if (m_client == 0) {
+		warningstream << "invalid use of item_image_button with m_client==0"
 			<< std::endl;
 		return;
 	}
@@ -1521,7 +1520,7 @@ void GUIFormSpecMenu::parseItemImageButton(parserData* data,std::string element)
 		if(!data->explicit_size)
 			warningstream<<"invalid use of item_image_button without a size[] element"<<std::endl;
 
-		IItemDefManager *idef = m_gamedef->idef();
+		IItemDefManager *idef = m_client->idef();
 		ItemStack item;
 		item.deSerialize(item_name, idef);
 
@@ -1705,6 +1704,74 @@ bool GUIFormSpecMenu::parseSizeDirect(parserData* data, std::string element)
 	parseSize(data, description);
 
 	return true;
+}
+
+bool GUIFormSpecMenu::parsePositionDirect(parserData *data, const std::string &element)
+{
+	if (element.empty())
+		return false;
+
+	std::vector<std::string> parts = split(element, '[');
+
+	if (parts.size() != 2)
+		return false;
+
+	std::string type = trim(parts[0]);
+	std::string description = trim(parts[1]);
+
+	if (type != "position")
+		return false;
+
+	parsePosition(data, description);
+
+	return true;
+}
+
+void GUIFormSpecMenu::parsePosition(parserData *data, const std::string &element)
+{
+	std::vector<std::string> parts = split(element, ',');
+
+	if (parts.size() == 2) {
+		data->offset.X = stof(parts[0]);
+		data->offset.Y = stof(parts[1]);
+		return;
+	}
+
+	errorstream << "Invalid position element (" << parts.size() << "): '" << element << "'" << std::endl;
+}
+
+bool GUIFormSpecMenu::parseAnchorDirect(parserData *data, const std::string &element)
+{
+	if (element.empty())
+		return false;
+
+	std::vector<std::string> parts = split(element, '[');
+
+	if (parts.size() != 2)
+		return false;
+
+	std::string type = trim(parts[0]);
+	std::string description = trim(parts[1]);
+
+	if (type != "anchor")
+		return false;
+
+	parseAnchor(data, description);
+
+	return true;
+}
+
+void GUIFormSpecMenu::parseAnchor(parserData *data, const std::string &element)
+{
+	std::vector<std::string> parts = split(element, ',');
+
+	if (parts.size() == 2) {
+		data->anchor.X = stof(parts[0]);
+		data->anchor.Y = stof(parts[1]);
+		return;
+	}
+
+	errorstream << "Invalid anchor element (" << parts.size() << "): '" << element << "'" << std::endl;
 }
 
 void GUIFormSpecMenu::parseElement(parserData* data, std::string element)
@@ -1918,6 +1985,8 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 
 	mydata.size= v2s32(100,100);
 	mydata.screensize = screensize;
+	mydata.offset = v2f32(0.5f, 0.5f);
+	mydata.anchor = v2f32(0.5f, 0.5f);
 
 	// Base position of contents of form
 	mydata.basepos = getBasePos();
@@ -1983,6 +2052,21 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 			break;
 		}
 	}
+
+	/* "position" element is always after "size" element if it used */
+	for (; i< elements.size(); i++) {
+		if (!parsePositionDirect(&mydata, elements[i])) {
+			break;
+		}
+	}
+
+	/* "anchor" element is always after "position" (or  "size" element) if it used */
+	for (; i< elements.size(); i++) {
+		if (!parseAnchorDirect(&mydata, elements[i])) {
+			break;
+		}
+	}
+
 
 	if (mydata.explicit_size) {
 		// compute scaling for specified form size
@@ -2067,10 +2151,10 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 			padding.Y*2+spacing.Y*(mydata.invsize.Y-1.0)+imgsize.Y + m_btn_height*2.0/3.0
 		);
 		DesiredRect = mydata.rect = core::rect<s32>(
-				mydata.screensize.X/2 - mydata.size.X/2 + offset.X,
-				mydata.screensize.Y/2 - mydata.size.Y/2 + offset.Y,
-				mydata.screensize.X/2 + mydata.size.X/2 + offset.X,
-				mydata.screensize.Y/2 + mydata.size.Y/2 + offset.Y
+				(s32)((f32)mydata.screensize.X * mydata.offset.X) - (s32)(mydata.anchor.X * (f32)mydata.size.X) + offset.X,
+				(s32)((f32)mydata.screensize.Y * mydata.offset.Y) - (s32)(mydata.anchor.Y * (f32)mydata.size.Y) + offset.Y,
+				(s32)((f32)mydata.screensize.X * mydata.offset.X) + (s32)((1.0 - mydata.anchor.X) * (f32)mydata.size.X) + offset.X,
+				(s32)((f32)mydata.screensize.Y * mydata.offset.Y) + (s32)((1.0 - mydata.anchor.Y) * (f32)mydata.size.Y) + offset.Y
 		);
 	} else {
 		// Non-size[] form must consist only of text fields and
@@ -2079,10 +2163,10 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 		m_font = g_fontengine->getFont();
 		m_btn_height = font_line_height(m_font) * 0.875;
 		DesiredRect = core::rect<s32>(
-			mydata.screensize.X/2 - 580/2,
-			mydata.screensize.Y/2 - 300/2,
-			mydata.screensize.X/2 + 580/2,
-			mydata.screensize.Y/2 + 300/2
+			(s32)((f32)mydata.screensize.X * mydata.offset.X) - (s32)(mydata.anchor.X * 580.0),
+			(s32)((f32)mydata.screensize.Y * mydata.offset.Y) - (s32)(mydata.anchor.Y * 300.0),
+			(s32)((f32)mydata.screensize.X * mydata.offset.X) + (s32)((1.0 - mydata.anchor.X) * 580.0),
+			(s32)((f32)mydata.screensize.Y * mydata.offset.Y) + (s32)((1.0 - mydata.anchor.Y) * 300.0)
 		);
 	}
 	recalculateAbsolutePosition(false);
@@ -2297,14 +2381,22 @@ void GUIFormSpecMenu::drawList(const ListDrawSpec &s, int phase,
 			if(!item.empty())
 			{
 				drawItemStack(driver, m_font, item,
-					rect, &AbsoluteClippingRect, m_gamedef,
+					rect, &AbsoluteClippingRect, m_client,
 					rotation_kind);
 			}
 
 			// Draw tooltip
 			std::wstring tooltip_text = L"";
 			if (hovering && !m_selected_item) {
-				tooltip_text = utf8_to_wide(item.getDefinition(m_gamedef->idef()).description);
+				const std::string &desc = item.metadata.getString("description");
+				if (desc.empty())
+					tooltip_text =
+						utf8_to_wide(item.getDefinition(m_client->idef()).description);
+				else
+					tooltip_text = utf8_to_wide(desc);
+				// Show itemstring as fallback for easier debugging
+				if (!item.name.empty() && tooltip_text.empty())
+					tooltip_text = utf8_to_wide(item.name);
 			}
 			if (tooltip_text != L"") {
 				std::vector<std::wstring> tt_rows = str_split(tooltip_text, L'\n');
@@ -2349,7 +2441,7 @@ void GUIFormSpecMenu::drawSelectedItem()
 	if (!m_selected_item) {
 		drawItemStack(driver, m_font, ItemStack(),
 			core::rect<s32>(v2s32(0, 0), v2s32(0, 0)),
-			NULL, m_gamedef, IT_ROT_DRAGGED);
+			NULL, m_client, IT_ROT_DRAGGED);
 		return;
 	}
 
@@ -2363,7 +2455,7 @@ void GUIFormSpecMenu::drawSelectedItem()
 	core::rect<s32> imgrect(0,0,imgsize.X,imgsize.Y);
 	core::rect<s32> rect = imgrect + (m_pointer - imgrect.getCenter());
 	rect.constrainTo(driver->getViewPort());
-	drawItemStack(driver, m_font, stack, rect, NULL, m_gamedef, IT_ROT_DRAGGED);
+	drawItemStack(driver, m_font, stack, rect, NULL, m_client, IT_ROT_DRAGGED);
 }
 
 void GUIFormSpecMenu::drawMenu()
@@ -2488,11 +2580,11 @@ void GUIFormSpecMenu::drawMenu()
 	*/
 	for(u32 i=0; i<m_itemimages.size(); i++)
 	{
-		if (m_gamedef == 0)
+		if (m_client == 0)
 			break;
 
 		const ImageDrawSpec &spec = m_itemimages[i];
-		IItemDefManager *idef = m_gamedef->idef();
+		IItemDefManager *idef = m_client->idef();
 		ItemStack item;
 		item.deSerialize(spec.item_name, idef);
 		core::rect<s32> imgrect(0, 0, spec.geom.X, spec.geom.Y);
@@ -2509,7 +2601,7 @@ void GUIFormSpecMenu::drawMenu()
 #endif
 		}
 		drawItemStack(driver, m_font, item, rect, &AbsoluteClippingRect,
-				m_gamedef, IT_ROT_NONE);
+				m_client, IT_ROT_NONE);
 	}
 
 	/*
@@ -2527,7 +2619,7 @@ void GUIFormSpecMenu::drawMenu()
 	if (!item_hovered) {
 		drawItemStack(driver, m_font, ItemStack(),
 			core::rect<s32>(v2s32(0, 0), v2s32(0, 0)),
-			NULL, m_gamedef, IT_ROT_HOVERED);
+			NULL, m_client, IT_ROT_HOVERED);
 	}
 
 /* TODO find way to show tooltips on touchscreen */
@@ -3470,7 +3562,7 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
 
 			// Check how many items can be moved
 			move_amount = stack_from.count = MYMIN(move_amount, stack_from.count);
-			ItemStack leftover = stack_to.addItem(stack_from, m_gamedef->idef());
+			ItemStack leftover = stack_to.addItem(stack_from, m_client->idef());
 			// If source stack cannot be added to destination stack at all,
 			// they are swapped
 			if ((leftover.count == stack_from.count) &&

@@ -25,7 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <stack>
 
 #include "irrlichttypes_extrabloated.h"
-#include "inventory.h"
 #include "inventorymanager.h"
 #include "modalMenu.h"
 #include "guiTable.h"
@@ -34,7 +33,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/string.h"
 #include "util/enriched_string.h"
 
-class IGameDef;
 class InventoryManager;
 class ISimpleTextureSource;
 class Client;
@@ -289,12 +287,10 @@ public:
 			JoystickController *joystick,
 			gui::IGUIElement* parent, s32 id,
 			IMenuManager *menumgr,
-			InventoryManager *invmgr,
-			IGameDef *gamedef,
+			Client *client,
 			ISimpleTextureSource *tsrc,
 			IFormSource* fs_src,
 			TextDest* txt_dst,
-			Client* client,
 			bool remap_dbl_click = true);
 
 	~GUIFormSpecMenu();
@@ -339,7 +335,7 @@ public:
 	void removeChildren();
 	void setInitialFocus();
 
-	void setFocus(std::string &elementname)
+	void setFocus(const std::string &elementname)
 	{
 		m_focused_element = elementname;
 	}
@@ -384,7 +380,6 @@ protected:
 
 	irr::IrrlichtDevice* m_device;
 	InventoryManager *m_invmgr;
-	IGameDef *m_gamedef;
 	ISimpleTextureSource *m_tsrc;
 	Client *m_client;
 
@@ -452,6 +447,8 @@ private:
 		bool explicit_size;
 		v2f invsize;
 		v2s32 size;
+		v2f32 offset;
+		v2f32 anchor;
 		core::rect<s32> rect;
 		v2s32 basepos;
 		v2u32 screensize;
@@ -507,6 +504,10 @@ private:
 	bool parseVersionDirect(std::string data);
 	bool parseSizeDirect(parserData* data, std::string element);
 	void parseScrollBar(parserData* data, std::string element);
+	bool parsePositionDirect(parserData *data, const std::string &element);
+	void parsePosition(parserData *data, const std::string &element);
+	bool parseAnchorDirect(parserData *data, const std::string &element);
+	void parseAnchor(parserData *data, const std::string &element);
 
 	void tryClose();
 
@@ -547,7 +548,7 @@ private:
 class FormspecFormSource: public IFormSource
 {
 public:
-	FormspecFormSource(std::string formspec)
+	FormspecFormSource(const std::string &formspec)
 	{
 		m_formspec = formspec;
 	}
@@ -555,7 +556,7 @@ public:
 	~FormspecFormSource()
 	{}
 
-	void setForm(std::string formspec) {
+	void setForm(const std::string &formspec) {
 		m_formspec = FORMSPEC_VERSION_STRING + formspec;
 	}
 
