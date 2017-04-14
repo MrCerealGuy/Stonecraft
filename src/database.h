@@ -20,14 +20,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef DATABASE_HEADER
 #define DATABASE_HEADER
 
-#include <vector>
 #include <string>
+#include <vector>
 #include "irr_v3d.h"
 #include "irrlichttypes.h"
-
-#ifndef PP
-	#define PP(x) "("<<(x).X<<","<<(x).Y<<","<<(x).Z<<")"
-#endif
+#include "util/basic_macros.h"
 
 class Database
 {
@@ -50,4 +47,3 @@ public:
 };
 
 #endif
-
