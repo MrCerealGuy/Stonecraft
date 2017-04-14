@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define L_ENV_H_
 
 #include "lua_api/l_base.h"
-#include "environment.h"
+#include "serverenvironment.h"
 
 class ModApiEnvMod : public ModApiBase {
 private:
@@ -173,6 +173,7 @@ private:
 
 public:
 	static void Initialize(lua_State *L, int top);
+	static void InitializeClient(lua_State *L, int top);
 
 	static struct EnumString es_ClearObjectsMode[];
 };
@@ -242,7 +243,7 @@ public:
 };
 
 struct ScriptCallbackState {
-	GameScripting *script;
+	ServerScripting *script;
 	int callback_ref;
 	int args_ref;
 	unsigned int refcount;

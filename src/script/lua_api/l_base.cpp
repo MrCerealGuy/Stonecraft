@@ -37,6 +37,18 @@ Server *ModApiBase::getServer(lua_State *L)
 	return getScriptApiBase(L)->getServer();
 }
 
+#ifndef SERVER
+Client *ModApiBase::getClient(lua_State *L)
+{
+	return getScriptApiBase(L)->getClient();
+}
+#endif
+
+IGameDef *ModApiBase::getGameDef(lua_State *L)
+{
+	return getScriptApiBase(L)->getGameDef();
+}
+
 Environment *ModApiBase::getEnv(lua_State *L)
 {
 	return getScriptApiBase(L)->getEnv();
