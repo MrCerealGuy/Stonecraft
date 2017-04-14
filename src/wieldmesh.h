@@ -20,41 +20,51 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef WIELDMESH_HEADER
 #define WIELDMESH_HEADER
 
-#include "irrlichttypes_extrabloated.h"
 #include <string>
+#include "irrlichttypes_extrabloated.h"
 
 struct ItemStack;
-class IGameDef;
+class Client;
 class ITextureSource;
 struct TileSpec;
+
+struct ItemMesh
+{
+	scene::IMesh *mesh;
+	/*!
+	 * Stores the color of each mesh buffer.
+	 * If the boolean is true, the color is fixed, else
+	 * palettes can modify it.
+	 */
+	std::vector<std::pair<bool, video::SColor> > buffer_colors;
+
+	ItemMesh() : mesh(NULL), buffer_colors() {}
+};
 
 /*
 	Wield item scene node, renders the wield mesh of some item
 */
-class WieldMeshSceneNode: public scene::ISceneNode
+class WieldMeshSceneNode : public scene::ISceneNode
 {
 public:
 	WieldMeshSceneNode(scene::ISceneNode *parent, scene::ISceneManager *mgr,
 			s32 id = -1, bool lighting = false);
 	virtual ~WieldMeshSceneNode();
 
-	void setCube(const TileSpec tiles[6],
-			v3f wield_scale, ITextureSource *tsrc);
-	void setExtruded(const std::string &imagename,
-			v3f wield_scale, ITextureSource *tsrc, u8 num_frames);
-	void setItem(const ItemStack &item, IGameDef *gamedef);
+	void setCube(const TileSpec tiles[6], v3f wield_scale, ITextureSource *tsrc);
+	void setExtruded(const std::string &imagename, v3f wield_scale,
+			ITextureSource *tsrc, u8 num_frames);
+	void setItem(const ItemStack &item, Client *client);
 
 	// Sets the vertex color of the wield mesh.
 	// Must only be used if the constructor was called with lighting = false
 	void setColor(video::SColor color);
 
-	scene::IMesh *getMesh()
-	{ return m_meshnode->getMesh(); }
+	scene::IMesh *getMesh() { return m_meshnode->getMesh(); }
 
 	virtual void render();
 
-	virtual const aabb3f &getBoundingBox() const
-	{ return m_bounding_box; }
+	virtual const aabb3f &getBoundingBox() const { return m_bounding_box; }
 
 private:
 	void changeToMesh(scene::IMesh *mesh);
@@ -70,6 +80,11 @@ private:
 	bool m_anisotropic_filter;
 	bool m_bilinear_filter;
 	bool m_trilinear_filter;
+	/*!
+	 * Stores the colors of the mesh's mesh buffers.
+	 * This does not include lighting.
+	 */
+	std::vector<video::SColor> m_colors;
 
 	// Bounding box culling is disabled for this type of scene node,
 	// so this variable is just required so we can implement
@@ -77,8 +92,7 @@ private:
 	aabb3f m_bounding_box;
 };
 
-scene::IMesh *getItemMesh(IGameDef *gamedef, const ItemStack &item);
+void getItemMesh(Client *client, const ItemStack &item, ItemMesh *result);
 
-scene::IMesh *getExtrudedMesh(ITextureSource *tsrc,
-		const std::string &imagename);
+scene::IMesh *getExtrudedMesh(ITextureSource *tsrc, const std::string &imagename);
 #endif
