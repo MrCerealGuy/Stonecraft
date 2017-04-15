@@ -33,7 +33,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 bool getGameMinetestConfig(const std::string &game_path, Settings &conf)
 {
-	std::string conf_path = game_path + DIR_DELIM + "minetest.conf";
+	std::string conf_path = game_path + DIR_DELIM + "stonecraft.conf";
 	return conf.readConfigFile(conf_path.c_str());
 }
 
