@@ -173,6 +173,13 @@ install(FILES "doc/texture_packs.txt" DESTINATION "${DOCDIR}")
 install(FILES "doc/world_format.txt" DESTINATION "${DOCDIR}")
 install(FILES "stonecraft.conf.example" DESTINATION "${EXAMPLE_CONF_DIR}")
 
+if(WIN32)
+	install(FILES "lib/mingw-win-x86_64/mingw32-5.3.1/libgcc_s_seh-1.dll" DESTINATION "${BINDIR}")
+	install(FILES "lib/mingw-win-x86_64/mingw32-5.3.1/libgomp-1.dll" DESTINATION "${BINDIR}")
+	install(FILES "lib/mingw-win-x86_64/mingw32-5.3.1/libstdc++-6.dll" DESTINATION "${BINDIR}")
+	install(FILES "lib/mingw-win-x86_64/mingw32-5.3.1/libwinpthread-1.dll" DESTINATION "${BINDIR}")
+endif()
+
 if(UNIX AND NOT APPLE)
 	install(FILES "doc/stonecraft.6" "doc/stonecraftserver.6" DESTINATION "${MANDIR}/man6")
 	install(FILES "misc/stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
