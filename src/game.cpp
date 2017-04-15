@@ -932,7 +932,7 @@ static void updateChat(Client &client, f32 dtime, bool show_debug,
 		ChatBackend &chat_backend, gui::IGUIStaticText *guitext_chat)
 {
 	// Add chat log output for errors to be shown in chat
-	static LogOutputBuffer chat_log_error_buf(g_logger, LL_ERROR);
+	/*static LogOutputBuffer chat_log_error_buf(g_logger, LL_ERROR);
 
 	// Get new messages from error log buffer
 	while (!chat_log_error_buf.empty()) {
@@ -941,7 +941,7 @@ static void updateChat(Client &client, f32 dtime, bool show_debug,
 			error_message = L"\x1b(c@red)" + error_message + L"\x1b(c@white)";
 		}
 		chat_backend.addMessage(L"", error_message);
-	}
+	}*/
 
 	// Get new messages from client
 	std::wstring message;
