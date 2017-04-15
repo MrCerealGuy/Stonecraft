@@ -1923,7 +1923,10 @@ bool Game::createClient(const std::string &playername,
 	}
 
 	mapper = client->getMinimap();
-	mapper->setMinimapMode(MINIMAP_MODE_SURFACEx1);  // changed by MrCerealGuy
+
+	// changed by MrCerealGuy
+	mapper->setMinimapMode(MINIMAP_MODE_SURFACEx1);
+	flags.show_minimap = true;
 
 	return true;
 }
@@ -2114,7 +2117,7 @@ bool Game::connectToServer(const std::string &playername,
 					"Most likely the server uses an old protocol version (<v25).\n"
 					"Please ask the server owner to update to 0.4.13 or later.\n"
 					"To still connect to the server in the meantime,\n"
-					"you can enable the 'send_pre_v25_init' setting by editing minetest.conf,\n"
+					"you can enable the 'send_pre_v25_init' setting by editing stonecraft.conf,\n"
 					"or by enabling the 'Client -> Network -> Support older Servers'\n"
 					"entry in the advanced settings menu.";
 				} else {
