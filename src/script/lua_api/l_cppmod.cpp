@@ -15,7 +15,7 @@
 
 /* CPP mods */
 extern "C" {
-#include "cpp_mods/erosion/init.h"
+#include "cpp_mods/cpp_mods_init.h"
 }
 
 typedef struct {
@@ -25,7 +25,18 @@ typedef struct {
 
 int ModApiCPPMod::l_run_cppmod(lua_State *L)
 {
-	int status = lua_cpcall(L, lc_pmain_mod_erosion, NULL);
+	enum { lc_nformalargs = 1 };
+	lua_settop(L,1);
+
+	int status = -1;
+	lua_CFunction func = NULL;
+
+	if (strcmp(lua_tostring(L,1), "erosion") == 0) {
+		func = lc_pmain_mod_erosion;
+	}
+
+	if (func != NULL)
+		status = lua_cpcall(L, func, NULL);
   	
   	if (status != 0) {
     	fputs(lua_tostring(L,-1), stderr);
