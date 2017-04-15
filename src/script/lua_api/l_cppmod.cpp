@@ -31,10 +31,15 @@ int ModApiCPPMod::l_run_cppmod(lua_State *L)
 	int status = -1;
 	lua_CFunction func = NULL;
 
+	/* parse modname argument */
 	if (strcmp(lua_tostring(L,1), "erosion") == 0) {
-		func = lc_pmain_mod_erosion;
+		func = lc_pmain_mod_erosion_init;
+	}
+	else if (strcmp(lua_tostring(L,1), "darkage") == 0) {
+		func = lc_pmain_mod_darkage_init;
 	}
 
+	/* call cpp mod */
 	if (func != NULL)
 		status = lua_cpcall(L, func, NULL);
   	
