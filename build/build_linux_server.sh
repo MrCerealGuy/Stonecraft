@@ -18,6 +18,6 @@ if [ "$antwort" -eq "0" ]
 fi
 
 cd ../
-cmake . -DBUILD_CLIENT=0 DBUILD_SERVER=1 -DRUN_IN_PLACE=1 -DENABLE_REDIS=1 -DENABLE_LEVELDB=1
+cmake . -DBUILD_CLIENT=0 -DBUILD_SERVER=1 -DRUN_IN_PLACE=1 -DENABLE_REDIS=1 -DENABLE_LEVELDB=1
 make package -j$(grep -c processor /proc/cpuinfo)
  
