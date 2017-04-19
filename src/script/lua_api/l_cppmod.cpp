@@ -38,6 +38,9 @@ int ModApiCPPMod::l_run_cppmod(lua_State *L)
 	else if (strcmp(lua_tostring(L,1), "darkage") == 0) {
 		func = lc_pmain_mod_darkage_init;
 	}
+	else if (strcmp(lua_tostring(L,1), "forest") == 0) {
+		func = lc_pmain_mod_forest_init;
+	}
 
 	/* call cpp mod */
 	if (func != NULL)
