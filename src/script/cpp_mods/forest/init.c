@@ -18,6 +18,8 @@ extern "C" {
 
 #include <assert.h>
 
+#include "cpp_mods/cpp_mods_init.h"
+
 /* __add metamethod handler.
  * warning: assumes indices in range LUA_REGISTRYINDEX < x < 0 are relative. */
 static void lc_add(lua_State * L, int idxa, int idxb) {
