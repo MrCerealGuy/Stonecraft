@@ -8,6 +8,7 @@
 --     mg_villages.all_villages[ village_id ]
 mg_villages.new_village_spawned = function( village_id )
 	-- dummy function
+	return village_id 	-- MrCerealGuy: DO NOT REMOVE! Empty function causes error with Lua2C.
 end
 
 
@@ -1262,5 +1263,3 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		mg_villages.place_villages_via_voxelmanip( villages, minp, maxp, nil, data_vm, data_param2_data, nil, nil, seed );
 	end
 end)
-
-

@@ -41,6 +41,9 @@ int ModApiCPPMod::l_run_cppmod(lua_State *L)
 	else if (strcmp(lua_tostring(L,1), "forest") == 0) {
 		func = lc_pmain_mod_forest_init;
 	}
+	else if (strcmp(lua_tostring(L,1), "mg_villages") == 0) {
+		func = lc_pmain_mod_mg_villages_init;
+	}
 
 	/* call cpp mod */
 	if (func != NULL)
