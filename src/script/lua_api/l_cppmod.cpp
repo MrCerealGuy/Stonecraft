@@ -47,6 +47,12 @@ int ModApiCPPMod::l_run_cppmod(lua_State *L)
 	else if (strcmp(lua_tostring(L,1), "biome_lib") == 0) {
 		func = lc_pmain_mod_biome_lib_init;
 	}
+	else if (strcmp(lua_tostring(L,1), "mines") == 0) {
+		func = lc_pmain_mod_mines_init;
+	}
+	else if (strcmp(lua_tostring(L,1), "nssm") == 0) {
+		func = lc_pmain_mod_nssm_init;
+	}
 
 	/* call cpp mod */
 	if (func != NULL)

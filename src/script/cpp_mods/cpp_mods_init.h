@@ -47,4 +47,62 @@ int lc_pmain_mod_mg_villages_village_types(lua_State * L);
 /* biome_lib */
 int lc_pmain_mod_biome_lib_init(lua_State * L);
 
+/* mines */
+int lc_pmain_mod_mines_init(lua_State * L);
+
+/* nssm */
+int lc_pmain_mod_nssm_init(lua_State * L);
+
+int lc_pmain_mod_nssm_ant_queen(lua_State * L);
+int lc_pmain_mod_nssm_ant_soldier(lua_State * L);
+int lc_pmain_mod_nssm_ant_worker(lua_State * L);
+int lc_pmain_mod_nssm_api(lua_State * L);
+int lc_pmain_mod_nssm_black_widow(lua_State * L);
+int lc_pmain_mod_nssm_bloco(lua_State * L);
+int lc_pmain_mod_nssm_crab(lua_State * L);
+int lc_pmain_mod_nssm_crocodile(lua_State * L);
+int lc_pmain_mod_nssm_daddy_long_legs(lua_State * L);
+int lc_pmain_mod_nssm_darts(lua_State * L);
+int lc_pmain_mod_nssm_dolidrosaurus(lua_State * L);
+int lc_pmain_mod_nssm_duck(lua_State * L);
+int lc_pmain_mod_nssm_duckking(lua_State * L);
+int lc_pmain_mod_nssm_echidna(lua_State * L);
+int lc_pmain_mod_nssm_enderduck(lua_State * L);
+int lc_pmain_mod_nssm_flying_duck(lua_State * L);
+int lc_pmain_mod_nssm_giant_sandworm(lua_State * L);
+int lc_pmain_mod_nssm_icelamander(lua_State * L);
+int lc_pmain_mod_nssm_icesnake(lua_State * L);
+int lc_pmain_mod_nssm_kraken(lua_State * L);
+int lc_pmain_mod_nssm_larva(lua_State * L);
+int lc_pmain_mod_nssm_lava_titan(lua_State * L);
+int lc_pmain_mod_nssm_manticore(lua_State * L);
+int lc_pmain_mod_nssm_mantis(lua_State * L);
+int lc_pmain_mod_nssm_mantis_beast(lua_State * L);
+int lc_pmain_mod_nssm_masticone(lua_State * L);
+int lc_pmain_mod_nssm_mese_dragon(lua_State * L);
+int lc_pmain_mod_nssm_moonheron(lua_State * L);
+int lc_pmain_mod_nssm_night_master(lua_State * L);
+int lc_pmain_mod_nssm_nssm_api(lua_State * L);
+int lc_pmain_mod_nssm_nssm_materials(lua_State * L);
+int lc_pmain_mod_nssm_nssm_spears(lua_State * L);
+int lc_pmain_mod_nssm_nssm_weapons(lua_State * L);
+int lc_pmain_mod_nssm_octopus(lua_State * L);
+int lc_pmain_mod_nssm_phoenix(lua_State * L);
+int lc_pmain_mod_nssm_pumpboom(lua_State * L);
+int lc_pmain_mod_nssm_pumpking(lua_State * L);
+int lc_pmain_mod_nssm_rainbow_staff(lua_State * L);
+int lc_pmain_mod_nssm_sand_bloco(lua_State * L);
+int lc_pmain_mod_nssm_sandworm(lua_State * L);
+int lc_pmain_mod_nssm_scrausics(lua_State * L);
+int lc_pmain_mod_nssm_signosigno(lua_State * L);
+int lc_pmain_mod_nssm_snow_biter(lua_State * L);
+int lc_pmain_mod_nssm_spawn(lua_State * L);
+int lc_pmain_mod_nssm_spiderduck(lua_State * L);
+int lc_pmain_mod_nssm_stone_eater(lua_State * L);
+int lc_pmain_mod_nssm_swimming_duck(lua_State * L);
+int lc_pmain_mod_nssm_tarantula(lua_State * L);
+int lc_pmain_mod_nssm_uloboros(lua_State * L);
+int lc_pmain_mod_nssm_werewolf(lua_State * L);
+int lc_pmain_mod_nssm_white_werewolf(lua_State * L);
+
 #endif /* CPP_MODS_INIT_H_ */
