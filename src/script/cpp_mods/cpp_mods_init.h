@@ -44,4 +44,7 @@ int lc_pmain_mod_mg_villages_trees(lua_State * L);
 int lc_pmain_mod_mg_villages_villages(lua_State * L);
 int lc_pmain_mod_mg_villages_village_types(lua_State * L);
 
+/* biome_lib */
+int lc_pmain_mod_biome_lib_init(lua_State * L);
+
 #endif /* CPP_MODS_INIT_H_ */
