@@ -134,6 +134,7 @@ LOCAL_SRC_FILES := \
 		jni/src/convert_json.cpp                  \
 		jni/src/craftdef.cpp                      \
 		jni/src/database-dummy.cpp                \
+		jni/src/database-files.cpp                \
 		jni/src/database-sqlite3.cpp              \
 		jni/src/database.cpp                      \
 		jni/src/debug.cpp                         \
@@ -185,6 +186,7 @@ LOCAL_SRC_FILES := \
 		jni/src/mapnode.cpp                       \
 		jni/src/mapsector.cpp                     \
 		jni/src/mesh.cpp                          \
+		jni/src/mesh_generator_thread.cpp         \
 		jni/src/metadata.cpp                      \
 		jni/src/mg_biome.cpp                      \
 		jni/src/mg_decoration.cpp                 \

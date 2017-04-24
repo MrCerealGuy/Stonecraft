@@ -28,7 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "database.h"
 #include "leveldb/db.h"
 
-class Database_LevelDB : public Database
+class Database_LevelDB : public MapDatabase
 {
 public:
 	Database_LevelDB(const std::string &savedir);
@@ -39,6 +39,8 @@ public:
 	bool deleteBlock(const v3s16 &pos);
 	void listAllLoadableBlocks(std::vector<v3s16> &dst);
 
+	void beginSave() {}
+	void endSave() {}
 private:
 	leveldb::DB *m_database;
 };

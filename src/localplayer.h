@@ -30,7 +30,13 @@ class GenericCAO;
 class ClientActiveObject;
 class IGameDef;
 
-enum LocalPlayerAnimations {NO_ANIM, WALK_ANIM, DIG_ANIM, WD_ANIM};  // no local animation, walking, digging, both
+enum LocalPlayerAnimations
+{
+	NO_ANIM,
+	WALK_ANIM,
+	DIG_ANIM,
+	WD_ANIM
+}; // no local animation, walking, digging, both
 
 class LocalPlayer : public Player
 {
@@ -58,11 +64,16 @@ public:
 	float physics_override_gravity;
 	bool physics_override_sneak;
 	bool physics_override_sneak_glitch;
+	// Temporary option for old move code
+	bool physics_override_new_move;
 
 	v3f overridePosition;
 
 	void move(f32 dtime, Environment *env, f32 pos_max_d);
 	void move(f32 dtime, Environment *env, f32 pos_max_d,
+			std::vector<CollisionInfo> *collision_info);
+	// Temporary option for old move code
+	void old_move(f32 dtime, Environment *env, f32 pos_max_d,
 			std::vector<CollisionInfo> *collision_info);
 
 	void applyControl(float dtime);
@@ -92,12 +103,11 @@ public:
 	float hurt_tilt_timer;
 	float hurt_tilt_strength;
 
-	GenericCAO* getCAO() const {
-		return m_cao;
-	}
+	GenericCAO *getCAO() const { return m_cao; }
 
-	void setCAO(GenericCAO* toset) {
-		assert( m_cao == NULL ); // Pre-condition
+	void setCAO(GenericCAO *toset)
+	{
+		assert(m_cao == NULL); // Pre-condition
 		m_cao = toset;
 	}
 
@@ -108,28 +118,20 @@ public:
 
 	v3s16 getLightPosition() const;
 
-	void setYaw(f32 yaw)
-	{
-		m_yaw = yaw;
-	}
+	void setYaw(f32 yaw) { m_yaw = yaw; }
 
 	f32 getYaw() const { return m_yaw; }
 
-	void setPitch(f32 pitch)
-	{
-		m_pitch = pitch;
-	}
+	void setPitch(f32 pitch) { m_pitch = pitch; }
 
 	f32 getPitch() const { return m_pitch; }
 
-	void setPosition(const v3f &position)
-	{
-		m_position = position;
-	}
+	void setPosition(const v3f &position) { m_position = position; }
 
 	v3f getPosition() const { return m_position; }
 	v3f getEyePosition() const { return m_position + getEyeOffset(); }
 	v3f getEyeOffset() const;
+
 private:
 	void accelerateHorizontal(const v3f &target_speed, const f32 max_increase);
 	void accelerateVertical(const v3f &target_speed, const f32 max_increase);
@@ -137,6 +139,9 @@ private:
 	v3f m_position;
 
 	v3s16 m_sneak_node;
+	// Stores the max player uplift by m_sneak_node
+	// To support temporary option for old move code
+	f32 m_sneak_node_bb_ymax;
 	// Stores the top bounding box of m_sneak_node
 	aabb3f m_sneak_node_bb_top;
 	// Whether the player is allowed to sneak
@@ -161,9 +166,8 @@ private:
 	bool camera_barely_in_ceiling;
 	aabb3f m_collisionbox;
 
-	GenericCAO* m_cao;
+	GenericCAO *m_cao;
 	Client *m_client;
 };
 
 #endif
-

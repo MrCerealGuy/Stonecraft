@@ -79,14 +79,15 @@ extern Profiler *g_profiler;
 	Text input system
 */
 
-struct TextDestNodeMetadata : public TextDest {
+struct TextDestNodeMetadata : public TextDest
+{
 	TextDestNodeMetadata(v3s16 p, Client *client)
 	{
 		m_p = p;
 		m_client = client;
 	}
 	// This is deprecated I guess? -celeron55
-	void gotText(std::wstring text)
+	void gotText(const std::wstring &text)
 	{
 		std::string ntext = wide_to_utf8(text);
 		infostream << "Submitting 'text' field of node at (" << m_p.X << ","
@@ -104,13 +105,14 @@ struct TextDestNodeMetadata : public TextDest {
 	Client *m_client;
 };
 
-struct TextDestPlayerInventory : public TextDest {
+struct TextDestPlayerInventory : public TextDest
+{
 	TextDestPlayerInventory(Client *client)
 	{
 		m_client = client;
 		m_formname = "";
 	}
-	TextDestPlayerInventory(Client *client, std::string formname)
+	TextDestPlayerInventory(Client *client, const std::string &formname)
 	{
 		m_client = client;
 		m_formname = formname;
@@ -125,21 +127,16 @@ struct TextDestPlayerInventory : public TextDest {
 
 struct LocalFormspecHandler : public TextDest
 {
-	LocalFormspecHandler(std::string formname):
-		m_client(0)
+	LocalFormspecHandler(const std::string &formname):
+		m_client(NULL)
 	{
 		m_formname = formname;
 	}
 
-	LocalFormspecHandler(std::string formname, Client *client):
+	LocalFormspecHandler(const std::string &formname, Client *client):
 		m_client(client)
 	{
 		m_formname = formname;
-	}
-
-	void gotText(std::wstring message)
-	{
-		errorstream << "LocalFormspecHandler::gotText old style message received" << std::endl;
 	}
 
 	void gotText(const StringMap &fields)
@@ -933,7 +930,7 @@ static void updateChat(Client &client, f32 dtime, bool show_debug,
 {
 	// Add chat log output for errors to be shown in chat
 	/*static LogOutputBuffer chat_log_error_buf(g_logger, LL_ERROR);
-
+	
 	// Get new messages from error log buffer
 	while (!chat_log_error_buf.empty()) {
 		std::wstring error_message = utf8_to_wide(chat_log_error_buf.get());
@@ -1190,7 +1187,7 @@ protected:
 			u16 port,
 			const SubgameSpec &gamespec);
 	bool initSound();
-	bool createSingleplayerServer(const std::string map_dir,
+	bool createSingleplayerServer(const std::string &map_dir,
 			const SubgameSpec &gamespec, u16 port, std::string *address);
 
 	// Client creation
@@ -1725,9 +1722,10 @@ bool Game::init(
 		u16 port,
 		const SubgameSpec &gamespec)
 {
+	texture_src = createTextureSource(device);
+
 	showOverlayMessage(wgettext("Loading..."), 0, 0);
 
-	texture_src = createTextureSource(device);
 	shader_src = createShaderSource(device);
 
 	itemdef_manager = createItemDefManager();
@@ -1779,7 +1777,7 @@ bool Game::initSound()
 	return true;
 }
 
-bool Game::createSingleplayerServer(const std::string map_dir,
+bool Game::createSingleplayerServer(const std::string &map_dir,
 		const SubgameSpec &gamespec, u16 port, std::string *address)
 {
 	showOverlayMessage(wgettext("Creating server..."), 0, 5);
@@ -2117,7 +2115,7 @@ bool Game::connectToServer(const std::string &playername,
 					"Most likely the server uses an old protocol version (<v25).\n"
 					"Please ask the server owner to update to 0.4.13 or later.\n"
 					"To still connect to the server in the meantime,\n"
-					"you can enable the 'send_pre_v25_init' setting by editing stonecraft.conf,\n"
+					"you can enable the 'send_pre_v25_init' setting by editing minetest.conf,\n"
 					"or by enabling the 'Client -> Network -> Support older Servers'\n"
 					"entry in the advanced settings menu.";
 				} else {
@@ -2186,12 +2184,14 @@ bool Game::getServerContent(bool *aborted)
 		if (!client->itemdefReceived()) {
 			const wchar_t *text = wgettext("Item definitions...");
 			progress = 25;
-			draw_load_screen(text, device, guienv, dtime, progress);
+			draw_load_screen(text, device, guienv, texture_src,
+				dtime, progress);
 			delete[] text;
 		} else if (!client->nodedefReceived()) {
 			const wchar_t *text = wgettext("Node definitions...");
 			progress = 30;
-			draw_load_screen(text, device, guienv, dtime, progress);
+			draw_load_screen(text, device, guienv, texture_src,
+				dtime, progress);
 			delete[] text;
 		} else {
 			std::stringstream message;
@@ -2215,7 +2215,7 @@ bool Game::getServerContent(bool *aborted)
 
 			progress = 30 + client->mediaReceiveProgress() * 35 + 0.5;
 			draw_load_screen(utf8_to_wide(message.str()), device,
-					guienv, dtime, progress);
+					guienv, texture_src, dtime, progress);
 		}
 	}
 
@@ -3886,13 +3886,6 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 		if (runData.nodig_delay_timer > 0.3)
 			runData.nodig_delay_timer = 0.3;
 
-		// We want a slight delay to very little
-		// time consuming nodes
-		const float mindelay = 0.15;
-
-		if (runData.nodig_delay_timer < mindelay)
-			runData.nodig_delay_timer = mindelay;
-
 		bool is_valid_position;
 		MapNode wasnode = map.getNodeNoEx(nodepos, &is_valid_position);
 		if (is_valid_position) {
@@ -4360,7 +4353,8 @@ inline void Game::limitFps(FpsControl *fps_timings, f32 *dtime)
 void Game::showOverlayMessage(const wchar_t *msg, float dtime,
 		int percent, bool draw_clouds)
 {
-	draw_load_screen(msg, device, guienv, dtime, percent, draw_clouds);
+	draw_load_screen(msg, device, guienv, texture_src, dtime, percent,
+		draw_clouds);
 	delete[] msg;
 }
 
@@ -4477,7 +4471,7 @@ void Game::showPauseMenu()
 		<< strgettext("Exit to Menu") << "]";
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_os;"
 		<< strgettext("Exit to OS")   << "]"
-		//<< "textarea[7.5,0.25;3.9,6.25;;" << control_text << ";]"
+		//<< "textarea[7.5,0.25;3.9,6.25;;" << control_text << ";]"  // Changed by MrCerealGuy
 		//<< "textarea[0.4,0.25;3.5,6;;" << PROJECT_NAME_C "\n"
 		//<< g_build_info << "\n"
 		//<< "path_user = " << wrap_rows(porting::path_user, 20)

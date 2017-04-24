@@ -34,13 +34,15 @@ public:
 
 struct SimpleSoundSpec
 {
-	std::string name;
-	float gain;
-	SimpleSoundSpec(std::string name = "", float gain = 1.0) : name(name), gain(gain)
+	SimpleSoundSpec(const std::string &name = "", float gain = 1.0)
+	    : name(name), gain(gain)
 	{
 	}
-	bool exists() { return name != ""; }
-	// Serialization intentionally left out
+
+	bool exists() const { return name != ""; }
+
+	std::string name;
+	float gain;
 };
 
 class ISoundManager

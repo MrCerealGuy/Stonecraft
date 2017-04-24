@@ -92,6 +92,9 @@ private:
 	// kick_player(name, [message]) -> success
 	static int l_kick_player(lua_State *L);
 
+	// remove_player(name)
+	static int l_remove_player(lua_State *L);
+
 	// notify_authentication_modified(name)
 	static int l_notify_authentication_modified(lua_State *L);
 
@@ -100,11 +103,6 @@ private:
 
 	// set_last_run_mod(modname)
 	static int l_set_last_run_mod(lua_State *L);
-
-#ifndef NDEBUG
-	//  cause_error(type_of_error)
-	static int l_cause_error(lua_State *L);
-#endif
 
 public:
 	static void Initialize(lua_State *L, int top);

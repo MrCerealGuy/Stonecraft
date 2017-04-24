@@ -194,7 +194,7 @@ class RemotePlayer;
 class PlayerSAO : public UnitSAO
 {
 public:
-	PlayerSAO(ServerEnvironment *env_, u16 peer_id_, bool is_singleplayer);
+	PlayerSAO(ServerEnvironment *env_, RemotePlayer *player_, u16 peer_id_, bool is_singleplayer);
 	~PlayerSAO();
 	ActiveObjectType getType() const
 	{ return ACTIVEOBJECT_TYPE_PLAYER; }
@@ -349,7 +349,7 @@ public:
 	bool getCollisionBox(aabb3f *toset) const;
 	bool collideWithObjects() const { return true; }
 
-	void initialize(RemotePlayer *player, const std::set<std::string> &privs);
+	void finalize(RemotePlayer *player, const std::set<std::string> &privs);
 
 	v3f getEyePosition() const { return m_base_position + getEyeOffset(); }
 	v3f getEyeOffset() const;
@@ -375,6 +375,7 @@ private:
 	// Timers
 	IntervalLimiter m_breathing_interval;
 	IntervalLimiter m_drowning_interval;
+	IntervalLimiter m_node_hurt_interval;
 
 	int m_wield_index;
 	bool m_position_not_sent;
@@ -396,6 +397,7 @@ public:
 	float m_physics_override_gravity;
 	bool m_physics_override_sneak;
 	bool m_physics_override_sneak_glitch;
+	bool m_physics_override_new_move;
 	bool m_physics_override_sent;
 };
 

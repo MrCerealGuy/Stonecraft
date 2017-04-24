@@ -39,6 +39,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("sound_volume", "0.8");
 	settings->setDefault("enable_mesh_cache", "false");
 	settings->setDefault("mesh_generation_interval", "0");
+	settings->setDefault("meshgen_block_cache_size", "20");
 	settings->setDefault("enable_vbo", "true");
 	settings->setDefault("free_move", "false");
 	settings->setDefault("fast_move", "false");
@@ -65,7 +66,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_left", "KEY_KEY_A");
 	settings->setDefault("keymap_right", "KEY_KEY_D");
 	settings->setDefault("keymap_jump", "KEY_SPACE");
-	settings->setDefault("keymap_sneak", "KEY_LCONTROL");
+	settings->setDefault("keymap_sneak", "KEY_LCONTROL");  // MrCerealGuy
 	settings->setDefault("keymap_drop", "KEY_KEY_Q");
 	settings->setDefault("keymap_zoom", "KEY_KEY_Z");
 	settings->setDefault("keymap_inventory", "KEY_KEY_I");

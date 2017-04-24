@@ -55,12 +55,10 @@ typedef enum {
 
 struct TextDest
 {
-	virtual ~TextDest() {};
+	virtual ~TextDest() {}
 	// This is deprecated I guess? -celeron55
-	virtual void gotText(std::wstring text){}
+	virtual void gotText(const std::wstring &text) {}
 	virtual void gotText(const StringMap &fields) = 0;
-	virtual void setFormName(std::string formname)
-	{ m_formname = formname;};
 
 	std::string m_formname;
 };
@@ -78,22 +76,21 @@ class GUIFormSpecMenu : public GUIModalMenu
 {
 	struct ItemSpec
 	{
-		ItemSpec()
+		ItemSpec() :
+			i(-1)
 		{
-			i = -1;
 		}
+
 		ItemSpec(const InventoryLocation &a_inventoryloc,
 				const std::string &a_listname,
-				s32 a_i)
+				s32 a_i) :
+			inventoryloc(a_inventoryloc),
+			listname(a_listname),
+			i(a_i)
 		{
-			inventoryloc = a_inventoryloc;
-			listname = a_listname;
-			i = a_i;
 		}
-		bool isValid() const
-		{
-			return i != -1;
-		}
+
+		bool isValid() const { return i != -1; }
 
 		InventoryLocation inventoryloc;
 		std::string listname;
@@ -144,7 +141,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 		ImageDrawSpec():
 			parent_button(NULL),
 			clip(false)
-		{}
+		{
+		}
 
 		ImageDrawSpec(const std::string &a_name,
 				const std::string &a_item_name,
@@ -157,7 +155,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 			geom(a_geom),
 			scale(true),
 			clip(false)
-		{}
+		{
+		}
 
 		ImageDrawSpec(const std::string &a_name,
 				const std::string &a_item_name,
@@ -169,7 +168,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 			geom(a_geom),
 			scale(true),
 			clip(false)
-		{}
+		{
+		}
 
 		ImageDrawSpec(const std::string &a_name,
 				const v2s32 &a_pos, const v2s32 &a_geom, bool clip=false):
@@ -179,7 +179,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 			geom(a_geom),
 			scale(true),
 			clip(clip)
-		{}
+		{
+		}
 
 		ImageDrawSpec(const std::string &a_name,
 				const v2s32 &a_pos):
@@ -188,7 +189,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 			pos(a_pos),
 			scale(false),
 			clip(false)
-		{}
+		{
+		}
 
 		std::string name;
 		std::string item_name;
@@ -208,14 +210,14 @@ class GUIFormSpecMenu : public GUIModalMenu
 				const std::wstring &default_text, int id) :
 			fname(name),
 			flabel(label),
+			fdefault(unescape_enriched(default_text)),
 			fid(id),
 			send(false),
 			ftype(f_Unknown),
 			is_exit(false)
 		{
-			//flabel = unescape_enriched(label);
-			fdefault = unescape_enriched(default_text);
 		}
+
 		std::string fname;
 		std::wstring flabel;
 		std::wstring fdefault;
@@ -226,7 +228,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 		core::rect<s32> rect;
 	};
 
-	struct BoxDrawSpec {
+	struct BoxDrawSpec
+	{
 		BoxDrawSpec(v2s32 a_pos, v2s32 a_geom,irr::video::SColor a_color):
 			pos(a_pos),
 			geom(a_geom),
@@ -238,45 +241,46 @@ class GUIFormSpecMenu : public GUIModalMenu
 		irr::video::SColor color;
 	};
 
-	struct TooltipSpec {
-		TooltipSpec()
-		{
-		}
-		TooltipSpec(std::string a_tooltip, irr::video::SColor a_bgcolor,
+	struct TooltipSpec
+	{
+		TooltipSpec() {}
+		TooltipSpec(const std::string &a_tooltip, irr::video::SColor a_bgcolor,
 				irr::video::SColor a_color):
+			tooltip(utf8_to_wide(a_tooltip)),
 			bgcolor(a_bgcolor),
 			color(a_color)
 		{
-			//tooltip = unescape_enriched(utf8_to_wide(a_tooltip));
-			tooltip = utf8_to_wide(a_tooltip);
 		}
+
 		std::wstring tooltip;
 		irr::video::SColor bgcolor;
 		irr::video::SColor color;
 	};
 
-	struct StaticTextSpec {
+	struct StaticTextSpec
+	{
 		StaticTextSpec():
 			parent_button(NULL)
 		{
 		}
+
 		StaticTextSpec(const std::wstring &a_text,
 				const core::rect<s32> &a_rect):
+			text(a_text),
 			rect(a_rect),
 			parent_button(NULL)
 		{
-			//text = unescape_enriched(a_text);
-			text = a_text;
 		}
+
 		StaticTextSpec(const std::wstring &a_text,
 				const core::rect<s32> &a_rect,
 				gui::IGUIButton *a_parent_button):
+			text(a_text),
 			rect(a_rect),
 			parent_button(a_parent_button)
 		{
-			//text = unescape_enriched(a_text);
-			text = a_text;
 		}
+
 		std::wstring text;
 		core::rect<s32> rect;
 		gui::IGUIButton *parent_button;
@@ -296,7 +300,7 @@ public:
 	~GUIFormSpecMenu();
 
 	void setFormSpec(const std::string &formspec_string,
-			InventoryLocation current_inventory_location)
+			const InventoryLocation &current_inventory_location)
 	{
 		m_formspec_string = formspec_string;
 		m_current_inventory_location = current_inventory_location;
@@ -469,41 +473,43 @@ private:
 	fs_key_pendig current_keys_pending;
 	std::string current_field_enter_pending;
 
-	void parseElement(parserData* data, std::string element);
+	void parseElement(parserData* data, const std::string &element);
 
-	void parseSize(parserData* data, std::string element);
-	void parseContainer(parserData* data, std::string element);
+	void parseSize(parserData* data, const std::string &element);
+	void parseContainer(parserData* data, const std::string &element);
 	void parseContainerEnd(parserData* data);
-	void parseList(parserData* data, std::string element);
-	void parseListRing(parserData* data, std::string element);
-	void parseCheckbox(parserData* data, std::string element);
-	void parseImage(parserData* data, std::string element);
-	void parseItemImage(parserData* data,std::string element);
-	void parseButton(parserData* data,std::string element,std::string typ);
-	void parseBackground(parserData* data,std::string element);
-	void parseTableOptions(parserData* data,std::string element);
-	void parseTableColumns(parserData* data,std::string element);
-	void parseTable(parserData* data,std::string element);
-	void parseTextList(parserData* data,std::string element);
-	void parseDropDown(parserData* data,std::string element);
+	void parseList(parserData* data, const std::string &element);
+	void parseListRing(parserData* data, const std::string &element);
+	void parseCheckbox(parserData* data, const std::string &element);
+	void parseImage(parserData* data, const std::string &element);
+	void parseItemImage(parserData* data, const std::string &element);
+	void parseButton(parserData* data, const std::string &element,
+			const std::string &typ);
+	void parseBackground(parserData* data, const std::string &element);
+	void parseTableOptions(parserData* data, const std::string &element);
+	void parseTableColumns(parserData* data, const std::string &element);
+	void parseTable(parserData* data, const std::string &element);
+	void parseTextList(parserData* data, const std::string &element);
+	void parseDropDown(parserData* data, const std::string &element);
 	void parseFieldCloseOnEnter(parserData *data, const std::string &element);
-	void parsePwdField(parserData* data,std::string element);
-	void parseField(parserData* data,std::string element,std::string type);
+	void parsePwdField(parserData* data, const std::string &element);
+	void parseField(parserData* data, const std::string &element, const std::string &type);
 	void parseSimpleField(parserData* data,std::vector<std::string> &parts);
 	void parseTextArea(parserData* data,std::vector<std::string>& parts,
-			std::string type);
-	void parseLabel(parserData* data,std::string element);
-	void parseVertLabel(parserData* data,std::string element);
-	void parseImageButton(parserData* data,std::string element,std::string type);
-	void parseItemImageButton(parserData* data,std::string element);
-	void parseTabHeader(parserData* data,std::string element);
-	void parseBox(parserData* data,std::string element);
-	void parseBackgroundColor(parserData* data,std::string element);
-	void parseListColors(parserData* data,std::string element);
-	void parseTooltip(parserData* data,std::string element);
-	bool parseVersionDirect(std::string data);
-	bool parseSizeDirect(parserData* data, std::string element);
-	void parseScrollBar(parserData* data, std::string element);
+			const std::string &type);
+	void parseLabel(parserData* data, const std::string &element);
+	void parseVertLabel(parserData* data, const std::string &element);
+	void parseImageButton(parserData* data, const std::string &element,
+			const std::string &type);
+	void parseItemImageButton(parserData* data, const std::string &element);
+	void parseTabHeader(parserData* data, const std::string &element);
+	void parseBox(parserData* data, const std::string &element);
+	void parseBackgroundColor(parserData* data, const std::string &element);
+	void parseListColors(parserData* data, const std::string &element);
+	void parseTooltip(parserData* data, const std::string &element);
+	bool parseVersionDirect(const std::string &data);
+	bool parseSizeDirect(parserData* data, const std::string &element);
+	void parseScrollBar(parserData* data, const std::string &element);
 	bool parsePositionDirect(parserData *data, const std::string &element);
 	void parsePosition(parserData *data, const std::string &element);
 	bool parseAnchorDirect(parserData *data, const std::string &element);
@@ -548,22 +554,21 @@ private:
 class FormspecFormSource: public IFormSource
 {
 public:
-	FormspecFormSource(const std::string &formspec)
+	FormspecFormSource(const std::string &formspec):
+		m_formspec(formspec)
 	{
-		m_formspec = formspec;
 	}
 
 	~FormspecFormSource()
-	{}
+	{
+	}
 
-	void setForm(const std::string &formspec) {
+	void setForm(const std::string &formspec)
+	{
 		m_formspec = FORMSPEC_VERSION_STRING + formspec;
 	}
 
-	std::string getForm()
-	{
-		return m_formspec;
-	}
+	std::string getForm() { return m_formspec; }
 
 	std::string m_formspec;
 };

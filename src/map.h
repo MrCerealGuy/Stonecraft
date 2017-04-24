@@ -37,7 +37,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "map_settings_manager.h"
 
 class Settings;
-class Database;
+class MapDatabase;
 class ClientMap;
 class MapSector;
 class ServerMapSector;
@@ -266,7 +266,8 @@ public:
 	// For debug printing. Prints "Map: ", "ServerMap: " or "ClientMap: "
 	virtual void PrintInfo(std::ostream &out);
 
-	void transformLiquids(std::map<v3s16, MapBlock*> & modified_blocks);
+	void transformLiquids(std::map<v3s16, MapBlock*> & modified_blocks,
+			ServerEnvironment *env);
 
 	/*
 		Node metadata
@@ -360,7 +361,7 @@ public:
 	/*
 		savedir: directory to which map data should be saved
 	*/
-	ServerMap(std::string savedir, IGameDef *gamedef, EmergeManager *emerge);
+	ServerMap(const std::string &savedir, IGameDef *gamedef, EmergeManager *emerge);
 	~ServerMap();
 
 	s32 mapType() const
@@ -422,16 +423,14 @@ public:
 	// returns something like "map/sectors/xxxxxxxx"
 	std::string getSectorDir(v2s16 pos, int layout = 2);
 	// dirname: final directory name
-	v2s16 getSectorPos(std::string dirname);
-	v3s16 getBlockPos(std::string sectordir, std::string blockfile);
+	v2s16 getSectorPos(const std::string &dirname);
+	v3s16 getBlockPos(const std::string &sectordir, const std::string &blockfile);
 	static std::string getBlockFilename(v3s16 p);
 
 	/*
 		Database functions
 	*/
-	static Database *createDatabase(const std::string &name, const std::string &savedir, Settings &conf);
-	// Verify we can read/write to the database
-	void verifyDatabase();
+	static MapDatabase *createDatabase(const std::string &name, const std::string &savedir, Settings &conf);
 
 	// Returns true if the database file does not exist
 	bool loadFromFolders();
@@ -458,17 +457,11 @@ public:
 	MapSector* loadSectorMeta(std::string dirname, bool save_after_load);
 	bool loadSectorMeta(v2s16 p2d);
 
-	// Full load of a sector including all blocks.
-	// returns true on success, false on failure.
-	bool loadSectorFull(v2s16 p2d);
-	// If sector is not found in memory, try to load it from disk.
-	// Returns true if sector now resides in memory
-	//bool deFlushSector(v2s16 p2d);
-
 	bool saveBlock(MapBlock *block);
-	static bool saveBlock(MapBlock *block, Database *db);
+	static bool saveBlock(MapBlock *block, MapDatabase *db);
 	// This will generate a sector with getSector if not found.
-	void loadBlock(std::string sectordir, std::string blockfile, MapSector *sector, bool save_after_load=false);
+	void loadBlock(const std::string &sectordir, const std::string &blockfile,
+			MapSector *sector, bool save_after_load=false);
 	MapBlock* loadBlock(v3s16 p);
 	// Database version
 	void loadBlock(std::string *blob, v3s16 p3d, MapSector *sector, bool save_after_load=false);
@@ -484,6 +477,16 @@ public:
 
 	u64 getSeed();
 	s16 getWaterLevel();
+
+	/*!
+	 * Fixes lighting in one map block.
+	 * May modify other blocks as well, as light can spread
+	 * out of the specified block.
+	 * Returns false if the block is not generated (so nothing
+	 * changed), true otherwise.
+	 */
+	bool repairBlockLight(v3s16 blockpos,
+		std::map<v3s16, MapBlock *> *modified_blocks);
 
 	MapSettingsManager settings_mgr;
 
@@ -507,7 +510,7 @@ private:
 		This is reset to false when written on disk.
 	*/
 	bool m_map_metadata_changed;
-	Database *dbase;
+	MapDatabase *dbase;
 };
 
 

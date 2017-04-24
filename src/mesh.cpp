@@ -385,48 +385,52 @@ void recalculateBoundingBox(scene::IMesh *src_mesh)
 	src_mesh->setBoundingBox(bbox);
 }
 
-scene::IMesh* cloneMesh(scene::IMesh *src_mesh)
+scene::IMeshBuffer* cloneMeshBuffer(scene::IMeshBuffer *mesh_buffer)
+{
+	switch (mesh_buffer->getVertexType()) {
+	case video::EVT_STANDARD: {
+		video::S3DVertex *v = (video::S3DVertex *) mesh_buffer->getVertices();
+		u16 *indices = mesh_buffer->getIndices();
+		scene::SMeshBuffer *cloned_buffer = new scene::SMeshBuffer();
+		cloned_buffer->append(v, mesh_buffer->getVertexCount(), indices,
+			mesh_buffer->getIndexCount());
+		return cloned_buffer;
+	}
+	case video::EVT_2TCOORDS: {
+		video::S3DVertex2TCoords *v =
+			(video::S3DVertex2TCoords *) mesh_buffer->getVertices();
+		u16 *indices = mesh_buffer->getIndices();
+		scene::SMeshBufferTangents *cloned_buffer =
+			new scene::SMeshBufferTangents();
+		cloned_buffer->append(v, mesh_buffer->getVertexCount(), indices,
+			mesh_buffer->getIndexCount());
+		return cloned_buffer;
+	}
+	case video::EVT_TANGENTS: {
+		video::S3DVertexTangents *v =
+			(video::S3DVertexTangents *) mesh_buffer->getVertices();
+		u16 *indices = mesh_buffer->getIndices();
+		scene::SMeshBufferTangents *cloned_buffer =
+			new scene::SMeshBufferTangents();
+		cloned_buffer->append(v, mesh_buffer->getVertexCount(), indices,
+			mesh_buffer->getIndexCount());
+		return cloned_buffer;
+	}
+	}
+	// This should not happen.
+	sanity_check(false);
+	return NULL;
+}
+
+scene::SMesh* cloneMesh(scene::IMesh *src_mesh)
 {
 	scene::SMesh* dst_mesh = new scene::SMesh();
 	for (u16 j = 0; j < src_mesh->getMeshBufferCount(); j++) {
-		scene::IMeshBuffer *buf = src_mesh->getMeshBuffer(j);
-		switch (buf->getVertexType()) {
-			case video::EVT_STANDARD: {
-				video::S3DVertex *v =
-					(video::S3DVertex *) buf->getVertices();
-				u16 *indices = (u16*)buf->getIndices();
-				scene::SMeshBuffer *temp_buf = new scene::SMeshBuffer();
-				temp_buf->append(v, buf->getVertexCount(),
-					indices, buf->getIndexCount());
-				dst_mesh->addMeshBuffer(temp_buf);
-				temp_buf->drop();
-				break;
-			}
-			case video::EVT_2TCOORDS: {
-				video::S3DVertex2TCoords *v =
-					(video::S3DVertex2TCoords *) buf->getVertices();
-				u16 *indices = (u16*)buf->getIndices();
-				scene::SMeshBufferTangents *temp_buf =
-					new scene::SMeshBufferTangents();
-				temp_buf->append(v, buf->getVertexCount(),
-					indices, buf->getIndexCount());
-				dst_mesh->addMeshBuffer(temp_buf);
-				temp_buf->drop();
-				break;
-			}
-			case video::EVT_TANGENTS: {
-				video::S3DVertexTangents *v =
-					(video::S3DVertexTangents *) buf->getVertices();
-				u16 *indices = (u16*)buf->getIndices();
-				scene::SMeshBufferTangents *temp_buf =
-					new scene::SMeshBufferTangents();
-				temp_buf->append(v, buf->getVertexCount(),
-					indices, buf->getIndexCount());
-				dst_mesh->addMeshBuffer(temp_buf);
-				temp_buf->drop();
-				break;
-			}
-		}
+		scene::IMeshBuffer *temp_buf = cloneMeshBuffer(
+			src_mesh->getMeshBuffer(j));
+		dst_mesh->addMeshBuffer(temp_buf);
+		temp_buf->drop();
+
 	}
 	return dst_mesh;
 }
@@ -445,7 +449,7 @@ scene::IMesh* convertNodeboxesToMesh(const std::vector<aabb3f> &boxes,
 		buf->drop();
 	}
 
-	video::SColor c(255,255,255,255);	
+	video::SColor c(255,255,255,255);
 
 	for (std::vector<aabb3f>::const_iterator
 			i = boxes.begin();
@@ -532,7 +536,7 @@ scene::IMesh* convertNodeboxesToMesh(const std::vector<aabb3f> &boxes,
 			buf->append(vertices + j, 4, indices, 6);
 		}
 	}
-	return dst_mesh;					
+	return dst_mesh;
 }
 
 struct vcache

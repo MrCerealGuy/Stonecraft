@@ -36,6 +36,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "particles.h"
 #include "mapnode.h"
 #include "tileanimation.h"
+#include "mesh_generator_thread.h"
 
 struct MeshMakeData;
 class MapBlockMesh;
@@ -48,92 +49,16 @@ class ClientMediaDownloader;
 struct MapDrawControl;
 class MtEventManager;
 struct PointedThing;
-class Database;
+class MapDatabase;
 class Minimap;
 struct MinimapMapblock;
 class Camera;
 class NetworkPacket;
 
-struct QueuedMeshUpdate
-{
-	v3s16 p;
-	MeshMakeData *data;
-	bool ack_block_to_server;
-
-	QueuedMeshUpdate();
-	~QueuedMeshUpdate();
-};
-
 enum LocalClientState {
 	LC_Created,
 	LC_Init,
 	LC_Ready
-};
-
-/*
-	A thread-safe queue of mesh update tasks
-*/
-class MeshUpdateQueue
-{
-public:
-	MeshUpdateQueue();
-
-	~MeshUpdateQueue();
-
-	/*
-		peer_id=0 adds with nobody to send to
-	*/
-	void addBlock(v3s16 p, MeshMakeData *data,
-			bool ack_block_to_server, bool urgent);
-
-	// Returned pointer must be deleted
-	// Returns NULL if queue is empty
-	QueuedMeshUpdate * pop();
-
-	u32 size()
-	{
-		MutexAutoLock lock(m_mutex);
-		return m_queue.size();
-	}
-
-private:
-	std::vector<QueuedMeshUpdate*> m_queue;
-	std::set<v3s16> m_urgents;
-	Mutex m_mutex;
-};
-
-struct MeshUpdateResult
-{
-	v3s16 p;
-	MapBlockMesh *mesh;
-	bool ack_block_to_server;
-
-	MeshUpdateResult():
-		p(-1338,-1338,-1338),
-		mesh(NULL),
-		ack_block_to_server(false)
-	{
-	}
-};
-
-class MeshUpdateThread : public UpdateThread
-{
-private:
-	MeshUpdateQueue m_queue_in;
-	int m_generation_interval;
-
-protected:
-	virtual void doUpdate();
-
-public:
-
-	MeshUpdateThread();
-
-	void enqueueUpdate(v3s16 p, MeshMakeData *data,
-			bool ack_block_to_server, bool urgent);
-	MutexedQueue<MeshUpdateResult> m_queue_out;
-
-	v3s16 m_camera_offset;
 };
 
 enum ClientEventType
@@ -320,7 +245,7 @@ public:
 	Client(
 			IrrlichtDevice *device,
 			const char *playername,
-			std::string password,
+			const std::string &password,
 			MapDrawControl &control,
 			IWritableTextureSource *tsrc,
 			IWritableShaderSource *shsrc,
@@ -386,13 +311,10 @@ public:
 	void handleCommand_HP(NetworkPacket* pkt);
 	void handleCommand_Breath(NetworkPacket* pkt);
 	void handleCommand_MovePlayer(NetworkPacket* pkt);
-	void handleCommand_PlayerItem(NetworkPacket* pkt);
 	void handleCommand_DeathScreen(NetworkPacket* pkt);
 	void handleCommand_AnnounceMedia(NetworkPacket* pkt);
 	void handleCommand_Media(NetworkPacket* pkt);
-	void handleCommand_ToolDef(NetworkPacket* pkt);
 	void handleCommand_NodeDef(NetworkPacket* pkt);
-	void handleCommand_CraftItemDef(NetworkPacket* pkt);
 	void handleCommand_ItemDef(NetworkPacket* pkt);
 	void handleCommand_PlaySound(NetworkPacket* pkt);
 	void handleCommand_StopSound(NetworkPacket* pkt);
@@ -471,6 +393,7 @@ public:
 	float getAnimationTime();
 
 	int getCrackLevel();
+	v3s16 getCrackPos();
 	void setCrack(int level, v3s16 pos);
 
 	u16 getHP();
@@ -586,7 +509,7 @@ public:
 	void showMinimap(const bool show = true);
 	void showProfiler(const bool show = true);
 	void showGameFog(const bool show = true);
-	void showGameDebug(const bool show = false);
+	void showGameDebug(const bool show = true);
 
 private:
 
@@ -722,14 +645,9 @@ private:
 	LocalClientState m_state;
 
 	// Used for saving server map to disk client-side
-	Database *m_localdb;
+	MapDatabase *m_localdb;
 	IntervalLimiter m_localdb_save_interval;
 	u16 m_cache_save_interval;
-
-	// TODO: Add callback to update these when g_settings changes
-	bool m_cache_smooth_lighting;
-	bool m_cache_enable_shaders;
-	bool m_cache_use_tangent_vertices;
 
 	ClientScripting *m_script;
 	bool m_modding_enabled;

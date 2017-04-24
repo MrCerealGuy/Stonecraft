@@ -674,10 +674,6 @@ void Server::handleCommand_RequestMedia(NetworkPacket* pkt)
 	sendRequestedMedia(pkt->getPeerId(), tosend);
 }
 
-void Server::handleCommand_ReceivedMedia(NetworkPacket* pkt)
-{
-}
-
 void Server::handleCommand_ClientReady(NetworkPacket* pkt)
 {
 	u16 peer_id = pkt->getPeerId();
@@ -722,6 +718,13 @@ void Server::handleCommand_ClientReady(NetworkPacket* pkt)
 
 	m_clients.event(peer_id, CSE_SetClientReady);
 	m_script->on_joinplayer(playersao);
+	// Send shutdown timer if shutdown has been scheduled
+	if (m_shutdown_timer > 0.0f) {
+		std::wstringstream ws;
+		ws << L"*** Server shutting down in "
+				<< duration_to_string(myround(m_shutdown_timer)).c_str() << ".";
+		SendChatMessage(pkt->getPeerId(), ws.str());
+	}
 }
 
 void Server::handleCommand_GotBlocks(NetworkPacket* pkt)

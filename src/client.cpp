@@ -51,154 +51,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 extern gui::IGUIEnvironment* guienv;
 
 /*
-	QueuedMeshUpdate
-*/
-
-QueuedMeshUpdate::QueuedMeshUpdate():
-	p(-1337,-1337,-1337),
-	data(NULL),
-	ack_block_to_server(false)
-{
-}
-
-QueuedMeshUpdate::~QueuedMeshUpdate()
-{
-	if(data)
-		delete data;
-}
-
-/*
-	MeshUpdateQueue
-*/
-
-MeshUpdateQueue::MeshUpdateQueue()
-{
-}
-
-MeshUpdateQueue::~MeshUpdateQueue()
-{
-	MutexAutoLock lock(m_mutex);
-
-	for(std::vector<QueuedMeshUpdate*>::iterator
-			i = m_queue.begin();
-			i != m_queue.end(); ++i)
-	{
-		QueuedMeshUpdate *q = *i;
-		delete q;
-	}
-}
-
-/*
-	peer_id=0 adds with nobody to send to
-*/
-void MeshUpdateQueue::addBlock(v3s16 p, MeshMakeData *data, bool ack_block_to_server, bool urgent)
-{
-	DSTACK(FUNCTION_NAME);
-
-	assert(data);	// pre-condition
-
-	MutexAutoLock lock(m_mutex);
-
-	if(urgent)
-		m_urgents.insert(p);
-
-	/*
-		Find if block is already in queue.
-		If it is, update the data and quit.
-	*/
-	for(std::vector<QueuedMeshUpdate*>::iterator
-			i = m_queue.begin();
-			i != m_queue.end(); ++i)
-	{
-		QueuedMeshUpdate *q = *i;
-		if(q->p == p)
-		{
-			if(q->data)
-				delete q->data;
-			q->data = data;
-			if(ack_block_to_server)
-				q->ack_block_to_server = true;
-			return;
-		}
-	}
-
-	/*
-		Add the block
-	*/
-	QueuedMeshUpdate *q = new QueuedMeshUpdate;
-	q->p = p;
-	q->data = data;
-	q->ack_block_to_server = ack_block_to_server;
-	m_queue.push_back(q);
-}
-
-// Returned pointer must be deleted
-// Returns NULL if queue is empty
-QueuedMeshUpdate *MeshUpdateQueue::pop()
-{
-	MutexAutoLock lock(m_mutex);
-
-	bool must_be_urgent = !m_urgents.empty();
-	for(std::vector<QueuedMeshUpdate*>::iterator
-			i = m_queue.begin();
-			i != m_queue.end(); ++i)
-	{
-		QueuedMeshUpdate *q = *i;
-		if(must_be_urgent && m_urgents.count(q->p) == 0)
-			continue;
-		m_queue.erase(i);
-		m_urgents.erase(q->p);
-		return q;
-	}
-	return NULL;
-}
-
-/*
-	MeshUpdateThread
-*/
-
-MeshUpdateThread::MeshUpdateThread() : UpdateThread("Mesh")
-{
-	m_generation_interval = g_settings->getU16("mesh_generation_interval");
-	m_generation_interval = rangelim(m_generation_interval, 0, 50);
-}
-
-void MeshUpdateThread::enqueueUpdate(v3s16 p, MeshMakeData *data,
-		bool ack_block_to_server, bool urgent)
-{
-	m_queue_in.addBlock(p, data, ack_block_to_server, urgent);
-	deferUpdate();
-}
-
-void MeshUpdateThread::doUpdate()
-{
-	QueuedMeshUpdate *q;
-	while ((q = m_queue_in.pop())) {
-		if (m_generation_interval)
-			sleep_ms(m_generation_interval);
-		ScopeProfiler sp(g_profiler, "Client: Mesh making");
-
-		MapBlockMesh *mesh_new = new MapBlockMesh(q->data, m_camera_offset);
-
-		MeshUpdateResult r;
-		r.p = q->p;
-		r.mesh = mesh_new;
-		r.ack_block_to_server = q->ack_block_to_server;
-
-		m_queue_out.push_back(r);
-
-		delete q;
-	}
-}
-
-/*
 	Client
 */
 
 Client::Client(
 		IrrlichtDevice *device,
 		const char *playername,
-		std::string password,
+		const std::string &password,
 		MapDrawControl &control,
 		IWritableTextureSource *tsrc,
 		IWritableShaderSource *shsrc,
@@ -220,7 +79,7 @@ Client::Client(
 	m_nodedef(nodedef),
 	m_sound(sound),
 	m_event(event),
-	m_mesh_update_thread(),
+	m_mesh_update_thread(this),
 	m_env(
 		new ClientMap(this, control,
 			device->getSceneManager()->getRootSceneNode(),
@@ -268,12 +127,6 @@ Client::Client(
 
 	m_minimap = new Minimap(device, this);
 	m_cache_save_interval = g_settings->getU16("server_map_save_interval");
-
-	m_cache_smooth_lighting = g_settings->getBool("smooth_lighting");
-	m_cache_enable_shaders  = g_settings->getBool("enable_shaders");
-	m_cache_use_tangent_vertices = m_cache_enable_shaders && (
-		g_settings->getBool("enable_bumpmapping") ||
-		g_settings->getBool("enable_parallax_occlusion"));
 
 	m_modding_enabled = g_settings->getBool("enable_client_modding");
 	m_script = new ClientScripting(this);
@@ -634,13 +487,17 @@ void Client::step(float dtime)
 					minimap_mapblock = r.mesh->moveMinimapMapblock();
 					if (minimap_mapblock == NULL)
 						do_mapper_update = false;
-				}
 
-				if (r.mesh && r.mesh->getMesh()->getMeshBufferCount() == 0) {
-					delete r.mesh;
-				} else {
-					// Replace with the new mesh
-					block->mesh = r.mesh;
+					bool is_empty = true;
+					for (int l = 0; l < MAX_TILE_LAYERS; l++)
+						if (r.mesh->getMesh(l)->getMeshBufferCount() != 0)
+							is_empty = false;
+
+					if (is_empty)
+						delete r.mesh;
+					else
+						// Replace with the new mesh
+						block->mesh = r.mesh;
 				}
 			} else {
 				delete r.mesh;
@@ -913,7 +770,7 @@ void Client::initLocalMapSaving(const Address &address,
 
 	fs::CreateAllDirs(world_path);
 
-	m_localdb = new Database_SQLite3(world_path);
+	m_localdb = new MapDatabaseSQLite3(world_path);
 	m_localdb->beginSave();
 	actionstream << "Local map saving started, map will be saved at '" << world_path << "'" << std::endl;
 }
@@ -1605,6 +1462,11 @@ int Client::getCrackLevel()
 	return m_crack_level;
 }
 
+v3s16 Client::getCrackPos()
+{
+	return m_crack_pos;
+}
+
 void Client::setCrack(int level, v3s16 pos)
 {
 	int old_crack_level = m_crack_level;
@@ -1670,28 +1532,14 @@ void Client::typeChatMessage(const std::wstring &message)
 
 void Client::addUpdateMeshTask(v3s16 p, bool ack_to_server, bool urgent)
 {
+	// Check if the block exists to begin with. In the case when a non-existing
+	// neighbor is automatically added, it may not. In that case we don't want
+	// to tell the mesh update thread about it.
 	MapBlock *b = m_env.getMap().getBlockNoCreateNoEx(p);
-	if(b == NULL)
+	if (b == NULL)
 		return;
 
-	/*
-		Create a task to update the mesh of the block
-	*/
-
-	MeshMakeData *data = new MeshMakeData(this, m_cache_enable_shaders,
-		m_cache_use_tangent_vertices);
-
-	{
-		//TimeTaker timer("data fill");
-		// Release: ~0ms
-		// Debug: 1-6ms, avg=2ms
-		data->fill(b);
-		data->setCrack(m_crack_level, m_crack_pos);
-		data->setSmoothLighting(m_cache_smooth_lighting);
-	}
-
-	// Add task to queue
-	m_mesh_update_thread.enqueueUpdate(p, data, ack_to_server, urgent);
+	m_mesh_update_thread.updateBlock(&m_env.getMap(), p, ack_to_server, urgent);
 }
 
 void Client::addUpdateMeshTaskWithEdge(v3s16 blockpos, bool ack_to_server, bool urgent)
@@ -1782,6 +1630,7 @@ typedef struct TextureUpdateArgs {
 	u32 last_time_ms;
 	u16 last_percent;
 	const wchar_t* text_base;
+	ITextureSource *tsrc;
 } TextureUpdateArgs;
 
 void texture_update_progress(void *args, u32 progress, u32 max_progress)
@@ -1803,8 +1652,8 @@ void texture_update_progress(void *args, u32 progress, u32 max_progress)
 			targs->last_time_ms = time_ms;
 			std::basic_stringstream<wchar_t> strm;
 			strm << targs->text_base << " " << targs->last_percent << "%...";
-			draw_load_screen(strm.str(), targs->device, targs->guienv, 0,
-				72 + (u16) ((18. / 100.) * (double) targs->last_percent));
+			draw_load_screen(strm.str(), targs->device, targs->guienv, targs->tsrc, 0,
+				72 + (u16) ((18. / 100.) * (double) targs->last_percent), true);
 		}
 }
 
@@ -1824,21 +1673,21 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 
 	// Rebuild inherited images and recreate textures
 	infostream<<"- Rebuilding images and textures"<<std::endl;
-	draw_load_screen(text,device, guienv, 0, 70);
+	draw_load_screen(text,device, guienv, m_tsrc, 0, 70);
 	m_tsrc->rebuildImagesAndTextures();
 	delete[] text;
 
 	// Rebuild shaders
 	infostream<<"- Rebuilding shaders"<<std::endl;
 	text = wgettext("Rebuilding shaders...");
-	draw_load_screen(text, device, guienv, 0, 71);
+	draw_load_screen(text, device, guienv, m_tsrc, 0, 71);
 	m_shsrc->rebuildShaders();
 	delete[] text;
 
 	// Update node aliases
 	infostream<<"- Updating node aliases"<<std::endl;
 	text = wgettext("Initializing nodes...");
-	draw_load_screen(text, device, guienv, 0, 72);
+	draw_load_screen(text, device, guienv, m_tsrc, 0, 72);
 	m_nodedef->updateAliases(m_itemdef);
 	std::string texture_path = g_settings->get("texture_path");
 	if (texture_path != "" && fs::IsDir(texture_path))
@@ -1855,6 +1704,7 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 	tu_args.last_time_ms = getTimeMs();
 	tu_args.last_percent = 0;
 	tu_args.text_base =  wgettext("Initializing nodes");
+	tu_args.tsrc = m_tsrc;
 	m_nodedef->updateTextures(this, texture_update_progress, &tu_args);
 	delete[] tu_args.text_base;
 
@@ -1871,7 +1721,7 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 	}
 
 	text = wgettext("Done!");
-	draw_load_screen(text, device, guienv, 0, 100);
+	draw_load_screen(text, device, guienv, m_tsrc, 0, 100);
 	infostream<<"Client::afterContentReceived() done"<<std::endl;
 	delete[] text;
 }

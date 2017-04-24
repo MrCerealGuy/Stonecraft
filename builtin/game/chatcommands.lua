@@ -279,6 +279,31 @@ core.register_chatcommand("auth_reload", {
 	end,
 })
 
+core.register_chatcommand("remove_player", {
+	params = "<name>",
+	description = "Remove player data",
+	privs = {server=true},
+	func = function(name, param)
+		local toname = param
+		if toname == "" then
+			return false, "Name field required"
+		end
+
+		local rc = core.remove_player(toname)
+
+		if rc == 0 then
+			core.log("action", name .. " removed player data of " .. toname .. ".")
+			return true, "Player \"" .. toname .. "\" removed."
+		elseif rc == 1 then
+			return true, "No such player \"" .. toname .. "\" to remove."
+		elseif rc == 2 then
+			return true, "Player \"" .. toname .. "\" is connected, cannot remove."
+		end
+
+		return false, "Unhandled remove_player return code " .. rc .. ""
+	end,
+})
+
 core.register_chatcommand("teleport", {
 	params = "<X>,<Y>,<Z> | <to_name> | <name> <X>,<Y>,<Z> | <name> <to_name>",
 	description = "Teleport to player or position",
@@ -483,6 +508,25 @@ core.register_chatcommand("deleteblocks", {
 				core.pos_to_string(p1, 1) .. " to " .. core.pos_to_string(p2, 1)
 		else
 			return false, "Failed to clear one or more blocks in area"
+		end
+	end,
+})
+
+core.register_chatcommand("fixlight", {
+	params = "(here [radius]) | (<pos1> <pos2>)",
+	description = "Resets lighting in the area between pos1 and pos2",
+	privs = {server = true},
+	func = function(name, param)
+		local p1, p2 = parse_range_str(name, param)
+		if p1 == false then
+			return false, p2
+		end
+
+		if core.fix_light(p1, p2) then
+			return true, "Successfully reset light in the area ranging from " ..
+				core.pos_to_string(p1, 1) .. " to " .. core.pos_to_string(p2, 1)
+		else
+			return false, "Failed to load one or more blocks in area"
 		end
 	end,
 })
@@ -763,14 +807,20 @@ core.register_chatcommand("days", {
 
 core.register_chatcommand("shutdown", {
 	description = "Shutdown server",
-	params = "[reconnect] [message]",
+	params = "[delay_in_seconds(0..inf) or -1 for cancel] [reconnect] [message]",
 	privs = {server=true},
 	func = function(name, param)
-		core.log("action", name .. " shuts down server")
-		core.chat_send_all("*** Server shutting down (operator request).")
-		local reconnect, message = param:match("([^ ]+)(.*)")
+		local delay, reconnect, message = param:match("([^ ][-]?[0-9]+)([^ ]+)(.*)")
 		message = message or ""
-		core.request_shutdown(message:trim(), core.is_yes(reconnect))
+
+		if delay ~= "" then
+			delay = tonumber(param) or 0
+		else
+			delay = 0
+			core.log("action", name .. " shuts down server")
+			core.chat_send_all("*** Server shutting down (operator request).")
+		end
+		core.request_shutdown(message:trim(), core.is_yes(reconnect), delay)
 	end,
 })
 

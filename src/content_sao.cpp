@@ -764,9 +764,10 @@ bool LuaEntitySAO::collideWithObjects() const
 
 // No prototype, PlayerSAO does not need to be deserialized
 
-PlayerSAO::PlayerSAO(ServerEnvironment *env_, u16 peer_id_, bool is_singleplayer):
+PlayerSAO::PlayerSAO(ServerEnvironment *env_, RemotePlayer *player_, u16 peer_id_,
+		bool is_singleplayer):
 	UnitSAO(env_, v3f(0,0,0)),
-	m_player(NULL),
+	m_player(player_),
 	m_peer_id(peer_id_),
 	m_inventory(NULL),
 	m_damage(0),
@@ -788,7 +789,8 @@ PlayerSAO::PlayerSAO(ServerEnvironment *env_, u16 peer_id_, bool is_singleplayer
 	m_physics_override_jump(1),
 	m_physics_override_gravity(1),
 	m_physics_override_sneak(true),
-	m_physics_override_sneak_glitch(true),
+	m_physics_override_sneak_glitch(false),
+	m_physics_override_new_move(true),
 	m_physics_override_sent(false)
 {
 	assert(m_peer_id != 0);	// pre-condition
@@ -818,7 +820,7 @@ PlayerSAO::~PlayerSAO()
 		delete m_inventory;
 }
 
-void PlayerSAO::initialize(RemotePlayer *player, const std::set<std::string> &privs)
+void PlayerSAO::finalize(RemotePlayer *player, const std::set<std::string> &privs)
 {
 	assert(player);
 	m_player = player;
@@ -886,7 +888,7 @@ std::string PlayerSAO::getClientInitializationData(u16 protocol_version)
 		m_attachment_bone, m_attachment_position, m_attachment_rotation)); // 4
 	msg_os << serializeLongString(gob_cmd_update_physics_override(m_physics_override_speed,
 			m_physics_override_jump, m_physics_override_gravity, m_physics_override_sneak,
-			m_physics_override_sneak_glitch)); // 5
+			m_physics_override_sneak_glitch, m_physics_override_new_move)); // 5
 	// (GENERIC_CMD_UPDATE_NAMETAG_ATTRIBUTES) : Deprecated, for backwards compatibility only.
 	msg_os << serializeLongString(gob_cmd_update_nametag_attributes(m_prop.nametag_color)); // 6
 	int message_count = 6 + m_bone_position.size();
@@ -939,6 +941,30 @@ void PlayerSAO::step(float dtime, bool send_recommended)
 		// If player is alive & no drowning, breath
 		if (m_hp > 0 && m_breath < PLAYER_MAX_BREATH && c.drowning == 0)
 			setBreath(m_breath + 1);
+	}
+
+	if (m_node_hurt_interval.step(dtime, 1.0)) {
+		// Feet, middle and head
+		v3s16 p1 = floatToInt(m_base_position + v3f(0, BS*0.1, 0), BS);
+		MapNode n1 = m_env->getMap().getNodeNoEx(p1);
+		v3s16 p2 = floatToInt(m_base_position + v3f(0, BS*0.8, 0), BS);
+		MapNode n2 = m_env->getMap().getNodeNoEx(p2);
+		v3s16 p3 = floatToInt(m_base_position + v3f(0, BS*1.6, 0), BS);
+		MapNode n3 = m_env->getMap().getNodeNoEx(p3);
+
+		u32 damage_per_second = 0;
+		damage_per_second = MYMAX(damage_per_second,
+			m_env->getGameDef()->ndef()->get(n1).damage_per_second);
+		damage_per_second = MYMAX(damage_per_second,
+			m_env->getGameDef()->ndef()->get(n2).damage_per_second);
+		damage_per_second = MYMAX(damage_per_second,
+			m_env->getGameDef()->ndef()->get(n3).damage_per_second);
+
+		if (damage_per_second != 0 && m_hp > 0) {
+			s16 newhp = ((s32) damage_per_second > m_hp ? 0 : m_hp - damage_per_second);
+			setHP(newhp);
+			m_env->getGameDef()->SendPlayerHPOrDie(this);
+		}
 	}
 
 	if (!m_properties_sent) {
@@ -1025,7 +1051,8 @@ void PlayerSAO::step(float dtime, bool send_recommended)
 		m_physics_override_sent = true;
 		std::string str = gob_cmd_update_physics_override(m_physics_override_speed,
 				m_physics_override_jump, m_physics_override_gravity,
-				m_physics_override_sneak, m_physics_override_sneak_glitch);
+				m_physics_override_sneak, m_physics_override_sneak_glitch,
+				m_physics_override_new_move);
 		// create message and add to list
 		ActiveObjectMessage aom(getId(), true, str);
 		m_messages_out.push(aom);

@@ -60,7 +60,7 @@ void TextDestGuiEngine::gotText(const StringMap &fields)
 }
 
 /******************************************************************************/
-void TextDestGuiEngine::gotText(std::wstring text)
+void TextDestGuiEngine::gotText(const std::wstring &text)
 {
 	m_engine->getScriptIface()->handleMainMenuEvent(wide_to_utf8(text));
 }
@@ -540,7 +540,7 @@ bool GUIEngine::setTexture(texture_layer layer, std::string texturepath,
 }
 
 /******************************************************************************/
-bool GUIEngine::downloadFile(std::string url, std::string target)
+bool GUIEngine::downloadFile(const std::string &url, const std::string &target)
 {
 #if USE_CURL
 	std::ofstream target_file(target.c_str(), std::ios::out | std::ios::binary);
@@ -602,8 +602,8 @@ void GUIEngine::stopSound(s32 handle)
 }
 
 /******************************************************************************/
-unsigned int GUIEngine::queueAsync(std::string serialized_func,
-		std::string serialized_params)
+unsigned int GUIEngine::queueAsync(const std::string &serialized_func,
+		const std::string &serialized_params)
 {
 	return m_script->queueAsync(serialized_func, serialized_params);
 }

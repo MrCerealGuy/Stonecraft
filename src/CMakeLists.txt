@@ -377,6 +377,7 @@ set(common_SRCS
 	convert_json.cpp
 	craftdef.cpp
 	database-dummy.cpp
+	database-files.cpp
 	database-leveldb.cpp
 	database-postgresql.cpp
 	database-redis.cpp
@@ -522,6 +523,7 @@ set(client_SRCS
 	main.cpp
 	mapblock_mesh.cpp
 	mesh.cpp
+	mesh_generator_thread.cpp
 	minimap.cpp
 	particles.cpp
 	shader.cpp

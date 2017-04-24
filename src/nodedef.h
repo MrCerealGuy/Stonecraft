@@ -218,14 +218,14 @@ struct TileDef
 
 	struct TileAnimationParams animation;
 
-	TileDef()
+	TileDef() :
+		name(""),
+		backface_culling(true),
+		tileable_horizontal(true),
+		tileable_vertical(true),
+		has_color(false),
+		color(video::SColor(0xFFFFFFFF))
 	{
-		name = "";
-		backface_culling = true;
-		tileable_horizontal = true;
-		tileable_vertical = true;
-		has_color = false;
-		color = video::SColor(0xFFFFFFFF);
 		animation.type = TAT_NONE;
 	}
 
@@ -280,6 +280,8 @@ struct ContentFeatures
 #endif
 	float visual_scale; // Misc. scale parameter
 	TileDef tiledef[6];
+	// These will be drawn over the base tiles.
+	TileDef tiledef_overlay[6];
 	TileDef tiledef_special[CF_SPECIAL_COUNT]; // eg. flowing liquid
 	// If 255, the node is opaque.
 	// Otherwise it uses texture alpha.
@@ -405,7 +407,7 @@ struct ContentFeatures
 	}
 
 #ifndef SERVER
-	void fillTileAttribs(ITextureSource *tsrc, TileSpec *tile, TileDef *tiledef,
+	void fillTileAttribs(ITextureSource *tsrc, TileLayer *tile, TileDef *tiledef,
 		u32 shader_id, bool use_normal_texture, bool backface_culling,
 		u8 material_type);
 	void updateTextures(ITextureSource *tsrc, IShaderSource *shdsrc,
