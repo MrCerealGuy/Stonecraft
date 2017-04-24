@@ -52,7 +52,6 @@ int lc_pmain_mod_mines_init(lua_State * L);
 
 /* nssm */
 int lc_pmain_mod_nssm_init(lua_State * L);
-
 int lc_pmain_mod_nssm_ant_queen(lua_State * L);
 int lc_pmain_mod_nssm_ant_soldier(lua_State * L);
 int lc_pmain_mod_nssm_ant_worker(lua_State * L);
@@ -104,5 +103,38 @@ int lc_pmain_mod_nssm_tarantula(lua_State * L);
 int lc_pmain_mod_nssm_uloboros(lua_State * L);
 int lc_pmain_mod_nssm_werewolf(lua_State * L);
 int lc_pmain_mod_nssm_white_werewolf(lua_State * L);
+
+/* ethereal */
+int lc_pmain_mod_ethereal_init(lua_State * L);
+int lc_pmain_mod_ethereal_bonemeal(lua_State * L);
+int lc_pmain_mod_ethereal_compatibility(lua_State * L);
+int lc_pmain_mod_ethereal_crystal(lua_State * L);
+int lc_pmain_mod_ethereal_dirt(lua_State * L);
+int lc_pmain_mod_ethereal_extra(lua_State * L);
+int lc_pmain_mod_ethereal_fences(lua_State * L);
+int lc_pmain_mod_ethereal_fishing(lua_State * L);
+int lc_pmain_mod_ethereal_flowers(lua_State * L);
+int lc_pmain_mod_ethereal_food(lua_State * L);
+int lc_pmain_mod_ethereal_gates(lua_State * L);
+int lc_pmain_mod_ethereal_leaves(lua_State * L);
+int lc_pmain_mod_ethereal_mapgen(lua_State * L);
+int lc_pmain_mod_ethereal_mushroom(lua_State * L);
+int lc_pmain_mod_ethereal_onion(lua_State * L);
+int lc_pmain_mod_ethereal_ores(lua_State * L);
+int lc_pmain_mod_ethereal_papyrus(lua_State * L);
+int lc_pmain_mod_ethereal_plantpack(lua_State * L);
+int lc_pmain_mod_ethereal_plantlife(lua_State * L);
+int lc_pmain_mod_ethereal_sapling(lua_State * L);
+int lc_pmain_mod_ethereal_sealife(lua_State * L);
+int lc_pmain_mod_ethereal_stairs(lua_State * L);
+int lc_pmain_mod_ethereal_strawberry(lua_State * L);
+int lc_pmain_mod_ethereal_water(lua_State * L);
+int lc_pmain_mod_ethereal_wood(lua_State * L);
+int lc_pmain_mod_ethereal_bamboo_tree(lua_State * L);
+int lc_pmain_mod_ethereal_banana_tree(lua_State * L);
+int lc_pmain_mod_ethereal_birch_tree(lua_State * L);
+int lc_pmain_mod_ethereal_bush(lua_State * L);
+int lc_pmain_mod_ethereal_orange_tree(lua_State * L);
+int lc_pmain_mod_ethereal_waterlily(lua_State * L);
 
 #endif /* CPP_MODS_INIT_H_ */
