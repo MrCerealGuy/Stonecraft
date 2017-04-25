@@ -164,7 +164,7 @@ endif()
 
 if(RUN_IN_PLACE)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/mods/mods_here.txt" DESTINATION "${SHAREDIR}/mods")
-	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")
+	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")	
 endif()
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/fonts" DESTINATION "${SHAREDIR}")
@@ -193,14 +193,12 @@ if(WIN32)
 endif()
 
 if(UNIX AND NOT APPLE)
-	if(BUILD_CLIENT)
-		install(FILES "/usr/lib/x86_64-linux-gnu/libIrrlicht.so.1.8" DESTINATION "${BINDIR}")
-		install(FILES "/usr/lib/x86_64-linux-gnu/libopenal.so.1" DESTINATION "${BINDIR}")
-		install(FILES "/usr/lib/x86_64-linux-gnu/libvorbisfile.so.3" DESTINATION "${BINDIR}")
-		install(FILES "/usr/lib/x86_64-linux-gnu/libsqlite3.so.0" DESTINATION "${BINDIR}")
-		install(FILES "/usr/lib/x86_64-linux-gnu/libluajit-5.1.so.2" DESTINATION "${BINDIR}")
-#		install(FILES "/usr/lib/x86_64-linux-gnu/libgmp.so.10" DESTINATION "${BINDIR}")
-	endif()
+#	if(BUILD_CLIENT)
+
+#	endif()
+
+	install(FILES "bin/setup.sh" DESTINATION "${BINDIR}")
+
 	install(FILES "doc/stonecraft.6" "doc/stonecraftserver.6" DESTINATION "${MANDIR}/man6")
 	install(FILES "misc/stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
 	install(FILES "misc/stonecraft.appdata.xml" DESTINATION "${APPDATADIR}")
