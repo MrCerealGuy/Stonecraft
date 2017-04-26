@@ -99,12 +99,12 @@ local function create_world_formspec(dialogdata)
 							"checkbox[0.25,5.50;cb_enable_caverealms;" .. fgettext("Enable cave realms") .. ";false]" ..							
 							"checkbox[6.05,5.50;cb_enable_mines;" .. fgettext("Enable mines") .. ";false]" ..
 							"checkbox[0.25,6.00;cb_enable_surprise;" .. fgettext("Enable surprise blocks") .. ";false]" ..
-							"checkbox[6.05,6.00;cb_enable_homedecor;" .. fgettext("Enable home decor") .. ";false]" ..
-							"checkbox[0.25,6.50;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
+							"checkbox[6.05,6.00;cb_enable_homedecor;" .. fgettext("Enable home decor/technic") .. ";false]" ..
+							--"checkbox[0.25,6.50;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
 							"checkbox[6.05,6.50;cb_enable_nssm;" .. fgettext("Enable not so simple mobs") .. ";false]" ..
-							"checkbox[0.25,7.00;cb_enable_pyramids;" .. fgettext("Enable pyramids/spawners") .. ";false]" ..
+							"checkbox[0.25,6.50;cb_enable_pyramids;" .. fgettext("Enable pyramids/spawners") .. ";false]" ..
 							"checkbox[6.05,7.00;cb_enable_giantmushrooms;" .. fgettext("Enable giant mushrooms") .. ";false]" ..
-							"checkbox[0.25,7.50;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]"
+							"checkbox[0.25,7.00;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]"
 		end
 		
 		if game.id == "stonecraft" then
@@ -187,10 +187,10 @@ local function create_world_buttonhandler(this, fields)
 		return true
 	end
 	
-	if fields["cb_enable_mesecons"] ~= nil then
-		world_create_enable_mesecons = core.is_yes(fields["cb_enable_mesecons"])
-		return true
-	end
+--	if fields["cb_enable_mesecons"] ~= nil then
+--		world_create_enable_mesecons = core.is_yes(fields["cb_enable_mesecons"])
+--		return true
+--	end
 	
 	
 	if fields["cb_enable_nssm"] ~= nil then
@@ -272,37 +272,55 @@ local function create_world_buttonhandler(this, fields)
 		
 				-- write selected Stonecraft mods in world.mt
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", b2s(world_create_enable_erosion))
+
+				-- forests
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", b2s(world_create_enable_forests))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_redtrees", b2s(world_create_enable_forests))
+
+				-- villages
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", b2s(world_create_enable_villages))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "false")  --deactivated
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", b2s(world_create_enable_villages))
+
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", b2s(world_create_enable_biomes))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_caverealms", b2s(world_create_enable_caverealms))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_creatures", b2s(world_create_enable_creatures))
+
+				-- homedecor/technic
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_homedecor", b2s(world_create_enable_homedecor))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", b2s(world_create_enable_mesecons))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", b2s(world_create_enable_mesecons))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", b2s(world_create_enable_mesecons))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", b2s(world_create_enable_mesecons))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", b2s(world_create_enable_homedecor))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", b2s(world_create_enable_homedecor))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", b2s(world_create_enable_homedecor))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", b2s(world_create_enable_homedecor))
+
+				-- not so simple mobs
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssm", b2s(world_create_enable_nssm))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssb", b2s(world_create_enable_nssm))
+
+				-- pyramids
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pyramids", b2s(world_create_enable_pyramids))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_spawners", b2s(world_create_enable_pyramids))
+
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_giantmushrooms", b2s(world_create_enable_giantmushrooms))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", b2s(world_create_enable_seaplants))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", b2s(world_create_enable_swamps))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", b2s(world_create_enable_snow))
 
+				-- mg_villages needs the mod more_snow
 				if world_create_enable_snow or world_create_enable_villages then
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "true")
 				else
 					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "false")
 				end
 
+				-- wood soils/vines
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", b2s(world_create_enable_woodsoils))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", b2s(world_create_enable_woodsoils))
+
+
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", b2s(world_create_enable_surprise))
+
+				-- mines
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", b2s(world_create_enable_mines))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_carts", b2s(world_create_enable_mines))
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", b2s(world_create_enable_mines))
