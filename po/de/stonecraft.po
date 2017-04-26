@@ -167,12 +167,12 @@ msgid "Enable creatures"
 msgstr "Kreaturen aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable home decor"
-msgstr "Heimdekorationen aktivieren"
+msgid "Enable home decor/technic"
+msgstr "Heimdekorationen/Technik aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable mesecons/pipes/technic"
-msgstr "Mesecons/Rohre/Technik aktivieren"
+#msgid "Enable mesecons/pipes/technic"
+#msgstr "Mesecons/Rohre/Technik aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Enable not so simple mobs"
