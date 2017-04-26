@@ -107,6 +107,14 @@ subterrain = {}
 local yblmin = YMIN + BLEND * 1.5
 local yblmax = YMAX - BLEND * 1.5
 
+-- buffer for get2dMap_flat/get3dMap_flat, added by MrCerealGuy
+local nvals_cave_buf = {}
+local nvals_wave_buf = {}
+local nvals_biome_buf = {}
+
+-- buffer for vm:get_data
+local dbuf = {}
+
 -- On generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
@@ -128,7 +136,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	
 	--grab content IDs
 	local c_air = minetest.get_content_id("air")
@@ -184,10 +192,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local chulens2D = {x=sidelen, y=sidelen, z=1}
 	local minposxyz = {x=x0, y=y0, z=z0} --bottom corner
 	local minposxz = {x=x0, y=z0} --2D bottom corner
-	
-	local nvals_cave = minetest.get_perlin_map(np_cave, chulens):get3dMap_flat(minposxyz) --cave noise for structure
-	local nvals_wave = minetest.get_perlin_map(np_wave, chulens):get3dMap_flat(minposxyz) --wavy structure of cavern ceilings and floors
-	local nvals_biome = minetest.get_perlin_map(np_biome, chulens2D):get2dMap_flat({x=x0+150, y=z0+50}) --2D noise for biomes (will be 3D humidity/temp later)
+																						-- buffer added by McCerealGuy
+	local nvals_cave = minetest.get_perlin_map(np_cave, chulens):get3dMap_flat(minposxyz,nvals_cave_buf) --cave noise for structure
+	local nvals_wave = minetest.get_perlin_map(np_wave, chulens):get3dMap_flat(minposxyz,nvals_wave_buf) --wavy structure of cavern ceilings and floors
+	local nvals_biome = minetest.get_perlin_map(np_biome, chulens2D):get2dMap_flat({x=x0+150, y=z0+50},nvals_biome_buf) --2D noise for biomes (will be 3D humidity/temp later)
 	
 	local nixyz = 1 --3D node index
 	local nixz = 1 --2D node index

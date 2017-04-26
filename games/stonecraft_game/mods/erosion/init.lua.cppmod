@@ -377,6 +377,10 @@ local function place_slope(vpos,m)
 	end
 end
 
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 
 minetest.register_on_generated(function(minp, maxp)
 	if minp.y > 256 then
@@ -384,7 +388,7 @@ minetest.register_on_generated(function(minp, maxp)
 	end
 	
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	local data,prm2 = vm:get_data(),vm:get_param2_data()
+	local data,prm2 = vm:get_data(dbuf),vm:get_param2_data(dbuf_param2)  -- buffer added by MrCerealGuy
 	local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	
 	for x=-1,1 do 

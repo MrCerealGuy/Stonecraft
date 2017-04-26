@@ -16,6 +16,17 @@ extern "C" {
 #include <string.h>
 
 
+/* pushes new closure table onto the stack, using closure table at
+ * given index as its parent */
+static void lc_newclosuretable(lua_State * L, int idx) {
+
+  lua_newtable(L);
+  lua_pushvalue(L,idx);
+  lua_rawseti(L,-2,0);
+
+
+}
+
 #include <assert.h>
 
 /* __add metamethod handler.
@@ -71,6 +82,25 @@ static void lc_mul(lua_State * L, int idxa, int idxb) {
     else {
       luaL_error(L, "attempt to perform arithmetic");
     }
+  }
+}
+
+
+/* gets upvalue with ID varid by consulting upvalue table at index
+ * tidx for the upvalue table at given nesting level. */
+static void lc_getupvalue(lua_State * L, int tidx, int level, int varid) {
+  if (level == 0) {
+    lua_rawgeti(L,tidx,varid);
+  }
+  else {
+    lua_pushvalue(L,tidx);
+    while (--level >= 0) {
+      lua_rawgeti(L,tidx,0); /* 0 links to parent table */
+      lua_remove(L,-2);
+      tidx = -1;
+    }
+    lua_rawgeti(L,-1,varid);
+    lua_remove(L,-2);
   }
 }
 
@@ -221,25 +251,25 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
   
   /* -- dimensions of house plus front flat area
    * if pos.brotate == 0 or pos.brotate == 2 then */
-  enum { lc1 = 13 };
+  enum { lc2 = 13 };
   lua_pushliteral(L,"brotate");
   lua_gettable(L,4);
   lua_pushnumber(L,0);
-  const int lc2 = lua_equal(L,-2,-1);
+  const int lc3 = lua_equal(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc2);
+  lua_pushboolean(L,lc3);
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
     lua_pushliteral(L,"brotate");
     lua_gettable(L,4);
     lua_pushnumber(L,2);
-    const int lc3 = lua_equal(L,-2,-1);
+    const int lc4 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc3);
+    lua_pushboolean(L,lc4);
   }
-  const int lc4 = lua_toboolean(L,-1);
+  const int lc5 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc4) {
+  if (lc5) {
     
     /* xdim = pos.bsizex */
     lua_pushliteral(L,"bsizex");
@@ -292,7 +322,7 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
     lua_replace(L,13);
     assert(lua_gettop(L) == 13);
   }
-  lua_settop(L,lc1);
+  lua_settop(L,lc2);
   assert(lua_gettop(L) == 13);
   
   /* -- 2D noise perlinmap
@@ -321,7 +351,7 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
   lua_rawset(L,-3);
   assert(lua_gettop(L) == 15);
   
-  /* local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos) */
+  /* local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos,nvals_buf) */
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"get_perlin_map");
   lua_gettable(L,-2);
@@ -333,10 +363,12 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
   lua_gettable(L,-2);
   lua_insert(L,-2);
   lua_pushvalue(L,15);
-  lua_call(L,2,1);
+  lc_getupvalue(L,lua_upvalueindex(1),0,1);
+  lua_call(L,3,1);
   assert(lua_gettop(L) == 16);
   
-  /* -- mark mapchunk-sized house area
+  /* -- buffer added by McCerealGuy
+   * -- mark mapchunk-sized house area
    * local ni = 1 */
   lua_pushnumber(L,1);
   assert(lua_gettop(L) == 17);
@@ -376,15 +408,15 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
   if (!(((lua_isnumber(L,-3) && lua_isnumber(L,-2)) && lua_isnumber(L,-1)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc5_var = lua_tonumber(L,-3);
-  const double lc6_limit = lua_tonumber(L,-2);
-  const double lc7_step = lua_tonumber(L,-1);
+  double lc6_var = lua_tonumber(L,-3);
+  const double lc7_limit = lua_tonumber(L,-2);
+  const double lc8_step = lua_tonumber(L,-1);
   lua_pop(L,3);
-  enum { lc8 = 17 };
-  while ((((lc7_step > 0) && (lc5_var <= lc6_limit)) || ((lc7_step <= 0) && (lc5_var >= lc6_limit)))) {
+  enum { lc9 = 17 };
+  while ((((lc8_step > 0) && (lc6_var <= lc7_limit)) || ((lc8_step <= 0) && (lc6_var >= lc7_limit)))) {
     
     /* internal: local z at index 18 */
-    lua_pushnumber(L,lc5_var);
+    lua_pushnumber(L,lc6_var);
     
     /* for x = math.max( village.vx - village.vs, minp.x), math.min(village.vx + village.vs, maxp.x), 1 do -- for each column do */
     lua_getfield(L,LUA_ENVIRONINDEX,"math");
@@ -419,15 +451,15 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
     if (!(((lua_isnumber(L,-3) && lua_isnumber(L,-2)) && lua_isnumber(L,-1)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc9_var = lua_tonumber(L,-3);
-    const double lc10_limit = lua_tonumber(L,-2);
-    const double lc11_step = lua_tonumber(L,-1);
+    double lc10_var = lua_tonumber(L,-3);
+    const double lc11_limit = lua_tonumber(L,-2);
+    const double lc12_step = lua_tonumber(L,-1);
     lua_pop(L,3);
-    enum { lc12 = 18 };
-    while ((((lc11_step > 0) && (lc9_var <= lc10_limit)) || ((lc11_step <= 0) && (lc9_var >= lc10_limit)))) {
+    enum { lc13 = 18 };
+    while ((((lc12_step > 0) && (lc10_var <= lc11_limit)) || ((lc12_step <= 0) && (lc10_var >= lc11_limit)))) {
       
       /* internal: local x at index 19 */
-      lua_pushnumber(L,lc9_var);
+      lua_pushnumber(L,lc10_var);
       
       /* -- for each column do
        * local xrm = x - minp.x */
@@ -588,7 +620,7 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
       /* -- node radius
        * -- only blend the terrain if it does not already belong to another village
        * if( village_area[ x ][ z ][ 2 ] == 0 ) then */
-      enum { lc13 = 34 };
+      enum { lc14 = 34 };
       lua_pushvalue(L,19);
       lua_gettable(L,1);
       lua_pushvalue(L,18);
@@ -598,25 +630,25 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
       lua_gettable(L,-2);
       lua_remove(L,-2);
       lua_pushnumber(L,0);
-      const int lc14 = lua_equal(L,-2,-1);
+      const int lc15 = lua_equal(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc14);
-      const int lc15 = lua_toboolean(L,-1);
+      lua_pushboolean(L,lc15);
+      const int lc16 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc15) {
+      if (lc16) {
         
         /* if    x >= (pos.x-1) and x <= (pos.x + pos.bsizex + 1) -- area reserved for house
          * 			  and z >= (pos.z-1) and z <= (pos.z + pos.bsizez + 1) then */
-        enum { lc16 = 34 };
+        enum { lc17 = 34 };
         lua_pushliteral(L,"x");
         lua_gettable(L,4);
         lua_pushnumber(L,1);
         lc_sub(L,-2,-1);
         lua_remove(L,-2);
         lua_remove(L,-2);
-        const int lc17 = lc_le(L,-1,19);
+        const int lc18 = lc_le(L,-1,19);
         lua_pop(L,1);
-        lua_pushboolean(L,lc17);
+        lua_pushboolean(L,lc18);
         if (lua_toboolean(L,-1)) {
           lua_pop(L,1);
           lua_pushliteral(L,"x");
@@ -630,9 +662,9 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
           lc_add(L,-2,-1);
           lua_remove(L,-2);
           lua_remove(L,-2);
-          const int lc18 = lc_le(L,19,-1);
+          const int lc19 = lc_le(L,19,-1);
           lua_pop(L,1);
-          lua_pushboolean(L,lc18);
+          lua_pushboolean(L,lc19);
         }
         if (lua_toboolean(L,-1)) {
           lua_pop(L,1);
@@ -642,9 +674,9 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
           lc_sub(L,-2,-1);
           lua_remove(L,-2);
           lua_remove(L,-2);
-          const int lc19 = lc_le(L,-1,18);
+          const int lc20 = lc_le(L,-1,18);
           lua_pop(L,1);
-          lua_pushboolean(L,lc19);
+          lua_pushboolean(L,lc20);
         }
         if (lua_toboolean(L,-1)) {
           lua_pop(L,1);
@@ -659,13 +691,13 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
           lc_add(L,-2,-1);
           lua_remove(L,-2);
           lua_remove(L,-2);
-          const int lc20 = lc_le(L,18,-1);
+          const int lc21 = lc_le(L,18,-1);
           lua_pop(L,1);
-          lua_pushboolean(L,lc20);
+          lua_pushboolean(L,lc21);
         }
-        const int lc21 = lua_toboolean(L,-1);
+        const int lc22 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc21) {
+        if (lc22) {
           
           /* village_area[ x ][ z ] = {village_nr, 4} */
           lua_createtable(L,2,0);
@@ -685,27 +717,27 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
         else {
           
           /* elseif nodrad <= flatradn or (xr == 0 and zr == 0) then */
-          enum { lc22 = 34 };
+          enum { lc23 = 34 };
           lua_pushboolean(L,lc_le(L,34,33));
           if (!(lua_toboolean(L,-1))) {
             lua_pop(L,1);
             lua_pushvalue(L,22);
             lua_pushnumber(L,0);
-            const int lc23 = lua_equal(L,-2,-1);
+            const int lc24 = lua_equal(L,-2,-1);
             lua_pop(L,2);
-            lua_pushboolean(L,lc23);
+            lua_pushboolean(L,lc24);
             if (lua_toboolean(L,-1)) {
               lua_pop(L,1);
               lua_pushvalue(L,23);
               lua_pushnumber(L,0);
-              const int lc24 = lua_equal(L,-2,-1);
+              const int lc25 = lua_equal(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc24);
+              lua_pushboolean(L,lc25);
             }
           }
-          const int lc25 = lua_toboolean(L,-1);
+          const int lc26 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc25) {
+          if (lc26) {
             
             /* -- irregular flat area around house
              * village_area[ x ][ z ] = {village_nr, 1} */
@@ -726,11 +758,11 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
           else {
             
             /* elseif nodrad <= blenradn then */
-            enum { lc26 = 34 };
+            enum { lc27 = 34 };
             lua_pushboolean(L,lc_le(L,34,32));
-            const int lc27 = lua_toboolean(L,-1);
+            const int lc28 = lua_toboolean(L,-1);
             lua_pop(L,1);
-            if (lc27) {
+            if (lc28) {
               
               /* -- terrain blend area
                * local blenprop = ((nodrad - flatradn) / (blenradn - flatradn)) */
@@ -760,14 +792,14 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
             }
             else {
             }
-            lua_settop(L,lc26);
+            lua_settop(L,lc27);
           }
-          lua_settop(L,lc22);
+          lua_settop(L,lc23);
         }
-        lua_settop(L,lc16);
+        lua_settop(L,lc17);
         assert(lua_gettop(L) == 34);
       }
-      lua_settop(L,lc13);
+      lua_settop(L,lc14);
       assert(lua_gettop(L) == 34);
       
       /* ni = ni + 1 */
@@ -779,16 +811,16 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,16);
-      lc9_var += lc11_step;
+      lc10_var += lc12_step;
     }
-    lua_settop(L,lc12);
+    lua_settop(L,lc13);
     assert(lua_gettop(L) == 18);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc5_var += lc7_step;
+    lc6_var += lc8_step;
   }
-  lua_settop(L,lc8);
+  lua_settop(L,lc9);
   assert(lua_gettop(L) == 17);
   return 0;
 }
@@ -798,17 +830,22 @@ static int lcf1_mg_villages_village_area_mark_single_house_area (lua_State * L) 
  * function(...) */
 static int lcf_main (lua_State * L) {
   enum { lc_nformalargs = 0 };
-  #ifndef NDEBUG
   const int lc_nactualargs = lua_gettop(L);
-  #endif
-  #ifndef NDEBUG
   const int lc_nextra = (lc_nactualargs - lc_nformalargs);
-  #endif
   
   /* -- this function needs to be fed house x, z dimensions and rotation
    * -- it will then calculate the minimum point (xbmin, avsurfy, zbmin) where the house should be spawned
    * -- and mark a mapchunk-sized 'house area' for terrain blending
-   * mg_villages.village_area_mark_single_house_area = function(village_area, minp, maxp, pos, pr, village_nr, village)
+   * -- buffer for get2dMap_flat, added by MrCerealGuy
+   * local nvals_buf = {} */
+  lc_newclosuretable(L,lua_upvalueindex(1));
+  enum { lc1 = 1 };
+  assert((lua_gettop(L) == (lc1 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc1 + lc_nextra),1);
+  assert(lua_gettop(L) - lc_nextra == 1);
+  
+  /* mg_villages.village_area_mark_single_house_area = function(village_area, minp, maxp, pos, pr, village_nr, village)
    * 
    * 	local YFLATMIN = 2 -- Lowest flat area height
    * 	local FFAPROP = 0.5 -- front flat area proportion of dimension
@@ -835,7 +872,7 @@ static int lcf_main (lua_State * L) {
    * 	-- 2D noise perlinmap
    * 	local chulens = {x=sidelen, y=sidelen, z=sidelen}
    * 	local minpos = {x=minp.x, y=minp.z}
-   * 	local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos)
+   * 	local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos,nvals_buf)  -- buffer added by McCerealGuy
    * 
    * 	-- mark mapchunk-sized house area
    * 	local ni = 1
@@ -878,14 +915,15 @@ static int lcf_main (lua_State * L) {
    * 	end
    * 	end
    * end */
-  lua_pushcfunction(L,lcf1_mg_villages_village_area_mark_single_house_area);
+  lua_pushvalue(L,(lc1 + lc_nextra));
+  lua_pushcclosure(L,lcf1_mg_villages_village_area_mark_single_house_area,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"mg_villages");
   lua_insert(L,-2);
   lua_pushliteral(L,"village_area_mark_single_house_area");
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 0);
+  assert(lua_gettop(L) - lc_nextra == 1);
   return 0;
 }
 
@@ -1000,6 +1038,5 @@ int lc_pmain_mod_mg_villages_terrain_blend(lua_State * L) {
   }
   return 0;
 }
-
 
 

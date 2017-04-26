@@ -1,3 +1,8 @@
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf2 = {}
+local dbuf_param2 = {}
+
 -- TODO: this function also occours in replacements.lua
 handle_schematics.get_content_id_replaced = function( node_name, replacements )
 	if( not( node_name ) or not( replacements ) or not(replacements.table )) then
@@ -732,8 +737,8 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 		{x = pos.x+pos.bsizex, y = pos.y+binfo.ysize+1, z = pos.z+pos.bsizez} -- TODO
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data        = vm:get_data()
-	local param2_data = vm:get_param2_data();
+	local data        = vm:get_data(dbuf)					  -- buffer added by MrCerealGuy
+	local param2_data = vm:get_param2_data(dbuf_param2);
 
 
 	-- translate the replacement_list into replacements.ids and replacements.table format
@@ -948,7 +953,7 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 		{x = end_pos.x,   y = end_pos.y,   z = end_pos.z}
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data        = vm:get_data()
+	local data        = vm:get_data(dbuf2)	  -- buffer added by MrCerealGuy
 
 	if( ground_level < start_pos.y or ground_level > end_pos.y ) then
 		ground_level = start_pos.y;

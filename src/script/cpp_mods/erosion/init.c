@@ -3850,28 +3850,28 @@ static int lcf1_place_slope (lua_State * L) {
 
 
 /* function(minp, maxp) */
-static int lcf223 (lua_State * L) {
+static int lcf225 (lua_State * L) {
   lua_checkstack(L,28);
   enum { lc_nformalargs = 2 };
   lua_settop(L,2);
   
   /* if minp.y > 256 then */
-  enum { lc178 = 2 };
+  enum { lc180 = 2 };
   lua_pushnumber(L,256);
   lua_pushliteral(L,"y");
   lua_gettable(L,1);
-  const int lc179 = lua_lessthan(L,-2,-1);
+  const int lc181 = lua_lessthan(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc179);
-  const int lc180 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc181);
+  const int lc182 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc180) {
+  if (lc182) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 2);
   }
-  lua_settop(L,lc178);
+  lua_settop(L,lc180);
   assert(lua_gettop(L) == 2);
   
   /* local vm, emin, emax = minetest.get_mapgen_object("voxelmanip") */
@@ -3883,20 +3883,23 @@ static int lcf223 (lua_State * L) {
   lua_call(L,1,3);
   assert(lua_gettop(L) == 5);
   
-  /* local data,prm2 = vm:get_data(),vm:get_param2_data() */
+  /* local data,prm2 = vm:get_data(dbuf),vm:get_param2_data(dbuf_param2) */
   lua_pushvalue(L,3);
   lua_pushliteral(L,"get_data");
   lua_gettable(L,-2);
   lua_insert(L,-2);
-  lua_call(L,1,1);
+  lc_getupvalue(L,lua_upvalueindex(1),1,19);
+  lua_call(L,2,1);
   lua_pushvalue(L,3);
   lua_pushliteral(L,"get_param2_data");
   lua_gettable(L,-2);
   lua_insert(L,-2);
-  lua_call(L,1,1);
+  lc_getupvalue(L,lua_upvalueindex(1),0,20);
+  lua_call(L,2,1);
   assert(lua_gettop(L) == 7);
   
-  /* local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax} */
+  /* -- buffer added by MrCerealGuy
+   * local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax} */
   lua_getfield(L,LUA_ENVIRONINDEX,"VoxelArea");
   lua_pushliteral(L,"new");
   lua_gettable(L,-2);
@@ -3917,15 +3920,15 @@ static int lcf223 (lua_State * L) {
   if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc181_var = lua_tonumber(L,-2);
-  const double lc182_limit = lua_tonumber(L,-1);
-  const double lc183_step = 1;
+  double lc183_var = lua_tonumber(L,-2);
+  const double lc184_limit = lua_tonumber(L,-1);
+  const double lc185_step = 1;
   lua_pop(L,2);
-  enum { lc184 = 8 };
-  while ((((lc183_step > 0) && (lc181_var <= lc182_limit)) || ((lc183_step <= 0) && (lc181_var >= lc182_limit)))) {
+  enum { lc186 = 8 };
+  while ((((lc185_step > 0) && (lc183_var <= lc184_limit)) || ((lc185_step <= 0) && (lc183_var >= lc184_limit)))) {
     
     /* internal: local x at index 9 */
-    lua_pushnumber(L,lc181_var);
+    lua_pushnumber(L,lc183_var);
     
     /* for y=-1,1 do */
     lua_pushnumber(L,-1);
@@ -3933,15 +3936,15 @@ static int lcf223 (lua_State * L) {
     if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc185_var = lua_tonumber(L,-2);
-    const double lc186_limit = lua_tonumber(L,-1);
-    const double lc187_step = 1;
+    double lc187_var = lua_tonumber(L,-2);
+    const double lc188_limit = lua_tonumber(L,-1);
+    const double lc189_step = 1;
     lua_pop(L,2);
-    enum { lc188 = 9 };
-    while ((((lc187_step > 0) && (lc185_var <= lc186_limit)) || ((lc187_step <= 0) && (lc185_var >= lc186_limit)))) {
+    enum { lc190 = 9 };
+    while ((((lc189_step > 0) && (lc187_var <= lc188_limit)) || ((lc189_step <= 0) && (lc187_var >= lc188_limit)))) {
       
       /* internal: local y at index 10 */
-      lua_pushnumber(L,lc185_var);
+      lua_pushnumber(L,lc187_var);
       
       /* for z=-1,1 do */
       lua_pushnumber(L,-1);
@@ -3949,15 +3952,15 @@ static int lcf223 (lua_State * L) {
       if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc189_var = lua_tonumber(L,-2);
-      const double lc190_limit = lua_tonumber(L,-1);
-      const double lc191_step = 1;
+      double lc191_var = lua_tonumber(L,-2);
+      const double lc192_limit = lua_tonumber(L,-1);
+      const double lc193_step = 1;
       lua_pop(L,2);
-      enum { lc192 = 10 };
-      while ((((lc191_step > 0) && (lc189_var <= lc190_limit)) || ((lc191_step <= 0) && (lc189_var >= lc190_limit)))) {
+      enum { lc194 = 10 };
+      while ((((lc193_step > 0) && (lc191_var <= lc192_limit)) || ((lc193_step <= 0) && (lc191_var >= lc192_limit)))) {
         
         /* internal: local z at index 11 */
-        lua_pushnumber(L,lc189_var);
+        lua_pushnumber(L,lc191_var);
         
         /* cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride */
         lua_pushliteral(L,"ystride");
@@ -3973,7 +3976,7 @@ static int lcf223 (lua_State * L) {
         lc_add(L,-2,-1);
         lua_remove(L,-2);
         lua_remove(L,-2);
-        lc_getupvalue(L,lua_upvalueindex(1),1,16);
+        lc_getupvalue(L,lua_upvalueindex(1),3,16);
         lua_pushvalue(L,9);
         lua_gettable(L,-2);
         lua_remove(L,-2);
@@ -3989,23 +3992,23 @@ static int lcf223 (lua_State * L) {
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,1);
-        lc189_var += lc191_step;
+        lc191_var += lc193_step;
       }
-      lua_settop(L,lc192);
+      lua_settop(L,lc194);
       assert(lua_gettop(L) == 10);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,1);
-      lc185_var += lc187_step;
+      lc187_var += lc189_step;
     }
-    lua_settop(L,lc188);
+    lua_settop(L,lc190);
     assert(lua_gettop(L) == 9);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc181_var += lc183_step;
+    lc183_var += lc185_step;
   }
-  lua_settop(L,lc184);
+  lua_settop(L,lc186);
   assert(lua_gettop(L) == 8);
   
   /* for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do */
@@ -4034,56 +4037,56 @@ static int lcf223 (lua_State * L) {
   if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc193_var = lua_tonumber(L,-2);
-  const double lc194_limit = lua_tonumber(L,-1);
-  const double lc195_step = 1;
+  double lc195_var = lua_tonumber(L,-2);
+  const double lc196_limit = lua_tonumber(L,-1);
+  const double lc197_step = 1;
   lua_pop(L,2);
-  enum { lc196 = 8 };
-  while ((((lc195_step > 0) && (lc193_var <= lc194_limit)) || ((lc195_step <= 0) && (lc193_var >= lc194_limit)))) {
+  enum { lc198 = 8 };
+  while ((((lc197_step > 0) && (lc195_var <= lc196_limit)) || ((lc197_step <= 0) && (lc195_var >= lc196_limit)))) {
     
     /* internal: local vpos at index 9 */
-    lua_pushnumber(L,lc193_var);
+    lua_pushnumber(L,lc195_var);
     
     /* if data[vpos] == dpstn.air then */
-    enum { lc197 = 9 };
+    enum { lc199 = 9 };
     lua_pushvalue(L,9);
     lua_gettable(L,6);
-    lc_getupvalue(L,lua_upvalueindex(1),1,17);
+    lc_getupvalue(L,lua_upvalueindex(1),3,17);
     lua_pushliteral(L,"air");
     lua_gettable(L,-2);
     lua_remove(L,-2);
-    const int lc198 = lua_equal(L,-2,-1);
+    const int lc200 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc198);
-    const int lc199 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc200);
+    const int lc201 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc199) {
+    if (lc201) {
       
       /* for i=1,#gen_nodes do */
       lua_pushnumber(L,1);
-      lc_getupvalue(L,lua_upvalueindex(1),8,4);
-      const double lc203 = lua_objlen(L,-1);
+      lc_getupvalue(L,lua_upvalueindex(1),10,4);
+      const double lc205 = lua_objlen(L,-1);
       lua_pop(L,1);
-      lua_pushnumber(L,lc203);
+      lua_pushnumber(L,lc205);
       if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc200_var = lua_tonumber(L,-2);
-      const double lc201_limit = lua_tonumber(L,-1);
-      const double lc202_step = 1;
+      double lc202_var = lua_tonumber(L,-2);
+      const double lc203_limit = lua_tonumber(L,-1);
+      const double lc204_step = 1;
       lua_pop(L,2);
-      enum { lc204 = 9 };
-      while ((((lc202_step > 0) && (lc200_var <= lc201_limit)) || ((lc202_step <= 0) && (lc200_var >= lc201_limit)))) {
+      enum { lc206 = 9 };
+      while ((((lc204_step > 0) && (lc202_var <= lc203_limit)) || ((lc204_step <= 0) && (lc202_var >= lc203_limit)))) {
         
         /* internal: local i at index 10 */
-        lua_pushnumber(L,lc200_var);
+        lua_pushnumber(L,lc202_var);
         
         /* place_slope(data,prm2,vpos,gen_nodes[i]) */
-        lc_getupvalue(L,lua_upvalueindex(1),0,18);
+        lc_getupvalue(L,lua_upvalueindex(1),2,18);
         lua_pushvalue(L,6);
         lua_pushvalue(L,7);
         lua_pushvalue(L,9);
-        lc_getupvalue(L,lua_upvalueindex(1),8,4);
+        lc_getupvalue(L,lua_upvalueindex(1),10,4);
         lua_pushvalue(L,10);
         lua_gettable(L,-2);
         lua_remove(L,-2);
@@ -4092,32 +4095,32 @@ static int lcf223 (lua_State * L) {
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,1);
-        lc200_var += lc202_step;
+        lc202_var += lc204_step;
       }
-      lua_settop(L,lc204);
+      lua_settop(L,lc206);
       assert(lua_gettop(L) == 9);
     }
-    lua_settop(L,lc197);
+    lua_settop(L,lc199);
     assert(lua_gettop(L) == 9);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc193_var += lc195_step;
+    lc195_var += lc197_step;
   }
-  lua_settop(L,lc196);
+  lua_settop(L,lc198);
   assert(lua_gettop(L) == 8);
   
   /* if maxp.y > 2 then */
-  enum { lc205 = 8 };
+  enum { lc207 = 8 };
   lua_pushnumber(L,2);
   lua_pushliteral(L,"y");
   lua_gettable(L,2);
-  const int lc206 = lua_lessthan(L,-2,-1);
+  const int lc208 = lua_lessthan(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc206);
-  const int lc207 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc208);
+  const int lc209 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc207) {
+  if (lc209) {
     
     /* local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1 */
     lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -4131,16 +4134,16 @@ static int lcf223 (lua_State * L) {
     assert(lua_gettop(L) == 11);
     
     /* if heightmap ~= nil then */
-    enum { lc208 = 11 };
+    enum { lc210 = 11 };
     lua_pushnil(L);
-    const int lc209 = lua_equal(L,9,-1);
+    const int lc211 = lua_equal(L,9,-1);
     lua_pop(L,1);
-    lua_pushboolean(L,lc209);
+    lua_pushboolean(L,lc211);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc210 = lua_toboolean(L,-1);
+    const int lc212 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc210) {
+    if (lc212) {
       
       /* for z=minp.z,maxp.z do */
       lua_pushliteral(L,"z");
@@ -4150,15 +4153,15 @@ static int lcf223 (lua_State * L) {
       if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc211_var = lua_tonumber(L,-2);
-      const double lc212_limit = lua_tonumber(L,-1);
-      const double lc213_step = 1;
+      double lc213_var = lua_tonumber(L,-2);
+      const double lc214_limit = lua_tonumber(L,-1);
+      const double lc215_step = 1;
       lua_pop(L,2);
-      enum { lc214 = 11 };
-      while ((((lc213_step > 0) && (lc211_var <= lc212_limit)) || ((lc213_step <= 0) && (lc211_var >= lc212_limit)))) {
+      enum { lc216 = 11 };
+      while ((((lc215_step > 0) && (lc213_var <= lc214_limit)) || ((lc215_step <= 0) && (lc213_var >= lc214_limit)))) {
         
         /* internal: local z at index 12 */
-        lua_pushnumber(L,lc211_var);
+        lua_pushnumber(L,lc213_var);
         
         /* for x=minp.x,maxp.x do */
         lua_pushliteral(L,"x");
@@ -4168,16 +4171,16 @@ static int lcf223 (lua_State * L) {
         if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
           luaL_error(L,"'for' limit must be a number");
         }
-        double lc215_var = lua_tonumber(L,-2);
-        const double lc216_limit = lua_tonumber(L,-1);
-        const double lc217_step = 1;
+        double lc217_var = lua_tonumber(L,-2);
+        const double lc218_limit = lua_tonumber(L,-1);
+        const double lc219_step = 1;
         lua_pop(L,2);
-        enum { lc218 = 12 };
-        while ((((lc217_step > 0) && (lc215_var <= lc216_limit)) || ((lc217_step <= 0) && (lc215_var >= lc216_limit)))) {
-
+        enum { lc220 = 12 };
+        while ((((lc219_step > 0) && (lc217_var <= lc218_limit)) || ((lc219_step <= 0) && (lc217_var >= lc218_limit)))) {
+          
           /* internal: local x at index 13 */
-          lua_pushnumber(L,lc215_var);
-
+          lua_pushnumber(L,lc217_var);
+          
           /* vpos = vxa:index(x,heightmap[hndx]+1,z) */
           lua_pushvalue(L,8);
           lua_pushliteral(L,"index");
@@ -4196,28 +4199,28 @@ static int lcf223 (lua_State * L) {
           assert(lua_gettop(L) == 13);
           
           /* if data[vpos] == dpstn.air then */
-          enum { lc219 = 13 };
+          enum { lc221 = 13 };
           lua_pushvalue(L,11);
           lua_gettable(L,6);
-          lc_getupvalue(L,lua_upvalueindex(1),1,17);
+          lc_getupvalue(L,lua_upvalueindex(1),3,17);
           lua_pushliteral(L,"air");
           lua_gettable(L,-2);
           lua_remove(L,-2);
-          const int lc220 = lua_equal(L,-2,-1);
+          const int lc222 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc220);
-          const int lc221 = lua_toboolean(L,-1);
+          lua_pushboolean(L,lc222);
+          const int lc223 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc221) {
-
+          if (lc223) {
+            
             /* for k,_ in pairs(eroding_nodes) do
              * internal: local f, s, var = explist */
-            enum { lc222 = 13 };
+            enum { lc224 = 13 };
             lua_getfield(L,LUA_ENVIRONINDEX,"pairs");
-            lc_getupvalue(L,lua_upvalueindex(1),9,1);
+            lc_getupvalue(L,lua_upvalueindex(1),11,1);
             lua_call(L,1,3);
             while (1) {
-
+              
               /* internal: local var_1, ..., var_n = f(s, var)
                *           if var_1 == nil then break end
                *           var = var_1 */
@@ -4230,54 +4233,54 @@ static int lcf223 (lua_State * L) {
               }
               lua_pushvalue(L,-2);
               lua_replace(L,-4);
-
+              
               /* internal: local k with idx 17
                * internal: local _ with idx 18 */
-
-
+              
+              
               /* place_slope(data,prm2,vpos,k) */
-              lc_getupvalue(L,lua_upvalueindex(1),0,18);
+              lc_getupvalue(L,lua_upvalueindex(1),2,18);
               lua_pushvalue(L,6);
               lua_pushvalue(L,7);
               lua_pushvalue(L,11);
               lua_pushvalue(L,17);
               lua_call(L,4,0);
               assert(lua_gettop(L) == 18);
-
+              
               /* internal: stack cleanup on scope exit */
               lua_pop(L,2);
             }
-            lua_settop(L,lc222);
+            lua_settop(L,lc224);
             assert(lua_gettop(L) == 13);
           }
-          lua_settop(L,lc219);
+          lua_settop(L,lc221);
           assert(lua_gettop(L) == 13);
-
+          
           /* hndx = hndx+1 */
           lua_pushnumber(L,1);
           lc_add(L,10,-1);
           lua_remove(L,-2);
           lua_replace(L,10);
           assert(lua_gettop(L) == 13);
-
+          
           /* internal: stack cleanup on scope exit */
           lua_pop(L,1);
-          lc215_var += lc217_step;
+          lc217_var += lc219_step;
         }
-        lua_settop(L,lc218);
+        lua_settop(L,lc220);
         assert(lua_gettop(L) == 12);
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,1);
-        lc211_var += lc213_step;
+        lc213_var += lc215_step;
       }
-      lua_settop(L,lc214);
+      lua_settop(L,lc216);
       assert(lua_gettop(L) == 11);
     }
-    lua_settop(L,lc208);
+    lua_settop(L,lc210);
     assert(lua_gettop(L) == 11);
   }
-  lua_settop(L,lc205);
+  lua_settop(L,lc207);
   assert(lua_gettop(L) == 8);
   
   /* vm:set_data(data) */
@@ -4349,15 +4352,15 @@ static int lcf1_wwthrngCL (lua_State * L) {
   assert(lua_gettop(L) == 3);
   
   /* if k == "air" then */
-  enum { lc224 = 3 };
+  enum { lc226 = 3 };
   lua_pushliteral(L,"air");
-  const int lc225 = lua_equal(L,3,-1);
+  const int lc227 = lua_equal(L,3,-1);
   lua_pop(L,1);
-  lua_pushboolean(L,lc225);
-  const int lc226 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc227);
+  const int lc228 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc226) {
-
+  if (lc228) {
+    
     /* p.y = p.y-1 */
     lua_pushliteral(L,"y");
     lua_gettable(L,1);
@@ -4377,7 +4380,7 @@ static int lcf1_wwthrngCL (lua_State * L) {
     lua_call(L,2,0);
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc224);
+  lua_settop(L,lc226);
   assert(lua_gettop(L) == 3);
   return 0;
 }
@@ -6161,46 +6164,63 @@ static int lcf_main (lua_State * L) {
   lua_rawseti(L,(lc126 + lc_nextra),18);
   assert(lua_gettop(L) - lc_nextra == 14);
   
+  /* -- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+   * local dbuf = {} */
+  lc_newclosuretable(L,(lc126 + lc_nextra));
+  enum { lc178 = 15 };
+  assert((lua_gettop(L) == (lc178 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc178 + lc_nextra),19);
+  assert(lua_gettop(L) - lc_nextra == 15);
+  
+  /* local dbuf_param2 = {} */
+  lc_newclosuretable(L,(lc178 + lc_nextra));
+  enum { lc179 = 16 };
+  assert((lua_gettop(L) == (lc179 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc179 + lc_nextra),20);
+  assert(lua_gettop(L) - lc_nextra == 16);
+  
   /* minetest.register_on_generated(function(minp, maxp)
    * 	if minp.y > 256 then
    * 		return
    * 	end
-   *
+   * 	
    * 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-   * 	local data,prm2 = vm:get_data(),vm:get_param2_data()
+   * 	local data,prm2 = vm:get_data(dbuf),vm:get_param2_data(dbuf_param2)  -- buffer added by MrCerealGuy
    * 	local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-   *
-   * 	for x=-1,1 do
+   * 	
+   * 	for x=-1,1 do 
    * 		for y=-1,1 do
    * 			for z=-1,1 do
    * 				cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride
    * 			end
    * 		end
    * 	end
-   *
+   * 	
    * 	for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do
    * 		 if data[vpos] == dpstn.air then
-   * 			for i=1,#gen_nodes do
+   * 			for i=1,#gen_nodes do 
    * 				place_slope(data,prm2,vpos,gen_nodes[i])
    * 			end
    * 		end
    * 	end
-   *
+   * 	
    * 	if maxp.y > 2 then
    * 		local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1
-   *
+   * 		
    * 		if heightmap ~= nil then
-   *
+   * 		
    * 			for z=minp.z,maxp.z do
    * 				for x=minp.x,maxp.x do
    * 					vpos = vxa:index(x,heightmap[hndx]+1,z)
-   *
-   * 					if data[vpos] == dpstn.air then
-   * 						for k,_ in pairs(eroding_nodes) do
+   * 					
+   * 					if data[vpos] == dpstn.air then 
+   * 						for k,_ in pairs(eroding_nodes) do 
    * 							place_slope(data,prm2,vpos,k)
    * 						end
    * 					end
-   *
+   * 					
    * 					hndx = hndx+1
    * 				end
    * 			end
@@ -6215,10 +6235,10 @@ static int lcf_main (lua_State * L) {
   lua_pushliteral(L,"register_on_generated");
   lua_gettable(L,-2);
   lua_remove(L,-2);
-  lua_pushvalue(L,(lc126 + lc_nextra));
-  lua_pushcclosure(L,lcf223,1);
+  lua_pushvalue(L,(lc179 + lc_nextra));
+  lua_pushcclosure(L,lcf225,1);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 14);
+  assert(lua_gettop(L) - lc_nextra == 16);
   
   /* local function wwthrngCL(p,n) p.y = p.y+1
    * 	local k = minetest.get_node(p).name
@@ -6229,7 +6249,7 @@ static int lcf_main (lua_State * L) {
    * 	end
    * end */
   lua_pushcfunction(L,lcf1_wwthrngCL);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 17);
   
   /* minetest.register_abm({
    * 	nodenames = nntbl,
@@ -6258,10 +6278,10 @@ static int lcf_main (lua_State * L) {
   lua_pushnumber(L,9);
   lua_rawset(L,-3);
   lua_pushliteral(L,"action");
-  lua_pushvalue(L,(15 + lc_nextra));
+  lua_pushvalue(L,(17 + lc_nextra));
   lua_rawset(L,-3);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 17);
   
   /* minetest.register_abm({
    * 	nodenames = lntbl,
@@ -6290,10 +6310,10 @@ static int lcf_main (lua_State * L) {
   lua_pushnumber(L,7);
   lua_rawset(L,-3);
   lua_pushliteral(L,"action");
-  lua_pushvalue(L,(15 + lc_nextra));
+  lua_pushvalue(L,(17 + lc_nextra));
   lua_rawset(L,-3);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 17);
   
   /* minetest.register_abm({
    * 	nodenames = sntbl,
@@ -6325,16 +6345,16 @@ static int lcf_main (lua_State * L) {
   lua_pushvalue(L,(12 + lc_nextra));
   lua_rawset(L,-3);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 17);
   
   /* minetest.register_on_punchnode(wwthrngCL) */
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"register_on_punchnode");
   lua_gettable(L,-2);
   lua_remove(L,-2);
-  lua_pushvalue(L,(15 + lc_nextra));
+  lua_pushvalue(L,(17 + lc_nextra));
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 17);
   return 0;
 }
 
