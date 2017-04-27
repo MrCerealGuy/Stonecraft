@@ -424,6 +424,10 @@ local default_nparams = {
    octaves = 6,
    persist = 0.6
 }
+
+-- buffer for get3dMap_flat, added by MrCerealGuy
+local nbuf = {}
+
 function funcs.explosion_perlin(rmin, rmax, nparams)
 	local t1 = os.clock()
 
@@ -435,7 +439,7 @@ function funcs.explosion_perlin(rmin, rmax, nparams)
 	nparams.spread = nparams.spread or vector.from_number(r*5)
 
 	local pos = {x=math.random(-30000, 30000), y=math.random(-30000, 30000), z=math.random(-30000, 30000)}
-	local map = minetest.get_perlin_map(nparams, vector.from_number(r+r+1)):get3dMap_flat(pos)
+	local map = minetest.get_perlin_map(nparams, vector.from_number(r+r+1)):get3dMap_flat(pos, nbuf)  -- buffer added by McCerealGuy
 
 	local id = 1
 
