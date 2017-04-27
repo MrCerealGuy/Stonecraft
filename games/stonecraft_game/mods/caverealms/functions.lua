@@ -518,6 +518,10 @@ if (CAVESPAWN) then
 	end)
 end
 
+-- buffer for get2dMap_flat/get3dMap_flat, added by MrCerealGuy
+local nvals_cave_buf = {}
+local nvals_wave_buf = {}
+
 -- Spawn player underground
 function spawnplayer(player, ydepth)
 	
@@ -567,9 +571,9 @@ function spawnplayer(player, ydepth)
 		local chulens = {x=sidelen, y=sidelen, z=sidelen}
 		local minposxyz = {x=x0, y=y0, z=z0}
 		local minposxz = {x=x0, y=z0}
-
-		local nvals_cave = minetest.get_perlin_map(np_cave, chulens):get3dMap_flat(minposxyz) --cave noise for structure
-		local nvals_wave = minetest.get_perlin_map(np_wave, chulens):get3dMap_flat(minposxyz) --wavy structure of cavern ceilings and floors
+																					-- buffer added by McCerealGuy
+		local nvals_cave = minetest.get_perlin_map(np_cave, chulens):get3dMap_flat(minposxyz, nvals_cave_buf) --cave noise for structure
+		local nvals_wave = minetest.get_perlin_map(np_wave, chulens):get3dMap_flat(minposxyz, nvals_wave_buf) --wavy structure of cavern ceilings and floors
 
 		local nixz = 1
 		local nixyz = 1
