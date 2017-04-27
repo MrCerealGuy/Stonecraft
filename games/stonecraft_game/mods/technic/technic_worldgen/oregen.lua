@@ -125,7 +125,7 @@ local floor = math.floor
 local max = math.max
 local min = math.min
 
-local noise = minetest.get_perlin(9876, 3, 0.5, 100)
+local noise = nil
 
 local c_lava = minetest.get_content_id("default:lava_source")
 local c_lava_flowing = minetest.get_content_id("default:lava_flowing")
