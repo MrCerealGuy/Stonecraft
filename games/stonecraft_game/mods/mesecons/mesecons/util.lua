@@ -276,6 +276,11 @@ function mesecon.vm_abort()
 end
 
 -- Gets the cache entry covering a position, populating it if necessary.
+
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 local function vm_get_or_create_entry(pos)
 	local hash = hash_blockpos(pos)
 	local tbl = vm_cache[hash]
@@ -283,7 +288,7 @@ local function vm_get_or_create_entry(pos)
 		local vm = minetest.get_voxel_manip(pos, pos)
 		local min_pos, max_pos = vm:get_emerged_area()
 		local va = VoxelArea:new{MinEdge = min_pos, MaxEdge = max_pos}
-		tbl = {vm = vm, va = va, data = vm:get_data(), param1 = vm:get_light_data(), param2 = vm:get_param2_data(), dirty = false}
+		tbl = {vm = vm, va = va, data = vm:get_data(dbuf), param1 = vm:get_light_data(), param2 = vm:get_param2_data(dbuf_param2), dirty = false}	-- buffer added by MrCerealGuy
 		vm_cache[hash] = tbl
 	end
 	return tbl

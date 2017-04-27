@@ -113,6 +113,9 @@ local function vmanip_nodes(tab, nodes, area)
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 local function vmanip_spawn_nodes(tab)
 	local t1 = os.clock()
 
@@ -143,7 +146,7 @@ local function vmanip_spawn_nodes(tab)
 	local manip = minetest.get_voxel_manip()
 	local emerged_pos1, emerged_pos2 = manip:read_from_map(minp, maxp)
 	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:get_data()
+	local nodes = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	vmanip_nodes(tab, nodes, area)
 

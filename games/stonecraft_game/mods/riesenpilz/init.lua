@@ -39,6 +39,9 @@ end
 -- contents become added later
 local c
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf1, dbuf2 = {}
+
 -- cache buildable_to ids
 local re_al_cache = {[minetest.get_content_id("ignore")] = true}
 local function replacing_allowed(id)
@@ -58,7 +61,7 @@ end
 local set_vm_nodes
 if riesenpilz.giant_restrict_area then
 	function set_vm_nodes(manip, pznodes)
-		local nodes = manip:get_data()
+		local nodes = manip:get_data(dbuf1)	-- buffer added by MrCerealGuy
 		for vi,id in pairs(pznodes) do
 			if not replacing_allowed(nodes[vi]) then
 				return false
@@ -70,7 +73,7 @@ if riesenpilz.giant_restrict_area then
 	end
 else
 	function set_vm_nodes(manip, pznodes)
-		local nodes = manip:get_data()
+		local nodes = manip:get_data(dbuf2)	-- buffer added by MrCerealGuy
 		for vi,id in pairs(pznodes) do
 			if replacing_allowed(nodes[vi]) then
 				nodes[vi] = id
@@ -194,12 +197,15 @@ function riesenpilz.fly_agaric(pos, nodes, area, param2s)
 	end
 end
 
+-- buffer for manip:get_param2_data, added by MrCerealGuy
+local dbuf_param2 = {}
+
 local function riesenpilz_minecraft_fliegenpilz(pos)
 	local t1 = os.clock()
 
 	local manip = minetest.get_voxel_manip()
 	local area = r_area(manip, 2, 4, pos)
-	local param2s = manip:get_param2_data()
+	local param2s = manip:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 
 	local pznodes = {}
 	riesenpilz.fly_agaric(pos, pznodes, area, param2s)

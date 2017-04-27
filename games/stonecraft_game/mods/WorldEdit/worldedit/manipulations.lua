@@ -42,11 +42,15 @@ end
 --- Replaces all instances of `search_node` with `replace_node` in a region.
 -- When `inverse` is `true`, replaces all instances that are NOT `search_node`.
 -- @return The number of nodes replaced.
+
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
 	local manip, area = mh.init(pos1, pos2)
-	local data = manip:get_data()
+	local data = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	local search_id = minetest.get_content_id(search_node)
 	local replace_id = minetest.get_content_id(replace_node)

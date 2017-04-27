@@ -38,6 +38,9 @@ end)
 --  |          |
 --   \___/\___/
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 local function update_forcefield(pos, meta, active, first)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
@@ -45,7 +48,7 @@ local function update_forcefield(pos, meta, active, first)
 	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range),
 			vector.add(pos, range))
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	local c_air = minetest.get_content_id("air")
 	local c_field = minetest.get_content_id("technic:forcefield")

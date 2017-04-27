@@ -270,6 +270,10 @@ function tnt.burn(pos, nodename)
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf1 = {}
+local dbuf2 = {}
+
 local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	pos = vector.round(pos)
 	-- scan for adjacent TNT nodes first, and enlarge the explosion
@@ -278,7 +282,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	local p2 = vector.add(pos, 2)
 	local minp, maxp = vm1:read_from_map(p1, p2)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm1:get_data()
+	local data = vm1:get_data(dbuf1)	-- buffer added by MrCerealGuy
 	local count = 0
 	local c_tnt = minetest.get_content_id("tnt:tnt")
 	local c_tnt_burning = minetest.get_content_id("tnt:tnt_burning")
@@ -312,7 +316,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	p2 = vector.add(pos, radius)
 	minp, maxp = vm:read_from_map(p1, p2)
 	a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	data = vm:get_data()
+	data = vm:get_data(dbuf2)	-- buffer added by MrCerealGuy
 
 	local drops = {}
 	local on_blast_queue = {}

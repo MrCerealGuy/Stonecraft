@@ -164,6 +164,9 @@ end
 
 -- Apple tree
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf_tree = {}
+
 function default.grow_tree(pos, is_apple_tree, bad)
 	--[[
 		NOTE: Tree-placing code is currently duplicated in the engine
@@ -185,7 +188,7 @@ function default.grow_tree(pos, is_apple_tree, bad)
 		{x = x + 2, y = y + height + 1, z = z + 2}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf_tree)	-- buffer added by MrCerealGuy
 
 	add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
 
@@ -196,6 +199,9 @@ end
 
 
 -- Jungle tree
+
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf_jungle_tree = {}
 
 function default.grow_jungle_tree(pos, bad)
 	--[[
@@ -220,7 +226,7 @@ function default.grow_jungle_tree(pos, bad)
 		{x = x + 3, y = y + height + 1, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf_jungle_tree)	-- buffer added by MrCerealGuy
 
 	add_trunk_and_leaves(data, a, pos, c_jungletree, c_jungleleaves,
 		height, 3, 30, false)
@@ -264,6 +270,9 @@ local function add_snow(data, vi, c_air, c_ignore, c_snow)
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf_pine_tree = {}
+
 function default.grow_pine_tree(pos, snow)
 	local x, y, z = pos.x, pos.y, pos.z
 	local maxy = y + random(9, 13) -- Trunk top
@@ -280,7 +289,7 @@ function default.grow_pine_tree(pos, snow)
 		{x = x + 3, y = maxy + 3, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf_pine_tree)	-- buffer added by MrCerealGuy
 
 	-- Upper branches layer
 	local dev = 3

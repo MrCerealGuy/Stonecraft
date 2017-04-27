@@ -226,6 +226,9 @@ function sumpf.generate_jungletree(pos, area, nodes, pr, ymax)
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 function spawn_jungletree(pos)
 	local t1 = os.clock()
 
@@ -249,7 +252,7 @@ function spawn_jungletree(pos)
 	local emerged_pos1, emerged_pos2 = manip:read_from_map({x=pos.x-vwidth, y=pos.y+vdepth, z=pos.z-vwidth},
 		{x=pos.x+vwidth, y=pos.y+vheight, z=pos.z+vwidth})
 	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:get_data()
+	local nodes = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	if small then
 		small_jungletree(pos, height, area, nodes, pr)

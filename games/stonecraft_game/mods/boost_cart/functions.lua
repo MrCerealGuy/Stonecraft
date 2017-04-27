@@ -34,6 +34,9 @@ function boost_cart:velocity_to_dir(v)
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 function boost_cart:is_rail(pos, railtype)
 	local node = minetest.get_node(pos).name
 	if node == "ignore" then
@@ -43,7 +46,7 @@ function boost_cart:is_rail(pos, railtype)
 			MinEdge = emin,
 			MaxEdge = emax,
 		}
-		local data = vm:get_data()
+		local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 		local vi = area:indexp(pos)
 		node = minetest.get_name_from_content_id(data[vi])
 	end

@@ -688,7 +688,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   /* -- if area protected or near map limits then no blast damage
    * if minetest.is_protected(pos, "")
    * 	or not within_limits(pos, radius) then */
-  enum { lc24 = 5 };
+  enum { lc25 = 5 };
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"is_protected");
   lua_gettable(L,-2);
@@ -705,15 +705,15 @@ static int lcf1_nssm_explosion (lua_State * L) {
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc25 = lua_toboolean(L,-1);
+  const int lc26 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc25) {
+  if (lc26) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 5);
   }
-  lua_settop(L,lc24);
+  lua_settop(L,lc25);
   assert(lua_gettop(L) == 5);
   
   /* --sound
@@ -765,7 +765,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   
   /* for _,obj in ipairs(objects) do
    * internal: local f, s, var = explist */
-  enum { lc26 = 6 };
+  enum { lc27 = 6 };
   lua_getfield(L,LUA_ENVIRONINDEX,"ipairs");
   lua_pushvalue(L,6);
   lua_call(L,1,3);
@@ -890,22 +890,22 @@ static int lcf1_nssm_explosion (lua_State * L) {
     assert(lua_gettop(L) == 15);
     
     /* if (obj:get_hp() <= 0) then */
-    enum { lc27 = 15 };
+    enum { lc28 = 15 };
     lua_pushvalue(L,11);
     lua_pushliteral(L,"get_hp");
     lua_gettable(L,-2);
     lua_insert(L,-2);
     lua_call(L,1,1);
     lua_pushnumber(L,0);
-    const int lc28 = lc_le(L,-2,-1);
+    const int lc29 = lc_le(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc28);
-    const int lc29 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc29);
+    const int lc30 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc29) {
+    if (lc30) {
       
       /* if (not obj:is_player()) then */
-      enum { lc30 = 15 };
+      enum { lc31 = 15 };
       lua_pushvalue(L,11);
       lua_pushliteral(L,"is_player");
       lua_gettable(L,-2);
@@ -913,9 +913,9 @@ static int lcf1_nssm_explosion (lua_State * L) {
       lua_call(L,1,1);
       lua_pushboolean(L,!(lua_toboolean(L,-1)));
       lua_remove(L,-2);
-      const int lc31 = lua_toboolean(L,-1);
+      const int lc32 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc31) {
+      if (lc32) {
         
         /* obj:remove() */
         lua_pushvalue(L,11);
@@ -925,16 +925,16 @@ static int lcf1_nssm_explosion (lua_State * L) {
         lua_call(L,1,0);
         assert(lua_gettop(L) == 15);
       }
-      lua_settop(L,lc30);
+      lua_settop(L,lc31);
       assert(lua_gettop(L) == 15);
     }
-    lua_settop(L,lc27);
+    lua_settop(L,lc28);
     assert(lua_gettop(L) == 15);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,6);
   }
-  lua_settop(L,lc26);
+  lua_settop(L,lc27);
   assert(lua_gettop(L) == 6);
   
   /* --damages blocks around and if necessary put some fire
@@ -956,7 +956,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   
   /* local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius)) */
   lua_pushvalue(L,7);
-  const int lc32 = lua_gettop(L);
+  const int lc33 = lua_gettop(L);
   lua_pushliteral(L,"read_from_map");
   lua_gettable(L,-2);
   lua_insert(L,-2);
@@ -974,7 +974,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   lua_pushvalue(L,2);
   lua_pushvalue(L,5);
   lua_call(L,2,LUA_MULTRET);
-  lua_call(L,(lua_gettop(L) - lc32),2);
+  lua_call(L,(lua_gettop(L) - lc33),2);
   assert(lua_gettop(L) == 9);
   
   /* local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp}) */
@@ -992,27 +992,29 @@ static int lcf1_nssm_explosion (lua_State * L) {
   lua_call(L,2,1);
   assert(lua_gettop(L) == 10);
   
-  /* local data = vm:get_data() */
+  /* local data = vm:get_data(dbuf) */
   lua_pushvalue(L,7);
   lua_pushliteral(L,"get_data");
   lua_gettable(L,-2);
   lua_insert(L,-2);
-  lua_call(L,1,1);
+  lc_getupvalue(L,lua_upvalueindex(1),0,6);
+  lua_call(L,2,1);
   assert(lua_gettop(L) == 11);
   
-  /* local p = {} */
+  /* -- buffer added by MrCerealGuy
+   * local p = {} */
   lua_newtable(L);
   assert(lua_gettop(L) == 12);
   
   /* local pr = PseudoRandom(os.time()) */
   lua_getfield(L,LUA_ENVIRONINDEX,"PseudoRandom");
-  const int lc33 = lua_gettop(L);
+  const int lc34 = lua_gettop(L);
   lua_getfield(L,LUA_ENVIRONINDEX,"os");
   lua_pushliteral(L,"time");
   lua_gettable(L,-2);
   lua_remove(L,-2);
   lua_call(L,0,LUA_MULTRET);
-  lua_call(L,(lua_gettop(L) - lc33),1);
+  lua_call(L,(lua_gettop(L) - lc34),1);
   assert(lua_gettop(L) == 13);
   
   /* --remove everything near the center of the explosion
@@ -1021,30 +1023,30 @@ static int lcf1_nssm_explosion (lua_State * L) {
   if (!((lua_isnumber(L,-1) && lua_isnumber(L,5)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc34_var = lua_tonumber(L,-1);
-  const double lc35_limit = lua_tonumber(L,5);
-  const double lc36_step = 1;
+  double lc35_var = lua_tonumber(L,-1);
+  const double lc36_limit = lua_tonumber(L,5);
+  const double lc37_step = 1;
   lua_pop(L,1);
-  enum { lc37 = 13 };
-  while ((((lc36_step > 0) && (lc34_var <= lc35_limit)) || ((lc36_step <= 0) && (lc34_var >= lc35_limit)))) {
+  enum { lc38 = 13 };
+  while ((((lc37_step > 0) && (lc35_var <= lc36_limit)) || ((lc37_step <= 0) && (lc35_var >= lc36_limit)))) {
     
     /* internal: local dz at index 14 */
-    lua_pushnumber(L,lc34_var);
+    lua_pushnumber(L,lc35_var);
     
     /* for dy=-radius,radius do */
     lc_unm(L,5);
     if (!((lua_isnumber(L,-1) && lua_isnumber(L,5)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc38_var = lua_tonumber(L,-1);
-    const double lc39_limit = lua_tonumber(L,5);
-    const double lc40_step = 1;
+    double lc39_var = lua_tonumber(L,-1);
+    const double lc40_limit = lua_tonumber(L,5);
+    const double lc41_step = 1;
     lua_pop(L,1);
-    enum { lc41 = 14 };
-    while ((((lc40_step > 0) && (lc38_var <= lc39_limit)) || ((lc40_step <= 0) && (lc38_var >= lc39_limit)))) {
+    enum { lc42 = 14 };
+    while ((((lc41_step > 0) && (lc39_var <= lc40_limit)) || ((lc41_step <= 0) && (lc39_var >= lc40_limit)))) {
       
       /* internal: local dy at index 15 */
-      lua_pushnumber(L,lc38_var);
+      lua_pushnumber(L,lc39_var);
       
       /* local vi = a:index(pos.x + (-radius), pos.y + dy, pos.z + dz) */
       lua_pushvalue(L,10);
@@ -1073,15 +1075,15 @@ static int lcf1_nssm_explosion (lua_State * L) {
       if (!((lua_isnumber(L,-1) && lua_isnumber(L,5)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc42_var = lua_tonumber(L,-1);
-      const double lc43_limit = lua_tonumber(L,5);
-      const double lc44_step = 1;
+      double lc43_var = lua_tonumber(L,-1);
+      const double lc44_limit = lua_tonumber(L,5);
+      const double lc45_step = 1;
       lua_pop(L,1);
-      enum { lc45 = 16 };
-      while ((((lc44_step > 0) && (lc42_var <= lc43_limit)) || ((lc44_step <= 0) && (lc42_var >= lc43_limit)))) {
+      enum { lc46 = 16 };
+      while ((((lc45_step > 0) && (lc43_var <= lc44_limit)) || ((lc45_step <= 0) && (lc43_var >= lc44_limit)))) {
         
         /* internal: local dx at index 17 */
-        lua_pushnumber(L,lc42_var);
+        lua_pushnumber(L,lc43_var);
         
         /* local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz} */
         lua_createtable(L,0,3);
@@ -1111,7 +1113,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
          *         		and data[vi] ~= c_obsidian
          *         		and data[vi] ~= c_brick
          *         		and data[vi] ~= c_chest then */
-        enum { lc46 = 18 };
+        enum { lc47 = 18 };
         lc_mul(L,17,17);
         lc_mul(L,15,15);
         lc_add(L,-2,-1);
@@ -1132,25 +1134,14 @@ static int lcf1_nssm_explosion (lua_State * L) {
         lc_add(L,-2,-1);
         lua_remove(L,-2);
         lua_remove(L,-2);
-        const int lc47 = lc_le(L,-2,-1);
+        const int lc48 = lc_le(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc47);
+        lua_pushboolean(L,lc48);
         if (lua_toboolean(L,-1)) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),4,1);
-          const int lc48 = lua_equal(L,-2,-1);
-          lua_pop(L,2);
-          lua_pushboolean(L,lc48);
-          lua_pushboolean(L,!(lua_toboolean(L,-1)));
-          lua_remove(L,-2);
-        }
-        if (lua_toboolean(L,-1)) {
-          lua_pop(L,1);
-          lua_pushvalue(L,16);
-          lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),3,2);
+          lc_getupvalue(L,lua_upvalueindex(1),5,1);
           const int lc49 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc49);
@@ -1161,7 +1152,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),2,3);
+          lc_getupvalue(L,lua_upvalueindex(1),4,2);
           const int lc50 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc50);
@@ -1172,7 +1163,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),1,4);
+          lc_getupvalue(L,lua_upvalueindex(1),3,3);
           const int lc51 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc51);
@@ -1183,16 +1174,27 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),0,5);
+          lc_getupvalue(L,lua_upvalueindex(1),2,4);
           const int lc52 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc52);
           lua_pushboolean(L,!(lua_toboolean(L,-1)));
           lua_remove(L,-2);
         }
-        const int lc53 = lua_toboolean(L,-1);
+        if (lua_toboolean(L,-1)) {
+          lua_pop(L,1);
+          lua_pushvalue(L,16);
+          lua_gettable(L,11);
+          lc_getupvalue(L,lua_upvalueindex(1),1,5);
+          const int lc53 = lua_equal(L,-2,-1);
+          lua_pop(L,2);
+          lua_pushboolean(L,lc53);
+          lua_pushboolean(L,!(lua_toboolean(L,-1)));
+          lua_remove(L,-2);
+        }
+        const int lc54 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc53) {
+        if (lc54) {
           
           /* local n = nssm:node_ok(p).name */
           lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
@@ -1220,22 +1222,22 @@ static int lcf1_nssm_explosion (lua_State * L) {
           assert(lua_gettop(L) == 20);
           
           /* if on_blast then */
-          enum { lc54 = 20 };
+          enum { lc55 = 20 };
           if (lua_toboolean(L,20)) {
             
             /* return on_blast(p) */
-            const int lc55 = lua_gettop(L);
+            const int lc56 = lua_gettop(L);
             lua_pushvalue(L,20);
             lua_pushvalue(L,18);
             lua_call(L,1,LUA_MULTRET);
-            return (lua_gettop(L) - lc55);
+            return (lua_gettop(L) - lc56);
             assert(lua_gettop(L) == 20);
           }
-          lua_settop(L,lc54);
+          lua_settop(L,lc55);
           assert(lua_gettop(L) == 20);
           
           /* if minetest.get_item_group(n, "unbreakable") ~= 1 then */
-          enum { lc56 = 20 };
+          enum { lc57 = 20 };
           lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
           lua_pushliteral(L,"get_item_group");
           lua_gettable(L,-2);
@@ -1244,44 +1246,44 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pushliteral(L,"unbreakable");
           lua_call(L,2,1);
           lua_pushnumber(L,1);
-          const int lc57 = lua_equal(L,-2,-1);
+          const int lc58 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc57);
+          lua_pushboolean(L,lc58);
           lua_pushboolean(L,!(lua_toboolean(L,-1)));
           lua_remove(L,-2);
-          const int lc58 = lua_toboolean(L,-1);
+          const int lc59 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc58) {
+          if (lc59) {
             
             /* -- if chest then drop items inside
              * if n == "default:chest"
              *         				or n == "3dchest:chest"
              *         				or n == "bones:bones" then */
-            enum { lc59 = 20 };
+            enum { lc60 = 20 };
             lua_pushvalue(L,19);
             lua_pushliteral(L,"default:chest");
-            const int lc60 = lua_equal(L,-2,-1);
+            const int lc61 = lua_equal(L,-2,-1);
             lua_pop(L,2);
-            lua_pushboolean(L,lc60);
+            lua_pushboolean(L,lc61);
             if (!(lua_toboolean(L,-1))) {
               lua_pop(L,1);
               lua_pushvalue(L,19);
               lua_pushliteral(L,"3dchest:chest");
-              const int lc61 = lua_equal(L,-2,-1);
+              const int lc62 = lua_equal(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc61);
+              lua_pushboolean(L,lc62);
             }
             if (!(lua_toboolean(L,-1))) {
               lua_pop(L,1);
               lua_pushvalue(L,19);
               lua_pushliteral(L,"bones:bones");
-              const int lc62 = lua_equal(L,-2,-1);
+              const int lc63 = lua_equal(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc62);
+              lua_pushboolean(L,lc63);
             }
-            const int lc63 = lua_toboolean(L,-1);
+            const int lc64 = lua_toboolean(L,-1);
             lua_pop(L,1);
-            if (lc63) {
+            if (lc64) {
               
               /* local meta = minetest.get_meta(p) */
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1311,15 +1313,15 @@ static int lcf1_nssm_explosion (lua_State * L) {
               if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
                 luaL_error(L,"'for' limit must be a number");
               }
-              double lc64_var = lua_tonumber(L,-2);
-              const double lc65_limit = lua_tonumber(L,-1);
-              const double lc66_step = 1;
+              double lc65_var = lua_tonumber(L,-2);
+              const double lc66_limit = lua_tonumber(L,-1);
+              const double lc67_step = 1;
               lua_pop(L,2);
-              enum { lc67 = 22 };
-              while ((((lc66_step > 0) && (lc64_var <= lc65_limit)) || ((lc66_step <= 0) && (lc64_var >= lc65_limit)))) {
+              enum { lc68 = 22 };
+              while ((((lc67_step > 0) && (lc65_var <= lc66_limit)) || ((lc67_step <= 0) && (lc65_var >= lc66_limit)))) {
                 
                 /* internal: local i at index 23 */
-                lua_pushnumber(L,lc64_var);
+                lua_pushnumber(L,lc65_var);
                 
                 /* local m_stack = inv:get_stack("main", i) */
                 lua_pushvalue(L,22);
@@ -1342,7 +1344,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 assert(lua_gettop(L) == 25);
                 
                 /* if obj then */
-                enum { lc68 = 25 };
+                enum { lc69 = 25 };
                 if (lua_toboolean(L,25)) {
                   
                   /* obj:setvelocity({
@@ -1379,28 +1381,28 @@ static int lcf1_nssm_explosion (lua_State * L) {
                   lua_call(L,2,0);
                   assert(lua_gettop(L) == 25);
                 }
-                lua_settop(L,lc68);
+                lua_settop(L,lc69);
                 assert(lua_gettop(L) == 25);
                 
                 /* internal: stack cleanup on scope exit */
                 lua_pop(L,3);
-                lc64_var += lc66_step;
+                lc65_var += lc67_step;
               }
-              lua_settop(L,lc67);
+              lua_settop(L,lc68);
               assert(lua_gettop(L) == 22);
             }
-            lua_settop(L,lc59);
+            lua_settop(L,lc60);
             assert(lua_gettop(L) == 20);
             
             /* -- after effects
              * if fire > 0
              *         				and (minetest.registered_nodes[n].groups.flammable
              *         				or math.random(1, 100) <= 3) then */
-            enum { lc69 = 20 };
+            enum { lc70 = 20 };
             lua_pushnumber(L,0);
-            const int lc70 = lua_lessthan(L,-1,4);
+            const int lc71 = lua_lessthan(L,-1,4);
             lua_pop(L,1);
-            lua_pushboolean(L,lc70);
+            lua_pushboolean(L,lc71);
             if (lua_toboolean(L,-1)) {
               lua_pop(L,1);
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1426,14 +1428,14 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 lua_pushnumber(L,100);
                 lua_call(L,2,1);
                 lua_pushnumber(L,3);
-                const int lc71 = lc_le(L,-2,-1);
+                const int lc72 = lc_le(L,-2,-1);
                 lua_pop(L,2);
-                lua_pushboolean(L,lc71);
+                lua_pushboolean(L,lc72);
               }
             }
-            const int lc72 = lua_toboolean(L,-1);
+            const int lc73 = lua_toboolean(L,-1);
             lua_pop(L,1);
-            if (lc72) {
+            if (lc73) {
               
               /* minetest.set_node(p, {name = "fire:basic_flame"}) */
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1513,7 +1515,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
               assert(lua_gettop(L) == 22);
               
               /* if math.random(1,100)<=prob*100 then */
-              enum { lc73 = 22 };
+              enum { lc74 = 22 };
               lua_getfield(L,LUA_ENVIRONINDEX,"math");
               lua_pushliteral(L,"random");
               lua_gettable(L,-2);
@@ -1524,12 +1526,12 @@ static int lcf1_nssm_explosion (lua_State * L) {
               lua_pushnumber(L,100);
               lc_mul(L,22,-1);
               lua_remove(L,-2);
-              const int lc74 = lc_le(L,-2,-1);
+              const int lc75 = lc_le(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc74);
-              const int lc75 = lua_toboolean(L,-1);
+              lua_pushboolean(L,lc75);
+              const int lc76 = lua_toboolean(L,-1);
               lua_pop(L,1);
-              if (lc75) {
+              if (lc76) {
                 
                 /* minetest.env:remove_node(p) */
                 lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1543,16 +1545,16 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 lua_call(L,2,0);
                 assert(lua_gettop(L) == 22);
               }
-              lua_settop(L,lc73);
+              lua_settop(L,lc74);
               assert(lua_gettop(L) == 22);
             }
-            lua_settop(L,lc69);
+            lua_settop(L,lc70);
             assert(lua_gettop(L) == 20);
           }
-          lua_settop(L,lc56);
+          lua_settop(L,lc57);
           assert(lua_gettop(L) == 20);
         }
-        lua_settop(L,lc46);
+        lua_settop(L,lc47);
         assert(lua_gettop(L) == 18);
         
         /* vi = vi+1 */
@@ -1564,23 +1566,23 @@ static int lcf1_nssm_explosion (lua_State * L) {
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,2);
-        lc42_var += lc44_step;
+        lc43_var += lc45_step;
       }
-      lua_settop(L,lc45);
+      lua_settop(L,lc46);
       assert(lua_gettop(L) == 16);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,2);
-      lc38_var += lc40_step;
+      lc39_var += lc41_step;
     }
-    lua_settop(L,lc41);
+    lua_settop(L,lc42);
     assert(lua_gettop(L) == 14);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc34_var += lc36_step;
+    lc35_var += lc37_step;
   }
-  lua_settop(L,lc37);
+  lua_settop(L,lc38);
   assert(lua_gettop(L) == 13);
   return 0;
 }
@@ -1616,7 +1618,7 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
   assert(lua_gettop(L) == 7);
   
   /* if minetest.is_protected(pos, "") then */
-  enum { lc76 = 7 };
+  enum { lc77 = 7 };
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"is_protected");
   lua_gettable(L,-2);
@@ -1624,15 +1626,15 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
   lua_pushvalue(L,7);
   lua_pushliteral(L,"");
   lua_call(L,2,1);
-  const int lc77 = lua_toboolean(L,-1);
+  const int lc78 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc77) {
+  if (lc78) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 7);
   }
-  lua_settop(L,lc76);
+  lua_settop(L,lc77);
   assert(lua_gettop(L) == 7);
   
   /* local h = dim.y */
@@ -1706,14 +1708,14 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
   assert(lua_gettop(L) == 17);
   
   /* if x>0 then */
-  enum { lc78 = 17 };
+  enum { lc79 = 17 };
   lua_pushnumber(L,0);
-  const int lc79 = lua_lessthan(L,-1,11);
+  const int lc80 = lua_lessthan(L,-1,11);
   lua_pop(L,1);
-  lua_pushboolean(L,lc79);
-  const int lc80 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc80);
+  const int lc81 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc80) {
+  if (lc81) {
     
     /* i = nssm:round(x*max_vel)*multiplier */
     lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
@@ -1742,18 +1744,18 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
     lua_replace(L,14);
     assert(lua_gettop(L) == 17);
   }
-  lua_settop(L,lc78);
+  lua_settop(L,lc79);
   assert(lua_gettop(L) == 17);
   
   /* if z>0 then */
-  enum { lc81 = 17 };
+  enum { lc82 = 17 };
   lua_pushnumber(L,0);
-  const int lc82 = lua_lessthan(L,-1,12);
+  const int lc83 = lua_lessthan(L,-1,12);
   lua_pop(L,1);
-  lua_pushboolean(L,lc82);
-  const int lc83 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc83);
+  const int lc84 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc83) {
+  if (lc84) {
     
     /* k = nssm:round(z*max_vel)*multiplier */
     lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
@@ -1782,51 +1784,51 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
     lua_replace(L,16);
     assert(lua_gettop(L) == 17);
   }
-  lua_settop(L,lc81);
+  lua_settop(L,lc82);
   assert(lua_gettop(L) == 17);
   
   /* for dx = i1, i do */
   if (!((lua_isnumber(L,14) && lua_isnumber(L,13)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc84_var = lua_tonumber(L,14);
-  const double lc85_limit = lua_tonumber(L,13);
-  const double lc86_step = 1;
+  double lc85_var = lua_tonumber(L,14);
+  const double lc86_limit = lua_tonumber(L,13);
+  const double lc87_step = 1;
   lua_pop(L,0);
-  enum { lc87 = 17 };
-  while ((((lc86_step > 0) && (lc84_var <= lc85_limit)) || ((lc86_step <= 0) && (lc84_var >= lc85_limit)))) {
+  enum { lc88 = 17 };
+  while ((((lc87_step > 0) && (lc85_var <= lc86_limit)) || ((lc87_step <= 0) && (lc85_var >= lc86_limit)))) {
     
     /* internal: local dx at index 18 */
-    lua_pushnumber(L,lc84_var);
+    lua_pushnumber(L,lc85_var);
     
     /* for dy = 0, h do */
     lua_pushnumber(L,0);
     if (!((lua_isnumber(L,-1) && lua_isnumber(L,8)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc88_var = lua_tonumber(L,-1);
-    const double lc89_limit = lua_tonumber(L,8);
-    const double lc90_step = 1;
+    double lc89_var = lua_tonumber(L,-1);
+    const double lc90_limit = lua_tonumber(L,8);
+    const double lc91_step = 1;
     lua_pop(L,1);
-    enum { lc91 = 18 };
-    while ((((lc90_step > 0) && (lc88_var <= lc89_limit)) || ((lc90_step <= 0) && (lc88_var >= lc89_limit)))) {
+    enum { lc92 = 18 };
+    while ((((lc91_step > 0) && (lc89_var <= lc90_limit)) || ((lc91_step <= 0) && (lc89_var >= lc90_limit)))) {
       
       /* internal: local dy at index 19 */
-      lua_pushnumber(L,lc88_var);
+      lua_pushnumber(L,lc89_var);
       
       /* for dz = k1, k do */
       if (!((lua_isnumber(L,16) && lua_isnumber(L,15)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc92_var = lua_tonumber(L,16);
-      const double lc93_limit = lua_tonumber(L,15);
-      const double lc94_step = 1;
+      double lc93_var = lua_tonumber(L,16);
+      const double lc94_limit = lua_tonumber(L,15);
+      const double lc95_step = 1;
       lua_pop(L,0);
-      enum { lc95 = 19 };
-      while ((((lc94_step > 0) && (lc92_var <= lc93_limit)) || ((lc94_step <= 0) && (lc92_var >= lc93_limit)))) {
+      enum { lc96 = 19 };
+      while ((((lc95_step > 0) && (lc93_var <= lc94_limit)) || ((lc95_step <= 0) && (lc93_var >= lc94_limit)))) {
         
         /* internal: local dz at index 20 */
-        lua_pushnumber(L,lc92_var);
+        lua_pushnumber(L,lc93_var);
         
         /* local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz} */
         lua_createtable(L,0,3);
@@ -1867,17 +1869,17 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
         
         /* --local up = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
          * if group == nil then */
-        enum { lc96 = 22 };
+        enum { lc97 = 22 };
         lua_pushnil(L);
-        const int lc97 = lua_equal(L,3,-1);
+        const int lc98 = lua_equal(L,3,-1);
         lua_pop(L,1);
-        lua_pushboolean(L,lc97);
-        const int lc98 = lua_toboolean(L,-1);
+        lua_pushboolean(L,lc98);
+        const int lc99 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc98) {
+        if (lc99) {
           
           /* if minetest.get_item_group(n, "unbreakable") == 1 or minetest.is_protected(p, "") then */
-          enum { lc99 = 22 };
+          enum { lc100 = 22 };
           lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
           lua_pushliteral(L,"get_item_group");
           lua_gettable(L,-2);
@@ -1886,9 +1888,9 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
           lua_pushliteral(L,"unbreakable");
           lua_call(L,2,1);
           lua_pushnumber(L,1);
-          const int lc100 = lua_equal(L,-2,-1);
+          const int lc101 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc100);
+          lua_pushboolean(L,lc101);
           if (!(lua_toboolean(L,-1))) {
             lua_pop(L,1);
             lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1899,9 +1901,9 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
             lua_pushliteral(L,"");
             lua_call(L,2,1);
           }
-          const int lc101 = lua_toboolean(L,-1);
+          const int lc102 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc101) {
+          if (lc102) {
           }
           else {
             
@@ -1922,14 +1924,14 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
             lua_call(L,3,0);
             assert(lua_gettop(L) == 22);
           }
-          lua_settop(L,lc99);
+          lua_settop(L,lc100);
           assert(lua_gettop(L) == 22);
         }
         else {
           
           /* else
            * if (minetest.get_item_group(n, group)==1) and (minetest.get_item_group(n, "unbreakable") ~= 1) and not (minetest.is_protected(p, "")) then */
-          enum { lc102 = 22 };
+          enum { lc103 = 22 };
           lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
           lua_pushliteral(L,"get_item_group");
           lua_gettable(L,-2);
@@ -1938,9 +1940,9 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
           lua_pushvalue(L,3);
           lua_call(L,2,1);
           lua_pushnumber(L,1);
-          const int lc103 = lua_equal(L,-2,-1);
+          const int lc104 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc103);
+          lua_pushboolean(L,lc104);
           if (lua_toboolean(L,-1)) {
             lua_pop(L,1);
             lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1951,9 +1953,9 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
             lua_pushliteral(L,"unbreakable");
             lua_call(L,2,1);
             lua_pushnumber(L,1);
-            const int lc104 = lua_equal(L,-2,-1);
+            const int lc105 = lua_equal(L,-2,-1);
             lua_pop(L,2);
-            lua_pushboolean(L,lc104);
+            lua_pushboolean(L,lc105);
             lua_pushboolean(L,!(lua_toboolean(L,-1)));
             lua_remove(L,-2);
           }
@@ -1969,9 +1971,9 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
             lua_pushboolean(L,!(lua_toboolean(L,-1)));
             lua_remove(L,-2);
           }
-          const int lc105 = lua_toboolean(L,-1);
+          const int lc106 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc105) {
+          if (lc106) {
             
             /* minetest.env:set_node(p, {name="air"}) */
             lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -1989,31 +1991,31 @@ static int lcf1_nssm_digging_ability (lua_State * L) {
             lua_call(L,3,0);
             assert(lua_gettop(L) == 22);
           }
-          lua_settop(L,lc102);
+          lua_settop(L,lc103);
           assert(lua_gettop(L) == 22);
         }
-        lua_settop(L,lc96);
+        lua_settop(L,lc97);
         assert(lua_gettop(L) == 22);
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,3);
-        lc92_var += lc94_step;
+        lc93_var += lc95_step;
       }
-      lua_settop(L,lc95);
+      lua_settop(L,lc96);
       assert(lua_gettop(L) == 19);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,1);
-      lc88_var += lc90_step;
+      lc89_var += lc91_step;
     }
-    lua_settop(L,lc91);
+    lua_settop(L,lc92);
     assert(lua_gettop(L) == 18);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc84_var += lc86_step;
+    lc85_var += lc87_step;
   }
-  lua_settop(L,lc87);
+  lua_settop(L,lc88);
   assert(lua_gettop(L) == 17);
   return 0;
 }
@@ -2047,7 +2049,7 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
   assert(lua_gettop(L) == 7);
   
   /* if (math.abs(v.x)>math.abs(v.z)) then */
-  enum { lc106 = 7 };
+  enum { lc107 = 7 };
   lua_getfield(L,LUA_ENVIRONINDEX,"math");
   lua_pushliteral(L,"abs");
   lua_gettable(L,-2);
@@ -2062,24 +2064,24 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
   lua_pushliteral(L,"x");
   lua_gettable(L,5);
   lua_call(L,1,1);
-  const int lc107 = lua_lessthan(L,-2,-1);
+  const int lc108 = lua_lessthan(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc107);
-  const int lc108 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc108);
+  const int lc109 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc108) {
+  if (lc109) {
     
     /* if (v.x)>0 then */
-    enum { lc109 = 7 };
+    enum { lc110 = 7 };
     lua_pushnumber(L,0);
     lua_pushliteral(L,"x");
     lua_gettable(L,5);
-    const int lc110 = lua_lessthan(L,-2,-1);
+    const int lc111 = lua_lessthan(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc110);
-    const int lc111 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc111);
+    const int lc112 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc111) {
+    if (lc112) {
       
       /* dx = 1 */
       lua_pushnumber(L,1);
@@ -2094,23 +2096,23 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
       lua_replace(L,6);
       assert(lua_gettop(L) == 7);
     }
-    lua_settop(L,lc109);
+    lua_settop(L,lc110);
     assert(lua_gettop(L) == 7);
   }
   else {
     
     /* else
      * if (v.z)>0 then */
-    enum { lc112 = 7 };
+    enum { lc113 = 7 };
     lua_pushnumber(L,0);
     lua_pushliteral(L,"z");
     lua_gettable(L,5);
-    const int lc113 = lua_lessthan(L,-2,-1);
+    const int lc114 = lua_lessthan(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc113);
-    const int lc114 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc114);
+    const int lc115 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc114) {
+    if (lc115) {
       
       /* dz = 1 */
       lua_pushnumber(L,1);
@@ -2125,10 +2127,10 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
       lua_replace(L,7);
       assert(lua_gettop(L) == 7);
     }
-    lua_settop(L,lc112);
+    lua_settop(L,lc113);
     assert(lua_gettop(L) == 7);
   }
-  lua_settop(L,lc106);
+  lua_settop(L,lc107);
   assert(lua_gettop(L) == 7);
   
   /* local pos = self.object:getpos() */
@@ -2208,9 +2210,9 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
   assert(lua_gettop(L) == 11);
   
   /* if n~=p_block and not minetest.is_protected(pos, "") then */
-  enum { lc115 = 11 };
-  const int lc116 = lua_equal(L,10,3);
-  lua_pushboolean(L,lc116);
+  enum { lc116 = 11 };
+  const int lc117 = lua_equal(L,10,3);
+  lua_pushboolean(L,lc117);
   lua_pushboolean(L,!(lua_toboolean(L,-1)));
   lua_remove(L,-2);
   if (lua_toboolean(L,-1)) {
@@ -2225,9 +2227,9 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc117 = lua_toboolean(L,-1);
+  const int lc118 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc117) {
+  if (lc118) {
     
     /* minetest.env:set_node(pos, {name=p_block}) */
     lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -2245,13 +2247,13 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
     lua_call(L,3,0);
     assert(lua_gettop(L) == 11);
   }
-  lua_settop(L,lc115);
+  lua_settop(L,lc116);
   assert(lua_gettop(L) == 11);
   
   /* if n1~=p_block and not minetest.is_protected(pos1, "") then */
-  enum { lc118 = 11 };
-  const int lc119 = lua_equal(L,11,3);
-  lua_pushboolean(L,lc119);
+  enum { lc119 = 11 };
+  const int lc120 = lua_equal(L,11,3);
+  lua_pushboolean(L,lc120);
   lua_pushboolean(L,!(lua_toboolean(L,-1)));
   lua_remove(L,-2);
   if (lua_toboolean(L,-1)) {
@@ -2266,9 +2268,9 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc120 = lua_toboolean(L,-1);
+  const int lc121 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc120) {
+  if (lc121) {
     
     /* minetest.env:set_node(pos1, {name=p_block}) */
     lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -2286,7 +2288,7 @@ static int lcf1_nssm_putting_ability (lua_State * L) {
     lua_call(L,3,0);
     assert(lua_gettop(L) == 11);
   }
-  lua_settop(L,lc118);
+  lua_settop(L,lc119);
   assert(lua_gettop(L) == 11);
   return 0;
 }
@@ -2312,7 +2314,7 @@ static int lcf1_nssm_webber_ability (lua_State * L) {
   assert(lua_gettop(L) == 5);
   
   /* if (math.random(1,5)==1) then */
-  enum { lc121 = 5 };
+  enum { lc122 = 5 };
   lua_getfield(L,LUA_ENVIRONINDEX,"math");
   lua_pushliteral(L,"random");
   lua_gettable(L,-2);
@@ -2321,12 +2323,12 @@ static int lcf1_nssm_webber_ability (lua_State * L) {
   lua_pushnumber(L,5);
   lua_call(L,2,1);
   lua_pushnumber(L,1);
-  const int lc122 = lua_equal(L,-2,-1);
+  const int lc123 = lua_equal(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc122);
-  const int lc123 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc123);
+  const int lc124 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc123) {
+  if (lc124) {
     
     /* local dx=math.random(1,radius) */
     lua_getfield(L,LUA_ENVIRONINDEX,"math");
@@ -2423,20 +2425,20 @@ static int lcf1_nssm_webber_ability (lua_State * L) {
     assert(lua_gettop(L) == 11);
     
     /* if ((n~="air")and(k=="air")) and not minetest.is_protected(t, "") then */
-    enum { lc124 = 11 };
+    enum { lc125 = 11 };
     lua_pushliteral(L,"air");
-    const int lc125 = lua_equal(L,10,-1);
+    const int lc126 = lua_equal(L,10,-1);
     lua_pop(L,1);
-    lua_pushboolean(L,lc125);
+    lua_pushboolean(L,lc126);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
     if (lua_toboolean(L,-1)) {
       lua_pop(L,1);
       lua_pushvalue(L,11);
       lua_pushliteral(L,"air");
-      const int lc126 = lua_equal(L,-2,-1);
+      const int lc127 = lua_equal(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc126);
+      lua_pushboolean(L,lc127);
     }
     if (lua_toboolean(L,-1)) {
       lua_pop(L,1);
@@ -2450,9 +2452,9 @@ static int lcf1_nssm_webber_ability (lua_State * L) {
       lua_pushboolean(L,!(lua_toboolean(L,-1)));
       lua_remove(L,-2);
     }
-    const int lc127 = lua_toboolean(L,-1);
+    const int lc128 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc127) {
+    if (lc128) {
       
       /* minetest.env:set_node(t, {name=w_block}) */
       lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -2470,10 +2472,10 @@ static int lcf1_nssm_webber_ability (lua_State * L) {
       lua_call(L,3,0);
       assert(lua_gettop(L) == 11);
     }
-    lua_settop(L,lc124);
+    lua_settop(L,lc125);
     assert(lua_gettop(L) == 11);
   }
-  lua_settop(L,lc121);
+  lua_settop(L,lc122);
   assert(lua_gettop(L) == 5);
   return 0;
 }
@@ -2510,7 +2512,7 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
   assert(lua_gettop(L) == 8);
   
   /* if minetest.is_protected(pos, "") then */
-  enum { lc128 = 8 };
+  enum { lc129 = 8 };
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"is_protected");
   lua_gettable(L,-2);
@@ -2518,15 +2520,15 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
   lua_pushvalue(L,8);
   lua_pushliteral(L,"");
   lua_call(L,2,1);
-  const int lc129 = lua_toboolean(L,-1);
+  const int lc130 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc129) {
+  if (lc130) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 8);
   }
-  lua_settop(L,lc128);
+  lua_settop(L,lc129);
   assert(lua_gettop(L) == 8);
   
   /* local max = 0 */
@@ -2594,14 +2596,14 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
   assert(lua_gettop(L) == 17);
   
   /* if x>0 then */
-  enum { lc130 = 17 };
+  enum { lc131 = 17 };
   lua_pushnumber(L,0);
-  const int lc131 = lua_lessthan(L,-1,11);
+  const int lc132 = lua_lessthan(L,-1,11);
   lua_pop(L,1);
-  lua_pushboolean(L,lc131);
-  const int lc132 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc132);
+  const int lc133 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc132) {
+  if (lc133) {
     
     /* i = nssm:round(x*max_vel)*multiplier */
     lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
@@ -2630,18 +2632,18 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
     lua_replace(L,14);
     assert(lua_gettop(L) == 17);
   }
-  lua_settop(L,lc130);
+  lua_settop(L,lc131);
   assert(lua_gettop(L) == 17);
   
   /* if z>0 then */
-  enum { lc133 = 17 };
+  enum { lc134 = 17 };
   lua_pushnumber(L,0);
-  const int lc134 = lua_lessthan(L,-1,12);
+  const int lc135 = lua_lessthan(L,-1,12);
   lua_pop(L,1);
-  lua_pushboolean(L,lc134);
-  const int lc135 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc135);
+  const int lc136 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc135) {
+  if (lc136) {
     
     /* k = nssm:round(z*max_vel)*multiplier */
     lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
@@ -2670,51 +2672,51 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
     lua_replace(L,16);
     assert(lua_gettop(L) == 17);
   }
-  lua_settop(L,lc133);
+  lua_settop(L,lc134);
   assert(lua_gettop(L) == 17);
   
   /* for dx = i1, i do */
   if (!((lua_isnumber(L,14) && lua_isnumber(L,13)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc136_var = lua_tonumber(L,14);
-  const double lc137_limit = lua_tonumber(L,13);
-  const double lc138_step = 1;
+  double lc137_var = lua_tonumber(L,14);
+  const double lc138_limit = lua_tonumber(L,13);
+  const double lc139_step = 1;
   lua_pop(L,0);
-  enum { lc139 = 17 };
-  while ((((lc138_step > 0) && (lc136_var <= lc137_limit)) || ((lc138_step <= 0) && (lc136_var >= lc137_limit)))) {
+  enum { lc140 = 17 };
+  while ((((lc139_step > 0) && (lc137_var <= lc138_limit)) || ((lc139_step <= 0) && (lc137_var >= lc138_limit)))) {
     
     /* internal: local dx at index 18 */
-    lua_pushnumber(L,lc136_var);
+    lua_pushnumber(L,lc137_var);
     
     /* for dy = -1, height do */
     lua_pushnumber(L,-1);
     if (!((lua_isnumber(L,-1) && lua_isnumber(L,6)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc140_var = lua_tonumber(L,-1);
-    const double lc141_limit = lua_tonumber(L,6);
-    const double lc142_step = 1;
+    double lc141_var = lua_tonumber(L,-1);
+    const double lc142_limit = lua_tonumber(L,6);
+    const double lc143_step = 1;
     lua_pop(L,1);
-    enum { lc143 = 18 };
-    while ((((lc142_step > 0) && (lc140_var <= lc141_limit)) || ((lc142_step <= 0) && (lc140_var >= lc141_limit)))) {
+    enum { lc144 = 18 };
+    while ((((lc143_step > 0) && (lc141_var <= lc142_limit)) || ((lc143_step <= 0) && (lc141_var >= lc142_limit)))) {
       
       /* internal: local dy at index 19 */
-      lua_pushnumber(L,lc140_var);
+      lua_pushnumber(L,lc141_var);
       
       /* for dz = k1, k do */
       if (!((lua_isnumber(L,16) && lua_isnumber(L,15)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc144_var = lua_tonumber(L,16);
-      const double lc145_limit = lua_tonumber(L,15);
-      const double lc146_step = 1;
+      double lc145_var = lua_tonumber(L,16);
+      const double lc146_limit = lua_tonumber(L,15);
+      const double lc147_step = 1;
       lua_pop(L,0);
-      enum { lc147 = 19 };
-      while ((((lc146_step > 0) && (lc144_var <= lc145_limit)) || ((lc146_step <= 0) && (lc144_var >= lc145_limit)))) {
+      enum { lc148 = 19 };
+      while ((((lc147_step > 0) && (lc145_var <= lc146_limit)) || ((lc147_step <= 0) && (lc145_var >= lc146_limit)))) {
         
         /* internal: local dz at index 20 */
-        lua_pushnumber(L,lc144_var);
+        lua_pushnumber(L,lc145_var);
         
         /* local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz} */
         lua_createtable(L,0,3);
@@ -2754,7 +2756,7 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
         assert(lua_gettop(L) == 22);
         
         /* if minetest.get_item_group(n, "unbreakable") == 1 or minetest.is_protected(p, "") or n=="air" then */
-        enum { lc148 = 22 };
+        enum { lc149 = 22 };
         lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
         lua_pushliteral(L,"get_item_group");
         lua_gettable(L,-2);
@@ -2763,9 +2765,9 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
         lua_pushliteral(L,"unbreakable");
         lua_call(L,2,1);
         lua_pushnumber(L,1);
-        const int lc149 = lua_equal(L,-2,-1);
+        const int lc150 = lua_equal(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc149);
+        lua_pushboolean(L,lc150);
         if (!(lua_toboolean(L,-1))) {
           lua_pop(L,1);
           lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -2780,13 +2782,13 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,22);
           lua_pushliteral(L,"air");
-          const int lc150 = lua_equal(L,-2,-1);
+          const int lc151 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc150);
+          lua_pushboolean(L,lc151);
         }
-        const int lc151 = lua_toboolean(L,-1);
+        const int lc152 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc151) {
+        if (lc152) {
         }
         else {
           
@@ -2807,28 +2809,28 @@ static int lcf1_nssm_midas_ability (lua_State * L) {
           lua_call(L,3,0);
           assert(lua_gettop(L) == 22);
         }
-        lua_settop(L,lc148);
+        lua_settop(L,lc149);
         assert(lua_gettop(L) == 22);
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,3);
-        lc144_var += lc146_step;
+        lc145_var += lc147_step;
       }
-      lua_settop(L,lc147);
+      lua_settop(L,lc148);
       assert(lua_gettop(L) == 19);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,1);
-      lc140_var += lc142_step;
+      lc141_var += lc143_step;
     }
-    lua_settop(L,lc143);
+    lua_settop(L,lc144);
     assert(lua_gettop(L) == 18);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc136_var += lc138_step;
+    lc137_var += lc139_step;
   }
-  lua_settop(L,lc139);
+  lua_settop(L,lc140);
   assert(lua_gettop(L) == 17);
   return 0;
 }
@@ -3006,6 +3008,15 @@ static int lcf_main (lua_State * L) {
   lua_pop(L,1);
   assert(lua_gettop(L) - lc_nextra == 5);
   
+  /* -- buffer for vm:get_data, added by MrCerealGuy
+   * local dbuf = {} */
+  lc_newclosuretable(L,(lc5 + lc_nextra));
+  enum { lc24 = 6 };
+  assert((lua_gettop(L) == (lc24 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc24 + lc_nextra),6);
+  assert(lua_gettop(L) - lc_nextra == 6);
+  
   /* function nssm:explosion(pos, exp_radius, fire)
    *     local radius = exp_radius
    *     -- if area protected or near map limits then no blast damage
@@ -3043,7 +3054,7 @@ static int lcf_main (lua_State * L) {
    *     local vm = VoxelManip()
    *     local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
    * 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-   * 	local data = vm:get_data()
+   * 	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
    * 	local p = {}
    * 	local pr = PseudoRandom(os.time())
    * 
@@ -3113,7 +3124,7 @@ static int lcf_main (lua_State * L) {
    *         end
    *     end
    * end */
-  lua_pushvalue(L,(lc5 + lc_nextra));
+  lua_pushvalue(L,(lc24 + lc_nextra));
   lua_pushcclosure(L,lcf1_nssm_explosion,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
   lua_insert(L,-2);
@@ -3121,7 +3132,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 5);
+  assert(lua_gettop(L) - lc_nextra == 6);
   
   /* --			SPECIAL ABILITIES OF SOME MOBS
    * function nssm:digging_ability(
@@ -3193,7 +3204,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 5);
+  assert(lua_gettop(L) - lc_nextra == 6);
   
   /* function nssm:putting_ability(		--puts under the mob the block defined as 'p_block'
    * 	self,		--the entity of the mob
@@ -3240,7 +3251,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 5);
+  assert(lua_gettop(L) - lc_nextra == 6);
   
   /* function nssm:webber_ability(		--puts randomly around the block defined as w_block
    * 	self,		--the entity of the mob
@@ -3268,7 +3279,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 5);
+  assert(lua_gettop(L) - lc_nextra == 6);
   
   /* function nssm:midas_ability(		--ability to transform every blocks it touches in the m_block block
    * 	self,		--the entity of the mob
@@ -3330,7 +3341,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 5);
+  assert(lua_gettop(L) - lc_nextra == 6);
   return 0;
 }
 

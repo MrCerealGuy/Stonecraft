@@ -16238,7 +16238,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   /* -- if area protected or near map limits then no blast damage
    * if minetest.is_protected(pos, "")
    * 	or not within_limits(pos, radius) then */
-  enum { lc824 = 6 };
+  enum { lc825 = 6 };
   lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
   lua_pushliteral(L,"is_protected");
   lua_gettable(L,-2);
@@ -16255,34 +16255,34 @@ static int lcf1_nssm_explosion (lua_State * L) {
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc825 = lua_toboolean(L,-1);
+  const int lc826 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc825) {
+  if (lc826) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 6);
   }
-  lua_settop(L,lc824);
+  lua_settop(L,lc825);
   assert(lua_gettop(L) == 6);
   
   /* -- explosion sound
    * if sound
    * 	and sound ~= "" then */
-  enum { lc826 = 6 };
+  enum { lc827 = 6 };
   lua_pushvalue(L,6);
   if (lua_toboolean(L,-1)) {
     lua_pop(L,1);
     lua_pushliteral(L,"");
-    const int lc827 = lua_equal(L,6,-1);
+    const int lc828 = lua_equal(L,6,-1);
     lua_pop(L,1);
-    lua_pushboolean(L,lc827);
+    lua_pushboolean(L,lc828);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc828 = lua_toboolean(L,-1);
+  const int lc829 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc828) {
+  if (lc829) {
     
     /* minetest.sound_play(sound, {
      * 			pos = pos,
@@ -16307,7 +16307,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
     lua_call(L,2,0);
     assert(lua_gettop(L) == 6);
   }
-  lua_settop(L,lc826);
+  lua_settop(L,lc827);
   assert(lua_gettop(L) == 6);
   
   /* pos = vector.round(pos) */
@@ -16328,7 +16328,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   
   /* local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius)) */
   lua_pushvalue(L,7);
-  const int lc829 = lua_gettop(L);
+  const int lc830 = lua_gettop(L);
   lua_pushliteral(L,"read_from_map");
   lua_gettable(L,-2);
   lua_insert(L,-2);
@@ -16346,7 +16346,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
   lua_pushvalue(L,2);
   lua_pushvalue(L,3);
   lua_call(L,2,LUA_MULTRET);
-  lua_call(L,(lua_gettop(L) - lc829),2);
+  lua_call(L,(lua_gettop(L) - lc830),2);
   assert(lua_gettop(L) == 9);
   
   /* local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp}) */
@@ -16364,27 +16364,29 @@ static int lcf1_nssm_explosion (lua_State * L) {
   lua_call(L,2,1);
   assert(lua_gettop(L) == 10);
   
-  /* local data = vm:get_data() */
+  /* local data = vm:get_data(dbuf) */
   lua_pushvalue(L,7);
   lua_pushliteral(L,"get_data");
   lua_gettable(L,-2);
   lua_insert(L,-2);
-  lua_call(L,1,1);
+  lc_getupvalue(L,lua_upvalueindex(1),0,34);
+  lua_call(L,2,1);
   assert(lua_gettop(L) == 11);
   
-  /* local p = {} */
+  /* -- buffer added by MrCerealGuy
+   * local p = {} */
   lua_newtable(L);
   assert(lua_gettop(L) == 12);
   
   /* local pr = PseudoRandom(os.time()) */
   lua_getfield(L,LUA_ENVIRONINDEX,"PseudoRandom");
-  const int lc830 = lua_gettop(L);
+  const int lc831 = lua_gettop(L);
   lua_getfield(L,LUA_ENVIRONINDEX,"os");
   lua_pushliteral(L,"time");
   lua_gettable(L,-2);
   lua_remove(L,-2);
   lua_call(L,0,LUA_MULTRET);
-  lua_call(L,(lua_gettop(L) - lc830),1);
+  lua_call(L,(lua_gettop(L) - lc831),1);
   assert(lua_gettop(L) == 13);
   
   /* for z = -radius, radius do */
@@ -16392,30 +16394,30 @@ static int lcf1_nssm_explosion (lua_State * L) {
   if (!((lua_isnumber(L,-1) && lua_isnumber(L,3)))) {
     luaL_error(L,"'for' limit must be a number");
   }
-  double lc831_var = lua_tonumber(L,-1);
-  const double lc832_limit = lua_tonumber(L,3);
-  const double lc833_step = 1;
+  double lc832_var = lua_tonumber(L,-1);
+  const double lc833_limit = lua_tonumber(L,3);
+  const double lc834_step = 1;
   lua_pop(L,1);
-  enum { lc834 = 13 };
-  while ((((lc833_step > 0) && (lc831_var <= lc832_limit)) || ((lc833_step <= 0) && (lc831_var >= lc832_limit)))) {
+  enum { lc835 = 13 };
+  while ((((lc834_step > 0) && (lc832_var <= lc833_limit)) || ((lc834_step <= 0) && (lc832_var >= lc833_limit)))) {
     
     /* internal: local z at index 14 */
-    lua_pushnumber(L,lc831_var);
+    lua_pushnumber(L,lc832_var);
     
     /* for y = -radius, radius do */
     lc_unm(L,3);
     if (!((lua_isnumber(L,-1) && lua_isnumber(L,3)))) {
       luaL_error(L,"'for' limit must be a number");
     }
-    double lc835_var = lua_tonumber(L,-1);
-    const double lc836_limit = lua_tonumber(L,3);
-    const double lc837_step = 1;
+    double lc836_var = lua_tonumber(L,-1);
+    const double lc837_limit = lua_tonumber(L,3);
+    const double lc838_step = 1;
     lua_pop(L,1);
-    enum { lc838 = 14 };
-    while ((((lc837_step > 0) && (lc835_var <= lc836_limit)) || ((lc837_step <= 0) && (lc835_var >= lc836_limit)))) {
+    enum { lc839 = 14 };
+    while ((((lc838_step > 0) && (lc836_var <= lc837_limit)) || ((lc838_step <= 0) && (lc836_var >= lc837_limit)))) {
       
       /* internal: local y at index 15 */
-      lua_pushnumber(L,lc835_var);
+      lua_pushnumber(L,lc836_var);
       
       /* local vi = a:index(pos.x + (-radius), pos.y + y, pos.z + z) */
       lua_pushvalue(L,10);
@@ -16444,15 +16446,15 @@ static int lcf1_nssm_explosion (lua_State * L) {
       if (!((lua_isnumber(L,-1) && lua_isnumber(L,3)))) {
         luaL_error(L,"'for' limit must be a number");
       }
-      double lc839_var = lua_tonumber(L,-1);
-      const double lc840_limit = lua_tonumber(L,3);
-      const double lc841_step = 1;
+      double lc840_var = lua_tonumber(L,-1);
+      const double lc841_limit = lua_tonumber(L,3);
+      const double lc842_step = 1;
       lua_pop(L,1);
-      enum { lc842 = 16 };
-      while ((((lc841_step > 0) && (lc839_var <= lc840_limit)) || ((lc841_step <= 0) && (lc839_var >= lc840_limit)))) {
+      enum { lc843 = 16 };
+      while ((((lc842_step > 0) && (lc840_var <= lc841_limit)) || ((lc842_step <= 0) && (lc840_var >= lc841_limit)))) {
         
         /* internal: local x at index 17 */
-        lua_pushnumber(L,lc839_var);
+        lua_pushnumber(L,lc840_var);
         
         /* p.x = pos.x + x */
         lua_pushliteral(L,"x");
@@ -16490,7 +16492,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
          * 		and data[vi] ~= c_obsidian
          * 		and data[vi] ~= c_brick
          * 		and data[vi] ~= c_chest then */
-        enum { lc843 = 17 };
+        enum { lc844 = 17 };
         lc_mul(L,17,17);
         lc_mul(L,15,15);
         lc_add(L,-2,-1);
@@ -16511,25 +16513,14 @@ static int lcf1_nssm_explosion (lua_State * L) {
         lc_add(L,-2,-1);
         lua_remove(L,-2);
         lua_remove(L,-2);
-        const int lc844 = lc_le(L,-2,-1);
+        const int lc845 = lc_le(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc844);
+        lua_pushboolean(L,lc845);
         if (lua_toboolean(L,-1)) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),4,29);
-          const int lc845 = lua_equal(L,-2,-1);
-          lua_pop(L,2);
-          lua_pushboolean(L,lc845);
-          lua_pushboolean(L,!(lua_toboolean(L,-1)));
-          lua_remove(L,-2);
-        }
-        if (lua_toboolean(L,-1)) {
-          lua_pop(L,1);
-          lua_pushvalue(L,16);
-          lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),3,30);
+          lc_getupvalue(L,lua_upvalueindex(1),5,29);
           const int lc846 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc846);
@@ -16540,7 +16531,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),2,31);
+          lc_getupvalue(L,lua_upvalueindex(1),4,30);
           const int lc847 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc847);
@@ -16551,7 +16542,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),1,32);
+          lc_getupvalue(L,lua_upvalueindex(1),3,31);
           const int lc848 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc848);
@@ -16562,19 +16553,30 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pop(L,1);
           lua_pushvalue(L,16);
           lua_gettable(L,11);
-          lc_getupvalue(L,lua_upvalueindex(1),0,33);
+          lc_getupvalue(L,lua_upvalueindex(1),2,32);
           const int lc849 = lua_equal(L,-2,-1);
           lua_pop(L,2);
           lua_pushboolean(L,lc849);
           lua_pushboolean(L,!(lua_toboolean(L,-1)));
           lua_remove(L,-2);
         }
-        const int lc850 = lua_toboolean(L,-1);
+        if (lua_toboolean(L,-1)) {
+          lua_pop(L,1);
+          lua_pushvalue(L,16);
+          lua_gettable(L,11);
+          lc_getupvalue(L,lua_upvalueindex(1),1,33);
+          const int lc850 = lua_equal(L,-2,-1);
+          lua_pop(L,2);
+          lua_pushboolean(L,lc850);
+          lua_pushboolean(L,!(lua_toboolean(L,-1)));
+          lua_remove(L,-2);
+        }
+        const int lc851 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc850) {
+        if (lc851) {
           
           /* local n = node_ok(p).name */
-          lc_getupvalue(L,lua_upvalueindex(1),7,15);
+          lc_getupvalue(L,lua_upvalueindex(1),8,15);
           lua_pushvalue(L,12);
           lua_call(L,1,1);
           lua_pushliteral(L,"name");
@@ -16596,22 +16598,22 @@ static int lcf1_nssm_explosion (lua_State * L) {
           assert(lua_gettop(L) == 19);
           
           /* if on_blast then */
-          enum { lc851 = 19 };
+          enum { lc852 = 19 };
           if (lua_toboolean(L,19)) {
             
             /* return on_blast(p) */
-            const int lc852 = lua_gettop(L);
+            const int lc853 = lua_gettop(L);
             lua_pushvalue(L,19);
             lua_pushvalue(L,12);
             lua_call(L,1,LUA_MULTRET);
-            return (lua_gettop(L) - lc852);
+            return (lua_gettop(L) - lc853);
             assert(lua_gettop(L) == 19);
           }
-          lua_settop(L,lc851);
+          lua_settop(L,lc852);
           assert(lua_gettop(L) == 19);
           
           /* if minetest.get_item_group(n, "unbreakable") ~= 1 then */
-          enum { lc853 = 19 };
+          enum { lc854 = 19 };
           lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
           lua_pushliteral(L,"get_item_group");
           lua_gettable(L,-2);
@@ -16620,44 +16622,44 @@ static int lcf1_nssm_explosion (lua_State * L) {
           lua_pushliteral(L,"unbreakable");
           lua_call(L,2,1);
           lua_pushnumber(L,1);
-          const int lc854 = lua_equal(L,-2,-1);
+          const int lc855 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc854);
+          lua_pushboolean(L,lc855);
           lua_pushboolean(L,!(lua_toboolean(L,-1)));
           lua_remove(L,-2);
-          const int lc855 = lua_toboolean(L,-1);
+          const int lc856 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc855) {
+          if (lc856) {
             
             /* -- if chest then drop items inside
              * if n == "default:chest"
              * 				or n == "3dchest:chest"
              * 				or n == "bones:bones" then */
-            enum { lc856 = 19 };
+            enum { lc857 = 19 };
             lua_pushvalue(L,18);
             lua_pushliteral(L,"default:chest");
-            const int lc857 = lua_equal(L,-2,-1);
+            const int lc858 = lua_equal(L,-2,-1);
             lua_pop(L,2);
-            lua_pushboolean(L,lc857);
+            lua_pushboolean(L,lc858);
             if (!(lua_toboolean(L,-1))) {
               lua_pop(L,1);
               lua_pushvalue(L,18);
               lua_pushliteral(L,"3dchest:chest");
-              const int lc858 = lua_equal(L,-2,-1);
+              const int lc859 = lua_equal(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc858);
+              lua_pushboolean(L,lc859);
             }
             if (!(lua_toboolean(L,-1))) {
               lua_pop(L,1);
               lua_pushvalue(L,18);
               lua_pushliteral(L,"bones:bones");
-              const int lc859 = lua_equal(L,-2,-1);
+              const int lc860 = lua_equal(L,-2,-1);
               lua_pop(L,2);
-              lua_pushboolean(L,lc859);
+              lua_pushboolean(L,lc860);
             }
-            const int lc860 = lua_toboolean(L,-1);
+            const int lc861 = lua_toboolean(L,-1);
             lua_pop(L,1);
-            if (lc860) {
+            if (lc861) {
               
               /* local meta = minetest.get_meta(p) */
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -16687,15 +16689,15 @@ static int lcf1_nssm_explosion (lua_State * L) {
               if (!((lua_isnumber(L,-2) && lua_isnumber(L,-1)))) {
                 luaL_error(L,"'for' limit must be a number");
               }
-              double lc861_var = lua_tonumber(L,-2);
-              const double lc862_limit = lua_tonumber(L,-1);
-              const double lc863_step = 1;
+              double lc862_var = lua_tonumber(L,-2);
+              const double lc863_limit = lua_tonumber(L,-1);
+              const double lc864_step = 1;
               lua_pop(L,2);
-              enum { lc864 = 21 };
-              while ((((lc863_step > 0) && (lc861_var <= lc862_limit)) || ((lc863_step <= 0) && (lc861_var >= lc862_limit)))) {
+              enum { lc865 = 21 };
+              while ((((lc864_step > 0) && (lc862_var <= lc863_limit)) || ((lc864_step <= 0) && (lc862_var >= lc863_limit)))) {
                 
                 /* internal: local i at index 22 */
-                lua_pushnumber(L,lc861_var);
+                lua_pushnumber(L,lc862_var);
                 
                 /* local m_stack = inv:get_stack("main", i) */
                 lua_pushvalue(L,21);
@@ -16718,7 +16720,7 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 assert(lua_gettop(L) == 24);
                 
                 /* if obj then */
-                enum { lc865 = 24 };
+                enum { lc866 = 24 };
                 if (lua_toboolean(L,24)) {
                   
                   /* obj:setvelocity({
@@ -16755,28 +16757,28 @@ static int lcf1_nssm_explosion (lua_State * L) {
                   lua_call(L,2,0);
                   assert(lua_gettop(L) == 24);
                 }
-                lua_settop(L,lc865);
+                lua_settop(L,lc866);
                 assert(lua_gettop(L) == 24);
                 
                 /* internal: stack cleanup on scope exit */
                 lua_pop(L,3);
-                lc861_var += lc863_step;
+                lc862_var += lc864_step;
               }
-              lua_settop(L,lc864);
+              lua_settop(L,lc865);
               assert(lua_gettop(L) == 21);
             }
-            lua_settop(L,lc856);
+            lua_settop(L,lc857);
             assert(lua_gettop(L) == 19);
             
             /* -- after effects
              * if fire > 0
              * 				and (minetest.registered_nodes[n].groups.flammable
              * 				or math.random(1, 100) <= 30) then */
-            enum { lc866 = 19 };
+            enum { lc867 = 19 };
             lua_pushnumber(L,0);
-            const int lc867 = lua_lessthan(L,-1,4);
+            const int lc868 = lua_lessthan(L,-1,4);
             lua_pop(L,1);
-            lua_pushboolean(L,lc867);
+            lua_pushboolean(L,lc868);
             if (lua_toboolean(L,-1)) {
               lua_pop(L,1);
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -16802,14 +16804,14 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 lua_pushnumber(L,100);
                 lua_call(L,2,1);
                 lua_pushnumber(L,30);
-                const int lc868 = lc_le(L,-2,-1);
+                const int lc869 = lc_le(L,-2,-1);
                 lua_pop(L,2);
-                lua_pushboolean(L,lc868);
+                lua_pushboolean(L,lc869);
               }
             }
-            const int lc869 = lua_toboolean(L,-1);
+            const int lc870 = lua_toboolean(L,-1);
             lua_pop(L,1);
-            if (lc869) {
+            if (lc870) {
               
               /* minetest.set_node(p, {name = "fire:basic_flame"}) */
               lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -16841,14 +16843,14 @@ static int lcf1_nssm_explosion (lua_State * L) {
               assert(lua_gettop(L) == 19);
               
               /* if smoke > 0 then */
-              enum { lc870 = 19 };
+              enum { lc871 = 19 };
               lua_pushnumber(L,0);
-              const int lc871 = lua_lessthan(L,-1,5);
+              const int lc872 = lua_lessthan(L,-1,5);
               lua_pop(L,1);
-              lua_pushboolean(L,lc871);
-              const int lc872 = lua_toboolean(L,-1);
+              lua_pushboolean(L,lc872);
+              const int lc873 = lua_toboolean(L,-1);
               lua_pop(L,1);
-              if (lc872) {
+              if (lc873) {
                 
                 /* effect(p, 2, "tnt_smoke.png", 5) */
                 lua_getfield(L,LUA_ENVIRONINDEX,"effect");
@@ -16859,16 +16861,16 @@ static int lcf1_nssm_explosion (lua_State * L) {
                 lua_call(L,4,0);
                 assert(lua_gettop(L) == 19);
               }
-              lua_settop(L,lc870);
+              lua_settop(L,lc871);
               assert(lua_gettop(L) == 19);
             }
-            lua_settop(L,lc866);
+            lua_settop(L,lc867);
             assert(lua_gettop(L) == 19);
           }
-          lua_settop(L,lc853);
+          lua_settop(L,lc854);
           assert(lua_gettop(L) == 19);
         }
-        lua_settop(L,lc843);
+        lua_settop(L,lc844);
         assert(lua_gettop(L) == 17);
         
         /* vi = vi + 1 */
@@ -16880,30 +16882,30 @@ static int lcf1_nssm_explosion (lua_State * L) {
         
         /* internal: stack cleanup on scope exit */
         lua_pop(L,1);
-        lc839_var += lc841_step;
+        lc840_var += lc842_step;
       }
-      lua_settop(L,lc842);
+      lua_settop(L,lc843);
       assert(lua_gettop(L) == 16);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,2);
-      lc835_var += lc837_step;
+      lc836_var += lc838_step;
     }
-    lua_settop(L,lc838);
+    lua_settop(L,lc839);
     assert(lua_gettop(L) == 14);
     
     /* internal: stack cleanup on scope exit */
     lua_pop(L,1);
-    lc831_var += lc833_step;
+    lc832_var += lc834_step;
   }
-  lua_settop(L,lc834);
+  lua_settop(L,lc835);
   assert(lua_gettop(L) == 13);
   return 0;
 }
 
 
 /* function(self, dtime) */
-static int lcf901 (lua_State * L) {
+static int lcf902 (lua_State * L) {
   enum { lc_nformalargs = 2 };
   lua_settop(L,2);
   
@@ -16932,21 +16934,21 @@ static int lcf901 (lua_State * L) {
   /* if self.switch == 0
    * 			or self.timer > 150
    * 			or not within_limits(pos, 0) then */
-  enum { lc875 = 3 };
+  enum { lc876 = 3 };
   lua_pushliteral(L,"switch");
   lua_gettable(L,1);
   lua_pushnumber(L,0);
-  const int lc876 = lua_equal(L,-2,-1);
+  const int lc877 = lua_equal(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc876);
+  lua_pushboolean(L,lc877);
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
     lua_pushnumber(L,150);
     lua_pushliteral(L,"timer");
     lua_gettable(L,1);
-    const int lc877 = lua_lessthan(L,-2,-1);
+    const int lc878 = lua_lessthan(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc877);
+    lua_pushboolean(L,lc878);
   }
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
@@ -16957,9 +16959,9 @@ static int lcf901 (lua_State * L) {
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc878 = lua_toboolean(L,-1);
+  const int lc879 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc878) {
+  if (lc879) {
     
     /* self.object:remove() */
     lua_pushliteral(L,"object");
@@ -16975,19 +16977,19 @@ static int lcf901 (lua_State * L) {
     return 0;
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc875);
+  lua_settop(L,lc876);
   assert(lua_gettop(L) == 3);
   
   /* if self.hit_node then */
-  enum { lc879 = 3 };
+  enum { lc880 = 3 };
   lua_pushliteral(L,"hit_node");
   lua_gettable(L,1);
-  const int lc880 = lua_toboolean(L,-1);
+  const int lc881 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc880) {
+  if (lc881) {
     
     /* local node = node_ok(pos).name */
-    lc_getupvalue(L,lua_upvalueindex(1),7,15);
+    lc_getupvalue(L,lua_upvalueindex(1),8,15);
     lua_pushvalue(L,3);
     lua_call(L,1,1);
     lua_pushliteral(L,"name");
@@ -16997,16 +16999,16 @@ static int lcf901 (lua_State * L) {
     
     /* --if minetest.registered_nodes[node].walkable then
      * if node ~= "air" then */
-    enum { lc881 = 4 };
+    enum { lc882 = 4 };
     lua_pushliteral(L,"air");
-    const int lc882 = lua_equal(L,4,-1);
+    const int lc883 = lua_equal(L,4,-1);
     lua_pop(L,1);
-    lua_pushboolean(L,lc882);
+    lua_pushboolean(L,lc883);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc883 = lua_toboolean(L,-1);
+    const int lc884 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc883) {
+    if (lc884) {
       
       /* self.hit_node(self, pos, node) */
       lua_pushliteral(L,"hit_node");
@@ -17018,16 +17020,16 @@ static int lcf901 (lua_State * L) {
       assert(lua_gettop(L) == 4);
       
       /* if self.drop == true then */
-      enum { lc884 = 4 };
+      enum { lc885 = 4 };
       lua_pushliteral(L,"drop");
       lua_gettable(L,1);
       lua_pushboolean(L,1);
-      const int lc885 = lua_equal(L,-2,-1);
+      const int lc886 = lua_equal(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc885);
-      const int lc886 = lua_toboolean(L,-1);
+      lua_pushboolean(L,lc886);
+      const int lc887 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc886) {
+      if (lc887) {
         
         /* pos.y = pos.y + 1 */
         lua_pushliteral(L,"y");
@@ -17072,7 +17074,7 @@ static int lcf901 (lua_State * L) {
         lua_call(L,2,0);
         assert(lua_gettop(L) == 4);
       }
-      lua_settop(L,lc884);
+      lua_settop(L,lc885);
       assert(lua_gettop(L) == 4);
       
       /* self.object:remove() */
@@ -17089,16 +17091,16 @@ static int lcf901 (lua_State * L) {
       return 0;
       assert(lua_gettop(L) == 4);
     }
-    lua_settop(L,lc881);
+    lua_settop(L,lc882);
     assert(lua_gettop(L) == 4);
   }
-  lua_settop(L,lc879);
+  lua_settop(L,lc880);
   assert(lua_gettop(L) == 3);
   
   /* if (self.hit_player or self.hit_mob)
    * 			-- clear mob entity before arrow becomes active
    * 			and self.timer > (10 - (self.velocity / 2)) then */
-  enum { lc887 = 3 };
+  enum { lc888 = 3 };
   lua_pushliteral(L,"hit_player");
   lua_gettable(L,1);
   if (!(lua_toboolean(L,-1))) {
@@ -17120,19 +17122,19 @@ static int lcf901 (lua_State * L) {
     lua_remove(L,-2);
     lua_pushliteral(L,"timer");
     lua_gettable(L,1);
-    const int lc888 = lua_lessthan(L,-2,-1);
+    const int lc889 = lua_lessthan(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc888);
+    lua_pushboolean(L,lc889);
   }
-  const int lc889 = lua_toboolean(L,-1);
+  const int lc890 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc889) {
+  if (lc890) {
     
     /* for _,player in pairs(minetest.get_objects_inside_radius(pos, 1.0)) do
      * internal: local f, s, var = explist */
-    enum { lc890 = 3 };
+    enum { lc891 = 3 };
     lua_getfield(L,LUA_ENVIRONINDEX,"pairs");
-    const int lc891 = lua_gettop(L);
+    const int lc892 = lua_gettop(L);
     lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
     lua_pushliteral(L,"get_objects_inside_radius");
     lua_gettable(L,-2);
@@ -17140,7 +17142,7 @@ static int lcf901 (lua_State * L) {
     lua_pushvalue(L,3);
     lua_pushnumber(L,1);
     lua_call(L,2,LUA_MULTRET);
-    lua_call(L,(lua_gettop(L) - lc891),3);
+    lua_call(L,(lua_gettop(L) - lc892),3);
     while (1) {
       
       /* internal: local var_1, ..., var_n = f(s, var)
@@ -17162,7 +17164,7 @@ static int lcf901 (lua_State * L) {
       
       /* if self.hit_player
        * 					and player:is_player() then */
-      enum { lc892 = 8 };
+      enum { lc893 = 8 };
       lua_pushliteral(L,"hit_player");
       lua_gettable(L,1);
       if (lua_toboolean(L,-1)) {
@@ -17173,9 +17175,9 @@ static int lcf901 (lua_State * L) {
         lua_insert(L,-2);
         lua_call(L,1,1);
       }
-      const int lc893 = lua_toboolean(L,-1);
+      const int lc894 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc893) {
+      if (lc894) {
         
         /* self.hit_player(self, player) */
         lua_pushliteral(L,"hit_player");
@@ -17199,7 +17201,7 @@ static int lcf901 (lua_State * L) {
         return 0;
         assert(lua_gettop(L) == 8);
       }
-      lua_settop(L,lc892);
+      lua_settop(L,lc893);
       assert(lua_gettop(L) == 8);
       
       /* if self.hit_mob
@@ -17209,7 +17211,7 @@ static int lcf901 (lua_State * L) {
        * 					and player:get_luaentity().name ~= "gauges:hp_bar"
        * 					and player:get_luaentity().name ~= "signs:text"
        * 					and player:get_luaentity().name ~= "itemframes:item" then */
-      enum { lc894 = 8 };
+      enum { lc895 = 8 };
       lua_pushliteral(L,"hit_mob");
       lua_gettable(L,1);
       if (lua_toboolean(L,-1)) {
@@ -17239,23 +17241,6 @@ static int lcf901 (lua_State * L) {
         lua_pushliteral(L,"name");
         lua_gettable(L,-2);
         lua_remove(L,-2);
-        const int lc895 = lua_equal(L,-2,-1);
-        lua_pop(L,2);
-        lua_pushboolean(L,lc895);
-        lua_pushboolean(L,!(lua_toboolean(L,-1)));
-        lua_remove(L,-2);
-      }
-      if (lua_toboolean(L,-1)) {
-        lua_pop(L,1);
-        lua_pushvalue(L,8);
-        lua_pushliteral(L,"get_luaentity");
-        lua_gettable(L,-2);
-        lua_insert(L,-2);
-        lua_call(L,1,1);
-        lua_pushliteral(L,"name");
-        lua_gettable(L,-2);
-        lua_remove(L,-2);
-        lua_pushliteral(L,"__builtin:item");
         const int lc896 = lua_equal(L,-2,-1);
         lua_pop(L,2);
         lua_pushboolean(L,lc896);
@@ -17272,7 +17257,7 @@ static int lcf901 (lua_State * L) {
         lua_pushliteral(L,"name");
         lua_gettable(L,-2);
         lua_remove(L,-2);
-        lua_pushliteral(L,"gauges:hp_bar");
+        lua_pushliteral(L,"__builtin:item");
         const int lc897 = lua_equal(L,-2,-1);
         lua_pop(L,2);
         lua_pushboolean(L,lc897);
@@ -17289,7 +17274,7 @@ static int lcf901 (lua_State * L) {
         lua_pushliteral(L,"name");
         lua_gettable(L,-2);
         lua_remove(L,-2);
-        lua_pushliteral(L,"signs:text");
+        lua_pushliteral(L,"gauges:hp_bar");
         const int lc898 = lua_equal(L,-2,-1);
         lua_pop(L,2);
         lua_pushboolean(L,lc898);
@@ -17306,16 +17291,33 @@ static int lcf901 (lua_State * L) {
         lua_pushliteral(L,"name");
         lua_gettable(L,-2);
         lua_remove(L,-2);
-        lua_pushliteral(L,"itemframes:item");
+        lua_pushliteral(L,"signs:text");
         const int lc899 = lua_equal(L,-2,-1);
         lua_pop(L,2);
         lua_pushboolean(L,lc899);
         lua_pushboolean(L,!(lua_toboolean(L,-1)));
         lua_remove(L,-2);
       }
-      const int lc900 = lua_toboolean(L,-1);
+      if (lua_toboolean(L,-1)) {
+        lua_pop(L,1);
+        lua_pushvalue(L,8);
+        lua_pushliteral(L,"get_luaentity");
+        lua_gettable(L,-2);
+        lua_insert(L,-2);
+        lua_call(L,1,1);
+        lua_pushliteral(L,"name");
+        lua_gettable(L,-2);
+        lua_remove(L,-2);
+        lua_pushliteral(L,"itemframes:item");
+        const int lc900 = lua_equal(L,-2,-1);
+        lua_pop(L,2);
+        lua_pushboolean(L,lc900);
+        lua_pushboolean(L,!(lua_toboolean(L,-1)));
+        lua_remove(L,-2);
+      }
+      const int lc901 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc900) {
+      if (lc901) {
         
         /* self.hit_mob(self, player) */
         lua_pushliteral(L,"hit_mob");
@@ -17339,16 +17341,16 @@ static int lcf901 (lua_State * L) {
         return 0;
         assert(lua_gettop(L) == 8);
       }
-      lua_settop(L,lc894);
+      lua_settop(L,lc895);
       assert(lua_gettop(L) == 8);
       
       /* internal: stack cleanup on scope exit */
       lua_pop(L,2);
     }
-    lua_settop(L,lc890);
+    lua_settop(L,lc891);
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc887);
+  lua_settop(L,lc888);
   assert(lua_gettop(L) == 3);
   
   /* self.lastpos = pos */
@@ -17368,21 +17370,21 @@ static int lcf1_nssm_register_arrow (lua_State * L) {
   lua_settop(L,3);
   
   /* if not name or not def then */
-  enum { lc873 = 3 };
+  enum { lc874 = 3 };
   lua_pushboolean(L,!(lua_toboolean(L,2)));
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
     lua_pushboolean(L,!(lua_toboolean(L,3)));
   }
-  const int lc874 = lua_toboolean(L,-1);
+  const int lc875 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc874) {
+  if (lc875) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc873);
+  lua_settop(L,lc874);
   assert(lua_gettop(L) == 3);
   
   /* -- errorcheck
@@ -17546,7 +17548,7 @@ static int lcf1_nssm_register_arrow (lua_State * L) {
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
     lua_pushvalue(L,lua_upvalueindex(1));
-    lua_pushcclosure(L,lcf901,1);
+    lua_pushcclosure(L,lcf902,1);
   }
   lua_rawset(L,-3);
   lua_call(L,2,0);
@@ -17556,7 +17558,7 @@ static int lcf1_nssm_register_arrow (lua_State * L) {
 
 
 /* function(itemstack, placer, pointed_thing) */
-static int lcf914 (lua_State * L) {
+static int lcf915 (lua_State * L) {
   enum { lc_nformalargs = 3 };
   lua_settop(L,3);
   
@@ -17568,7 +17570,7 @@ static int lcf914 (lua_State * L) {
   /* if pos
    * 			and within_limits(pos, 0)
    * 			and not minetest.is_protected(pos, placer:get_player_name()) then */
-  enum { lc906 = 4 };
+  enum { lc907 = 4 };
   lua_pushvalue(L,4);
   if (lua_toboolean(L,-1)) {
     lua_pop(L,1);
@@ -17583,20 +17585,20 @@ static int lcf914 (lua_State * L) {
     lua_pushliteral(L,"is_protected");
     lua_gettable(L,-2);
     lua_remove(L,-2);
-    const int lc907 = lua_gettop(L);
+    const int lc908 = lua_gettop(L);
     lua_pushvalue(L,4);
     lua_pushvalue(L,2);
     lua_pushliteral(L,"get_player_name");
     lua_gettable(L,-2);
     lua_insert(L,-2);
     lua_call(L,1,LUA_MULTRET);
-    lua_call(L,(lua_gettop(L) - lc907),1);
+    lua_call(L,(lua_gettop(L) - lc908),1);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc908 = lua_toboolean(L,-1);
+  const int lc909 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc908) {
+  if (lc909) {
     
     /* pos.y = pos.y + 1 */
     lua_pushliteral(L,"y");
@@ -17616,7 +17618,7 @@ static int lcf914 (lua_State * L) {
     lua_gettable(L,-2);
     lua_remove(L,-2);
     lua_pushvalue(L,4);
-    lc_getupvalue(L,lua_upvalueindex(1),0,34);
+    lc_getupvalue(L,lua_upvalueindex(1),0,35);
     lua_call(L,2,1);
     assert(lua_gettop(L) == 5);
     
@@ -17629,18 +17631,18 @@ static int lcf914 (lua_State * L) {
     assert(lua_gettop(L) == 6);
     
     /* if ent.type ~= "monster" then */
-    enum { lc909 = 6 };
+    enum { lc910 = 6 };
     lua_pushliteral(L,"type");
     lua_gettable(L,6);
     lua_pushliteral(L,"monster");
-    const int lc910 = lua_equal(L,-2,-1);
+    const int lc911 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc910);
+    lua_pushboolean(L,lc911);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc911 = lua_toboolean(L,-1);
+    const int lc912 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc911) {
+    if (lc912) {
       
       /* -- set owner and tame if not monster
        * ent.owner = placer:get_player_name() */
@@ -17661,18 +17663,18 @@ static int lcf914 (lua_State * L) {
       lua_settable(L,6);
       assert(lua_gettop(L) == 6);
     }
-    lua_settop(L,lc909);
+    lua_settop(L,lc910);
     assert(lua_gettop(L) == 6);
     
     /* -- if not in creative then take item
      * if not creative then */
-    enum { lc912 = 6 };
-    lc_getupvalue(L,lua_upvalueindex(1),19,4);
+    enum { lc913 = 6 };
+    lc_getupvalue(L,lua_upvalueindex(1),20,4);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc913 = lua_toboolean(L,-1);
+    const int lc914 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc913) {
+    if (lc914) {
       
       /* itemstack:take_item() */
       lua_pushvalue(L,1);
@@ -17682,10 +17684,10 @@ static int lcf914 (lua_State * L) {
       lua_call(L,1,0);
       assert(lua_gettop(L) == 6);
     }
-    lua_settop(L,lc912);
+    lua_settop(L,lc913);
     assert(lua_gettop(L) == 6);
   }
-  lua_settop(L,lc906);
+  lua_settop(L,lc907);
   assert(lua_gettop(L) == 4);
   
   /* return itemstack */
@@ -17701,24 +17703,24 @@ static int lcf1_nssm_register_egg (lua_State * L) {
   enum { lc_nformalargs = 5 };
   lua_settop(L,5);
   lc_newclosuretable(L,lua_upvalueindex(1));
-  enum { lc902 = 6 };
-  assert((lua_gettop(L) == lc902));
+  enum { lc903 = 6 };
+  assert((lua_gettop(L) == lc903));
   lua_pushvalue(L,2);
-  lua_rawseti(L,-2,34);
+  lua_rawseti(L,-2,35);
   
   /* local invimg = background */
   lua_pushvalue(L,4);
   assert(lua_gettop(L) == 7);
   
   /* if addegg == 1 then */
-  enum { lc903 = 7 };
+  enum { lc904 = 7 };
   lua_pushnumber(L,1);
-  const int lc904 = lua_equal(L,5,-1);
+  const int lc905 = lua_equal(L,5,-1);
   lua_pop(L,1);
-  lua_pushboolean(L,lc904);
-  const int lc905 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc905);
+  const int lc906 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc905) {
+  if (lc906) {
     
     /* invimg = "nssm_chicken_egg.png^(" .. invimg .. "^[mask:nssm_chicken_egg_overlay.png)" */
     lua_pushliteral(L,"nssm_chicken_egg.png^(");
@@ -17729,7 +17731,7 @@ static int lcf1_nssm_register_egg (lua_State * L) {
     lua_replace(L,7);
     assert(lua_gettop(L) == 7);
   }
-  lua_settop(L,lc903);
+  lua_settop(L,lc904);
   assert(lua_gettop(L) == 7);
   
   /* minetest.register_craftitem(mob, {
@@ -17769,7 +17771,7 @@ static int lcf1_nssm_register_egg (lua_State * L) {
   lua_pushliteral(L,"register_craftitem");
   lua_gettable(L,-2);
   lua_remove(L,-2);
-  lc_getupvalue(L,lc902,0,34);
+  lc_getupvalue(L,lc903,0,35);
   lua_createtable(L,0,3);
   lua_pushliteral(L,"description");
   lua_pushvalue(L,3);
@@ -17778,8 +17780,8 @@ static int lcf1_nssm_register_egg (lua_State * L) {
   lua_pushvalue(L,7);
   lua_rawset(L,-3);
   lua_pushliteral(L,"on_place");
-  lua_pushvalue(L,lc902);
-  lua_pushcclosure(L,lcf914,1);
+  lua_pushvalue(L,lc903);
+  lua_pushcclosure(L,lcf915,1);
   lua_rawset(L,-3);
   lua_call(L,2,0);
   assert(lua_gettop(L) == 7);
@@ -17797,7 +17799,7 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
   /* if not self.child
    * 	and clicker:is_player()
    * 	and clicker:get_inventory() then */
-  enum { lc915 = 8 };
+  enum { lc916 = 8 };
   lua_pushliteral(L,"child");
   lua_gettable(L,2);
   lua_pushboolean(L,!(lua_toboolean(L,-1)));
@@ -17818,9 +17820,9 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
     lua_insert(L,-2);
     lua_call(L,1,1);
   }
-  const int lc916 = lua_toboolean(L,-1);
+  const int lc917 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc916) {
+  if (lc917) {
     
     /* -- get name of clicked mob
      * local mobname = self.name */
@@ -17830,7 +17832,7 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
     
     /* -- if not nil change what will be added to inventory
      * if replacewith then */
-    enum { lc917 = 9 };
+    enum { lc918 = 9 };
     if (lua_toboolean(L,8)) {
       
       /* mobname = replacewith */
@@ -17838,7 +17840,7 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       lua_replace(L,9);
       assert(lua_gettop(L) == 9);
     }
-    lua_settop(L,lc917);
+    lua_settop(L,lc918);
     assert(lua_gettop(L) == 9);
     
     /* local name = clicker:get_player_name() */
@@ -17852,24 +17854,24 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
     /* -- is mob tamed?
      * if self.tamed == false
      * 		and force_take == false then */
-    enum { lc918 = 10 };
+    enum { lc919 = 10 };
     lua_pushliteral(L,"tamed");
     lua_gettable(L,2);
     lua_pushboolean(L,0);
-    const int lc919 = lua_equal(L,-2,-1);
+    const int lc920 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc919);
+    lua_pushboolean(L,lc920);
     if (lua_toboolean(L,-1)) {
       lua_pop(L,1);
       lua_pushvalue(L,7);
       lua_pushboolean(L,0);
-      const int lc920 = lua_equal(L,-2,-1);
+      const int lc921 = lua_equal(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc920);
+      lua_pushboolean(L,lc921);
     }
-    const int lc921 = lua_toboolean(L,-1);
+    const int lc922 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc921) {
+    if (lc922) {
       
       /* minetest.chat_send_player(name, "Not tamed!") */
       lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -17885,31 +17887,31 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       return 0;
       assert(lua_gettop(L) == 10);
     }
-    lua_settop(L,lc918);
+    lua_settop(L,lc919);
     assert(lua_gettop(L) == 10);
     
     /* -- cannot pick up if not owner
      * if self.owner ~= name
      * 		and force_take == false then */
-    enum { lc922 = 10 };
+    enum { lc923 = 10 };
     lua_pushliteral(L,"owner");
     lua_gettable(L,2);
-    const int lc923 = lua_equal(L,-1,10);
+    const int lc924 = lua_equal(L,-1,10);
     lua_pop(L,1);
-    lua_pushboolean(L,lc923);
+    lua_pushboolean(L,lc924);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
     if (lua_toboolean(L,-1)) {
       lua_pop(L,1);
       lua_pushvalue(L,7);
       lua_pushboolean(L,0);
-      const int lc924 = lua_equal(L,-2,-1);
+      const int lc925 = lua_equal(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc924);
+      lua_pushboolean(L,lc925);
     }
-    const int lc925 = lua_toboolean(L,-1);
+    const int lc926 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc925) {
+    if (lc926) {
       
       /* minetest.chat_send_player(name, self.owner.." is owner!") */
       lua_getfield(L,LUA_ENVIRONINDEX,"minetest");
@@ -17928,11 +17930,11 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       return 0;
       assert(lua_gettop(L) == 10);
     }
-    lua_settop(L,lc922);
+    lua_settop(L,lc923);
     assert(lua_gettop(L) == 10);
     
     /* if clicker:get_inventory():room_for_item("main", mobname) then */
-    enum { lc926 = 10 };
+    enum { lc927 = 10 };
     lua_pushvalue(L,3);
     lua_pushliteral(L,"get_inventory");
     lua_gettable(L,-2);
@@ -17944,9 +17946,9 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
     lua_pushliteral(L,"main");
     lua_pushvalue(L,9);
     lua_call(L,3,1);
-    const int lc927 = lua_toboolean(L,-1);
+    const int lc928 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc927) {
+    if (lc928) {
       
       /* -- was mob clicked with hand, net, or lasso?
        * local tool = clicker:get_wielded_item() */
@@ -17962,15 +17964,15 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       assert(lua_gettop(L) == 12);
       
       /* if tool:is_empty() then */
-      enum { lc928 = 12 };
+      enum { lc929 = 12 };
       lua_pushvalue(L,11);
       lua_pushliteral(L,"is_empty");
       lua_gettable(L,-2);
       lua_insert(L,-2);
       lua_call(L,1,1);
-      const int lc929 = lua_toboolean(L,-1);
+      const int lc930 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc929) {
+      if (lc930) {
         
         /* chance = chance_hand */
         lua_pushvalue(L,4);
@@ -17980,19 +17982,19 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       else {
         
         /* elseif tool:get_name() == "nssm:net" then */
-        enum { lc930 = 12 };
+        enum { lc931 = 12 };
         lua_pushvalue(L,11);
         lua_pushliteral(L,"get_name");
         lua_gettable(L,-2);
         lua_insert(L,-2);
         lua_call(L,1,1);
         lua_pushliteral(L,"nssm:net");
-        const int lc931 = lua_equal(L,-2,-1);
+        const int lc932 = lua_equal(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc931);
-        const int lc932 = lua_toboolean(L,-1);
+        lua_pushboolean(L,lc932);
+        const int lc933 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc932) {
+        if (lc933) {
           
           /* chance = chance_net */
           lua_pushvalue(L,5);
@@ -18021,19 +18023,19 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
         else {
           
           /* elseif tool:get_name() == "nssm:magic_lasso" then */
-          enum { lc933 = 12 };
+          enum { lc934 = 12 };
           lua_pushvalue(L,11);
           lua_pushliteral(L,"get_name");
           lua_gettable(L,-2);
           lua_insert(L,-2);
           lua_call(L,1,1);
           lua_pushliteral(L,"nssm:magic_lasso");
-          const int lc934 = lua_equal(L,-2,-1);
+          const int lc935 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc934);
-          const int lc935 = lua_toboolean(L,-1);
+          lua_pushboolean(L,lc935);
+          const int lc936 = lua_toboolean(L,-1);
           lua_pop(L,1);
-          if (lc935) {
+          if (lc936) {
             
             /* chance = chance_lasso */
             lua_pushvalue(L,6);
@@ -18059,34 +18061,34 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
             lua_call(L,2,0);
             assert(lua_gettop(L) == 12);
           }
-          lua_settop(L,lc933);
+          lua_settop(L,lc934);
         }
-        lua_settop(L,lc930);
+        lua_settop(L,lc931);
       }
-      lua_settop(L,lc928);
+      lua_settop(L,lc929);
       assert(lua_gettop(L) == 12);
       
       /* -- return if no chance
        * if chance == 0 then */
-      enum { lc936 = 12 };
+      enum { lc937 = 12 };
       lua_pushnumber(L,0);
-      const int lc937 = lua_equal(L,12,-1);
+      const int lc938 = lua_equal(L,12,-1);
       lua_pop(L,1);
-      lua_pushboolean(L,lc937);
-      const int lc938 = lua_toboolean(L,-1);
+      lua_pushboolean(L,lc938);
+      const int lc939 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc938) {
+      if (lc939) {
         
         /* return */
         return 0;
         assert(lua_gettop(L) == 12);
       }
-      lua_settop(L,lc936);
+      lua_settop(L,lc937);
       assert(lua_gettop(L) == 12);
       
       /* -- calculate chance.. add to inventory if successful?
        * if math.random(1, 100) <= chance then */
-      enum { lc939 = 12 };
+      enum { lc940 = 12 };
       lua_getfield(L,LUA_ENVIRONINDEX,"math");
       lua_pushliteral(L,"random");
       lua_gettable(L,-2);
@@ -18094,12 +18096,12 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
       lua_pushnumber(L,1);
       lua_pushnumber(L,100);
       lua_call(L,2,1);
-      const int lc940 = lc_le(L,-1,12);
+      const int lc941 = lc_le(L,-1,12);
       lua_pop(L,1);
-      lua_pushboolean(L,lc940);
-      const int lc941 = lua_toboolean(L,-1);
+      lua_pushboolean(L,lc941);
+      const int lc942 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc941) {
+      if (lc942) {
         
         /* clicker:get_inventory():add_item("main", mobname) */
         lua_pushvalue(L,3);
@@ -18137,13 +18139,13 @@ static int lcf1_nssm_capture_mob (lua_State * L) {
         lua_call(L,2,0);
         assert(lua_gettop(L) == 12);
       }
-      lua_settop(L,lc939);
+      lua_settop(L,lc940);
       assert(lua_gettop(L) == 12);
     }
-    lua_settop(L,lc926);
+    lua_settop(L,lc927);
     assert(lua_gettop(L) == 10);
   }
-  lua_settop(L,lc915);
+  lua_settop(L,lc916);
   assert(lua_gettop(L) == 8);
   return 0;
 }
@@ -18157,43 +18159,43 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
   lua_settop(L,6);
   
   /* if not self.follow then */
-  enum { lc944 = 6 };
+  enum { lc945 = 6 };
   lua_pushliteral(L,"follow");
   lua_gettable(L,2);
   lua_pushboolean(L,!(lua_toboolean(L,-1)));
   lua_remove(L,-2);
-  const int lc945 = lua_toboolean(L,-1);
+  const int lc946 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc945) {
+  if (lc946) {
     
     /* return false */
     lua_pushboolean(L,0);
     return 1;
     assert(lua_gettop(L) == 6);
   }
-  lua_settop(L,lc944);
+  lua_settop(L,lc945);
   assert(lua_gettop(L) == 6);
   
   /* -- can eat/tame with item in hand
    * if follow_holding(self, clicker) then */
-  enum { lc946 = 6 };
+  enum { lc947 = 6 };
   lua_getfield(L,LUA_ENVIRONINDEX,"follow_holding");
   lua_pushvalue(L,2);
   lua_pushvalue(L,3);
   lua_call(L,2,1);
-  const int lc947 = lua_toboolean(L,-1);
+  const int lc948 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc947) {
+  if (lc948) {
     
     /* -- if not in creative then take item
      * if not creative then */
-    enum { lc948 = 6 };
-    lc_getupvalue(L,lua_upvalueindex(1),20,4);
+    enum { lc949 = 6 };
+    lc_getupvalue(L,lua_upvalueindex(1),21,4);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc949 = lua_toboolean(L,-1);
+    const int lc950 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc949) {
+    if (lc950) {
       
       /* local item = clicker:get_wielded_item() */
       lua_pushvalue(L,3);
@@ -18220,7 +18222,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
       lua_call(L,2,0);
       assert(lua_gettop(L) == 7);
     }
-    lua_settop(L,lc948);
+    lua_settop(L,lc949);
     assert(lua_gettop(L) == 6);
     
     /* -- increase health
@@ -18237,17 +18239,17 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     assert(lua_gettop(L) == 6);
     
     /* if self.health >= self.hp_max then */
-    enum { lc950 = 6 };
+    enum { lc951 = 6 };
     lua_pushliteral(L,"hp_max");
     lua_gettable(L,2);
     lua_pushliteral(L,"health");
     lua_gettable(L,2);
-    const int lc951 = lc_le(L,-2,-1);
+    const int lc952 = lc_le(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc951);
-    const int lc952 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc952);
+    const int lc953 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc952) {
+    if (lc953) {
       
       /* self.health = self.hp_max */
       lua_pushliteral(L,"hp_max");
@@ -18258,16 +18260,16 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
       assert(lua_gettop(L) == 6);
       
       /* if self.htimer < 1 then */
-      enum { lc953 = 6 };
+      enum { lc954 = 6 };
       lua_pushliteral(L,"htimer");
       lua_gettable(L,2);
       lua_pushnumber(L,1);
-      const int lc954 = lua_lessthan(L,-2,-1);
+      const int lc955 = lua_lessthan(L,-2,-1);
       lua_pop(L,2);
-      lua_pushboolean(L,lc954);
-      const int lc955 = lua_toboolean(L,-1);
+      lua_pushboolean(L,lc955);
+      const int lc956 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc955) {
+      if (lc956) {
         
         /* minetest.chat_send_player(clicker:get_player_name(),
          * 					self.name:split(":")[2]
@@ -18310,10 +18312,10 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
         lua_settable(L,2);
         assert(lua_gettop(L) == 6);
       }
-      lua_settop(L,lc953);
+      lua_settop(L,lc954);
       assert(lua_gettop(L) == 6);
     }
-    lua_settop(L,lc950);
+    lua_settop(L,lc951);
     assert(lua_gettop(L) == 6);
     
     /* self.object:set_hp(self.health) */
@@ -18335,16 +18337,16 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     
     /* -- make children grow quicker
      * if self.child == true then */
-    enum { lc956 = 6 };
+    enum { lc957 = 6 };
     lua_pushliteral(L,"child");
     lua_gettable(L,2);
     lua_pushboolean(L,1);
-    const int lc957 = lua_equal(L,-2,-1);
+    const int lc958 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc957);
-    const int lc958 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc958);
+    const int lc959 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc958) {
+    if (lc959) {
       
       /* self.hornytimer = self.hornytimer + 20 */
       lua_pushliteral(L,"hornytimer");
@@ -18363,7 +18365,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
       return 1;
       assert(lua_gettop(L) == 6);
     }
-    lua_settop(L,lc956);
+    lua_settop(L,lc957);
     assert(lua_gettop(L) == 6);
     
     /* -- feed and tame
@@ -18384,15 +18386,15 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     assert(lua_gettop(L) == 6);
     
     /* if self.food >= feed_count then */
-    enum { lc959 = 6 };
+    enum { lc960 = 6 };
     lua_pushliteral(L,"food");
     lua_gettable(L,2);
-    const int lc960 = lc_le(L,4,-1);
+    const int lc961 = lc_le(L,4,-1);
     lua_pop(L,1);
-    lua_pushboolean(L,lc960);
-    const int lc961 = lua_toboolean(L,-1);
+    lua_pushboolean(L,lc961);
+    const int lc962 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc961) {
+    if (lc962) {
       
       /* self.food = 0 */
       lua_pushnumber(L,0);
@@ -18402,20 +18404,20 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
       assert(lua_gettop(L) == 6);
       
       /* if breed and self.hornytimer == 0 then */
-      enum { lc962 = 6 };
+      enum { lc963 = 6 };
       lua_pushvalue(L,5);
       if (lua_toboolean(L,-1)) {
         lua_pop(L,1);
         lua_pushliteral(L,"hornytimer");
         lua_gettable(L,2);
         lua_pushnumber(L,0);
-        const int lc963 = lua_equal(L,-2,-1);
+        const int lc964 = lua_equal(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc963);
+        lua_pushboolean(L,lc964);
       }
-      const int lc964 = lua_toboolean(L,-1);
+      const int lc965 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc964) {
+      if (lc965) {
         
         /* self.horny = true */
         lua_pushboolean(L,1);
@@ -18424,7 +18426,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
         lua_settable(L,2);
         assert(lua_gettop(L) == 6);
       }
-      lua_settop(L,lc962);
+      lua_settop(L,lc963);
       assert(lua_gettop(L) == 6);
       
       /* self.gotten = false */
@@ -18435,20 +18437,20 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
       assert(lua_gettop(L) == 6);
       
       /* if tame then */
-      enum { lc965 = 6 };
+      enum { lc966 = 6 };
       if (lua_toboolean(L,6)) {
         
         /* if self.tamed == false then */
-        enum { lc966 = 6 };
+        enum { lc967 = 6 };
         lua_pushliteral(L,"tamed");
         lua_gettable(L,2);
         lua_pushboolean(L,0);
-        const int lc967 = lua_equal(L,-2,-1);
+        const int lc968 = lua_equal(L,-2,-1);
         lua_pop(L,2);
-        lua_pushboolean(L,lc967);
-        const int lc968 = lua_toboolean(L,-1);
+        lua_pushboolean(L,lc968);
+        const int lc969 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc968) {
+        if (lc969) {
           
           /* minetest.chat_send_player(clicker:get_player_name(),
            * 						self.name:split(":")[2]
@@ -18477,7 +18479,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
           lua_call(L,2,0);
           assert(lua_gettop(L) == 6);
         }
-        lua_settop(L,lc966);
+        lua_settop(L,lc967);
         assert(lua_gettop(L) == 6);
         
         /* self.tamed = true */
@@ -18488,7 +18490,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
         assert(lua_gettop(L) == 6);
         
         /* if not self.owner or self.owner == "" then */
-        enum { lc969 = 6 };
+        enum { lc970 = 6 };
         lua_pushliteral(L,"owner");
         lua_gettable(L,2);
         lua_pushboolean(L,!(lua_toboolean(L,-1)));
@@ -18498,13 +18500,13 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
           lua_pushliteral(L,"owner");
           lua_gettable(L,2);
           lua_pushliteral(L,"");
-          const int lc970 = lua_equal(L,-2,-1);
+          const int lc971 = lua_equal(L,-2,-1);
           lua_pop(L,2);
-          lua_pushboolean(L,lc970);
+          lua_pushboolean(L,lc971);
         }
-        const int lc971 = lua_toboolean(L,-1);
+        const int lc972 = lua_toboolean(L,-1);
         lua_pop(L,1);
-        if (lc971) {
+        if (lc972) {
           
           /* self.owner = clicker:get_player_name() */
           lua_pushvalue(L,3);
@@ -18517,23 +18519,23 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
           lua_settable(L,2);
           assert(lua_gettop(L) == 6);
         }
-        lua_settop(L,lc969);
+        lua_settop(L,lc970);
         assert(lua_gettop(L) == 6);
       }
-      lua_settop(L,lc965);
+      lua_settop(L,lc966);
       assert(lua_gettop(L) == 6);
       
       /* -- make sound when fed so many times
        * if self.sounds.random then */
-      enum { lc972 = 6 };
+      enum { lc973 = 6 };
       lua_pushliteral(L,"sounds");
       lua_gettable(L,2);
       lua_pushliteral(L,"random");
       lua_gettable(L,-2);
       lua_remove(L,-2);
-      const int lc973 = lua_toboolean(L,-1);
+      const int lc974 = lua_toboolean(L,-1);
       lua_pop(L,1);
-      if (lc973) {
+      if (lc974) {
         
         /* minetest.sound_play(self.sounds.random, {
          * 					object = self.object,
@@ -18563,10 +18565,10 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
         lua_call(L,2,0);
         assert(lua_gettop(L) == 6);
       }
-      lua_settop(L,lc972);
+      lua_settop(L,lc973);
       assert(lua_gettop(L) == 6);
     }
-    lua_settop(L,lc959);
+    lua_settop(L,lc960);
     assert(lua_gettop(L) == 6);
     
     /* return true */
@@ -18574,7 +18576,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     return 1;
     assert(lua_gettop(L) == 6);
   }
-  lua_settop(L,lc946);
+  lua_settop(L,lc947);
   assert(lua_gettop(L) == 6);
   
   /* local item = clicker:get_wielded_item() */
@@ -18588,16 +18590,16 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
   /* -- if mob has been tamed you can name it with a nametag
    * if item:get_name() == "nssm:nametag"
    * 	and clicker:get_player_name() == self.owner then */
-  enum { lc974 = 7 };
+  enum { lc975 = 7 };
   lua_pushvalue(L,7);
   lua_pushliteral(L,"get_name");
   lua_gettable(L,-2);
   lua_insert(L,-2);
   lua_call(L,1,1);
   lua_pushliteral(L,"nssm:nametag");
-  const int lc975 = lua_equal(L,-2,-1);
+  const int lc976 = lua_equal(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc975);
+  lua_pushboolean(L,lc976);
   if (lua_toboolean(L,-1)) {
     lua_pop(L,1);
     lua_pushvalue(L,3);
@@ -18607,13 +18609,13 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     lua_call(L,1,1);
     lua_pushliteral(L,"owner");
     lua_gettable(L,2);
-    const int lc976 = lua_equal(L,-2,-1);
+    const int lc977 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc976);
+    lua_pushboolean(L,lc977);
   }
-  const int lc977 = lua_toboolean(L,-1);
+  const int lc978 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc977) {
+  if (lc978) {
     
     /* local name = clicker:get_player_name() */
     lua_pushvalue(L,3);
@@ -18626,7 +18628,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     /* -- store mob and nametag stack in external variables
      * mob_obj[name] = self */
     lua_pushvalue(L,2);
-    lc_getupvalue(L,lua_upvalueindex(1),1,35);
+    lc_getupvalue(L,lua_upvalueindex(1),1,36);
     lua_insert(L,-2);
     lua_pushvalue(L,8);
     lua_insert(L,-2);
@@ -18636,7 +18638,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     
     /* mob_sta[name] = item */
     lua_pushvalue(L,7);
-    lc_getupvalue(L,lua_upvalueindex(1),0,36);
+    lc_getupvalue(L,lua_upvalueindex(1),0,37);
     lua_insert(L,-2);
     lua_pushvalue(L,8);
     lua_insert(L,-2);
@@ -18690,7 +18692,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
     lua_call(L,3,0);
     assert(lua_gettop(L) == 10);
   }
-  lua_settop(L,lc974);
+  lua_settop(L,lc975);
   assert(lua_gettop(L) == 7);
   
   /* return false */
@@ -18701,7 +18703,7 @@ static int lcf1_nssm_feed_tame (lua_State * L) {
 
 
 /* function(player, formname, fields) */
-static int lcf986 (lua_State * L) {
+static int lcf987 (lua_State * L) {
   enum { lc_nformalargs = 3 };
   lua_settop(L,3);
   
@@ -18709,12 +18711,12 @@ static int lcf986 (lua_State * L) {
    * if formname == "nssm_nametag"
    * 	and fields.name
    * 	and fields.name ~= "" then */
-  enum { lc978 = 3 };
+  enum { lc979 = 3 };
   lua_pushvalue(L,2);
   lua_pushliteral(L,"nssm_nametag");
-  const int lc979 = lua_equal(L,-2,-1);
+  const int lc980 = lua_equal(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc979);
+  lua_pushboolean(L,lc980);
   if (lua_toboolean(L,-1)) {
     lua_pop(L,1);
     lua_pushliteral(L,"name");
@@ -18725,15 +18727,15 @@ static int lcf986 (lua_State * L) {
     lua_pushliteral(L,"name");
     lua_gettable(L,3);
     lua_pushliteral(L,"");
-    const int lc980 = lua_equal(L,-2,-1);
+    const int lc981 = lua_equal(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc980);
+    lua_pushboolean(L,lc981);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
   }
-  const int lc981 = lua_toboolean(L,-1);
+  const int lc982 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc981) {
+  if (lc982) {
     
     /* local name = player:get_player_name() */
     lua_pushvalue(L,1);
@@ -18745,8 +18747,8 @@ static int lcf986 (lua_State * L) {
     
     /* if not mob_obj[name]
      * 		or not mob_obj[name].object then */
-    enum { lc982 = 4 };
-    lc_getupvalue(L,lua_upvalueindex(1),1,35);
+    enum { lc983 = 4 };
+    lc_getupvalue(L,lua_upvalueindex(1),1,36);
     lua_pushvalue(L,4);
     lua_gettable(L,-2);
     lua_remove(L,-2);
@@ -18754,7 +18756,7 @@ static int lcf986 (lua_State * L) {
     lua_remove(L,-2);
     if (!(lua_toboolean(L,-1))) {
       lua_pop(L,1);
-      lc_getupvalue(L,lua_upvalueindex(1),1,35);
+      lc_getupvalue(L,lua_upvalueindex(1),1,36);
       lua_pushvalue(L,4);
       lua_gettable(L,-2);
       lua_remove(L,-2);
@@ -18764,22 +18766,22 @@ static int lcf986 (lua_State * L) {
       lua_pushboolean(L,!(lua_toboolean(L,-1)));
       lua_remove(L,-2);
     }
-    const int lc983 = lua_toboolean(L,-1);
+    const int lc984 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc983) {
+    if (lc984) {
       
       /* return */
       return 0;
       assert(lua_gettop(L) == 4);
     }
-    lua_settop(L,lc982);
+    lua_settop(L,lc983);
     assert(lua_gettop(L) == 4);
     
     /* -- update nametag
      * mob_obj[name].nametag = fields.name */
     lua_pushliteral(L,"name");
     lua_gettable(L,3);
-    lc_getupvalue(L,lua_upvalueindex(1),1,35);
+    lc_getupvalue(L,lua_upvalueindex(1),1,36);
     lua_pushvalue(L,4);
     lua_gettable(L,-2);
     lua_remove(L,-2);
@@ -18792,7 +18794,7 @@ static int lcf986 (lua_State * L) {
     
     /* update_tag(mob_obj[name]) */
     lua_getfield(L,LUA_ENVIRONINDEX,"update_tag");
-    lc_getupvalue(L,lua_upvalueindex(1),1,35);
+    lc_getupvalue(L,lua_upvalueindex(1),1,36);
     lua_pushvalue(L,4);
     lua_gettable(L,-2);
     lua_remove(L,-2);
@@ -18801,16 +18803,16 @@ static int lcf986 (lua_State * L) {
     
     /* -- if not in creative then take item
      * if not creative then */
-    enum { lc984 = 4 };
-    lc_getupvalue(L,lua_upvalueindex(1),20,4);
+    enum { lc985 = 4 };
+    lc_getupvalue(L,lua_upvalueindex(1),21,4);
     lua_pushboolean(L,!(lua_toboolean(L,-1)));
     lua_remove(L,-2);
-    const int lc985 = lua_toboolean(L,-1);
+    const int lc986 = lua_toboolean(L,-1);
     lua_pop(L,1);
-    if (lc985) {
+    if (lc986) {
       
       /* mob_sta[name]:take_item() */
-      lc_getupvalue(L,lua_upvalueindex(1),0,36);
+      lc_getupvalue(L,lua_upvalueindex(1),0,37);
       lua_pushvalue(L,4);
       lua_gettable(L,-2);
       lua_remove(L,-2);
@@ -18825,20 +18827,20 @@ static int lcf986 (lua_State * L) {
       lua_pushliteral(L,"set_wielded_item");
       lua_gettable(L,-2);
       lua_insert(L,-2);
-      lc_getupvalue(L,lua_upvalueindex(1),0,36);
+      lc_getupvalue(L,lua_upvalueindex(1),0,37);
       lua_pushvalue(L,4);
       lua_gettable(L,-2);
       lua_remove(L,-2);
       lua_call(L,2,0);
       assert(lua_gettop(L) == 4);
     }
-    lua_settop(L,lc984);
+    lua_settop(L,lc985);
     assert(lua_gettop(L) == 4);
     
     /* -- reset external variables
      * mob_obj[name] = nil */
     lua_pushnil(L);
-    lc_getupvalue(L,lua_upvalueindex(1),1,35);
+    lc_getupvalue(L,lua_upvalueindex(1),1,36);
     lua_insert(L,-2);
     lua_pushvalue(L,4);
     lua_insert(L,-2);
@@ -18848,7 +18850,7 @@ static int lcf986 (lua_State * L) {
     
     /* mob_sta[name] = nil */
     lua_pushnil(L);
-    lc_getupvalue(L,lua_upvalueindex(1),0,36);
+    lc_getupvalue(L,lua_upvalueindex(1),0,37);
     lua_insert(L,-2);
     lua_pushvalue(L,4);
     lua_insert(L,-2);
@@ -18856,7 +18858,7 @@ static int lcf986 (lua_State * L) {
     lua_pop(L,1);
     assert(lua_gettop(L) == 4);
   }
-  lua_settop(L,lc978);
+  lua_settop(L,lc979);
   assert(lua_gettop(L) == 3);
   return 0;
 }
@@ -18865,7 +18867,7 @@ static int lcf986 (lua_State * L) {
 /* name: (main)
  * function(...) */
 static int lcf_main (lua_State * L) {
-  lua_checkstack(L,34);
+  lua_checkstack(L,35);
   enum { lc_nformalargs = 0 };
   const int lc_nactualargs = lua_gettop(L);
   const int lc_nextra = (lc_nactualargs - lc_nformalargs);
@@ -21699,6 +21701,15 @@ static int lcf_main (lua_State * L) {
   lua_rawseti(L,(lc823 + lc_nextra),33);
   assert(lua_gettop(L) - lc_nextra == 22);
   
+  /* -- buffer for vm:get_data, added by MrCerealGuy
+   * local dbuf = {} */
+  lc_newclosuretable(L,(lc823 + lc_nextra));
+  enum { lc824 = 23 };
+  assert((lua_gettop(L) == (lc824 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc824 + lc_nextra),34);
+  assert(lua_gettop(L) - lc_nextra == 23);
+  
   /* -- explosion (cannot break protected or unbreakable nodes)
    * function nssm:explosion(pos, radius, fire, smoke, sound)
    * 
@@ -21728,7 +21739,7 @@ static int lcf_main (lua_State * L) {
    * 	local vm = VoxelManip()
    * 	local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
    * 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-   * 	local data = vm:get_data()
+   * 	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
    * 	local p = {}
    * 	local pr = PseudoRandom(os.time())
    * 
@@ -21803,7 +21814,7 @@ static int lcf_main (lua_State * L) {
    * 	end
    * 	end
    * end */
-  lua_pushvalue(L,(lc823 + lc_nextra));
+  lua_pushvalue(L,(lc824 + lc_nextra));
   lua_pushcclosure(L,lcf1_nssm_explosion,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
   lua_insert(L,-2);
@@ -21811,7 +21822,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 22);
+  assert(lua_gettop(L) - lc_nextra == 23);
   
   /* -- register arrow for shoot attack
    * function nssm:register_arrow(name, def)
@@ -21907,7 +21918,7 @@ static int lcf_main (lua_State * L) {
    * 		end
    * 	})
    * end */
-  lua_pushvalue(L,(lc823 + lc_nextra));
+  lua_pushvalue(L,(lc824 + lc_nextra));
   lua_pushcclosure(L,lcf1_nssm_register_arrow,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
   lua_insert(L,-2);
@@ -21915,7 +21926,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 22);
+  assert(lua_gettop(L) - lc_nextra == 23);
   
   /* -- Spawn Egg
    * function nssm:register_egg(mob, desc, background, addegg)
@@ -21960,7 +21971,7 @@ static int lcf_main (lua_State * L) {
    * 		end,
    * 	})
    * end */
-  lua_pushvalue(L,(lc823 + lc_nextra));
+  lua_pushvalue(L,(lc824 + lc_nextra));
   lua_pushcclosure(L,lcf1_nssm_register_egg,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
   lua_insert(L,-2);
@@ -21968,7 +21979,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 22);
+  assert(lua_gettop(L) - lc_nextra == 23);
   
   /* -- capture critter (thanks to blert2112 for idea)
    * function nssm:capture_mob(self, clicker, chance_hand, chance_net, chance_lasso, force_take, replacewith)
@@ -22053,23 +22064,23 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 22);
-  
-  /* local mob_obj = {} */
-  lc_newclosuretable(L,(lc823 + lc_nextra));
-  enum { lc942 = 23 };
-  assert((lua_gettop(L) == (lc942 + lc_nextra)));
-  lua_newtable(L);
-  lua_rawseti(L,(lc942 + lc_nextra),35);
   assert(lua_gettop(L) - lc_nextra == 23);
   
-  /* local mob_sta = {} */
-  lc_newclosuretable(L,(lc942 + lc_nextra));
+  /* local mob_obj = {} */
+  lc_newclosuretable(L,(lc824 + lc_nextra));
   enum { lc943 = 24 };
   assert((lua_gettop(L) == (lc943 + lc_nextra)));
   lua_newtable(L);
   lua_rawseti(L,(lc943 + lc_nextra),36);
   assert(lua_gettop(L) - lc_nextra == 24);
+  
+  /* local mob_sta = {} */
+  lc_newclosuretable(L,(lc943 + lc_nextra));
+  enum { lc944 = 25 };
+  assert((lua_gettop(L) == (lc944 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc944 + lc_nextra),37);
+  assert(lua_gettop(L) - lc_nextra == 25);
   
   /* -- feeding, taming and breeding (thanks blert2112)
    * function nssm:feed_tame(self, clicker, feed_count, breed, tame)
@@ -22185,7 +22196,7 @@ static int lcf_main (lua_State * L) {
    * 	return false
    * 
    * end */
-  lua_pushvalue(L,(lc943 + lc_nextra));
+  lua_pushvalue(L,(lc944 + lc_nextra));
   lua_pushcclosure(L,lcf1_nssm_feed_tame,1);
   lua_getfield(L,LUA_ENVIRONINDEX,"nssm");
   lua_insert(L,-2);
@@ -22193,7 +22204,7 @@ static int lcf_main (lua_State * L) {
   lua_insert(L,-2);
   lua_settable(L,-3);
   lua_pop(L,1);
-  assert(lua_gettop(L) - lc_nextra == 24);
+  assert(lua_gettop(L) - lc_nextra == 25);
   
   /* -- inspired by blockmen's nametag mod
    * minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -22233,10 +22244,10 @@ static int lcf_main (lua_State * L) {
   lua_pushliteral(L,"register_on_player_receive_fields");
   lua_gettable(L,-2);
   lua_remove(L,-2);
-  lua_pushvalue(L,(lc943 + lc_nextra));
-  lua_pushcclosure(L,lcf986,1);
+  lua_pushvalue(L,(lc944 + lc_nextra));
+  lua_pushcclosure(L,lcf987,1);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 24);
+  assert(lua_gettop(L) - lc_nextra == 25);
   return 0;
 }
 

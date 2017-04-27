@@ -179,6 +179,8 @@ local function add_effects(pos, radius)
 	})
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
 
 local function explode(pos, radius)
 	local pos = vector.round(pos)
@@ -188,7 +190,7 @@ local function explode(pos, radius)
 	local p2 = vector.add(pos, radius)
 	local minp, maxp = vm:read_from_map(p1, p2)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	local drops = {}
 	local p = {}

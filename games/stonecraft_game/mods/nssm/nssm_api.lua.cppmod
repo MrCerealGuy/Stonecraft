@@ -73,6 +73,9 @@ function nssm:explosion_particles(pos, exp_radius)
     )
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 function nssm:explosion(pos, exp_radius, fire)
     local radius = exp_radius
     -- if area protected or near map limits then no blast damage
@@ -110,7 +113,7 @@ function nssm:explosion(pos, exp_radius, fire)
     local vm = VoxelManip()
     local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	local p = {}
 	local pr = PseudoRandom(os.time())
 

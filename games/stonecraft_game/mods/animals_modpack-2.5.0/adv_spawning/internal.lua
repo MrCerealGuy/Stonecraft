@@ -1017,6 +1017,10 @@ end
 -- @param light_around light around definitions
 -- @return true/false
 --------------------------------------------------------------------------------
+
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 function adv_spawning.check_light_around_voxel(pos,light_around)
 	if light_around == nil then
 		return true
@@ -1044,7 +1048,7 @@ function adv_spawning.check_light_around_voxel(pos,light_around)
 	local got_minp,got_maxp = voxeldata:read_from_map(minp,maxp)
 
 	local voxel_light_data = voxeldata:get_light_data()
-	local node_data = voxeldata:get_data()
+	local node_data = voxeldata:get_data(dbuf)	-- buffer added by MrCerealGuy
 	local voxelhelper = VoxelArea:new({MinEdge=got_minp,MaxEdge=got_maxp})
 
 

@@ -2514,6 +2514,9 @@ local c_obsidian = minetest.get_content_id("default:obsidian")
 local c_brick = minetest.get_content_id("default:obsidianbrick")
 local c_chest = minetest.get_content_id("default:chest_locked")
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 -- explosion (cannot break protected or unbreakable nodes)
 function nssm:explosion(pos, radius, fire, smoke, sound)
 
@@ -2543,7 +2546,7 @@ function nssm:explosion(pos, radius, fire, smoke, sound)
 	local vm = VoxelManip()
 	local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	local p = {}
 	local pr = PseudoRandom(os.time())
 

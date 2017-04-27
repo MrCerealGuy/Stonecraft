@@ -137,6 +137,11 @@ end
 nosmooth_rarity = upper_rarity(nosmooth_rarity)
 
 local contents_defined
+
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 minetest.register_on_generated(function(minp, maxp, seed)
 
 	--avoid calculating perlin noises for unneeded places
@@ -180,7 +185,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
@@ -381,7 +386,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		for _,v in pairs(tab) do
 			if v[1] == 1 then
 				if not param2s then
-					param2s = vm:get_param2_data()
+					param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 				end
 				sumpf.generate_birch(v[2], area, data, pr, param2s)
 			else

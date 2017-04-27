@@ -187,6 +187,11 @@ local function get_perlins(sidelen)
 end
 
 local nbuf_default, nbuf_cold, nbuf_ice
+
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 minetest.register_on_generated(function(minp, maxp, seed)
 	local t1 = os.clock()
 
@@ -199,12 +204,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		define_contents()
 	end
 
-	local vm, emin, emax = minetest.get_mapgen_object"voxelmanip"
+	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-	local data = vm:get_data()
-	local param2s = vm:get_param2_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 
-	local heightmap = minetest.get_mapgen_object"heightmap"
+	local heightmap = minetest.get_mapgen_object("heightmap")
 
 	local snow_tab,num = {},1
 	local pines_tab,pnum = {},1

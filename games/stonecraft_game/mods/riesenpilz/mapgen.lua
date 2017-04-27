@@ -98,7 +98,12 @@ nosmooth_rarity = upper_rarity(nosmooth_rarity)
 
 --local USUAL_STUFF =	{"default:leaves","default:apple","default:tree","default:cactus","default:papyrus"}
 
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 local contents_defined
+
 minetest.register_on_generated(function(minp, maxp, seed)
 	if maxp.y <= 0
 	or minp.y >= 150 then --avoid generation in the sky
@@ -143,7 +148,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local hmi = 1
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	data = vm:get_data()
+	data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
@@ -275,7 +280,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				riesenpilz.brown(p, data, area)
 			elseif m == 3 then
 				if not param2s then
-					param2s = vm:get_param2_data()
+					param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 				end
 				riesenpilz.fly_agaric(p, data, area, param2s)
 			elseif m == 4 then

@@ -1887,73 +1887,73 @@ static void lc_div(lua_State * L, int idxa, int idxb) {
 
 
 /* function(minp, maxp, seed) */
-static int lcf131 (lua_State * L) {
+static int lcf132 (lua_State * L) {
   lua_checkstack(L,21);
   enum { lc_nformalargs = 3 };
   lua_settop(L,3);
   
   /* if minp.y > MINE_DEEP_MIN or minp.y < MINE_DEEP_MAX then */
-  enum { lc121 = 3 };
-  lc_getupvalue(L,lua_upvalueindex(1),10,1);
+  enum { lc122 = 3 };
+  lc_getupvalue(L,lua_upvalueindex(1),11,1);
   lua_pushliteral(L,"y");
   lua_gettable(L,1);
-  const int lc122 = lua_lessthan(L,-2,-1);
+  const int lc123 = lua_lessthan(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc122);
+  lua_pushboolean(L,lc123);
   if (!(lua_toboolean(L,-1))) {
     lua_pop(L,1);
     lua_pushliteral(L,"y");
     lua_gettable(L,1);
-    lc_getupvalue(L,lua_upvalueindex(1),9,2);
-    const int lc123 = lua_lessthan(L,-2,-1);
+    lc_getupvalue(L,lua_upvalueindex(1),10,2);
+    const int lc124 = lua_lessthan(L,-2,-1);
     lua_pop(L,2);
-    lua_pushboolean(L,lc123);
+    lua_pushboolean(L,lc124);
   }
-  const int lc124 = lua_toboolean(L,-1);
+  const int lc125 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc124) {
+  if (lc125) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc121);
+  lua_settop(L,lc122);
   assert(lua_gettop(L) == 3);
   
   /* cnt = cnt+1 */
-  lc_getupvalue(L,lua_upvalueindex(1),0,13);
+  lc_getupvalue(L,lua_upvalueindex(1),1,13);
   lua_pushnumber(L,1);
   lc_add(L,-2,-1);
   lua_remove(L,-2);
   lua_remove(L,-2);
-  lc_setupvalue(L,lua_upvalueindex(1),0,13);
+  lc_setupvalue(L,lua_upvalueindex(1),1,13);
   assert(lua_gettop(L) == 3);
   
   /* if cnt < 8/MINE_FACTOR then */
-  enum { lc125 = 3 };
-  lc_getupvalue(L,lua_upvalueindex(1),0,13);
+  enum { lc126 = 3 };
+  lc_getupvalue(L,lua_upvalueindex(1),1,13);
   lua_pushnumber(L,8);
-  lc_getupvalue(L,lua_upvalueindex(1),8,3);
+  lc_getupvalue(L,lua_upvalueindex(1),9,3);
   lc_div(L,-2,-1);
   lua_remove(L,-2);
   lua_remove(L,-2);
-  const int lc126 = lua_lessthan(L,-2,-1);
+  const int lc127 = lua_lessthan(L,-2,-1);
   lua_pop(L,2);
-  lua_pushboolean(L,lc126);
-  const int lc127 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc127);
+  const int lc128 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc127) {
+  if (lc128) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 3);
   }
-  lua_settop(L,lc125);
+  lua_settop(L,lc126);
   assert(lua_gettop(L) == 3);
   
   /* cnt = 0 */
   lua_pushnumber(L,0);
-  lc_setupvalue(L,lua_upvalueindex(1),0,13);
+  lc_setupvalue(L,lua_upvalueindex(1),1,13);
   assert(lua_gettop(L) == 3);
   
   /* --if math.random(0,100) > 85 then return end
@@ -1966,15 +1966,17 @@ static int lcf131 (lua_State * L) {
   lua_call(L,1,3);
   assert(lua_gettop(L) == 6);
   
-  /* local data = vm:get_data() */
+  /* local data = vm:get_data(dbuf) */
   lua_pushvalue(L,4);
   lua_pushliteral(L,"get_data");
   lua_gettable(L,-2);
   lua_insert(L,-2);
-  lua_call(L,1,1);
+  lc_getupvalue(L,lua_upvalueindex(1),0,14);
+  lua_call(L,2,1);
   assert(lua_gettop(L) == 7);
   
-  /* local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax } */
+  /* -- buffer added by MrCerealGuy
+   * local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax } */
   lua_getfield(L,LUA_ENVIRONINDEX,"VoxelArea");
   lua_pushliteral(L,"new");
   lua_gettable(L,-2);
@@ -1990,7 +1992,7 @@ static int lcf131 (lua_State * L) {
   assert(lua_gettop(L) == 8);
   
   /* local mpos = find_cave(emin,emax,data,va) */
-  lc_getupvalue(L,lua_upvalueindex(1),1,12);
+  lc_getupvalue(L,lua_upvalueindex(1),2,12);
   lua_pushvalue(L,5);
   lua_pushvalue(L,6);
   lua_pushvalue(L,7);
@@ -1999,20 +2001,20 @@ static int lcf131 (lua_State * L) {
   assert(lua_gettop(L) == 9);
   
   /* if mpos == nil then */
-  enum { lc128 = 9 };
+  enum { lc129 = 9 };
   lua_pushnil(L);
-  const int lc129 = lua_equal(L,9,-1);
+  const int lc130 = lua_equal(L,9,-1);
   lua_pop(L,1);
-  lua_pushboolean(L,lc129);
-  const int lc130 = lua_toboolean(L,-1);
+  lua_pushboolean(L,lc130);
+  const int lc131 = lua_toboolean(L,-1);
   lua_pop(L,1);
-  if (lc130) {
+  if (lc131) {
     
     /* return */
     return 0;
     assert(lua_gettop(L) == 9);
   }
-  lua_settop(L,lc128);
+  lua_settop(L,lc129);
   assert(lua_gettop(L) == 9);
   
   /* local mpos2 = {x=mpos.x+math.random(0,3),y=mpos.y-1,z=mpos.z} */
@@ -2076,7 +2078,7 @@ static int lcf131 (lua_State * L) {
   assert(lua_gettop(L) == 11);
   
   /* data = make_mine(mpos,mpos2,mpos3, data, va, 0) */
-  lc_getupvalue(L,lua_upvalueindex(1),2,11);
+  lc_getupvalue(L,lua_upvalueindex(1),3,11);
   lua_pushvalue(L,9);
   lua_pushvalue(L,10);
   lua_pushvalue(L,11);
@@ -2128,7 +2130,7 @@ static int lcf131 (lua_State * L) {
 /* name: (main)
  * function(...) */
 static int lcf_main (lua_State * L) {
-  lua_checkstack(L,25);
+  lua_checkstack(L,26);
   enum { lc_nformalargs = 0 };
   const int lc_nactualargs = lua_gettop(L);
   const int lc_nextra = (lc_nactualargs - lc_nformalargs);
@@ -2720,6 +2722,15 @@ static int lcf_main (lua_State * L) {
   lua_rawseti(L,(lc120 + lc_nextra),13);
   assert(lua_gettop(L) - lc_nextra == 15);
   
+  /* -- buffer for vm:get_data, added by MrCerealGuy
+   * local dbuf = {} */
+  lc_newclosuretable(L,(lc120 + lc_nextra));
+  enum { lc121 = 16 };
+  assert((lua_gettop(L) == (lc121 + lc_nextra)));
+  lua_newtable(L);
+  lua_rawseti(L,(lc121 + lc_nextra),14);
+  assert(lua_gettop(L) - lc_nextra == 16);
+  
   /* minetest.register_on_generated(function(minp, maxp, seed)
    * 	if minp.y > MINE_DEEP_MIN or minp.y < MINE_DEEP_MAX then
    * 		return
@@ -2730,7 +2741,7 @@ static int lcf_main (lua_State * L) {
    * 
    * 	--if math.random(0,100) > 85 then return end
    * 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-   * 	local data = vm:get_data()
+   * 	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
    * 	local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
    * 	local mpos = find_cave(emin,emax,data,va)
    * 	if mpos == nil then return end
@@ -2746,10 +2757,10 @@ static int lcf_main (lua_State * L) {
   lua_pushliteral(L,"register_on_generated");
   lua_gettable(L,-2);
   lua_remove(L,-2);
-  lua_pushvalue(L,(lc120 + lc_nextra));
-  lua_pushcclosure(L,lcf131,1);
+  lua_pushvalue(L,(lc121 + lc_nextra));
+  lua_pushcclosure(L,lcf132,1);
   lua_call(L,1,0);
-  assert(lua_gettop(L) - lc_nextra == 15);
+  assert(lua_gettop(L) - lc_nextra == 16);
   return 0;
 }
 

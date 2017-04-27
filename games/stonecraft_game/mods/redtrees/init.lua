@@ -105,6 +105,9 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 	end
 end
 
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 --MAKE TREE!!
 redtrees.grow_tree = function(pos)
 	if bad then
@@ -122,7 +125,7 @@ redtrees.grow_tree = function(pos)
 		{x = pos.x + 2, y = pos.y + height + 1, z = pos.z + 2}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 
 	add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8)
 

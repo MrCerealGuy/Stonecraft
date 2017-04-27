@@ -140,12 +140,16 @@ implementation of radiation) it needs to continue being adequate
 shielding of legacy reactors.  If it ever ceases to be adequate
 shielding for new reactors, legacy ones should be grandfathered.
 --]]
+
+-- buffer for vm:get_data, added by MrCerealGuy
+local dbuf = {}
+
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
 	local pos1 = vector.subtract(pos, 3)
 	local pos2 = vector.add(pos, 3)
 	local MinEdge, MaxEdge = vm:read_from_map(pos1, pos2)
-	local data = vm:get_data()
+	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
 	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
 
 	local c_blast_concrete = minetest.get_content_id("technic:blast_resistant_concrete")

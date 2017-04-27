@@ -173,6 +173,11 @@ function sumpf.generate_birch(pos, area, nodes, pr, param2s)
 	birch(pos, 3+pr:next(1,2), area, nodes, pr, param2s)
 end
 
+
+-- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
+local dbuf = {}
+local dbuf_param2 = {}
+
 function spawn_birch(pos)
 	local t1 = os.clock()
 
@@ -186,8 +191,8 @@ function spawn_birch(pos)
 	local emerged_pos1, emerged_pos2 = manip:read_from_map({x=pos.x-vwidth, y=pos.y, z=pos.z-vwidth},
 		{x=pos.x+vwidth, y=pos.y+vheight, z=pos.z+vwidth})
 	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:get_data()
-	local param2s = manip:get_param2_data()
+	local nodes = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local param2s = manip:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 
 	birch(pos, height, area, nodes, pr, param2s)
 
