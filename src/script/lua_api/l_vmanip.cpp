@@ -94,20 +94,24 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 
 	u32 volume = vm->m_area.getVolume();
 
-	lua_Integer* data;
+	lua_Integer* data = NULL;
+	u32 index = -1;
 
-	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
-		data_heap[0] = (lua_Integer*)calloc(volume,sizeof(lua_Integer));
-		data = data_heap[0];
+	data = (lua_Integer*)calloc(volume,sizeof(lua_Integer));
+
+	if (data != NULL)
+	{
+		data_heap.push_back(data);
+		index = data_heap.size()-1;
+
+		for (u32 i = 0; i != volume; i++) {
+			data[i] = vm->m_data[i].getContent();
+		}
 	}
-	else
-		return 0;
 
-	for (u32 i = 0; i != volume; i++) {
-		data[i] = vm->m_data[i].getContent();
-	}
+	lua_pushinteger(L, (lua_Integer)index);
 
-	return 0;
+	return 1;
 }
 
 int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
@@ -119,13 +123,11 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 
 	u32 volume = vm->m_area.getVolume();
 
-	lua_Integer* data;
+	lua_Integer* data = NULL;
+	u32 index = luaL_checknumber(L, 2);
 
-	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
-		data = data_heap[0];
-	}
-	else
-		return 0;
+	data = data_heap.at(index);
+
 
 	for (u32 i = 0; i != volume; i++) {
 
@@ -134,7 +136,7 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 		vm->m_data[i].setContent(c);
 	}
 
-	free(data);
+	data_heap.erase(data_heap.begin()+index);
 
 	return 0;
 }
@@ -143,13 +145,10 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 
+	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
 
-	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
-		lua_pushinteger(L, data_heap[0][key]);
-	}
-	else
-		return 1;
+	lua_pushinteger(L, (lua_Integer)data_heap.at(index)[key]);
 
 	return 1;
 }
@@ -158,14 +157,11 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 
+	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
 	u32 value = luaL_checknumber(L, 4);
 
-	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
-		data_heap[0][key] = value;
-	}
-	else
-		return 0;
+	data_heap.at(index)[key] = (lua_Integer)value;
 
 	return 0;
 }
@@ -541,7 +537,8 @@ void LuaVoxelManip::Register(lua_State *L)
 	lua_register(L, className, create_object);
 }
 
-lua_Integer* LuaVoxelManip::data_heap[] = {NULL};
+//lua_Integer* LuaVoxelManip::data_heap[] = {NULL};
+std::vector<lua_Integer*> LuaVoxelManip::data_heap;//.clear();
 const char LuaVoxelManip::className[] = "VoxelManip";
 const luaL_Reg LuaVoxelManip::methods[] = {
 	luamethod(LuaVoxelManip, read_from_map),

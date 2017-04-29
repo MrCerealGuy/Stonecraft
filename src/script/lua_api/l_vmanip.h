@@ -23,7 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <map>
 #include "irr_v3d.h"
 #include "lua_api/l_base.h"
-
+#include <vector>
 
 #ifdef __cplusplus
 extern "C" {
@@ -48,7 +48,8 @@ private:
 	std::map<v3s16, MapBlock *> modified_blocks;
 	bool is_mapgen_vm;
 
-	static lua_Integer* data_heap[1];
+	//static lua_Integer* data_heap[1];
+	static std::vector<lua_Integer*> data_heap;
 	static const char className[];
 	static const luaL_Reg methods[];
 
