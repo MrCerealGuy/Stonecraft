@@ -24,6 +24,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "irr_v3d.h"
 #include "lua_api/l_base.h"
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+#include <lua.h>
+#ifdef __cplusplus
+}
+#endif
+
+
+
 class Map;
 class MapBlock;
 class MMVManip;
@@ -37,6 +48,7 @@ private:
 	std::map<v3s16, MapBlock *> modified_blocks;
 	bool is_mapgen_vm;
 
+	static lua_Integer* data_heap[1];
 	static const char className[];
 	static const luaL_Reg methods[];
 
@@ -46,6 +58,11 @@ private:
 	static int l_get_data(lua_State *L);
 	static int l_set_data(lua_State *L);
 	static int l_write_to_map(lua_State *L);
+
+	static int l_load_data_into_heap(lua_State *L);
+	static int l_save_data_from_heap(lua_State *L);
+	static int l_get_data_from_heap(lua_State *L);
+	static int l_set_data_from_heap(lua_State *L);
 
 	static int l_get_node_at(lua_State *L);
 	static int l_set_node_at(lua_State *L);

@@ -29,6 +29,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapgen.h"
 #include "voxelalgorithms.h"
 
+//lua_Integer* data_heap[1];
+
 // garbage collector
 int LuaVoxelManip::gc_object(lua_State *L)
 {
@@ -81,6 +83,93 @@ int LuaVoxelManip::l_get_data(lua_State *L)
 
 	return 1;
 }
+
+
+int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
+	lua_Integer* data;
+
+	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
+		data_heap[0] = (lua_Integer*)calloc(volume,sizeof(lua_Integer));
+		data = data_heap[0];
+	}
+	else
+		return 0;
+
+	for (u32 i = 0; i != volume; i++) {
+		data[i] = vm->m_data[i].getContent();
+	}
+
+	return 0;
+}
+
+int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
+	lua_Integer* data;
+
+	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
+		data = data_heap[0];
+	}
+	else
+		return 0;
+
+	for (u32 i = 0; i != volume; i++) {
+
+		content_t c = data[i];
+
+		vm->m_data[i].setContent(c);
+	}
+
+	free(data);
+
+	return 0;
+}
+
+int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	u32 key = luaL_checknumber(L, 3);
+
+	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
+		lua_pushinteger(L, data_heap[0][key]);
+	}
+	else
+		return 1;
+
+	return 1;
+}
+
+int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	u32 key = luaL_checknumber(L, 3);
+	u32 value = luaL_checknumber(L, 4);
+
+	if (strcmp(lua_tostring(L,2), "erosion") == 0) {
+		data_heap[0][key] = value;
+	}
+	else
+		return 0;
+
+	return 0;
+}
+
 
 int LuaVoxelManip::l_set_data(lua_State *L)
 {
@@ -452,11 +541,16 @@ void LuaVoxelManip::Register(lua_State *L)
 	lua_register(L, className, create_object);
 }
 
+lua_Integer* LuaVoxelManip::data_heap[] = {NULL};
 const char LuaVoxelManip::className[] = "VoxelManip";
 const luaL_Reg LuaVoxelManip::methods[] = {
 	luamethod(LuaVoxelManip, read_from_map),
 	luamethod(LuaVoxelManip, get_data),
 	luamethod(LuaVoxelManip, set_data),
+	luamethod(LuaVoxelManip, load_data_into_heap),
+	luamethod(LuaVoxelManip, save_data_from_heap),
+	luamethod(LuaVoxelManip, get_data_from_heap),
+	luamethod(LuaVoxelManip, set_data_from_heap),
 	luamethod(LuaVoxelManip, get_node_at),
 	luamethod(LuaVoxelManip, set_node_at),
 	luamethod(LuaVoxelManip, write_to_map),
