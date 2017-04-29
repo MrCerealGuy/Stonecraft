@@ -296,7 +296,7 @@ end
 
 dpstn.air = minetest.get_content_id("air")
 
-local function place_slope(vpos,m)
+local function place_slope(data,prm2,vpos,m)
 	if data == nil or prm2 == nil then
 		return
 	end
