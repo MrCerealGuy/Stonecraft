@@ -8,7 +8,6 @@
 --     mg_villages.all_villages[ village_id ]
 mg_villages.new_village_spawned = function( village_id )
 	-- dummy function
-	return village_id 	-- MrCerealGuy: DO NOT REMOVE! Empty function causes error with Lua2C.
 end
 
 
@@ -473,7 +472,7 @@ mg_villages.repair_outer_shell = function( villages, minp, maxp, vm, data, param
 					              ci==cid.c_msnow_5 or ci==cid.c_msnow_6 or ci==cid.c_msnow_7 or ci==cid.c_msnow_8 or
 					              ci==cid.c_msnow_9 or ci==cid.c_msnow_10 or ci==cid.c_msnow_11)) then
 					vm:set_data_from_heap(data, a:index(x, village.vh+1, z), cid.c_snow);
-					vm:get_data_from_heap(data, a:index(x, village.vh,   z), cid.c_dirt_with_snow);
+					vm:set_data_from_heap(data, a:index(x, village.vh,   z), cid.c_dirt_with_snow);
 				elseif( ci == cid.c_ignore ) then
 					--data[a:index(x,y,z)] = cid.c_air;
 				end
@@ -909,8 +908,11 @@ mg_villages.save_data = function()
 	save_restore.save_data( 'mg_all_villages.data', mg_villages.all_villages );
 end
 
+-- buffer for vm:get_param2_data, added by MrCerealGuy
+--local dbuf = {}
+local dbuf_param2 = {}
 
-mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, data, param2_data, a, top, seed )
+mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed )
 	local t1 = minetest.get_us_time();
 
 	local cid = {}
@@ -1000,24 +1002,21 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 		end
         end
 	t1 = time_elapsed( t1, 'generate_village, mark_buildings and mark_dirt_roads' );
-
-	local emin;
-	local emax;
-	-- if no voxelmanip data was passed on, read the data here
-	if( not( vm ) or not( a) or not( data ) or not( param2_data ) ) then
-		vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-		if( not( vm )) then 
-			return;
-		end
-
-		a = VoxelArea:new{
-			MinEdge={x=emin.x, y=emin.y, z=emin.z},
-			MaxEdge={x=emax.x, y=emax.y, z=emax.z},
-		}
-
-		data = vm:load_data_into_heap()
-		param2_data = vm:get_param2_data(param2_data);
+	
+	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip");
+	
+	if( not( vm )) then 
+		return;
 	end
+
+	local a = VoxelArea:new{
+		MinEdge={x=emin.x, y=emin.y, z=emin.z},
+		MaxEdge={x=emax.x, y=emax.y, z=emax.z},
+	}
+
+	local data = vm:load_data_into_heap();
+	local param2_data = vm:get_param2_data(dbuf_param2);
+
 	t1 = time_elapsed( t1, 'get_vmap_data' );
 
 	-- all vm manipulation functions write their content to the *entire* volume/area - including those 16 nodes that
@@ -1104,6 +1103,11 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 	end
 	t1 = time_elapsed( t1, 'create highlandpools' );
 
+	-- useful for spawning mobs etc.
+	for _, village in ipairs(villages) do
+		mg_villages.part_of_village_spawned( village, minp, maxp, vm, data, param2_data, a, cid );
+	end
+
 	vm:save_data_from_heap(data)
 	vm:set_param2_data(param2_data)
 	t1 = time_elapsed( t1, 'vm data set' );
@@ -1162,12 +1166,6 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 		end
 	end
 	-- TODO: extra_calls.signs
-
-	
-	-- useful for spawning mobs etc.
-	for _, village in ipairs(villages) do
-		mg_villages.part_of_village_spawned( village, minp, maxp, vm, data, param2_data, a, cid );
-	end
 
 	-- initialize the pseudo random generator so that the chests will be filled in a reproducable pattern
 	local meta
@@ -1260,6 +1258,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	if( villages and #villages > 0 ) then
-		mg_villages.place_villages_via_voxelmanip( villages, minp, maxp, nil, data_vm, data_param2_data, nil, nil, seed );
+		mg_villages.place_villages_via_voxelmanip( villages, minp, maxp, seed );
 	end
 end)
