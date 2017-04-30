@@ -62,9 +62,9 @@ function riesenpilz_circle(nam, pos, radius, chance)
 		if pr:next(1,chance) == 1 then
 			local p = vector.add(pos, p)
 			local p_p = area:indexp(p)
-			if (data[p_p] == c.air or data[p_p] == c.ignore)
-			and find_ground(data[area:index(p.x, p.y-1, p.z)], c.GROUND) then
-				data[p_p] = nam
+			if (vm:get_data_from_heap(data, p_p) == c.air or vm:get_data_from_heap(data, p_p) == c.ignore)
+			and find_ground(vm:get_data_from_heap(data, area:index(p.x, p.y-1, p.z)), c.GROUND) then
+				vm:set_data_from_heap(data, p_p, nam)
 			end
 		end
 	end
@@ -98,8 +98,7 @@ nosmooth_rarity = upper_rarity(nosmooth_rarity)
 
 --local USUAL_STUFF =	{"default:leaves","default:apple","default:tree","default:cactus","default:papyrus"}
 
--- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
-local dbuf = {}
+-- buffer for vm:get_param2_data, added by MrCerealGuy
 local dbuf_param2 = {}
 
 local contents_defined
@@ -148,14 +147,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local hmi = 1
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	data = vm:load_data_into_heap()
 	area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
-		local d_p_pos = data[p_pos]
+		local d_p_pos = vm:get_data_from_heap(data, p_pos)
 		for _,nam in ipairs(c.TREE_STUFF) do
 			if d_p_pos == nam then
-				data[p_pos] = c.air
+				vm:set_data_from_heap(data, p_pos, c.air)
 				break
 			end
 		end
@@ -190,7 +189,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				-- skip the air part
 				local ground
 				for y = math.min(heightmap[hmi]+20, maxp.y),ymin,-1 do
-					if data[area:index(x, y, z)] ~= c.air then
+					if vm:get_data_from_heap(data, area:index(x, y, z)) ~= c.air then
 						ground = y
 						break
 					end
@@ -200,10 +199,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if ground then
 					for y = ground,ymin,-1 do
 						local p_pos = area:index(x, y, z)
-						local d_p_pos = data[p_pos]
+						local d_p_pos = vm:get_data_from_heap(data, p_pos)
 						for _,nam in pairs(c.USUAL_STUFF) do --remove usual stuff
 							if d_p_pos == nam then
-								data[p_pos] = c.air
+								vm:set_data_from_heap(data, p_pos, c.air)
 								p_pos = nil
 								break
 							end
@@ -217,11 +216,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 
 				if ground_y then
-					data[area:index(x, ground_y, z)] = c.ground
+					vm:set_data_from_heap(data, area:index(x, ground_y, z), c.ground)
 					for i = -1,-5,-1 do
 						local p_pos = area:index(x, ground_y+i, z)
-						if data[p_pos] == c.desert_sand then
-							data[p_pos] = c.dirt
+						if vm:get_data_from_heap(data, p_pos) == c.desert_sand then
+							vm:set_data_from_heap(data, p_pos, c.dirt)
 						else
 							break
 						end
@@ -229,7 +228,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					local bigtype
 					local boden = {x=x,y=ground_y+1,z=z}
 					if pr:next(1,15) == 1 then
-						data[area:index(x, ground_y+1, z)] = c.dry_shrub
+						vm:set_data_from_heap(data, area:index(x, ground_y+1, z), c.dry_shrub)
 					elseif pr:next(1,80) == 1 then
 						riesenpilz_circle(c.riesenpilz_brown, boden, pr:next(3,4), 3)
 					elseif pr:next(1,85) == 1 then
@@ -295,13 +294,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	local t2 = os.clock()
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	if param2s then
 		vm:set_param2_data(param2s)
 	end
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
-	vm:write_to_map()
+	vm:write_to_map(true)
 	data = nil
 	area = nil
 	riesenpilz.inform("data set", 2, t2)
