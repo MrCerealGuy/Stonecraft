@@ -2,7 +2,7 @@
 mob_village_traders = {}
 
 -- spawn traders in villages
-mob_village_traders.part_of_village_spawned = function( village, minp, maxp, data, param2_data, a, cid )
+mob_village_traders.part_of_village_spawned = function( village, minp, maxp, vm, data, param2_data, a, cid )
 	-- if mobf_trader is not installed, we can't spawn any mobs;
 	-- if mg_villages is not installed, we do not need to spawn anything
 	if(   not( minetest.get_modpath( 'mobf_trader'))
@@ -35,7 +35,7 @@ mob_village_traders.part_of_village_spawned = function( village, minp, maxp, dat
 			local traders = mob_village_traders.choose_traders( village_type, building_data.typ, village.to_add_data.replacements );
 
 			-- find spawn positions for all traders in the list
-			local all_pos = mob_village_traders.choose_trader_pos(bpos, minp, maxp, data, param2_data, a, cid, traders);
+			local all_pos = mob_village_traders.choose_trader_pos(bpos, minp, maxp, vm, data, param2_data, a, cid, traders);
 
 			-- actually spawn the traders
 			for _,v in ipairs( all_pos ) do
@@ -169,7 +169,7 @@ end
 
 
 -- chooses trader positions for multiple traders for one particular building
-mob_village_traders.choose_trader_pos = function(pos, minp, maxp, data, param2_data, a, cid, traders)
+mob_village_traders.choose_trader_pos = function(pos, minp, maxp, vm, data, param2_data, a, cid, traders)
 
 	local trader_pos = {};
 	-- determine spawn positions for the mobs
@@ -185,13 +185,13 @@ mob_village_traders.choose_trader_pos = function(pos, minp, maxp, data, param2_d
 			if (pt.x >= minp.x and pt.x <= maxp.x) and (pt.y >= minp.y and pt.y <= maxp.y) and (pt.z >= minp.z and pt.z <= maxp.z) then
 
 				while( pt.y < maxp.y 
-				  and (data[ a:index( pt.x, pt.y,   pt.z)]~=cid.c_air
-				    or data[ a:index( pt.x, pt.y+1, pt.z)]~=cid.c_air )) do
+				  and (vm:get_data_from_heap(data,  a:index( pt.x, pt.y,   pt.z))~=cid.c_air
+				    or vm:get_data_from_heap(data,  a:index( pt.x, pt.y+1, pt.z))~=cid.c_air )) do
 					pt.y = pt.y + 1;
 				end
 
 				-- check if this position is really suitable? traders standing on the roof are a bit odd
-				local node_id = data[ a:index( pt.x, pt.y-1, pt.z)];
+				local node_id = vm:get_data_from_heap(data,  a:index( pt.x, pt.y-1, pt.z));
 				local def = {};
 				if( node_id and minetest.get_name_from_content_id( node_id )) then
 					def = minetest.registered_nodes[ minetest.get_name_from_content_id( node_id)];
