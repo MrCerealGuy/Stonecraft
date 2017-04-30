@@ -108,8 +108,12 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 			data[i] = vm->m_data[i].getContent();
 		}
 	}
+	else
+		throw LuaError("LuaVoxelManip::l_load_data_into_heap failed!");
 
 	lua_pushinteger(L, (lua_Integer)index);
+
+	//verbosestream<<"l_load_data_into_heap index: "<<index<<std::endl;
 
 	return 1;
 }
@@ -128,6 +132,9 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 
 	data = data_heap.at(index);
 
+	if (data == NULL)
+		throw LuaError("LuaVoxelManip::l_save_data_from_heap failed!");
+
 
 	for (u32 i = 0; i != volume; i++) {
 
@@ -136,7 +143,14 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 		vm->m_data[i].setContent(c);
 	}
 
-	data_heap.erase(data_heap.begin()+index);
+	if (data != NULL)
+	{
+		free(data);
+		data = NULL;
+	}
+	//data_heap.erase(data_heap.begin()+index);
+
+	//verbosestream<<"l_save_data_from_heap index: "<<index<<std::endl;
 
 	return 0;
 }
@@ -145,8 +159,26 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
 	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
+
+	// Lua table index starts with 1 not with 0!
+	key = key-1;
+
+
+
+	if ((data_heap.size()-1) < index || key > (volume-1) || data_heap.at(index) == NULL)
+	{
+		errorstream << "l_get_data_from_heap index, key, volume: "<< index<< " " << key << " " << volume << std::endl;
+		lua_pushinteger(L, (lua_Integer)-1);
+		return 1;
+		//throw LuaError("LuaVoxelManip::l_get_data_from_heap failed!");
+	}
 
 	lua_pushinteger(L, (lua_Integer)data_heap.at(index)[key]);
 
@@ -161,7 +193,15 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 	u32 key = luaL_checknumber(L, 3);
 	u32 value = luaL_checknumber(L, 4);
 
+	// Lua table index starts with 1 not with 0!
+	key = key-1;
+
+	if (data_heap.at(index) == NULL)
+			throw LuaError("LuaVoxelManip::l_set_data_from_heap failed!");
+
 	data_heap.at(index)[key] = (lua_Integer)value;
+
+	//verbosestream<<"l_set_data_from_heap index, key, value: "<<index<< " " << key << " " << value << std::endl;
 
 	return 0;
 }
