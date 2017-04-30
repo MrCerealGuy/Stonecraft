@@ -17,9 +17,9 @@ end
 
 -- either uses get_node_or_nil(..) or the data from voxelmanip
 -- the function might as well be local (only used by *.mg_drop_moresnow)
-handle_schematics.get_node_somehow = function( x, y, z, a, data, param2_data )
+handle_schematics.get_node_somehow = function( x, y, z, a, vm, data, param2_data )
 	if( a and data and param2_data ) then
-		return { content = data[a:index(x, y, z)], param2 = param2_data[a:index(x, y, z)] };
+		return { content = vm:get_data_from_heap(data, a:index(x, y, z)), param2 = param2_data[a:index(x, y, z)] };
 	end
 	-- no voxelmanip; get the node the normal way
 	local node = minetest.get_node_or_nil( {x=x, y=y, z=z} );
@@ -31,7 +31,7 @@ end
 
 
 -- "drop" moresnow snow on diffrent shapes; works for voxelmanip and node-based setting
-handle_schematics.mg_drop_moresnow = function( x, z, y_top, y_bottom, a, data, param2_data)
+handle_schematics.mg_drop_moresnow = function( x, z, y_top, y_bottom, a, vm, data, param2_data)
 
 	-- this only works if moresnow is installed
 	if( not( handle_schematics.moresnow_installed )) then
@@ -39,11 +39,11 @@ handle_schematics.mg_drop_moresnow = function( x, z, y_top, y_bottom, a, data, p
 	end
 
 	local y = y_top;
-	local node_above = handle_schematics.get_node_somehow( x, y+1, z, a, data, param2_data );	
+	local node_above = handle_schematics.get_node_somehow( x, y+1, z, a, vm, data, param2_data );	
 	local node_below = nil;
 	while( y >= y_bottom ) do
 
-		node_below = handle_schematics.get_node_somehow( x, y, z, a, data, param2_data );
+		node_below = handle_schematics.get_node_somehow( x, y, z, a, vm, data, param2_data );
 		if(     node_above.content == moresnow.c_air
 		    and node_below.content
 		    and node_below.content ~= moresnow.c_ignore
@@ -73,7 +73,7 @@ handle_schematics.mg_drop_moresnow = function( x, z, y_top, y_bottom, a, data, p
 			-- c_snow_top and c_snow_fence can only exist when the node 2 below is a solid one
 			if(    suggested.new_id == moresnow.c_snow_top
 			    or suggested.new_id == moresnow.c_snow_fence) then	
-				local node_below2 = handle_schematics.get_node_somehow( x, y-1, z, a, data, param2_data);
+				local node_below2 = handle_schematics.get_node_somehow( x, y-1, z, a, vm, data, param2_data);
 				if(     node_below2.content ~= moresnow.c_ignore
 				    and node_below2.content ~= moresnow.c_air ) then
 					local suggested2 = moresnow.suggest_snow_type( node_below2.content, node_below2.param2 );
@@ -97,7 +97,7 @@ end
 
 -- helper function for generate_building
 -- places a marker that allows players to buy plots with houses on them (in order to modify the buildings)
-local function generate_building_plotmarker( pos, minp, maxp, data, param2_data, a, cid, building_nr_in_bpos, village_id, filename)
+local function generate_building_plotmarker( pos, minp, maxp, vm, data, param2_data, a, cid, building_nr_in_bpos, village_id, filename)
 	-- position the plot marker so that players can later buy this plot + building in order to modify it
 	-- pos.o contains the original orientation (determined by the road and the side the building is
 	local p = {x=pos.x, y=pos.y+1, z=pos.z};
@@ -115,12 +115,12 @@ local function generate_building_plotmarker( pos, minp, maxp, data, param2_data,
 	-- actually position the marker
 	if(   p.x >= minp.x and p.x <= maxp.x and p.z >= minp.z and p.z <= maxp.z and p.y >= minp.y and p.y <= maxp.y) then
 		if( handle_schematics.moresnow_installed
-		   and data[ a:index(p.x, p.y, p.z)] == cid.c_snow
+		   and vm:get_data_from_heap(data,  a:index(p.x, p.y, p.z)) == cid.c_snow
 		   and p.y<maxp.y
 		   and moresnow and moresnow.c_snow_top and cid.c_snow_top ~= cid.c_ignore) then
-			data[ a:index(p.x, p.y+1, p.z)] = moresnow.c_snow_top;
+			vm:set_data_from_heap(data,  a:index(p.x, p.y+1, p.z), moresnow.c_snow_top);
 		end
-		data[       a:index(p.x, p.y, p.z)] = cid.c_plotmarker;
+		vm:set_data_from_heap(data,        a:index(p.x, p.y, p.z), cid.c_plotmarker);
 		param2_data[a:index(p.x, p.y, p.z)] = pos.brotate;
 		-- store the necessary information in the marker so that it knows for which building it is responsible
 		local meta = minetest.get_meta( p );
@@ -297,7 +297,7 @@ local function generate_building_translate_nodenames( nodenames, replacements, c
 end
 
 
-local function generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground, scaffolding_only)
+local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground, scaffolding_only)
 
 	local binfo = binfo_extra;
 	if( not( binfo ) and mg_villages) then
@@ -318,13 +318,13 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 
 	-- roads are very simple structures that are not stored as schematics
 	if( pos.btype == 'road' ) then
-		handle_schematics.place_road( minp, maxp, data, param2_data, a, road_node, pos, cid.c_air );
+		handle_schematics.place_road( minp, maxp, vm, data, param2_data, a, road_node, pos, cid.c_air );
 		return;
 	end
 
 
 	if( not( pos.no_plotmarker )) then
-		generate_building_plotmarker( pos, minp, maxp, data, param2_data, a, cid, building_nr_in_bpos, village_id, binfo.scm );
+		generate_building_plotmarker( pos, minp, maxp, vm, data, param2_data, a, cid, building_nr_in_bpos, village_id, binfo.scm );
 	end
 
 	-- skip building if it is not located at least partly in the area that is currently beeing generated
@@ -457,11 +457,11 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 	
 				local new_content = c_air;
 				local t = scm[y+1][xoff][zoff];
-				local node_content = data[a:index(ax, ay, az)];
+				local node_content = vm:get_data_from_heap(data, a:index(ax, ay, az));
 
 				if( binfo.yoff+y == 0 ) then
 					-- no snow on the gravel roads
-					if( node_content == c_dirt_with_snow or data[a:index(ax, ay+1, az)]==c_snow) then
+					if( node_content == c_dirt_with_snow or vm:get_data_from_heap(data, a:index(ax, ay+1, az))==c_snow) then
 						has_snow    = true;
 					end
 
@@ -470,11 +470,11 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 
 				-- scaffolding nodes are only placed when there is air and there ought to be some node
 				if( scaffolding_only ) then
-					local current_content = data[a:index(ax, ay, az)];
+					local current_content = vm:get_data_from_heap(data, a:index(ax, ay, az));
 
 					-- there is air there right now, but there ought to be a node from the building
 					if( current_content == cid.c_air and t) then
-						data[ a:index(ax, ay, az)] = c_scaffolding;
+						vm:set_data_from_heap(data,  a:index(ax, ay, az), c_scaffolding);
 
 					-- we have the wrong node there
 					elseif( ((not(t) and current_content ~= cid.c_air)
@@ -485,8 +485,8 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 						and current_content ~= c_dig_here
 						and ay<maxp.y) then
 						-- there is air above; we can place a digging indicator
-						if( data[a:index(ax, ay+1, az)] == cid.c_air or data[a:index(ax, ay+1, az)]==c_scaffolding) then
-							data[ a:index(ax, ay+1, az)] = c_dig_here;
+						if( vm:get_data_from_heap(data, a:index(ax, ay+1, az)) == cid.c_air or vm:get_data_from_heap(data, a:index(ax, ay+1, az))==c_scaffolding) then
+							vm:set_data_from_heap(data,  a:index(ax, ay+1, az), c_dig_here);
 						end
 					end
 
@@ -494,7 +494,7 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 				elseif( not( t )) then
 					if( node_content ~= cid.c_plotmarker
 					   and (not(handle_schematics.moresnow_installed) or not(moresnow) or node_content ~= moresnow.c_snow_top )) then
-						data[ a:index(ax, ay, az)] = cid.c_air;
+						vm:set_data_from_heap(data,  a:index(ax, ay, az), cid.c_air);
 					end
 				else
 					local n = new_nodes[ t[1] ]; -- t[1]: id of the old node
@@ -519,7 +519,7 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 
 					-- do not overwrite plotmarkers
 					if( new_content ~= cid.c_air or node_content ~= cid.c_plotmarker ) then
-						data[       a:index(ax, ay, az)] = new_content;
+						vm:set_data_from_heap(data,        a:index(ax, ay, az), new_content);
 					end
 
 					-- handle rotation
@@ -587,11 +587,11 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 					-- the old torch is split up into three new types
 					elseif( n.is_torch ) then
 						if( t[2]==0 ) then
-							data[ a:index(ax, ay, az )] = cid.c_torch_ceiling;
+							vm:set_data_from_heap(data,  a:index(ax, ay, az ), cid.c_torch_ceiling);
 						elseif( t[2]==1 ) then
-							data[ a:index(ax, ay, az )] = cid.c_torch;
+							vm:set_data_from_heap(data,  a:index(ax, ay, az ), cid.c_torch);
 						else
-							data[ a:index(ax, ay, az )] = cid.c_torch_wall;
+							vm:set_data_from_heap(data,  a:index(ax, ay, az ), cid.c_torch_wall);
 						end
 
 					-- doors need the state param to be set (which depends on param2)
@@ -615,10 +615,10 @@ local function generate_building(pos, minp, maxp, data, param2_data, a, extranod
 			y_bottom = minp.y;
 		end
 		if( has_snow and ax >= minp.x and ax <= maxp.x and az >= minp.z and az <= maxp.z ) then
-			local res = handle_schematics.mg_drop_moresnow( ax, az, y_top, y_bottom-1, a, data, param2_data);
-			if( res and (data[ a:index(ax, res.height, az)]==cid.c_air
-			          or data[ a:index(ax, res.height, az)]==cid.c_water )) then
-				data[       a:index(ax, res.height, az)] = res.suggested.new_id;
+			local res = handle_schematics.mg_drop_moresnow( ax, az, y_top, y_bottom-1, a, vm, data, param2_data);
+			if( res and (vm:get_data_from_heap(data,  a:index(ax, res.height, az))==cid.c_air
+			          or vm:get_data_from_heap(data,  a:index(ax, res.height, az))==cid.c_water )) then
+				vm:set_data_from_heap(data,        a:index(ax, res.height, az), res.suggested.new_id);
 				param2_data[a:index(ax, res.height, az)] = res.suggested.param2;
 				has_snow = false;
 			end
@@ -633,7 +633,7 @@ end
 -- this code was also responsible for tree placement;
 -- place_buildings is used by mg_villages exclusively. It calls the local function generate_building and
 -- therefore resides in this file.
-handle_schematics.place_buildings = function(village, minp, maxp, data, param2_data, a, cid, village_id)
+handle_schematics.place_buildings = function(village, minp, maxp, vm, data, param2_data, a, cid, village_id)
 	-- this function is only relevant for mg_villages
 	if( not( mg_villages )) then
 		return;
@@ -675,7 +675,7 @@ handle_schematics.place_buildings = function(village, minp, maxp, data, param2_d
 				road_material = pos.road_material;
 			end
 			-- do not use scaffolding here; place the building directly
-			generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true, false )
+			generate_building(pos, minp, maxp, vm, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true, false )
 		end
 	end
 
@@ -737,7 +737,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 		{x = pos.x+pos.bsizex, y = pos.y+binfo.ysize+1, z = pos.z+pos.bsizez} -- TODO
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data        = vm:get_data(dbuf)					  -- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap();					  -- buffer added by MrCerealGuy
 	local param2_data = vm:get_param2_data(dbuf_param2);
 
 
@@ -776,12 +776,12 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 	local extra_calls = { on_constr = {}, trees = {}, chests = {}, signs = {}, traders = {}, door_a = {}, door_b = {} };
 
 	-- last parameter false -> place dirt nodes instead of trying to keep the ground nodes
-	generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, keep_ground, scaffolding_only);
+	generate_building(pos, minp, maxp, vm, data, param2_data, a, extranodes, replacements, cid, extra_calls, pos.building_nr, pos.village_id, binfo, cid.c_gravel, keep_ground, scaffolding_only);
 
 	-- store the changed map data
-	vm:set_data(data);
+	vm:save_data_from_heap(data);
 	vm:set_param2_data(param2_data);
-	vm:write_to_map();
+	vm:write_to_map(true);
 	vm:update_liquids();
 	vm:update_map();
 
@@ -891,14 +891,14 @@ end
 
 
 -- add the dirt roads
-handle_schematics.place_dirt_roads = function(village, minp, maxp, data, param2_data, a, c_road_node)
+handle_schematics.place_dirt_roads = function(village, minp, maxp, vm, data, param2_data, a, c_road_node)
 	local c_air = minetest.get_content_id( 'air' );
 	for _, pos in ipairs(village.to_add_data.dirt_roads) do
-		handle_schematics.place_road( minp, maxp, data, param2_data, a, c_road_node, pos, c_air );
+		handle_schematics.place_road( minp, maxp, vm, data, param2_data, a, c_road_node, pos, c_air );
 	end
 end
 
-handle_schematics.place_road = function(minp, maxp, data, param2_data, a, c_road_node, pos, c_air )
+handle_schematics.place_road = function(minp, maxp, vm, data, param2_data, a, c_road_node, pos, c_air )
 	local param2 = 0;
 	if( pos.bsizex > 2 and pos.bsizex > pos.bsizez) then
 		param2 = 1;
@@ -920,11 +920,11 @@ handle_schematics.place_road = function(minp, maxp, data, param2_data, a, c_road
 	for x = math.max( pos.x, minp.x ), math.min( pos.x+pos.bsizex-1, maxp.x ) do
 		for z = math.max( pos.z, minp.z ), math.min( pos.z+pos.bsizez-1, maxp.z ) do
 			-- roads have a height of 1 block
-			data[        a:index( x, pos.y, z)] = c_road_node;
+			vm:set_data_from_heap(data,         a:index( x, pos.y, z), c_road_node);
 			param2_data[ a:index( x, pos.y, z)] = param2;
 			-- ...with air above
-			data[ a:index( x, pos.y+1, z)] = c_air;
-			data[ a:index( x, pos.y+2, z)] = c_air;
+			vm:set_data_from_heap(data,  a:index( x, pos.y+1, z), c_air);
+			vm:set_data_from_heap(data,  a:index( x, pos.y+2, z), c_air);
 
 --[[
 			if(    (param2==0 and (x==pos.x or x==pos.x+8) and is_main_road)
@@ -953,7 +953,7 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 		{x = end_pos.x,   y = end_pos.y,   z = end_pos.z}
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data        = vm:get_data(dbuf2)	  -- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()	  -- buffer added by MrCerealGuy
 
 	if( ground_level < start_pos.y or ground_level > end_pos.y ) then
 		ground_level = start_pos.y;
@@ -963,7 +963,7 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 	for y=ground_level+1, end_pos.y do
 	for x=start_pos.x, end_pos.x do
 	for z=start_pos.z, end_pos.z do
-		data[ a:index( x, y, z ) ] = cid_air;
+		vm:set_data_from_heap(data,  a:index( x, y, z ) , cid_air);
 	end
 	end
 	end
@@ -972,14 +972,14 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 	for y=start_pos.y, ground_level-1 do
 	for x=start_pos.x, end_pos.x do
 	for z=start_pos.z, end_pos.z do
-		data[ a:index( x, y, z ) ] = cid_dirt;
+		vm:set_data_from_heap(data,  a:index( x, y, z ) , cid_dirt);
 	end
 	end
 	end
 
 	-- store the changed map data
-	vm:set_data(data);
-	vm:write_to_map();
+	vm:save_data_from_heap(data)
+	vm:write_to_map(true);
 	vm:update_liquids();
 	vm:update_map();
 end
