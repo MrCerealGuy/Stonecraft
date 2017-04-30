@@ -1,7 +1,6 @@
 add_subdirectory(common)
 add_subdirectory(cpp_api)
 add_subdirectory(lua_api)
-add_subdirectory(cpp_mods)
 
 # Used by server and client
 set(common_SCRIPT_SRCS
@@ -9,7 +8,6 @@ set(common_SCRIPT_SRCS
 	${common_SCRIPT_COMMON_SRCS}
 	${common_SCRIPT_CPP_API_SRCS}
 	${common_SCRIPT_LUA_API_SRCS}
-	${common_SCRIPT_CPP_MODS_SRCS}
 	PARENT_SCOPE)
 
 # Used by client only
@@ -19,6 +17,5 @@ set(client_SCRIPT_SRCS
 	${client_SCRIPT_COMMON_SRCS}
 	${client_SCRIPT_CPP_API_SRCS}
 	${client_SCRIPT_LUA_API_SRCS}
-	${client_SCRIPT_CPP_MODS_SRCS}
 	PARENT_SCOPE)
 
