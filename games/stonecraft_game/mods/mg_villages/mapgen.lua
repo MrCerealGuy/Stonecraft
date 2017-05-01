@@ -833,7 +833,7 @@ mg_villages.village_area_fill_with_plants = function( village_area, villages, mi
 					has_snow_cover = nil;
 
 				elseif( mg_villages.grow_a_tree( pos, plant_id, minp, maxp, vm, data, a, cid, pr, has_snow_cover )) then
-					param2_data[a:index( x, h+1, z)] = 0; -- make sure the tree trunk is not rotated
+					vm:set_param2_data_from_heap(param2_data, a:index( x, h+1, z), 0); -- make sure the tree trunk is not rotated
 					has_snow_cover = nil; -- else the sapling might not grow
 					-- nothing to do; the function has grown the tree already
 	
@@ -841,9 +841,9 @@ mg_villages.village_area_fill_with_plants = function( village_area, villages, mi
 				elseif( on_soil and (g==cid.c_dirt_with_grass or g==cid.c_soil_wet or g==cid.c_dirt_with_snow)) then	
 					-- wheat needs another option there
 					if( plant_id == cid.c_wheat ) then
-						param2_data[a:index( x, h+1, z)] = 0;
+						vm:set_param2_data_from_heap(param2_data,a:index( x, h+1, z), 0);
 					else
-						param2_data[a:index( x, h+1, z)] = math.random( 1, 179 );
+						vm:set_param2_data_from_heap(param2_data,a:index( x, h+1, z), math.random( 1, 179 ));
 					end
 					vm:set_data_from_heap(data, a:index( x,  h,   z), cid.c_soil_wet);
 					-- no plants in winter
@@ -858,9 +858,9 @@ mg_villages.village_area_fill_with_plants = function( village_area, villages, mi
 				elseif( on_soil and (g==cid.c_desert_sand or g==cid.c_soil_sand) and cid.c_soil_sand and cid.c_soil_sand > 0) then
 					-- wheat needs another option there
 					if( plant_id == cid.c_wheat ) then
-						param2_data[a:index( x, h+1, z)] = 0;
+						vm:set_param2_data_from_heap(param2_data,a:index( x, h+1, z), 0);
 					else
-						param2_data[a:index( x, h+1, z)] = math.random( 1, 179 );
+						vm:set_param2_data_from_heap(param2_data,a:index( x, h+1, z), math.random( 1, 179 ));
 					end
 					vm:set_data_from_heap(data, a:index( x,  h,   z), cid.c_soil_sand);
 					-- no plants in winter
@@ -908,9 +908,6 @@ mg_villages.save_data = function()
 	save_restore.save_data( 'mg_all_villages.data', mg_villages.all_villages );
 end
 
--- buffer for vm:get_param2_data, added by MrCerealGuy
---local dbuf = {}
-local dbuf_param2 = {}
 
 mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed )
 	local t1 = minetest.get_us_time();
@@ -1015,7 +1012,7 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed
 	}
 
 	local data = vm:load_data_into_heap();
-	local param2_data = vm:get_param2_data(dbuf_param2);
+	local param2_data = vm:load_param2_data_into_heap();
 
 	t1 = time_elapsed( t1, 'get_vmap_data' );
 
@@ -1109,7 +1106,7 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed
 	end
 
 	vm:save_data_from_heap(data)
-	vm:set_param2_data(param2_data)
+	vm:save_param2_data_from_heap(param2_data)
 	t1 = time_elapsed( t1, 'vm data set' );
 
 	-- only update lighting where we actually placed the nodes

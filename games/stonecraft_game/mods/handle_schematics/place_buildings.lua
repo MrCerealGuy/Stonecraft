@@ -1,8 +1,3 @@
--- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
-local dbuf = {}
-local dbuf2 = {}
-local dbuf_param2 = {}
-
 -- TODO: this function also occours in replacements.lua
 handle_schematics.get_content_id_replaced = function( node_name, replacements )
 	if( not( node_name ) or not( replacements ) or not(replacements.table )) then
@@ -19,7 +14,7 @@ end
 -- the function might as well be local (only used by *.mg_drop_moresnow)
 handle_schematics.get_node_somehow = function( x, y, z, a, vm, data, param2_data )
 	if( a and data and param2_data ) then
-		return { content = vm:get_data_from_heap(data, a:index(x, y, z)), param2 = param2_data[a:index(x, y, z)] };
+		return { content = vm:get_data_from_heap(data, a:index(x, y, z)), param2 = vm:get_param2_data_from_heap(param2_data, a:index(x, y, z)) };
 	end
 	-- no voxelmanip; get the node the normal way
 	local node = minetest.get_node_or_nil( {x=x, y=y, z=z} );
@@ -121,7 +116,7 @@ local function generate_building_plotmarker( pos, minp, maxp, vm, data, param2_d
 			vm:set_data_from_heap(data,  a:index(p.x, p.y+1, p.z), moresnow.c_snow_top);
 		end
 		vm:set_data_from_heap(data,        a:index(p.x, p.y, p.z), cid.c_plotmarker);
-		param2_data[a:index(p.x, p.y, p.z)] = pos.brotate;
+		vm:set_param2_data_from_heap(param2_data, a:index(p.x, p.y, p.z), pos.brotate);
 		-- store the necessary information in the marker so that it knows for which building it is responsible
 		local meta = minetest.get_meta( p );
 		meta:set_string('village_id', village_id );
@@ -562,9 +557,9 @@ local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extr
 						end
 --]]
 
-						param2_data[a:index(ax, ay, az)] = np2;
+						vm:set_param2_data_from_heap(param2_data, a:index(ax, ay, az), np2);
 					else
-						param2_data[a:index(ax, ay, az)] = t[2];
+						vm:set_param2_data_from_heap(param2_data, a:index(ax, ay, az), t[2]);
 					end
 
 
@@ -582,7 +577,7 @@ local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extr
 
 					-- glasslike nodes need to have param2 set to 0 (else they get a strange fill state)
 					elseif( n.set_param2_to_0 ) then
-						param2_data[a:index(ax, ay, az)] = 0;
+						vm:set_param2_data_from_heap(param2_data, a:index(ax, ay, az), 0);
 
 					-- the old torch is split up into three new types
 					elseif( n.is_torch ) then
@@ -596,9 +591,9 @@ local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extr
 
 					-- doors need the state param to be set (which depends on param2)
 					elseif( n.is_door_a ) then
-						table.insert( extra_calls.door_a, {x=ax, y=ay, z=az, typ=new_content, p2=param2_data[a:index(ax, ay, az)]});
+						table.insert( extra_calls.door_a, {x=ax, y=ay, z=az, typ=new_content, p2=vm:get_param2_data_from_heap(param2_data, a:index(ax, ay, az))});
 					elseif( n.is_door_b ) then
-						table.insert( extra_calls.door_b, {x=ax, y=ay, z=az, typ=new_content, p2=param2_data[a:index(ax, ay, az)]});
+						table.insert( extra_calls.door_b, {x=ax, y=ay, z=az, typ=new_content, p2=vm:get_param2_data_from_heap(param2_data, a:index(ax, ay, az))});
 					end
 				end
 			end
@@ -619,7 +614,7 @@ local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extr
 			if( res and (vm:get_data_from_heap(data,  a:index(ax, res.height, az))==cid.c_air
 			          or vm:get_data_from_heap(data,  a:index(ax, res.height, az))==cid.c_water )) then
 				vm:set_data_from_heap(data,        a:index(ax, res.height, az), res.suggested.new_id);
-				param2_data[a:index(ax, res.height, az)] = res.suggested.param2;
+				vm:set_param2_data_from_heap(param2_data, a:index(ax, res.height, az), res.suggested.param2);
 				has_snow = false;
 			end
 		end
@@ -738,7 +733,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
 	local data = vm:load_data_into_heap();					  -- buffer added by MrCerealGuy
-	local param2_data = vm:get_param2_data(dbuf_param2);
+	local param2_data = vm:load_param2_data_into_heap();
 
 
 	-- translate the replacement_list into replacements.ids and replacements.table format
@@ -780,7 +775,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 
 	-- store the changed map data
 	vm:save_data_from_heap(data);
-	vm:set_param2_data(param2_data);
+	vm:save_param2_data_from_heap(param2_data);
 	vm:write_to_map(true);
 	vm:update_liquids();
 	vm:update_map();
@@ -921,7 +916,7 @@ handle_schematics.place_road = function(minp, maxp, vm, data, param2_data, a, c_
 		for z = math.max( pos.z, minp.z ), math.min( pos.z+pos.bsizez-1, maxp.z ) do
 			-- roads have a height of 1 block
 			vm:set_data_from_heap(data,         a:index( x, pos.y, z), c_road_node);
-			param2_data[ a:index( x, pos.y, z)] = param2;
+			vm:set_param2_data_from_heap(param2_data, a:index( x, pos.y, z), param2);
 			-- ...with air above
 			vm:set_data_from_heap(data,  a:index( x, pos.y+1, z), c_air);
 			vm:set_data_from_heap(data,  a:index( x, pos.y+2, z), c_air);
