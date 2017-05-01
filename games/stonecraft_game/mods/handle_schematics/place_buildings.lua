@@ -776,7 +776,7 @@ handle_schematics.place_building_using_voxelmanip = function( pos, binfo, replac
 	-- store the changed map data
 	vm:save_data_from_heap(data);
 	vm:save_param2_data_from_heap(param2_data);
-	vm:write_to_map(true);
+	vm:write_to_map();
 	vm:update_liquids();
 	vm:update_map();
 
@@ -948,7 +948,7 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 		{x = end_pos.x,   y = end_pos.y,   z = end_pos.z}
         )
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:load_data_into_heap()	  -- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
 	if( ground_level < start_pos.y or ground_level > end_pos.y ) then
 		ground_level = start_pos.y;
@@ -974,7 +974,7 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 
 	-- store the changed map data
 	vm:save_data_from_heap(data)
-	vm:write_to_map(true);
+	vm:write_to_map();
 	vm:update_liquids();
 	vm:update_map();
 end

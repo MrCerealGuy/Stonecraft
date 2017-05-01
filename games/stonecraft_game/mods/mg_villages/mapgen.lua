@@ -909,7 +909,7 @@ mg_villages.save_data = function()
 end
 
 
-mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed )
+mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, data, param2_data, a, top, seed )
 	local t1 = minetest.get_us_time();
 
 	local cid = {}
@@ -1006,14 +1006,23 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, seed
 		return;
 	end
 
-	local a = VoxelArea:new{
-		MinEdge={x=emin.x, y=emin.y, z=emin.z},
-		MaxEdge={x=emax.x, y=emax.y, z=emax.z},
-	}
+	local emin;
+	local emax;
+	-- if no voxelmanip data was passed on, read the data here
+	if( not( vm ) or not( a) or not( data ) or not( param2_data ) ) then
+		vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+		if( not( vm )) then 
+			return;
+		end
 
-	local data = vm:load_data_into_heap();
-	local param2_data = vm:load_param2_data_into_heap();
+		a = VoxelArea:new{
+			MinEdge={x=emin.x, y=emin.y, z=emin.z},
+			MaxEdge={x=emax.x, y=emax.y, z=emax.z},
+		}
 
+		data = vm:load_data_into_heap();
+		param2_data = vm:load_param2_data_into_heap();
+	end
 	t1 = time_elapsed( t1, 'get_vmap_data' );
 
 	-- all vm manipulation functions write their content to the *entire* volume/area - including those 16 nodes that
