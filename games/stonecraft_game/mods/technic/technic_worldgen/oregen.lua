@@ -141,8 +141,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	}
 	local data = vm:load_data_into_heap()
 	local pr = PseudoRandom(17 * minp.x + 42 * minp.y + 101 * minp.z)
-	local noise = minetest.get_perlin(9876, 3, 0.5, 100)
-	
+
+	noise = noise or minetest.get_perlin(9876, 3, 0.5, 100) 
 
 	for x = minp.x + math.floor(grid_size / 2), maxp.x, grid_size do
 	for y = minp.y + math.floor(grid_size / 2), maxp.y, grid_size do
