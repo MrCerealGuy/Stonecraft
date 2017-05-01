@@ -184,33 +184,11 @@ end
 
 -- Set mapgen parameters
 
-
 minetest.register_on_mapgen_init(function(mgparams)
 	minetest.set_mapgen_params({mgname="singlenode", flags = "nolight", flagmask = "nolight"})
 end)
 
 ------------------------ Base map generation ------------------------
-
--- buffer for get3dMap_flat, added by MrCerealGuy
-local nbuf_n1 = {}
-local nbuf_n2 = {}
-local nbuf_n3 = {}
-local nbuf_n4 = {}
-local nbuf_n5 = {}
-local nbuf_n6 = {}
-local nbuf_n7 = {}
-local nbuf_n8 = {}
-local nbuf_n9 = {}
-
--- buffer for get2dMap_flat
-local nbuf_n1e = {}
-local nbuf_n2e = {}
-local nbuf_n3e = {}
-local nbuf_n4e = {}
-local nbuf_n5e = {}
-local nbuf_n6e = {}
-local nbuf_n7e = {}
-local nbuf_n8e = {}
 
 minetest.register_on_generated(function(minp, maxp)
 	
@@ -221,7 +199,7 @@ minetest.register_on_generated(function(minp, maxp)
 	local x0 = minp.x
 	local y0 = minp.y
 	local z0 = minp.z
-	
+
 	print ("[forest] Generating map from "..minetest.pos_to_string(minp).." to "..minetest.pos_to_string(maxp))
 	
 	local c_dstone = minetest.get_content_id("default:desert_stone")
@@ -264,25 +242,25 @@ minetest.register_on_generated(function(minp, maxp)
 	local minposxyz = {x=x0, y=y0, z=z0}
 	local minposxz = {x=x0, y=z0}
 	-- 3D noises
-	local nvals_n1 = minetest.get_perlin_map(np_n1, chulens):get3dMap_flat(minposxyz,nbuf_n1)  -- buffer added by McCerealGuy
-	local nvals_n2 = minetest.get_perlin_map(np_n2, chulens):get3dMap_flat(minposxyz,nbuf_n2)
-	local nvals_n3 = minetest.get_perlin_map(np_n3, chulens):get3dMap_flat(minposxyz,nbuf_n3)
-	local nvals_n4 = minetest.get_perlin_map(np_n4, chulens):get3dMap_flat(minposxyz,nbuf_n4)
+	local nvals_n1 = minetest.get_perlin_map(np_n1, chulens):get3dMap_flat(minposxyz)
+	local nvals_n2 = minetest.get_perlin_map(np_n2, chulens):get3dMap_flat(minposxyz)
+	local nvals_n3 = minetest.get_perlin_map(np_n3, chulens):get3dMap_flat(minposxyz)
+	local nvals_n4 = minetest.get_perlin_map(np_n4, chulens):get3dMap_flat(minposxyz)
 	-- 2D noises
-	local nvals_n5 = minetest.get_perlin_map(np_n5, chulens):get2dMap_flat(minposxz,nbuf_n5)
-	local nvals_n6 = minetest.get_perlin_map(np_n6, chulens):get2dMap_flat(minposxz,nbuf_n6)
-	local nvals_n7 = minetest.get_perlin_map(np_n7, chulens):get2dMap_flat(minposxz,nbuf_n7)
-	local nvals_n8 = minetest.get_perlin_map(np_n8, chulens):get2dMap_flat(minposxz,nbuf_n8)
-	local nvals_n9 = minetest.get_perlin_map(np_n9, chulens):get2dMap_flat(minposxz,nbuf_n9)
+	local nvals_n5 = minetest.get_perlin_map(np_n5, chulens):get2dMap_flat(minposxz)
+	local nvals_n6 = minetest.get_perlin_map(np_n6, chulens):get2dMap_flat(minposxz)
+	local nvals_n7 = minetest.get_perlin_map(np_n7, chulens):get2dMap_flat(minposxz)
+	local nvals_n8 = minetest.get_perlin_map(np_n8, chulens):get2dMap_flat(minposxz)
+	local nvals_n9 = minetest.get_perlin_map(np_n9, chulens):get2dMap_flat(minposxz)
 	-- elevation 2D noises
-	local nvals_n1e = minetest.get_perlin_map(np_n1e, chulens):get2dMap_flat(minposxz,nbuf_n1e)
-	local nvals_n2e = minetest.get_perlin_map(np_n2e, chulens):get2dMap_flat(minposxz,nbuf_n2e)
-	local nvals_n3e = minetest.get_perlin_map(np_n3e, chulens):get2dMap_flat(minposxz,nbuf_n3e)
-	local nvals_n4e = minetest.get_perlin_map(np_n4e, chulens):get2dMap_flat(minposxz,nbuf_n4e)
-	local nvals_n5e = minetest.get_perlin_map(np_n5e, chulens):get2dMap_flat(minposxz,nbuf_n5e)
-	local nvals_n6e = minetest.get_perlin_map(np_n6e, chulens):get2dMap_flat(minposxz,nbuf_n6e)
-	local nvals_n7e = minetest.get_perlin_map(np_n7e, chulens):get2dMap_flat(minposxz,nbuf_n7e)
-	local nvals_n8e = minetest.get_perlin_map(np_n8e, chulens):get2dMap_flat(minposxz,nbuf_n8e)
+	local nvals_n1e = minetest.get_perlin_map(np_n1e, chulens):get2dMap_flat(minposxz)
+	local nvals_n2e = minetest.get_perlin_map(np_n2e, chulens):get2dMap_flat(minposxz)
+	local nvals_n3e = minetest.get_perlin_map(np_n3e, chulens):get2dMap_flat(minposxz)
+	local nvals_n4e = minetest.get_perlin_map(np_n4e, chulens):get2dMap_flat(minposxz)
+	local nvals_n5e = minetest.get_perlin_map(np_n5e, chulens):get2dMap_flat(minposxz)
+	local nvals_n6e = minetest.get_perlin_map(np_n6e, chulens):get2dMap_flat(minposxz)
+	local nvals_n7e = minetest.get_perlin_map(np_n7e, chulens):get2dMap_flat(minposxz)
+	local nvals_n8e = minetest.get_perlin_map(np_n8e, chulens):get2dMap_flat(minposxz)
 	
 	local nixz = 1 -- 2D noise index
 	for z = minp.z, maxp.z do
@@ -586,7 +564,6 @@ minetest.register_on_generated(function(minp, maxp)
 	print ("[forest] Base map "..chugent1.." sec, Ores "..chugent2.." sec, Trees "..chugent3.." sec. Total "..chugent1 + chugent2 + chugent3.." sec.")
 end)
 
-
 function spawn_player(player)
 	local pr = PseudoRandom(math.random(1000000))
 	local pos = {x = pr:next(-250, 250), z = pr:next(-250, 250)}
@@ -609,7 +586,6 @@ function spawn_player(player)
 	pos = {x = pos.x, y = elevation + 2, z = pos.z}
 	player:setpos(pos)
 end
-
 
 minetest.register_on_newplayer(function(player)
 	spawn_player(player)
