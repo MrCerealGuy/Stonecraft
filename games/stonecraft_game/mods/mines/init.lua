@@ -232,8 +232,8 @@ local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt)
 	end
 	if cnt == 0 then
 		minetest.log("action", "Created mine at ("..mpos.x..","..mpos.y..","..mpos.z..")")
-		local out2 = make_mine(p2,p3,mpos,vm_data,vx_area,1)
-		local out3 = make_mine(p3,p2,mpos,out2,vx_area,2)
+		local out2 = make_mine(p2,p3,mpos,vm,vm_data,vx_area,1)
+		local out3 = make_mine(p3,p2,mpos,vm,out2,vx_area,2)
 		return out3
 	else
 		return vm_data
@@ -273,5 +273,5 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:save_data_from_heap(data)
 	vm:calc_lighting(emin,emax)
 	vm:update_liquids()
-	vm:write_to_map(true)
+	vm:write_to_map()
 end)

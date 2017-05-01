@@ -1,6 +1,7 @@
 local minetest = minetest	--Should make things a bit faster.
 
 local c
+
 local function define_contents()
 	c = {
 		ignore = minetest.get_content_id("ignore"),
@@ -55,9 +56,7 @@ local function find_ground(a,list)
 	return false
 end
 
-
-local data, area
-function riesenpilz_circle(nam, pos, radius, chance)
+function riesenpilz_circle(vm, data, area, nam, pos, radius, chance)
 	for _,p in pairs(vector.circle(radius)) do
 		if pr:next(1,chance) == 1 then
 			local p = vector.add(pos, p)
@@ -147,8 +146,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local hmi = 1
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	data = vm:load_data_into_heap()
-	area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
+	local data = vm:load_data_into_heap()
+	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
 		local d_p_pos = vm:get_data_from_heap(data, p_pos)
@@ -230,13 +229,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					if pr:next(1,15) == 1 then
 						vm:set_data_from_heap(data, area:index(x, ground_y+1, z), c.dry_shrub)
 					elseif pr:next(1,80) == 1 then
-						riesenpilz_circle(c.riesenpilz_brown, boden, pr:next(3,4), 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_brown, boden, pr:next(3,4), 3)
 					elseif pr:next(1,85) == 1 then
-						riesenpilz_circle(c.riesenpilz_parasol, boden, pr:next(3,5), 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_parasol, boden, pr:next(3,5), 3)
 					elseif pr:next(1,90) == 1 then
-						riesenpilz_circle(c.riesenpilz_red, boden, pr:next(4,5), 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_red, boden, pr:next(4,5), 3)
 					elseif pr:next(1,100) == 1 then
-						riesenpilz_circle(c.riesenpilz_fly_agaric, boden, 4, 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_fly_agaric, boden, 4, 3)
 					elseif pr:next(1,340) == 10 then
 						bigtype = 2
 					elseif pr:next(1,380) == 1 then
@@ -246,9 +245,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					elseif pr:next(1,800) == 7 then
 						bigtype = 5
 					elseif pr:next(1,4000) == 1 then
-						riesenpilz_circle(c.riesenpilz_lavashroom, boden, pr:next(5,6), 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_lavashroom, boden, pr:next(5,6), 3)
 					elseif pr:next(1,5000) == 1 then
-						riesenpilz_circle(c.riesenpilz_glowshroom, boden, 3, 3)
+						riesenpilz_circle(vm, data, area, c.riesenpilz_glowshroom, boden, 3, 3)
 					elseif pr:next(1,6000) == 2 then
 						if pr:next(1,200) == 15 then
 							bigtype = 4
@@ -274,20 +273,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local p = v[2]
 			local m = v[1]
 			if m == 1 then
-				riesenpilz.red(p, data, area)
+				riesenpilz.red(vm, p, data, area)
 			elseif m == 2 then
-				riesenpilz.brown(p, data, area)
+				riesenpilz.brown(vm, p, data, area)
 			elseif m == 3 then
 				if not param2s then
 					param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 				end
-				riesenpilz.fly_agaric(p, data, area, param2s)
+				riesenpilz.fly_agaric(vm, p, data, area, param2s)
 			elseif m == 4 then
-				riesenpilz.lavashroom(p, data, area)
+				riesenpilz.lavashroom(vm, p, data, area)
 			elseif m == 5 then
-				riesenpilz.parasol(p, data, area)
+				riesenpilz.parasol(vm, p, data, area)
 			elseif m == 6 then
-				riesenpilz.red45(p, data, area)
+				riesenpilz.red45(vm, p, data, area)
 			end
 		end
 		riesenpilz.inform("giant shrooms generated", 2, t2)

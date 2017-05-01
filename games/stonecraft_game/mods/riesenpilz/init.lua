@@ -93,7 +93,7 @@ local function set_vm_data(manip, pznodes, pos, t1, name)
 end
 
 
-function riesenpilz.red(pos, nodes, area, w)
+function riesenpilz.red(manip, pos, nodes, area, w)
 	local w = w or math.random(MAX_SIZE)
 	local h = w+2
 
@@ -126,13 +126,13 @@ local function riesenpilz_hybridpilz(pos)
 	local area = r_area(manip, w+1, w+3, pos)
 
 	local pznodes = {}
-	riesenpilz.red(pos, pznodes, area, w)
+	riesenpilz.red(manip, pos, pznodes, area, w)
 
 	set_vm_data(manip, pznodes, pos, t1, "red")
 end
 
 
-function riesenpilz.brown(pos, nodes, area, br)
+function riesenpilz.brown(manip, pos, nodes, area, br)
 	local br = br or math.random(MAX_SIZE-1)+1
 	local h = br+2
 
@@ -161,13 +161,13 @@ local function riesenpilz_brauner_minecraftpilz(pos)
 	local area = r_area(manip, br+1, br+3, pos)
 
 	local pznodes = {}
-	riesenpilz.brown(pos, pznodes, area, br)
+	riesenpilz.brown(manip, pos, pznodes, area, br)
 
 	set_vm_data(manip, pznodes, pos, t1, "brown")
 end
 
 
-function riesenpilz.fly_agaric(pos, nodes, area, param2s)
+function riesenpilz.fly_agaric(manip, pos, nodes, area, param2s)
 	local h = 3
 
 	for i = 0, h do
@@ -205,7 +205,7 @@ local function riesenpilz_minecraft_fliegenpilz(pos)
 	local param2s = manip:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
 
 	local pznodes = {}
-	riesenpilz.fly_agaric(pos, pznodes, area, param2s)
+	riesenpilz.fly_agaric(manip, pos, pznodes, area, param2s)
 
 	if not set_vm_nodes(manip, pznodes) then
 		return
@@ -224,7 +224,7 @@ local function ran_node(a, b, ran)
 	return b
 end
 
-function riesenpilz.lavashroom(pos, nodes, area, h)
+function riesenpilz.lavashroom(manip, pos, nodes, area, h)
 	local h = h or 3+math.random(MAX_SIZE-2)
 
 	-- remove the mushroom
@@ -287,13 +287,13 @@ local function riesenpilz_lavashroom(pos)
 	local area = r_area(manip, 4, h+6, pos)
 
 	local pznodes = {}
-	riesenpilz.lavashroom(pos, pznodes, area, h)
+	riesenpilz.lavashroom(manip, pos, pznodes, area, h)
 
 	set_vm_data(manip, pznodes, pos, t1, "lavashroom")
 end
 
 
-function riesenpilz.glowshroom(pos, nodes, area, h)
+function riesenpilz.glowshroom(manip, pos, nodes, area, h)
 	local h = h or 2+math.random(MAX_SIZE)
 
 	for i = 0, h do
@@ -336,13 +336,13 @@ local function riesenpilz_glowshroom(pos)
 	local area = r_area(manip, 2, h+3, pos)
 
 	local pznodes = {}
-	riesenpilz.glowshroom(pos, pznodes, area, h)
+	riesenpilz.glowshroom(manip, pos, pznodes, area, h)
 
 	set_vm_data(manip, pznodes, pos, t1, "glowshroom")
 end
 
 
-function riesenpilz.parasol(pos, nodes, area, w, h)
+function riesenpilz.parasol(manip, pos, nodes, area, w, h)
 	local h = h or 6+math.random(MAX_SIZE)
 
 	--stem
@@ -390,13 +390,13 @@ local function riesenpilz_parasol(pos)
 	local area = r_area(manip, w, h, pos)
 
 	local pznodes = {}
-	riesenpilz.parasol(pos, pznodes, area, w, h)
+	riesenpilz.parasol(manip, pos, pznodes, area, w, h)
 
 	set_vm_data(manip, pznodes, pos, t1, "parasol")
 end
 
 
-function riesenpilz.red45(pos, nodes, area, h1, h2)
+function riesenpilz.red45(manip, pos, nodes, area, h1, h2)
 	local walkspace = h1 or math.random(2,MAX_SIZE)
 	local toph = h2 or math.random(MAX_SIZE)
 	local h = walkspace+toph+4
@@ -470,13 +470,13 @@ local function riesenpilz_red45(pos)
 	local area = r_area(manip, 3, h, pos)
 
 	local pznodes = {}
-	riesenpilz.red45(pos, pznodes, area, h1, h2)
+	riesenpilz.red45(manip, pos, pznodes, area, h1, h2)
 
 	set_vm_data(manip, pznodes, pos, t1, "red45")
 end
 
 
-function riesenpilz.apple(pos, nodes, area)
+function riesenpilz.apple(manip, pos, nodes, area)
 	local size = 5
 	local a = size*2
 	local b = size-1
@@ -517,7 +517,7 @@ local function riesenpilz_apple(pos)
 	local area = r_area(manip, 5, 14, pos)
 
 	local pznodes = {}
-	riesenpilz.apple(pos, pznodes, area)
+	riesenpilz.apple(manip, pos, pznodes, area)
 
 	if not set_vm_nodes(manip, pznodes) then
 		return
