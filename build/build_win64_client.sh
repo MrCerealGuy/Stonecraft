@@ -103,6 +103,10 @@ cd _build
 
 # LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 
+	#-DCMAKE_BUILD_TYPE:STRING="Release" \
+    #-DCMAKE_CXX_FLAGS:STRING="-march=native -m64 -Ofast -flto" \
+    #-DCMAKE_EXE_LINKER_FLAGS:STRING="-Wl,--allow-multiple-definition" \
+
 cmake .. \
 	-DCMAKE_TOOLCHAIN_FILE=$toolchain_file \
 	-DCMAKE_INSTALL_PREFIX=/tmp \
