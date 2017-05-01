@@ -104,7 +104,7 @@ minetest.register_lbm({
 
 -- Apple tree and jungle tree trunk and leaves function
 
-local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
+local function add_trunk_and_leaves(vm, data, a, pos, tree_cid, leaves_cid,
 		height, size, iters, is_apple_tree)
 	local x, y, z = pos.x, pos.y, pos.z
 	local c_air = minetest.get_content_id("air")
@@ -112,12 +112,12 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 	local c_apple = minetest.get_content_id("default:apple")
 
 	-- Trunk
-	data[a:index(x, y, z)] = tree_cid -- Force-place lowest trunk node to replace sapling
+	vm:set_data_from_heap(data, a:index(x, y, z), tree_cid) -- Force-place lowest trunk node to replace sapling
 	for yy = y + 1, y + height - 1 do
 		local vi = a:index(x, yy, z)
-		local node_id = data[vi]
+		local node_id = vm:get_data_from_heap(data, vi)
 		if node_id == c_air or node_id == c_ignore or node_id == leaves_cid then
-			data[vi] = tree_cid
+			vm:set_data_from_heap(data, vi, tree_cid)
 		end
 	end
 
@@ -126,11 +126,11 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 	for y_dist = -size, 1 do
 		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
 		for x_dist = -1, 1 do
-			if data[vi] == c_air or data[vi] == c_ignore then
+			if vm:get_data_from_heap(data, vi) == c_air or vm:get_data_from_heap(data, vi) == c_ignore then
 				if is_apple_tree and random(1, 8) == 1 then
-					data[vi] = c_apple
+					vm:set_data_from_heap(data, vi, c_apple)
 				else
-					data[vi] = leaves_cid
+					vm:set_data_from_heap(data, vi, leaves_cid)
 				end
 			end
 			vi = vi + 1
@@ -148,11 +148,11 @@ local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 		for yi = 0, 1 do
 		for zi = 0, 1 do
 			local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
-			if data[vi] == c_air or data[vi] == c_ignore then
+			if vm:get_data_from_heap(data, i) == c_air or vm:get_data_from_heap(data, vi) == c_ignore then
 				if is_apple_tree and random(1, 8) == 1 then
-					data[vi] = c_apple
+					vm:set_data_from_heap(data, vi, c_apple)
 				else
-					data[vi] = leaves_cid
+					vm:set_data_from_heap(data, vi, leaves_cid)
 				end
 			end
 		end
@@ -163,9 +163,6 @@ end
 
 
 -- Apple tree
-
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf_tree = {}
 
 function default.grow_tree(pos, is_apple_tree, bad)
 	--[[
@@ -188,20 +185,17 @@ function default.grow_tree(pos, is_apple_tree, bad)
 		{x = x + 2, y = y + height + 1, z = z + 2}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf_tree)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
-	add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
+	add_trunk_and_leaves(vm, data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:write_to_map()
 	vm:update_map()
 end
 
 
 -- Jungle tree
-
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf_jungle_tree = {}
 
 function default.grow_jungle_tree(pos, bad)
 	--[[
@@ -226,9 +220,9 @@ function default.grow_jungle_tree(pos, bad)
 		{x = x + 3, y = y + height + 1, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf_jungle_tree)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
-	add_trunk_and_leaves(data, a, pos, c_jungletree, c_jungleleaves,
+	add_trunk_and_leaves(vm, data, a, pos, c_jungletree, c_jungleleaves,
 		height, 3, 30, false)
 
 	-- Roots
@@ -237,10 +231,10 @@ function default.grow_jungle_tree(pos, bad)
 		local vi_2 = a:index(x - 1, y, z + z_dist)
 		for x_dist = -1, 1 do
 			if random(1, 3) >= 2 then
-				if data[vi_1] == c_air or data[vi_1] == c_ignore then
-					data[vi_1] = c_jungletree
-				elseif data[vi_2] == c_air or data[vi_2] == c_ignore then
-					data[vi_2] = c_jungletree
+				if vm:get_data_from_heap(data, vi_1) == c_air or vm:get_data_from_heap(data, vi_1) == c_ignore then
+					vm:set_data_from_heap(data, vi_1, c_jungletree)
+				elseif vm:get_data_from_heap(data, vi_2) == c_air or vm:get_data_from_heap(data, vi_2) == c_ignore then
+					vm:set_data_from_heap(data, vi_2, c_jungletree)
 				end
 			end
 			vi_1 = vi_1 + 1
@@ -248,7 +242,7 @@ function default.grow_jungle_tree(pos, bad)
 		end
 	end
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:write_to_map()
 	vm:update_map()
 end
@@ -256,22 +250,19 @@ end
 
 -- Pine tree from mg mapgen mod, design by sfan5, pointy top added by paramat
 
-local function add_pine_needles(data, vi, c_air, c_ignore, c_snow, c_pine_needles)
-	local node_id = data[vi]
+local function add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow, c_pine_needles)
+	local node_id = vm:get_data_from_heap(data, vi)
 	if node_id == c_air or node_id == c_ignore or node_id == c_snow then
-		data[vi] = c_pine_needles
+		vm:set_data_from_heap(data, vi, c_pine_needles)
 	end
 end
 
-local function add_snow(data, vi, c_air, c_ignore, c_snow)
-	local node_id = data[vi]
+local function add_snow(vm, data, vi, c_air, c_ignore, c_snow)
+	local node_id = vm:get_data_from_heap(data, vi)
 	if node_id == c_air or node_id == c_ignore then
-		data[vi] = c_snow
+		vm:set_data_from_heap(data, vi, c_snow)
 	end
 end
-
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf_pine_tree = {}
 
 function default.grow_pine_tree(pos, snow)
 	local x, y, z = pos.x, pos.y, pos.z
@@ -289,7 +280,7 @@ function default.grow_pine_tree(pos, snow)
 		{x = x + 3, y = maxy + 3, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf_pine_tree)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
 	-- Upper branches layer
 	local dev = 3
@@ -299,10 +290,10 @@ function default.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
+					add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
 						c_pine_needles)
 					if snow then
-						add_snow(data, via, c_air, c_ignore, c_snow)
+						add_snow(vm, data, via, c_air, c_ignore, c_snow)
 					end
 				end
 				vi  = vi + 1
@@ -313,12 +304,12 @@ function default.grow_pine_tree(pos, snow)
 	end
 
 	-- Centre top nodes
-	add_pine_needles(data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow,
+	add_pine_needles(vm, data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow,
 		c_pine_needles)
-	add_pine_needles(data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow,
+	add_pine_needles(vm, data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow,
 		c_pine_needles) -- Paramat added a pointy top node
 	if snow then
-		add_snow(data, a:index(x, maxy + 3, z), c_air, c_ignore, c_snow)
+		add_snow(vm, data, a:index(x, maxy + 3, z), c_air, c_ignore, c_snow)
 	end
 
 	-- Lower branches layer
@@ -334,10 +325,10 @@ function default.grow_pine_tree(pos, snow)
 			local vi = a:index(xi, yy, zz)
 			local via = a:index(xi, yy + 1, zz)
 			for xx = xi, xi + 1 do
-				add_pine_needles(data, vi, c_air, c_ignore, c_snow,
+				add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
 					c_pine_needles)
 				if snow then
-					add_snow(data, via, c_air, c_ignore, c_snow)
+					add_snow(vm, data, via, c_air, c_ignore, c_snow)
 				end
 				vi  = vi + 1
 				via = via + 1
@@ -352,10 +343,10 @@ function default.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
+					add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
 						c_pine_needles)
 					if snow then
-						add_snow(data, via, c_air, c_ignore, c_snow)
+						add_snow(vm, data, via, c_air, c_ignore, c_snow)
 					end
 				end
 				vi  = vi + 1
@@ -367,17 +358,17 @@ function default.grow_pine_tree(pos, snow)
 
 	-- Trunk
 	-- Force-place lowest trunk node to replace sapling
-	data[a:index(x, y, z)] = c_pine_tree
+	vm:set_data_from_heap(data, a:index(x, y, z), c_pine_tree)
 	for yy = y + 1, maxy do
 		local vi = a:index(x, yy, z)
-		local node_id = data[vi]
+		local node_id = vm:get_data_from_heap(data, vi)
 		if node_id == c_air or node_id == c_ignore or
 				node_id == c_pine_needles or node_id == c_snow then
-			data[vi] = c_pine_tree
+			vm:set_data_from_heap(data, vi, c_pine_tree)
 		end
 	end
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:write_to_map()
 	vm:update_map()
 end
