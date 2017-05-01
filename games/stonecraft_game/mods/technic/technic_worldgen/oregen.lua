@@ -117,8 +117,6 @@ minetest.register_ore({
 	noise_threshhold = lead_threshhold,
 })
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
 
 -- use locals for register_on_generated
 local floor = math.floor
@@ -141,22 +139,22 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		MinEdge = {x = emin.x, y = emin.y, z = emin.z},
 		MaxEdge = {x = emax.x, y = emax.y, z = emax.z},
 	}
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	local pr = PseudoRandom(17 * minp.x + 42 * minp.y + 101 * minp.z)
-
-	noise = noise or minetest.get_perlin(9876, 3, 0.5, 100)
+	local noise = minetest.get_perlin(9876, 3, 0.5, 100)
 	
-	for x = minp.x + floor(grid_size / 2), maxp.x, grid_size do
-	for y = minp.y + floor(grid_size / 2), maxp.y, grid_size do
-	for z = minp.z + floor(grid_size / 2), maxp.z, grid_size do
-		local c = data[a:index(x, y, z)]
+
+	for x = minp.x + math.floor(grid_size / 2), maxp.x, grid_size do
+	for y = minp.y + math.floor(grid_size / 2), maxp.y, grid_size do
+	for z = minp.z + math.floor(grid_size / 2), maxp.z, grid_size do
+		local c = vm:get_data_from_heap(data, a:index(x, y, z))
 		if (c == c_lava or c == c_lava_flowing) and noise:get3d({x = x, y = z, z = z}) >= 0.4 then
-			for xx = max(minp.x, x - grid_size), min(maxp.x, x + grid_size) do
-			for yy = max(minp.y, y - grid_size), min(maxp.y, y + grid_size) do
-			for zz = max(minp.z, z - grid_size), min(maxp.z, z + grid_size) do
+			for xx = math.max(minp.x, x - grid_size), math.min(maxp.x, x + grid_size) do
+			for yy = math.max(minp.y, y - grid_size), math.min(maxp.y, y + grid_size) do
+			for zz = math.max(minp.z, z - grid_size), math.min(maxp.z, z + grid_size) do
 				local i = a:index(xx, yy, zz)
-				if data[i] == c_stone and pr:next(1, 10) <= 7 then
-					data[i] = c_sulfur
+				if vm:get_data_from_heap(data, i) == c_stone and pr:next(1, 10) <= 7 then
+					vm:set_data_from_heap(data, i, c_sulfur)
 				end
 			end
 			end
@@ -166,8 +164,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 	end
 	
-	vm:set_data(data)
-	vm:write_to_map(data)
+	vm:save_data_from_heap(data)
+	vm:write_to_map(true)
 end)
 
 
@@ -200,4 +198,3 @@ minetest.register_ore({
 	noise_params = {offset=0, scale=15, spread={x=130, y=130, z=130}, seed=24, octaves=3, persist=0.70}
 })
 end
-
