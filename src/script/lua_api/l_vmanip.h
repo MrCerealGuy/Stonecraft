@@ -48,8 +48,9 @@ private:
 	std::map<v3s16, MapBlock *> modified_blocks;
 	bool is_mapgen_vm;
 
-	//static lua_Integer* data_heap[1];
-	static std::vector<lua_Integer*> data_heap;
+	static std::vector<std::vector<lua_Integer> > data_heap;
+	static std::vector<std::vector<lua_Integer> > param2_data_heap;
+
 	static const char className[];
 	static const luaL_Reg methods[];
 
@@ -64,6 +65,11 @@ private:
 	static int l_save_data_from_heap(lua_State *L);
 	static int l_get_data_from_heap(lua_State *L);
 	static int l_set_data_from_heap(lua_State *L);
+
+	static int l_load_param2_data_into_heap(lua_State *L);
+	static int l_save_param2_data_from_heap(lua_State *L);
+	static int l_get_param2_data_from_heap(lua_State *L);
+	static int l_set_param2_data_from_heap(lua_State *L);
 
 	static int l_get_node_at(lua_State *L);
 	static int l_set_node_at(lua_State *L);

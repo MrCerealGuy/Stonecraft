@@ -94,26 +94,18 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 
 	u32 volume = vm->m_area.getVolume();
 
-	lua_Integer* data = NULL;
+	std::vector<lua_Integer> data;
+	data.reserve(volume);
 	u32 index = -1;
 
-	data = (lua_Integer*)calloc(volume,sizeof(lua_Integer));
-
-	if (data != NULL)
-	{
-		data_heap.push_back(data);
-		index = data_heap.size()-1;
-
-		for (u32 i = 0; i != volume; i++) {
-			data[i] = vm->m_data[i].getContent();
-		}
+	for (u32 i = 0; i != volume; i++) {
+		data.push_back((lua_Integer)vm->m_data[i].getContent());
 	}
-	else
-		throw LuaError("LuaVoxelManip::l_load_data_into_heap failed!");
+
+	data_heap.push_back(data);
+	index = data_heap.size()-1;
 
 	lua_pushinteger(L, (lua_Integer)index);
-
-	//verbosestream<<"l_load_data_into_heap index: "<<index<<std::endl;
 
 	return 1;
 }
@@ -125,32 +117,15 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 	LuaVoxelManip *o = checkobject(L, 1);
 	MMVManip *vm = o->vm;
 
-	u32 volume = vm->m_area.getVolume();
-
-	lua_Integer* data = NULL;
 	u32 index = luaL_checknumber(L, 2);
 
-	data = data_heap.at(index);
 
-	if (data == NULL)
-		throw LuaError("LuaVoxelManip::l_save_data_from_heap failed!");
+	for (u32 i = 0; i != data_heap.at(index).size(); i++) {
 
-
-	for (u32 i = 0; i != volume; i++) {
-
-		content_t c = data[i];
+		content_t c = data_heap.at(index).at(i);
 
 		vm->m_data[i].setContent(c);
 	}
-
-	if (data != NULL)
-	{
-		free(data);
-		data = NULL;
-	}
-	//data_heap.erase(data_heap.begin()+index);
-
-	//verbosestream<<"l_save_data_from_heap index: "<<index<<std::endl;
 
 	return 0;
 }
@@ -170,17 +145,15 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-
-
-	if ((data_heap.size()-1) < index || key > (volume-1) || data_heap.at(index) == NULL)
+	if (index < 0 || (data_heap.size()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
-		errorstream << "l_get_data_from_heap index, key, volume: "<< index<< " " << key << " " << volume << std::endl;
+		errorstream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
 		return 1;
 		//throw LuaError("LuaVoxelManip::l_get_data_from_heap failed!");
 	}
 
-	lua_pushinteger(L, (lua_Integer)data_heap.at(index)[key]);
+	lua_pushinteger(L, (lua_Integer)data_heap.at(index).at(key));
 
 	return 1;
 }
@@ -189,6 +162,11 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
 	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
 	u32 value = luaL_checknumber(L, 4);
@@ -196,16 +174,115 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (data_heap.at(index) == NULL)
-			throw LuaError("LuaVoxelManip::l_set_data_from_heap failed!");
+	if (index < 0 || (data_heap.size()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
+	{
+		errorstream << "l_set_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		return 0;
+		//throw LuaError("LuaVoxelManip::l_set_data_from_heap failed!");
+	}
 
-	data_heap.at(index)[key] = (lua_Integer)value;
-
-	//verbosestream<<"l_set_data_from_heap index, key, value: "<<index<< " " << key << " " << value << std::endl;
+	data_heap.at(index).at(key) = (lua_Integer)value;
 
 	return 0;
 }
 
+int LuaVoxelManip::l_load_param2_data_into_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
+	std::vector<lua_Integer> param2_data;
+	param2_data.reserve(volume);
+	u32 index = -1;
+
+	for (u32 i = 0; i != volume; i++) {
+		param2_data.push_back((lua_Integer)vm->m_data[i].param2);
+	}
+
+	param2_data_heap.push_back(param2_data);
+	index = param2_data_heap.size()-1;
+
+	lua_pushinteger(L, (lua_Integer)index);
+
+	return 1;
+}
+
+int LuaVoxelManip::l_save_param2_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 index = luaL_checknumber(L, 2);
+
+	for (u32 i = 0; i != param2_data_heap.at(index).size(); i++) {
+		u8 param2 = param2_data_heap.at(index).at(i);
+		vm->m_data[i].param2 = param2;
+	}
+
+	return 0;
+}
+
+int LuaVoxelManip::l_get_param2_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
+	u32 index = luaL_checknumber(L, 2);
+	u32 key = luaL_checknumber(L, 3);
+
+	// Lua table index starts with 1 not with 0!
+	key = key-1;
+
+	if (index < 0 || (param2_data_heap.size()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	{
+		errorstream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		lua_pushinteger(L, (lua_Integer)-1);
+		return 1;
+		//throw LuaError("LuaVoxelManip::l_get_param2_data_from_heap failed!");
+	}
+
+	lua_pushinteger(L, (lua_Integer)param2_data_heap.at(index).at(key));
+
+	return 1;
+}
+
+int LuaVoxelManip::l_set_param2_data_from_heap(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+
+	LuaVoxelManip *o = checkobject(L, 1);
+	MMVManip *vm = o->vm;
+
+	u32 volume = vm->m_area.getVolume();
+
+	u32 index = luaL_checknumber(L, 2);
+	u32 key = luaL_checknumber(L, 3);
+	u32 value = luaL_checknumber(L, 4);
+
+	// Lua table index starts with 1 not with 0!
+	key = key-1;
+
+	if (index < 0 || (param2_data_heap.size()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	{
+		errorstream << "l_set_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		return 0;
+		//throw LuaError("LuaVoxelManip::l_set_param2_data_from_heap failed!");
+	}
+
+	param2_data_heap.at(index).at(key) = (lua_Integer)value;
+
+	return 0;
+}
 
 int LuaVoxelManip::l_set_data(lua_State *L)
 {
@@ -577,8 +654,9 @@ void LuaVoxelManip::Register(lua_State *L)
 	lua_register(L, className, create_object);
 }
 
-//lua_Integer* LuaVoxelManip::data_heap[] = {NULL};
-std::vector<lua_Integer*> LuaVoxelManip::data_heap;//.clear();
+std::vector<std::vector<lua_Integer> > LuaVoxelManip::data_heap;
+std::vector<std::vector<lua_Integer> > LuaVoxelManip::param2_data_heap;
+
 const char LuaVoxelManip::className[] = "VoxelManip";
 const luaL_Reg LuaVoxelManip::methods[] = {
 	luamethod(LuaVoxelManip, read_from_map),
@@ -588,6 +666,10 @@ const luaL_Reg LuaVoxelManip::methods[] = {
 	luamethod(LuaVoxelManip, save_data_from_heap),
 	luamethod(LuaVoxelManip, get_data_from_heap),
 	luamethod(LuaVoxelManip, set_data_from_heap),
+	luamethod(LuaVoxelManip, load_param2_data_into_heap),
+	luamethod(LuaVoxelManip, save_param2_data_from_heap),
+	luamethod(LuaVoxelManip, get_param2_data_from_heap),
+	luamethod(LuaVoxelManip, set_param2_data_from_heap),
 	luamethod(LuaVoxelManip, get_node_at),
 	luamethod(LuaVoxelManip, set_node_at),
 	luamethod(LuaVoxelManip, write_to_map),
