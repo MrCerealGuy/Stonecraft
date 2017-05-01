@@ -12,6 +12,7 @@ minetest.register_craftitem("default:paper", {
 	groups = {flammable = 3},
 })
 
+
 local lpp = 14 -- Lines per book's page
 local function book_on_use(itemstack, user)
 	local player_name = user:get_player_name()
@@ -93,6 +94,10 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			data = stack:get_meta():to_table().fields
 		end
 
+		if data and data.owner and data.owner ~= player:get_player_name() then
+			return
+		end
+
 		if not data then data = {} end
 		data.title = fields.title
 		data.owner = player:get_player_name()
@@ -134,7 +139,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			end
 		end
 
-		stack:get_meta():from_table(data)
+		stack:get_meta():from_table({fields = data})
 		stack = book_on_use(stack, player)
 	end
 
