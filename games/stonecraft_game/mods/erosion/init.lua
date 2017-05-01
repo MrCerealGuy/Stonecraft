@@ -320,7 +320,6 @@ dpstn.air = minetest.get_content_id("air")
 
 --local function place_slope(data,prm2,vpos,m)
 local function place_slope(vm,data,prm2,vpos,m)
-	--if data == nil or prm2 == nil then
 	if data == nil or prm2 == nil or vm == nil then
 		return
 	end
@@ -350,27 +349,27 @@ local function place_slope(vm,data,prm2,vpos,m)
 			if box.f then
 				--data[vpos],prm2[vpos] = dpstn["slp_"..m],box.f
 				vm:set_data_from_heap(data, vpos, dpstn["slp_"..m])
-				prm2[vpos] = box.f
+				vm:set_param2_data_from_heap(prm2, vpos, box.f)
 				
 				if not box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
 				and math.mod(vpos,cube3[0][0][1])~=1 then
 					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[-1][0][0]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
 				end
 				
 				if not box.u and vm:get_data_from_heap(data, vpos+cube3[0][-1][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][-1][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
 				and vpos>cube3[0][1][0] then
 					vm:set_data_from_heap(data, vpos+cube3[0][-1][0], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[0][-1][0]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][-1][0], box.f)
 				end
 				
 				if not box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
 				and math.mod(vpos,cube3[0][1][0])~=cube3[0][0][1] then
 					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[0][0][-1]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
 				end
 			end
 		elseif box.t == 3 then
@@ -385,37 +384,40 @@ local function place_slope(vm,data,prm2,vpos,m)
 			
 			if box.f then
 				vm:set_data_from_heap(data, vpos, dpstn["slp_"..m.."_inner_cut"])
-				prm2[vpos] = box.f
+				vm:set_param2_data_from_heap(prm2, vpos, box.f)
 				
 				if box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
 				and math.mod(vpos,cube3[0][0][1])~=1 then
 					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[-1][0][0]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
 				end
 				
 				if box.u and vm:get_data_from_heap(data, vpos+cube3[0][-1][0]) == dpstn.air and vpos>cube3[0][1][0] then
 					vm:set_data_from_heap(data, vpos+cube3[0][-1][0], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[0][-1][0]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][-1][0], box.f)
 				end
 				
 				if box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
 				and math.mod(vpos,cube3[0][1][0])~=cube3[0][0][1] then
 					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
-					prm2[vpos+cube3[0][0][-1]] = box.f
+					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
 				end
 			end
 		end
 	end
 end
 
--- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
---local dbuf = {}
-local dbuf_param2 = {}
-
+time_elapsed = function( t_last, msg )
+	local t_now = minetest.get_us_time();
+	minetest.log( 'error', 'TIME ELAPSED: '..tostring( (t_now - t_last)/1000000.0 )..' '..msg );
+	return t_now;
+end
 
 minetest.register_on_generated(function(minp, maxp)
+	--local t1 = minetest.get_us_time();
+
 	if minp.y > 256 then
 		return
 	end
@@ -423,7 +425,7 @@ minetest.register_on_generated(function(minp, maxp)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 
 	local data = vm:load_data_into_heap()
-	local prm2 = vm:get_param2_data(dbuf_param2)  -- buffer added by MrCerealGuy
+	local prm2 = vm:load_param2_data_into_heap()
 
 	local vxa = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	
@@ -466,10 +468,11 @@ minetest.register_on_generated(function(minp, maxp)
 	end
 
 	vm:save_data_from_heap(data)
-	vm:set_param2_data(prm2)
+	vm:save_param2_data_from_heap(prm2)
 	vm:calc_lighting()
-	--vm:write_to_map(data)
 	vm:write_to_map(true)
+
+	--t1 = time_elapsed( t1, 'erosion:on_generated' );
 end)
 
 
