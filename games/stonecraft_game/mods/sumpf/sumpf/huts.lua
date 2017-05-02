@@ -103,12 +103,12 @@ end
 
 local typ_order = {"floor1", "floor2", "wall", "glass", "roof1", "roof2"}
 
-local function vmanip_nodes(tab, nodes, area)
+local function vmanip_nodes(manip, tab, nodes, area)
 	for typ,ps in pairs(tab) do
 		local id = minetest.get_content_id(used_nodes[typ_order[typ]])
 		for _,p in pairs(ps) do
 			local z,y,x = unpack(p)
-			nodes[area:index(x,y,z)] = id
+			manip:set_data_from_heap(nodes, area:index(x,y,z), id)
 		end
 	end
 end
@@ -146,11 +146,11 @@ local function vmanip_spawn_nodes(tab)
 	local manip = minetest.get_voxel_manip()
 	local emerged_pos1, emerged_pos2 = manip:read_from_map(minp, maxp)
 	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local nodes = manip:load_data_into_heap()
 
-	vmanip_nodes(tab, nodes, area)
+	vmanip_nodes(manip, tab, nodes, area)
 
-	manip:set_data(nodes)
+	manip:save_data_from_heap(nodes)
 	manip:write_to_map()
 	log("nodes set after ", t1)
 	t1 = os.clock()
@@ -576,19 +576,19 @@ local c_secoroof = minetest.get_content_id("stairs:slab_sumpf_roofing") --slab
 local c_glass_ruin = minetest.get_content_id("default:obsidian_glass")
 
 -- should be a ruin with somehow fresh grass roofing (todo: how???)
-local function generate_ruin_hut(area, nodes, tab, floor_y)
+local function generate_ruin_hut(manip, area, nodes, tab, floor_y)
 	-- the primary floor is a fairly stable bottom plate
 	for _,p in pairs(tab[1]) do
 		local z,y,x = unpack(p)
-		nodes[area:index(x,y,z)] = c_primfloor
+		manip:set_data_from_heap(nodes, area:index(x,y,z), c_primfloor)
 	end
 
 	-- the secondary floor means decoration in the plate
 	for _,p in pairs(tab[2]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if not usual_node(nodes[p]) then
-			nodes[p] = c_secofloor
+		if not usual_node(manip:get_data_from_heap(nodes, p)) then
+			manip:set_data_from_heap(nodes, p, c_secofloor)
 		end
 	end
 
@@ -596,15 +596,15 @@ local function generate_ruin_hut(area, nodes, tab, floor_y)
 	for _,p in pairs(tab[3]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if not hard_node(nodes[p]) then
-			nodes[p] = c_wall
+		if not hard_node(manip:get_data_from_heap(nodes, p)) then
+			manip:set_data_from_heap(nodes, p, c_wall)
 			if y == floor_y+1 then
 				for y = floor_y-2, floor_y-100, -1 do
 					local p = area:index(x,y,z)
-					if hard_node(nodes[p]) then
+					if hard_node(manip:get_data_from_heap(nodes, p)) then
 						break
 					end
-					nodes[p] = c_wall
+					manip:set_data_from_heap(nodes, p, c_wall)
 				end
 			end
 		end
@@ -614,8 +614,8 @@ local function generate_ruin_hut(area, nodes, tab, floor_y)
 	for _,p in pairs(tab[4]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if not usual_node(nodes[p]) then
-			nodes[p] = c_glass_ruin
+		if not usual_node(manip:get_data_from_heap(nodes, p)) then
+			manip:set_data_from_heap(nodes, p, c_glass_ruin)
 		end
 	end
 
@@ -623,8 +623,8 @@ local function generate_ruin_hut(area, nodes, tab, floor_y)
 	for _,p in pairs(tab[5]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if nodes[p] == c_air then
-			nodes[p] = c_primroof
+		if manip:get_data_from_heap(nodes, p) == c_air then
+			manip:set_data_from_heap(nodes, p, c_primroof)
 		end
 	end
 
@@ -632,41 +632,41 @@ local function generate_ruin_hut(area, nodes, tab, floor_y)
 	for _,p in pairs(tab[6]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if nodes[p] == c_air then
-			if nodes[area:index(x,y+1,z)] == c_air then
-				nodes[p] = c_secoroof
+		if manip:get_data_from_heap(nodes, p) == c_air then
+			if manip:get_data_from_heap(nodes, area:index(x,y+1,z)) == c_air then
+				manip:set_data_from_heap(nodes, p, c_secoroof)
 			else
-				nodes[p] = c_primroof
+				manip:set_data_from_heap(nodes, p, c_primroof)
 			end
 		end
 	end
 end
 
 -- this one shouldn't be a ruin
-local function generate_fresh_hut(area, nodes, tab, floor_y)
+local function generate_fresh_hut(manip, area, nodes, tab, floor_y)
 	-- the primary floor is a fairly stable bottom plate
 	for _,p in pairs(tab[1]) do
 		local z,y,x = unpack(p)
-		nodes[area:index(x,y,z)] = c_primfloor
+		manip:set_data_from_heap(nodes, area:index(x,y,z), c_primfloor)
 	end
 
 	-- the secondary floor means decoration in the plate
 	for _,p in pairs(tab[2]) do
 		local z,y,x = unpack(p)
-		nodes[area:index(x,y,z)] = c_secofloor
+		manip:set_data_from_heap(nodes, area:index(x,y,z), c_secofloor)
 	end
 
 	-- the wall is made of birch wood
 	for _,p in pairs(tab[3]) do
 		local z,y,x = unpack(p)
-		nodes[area:index(x,y,z)] = c_wall
+		manip:set_data_from_heap(nodes, area:index(x,y,z), c_wall)
 		if y == floor_y+1 then
 			for y = floor_y-2, floor_y-100, -1 do
 				local p = area:index(x,y,z)
-				if hard_node(nodes[p]) then
+				if hard_node(manip:get_data_from_heap(nodes, p)) then
 					break
 				end
-				nodes[p] = c_wall
+				manip:set_data_from_heap(nodes, p, c_wall)
 			end
 		end
 	end
@@ -675,12 +675,12 @@ local function generate_fresh_hut(area, nodes, tab, floor_y)
 	for _,p in pairs(tab[4]) do
 		local z,y,x = unpack(p)
 		p = area:index(x,y,z)
-		if (not usual_node(nodes[p])
+		if (not usual_node(manip:get_data_from_heap(nodes, p))
 			and y == floor_y+1)
-		or not usual_node(nodes[area:index(x,floor_y+1,z)]) then
-			nodes[p] = c_glass
+		or not usual_node(manip:get_data_from_heap(nodes, area:index(x,floor_y+1,z))) then
+			manip:set_data_from_heap(nodes, p, c_glass)
 		else
-			nodes[p] = c_wall
+			manip:set_data_from_heap(nodes, p, c_wall)
 		end
 	end
 
@@ -690,21 +690,21 @@ local function generate_fresh_hut(area, nodes, tab, floor_y)
 		p = area:index(x,y,z)
 		-- [[ jungletree pillars for stability
 		if y >= floor_y+8
-		and nodes[p] == c_jungletree then
+		and manip:get_data_from_heap(nodes, p) == c_jungletree then
 			for y = floor_y,y-1 do
 				local p = area:index(x,y,z)
-				if nodes[p] == c_jungletree then
+				if manip:get_data_from_heap(nodes, p) == c_jungletree then
 					break
 				end
-				nodes[p] = c_jungletree
+				manip:set_data_from_heap(nodes, p, c_jungletree)
 			end
 		else--]]
 			if y ~= floor_y+4 then
 				for y = floor_y,y-1 do
-					nodes[area:index(x,y,z)] = c_air
+					manip:set_data_from_heap(nodes, area:index(x,y,z), c_air)
 				end
 			end
-			nodes[p] = c_primroof
+			manip:set_data_from_heap(nodes, p, c_primroof)
 		end
 	end
 
@@ -714,40 +714,40 @@ local function generate_fresh_hut(area, nodes, tab, floor_y)
 		p = area:index(x,y,z)
 		-- [[ jungletree pillars also here
 		if y >= floor_y+8
-		and nodes[p] == c_jungletree then
+		and manip:get_data_from_heap(nodes, p) == c_jungletree then
 			for y = floor_y,y-1 do
 				local p = area:index(x,y,z)
-				if nodes[p] == c_jungletree then
+				if manip:get_data_from_heap(nodes, p) == c_jungletree then
 					break
 				end
-				nodes[p] = c_jungletree
+				manip:set_data_from_heap(nodes, p, c_jungletree)
 			end
 		else--]]
-			local free_above = nodes[area:index(x,y+1,z)] == c_air
+			local free_above = manip:get_data_from_heap(nodes, area:index(x,y+1,z)) == c_air
 			if y == floor_y+4 then
 				if free_above
-				and not usual_node(nodes[p]) then
-					nodes[p] = c_secoroof
+				and not usual_node(manip:get_data_from_heap(nodes, p)) then
+					manip:set_data_from_heap(nodes, p, c_secoroof)
 				end
 			else
 				for y = floor_y,y-1 do
-					nodes[area:index(x,y,z)] = c_air
+					manip:set_data_from_heap(nodes, area:index(x,y,z), c_air)
 				end
 				if free_above then
-					nodes[p] = c_secoroof
+					manip:set_data_from_heap(nodes, p, c_secoroof)
 				else
-					nodes[p] = c_primroof
+					manip:set_data_from_heap(nodes, p, c_primroof)
 				end
 			end
 		end
 	end
 end
 
-function sumpf.generate_hut(pos, area, nodes, rmin, rmax, ruin)
+function sumpf.generate_hut(manip, pos, area, nodes, rmin, rmax, ruin)
 	local tab = get_hut_nodes(pos, rmin, rmax)
 	if ruin then
-		generate_ruin_hut(area, nodes, tab, pos.y)
+		generate_ruin_hut(manip, area, nodes, tab, pos.y)
 	else
-		generate_fresh_hut(area, nodes, tab, pos.y)
+		generate_fresh_hut(manip, area, nodes, tab, pos.y)
 	end
 end
