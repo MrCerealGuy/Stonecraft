@@ -29,8 +29,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapgen.h"
 #include "voxelalgorithms.h"
 
-//lua_Integer* data_heap[1];
-
 // garbage collector
 int LuaVoxelManip::gc_object(lua_State *L)
 {
