@@ -723,4 +723,3 @@ function core.pointed_thing_to_face_pos(placer, pointed_thing)
 	end
 	return fine_pos
 end
-
