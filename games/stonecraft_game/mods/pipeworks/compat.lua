@@ -92,12 +92,7 @@ minetest.override_item("default:furnace_active", {
 
 minetest.override_item("default:chest", {
 	tiles = {
-		"default_chest_top.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_top.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_front.png"
+		"default_chest_wood.png"  -- MrCerealGuy: removed pipeworks_tube_connection_wooden.png
 	},
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, tubedevice = 1, tubedevice_receiver = 1},
 	tube = {
@@ -120,12 +115,7 @@ minetest.override_item("default:chest", {
 
 minetest.override_item("default:chest_locked", {
 	tiles = {
-		"default_chest_top.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_top.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_side.png^pipeworks_tube_connection_wooden.png",
-		"default_chest_lock.png"
+		"default_chest_wood.png"  -- MrCerealGuy: removed pipeworks_tube_connection_wooden.png
 	},
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, tubedevice = 1, tubedevice_receiver = 1},
 	tube = {
