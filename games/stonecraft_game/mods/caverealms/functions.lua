@@ -7,7 +7,7 @@ local H_LAC = caverealms.config.h_lac --20 --...stalactites
 local H_CRY = caverealms.config.h_cry --9 --max height of glow crystals
 local H_CLAC = caverealms.config.h_clac --13 --max height of glow crystal stalactites
 
-function caverealms:above_solid(x,y,z,area,data)
+function caverealms:above_solid(x,y,z,vm,area,data)
 	local c_air = minetest.get_content_id("air")
 	
 	local c_vac
@@ -18,13 +18,13 @@ function caverealms:above_solid(x,y,z,area,data)
 	end
 	
 	local ai = area:index(x,y+1,z-3)
-	if data[ai] == c_air or data[ai] == c_vac then
+	if vm:get_data_from_heap(data, ai) == c_air or vm:get_data_from_heap(data, ai) == c_vac then
 		return false
 	else
 		return true
 	end
 end
-function caverealms:below_solid(x,y,z,area,data)
+function caverealms:below_solid(x,y,z,vm,area,data)
 	local c_air = minetest.get_content_id("air")
 	
 	local c_vac
@@ -35,7 +35,7 @@ function caverealms:below_solid(x,y,z,area,data)
 	end
 	
 	local ai = area:index(x,y-1,z-3)
-	if data[ai] == c_air or data[ai] == c_vac then
+	if vm:get_data_from_heap(data, ai) == c_air or vm:get_data_from_heap(data, ai) == c_vac then
 		return false
 	else
 		return true
@@ -43,9 +43,9 @@ function caverealms:below_solid(x,y,z,area,data)
 end
 
 --stalagmite spawner
-function caverealms:stalagmite(x,y,z, area, data)
+function caverealms:stalagmite(x,y,z, vm, area, data)
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not caverealms:below_solid(x,y,z,vm,area,data) then
 		return
 	end
 	
@@ -59,21 +59,21 @@ function caverealms:stalagmite(x,y,z, area, data)
 				if j == 0 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				elseif j <= top/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				elseif j <= top/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				else
 					local vi = area:index(x, y+j, z-3)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -81,9 +81,9 @@ function caverealms:stalagmite(x,y,z, area, data)
 end
 
 --stalactite spawner
-function caverealms:stalactite(x,y,z, area, data)
+function caverealms:stalactite(x,y,z, vm, area, data)
 
-	if not caverealms:above_solid(x,y,z,area,data) then
+	if not caverealms:above_solid(x,y,z,vm, area,data) then
 		return
 	end
 
@@ -97,21 +97,21 @@ function caverealms:stalactite(x,y,z, area, data)
 				if j >= -1 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				elseif j >= bot/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				elseif j >= bot/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = c_stone
+						vm:set_data_from_heap(data, vi, c_stone)
 					end
 				else
 					local vi = area:index(x, y+j, z-3)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -119,9 +119,9 @@ function caverealms:stalactite(x,y,z, area, data)
 end
 
 --glowing crystal stalagmite spawner
-function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
+function caverealms:crystal_stalagmite(x,y,z, vm, area, data, biome)
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not caverealms:below_solid(x,y,z,vm,area,data) then
 		return
 	end
 	
@@ -198,21 +198,21 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 				if j == 0 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_s
+						vm:set_data_from_heap(data, vi, nid_s)
 					end
 				elseif j <= top/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_a
+						vm:set_data_from_heap(data, vi, nid_a)
 					end
 				elseif j <= top/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_b
+						vm:set_data_from_heap(data, vi, nid_b)
 					end
 				else
 					local vi = area:index(x, y+j, z-3)
-					data[vi] = nid_b
+					vm:set_data_from_heap(data, vi, nid_b)
 				end
 			end
 		end
@@ -220,9 +220,9 @@ function caverealms:crystal_stalagmite(x,y,z, area, data, biome)
 end
 
 --crystal stalactite spawner
-function caverealms:crystal_stalactite(x,y,z, area, data, biome)
+function caverealms:crystal_stalactite(x,y,z, vm, area, data, biome)
 
-	if not caverealms:above_solid(x,y,z,area,data) then
+	if not caverealms:above_solid(x,y,z,vm,area,data) then
 		return
 	end
 
@@ -299,21 +299,21 @@ function caverealms:crystal_stalactite(x,y,z, area, data, biome)
 				if j >= -1 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_s
+						vm:set_data_from_heap(data, vi, nid_s)
 					end
 				elseif j >= bot/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_a
+						vm:set_data_from_heap(data, vi, nid_a)
 					end
 				elseif j >= bot/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l-3)
-						data[vi] = nid_b
+						vm:set_data_from_heap(data, vi, nid_b)
 					end
 				else
 					local vi = area:index(x, y+j, z-3)
-					data[vi] = nid_b
+					vm:set_data_from_heap(data, vi, nid_b)
 				end
 			end
 		end
@@ -321,9 +321,9 @@ function caverealms:crystal_stalactite(x,y,z, area, data, biome)
 end
 
 --glowing crystal stalagmite spawner
-function caverealms:salt_stalagmite(x,y,z, area, data, biome)
+function caverealms:salt_stalagmite(x,y,z, vm, area, data, biome)
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not caverealms:below_solid(x,y,z,vm,area,data) then
 		return
 	end
 	
@@ -336,10 +336,10 @@ function caverealms:salt_stalagmite(x,y,z, area, data, biome)
 		for j = -3, 3 do
 			for k = -3, 3 do
 				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
+				vm:set_data_from_heap(data, vi, c_stone)
 				if math.abs(j) ~= 3 and math.abs(k) ~= 3 then
 					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -347,10 +347,10 @@ function caverealms:salt_stalagmite(x,y,z, area, data, biome)
 		for j = -4, 4 do
 			for k = -4, 4 do
 				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
+				vm:set_data_from_heap(data, vi, c_stone)
 				if math.abs(j) ~= 4 and math.abs(k) ~= 4 then
 					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -359,16 +359,16 @@ function caverealms:salt_stalagmite(x,y,z, area, data, biome)
 		for k = -2, scale - 2 do
 			for l = -2, scale - 2 do
 				local vi = area:index(x+k, y+j, z+l)
-				data[vi] = c_salt -- make cube
+				vm:set_data_from_heap(data, vi, c_salt) -- make cube
 			end
 		end
 	end
 end
 
 --function to create giant 'shrooms
-function caverealms:giant_shroom(x, y, z, area, data)
+function caverealms:giant_shroom(x, y, z, vm, area, data)
 
-	if not caverealms:below_solid(x,y,z,area,data) then
+	if not caverealms:below_solid(x,y,z,vm,area,data) then
 		return
 	end
 
@@ -383,21 +383,21 @@ function caverealms:giant_shroom(x, y, z, area, data)
 	for l = -5, 5 do
 		if k*k + l*l <= 25 then
 			local vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 		if k*k + l*l <= 16 then
 			local vi = area:index(x+k, y+6, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 			vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_gills
+			vm:set_data_from_heap(data, vi, c_gills)
 		end
 		if k*k + l*l <= 9 then
 			local vi = area:index(x+k, y+7, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 		if k*k + l*l <= 4 then
 			local vi = area:index(x+k, y+8, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 	end
 	end
@@ -405,18 +405,18 @@ function caverealms:giant_shroom(x, y, z, area, data)
 	for j = 0, 5 do
 		for k = -1,1 do
 			local vi = area:index(x+k, y+j, z)
-			data[vi] = c_stem
+			vm:set_data_from_heap(data, vi, c_stem)
 			if k == 0 then
 				local ai = area:index(x, y+j, z+1)
-				data[ai] = c_stem
+				vm:set_data_from_heap(data, ai, c_stem)
 				ai = area:index(x, y+j, z-1)
-				data[ai] = c_stem
+				vm:set_data_from_heap(data, ai, c_stem)
 			end
 		end
 	end
 end
 
-function caverealms:legacy_giant_shroom(x, y, z, area, data) --leftovers :P
+function caverealms:legacy_giant_shroom(x, y, z, vm, area, data) --leftovers :P
 	--as usual, grab the content ID's
 	local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
 	local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
@@ -427,17 +427,17 @@ function caverealms:legacy_giant_shroom(x, y, z, area, data) --leftovers :P
 	for l = -4, 4 do
 		if k*k + l*l <= 16 then
 			local vi = area:index(x+k, y+5, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 		if k*k + l*l <= 9 then
 			local vi = area:index(x+k, y+4, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 			vi = area:index(x+k, y+6, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 		if k*k + l*l <= 4 then
 			local vi = area:index(x+k, y+7, z+l)
-			data[vi] = c_cap
+			vm:set_data_from_heap(data, vi, c_cap)
 		end
 	end
 	end
@@ -445,12 +445,12 @@ function caverealms:legacy_giant_shroom(x, y, z, area, data) --leftovers :P
 	for j = 0, 4 do
 		for k = -1,1 do
 			local vi = area:index(x+k, y+j, z)
-			data[vi] = c_stem
+			vm:set_data_from_heap(data, vi, c_stem)
 			if k == 0 then
 				local ai = area:index(x, y+j, z+1)
-				data[ai] = c_stem
+				vm:set_data_from_heap(data, ai, c_stem)
 				ai = area:index(x, y+j, z-1)
-				data[ai] = c_stem
+				vm:set_data_from_heap(data, ai, c_stem)
 			end
 		end
 	end
@@ -459,7 +459,7 @@ end
 -- Experimental and very geometric function to create giant octagonal crystals in a variety of random directions
 -- Uses calculations for points on a sphere, lines in geometric space
 -- CURRENTLY USELESS, NOT LIKELY TO BE IMPLEMENTED SOON
-function caverealms:octagon(x, y, z, area, data)
+function caverealms:octagon(x, y, z, vm, area, data)
 	--Grab content id's... diamond is a placeholder
 	local c_crys = minetest.get_content_id("default:diamondblock")
 	
@@ -479,7 +479,7 @@ function caverealms:octagon(x, y, z, area, data)
 	target.y = math.ceil(length * math.sin(dir2 * 3.14/180))
 	
 	-- Now, determine if the crystal should go up or down, based on where it is
-	if (caverealms:above_solid(x,y,z,area,data)) then
+	if (caverealms:above_solid(x,y,z,vm,area,data)) then
 		target.y = target.y * -1
 	end
 	

@@ -112,9 +112,6 @@ local nvals_cave_buf = {}
 local nvals_wave_buf = {}
 local nvals_biome_buf = {}
 
--- buffer for vm:get_data
-local dbuf = {}
-
 -- On generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
@@ -136,7 +133,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	
 	--grab content IDs
 	local c_air = minetest.get_content_id("air")
@@ -216,7 +213,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local vi = area:index(x0, y, z) --current node index
 			for x = x0, x1 do -- for each node do
 				if (nvals_cave[nixyz] + nvals_wave[nixyz])/2 > tcave then --if node falls within cave threshold
-					data[vi] = c_air --hollow it out to make the cave
+					vm:set_data_from_heap(data, vi, c_air) --hollow it out to make the cave
 				end
 				--increment indices
 				nixyz = nixyz + 1
@@ -280,37 +277,37 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if math.floor(((nvals_cave[nixyz2] + nvals_wave[nixyz2])/2)*100) == math.floor(tcave*100) then
 					--ceiling
 					local ai = area:index(x,y+1,z) --above index
-					if data[ai] == c_stone and data[vi] == c_air then --ceiling
+					if vm:get_data_from_heap(data, ai) == c_stone and vm:get_data_from_heap(data, vi) == c_air then --ceiling
 						if math.random() < ICICHA and (biome == 4 or biome == 5) then
-							data[vi] = c_icid
+							vm:set_data_from_heap(data, vi, c_icid)
 						end
 						if math.random() < WORMCHA then
-							data[vi] = c_worm
+							vm:set_data_from_heap(data, vi, c_worm)
 							local bi = area:index(x,y-1,z)
-							data[bi] = c_worm
+							vm:set_data_from_heap(data, bi, c_worm)
 							if math.random(2) == 1 then
 								local bbi = area:index(x,y-2,z)
-								data[bbi] = c_worm
+								vm:set_data_from_heap(data, bbi, c_worm)
 								if math.random(2) ==1 then
 									local bbbi = area:index(x,y-3,z)
-									data[bbbi] = c_worm
+									vm:set_data_from_heap(data, bbbi, c_worm)
 								end
 							end
 						end
 						if math.random() < STALCHA then
-							caverealms:stalactite(x,y,z, area, data)
+							caverealms:stalactite(x,y,z, vm, area, data)
 						end
 						if math.random() < CRYSTAL then
-							caverealms:crystal_stalactite(x,y,z, area, data, biome)
+							caverealms:crystal_stalactite(x,y,z, vm, area, data, biome)
 						end
 					end
 					--ground
 					local bi = area:index(x,y-1,z) --below index
-					if data[bi] == c_stone and data[vi] == c_air then --ground
+					if vm:get_data_from_heap(data, bi) == c_stone and vm:get_data_from_heap(data, vi) == c_air then --ground
 						local ai = area:index(x,y+1,z)
 						--place floor material, add plants/decorations
 						if biome == 1 then
-							data[vi] = c_moss
+							vm:set_data_from_heap(data, vi, c_moss)
 							if math.random() < GEMCHA then
 								-- gems of random size
 								local gems = { c_gem1, c_gem2, c_gem3, c_gem4, c_gem5 }
@@ -318,50 +315,50 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								if gidx > 5 then
 									gidx = 1
 								end
-								data[ai] = gems[gidx]
+								vm:set_data_from_heap(data, ai, gems[gidx])
 							end
 						elseif biome == 2 then
-							data[vi] = c_lichen
+							vm:set_data_from_heap(data, vi, c_lichen)
 							if math.random() < MUSHCHA then --mushrooms
-								data[ai] = c_fungus
+								vm:set_data_from_heap(data, ai, c_fungus)
 							end
 							if math.random() < MYCCHA then --mycena mushrooms
-								data[ai] = c_mycena
+								vm:set_data_from_heap(data, ai, c_mycena)
 							end
 							if math.random() < GIANTCHA then --giant mushrooms
-								caverealms:giant_shroom(x, y, z, area, data)
+								caverealms:giant_shroom(x, y, z, vm, area, data)
 							end
 						elseif biome == 3 then
-							data[vi] = c_algae
+							vm:set_data_from_heap(data, vi, c_algae)
 						elseif biome == 4 then
-							data[vi] = c_thinice
+							vm:set_data_from_heap(data, vi, c_thinice)
 							local bi = area:index(x,y-1,z)
-							data[bi] = c_thinice
+							vm:gset_data_from_heap(data, bi, c_thinice)
 							if math.random() < ICICHA then --if glaciated, place icicles
-								data[ai] = c_iciu
+								vm:set_data_from_heap(data, ai, c_iciu)
 							end
 						elseif biome == 5 then
-							data[vi] = c_ice
+							vm:set_data_from_heap(data, vi, c_ice)
 							local bi = area:index(x,y-1,z)
-							data[bi] = c_ice
+							vm:set_data_from_heap(data, bi, c_ice)
 							if math.random() < ICICHA then --if glaciated, place icicles
-								data[ai] = c_iciu
+								vm:set_data_from_heap(data, ai, c_iciu)
 							end
 						elseif biome == 6 then
-							data[vi] = c_hcobble
+							vm:set_data_from_heap(data, vi, c_hcobble)
 							if math.random() < FLACHA then --neverending flames
-								data[ai] = c_flame
+								vm:set_data_from_heap(data, ai, c_flame)
 							end
 							if math.random() < FOUNCHA and FOUNTAINS then --DM FOUNTAIN
-								data[ai] = c_fountain
+								vm:set_data_from_heap(data, ai, c_fountain)
 							end
 							if math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
-								data[ai] = c_fortress
+								vm:set_data_from_heap(data, ai, c_fortress)
 							end
 						elseif biome == 7 then
 							local bi = area:index(x,y-1,z)
-							data[vi] = c_salt
-							data[bi] = c_salt
+							vm:set_data_from_heap(data, vi, c_salt)
+							vm:set_data_from_heap(data, bi, c_salt)
 							if math.random() < GEMCHA then
 								-- gems of random size
 								local gems = { c_saltgem1, c_saltgem2, c_saltgem3, c_saltgem4, c_saltgem5 }
@@ -369,37 +366,37 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								if gidx > 5 then
 									gidx = 1
 								end
-								data[ai] = gems[gidx]
+								vm:set_data_from_heap(data, ai, gems[gidx])
 							end
 							if math.random() < STAGCHA then
-								caverealms:salt_stalagmite(x,y,z, area, data)
+								caverealms:salt_stalagmite(x,y,z, vm, area, data)
 							end
 						elseif biome == 8 then
 							local bi = area:index(x,y-1,z)
 							if math.random() < 0.5 then
-								data[vi] = c_gobsidian
-								data[bi] = c_gobsidian
+								vm:set_data_from_heap(data, vi, c_gobsidian)
+								vm:set_data_from_heap(data, bi, c_gobsidian)
 							else
-								data[vi] = c_gobsidian2
-								data[bi] = c_gobsidian2
+								vm:set_data_from_heap(data, vi, c_gobsidian2)
+								vm:set_data_from_heap(data, bi, c_gobsidian2)
 							end
 							if math.random() < FLACHA then --neverending flames
-								data[ai] = c_flame
+								vm:set_data_from_heap(data, ai, c_flame)
 							end
 						elseif biome == 9 then
 							local bi = area:index(x,y-1,z)
 							if math.random() < 0.05 then
-								data[vi] = c_coalblock
-								data[bi] = c_coalblock
+								vm:set_data_from_heap(data, vi, c_coalblock)
+								vm:set_data_from_heap(data, i, c_coalblock)
 							elseif math.random() < 0.15 then
-								data[vi] = c_coaldust
-								data[bi] = c_coaldust
+								vm:set_data_from_heap(data, vi, c_coaldust)
+								vm:set_data_from_heap(data, bi, c_coaldust)
 							else
-								data[vi] = c_desand
-								data[bi] = c_desand
+								vm:set_data_from_heap(data, vi, c_desand)
+								vm:set_data_from_heap(data, bi, c_desand)
 							end
 							if math.random() < FLACHA * 0.75 then --neverending flames
-								data[ai] = c_flame
+								vm:set_data_from_heap(data, ai, c_flame)
 							end
 							if math.random() < GEMCHA then
 								-- spikes of random size
@@ -408,15 +405,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								if sidx > 5 then
 									sidx = 1
 								end
-								data[ai] = spikes[sidx]
+								vm:set_data_from_heap(data, ai, spikes[sidx])
 							end
 						end
 						
 						if math.random() < STAGCHA then
-							caverealms:stalagmite(x,y,z, area, data)
+							caverealms:stalagmite(x,y,z, vm, area, data)
 						end
 						if math.random() < CRYSTAL then
-							caverealms:crystal_stalagmite(x,y,z, area, data, biome)
+							caverealms:crystal_stalagmite(x,y,z, vm, area, data, biome)
 						end
 					end
 					
@@ -431,12 +428,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 	
 	--send data back to voxelmanip
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	--calc lighting
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
 	--write it to world
-	vm:write_to_map(data)
+	vm:write_to_map(true)
 
 	local chugent = math.ceil((os.clock() - t1) * 1000) --grab how long it took
 	print ("[caverealms] "..chugent.." ms") --tell people how long
