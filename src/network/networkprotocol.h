@@ -106,7 +106,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 		add swap_node
 	PROTOCOL_VERSION 23:
 		Obsolete TOSERVER_RECEIVED_MEDIA
-		Add TOSERVER_CLIENT_READY
+		Server: Stop using TOSERVER_CLIENT_READY
 	PROTOCOL_VERSION 24:
 		ContentFeatures version 7
 		ContentFeatures: change number of special tiles to 6 (CF_SPECIAL_COUNT)
@@ -152,6 +152,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 			with pre-30 clients by sending sqrt(visual_scale)
 	PROTOCOL VERSION 31:
 		Add tile overlay
+		Stop sending TOSERVER_CLIENT_READY
 */
 
 #define LATEST_PROTOCOL_VERSION 31
@@ -607,6 +608,16 @@ enum ToClientCommand
 	TOCLIENT_DELETE_PARTICLESPAWNER = 0x53,
 	/*
 		u32 id
+	*/
+
+	TOCLIENT_CLOUD_PARAMS = 0x54,
+	/*
+		f1000 density
+		u8[4] color_diffuse (ARGB)
+		u8[4] color_ambient (ARGB)
+		f1000 height
+		f1000 thickness
+		v2f1000 speed
 	*/
 
 	TOCLIENT_SRP_BYTES_S_B = 0x60,

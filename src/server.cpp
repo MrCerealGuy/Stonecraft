@@ -38,7 +38,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "settings.h"
 #include "profiler.h"
 #include "log.h"
-#include "serverscripting.h"
+#include "scripting_server.h"
 #include "nodedef.h"
 #include "itemdef.h"
 #include "craftdef.h"
@@ -1882,6 +1882,20 @@ void Server::SendSetSky(u16 peer_id, const video::SColor &bgcolor,
 	Send(&pkt);
 }
 
+void Server::SendCloudParams(u16 peer_id, float density,
+		const video::SColor &color_bright,
+		const video::SColor &color_ambient,
+		float height,
+		float thickness,
+		const v2f &speed)
+{
+	NetworkPacket pkt(TOCLIENT_CLOUD_PARAMS, 0, peer_id);
+	pkt << density << color_bright << color_ambient
+			<< height << thickness << speed;
+
+	Send(&pkt);
+}
+
 void Server::SendOverrideDayNightRatio(u16 peer_id, bool do_override,
 		float ratio)
 {
@@ -3193,6 +3207,22 @@ bool Server::setSky(RemotePlayer *player, const video::SColor &bgcolor,
 
 	player->setSky(bgcolor, type, params);
 	SendSetSky(player->peer_id, bgcolor, type, params);
+	return true;
+}
+
+bool Server::setClouds(RemotePlayer *player, float density,
+	const video::SColor &color_bright,
+	const video::SColor &color_ambient,
+	float height,
+	float thickness,
+	const v2f &speed)
+{
+	if (!player)
+		return false;
+
+	SendCloudParams(player->peer_id, density,
+			color_bright, color_ambient, height,
+			thickness, speed);
 	return true;
 }
 

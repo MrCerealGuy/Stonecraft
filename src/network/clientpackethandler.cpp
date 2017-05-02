@@ -30,7 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server.h"
 #include "util/strfnd.h"
 #include "network/clientopcodes.h"
-#include "script/clientscripting.h"
+#include "script/scripting_client.h"
 #include "util/serialize.h"
 #include "util/srp.h"
 #include "tileanimation.h"
@@ -1165,6 +1165,34 @@ void Client::handleCommand_HudSetSky(NetworkPacket* pkt)
 	event.set_sky.bgcolor = bgcolor;
 	event.set_sky.type    = type;
 	event.set_sky.params  = params;
+	m_client_event_queue.push(event);
+}
+
+void Client::handleCommand_CloudParams(NetworkPacket* pkt)
+{
+	f32 density;
+	video::SColor color_bright;
+	video::SColor color_ambient;
+	f32 height;
+	f32 thickness;
+	v2f speed;
+
+	*pkt >> density >> color_bright >> color_ambient
+			>> height >> thickness >> speed;
+
+	ClientEvent event;
+	event.type                       = CE_CLOUD_PARAMS;
+	event.cloud_params.density       = density;
+	// use the underlying u32 representation, because we can't
+	// use struct members with constructors here, and this way
+	// we avoid using new() and delete() for no good reason
+	event.cloud_params.color_bright  = color_bright.color;
+	event.cloud_params.color_ambient = color_ambient.color;
+	event.cloud_params.height        = height;
+	event.cloud_params.thickness     = thickness;
+	// same here: deconstruct to skip constructor
+	event.cloud_params.speed_x       = speed.X;
+	event.cloud_params.speed_y       = speed.Y;
 	m_client_event_queue.push(event);
 }
 

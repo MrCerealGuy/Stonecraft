@@ -103,7 +103,7 @@ int ModApiServer::l_get_player_privs(lua_State *L)
 	int table = lua_gettop(L);
 	std::set<std::string> privs_s = server->getPlayerEffectivePrivs(name);
 	for(std::set<std::string>::const_iterator
-			i = privs_s.begin(); i != privs_s.end(); i++){
+			i = privs_s.begin(); i != privs_s.end(); ++i){
 		lua_pushboolean(L, true);
 		lua_setfield(L, table, i->c_str());
 	}
@@ -137,7 +137,7 @@ int ModApiServer::l_get_player_ip(lua_State *L)
 	}
 }
 
-// get_player_information()
+// get_player_information(name)
 int ModApiServer::l_get_player_information(lua_State *L)
 {
 
@@ -231,13 +231,13 @@ int ModApiServer::l_get_player_information(lua_State *L)
 	lua_pushnumber(L, uptime);
 	lua_settable(L, table);
 
+	lua_pushstring(L,"protocol_version");
+	lua_pushnumber(L, prot_vers);
+	lua_settable(L, table);
+	
 #ifndef NDEBUG
 	lua_pushstring(L,"serialization_version");
 	lua_pushnumber(L, ser_vers);
-	lua_settable(L, table);
-
-	lua_pushstring(L,"protocol_version");
-	lua_pushnumber(L, prot_vers);
 	lua_settable(L, table);
 
 	lua_pushstring(L,"major");
@@ -417,7 +417,7 @@ int ModApiServer::l_get_modnames(lua_State *L)
 	// Package them up for Lua
 	lua_createtable(L, modlist.size(), 0);
 	std::vector<std::string>::iterator iter = modlist.begin();
-	for (u16 i = 0; iter != modlist.end(); iter++) {
+	for (u16 i = 0; iter != modlist.end(); ++iter) {
 		lua_pushstring(L, iter->c_str());
 		lua_rawseti(L, -2, ++i);
 	}

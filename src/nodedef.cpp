@@ -733,25 +733,29 @@ void ContentFeatures::updateTextures(ITextureSource *tsrc, IShaderSource *shdsrc
 			for (u32 i = 0; i < 6; i++)
 				tdef[i].name += std::string("^[noalpha");
 		}
-		if (waving == 1)
+		if (waving >= 1)
 			material_type = TILE_MATERIAL_WAVING_LEAVES;
 		break;
 	case NDT_PLANTLIKE:
 		solidness = 0;
-		if (waving == 1)
+		if (waving >= 1)
 			material_type = TILE_MATERIAL_WAVING_PLANTS;
 		break;
 	case NDT_FIRELIKE:
 		solidness = 0;
 		break;
 	case NDT_MESH:
+	case NDT_NODEBOX:
 		solidness = 0;
+		if (waving == 1)
+			material_type = TILE_MATERIAL_WAVING_PLANTS;
+		else if (waving == 2)
+			material_type = TILE_MATERIAL_WAVING_LEAVES;
 		break;
 	case NDT_TORCHLIKE:
 	case NDT_SIGNLIKE:
 	case NDT_FENCELIKE:
 	case NDT_RAILLIKE:
-	case NDT_NODEBOX:
 		solidness = 0;
 		break;
 	}
@@ -1318,22 +1322,21 @@ void CNodeDefManager::removeNode(const std::string &name)
 
 	// Erase node content from all groups it belongs to
 	for (UNORDERED_MAP<std::string, GroupItems>::iterator iter_groups =
-			m_group_to_items.begin();
-			iter_groups != m_group_to_items.end();) {
+			m_group_to_items.begin(); iter_groups != m_group_to_items.end();) {
 		GroupItems &items = iter_groups->second;
 		for (GroupItems::iterator iter_groupitems = items.begin();
 				iter_groupitems != items.end();) {
 			if (iter_groupitems->first == id)
 				items.erase(iter_groupitems++);
 			else
-				iter_groupitems++;
+				++iter_groupitems;
 		}
 
 		// Check if group is empty
 		if (items.size() == 0)
 			m_group_to_items.erase(iter_groups++);
 		else
-			iter_groups++;
+			++iter_groups;
 	}
 }
 

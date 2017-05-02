@@ -60,7 +60,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "version.h"
 #include "minimap.h"
 #include "mapblock_mesh.h"
-#include "script/clientscripting.h"
+#include "script/scripting_client.h"
 
 #include "sound.h"
 
@@ -202,7 +202,8 @@ public:
 
 		return meta->getString("formspec");
 	}
-	std::string resolveText(std::string str)
+
+	virtual std::string resolveText(const std::string &str)
 	{
 		NodeMetadata *meta = m_map->getNodeMetadata(m_p);
 
@@ -566,27 +567,35 @@ public:
 class GameOnDemandSoundFetcher: public OnDemandSoundFetcher
 {
 	std::set<std::string> m_fetched;
+private:
+	void paths_insert(std::set<std::string> &dst_paths,
+		const std::string &base,
+		const std::string &name)
+	{
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".0.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".1.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".2.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".3.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".4.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".5.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".6.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".7.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".8.ogg");
+		dst_paths.insert(base + DIR_DELIM + "sounds" + DIR_DELIM + name + ".9.ogg");
+	}
 public:
 	void fetchSounds(const std::string &name,
-			std::set<std::string> &dst_paths,
-			std::set<std::string> &dst_datas)
+		std::set<std::string> &dst_paths,
+		std::set<std::string> &dst_datas)
 	{
 		if (m_fetched.count(name))
 			return;
 
 		m_fetched.insert(name);
-		std::string base = porting::path_share + DIR_DELIM + "sounds";
-		dst_paths.insert(base + DIR_DELIM + name + ".ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".0.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".1.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".2.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".3.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".4.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".5.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".6.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".7.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".8.ogg");
-		dst_paths.insert(base + DIR_DELIM + name + ".9.ogg");
+
+		paths_insert(dst_paths, porting::path_share, name);
+		paths_insert(dst_paths, porting::path_user,  name);
 	}
 };
 
@@ -1108,6 +1117,7 @@ struct GameRunData {
 	PointedThing pointed_old;
 	bool digging;
 	bool ldown_for_dig;
+	bool dig_instantly;
 	bool left_punch;
 	bool update_wielded_item_trigger;
 	bool reset_jump_timer;
@@ -3048,11 +3058,10 @@ inline void Game::step(f32 *dtime)
 
 void Game::processClientEvents(CameraOrientation *cam)
 {
-	ClientEvent event = client->getClientEvent();
-
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
 
-	for ( ; event.type != CE_NONE; event = client->getClientEvent()) {
+	while (client->hasClientEvents()) {
+		ClientEvent event = client->getClientEvent();
 
 		switch (event.type) {
 		case CE_PLAYER_DAMAGE:
@@ -3289,6 +3298,19 @@ void Game::processClientEvents(CameraOrientation *cam)
 					event.override_day_night_ratio.ratio_f * 1000);
 			break;
 
+		case CE_CLOUD_PARAMS:
+			if (clouds) {
+				clouds->setDensity(event.cloud_params.density);
+				clouds->setColorBright(video::SColor(event.cloud_params.color_bright));
+				clouds->setColorAmbient(video::SColor(event.cloud_params.color_ambient));
+				clouds->setHeight(event.cloud_params.height);
+				clouds->setThickness(event.cloud_params.thickness);
+				clouds->setSpeed(v2f(
+						event.cloud_params.speed_x,
+						event.cloud_params.speed_y));
+			}
+			break;
+
 		default:
 			// unknown or unhandled type
 			break;
@@ -3489,6 +3511,10 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 			client->setCrack(-1, v3s16(0, 0, 0));
 			runData.dig_time = 0.0;
 		}
+	} else if (runData.dig_instantly && getLeftReleased()) {
+		// Remove e.g. torches faster when clicking instead of holding LMB
+		runData.nodig_delay_timer = 0;
+		runData.dig_instantly = false;
 	}
 
 	if (!runData.digging && runData.ldown_for_dig && !isLeftPressed()) {
@@ -3719,6 +3745,9 @@ void Game::handlePointingAtNode(const PointedThing &pointed, const ItemDefinitio
 				// Read the sound
 				soundmaker->m_player_rightpunch_sound =
 						playeritem_def.sound_place;
+
+				if (client->moddingEnabled())
+					client->getScript()->on_placenode(pointed, playeritem_def);
 			} else {
 				soundmaker->m_player_rightpunch_sound =
 						SimpleSoundSpec();
@@ -3801,15 +3830,6 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 	ClientMap &map = client->getEnv().getClientMap();
 	MapNode n = client->getEnv().getClientMap().getNodeNoEx(nodepos);
 
-	if (!runData.digging) {
-		infostream << "Started digging" << std::endl;
-		if (client->moddingEnabled() && client->getScript()->on_punchnode(nodepos, n))
-			return;
-		client->interact(0, pointed);
-		runData.digging = true;
-		runData.ldown_for_dig = true;
-	}
-
 	// NOTE: Similar piece of code exists on the server side for
 	// cheat detection.
 	// Get digging parameters
@@ -3827,6 +3847,16 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 			params = getDigParams(nodedef_manager->get(n).groups, tp);
 	}
 
+	if (!runData.digging) {
+		infostream << "Started digging" << std::endl;
+		runData.dig_instantly = params.time == 0;
+		if (client->moddingEnabled() && client->getScript()->on_punchnode(nodepos, n))
+			return;
+		client->interact(0, pointed);
+		runData.digging = true;
+		runData.ldown_for_dig = true;
+	}
+
 	if (!params.diggable) {
 		// I guess nobody will wait for this long
 		runData.dig_time_complete = 10000000.0;
@@ -3841,12 +3871,12 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 		}
 	}
 
-	if (runData.dig_time_complete >= 0.001) {
+	if (!runData.dig_instantly) {
 		runData.dig_index = (float)crack_animation_length
 				* runData.dig_time
 				/ runData.dig_time_complete;
 	} else {
-		// This is for torches
+		// This is for e.g. torches
 		runData.dig_index = crack_animation_length;
 	}
 
@@ -3881,10 +3911,12 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 		runData.nodig_delay_timer =
 				runData.dig_time_complete / (float)crack_animation_length;
 
-		// We don't want a corresponding delay to
-		// very time consuming nodes
+		// We don't want a corresponding delay to very time consuming nodes
+		// and nodes without digging time (e.g. torches) get a fixed delay.
 		if (runData.nodig_delay_timer > 0.3)
 			runData.nodig_delay_timer = 0.3;
+		else if (runData.dig_instantly)
+			runData.nodig_delay_timer = 0.15;
 
 		bool is_valid_position;
 		MapNode wasnode = map.getNodeNoEx(nodepos, &is_valid_position);

@@ -83,7 +83,7 @@ int ModApiClient::l_get_player_names(lua_State *L)
 	int newTable = lua_gettop(L);
 	int index = 1;
 	std::list<std::string>::const_iterator iter;
-	for (iter = plist.begin(); iter != plist.end(); iter++) {
+	for (iter = plist.begin(); iter != plist.end(); ++iter) {
 		lua_pushstring(L, (*iter).c_str());
 		lua_rawseti(L, newTable, index);
 		index++;
@@ -241,6 +241,13 @@ int ModApiClient::l_get_protocol_version(lua_State *L)
 	return 1;
 }
 
+int ModApiClient::l_take_screenshot(lua_State *L)
+{
+	Client *client = getClient(L);
+	client->makeScreenshot(client->getDevice());
+	return 0;
+}
+
 void ModApiClient::Initialize(lua_State *L, int top)
 {
 	API_FCT(get_current_modname);
@@ -259,4 +266,5 @@ void ModApiClient::Initialize(lua_State *L, int top)
 	API_FCT(sound_play);
 	API_FCT(sound_stop);
 	API_FCT(get_protocol_version);
+	API_FCT(take_screenshot);
 }

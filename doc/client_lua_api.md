@@ -667,6 +667,8 @@ Call these functions only at load time!
     * Called when the local player punches a node
     * Newest functions are called first
     * If any function returns true, the punch is ignored
+* `minetest.register_on_placenode(function(pointed_thing, node))`    
+    * Called when a node has been placed
 ### Sounds
 * `minetest.sound_play(spec, parameters)`: returns a handle
     * `spec` is a `SimpleSoundSpec`
@@ -703,6 +705,8 @@ Call these functions only at load time!
 * `minetest.get_protocol_version()`
     * Returns the protocol version of the server.
     * Might not be accurate at start up as the client might not be connected to the server yet, in that case it will return 0.
+* `minetest.take_screenshot()`
+    * Take a screenshot.
 
 ### Misc.
 * `minetest.parse_json(string[, nullvalue])`: returns something

@@ -77,6 +77,7 @@ enum ClientEventType
 	CE_HUDCHANGE,
 	CE_SET_SKY,
 	CE_OVERRIDE_DAY_NIGHT_RATIO,
+	CE_CLOUD_PARAMS,
 };
 
 struct ClientEvent
@@ -178,6 +179,15 @@ struct ClientEvent
 			bool do_override;
 			float ratio_f;
 		} override_day_night_ratio;
+		struct {
+			f32 density;
+			u32 color_bright;
+			u32 color_ambient;
+			f32 height;
+			f32 thickness;
+			f32 speed_x;
+			f32 speed_y;
+		} cloud_params;
 	};
 };
 
@@ -331,6 +341,7 @@ public:
 	void handleCommand_HudSetFlags(NetworkPacket* pkt);
 	void handleCommand_HudSetParam(NetworkPacket* pkt);
 	void handleCommand_HudSetSky(NetworkPacket* pkt);
+	void handleCommand_CloudParams(NetworkPacket* pkt);
 	void handleCommand_OverrideDayNightRatio(NetworkPacket* pkt);
 	void handleCommand_LocalPlayerAnimations(NetworkPacket* pkt);
 	void handleCommand_EyeOffset(NetworkPacket* pkt);
@@ -414,7 +425,8 @@ public:
 	void updateCameraOffset(v3s16 camera_offset)
 	{ m_mesh_update_thread.m_camera_offset = camera_offset; }
 
-	// Get event from queue. CE_NONE is returned if queue is empty.
+	bool hasClientEvents() const { return !m_client_event_queue.empty(); }
+	// Get event from queue. If queue is empty, it triggers an assertion failure.
 	ClientEvent getClientEvent();
 
 	bool accessDenied() const { return m_access_denied; }
@@ -484,8 +496,6 @@ public:
 	bool loadMedia(const std::string &data, const std::string &filename);
 	// Send a request for conventional media transfer
 	void request_media(const std::vector<std::string> &file_requests);
-	// Send a notification that no conventional media transfer is needed
-	void received_media();
 
 	LocalClientState getState() { return m_state; }
 
@@ -510,6 +520,8 @@ public:
 	void showProfiler(const bool show = true);
 	void showGameFog(const bool show = true);
 	void showGameDebug(const bool show = true);
+
+	IrrlichtDevice *getDevice() const { return m_device; }
 
 private:
 
