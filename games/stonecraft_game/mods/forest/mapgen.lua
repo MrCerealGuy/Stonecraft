@@ -184,9 +184,9 @@ end
 
 -- Set mapgen parameters
 
-minetest.register_on_mapgen_init(function(mgparams)
-	minetest.set_mapgen_params({mgname="singlenode", flags = "nolight", flagmask = "nolight"})
-end)
+--minetest.register_on_mapgen_init(function(mgparams)
+--	minetest.set_mapgen_params({mgname="singlenode", flags = "nolight", flagmask = "nolight"})
+--end)
 
 ------------------------ Base map generation ------------------------
 
@@ -201,7 +201,7 @@ minetest.register_on_generated(function(minp, maxp)
 	local z0 = minp.z
 
 	print ("[forest] Generating map from "..minetest.pos_to_string(minp).." to "..minetest.pos_to_string(maxp))
-	
+--[[	
 	local c_dstone = minetest.get_content_id("default:desert_stone")
 	local c_dsand = minetest.get_content_id("default:desert_sand")
 	local c_water = minetest.get_content_id("default:water_source")
@@ -461,10 +461,11 @@ minetest.register_on_generated(function(minp, maxp)
 	vm:update_liquids()
 	vm:calc_lighting()
 	vm:write_to_map(true)
-
+--]]
 ------------------------ Ore generation ------------------------
 
 	local t1 = os.clock()
+	--[[
 	local pr = PseudoRandom(math.random(1000))
 	for num, def in pairs(ores) do
 		local noise = minetest.get_perlin(def.seed, 1, 0, def.scale)
@@ -503,9 +504,9 @@ minetest.register_on_generated(function(minp, maxp)
 					end
 				end
 			end
-		end
-		
+		end	
 	end
+--]]
 
 ------------------------ Tree generation ------------------------
 
@@ -564,6 +565,7 @@ minetest.register_on_generated(function(minp, maxp)
 	print ("[forest] Base map "..chugent1.." sec, Ores "..chugent2.." sec, Trees "..chugent3.." sec. Total "..chugent1 + chugent2 + chugent3.." sec.")
 end)
 
+--[[
 function spawn_player(player)
 	local pr = PseudoRandom(math.random(1000000))
 	local pos = {x = pr:next(-250, 250), z = pr:next(-250, 250)}
@@ -595,3 +597,4 @@ minetest.register_on_respawnplayer(function(player)
 	spawn_player(player)
 	return true
 end)
+--]]
