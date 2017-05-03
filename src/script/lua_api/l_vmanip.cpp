@@ -29,6 +29,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapgen.h"
 #include "voxelalgorithms.h"
 
+#define MAX_HEAP_ALLOC 128
+
 // garbage collector
 int LuaVoxelManip::gc_object(lua_State *L)
 {
@@ -82,6 +84,48 @@ int LuaVoxelManip::l_get_data(lua_State *L)
 	return 1;
 }
 
+void LuaVoxelManip::reserveHeap(MMVManip *vm)
+{
+	errorstream << "reserveHeap " << std::endl;
+
+	u32 volume;
+
+	if (vm != NULL)
+		volume = vm->m_area.getVolume();
+	else
+	{
+		errorstream << "LuaVoxelManip::reserveHeap() getVolume() failed!" << std::endl;
+		return;
+	}
+
+	data_heap.reserve(MAX_HEAP_ALLOC);
+
+	for (int i=0; i != MAX_HEAP_ALLOC; i++)
+	{
+		std::vector<lua_Integer> data;
+
+		data_heap.push_back(data);
+		data_heap.at(i).reserve(volume);
+	}
+
+	param2_data_heap.reserve(MAX_HEAP_ALLOC);
+
+	for (int i=0; i != MAX_HEAP_ALLOC; i++)
+	{
+		std::vector<lua_Integer> param2_data;
+
+		param2_data_heap.push_back(param2_data);
+		param2_data_heap.at(i).reserve(volume);
+	}
+
+	if (data_heap.size() != 128 || param2_data_heap.size() != 128)
+	{
+		errorstream << "LuaVoxelManip::reserveHeap() [param2_]data_heap.reserve failed!" << std::endl;
+		return;
+	}
+
+	is_heap_reserved = true;
+}
 
 int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 {
@@ -90,20 +134,29 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 	LuaVoxelManip *o = checkobject(L, 1);
 	MMVManip *vm = o->vm;
 
+	// if data heap isn't reserved yet
+	if (!is_heap_reserved)
+		reserveHeap(vm);
+
 	u32 volume = vm->m_area.getVolume();
 
-	std::vector<lua_Integer> data;
-	data.reserve(volume);
-	u32 index = -1;
+	// size reached?
+	if (data_heap_index == (u32)data_heap.size())
+	{
+		std::vector<lua_Integer> data;
 
-	for (u32 i = 0; i != volume; i++) {
-		data.push_back((lua_Integer)vm->m_data[i].getContent());
+		data_heap.push_back(data);
+		data_heap.at(data_heap_index).reserve(volume);
 	}
 
-	data_heap.push_back(data);
-	index = data_heap.size()-1;
+	// push data into heap
+	for (u32 i = 0; i != volume; i++) {
+		data_heap.at(data_heap_index).push_back((lua_Integer)vm->m_data[i].getContent());
+	}
 
-	lua_pushinteger(L, (lua_Integer)index);
+	lua_pushinteger(L, (lua_Integer)data_heap_index);
+
+	data_heap_index++;
 
 	return 1;
 }
@@ -116,7 +169,6 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 	MMVManip *vm = o->vm;
 
 	u32 index = luaL_checknumber(L, 2);
-
 
 	for (u32 i = 0; i != data_heap.at(index).size(); i++) {
 
@@ -143,9 +195,9 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (data_heap.size()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
+	if (index < 0 || (data_heap_index-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
-		errorstream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		infostream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
 		return 1;
 		//throw LuaError("LuaVoxelManip::l_get_data_from_heap failed!");
@@ -172,9 +224,9 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (data_heap.size()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
+	if (index < 0 || (data_heap_index-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
-		errorstream << "l_set_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		infostream << "l_set_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		return 0;
 		//throw LuaError("LuaVoxelManip::l_set_data_from_heap failed!");
 	}
@@ -191,20 +243,29 @@ int LuaVoxelManip::l_load_param2_data_into_heap(lua_State *L)
 	LuaVoxelManip *o = checkobject(L, 1);
 	MMVManip *vm = o->vm;
 
+	// if param2_data heap isn't reserved yet
+	if (!is_heap_reserved)
+		reserveHeap(vm);
+
 	u32 volume = vm->m_area.getVolume();
 
-	std::vector<lua_Integer> param2_data;
-	param2_data.reserve(volume);
-	u32 index = -1;
+	// size reached?
+	if (param2_data_heap_index == (u32)param2_data_heap.size())
+	{
+		std::vector<lua_Integer> param2_data;
 
-	for (u32 i = 0; i != volume; i++) {
-		param2_data.push_back((lua_Integer)vm->m_data[i].param2);
+		param2_data_heap.push_back(param2_data);
+		param2_data_heap.at(param2_data_heap_index).reserve(volume);
 	}
 
-	param2_data_heap.push_back(param2_data);
-	index = param2_data_heap.size()-1;
+	// push data into heap
+	for (u32 i = 0; i != volume; i++) {
+		param2_data_heap.at(param2_data_heap_index).push_back((lua_Integer)vm->m_data[i].param2);
+	}
 
-	lua_pushinteger(L, (lua_Integer)index);
+	lua_pushinteger(L, (lua_Integer)param2_data_heap_index);
+
+	param2_data_heap_index++;
 
 	return 1;
 }
@@ -241,9 +302,9 @@ int LuaVoxelManip::l_get_param2_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (param2_data_heap.size()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	if (index < 0 || (param2_data_heap_index-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
 	{
-		errorstream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		infostream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
 		return 1;
 		//throw LuaError("LuaVoxelManip::l_get_param2_data_from_heap failed!");
@@ -270,9 +331,9 @@ int LuaVoxelManip::l_set_param2_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (param2_data_heap.size()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	if (index < 0 || (data_heap_index-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
 	{
-		errorstream << "l_set_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		infostream << "l_set_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		return 0;
 		//throw LuaError("LuaVoxelManip::l_set_param2_data_from_heap failed!");
 	}
@@ -569,12 +630,16 @@ LuaVoxelManip::LuaVoxelManip(MMVManip *mmvm, bool is_mg_vm)
 {
 	this->vm           = mmvm;
 	this->is_mapgen_vm = is_mg_vm;
+
+	//reserveHeap();
 }
 
 LuaVoxelManip::LuaVoxelManip(Map *map)
 {
 	this->vm = new MMVManip(map);
 	this->is_mapgen_vm = false;
+
+	//reserveHeap();
 }
 
 LuaVoxelManip::LuaVoxelManip(Map *map, v3s16 p1, v3s16 p2)
@@ -586,6 +651,8 @@ LuaVoxelManip::LuaVoxelManip(Map *map, v3s16 p1, v3s16 p2)
 	v3s16 bp2 = getNodeBlockPos(p2);
 	sortBoxVerticies(bp1, bp2);
 	vm->initialEmerge(bp1, bp2);
+
+	//reserveHeap();
 }
 
 LuaVoxelManip::~LuaVoxelManip()
@@ -651,6 +718,11 @@ void LuaVoxelManip::Register(lua_State *L)
 	// Can be created from Lua (VoxelManip())
 	lua_register(L, className, create_object);
 }
+
+bool LuaVoxelManip::is_heap_reserved = false;
+
+u32 LuaVoxelManip::data_heap_index = 0;
+u32 LuaVoxelManip::param2_data_heap_index = 0;
 
 std::vector<std::vector<lua_Integer> > LuaVoxelManip::data_heap;
 std::vector<std::vector<lua_Integer> > LuaVoxelManip::param2_data_heap;

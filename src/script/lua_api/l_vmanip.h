@@ -48,8 +48,15 @@ private:
 	std::map<v3s16, MapBlock *> modified_blocks;
 	bool is_mapgen_vm;
 
+	static bool is_heap_reserved;
+
+	static u32 data_heap_index;
+	static u32 param2_data_heap_index;
+
 	static std::vector<std::vector<lua_Integer> > data_heap;
 	static std::vector<std::vector<lua_Integer> > param2_data_heap;
+
+	static void reserveHeap(MMVManip *vm);
 
 	static const char className[];
 	static const luaL_Reg methods[];
