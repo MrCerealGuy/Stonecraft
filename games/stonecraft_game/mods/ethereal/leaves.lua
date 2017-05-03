@@ -307,8 +307,10 @@ minetest.register_node("ethereal:mushroom_pore", {
 
 -- hedge block
 minetest.register_node("ethereal:bush", {
+	drawtype = "allfaces_optional",
 	description = S("Bush"),
 	tiles = {"ethereal_bush.png"},
+	paramtype = "light",
 	walkable = true,
 	groups = {snappy = 3, flammable = 2},
 	sounds = default.node_sound_leaves_defaults(),
