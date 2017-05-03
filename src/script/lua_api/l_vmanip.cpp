@@ -127,6 +127,19 @@ void LuaVoxelManip::reserveHeap(MMVManip *vm)
 	is_heap_reserved = true;
 }
 
+// MrCerealGuy: call deleteHeap in Game::shutdown()
+void LuaVoxelManip::deleteHeap(void)
+{
+	std::vector<std::vector<lua_Integer> >::iterator row;
+	std::vector<lua_Integer>::iterator col;
+
+	for (row = data_heap.begin(); row != data_heap.end(); row++)
+		row->erase(row->begin(), row->end());
+
+	for (row = param2_data_heap.begin(); row != param2_data_heap.end(); row++)
+		row->erase(row->begin(), row->end());
+}
+
 int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;

@@ -103,6 +103,8 @@ public:
 	LuaVoxelManip(Map *map);
 	~LuaVoxelManip();
 
+	static void deleteHeap(void);
+
 	// LuaVoxelManip()
 	// Creates a LuaVoxelManip and leaves it on top of stack
 	static int create_object(lua_State *L);

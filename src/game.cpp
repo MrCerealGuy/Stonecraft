@@ -61,6 +61,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "minimap.h"
 #include "mapblock_mesh.h"
 #include "script/scripting_client.h"
+#include "lua_api/l_vmanip.h"	// For LuaVoxelManip::deleteHeap()
 
 #include "sound.h"
 
@@ -1717,6 +1718,8 @@ void Game::shutdown()
 			sleep_ms(100);
 		}
 	}
+
+	LuaVoxelManip::deleteHeap();	// MrCerealGuy: delete Voxmanip heap
 }
 
 
