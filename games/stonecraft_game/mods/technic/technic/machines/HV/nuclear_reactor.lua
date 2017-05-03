@@ -141,15 +141,12 @@ shielding of legacy reactors.  If it ever ceases to be adequate
 shielding for new reactors, legacy ones should be grandfathered.
 --]]
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 local function reactor_structure_badness(pos)
 	local vm = VoxelManip()
 	local pos1 = vector.subtract(pos, 3)
 	local pos2 = vector.add(pos, 3)
 	local MinEdge, MaxEdge = vm:read_from_map(pos1, pos2)
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	local area = VoxelArea:new({MinEdge=MinEdge, MaxEdge=MaxEdge})
 
 	local c_blast_concrete = minetest.get_content_id("technic:blast_resistant_concrete")
@@ -162,7 +159,7 @@ local function reactor_structure_badness(pos)
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
 	for x = pos1.x, pos2.x do
-		local cid = data[area:index(x, y, z)]
+		local cid = vm:get_data_from_heap(data, area:index(x, y, z))
 		if x == pos1.x or x == pos2.x or
 		   y == pos1.y or y == pos2.y or
 		   z == pos1.z or z == pos2.z then

@@ -95,9 +95,6 @@ local function quarry_handle_purge(pos)
 	end
 end
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 local function quarry_run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
@@ -128,7 +125,7 @@ local function quarry_run(pos, node)
 		local vm = VoxelManip()
 		local minpos, maxpos = vm:read_from_map(startpos, endpos)
 		local area = VoxelArea:new({MinEdge=minpos, MaxEdge=maxpos})
-		local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+		--local data = vm:load_data_into_heap()
 		local c_air = minetest.get_content_id("air")
 		local owner = meta:get_string("owner")
 		local nd = meta:get_int("dug")

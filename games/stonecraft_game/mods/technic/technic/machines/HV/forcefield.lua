@@ -38,9 +38,6 @@ end)
 --  |          |
 --   \___/\___/
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 local function update_forcefield(pos, meta, active, first)
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
@@ -48,7 +45,7 @@ local function update_forcefield(pos, meta, active, first)
 	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range),
 			vector.add(pos, range))
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
 	local c_air = minetest.get_content_id("air")
 	local c_field = minetest.get_content_id("technic:forcefield")
@@ -70,11 +67,11 @@ local function update_forcefield(pos, meta, active, first)
 				z == -range or z == range
 		end
 		if relevant then
-			local cid = data[vi]
+			local cid = vm:get_data_from_heap(data, vi)
 			if active and replaceable_cids[cid] then
-				data[vi] = c_field
+				vm:set_data_from_heap(data, vi, c_field)
 			elseif not active and cid == c_field then
-				data[vi] = c_air
+				vm:set_data_from_heap(data, vi, c_air)
 			end
 		end
 		vi = vi + 1
@@ -82,7 +79,7 @@ local function update_forcefield(pos, meta, active, first)
 	end
 	end
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:update_liquids()
 	vm:write_to_map()
 	-- update_map is very slow, but if we don't call it we'll

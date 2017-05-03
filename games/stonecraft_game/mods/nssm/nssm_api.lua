@@ -73,9 +73,6 @@ function nssm:explosion_particles(pos, exp_radius)
     )
 end
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 function nssm:explosion(pos, exp_radius, fire)
     local radius = exp_radius
     -- if area protected or near map limits then no blast damage
@@ -113,7 +110,7 @@ function nssm:explosion(pos, exp_radius, fire)
     local vm = VoxelManip()
     local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	local p = {}
 	local pr = PseudoRandom(os.time())
 
@@ -125,11 +122,11 @@ function nssm:explosion(pos, exp_radius, fire)
                 local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
 
                 if (dx * dx) + (dy * dy) + (dz * dz) <= (radius * radius) + pr:next(-radius, radius)
-        		and data[vi] ~= c_air
-        		and data[vi] ~= c_ignore
-        		and data[vi] ~= c_obsidian
-        		and data[vi] ~= c_brick
-        		and data[vi] ~= c_chest then
+        		and vm:get_data_from_heap(data, vi) ~= c_air
+        		and vm:get_data_from_heap(data, vi) ~= c_ignore
+        		and vm:get_data_from_heap(data, vi) ~= c_obsidian
+        		and vm:get_data_from_heap(data, vi) ~= c_brick
+        		and vm:get_data_from_heap(data, vi) ~= c_chest then
 
                     local n = nssm:node_ok(p).name
         			local on_blast = minetest.registered_nodes[n].on_blast

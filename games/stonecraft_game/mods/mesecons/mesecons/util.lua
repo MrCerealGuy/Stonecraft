@@ -261,7 +261,7 @@ function mesecon.vm_commit()
 	for hash, tbl in pairs(vm_cache) do
 		if tbl.dirty then
 			local vm = tbl.vm
-			vm:set_data(tbl.data)
+			vm:save_data_from_heap(tbl.data)
 			vm:write_to_map()
 			vm:update_map()
 		end
@@ -277,9 +277,6 @@ end
 
 -- Gets the cache entry covering a position, populating it if necessary.
 
--- buffer for vm:get_data/vm:get_param2_data, added by MrCerealGuy
-local dbuf = {}
-local dbuf_param2 = {}
 
 local function vm_get_or_create_entry(pos)
 	local hash = hash_blockpos(pos)
@@ -288,7 +285,7 @@ local function vm_get_or_create_entry(pos)
 		local vm = minetest.get_voxel_manip(pos, pos)
 		local min_pos, max_pos = vm:get_emerged_area()
 		local va = VoxelArea:new{MinEdge = min_pos, MaxEdge = max_pos}
-		tbl = {vm = vm, va = va, data = vm:get_data(dbuf), param1 = vm:get_light_data(), param2 = vm:get_param2_data(dbuf_param2), dirty = false}	-- buffer added by MrCerealGuy
+		tbl = {vm = vm, va = va, data = vm:load_data_into_heap(), param1 = vm:get_light_data(), param2 = vm:load_param2_data_into_heap(), dirty = false}
 		vm_cache[hash] = tbl
 	end
 	return tbl
@@ -299,12 +296,14 @@ end
 function mesecon.vm_get_node(pos)
 	local tbl = vm_get_or_create_entry(pos)
 	local index = tbl.va:indexp(pos)
-	local node_value = tbl.data[index]
+	local node_value = tbl.vm:get_data_from_heap(tbl.data, index)
+
 	if node_value == core.CONTENT_IGNORE then
 		return nil
 	else
 		local node_param1 = tbl.param1[index]
-		local node_param2 = tbl.param2[index]
+		local node_param2 = tbl.vm:get_param2_data_from_heap(tbl.param2, index)
+
 		return {name = minetest.get_name_from_content_id(node_value), param1 = node_param1, param2 = node_param2}
 	end
 end
@@ -315,7 +314,7 @@ end
 function mesecon.vm_swap_node(pos, name)
 	local tbl = vm_get_or_create_entry(pos)
 	local index = tbl.va:indexp(pos)
-	tbl.data[index] = minetest.get_content_id(name)
+	tbl.vm:set_data_from_heap(tbl.data, index, minetest.get_content_id(name))
 	tbl.dirty = true
 end
 

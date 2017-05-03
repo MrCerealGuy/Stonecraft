@@ -272,10 +272,6 @@ function tnt.burn(pos, nodename)
 	end
 end
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf1 = {}
-local dbuf2 = {}
-
 local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	pos = vector.round(pos)
 	-- scan for adjacent TNT nodes first, and enlarge the explosion
@@ -284,7 +280,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	local p2 = vector.add(pos, 2)
 	local minp, maxp = vm1:read_from_map(p1, p2)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm1:get_data(dbuf1)	-- buffer added by MrCerealGuy
+	local data = vm1:load_data_into_heap()
 	local count = 0
 	local c_tnt = minetest.get_content_id("tnt:tnt")
 	local c_tnt_burning = minetest.get_content_id("tnt:tnt_burning")
@@ -295,17 +291,17 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	for y = pos.y - 2, pos.y + 2 do
 		local vi = a:index(pos.x - 2, y, z)
 		for x = pos.x - 2, pos.x + 2 do
-			local cid = data[vi]
+			local cid = vm1:get_data_from_heap(data, vi)
 			if cid == c_tnt or cid == c_tnt_boom or cid == c_tnt_burning then
 				count = count + 1
-				data[vi] = c_air
+				vm1:set_data_from_heap(data, vi, c_air)
 			end
 			vi = vi + 1
 		end
 	end
 	end
 
-	vm1:set_data(data)
+	vm1:save_data_from_heap(data)
 	vm1:write_to_map()
 
 	-- recalculate new radius
@@ -318,7 +314,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	p2 = vector.add(pos, radius)
 	minp, maxp = vm:read_from_map(p1, p2)
 	a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	data = vm:get_data(dbuf2)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
 	local drops = {}
 	local on_blast_queue = {}
@@ -332,12 +328,12 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	for x = -radius, radius do
 		local r = vector.length(vector.new(x, y, z))
 		if (radius * radius) / (r * r) >= (pr:next(80, 125) / 100) then
-			local cid = data[vi]
+			local cid = vm:get_data_from_heap(data, vi)
 			local p = {x = pos.x + x, y = pos.y + y, z = pos.z + z}
 			if cid ~= c_air then
-				data[vi] = destroy(drops, p, cid, c_air, c_fire,
+				vm:set_data_from_heap(data, vi, destroy(drops, p, cid, c_air, c_fire,
 					on_blast_queue, on_construct_queue,
-					ignore_protection, ignore_on_blast)
+					ignore_protection, ignore_on_blast))
 			end
 		end
 		vi = vi + 1
@@ -345,7 +341,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast)
 	end
 	end
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:write_to_map()
 	vm:update_map()
 	vm:update_liquids()

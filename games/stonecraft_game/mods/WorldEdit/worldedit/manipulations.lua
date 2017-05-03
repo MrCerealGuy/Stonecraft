@@ -43,14 +43,11 @@ end
 -- When `inverse` is `true`, replaces all instances that are NOT `search_node`.
 -- @return The number of nodes replaced.
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
 	local manip, area = mh.init(pos1, pos2)
-	local data = manip:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = manip:load_data_into_heap()
 
 	local search_id = minetest.get_content_id(search_node)
 	local replace_id = minetest.get_content_id(replace_node)
@@ -62,15 +59,15 @@ function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	-- to matter?
 	if not inverse then
 		for i in area:iterp(pos1, pos2) do
-			if data[i] == search_id then
-				data[i] = replace_id
+			if manip:get_data_from_heap(data, i) == search_id then
+				manip:set_data_from_heap(data, i, replace_id)
 				count = count + 1
 			end
 		end
 	else
 		for i in area:iterp(pos1, pos2) do
-			if data[i] ~= search_id then
-				data[i] = replace_id
+			if manip:get_data_from_heap(data, i) ~= search_id then
+				manip:set_data_from_heap(data, i, replace_id)
 				count = count + 1
 			end
 		end

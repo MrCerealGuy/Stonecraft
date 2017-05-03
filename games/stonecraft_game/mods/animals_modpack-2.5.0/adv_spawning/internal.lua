@@ -1018,9 +1018,6 @@ end
 -- @return true/false
 --------------------------------------------------------------------------------
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 function adv_spawning.check_light_around_voxel(pos,light_around)
 	if light_around == nil then
 		return true
@@ -1048,9 +1045,8 @@ function adv_spawning.check_light_around_voxel(pos,light_around)
 	local got_minp,got_maxp = voxeldata:read_from_map(minp,maxp)
 
 	local voxel_light_data = voxeldata:get_light_data()
-	local node_data = voxeldata:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local node_data = voxeldata:load_data_into_heap()
 	local voxelhelper = VoxelArea:new({MinEdge=got_minp,MaxEdge=got_maxp})
-
 
 	for i=1,#light_around,1 do
 
@@ -1069,7 +1065,7 @@ function adv_spawning.check_light_around_voxel(pos,light_around)
 
 				for j=0,24000,1000 do
 					local light_level =
-						adv_spawning.voxelmaniplight(node_data,
+						adv_spawning.voxelmaniplight(voxeldata, node_data,
 														voxel_light_data,
 														voxelhelper,
 														checkpos,j)
@@ -1089,7 +1085,7 @@ function adv_spawning.check_light_around_voxel(pos,light_around)
 
 			else
 				local light_level =
-						adv_spawning.voxelmaniplight(node_data,
+						adv_spawning.voxelmaniplight(voxeldata, node_data,
 														voxel_light_data,
 														voxelhelper,
 														checkpos,time)
@@ -1155,7 +1151,7 @@ function adv_spawning.day_night_ratio(time)
 	return dnr
 end
 
-function adv_spawning.voxelmaniplight(node_data,light_data,area,pos,time)
+function adv_spawning.voxelmaniplight(voxeldata,node_data,light_data,area,pos,time)
 
 	if not area:containsp(pos) then
 		return minetest.get_node_light(pos, time)
@@ -1174,7 +1170,7 @@ function adv_spawning.voxelmaniplight(node_data,light_data,area,pos,time)
 	local light_night = nil
 
 	--read node information
-	local content_id = node_data[index]
+	local content_id = voxeldata:get_data_from_heap(node_data, index)
 	local nodename = minetest.get_name_from_content_id(content_id)
 	local nodedef = minetest.registered_nodes[nodename]
 

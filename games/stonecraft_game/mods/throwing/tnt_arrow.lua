@@ -179,9 +179,6 @@ local function add_effects(pos, radius)
 	})
 end
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 local function explode(pos, radius)
 	local pos = vector.round(pos)
 	local vm = VoxelManip()
@@ -190,7 +187,7 @@ local function explode(pos, radius)
 	local p2 = vector.add(pos, radius)
 	local minp, maxp = vm:read_from_map(p1, p2)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 
 	local drops = {}
 	local p = {}
@@ -209,7 +206,7 @@ local function explode(pos, radius)
 	for x = -radius, radius do
 		if (x * x) + (y * y) + (z * z) <=
 				(radius * radius) + pr:next(-radius, radius) then
-			local cid = data[vi]
+			local cid = vm:get_data_from_heap(data, vi)
 			p.x = pos.x + x
 			p.y = pos.y + y
 			p.z = pos.z + z

@@ -2514,9 +2514,6 @@ local c_obsidian = minetest.get_content_id("default:obsidian")
 local c_brick = minetest.get_content_id("default:obsidianbrick")
 local c_chest = minetest.get_content_id("default:chest_locked")
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 -- explosion (cannot break protected or unbreakable nodes)
 function nssm:explosion(pos, radius, fire, smoke, sound)
 
@@ -2546,7 +2543,7 @@ function nssm:explosion(pos, radius, fire, smoke, sound)
 	local vm = VoxelManip()
 	local minp, maxp = vm:read_from_map(vector.subtract(pos, radius), vector.add(pos, radius))
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	local p = {}
 	local pr = PseudoRandom(os.time())
 
@@ -2560,11 +2557,11 @@ function nssm:explosion(pos, radius, fire, smoke, sound)
 		p.z = pos.z + z
 
 		if (x * x) + (y * y) + (z * z) <= (radius * radius) + pr:next(-radius, radius)
-		and data[vi] ~= c_air
-		and data[vi] ~= c_ignore
-		and data[vi] ~= c_obsidian
-		and data[vi] ~= c_brick
-		and data[vi] ~= c_chest then
+		and vm:get_data_from_heap(data, vi) ~= c_air
+		and vm:get_data_from_heap(data, vi) ~= c_ignore
+		and vm:get_data_from_heap(data, vi) ~= c_obsidian
+		and vm:get_data_from_heap(data, vi) ~= c_brick
+		and vm:get_data_from_heap(data, vi) ~= c_chest then
 
 			local n = node_ok(p).name
 			local on_blast = minetest.registered_nodes[n].on_blast

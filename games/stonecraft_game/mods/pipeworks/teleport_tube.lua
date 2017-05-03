@@ -73,15 +73,12 @@ local function remove_tube(pos)
 	save_tube_db()
 end
 
--- buffer for vm:get_data, added by MrCerealGuy
-local dbuf = {}
-
 local function read_node_with_vm(pos)
 	local vm = VoxelManip()
 	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
-	local data = vm:get_data(dbuf)	-- buffer added by MrCerealGuy
+	local data = vm:load_data_into_heap()
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	return minetest.get_name_from_content_id(data[area:index(pos.x, pos.y, pos.z)])
+	return minetest.get_name_from_content_id(vm:get_data_from_heap(data, area:index(pos.x, pos.y, pos.z)))
 end
 
 local function get_receivers(pos, channel)
