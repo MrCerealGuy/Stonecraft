@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "voxelalgorithms.h"
 
 #define MAX_HEAP_ALLOC 128
+#define HEAP_FREE_FLAG -1
 
 // garbage collector
 int LuaVoxelManip::gc_object(lua_State *L)
@@ -118,7 +119,7 @@ void LuaVoxelManip::reserveHeap(MMVManip *vm)
 		param2_data_heap.at(i).reserve(volume);
 	}
 
-	if (data_heap.size() != 128 || param2_data_heap.size() != 128)
+	if (data_heap.size() != MAX_HEAP_ALLOC || param2_data_heap.size() != MAX_HEAP_ALLOC)
 	{
 		errorstream << "LuaVoxelManip::reserveHeap() [param2_]data_heap.reserve failed!" << std::endl;
 		return;
@@ -153,14 +154,51 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 
 	u32 volume = vm->m_area.getVolume();
 
-	// size reached?
-	if (data_heap_index == (u32)data_heap.size())
+	// search for not used vector with allocated memory
+	for (u32 i = 0; i != (u32)data_heap.size() /*&& !bFound*/; i++)
 	{
-		std::vector<lua_Integer> data;
+		if ((u32)data_heap.at(i).size() == volume && data_heap.at(i).at(0) == HEAP_FREE_FLAG && data_heap.at(i).at(data_heap.at(i).size()-1) == HEAP_FREE_FLAG)
+		{
+			// found not used vector
+			data_heap_index = i;
 
-		data_heap.push_back(data);
-		data_heap.at(data_heap_index).reserve(volume);
+			infostream << "found free heap vector at index: " << i << std::endl;
+
+			// push data into heap
+			for (u32 j = 0; j != volume; j++) {
+				data_heap.at(data_heap_index).at(j) = (lua_Integer)vm->m_data[j].getContent();
+			}
+
+			lua_pushinteger(L, (lua_Integer)data_heap_index);
+
+			return 1;
+		}
 	}
+
+	// search for reserved empty vector
+	for (u32 i = 0; i != (u32)data_heap.size(); i++)
+	{
+		// found reserved empty vector
+		if ((u32)data_heap.at(i).size() == 0 && (u32)data_heap.at(i).capacity() == volume)
+		{
+			// push data into heap
+			for (u32 j = 0; j != volume; j++) {
+				data_heap.at(i).push_back((lua_Integer)vm->m_data[j].getContent());
+			}
+
+			lua_pushinteger(L, (lua_Integer)data_heap_index);
+
+			return 1;
+		}
+	}
+
+	// heap vector is full, add vector
+	std::vector<lua_Integer> data;
+
+	data_heap.push_back(data);
+	data_heap_index = data_heap.size()-1;
+
+	data_heap.at(data_heap_index).reserve(volume);
 
 	// push data into heap
 	for (u32 i = 0; i != volume; i++) {
@@ -168,8 +206,6 @@ int LuaVoxelManip::l_load_data_into_heap(lua_State *L)
 	}
 
 	lua_pushinteger(L, (lua_Integer)data_heap_index);
-
-	data_heap_index++;
 
 	return 1;
 }
@@ -190,17 +226,16 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 		vm->m_data[i].setContent(c);
 	}
 
+	// mark heap vector as free
+	data_heap.at(index).at(0) = HEAP_FREE_FLAG;
+	data_heap.at(index).at(data_heap.at(index).size()-1) = HEAP_FREE_FLAG;
+
 	return 0;
 }
 
 int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
-
-	LuaVoxelManip *o = checkobject(L, 1);
-	MMVManip *vm = o->vm;
-
-	u32 volume = vm->m_area.getVolume();
 
 	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
@@ -210,7 +245,7 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 
 	if (index < 0 || (data_heap_index-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
-		infostream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		//infostream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
 		return 1;
 		//throw LuaError("LuaVoxelManip::l_get_data_from_heap failed!");
@@ -262,14 +297,50 @@ int LuaVoxelManip::l_load_param2_data_into_heap(lua_State *L)
 
 	u32 volume = vm->m_area.getVolume();
 
-	// size reached?
-	if (param2_data_heap_index == (u32)param2_data_heap.size())
+	// search for not used vector with allocated memory
+	for (u32 i = 0; i != (u32)param2_data_heap.size() ; i++)
 	{
-		std::vector<lua_Integer> param2_data;
+		if ((u32)param2_data_heap.at(i).size() == volume && param2_data_heap.at(i).at(0) == HEAP_FREE_FLAG && param2_data_heap.at(i).at(param2_data_heap.at(i).size()-1) == HEAP_FREE_FLAG)
+		{
+			// found not used vector
+			param2_data_heap_index = i;
 
-		param2_data_heap.push_back(param2_data);
-		param2_data_heap.at(param2_data_heap_index).reserve(volume);
+			// push data into heap
+			for (u32 j = 0; j != volume; j++) {
+				param2_data_heap.at(param2_data_heap_index).at(j) = (lua_Integer)vm->m_data[j].param2;
+			}
+
+			lua_pushinteger(L, (lua_Integer)param2_data_heap_index);
+
+			return 1;
+		}
 	}
+
+	// search for reserved empty vector
+	for (u32 i = 0; i != (u32)param2_data_heap.size(); i++)
+	{
+		// found reserved empty vector
+		if ((u32)param2_data_heap.at(i).size() == 0 && (u32)param2_data_heap.at(i).capacity() == volume)
+		{
+
+			// push data into heap
+			for (u32 j = 0; j != volume; j++) {
+				param2_data_heap.at(i).push_back((lua_Integer)vm->m_data[j].param2);
+			}
+
+			lua_pushinteger(L, (lua_Integer)param2_data_heap_index);
+
+			return 1;
+		}
+	}
+
+	// heap vector is full, add vector
+	std::vector<lua_Integer> param2_data;
+
+	param2_data_heap.push_back(param2_data);
+	param2_data_heap_index = param2_data_heap.size()-1;
+
+	param2_data_heap.at(param2_data_heap_index).reserve(volume);
 
 	// push data into heap
 	for (u32 i = 0; i != volume; i++) {
@@ -277,8 +348,6 @@ int LuaVoxelManip::l_load_param2_data_into_heap(lua_State *L)
 	}
 
 	lua_pushinteger(L, (lua_Integer)param2_data_heap_index);
-
-	param2_data_heap_index++;
 
 	return 1;
 }
@@ -297,6 +366,10 @@ int LuaVoxelManip::l_save_param2_data_from_heap(lua_State *L)
 		vm->m_data[i].param2 = param2;
 	}
 
+	// mark heap vector as free
+	param2_data_heap.at(index).at(0) = HEAP_FREE_FLAG;
+	param2_data_heap.at(index).at(param2_data_heap.at(index).size()-1) = HEAP_FREE_FLAG;
+
 	return 0;
 }
 
@@ -304,10 +377,10 @@ int LuaVoxelManip::l_get_param2_data_from_heap(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 
-	LuaVoxelManip *o = checkobject(L, 1);
-	MMVManip *vm = o->vm;
+	//LuaVoxelManip *o = checkobject(L, 1);
+	//MMVManip *vm = o->vm;
 
-	u32 volume = vm->m_area.getVolume();
+	//u32 volume = vm->m_area.getVolume();
 
 	u32 index = luaL_checknumber(L, 2);
 	u32 key = luaL_checknumber(L, 3);
@@ -317,7 +390,7 @@ int LuaVoxelManip::l_get_param2_data_from_heap(lua_State *L)
 
 	if (index < 0 || (param2_data_heap_index-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
 	{
-		infostream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
+		//infostream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
 		return 1;
 		//throw LuaError("LuaVoxelManip::l_get_param2_data_from_heap failed!");
