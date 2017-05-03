@@ -333,7 +333,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						elseif biome == 4 then
 							vm:set_data_from_heap(data, vi, c_thinice)
 							local bi = area:index(x,y-1,z)
-							vm:gset_data_from_heap(data, bi, c_thinice)
+							vm:set_data_from_heap(data, bi, c_thinice)
 							if math.random() < ICICHA then --if glaciated, place icicles
 								vm:set_data_from_heap(data, ai, c_iciu)
 							end
