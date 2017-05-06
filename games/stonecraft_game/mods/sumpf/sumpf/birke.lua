@@ -125,7 +125,7 @@ local function tree_branch(manip, pos, dir, area, nodes, pr, param2s)
 	for i = pr:next(1,2), -pr:next(1,2), -1 do
 		for k = pr:next(1,2), -pr:next(1,2), -1 do
 			local p_p = area:index(pos.x+i, pos.y, pos.z+k)
-			if soft_node(nmanip:get_data_from_heap(nodes, p_p)) then
+			if soft_node(manip:get_data_from_heap(nodes, p_p)) then
 				manip:set_data_from_heap(nodes, p_p, sumpf_c_leaves)
 			end
 			local chance = math.abs(i+k)

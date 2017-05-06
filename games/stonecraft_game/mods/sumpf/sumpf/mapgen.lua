@@ -186,7 +186,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
 		if vm:get_data_from_heap(data, p_pos) ~= c.air
-		and c.TREE_STUFF[data[p_pos]] then
+		and c.TREE_STUFF[vm:get_data_from_heap(data, p_pos)] then
 			vm:set_data_from_heap(data, p_pos, c.air)
 		end
 	end
