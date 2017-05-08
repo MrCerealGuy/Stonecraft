@@ -387,7 +387,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							local bi = area:index(x,y-1,z)
 							if math.random() < 0.05 then
 								vm:set_data_from_heap(data, vi, c_coalblock)
-								vm:set_data_from_heap(data, i, c_coalblock)
+								vm:set_data_from_heap(data, bi, c_coalblock)
 							elseif math.random() < 0.15 then
 								vm:set_data_from_heap(data, vi, c_coaldust)
 								vm:set_data_from_heap(data, bi, c_coaldust)
