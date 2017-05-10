@@ -143,72 +143,72 @@ msgid "World options: (some options can cause lag issues.)"
 msgstr "Welteinstellungen: (einige Optionen können Performance-Einbrüche verursachen.)"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable erosion"
-msgstr "Erosion aktivieren"
+msgid "Erosion and sloped blocks"
+msgstr "Erosion und schräge Blöcke"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable more forests/red trees"
-msgstr "Mehr Wälder/rote Bäume aktivieren"
+msgid "More forests and red trees"
+msgstr "Mehr Wälder und rote Bäume"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable villages"
-msgstr "Dörfer aktivieren"
+msgid "Villages and buildings"
+msgstr "Dörfer und Gebäude"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable Ethereal biomes"
-msgstr "Ethereal Biome aktivieren"
+msgid "Ethereal biomes"
+msgstr "Ethereal Biome"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable cave realms"
-msgstr "Höhlenbiom aktivieren"
+msgid "Cave realms"
+msgstr "Höhlenbiome"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable creatures"
-msgstr "Kreaturen aktivieren"
+msgid "Simple Mobs"
+msgstr "Einfache Mobs"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable home decor/technic"
-msgstr "Heimdekorationen/Technik aktivieren"
+msgid "Home decorations and technic"
+msgstr "Heimdekorationen und Technik"
 
 #: builtin/mainmenu/dlg_create_world.lua
 #msgid "Enable mesecons/pipes/technic"
 #msgstr "Mesecons/Rohre/Technik aktivieren"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable not so simple mobs"
-msgstr "Gefährliche Mobs aktivieren"
+msgid "Not So Simple Mobs"
+msgstr "Nicht so einfache Mobs"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable pyramids/spawners"
-msgstr "Pyramiden/Spawner aktivieren"
+msgid "Pyramids"
+msgstr "Pyramiden"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable giant mushrooms"
-msgstr "Riesenpilze aktivieren"
+msgid "Giant mushrooms"
+msgstr "Riesenpilze"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable sea plants"
-msgstr "Meerespflanzen aktivieren"
+msgid "Sea plants"
+msgstr "Meerespflanzen"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable swamps"
-msgstr "Sümpfe aktivieren"
+msgid "Swamps biome"
+msgstr "Sumpfbiom"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable snow biomes"
-msgstr "Schneebiome aktivieren"
+msgid "Snow biome"
+msgstr "Schneebiom"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable wood soils/vines"
-msgstr "Waldboden/Wein aktivieren"
+msgid "Wood soils and vines"
+msgstr "Waldböden und Weine"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable surprise blocks"
-msgstr "Überraschungsblöcke aktivieren"
+msgid "Surprise blocks"
+msgstr "Überraschungsblöcke"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Enable mines"
-msgstr "Minen aktivieren"
+msgid "Mines"
+msgstr "Minen"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"

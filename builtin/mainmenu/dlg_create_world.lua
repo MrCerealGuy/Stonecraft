@@ -66,7 +66,7 @@ local function create_world_formspec(dialogdata)
 	local retval = ""
 	
 	if game.id == "stonecraft" then
-		retval = retval .. "size[11.5,9.0,true]"
+		retval = retval .. "size[11.5,11.0,true]"
 	else
 		retval = retval .. "size[11.5,4.5,true]"
 	end
@@ -86,30 +86,39 @@ local function create_world_formspec(dialogdata)
 		";" .. gameidx .. ";true]"
 		
 		if game.id == "stonecraft" then
-			retval = retval .. "label[0.25,3.00;" .. fgettext("World options: (some options can cause lag issues.)") .. "]"..
+			retval = retval .. --"label[0.25,3.00;" .. fgettext("World options: (some options can cause lag issues.)") .. "]"..
 							
-							"checkbox[0.25,3.50;cb_enable_creatures;" .. fgettext("Enable creatures") .. ";false]" ..
-							"checkbox[6.05,3.50;cb_enable_villages;" .. fgettext("Enable villages") .. ";false]" ..
-							"checkbox[0.25,4.00;cb_enable_forests;" .. fgettext("Enable more forests/red trees") .. ";false]" ..
-							"checkbox[6.05,4.00;cb_enable_woodsoils;" .. fgettext("Enable wood soils/vines") .. ";false]" ..
-							"checkbox[0.25,4.50;cb_enable_biomes;" .. fgettext("Enable Ethereal biomes") .. ";false]" ..
-							"checkbox[6.05,4.50;cb_enable_snow;" .. fgettext("Enable snow biomes") .. ";false]" ..
-							"checkbox[0.25,5.00;cb_enable_seaplants;" .. fgettext("Enable sea plants") .. ";false]" ..
-							"checkbox[6.05,5.00;cb_enable_swamps;" .. fgettext("Enable swamps") .. ";false]" ..
-							"checkbox[0.25,5.50;cb_enable_caverealms;" .. fgettext("Enable cave realms") .. ";false]" ..							
-							"checkbox[6.05,5.50;cb_enable_mines;" .. fgettext("Enable mines") .. ";false]" ..
-							"checkbox[0.25,6.00;cb_enable_surprise;" .. fgettext("Enable surprise blocks") .. ";false]" ..
-							"checkbox[6.05,6.00;cb_enable_homedecor;" .. fgettext("Enable home decor/technic") .. ";false]" ..
+							"label[0.25,3.50;" .. fgettext("Mobs and animals") .. "]"..
+							"checkbox[0.25,3.80;cb_enable_creatures;" .. fgettext("Simple Mobs") .. ";false]" ..
+							"checkbox[0.25,4.30;cb_enable_nssm;" .. fgettext("Not So Simple Mobs") .. ";false]" ..
+
+							"label[0.25,5.30;" .. fgettext("Biomes") .. "]"..
+							"checkbox[0.25,5.60;cb_enable_biomes;" .. fgettext("Ethereal biomes") .. ";false]" ..
+							"checkbox[0.25,6.10;cb_enable_swamps;" .. fgettext("Swamps biome") .. ";false]" ..
+							"checkbox[0.25,6.60;cb_enable_snow;" .. fgettext("Snow biome") .. ";false]" ..
+							"checkbox[0.25,7.10;cb_enable_caverealms;" .. fgettext("Cave realms") .. ";false]" ..
+
+							"label[0.25,8.10;" .. fgettext("Stuff") .. "]"..
+							"checkbox[0.25,8.40;cb_enable_surprise;" .. fgettext("Surprise blocks") .. ";false]" ..
+							"checkbox[0.25,8.90;cb_enable_homedecor;" .. fgettext("Home decorations and technic") .. ";false]" ..
 							--"checkbox[0.25,6.50;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
-							"checkbox[6.05,6.50;cb_enable_nssm;" .. fgettext("Enable not so simple mobs") .. ";false]" ..
-							"checkbox[0.25,6.50;cb_enable_pyramids;" .. fgettext("Enable pyramids/spawners") .. ";false]" ..
-							"checkbox[6.05,7.00;cb_enable_giantmushrooms;" .. fgettext("Enable giant mushrooms") .. ";false]" ..
-							"checkbox[0.25,7.00;cb_enable_erosion;" .. fgettext("Enable erosion") .. ";false]"
+
+							"label[6.05,3.50;" .. fgettext("Nature") .. "]"..
+							"checkbox[6.05,3.80;cb_enable_forests;" .. fgettext("More forests and red trees") .. ";false]" ..
+							"checkbox[6.05,4.30;cb_enable_seaplants;" .. fgettext("Sea plants") .. ";false]" ..
+							"checkbox[6.05,4.80;cb_enable_woodsoils;" .. fgettext("Wood soils and vines") .. ";false]" ..
+							"checkbox[6.05,5.30;cb_enable_giantmushrooms;" .. fgettext("Giant mushrooms") .. ";false]" ..
+							"checkbox[6.05,5.80;cb_enable_erosion;" .. fgettext("Erosion and sloped blocks") .. ";false]" ..
+
+							"label[6.05,6.80;" .. fgettext("Structures") .. "]"..
+							"checkbox[6.05,7.10;cb_enable_villages;" .. fgettext("Villages and buildings") .. ";false]" ..
+							"checkbox[6.05,7.60;cb_enable_mines;" .. fgettext("Mines") .. ";false]" ..
+							"checkbox[6.05,8.10;cb_enable_pyramids;" .. fgettext("Pyramids") .. ";false]"
 		end
 		
 		if game.id == "stonecraft" then
-			retval = retval .. "button[3.25,8.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
-				"button[5.75,8.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+			retval = retval .. "button[3.25,10.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
+				"button[5.75,10.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
 		else
 			retval = retval .. "button[3.25,4;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
 				"button[5.75,4;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
