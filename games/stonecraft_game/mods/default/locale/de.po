@@ -1,0 +1,450 @@
+# German translation for default mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-10 16:45+0200\n"
+"PO-Revision-Date: 2017-05-10 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: nodes.lua
+msgid "Stone"
+msgstr ""
+
+#: nodes.lua
+msgid "Cobblestone"
+msgstr ""
+
+#: nodes.lua
+msgid "Stone Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Stone Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Mossy Cobblestone"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Stone"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Cobblestone"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Stone Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Stone Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Sandstone"
+msgstr ""
+
+#: nodes.lua
+msgid "Sandstone Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Sandstone Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Sandstone"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Sandstone Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Sandstone Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Silver Sandstone"
+msgstr ""
+
+#: nodes.lua
+msgid "Silver Sandstone Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Silver Sandstone Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Obsidian"
+msgstr ""
+
+#: nodes.lua
+msgid "Obsidian Brick"
+msgstr ""
+
+#: nodes.lua
+msgid "Obsidian Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt with Grass"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt with Grass and Footsteps"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt with Dry Grass"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt with Snow"
+msgstr ""
+
+#: nodes.lua
+msgid "Dirt with Rainforest Litter"
+msgstr ""
+
+#: nodes.lua
+msgid "Sand"
+msgstr ""
+
+#: nodes.lua
+msgid "Desert Sand"
+msgstr ""
+
+#: nodes.lua
+msgid "Silver Sand"
+msgstr ""
+
+#: nodes.lua
+msgid "Gravel"
+msgstr ""
+
+#: nodes.lua
+msgid "Clay"
+msgstr ""
+
+#: nodes.lua
+msgid "Snow"
+msgstr ""
+
+#: nodes.lua
+msgid "Snow Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Ice"
+msgstr ""
+
+#: nodes.lua
+msgid "Tree"
+msgstr ""
+
+#: nodes.lua
+msgid "Wooden Planks"
+msgstr ""
+
+#: nodes.lua
+msgid "Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Apple"
+msgstr ""
+
+#: nodes.lua
+msgid "Jungle Tree"
+msgstr ""
+
+#: nodes.lua
+msgid "Junglewood Planks"
+msgstr ""
+
+#: nodes.lua
+msgid "Jungle Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Jungle Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Pine Tree"
+msgstr ""
+
+#: nodes.lua
+msgid "Pine Wood Planks"
+msgstr ""
+
+#: nodes.lua
+msgid "Pine Needles"
+msgstr ""
+
+#: nodes.lua
+msgid "Pine Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Tree"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Wood Planks"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Tree Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Aspen Tree"
+msgstr ""
+
+#: nodes.lua
+msgid "Aspen Wood Planks"
+msgstr ""
+
+#: nodes.lua
+msgid "Aspen Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Aspen Tree Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Coal Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Coal Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Iron Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Steel Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Copper Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Copper Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Tin Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Tin Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Bronze Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Mese Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Mese Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Gold Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Gold Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Diamond Ore"
+msgstr ""
+
+#: nodes.lua
+msgid "Diamond Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Cactus"
+msgstr ""
+
+#: nodes.lua
+msgid "Papyrus"
+msgstr ""
+
+#: nodes.lua
+msgid "Dry Shrub"
+msgstr ""
+
+#: nodes.lua
+msgid "Jungle Grass"
+msgstr ""
+
+#: nodes.lua
+msgid "Grass"
+msgstr ""
+
+#: nodes.lua
+msgid "Dry Grass"
+msgstr ""
+
+#: nodes.lua
+msgid "Bush Stem"
+msgstr ""
+
+#: nodes.lua
+msgid "Bush Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Bush Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Bush Stem"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Bush Leaves"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Bush Sapling"
+msgstr ""
+
+#: nodes.lua
+msgid "Brown Coral"
+msgstr ""
+
+#: nodes.lua
+msgid "Orange Coral"
+msgstr ""
+
+#: nodes.lua
+msgid "Coral Skeleton"
+msgstr ""
+
+#: nodes.lua
+msgid "Water Source"
+msgstr ""
+
+#: nodes.lua
+msgid "Flowing Water"
+msgstr ""
+
+#: nodes.lua
+msgid "River Water Source"
+msgstr ""
+
+#: nodes.lua
+msgid "Flowing River Water"
+msgstr ""
+
+#: nodes.lua
+msgid "Lava Source"
+msgstr ""
+
+#: nodes.lua
+msgid "Flowing Lava"
+msgstr ""
+
+#: nodes.lua
+msgid "Chest"
+msgstr ""
+
+#: nodes.lua
+msgid "Locked Chest"
+msgstr ""
+
+#: nodes.lua
+msgid "Bookshelf"
+msgstr ""
+
+#: nodes.lua
+msgid "Wooden Ladder"
+msgstr ""
+
+#: nodes.lua
+msgid "Steel Ladder"
+msgstr ""
+
+#: nodes.lua
+msgid "Wooden Fence"
+msgstr ""
+
+#: nodes.lua
+msgid "Acacia Fence"
+msgstr ""
+
+#: nodes.lua
+msgid "Junglewood Fence"
+msgstr ""
+
+#: nodes.lua
+msgid "Pine Fence"
+msgstr ""
+
+#: nodes.lua
+msgid "Aspen Fence"
+msgstr ""
+
+#: nodes.lua
+msgid "Glass"
+msgstr ""
+
+#: nodes.lua
+msgid "Obsidian Glass"
+msgstr ""
+
+#: nodes.lua
+msgid "Brick Block"
+msgstr ""
+
+#: nodes.lua
+msgid "Mese Lamp"
+msgstr ""
+
+#: nodes.lua
+msgid "Mese Post Light"
+msgstr ""
+
+#: nodes.lua
+msgid "Cloud"
+msgstr ""
