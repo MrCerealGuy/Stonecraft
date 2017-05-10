@@ -211,6 +211,26 @@ msgid "Mines"
 msgstr "Minen"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Mobs and animals"
+msgstr "Mobs und Tiere"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Biomes"
+msgstr "Biome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Stuff"
+msgstr "Verschiedenes"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Nature"
+msgstr "Natur"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Structures"
+msgstr "Bauwerke"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/stonecraft heruntergeladen "
