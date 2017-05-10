@@ -1,3 +1,14 @@
+--[[
+
+2017-05-10 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 ARMOR_INIT_DELAY = 1
 ARMOR_INIT_TIMES = 1
 ARMOR_BONES_DELAY = 1
@@ -625,7 +636,7 @@ end)
 -- kill player when command issued
 minetest.register_chatcommand("kill", {
 	params = "<name>",
-	description = "Kills player instantly",
+	description = S("Kills player instantly"),
 	privs = {ban=true},
 	func = function(name, param)
 		local player = minetest.get_player_by_name(param)
@@ -636,7 +647,7 @@ minetest.register_chatcommand("kill", {
 })
 
 minetest.register_chatcommand("killme", {
-	description = "Kill yourself instantly",
+	description = S("Kill yourself instantly"),
 	func = function(name)
 		local player = minetest.get_player_by_name(name)
 		if player then
