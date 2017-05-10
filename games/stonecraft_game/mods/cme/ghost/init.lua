@@ -24,6 +24,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-10 added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -38,6 +40,9 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local def = {
   -- general
@@ -108,12 +113,12 @@ local def = {
     height_limit = {min = 0, max = 80},
 
     spawn_egg = {
-      description = "Ghost Spawn-Egg",
+      description = S("Ghost Spawn-Egg"),
       texture = "creatures_egg_ghost.png",
     },
 
     spawner = {
-      description = "Ghost Spawner",
+      description = S("Ghost Spawner"),
       range = 8,
       number = 6,
       light = {min = 0, max = 8},

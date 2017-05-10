@@ -24,6 +24,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-10 added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -38,8 +40,12 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 core.register_craftitem(":creatures:rotten_flesh", {
-	description = "Rotten Flesh",
+	description = S("Rotten Flesh"),
 	inventory_image = "creatures_rotten_flesh.png",
 	on_use = core.item_eat(1),
 })
@@ -112,12 +118,12 @@ local def = {
     height_limit = {min = -200, max = 50},
 
     spawn_egg = {
-      description = "Zombie Spawn-Egg",
+      description = S("Zombie Spawn-Egg"),
       texture = "creatures_egg_zombie.png",
     },
 
     spawner = {
-      description = "Zombie Spawner",
+      description = S("Zombie Spawner"),
       range = 8,
       number = 6,
       light = {min = 0, max = 8},
