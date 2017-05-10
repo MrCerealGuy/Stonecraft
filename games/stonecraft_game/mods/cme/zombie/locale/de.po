@@ -22,9 +22,9 @@ msgid "Rotten Flesh"
 msgstr "Verfaultes Fleisch"
 
 #: init.lua
-msgid "Zombie Spawn-Ei"
-msgstr ""
+msgid "Zombie Spawn-Egg"
+msgstr "Zombie Spawn-Ei"
 
 #: init.lua
 msgid "Zombie Spawner"
-msgstr ""
+msgstr "Zombie Spawner"
