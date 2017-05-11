@@ -20,36 +20,36 @@ end
 lrfurn = {}
 screwdriver = screwdriver or {}
 
-lrfurn.fdir_to_fwd = {
-	{  0,  1 },
+lrfurn.fdir_to_right = {
 	{  1,  0 },
 	{  0, -1 },
 	{ -1,  0 },
+	{  0,  1 },
 }
 
-lrfurn.colors = { -- mod changed to use colorize feature of minetest engine (cg72)
-	{ "black",       "#000000:230" }, 
-	{ "brown",       "#251005:225" },
-	{ "blue",        "#0000d0:225" },
-	{ "cyan",        "#009fa7:250" }, 
-	{ "dark_grey",   "#101010:175" },
-	{ "dark_green",  "#007000:230" },
-	{ "green",       "#00d000:250" },
-	{ "grey",        "#101010:100" },
-	{ "magenta",     "#e0048b:250" },
-	{ "orange",      "#ee9000:240" },
-	{ "pink",        "#ff90b0:250" },	
-	{ "red",         "#800000:240" },
-	{ "violet",      "#9000d0:250" },
-	{ "white",       "#000000:000" },
-	{ "yellow",      "#dde000:240" }
+lrfurn.colors = {
+	"black",
+	"brown",
+	"blue",
+	"cyan",
+	"dark_grey",
+	"dark_green",
+	"green",
+	"grey",
+	"magenta",
+	"orange",
+	"pink",
+	"red",
+	"violet",
+	"white",
+	"yellow",
 }
 
-function lrfurn.check_forward(pos, fdir, long, placer)
+function lrfurn.check_right(pos, fdir, long, placer)
 	if not fdir or fdir > 3 then fdir = 0 end
 
-	local pos2 = { x = pos.x + lrfurn.fdir_to_fwd[fdir+1][1],     y=pos.y, z = pos.z + lrfurn.fdir_to_fwd[fdir+1][2]     }
-	local pos3 = { x = pos.x + lrfurn.fdir_to_fwd[fdir+1][1] * 2, y=pos.y, z = pos.z + lrfurn.fdir_to_fwd[fdir+1][2] * 2 }
+	local pos2 = { x = pos.x + lrfurn.fdir_to_right[fdir+1][1],     y=pos.y, z = pos.z + lrfurn.fdir_to_right[fdir+1][2]     }
+	local pos3 = { x = pos.x + lrfurn.fdir_to_right[fdir+1][1] * 2, y=pos.y, z = pos.z + lrfurn.fdir_to_right[fdir+1][2] * 2 }
 
 	local node2 = minetest.get_node(pos2)
 	if node2 and node2.name ~= "air" then
@@ -74,6 +74,14 @@ function lrfurn.check_forward(pos, fdir, long, placer)
 	end
 
 	return true
+end
+
+function lrfurn.fix_sofa_rotation_nsew(pos, placer, itemstack, pointed_thing)
+	local node = minetest.get_node(pos)
+	local yaw = placer:get_look_yaw()
+	local dir = minetest.yaw_to_dir(yaw-1.5)
+	local fdir = minetest.dir_to_wallmounted(dir)
+	minetest.swap_node(pos, { name = node.name, param2 = fdir })
 end
 
 dofile(minetest.get_modpath("lrfurn").."/longsofas.lua")

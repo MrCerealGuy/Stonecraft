@@ -1,4 +1,7 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
+
+local function N_(x) return x end
 
 local bbq_cbox = {
 	type = "fixed",
@@ -6,11 +9,11 @@ local bbq_cbox = {
 }
 
 homedecor.register("barbecue", {
-	description = "Barbecue",
+	description = S("Barbecue"),
 	mesh = "homedecor_barbecue.obj",
 	tiles = {
-		"homedecor_generic_metal_black.png",
-		{	name="homedecor_embers.png",
+		{ name = "homedecor_generic_metal.png" , color = homedecor.color_black },
+		{ name = "homedecor_embers.png",
 			animation={
 				type="vertical_frames",
 				aspect_w=16,
@@ -50,7 +53,7 @@ homedecor.register("bench_large_1", {
 		"homedecor_generic_wood_old.png",
 		"homedecor_generic_metal_wrought_iron.png"
 	},
-	description = "Garden Bench (style 1)",
+	description = S("Garden Bench (style 1)"),
 	inventory_image = "homedecor_bench_large_1_inv.png",
 	groups = { snappy = 3 },
 	expand = { right="placeholder" },
@@ -77,7 +80,7 @@ local bl2_cbox = {
 }
 
 homedecor.register("bench_large_2", {
-	description = "Garden Bench (style 2)",
+	description = S("Garden Bench (style 2)"),
 	mesh = "homedecor_bench_large_2.obj",
 	tiles = { "homedecor_generic_wood_old.png" },
 	inventory_image = "homedecor_bench_large_2_inv.png",
@@ -100,7 +103,7 @@ local dc_cbox = {
 homedecor.register("deckchair", {
 	mesh = "homedecor_deckchair.obj",
 	tiles = {"homedecor_deckchair.png"},
-	description = "Deck Chair",
+	description = S("Deck Chair"),
 	groups = { snappy = 3 },
 	expand = { forward="placeholder" },
 	sounds = default.node_sound_wood_defaults(),
@@ -115,7 +118,7 @@ minetest.register_alias("homedecor:deckchair_head", "air")
 homedecor.register("deckchair_striped_blue", {
 	mesh = "homedecor_deckchair.obj",
 	tiles = {"homedecor_deckchair_striped_blue.png"},
-	description = "Deck Chair",
+	description = S("Deck Chair"),
 	groups = { snappy = 3 },
 	expand = { forward="placeholder" },
 	sounds = default.node_sound_wood_defaults(),
@@ -131,7 +134,7 @@ homedecor.register("doghouse", {
 		"default_wood.png",
 		"building_blocks_towel.png"
 	},
-	description = "Doghouse",
+	description = S("Doghouse"),
 	inventory_image = "homedecor_doghouse_inv.png",
 	selection_box = homedecor.nodebox.slab_y(1.5),
 	collision_box = homedecor.nodebox.slab_y(1.5),
@@ -146,7 +149,7 @@ minetest.register_alias("homedecor:doghouse_base", "homedecor:doghouse")
 
 homedecor.register("simple_bench", {
 	tiles = { "homedecor_generic_wood_old.png" },
-	description = "Simple Bench",
+	description = S("Simple Bench"),
 	groups = {snappy=3},
 	node_box = {
 	type = "fixed",
@@ -160,7 +163,7 @@ homedecor.register("simple_bench", {
 })
 
 homedecor.register("stonepath", {
-	description = "Garden stone path",
+	description = S("Garden stone path"),
 	tiles = {
 		"default_stone.png"
 	},
@@ -187,17 +190,20 @@ homedecor.register("stonepath", {
 })
 
 local lattice_colors = {
-	{"wood", ".png^[colorize:#704214:180"},
-	{"white_wood", ".png"},
-	{"wood_vegetal", ".png^[colorize:#704214:180^homedecor_lattice_vegetal.png"},
-	{"white_wood_vegetal", ".png^homedecor_lattice_vegetal.png"},
+	{ "wood", S("wood"), ".png^[colorize:#704214:180" },
+	{ "white_wood", S("white wood"), ".png" },
+	{ "wood_vegetal", S("wood, with vegetation"),
+		".png^[colorize:#704214:180^homedecor_lattice_vegetal.png" },
+	{ "white_wood_vegetal", S("white wood, with vegetation"),
+		".png^homedecor_lattice_vegetal.png" },
 }
 
-for _, m in ipairs(lattice_colors) do
-homedecor.register("lattice_"..m[1], {
-	description = "Garden Lattice ("..m[1]..")",
-	tiles = {"homedecor_lattice"..m[2]},
-	inventory_image = "homedecor_lattice"..m[2],
+for _, c in ipairs(lattice_colors) do
+local name, desc, texture = unpack(c)
+homedecor.register("lattice_"..name, {
+	description = S("Garden Lattice (@1)", desc),
+	tiles = {"homedecor_lattice"..texture},
+	inventory_image = "homedecor_lattice"..texture,
 	groups = { snappy=3 },
 	node_box = {
 		type = "fixed",
@@ -218,7 +224,7 @@ homedecor.register("lattice_"..m[1], {
 end
 
 homedecor.register("swing", {
-	description = "Tree's swing",
+	description = S("Tree's swing"),
 	tiles = {
 		"homedecor_swing_top.png",
 		"homedecor_swing_top.png^[transformR180",
@@ -268,8 +274,6 @@ homedecor.register("swing", {
 			local fdir = minetest.dir_to_facedir(placer:get_look_dir())
 			for j = 0, height do -- then fill that space with ropes...
 				local testpos = { x=pos.x, y=pos.y-j, z=pos.z }
-				local testnode = minetest.get_node(testpos)
-				local testreg = core.registered_nodes[testnode.name]
 				minetest.set_node(testpos, { name = "homedecor:swing_rope", param2 = fdir })
 			end
 
@@ -315,14 +319,14 @@ homedecor.register("well", {
 	mesh = "homedecor_well.obj",
 	tiles = {
 		"homedecor_rope_texture.png",
-		"homedecor_generic_metal_black.png^[brighten",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
 		"default_water.png",
 		"default_cobble.png",
 		"default_wood.png",
 		"homedecor_shingles_wood.png"
 	},
 	inventory_image = "homedecor_well_inv.png",
-	description = "Water well",
+	description = S("Water well"),
 	groups = { snappy = 3 },
 	selection_box = homedecor.nodebox.slab_y(2),
 	collision_box = homedecor.nodebox.slab_y(2),
@@ -354,16 +358,16 @@ if minetest.get_modpath("bucket") then
 end
 
 homedecor.shrub_colors = {
-	"green",
-	"red",
-	"yellow"
+	N_("green"),
+	N_("red"),
+	N_("yellow"),
 }
 
 local shrub_cbox = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
 
 for _, color in ipairs(homedecor.shrub_colors) do
 	minetest.register_node("homedecor:shrubbery_large_"..color, {
-		description = S("Shrubbery ("..color..")"),
+		description = S("Shrubbery (@1)", S(color)),
 		drawtype = "mesh",
 		mesh = "homedecor_cube.obj",
 		tiles = {"homedecor_shrubbery_"..color..".png"},
@@ -374,7 +378,7 @@ for _, color in ipairs(homedecor.shrub_colors) do
 	})
 
 	minetest.register_node("homedecor:shrubbery_"..color, {
-		description = S("Shrubbery ("..color..")"),
+		description = S("Shrubbery (@1)", S(color)),
 		drawtype = "mesh",
 		mesh = "homedecor_shrubbery.obj",
 		tiles = {

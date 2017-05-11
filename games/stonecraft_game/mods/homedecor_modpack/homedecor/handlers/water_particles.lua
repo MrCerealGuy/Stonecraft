@@ -25,8 +25,8 @@ function homedecor.start_particle_spawner(pos, node, particledef, soundname)
 
 	if id ~= 0 then
 		if s_handle then
-			minetest.after(0, function(s_handle)
-				minetest.sound_stop(s_handle)
+			minetest.after(0, function(handle)
+				minetest.sound_stop(handle)
 			end, s_handle)
 		end
 		minetest.delete_particlespawner(id)
@@ -104,12 +104,11 @@ function homedecor.stop_particle_spawner(pos)
 	end
 
 	if s_handle then
-		minetest.after(0, function(s_handle)
-			minetest.sound_stop(s_handle)
+		minetest.after(0, function(handle)
+			minetest.sound_stop(handle)
 		end, s_handle)
 	end
 
 	this_spawner_meta:set_int("active", nil)
 	this_spawner_meta:set_int("sound", nil)
 end
-

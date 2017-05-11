@@ -1,5 +1,5 @@
 homedecor = homedecor or {}
-local S = homedecor.gettext
+
 local placeholder_node = "homedecor:expansion_placeholder"
 
 --wrapper around minetest.register_node that sets sane defaults and interprets some specialized settings

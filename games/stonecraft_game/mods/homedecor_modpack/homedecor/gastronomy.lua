@@ -1,4 +1,5 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
 
 local cutlery_cbox = {
 	type = "fixed",
@@ -13,7 +14,7 @@ homedecor.register("cutlery_set", {
 	mesh = "homedecor_cutlery_set.obj",
 	tiles = { "homedecor_cutlery_set.png"	},
 	inventory_image = "homedecor_cutlery_set_inv.png",
-	description = "Cutlery set",
+	description = S("Cutlery set"),
 	groups = {snappy=3},
 	selection_box = cutlery_cbox,
 	walkable = false,
@@ -34,14 +35,19 @@ local fbottle_cbox = {
 	}
 }
 
-local bottle_colors = {"brown", "green"}
+local bottle_colors = {
+	{ "brown", S("Brown bottle"), S("Four brown bottles") },
+	{ "green", S("Green bottle"), S("Four green bottles") },
+}
 
 for _, b in ipairs(bottle_colors) do
 
-	homedecor.register("bottle_"..b, {
-		tiles = { "homedecor_bottle_"..b..".png" },
-		inventory_image = "homedecor_bottle_"..b.."_inv.png",
-		description = "Bottle ("..b..")",
+	local name, desc, desc4 = unpack(b)
+
+	homedecor.register("bottle_"..name, {
+		tiles = { "homedecor_bottle_"..name..".png" },
+		inventory_image = "homedecor_bottle_"..name.."_inv.png",
+		description = desc,
 		mesh = "homedecor_bottle.obj",
 		walkable = false,
 		groups = {snappy=3},
@@ -51,13 +57,13 @@ for _, b in ipairs(bottle_colors) do
 
 	-- 4-bottle sets
 
-	homedecor.register("4_bottles_"..b, {
+	homedecor.register("4_bottles_"..name, {
 		tiles = {
-			"homedecor_bottle_"..b..".png",
-			"homedecor_bottle_"..b..".png"
+			"homedecor_bottle_"..name..".png",
+			"homedecor_bottle_"..name..".png"
 		},
-		inventory_image = "homedecor_4_bottles_"..b.."_inv.png",
-		description = "Four "..b.." bottles",
+		inventory_image = "homedecor_4_bottles_"..name.."_inv.png",
+		description = desc4,
 		mesh = "homedecor_4_bottles.obj",
 		walkable = false,
 		groups = {snappy=3},
@@ -72,7 +78,7 @@ homedecor.register("4_bottles_multi", {
 		"homedecor_bottle_green.png"
 	},
 	inventory_image = "homedecor_4_bottles_multi_inv.png",
-	description = "Four misc brown/green bottles",
+	description = S("Four misc brown/green bottles"),
 	mesh = "homedecor_4_bottles.obj",
 	groups = {snappy=3},
 	walkable = false,
@@ -82,7 +88,7 @@ homedecor.register("4_bottles_multi", {
 
 local wine_cbox = homedecor.nodebox.slab_z(-0.75)
 homedecor.register("wine_rack", {
-	description = "Wine Rack",
+	description = S("Wine rack"),
 	mesh = "homedecor_wine_rack.obj",
 	tiles = {
 		"homedecor_generic_wood_red.png",
@@ -99,7 +105,7 @@ homedecor.register("wine_rack", {
 })
 
 homedecor.register("dartboard", {
-	description = "Dartboard",
+	description = S("Dartboard"),
 	mesh = "homedecor_dartboard.obj",
 	tiles = { "homedecor_dartboard.png" },
 	inventory_image = "homedecor_dartboard_inv.png",
@@ -115,11 +121,11 @@ homedecor.register("dartboard", {
 })
 
 homedecor.register("beer_tap", {
-	description = "Beer tap",
+	description = S("Beer tap"),
 	mesh = "homedecor_beer_taps.obj",
 	tiles = {
 		"homedecor_generic_metal_bright.png",
-		"homedecor_generic_metal_black.png",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_black }
 	},
 	inventory_image = "homedecor_beertap_inv.png",
 	groups = { snappy=3 },
@@ -128,19 +134,20 @@ homedecor.register("beer_tap", {
 		type = "fixed",
 		fixed = { -0.25, -0.5, -0.4375, 0.25, 0.235, 0 }
 	},
-	on_punch = function(pos, node, puncher, pointed_thing)
-		local wielditem = puncher:get_wielded_item()
-		local inv = puncher:get_inventory()
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local inv = clicker:get_inventory()
 
-		local wieldname = wielditem:get_name()
+		local wieldname = itemstack:get_name()
 		if wieldname == "vessels:drinking_glass" then
 			if inv:room_for_item("main", "homedecor:beer_mug 1") then
-				wielditem:take_item()
-				puncher:set_wielded_item(wielditem)
+				itemstack:take_item()
+				clicker:set_wielded_item(itemstack)
 				inv:add_item("main", "homedecor:beer_mug 1")
-				minetest.chat_send_player(puncher:get_player_name(), "Ahh, a frosty cold beer - look in your inventory for it!")
+				minetest.chat_send_player(clicker:get_player_name(),
+						S("Ahh, a frosty cold beer - look in your inventory for it!"))
 			else
-				minetest.chat_send_player(puncher:get_player_name(), "No room in your inventory to add a beer mug!")
+				minetest.chat_send_player(clicker:get_player_name(),
+						S("No room in your inventory to add a beer mug!"))
 			end
 		end
 	end
@@ -161,7 +168,7 @@ local beer_cbox = {
 }
 
 homedecor.register("beer_mug", {
-	description = "Beer mug",
+	description = S("Beer mug"),
 	drawtype = "mesh",
 	mesh = "homedecor_beer_mug.obj",
 	tiles = { "homedecor_beer_mug.png" },
@@ -170,7 +177,24 @@ homedecor.register("beer_mug", {
 	walkable = false,
 	sounds = default.node_sound_glass_defaults(),
 	selection_box = beer_cbox,
-	on_use = minetest.item_eat(2)
+	on_use = function(itemstack, user, pointed_thing)
+		local inv = user:get_inventory()
+		if not creative.is_enabled_for(user:get_player_name()) then
+			if inv:room_for_item("main", "vessels:drinking_glass 1") then
+				inv:add_item("main", "vessels:drinking_glass 1")
+			else
+				local pos = user:get_pos()
+				local dir = user:get_look_dir()
+				local fdir = minetest.dir_to_facedir(dir)
+				local pos_fwd = {	x = pos.x + homedecor.fdir_to_fwd[fdir+1][1],
+									y = pos.y + 1,
+									z = pos.z + homedecor.fdir_to_fwd[fdir+1][2] }
+				minetest.add_item(pos_fwd, "vessels:drinking_glass 1")
+			end
+			minetest.do_item_eat(2, nil, itemstack, user, pointed_thing)
+			return itemstack
+		end
+	end
 })
 
 local svm_cbox = {
@@ -179,7 +203,7 @@ local svm_cbox = {
 }
 
 homedecor.register("soda_machine", {
-	description = "Soda Vending Machine",
+	description = S("Soda vending machine"),
 	mesh = "homedecor_soda_machine.obj",
 	tiles = {"homedecor_soda_machine.png"},
 	groups = {snappy=3},
@@ -188,21 +212,21 @@ homedecor.register("soda_machine", {
 	expand = { top="placeholder" },
 	sounds = default.node_sound_wood_defaults(),
 	on_rotate = screwdriver.rotate_simple,
-	on_punch = function(pos, node, puncher, pointed_thing)
-		local wielditem = puncher:get_wielded_item()
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local wielditem = clicker:get_wielded_item()
 		local wieldname = wielditem:get_name()
 		local fdir_to_fwd = { {0, -1}, {-1, 0}, {0, 1}, {1, 0} }
 		local fdir = node.param2
 		local pos_drop = { x=pos.x+fdir_to_fwd[fdir+1][1], y=pos.y, z=pos.z+fdir_to_fwd[fdir+1][2] }
 		if wieldname == "homedecor:coin" then
 			wielditem:take_item()
-			puncher:set_wielded_item(wielditem)
+			clicker:set_wielded_item(wielditem)
 			minetest.spawn_item(pos_drop, "homedecor:soda_can")
 			minetest.sound_play("insert_coin", {
 				pos=pos, max_hear_distance = 5
 			})
 		else
-			minetest.chat_send_player(puncher:get_player_name(), "Please insert a coin in the machine.")
+			minetest.chat_send_player(clicker:get_player_name(), S("Please insert a coin in the machine."))
 		end
 	end
 })

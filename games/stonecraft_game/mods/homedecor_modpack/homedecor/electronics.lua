@@ -1,6 +1,6 @@
 -- Various home electronics
 
-local S = homedecor.gettext
+local S = homedecor_i18n.gettext
 
 homedecor.register("speaker", {
 	description = S("Large Stereo Speaker"),
@@ -11,7 +11,7 @@ homedecor.register("speaker", {
 	},
 	groups = { snappy = 3 },
 	sounds = default.node_sound_wood_defaults(),
-	on_punch = function(pos, node, puncher, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		minetest.set_node(pos, {name = "homedecor:speaker_open", param2 = node.param2})
 	end
 })
@@ -23,11 +23,11 @@ homedecor.register("speaker_open", {
 		"homedecor_speaker_sides.png",
 		"homedecor_speaker_driver.png",
 		"homedecor_speaker_open_front.png",
-		"homedecor_generic_metal_black.png"
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_black }
 	},
 	groups = { snappy = 3, not_in_creative_inventory=1 },
 	sounds = default.node_sound_wood_defaults(),
-	on_punch = function(pos, node, puncher, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		minetest.set_node(pos, {name = "homedecor:speaker", param2 = node.param2})
 	end
 })
@@ -135,7 +135,7 @@ homedecor.register("telephone", {
 		"homedecor_telephone_cord.png",
 	},
 	inventory_image = "homedecor_telephone_inv.png",
-	description = "Telephone",
+	description = S("Telephone"),
 	groups = {snappy=3},
 	selection_box = tel_cbox,
 	walkable = false,
@@ -149,9 +149,9 @@ minetest.register_abm({
 	chance = 15,
 	action = function(pos, node)
 		minetest.sound_play("homedecor_telephone_ringing", {
-		pos = pos,
-		gain = 1.0,
-		max_hear_distance = 5
-	})
+			pos = pos,
+			gain = 1.0,
+			max_hear_distance = 5
+		})
 	end
 })

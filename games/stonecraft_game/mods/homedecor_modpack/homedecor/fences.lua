@@ -14,16 +14,22 @@ if signs_modpath then
 	sign_post_model = signs_lib.sign_post_model.nodebox
 end
 
-local S = homedecor.gettext
-local materials = {"brass", "wrought_iron"}
+local S = homedecor_i18n.gettext
+
+local materials = {
+	{ S("brass"), "brass" },
+	{ S("wrought iron"), "wrought_iron" },
+}
 
 for _, m in ipairs(materials) do
 
-homedecor.register("fence_"..m, {
-	description = S("Fence/railing ("..m..")"),
+local desc, name = unpack(m)
+
+homedecor.register("fence_"..name, {
+	description = S("Fence/railing (@1)", desc),
 	drawtype = "fencelike",
-	tiles = {"homedecor_generic_metal_"..m..".png"},
-	inventory_image = "homedecor_fence_"..m..".png",
+	tiles = {"homedecor_generic_metal_"..name..".png"},
+	inventory_image = "homedecor_fence_"..name..".png",
 	selection_box = homedecor.nodebox.bar_y(1/7),
 	groups = {snappy=3},
 	sounds = default.node_sound_wood_defaults(),
@@ -31,17 +37,17 @@ homedecor.register("fence_"..m, {
 
 -- brass/wrought iron with signs:
 
-homedecor.register("fence_"..m.."_with_sign", {
-	description = S("Fence/railing with sign ("..m..")"),
+homedecor.register("fence_"..name.."_with_sign", {
+	description = S("Fence/railing with sign (@1)", desc),
 	tiles = {
-		"homedecor_sign_"..m.."_post_top.png",
-		"homedecor_sign_"..m.."_post_bottom.png",
-		"homedecor_sign_"..m.."_post_side.png",
-		"homedecor_sign_"..m.."_post_side.png",
-		"homedecor_sign_"..m.."_post_back.png",
-		"homedecor_sign_"..m.."_post_front.png",
+		"homedecor_sign_"..name.."_post_top.png",
+		"homedecor_sign_"..name.."_post_bottom.png",
+		"homedecor_sign_"..name.."_post_side.png",
+		"homedecor_sign_"..name.."_post_side.png",
+		"homedecor_sign_"..name.."_post_back.png",
+		"homedecor_sign_"..name.."_post_front.png",
 	},
-	wield_image = "homedecor_sign_"..m.."_post.png",
+	wield_image = "homedecor_sign_"..name.."_post.png",
 	node_box = sign_post_model,
 	groups = {snappy=3,not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
@@ -50,7 +56,7 @@ homedecor.register("fence_"..m.."_with_sign", {
 		max_items = 2,
 		items = {
 			{ items = { "default:sign_wall" }},
-			{ items = { "homedecor:fence_"..m }},
+			{ items = { "homedecor:fence_"..name }},
 		},
 	},
 })
@@ -301,4 +307,3 @@ if signs_modpath then
 	signs_lib.register_fence_with_sign("homedecor:fence_brass", "homedecor:fence_brass_with_sign")
 	signs_lib.register_fence_with_sign("homedecor:fence_wrought_iron", "homedecor:fence_wrought_iron_with_sign")
 end
-

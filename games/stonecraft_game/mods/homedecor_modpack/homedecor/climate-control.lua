@@ -1,6 +1,6 @@
 -- Nodes that would affect the local temperature e.g. fans, heater, A/C
 
-local S = homedecor.gettext
+local S = homedecor_i18n.gettext
 
 homedecor.register("air_conditioner", {
 	description = S("Air Conditioner"),
@@ -24,8 +24,24 @@ minetest.register_entity("homedecor:mesh_desk_fan", {
 	visual_size = {x=10, y=10},
 })
 
+local add_mesh_desk_fan_entity = function(pos)
+	print("in add_mesh_desk_fan_entity()")
+	local param2 = minetest.get_node(pos).param2
+	local entity = minetest.add_entity(pos, "homedecor:mesh_desk_fan")
+	if param2 == 0 then
+		entity:setyaw(3.142) -- 180 degrees
+	elseif minetest.get_node(pos).param2 == 1 then
+		entity:setyaw(3.142/2) -- 90 degrees
+	elseif minetest.get_node(pos).param2 == 3 then
+		entity:setyaw((-3.142/2)) -- 270 degrees
+	else
+		entity:setyaw(0)
+	end
+	return entity
+end
+
 homedecor.register("desk_fan", {
-	description = "Desk Fan",
+	description = S("Desk Fan"),
 	groups = {oddly_breakable_by_hand=2},
 	node_box = {
 		type = "fixed",
@@ -39,55 +55,25 @@ homedecor.register("desk_fan", {
 	selection_box = { type = "regular" },
 	on_rotate = screwdriver.disallow,
 	on_construct = function(pos)
-		local entity_remove = minetest.get_objects_inside_radius(pos, 0.1)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("active", "no")
-		if entity_remove[1] == nil then
-			minetest.add_entity({x=pos.x, y=pos.y, z=pos.z}, "homedecor:mesh_desk_fan") --+(0.0625*10)
-			entity_remove = minetest.get_objects_inside_radius(pos, 0.1)
-			if minetest.get_node(pos).param2 == 0 then --list of rad to 90 degree: 3.142/2 = 90; 3.142 = 180; 3*3.142 = 270
-				entity_remove[1]:setyaw(3.142)
-			elseif minetest.get_node(pos).param2 == 1 then
-				entity_remove[1]:setyaw(3.142/2)
-			elseif minetest.get_node(pos).param2 == 3 then
-				entity_remove[1]:setyaw((-3.142/2))
-			else
-				entity_remove[1]:setyaw(0)
-			end
-		end
+		add_mesh_desk_fan_entity(pos)
 	end,
-	on_punch = function(pos)
-		local entity_anim = minetest.get_objects_inside_radius(pos, 0.1)
-		local speedy_meta = minetest.get_meta(pos)
-		if speedy_meta:get_string("active") == "no" then
-			speedy_meta:set_string("active", "yes")
-		elseif speedy_meta:get_string("active") == "yes" then
-			speedy_meta:set_string("active", "no")
-		end
-
-		if entity_anim[1] == nil then
-			minetest.add_entity({x=pos.x, y=pos.y, z=pos.z}, "homedecor:mesh_desk_fan") --+(0.0625*10)
-			local entity_remove = minetest.get_objects_inside_radius(pos, 0.1)
-			if minetest.get_node(pos).param2 == 0 then --list of rad to 90 degree: 3.142/2 = 90; 3.142 = 180; 3*3.142 = 270
-				entity_remove[1]:setyaw(3.142)
-			elseif minetest.get_node(pos).param2 == 1 then
-				entity_remove[1]:setyaw(3.142/2)
-			elseif minetest.get_node(pos).param2 == 3 then
-				entity_remove[1]:setyaw((-3.142/2))
-			else
-				entity_remove[1]:setyaw(0)
-			end
-		end
-		local entity_anim = minetest.get_objects_inside_radius(pos, 0.1)
-		if minetest.get_meta(pos):get_string("active") == "no" then
-			entity_anim[1]:set_animation({x=0,y=0}, 1, 0)
-		elseif minetest.get_meta(pos):get_string("active") == "yes" then
-			entity_anim[1]:set_animation({x=0,y=96}, 24, 0)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local meta = minetest.get_meta(pos)
+		local entities = minetest.get_objects_inside_radius(pos, 0.1)
+		local entity = entities[1] or add_mesh_desk_fan_entity(pos)
+		if meta:get_string("active") == "no" then
+			meta:set_string("active", "yes")
+			entity:set_animation({x=0,y=96}, 24, 0)
+		else
+			meta:set_string("active", "no")
+			entity:set_animation({x=0,y=0}, 1, 0)
 		end
 	end,
 	after_dig_node = function(pos)
-		local entity_remove = minetest.get_objects_inside_radius(pos, 0.1)
-		entity_remove[1]:remove()
+		local entities = minetest.get_objects_inside_radius(pos, 0.1)
+		if entities[1] then entities[1]:remove() end
 	end,
 })
 
@@ -146,11 +132,11 @@ local r_cbox = homedecor.nodebox.slab_z(-0.25)
 homedecor.register("radiator", {
 	mesh = "homedecor_radiator.obj",
 	tiles = {
-		"homedecor_generic_metal_black.png^[colorize:#ffffff:200",
+		"homedecor_generic_metal.png",
 		"homedecor_radiator_controls.png"
 	},
 	inventory_image = "homedecor_radiator_inv.png",
-	description = "Radiator heater",
+	description = S("Radiator heater"),
 	groups = {snappy=3},
 	selection_box = r_cbox,
 	collision_box = r_cbox,

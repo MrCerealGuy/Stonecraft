@@ -57,6 +57,3 @@ mt.__index = function(table, key)
 	error("unexpected datatype " .. tostring(type(ref)) .. " while looking for " .. key)
 end
 setmetatable(homedecor.nodebox, mt)
-
-
-

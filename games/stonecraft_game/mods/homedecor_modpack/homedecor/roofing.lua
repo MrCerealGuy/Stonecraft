@@ -1,4 +1,7 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
+
+local function N_(x) return x end
 
 minetest.register_node("homedecor:skylight", {
 	description = S("Glass Skylight"),
@@ -25,9 +28,9 @@ minetest.register_node("homedecor:skylight_frosted", {
 	selection_box = homedecor.nodebox.slab_y(0.1),
 })
 
-for _, s in pairs({"asphalt", "terracotta", "wood"}) do
+for _, s in pairs({ N_("asphalt"), N_("terracotta"), N_("wood") }) do
 	minetest.register_node("homedecor:shingles_"..s, {
-		description = S("Shingles ("..s..")"),
+		description = S("Shingles (@1)", S(s)),
 		drawtype = "raillike",
 		tiles = { "homedecor_shingles_"..s..".png" },
 		wield_image = "homedecor_shingles_"..s..".png",
@@ -81,7 +84,7 @@ homedecor.register_outer_corner = function(modname, subname, groups, slope_image
 	end
 
 	minetest.register_node(modname..":shingle_outer_corner_" .. subname, {
-		description = S(description.. " (outer corner)"),
+		description = S("@1 (outer corner)", description),
 		drawtype = "mesh",
 		mesh = "homedecor_slope_outer_corner.obj",
 		tiles = tiles,
@@ -103,7 +106,7 @@ homedecor.register_inner_corner = function(modname, subname, groups, slope_image
 	end
 
 	minetest.register_node(modname..":shingle_inner_corner_" .. subname, {
-		description = S(description.. " (inner corner)"),
+		description = S("@1 (inner corner)", description),
 		drawtype = "mesh",
 		mesh = "homedecor_slope_inner_corner.obj",
 		tiles = tiles,
@@ -124,7 +127,7 @@ homedecor.register_slope = function(modname, subname, recipeitem, groups, slope_
 	end
 
 	minetest.register_node(modname..":shingle_side_" .. subname, {
-		description = S(description),
+		description = description,
 		drawtype = "mesh",
 		mesh = "homedecor_slope.obj",
 		tiles = tiles,
@@ -259,19 +262,19 @@ end
 homedecor.register_roof("homedecor", "wood",
 	{ snappy = 3 },
 	{ "homedecor_shingles_wood.png" },
-	"Wood Shingles"
+	S("Wood Shingles")
 )
 
 homedecor.register_roof("homedecor", "asphalt",
 	{ snappy = 3 },
 	{ "homedecor_shingles_asphalt.png" },
-	"Asphalt Shingles"
+	S("Asphalt Shingles")
 )
 
 homedecor.register_roof("homedecor", "terracotta",
 	{ snappy = 3 },
 	{ "homedecor_shingles_terracotta.png" },
-	"Terracotta Shingles"
+	S("Terracotta Shingles")
 )
 
 -- register just the slopes
@@ -280,33 +283,33 @@ homedecor.register_slope("homedecor", "wood",
 	"homedecor:shingles_wood",
 	{ snappy = 3 },
 	{ "homedecor_shingles_wood.png" },
-	"Wood Shingles"
+	S("Wood Shingles")
 )
 
 homedecor.register_slope("homedecor", "asphalt",
 	"homedecor:shingles_asphalt",
 	{ snappy = 3 },
 	{ "homedecor_shingles_asphalt.png" },
-	"Asphalt Shingles"
+	S("Asphalt Shingles")
 )
 
 homedecor.register_slope("homedecor", "terracotta",
 	"homedecor:shingles_terracotta",
 	{ snappy = 3 },
 	{ "homedecor_shingles_terracotta.png" },
-	"Terracotta Shingles"
+	S("Terracotta Shingles")
 )
 
 homedecor.register_slope("homedecor", "glass",
 	"homedecor:shingles_glass",
 	{ snappy = 3 },
 	{ "homedecor_shingles_glass.png", "homedecor_shingles_wood.png" },
-	"Glass Shingles"
+	S("Glass Shingles")
 )
 
 
 homedecor.register("chimney", {
-	description = "Chimney",
+	description = S("Chimney"),
 	mesh = "homedecor_chimney.obj",
 	tiles = {
 		"homedecor_chimney_tb.png",

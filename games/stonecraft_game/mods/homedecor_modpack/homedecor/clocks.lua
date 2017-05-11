@@ -1,25 +1,27 @@
+
+local S = homedecor_i18n.gettext
+
 local clock_sbox = {
 	type = "fixed",
 	fixed = { -8/32, -8/32, 14/32, 8/32, 8/32, 16/32 }
 }
 
 local clock_materials = {
-	{ "plastic", "homedecor_generic_plastic_black.png^[colorize:#ffffff:220" },
-	{ "wood", "default_wood.png" }
+	{ "plastic", S("Plastic analog clock"), "homedecor_generic_plastic.png" },
+	{ "wood", S("Wooden analog clock"), "default_wood.png" }
 }
 
-for i in ipairs(clock_materials) do
-	local m1 = clock_materials[i][1]
-	local m2 = clock_materials[i][2]
-	homedecor.register("analog_clock_"..m1, {
-		description = "Analog clock ("..m1..")",
+for _, mat in ipairs(clock_materials) do
+	local name, desc, tex = unpack(mat)
+	homedecor.register("analog_clock_"..name, {
+		description = desc,
 		mesh = "homedecor_analog_clock.obj",
 		tiles = {
 			"homedecor_analog_clock_face.png",
-			m2,
+			tex,
 			"homedecor_analog_clock_back.png"
 		},
-		inventory_image = "homedecor_analog_clock_"..m1.."_inv.png",
+		inventory_image = "homedecor_analog_clock_"..name.."_inv.png",
 		walkable = false,
 		selection_box = clock_sbox,
 		groups = {snappy=3},
@@ -28,7 +30,7 @@ for i in ipairs(clock_materials) do
 end
 
 homedecor.register("digital_clock", {
-	description = "Digital clock",
+	description = S("Digital clock"),
 	tiles = {
 		"homedecor_digital_clock_edges.png",
 		"homedecor_digital_clock_edges.png",
@@ -50,7 +52,7 @@ homedecor.register("digital_clock", {
 })
 
 homedecor.register("alarm_clock", {
-	description = "Alarm clock",
+	description = S("Alarm clock"),
 	tiles = {
 		"homedecor_alarm_clock_top.png",
 		"homedecor_alarm_clock_bottom.png",
@@ -77,12 +79,12 @@ local gf_cbox = {
 }
 
 homedecor.register("grandfather_clock", {
-	description = "Grandfather Clock",
+	description = S("Grandfather Clock"),
 	mesh = "homedecor_grandfather_clock.obj",
 	tiles = {
 		"default_glass.png",
 		"homedecor_grandfather_clock_face.png",
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_grandfather_clock_face_edge.png",
 		"homedecor_generic_metal_brass.png"
 	},

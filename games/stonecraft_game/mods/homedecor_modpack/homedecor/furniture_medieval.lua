@@ -1,9 +1,9 @@
 
-local S = homedecor.gettext
+local S = homedecor_i18n.gettext
 
 homedecor.register("bars", {
 	description = S("Bars"),
-	tiles = { "homedecor_generic_metal_black.png^[transformR270" },
+	tiles = { { name = "homedecor_generic_metal.png^[transformR270", color = homedecor.color_black } },
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -25,7 +25,7 @@ homedecor.register("bars", {
 --L Binding Bars
 homedecor.register("L_binding_bars", {
 	description = S("Binding Bars"),
-	tiles = { "homedecor_generic_metal_black.png^[transformR270" },
+	tiles = { { name = "homedecor_generic_metal.png^[transformR270", color = homedecor.color_black } },
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -50,7 +50,7 @@ local chain_cbox = {
 homedecor.register("chains", {
 	description = S("Chains"),
 	mesh = "forniture_chains.obj",
-	tiles = { "homedecor_generic_metal_black.png" },
+	tiles = { { name = "homedecor_generic_metal.png", color = homedecor.color_black } },
 	inventory_image="forniture_chains_inv.png",
 	selection_box = chain_cbox,
 	walkable = false,
@@ -71,8 +71,8 @@ homedecor.register("torch_wall", {
 				length=1.0,
 			},
 		},
-		"homedecor_generic_metal_black.png",
-		"homedecor_generic_metal_black.png^[brighten",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_black },
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
 		"forniture_coal.png",
 	},
 	inventory_image="forniture_torch_inv.png",
@@ -93,8 +93,12 @@ local wl_cbox = {
 homedecor.register("wall_lamp", {
 	description = S("Wall Lamp"),
 	mesh = "homedecor_wall_lamp.obj",
-	tiles = {"homedecor_generic_metal_black.png^[brighten", "homedecor_generic_wood_luxury.png^[colorize:#000000:30", 
-			"homedecor_light.png", "homedecor_generic_metal_wrought_iron.png"},
+	tiles = {
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
+		homedecor.lux_wood,
+		"homedecor_light.png",
+		"homedecor_generic_metal_wrought_iron.png"
+	},
 	use_texture_alpha = true,
 	inventory_image = "homedecor_wall_lamp_inv.png",
 	groups = {snappy=3},

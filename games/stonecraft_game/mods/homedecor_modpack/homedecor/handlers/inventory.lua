@@ -1,4 +1,5 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
 
 local default_can_dig = function(pos,player)
 	local meta = minetest.get_meta(pos)
@@ -84,17 +85,17 @@ function homedecor.handle_inventory(name, def, original_def)
 
 	def.can_dig = def.can_dig or default_can_dig
 	def.on_metadata_inventory_move = def.on_metadata_inventory_move or function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", S("%s moves stuff in %s at %s"):format(
+		minetest.log("action", S("@1 moves stuff in @2 at @3",
 			player:get_player_name(), name, minetest.pos_to_string(pos)
 		))
 	end
 	def.on_metadata_inventory_put = def.on_metadata_inventory_put or function(pos, listname, index, stack, player)
-		minetest.log("action", S("%s moves %s to %s at %s"):format(
+		minetest.log("action", S("@1 moves @2 to @3 at @4",
 			player:get_player_name(), stack:get_name(), name, minetest.pos_to_string(pos)
 		))
 	end
 	def.on_metadata_inventory_take = def.on_metadata_inventory_take or function(pos, listname, index, stack, player)
-		minetest.log("action", S("%s takes %s from %s at %s"):format(
+		minetest.log("action", S("@1 takes @2 from @3 at @4",
 			player:get_player_name(), stack:get_name(), name, minetest.pos_to_string(pos)
 		))
 	end
@@ -107,7 +108,7 @@ function homedecor.handle_inventory(name, def, original_def)
 			local owner = placer:get_player_name() or ""
 
 			meta:set_string("owner", owner)
-			meta:set_string("infotext", S("%s (owned by %s)"):format(def.infotext or def.description, owner))
+			meta:set_string("infotext", S("@1 (owned by @2)", def.infotext or def.description, owner))
 			return after_place_node and after_place_node(pos, placer)
 		end
 
@@ -117,15 +118,17 @@ function homedecor.handle_inventory(name, def, original_def)
 			local owner = meta:get_string("owner")
 			local playername = player:get_player_name()
 
-			if (playername ~= owner) then
-				minetest.log("action", string.format("%s tried to access a %s belonging to %s at %s",
-					playername, name, owner, minetest.pos_to_string(pos)
-				))
-				return 0
+			if playername == owner or
+					minetest.check_player_privs(playername, "protection_bypass") then
+				return allow_move and
+						allow_move(pos, from_list, from_index, to_list, to_index, count, player) or
+						count
 			end
 
-			return allow_move and allow_move(pos, from_list, from_index, to_list, to_index, count, player)
-				or count
+			minetest.log("action", S("@1 tried to access a @2 belonging to @3 at @4",
+				playername, name, owner, minetest.pos_to_string(pos)
+			))
+			return 0
 		end
 
 		local allow_put = def.allow_metadata_inventory_put
@@ -134,14 +137,16 @@ function homedecor.handle_inventory(name, def, original_def)
 			local owner = meta:get_string("owner")
 			local playername = player:get_player_name()
 
-			if (playername ~= owner) then
-				minetest.log("action", string.format("%s tried to access a %s belonging to %s at %s",
-					playername, name, owner, minetest.pos_to_string(pos)
-				))
-				return 0
+			if playername == owner or
+					minetest.check_player_privs(playername, "protection_bypass") then
+				return allow_put and allow_put(pos, listname, index, stack, player) or
+						stack:get_count()
 			end
-			return allow_put and allow_put(pos, listname, index, stack, player)
-				or stack:get_count()
+
+			minetest.log("action", S("@1 tried to access a @2 belonging to @3 at @4",
+				playername, name, owner, minetest.pos_to_string(pos)
+			))
+			return 0
 		end
 
 		local allow_take = def.allow_metadata_inventory_take
@@ -150,21 +155,23 @@ function homedecor.handle_inventory(name, def, original_def)
 			local owner = meta:get_string("owner")
 			local playername = player:get_player_name()
 
-			if (playername ~= owner) then
-				minetest.log("action", string.format("%s tried to access a %s belonging to %s at %s",
-					playername, name, owner, minetest.pos_to_string(pos)
-				))
-				return 0
+			if playername == owner or
+					minetest.check_player_privs(playername, "protection_bypass") then
+				return allow_take and allow_take(pos, listname, index, stack, player) or
+						stack:get_count()
 			end
-			return allow_take and allow_take(pos, listname, index, stack, player)
-				or stack:get_count()
+
+			minetest.log("action", S("@1 tried to access a @2 belonging to @3 at @4",
+				playername, name, owner, minetest.pos_to_string(pos)
+			))
+			return 0
 		end
 	end
 
 	local lockable = inventory.lockable
 	if lockable then
 		local locked_def = table.copy(original_def)
-		locked_def.description = S("Locked %s"):format(def.description or name)
+		locked_def.description = S("@1 (Locked)", def.description or name)
 
 		local locked_inventory = locked_def.inventory
 		locked_inventory.locked = true

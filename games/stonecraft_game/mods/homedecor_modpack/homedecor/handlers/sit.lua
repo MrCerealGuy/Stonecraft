@@ -1,5 +1,6 @@
 function homedecor.sit(pos, node, clicker)
-	do return end -- delete it when the engine is stabler for the player's physics
+	return -- delete it when the engine is stabler for the player's physics
+--[[
 	local meta = minetest.get_meta(pos)
 	local param2 = node.param2
 	local name = clicker:get_player_name()
@@ -29,4 +30,5 @@ function homedecor.sit(pos, node, clicker)
 			clicker:set_look_yaw(4.75)
 		else return end
 	end
+--]]
 end

@@ -1,11 +1,13 @@
 -- Node definitions for Homedecor doors
 
-local S = homedecor.gettext
+local S = homedecor_i18n.gettext
+
+local function N_(x) return x end
 
 -- doors
 
-local function isSolid(pos,adj)
-    local adj = {x=adj[1],y=adj[2],z=adj[3]}
+local function isSolid(pos, adjust)
+    local adj = {x = adjust[1], y = adjust[2], z = adjust[3]}
     local node = minetest.get_node(vector.add(pos,adj))
     if node then
         local idef = minetest.registered_nodes[minetest.get_node(vector.add(pos,adj)).name]
@@ -42,14 +44,12 @@ local function calculateClosed(pos)
     local node = minetest.get_node(pos)
     -- the door is considered closed if it is closing off something.
 
-    local solids = 0
     local direction = node.param2 % 6
     local isTrap = direction == 0 or direction == 5
     if isTrap then
         -- the trap door is considered closed when all nodes on its sides are solid
         -- or all nodes in the 3x3 above/below it are solid except the center
         for level = 0, 1 do
-            local fail = false
             local solids = countSolids(pos,node,level)
             if solids == 8 then
                 return true
@@ -99,7 +99,6 @@ local function calculateClosed(pos)
             end
             return false
         end
-        error("What direction is this???",direction)
     end
 end
 
@@ -122,32 +121,32 @@ end
 
 local door_model_list = {
 	{	name = "closet_mahogany",
-		description = S("Mahogany Closet Door"),
+		description = N_("Mahogany Closet Door (@1 opening)"),
 		mesh = "homedecor_door_closet.obj"
 	},
 
 	{	name = "closet_oak",
-		description = S("Oak Closet Door"),
+		description = N_("Oak Closet Door (@1 opening)"),
 		mesh = "homedecor_door_closet.obj"
 	},
 
 	{	name = "exterior_fancy",
-		description = S("Fancy Wood/Glass Door"),
+		description = N_("Fancy Wood/Glass Door (@1 opening)"),
 		mesh = "homedecor_door_fancy.obj",
 		tiles = {
 			"homedecor_door_exterior_fancy.png",
 			"homedecor_door_exterior_fancy_insert.png"
-		},			
+		},
 		usealpha = true
 	},
 
 	{	name = "glass",
-		description = S("Glass Office Door"),
+		description = N_("Glass Office Door (@1 opening)"),
 		mesh = "homedecor_door_plain.obj"
 	},
 
 	{	name = "wood_glass_oak",
-		description = S("Glass and Wood, Oak-colored"),
+		description = N_("Glass and Wood, Oak-colored (@1 opening)"),
 		mesh = "homedecor_door_wood_glass.obj",
 		tiles = {
 			"homedecor_door_wood_glass_oak.png",
@@ -156,7 +155,7 @@ local door_model_list = {
 	},
 
 	{	name = "wood_glass_mahogany",
-		description = S("Glass and Wood, Mahogany-colored"),
+		description = N_("Glass and Wood, Mahogany-colored (@1 opening)"),
 		mesh = "homedecor_door_wood_glass.obj",
 		tiles = {
 			"homedecor_door_wood_glass_mahogany.png",
@@ -165,7 +164,7 @@ local door_model_list = {
 	},
 
 	{	name = "wood_glass_white",
-		description = S("Glass and Wood, White"),
+		description = N_("Glass and Wood, White (@1 opening)"),
 		mesh = "homedecor_door_wood_glass.obj",
 		tiles = {
 			"homedecor_door_wood_glass_white.png",
@@ -174,22 +173,22 @@ local door_model_list = {
 	},
 
 	{	name = "wood_plain",
-		description = S("Plain Wooden Door"),
+		description = N_("Plain Wooden Door (@1 opening)"),
 		mesh = "homedecor_door_plain.obj"
 	},
 
 	{	name = "bedroom",
-		description = S("White Bedroom Door"),
+		description = N_("White Bedroom Door (@1 opening)"),
 		mesh = "homedecor_door_plain.obj"
 	},
 
 	{	name = "wrought_iron",
-		description = S("Wrought Iron Gate/Door"),
+		description = N_("Wrought Iron Gate/Door (@1 opening)"),
 		mesh = "homedecor_door_wrought_iron.obj"
 	},
 
 	{	name = "woodglass",
-		description = S("Wooden door with glass insert"),
+		description = N_("Wooden door with glass insert (@1 opening)"),
 		mesh = "homedecor_door_woodglass_typea.obj",
 		tiles = {
 			"homedecor_door_woodglass_typea.png",
@@ -199,7 +198,7 @@ local door_model_list = {
 	},
 
 	{	name = "woodglass2",
-		description = S("Wooden door with glass insert, type 2"),
+		description = N_("Wooden door with glass insert, type 2 (@1 opening)"),
 		mesh = "homedecor_door_plain.obj",
 		usealpha = true
 	},
@@ -210,10 +209,9 @@ local def_selbox = {
 	fixed = { -0.5, -0.5, 0.375, 0.5, 1.5, 0.5 }
 }
 
-local sides = {"left", "right"}
+local sides = { N_("left"), N_("right") }
 
-for i in ipairs(sides) do
-	local side = sides[i]
+for i, side in ipairs(sides) do
 
 	for _, door_model in ipairs(door_model_list) do
 
@@ -230,7 +228,7 @@ for i in ipairs(sides) do
 		end
 
 		minetest.register_node("homedecor:door_"..doorname.."_"..side, {
-			description = door_model.description.." "..S("(%s-opening)"):format(side),
+			description = S(door_model.description, S(side)),
 			drawtype = "mesh",
 			mesh = mesh,
 			tiles = door_model.tiles or { "homedecor_door_"..doorname..".png" },
@@ -294,8 +292,14 @@ end
 
 -- Gates
 
-local gates_list = { "picket", "picket_white", "barbed_wire", "chainlink" }
-local gate_names = { "Unpainted Picket", "White Picket", "Barbed Wire", "Chainlink" }
+local gate_list = {
+	{ "picket",          S("Unpainted Picket Fence Gate") },
+	{ "picket_white",    S("White Picket Fence Gate")     },
+	{ "barbed_wire",     S("Barbed Wire Fence Gate")      },
+	{ "chainlink",       S("Chainlink Fence Gate")        },
+	{ "half_door",       S("\"Half\" Door")               },
+	{ "half_door_white", S("\"Half\" Door (white)")       }
+}
 
 local gate_models_closed = {
 	{{ -0.5, -0.5, 0.498, 0.5, 0.5, 0.498 }},
@@ -303,17 +307,22 @@ local gate_models_closed = {
 	{{ -0.5, -0.5, 0.498, 0.5, 0.5, 0.498 }},
 
 	{{ -8/16, -8/16, 6/16, -6/16,  8/16,  8/16 },	-- left post
-	 {  6/16, -8/16, 6/16,  8/16,  8/16,  8/16 }, 	-- right post
+	 {  6/16, -8/16, 6/16,  8/16,  8/16,  8/16 },	-- right post
 	 { -8/16,  7/16, 13/32, 8/16,  8/16, 15/32 },	-- top piece
 	 { -8/16, -8/16, 13/32, 8/16, -7/16, 15/32 },	-- bottom piece
 	 { -6/16, -8/16,  7/16, 6/16,  8/16,  7/16 }},	-- the wire
 
 	{{ -8/16, -8/16,  6/16, -7/16,  8/16,  8/16 },	-- left post
-	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 }, 	-- right post
+	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 },	-- right post
 	 { -8/16,  7/16, 13/32,  8/16,  8/16, 15/32 },	-- top piece
 	 { -8/16, -8/16, 13/32,  8/16, -7/16, 15/32 },	-- bottom piece
 	 { -8/16, -8/16,  7/16,  8/16,  8/16,  7/16 },	-- the chainlink itself
-	 { -8/16, -3/16,  6/16, -6/16,  3/16,  8/16 }}	-- the lump representing the lock
+	 { -8/16, -3/16,  6/16, -6/16,  3/16,  8/16 }},	-- the lump representing the lock
+
+	{{ -8/16, -8/16, 6/16, 8/16, 8/16, 8/16 }}, -- the whole door :P
+
+	{{ -8/16, -8/16, 6/16, 8/16, 8/16, 8/16 }}, -- the whole door :P
+
 }
 
 local gate_models_open = {
@@ -322,22 +331,26 @@ local gate_models_open = {
 	{{ 0.498, -0.5, -0.5, 0.498, 0.5, 0.5 }},
 
 	{{  6/16, -8/16, -8/16,  8/16,  8/16, -6/16 },	-- left post
-	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 }, 	-- right post
+	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 },	-- right post
 	 { 13/32,  7/16, -8/16, 15/32,  8/16,  8/16 },	-- top piece
 	 { 13/32, -8/16, -8/16, 15/32, -7/16,  8/16 },	-- bottom piece
 	 {  7/16, -8/16, -6/16,  7/16,  8/16,  6/16 }},	-- the wire
 
 	{{  6/16, -8/16, -8/16,  8/16,  8/16, -7/16 },	-- left post
-	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 }, 	-- right post
+	 {  6/16, -8/16,  6/16,  8/16,  8/16,  8/16 },	-- right post
 	 { 13/32,  7/16, -8/16, 15/32,  8/16,  8/16 },	-- top piece
 	 { 13/32, -8/16, -8/16, 15/32, -7/16,  8/16 },	-- bottom piece
 	 {  7/16, -8/16, -8/16,  7/16,  8/16,  8/16 },	-- the chainlink itself
-	 {  6/16, -3/16, -8/16,  8/16,  3/16, -6/16 }}	-- the lump representing the lock
+	 {  6/16, -3/16, -8/16,  8/16,  3/16, -6/16 }},	-- the lump representing the lock
+
+	{{ 6/16, -8/16, -8/16, 8/16, 8/16, 8/16 }}, -- the whole door :P
+
+	{{ 6/16, -8/16, -8/16, 8/16, 8/16, 8/16 }}, -- the whole door :P
 }
 
-for i in ipairs(gates_list) do
+for i, g in ipairs(gate_list) do
 
-	local gate=gates_list[i]
+	local gate, gatedesc = unpack(g)
 
 	local tiles = {
 		"homedecor_gate_"..gate.."_tb.png",
@@ -372,7 +385,7 @@ for i in ipairs(gates_list) do
 
     local def = {
 		drawtype = "nodebox",
-		description = S(gate_names[i].." Fence Gate"),
+		description = gatedesc,
 		tiles = tiles,
 		paramtype = "light",
 		groups = {snappy=3},
@@ -407,8 +420,8 @@ for i in ipairs(gates_list) do
     def.selection_box.fixed = { 0.4, -0.5, -0.5, 0.5, 0.5, 0.5 }
     def.node_box.fixed = gate_models_open[i]
 	def.tiles = {
-		tiles[1],
-		tiles[2],
+		tiles[1].."^[transformR90",
+		tiles[2].."^[transformR270",
 		tiles[6],
 		tiles[5],
 		tiles[4],
@@ -448,8 +461,8 @@ function homedecor.flip_door(pos, node, player, name, side, isClosed)
     -- and if not isClosed, a closed door
     isClosed = not isClosed
 
-	local rside = nil
-	local nfdir = nil
+	local rside
+	local nfdir
 	local ofdir = node.param2 or 0
 	if side == "left" then
 		rside = "right"
@@ -485,7 +498,7 @@ function homedecor.flip_gate(pos, node, player, gate, oc)
     -- since right facing gates use "open" nodes for closed, we need an
     -- isClosed flag to tell if it's "really" closed.
 
-	local gateresult = nil
+	local gateresult
 	if oc == "closed" then
 		gateresult = "homedecor:gate_"..gate.."_open"
 	else
@@ -521,11 +534,11 @@ local jp_cbox = {
 }
 
 minetest.register_node("homedecor:japanese_wall_top", {
-	description = "Japanese wall (top)",
+	description = S("Japanese wall (top)"),
 	drawtype = "mesh",
 	mesh = "homedecor_wall_japanese_top.obj",
 	tiles = {
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_japanese_paper.png"
 	},
 	paramtype = "light",
@@ -537,11 +550,11 @@ minetest.register_node("homedecor:japanese_wall_top", {
 })
 
 minetest.register_node("homedecor:japanese_wall_middle", {
-	description = "Japanese wall",
+	description = S("Japanese wall"),
 	drawtype = "mesh",
 	mesh = "homedecor_wall_japanese_middle.obj",
 	tiles = {
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_japanese_paper.png"
 	},
 	paramtype = "light",
@@ -553,11 +566,11 @@ minetest.register_node("homedecor:japanese_wall_middle", {
 })
 
 minetest.register_node("homedecor:japanese_wall_bottom", {
-	description = "Japanese wall (bottom)",
+	description = S("Japanese wall (bottom)"),
 	drawtype = "mesh",
 	mesh = "homedecor_wall_japanese_bottom.obj",
 	tiles = {
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_japanese_paper.png"
 	},
 	paramtype = "light",
@@ -577,7 +590,7 @@ minetest.register_node("homedecor:tatami_mat", {
 		"homedecor_tatami.png",
 		"homedecor_tatami.png"
 	},
-	description = "Japanese tatami",
+	description = S("Japanese tatami"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	groups = {snappy=3},
@@ -590,10 +603,10 @@ minetest.register_node("homedecor:tatami_mat", {
 })
 
 homedecor.register("door_japanese_closed", {
-	description = "Japanese-style door",
+	description = S("Japanese-style door"),
 	inventory_image = "homedecor_door_japanese_inv.png",
 	tiles = {
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_japanese_paper.png"
 	},
 	mesh = "homedecor_door_japanese_closed.obj",
@@ -616,7 +629,7 @@ homedecor.register("door_japanese_closed", {
 
 homedecor.register("door_japanese_open", {
 	tiles = {
-		"homedecor_generic_wood_luxury.png",
+		homedecor.lux_wood,
 		"homedecor_japanese_paper.png"
 	},
 	mesh = "homedecor_door_japanese_open.obj",

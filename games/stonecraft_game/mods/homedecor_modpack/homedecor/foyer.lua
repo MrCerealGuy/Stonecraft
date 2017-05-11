@@ -1,9 +1,10 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
 
 homedecor.register("coatrack_wallmount", {
 	tiles = { homedecor.plain_wood },
 	inventory_image = "homedecor_coatrack_wallmount_inv.png",
-	description = "Coatrack (wallmounted)",
+	description = S("Wall-mounted coat rack"),
 	groups = {snappy=3},
 	sounds = default.node_sound_wood_defaults(),
 	node_box = {
@@ -29,7 +30,7 @@ homedecor.register("coat_tree", {
 		"homedecor_generic_wood_old.png"
 	},
 	inventory_image = "homedecor_coatrack_inv.png",
-	description = "Coat tree",
+	description = S("Coat tree"),
 	groups = {snappy=3},
 	sounds = default.node_sound_wood_defaults(),
 	expand = { top="placeholder" },
@@ -41,9 +42,16 @@ homedecor.register("coat_tree", {
 	on_rotate = screwdriver.rotate_simple
 })
 
-for _, color in pairs({ "green", "brown", "grey" }) do
+local mat_colors = {
+	{ "green", S("Green welcome mat") },
+	{ "brown", S("Brown welcome mat") },
+	{ "grey",  S("Grey welcome mat") },
+}
+
+for _, mat in ipairs(mat_colors) do
+	local color, desc = unpack(mat)
 	homedecor.register("welcome_mat_"..color, {
-		description = "Welcome Mat ("..color..")",
+		description = desc,
 		tiles = {
 			"homedecor_welcome_mat_"..color..".png",
 			"homedecor_welcome_mat_bottom.png",

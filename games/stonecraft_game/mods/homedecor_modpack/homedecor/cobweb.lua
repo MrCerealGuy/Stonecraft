@@ -1,5 +1,8 @@
+
+local S = homedecor_i18n.gettext
+
 minetest.register_node("homedecor:cobweb_corner", {
-	description = "Cobweb",
+	description = S("Cobweb"),
 	drawtype = "torchlike",
 	tiles = { "homedecor_cobweb_torchlike.png" },
 	inventory_image = "homedecor_cobweb.png",
@@ -23,7 +26,7 @@ minetest.register_node("homedecor:cobweb_corner", {
 })
 
 minetest.register_node("homedecor:cobweb_centered", {
-	description = "Cobweb",
+	description = S("Cobweb"),
 	drawtype = "nodebox",
 	tiles = { "homedecor_cobweb.png" },
 	inventory_image = "homedecor_cobweb.png",
@@ -50,7 +53,7 @@ minetest.register_node("homedecor:cobweb_centered", {
 })
 
 minetest.register_node("homedecor:cobweb_flat", {
-	description = "Cobweb",
+	description = S("Cobweb"),
 	drawtype = "nodebox",
 	tiles = { "homedecor_cobweb.png" },
 	inventory_image = "homedecor_cobweb.png",
@@ -77,7 +80,7 @@ minetest.register_node("homedecor:cobweb_flat", {
 })
 
 minetest.register_node("homedecor:cobweb_plantlike", {
-	description = "Cobweb",
+	description = S("Cobweb"),
 	drawtype = "plantlike",
 	tiles = { "homedecor_cobweb_plantlike.png" },
 	inventory_image = "homedecor_cobweb.png",

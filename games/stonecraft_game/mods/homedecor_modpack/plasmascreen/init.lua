@@ -17,10 +17,12 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+local S = homedecor_i18n.gettext
+
 screwdriver = screwdriver or {}
 
 minetest.register_node("plasmascreen:stand", {
-	description = "Plasma Screen TV Stand",
+	description = S("Plasma Screen TV Stand"),
 	tiles = {"plasmascreen_back.png"},
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -104,7 +106,7 @@ local function checkwall(pos)
 	end
 
 	local node5 = minetest.get_node({x=pos.x+dxr, y=pos.y+1, z=pos.z+dzr})
-	if not node5 or not minetest.registered_nodes[node5.name] 
+	if not node5 or not minetest.registered_nodes[node5.name]
 	  or not minetest.registered_nodes[node5.name].buildable_to then
 		return false
 	end
@@ -113,7 +115,7 @@ local function checkwall(pos)
 end
 
 minetest.register_node("plasmascreen:tv", {
-	description = "Plasma TV",
+	description = S("Plasma TV"),
 	drawtype = "mesh",
 	mesh = "plasmascreen_tv.obj",
 	tiles = {
@@ -143,13 +145,13 @@ minetest.register_node("plasmascreen:tv", {
 			return true	-- "API: If return true no item is taken from itemstack"
 		end
 	end,
-	on_punch = function(pos, node, puncher, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		minetest.set_node(pos, {name = "plasmascreen:tv_off", param2 = node.param2})
 	end
 })
 
 minetest.register_node("plasmascreen:tv_off", {
-	description = "Plasma TV (off)",
+	description = S("Plasma TV (off)"),
 	drawtype = "mesh",
 	mesh = "plasmascreen_tv.obj",
 	tiles = {
@@ -171,7 +173,7 @@ minetest.register_node("plasmascreen:tv_off", {
 			return true	-- "API: If return true no item is taken from itemstack"
 		end
 	end,
-	on_punch = function(pos, node, puncher, pointed_thing)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		minetest.set_node(pos, {name = "plasmascreen:tv", param2 = node.param2})
 	end,
 	drop = "plasmascreen:tv"

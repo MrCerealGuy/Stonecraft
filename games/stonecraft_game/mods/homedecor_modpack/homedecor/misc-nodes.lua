@@ -1,4 +1,7 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
+
+local function N_(x) return x end
 
 homedecor.register("ceiling_paint", {
 	description = S("Textured Ceiling Paint"),
@@ -25,14 +28,13 @@ homedecor.register("ceiling_tile", {
 })
 
 local rug_types = {
-	{ "small",   "homedecor_small_rug.obj" },
-	{ "large", homedecor.box.slab_y(0.0625)},
-	{ "persian", homedecor.box.slab_y(0.0625)}
+	{ N_("small"),   "homedecor_small_rug.obj"    },
+	{ N_("large"),   homedecor.box.slab_y(0.0625) },
+	{ N_("persian"), homedecor.box.slab_y(0.0625) },
 }
 
-for i in ipairs(rug_types) do
-	s = rug_types[i][1]
-	m = rug_types[i][2]
+for _, rt in ipairs(rug_types) do
+	local s, m = unpack(rt)
 
 	local mesh = m
 	local nodebox = nil
@@ -41,7 +43,7 @@ for i in ipairs(rug_types) do
 	if type(m) == "table" then
 		mesh = nil
 		nodebox = {
-			type = "fixed",	
+			type = "fixed",
 			fixed = m
 		}
 		tiles = {
@@ -52,7 +54,7 @@ for i in ipairs(rug_types) do
 	end
 
 	homedecor.register("rug_"..s, {
-		description = S("Rug ("..s..")"),
+		description = S("Rug (@1)", S(s)),
 		mesh = mesh,
 		tiles = tiles,
 		node_box = nodebox,
@@ -64,15 +66,15 @@ for i in ipairs(rug_types) do
 	})
 end
 
-local pot_colors = {"black", "green", "terracotta"}
+local pot_colors = { N_("black"), N_("green"), N_("terracotta") }
 
 for _, p in ipairs(pot_colors) do
 homedecor.register("flower_pot_"..p, {
-	description = S("Flower Pot ("..p..")"),
+	description = S("Flower Pot (@1)", S(p)),
 	mesh = "homedecor_flowerpot.obj",
 	tiles = {
 		"homedecor_flower_pot_"..p..".png",
-		"default_dirt.png^[colorize:#000000:175"
+		{ name = "default_dirt.png", color = 0xff505050 },
 	},
 	groups = { snappy = 3, potting_soil=1 },
 	sounds = default.node_sound_stone_defaults(),
@@ -80,27 +82,25 @@ homedecor.register("flower_pot_"..p, {
 end
 
 local flowers_list = {
-	{ "Rose",				"rose", 			"flowers:rose" },
-	{ "Tulip",				"tulip", 			"flowers:tulip" },
-	{ "Yellow Dandelion",	"dandelion_yellow",	"flowers:dandelion_yellow" },
-	{ "White Dandelion",	"dandelion_white",	"flowers:dandelion_white" },
-	{ "Blue Geranium",		"geranium",			"flowers:geranium" },
-	{ "Viola",				"viola",			"flowers:viola" },
-	{ "Cactus",				"cactus",			"default:cactus" },
-	{ "Bonsai",				"bonsai",			"default:sapling" }
+	{ S("Rose"),				"rose",				"flowers:rose" },
+	{ S("Tulip"),				"tulip",			"flowers:tulip" },
+	{ S("Yellow Dandelion"),	"dandelion_yellow",	"flowers:dandelion_yellow" },
+	{ S("White Dandelion"), 	"dandelion_white",	"flowers:dandelion_white" },
+	{ S("Blue Geranium"),		"geranium",			"flowers:geranium" },
+	{ S("Viola"),				"viola",			"flowers:viola" },
+	{ S("Cactus"),				"cactus",			"default:cactus" },
+	{ S("Bonsai"),				"bonsai",			"default:sapling" }
 }
 
-for i in ipairs(flowers_list) do
-	local flowerdesc	= flowers_list[i][1]
-	local flower		= flowers_list[i][2]
-	local craftwith		= flowers_list[i][3]
-	
+for _, f in ipairs(flowers_list) do
+	local flowerdesc, flower, craftwith = unpack(f)
+
 	homedecor.register("potted_"..flower, {
-		description = S("Potted flower ("..flowerdesc..")"),
+		description = S("Potted flower (@1)", flowerdesc),
 		mesh = "homedecor_potted_plant.obj",
 		tiles = {
 			"homedecor_flower_pot_terracotta.png",
-			"default_dirt.png^[colorize:#000000:175",
+			{ name = "default_dirt.png", color = 0xff303030 },
 			"flowers_"..flower..".png"
 		},
 		walkable = false,
@@ -164,10 +164,10 @@ local ft_cbox = {
 }
 
 homedecor.register("fishtank", {
-	description = "Fishtank",
+	description = S("Fishtank"),
 	mesh = "homedecor_fishtank.obj",
 	tiles = {
-		"homedecor_generic_plastic_black.png",
+		{ name = "homedecor_generic_plastic.png", color = homedecor.color_black },
 		"homedecor_fishtank_filter.png",
 		"homedecor_fishtank_fishes.png",
 		"homedecor_fishtank_gravel.png",
@@ -186,10 +186,10 @@ homedecor.register("fishtank", {
 })
 
 homedecor.register("fishtank_lighted", {
-	description = "Fishtank (lighted)",
+	description = S("Fishtank (lighted)"),
 	mesh = "homedecor_fishtank.obj",
 	tiles = {
-		"homedecor_generic_plastic_black.png",
+		{ name = "homedecor_generic_plastic.png", color = homedecor.color_black },
 		"homedecor_fishtank_filter.png",
 		"homedecor_fishtank_fishes_lighted.png",
 		"homedecor_fishtank_gravel_lighted.png",
@@ -244,7 +244,7 @@ homedecor.register("cardboard_box", {
 })
 
 homedecor.register("dvd_cd_cabinet", {
-	description = "DVD/CD cabinet",
+	description = S("DVD/CD cabinet"),
 	mesh = "homedecor_dvd_cabinet.obj",
 	tiles = {
 		"default_wood.png",
@@ -268,9 +268,9 @@ homedecor.register("pool_table", {
 		"homedecor_pool_table_baize.png",
 		"homedecor_pool_table_pockets.png",
 		"homedecor_pool_table_balls.png",
-		"homedecor_generic_wood_luxury.png^[colorize:#000000:90"
+		homedecor.lux_wood,
 	},
-	description = "Pool Table",
+	description = S("Pool Table"),
 	inventory_image = "homedecor_pool_table_inv.png",
 	groups = {snappy=3},
 	selection_box = pooltable_cbox,
@@ -290,12 +290,12 @@ local piano_cbox = {
 homedecor.register("piano", {
 	mesh = "homedecor_piano.obj",
 	tiles = {
-		"homedecor_generic_wood_luxury.png^[colorize:#000000:175",
+		{ name = "homedecor_generic_wood_luxury.png", color = homedecor.color_black },
 		"homedecor_piano_keys.png",
 		"homedecor_generic_metal_brass.png",
 	},
 	inventory_image = "homedecor_piano_inv.png",
-	description = "Piano",
+	description = S("Piano"),
 	groups = { snappy = 3 },
 	selection_box = piano_cbox,
 	collision_box = piano_cbox,
@@ -313,7 +313,7 @@ local tr_cbox = {
 }
 
 homedecor.register("trophy", {
-	description = "Trophy",
+	description = S("Trophy"),
 	mesh = "homedecor_trophy.obj",
 	tiles = {
 		"default_wood.png",
@@ -331,12 +331,12 @@ local sb_cbox = {
 }
 
 homedecor.register("sportbench", {
-	description = "Sport bench",
+	description = S("Sport bench"),
 	mesh = "homedecor_sport_bench.obj",
 	tiles = {
 		"homedecor_generic_metal_wrought_iron.png",
 		"homedecor_generic_metal_bright.png",
-		"homedecor_generic_metal_black.png",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_black },
 		"wool_black.png"
 	},
 	inventory_image = "homedecor_sport_bench_inv.png",
@@ -356,7 +356,7 @@ homedecor.register("skateboard", {
 	mesh = "homedecor_skateboard.obj",
 	tiles = { "homedecor_skateboard.png" },
 	inventory_image = "homedecor_skateboard_inv.png",
-	description = "Skateboard",
+	description = S("Skateboard"),
 	groups = {snappy=3},
 	selection_box = skate_cbox,
 	walkable = false,
@@ -365,13 +365,13 @@ homedecor.register("skateboard", {
 })
 
 homedecor.register("tool_cabinet", {
-	description = "Metal tool cabinet and work table",
+	description = S("Metal tool cabinet and work table"),
 	mesh = "homedecor_tool_cabinet.obj",
 	tiles = {
-		"homedecor_generic_metal_black.png^[colorize:#ff0000:150",
+		{ name = "homedecor_generic_metal.png", color = 0xffd00000 },
 		"homedecor_tool_cabinet_drawers.png",
-		"homedecor_generic_metal_black.png^[colorize:#006000:150",
-		"homedecor_generic_metal_black.png^[brighten",
+		{ name = "homedecor_generic_metal.png", color = 0xff006000 },
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
 		"homedecor_generic_metal_bright.png",
 		"homedecor_tool_cabinet_misc.png",
 	},
@@ -400,7 +400,7 @@ for _, i in ipairs(n) do
 		mesh = "homedecor_picture_frame.obj",
 		tiles = {
 			"homedecor_picture_frame_image"..i..".png",
-			"homedecor_generic_wood_luxury.png^[colorize:#000000:50",
+			homedecor.lux_wood,
 			"homedecor_picture_frame_back.png",
 		},
 		inventory_image = "homedecor_picture_frame"..i.."_inv.png",
@@ -421,7 +421,7 @@ local p_cbox = {
 
 for i = 1,20 do
 	homedecor.register("painting_"..i, {
-		description = "Decorative painting #"..i,
+		description = S("Decorative painting #@1", i),
 		mesh = "homedecor_painting.obj",
 		tiles = {
 			"default_wood.png",
@@ -437,7 +437,7 @@ end
 
 homedecor.banister_materials = {
 	{	"wood",
-		"wood",
+		S("wood"),
 		"default_wood.png",
 		"default_wood.png",
 		"group:wood",
@@ -446,7 +446,7 @@ homedecor.banister_materials = {
 		""
 	},
 	{	"white_dark",
-		"dark topped",
+		S("dark topped"),
 		homedecor.white_wood,
 		homedecor.dark_wood,
 		"group:wood",
@@ -455,7 +455,7 @@ homedecor.banister_materials = {
 		"dye:white"
 	},
 	{	"brass",
-		"brass",
+		S("brass"),
 		homedecor.white_wood,
 		"homedecor_generic_metal_brass.png",
 		"technic:brass_ingot",
@@ -464,7 +464,7 @@ homedecor.banister_materials = {
 		"dye:white"
 	},
 	{	"wrought_iron",
-		"wrought iron",
+		S("wrought iron"),
 		"homedecor_generic_metal_wrought_iron.png",
 		"homedecor_generic_metal_wrought_iron.png",
 		"homedecor:pole_wrought_iron",
@@ -476,9 +476,11 @@ homedecor.banister_materials = {
 
 for _, side in ipairs({"diagonal_left", "diagonal_right", "horizontal"}) do
 
-	for i in ipairs(homedecor.banister_materials) do
+	local sidedesc = side:match("^diagonal") and S("diagonal") or S("horizontal")
 
-		local name = homedecor.banister_materials[i][1]
+	for _, mat in ipairs(homedecor.banister_materials) do
+
+		local name, matdesc, tile1, tile2 = unpack(mat)
 		local nodename = "banister_"..name.."_"..side
 
 		local groups = { snappy = 3, not_in_creative_inventory = 1 }
@@ -498,11 +500,11 @@ for _, side in ipairs({"diagonal_left", "diagonal_right", "horizontal"}) do
 		end
 
 		homedecor.register(nodename, {
-			description = S("Banister for Stairs ("..homedecor.banister_materials[i][2]..", "..side..")"),
+			description = S("Banister for Stairs (@1, @2)", matdesc, sidedesc),
 			mesh = "homedecor_banister_"..side..".obj",
 			tiles = {
-				homedecor.banister_materials[i][3],
-				homedecor.banister_materials[i][4]
+				tile1,
+				tile2,
 			},
 			inventory_image = "homedecor_banister_"..name.."_inv.png",
 			groups = groups,
@@ -571,7 +573,7 @@ homedecor.register("spiral_staircase", {
 
 		if #minetest.find_nodes_in_area(minp, maxp, "air") < 11 then
 			minetest.set_node(pos, {name = "air"})
-			minetest.chat_send_player(placer:get_player_name(), "This object takes up a 2x3x2 block of space (the bottom step goes in the forward-right corner), and some of it is occupied!" )
+			minetest.chat_send_player(placer:get_player_name(), S("not enough space"))
 			return true
 		end
 

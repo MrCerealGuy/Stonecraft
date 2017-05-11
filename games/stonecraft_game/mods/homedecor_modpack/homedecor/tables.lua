@@ -1,10 +1,19 @@
+
+local S = homedecor_i18n.gettext
+
 -- Various kinds of tables
 
-local S = homedecor.gettext
-
 local materials = {
-	{"glass","Glass"},
-	{"wood","Wood"}
+	{ "glass",
+		S("Small square glass table"),
+		S("Small round glass table"),
+		S("Large glass table piece"),
+	},
+	{ "wood",
+		S("Small square wooden table"),
+		S("Small round wooden table"),
+		S("Large wooden table piece"),
+	}
 }
 
 local tables_cbox = {
@@ -12,10 +21,9 @@ local tables_cbox = {
 	fixed = { -0.5, -0.5,    -0.5,  0.5,    -0.4375, 0.5 },
 }
 
-for i in ipairs(materials) do
-	local m = materials[i][1]
-	local d = materials[i][2]
-	local s = nil
+for i, mat in ipairs(materials) do
+	local m, small_s, small_r, large = unpack(mat)
+	local s
 
 	if m == "glass" then
 		s = default.node_sound_glass_defaults()
@@ -26,7 +34,7 @@ for i in ipairs(materials) do
 -- small square tables
 
 	homedecor.register(m.."_table_small_square", {
-		description = S(d.." Table (Small, Square)"),
+		description = small_s,
 		mesh = "homedecor_table_small_square.obj",
 		tiles = { 'homedecor_'..m..'_table_small_square.png' },
 		wield_image = 'homedecor_'..m..'_table_small_square_inv.png',
@@ -41,7 +49,7 @@ for i in ipairs(materials) do
 -- small round tables
 
 	homedecor.register(m..'_table_small_round', {
-		description = S(d.." Table (Small, Round)"),
+		description = small_r,
 		mesh = "homedecor_table_small_round.obj",
 		tiles = { "homedecor_"..m.."_table_small_round.png" },
 		wield_image = 'homedecor_'..m..'_table_small_round_inv.png',
@@ -56,7 +64,7 @@ for i in ipairs(materials) do
 -- Large square table pieces
 
 	homedecor.register(m..'_table_large', {
-		description = S(d.." Table Piece (large)"),
+		description = large,
 		tiles = {
 			'homedecor_'..m..'_table_large_tb.png',
 			'homedecor_'..m..'_table_large_tb.png',
@@ -154,15 +162,20 @@ homedecor.register("utility_table_top", {
 
 -- Various kinds of table legs
 
-local materials = {"brass", "wrought_iron"}
+-- local above
+materials = {
+	{ "brass",          S("brass") },
+	{ "wrought_iron",   S("wrought iron") },
+}
 
 for _, t in ipairs(materials) do
-homedecor.register("table_legs_"..t, {
-	description = S("Table Legs ("..t..")"),
+local name, desc = unpack(t)
+homedecor.register("table_legs_"..name, {
+	description = S("Table Legs (@1)", desc),
 	drawtype = "plantlike",
-	tiles = {"homedecor_table_legs_"..t..".png"},
-	inventory_image = "homedecor_table_legs_"..t..".png",
-	wield_image = "homedecor_table_legs_"..t..".png",
+	tiles = {"homedecor_table_legs_"..name..".png"},
+	inventory_image = "homedecor_table_legs_"..name..".png",
+	wield_image = "homedecor_table_legs_"..name..".png",
 	walkable = false,
 	groups = {snappy=3},
 	sounds = default.node_sound_wood_defaults(),

@@ -1,2 +1,4 @@
 default
 wool
+homedecor_i18n
+unifieddyes

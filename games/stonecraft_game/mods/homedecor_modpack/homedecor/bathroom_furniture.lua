@@ -1,44 +1,62 @@
-local S = homedecor.gettext
 
-local bathroom_tile_colors = {
-	{ "1",      "white/grey",      "#c0c0c0:200" },
-	{ "2",      "white/dark grey", "#404040:150" },
-	{ "3",      "white/black",     "#000000:200" },
-	{ "4",      "black/dark grey", ""       },
-	{ "red",    "white/red",       "#d00000:150" },
-	{ "green",  "white/green",     "#00d000:150" },
-	{ "blue",   "white/blue",      "#0000d0:150" },
-	{ "yellow", "white/yellow",    "#ffff00:150" },
-	{ "tan",    "white/tan",       "#ceaf42:150" }
-}
+local S = homedecor_i18n.gettext
 
-for i in ipairs(bathroom_tile_colors) do
-	local color = bathroom_tile_colors[i][1]
-	local shade = bathroom_tile_colors[i][2]
-	local hue =   bathroom_tile_colors[i][3]
+minetest.register_node("homedecor:bathroom_tiles_dark", {
+	description = S("Bathroom/kitchen tiles (dark)"),
+	tiles = {
+		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xff606060 },
+		"homedecor_bathroom_tiles_fg.png"
+	},
+	drawtype = "mesh",
+	mesh = "homedecor_block_with_overlay.obj",
+	paramtype = "light",
+	paramtype2 = "color",
+	palette = "unifieddyes_palette_extended.png",
+	place_param2 = 240,
+	groups = {cracky=3, ud_param2_colorable = 1},
+	sounds = default.node_sound_stone_defaults(),
+	on_construct = unifieddyes.on_construct,
+	after_place_node = unifieddyes.recolor_on_place,
+	after_dig_node = unifieddyes.after_dig_node
+})
 
-	local coloredtile = "homedecor_bathroom_tiles_bg.png^(homedecor_bathroom_tiles_fg.png^[colorize:"..hue..")"
+minetest.register_node("homedecor:bathroom_tiles_medium", {
+	description = S("Bathroom/kitchen tiles (medium)"),
+	tiles = {
+		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xffc0c0c0 },
+		"homedecor_bathroom_tiles_fg.png"
+	},
+	drawtype = "mesh",
+	mesh = "homedecor_block_with_overlay.obj",
+	paramtype = "light",
+	paramtype2 = "color",
+	palette = "unifieddyes_palette_extended.png",
+	place_param2 = 240,
+	groups = {cracky=3, ud_param2_colorable = 1},
+	sounds = default.node_sound_stone_defaults(),
+	on_construct = unifieddyes.on_construct,
+	after_place_node = unifieddyes.recolor_on_place,
+	after_dig_node = unifieddyes.after_dig_node
+})
 
-	if color == "4" then
-		coloredtile = "(homedecor_bathroom_tiles_bg.png^[colorize:#000000:75)"..
-					  "^(homedecor_bathroom_tiles_fg.png^[colorize:#000000:200)"
-	end
-
-	minetest.register_node("homedecor:tiles_"..color, {
-		description = "Bathroom/kitchen tiles ("..shade..")",
-		tiles = {
-			coloredtile,
-			coloredtile,
-			coloredtile,
-			coloredtile,
-			"("..coloredtile..")^[transformR90",
-			"("..coloredtile..")^[transformR90"
-		},
-		groups = {cracky=3},
-		paramtype = "light",
-		sounds = default.node_sound_stone_defaults(),
-	})
-end
+minetest.register_node("homedecor:bathroom_tiles_light", {
+	description = S("Bathroom/kitchen tiles (light)"),
+	tiles = {
+		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xffffffff },
+		"homedecor_bathroom_tiles_fg.png"
+	},
+	drawtype = "mesh",
+	mesh = "homedecor_block_with_overlay.obj",
+	paramtype = "light",
+	paramtype2 = "color",
+	palette = "unifieddyes_palette_extended.png",
+	place_param2 = 240,
+	groups = {cracky=3, ud_param2_colorable = 1},
+	sounds = default.node_sound_stone_defaults(),
+	on_construct = unifieddyes.on_construct,
+	after_place_node = unifieddyes.recolor_on_place,
+	after_dig_node = unifieddyes.after_dig_node
+})
 
 local tr_cbox = {
 	type = "fixed",
@@ -46,7 +64,7 @@ local tr_cbox = {
 }
 
 homedecor.register("towel_rod", {
-	description = "Towel rod with towel",
+	description = S("Towel rod with towel"),
 	mesh = "homedecor_towel_rod.obj",
 	tiles = {
 		"homedecor_generic_terrycloth.png",
@@ -60,7 +78,7 @@ homedecor.register("towel_rod", {
 })
 
 homedecor.register("medicine_cabinet", {
-	description = S("Medicine Cabinet"),
+	description = S("Medicine cabinet"),
 	mesh = "homedecor_medicine_cabinet.obj",
 	tiles = {
 		'default_wood.png',
@@ -104,3 +122,72 @@ homedecor.register("medicine_cabinet_open", {
 	end,
 })
 
+-- convert old static nodes
+
+homedecor.old_static_bathroom_tiles = {
+	"homedecor:tiles_1",
+	"homedecor:tiles_2",
+	"homedecor:tiles_3",
+	"homedecor:tiles_4",
+	"homedecor:tiles_red",
+	"homedecor:tiles_tan",
+	"homedecor:tiles_yellow",
+	"homedecor:tiles_green",
+	"homedecor:tiles_blue"
+}
+
+local old_to_color = {
+	"light_grey",
+	"grey",
+	"black",
+	"black"
+}
+
+minetest.register_lbm({
+	name = "homedecor:convert_bathroom_tiles",
+	label = "Convert bathroom tiles to use param2 color",
+	run_at_every_load = false,
+	nodenames = homedecor.old_static_bathroom_tiles,
+	action = function(pos, node)
+		local name = node.name
+		local newname = "homedecor:bathroom_tiles_light"
+		local a = string.find(name, "_")
+		local color = string.sub(name, a + 1)
+
+		if color == "tan" then
+			color = "yellow_s50"
+		elseif color == "1" or color == "2" or color == "3" or color == "4" then
+			if color == "4" then
+				newname = "homedecor:bathroom_tiles_medium"
+			end
+			color = old_to_color[tonumber(color)]
+		elseif color ~= "yellow" then
+			color = color.."_s50"
+		end
+
+		local paletteidx = unifieddyes.getpaletteidx("unifieddyes:"..color, "extended")
+
+		minetest.set_node(pos, { name = newname, param2 = paletteidx })
+		local meta = minetest.get_meta(pos)
+		meta:set_string("dye", "unifieddyes:"..color)
+		meta:set_string("palette", "ext")
+	end
+})
+
+minetest.register_lbm({
+	name = "homedecor:recolor_bathroom_tiles",
+	label = "Convert bathroom tiles to use UD extended palette",
+	run_at_every_load = false,
+	nodenames = {
+		"homedecor:bathroom_tiles_light",
+		"homedecor:bathroom_tiles_medium",
+		"homedecor:bathroom_tiles_dark",
+	},
+	action = function(pos, node)
+		local meta = minetest.get_meta(pos)
+		if meta:get_string("palette") ~= "ext" then
+			minetest.swap_node(pos, { name = node.name, param2 = unifieddyes.convert_classic_palette[node.param2] })
+			meta:set_string("palette", "ext")
+		end
+	end
+})

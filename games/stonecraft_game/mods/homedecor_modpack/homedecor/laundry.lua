@@ -52,7 +52,7 @@ homedecor.register("ironing_board", {
 	mesh = "homedecor_ironing_board.obj",
 	tiles = {
 		"wool_grey.png",
-		"homedecor_generic_metal_black.png^[brighten"
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
 	},
 	expand = {right = "placeholder"},
 	groups = { snappy = 3 },

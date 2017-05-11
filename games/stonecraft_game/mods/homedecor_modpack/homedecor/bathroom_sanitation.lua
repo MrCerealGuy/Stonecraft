@@ -1,4 +1,5 @@
-local S = homedecor.gettext
+
+local S = homedecor_i18n.gettext
 
 local toilet_sbox = {
 	type = "fixed",
@@ -7,7 +8,7 @@ local toilet_sbox = {
 
 local toilet_cbox = {
 	type = "fixed",
-	fixed = { 
+	fixed = {
 		{-6/16, -8/16, -8/16, 6/16, 1/16, 8/16 },
 		{-6/16, -8/16, 4/16, 6/16, 9/16, 8/16 }
 	}
@@ -17,16 +18,16 @@ homedecor.register("toilet", {
 	description = S("Toilet"),
 	mesh = "homedecor_toilet_closed.obj",
 	tiles = {
-		"homedecor_marble.png^[colorize:#ffffff:175",
-		"homedecor_marble.png^[colorize:#ffffff:175",
-		"homedecor_marble.png^[colorize:#ffffff:175",
-		"homedecor_generic_metal_black.png^[brighten"
+		"homedecor_marble.png",
+		"homedecor_marble.png",
+		"homedecor_marble.png",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey }
 	},
 	selection_box = toilet_sbox,
 	node_box = toilet_cbox,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
-	on_punch = function (pos, node, puncher)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		node.name = "homedecor:toilet_open"
 		minetest.set_node(pos, node)
 	end
@@ -35,18 +36,18 @@ homedecor.register("toilet", {
 homedecor.register("toilet_open", {
 	mesh = "homedecor_toilet_open.obj",
 	tiles = {
-		"homedecor_marble.png^[colorize:#ffffff:175",
-		"homedecor_marble.png^[colorize:#ffffff:175",
-		"homedecor_marble.png^[colorize:#ffffff:175",
+		"homedecor_marble.png",
+		"homedecor_marble.png",
+		"homedecor_marble.png",
 		"default_water.png",
-		"homedecor_generic_metal_black.png^[brighten"
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey }
 	},
 	selection_box = toilet_sbox,
 	collision_box = toilet_cbox,
 	drop = "homedecor:toilet",
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
-	on_punch = function (pos, node, puncher)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		node.name = "homedecor:toilet"
 		minetest.set_node(pos, node)
 		minetest.sound_play("homedecor_toilet_flush", {
@@ -89,7 +90,7 @@ homedecor.register("sink", {
 	description = S("Bathroom Sink"),
 	mesh = "homedecor_bathroom_sink.obj",
 	tiles = {
-		"homedecor_marble.png^[colorize:#ffffff:175",
+		"homedecor_marble.png",
 		"homedecor_marble.png",
 		"default_water.png"
 	},
@@ -119,7 +120,8 @@ local function taps_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	if below and
 	  below.name == "homedecor:shower_tray" or
 	  below.name == "homedecor:sink" or
-	  below.name == "homedecor:kitchen_cabinet_with_sink" then
+	  below.name == "homedecor:kitchen_cabinet_with_sink" or
+	  below.name == "homedecor:kitchen_cabinet_with_sink_locked" then
 		local particledef = {
 			outlet      = { x = 0, y = -0.44, z = 0.28 },
 			velocity_x  = { min = -0.1, max = 0.1 },
@@ -136,9 +138,9 @@ homedecor.register("taps", {
 	description = S("Bathroom taps/faucet"),
 	mesh = "homedecor_bathroom_faucet.obj",
 	tiles = {
-		"homedecor_generic_metal_black.png^[brighten",
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
 		"homedecor_generic_metal_bright.png",
-		"homedecor_generic_metal_black.png^[colorize:#ffffff:200",
+		"homedecor_generic_metal.png",
 		"homedecor_generic_metal_bright.png"
 	},
 	inventory_image = "3dforniture_taps_inv.png",
@@ -161,7 +163,7 @@ homedecor.register("taps_brass", {
 	tiles = {
 		"homedecor_generic_metal_brass.png",
 		"homedecor_generic_metal_brass.png",
-		"homedecor_generic_metal_black.png^[colorize:#ffffff:200",
+		"homedecor_generic_metal.png",
 		"homedecor_generic_metal_brass.png"
 	},
 	inventory_image = "3dforniture_taps_brass_inv.png",
@@ -217,11 +219,11 @@ homedecor.register("shower_head", {
 	drawtype = "mesh",
 	mesh = "homedecor_shower_head.obj",
 	tiles = {
-		"homedecor_generic_metal_black.png^[brighten",
+		"homedecor_generic_metal.png",
 		"homedecor_shower_head.png"
 	},
 	inventory_image = "homedecor_shower_head_inv.png",
-	description = "Shower Head",
+	description = S("Shower Head"),
 	groups = {snappy=3},
 	selection_box = sh_cbox,
 	walkable = false,
@@ -245,6 +247,46 @@ homedecor.register("shower_head", {
 	end
 })
 
+homedecor.register("bathtub_clawfoot_brass_taps", {
+	drawtype = "mesh",
+	mesh = "homedecor_bathtub_clawfoot.obj",
+	tiles = {
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
+		"homedecor_generic_metal_bright.png",
+		"homedecor_generic_metal_bright.png",
+		"homedecor_generic_metal_brass.png",
+		"homedecor_marble.png",
+		"homedecor_bathtub_clawfoot_bottom_inside.png",
+	},
+	description = S("Bathtub, clawfoot, with brass taps"),
+	groups = {cracky=3},
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.5, -0.5, -0.5, 1.5, 0.3125, 0.5 },
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
+homedecor.register("bathtub_clawfoot_chrome_taps", {
+	drawtype = "mesh",
+	mesh = "homedecor_bathtub_clawfoot.obj",
+	tiles = {
+		{ name = "homedecor_generic_metal.png", color = homedecor.color_med_grey },
+		"homedecor_generic_metal_bright.png",
+		"homedecor_generic_metal_bright.png",
+		"homedecor_generic_metal_bright.png",
+		"homedecor_marble.png",
+		"homedecor_bathtub_clawfoot_bottom_inside.png",
+	},
+	description = S("Bathtub, clawfoot, with chrome taps"),
+	groups = {cracky=3},
+	selection_box = {
+		type = "fixed",
+		fixed = { -0.5, -0.5, -0.5, 1.5, 0.3125, 0.5 },
+	},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 local bs_cbox = {
 	type = "fixed",
 	fixed = { -8/16, -8/16, 1/16, 8/16, 8/16, 8/16 }
@@ -261,7 +303,7 @@ homedecor.register("bathroom_set", {
 		"homedecor_bathroom_set_toothpaste.png",
 	},
 	inventory_image = "homedecor_bathroom_set_inv.png",
-	description = "Bathroom sundries set",
+	description = S("Bathroom sundries set"),
 	groups = {snappy=3},
 	selection_box = bs_cbox,
 	walkable = false,
