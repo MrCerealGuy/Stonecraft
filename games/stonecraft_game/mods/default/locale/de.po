@@ -19,432 +19,432 @@ msgstr ""
 
 #: nodes.lua
 msgid "Stone"
-msgstr ""
+msgstr "Stein"
 
 #: nodes.lua
 msgid "Cobblestone"
-msgstr ""
+msgstr "Pflaster Stein"
 
 #: nodes.lua
 msgid "Stone Brick"
-msgstr ""
+msgstr "Stein Ziegel"
 
 #: nodes.lua
 msgid "Stone Block"
-msgstr ""
+msgstr "Stein Block"
 
 #: nodes.lua
 msgid "Mossy Cobblestone"
-msgstr ""
+msgstr "Bemooster Pflaster Stein"
 
 #: nodes.lua
 msgid "Desert Stone"
-msgstr ""
+msgstr "Wüsten Stein"
 
 #: nodes.lua
 msgid "Desert Cobblestone"
-msgstr ""
+msgstr "Wüsten Pflaster Stein"
 
 #: nodes.lua
 msgid "Desert Stone Brick"
-msgstr ""
+msgstr "Wüsten Stein Ziegel"
 
 #: nodes.lua
 msgid "Desert Stone Block"
-msgstr ""
+msgstr "Wüsten Stein Block"
 
 #: nodes.lua
 msgid "Sandstone"
-msgstr ""
+msgstr "Sandstein"
 
 #: nodes.lua
 msgid "Sandstone Brick"
-msgstr ""
+msgstr "Sandstein Ziegel"
 
 #: nodes.lua
 msgid "Sandstone Block"
-msgstr ""
+msgstr "Sandstein Block"
 
 #: nodes.lua
 msgid "Desert Sandstone"
-msgstr ""
+msgstr "Wüsten Sandstein"
 
 #: nodes.lua
 msgid "Desert Sandstone Brick"
-msgstr ""
+msgstr "Wüsten Sandstein Ziegel"
 
 #: nodes.lua
 msgid "Desert Sandstone Block"
-msgstr ""
+msgstr "Wüsten Sandstein Block"
 
 #: nodes.lua
 msgid "Silver Sandstone"
-msgstr ""
+msgstr "Silber Sandstein"
 
 #: nodes.lua
 msgid "Silver Sandstone Brick"
-msgstr ""
+msgstr "Silber Sandstein Ziegel"
 
 #: nodes.lua
 msgid "Silver Sandstone Block"
-msgstr ""
+msgstr "Silber Sandstein Block"
 
 #: nodes.lua
 msgid "Obsidian"
-msgstr ""
+msgstr "Obsidian"
 
 #: nodes.lua
 msgid "Obsidian Brick"
-msgstr ""
+msgstr "Obsidian Ziegel"
 
 #: nodes.lua
 msgid "Obsidian Block"
-msgstr ""
+msgstr "Obsidian Block"
 
 #: nodes.lua
 msgid "Dirt"
-msgstr ""
+msgstr "Erde"
 
 #: nodes.lua
 msgid "Dirt with Grass"
-msgstr ""
+msgstr "Erde mit Gras"
 
 #: nodes.lua
 msgid "Dirt with Grass and Footsteps"
-msgstr ""
+msgstr "Erde mit Gras und Fußspuren"
 
 #: nodes.lua
 msgid "Dirt with Dry Grass"
-msgstr ""
+msgstr "Erde mit trockenem Gras"
 
 #: nodes.lua
 msgid "Dirt with Snow"
-msgstr ""
+msgstr "Erde mit Schnee"
 
 #: nodes.lua
 msgid "Dirt with Rainforest Litter"
-msgstr ""
+msgstr "Erde mit Regenwald Abfall"
 
 #: nodes.lua
 msgid "Sand"
-msgstr ""
+msgstr "Sand"
 
 #: nodes.lua
 msgid "Desert Sand"
-msgstr ""
+msgstr "Wüsten Sand"
 
 #: nodes.lua
 msgid "Silver Sand"
-msgstr ""
+msgstr "Silber Sand"
 
 #: nodes.lua
 msgid "Gravel"
-msgstr ""
+msgstr "Kies"
 
 #: nodes.lua
 msgid "Clay"
-msgstr ""
+msgstr "Lehm"
 
 #: nodes.lua
 msgid "Snow"
-msgstr ""
+msgstr "Schnee"
 
 #: nodes.lua
 msgid "Snow Block"
-msgstr ""
+msgstr "Schnee Block"
 
 #: nodes.lua
 msgid "Ice"
-msgstr ""
+msgstr "Eis"
 
 #: nodes.lua
 msgid "Tree"
-msgstr ""
+msgstr "Baum"
 
 #: nodes.lua
 msgid "Wooden Planks"
-msgstr ""
+msgstr "Holz Bretter"
 
 #: nodes.lua
 msgid "Sapling"
-msgstr ""
+msgstr "Setzling"
 
 #: nodes.lua
 msgid "Leaves"
-msgstr ""
+msgstr "Blätter"
 
 #: nodes.lua
 msgid "Apple"
-msgstr ""
+msgstr "Apfel"
 
 #: nodes.lua
 msgid "Jungle Tree"
-msgstr ""
+msgstr "Dschungel Baum"
 
 #: nodes.lua
 msgid "Junglewood Planks"
-msgstr ""
+msgstr "Dschungel Baum Bretter"
 
 #: nodes.lua
 msgid "Jungle Leaves"
-msgstr ""
+msgstr "Dschungel Blätter"
 
 #: nodes.lua
 msgid "Jungle Sapling"
-msgstr ""
+msgstr "Dschungel Setzling"
 
 #: nodes.lua
 msgid "Pine Tree"
-msgstr ""
+msgstr "Kiefer"
 
 #: nodes.lua
 msgid "Pine Wood Planks"
-msgstr ""
+msgstr "Kiefer Holz Bretter"
 
 #: nodes.lua
 msgid "Pine Needles"
-msgstr ""
+msgstr "Kiefer Nadeln"
 
 #: nodes.lua
 msgid "Pine Sapling"
-msgstr ""
+msgstr "Kiefer Setzling"
 
 #: nodes.lua
 msgid "Acacia Tree"
-msgstr ""
+msgstr "Akazienbaum"
 
 #: nodes.lua
 msgid "Acacia Wood Planks"
-msgstr ""
+msgstr "Akazien Holz Bretter"
 
 #: nodes.lua
 msgid "Acacia Leaves"
-msgstr ""
+msgstr "Akazien Blätter"
 
 #: nodes.lua
 msgid "Acacia Tree Sapling"
-msgstr ""
+msgstr "Akazien Baumsetzling"
 
 #: nodes.lua
 msgid "Aspen Tree"
-msgstr ""
+msgstr "Espenbaum"
 
 #: nodes.lua
 msgid "Aspen Wood Planks"
-msgstr ""
+msgstr "Espen Holz Bretter"
 
 #: nodes.lua
 msgid "Aspen Leaves"
-msgstr ""
+msgstr "Espen Blätter"
 
 #: nodes.lua
 msgid "Aspen Tree Sapling"
-msgstr ""
+msgstr "Espen Baumsetzling"
 
 #: nodes.lua
 msgid "Coal Ore"
-msgstr ""
+msgstr "Kohle Erz"
 
 #: nodes.lua
 msgid "Coal Block"
-msgstr ""
+msgstr "Kohle Block"
 
 #: nodes.lua
 msgid "Iron Ore"
-msgstr ""
+msgstr "Eisen Erz"
 
 #: nodes.lua
 msgid "Steel Block"
-msgstr ""
+msgstr "Stahl Block"
 
 #: nodes.lua
 msgid "Copper Ore"
-msgstr ""
+msgstr "Kupfer Erz"
 
 #: nodes.lua
 msgid "Copper Block"
-msgstr ""
+msgstr "Kupfer Block"
 
 #: nodes.lua
 msgid "Tin Ore"
-msgstr ""
+msgstr "Zinn Erz"
 
 #: nodes.lua
 msgid "Tin Block"
-msgstr ""
+msgstr "Zinn Block"
 
 #: nodes.lua
 msgid "Bronze Block"
-msgstr ""
+msgstr "Bronze Block"
 
 #: nodes.lua
 msgid "Mese Ore"
-msgstr ""
+msgstr "Mese Erz"
 
 #: nodes.lua
 msgid "Mese Block"
-msgstr ""
+msgstr "Mese Block"
 
 #: nodes.lua
 msgid "Gold Ore"
-msgstr ""
+msgstr "Gold Erz"
 
 #: nodes.lua
 msgid "Gold Block"
-msgstr ""
+msgstr "Gold Block"
 
 #: nodes.lua
 msgid "Diamond Ore"
-msgstr ""
+msgstr "Diamanten Erz"
 
 #: nodes.lua
 msgid "Diamond Block"
-msgstr ""
+msgstr "Diamenten Block"
 
 #: nodes.lua
 msgid "Cactus"
-msgstr ""
+msgstr "Kaktus"
 
 #: nodes.lua
 msgid "Papyrus"
-msgstr ""
+msgstr "Papyrus"
 
 #: nodes.lua
 msgid "Dry Shrub"
-msgstr ""
+msgstr "Trockener Busch"
 
 #: nodes.lua
 msgid "Jungle Grass"
-msgstr ""
+msgstr "Dschungel Gras"
 
 #: nodes.lua
 msgid "Grass"
-msgstr ""
+msgstr "Gras"
 
 #: nodes.lua
 msgid "Dry Grass"
-msgstr ""
+msgstr "Trockenes Gras"
 
 #: nodes.lua
 msgid "Bush Stem"
-msgstr ""
+msgstr "Busch Stamm"
 
 #: nodes.lua
 msgid "Bush Leaves"
-msgstr ""
+msgstr "Busch Blätter"
 
 #: nodes.lua
 msgid "Bush Sapling"
-msgstr ""
+msgstr "Busch Setzling"
 
 #: nodes.lua
 msgid "Acacia Bush Stem"
-msgstr ""
+msgstr "Akazien Busch Stamm"
 
 #: nodes.lua
 msgid "Acacia Bush Leaves"
-msgstr ""
+msgstr "Akazien Busch Blätter"
 
 #: nodes.lua
 msgid "Acacia Bush Sapling"
-msgstr ""
+msgstr "Akazien Busch Setzling"
 
 #: nodes.lua
 msgid "Brown Coral"
-msgstr ""
+msgstr "Braune Koralle"
 
 #: nodes.lua
 msgid "Orange Coral"
-msgstr ""
+msgstr "Orangene Koralle"
 
 #: nodes.lua
 msgid "Coral Skeleton"
-msgstr ""
+msgstr "Korallen Skelett"
 
 #: nodes.lua
 msgid "Water Source"
-msgstr ""
+msgstr "Wasser Quelle"
 
 #: nodes.lua
 msgid "Flowing Water"
-msgstr ""
+msgstr "Fließendes Wasser"
 
 #: nodes.lua
 msgid "River Water Source"
-msgstr ""
+msgstr "Fluss Wasser Quelle"
 
 #: nodes.lua
 msgid "Flowing River Water"
-msgstr ""
+msgstr "Fließendes Fluss Wasser"
 
 #: nodes.lua
 msgid "Lava Source"
-msgstr ""
+msgstr "Lava Quelle"
 
 #: nodes.lua
 msgid "Flowing Lava"
-msgstr ""
+msgstr "Fließende Lava"
 
 #: nodes.lua
 msgid "Chest"
-msgstr ""
+msgstr "Truhe"
 
 #: nodes.lua
 msgid "Locked Chest"
-msgstr ""
+msgstr "Verschlossene Truhe"
 
 #: nodes.lua
 msgid "Bookshelf"
-msgstr ""
+msgstr "Bücherregal"
 
 #: nodes.lua
 msgid "Wooden Ladder"
-msgstr ""
+msgstr "Holz Leiter"
 
 #: nodes.lua
 msgid "Steel Ladder"
-msgstr ""
+msgstr "Stahl Leiter"
 
 #: nodes.lua
 msgid "Wooden Fence"
-msgstr ""
+msgstr "Holz Zaun"
 
 #: nodes.lua
 msgid "Acacia Fence"
-msgstr ""
+msgstr "Akazien Zaun"
 
 #: nodes.lua
 msgid "Junglewood Fence"
-msgstr ""
+msgstr "Dschungel Holz Zaun"
 
 #: nodes.lua
 msgid "Pine Fence"
-msgstr ""
+msgstr "Kiefer Zaun"
 
 #: nodes.lua
 msgid "Aspen Fence"
-msgstr ""
+msgstr "Espen Zaun"
 
 #: nodes.lua
 msgid "Glass"
-msgstr ""
+msgstr "Glas"
 
 #: nodes.lua
 msgid "Obsidian Glass"
-msgstr ""
+msgstr "Obsidian Glas"
 
 #: nodes.lua
 msgid "Brick Block"
-msgstr ""
+msgstr "Ziegel Block"
 
 #: nodes.lua
 msgid "Mese Lamp"
-msgstr ""
+msgstr "Mese Lampe"
 
 #: nodes.lua
 msgid "Mese Post Light"
-msgstr ""
+msgstr "Mese Post Lampe"
 
 #: nodes.lua
 msgid "Cloud"
-msgstr ""
+msgstr "Wolke"
