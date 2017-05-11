@@ -1,7 +1,7 @@
 --[[
 More Blocks: conversion
 
-Copyright (c) 2011-2015 Calinou and contributors.
+Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -80,8 +80,9 @@ function stairsplus:register_6dfacedir_conversion(modname, material)
 			chance = 1,
 			action = function(pos, node, active_object_count, active_object_count_wider)
 				local fdir = node.param2 or 0
+				local nfdir
 
-				if flip_upside_down and not flip_to_wall then 
+				if flip_upside_down and not flip_to_wall then
 					nfdir = dirs1[fdir + 2]
 				elseif flip_to_wall and not flip_upside_down then
 					nfdir = dirs2[fdir + 1]
@@ -125,7 +126,7 @@ function stairsplus:register_6dfacedir_conversion(modname, material)
 				local fdir = node.param2
 				local nfdir = 20
 
-				if flip_upside_down and not flip_to_wall then 
+				if flip_upside_down and not flip_to_wall then
 					nfdir = dirs1[fdir + 1]
 				elseif flip_to_wall and not flip_upside_down then
 					nfdir = dirs2[fdir + 2]
@@ -136,4 +137,3 @@ function stairsplus:register_6dfacedir_conversion(modname, material)
 		})
 	end
 end
-

@@ -1,7 +1,7 @@
 --[[
 More Blocks: alias definitions
 
-Copyright (c) 2011-2015 Calinou and contributors.
+Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -19,6 +19,8 @@ minetest.register_alias("moreblocks:stone_bricks", "default:stonebrick")
 minetest.register_alias("moreblocks:stonebrick", "default:stonebrick")
 minetest.register_alias("moreblocks:junglewood", "default:junglewood")
 minetest.register_alias("moreblocks:jungle_wood", "default:junglewood")
+minetest.register_alias("moreblocks:fence_jungle_wood", "default:fence_junglewood")
+minetest.register_alias("moreblocks:jungle_stick", "default:stick")
 
 for _, t in pairs(circular_saw.names) do
 	minetest.register_alias("moreblocks:" .. t[1] .. "_jungle_wood" .. t[2],
@@ -75,4 +77,3 @@ minetest.register_abm({
 		})
 	end,
 })
-

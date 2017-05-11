@@ -1,14 +1,22 @@
 --[[
 More Blocks: node definitions
 
-Copyright (c) 2011-2015 Calinou and contributors.
+Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local sound_wood = default.node_sound_wood_defaults()
 local sound_stone = default.node_sound_stone_defaults()
 local sound_glass = default.node_sound_glass_defaults()
 local sound_leaves = default.node_sound_leaves_defaults()
+
+-- Don't break on 0.4.14 and earlier.
+local sound_metal = (default.node_sound_metal_defaults
+		and default.node_sound_metal_defaults() or sound_stone)
 
 local function tile_tiles(name)
 	local tex = "moreblocks_" ..name.. ".png"
@@ -29,7 +37,7 @@ local nodes = {
 	},
 	["wood_tile_flipped"] = {
 		description = S("Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^moreblocks_wood_tile.png^[transformR90",
 		"default_wood.png^moreblocks_wood_tile.png^[transformR90",
 		"default_wood.png^moreblocks_wood_tile.png^[transformR90",
@@ -41,40 +49,40 @@ local nodes = {
 	},
 	["wood_tile_center"] = {
 		description = S("Centered Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^moreblocks_wood_tile_center.png"},
 		sounds = sound_wood,
 	},
 	["wood_tile_full"] = {
 		description = S("Full Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = tile_tiles("wood_tile_full"),
 		sounds = sound_wood,
 	},
 	["wood_tile_up"] = {
 		description = S("Upwards Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^moreblocks_wood_tile_up.png"},
 		sounds = sound_wood,
 		no_stairs = true,
 	},
 	["wood_tile_down"] = {
 		description = S("Downwards Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^[transformR180^moreblocks_wood_tile_up.png^[transformR180"},
 		sounds = sound_wood,
 		no_stairs = true,
 	},
 	["wood_tile_left"] = {
 		description = S("Leftwards Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^[transformR270^moreblocks_wood_tile_up.png^[transformR270"},
 		sounds = sound_wood,
 		no_stairs = true,
 	},
 	["wood_tile_right"] = {
 		description = S("Rightwards Wooden Tile"),
-		groups = {snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
+		groups = {wood = 1, snappy = 1, choppy = 2, oddly_breakable_by_hand = 2, flammable = 3},
 		tiles = {"default_wood.png^[transformR90^moreblocks_wood_tile_up.png^[transformR90"},
 		sounds = sound_wood,
 		no_stairs = true,
@@ -184,6 +192,7 @@ local nodes = {
 			"moreblocks_empty_bookshelf.png"},
 		groups = {snappy = 2, choppy = 3, oddly_breakable_by_hand = 2, flammable = 3},
 		sounds = sound_wood,
+		furnace_burntime = 15,
 		no_stairs = true,
 	},
 	["coal_stone"] = {
@@ -237,21 +246,6 @@ local nodes = {
 		sounds = sound_glass,
 		no_stairs = true,
 	},
-	["fence_jungle_wood"] = {
-		description = S("Jungle Wood Fence"),
-		drawtype = "fencelike",
-		tiles = {"default_junglewood.png"},
-		inventory_image = "default_fence_overlay.png^default_junglewood.png^default_fence_overlay.png^[makealpha:255,126,126",
-		wield_image = "default_fence_overlay.png^default_junglewood.png^default_fence_overlay.png^[makealpha:255,126,126",
-		paramtype = "light",
-		selection_box = {
-			type = "fixed",
-			fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
-		},
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
-		sounds = sound_wood,
-		no_stairs = true,
-	},
 	["all_faces_tree"] = {
 		description = S("All-faces Tree"),
 		tiles = {"default_tree_top.png"},
@@ -297,7 +291,7 @@ local nodes = {
 		tiles = {"moreblocks_super_glow_glass.png"},
 		paramtype = "light",
 		sunlight_propagates = true,
-		light_source = 15,
+		light_source = 14,
 		groups = {snappy = 2, cracky = 3, oddly_breakable_by_hand = 3},
 		sounds = sound_glass,
 	},
@@ -308,7 +302,7 @@ local nodes = {
 		tiles = {"moreblocks_trap_super_glow_glass.png"},
 		paramtype = "light",
 		sunlight_propagates = true,
-		light_source = 15,
+		light_source = 14,
 		walkable = false,
 		groups = {snappy = 2, cracky = 3, oddly_breakable_by_hand = 3},
 		sounds = sound_glass,
@@ -328,6 +322,11 @@ local nodes = {
 		groups = {snappy = 3, flammable = 2},
 		sounds = sound_leaves,
 		no_stairs = true,
+	},
+	["copperpatina"] = {
+		description = S("Copper Patina Block"),
+		groups = {cracky = 1, level = 2},
+		sounds = sound_metal,
 	},
 }
 
@@ -357,14 +356,7 @@ minetest.register_craftitem("moreblocks:sweeper", {
 	inventory_image = "moreblocks_sweeper.png",
 })
 
-minetest.register_craftitem("moreblocks:jungle_stick", {
-	description = S("Jungle Stick"),
-	inventory_image = "moreblocks_junglestick.png",
-	groups = {stick= 1},
-})
-
 minetest.register_craftitem("moreblocks:nothing", {
 	inventory_image = "invisible.png",
 	on_use = function() end,
 })
-

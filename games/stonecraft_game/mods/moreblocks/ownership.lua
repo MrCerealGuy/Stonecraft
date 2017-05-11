@@ -1,7 +1,7 @@
 --[[
 More Blocks: ownership handling
 
-Copyright (c) 2011-2015 Calinou and contributors.
+Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -22,11 +22,11 @@ function moreblocks.node_is_owned(pos, placer)
 			end
 		end
 
-	elseif type(isprotect)=="function" then 					-- glomie's protection mod
+	elseif type(isprotect)=="function" then						-- glomie's protection mod
 		if not isprotect(5, pos, placer) then
 			ownername = S("someone")
 		end
-	elseif type(protector)=="table" and type(protector.can_dig)=="function" then 					-- Zeg9's protection mod
+	elseif type(protector)=="table" and type(protector.can_dig)=="function" then					-- Zeg9's protection mod
 		if not protector.can_dig(5, pos, placer) then
 			ownername = S("someone")
 		end

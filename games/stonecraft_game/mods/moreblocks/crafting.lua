@@ -1,7 +1,7 @@
 --[[
 More Blocks: crafting recipes
 
-Copyright (c) 2011-2015 Calinou and contributors.
+Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -25,14 +25,6 @@ minetest.register_craft({
 	recipe = {
 		{"default:stick", "default:stick"},
 		{"default:stick", "default:stick"},
-	}
-})
-
-minetest.register_craft({
-	output = "default:junglewood",
-	recipe = {
-		{"moreblocks:jungle_stick", "moreblocks:jungle_stick"},
-		{"moreblocks:jungle_stick", "moreblocks:jungle_stick"},
 	}
 })
 
@@ -122,19 +114,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "moreblocks:junglestick 4",
-	recipe = {{"default:junglewood"},}
-})
-
-minetest.register_craft({
-	output = "moreblocks:fence_jungle_wood 2",
-	recipe = {
-		{"moreblocks:jungle_stick", "moreblocks:jungle_stick", "moreblocks:jungle_stick"},
-		{"moreblocks:jungle_stick", "moreblocks:jungle_stick", "moreblocks:jungle_stick"},
-	}
-})
-
-minetest.register_craft({
 	output = "moreblocks:circle_stone_bricks 8",
 	recipe = {
 		{"default:stone", "default:stone", "default:stone"},
@@ -207,6 +186,8 @@ minetest.register_craft({
 	output = "moreblocks:empty_bookshelf",
 	type = "shapeless",
 	recipe = {"moreblocks:sweeper", "default:bookshelf"},
+	replacements = {{"default:bookshelf", "default:book 3"}},
+	-- When obtaining an empty bookshelf, return the books used in it as well
 })
 
 minetest.register_craft({
@@ -457,9 +438,25 @@ minetest.register_craft({
 	type = "cooking", output = "moreblocks:tar", recipe = "default:gravel",
 })
 
+minetest.register_craft({
+	type = "shapeless",
+	output = "moreblocks:copperpatina",
+	recipe = {"bucket:bucket_water", "default:copperblock"},
+	replacements = {
+		{"bucket:bucket_water", "bucket:bucket_empty"}
+	}
+})
+
+minetest.register_craft({
+	output = "default:copper_ingot 9",
+	recipe = {
+		{"moreblocks:copperpatina"},
+	}
+})
+
 if minetest.setting_getbool("moreblocks.circular_saw_crafting") ~= false then -- “If nil or true then”
 	minetest.register_craft({
-		output = "moreblocks:circular_saw", 
+		output = "moreblocks:circular_saw",
 		recipe = {
 			{ "",  "default:steel_ingot",  "" },
 			{ "group:wood",  "group:wood",  "group:wood"},
