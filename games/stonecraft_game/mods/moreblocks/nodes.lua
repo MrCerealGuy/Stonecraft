@@ -5,8 +5,6 @@ Copyright (c) 2011-2015 Calinou and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
-local S = moreblocks.intllib
-
 local sound_wood = default.node_sound_wood_defaults()
 local sound_stone = default.node_sound_stone_defaults()
 local sound_glass = default.node_sound_glass_defaults()

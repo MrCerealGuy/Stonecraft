@@ -8,15 +8,25 @@ Licensed under the zlib license. See LICENSE.md for more information.
 =====================================================================
 --]]
 
+--[[
+
+2017-05-10 added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 moreblocks = {}
 
-local S
-if minetest.get_modpath("intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
-moreblocks.intllib = S
+--local S
+--if minetest.get_modpath("intllib") then
+--	S = intllib.Getter()
+--else
+--	S = function(s) return s end
+--end
+--moreblocks.intllib = S
 
 local modpath = minetest.get_modpath("moreblocks")
 
