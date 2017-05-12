@@ -87,8 +87,6 @@ int LuaVoxelManip::l_get_data(lua_State *L)
 
 void LuaVoxelManip::reserveHeap(MMVManip *vm)
 {
-	errorstream << "reserveHeap " << std::endl;
-
 	u32 volume;
 
 	if (vm != NULL)
