@@ -1,4 +1,13 @@
-local S = biome_lib.intllib
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Basket
 
@@ -30,7 +39,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	local desc = bushes_classic.bushes_descriptions[i]
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_raw", {
-		description = S("Raw "..desc.." pie"),
+		description = S("Raw @1 pie", desc),
 		inventory_image = "bushes_"..berry.."_pie_raw.png",
 		on_use = minetest.item_eat(4),
 	})
@@ -90,7 +99,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	-- Cooked pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_cooked", {
-		description = S("Cooked "..desc.." pie"),
+		description = S("Cooked @1 pie", desc),
 		inventory_image = "bushes_"..berry.."_pie_cooked.png",
 		on_use = minetest.item_eat(6),
 	})
@@ -105,7 +114,7 @@ for i, berry in ipairs(bushes_classic.bushes) do
 	-- slice of pie
 
 	minetest.register_craftitem(":bushes:"..berry.."_pie_slice", {
-		description = S("Slice of "..desc.." pie"),
+		description = S("Slice of @1 pie", desc),
 		inventory_image = "bushes_"..berry.."_pie_slice.png",
 		on_use = minetest.item_eat(1),
 	})

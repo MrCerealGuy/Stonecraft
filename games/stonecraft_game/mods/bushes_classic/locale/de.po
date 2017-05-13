@@ -1,0 +1,78 @@
+# German translation for bushes_classic mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua cooking.lua
+msgid "Strawberry"
+msgstr "Erdbeere"
+
+#: init.lua
+msgid "Blackberry"
+msgstr "Brombeere"
+
+#: init.lua cooking.lua
+msgid "Blueberry"
+msgstr "Blaubeere"
+
+#: init.lua cooking.lua
+msgid "Raspberry"
+msgstr "Himbeere"
+
+#: init.lua
+msgid "Gooseberry"
+msgstr "Stachelbeere"
+
+#: init.lua
+msgid "Mixed Berry"
+msgstr "Beerenmix"
+
+#: init.lua
+msgid "[Bushes] Loaded."
+msgstr "[Bushes] Geladen."
+
+#: cooking.lua
+msgid "Sugar"
+msgstr "Zucker"
+
+#: cooking.lua
+msgid "Raw @1 pie"
+msgstr "Roher @1 Kuchen"
+
+#: cooking.lua
+msgid "Cooked @1 pie"
+msgstr "Gekochter @1 Kuchen"
+
+#: cooking.lua
+msgid "Slice of @1 pie"
+msgstr "Stück von @1 Kuchen"
+
+#: nodes.lua
+msgid "Basket with "
+msgstr "Korb mit "
+
+#: nodes.lua
+msgid "currently fruitless"
+msgstr "im Augenblick ohne Früchte"
+
+#: nodes.lua
+msgid " Bush"
+msgstr " Busch"
+
+#: nodes.lua
+msgid "Basket"
+msgstr "Korb"

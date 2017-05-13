@@ -3,7 +3,16 @@
 --
 -- License:  WTFPL
 
-local S = biome_lib.intllib
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 bushes_classic = {}
 
@@ -17,12 +26,12 @@ bushes_classic.bushes = {
 }
 
 bushes_classic.bushes_descriptions = {
-    "Strawberry",
-	"Blackberry",
-	"Blueberry",
-	"Raspberry",
-	"Gooseberry",
-	"Mixed Berry"
+    S("Strawberry"),
+	S("Blackberry"),
+	S("Blueberry"),
+	S("Raspberry"),
+	S("Gooseberry"),
+	S("Mixed Berry")
 }
 
 bushes_classic.spawn_list = {}
