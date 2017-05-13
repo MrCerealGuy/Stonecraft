@@ -19,9 +19,20 @@ end
 
 -- NODES
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 minetest.register_node("seacobble:seacobble", {
-	description = "Sea cobblestone",
+	description = S("Sea cobblestone"),
 	tiles = {"seacobble_seacobble.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -29,7 +40,7 @@ minetest.register_node("seacobble:seacobble", {
 })
 
 minetest.register_node("seacobble:seacobble_cyan", {
-	description = "Sea cobblestone cyan",
+	description = S("Sea cobblestone cyan"),
 	tiles = {"seacobble_seacobble_cyan.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -37,7 +48,7 @@ minetest.register_node("seacobble:seacobble_cyan", {
 })
 
 minetest.register_node("seacobble:seacobble_magenta", {
-	description = "Sea cobblestone magenta",
+	description = S("Sea cobblestone magenta"),
 	tiles = {"seacobble_seacobble_magenta.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -45,7 +56,7 @@ minetest.register_node("seacobble:seacobble_magenta", {
 })
 
 minetest.register_node("seacobble:seacobble_lime", {
-	description = "Sea cobblestone lime",
+	description = S("Sea cobblestone lime"),
 	tiles = {"seacobble_seacobble_lime.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -53,7 +64,7 @@ minetest.register_node("seacobble:seacobble_lime", {
 })
 
 minetest.register_node("seacobble:seacobble_aqua", {
-	description = "Sea cobblestone aqua",
+	description = S("Sea cobblestone aqua"),
 	tiles = {"seacobble_seacobble_aqua.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -61,7 +72,7 @@ minetest.register_node("seacobble:seacobble_aqua", {
 })
 
 minetest.register_node("seacobble:seacobble_skyblue", {
-	description = "Sea cobblestone skyblue",
+	description = S("Sea cobblestone skyblue"),
 	tiles = {"seacobble_seacobble_skyblue.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -69,7 +80,7 @@ minetest.register_node("seacobble:seacobble_skyblue", {
 })
 
 minetest.register_node("seacobble:seacobble_redviolet", {
-	description = "Sea cobblestone redviolet",
+	description = S("Sea cobblestone redviolet"),
 	tiles = {"seacobble_seacobble_redviolet.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
