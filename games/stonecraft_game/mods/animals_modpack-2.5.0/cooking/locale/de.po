@@ -1,0 +1,66 @@
+# German translation for animals_modpack cooking mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "MOD: Loading cooking (by Mr Elmux) ..."
+msgstr "MOD: Lade cooking (von Mr Elmux) ..."
+
+#: init.lua
+msgid "Cooked Meat"
+msgstr "Gekochtes Fleisch"
+
+#: init.lua
+msgid "Cooked Pork Meat"
+msgstr "Gekochtes Schweinefleisch"
+
+#: init.lua
+msgid "Cooked Chicken"
+msgstr "Gekochtes Hühnerfleisch"
+
+#: init.lua
+msgid "Cooked Beef"
+msgstr "Gekochtes Rindfleisch"
+
+#: init.lua
+msgid "Cooked Meat (Now Dead)"
+msgstr "Gekochtes Fleisch (jetzt tot)"
+
+#: init.lua
+msgid "Cooked Venison Meat"
+msgstr "Gekochtes Wildfleisch"
+
+#: init.lua
+msgid "Cooked Toxic Meat"
+msgstr "Gekochtes verdorbenes Fleisch"
+
+#: init.lua
+msgid "Cooked Bluewhite Meat"
+msgstr "Gekochtes Bluewhite Fleisch"
+
+#: init.lua
+msgid "Cooked Porkchop"
+msgstr "Gekochtes Schweinekotlett"
+
+#: init.lua
+msgid "MOD: cooking (by Mr Elmux) version .. "
+msgstr "MOD: cooking (von Mr Elmux) version .. "
+
+#: init.lua
+msgid " loaded."
+msgstr " geladen."

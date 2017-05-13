@@ -2,73 +2,85 @@
 --Cooking Support, added by Mr Elmux
 -- You may use modify or do nearly anything except removing this Copyright hint
 -----------------------------------------------------------
+
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local version = "0.1.1"
-core.log("action","MOD: Loading cooking (by Mr Elmux) ...")
+core.log("action",S("MOD: Loading cooking (by Mr Elmux) ..."))
 core.register_craftitem("cooking:meat_cooked", {
-	description = "Cooked Meat",
+	description = S("Cooked Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_pork_cooked", {
-	description = "Cooked Pork Meat",
+	description = S("Cooked Pork Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_chicken_cooked", {
-	description = "Cooked Chicken",
+	description = S("Cooked Chicken"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_beef_cooked", {
-	description = "Cooked Beef",
+	description = S("Cooked Beef"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_undead_cooked", {
-	description = "Cooked Meat (Now Dead)",
+	description = S("Cooked Meat (Now Dead)"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(-2),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_venison_cooked", {
-	description = "Cooked Venison Meat",
+	description = S("Cooked Venison Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:meat_toxic_cooked", {
-	description = "Cooked Toxic Meat",
+	description = S("Cooked Toxic Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(-5),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:fish_bluewhite_cooked", {
-	description = "Cooked Bluewhite Meat",
+	description = S("Cooked Bluewhite Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:fish_clownfish_cooked", {
-	description = "Cooked Meat",
+	description = S("Cooked Meat"),
 	image = "cooking_cooked_meat.png",
 	on_use = core.item_eat(6),
 	groups = { meat=1 , eatable=1},
 	stack_max = 25
 })
 core.register_craftitem("cooking:pork_cooked", {
-	description = "Cooked Porkchop",
+	description = S("Cooked Porkchop"),
 	inventory_image = "cooking_pork_cooked.png",
 	on_use = core.item_eat(8),
 })
@@ -126,4 +138,4 @@ core.register_craft({
 	cooktime = 5,
 })
 
-core.log("action","MOD: cooking (by Mr Elmux) version .. " .. version .. " loaded.")
+core.log("action",S("MOD: cooking (by Mr Elmux) version .. ") .. version .. S(" loaded."))
