@@ -28,7 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 void set_default_settings(Settings *settings)
 {
 	// Client and server
-	settings->setDefault("language", "");
+	settings->setDefault("language", "en");		// MERGEINFO: changed by MrCerealGuy
 	settings->setDefault("name", "");
 	settings->setDefault("bind_address", "");
 	settings->setDefault("serverlist_url", "servers.minetest.net");
@@ -66,7 +66,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_left", "KEY_KEY_A");
 	settings->setDefault("keymap_right", "KEY_KEY_D");
 	settings->setDefault("keymap_jump", "KEY_SPACE");
-	settings->setDefault("keymap_sneak", "KEY_LCONTROL");  // MrCerealGuy
+	settings->setDefault("keymap_sneak", "KEY_LCONTROL");  // MERGEINFO: changed by MrCerealGuy
 	settings->setDefault("keymap_drop", "KEY_KEY_Q");
 	settings->setDefault("keymap_zoom", "KEY_KEY_Z");
 	settings->setDefault("keymap_inventory", "KEY_KEY_I");
@@ -122,7 +122,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("screenW", "800");
 	settings->setDefault("screenH", "600");
 
-	#ifdef _WIN32									// changed by MrCerealGuy
+	#ifdef _WIN32									// MERGEINFO: changed by MrCerealGuy
 	settings->setDefault("fullscreen", "true");
 	#else
 	settings->setDefault("fullscreen", "false");
