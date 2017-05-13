@@ -221,7 +221,7 @@ minetest.register_node("desert_uses:desert_furnace", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", default.furnace_inactive_formspec)
-		meta:set_string("infotext", S("Desert Furnace")
+		meta:set_string("infotext", S("Desert Furnace"))
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 1)
@@ -365,7 +365,7 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext",S("Furnace out of fuel")
+			meta:set_string("infotext",S("Furnace out of fuel"))
 			hacky_swap_node(pos,"desert_uses:desert_furnace")
 			meta:set_string("formspec", default.furnace_inactive_formspec)
 			return
@@ -373,7 +373,7 @@ minetest.register_abm({
 
 		if cooked.item:is_empty() then
 			if was_active then
-				meta:set_string("infotext",S("Furnace is empty")
+				meta:set_string("infotext",S("Furnace is empty"))
 				hacky_swap_node(pos,"desert_uses:desert_furnace")
 				meta:set_string("formspec", default.furnace_inactive_formspec)
 			end
