@@ -1,0 +1,98 @@
+# German translation for bakedclay mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "White"
+msgstr "Weiß"
+
+#: init.lua
+msgid "Grey"
+msgstr "Grau"
+
+#: init.lua
+msgid "Black"
+msgstr "Schwarz"
+
+#: init.lua
+msgid "Red"
+msgstr "Rot"
+
+#: init.lua
+msgid "Yellow"
+msgstr "Gelb"
+
+#: init.lua
+msgid "Green"
+msgstr "Grün"
+
+#: init.lua
+msgid "Cyan"
+msgstr "Cyan"
+
+#: init.lua
+msgid "Blue"
+msgstr "Blau"
+
+#: init.lua
+msgid "Orange"
+msgstr "Orange"
+
+#: init.lua
+msgid "Violet"
+msgstr "Violett"
+
+#: init.lua
+msgid "Brown"
+msgstr "Braun"
+
+#: init.lua
+msgid "Pink"
+msgstr "Pink"
+
+#: init.lua
+msgid "Dark Grey"
+msgstr "Dunkelgrau"
+
+#: init.lua
+msgid "Dark Green"
+msgstr "Dunkelgrün"
+
+#: init.lua
+msgid " Baked Clay"
+msgstr " Gebrannter Lehm"
+
+#: init.lua
+msgid "Blue Delphinium"
+msgstr "Blauer Rittersporn"
+
+#: init.lua
+msgid "Thistle"
+msgstr "Distel"
+
+#: init.lua
+msgid "Lazarus Bell"
+msgstr "Lazarus Glocke"
+
+#: init.lua
+msgid "Reed Mannagrass"
+msgstr "Schilfgras"
+
+#: init.lua
+msgid "[MOD] Baked Clay loaded"
+msgstr "[MOD] Baked Clay geladen"
