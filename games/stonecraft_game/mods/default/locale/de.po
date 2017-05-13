@@ -448,3 +448,103 @@ msgstr "Mese Post Lampe"
 #: nodes.lua
 msgid "Cloud"
 msgstr "Wolke"
+
+#: tools.lua
+msgid "Wooden Pickaxe"
+msgstr "Holz Spitzhacke"
+
+#: tools.lua
+msgid "Stone Pickaxe"
+msgstr "Stein Spitzhacke"
+
+#: tools.lua
+msgid "Steel Pickaxe"
+msgstr "Stahl Spitzhacke"
+
+#: tools.lua
+msgid "Bronze Pickaxe"
+msgstr "Bronze Spitzhacke"
+
+#: tools.lua
+msgid "Mese Pickaxe"
+msgstr "Mese Spitzhacke"
+
+#: tools.lua
+msgid "Diamond Pickaxe"
+msgstr "Diamant Spitzhacke"
+
+#: tools.lua
+msgid "Wooden Shovel"
+msgstr "Holz Schaufel"
+
+#: tools.lua
+msgid "Stone Shovel"
+msgstr "Stein Schaufel"
+
+#: tools.lua
+msgid "Steel Shovel"
+msgstr "Stahl Schaufel"
+
+#: tools.lua
+msgid "Bronze Shovel"
+msgstr "Bronze Schaufel"
+
+#: tools.lua
+msgid "Mese Shovel"
+msgstr "Mese Schaufel"
+
+#: tools.lua
+msgid "Diamond Shovel"
+msgstr "Diamant Schaufel"
+
+#: tools.lua
+msgid "Wooden Axe"
+msgstr "Holz Axt"
+
+#: tools.lua
+msgid "Stone Axe"
+msgstr "Stein Axt"
+
+#: tools.lua
+msgid "Steel Axe"
+msgstr "Stahl Axt"
+
+#: tools.lua
+msgid "Bronze Axe"
+msgstr "Bronze Axt"
+
+#: tools.lua
+msgid "Mese Axe"
+msgstr "Mese Axt"
+
+#: tools.lua
+msgid "Diamond Axe"
+msgstr "Diamant Axt"
+
+#: tools.lua
+msgid "Wooden Sword"
+msgstr "Holz Schwert"
+
+#: tools.lua
+msgid "Stone Sword"
+msgstr "Stein Schwert"
+
+#: tools.lua
+msgid "Steel Sword"
+msgstr "Stahl Schwert"
+
+#: tools.lua
+msgid "Bronze Sword"
+msgstr "Bronze Schwert"
+
+#: tools.lua
+msgid "Mese Sword"
+msgstr "Mese Schwert"
+
+#: tools.lua
+msgid "Diamond Sword"
+msgstr "Diamant Schwert"
+
+#: tools.lua
+msgid "Key"
+msgstr "Schlüssel"
