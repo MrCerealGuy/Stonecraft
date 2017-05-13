@@ -1,4 +1,13 @@
-local S = biome_lib.intllib
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- This file supplies a few additional plants and some related crafts
 -- for the plantlife modpack.  Last revision:  2013-04-24
@@ -232,7 +241,7 @@ if minetest.registered_items["farming:seed_spelt"] then
 end
 
 minetest.register_node(":flowers:sunflower", {
-	description = "Sunflower",
+	description = S("Sunflower"),
 	drawtype = "mesh",
 	paramtype = "light",
 	paramtype2 = "facedir",
