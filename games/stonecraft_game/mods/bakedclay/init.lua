@@ -21,7 +21,7 @@ local clay = {
 	{"green", S("Green")},
 	{"cyan", S("Cyan")},
 	{"blue", S("Blue")},
-	{"magenta", S"Magenta")},
+	{"magenta", S("Magenta")},
 	{"orange", S("Orange")},
 	{"violet", S("Violet")},
 	{"brown", S("Brown")},
