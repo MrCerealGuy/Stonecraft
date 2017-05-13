@@ -1,0 +1,139 @@
+# German translation for dye mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: init.lua
+msgid "White"
+msgstr "Weiß"
+
+#: init.lua
+msgid "Grey"
+msgstr "Grau"
+
+#: init.lua
+msgid "Dark grey"
+msgstr "Dunkelgrau"
+
+#: init.lua
+msgid "Black"
+msgstr "Schwarz"
+
+#: init.lua
+msgid "Violet"
+msgstr "Violett"
+
+#: init.lua
+msgid "Blue"
+msgstr "Blau"
+
+#: init.lua
+msgid "Cyan"
+msgstr "Cyan"
+
+#: init.lua
+msgid "Dark green"
+msgstr "Dunkelgrün"
+
+#: init.lua
+msgid "Green"
+msgstr "Grün"
+
+#: init.lua
+msgid "Yellow"
+msgstr "Gelb"
+
+#: init.lua
+msgid "Brown"
+msgstr "Braun"
+
+#: init.lua
+msgid "Orange"
+msgstr "Orange"
+
+#: init.lua
+msgid "Red"
+msgstr "Rot"
+
+#: init.lua
+msgid "Magenta"
+msgstr "Magenta"
+
+#: init.lua
+msgid "Pink"
+msgstr "Pink"
+
+#: init.lua
+msgid "White dye"
+msgstr "Weißer Farbstoff"
+
+#: init.lua
+msgid "Grey dye"
+msgstr "Grauer Farbstoff"
+
+#: init.lua
+msgid "Dark grey dye"
+msgstr "Dunkelgrauer Farbstoff"
+
+#: init.lua
+msgid "Black dye"
+msgstr "Schwarzer Farbstoff"
+
+#: init.lua
+msgid "Violet dye"
+msgstr "Violetter Farbstoff"
+
+#: init.lua
+msgid "Blue dye"
+msgstr "Blauer Farbstoff"
+
+#: init.lua
+msgid "Cyan dye"
+msgstr "Cyan Farbstoff"
+
+#: init.lua
+msgid "Dark green dye"
+msgstr "Dunkelgrüner Farbstoff"
+
+#: init.lua
+msgid "Green dye"
+msgstr "Grüner Farbstoff"
+
+#: init.lua
+msgid "Yellow dye"
+msgstr "Gelber Farbstoff"
+
+#: init.lua
+msgid "Brown dye"
+msgstr "Brauner Farbstoff"
+
+#: init.lua
+msgid "Orange dye"
+msgstr "Orangener Farbstoff"
+
+#: init.lua
+msgid "Red dye"
+msgstr "Roter Farbstoff"
+
+#: init.lua
+msgid "Magenta dye"
+msgstr "Magenta Farbstoff"
+
+#: init.lua
+msgid "Pink dye"
+msgstr "Pinker Farbstoff"
