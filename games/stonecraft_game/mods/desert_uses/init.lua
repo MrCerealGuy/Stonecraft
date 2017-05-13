@@ -2,10 +2,21 @@
 -- Makes deserts more useful
 -- License: LGPL
 
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Node definitions --------------------
 -- Desert Cobble
 minetest.register_node("desert_uses:desert_cobble", {
-	description = "Desert Cobblestone",
+	description = S("Desert Cobblestone"),
 	tiles = {"desert_uses_desert_cobble.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -14,7 +25,7 @@ minetest.register_node("desert_uses:desert_cobble", {
 
 -- Make desert stone drop desert cobble
 minetest.register_node(":default:desert_stone", {
-	description = "Desert Stone",
+	description = S("Desert Stone"),
 	tiles = {"default_desert_stone.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -24,7 +35,7 @@ minetest.register_node(":default:desert_stone", {
 
 -- Desert Sandstone
 minetest.register_node("desert_uses:desert_sandstone", {
-	description = "Desert Sandstone",
+	description = S("Desert Sandstone"),
 	tiles = {"desert_uses_desert_sandstone.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, cracky=2},
@@ -36,27 +47,27 @@ minetest.register_node("desert_uses:desert_sandstone", {
 stairs.register_stair_and_slab("desert_cobble", "desert_uses:desert_cobble",
 	{cracky=3},
 	{"desert_uses_desert_cobble.png"},
-	"Desert Cobble stair",
-	"Desert Cobble slab")
+	S("Desert Cobble stair"),
+	S("Desert Cobble slab"))
 
 -- Desert Stone
 stairs.register_stair_and_slab("desert_stone", "default:desert_stone",
 	{cracky=3},
 	{"default_desert_stone.png"},
-	"Desert Stone stair",
-	"Desert Stone slab")
+	S("Desert Stone stair"),
+	S("Desert Stone slab"))
 
 -- Desert Sandstone
 stairs.register_stair_and_slab("desert_sandstone", "desert_uses:desert_sandstone",
 	{cracky=2, crumbly=2},
 	{"desert_uses_desert_sandstone.png"},
-	"Desert Sandstone stair",
-	"Desert Sandstone slab")
+	S("Desert Sandstone stair"),
+	S("Desert Sandstone slab"))
 
 -- Tool definitions -------------------
 -- Desert stone pickaxe
 minetest.register_tool("desert_uses:pick_desert_stone", {
-	description = "Desert Stone Pickaxe",
+	description = S("Desert Stone Pickaxe"),
 	inventory_image = "desert_uses_tool_desert_stonepick.png",
 	tool_capabilities = {
 		max_drop_level=0,
@@ -68,7 +79,7 @@ minetest.register_tool("desert_uses:pick_desert_stone", {
 
 -- Desert stone shovel
 minetest.register_tool("desert_uses:shovel_desert_stone", {
-	description = "Desert Stone Shovel",
+	description = S("Desert Stone Shovel"),
 	inventory_image = "desert_uses_tool_desert_stoneshovel.png",
 	tool_capabilities = {
 		max_drop_level=0,
@@ -80,7 +91,7 @@ minetest.register_tool("desert_uses:shovel_desert_stone", {
 
 -- Desert stone axe
 minetest.register_tool("desert_uses:axe_desert_stone", {
-	description = "Desert Stone Axe",
+	description = S("Desert Stone Axe"),
 	inventory_image = "desert_uses_tool_desert_stoneaxe.png",
 	tool_capabilities = {
 		max_drop_level=0,
@@ -93,7 +104,7 @@ minetest.register_tool("desert_uses:axe_desert_stone", {
 
 -- Desert stone sword
 minetest.register_tool("desert_uses:sword_desert_stone", {
-	description = "Desert Stone Sword",
+	description = S("Desert Stone Sword"),
 	inventory_image = "desert_uses_tool_desert_stonesword.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -200,7 +211,7 @@ minetest.register_craft({
 
 
 minetest.register_node("desert_uses:desert_furnace", {
-	description = "Desert Furnace",
+	description = S("Desert Furnace"),
 	tiles = {"desert_uses_furnace_top.png", "desert_uses_furnace_bottom.png", "desert_uses_furnace_side.png",
 		"desert_uses_furnace_side.png", "desert_uses_furnace_side.png", "desert_uses_furnace_front.png"},
 	paramtype2 = "facedir",
@@ -210,7 +221,7 @@ minetest.register_node("desert_uses:desert_furnace", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", default.furnace_inactive_formspec)
-		meta:set_string("infotext", "Desert Furnace")
+		meta:set_string("infotext", S("Desert Furnace")
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 1)
@@ -231,7 +242,7 @@ minetest.register_node("desert_uses:desert_furnace", {
 })
 
 minetest.register_node("desert_uses:desert_furnace_active", {
-	description = "Desert Furnace",
+	description = S("Desert Furnace"),
 	tiles = {"desert_uses_furnace_top.png", "desert_uses_furnace_bottom.png", "desert_uses_furnace_side.png",
 		"desert_uses_furnace_side.png", "desert_uses_furnace_side.png", "desert_uses_furnace_front_active.png"},
 	paramtype2 = "facedir",
@@ -243,7 +254,7 @@ minetest.register_node("desert_uses:desert_furnace_active", {
 	on_construct = function(pos)
 		local meta = minetest.env:get_meta(pos)
 		meta:set_string("formspec", default.furnace_inactive_formspec)
-		meta:set_string("infotext", "Desert Furnace");
+		meta:set_string("infotext", S("Desert Furnace"));
 		local inv = meta:get_inventory()
 		inv:set_size("fuel", 1)
 		inv:set_size("src", 1)
@@ -319,7 +330,7 @@ minetest.register_abm({
 					srcstack:take_item()
 					inv:set_stack("src", 1, srcstack)
 				else
-					print("Could not insert '"..cooked.item:to_string().."'")
+					print(S("Could not insert '@1'", cooked.item:to_string()))
 				end
 				meta:set_string("src_time", 0)
 			end
@@ -328,7 +339,7 @@ minetest.register_abm({
 		if meta:get_float("fuel_time") < meta:get_float("fuel_totaltime") then
 			local percent = math.floor(meta:get_float("fuel_time") /
 					meta:get_float("fuel_totaltime") * 100)
-			meta:set_string("infotext","Furnace active: "..percent.."%")
+			meta:set_string("infotext",S("Furnace active: @1%", percent))
 			hacky_swap_node(pos,"desert_uses:desert_furnace_active")
 			meta:set_string("formspec",
 				"size[8,9]"..
@@ -354,7 +365,7 @@ minetest.register_abm({
 		end
 
 		if fuel.time <= 0 then
-			meta:set_string("infotext","Furnace out of fuel")
+			meta:set_string("infotext",S("Furnace out of fuel")
 			hacky_swap_node(pos,"desert_uses:desert_furnace")
 			meta:set_string("formspec", default.furnace_inactive_formspec)
 			return
@@ -362,7 +373,7 @@ minetest.register_abm({
 
 		if cooked.item:is_empty() then
 			if was_active then
-				meta:set_string("infotext","Furnace is empty")
+				meta:set_string("infotext",S("Furnace is empty")
 				hacky_swap_node(pos,"desert_uses:desert_furnace")
 				meta:set_string("formspec", default.furnace_inactive_formspec)
 			end
@@ -378,5 +389,5 @@ minetest.register_abm({
 	end,
 })
 
-print("desert_uses 4 loaded.")
+print(S("desert_uses 4 loaded."))
 

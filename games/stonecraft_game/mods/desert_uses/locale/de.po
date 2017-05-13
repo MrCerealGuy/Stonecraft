@@ -1,0 +1,94 @@
+# German translation for desert_uses mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Desert Cobblestone"
+msgstr "Wüsten Pflaster Stein"
+
+#: init.lua
+msgid "Desert Stone"
+msgstr "Wüsten Stein"
+
+#: init.lua
+msgid "Desert Sandstone"
+msgstr "Wüsten Sand Stein"
+
+#: init.lua
+msgid "Desert Cobble stair"
+msgstr "Wüsten Pflaster Stufe"
+
+#: init.lua
+msgid "Desert Cobble slab"
+msgstr "Wüsten Pflaster Platte"
+
+#: init.lua
+msgid "Desert Stone stair"
+msgstr "Wünsten Stein Stufe"
+
+#: init.lua
+msgid "Desert Stone slab"
+msgstr "Wüsten Stein Platte"
+
+#: init.lua
+msgid "Desert Sandstone stair"
+msgstr "Wüsten Sandstein Stufe"
+
+#: init.lua
+msgid "Desert Sandstone slab"
+msgstr "Wüsten Sandstein Platte"
+
+#: init.lua
+msgid "Desert Stone Pickaxe"
+msgstr "Wüsten Stein Spitzhacke"
+
+#: init.lua
+msgid "Desert Stone Shovel"
+msgstr "Wüsten Stein Schaufel"
+
+#: init.lua
+msgid "Desert Stone Axe"
+msgstr "Wüsten Stein Axt"
+
+#: init.lua
+msgid "Desert Stone Sword"
+msgstr "Wüsten Stein Schwert"
+
+#: init.lua
+msgid "Desert Furnace"
+msgstr "Wüsten Schmelzofen"
+
+#: init.lua
+msgid "Could not insert '@1'"
+msgstr "Konnte '@1' nicht hinzufügen"
+
+#: init.lua
+msgid "Furnace active: @1%"
+msgstr "Schmelzofen aktiv: @1%"
+
+#: init.lua
+msgid "Furnace out of fuel"
+msgstr "Schmelzofen hat kein Brennstoff mehr"
+
+#: init.lua
+msgid "Furnace is empty"
+msgstr "Schmelzofen ist leer"
+
+#: init.lua
+msgid "desert_uses 4 loaded."
+msgstr "desert_uses 4 geladen"
