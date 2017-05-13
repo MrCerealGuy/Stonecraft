@@ -27,7 +27,7 @@ minetest.register_node("mobs:spawner", {
 
 		-- text entry formspec
 		meta:set_string("formspec", "field[text;Mob MinLight MaxLight Amount PlayerDist;${command}]")
-		meta:set_string("infotext", S("Spawner Not Active (enter settings)")
+		meta:set_string("infotext", S("Spawner Not Active (enter settings)"))
 		meta:set_string("command", spawner_default)
 	end,
 
@@ -68,7 +68,7 @@ minetest.register_node("mobs:spawner", {
 		and pla and pla >=0 and pla <= 20 then
 
 			meta:set_string("command", fields.text)
-			meta:set_string("infotext", S("Spawner Active (@1)", mob)
+			meta:set_string("infotext", S("Spawner Active (@1)"), mob)
 
 		else
 			minetest.chat_send_player(name, S("Mob Spawner settings failed!"))
