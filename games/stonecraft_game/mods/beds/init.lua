@@ -1,3 +1,14 @@
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 beds = {}
 beds.player = {}
 beds.pos = {}
@@ -5,7 +16,7 @@ beds.spawn = {}
 
 beds.formspec = "size[8,15;true]" ..
 	"bgcolor[#080808BB; true]" ..
-	"button_exit[2,12;4,0.75;leave;Leave Bed]"
+	"button_exit[2,12;4,0.75;leave;"..S("Leave Bed").."]"
 
 local modpath = minetest.get_modpath("beds")
 

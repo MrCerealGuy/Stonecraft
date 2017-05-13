@@ -1,3 +1,14 @@
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local pi = math.pi
 local player_in_bed = 0
 local is_sp = minetest.is_singleplayer()
@@ -104,12 +115,12 @@ local function update_formspecs(finished)
 	local is_majority = (ges / 2) < player_in_bed
 
 	if finished then
-		form_n = beds.formspec .. "label[2.7,11; Good morning.]"
+		form_n = beds.formspec .. "label[2.7,11; "..S("Good morning")..".]"
 	else
 		form_n = beds.formspec .. "label[2.2,11;" .. tostring(player_in_bed) ..
-			" of " .. tostring(ges) .. " players are in bed]"
+			" of " .. tostring(ges) .. S(" players are in bed").."]"
 		if is_majority and is_night_skip_enabled() then
-			form_n = form_n .. "button_exit[2,8;4,0.75;force;Force night skip]"
+			form_n = form_n .. "button_exit[2,8;4,0.75;force;"..S("Force night skip").."]"
 		end
 	end
 
@@ -141,7 +152,7 @@ function beds.on_rightclick(pos, player)
 		if beds.player[name] then
 			lay_down(player, nil, nil, false)
 		end
-		minetest.chat_send_player(name, "You can only sleep at night.")
+		minetest.chat_send_player(name, S("You can only sleep at night.")
 		return
 	end
 

@@ -1,7 +1,18 @@
 -- Fancy shaped bed
 
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 beds.register_bed("beds:fancy_bed", {
-	description = "Fancy Bed",
+	description = S("Fancy Bed"),
 	inventory_image = "beds_bed_fancy.png",
 	wield_image = "beds_bed_fancy.png",
 	tiles = {
@@ -52,7 +63,7 @@ beds.register_bed("beds:fancy_bed", {
 -- Simple shaped bed
 
 beds.register_bed("beds:bed", {
-	description = "Simple Bed",
+	description = S("Simple Bed"),
 	inventory_image = "beds_bed.png",
 	wield_image = "beds_bed.png",
 	tiles = {
