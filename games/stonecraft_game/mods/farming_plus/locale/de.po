@@ -19,7 +19,7 @@ msgstr ""
 
 #: bananas.lua
 msgid "Banana Tree Sapling"
-msgstr "Bananenbaum Setzling"
+msgstr "Bananenbaumsetzling"
 
 #: bananas.lua
 msgid "Banana"
@@ -27,7 +27,7 @@ msgstr "Banane"
 
 #: carrots.lua
 msgid "Carrot Seeds"
-msgstr "Karotten Samen"
+msgstr "Karottensamen"
 
 #: carrots.lua
 msgid "Carrot"
@@ -35,7 +35,7 @@ msgstr "Karotte"
 
 #: cocoa.lua
 msgid "Cocoa Tree Sapling"
-msgstr "Kakaobaum Setzling"
+msgstr "Kakaobaumsetzling"
 
 #: cocoa.lua
 msgid "Cocoa"
@@ -43,7 +43,7 @@ msgstr "Kakao"
 
 #: oranges.lua
 msgid "Orange Seeds"
-msgstr "Orangen Samen"
+msgstr "Orangensamen"
 
 #: oranges.lua
 msgid "Orange"
@@ -55,7 +55,7 @@ msgstr "Kartoffel"
 
 #: pumpkin.lua
 msgid "Pumpkin Seed"
-msgstr "Kürbis Samen"
+msgstr "Kürbissamen"
 
 #: pumpkin.lua
 msgid "Pumpkin"
@@ -63,15 +63,15 @@ msgstr "Kürbis"
 
 #: pumpkin.lua
 msgid "Pumpkin Face"
-msgstr "Kuerbis Laterne"
+msgstr "Kuerbislaterne"
 
 #: pumpkin.lua
 msgid "Pumpkin Face With Light"
-msgstr "Leuchtende Kürbis Laterne"
+msgstr "Leuchtende Kürbislaterne"
 
 #: pumpkin.lua
 msgid "Big Pumpkin"
-msgstr "Riesen Kürbis"
+msgstr "Riesenkürbis"
 
 #: pumpkin.lua
 msgid "Scarecrow"
@@ -83,11 +83,11 @@ msgstr "Leuchtende Vogelscheuche"
 
 #: pumpkin.lua
 msgid "Pumpkin Bread"
-msgstr "Kürbis Brot"
+msgstr "Kürbisbrot"
 
 #: rhubarb.lua
 msgid "Rhubarb Seeds"
-msgstr "Rhabarber Samen"
+msgstr "Rhabarbersamen"
 
 #: rhubarb.lua
 msgid "Rhubarb"
@@ -95,7 +95,7 @@ msgstr "Rhabarber"
 
 #: strawberries.lua
 msgid "Strawberry Seeds"
-msgstr "Erdbeer Samen"
+msgstr "Erdbeersamen"
 
 #: strawberries.lua
 msgid "Strawberry"
@@ -103,7 +103,7 @@ msgstr "Erdbeere"
 
 #: tomatoes.lua
 msgid "Tomato Seeds"
-msgstr "Tomaten Samen"
+msgstr "Tomatensamen"
 
 #: tomatoes.lua
 msgid "Tomato"
