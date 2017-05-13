@@ -8,7 +8,7 @@ farming.registered_plants = {}
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
-local farming.S, NS = dofile(MP.."/intllib.lua")
+farming.S, NS = dofile(MP.."/intllib.lua")
 
 function farming.add_plant(full_grown, names, interval, chance)
 	minetest.register_abm({
