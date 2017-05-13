@@ -1,9 +1,19 @@
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- the general node definition for all these snow tops (only name and nodebox vary)
 moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 	minetest.register_node( 'moresnow:snow_'..node_name, {
-		description = "Snow",
+		description = S("Snow"),
 		tiles = {"default_snow.png"},  
 		inventory_image = "default_snowball.png",
 		wield_image = "default_snowball.png",
@@ -32,7 +42,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 
 	if( moresnow.enable_autumnleaves ) then
 	   minetest.register_node( 'moresnow:autumnleaves_'..node_name, {
-		description = "fallen leaves",
+		description = S("fallen leaves"),
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -58,7 +68,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 	if( wool_nodebox and moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
            for _,v in ipairs( moresnow.wool_dyes ) do
 		minetest.register_node( "moresnow:wool_"..v.."_"..node_name, {
-			description = "layers of wool ("..v..")",
+			description = S("layers of wool (@1)", v),
 			tiles = {"wool_"..v..".png"},
 --			inventory_image = "moresnow_autumnleaves.png",
 --			wield_image = "moresnow_autumnleaves.png",
@@ -85,7 +95,7 @@ end
 -- define the leaves
 if( moresnow.enable_autumnleaves ) then
 	minetest.register_node( "moresnow:autumnleaves", {
-		description = "fallen leaves",
+		description = S("fallen leaves"),
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -122,7 +132,7 @@ if( moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
         for _,v in ipairs( moresnow.wool_dyes ) do
                 table.insert( moresnow.nodetypes, 'wool_'..v );
 		minetest.register_node( "moresnow:wool_"..v, {
-			description = "layers of wool ("..v..")",
+			description = S("layers of wool (@1)", v),
 			tiles = {"wool_"..v..".png"},
 			is_ground_content = true,
 			paramtype = "light",
@@ -285,7 +295,7 @@ end
 
 
 minetest.register_node( 'moresnow:autumnleaves_tree', {
-	description = "autumn leaves",
+	description = S("autumn leaves"),
 	tiles = {"moresnow_autumnleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -297,7 +307,7 @@ minetest.register_node( 'moresnow:autumnleaves_tree', {
 })
 
 minetest.register_node( 'moresnow:winterleaves_tree', {
-	description = "winter leaves",
+	description = S("winter leaves"),
 	tiles = {"moresnow_winterleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -309,7 +319,7 @@ minetest.register_node( 'moresnow:winterleaves_tree', {
 })
 
 minetest.register_node("moresnow:snow_soil", {
-	description = "Snow on soil",
+	description = S("Snow on soil"),
 	tiles = {"default_snow.png^farming_soil_wet.png"},
 	is_ground_content = true,
 	paramtype = "light",
