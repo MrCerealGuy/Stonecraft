@@ -1,0 +1,86 @@
+# German translation for farming mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: api.lua
+msgid "Hoe"
+msgstr "Hacke"
+
+#: api.lua
+msgid "Seed"
+msgstr "Samen"
+
+#: hoes.lua
+msgid "Wooden Hoe"
+msgstr "Holz Hacke"
+
+#: hoes.lua
+msgid "Stone Hoe"
+msgstr "Stein Hacke"
+
+#: hoes.lua
+msgid "Steel Hoe"
+msgstr "Stahl Hacke"
+
+#: hoes.lua
+msgid "Bronze Hoe"
+msgstr "Bronze Hacke"
+
+#: hoes.lua
+msgid "Mese Hoe"
+msgstr "Mese Hacke"
+
+#: hoes.lua
+msgid "Diamond Hoe"
+msgstr "Diamant Hacke"
+
+#: init.lua
+msgid "Wheat seed"
+msgstr "Weizen Samen"
+
+#: init.lua
+msgid "Flour"
+msgstr "Mehl"
+
+#: init.lua
+msgid "Bread"
+msgstr "Brot"
+
+#: init.lua
+msgid "Cotton seed"
+msgstr "Baumwoll Samen"
+
+#: nodes.lua
+msgid "Soil"
+msgstr "Erde"
+
+#: nodes.lua
+msgid "Wet Soil"
+msgstr "Feuchte Erde"
+
+#: nodes.lua
+msgid "Desert Sand Soil"
+msgstr "Wüstensand Erde"
+
+#: nodes.lua
+msgid "Wet Desert Sand Soil"
+msgstr "Feuchte Wüstensand Erde"
+
+#: nodes.lua
+msgid "Straw"
+msgstr "Stroh"
