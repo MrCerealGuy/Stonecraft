@@ -1,5 +1,11 @@
 -- This is inspired by the landrush mod by Bremaweb
 
+--[[
+
+2017-05-13 do not show "Areas: " string if no area is available
+
+--]]
+
 areas.hud = {}
 
 minetest.register_globalstep(function(dtime)
@@ -26,6 +32,8 @@ minetest.register_globalstep(function(dtime)
 		if #areaStrings > 0 then
 			areaString = areaString.."\n"..
 				table.concat(areaStrings, "\n")
+		else
+			areaString = ""		-- MERGEINFO: added by MrCerealGuy
 		end
 		local hud = areas.hud[name]
 		if not hud then
