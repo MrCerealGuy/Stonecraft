@@ -19,27 +19,27 @@ msgstr ""
 
 #: init.lua
 msgid "White"
-msgstr "Weiß"
+msgstr "Weiße"
 
 #: init.lua
 msgid "Grey"
-msgstr "Grau"
+msgstr "Graue"
 
 #: init.lua
 msgid "Black"
-msgstr "Schwarz"
+msgstr "Schwarze"
 
 #: init.lua
 msgid "Red"
-msgstr "Rot"
+msgstr "Rote"
 
 #: init.lua
 msgid "Yellow"
-msgstr "Gelb"
+msgstr "Gelbe"
 
 #: init.lua
 msgid "Green"
-msgstr "Grün"
+msgstr "Grüne"
 
 #: init.lua
 msgid "Cyan"
@@ -47,7 +47,7 @@ msgstr "Cyan"
 
 #: init.lua
 msgid "Blue"
-msgstr "Blau"
+msgstr "Blaue"
 
 #: init.lua
 msgid "Magenta"
@@ -55,27 +55,27 @@ msgstr "Magenta"
 
 #: init.lua
 msgid "Orange"
-msgstr "Orange"
+msgstr "Orangene"
 
 #: init.lua
 msgid "Violet"
-msgstr "Violett"
+msgstr "Violette"
 
 #: init.lua
 msgid "Brown"
-msgstr "Braun"
+msgstr "Braune"
 
 #: init.lua
 msgid "Pink"
-msgstr "Pink"
+msgstr "Pinke"
 
 #: init.lua
 msgid "Dark Grey"
-msgstr "Dunkelgrau"
+msgstr "Dunkelgraue"
 
 #: init.lua
 msgid "Dark Green"
-msgstr "Dunkelgrün"
+msgstr "Dunkelgrüne"
 
 #: init.lua
 msgid " Wool"
