@@ -1,3 +1,14 @@
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.override_item("default:dirt", {
 	soil = {
 		base = "default:dirt",

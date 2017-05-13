@@ -1,3 +1,13 @@
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 farming.register_hoe(":farming:hoe_wood", {
 	description = S("Wooden Hoe"),
 	inventory_image = "farming_tool_woodhoe.png",
