@@ -548,3 +548,95 @@ msgstr "Diamant Schwert"
 #: tools.lua
 msgid "Key"
 msgstr "Schlüssel"
+
+#: craftitems.lua
+msgid "Stick"
+msgstr ""
+
+#: craftitems.lua
+msgid "Paper"
+msgstr ""
+
+#: craftitems.lua
+msgid "Book"
+msgstr ""
+
+#: craftitems.lua
+msgid "Book With Text"
+msgstr ""
+
+#: craftitems.lua
+msgid "Skeleton Key"
+msgstr ""
+
+#: craftitems.lua
+msgid "Key to @1's "
+msgstr ""
+
+#: craftitems.lua
+msgid "Coal Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Iron Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Copper Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Tin Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Mese Crystal"
+msgstr ""
+
+#: craftitems.lua
+msgid "Gold Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Diamond"
+msgstr ""
+
+#: craftitems.lua
+msgid "Clay Lump"
+msgstr ""
+
+#: craftitems.lua
+msgid "Steel Ingot"
+msgstr ""
+
+#: craftitems.lua
+msgid "Copper Ingot"
+msgstr ""
+
+#: craftitems.lua
+msgid "Tin Ingot"
+msgstr ""
+
+#: craftitems.lua
+msgid "Bronze Ingot"
+msgstr ""
+
+#: craftitems.lua
+msgid "Gold Ingot"
+msgstr ""
+
+#: craftitems.lua
+msgid "Mese Crystal Fragment"
+msgstr ""
+
+#: craftitems.lua
+msgid "Clay Brick"
+msgstr ""
+
+#: craftitems.lua
+msgid "Obsidian Shard"
+msgstr ""
+
+#: craftitems.lua
+msgid "Flint"
+msgstr ""
