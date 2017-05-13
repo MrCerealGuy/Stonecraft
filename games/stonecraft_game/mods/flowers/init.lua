@@ -2,6 +2,17 @@
 -- See README.txt for licensing and other information.
 
 
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Namespace for functions
 
 flowers = {}
@@ -59,37 +70,37 @@ end
 flowers.datas = {
 	{
 		"rose",
-		"Rose",
+		S("Rose"),
 		{-2 / 16, -0.5, -2 / 16, 2 / 16, 5 / 16, 2 / 16},
 		{color_red = 1, flammable = 1}
 	},
 	{
 		"tulip",
-		"Orange Tulip",
+		S("Orange Tulip"),
 		{-2 / 16, -0.5, -2 / 16, 2 / 16, 3 / 16, 2 / 16},
 		{color_orange = 1, flammable = 1}
 	},
 	{
 		"dandelion_yellow",
-		"Yellow Dandelion",
+		S("Yellow Dandelion"),
 		{-2 / 16, -0.5, -2 / 16, 2 / 16, 4 / 16, 2 / 16},
 		{color_yellow = 1, flammable = 1}
 	},
 	{
 		"geranium",
-		"Blue Geranium",
+		S("Blue Geranium"),
 		{-2 / 16, -0.5, -2 / 16, 2 / 16, 2 / 16, 2 / 16},
 		{color_blue = 1, flammable = 1}
 	},
 	{
 		"viola",
-		"Viola",
+		S("Viola"),
 		{-5 / 16, -0.5, -5 / 16, 5 / 16, -1 / 16, 5 / 16},
 		{color_violet = 1, flammable = 1}
 	},
 	{
 		"dandelion_white",
-		"White dandelion",
+		S("White dandelion"),
 		{-5 / 16, -0.5, -5 / 16, 5 / 16, -2 / 16, 5 / 16},
 		{color_white = 1, flammable = 1}
 	},
@@ -149,7 +160,7 @@ function flowers.flower_spread(pos, node)
 end
 
 minetest.register_abm({
-	label = "Flower spread",
+	label = S("Flower spread"),
 	nodenames = {"group:flora"},
 	interval = 13,
 	chance = 96,
@@ -164,7 +175,7 @@ minetest.register_abm({
 --
 
 minetest.register_node("flowers:mushroom_red", {
-	description = "Red Mushroom",
+	description = S("Red Mushroom"),
 	tiles = {"flowers_mushroom_red.png"},
 	inventory_image = "flowers_mushroom_red.png",
 	wield_image = "flowers_mushroom_red.png",
@@ -183,7 +194,7 @@ minetest.register_node("flowers:mushroom_red", {
 })
 
 minetest.register_node("flowers:mushroom_brown", {
-	description = "Brown Mushroom",
+	description = S("Brown Mushroom"),
 	tiles = {"flowers_mushroom_brown.png"},
 	inventory_image = "flowers_mushroom_brown.png",
 	wield_image = "flowers_mushroom_brown.png",
@@ -205,7 +216,7 @@ minetest.register_node("flowers:mushroom_brown", {
 -- Mushroom spread and death
 
 minetest.register_abm({
-	label = "Mushroom spread",
+	label = S("Mushroom spread"),
 	nodenames = {"flowers:mushroom_brown", "flowers:mushroom_red"},
 	interval = 11,
 	chance = 50,
@@ -254,7 +265,7 @@ minetest.register_alias("mushroom:red_natural", "flowers:mushroom_red")
 --
 
 minetest.register_node("flowers:waterlily", {
-	description = "Waterlily",
+	description = S("Waterlily"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -294,7 +305,7 @@ minetest.register_node("flowers:waterlily", {
 					itemstack:take_item()
 				end
 			else
-				minetest.chat_send_player(player_name, "Node is protected")
+				minetest.chat_send_player(player_name, S("Node is protected")
 				minetest.record_protection_violation(pos, player_name)
 			end
 		end

@@ -1,0 +1,66 @@
+# German translation for flowers mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Rose"
+msgstr "Rose"
+
+#: init.lua
+msgid "Orange Tulip"
+msgstr "Orangene Tulpe"
+
+#: init.lua
+msgid "Yellow Dandelion"
+msgstr "Gelber Löwenzahn"
+
+#: init.lua
+msgid "Blue Geranium"
+msgstr "Blaue Geranie"
+
+#: init.lua
+msgid "Viola"
+msgstr "Viola"
+
+#: init.lua
+msgid "White dandelion"
+msgstr "Weißer Löwenzahn"
+
+#: init.lua
+msgid "Flower spread"
+msgstr "Blumen Aufstrich"
+
+#: init.lua
+msgid "Red Mushroom"
+msgstr "Roter Pilz"
+
+#: init.lua
+msgid "Brown Mushroom"
+msgstr "Brauner Pilz"
+
+#: init.lua
+msgid "Mushroom spread"
+msgstr "Pilz Aufstrich"
+
+#: init.lua
+msgid "Waterlily"
+msgstr "Seerose"
+
+#: init.lua
+msgid "Node is protected"
+msgstr "Block ist geschützt"
