@@ -1,6 +1,17 @@
 
 -- Lava Flan by Zeg9 (additional textures by JurajVajda)
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobs:register_mob("mobs:lava_flan", {
 	type = "monster",
 	passive = false,
@@ -54,11 +65,11 @@ mobs:register_mob("mobs:lava_flan", {
 
 mobs:register_spawn("mobs:lava_flan", {"default:lava_source"}, 15, 0, 1000, 3, 0)
 
-mobs:register_egg("mobs:lava_flan", "Lava Flan", "default_lava.png", 1)
+mobs:register_egg("mobs:lava_flan", S("Lava Flan"), "default_lava.png", 1)
 
 -- lava orb
 minetest.register_craftitem("mobs:lava_orb", {
-	description = "Lava orb",
+	description = S("Lava orb"),
 	inventory_image = "zmobs_lava_orb.png",
 })
 
@@ -116,7 +127,7 @@ function minetest.handle_node_drops(pos, drops, digger)
 end
 
 minetest.register_tool("mobs:pick_lava", {
-	description = "Lava Pickaxe",
+	description = S("Lava Pickaxe"),
 	inventory_image = "mobs_pick_lava.png",
 	tool_capabilities = {
 		full_punch_interval = 0.4,

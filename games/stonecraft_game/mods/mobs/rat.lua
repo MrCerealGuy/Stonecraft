@@ -1,6 +1,17 @@
 
 -- Rat by PilzAdam
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobs:register_mob("mobs:rat", {
 	type = "animal",
 	passive = true,
@@ -43,7 +54,7 @@ mobs:register_egg("mobs:rat", "Rat", "mobs_rat_inventory.png", 0)
 
 -- cooked rat, yummy!
 minetest.register_craftitem("mobs:rat_cooked", {
-	description = "Cooked Rat",
+	description = S("Cooked Rat"),
 	inventory_image = "mobs_cooked_rat.png",
 	on_use = minetest.item_eat(3),
 })

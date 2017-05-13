@@ -1,6 +1,17 @@
 
 -- Spider by AspireMint (fishyWET (CC-BY-SA 3.0 license for texture)
 
+	--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobs:register_mob("mobs:spider", {
 	docile_by_day = true,
 	type = "monster",
@@ -61,7 +72,7 @@ end
 
 -- cobweb
 minetest.register_node("mobs:cobweb", {
-	description = "Cobweb",
+	description = S("Cobweb"),
 	drawtype = "plantlike",
 	visual_scale = 1.1,
 	tiles = {"mobs_cobweb.png"},

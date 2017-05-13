@@ -1,20 +1,31 @@
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 local all_colours = {
-	{"black",      "Black",      "#000000b0"},
-	{"blue",       "Blue",       "#015dbb70"},
-	{"brown",      "Brown",      "#663300a0"},
-	{"cyan",       "Cyan",       "#01ffd870"},
-	{"dark_green", "Dark Green", "#005b0770"},
-	{"dark_grey",  "Dark Grey",  "#303030b0"},
-	{"green",      "Green",      "#61ff0170"},
-	{"grey",       "Grey",       "#5b5b5bb0"},
-	{"magenta",    "Magenta",    "#ff05bb70"},
-	{"orange",     "Orange",     "#ff840170"},
-	{"pink",       "Pink",       "#ff65b570"},
-	{"red",        "Red",        "#ff0000a0"},
-	{"violet",     "Violet",     "#2000c970"},
-	{"white",      "White",      "#abababc0"},
-	{"yellow",     "Yellow",     "#e3ff0070"},
+	{"black",      S("Black"),      "#000000b0"},
+	{"blue",       S("Blue"),       "#015dbb70"},
+	{"brown",      S("Brown"),      "#663300a0"},
+	{"cyan",       S("Cyan"),       "#01ffd870"},
+	{"dark_green", S("Dark Green"), "#005b0770"},
+	{"dark_grey",  S("Dark Grey"),  "#303030b0"},
+	{"green",      S("Green"),      "#61ff0170"},
+	{"grey",       S("Grey"),       "#5b5b5bb0"},
+	{"magenta",    S("Magenta"),    "#ff05bb70"},
+	{"orange",     S("Orange"),     "#ff840170"},
+	{"pink",       S("Pink"),       "#ff65b570"},
+	{"red",        S("Red"),        "#ff0000a0"},
+	{"violet",     S("Violet"),     "#2000c970"},
+	{"white",      S("White"),      "#abababc0"},
+	{"yellow",     S("Yellow"),     "#e3ff0070"},
 }
 
 -- Sheep by PilzAdam, texture converted to minetest by AMMOnym from Summerfield pack
@@ -171,7 +182,7 @@ for _, col in pairs(all_colours) do
 		end
 	})
 
-	mobs:register_egg("mobs:sheep_"..col[1], col[2] .. "Sheep", "wool_"..col[1]..".png", 1)
+	mobs:register_egg("mobs:sheep_"..col[1], col[2] .. S("Sheep"), "wool_"..col[1]..".png", 1)
 
 end
 

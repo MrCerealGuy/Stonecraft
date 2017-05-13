@@ -1,6 +1,17 @@
 
 -- Warthog by KrupnoPavel
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobs:register_mob("mobs:pumba", {
 	type = "animal",
 	passive = false,
@@ -60,14 +71,14 @@ mobs:register_egg("mobs:pumba", "Warthog", "wool_pink.png", 1)
 
 -- raw porkchop
 minetest.register_craftitem("mobs:pork_raw", {
-	description = "Raw Porkchop",
+	description = S("Raw Porkchop"),
 	inventory_image = "mobs_pork_raw.png",
 	on_use = minetest.item_eat(4),
 })
 
 -- cooked porkchop
 minetest.register_craftitem("mobs:pork_cooked", {
-	description = "Cooked Porkchop",
+	description = S("Cooked Porkchop"),
 	inventory_image = "mobs_pork_cooked.png",
 	on_use = minetest.item_eat(8),
 })

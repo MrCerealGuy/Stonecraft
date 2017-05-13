@@ -1,5 +1,16 @@
 -- mob spawner
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local spawner_default = "mobs:pumba 10 15 0 0"
 
 minetest.register_node("mobs:spawner", {
@@ -7,7 +18,7 @@ minetest.register_node("mobs:spawner", {
 	drawtype = "glasslike",
 	paramtype = "light",
 	walkable = true,
-	description = "Mob Spawner",
+	description = S("Mob Spawner"),
 	groups = {cracky = 1},
 
 	on_construct = function(pos)
@@ -16,7 +27,7 @@ minetest.register_node("mobs:spawner", {
 
 		-- text entry formspec
 		meta:set_string("formspec", "field[text;Mob MinLight MaxLight Amount PlayerDist;${command}]")
-		meta:set_string("infotext", "Spawner Not Active (enter settings)")
+		meta:set_string("infotext", S("Spawner Not Active (enter settings)")
 		meta:set_string("command", spawner_default)
 	end,
 
@@ -57,10 +68,10 @@ minetest.register_node("mobs:spawner", {
 		and pla and pla >=0 and pla <= 20 then
 
 			meta:set_string("command", fields.text)
-			meta:set_string("infotext", "Spawner Active (" .. mob .. ")")
+			meta:set_string("infotext", S("Spawner Active (@1)", mob)
 
 		else
-			minetest.chat_send_player(name, "Mob Spawner settings failed!")
+			minetest.chat_send_player(name, S("Mob Spawner settings failed!"))
 		end
 	end,
 })

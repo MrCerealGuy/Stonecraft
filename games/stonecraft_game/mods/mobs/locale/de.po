@@ -1,0 +1,194 @@
+# German translation for mobs mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Eimer mit Milch"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Käse"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Käse Block"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Honig"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Bienenstock"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Honig Block"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Hühner Ei"
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Gekochtes Ei"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Rohes Hühnerfleisch"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Gekochtes Hühnerfleisch"
+
+#: crafts.lua
+msgid "Nametag"
+msgstr "Namensschild"
+
+#: crafts.lua
+msgid "Leather"
+msgstr "Leder"
+
+#: crafts.lua
+msgid "Raw Meat"
+msgstr "Rohes Fleisch"
+
+#: crafts.lua
+msgid "Meat"
+msgstr "Fleisch"
+
+#: crafts.lua
+msgid "Magic Lasso (right-click animal to put in inventory)"
+msgstr "Magische Lass (rechtsklick auf Tier um es ins Inventar zu legen)"
+
+#: crafts.lua
+msgid "Net (right-click animal to put in inventory)"
+msgstr "Netz (rechtsklick auf Tier um es ins Inventar zu legen)"
+
+#: crafts.lua
+msgid "Steel Shears (right-click to shear)"
+msgstr "Stahl Schere (rechtsklick um zu scheren)"
+
+#: lava_flan.lua
+msgid "Lava Flan"
+msgstr "Lava Flan"
+
+#: lava_flan.lua
+msgid "Lava orb"
+msgstr "Lava Kugel"
+
+#: lava_flan.lua
+msgid "Lava Pickaxe"
+msgstr "Lava Spitzhacke"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Gekochte Ratte"
+
+#: sheep.lua
+msgid "Black"
+msgstr "Schwarzes"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "Blaues"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "Braunes"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "Cyan"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "Dunkelgrünes"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "Dunkelgraues"
+
+#: sheep.lua
+msgid "Green"
+msgstr "Grünes"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "Graues"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "Magenta"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "Orangenes"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "Pinkes"
+
+#: sheep.lua
+msgid "Red"
+msgstr "Rotes"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "Violettes"
+
+#: sheep.lua
+msgid "White"
+msgstr "Weißes"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "Gelbes"
+
+#: sheep.lua
+msgid "Sheep"
+msgstr "Schaf"
+
+#: spawner.lua
+msgid "Mob Spawner"
+msgstr "Mob Spawner"
+
+#: spawner.lua
+msgid "Spawner Not Active (enter settings)"
+msgstr "Spawner Nicht Aktiv (gehe in die Einstellungen)"
+
+#: spawner.lua
+msgid "Spawner Active (@1)"
+msgstr "Spawner Aktiv (@1)"
+
+#: spawner.lua
+msgid "Mob Spawner settings failed!"
+msgstr "Mob Spawner Einstellungen fehlgeschlagen!"
+
+#: spider.lua
+msgid "Cobweb"
+msgstr "Spinnennetz"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Rohes Schweinekotlett"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Gekochtes Schweinekotlett"

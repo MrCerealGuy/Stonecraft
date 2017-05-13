@@ -1,6 +1,17 @@
 
 -- Cow by Krupnovpavel (additional texture by JurajVajda)
 
+--[[
+
+2017-05-13 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobs:register_mob("mobs:cow", {
 	type = "animal",
 	passive = false,
@@ -100,7 +111,7 @@ mobs:register_egg("mobs:cow", "Cow", "default_grass.png", 1)
 
 -- bucket of milk
 minetest.register_craftitem("mobs:bucket_milk", {
-	description = "Bucket of Milk",
+	description = S("Bucket of Milk"),
 	inventory_image = "mobs_bucket_milk.png",
 	stack_max = 1,
 	on_use = minetest.item_eat(8, 'bucket:bucket_empty'),
@@ -108,7 +119,7 @@ minetest.register_craftitem("mobs:bucket_milk", {
 
 -- cheese wedge
 minetest.register_craftitem("mobs:cheese", {
-	description = "Cheese",
+	description = S("Cheese"),
 	inventory_image = "mobs_cheese.png",
 	on_use = minetest.item_eat(4),
 })
@@ -123,7 +134,7 @@ minetest.register_craft({
 
 -- cheese block
 minetest.register_node("mobs:cheeseblock", {
-	description = "Cheese Block",
+	description = S("Cheese Block"),
 	tiles = {"mobs_cheeseblock.png"},
 	is_ground_content = false,
 	groups = {crumbly = 3},
