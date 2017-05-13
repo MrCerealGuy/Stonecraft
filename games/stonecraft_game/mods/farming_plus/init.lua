@@ -1,12 +1,14 @@
+--[[
+
+2017-05-13 added intllib support
+
+--]]
+
 farming.registered_plants = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-if (minetest.get_modpath("intllib")) then
-	dofile(minetest.get_modpath("intllib").."/intllib.lua")
-	farming.S = intllib.Getter(minetest.get_current_modname())
-else
-	farming.S = function ( s ) return s end
-end
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local farming.S, NS = dofile(MP.."/intllib.lua")
 
 function farming.add_plant(full_grown, names, interval, chance)
 	minetest.register_abm({

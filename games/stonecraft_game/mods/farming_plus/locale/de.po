@@ -1,0 +1,114 @@
+# German translation for farming_plus mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: bananas.lua
+msgid "Banana Tree Sapling"
+msgstr "Bananenbaum Setzling"
+
+#: bananas.lua
+msgid "Banana"
+msgstr "Banane"
+
+#: carrots.lua
+msgid "Carrot Seeds"
+msgstr "Karotten Samen"
+
+#: carrots.lua
+msgid "Carrot"
+msgstr "Karotte"
+
+#: cocoa.lua
+msgid "Cocoa Tree Sapling"
+msgstr "Kakaobaum Setzling"
+
+#: cocoa.lua
+msgid "Cocoa"
+msgstr "Kakao"
+
+#: oranges.lua
+msgid "Orange Seeds"
+msgstr "Orangen Samen"
+
+#: oranges.lua
+msgid "Orange"
+msgstr "Orange"
+
+#: potatoes.lua
+msgid "Potato"
+msgstr "Kartoffel"
+
+#: pumpkin.lua
+msgid "Pumpkin Seed"
+msgstr "Kürbis Samen"
+
+#: pumpkin.lua
+msgid "Pumpkin"
+msgstr "Kürbis"
+
+#: pumpkin.lua
+msgid "Pumpkin Face"
+msgstr "Kuerbis Laterne"
+
+#: pumpkin.lua
+msgid "Pumpkin Face With Light"
+msgstr "Leuchtende Kürbis Laterne"
+
+#: pumpkin.lua
+msgid "Big Pumpkin"
+msgstr "Riesen Kürbis"
+
+#: pumpkin.lua
+msgid "Scarecrow"
+msgstr "Vogelscheuche"
+
+#: pumpkin.lua
+msgid "Scarecrow With light"
+msgstr "Leuchtende Vogelscheuche"
+
+#: pumpkin.lua
+msgid "Pumpkin Bread"
+msgstr "Kürbis Brot"
+
+#: rhubarb.lua
+msgid "Rhubarb Seeds"
+msgstr "Rhabarber Samen"
+
+#: rhubarb.lua
+msgid "Rhubarb"
+msgstr "Rhabarber"
+
+#: strawberries.lua
+msgid "Strawberry Seeds"
+msgstr "Erdbeer Samen"
+
+#: strawberries.lua
+msgid "Strawberry"
+msgstr "Erdbeere"
+
+#: tomatoes.lua
+msgid "Tomato Seeds"
+msgstr "Tomaten Samen"
+
+#: tomatoes.lua
+msgid "Tomato"
+msgstr "Tomate"
+
+#: weed.lua
+msgid "Weed"
+msgstr "Unkraut"
