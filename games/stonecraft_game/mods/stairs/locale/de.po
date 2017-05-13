@@ -1,0 +1,294 @@
+# German translation for stairs mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-13 16:45+0200\n"
+"PO-Revision-Date: 2017-05-13 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Slab replace"
+msgstr "Stufenersatz"
+
+#: init.lua
+msgid "Wooden Stair"
+msgstr "Holztreppe"
+
+#: init.lua
+msgid "Wooden Slab"
+msgstr "Holzstufe"
+
+#: init.lua
+msgid "Jungle Wood Stair"
+msgstr "Dschungelholztreppe"
+
+#: init.lua
+msgid "Jungle Wood Slab"
+msgstr "Dschungelholzstufe"
+
+#: init.lua
+msgid "Pine Wood Stair"
+msgstr "Kiefernholztreppe"
+
+#: init.lua
+msgid "Pine Wood Slab"
+msgstr "Kiefernholzstufe"
+
+#: init.lua
+msgid "Acacia Wood Stair"
+msgstr "Akazienholztreppe"
+
+#: init.lua
+msgid "Acacia Wood Slab"
+msgstr "Akazienholzstufe"
+
+#: init.lua
+msgid "Aspen Wood Stair"
+msgstr "Espenholztreppe"
+
+#: init.lua
+msgid "Aspen Wood Slab"
+msgstr "Espenholzstufe"
+
+#: init.lua
+msgid "Stone Stair"
+msgstr "Steintreppe"
+
+#: init.lua
+msgid "Stone Slab"
+msgstr "Steinstufe"
+
+#: init.lua
+msgid "Cobblestone Stair"
+msgstr "Bruchsteintreppe"
+
+#: init.lua
+msgid "Cobblestone Slab"
+msgstr "Bruchsteinstufe"
+
+#: init.lua
+msgid "Mossy Cobblestone Stair"
+msgstr "Moosbedeckte Bruchsteintreppe"
+
+#: init.lua
+msgid "Mossy Cobblestone Slab"
+msgstr "Moosbedeckte Bruchsteinstufe"
+
+#: init.lua
+msgid "Stone Brick Stair"
+msgstr "Steinziegeltreppe"
+
+#: init.lua
+msgid "Stone Brick Slab"
+msgstr "Steinziegelstufe"
+
+#: init.lua
+msgid "Stone Block Stair"
+msgstr "Steinblocktreppe"
+
+#: init.lua
+msgid "Stone Block Slab"
+msgstr "Steinblockstufe"
+
+#: init.lua
+msgid "Desert Stone Stair"
+msgstr "Wüstensteintreppe"
+
+#: init.lua
+msgid "Desert Stone Slab"
+msgstr "Wüstensteinstufe"
+
+#: init.lua
+msgid "Desert Cobblestone Stair"
+msgstr "Wüstenbruchsteintreppe"
+
+#: init.lua
+msgid "Desert Cobblestone Slab"
+msgstr "Wüstenbruchsteinstufe"
+
+#: init.lua
+msgid "Desert Stone Brick Stair"
+msgstr "Wüstensteinziegeltreppe"
+
+#: init.lua
+msgid "Desert Stone Brick Slab"
+msgstr "Wüstensteinziegelstufe"
+
+#: init.lua
+msgid "Desert Stone Block Stair"
+msgstr "Wüstensteinblocktreppe"
+
+#: init.lua
+msgid "Desert Stone Block Slab"
+msgstr "Wüstensteinblockstufe"
+
+#: init.lua
+msgid "Sandstone Stair"
+msgstr "Sandsteintreppe"
+
+#: init.lua
+msgid "Sandstone Slab"
+msgstr "Sandsteinstufe"
+
+#: init.lua
+msgid "Sandstone Brick Stair"
+msgstr "Sandsteinziegeltreppe"
+
+#: init.lua
+msgid "Sandstone Brick Slab"
+msgstr "Sandsteinziegelstufe"
+
+#: init.lua
+msgid "Sandstone Block Stair"
+msgstr "Sandsteinblocktreppe"
+
+#: init.lua
+msgid "Sandstone Block Slab"
+msgstr "Sandsteinblockstufe"
+
+#: init.lua
+msgid "Desert Sandstone Stair"
+msgstr "Wüstensandsteintreppe"
+
+#: init.lua
+msgid "Desert Sandstone Slab"
+msgstr "Wüstensandsteinstufe"
+
+#: init.lua
+msgid "Desert Sandstone Brick Stair"
+msgstr "Wüstensandsteinziegeltreppe"
+
+#: init.lua
+msgid "Desert Sandstone Brick Slab"
+msgstr "Wüstensandsteinziegelstufe"
+
+#: init.lua
+msgid "Desert Sandstone Block Stair"
+msgstr "Wüstensandsteinblocktreppe"
+
+#: init.lua
+msgid "Desert Sandstone Block Slab"
+msgstr "Wüstensandsteinblockstufe"
+
+#: init.lua
+msgid "Silver Sandstone Stair"
+msgstr "Silbersandsteintreppe"
+
+#: init.lua
+msgid "Silver Sandstone Slab"
+msgstr "Silbersandsteinstufe"
+
+#: init.lua
+msgid "Silver Sandstone Brick Stair"
+msgstr "Silbersandsteinziegeltreppe"
+
+#: init.lua
+msgid "Silver Sandstone Brick Slab"
+msgstr "Silbersandsteinziegelstufe"
+
+#: init.lua
+msgid "Silver Sandstone Block Stair"
+msgstr "Silbersandsteinblocktreppe"
+
+#: init.lua
+msgid "Silver Sandstone Block Slab"
+msgstr "Silbersandsteinblockstufe"
+
+#: init.lua
+msgid "Obsidian Stair"
+msgstr "Obsidiantreppe"
+
+#: init.lua
+msgid "Obsidian Slab"
+msgstr "Obsidianstufe"
+
+#: init.lua
+msgid "Obsidian Brick Stair"
+msgstr "Obsidianziegeltreppe"
+
+#: init.lua
+msgid "Obsidian Brick Slab"
+msgstr "Obsidianziegelstufe"
+
+#: init.lua
+msgid "Obsidian Block Stair"
+msgstr "Obsidianblocktreppe"
+
+#: init.lua
+msgid "Obsidian Block Slab"
+msgstr "Obsidianblockstufe"
+
+#: init.lua
+msgid "Brick Stair"
+msgstr "Ziegeltreppe"
+
+#: init.lua
+msgid "Brick Slab"
+msgstr "Ziegelstufe"
+
+#: init.lua
+msgid "Straw Stair"
+msgstr "Strohtreppe"
+
+#: init.lua
+msgid "Straw Slab"
+msgstr "Strohstufe"
+
+#: init.lua
+msgid "Steel Block Stair"
+msgstr "Stahlblocktreppe"
+
+#: init.lua
+msgid "Steel Block Slab"
+msgstr "Stahlblockstufe"
+
+#: init.lua
+msgid "Copper Block Stair"
+msgstr "Kupferblocktreppe"
+
+#: init.lua
+msgid "Copper Block Slab"
+msgstr "Kupferblockstufe"
+
+#: init.lua
+msgid "Bronze Block Stair"
+msgstr "Bronzeblocktreppe"
+
+#: init.lua
+msgid "Bronze Block Slab"
+msgstr "Bronzeblockstufe"
+
+#: init.lua
+msgid "Gold Block Stair"
+msgstr "Goldblocktreppe"
+
+#: init.lua
+msgid "Gold Block Slab"
+msgstr "Goldblockstufe"
+
+#: init.lua
+msgid "Ice Stair"
+msgstr "Eistreppe"
+
+#: init.lua
+msgid "Ice Slab"
+msgstr "Eisstufe"
+
+#: init.lua
+msgid "Snow Block Stair"
+msgstr "Schneeblocktreppe"
+
+#: init.lua
+msgid "Snow Block Slab"
+msgstr "Schneeblockstufe"

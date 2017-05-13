@@ -19,23 +19,23 @@ msgstr ""
 
 #: init.lua cooking.lua
 msgid "Strawberry"
-msgstr "Erdbeere"
+msgstr "Erdbeer"
 
 #: init.lua
 msgid "Blackberry"
-msgstr "Brombeere"
+msgstr "Brombeer"
 
 #: init.lua cooking.lua
 msgid "Blueberry"
-msgstr "Blaubeere"
+msgstr "Blaubeer"
 
 #: init.lua cooking.lua
 msgid "Raspberry"
-msgstr "Himbeere"
+msgstr "Himbeer"
 
 #: init.lua
 msgid "Gooseberry"
-msgstr "Stachelbeere"
+msgstr "Stachelbeer"
 
 #: init.lua
 msgid "Mixed Berry"
@@ -51,15 +51,15 @@ msgstr "Zucker"
 
 #: cooking.lua
 msgid "Raw @1 pie"
-msgstr "Roher @1 Kuchen"
+msgstr "Roher @1kuchen"
 
 #: cooking.lua
 msgid "Cooked @1 pie"
-msgstr "Gekochter @1 Kuchen"
+msgstr "Gebackener @1kuchen"
 
 #: cooking.lua
 msgid "Slice of @1 pie"
-msgstr "Stück von @1 Kuchen"
+msgstr "Stück von @1kuchen"
 
 #: nodes.lua
 msgid "Basket with "
