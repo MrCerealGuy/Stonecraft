@@ -1,0 +1,72 @@
+# German translation for moreores mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-14 16:45+0200\n"
+"PO-Revision-Date: 2017-05-14 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: init.lua
+#, lua-format
+msgid "%s Ore"
+msgstr "%serz"
+
+#: init.lua
+#, lua-format
+msgid "%s Block"
+msgstr "%sblock"
+
+#: init.lua
+#, lua-format
+msgid "%s Lump"
+msgstr "%sklumpen"
+
+#: init.lua
+#, lua-format
+msgid "%s Ingot"
+msgstr "%sbarren"
+
+#: init.lua
+#, lua-format
+msgid "%s Sword"
+msgstr "%sschwert"
+
+#: init.lua
+#, lua-format
+msgid "%s Pickaxe"
+msgstr "%sspitzhacke"
+
+#: init.lua
+#, lua-format
+msgid "%s Axe"
+msgstr "%saxt"
+
+#: init.lua
+#, lua-format
+msgid "%s Shovel"
+msgstr "%sschaufel"
+
+#: init.lua
+#, lua-format
+msgid "%s Hoe"
+msgstr "%shacke"
+
+#: init.lua
+msgid "Copper Rail"
+msgstr "Kupferschiene"
+
+#: init.lua
+msgid "[moreores] loaded."
+msgstr "[moreores] geladen."
