@@ -551,92 +551,92 @@ msgstr "Schlüssel"
 
 #: craftitems.lua
 msgid "Stick"
-msgstr ""
+msgstr "Stock"
 
 #: craftitems.lua
 msgid "Paper"
-msgstr ""
+msgstr "Papier"
 
 #: craftitems.lua
 msgid "Book"
-msgstr ""
+msgstr "Buch"
 
 #: craftitems.lua
 msgid "Book With Text"
-msgstr ""
+msgstr "Buch mit Text"
 
 #: craftitems.lua
 msgid "Skeleton Key"
-msgstr ""
+msgstr "Skelettschlüssel"
 
 #: craftitems.lua
 msgid "Key to @1's "
-msgstr ""
+msgstr "Schlüssel gehört zu @1's "
 
 #: craftitems.lua
 msgid "Coal Lump"
-msgstr ""
+msgstr "Kohleklumpen"
 
 #: craftitems.lua
 msgid "Iron Lump"
-msgstr ""
+msgstr "Eisenklumpen"
 
 #: craftitems.lua
 msgid "Copper Lump"
-msgstr ""
+msgstr "Kupferklumpen"
 
 #: craftitems.lua
 msgid "Tin Lump"
-msgstr ""
+msgstr "Zinnklumpen"
 
 #: craftitems.lua
 msgid "Mese Crystal"
-msgstr ""
+msgstr "Mesekristall"
 
 #: craftitems.lua
 msgid "Gold Lump"
-msgstr ""
+msgstr "Goldklumpen"
 
 #: craftitems.lua
 msgid "Diamond"
-msgstr ""
+msgstr "Diamant"
 
 #: craftitems.lua
 msgid "Clay Lump"
-msgstr ""
+msgstr "Lehmklumpen"
 
 #: craftitems.lua
 msgid "Steel Ingot"
-msgstr ""
+msgstr "Stahlbarren"
 
 #: craftitems.lua
 msgid "Copper Ingot"
-msgstr ""
+msgstr "Kupferbarren"
 
 #: craftitems.lua
 msgid "Tin Ingot"
-msgstr ""
+msgstr "Zinnbarren"
 
 #: craftitems.lua
 msgid "Bronze Ingot"
-msgstr ""
+msgstr "Bronzebarren"
 
 #: craftitems.lua
 msgid "Gold Ingot"
-msgstr ""
+msgstr "Goldbarren"
 
 #: craftitems.lua
 msgid "Mese Crystal Fragment"
-msgstr ""
+msgstr "Mesekristallfragment"
 
 #: craftitems.lua
 msgid "Clay Brick"
-msgstr ""
+msgstr "Lehmziegel"
 
 #: craftitems.lua
 msgid "Obsidian Shard"
-msgstr ""
+msgstr "Obsidianscherbe"
 
 #: craftitems.lua
 msgid "Flint"
-msgstr ""
+msgstr "Feuerstein"
