@@ -1,4 +1,13 @@
-local S = moretrees.intllib
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 for i in ipairs(moretrees.treelist) do
 	local treename = moretrees.treelist[i][1]

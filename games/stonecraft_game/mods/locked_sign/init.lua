@@ -2,9 +2,21 @@
 	Mod by kotolegokot
 	Version 2012.8.13.0
 ]]
+
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_privilege("sign_editor", "Can edit all locked signs")
 minetest.register_node("locked_sign:sign_wall_locked", {
-	description = "Locked Sign",
+	description = S("Locked Sign"),
 	drawtype = "signlike",
 	tiles = {"locked_sign_sign_wall_lock.png"},
 	inventory_image = "locked_sign_sign_wall_lock.png",

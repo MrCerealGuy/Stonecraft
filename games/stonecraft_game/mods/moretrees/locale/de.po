@@ -1,0 +1,166 @@
+# German translation for moretrees mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-14 16:45+0200\n"
+"PO-Revision-Date: 2017-05-14 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: crafts.lua
+msgid "Coconut Milk"
+msgstr "Kokosnussmilch"
+
+#: crafts.lua
+msgid "Raw Coconut"
+msgstr "Kokosnussfleisch"
+
+#: crafts.lua
+msgid "Acorn Muffin batter"
+msgstr "Eichelmuffinteig"
+
+#: crafts.lua
+msgid "Acorn Muffin"
+msgstr "Eichelmuffin"
+
+#: crafts.lua
+msgid "Roasted Spruce Cone Nuts"
+msgstr "Geröstete Fichtenzapfen"
+
+#: crafts.lua
+msgid "Roasted Pine Cone Nuts"
+msgstr "Geröstete Kiefernzapfen"
+
+#: crafts.lua
+msgid "Roasted Fir Cone Nuts"
+msgstr "Geroestete Tannenzapfen"
+
+#: init.lua
+msgid "[Moretrees] Loaded (2013-02-11)"
+msgstr "[Moretrees] geladen (2013-02-11)"
+
+#: node_defs.lua
+msgid "Beech Tree"
+msgstr "Buche"
+
+#: node_defs.lua
+msgid "Apple Tree"
+msgstr "Apfelbaum"
+
+#: node_defs.lua
+msgid "Oak Tree"
+msgstr "Eiche"
+
+#: node_defs.lua
+msgid "Acorn"
+msgstr "Eichel"
+
+#: node_defs.lua
+msgid "Giant Sequoia"
+msgstr "Riesenmammutbaum"
+
+#: node_defs.lua
+msgid "Birch Tree"
+msgstr "Birken"
+
+#: node_defs.lua
+msgid "Palm Tree"
+msgstr "Palmen"
+
+#: node_defs.lua
+msgid "Coconut"
+msgstr "Kokosnuss"
+
+#: node_defs.lua
+msgid "Spruce Tree"
+msgstr "Fichten"
+
+#: node_defs.lua
+msgid "Spruce Cone"
+msgstr "Fichtenzapfen"
+
+#: node_defs.lua
+msgid "Willow Tree"
+msgstr "Weiden"
+
+#: node_defs.lua
+msgid "Rubber Tree"
+msgstr "Gummibaum"
+
+#: node_defs.lua
+msgid "Douglas Fir"
+msgstr "Douglasien"
+
+#: node_defs.lua
+msgid "Fir Cone"
+msgstr "Tannenzapfen"
+
+#: node_defs.lua
+msgid "Jungle Tree"
+msgstr "Tropenbaum"
+
+#: node_defs.lua
+msgid "Pine Tree"
+msgstr "Kiefern"
+
+#: node_defs.lua
+msgid "Pine Cone"
+msgstr "Kiefernzapfen"
+
+#: node_defs.lua
+msgid "Acacia Tree"
+msgstr "Akazien"
+
+#: node_defs.lua
+msgid "@1 Trunk"
+msgstr "stamm"
+
+#: node_defs.lua
+msgid "@1 Planks"
+msgstr "bretter"
+
+#: node_defs.lua
+msgid "@1 Sapling"
+msgstr "setzling"
+
+#: node_defs.lua
+msgid "@1 Leaves"
+msgstr "blätter"
+
+#: node_defs.lua
+msgid "@1 Trunk Stair"
+msgstr "stammtreppe"
+
+#: node_defs.lua
+msgid "@1 Trunk Slab"
+msgstr "stammstufe"
+
+#: node_defs.lua
+msgid "@1 Planks Stair"
+msgstr "brettertreppe"
+
+#: node_defs.lua
+msgid "@1 Planks Slab"
+msgstr "bretterstufe"
+
+#: node_defs.lua
+msgid "Jungle Tree Leaves (@1)"
+msgstr "Tropenbaumblätter (@1)"
+
+#: node_defs.lua
+msgid "Douglas Fir Leaves (Bright)"
+msgstr "Douglasiennadeln (breit)"
+
+#: node_defs.lua
+msgid "Rubber Tree Trunk (Empty)"
+msgstr "Gummibaumstamm (leer)"

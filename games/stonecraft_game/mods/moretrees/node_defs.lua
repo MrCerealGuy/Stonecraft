@@ -1,22 +1,31 @@
-local S = moretrees.intllib
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 moretrees.avoidnodes = {}
 	
 moretrees.treelist = {
-	{"beech",		"Beech Tree"},
-	{"apple_tree",	"Apple Tree"},
-	{"oak",			"Oak Tree",			"acorn",		"Acorn",		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
-	{"sequoia",		"Giant Sequoia"},
-	{"birch",		"Birch Tree"},
-	{"palm",		"Palm Tree",		"coconut",		"Coconut",		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	1.0 },
-	{"spruce",		"Spruce Tree",		"spruce_cone",	"Spruce Cone",	{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
-	{"willow",		"Willow Tree"},
-	{"rubber_tree",	"Rubber Tree"},
-	{"fir",			"Douglas Fir",		"fir_cone",		"Fir Cone",		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
+	{"beech",		S("Beech Tree")},
+	{"apple_tree",	S("Apple Tree")},
+	{"oak",			S("Oak Tree"),			"acorn",		S("Acorn"),		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
+	{"sequoia",		S("Giant Sequoia")},
+	{"birch",		S("Birch Tree")},
+	{"palm",		S("Palm Tree"),		"coconut",		S("Coconut"),		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	1.0 },
+	{"spruce",		S("Spruce Tree"),		"spruce_cone",	S("Spruce Cone"),	{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
+	{"willow",		S("Willow Tree")},
+	{"rubber_tree",	S("Rubber Tree")},
+	{"fir",			S("Douglas Fir"),		"fir_cone",		S("Fir Cone"),		{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8 },
 
-	{"jungletree",	"Jungle Tree",		nil,			nil,			nil,								nil, "default_junglesapling.png"  },
-	{"pine",		"Pine Tree",		"pine_cone",	"Pine Cone",	{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8, "default_pine_sapling.png"   },
-	{"acacia",		"Acacia Tree",		nil,			nil,			nil,								nil, "default_acacia_sapling.png" },
+	{"jungletree",	S("Jungle Tree"),		nil,			nil,			nil,								nil, "default_junglesapling.png"  },
+	{"pine",		S("Pine Tree"),		"pine_cone",	S("Pine Cone"),	{-0.2, -0.5, -0.2, 0.2, 0, 0.2},	0.8, "default_pine_sapling.png"   },
+	{"acacia",		S("Acacia Tree"),		nil,			nil,			nil,								nil, "default_acacia_sapling.png" },
 }
 
 local dirs1 = { 21, 20, 23, 22, 21 }
@@ -76,7 +85,7 @@ for i in ipairs(moretrees.treelist) do
 		saptex = "moretrees_"..treename.."_sapling.png"
 
 		minetest.register_node("moretrees:"..treename.."_trunk", {
-			description = S(treedesc.." Trunk"),
+			description = S("@1 Trunk", treedesc),
 			tiles = {
 				"moretrees_"..treename.."_trunk_top.png",
 				"moretrees_"..treename.."_trunk_top.png",
@@ -90,7 +99,7 @@ for i in ipairs(moretrees.treelist) do
 		})
 
 		minetest.register_node("moretrees:"..treename.."_planks", {
-			description = S(treedesc.." Planks"),
+			description = S("@1 Planks", treedesc),
 			tiles = {"moretrees_"..treename.."_wood.png"},
 			is_ground_content = true,
 			groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
@@ -98,7 +107,7 @@ for i in ipairs(moretrees.treelist) do
 		})
 
 		minetest.register_node("moretrees:"..treename.."_sapling", {
-			description = S(treedesc.." Sapling"),
+			description = S("@1 Sapling", treedesc),
 			drawtype = "plantlike",
 			tiles = {saptex},
 			inventory_image = saptex,
@@ -135,7 +144,7 @@ for i in ipairs(moretrees.treelist) do
 		end
 
 		minetest.register_node("moretrees:"..treename.."_leaves", {
-			description = S(treedesc.." Leaves"),
+			description = S("@1 Leaves", treedesc),
 			drawtype = moretrees_new_leaves_drawtype,
 			waving = moretrees_new_leaves_waving,
 			visual_scale = moretrees_plantlike_leaves_visual_scale,
@@ -170,7 +179,7 @@ for i in ipairs(moretrees.treelist) do
 							"moretrees_"..treename.."_trunk_top.png",
 							"moretrees_"..treename.."_trunk.png"
 						},
-						description = S(treedesc.." Trunk"),
+						description = S("@1 Trunk", treedesc),
 						drop = treename.."_trunk",
 					}
 				)
@@ -182,7 +191,7 @@ for i in ipairs(moretrees.treelist) do
 					{
 						groups = { snappy=1, choppy=2, oddly_breakable_by_hand=2, flammable=3, not_in_creative_inventory=1 },
 						tiles = { "moretrees_"..treename.."_wood.png" },
-						description = S(treedesc.." Planks"),
+						description = S("@1 Planks", treedesc),
 						drop = treename.."_planks",
 					}
 				)
@@ -195,8 +204,8 @@ for i in ipairs(moretrees.treelist) do
 						"moretrees_"..treename.."_trunk_top.png",
 						"moretrees_"..treename.."_trunk.png"
 					},
-					S(treedesc.." Trunk Stair"),
-					S(treedesc.." Trunk Slab"),
+					S("@1 Trunk Stair", treedesc),
+					S("@1 Trunk Slab", treedesc),
 					default.node_sound_wood_defaults()
 				)
 
@@ -205,8 +214,8 @@ for i in ipairs(moretrees.treelist) do
 					"moretrees:"..treename.."_planks",
 					{ snappy=1, choppy=2, oddly_breakable_by_hand=2, flammable=3 },
 					{ "moretrees_"..treename.."_wood.png" },
-					S(treedesc.." Planks Stair"),
-					S(treedesc.." Planks Slab"),
+					S("@1 Planks Stair", treedesc),
+					S("@1 Planks Slab", treedesc),
 					default.node_sound_wood_defaults()
 				)
 
@@ -215,7 +224,7 @@ for i in ipairs(moretrees.treelist) do
 	end
 
 	minetest.register_node("moretrees:"..treename.."_sapling_ongen", {
-		description = S(treedesc.." Sapling"),
+		description = S("@1 Sapling", treedesc),
 		drawtype = "plantlike",
 		tiles = {saptex},
 		inventory_image = saptex,
@@ -233,7 +242,7 @@ for i in ipairs(moretrees.treelist) do
 
 	if fruit then
 		minetest.register_node("moretrees:"..fruit, {
-			description = S(fruitdesc),
+			description = fruitdesc,
 			drawtype = "plantlike",
 			tiles = { "moretrees_"..fruit..".png" },
 			inventory_image = "moretrees_"..fruit..".png^[transformR180",
@@ -286,7 +295,7 @@ for color = 1, #jungleleaves do
 	end
 
 	minetest.register_node(leave_name, {
-		description = S("Jungle Tree Leaves ("..jungleleavesnames[color]..")"),
+		description = S("Jungle Tree Leaves (@1)", jungleleavesnames[color]),
 		drawtype = moretrees_new_leaves_drawtype,
 		waving = moretrees_new_leaves_waving,
 		visual_scale = moretrees_plantlike_leaves_visual_scale,

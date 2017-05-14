@@ -15,6 +15,12 @@
 -- License: WTFPL for all parts (code and textures, including those copied
 -- from the the old jungletree and conifers mods).
 
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
 moretrees = {}
 
 -- Read the default config file (and if necessary, copy it to the world folder).
@@ -29,14 +35,9 @@ if io.open(worldpath.."/moretrees_settings.txt","r") then
 	dofile(worldpath.."/moretrees_settings.txt")
 end
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if minetest.get_modpath("intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
-moretrees.intllib = S
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- clone node
 
