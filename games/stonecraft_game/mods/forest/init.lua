@@ -3,7 +3,10 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-14 MrCerealGuy: added intllib support
+
 --]]
+
 
 local DIR_DELIM = DIR_DELIM or "/"
 local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
@@ -14,6 +17,10 @@ if enable_forests ~= nil and enable_forests == "false" then
 	minetest.log("info", "[forest] skip loading mod.")
 	return
 end
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 trees = {}
 apportionment = {}
@@ -76,7 +83,7 @@ function register_season(nodename, params)
 end
 
 minetest.register_node("forest:winterblock", {
-	description = "Bloc hiver",
+	description = S("Winter block"),
 	drawtype = "airlike",
 	is_ground_content = true,
 	groups = {not_in_creative_inventory = 1},
@@ -219,7 +226,7 @@ minetest.register_abm({
 })
 
 minetest.register_node(":default:ice", {
-	description = "Ice",
+	description = S("Ice"),
 	drawtype = "glasslike",
 	tiles = {"new_ice.png"},
 	inventory_image = minetest.inventorycube("default_ice.png"),
@@ -231,7 +238,7 @@ minetest.register_node(":default:ice", {
 })
 
 minetest.register_node("forest:_clock", {
-	description = "Clock",
+	description = S("Clock"),
 	tiles = {"clock.png","default_wood.png","default_wood.png","default_wood.png","default_wood.png","default_wood.png"},
 	is_ground_content = true,
 	paramtype = "light",
@@ -310,7 +317,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("forest:sand_way", {
-	description = "Sand heap",
+	description = S("Sand heap"),
 	drawtype = "raillike",
 	tiles = {"sand_way.png", "sand_way_curved.png", "sand_way_t_junction.png", "sand_way_crossing.png"},
 	inventory_image = "sand_heap.png",
@@ -327,7 +334,7 @@ minetest.register_node("forest:sand_way", {
 })
 
 minetest.register_node("forest:gravel_way", {
-	description = "Gravel heap",
+	description = S("Gravel heap"),
 	drawtype = "raillike",
 	tiles = {"gravel_way.png", "gravel_way_curved.png", "gravel_way_t_junction.png", "gravel_way_crossing.png"},
 	inventory_image = "gravel_heap.png",
@@ -344,7 +351,7 @@ minetest.register_node("forest:gravel_way", {
 })
 
 minetest.register_node("forest:desert_sand_way", {
-	description = "Desert sand heap",
+	description = S("Desert sand heap"),
 	drawtype = "raillike",
 	tiles = {"desert_sand_way.png", "desert_sand_way_curved.png", "desert_sand_way_t_junction.png", "desert_sand_way_crossing.png"},
 	inventory_image = "desert_sand_heap.png",

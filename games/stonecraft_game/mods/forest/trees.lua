@@ -1,5 +1,16 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 register_tree("oak", {
-	description = "chene",
+	description = S("Oak"),
 	sapling = {chance = 1, growing = 6},
 	growing = {
 		trunk_height = {min = 7, max = 13},
@@ -23,7 +34,7 @@ register_tree("oak", {
 })
 
 register_tree("birch", {
-	description = "bouleau",
+	description = S("Birch"),
 	sapling = {chance = 5, growing = 12},
 	growing = {
 		trunk_height = {min = 4, max = 6},
@@ -43,7 +54,7 @@ register_tree("birch", {
 })
 
 register_tree("willow", {
-	description = "saule",
+	description = S("Willow"),
 	sapling = {chance = 20, growing = 14},
 	growing = {
 		trunk_height = {min = 7, max = 10},
@@ -64,7 +75,7 @@ register_tree("willow", {
 })
 
 register_tree("fir", {
-	description = "sapin",
+	description = S("Fir"),
 	sapling = {chance = 3.5, growing = 3.2},
 	growing = {
 		radius = 3,
@@ -82,10 +93,10 @@ register_tree("fir", {
 })
 
 register_tree("mirabelle", {
-	description = "mirabellier",
+	description = S("Mirabelle"),
 	descriptions = {
-		fruitleaves = "Feuilles de mirabellier avec mirabelles",
-		fruit = "Mirabelle",
+		fruitleaves = S("Mirabelle with leaves"),
+		fruit = S("Mirabelle"),
 	},
 	tiles = {
 		leaves = "default_leaves.png",
@@ -116,10 +127,10 @@ register_tree("mirabelle", {
 })
 
 register_tree("cherry", {
-	description = "cerisier",
+	description = S("Cherry"),
 	descriptions = {
-		fruitleaves = "Feuilles de cerisier avec cerises",
-		fruit = "Cerise",
+		fruitleaves = S("Cherry with leaves"),
+		fruit = S("Cherry"),
 	},
 	tiles = {
 		leaves = "default_leaves.png",
@@ -150,10 +161,10 @@ register_tree("cherry", {
 })
 
 register_tree("plum", {
-	description = "prunier",
+	description = S("Plum"),
 	descriptions = {
-		fruitleaves = "Feuilles de prunier avec prunes",
-		fruit = "Prune",
+		fruitleaves = S("Plum with leaves"),
+		fruit = S("Prune"),
 	},
 	tiles = {
 		leaves = "default_leaves.png",
@@ -184,9 +195,9 @@ register_tree("plum", {
 })
 
 register_tree("apple_tree", {
-	description = "pommier",
+	description = S("Apple"),
 	descriptions = {
-		fruitleaves = "Feuilles de pommier avec pommes",
+		fruitleaves = S("Apple with leaves"),
 	},
 	register = {fruitleaves = true},
 	names = {
@@ -217,7 +228,7 @@ register_tree("apple_tree", {
 })
 
 register_tree("jungle", {
-	description = "arbre de jungle",
+	description = S("Jungle tree"),
 	register = {},
 	names = {
 		tree = "default:jungletree",
@@ -248,7 +259,7 @@ register_tree("jungle", {
 })
 
 register_tree("beech", {
-	description = "hetre",
+	description = S("Beech"),
 	sapling = {chance = 1.5, growing = 8},
 	growing = {
 		trunk_height = {min = 6, max = 10},
@@ -273,7 +284,7 @@ register_tree("beech", {
 })
 
 register_tree("ginkgo", {
-	description = "ginkgo",
+	description = S("Ginkgo"),
 	sapling = {chance = 1.2, growing = 3.5},
 	growing = {
 		trunk_height = {min = 6, max = 12},
@@ -297,10 +308,10 @@ register_tree("ginkgo", {
 })
 
 register_tree("lavender", {
-	description = "lavande",
+	description = S("Lavander"),
 	descriptions = {
-		fruitleaves = "Feuilles de lavande avec fleurs",
-		fruit = "Fleurs de lavande",
+		fruitleaves = S("Lavender leaves with flowers"),
+		fruit = S("Flowers of lavender"),
 	},
 	sapling = {chance = 10, growing = 14},
 	growing = {

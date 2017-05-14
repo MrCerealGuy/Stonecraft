@@ -1,5 +1,16 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_node("forest:_stone_with_coal", {
-	description = "Coal ore in desert stone",
+	description = S("Coal ore in desert stone"),
 	tiles = {"default_desert_stone.png^default_mineral_coal.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -8,7 +19,7 @@ minetest.register_node("forest:_stone_with_coal", {
 })
 
 minetest.register_node("forest:_stone_with_iron", {
-	description = "Iron ore in desert stone",
+	description = S("Iron ore in desert stone"),
 	tiles = {"default_desert_stone.png^default_mineral_iron.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -17,7 +28,7 @@ minetest.register_node("forest:_stone_with_iron", {
 })
 
 minetest.register_node("forest:_stone_with_copper", {
-	description = "Copper ore in desert stone",
+	description = S("Copper ore in desert stone"),
 	tiles = {"default_desert_stone.png^default_mineral_copper.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -26,7 +37,7 @@ minetest.register_node("forest:_stone_with_copper", {
 })
 
 minetest.register_node("forest:_stone_with_gold", {
-	description = "Gold ore in desert stone",
+	description = S("Gold ore in desert stone"),
 	tiles = {"default_desert_stone.png^default_mineral_gold.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -35,7 +46,7 @@ minetest.register_node("forest:_stone_with_gold", {
 })
 
 minetest.register_node("forest:_stone_with_mese", {
-	description = "Mese ore in desert stone",
+	description = S("Mese ore in desert stone"),
 	tiles = {"default_desert_stone.png^default_mineral_mese.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -52,7 +63,7 @@ minetest.register_node("forest:_stone_with_mese", {
 })
 
 minetest.register_node("forest:_gravel_with_coal", {
-	description = "Coal ore in gravel",
+	description = S("Coal ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_coal.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -64,7 +75,7 @@ minetest.register_node("forest:_gravel_with_coal", {
 })
 
 minetest.register_node("forest:_gravel_with_iron", {
-	description = "Iron ore in gravel",
+	description = S("Iron ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_iron.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, falling_node=1},
@@ -76,7 +87,7 @@ minetest.register_node("forest:_gravel_with_iron", {
 })
 
 minetest.register_node("forest:_gravel_with_gold", {
-	description = "Gold ore in gravel",
+	description = S("Gold ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_gold.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, falling_node=1},
@@ -88,7 +99,7 @@ minetest.register_node("forest:_gravel_with_gold", {
 })
 
 minetest.register_node("forest:_gravel_with_copper", {
-	description = "Copper ore in gravel",
+	description = S("Copper ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_copper.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, falling_node=1},
@@ -100,7 +111,7 @@ minetest.register_node("forest:_gravel_with_copper", {
 })
 
 minetest.register_node("forest:_gravel_with_diamond", {
-	description = "Diamond ore in gravel",
+	description = S("Diamond ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_diamond.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, falling_node=1},
@@ -112,7 +123,7 @@ minetest.register_node("forest:_gravel_with_diamond", {
 })
 
 minetest.register_node("forest:_gravel_with_mese", {
-	description = "Mese ore in gravel",
+	description = S("Mese ore in gravel"),
 	tiles = {"default_gravel.png^default_mineral_mese.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, falling_node=1},

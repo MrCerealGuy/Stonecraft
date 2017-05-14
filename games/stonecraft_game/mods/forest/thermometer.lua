@@ -1,3 +1,14 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 function aff_thermometer(pos, node)
 	local temperature = math.floor(get_instant_temperature(pos))
 	node.name = "forest:_thermometer_"..temperature
@@ -5,7 +16,7 @@ function aff_thermometer(pos, node)
 end
 
 minetest.register_node("forest:_thermometer_0", {
-	description = "Thermometre",
+	description = S("Thermometre"),
 	drawtype = "torchlike",
 	tiles = {
 		{name="thermometer_0b.png"},
@@ -33,7 +44,7 @@ minetest.register_node("forest:_thermometer_0", {
 
 for i = 1, 20 do
 minetest.register_node("forest:_thermometer_"..i, {
-	description = "Thermometre",
+	description = S("Thermometre"),
 	drawtype = "torchlike",
 	tiles = {
 		{name="thermometer_"..i.."b.png"},

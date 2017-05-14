@@ -1,5 +1,16 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_node("forest:oil_flowing", {
-	description = "Oil flowing",
+	description = S("Oil flowing"),
 	inventory_image = minetest.inventorycube("oil.png"),
 	drawtype = "flowingliquid",
 	tiles = {"oil.png"},
@@ -33,7 +44,7 @@ minetest.register_node("forest:oil_flowing", {
 })
 
 minetest.register_node("forest:oil_source", {
-	description = "Oil source",
+	description = S("Oil source"),
 	inventory_image = minetest.inventorycube("oil.png"),
 	drawtype = "liquid",
 	tiles = {

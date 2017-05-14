@@ -1,0 +1,190 @@
+# German translation for forest mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-14 16:45+0200\n"
+"PO-Revision-Date: 2017-05-14 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Winter block"
+msgstr "Winterblock"
+
+#: init.lua
+msgid "Ice"
+msgstr "Eis"
+
+#: init.lua
+msgid "Clock"
+msgstr "Uhr"
+
+#: init.lua
+msgid "Sand heap"
+msgstr "Sandhaufen"
+
+#: init.lua
+msgid "Gravel heap"
+msgstr "Kieshaufen"
+
+#: init.lua
+msgid "Desert sand heap"
+msgstr "Wüstensandhaufen"
+
+#: mud.lua
+msgid "Mud flowing"
+msgstr "Schlammflut"
+
+#: mud.lua
+msgid "Mud source"
+msgstr "Schlammquelle"
+
+#: mud.lua
+msgid "Mud ice"
+msgstr "Eismatsch"
+
+#: oil.lua
+msgid "Oil flowing"
+msgstr "Ölflut"
+
+#: oil.lua
+msgid "Oil source"
+msgstr "Ölquelle"
+
+#: ores.lua
+msgid "Coal ore in desert stone"
+msgstr "Kohleerz in Wüstenstein"
+
+#: ores.lua
+msgid "Iron ore in desert stone"
+msgstr "Eisenerz in Wüstenstein"
+
+#: ores.lua
+msgid "Copper ore in desert stone"
+msgstr "Kupfererz in Wüstenstein"
+
+#: ores.lua
+msgid "Gold ore in desert stone"
+msgstr "Golderz in Wüstenstein"
+
+#: ores.lua
+msgid "Mese ore in desert stone"
+msgstr "Meseerz in Wüstenstein"
+
+#: ores.lua
+msgid "Coal ore in gravel"
+msgstr "Kohleerz in Kies"
+
+#: ores.lua
+msgid "Iron ore in gravel"
+msgstr "Eisenerz in Kies"
+
+#: ores.lua
+msgid "Gold ore in gravel"
+msgstr "Golderz in Kies"
+
+#: ores.lua
+msgid "Copper ore in gravel"
+msgstr "Kupfererz in Kies"
+
+#: ores.lua
+msgid "Diamond ore in gravel"
+msgstr "Diamantenerz in Kies"
+
+#: ores.lua
+msgid "Mese ore in gravel"
+msgstr "Meseerz in Kies"
+
+#: thermometer.lua
+msgid "Thermometre"
+msgstr "Thermometer"
+
+#: trees.lua
+msgid "Oak"
+msgstr "Eiche"
+
+#: trees.lua
+msgid "Birch"
+msgstr "Birke"
+
+#: trees.lua
+msgid "Willow"
+msgstr "Trauerweide"
+
+#: trees.lua
+msgid "Fir"
+msgstr "Tanne"
+
+#: trees.lua
+msgid "Mirabelle"
+msgstr "Mirabelle"
+
+#: trees.lua
+msgid "Mirabelle with leaves"
+msgstr "Mirabelle mit Blättern"
+
+#: trees.lua
+msgid "Mirabelle"
+msgstr "Mirabelle"
+
+#: trees.lua
+msgid "Cherry"
+msgstr "Kirche"
+
+#: trees.lua
+msgid "Cherry with leaves"
+msgstr "Kirche mit Blättern"
+
+#: trees.lua
+msgid "Plum"
+msgstr "Pflaume"
+
+#: trees.lua
+msgid "Plum with leaves"
+msgstr "Pflaume mit Blättern"
+
+#: trees.lua
+msgid "Prune"
+msgstr "Pflaume"
+
+#: trees.lua
+msgid "Apple"
+msgstr "Apfel"
+
+#: trees.lua
+msgid "Apple with leaves"
+msgstr "Apfel mit Blättern"
+
+#: trees.lua
+msgid "Jungle tree"
+msgstr "Dschungelbaum"
+
+#: trees.lua
+msgid "Beech"
+msgstr "Buche"
+
+#: trees.lua
+msgid "Ginkgo"
+msgstr "Ginkgo"
+
+#: trees.lua
+msgid "Lavander"
+msgstr "Lavendel"
+
+#: trees.lua
+msgid "Lavender leaves with flowers"
+msgstr "Lavendelblätter mit Blumen"
+
+#: trees.lua
+msgid "Flowers of lavender"
+msgstr "Lavendelblüten"

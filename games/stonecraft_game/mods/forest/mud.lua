@@ -1,5 +1,16 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_node("forest:mud_flowing", {
-	description = "Mud flowing",
+	description = S("Mud flowing"),
 	inventory_image = minetest.inventorycube("mud.png"),
 	drawtype = "flowingliquid",
 	tiles = {"mud.png"},
@@ -33,7 +44,7 @@ minetest.register_node("forest:mud_flowing", {
 })
 
 minetest.register_node("forest:mud_source", {
-	description = "Mud source",
+	description = S("Mud source"),
 	inventory_image = minetest.inventorycube("mud.png"),
 	drawtype = "liquid",
 	tiles = {
@@ -63,7 +74,7 @@ minetest.register_node("forest:mud_source", {
 })
 
 minetest.register_node("forest:mud_ice", {
-	description = "Mud ice",
+	description = S("Mud ice"),
 	drawtype = "glasslike",
 	tiles = {"mud.png^new_ice.png"},
 	is_ground_content = true,
