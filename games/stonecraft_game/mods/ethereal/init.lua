@@ -13,6 +13,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-14 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -26,6 +28,10 @@ if enable_biomes ~= nil and enable_biomes == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 ethereal = {}
 ethereal.leaftype = 0 -- 0 for 2D plantlike, 1 for 3D allfaces
@@ -56,15 +62,6 @@ ethereal.plains    = 1 -- Dry dirt with scorched trees
 ethereal.savannah  = 1 -- Dry yellow grass with acacia tree's
 ethereal.fiery     = 1 -- Red grass with lava craters
 ethereal.sandclay  = 1 -- Sand areas with clay underneath
-
--- Intllib
-local S
-if minetest.get_modpath("intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
-ethereal.intllib = S
 
 
 local path = minetest.get_modpath("ethereal")
