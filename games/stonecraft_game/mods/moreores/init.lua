@@ -234,7 +234,7 @@ local modname = "moreores"
 
 local oredefs = {
 	silver = {
-		description = "Silver",
+		description = S("Silver"),
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = true},
 		oredef = {clust_scarcity = moreores_silver_chunk_size * moreores_silver_chunk_size * moreores_silver_chunk_size,
 			clust_num_ores = moreores_silver_ore_per_chunk,
@@ -266,7 +266,7 @@ local oredefs = {
 		damage_groups = {fleshy = 6},
 	},
 	tin = {
-		description = "Tin",
+		description = S("Tin"),
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = false},
 		oredef = {clust_scarcity = moreores_tin_chunk_size * moreores_tin_chunk_size * moreores_tin_chunk_size,
 			clust_num_ores = moreores_tin_ore_per_chunk,
@@ -277,7 +277,7 @@ local oredefs = {
 		tools = {},
 	},
 	mithril = {
-		description = "Mithril",
+		description = S("Mithril"),
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = false},
 		oredef = {clust_scarcity = moreores_mithril_chunk_size * moreores_mithril_chunk_size * moreores_mithril_chunk_size,
 			clust_num_ores = moreores_mithril_ore_per_chunk,

@@ -64,6 +64,18 @@ msgid "%s Hoe"
 msgstr "%shacke"
 
 #: init.lua
+msgid "Silver"
+msgstr "Silber"
+
+#: init.lua
+msgid "Tin"
+msgstr "Zinn"
+
+#: init.lua
+msgid "Mithril"
+msgstr "Mithril"
+
+#: init.lua
 msgid "Copper Rail"
 msgstr "Kupferschiene"
 
