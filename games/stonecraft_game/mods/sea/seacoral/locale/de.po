@@ -1,0 +1,90 @@
+# German translation for seacoral mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-14 16:45+0200\n"
+"PO-Revision-Date: 2017-05-14 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Cyan Coral"
+msgstr "Cyan Koralle"
+
+#: init.lua
+msgid "Magenta Coral"
+msgstr "Magenta Koralle"
+
+#: init.lua
+msgid "Aqua Coral"
+msgstr "Wasserblaue Koralle"
+
+#: init.lua
+msgid "Lime Coral"
+msgstr "Hellgrüne Koralle"
+
+#: init.lua
+msgid "Skyblue Coral"
+msgstr "Himmelblaue Koralle"
+
+#: init.lua
+msgid "Redviolet Coral"
+msgstr "Rotviolette Koralle"
+
+#: init.lua
+msgid "Sea coral sand cyan"
+msgstr "Meereskoralle Sand cyan"
+
+#: init.lua
+msgid "Sea coral dirt cyan"
+msgstr "Meereskoralle Erde cyan"
+
+#: init.lua
+msgid "Sea coral sand magenta"
+msgstr "Meereskoralle Sand magenta"
+
+#: init.lua
+msgid "Sea coral dirt magenta"
+msgstr "Meereskoralle Erde magenta"
+
+#: init.lua
+msgid "Sea coral sand aqua"
+msgstr "Meereskoralle Sand Wasser"
+
+#: init.lua
+msgid "Sea coral dirt aqua"
+msgstr "Meereskoralle Erde Wasser"
+
+#: init.lua
+msgid "Sea coral sand lime"
+msgstr "Meereskoralle Sand hellgrün"
+
+#: init.lua
+msgid "Sea coral dirt lime"
+msgstr "Meereskoralle Erde hellgrün"
+
+#: init.lua
+msgid "Sea coral sand skyblue"
+msgstr "Meereskoralle Sand himmelblau"
+
+#: init.lua
+msgid "Sea coral dirt skyblue"
+msgstr "Meereskoralle Erde himmelblau"
+
+#: init.lua
+msgid "Sea coral sand redviolet"
+msgstr "Meereskoralle Sand rotviolett"
+
+#: init.lua
+msgid "Sea coral dirt redviolet"
+msgstr "Meereskoralle Erde rotviolett"

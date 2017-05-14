@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-14 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,14 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- NODES
-
-
 minetest.register_node("seacoral:coralcyan", {
-	description = "Cyan Coral",
+	description = S("Cyan Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_coralcyan.png"},
 	inventory_image = "seacoral_coralcyan.png",
@@ -41,7 +46,7 @@ minetest.register_node("seacoral:coralcyan", {
 })
 
 minetest.register_node("seacoral:coralmagenta", {
-	description = "Magenta Coral",
+	description = S("Magenta Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_coralmagenta.png"},
 	inventory_image = "seacoral_coralmagenta.png",
@@ -61,7 +66,7 @@ minetest.register_node("seacoral:coralmagenta", {
 })
 
 minetest.register_node("seacoral:coralaqua", {
-	description = "Aqua Coral",
+	description = S("Aqua Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_coralaqua.png"},
 	inventory_image = "seacoral_coralaqua.png",
@@ -81,7 +86,7 @@ minetest.register_node("seacoral:coralaqua", {
 })
 
 minetest.register_node("seacoral:corallime", {
-	description = "Lime Coral",
+	description = S("Lime Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_corallime.png"},
 	inventory_image = "seacoral_corallime.png",
@@ -101,7 +106,7 @@ minetest.register_node("seacoral:corallime", {
 })
 
 minetest.register_node("seacoral:coralskyblue", {
-	description = "Skyblue Coral",
+	description = S("Skyblue Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_coralskyblue.png"},
 	inventory_image = "seacoral_coralskyblue.png",
@@ -121,7 +126,7 @@ minetest.register_node("seacoral:coralskyblue", {
 })
 
 minetest.register_node("seacoral:coralredviolet", {
-	description = "Redviolet Coral",
+	description = S("Redviolet Coral"),
 	drawtype = "plantlike",
 	tiles = {"seacoral_coralredviolet.png"},
 	inventory_image = "seacoral_coralredviolet.png",
@@ -141,7 +146,7 @@ minetest.register_node("seacoral:coralredviolet", {
 })
 
 minetest.register_node("seacoral:seacoralsandcyan", {
-	description = "Sea coral sand cyan",
+	description = S("Sea coral sand cyan"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -150,7 +155,7 @@ minetest.register_node("seacoral:seacoralsandcyan", {
 })
 
 minetest.register_node("seacoral:seacoraldirtcyan", {
-	description = "Sea coral dirt cyan",
+	description = S("Sea coral dirt cyan"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -159,7 +164,7 @@ minetest.register_node("seacoral:seacoraldirtcyan", {
 })
 
 minetest.register_node("seacoral:seacoralsandmagenta", {
-	description = "Sea coral sand magenta",
+	description = S("Sea coral sand magenta"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -168,7 +173,7 @@ minetest.register_node("seacoral:seacoralsandmagenta", {
 })
 
 minetest.register_node("seacoral:seacoraldirtmagenta", {
-	description = "Sea coral dirt magenta",
+	description = S("Sea coral dirt magenta"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -177,7 +182,7 @@ minetest.register_node("seacoral:seacoraldirtmagenta", {
 })
 
 minetest.register_node("seacoral:seacoralsandaqua", {
-	description = "Sea coral sand aqua",
+	description = S("Sea coral sand aqua"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -186,7 +191,7 @@ minetest.register_node("seacoral:seacoralsandaqua", {
 })
 
 minetest.register_node("seacoral:seacoraldirtaqua", {
-	description = "Sea coral dirt aqua",
+	description = S("Sea coral dirt aqua"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -195,7 +200,7 @@ minetest.register_node("seacoral:seacoraldirtaqua", {
 })
 
 minetest.register_node("seacoral:seacoralsandlime", {
-	description = "Sea coral sand lime",
+	description = S("Sea coral sand lime"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -204,7 +209,7 @@ minetest.register_node("seacoral:seacoralsandlime", {
 })
 
 minetest.register_node("seacoral:seacoraldirtlime", {
-	description = "Sea coral dirt lime",
+	description = S("Sea coral dirt lime"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -213,7 +218,7 @@ minetest.register_node("seacoral:seacoraldirtlime", {
 })
 
 minetest.register_node("seacoral:seacoralsandskyblue", {
-	description = "Sea coral sand skyblue",
+	description = S("Sea coral sand skyblue"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -222,7 +227,7 @@ minetest.register_node("seacoral:seacoralsandskyblue", {
 })
 
 minetest.register_node("seacoral:seacoraldirtskyblue", {
-	description = "Sea coral dirt skyblue",
+	description = S("Sea coral dirt skyblue"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -231,7 +236,7 @@ minetest.register_node("seacoral:seacoraldirtskyblue", {
 })
 
 minetest.register_node("seacoral:seacoralsandredviolet", {
-	description = "Sea coral sand redviolet",
+	description = S("Sea coral sand redviolet"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -240,7 +245,7 @@ minetest.register_node("seacoral:seacoralsandredviolet", {
 })
 
 minetest.register_node("seacoral:seacoraldirtredviolet", {
-	description = "Sea coral dirt redviolet",
+	description = S("Sea coral dirt redviolet"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
