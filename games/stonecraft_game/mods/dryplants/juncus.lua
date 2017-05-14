@@ -9,6 +9,17 @@
 -- Looked at code from:		default			
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 abstract_dryplants.grow_juncus = function(pos)
 	local juncus_type = math.random(2,3)
 	local right_here = {x=pos.x, y=pos.y+1, z=pos.z}
@@ -23,7 +34,7 @@ abstract_dryplants.grow_juncus = function(pos)
 end
 
 minetest.register_node("dryplants:juncus", {
-	description = "Juncus",
+	description = S("Juncus"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",
@@ -65,7 +76,7 @@ minetest.register_node("dryplants:juncus", {
 	end,
 })
 minetest.register_node("dryplants:juncus_02", {
-	description = "Juncus",
+	description = S("Juncus"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",

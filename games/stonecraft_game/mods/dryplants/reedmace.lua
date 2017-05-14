@@ -22,6 +22,17 @@
 -- REEDMACE SHAPES
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 abstract_dryplants.grow_reedmace = function(pos)
 	local size = math.random(1,3)
 	local spikes = math.random(1,3)
@@ -79,7 +90,7 @@ end
 -- REEDMACE SPIKES
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_spikes", {
-	description = "Reedmace",
+	description = S("Reedmace"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace_spikes.png"},
@@ -101,7 +112,7 @@ minetest.register_node("dryplants:reedmace_spikes", {
 -- REEDMACE height: 1
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_top", {
-	description = "Reedmace, height: 1",
+	description = S("Reedmace, height: 1"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace_top.png"},
@@ -123,7 +134,7 @@ minetest.register_node("dryplants:reedmace_top", {
 -- REEDMACE height: 2
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_height_2", {
-	description = "Reedmace, height: 2",
+	description = S("Reedmace, height: 2"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",
@@ -146,7 +157,7 @@ minetest.register_node("dryplants:reedmace_height_2", {
 -- REEDMACE height: 3
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_height_3", {
-	description = "Reedmace, height: 3",
+	description = S("Reedmace, height: 3"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",
@@ -169,7 +180,7 @@ minetest.register_node("dryplants:reedmace_height_3", {
 -- REEDMACE height: 3 & Spikes
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_height_3_spikes", {
-	description = "Reedmace, height: 3 & Spikes",
+	description = S("Reedmace, height: 3 & Spikes"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",
@@ -192,7 +203,7 @@ minetest.register_node("dryplants:reedmace_height_3_spikes", {
 -- REEDMACE STEMS
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace", {
-	description = "Reedmace",
+	description = S("Reedmace"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace.png"},
@@ -222,7 +233,7 @@ minetest.register_node("dryplants:reedmace", {
 -- REEDMACE BOTTOM
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_bottom", {
-	description = "Reedmace",
+	description = S("Reedmace"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace_bottom.png"},
@@ -253,7 +264,7 @@ minetest.register_node("dryplants:reedmace_bottom", {
 -- REEDMACE "SAPLING" (the drop from the above)
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_sapling", {
-	description = "Reedmace",
+	description = S("Reedmace"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace_sapling.png"},
@@ -293,7 +304,7 @@ minetest.register_abm({
 -- REEDMACE WATER (for entity)
 -----------------------------------------------------------------------------------------------
 minetest.register_node("dryplants:reedmace_water", {
-	description = "Reedmace",
+	description = S("Reedmace"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"dryplants_reedmace_water.png"},
