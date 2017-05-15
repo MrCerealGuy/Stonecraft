@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,11 @@ if enable_giantmushrooms ~= nil and enable_giantmushrooms == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local load_time_start = os.clock()
 local MAX_SIZE = 3
@@ -562,7 +569,7 @@ local disallowed_ps = {}
 
 for name,i in pairs({
 	brown = {
-		description = "brown mushroom",
+		description = S("brown mushroom"),
 		box = {
 			{-0.15, -0.2, -0.15, 0.15, -0.1, 0.15},
 			{-0.2, -0.3, -0.2, 0.2, -0.2, 0.2},
@@ -579,7 +586,7 @@ for name,i in pairs({
 		hp = 2,
 	},
 	red = {
-		description = "red mushroom",
+		description = S("red mushroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16, -6/16, 1/16},
 			{-3/16, -6/16, -3/16, 3/16, -5/16, 3/16},
@@ -598,7 +605,7 @@ for name,i in pairs({
 		hp = -2,
 	},
 	fly_agaric = {
-		description = "fly agaric",
+		description = S("fly agaric"),
 		box = {
 			{-0.05, -0.5, -0.05, 0.05, 1/20, 0.05},
 			{-3/20, -6/20, -3/20, 3/20, 0, 3/20},
@@ -615,7 +622,7 @@ for name,i in pairs({
 		hp = -6,
 	},
 	lavashroom = {
-		description = "Lavashroom",
+		description = S("Lavashroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16, -6/16, 1/16},
 			{-2/16, -6/16, -2/16, 2/16,     0, 2/16},
@@ -633,7 +640,7 @@ for name,i in pairs({
 		hp = -1,
 	},
 	glowshroom = {
-		description = "Glowshroom",
+		description = S("Glowshroom"),
 		box = {
 			{-1/16, -8/16, -1/16,  1/16, -1/16, 1/16},
 			{-2/16, -3/16, -2/16,  2/16, -2/16, 2/16},
@@ -654,7 +661,7 @@ for name,i in pairs({
 		hp = -2,
 	},
 	nether_shroom = {
-		description = "Nether mushroom",
+		description = S("Nether mushroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16, -2/16, 1/16},
 			{-2/16, -6/16, -2/16, 2/16, -5/16, 2/16},
@@ -668,7 +675,7 @@ for name,i in pairs({
 		hp = -3,
 	},
 	parasol = {
-		description = "white parasol mushroom",
+		description = S("white parasol mushroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16,  0, 1/16},
 			{-2/16, -6/16, -2/16, 2/16, -5/16, 2/16},
@@ -687,7 +694,7 @@ for name,i in pairs({
 		hp = 3,
 	},
 	red45 = {
-		description = "45 red mushroom",
+		description = S("45 red mushroom"),
 		box = {
 			{-1/16, -0.5, -1/16,  1/16, 1/8, 1/16},
 			{-3/16,  1/8, -3/16,  3/16, 1/4, 3/16},
@@ -707,7 +714,7 @@ for name,i in pairs({
 		hp = 1,
 	},
 	brown45 = {
-		description = "45 brown mushroom",
+		description = S("45 brown mushroom"),
 		box = {
 			{-1/16, -0.5, -1/16, 1/16, 1/16, 1/16},
 			{-3/8,   1/8, -7/16,  3/8,  1/4, 7/16},
@@ -920,7 +927,7 @@ local node_groups = {oddly_breakable_by_hand=3, fall_damage_add_percent=-80, bou
 for _,i in pairs({
 	{
 		typ = "stem",
-		description = "white",
+		description = S("white"),
 		textures = {"stem_top.png", "stem_top.png", "stem_white.png"},
 	},
 	{
@@ -942,7 +949,7 @@ for _,i in pairs({
 	},
 	{
 		name = "lamellas",
-		description = "giant mushroom lamella",
+		description = S("giant mushroom lamella"),
 		textures = "lamellas.png",
 		sapling = "lamellas"
 	},
@@ -973,7 +980,7 @@ for _,i in pairs({
 	{
 		typ = "head",
 		name = "brown_full",
-		description = "full brown",
+		description = S("full brown"),
 		textures = "brown_top.png",
 		sapling = "brown",
 		fence = false,
@@ -981,7 +988,7 @@ for _,i in pairs({
 	{
 		typ = "head",
 		name = "blue_bright",
-		description = "blue bright",
+		description = S("blue bright"),
 		textures = "head_blue_bright.png",
 		sapling = "glowshroom"
 	},
@@ -1006,7 +1013,7 @@ for _,i in pairs({
 	{
 		typ = "head",
 		name = "brown_bright",
-		description = "brown bright",
+		description = S("brown bright"),
 		textures = {"head_brown_bright.png", "head_white.png", "head_brown_bright.png"},
 		sapling = "parasol"
 	},
@@ -1021,9 +1028,9 @@ for _,i in pairs({
 		textures[i] = "riesenpilz_"..textures[i]
 	end
 	local nodename = "riesenpilz:"
-	local desctiption,sounds = "giant mushroom "
+	local desctiption,sounds = S("giant mushroom ")
 	if i.typ == "stem" then
-		desctiption = desctiption.."stem "..i.description
+		desctiption = S("@1stem @2", desctiption, i.description)
 		nodename = nodename.."stem"..((i.name and "_"..i.name) or "")
 		sounds = default.node_sound_wood_defaults({
 			footstep = {name="riesenpilz_stem", gain=0.2},
@@ -1032,7 +1039,7 @@ for _,i in pairs({
 			dug = {name="default_wood_footstep", gain=0.3}
 		})
 	elseif i.typ == "head" then
-		desctiption = desctiption.."head "..i.description
+		desctiption = S("@1head @2", desctiption, i.description)
 		nodename = nodename.."head_"..i.name
 		sounds = head_sounds
 	else
@@ -1058,7 +1065,7 @@ for _,i in pairs({
 end
 
 minetest.register_node("riesenpilz:head_red_side", {
-	description = "giant mushroom head red side",
+	description = S("giant mushroom head red side"),
 	tiles = {"riesenpilz_head.png",	"riesenpilz_lamellas.png",	"riesenpilz_head.png",
 					"riesenpilz_head.png",	"riesenpilz_head.png",	"riesenpilz_lamellas.png"},
 	paramtype2 = "facedir",
@@ -1072,7 +1079,7 @@ minetest.register_node("riesenpilz:head_red_side", {
 
 
 minetest.register_node("riesenpilz:ground", {
-	description = "dirt with rotten grass",
+	description = S("dirt with rotten grass"),
 	tiles = {"riesenpilz_ground_top.png","default_dirt.png",
 		{name="default_dirt.png^riesenpilz_ground_side.png", tileable_vertical = false}
 	},
@@ -1119,7 +1126,7 @@ c = {
 
 
 minetest.register_tool("riesenpilz:growingtool", {
-	description = "growingtool",
+	description = S("growingtool"),
 	inventory_image = "riesenpilz_growingtool.png",
 })
 
@@ -1156,7 +1163,7 @@ end)
 
 -- mush45's meal
 minetest.register_craftitem("riesenpilz:mush45_meal", {
-	description = "Mushroom Meal",
+	description = S("Mushroom Meal"),
 	inventory_image = "riesenpilz_mush45_meal.png",
 	on_use = minetest.item_eat(6),
 })
