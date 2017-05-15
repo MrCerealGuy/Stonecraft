@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local max_obj_per_mapblock = tonumber(minetest.setting_get("max_objects_per_block"))
 
 -- 
@@ -56,7 +67,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_active", {
-			description = mod_prefix.."_"..mob_name.." spawner active",
+			description = S("@1 @2 spawner active", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 4,
 			drawtype = "allfaces",
@@ -90,7 +101,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 
 		-- waiting for light - everything is ok but too much light or not enough light
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_waiting", {
-			description = mod_prefix.."_"..mob_name.." spawner waiting",
+			description = S("@1 @2 spawner waiting", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -118,7 +129,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner", {
-			description = mod_prefix.."_"..mob_name.." spawner",
+			description = S("@1 @2 spawner", mod_prefix, mob_name),
 			paramtype = "light",
 			drawtype = "allfaces",
 			walkable = true,
@@ -145,7 +156,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_overheat", {
-			description = mod_prefix.."_"..mob_name.." spawner overheated",
+			description = S("@1 @2 spawner overheated", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -178,7 +189,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_active_env", {
-			description = mod_prefix.."_"..mob_name.." spawner active env",
+			description = S("@1 @2 spawner active env", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 4,
 			drawtype = "allfaces",
@@ -217,7 +228,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 
 		-- waiting for light - everything is ok but too much light or not enough light
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_waiting_env", {
-			description = mod_prefix.."_"..mob_name.." spawner waiting env",
+			description = S("@1 @2 spawner waiting env", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -250,7 +261,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_env", {
-			description = mod_prefix.."_"..mob_name.." spawner env",
+			description = S("@1 @2 spawner env", mod_prefix, mob_name),
 			paramtype = "light",
 			drawtype = "allfaces",
 			walkable = true,
@@ -283,7 +294,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_overheat_env", {
-			description = mod_prefix.."_"..mob_name.." spawner overheated env",
+			description = S("@1 @2 spawner overheated env", mod_prefix, mob_name),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",

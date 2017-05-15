@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Formspecs
 local ore_formspec =
 	"size[8,8.5]"..
@@ -160,7 +171,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner active
 	minetest.register_node("spawners:"..ore_name.."_spawner_active", {
-		description = ore_name.." spawner active",
+		description = S("@1 spawner active", ore_name),
 		paramtype = "light",
 		light_source = 4,
 		drawtype = "allfaces",
@@ -190,7 +201,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner waiting - no stone around or no fuel
 	minetest.register_node("spawners:"..ore_name.."_spawner_waiting", {
-		description = ore_name.." spawner waiting",
+		description = S("@1 spawner waiting", ore_name),
 		paramtype = "light",
 		light_source = 2,
 		drawtype = "allfaces",
@@ -219,7 +230,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner inactive (default)
 	minetest.register_node("spawners:"..ore_name.."_spawner", {
-		description = ore_name.." spawner",
+		description = S("@1 spawner", ore_name),
 		paramtype = "light",
 		drawtype = "allfaces",
 		walkable = true,

@@ -1,0 +1,74 @@
+# German translation for spawners mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pyramids_nodes.lua
+msgid "Sandstone with @1"
+msgstr "Sandstein mit @1"
+
+#: pyramids_nodes.lua
+msgid "Cracked sandstone brick"
+msgstr "Brüchiger Ziegelsandstein"
+
+#: pyramids_nodes.lua
+msgid "trapstone"
+msgstr "Steinfalle"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner active"
+msgstr "@1 @2 Spawner aktiv"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner waiting"
+msgstr "@1 @2 Spawner warten"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner"
+msgstr "@1 @2 Spawner"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner overheated"
+msgstr "@1 @2 Spawner überhitzt"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner active env"
+msgstr "@1 @2 Umgebungsspawner aktiv"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner waiting env"
+msgstr "@1 @2 Umgebungsspawner warten"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner env"
+msgstr "@1 @2 Umgebungsspawner"
+
+#: spawners_mobs.lua
+msgid "@1 @2 spawner overheated env"
+msgstr "@1 @2 Umgebungsspawner überhitzt"
+
+#: spawners_ores.lua
+msgid "@1 spawner active"
+msgstr "@1 Spawner aktiv"
+
+#: spawners_ores.lua
+msgid "@1 spawner waiting"
+msgstr "@1 Spawner wartet"
+
+#: spawners_ores.lua
+msgid "@1 spawner"
+msgstr "@1 Spawner"
