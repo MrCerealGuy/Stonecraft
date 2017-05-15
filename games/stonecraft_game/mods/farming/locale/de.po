@@ -27,15 +27,15 @@ msgstr "Samen"
 
 #: hoes.lua
 msgid "Wooden Hoe"
-msgstr "Holz Hacke"
+msgstr "Holzhacke"
 
 #: hoes.lua
 msgid "Stone Hoe"
-msgstr "Stein Hacke"
+msgstr "Steinhacke"
 
 #: hoes.lua
 msgid "Steel Hoe"
-msgstr "Stahl Hacke"
+msgstr "Stahlhacke"
 
 #: hoes.lua
 msgid "Bronze Hoe"
@@ -47,11 +47,11 @@ msgstr "Mese Hacke"
 
 #: hoes.lua
 msgid "Diamond Hoe"
-msgstr "Diamant Hacke"
+msgstr "Diamanthacke"
 
 #: init.lua
 msgid "Wheat seed"
-msgstr "Weizen Samen"
+msgstr "Weizensamen"
 
 #: init.lua
 msgid "Flour"
@@ -63,7 +63,7 @@ msgstr "Brot"
 
 #: init.lua
 msgid "Cotton seed"
-msgstr "Baumwoll Samen"
+msgstr "Baumwollsamen"
 
 #: nodes.lua
 msgid "Soil"
@@ -75,11 +75,11 @@ msgstr "Feuchte Erde"
 
 #: nodes.lua
 msgid "Desert Sand Soil"
-msgstr "Wüstensand Erde"
+msgstr "Wüstensanderde"
 
 #: nodes.lua
 msgid "Wet Desert Sand Soil"
-msgstr "Feuchte Wüstensand Erde"
+msgstr "Feuchte Wüstensanderde"
 
 #: nodes.lua
 msgid "Straw"
