@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_swamps ~= nil and enable_swamps == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 sumpf = rawget(_G, "sumpf") or {}
 
@@ -31,7 +37,7 @@ end
 local leaves = {"green","yellow","red"}
 local spawn_jungletree
 minetest.register_node("jungletree:sapling", {
-	description = "jungle tree sapling",
+	description = S("jungle tree sapling"),
 	drawtype = "plantlike",
 	tiles = {"jungletree_sapling.png"},
 	inventory_image = "jungletree_sapling.png",
@@ -50,7 +56,7 @@ local plantlike_leaves = not minetest.setting_getbool("new_style_leaves")
 local rt2 = math.sqrt(2)
 local tex_sc = (1-(1/rt2))*100-4 --doesn't seem to work right
 local tab = {
-	description = "jungle tree leaves",
+	description = S("jungle tree leaves"),
 	is_ground_content = false, -- because default:jungletree's is_ground_content
 	waving = 1, --warum 1?
 	paramtype = "light",
