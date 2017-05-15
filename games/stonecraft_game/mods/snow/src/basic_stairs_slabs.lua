@@ -5,6 +5,17 @@
 
 -- ADD CHECK FOR MOREBLOCKS/SKIP IF NOT FOUND CODE STUFF HERE
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 -- what of the recipeitem can be copied
 local recipe_values = {
@@ -287,11 +298,11 @@ list_of_snow_stuff = {
 	--{"row[1] = first item in row",
 	-- "row[2] = second item in row",
 	-- "row[3] = third item in row", and so on, and so on...}, ~ LazyJ
-	{"ice", "default:ice", "Ice Stairs", "Ice Slabs"},
-	{"snowblock", "default:snowblock", "Snowblock Stairs", "Snowblock Slabs"},
-	{"snow_cobble", "snow:snow_cobble", "Snow Cobble Stairs", "Snow Cobble Slabs"},
-	{"snow_brick", "snow:snow_brick", "Snow Brick Stair", "Snow Brick Slab"},
-	{"ice_brick", "snow:ice_brick", "Ice Brick Stair", "Ice Brick Slab"},
+	{"ice", "default:ice", S("Ice Stairs"), S("Ice Slabs")},
+	{"snowblock", "default:snowblock", S("Snowblock Stairs"), S("Snowblock Slabs")},
+	{"snow_cobble", "snow:snow_cobble", S("Snow Cobble Stairs"), S("Snow Cobble Slabs")},
+	{"snow_brick", "snow:snow_brick", S("Snow Brick Stair"), S("Snow Brick Slab")},
+	{"ice_brick", "snow:ice_brick", S("Ice Brick Stair"), S("Ice Brick Slab")},
 }
 
 for _, row in pairs(list_of_snow_stuff) do

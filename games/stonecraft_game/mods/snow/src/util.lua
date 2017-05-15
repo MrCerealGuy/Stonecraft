@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 --Global config and function table.
 snow = {
 	snowball_gravity = 100/109,
@@ -16,18 +27,18 @@ snow = {
 
 --Config documentation.
 local doc = {
-	snowball_gravity = "The gravity of thrown snowballs",
-	snowball_velocity = "How fast players throw snowballs",
-	sleds = "Disable this to prevent sleds from being riden.",
-	enable_snowfall = "Enables falling snow.",
-	lighter_snowfall = "Reduces the amount of resources and fps used by snowfall.",
-	debug = "Enables debug output. Currently it only prints mgv6 info.",
-	smooth_biomes = "Enables smooth transition of biomes (mgv6)",
-	smooth_snow = "Disable this to stop snow from being smoothed.",
-	christmas_content = "Disable this to remove christmas saplings from being found.",
-	min_height = "The minumum height a snow biome will generate (mgv7)",
-	mapgen_rarity = "mapgen rarity in %",
-	mapgen_size = "size of the generated… (has an effect to the rarity, too)",
+	snowball_gravity = S("The gravity of thrown snowballs"),
+	snowball_velocity = S("How fast players throw snowballs"),
+	sleds = S("Disable this to prevent sleds from being riden."),
+	enable_snowfall = S("Enables falling snow."),
+	lighter_snowfall = S("Reduces the amount of resources and fps used by snowfall."),
+	debug = S("Enables debug output. Currently it only prints mgv6 info."),
+	smooth_biomes = S("Enables smooth transition of biomes (mgv6)"),
+	smooth_snow = S("Disable this to stop snow from being smoothed."),
+	christmas_content = S("Disable this to remove christmas saplings from being found."),
+	min_height = S("The minumum height a snow biome will generate (mgv7)"),
+	mapgen_rarity = S("mapgen rarity in %"),
+	mapgen_size = S("size of the generated… (has an effect to the rarity, too)"),
 }
 
 
@@ -72,7 +83,7 @@ local allowed_types = {string = true, number = true, boolean = true}
 local function saveConfig(path, config, doc)
 	local file = io.open(path,"w")
 	if not file then
-		minetest.log("error", "[snow] could not open config file for writing at "..path)
+		minetest.log("error", S("[snow] could not open config file for writing at @1", path))
 		return
 	end
 	for i,v in pairs(config) do
@@ -120,7 +131,7 @@ if config then
 		if type(snow[i]) == type(v) then
 			snow[i] = v
 		else
-			minetest.log("error", "[snow] wrong type of setting "..i)
+			minetest.log("error", S("[snow] wrong type of setting @1", i))
 		end
 	end
 else
@@ -189,10 +200,10 @@ local function get_formspec()
 end
 
 minetest.register_chatcommand("snow", {
-	description = "Show a menu for various actions",
+	description = S("Show a menu for various actions"),
 	privs = {server=true},
 	func = function(name)
-		minetest.chat_send_player(name, "Showing snow menu…")
+		minetest.chat_send_player(name, S("Showing snow menu…")
 		minetest.show_formspec(name, "snow:menu", get_formspec())
 	end,
 })
