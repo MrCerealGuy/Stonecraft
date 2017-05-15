@@ -1,3 +1,13 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 xconnected = {}
 
@@ -282,7 +292,7 @@ xconnected.register_pane = function( name, tiles, craft_from, def )
 		{{-0.06, -0.5, -0.5,  0.06, 0.5, 0.5}});
 	if( not( def )) then
 		def = {
-			description = name.." Pane",
+			description = S("@1 Pane", name),
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,
@@ -319,7 +329,7 @@ xconnected.register_wall = function( name, tiles, craft_from, def )
 		{{-0.2, -0.5, -0.5,  0.2, 5/16, 0.5}});
 	if( not( def )) then
 		def = { 
-			description = name.." Wall",
+			description = S("@1 Wall", name),
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,
@@ -355,7 +365,7 @@ xconnected.register_fence = function( name, tiles, craft_from, def )
 		{{-0.2, -0.5, -0.2, 0.2, 0.5, 0.2}});
 	if( not( def )) then
 		def = { 
-			description = name.." Wall",
+			description = S("@1 Wall", name),
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,
