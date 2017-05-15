@@ -19,55 +19,55 @@ msgstr ""
 
 #: init.lua
 msgid "Desert Cobblestone"
-msgstr "Wüsten Pflaster Stein"
+msgstr "Wüstenpflasterstein"
 
 #: init.lua
 msgid "Desert Stone"
-msgstr "Wüsten Stein"
+msgstr "Wüstenstein"
 
 #: init.lua
 msgid "Desert Sandstone"
-msgstr "Wüsten Sand Stein"
+msgstr "Wüstensandstein"
 
 #: init.lua
 msgid "Desert Cobble stair"
-msgstr "Wüsten Pflaster Stufe"
+msgstr "Wüstenpflasterstreppe"
 
 #: init.lua
 msgid "Desert Cobble slab"
-msgstr "Wüsten Pflaster Platte"
+msgstr "Wüstenpflasterstufe"
 
 #: init.lua
 msgid "Desert Stone stair"
-msgstr "Wünsten Stein Stufe"
+msgstr "Wünstensteintreppe"
 
 #: init.lua
 msgid "Desert Stone slab"
-msgstr "Wüsten Stein Platte"
+msgstr "Wüstensteinstufe"
 
 #: init.lua
 msgid "Desert Sandstone stair"
-msgstr "Wüsten Sandstein Stufe"
+msgstr "Wüstensandsteintreppe"
 
 #: init.lua
 msgid "Desert Sandstone slab"
-msgstr "Wüsten Sandstein Platte"
+msgstr "Wüstensandsteinstufe"
 
 #: init.lua
 msgid "Desert Stone Pickaxe"
-msgstr "Wüsten Stein Spitzhacke"
+msgstr "Wüstenstein-Spitzhacke"
 
 #: init.lua
 msgid "Desert Stone Shovel"
-msgstr "Wüsten Stein Schaufel"
+msgstr "Wüstenstein-Schaufel"
 
 #: init.lua
 msgid "Desert Stone Axe"
-msgstr "Wüsten Stein Axt"
+msgstr "Wüstenstein-Axt"
 
 #: init.lua
 msgid "Desert Stone Sword"
-msgstr "Wüsten Stein Schwert"
+msgstr "Wüstenstein-Schwert"
 
 #: init.lua
 msgid "Desert Furnace"

@@ -23,59 +23,59 @@ msgstr "[moreblocks] geladen."
 
 #: nodes.lua
 msgid "Wooden Tile"
-msgstr "Holz Fliese"
+msgstr "Holzfliese"
 
 #: nodes.lua
 msgid "Centered Wooden Tile"
-msgstr "Holz Fliese mittig"
+msgstr "Holzfliese mittig"
 
 #: nodes.lua
 msgid "Full Wooden Tile"
-msgstr "Vollholz Fliese"
+msgstr "Vollholzfliese"
 
 #: nodes.lua
 msgid "Upwards Wooden Tile"
-msgstr "Holz Fliese oben"
+msgstr "Holzfliese oben"
 
 #: nodes.lua
 msgid "Downwards Wooden Tile"
-msgstr "Holz Fliese unten"
+msgstr "Holzfliese unten"
 
 #: nodes.lua
 msgid "Leftwards Wooden Tile"
-msgstr "Holz Fliese links"
+msgstr "Holzfliese links"
 
 #: nodes.lua
 msgid "Rightwards Wooden Tile"
-msgstr "Holz Fliese rechts"
+msgstr "Holzfliese rechts"
 
 #: nodes.lua
 msgid "Circle Stone Bricks"
-msgstr "Kreisstein Ziegel"
+msgstr "Kreissteinziegel"
 
 #: nodes.lua
 msgid "Stone Bricks"
-msgstr "Stein Ziegel"
+msgstr "Steinziegel"
 
 #: nodes.lua
 msgid "Coal Stone Bricks"
-msgstr "Kohlestein Ziegel"
+msgstr "Kohlesteinziegel"
 
 #: nodes.lua
 msgid "Iron Stone Bricks"
-msgstr "Eisenstein Ziegel"
+msgstr "Eisensteinziegel"
 
 #: nodes.lua
 msgid "Stone Tile"
-msgstr "Stein Fliese"
+msgstr "Steinfliese"
 
 #: nodes.lua
 msgid "Split Stone Tile"
-msgstr "Geteilte Stein Fliese"
+msgstr "Geteilte Steinfliese"
 
 #: nodes.lua
 msgid "Checkered Stone Tile"
-msgstr "Geprüfte Stein Fliese"
+msgstr "Geprüfte Steinfliese"
 
 #: nodes.lua
 msgid "Tar"
@@ -83,7 +83,7 @@ msgstr "Teer"
 
 #: nodes.lua
 msgid "Compressed Cobblestone"
-msgstr "Gepresster Kiesel Stein"
+msgstr "Gepresster Kieselstein"
 
 #: nodes.lua
 msgid "Plankstone"
@@ -91,11 +91,11 @@ msgstr "Brettstein"
 
 #: nodes.lua
 msgid "Iron Glass"
-msgstr "Eisen Glas"
+msgstr "Eisenglas"
 
 #: nodes.lua
 msgid "Coal Glass"
-msgstr "Kohle Glas"
+msgstr "Kohleglas"
 
 #: nodes.lua
 msgid "Clean Glass"
@@ -103,11 +103,11 @@ msgstr "Sauberes Glas"
 
 #: nodes.lua
 msgid "Cactus Brick"
-msgstr "Kaktus Ziegel"
+msgstr "Kaktusziegel"
 
 #: nodes.lua
 msgid "Cactus Checker"
-msgstr "Kaktus Prüfer"
+msgstr "Kaktusprüfer"
 
 #: nodes.lua
 msgid "Empty Bookshelf"
@@ -115,31 +115,31 @@ msgstr "Leeres Bücherregal"
 
 #: nodes.lua
 msgid "Coal Stone"
-msgstr "Kohle Stein"
+msgstr "Kohlestein"
 
 #: nodes.lua
 msgid "Iron Stone"
-msgstr "Eisen Stein"
+msgstr "Eisenstein"
 
 #: nodes.lua
 msgid "Coal Checker"
-msgstr "Kohle Prüfer"
+msgstr "Kohleprüfer"
 
 #: nodes.lua
 msgid "Iron Checker"
-msgstr "Eisen Prüfer"
+msgstr "Eisenprüfer"
 
 #: nodes.lua
 msgid "Trap Stone"
-msgstr "Stein Falltür"
+msgstr "Steinfalltür"
 
 #: nodes.lua
 msgid "Trap Glass"
-msgstr "Glas Falltür"
+msgstr "Glasfalltür"
 
 #: nodes.lua
 msgid "Jungle Wood Fence"
-msgstr "Dschungel Holz Zaun"
+msgstr "Tropenholzzaun"
 
 #: nodes.lua
 msgid "All-faces Tree"
@@ -147,23 +147,23 @@ msgstr "Baumscheibenstamm"
 
 #: nodes.lua
 msgid "All-faces Jungle Tree"
-msgstr "Dschungel Baumscheiben Stamm"
+msgstr "Tropenbaumscheibenstamm"
 
 #: nodes.lua
 msgid "Glow Glass"
-msgstr "Leucht Glas"
+msgstr "Leuchtglas"
 
 #: nodes.lua
 msgid "Trap Glow Glass"
-msgstr "Leucht Glas Falltür"
+msgstr "Leuchtglasfalltür"
 
 #: nodes.lua
 msgid "Super Glow Glass"
-msgstr "Super Leucht Glas"
+msgstr "Super-Leuchtglas"
 
 #: nodes.lua
 msgid "Trap Super Glow Glass"
-msgstr "Super Leucht Glas Falltür"
+msgstr "Super-Leuchtglasfalltür"
 
 #: nodes.lua
 msgid "Rope"
@@ -175,7 +175,7 @@ msgstr "Besen"
 
 #: nodes.lua
 msgid "Jungle Stick"
-msgstr "Dschungel Stock"
+msgstr "Tropenstock"
 
 #: circular_saw.lua
 #, lua-format

@@ -19,11 +19,11 @@ msgstr ""
 
 #: ../building_blocks/init.lua
 msgid "Adobe"
-msgstr ""
+msgstr "Lehmziegel"
 
 #: ../building_blocks/init.lua
 msgid "Roof block"
-msgstr ""
+msgstr "Dachblock"
 
 #: ../building_blocks/init.lua
 msgid "Streak Free Glass"
@@ -31,27 +31,27 @@ msgstr ""
 
 #: ../building_blocks/init.lua
 msgid "Grate"
-msgstr ""
+msgstr "Rost"
 
 #: ../building_blocks/init.lua
 msgid "Fireplace"
-msgstr ""
+msgstr "Feuerstelle"
 
 #: ../building_blocks/init.lua
 msgid "Wood Framed Glass"
-msgstr ""
+msgstr "Holzumrahmtes Glas"
 
 #: ../building_blocks/init.lua
 msgid "Terrycloth towel"
-msgstr ""
+msgstr "Frotteetuch"
 
 #: ../building_blocks/init.lua
 msgid "Tarmac Spread"
-msgstr ""
+msgstr "Asphaltbelag"
 
 #: ../building_blocks/init.lua
 msgid "Chess board tiling"
-msgstr ""
+msgstr "Schachbrett Fliesen"
 
 #. Translators: "Brobble" is a portmanteau of "Brick" and "Cobble".
 #. Translate however you see fit.
@@ -61,31 +61,31 @@ msgstr ""
 
 #: ../building_blocks/init.lua
 msgid "Gravel Spread"
-msgstr ""
+msgstr "Kiesbelag"
 
 #: ../building_blocks/init.lua
 msgid "Hardwood"
-msgstr ""
+msgstr "Hartholz"
 
 #: ../building_blocks/init.lua
 msgid "Marble stair"
-msgstr ""
+msgstr "Marmortreppe"
 
 #: ../building_blocks/init.lua
 msgid "Marble slab"
-msgstr ""
+msgstr "Marmorstufe"
 
 #: ../building_blocks/init.lua
 msgid "Hardwood stair"
-msgstr ""
+msgstr "Hartholztreppe"
 
 #: ../building_blocks/init.lua
 msgid "Hardwood slab"
-msgstr ""
+msgstr "Hartholzstufe"
 
 #: ../building_blocks/init.lua
 msgid "Grass stair"
-msgstr ""
+msgstr "Grastreppe"
 
 #: ../building_blocks/init.lua
 #, fuzzy
@@ -94,71 +94,71 @@ msgstr "Messingstange"
 
 #: ../building_blocks/init.lua
 msgid "Tar stair"
-msgstr ""
+msgstr "Teertreppe"
 
 #: ../building_blocks/init.lua
 msgid "Tar slab"
-msgstr ""
+msgstr "Teerstufe"
 
 #: ../building_blocks/init.lua
 msgid "Grate Stair"
-msgstr ""
+msgstr "Rosttreppe"
 
 #: ../building_blocks/init.lua
 msgid "Grate Slab"
-msgstr ""
+msgstr "Roststufe"
 
 #: ../building_blocks/init.lua
 msgid "Adobe stair"
-msgstr ""
+msgstr "Lehmtreppe"
 
 #: ../building_blocks/init.lua
 msgid "Adobe slab"
-msgstr ""
+msgstr "Lehmstufe"
 
 #: ../building_blocks/init.lua
 msgid "Roofing stair"
-msgstr ""
+msgstr "Dach Stufe"
 
 #: ../building_blocks/init.lua
 msgid "Roofing slab"
-msgstr ""
+msgstr "Dachstufe"
 
 #: ../building_blocks/init.lua
 msgid "Fake Grass"
-msgstr ""
+msgstr "Kunstgras"
 
 #: ../building_blocks/init.lua
 msgid "Small bundle of sticks"
-msgstr ""
+msgstr "Kleines Bündel aus Stöcken"
 
 #: ../building_blocks/init.lua
 msgid "Tar base"
-msgstr ""
+msgstr "Teer Grundlage"
 
 #: ../building_blocks/init.lua
 msgid "Tar"
-msgstr ""
+msgstr "Teer"
 
 #: ../building_blocks/init.lua
 msgid "Marble"
-msgstr ""
+msgstr "Marmor"
 
 #: ../building_blocks/init.lua
 msgid "Tar Knife"
-msgstr ""
+msgstr "Teermesser"
 
 #: ../building_blocks/init.lua
 msgid "Granite"
-msgstr ""
+msgstr "Granit"
 
 #: ../inbox/init.lua
 msgid "Mailbox"
-msgstr ""
+msgstr "Briefkasten"
 
 #: ../inbox/init.lua
 msgid "@1's Mailbox"
-msgstr ""
+msgstr "@1s Briefkasten"
 
 #: ../lavalamp/init.lua
 #, fuzzy
@@ -167,7 +167,7 @@ msgstr "Tischlampe"
 
 #: ../lavalamp/init.lua
 msgid "Lava Lamp (off)"
-msgstr ""
+msgstr "Lavalampe (aus)"
 
 #: ../computer/miscitems.lua ../homedecor/crafts.lua
 #, fuzzy
@@ -181,42 +181,40 @@ msgstr "Unverarbeitetes Plastik"
 
 #: ../computer/computers.lua
 msgid "Monitor and keyboard"
-msgstr ""
+msgstr "Bildschirm und Tastatur"
 
 #: ../computer/computers.lua
 msgid "WIFI Router"
-msgstr ""
+msgstr "WLAN Router"
 
 #: ../computer/computers.lua
 msgid "Computer Tower"
-msgstr ""
+msgstr "Computer Tower"
 
 #: ../computer/computers.lua
 msgid "Printer-Scanner Combo"
-msgstr ""
+msgstr "Drucker-Scanner Kombi"
 
 #: ../computer/computers.lua
 msgid "Rack Server"
-msgstr ""
+msgstr "Rack Server"
 
 #: ../computer/computers.lua
 #, fuzzy
 msgid "Not enough vertical space to place a server!"
-msgstr ""
-"Es gibt nicht genug Raum ueber dieser Stelle um den Kuehlschrank zu "
-"platzieren!"
+msgstr "Es gibt nicht genug Raum ueber dieser Stelle um den Server zu platzieren!"
 
 #: ../computer/tetris.lua
 msgid "New Game"
-msgstr ""
+msgstr "Neues Spiel"
 
 #: ../computer/tetris.lua
 msgid "Tetris Arcade"
-msgstr ""
+msgstr "Tetris Arcade"
 
 #: ../computer/tetris.lua
 msgid "No room for place the Arcade!"
-msgstr ""
+msgstr "Nicht genug Raum um das Arcade zu platzieren!"
 
 #: ../chains/init.lua
 #, fuzzy
@@ -242,7 +240,7 @@ msgstr "Schmiedeeiserne Stange"
 
 #: ../chains/init.lua
 msgid "Chandelier (brass)"
-msgstr ""
+msgstr "Kronleuchter (Messing)"
 
 #: ../itemframes/init.lua
 msgid "Item frame"
@@ -255,7 +253,7 @@ msgstr "%s (gehoert %s)"
 
 #: ../itemframes/init.lua
 msgid "Pedestal"
-msgstr ""
+msgstr "Sockel"
 
 #: ../itemframes/init.lua
 #, fuzzy
@@ -264,23 +262,23 @@ msgstr "%s (gehoert %s)"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma Screen TV Stand"
-msgstr ""
+msgstr "Plasma Fernseher Ständer"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma TV"
-msgstr ""
+msgstr "Plasma TV"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma TV (off)"
-msgstr ""
+msgstr "Plasma TV (aus)"
 
 #: ../lrfurn/longsofas.lua
 msgid "Long Sofa"
-msgstr ""
+msgstr "Langes Sofa"
 
 #: ../lrfurn/longsofas.lua ../lrfurn/sofas.lua
 msgid "No room to place the sofa!"
-msgstr ""
+msgstr "Nicht genug Raum um das Sofa zu platzieren!"
 
 #: ../lrfurn/longsofas.lua ../lrfurn/armchairs.lua ../lrfurn/sofas.lua
 #: ../lrfurn/endtable.lua ../lrfurn/coffeetable.lua ../homedecor/init.lua
@@ -295,7 +293,7 @@ msgstr "Sessel (%s)"
 
 #: ../lrfurn/sofas.lua
 msgid "Sofa"
-msgstr ""
+msgstr "Sofa"
 
 #: ../lrfurn/endtable.lua
 #, fuzzy
@@ -309,23 +307,23 @@ msgstr "Tisch"
 
 #: ../lrfurn/coffeetable.lua
 msgid "No room to place the coffee table!"
-msgstr ""
+msgstr "Nicht genug Raum um den Kaffeetisch zu platzieren!"
 
 #: ../fake_fire/init.lua
 msgid "Fake fire"
-msgstr ""
+msgstr "Kunstfeuer"
 
 #: ../fake_fire/init.lua
 msgid "Ice fire"
-msgstr ""
+msgstr "Eisfeuer"
 
 #: ../fake_fire/init.lua
 msgid "Fancy Fire"
-msgstr ""
+msgstr "Extravagantes Feuer"
 
 #: ../fake_fire/init.lua
 msgid "Glowing Embers"
-msgstr ""
+msgstr "Glimmende Asche"
 
 #: ../fake_fire/init.lua
 msgid "Stone chimney top"
@@ -346,11 +344,11 @@ msgstr ""
 #: ../homedecor/bedroom.lua
 #, fuzzy
 msgid "Bed"
-msgstr "rot"
+msgstr "Bett"
 
 #: ../homedecor/bedroom.lua
 msgid "Bed (king sized)"
-msgstr ""
+msgstr "Kingsize Bett"
 
 #: ../homedecor/bedroom.lua
 msgid "mahogany"
@@ -662,7 +660,7 @@ msgstr "Terrakottadachziegel"
 
 #: ../homedecor/crafts.lua
 msgid "Oil extract"
-msgstr ""
+msgstr "Ölextrakt"
 
 #: ../homedecor/crafts.lua
 #, fuzzy
@@ -686,15 +684,15 @@ msgstr "Einfacher integrierter Schaltkreis"
 
 #: ../homedecor/crafts.lua
 msgid "Heating element"
-msgstr ""
+msgstr "Heizelement"
 
 #: ../homedecor/crafts.lua
 msgid "Motor"
-msgstr ""
+msgstr "Motor"
 
 #: ../homedecor/crafts.lua
 msgid "Power Crystal"
-msgstr ""
+msgstr "Energiekristall"
 
 #: ../homedecor/crafts.lua
 msgid "Blank Canvas"
@@ -702,39 +700,39 @@ msgstr ""
 
 #: ../homedecor/crafts.lua
 msgid "VCR"
-msgstr ""
+msgstr "VCR"
 
 #: ../homedecor/crafts.lua
 msgid "DVD Player"
-msgstr ""
+msgstr "DVD Player"
 
 #: ../homedecor/crafts.lua
 msgid "Spool of copper wire"
-msgstr ""
+msgstr "Spule aus Kupferdraht"
 
 #: ../homedecor/crafts.lua
 msgid "Spool of steel wire"
-msgstr ""
+msgstr "Spule aus Stahldraht"
 
 #: ../homedecor/crafts.lua
 msgid "Speaker driver"
-msgstr ""
+msgstr "Lautsprechertreiber"
 
 #: ../homedecor/crafts.lua
 msgid "Fan blades"
-msgstr ""
+msgstr "Ventilatorflügel"
 
 #: ../homedecor/crafts.lua
 msgid "Copper Strip"
-msgstr ""
+msgstr "Kupderstreifen"
 
 #: ../homedecor/crafts.lua
 msgid "Steel Strip"
-msgstr ""
+msgstr "Stahlstreifen"
 
 #: ../homedecor/crafts.lua
 msgid "Steel chainlink"
-msgstr ""
+msgstr "Stahl Kettenglied"
 
 #: ../homedecor/crafts.lua
 #, fuzzy
@@ -743,7 +741,7 @@ msgstr "Messingzaun/Gelaender"
 
 #: ../homedecor/crafts.lua
 msgid "Soda Can"
-msgstr ""
+msgstr "Getränkedose"
 
 #: ../homedecor/crafts.lua
 msgid "Gold Coin (for soda vending machine)"
@@ -800,7 +798,7 @@ msgstr ""
 
 #: ../homedecor/electronics.lua
 msgid "Telephone"
-msgstr ""
+msgstr "Telefon"
 
 #: ../homedecor/cobweb.lua
 msgid "Cobweb"
@@ -808,27 +806,27 @@ msgstr ""
 
 #: ../homedecor/clocks.lua
 msgid "Plastic analog clock"
-msgstr ""
+msgstr "Plastik Analoguhr"
 
 #: ../homedecor/clocks.lua
 msgid "Wooden analog clock"
-msgstr ""
+msgstr "Hölzerne Analoguhr"
 
 #: ../homedecor/clocks.lua
 msgid "Digital clock"
-msgstr ""
+msgstr "Digitaluhr"
 
 #: ../homedecor/clocks.lua
 msgid "Alarm clock"
-msgstr ""
+msgstr "Wecker"
 
 #: ../homedecor/clocks.lua
 msgid "Grandfather Clock"
-msgstr ""
+msgstr "Großvater Uhr"
 
 #: ../homedecor/lighting.lua ../homedecor/exterior.lua
 msgid "yellow"
-msgstr ""
+msgstr "gelb"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
@@ -847,27 +845,27 @@ msgstr "Gelbe Gluehlampe (kleiner Wuerfel)"
 
 #: ../homedecor/lighting.lua
 msgid "Plasma Lamp"
-msgstr ""
+msgstr "Plasma Lampe"
 
 #: ../homedecor/lighting.lua
 msgid "Plasma Ball"
-msgstr ""
+msgstr "Plasma Ball"
 
 #: ../homedecor/lighting.lua
 msgid "Thick Candle"
-msgstr ""
+msgstr "Dicke Kerze"
 
 #: ../homedecor/lighting.lua
 msgid "Thin Candle"
-msgstr ""
+msgstr "Dünne Kerze"
 
 #: ../homedecor/lighting.lua
 msgid "Candlestick (wrought iron)"
-msgstr ""
+msgstr "Kerzenständer (Schmiedeeisen)"
 
 #: ../homedecor/lighting.lua
 msgid "Candlestick (brass)"
-msgstr ""
+msgstr "Kerzenständer (Messing)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
@@ -876,19 +874,19 @@ msgstr "Wandfackel"
 
 #: ../homedecor/lighting.lua
 msgid "Oil lamp (hurricane)"
-msgstr ""
+msgstr "Öllampe (Hurrikan)"
 
 #: ../homedecor/lighting.lua
 msgid "Oil Lamp (tabletop)"
-msgstr ""
+msgstr "Öllampe (Tischplatte)"
 
 #: ../homedecor/lighting.lua
 msgid "Ground Lantern"
-msgstr ""
+msgstr "Bodenlaterne"
 
 #: ../homedecor/lighting.lua
 msgid "Hanging Lantern"
-msgstr ""
+msgstr "Hängende Laterne"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
@@ -897,11 +895,11 @@ msgstr "Unterschrank"
 
 #: ../homedecor/lighting.lua
 msgid "Lattice lantern (large)"
-msgstr ""
+msgstr "Gitterlaterne (groß)"
 
 #: ../homedecor/lighting.lua
 msgid "Lattice lantern (small)"
-msgstr ""
+msgstr "Gitterlaterne (klein)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
@@ -910,7 +908,7 @@ msgstr "Tischlampe"
 
 #: ../homedecor/lighting.lua
 msgid "Standing Lamp"
-msgstr ""
+msgstr "Stehlampe"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
@@ -919,11 +917,11 @@ msgstr "Tischlampe"
 
 #: ../homedecor/lighting.lua
 msgid "Ceiling Lamp"
-msgstr ""
+msgstr "Deckenlampe"
 
 #: ../homedecor/lighting.lua
 msgid "Ceiling Lamp (off)"
-msgstr ""
+msgstr "Deckenlampe (aus)"
 
 #: ../homedecor/fences.lua
 #, fuzzy
@@ -1363,19 +1361,19 @@ msgstr ""
 
 #: ../homedecor/misc-nodes.lua
 msgid "Tulip"
-msgstr ""
+msgstr "Tulpe"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Yellow Dandelion"
-msgstr ""
+msgstr "Gelber Löwenzahn"
 
 #: ../homedecor/misc-nodes.lua
 msgid "White Dandelion"
-msgstr ""
+msgstr "Weißer Löwenzahn"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Blue Geranium"
-msgstr ""
+msgstr "Blaue Geranie"
 
 #: ../homedecor/misc-nodes.lua
 #, fuzzy
@@ -1384,11 +1382,11 @@ msgstr "violett"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Cactus"
-msgstr ""
+msgstr "Kaktus"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Bonsai"
-msgstr ""
+msgstr "Bonsai"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Potted flower (@1)"

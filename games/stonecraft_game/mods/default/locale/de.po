@@ -519,7 +519,7 @@ msgstr "Mese Axt"
 
 #: tools.lua
 msgid "Diamond Axe"
-msgstr "Diamant Axt"
+msgstr "Diamantaxt"
 
 #: tools.lua
 msgid "Wooden Sword"
@@ -543,7 +543,7 @@ msgstr "Mese Schwert"
 
 #: tools.lua
 msgid "Diamond Sword"
-msgstr "Diamant Schwert"
+msgstr "Diamantschwert"
 
 #: tools.lua
 msgid "Key"

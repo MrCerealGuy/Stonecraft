@@ -75,7 +75,7 @@ msgstr "Dunkelgrün"
 
 #: init.lua
 msgid " Baked Clay"
-msgstr " Gebrannter Lehm"
+msgstr " gebrannter Lehm"
 
 #: init.lua
 msgid "Blue Delphinium"
