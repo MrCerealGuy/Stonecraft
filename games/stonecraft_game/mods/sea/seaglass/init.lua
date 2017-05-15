@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,15 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- NODES
 
 
 minetest.register_node("seaglass:seaglass", {
-	description = "Standard seaglass on",
+	description = S("Standard seaglass on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass.png"),
@@ -35,7 +41,7 @@ minetest.register_node("seaglass:seaglass", {
 })
 
 minetest.register_node("seaglass:seaglass_yellow", {
-	description = "Seaglass yellow on",
+	description = S("Seaglass yellow on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_yellow.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_yellow.png"),
@@ -49,7 +55,7 @@ minetest.register_node("seaglass:seaglass_yellow", {
 })
 
 minetest.register_node("seaglass:seaglass_red", {
-	description = "Seaglass red on",
+	description = S("Seaglass red on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_red.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_red.png"),
@@ -63,7 +69,7 @@ minetest.register_node("seaglass:seaglass_red", {
 })
 
 minetest.register_node("seaglass:seaglass_blue", {
-	description = "Seaglass blue on",
+	description = S("Seaglass blue on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_blue.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_blue.png"),
@@ -77,7 +83,7 @@ minetest.register_node("seaglass:seaglass_blue", {
 })
 
 minetest.register_node("seaglass:seaglass_white", {
-	description = "Seaglass white on",
+	description = S("Seaglass white on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_white.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_white.png"),
@@ -91,7 +97,7 @@ minetest.register_node("seaglass:seaglass_white", {
 })
 
 minetest.register_node("seaglass:seaglass_black", {
-	description = "Seaglass black on",
+	description = S("Seaglass black on"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_black.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_black.png"),
@@ -105,7 +111,7 @@ minetest.register_node("seaglass:seaglass_black", {
 })
 
 minetest.register_node("seaglass:seaglassoff", {
-	description = "Standard seaglass off",
+	description = S("Standard seaglass off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass.png"),
@@ -117,7 +123,7 @@ minetest.register_node("seaglass:seaglassoff", {
 })
 
 minetest.register_node("seaglass:seaglassoff_yellow", {
-	description = "Seaglass yellow off",
+	description = S("Seaglass yellow off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_yellow.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_yellow.png"),
@@ -129,7 +135,7 @@ minetest.register_node("seaglass:seaglassoff_yellow", {
 })
 
 minetest.register_node("seaglass:seaglassoff_red", {
-	description = "Seaglass red off",
+	description = S("Seaglass red off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_red.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_red.png"),
@@ -141,7 +147,7 @@ minetest.register_node("seaglass:seaglassoff_red", {
 })
 
 minetest.register_node("seaglass:seaglassoff_blue", {
-	description = "Seaglass blue off",
+	description = S("Seaglass blue off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_blue.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_blue.png"),
@@ -153,7 +159,7 @@ minetest.register_node("seaglass:seaglassoff_blue", {
 })
 
 minetest.register_node("seaglass:seaglassoff_white", {
-	description = "Seaglass white off",
+	description = S("Seaglass white off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_white.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_white.png"),
@@ -165,7 +171,7 @@ minetest.register_node("seaglass:seaglassoff_white", {
 })
 
 minetest.register_node("seaglass:seaglassoff_black", {
-	description = "Seaglass black off",
+	description = S("Seaglass black off"),
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_black.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_black.png"),
