@@ -6,6 +6,17 @@
 -- Quite a bit of trial-and-error learning here and it boiled down to a
 -- small handful of code lines making the difference. ~ LazyJ
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local creative_mode = minetest.setting_getbool("creative_mode")
 
 
