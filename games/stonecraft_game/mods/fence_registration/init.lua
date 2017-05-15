@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local load_time_start = os.clock()
 
 
@@ -30,7 +41,7 @@ function minetest.register_fence(fencedata, extradef)
 		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
 	}--]]
 	if origdef.description then
-		def.description = origdef.description.." fence"
+		def.description = S("@1 fence", origdef.description)
 	end
 	local texture = "default_fence_overlay.png^"..
 		(fencedata.texture or def.tiles[1])..
