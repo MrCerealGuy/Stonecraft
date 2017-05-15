@@ -5,6 +5,13 @@ Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -127,7 +134,7 @@ end
 
 function stairsplus:register_stair(modname, subname, recipeitem, fields)
 	local defs = stairsplus.copytable(stairs_defs)
-	local desc = S("%s Stairs"):format(fields.description)
+	local desc = S("@1 Stairs", fields.description)
 	for alternate, def in pairs(defs) do
 		for k, v in pairs(fields) do
 			def[k] = v
