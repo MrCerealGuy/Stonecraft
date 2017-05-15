@@ -1,0 +1,54 @@
+# German translation for throwing mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: build_arrow.lua
+msgid "Build Arrow"
+msgstr "Baue-Pfeil"
+
+#: dig_arrow.lua
+msgid "Dig Arrow"
+msgstr "Grabe-Pfeil"
+
+#: fire_arrow.lua
+msgid "Fire Arrow"
+msgstr "Feuerpfeil"
+
+#: fireworks_arrows.lua
+msgid "@1fireworks arrow"
+msgstr "feuerwerkspfeil"
+
+#: shell_arrow.lua
+msgid "Shell arrow"
+msgstr "Panzerpfeil"
+
+#: standard_arrows.lua
+msgid "@1 arrow"
+msgstr "@1pfeil"
+
+#: teleport_arrow.lua
+msgid "Teleport Arrow"
+msgstr "Teleporterpfeil"
+
+#: tnt_arrow.lua
+msgid "TNT arrow"
+msgstr "TNT-Pfeil"
+
+#: torch_arrow.lua
+msgid "Torch Arrow"
+msgstr "Fackelpfeil"

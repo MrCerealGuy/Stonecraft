@@ -1,5 +1,16 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_craftitem("throwing:arrow_dig", {
-	description = "Dig Arrow",
+	description = S("Dig Arrow"),
 	inventory_image = "throwing_arrow_dig.png",
 })
 

@@ -1,6 +1,17 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 	minetest.register_craftitem("throwing:arrow_" .. kind, {
-		description = desc .. " arrow",
+		description = S("@1 arrow", desc),
 		inventory_image = "throwing_arrow_" .. kind .. ".png",
 	})
 	
