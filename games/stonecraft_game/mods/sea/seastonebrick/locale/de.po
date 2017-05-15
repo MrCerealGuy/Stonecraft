@@ -1,0 +1,46 @@
+# German translation for sea/seastonebrick mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Seastone brick"
+msgstr "Meeressteinziegel"
+
+#: init.lua
+msgid "Seastone brick cyan"
+msgstr "Meeressteinziegel türkis"
+
+#: init.lua
+msgid "Seastone brick magenta"
+msgstr "Meeressteinziegel magenta"
+
+#: init.lua
+msgid "Seastone brick lime"
+msgstr "Meeressteinziegel hellgrün"
+
+#: init.lua
+msgid "Seastone brick aqua"
+msgstr "Meeressteinziegel wasserblau"
+
+#: init.lua
+msgid "Seastone brick skyblue"
+msgstr "Meeressteinziegel himmelblau"
+
+#: init.lua
+msgid "Seastone brick redviolet"
+msgstr "Meeressteinziegel rotviolett"

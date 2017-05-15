@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,13 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- NODES
-
-
 minetest.register_node("seastonebrick:seastonebrick", {
-	description = "Seastone brick",
+	description = S("Seastone brick"),
 	tiles = {"seastonebrick_seastonebrick.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -30,7 +34,7 @@ minetest.register_node("seastonebrick:seastonebrick", {
 
 
 minetest.register_node("seastonebrick:seastonebrick_cyan", {
-	description = "Seastone brick cyan",
+	description = S("Seastone brick cyan"),
 	tiles = {"seastonebrick_seastonebrick_cyan.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -38,7 +42,7 @@ minetest.register_node("seastonebrick:seastonebrick_cyan", {
 })
 
 minetest.register_node("seastonebrick:seastonebrick_magenta", {
-	description = "Seastone brick magenta",
+	description = S("Seastone brick magenta"),
 	tiles = {"seastonebrick_seastonebrick_magenta.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -46,7 +50,7 @@ minetest.register_node("seastonebrick:seastonebrick_magenta", {
 })
 
 minetest.register_node("seastonebrick:seastonebrick_lime", {
-	description = "Seastone brick lime",
+	description = S("Seastone brick lime"),
 	tiles = {"seastonebrick_seastonebrick_lime.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -54,7 +58,7 @@ minetest.register_node("seastonebrick:seastonebrick_lime", {
 })
 
 minetest.register_node("seastonebrick:seastonebrick_aqua", {
-	description = "Seastone brick aqua",
+	description = S("Seastone brick aqua"),
 	tiles = {"seastonebrick_seastonebrick_aqua.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -62,7 +66,7 @@ minetest.register_node("seastonebrick:seastonebrick_aqua", {
 })
 
 minetest.register_node("seastonebrick:seastonebrick_skyblue", {
-	description = "Seastone brick skyblue",
+	description = S("Seastone brick skyblue"),
 	tiles = {"seastonebrick_seastonebrick_skyblue.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
@@ -70,7 +74,7 @@ minetest.register_node("seastonebrick:seastonebrick_skyblue", {
 })
 
 minetest.register_node("seastonebrick:seastonebrick_redviolet", {
-	description = "Seastone brick redviolet",
+	description = S("Seastone brick redviolet"),
 	tiles = {"seastonebrick_seastonebrick_redviolet.png"},
 	is_ground_content = true,
 	groups = {cracky=2, stone=1},
