@@ -1,3 +1,15 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 walls = {}
 
 walls.register = function(wall_name, wall_desc, wall_texture, wall_mat, wall_sounds)
@@ -35,12 +47,12 @@ walls.register = function(wall_name, wall_desc, wall_texture, wall_mat, wall_sou
 
 end
 
-walls.register("walls:cobble", "Cobblestone Wall", "default_cobble.png",
+walls.register("walls:cobble", S("Cobblestone Wall"), "default_cobble.png",
 		"default:cobble", default.node_sound_stone_defaults())
 
-walls.register("walls:mossycobble", "Mossy Cobblestone Wall", "default_mossycobble.png",
+walls.register("walls:mossycobble", S("Mossy Cobblestone Wall"), "default_mossycobble.png",
 		"default:mossycobble", default.node_sound_stone_defaults())
 
-walls.register("walls:desertcobble", "Desert Cobblestone Wall", "default_desert_cobble.png",
+walls.register("walls:desertcobble", S("Desert Cobblestone Wall"), "default_desert_cobble.png",
 		"default:desert_cobble", default.node_sound_stone_defaults())
 
