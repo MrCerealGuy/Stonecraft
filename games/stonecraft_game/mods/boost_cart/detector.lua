@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local mesecons_rules = mesecon.rules.flat
 
 function boost_cart:turnoff_detector_rail(pos)
@@ -24,7 +35,7 @@ function boost_cart:signal_detector_rail(pos)
 end
 
 boost_cart:register_rail("boost_cart:detectorrail", {
-	description = "Detector rail",
+	description = S("Detector rail"),
 	tiles = {
 		"carts_rail_straight_dtc.png", "carts_rail_curved_dtc.png",
 		"carts_rail_t_junction_dtc.png", "carts_rail_crossing_dtc.png"
@@ -35,7 +46,7 @@ boost_cart:register_rail("boost_cart:detectorrail", {
 })
 
 boost_cart:register_rail("boost_cart:detectorrail_on", {
-	description = "Detector rail ON (you hacker you)",
+	description = S("Detector rail ON (you hacker you)"),
 	tiles = {
 		"carts_rail_straight_dtc_on.png", "carts_rail_curved_dtc_on.png",
 		"carts_rail_t_junction_dtc_on.png", "carts_rail_crossing_dtc_on.png"
