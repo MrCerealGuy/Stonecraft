@@ -51,15 +51,15 @@ msgstr "Holzfliese rechts"
 
 #: nodes.lua
 msgid "Circle Stone Bricks"
-msgstr "Kreissteinziegel"
+msgstr "Kreisziegelstein"
 
 #: nodes.lua
 msgid "Stone Bricks"
-msgstr "Steinziegel"
+msgstr "ziegelstein"
 
 #: nodes.lua
 msgid "Coal Stone Bricks"
-msgstr "Kohlesteinziegel"
+msgstr "Kohleziegelstein"
 
 #: nodes.lua
 msgid "Iron Stone Bricks"

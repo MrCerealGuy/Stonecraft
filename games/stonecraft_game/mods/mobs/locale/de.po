@@ -27,7 +27,7 @@ msgstr "Käse"
 
 #: cow.lua
 msgid "Cheese Block"
-msgstr "Käse Block"
+msgstr "Käseblock"
 
 #: bee.lua
 msgid "Honey"
@@ -75,7 +75,7 @@ msgstr "Fleisch"
 
 #: crafts.lua
 msgid "Magic Lasso (right-click animal to put in inventory)"
-msgstr "Magische Lass (rechtsklick auf Tier um es ins Inventar zu legen)"
+msgstr "Magisches Lasso (rechtsklick auf Tier um es ins Inventar zu legen)"
 
 #: crafts.lua
 msgid "Net (right-click animal to put in inventory)"
@@ -91,11 +91,11 @@ msgstr "Lava Flan"
 
 #: lava_flan.lua
 msgid "Lava orb"
-msgstr "Lava Kugel"
+msgstr "Lavakugel"
 
 #: lava_flan.lua
 msgid "Lava Pickaxe"
-msgstr "Lava Spitzhacke"
+msgstr "Lava-Spitzhacke"
 
 #: rat.lua
 msgid "Cooked Rat"

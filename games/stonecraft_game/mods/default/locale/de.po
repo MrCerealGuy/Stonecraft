@@ -27,7 +27,7 @@ msgstr "Bruchstein"
 
 #: nodes.lua
 msgid "Stone Brick"
-msgstr "Steinziegel"
+msgstr "Ziegelstein"
 
 #: nodes.lua
 msgid "Stone Block"
@@ -47,7 +47,7 @@ msgstr "Wüstenbruchstein"
 
 #: nodes.lua
 msgid "Desert Stone Brick"
-msgstr "Wüstensteinziegel"
+msgstr "Wüstenziegelstein"
 
 #: nodes.lua
 msgid "Desert Stone Block"
@@ -59,7 +59,7 @@ msgstr "Sandstein"
 
 #: nodes.lua
 msgid "Sandstone Brick"
-msgstr "Sandsteinziegel"
+msgstr "Sandziegelstein"
 
 #: nodes.lua
 msgid "Sandstone Block"
@@ -71,7 +71,7 @@ msgstr "Wüstensandstein"
 
 #: nodes.lua
 msgid "Desert Sandstone Brick"
-msgstr "Wüstensandsteinziegel"
+msgstr "Wüstensandziegelstein"
 
 #: nodes.lua
 msgid "Desert Sandstone Block"
@@ -83,7 +83,7 @@ msgstr "Silbersandstein"
 
 #: nodes.lua
 msgid "Silver Sandstone Brick"
-msgstr "Silbersandsteinziegel"
+msgstr "Silbersandziegelstein"
 
 #: nodes.lua
 msgid "Silver Sandstone Block"

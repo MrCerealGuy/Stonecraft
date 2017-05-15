@@ -19,28 +19,28 @@ msgstr ""
 
 #: init.lua
 msgid "Seastone brick"
-msgstr "Meeressteinziegel"
+msgstr "Meeresziegelstein"
 
 #: init.lua
 msgid "Seastone brick cyan"
-msgstr "Meeressteinziegel türkis"
+msgstr "Meeresziegelstein türkis"
 
 #: init.lua
 msgid "Seastone brick magenta"
-msgstr "Meeressteinziegel magenta"
+msgstr "Meeresziegelstein magenta"
 
 #: init.lua
 msgid "Seastone brick lime"
-msgstr "Meeressteinziegel hellgrün"
+msgstr "Meeresziegelstein hellgrün"
 
 #: init.lua
 msgid "Seastone brick aqua"
-msgstr "Meeressteinziegel wasserblau"
+msgstr "Meeresziegelstein wasserblau"
 
 #: init.lua
 msgid "Seastone brick skyblue"
-msgstr "Meeressteinziegel himmelblau"
+msgstr "Meeresziegelstein himmelblau"
 
 #: init.lua
 msgid "Seastone brick redviolet"
-msgstr "Meeressteinziegel rotviolett"
+msgstr "Meeresziegelstein rotviolett"
