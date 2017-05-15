@@ -8,6 +8,17 @@
 -- Supports:				vines			
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 assert(abstract_ferns.config.enable_giant_treefern == true)
 
 -- lot of code, lot to load
@@ -95,7 +106,7 @@ end
 -- GIANT TREE FERN LEAVES
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:tree_fern_leaves_giant", {
-	description = "Tree Fern Crown (Dicksonia)",
+	description = S("Tree Fern Crown (Dicksonia)"),
 	drawtype = "plantlike",
 	visual_scale = math.sqrt(8),
 	wield_scale = {x=0.175, y=0.175, z=0.175},
@@ -137,7 +148,7 @@ minetest.register_node("ferns:tree_fern_leaves_giant", {
 -- GIANT TREE FERN LEAVE PART
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:tree_fern_leave_big", {
-	description = "Giant Tree Fern Leaves",
+	description = S("Giant Tree Fern Leaves"),
 	drawtype = "raillike",
 	paramtype = "light",
 	tiles = {
@@ -158,7 +169,7 @@ minetest.register_node("ferns:tree_fern_leave_big", {
 -- GIANT TREE FERN LEAVE END
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:tree_fern_leave_big_end", {
-	description = "Giant Tree Fern Leave End",
+	description = S("Giant Tree Fern Leave End"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -187,7 +198,7 @@ minetest.register_node("ferns:tree_fern_leave_big_end", {
 -- GIANT TREE FERN TRUNK TOP
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:fern_trunk_big_top", {
-	description = "Giant Fern Trunk",
+	description = S("Giant Fern Trunk"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	tiles = {
@@ -224,7 +235,7 @@ minetest.register_node("ferns:fern_trunk_big_top", {
 -- GIANT TREE FERN TRUNK
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:fern_trunk_big", {
-	description = "Giant Fern Trunk",
+	description = S("Giant Fern Trunk"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	tiles = {
@@ -255,7 +266,7 @@ minetest.register_node("ferns:fern_trunk_big", {
 -- GIANT TREE FERN SAPLING
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:sapling_giant_tree_fern", {
-	description = "Giant Tree Fern Sapling",
+	description = S("Giant Tree Fern Sapling"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	tiles = {"ferns_sapling_tree_fern_giant.png"},

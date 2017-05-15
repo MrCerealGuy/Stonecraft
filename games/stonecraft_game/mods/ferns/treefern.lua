@@ -7,6 +7,17 @@
 -- Looked at code from:		default	, trees			
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 assert(abstract_ferns.config.enable_treefern == true)
 
 abstract_ferns.grow_tree_fern = function(pos)
@@ -44,7 +55,7 @@ end
 -- TODO: Both of these nodes look the same?
 
 minetest.register_node("ferns:tree_fern_leaves", {
-	description = "Tree Fern Crown (Dicksonia)",
+	description = S("Tree Fern Crown (Dicksonia)"),
 	drawtype = "plantlike",
 	visual_scale = 2,
 	paramtype = "light",
@@ -113,7 +124,7 @@ minetest.register_node("ferns:tree_fern_leaves_02", {
 -- FERN TRUNK
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:fern_trunk", {
-	description = "Fern Trunk (Dicksonia)",
+	description = S("Fern Trunk (Dicksonia)"),
 	drawtype = "nodebox",
 	paramtype = "light",
 	tiles = {
@@ -144,7 +155,7 @@ minetest.register_node("ferns:fern_trunk", {
 -- TREE FERN SAPLING
 -----------------------------------------------------------------------------------------------
 minetest.register_node("ferns:sapling_tree_fern", {
-	description = "Tree Fern Sapling (Dicksonia)",
+	description = S("Tree Fern Sapling (Dicksonia)"),
 	drawtype = "plantlike",
 	paramtype = "light",
 	paramtype2 = "facedir",

@@ -13,6 +13,17 @@
 -- http://www.mygarden.net.au/gardening/athyrium-yokoscense/3900/1
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 assert(abstract_ferns.config.enable_lady_fern == true)
 
 -- Maintain backward compatibilty
@@ -26,7 +37,7 @@ local nodenames = {}
 local function create_nodes()
 	local images 	= { "ferns_fern.png", "ferns_fern_mid.png", "ferns_fern_big.png" }
 	local vscales	= { 1, 2, 2.2 }
-	local descs		= { "Lady-fern (Athyrium)", nil, nil }
+	local descs		= { S("Lady-fern (Athyrium)"), nil, nil }
 
 	for i = 1, 3 do
 		local node_on_place = nil
@@ -40,7 +51,7 @@ local function create_nodes()
 		end
 		nodenames[i] = "ferns:fern_"..string.format("%02d", i)
 		minetest.register_node(nodenames[i], {
-			description = descs[i] or ("Lady-fern (Athyrium) " .. string.format("%02d", i)),
+			description = descs[i] or (S("Lady-fern (Athyrium) ") .. string.format("%02d", i)),
 			inventory_image = "ferns_fern.png",
 			drawtype = "plantlike",
 			visual_scale = vscales[i],

@@ -9,6 +9,17 @@
 -- Supports:				dryplants, stoneage, sumpf			
 -----------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 assert(abstract_ferns.config.enable_horsetails == true)
 
 -----------------------------------------------------------------------------------------------
@@ -33,13 +44,13 @@ local function create_nodes()
 		local node_drop = "ferns:horsetail_04"
 
 		if i == 1 then
-			node_desc = "Young Horsetail (Equisetum)"
+			node_desc = S("Young Horsetail (Equisetum)")
 			node_on_use = minetest.item_eat(1) -- young ones edible https://en.wikipedia.org/wiki/Equisetum
 			node_drop = node_name
 		elseif i == 4 then
-			node_desc = "Horsetail (Equisetum)"
+			node_desc = S("Horsetail (Equisetum)")
 		else
-			node_desc = "Horsetail (Equisetum) ".. string.format("%02d", i)
+			node_desc = S("Horsetail (Equisetum) ").. string.format("%02d", i)
 		end
 
 		node_names[i] = node_name
