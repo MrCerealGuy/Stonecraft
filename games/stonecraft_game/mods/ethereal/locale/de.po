@@ -366,8 +366,28 @@ msgid "Crystal Grass"
 msgstr "Kristallgras"
 
 #: plantlife.lua
-msgid " Moss"
-msgstr " moos"
+msgid "@1 Moss"
+msgstr "@1 Moos"
+
+#: plantlife.lua
+msgid "Crystal"
+msgstr "Kristall"
+
+#: plantlife.lua
+msgid "Mushroom"
+msgstr "Pilz"
+
+#: plantlife.lua
+msgid "Fiery"
+msgstr "Feuerrotes"
+
+#: plantlife.lua
+msgid "Gray"
+msgstr "Graues"
+
+#: plantlife.lua
+msgid "Green"
+msgstr "Grünes"
 
 #: plantlife.lua
 msgid "Red Illumishroom"
@@ -386,8 +406,44 @@ msgid "Bamboo Sprout"
 msgstr "Bambussprosse"
 
 #: sapling.lua
-msgid " Tree Sapling"
-msgstr " baumsetzling"
+msgid "@1 Tree Sapling"
+msgstr "@1baumsetzling"
+
+#: sapling.lua
+msgid "Willow"
+msgstr "Weiden"
+
+#: sapling.lua
+msgid "Healing"
+msgstr "Lebens"
+
+#: sapling.lua
+msgid "Big"
+msgstr "Groß"
+
+#: sapling.lua
+msgid "Banana"
+msgstr "Bananen"
+
+#: sapling.lua
+msgid "Frost"
+msgstr "Frost"
+
+#: sapling.lua
+msgid "Mushroom"
+msgstr "Pilz"
+
+#: sapling.lua
+msgid "Palm"
+msgstr "Palm"
+
+#: sapling.lua
+msgid "Redwood"
+msgstr "Mammut"
+
+#: sapling.lua
+msgid "Birch"
+msgstr "Birken"
 
 #: sapling.lua
 msgid "Schematic not found"

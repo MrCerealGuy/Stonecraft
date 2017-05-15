@@ -95,5 +95,5 @@ bucket.register_liquid(
 	"forest:mud_flowing",
 	"forest:bucket_mud",
 	"bucket_mud.png",
-	"Mud bucket"
+	S("Mud bucket")
 )

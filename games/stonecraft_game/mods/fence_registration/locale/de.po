@@ -1,4 +1,4 @@
-# German translation for XXX mod
+# German translation for fence_registration mod
 # Copyright (C) 2017 MrCerealGuy
 # This file is distributed under the same license as the Stonecraft package.
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.

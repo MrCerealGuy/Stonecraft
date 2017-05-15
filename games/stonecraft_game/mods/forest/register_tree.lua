@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 function register_tree(specie, def)
 	if not def.description then
 		def.description = specie
@@ -6,28 +17,28 @@ function register_tree(specie, def)
 		def.descriptions = {}
 	end
 	if not def.descriptions.tree then
-		def.descriptions.tree = def.description.." tree"
+		def.descriptions.tree = def.description..S(" tree")
 	end
 	if not def.descriptions.leaves then
-		def.descriptions.leaves = def.description.." leaves"
+		def.descriptions.leaves = def.description..S(" leaves")
 	end
 	if not def.descriptions.wood then
-		def.descriptions.wood = def.description.." wood"
+		def.descriptions.wood = def.description..S(" wood")
 	end
 	if not def.descriptions.sapling then
-		def.descriptions.sapling = def.description.." sapling"
+		def.descriptions.sapling = def.description..S(" sapling")
 	end
 	if not def.descriptions.fruitleaves then
-		def.descriptions.fruitleaves = def.description.." fruitleaves"
+		def.descriptions.fruitleaves = def.description..S(" fruitleaves")
 	end
 	if not def.descriptions.fruit then
-		def.descriptions.fruit = def.description.." fruit"
+		def.descriptions.fruit = def.description..S(" fruit")
 	end
 	if not def.descriptions.stair then
-		def.descriptions.stair = def.description.." stair"
+		def.descriptions.stair = def.description..S(" stair")
 	end
 	if not def.descriptions.slab then
-		def.descriptions.slab = def.description.." slab"
+		def.descriptions.slab = def.description..S(" slab")
 	end
 	if not def.apportionment then
 		def.apportionment = {}

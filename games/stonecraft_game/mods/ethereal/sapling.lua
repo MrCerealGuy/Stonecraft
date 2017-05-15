@@ -37,7 +37,7 @@ minetest.register_node("ethereal:bamboo_sprout", {
 ethereal.register_sapling = function(name, desc, texture, height)
 
 	minetest.register_node(name .. "_sapling", {
-		description = S(desc .. " Tree Sapling"),
+		description = S("@1 Tree Sapling", desc),
 		drawtype = "plantlike",
 		visual_scale = 1.0,
 		tiles = {texture .. ".png"},
@@ -60,16 +60,16 @@ ethereal.register_sapling = function(name, desc, texture, height)
 	})
 end
 
-ethereal.register_sapling("ethereal:willow", "Willow", "willow_sapling", 14)
-ethereal.register_sapling("ethereal:yellow_tree", "Healing", "yellow_tree_sapling", 19)
-ethereal.register_sapling("ethereal:big_tree", "Big", "ethereal_big_tree_sapling", 7)
-ethereal.register_sapling("ethereal:banana_tree", "Banana", "banana_tree_sapling", 8)
-ethereal.register_sapling("ethereal:frost_tree", "Frost", "ethereal_frost_tree_sapling", 19)
-ethereal.register_sapling("ethereal:mushroom", "Mushroom", "ethereal_mushroom_sapling", 11)
-ethereal.register_sapling("ethereal:palm", "Palm", "moretrees_palm_sapling", 9)
-ethereal.register_sapling("ethereal:redwood", "Redwood", "redwood_sapling", 31)
-ethereal.register_sapling("ethereal:orange_tree", "Orange", "orange_tree_sapling", 6)
-ethereal.register_sapling("ethereal:birch", "Birch", "moretrees_birch_sapling", 7)
+ethereal.register_sapling("ethereal:willow", S("Willow"), "willow_sapling", 14)
+ethereal.register_sapling("ethereal:yellow_tree", S("Healing"), "yellow_tree_sapling", 19)
+ethereal.register_sapling("ethereal:big_tree", S("Big"), "ethereal_big_tree_sapling", 7)
+ethereal.register_sapling("ethereal:banana_tree", S("Banana"), "banana_tree_sapling", 8)
+ethereal.register_sapling("ethereal:frost_tree", S("Frost"), "ethereal_frost_tree_sapling", 19)
+ethereal.register_sapling("ethereal:mushroom", S("Mushroom"), "ethereal_mushroom_sapling", 11)
+ethereal.register_sapling("ethereal:palm", S("Palm"), "moretrees_palm_sapling", 9)
+ethereal.register_sapling("ethereal:redwood", S("Redwood"), "redwood_sapling", 31)
+ethereal.register_sapling("ethereal:orange_tree", S("Orange"), "orange_tree_sapling", 6)
+ethereal.register_sapling("ethereal:birch", S("Birch"), "moretrees_birch_sapling", 7)
 
 ethereal.add_tree = function (pos, ofx, ofy, ofz, schem)
 	-- check for schematic

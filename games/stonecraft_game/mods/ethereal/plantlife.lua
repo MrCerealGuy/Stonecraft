@@ -225,7 +225,7 @@ minetest.register_node("ethereal:crystalgrass", {
 function ethereal.add_moss(typ, descr, texture, receipe_item)
 
 	minetest.register_node("ethereal:" .. typ .. "_moss", {
-		description = S(descr .. " Moss"),
+		description = S("@1 Moss", descr),
 		tiles = {texture},
 		groups = {crumbly = 3},
 		sounds = default.node_sound_dirt_defaults()
@@ -237,11 +237,11 @@ function ethereal.add_moss(typ, descr, texture, receipe_item)
 	})
 end
 
-ethereal.add_moss( "crystal", "Crystal", "ethereal_grass_crystal_top.png", "ethereal:frost_leaves")
-ethereal.add_moss( "mushroom", "Mushroom", "ethereal_grass_mushroom_top.png", "ethereal:mushroom")
-ethereal.add_moss( "fiery", "Fiery", "ethereal_grass_fiery_top.png", "ethereal:dry_shrub")
-ethereal.add_moss( "gray", "Gray", "ethereal_grass_gray_top.png", "ethereal:snowygrass")
-ethereal.add_moss( "green", "Green", "default_grass.png", "default:jungleleaves")
+ethereal.add_moss( "crystal", S("Crystal"), "ethereal_grass_crystal_top.png", "ethereal:frost_leaves")
+ethereal.add_moss( "mushroom", S("Mushroom"), "ethereal_grass_mushroom_top.png", "ethereal:mushroom")
+ethereal.add_moss( "fiery", S("Fiery"), "ethereal_grass_fiery_top.png", "ethereal:dry_shrub")
+ethereal.add_moss( "gray", S("Gray"), "ethereal_grass_gray_top.png", "ethereal:snowygrass")
+ethereal.add_moss( "green", S("Green"), "default_grass.png", "default:jungleleaves")
 
 -- Illuminated Cave Shrooms (Red, Green and Blue)
 minetest.register_node("ethereal:illumishroom", {

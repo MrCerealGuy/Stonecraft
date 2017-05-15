@@ -53,6 +53,10 @@ msgstr "Schlammquelle"
 msgid "Mud ice"
 msgstr "Eismatsch"
 
+#: mud.lua
+msgid "Mud bucket"
+msgstr "Eimer mit Schlamm"
+
 #: oil.lua
 msgid "Oil flowing"
 msgstr "Ölflut"
@@ -188,3 +192,35 @@ msgstr "Lavendelblätter mit Blumen"
 #: trees.lua
 msgid "Flowers of lavender"
 msgstr "Lavendelblüten"
+
+#: register_tree.lua
+msgid " tree"
+msgstr "baum"
+
+#: register_tree.lua
+msgid " leaves"
+msgstr "blätter"
+
+#: register_tree.lua
+msgid " wood"
+msgstr "holz"
+
+#: register_tree.lua
+msgid " sapling"
+msgstr "setzling"
+
+#: register_tree.lua
+msgid " fruitleaves"
+msgstr "fruchtblätter"
+
+#: register_tree.lua
+msgid " fruit"
+msgstr "frucht"
+
+#: register_tree.lua
+msgid " stair"
+msgstr "treppe"
+
+#: register_tree.lua
+msgid " slab"
+msgstr "stufe"
