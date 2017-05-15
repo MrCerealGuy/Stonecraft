@@ -1,5 +1,16 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_node("vines:rope_block", {
-  description = "Rope",
+  description = S("Rope"),
   sunlight_propagates = true,
   paramtype = "light",
   tiles = {
@@ -30,7 +41,7 @@ minetest.register_node("vines:rope_block", {
 })
 
 minetest.register_node("vines:rope", {
-  description = "Rope",
+  description = S("Rope"),
   walkable = false,
   climbable = true,
   sunlight_propagates = true,
@@ -47,7 +58,7 @@ minetest.register_node("vines:rope", {
 })
 
 minetest.register_node("vines:rope_end", {
-  description = "Rope",
+  description = S("Rope"),
   walkable = false,
   climbable = true,
   sunlight_propagates = true,

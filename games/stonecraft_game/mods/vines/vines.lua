@@ -1,5 +1,16 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 vines.register_vine( 'root', {
-  description = "Roots",
+  description = S("Roots"),
   average_length = 9,
 },{
   choose_random_wall = true,
@@ -17,7 +28,7 @@ vines.register_vine( 'root', {
 })
 
 vines.register_vine( 'vine', {
-  description = "Vines",
+  description = S("Vines"),
   average_length = 5,
 },{
   choose_random_wall = true,
@@ -37,7 +48,7 @@ vines.register_vine( 'vine', {
 })
 
 vines.register_vine( 'side', {
-  description = "Vines",
+  description = S("Vines"),
   average_length = 6,
 },{
   choose_random_wall = true,
@@ -58,7 +69,7 @@ vines.register_vine( 'side', {
 })
 
 vines.register_vine( "jungle", {
-  description = "Jungle Vines",
+  description = S("Jungle Vines"),
   average_length = 7,
 },{
   choose_random_wall = true,
@@ -85,7 +96,7 @@ vines.register_vine( "jungle", {
 })
 
 vines.register_vine( 'willow', {
-  description = "Willow Vines",
+  description = S("Willow Vines"),
   average_length = 9,
 },{
   choose_random_wall = true,

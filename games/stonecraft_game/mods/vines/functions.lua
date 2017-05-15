@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 vines.register_vine = function( name, defs, biome )
   local biome = biome
   local groups = { vines=1, snappy=3, flammable=2 }
@@ -63,7 +74,7 @@ vines.register_vine = function( name, defs, biome )
 
 
   minetest.register_node( vine_name_middle, {
-    description = "Matured "..defs.description,
+    description = S("Matured @1", defs.description),
     walkable = false,
     climbable = true,
     drop = "",
