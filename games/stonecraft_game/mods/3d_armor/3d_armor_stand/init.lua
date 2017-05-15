@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local armor_stand_formspec = "size[8,7]" ..
 	default.gui_bg ..
 	default.gui_bg_img ..
@@ -99,7 +110,7 @@ local function has_locked_armor_stand_privilege(meta, player)
 end
 
 minetest.register_node("3d_armor_stand:armor_stand", {
-	description = "Armor stand",
+	description = S("Armor stand"),
 	drawtype = "mesh",
 	mesh = "3d_armor_stand.obj",
 	tiles = {"default_wood.png", "default_steel_block.png"},
@@ -166,7 +177,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 })
 
 minetest.register_node("3d_armor_stand:locked_armor_stand", {
-	description = "Locked Armor stand",
+	description = S("Locked Armor stand"),
 	drawtype = "mesh",
 	mesh = "3d_armor_stand.obj",
 	tiles = {"default_wood.png", "default_steel_block.png"},
