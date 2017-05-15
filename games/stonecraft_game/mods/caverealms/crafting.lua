@@ -4,7 +4,7 @@
 
 --mycena powder
 minetest.register_craftitem("caverealms:mycena_powder", {
-	description = "Mycena Powder",
+	description = S("Mycena Powder"),
 	inventory_image = "caverealms_mycena_powder.png",
 })
 
