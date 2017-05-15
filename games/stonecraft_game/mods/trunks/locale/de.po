@@ -1,0 +1,55 @@
+# German translation for trunks mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: nodes.lua
+msgid "Twig"
+msgstr "Zweig"
+
+#: nodes.lua
+msgid "Moss"
+msgstr "Moos"
+
+#: nodes.lua
+msgid "Moss with Fungus"
+msgstr "Moos mit Pilz"
+
+#: nodes.lua
+msgid "Twigs Block"
+msgstr "Zweigblock"
+
+#: nodes.lua
+msgid "Twigs Slab"
+msgstr "Zweigstufe"
+
+#: nodes.lua
+msgid "Twigs Roof"
+msgstr "Zweigdach"
+
+#: nodes.lua
+msgid "Twigs Roof Corner 1"
+msgstr "Zweigdachecke 1"
+
+#: nodes.lua
+msgid "Twigs Roof Corner 2"
+msgstr "Zweigdachecke 2"
+
+#: nodes.lua
+msgid "@1 Root"
+msgstr "@1wurzel"
