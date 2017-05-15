@@ -1,0 +1,47 @@
+# German translation for sea/seagravel mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: init.lua
+msgid "Sea gravel"
+msgstr "Seekies"
+
+#: init.lua
+msgid "Sea gravel cyan"
+msgstr "Seekies türkis"
+
+#: init.lua
+msgid "Sea gravel magenta"
+msgstr "Seekies magenta"
+
+#: init.lua
+msgid "Sea gravel lime"
+msgstr "Seekies hellgrün"
+
+#: init.lua
+msgid "Sea gravel aqua"
+msgstr "Seekies wasserblau"
+
+#: init.lua
+msgid "Sea gravel skyblue"
+msgstr "Seekies himmelblau"
+
+#: init.lua
+msgid "Sea gravel redviolet"
+msgstr "Seekies rotviolett"

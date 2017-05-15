@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,13 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- NODES
-
-
 minetest.register_node("seagravel:seagravel", {
-	description = "Sea gravel",
+	description = S("Sea gravel"),
 	tiles = {"seagravel_seagravel.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -32,7 +36,7 @@ minetest.register_node("seagravel:seagravel", {
 })
 
 minetest.register_node("seagravel:seagravel_cyan", {
-	description = "Sea gravel cyan",
+	description = S("Sea gravel cyan"),
 	tiles = {"seagravel_seagravel_cyan.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -43,7 +47,7 @@ minetest.register_node("seagravel:seagravel_cyan", {
 })
 
 minetest.register_node("seagravel:seagravel_magenta", {
-	description = "Sea gravel magenta",
+	description = S("Sea gravel magenta"),
 	tiles = {"seagravel_seagravel_magenta.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -54,7 +58,7 @@ minetest.register_node("seagravel:seagravel_magenta", {
 })
 
 minetest.register_node("seagravel:seagravel_lime", {
-	description = "Sea gravel lime",
+	description = S("Sea gravel lime"),
 	tiles = {"seagravel_seagravel_lime.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -65,7 +69,7 @@ minetest.register_node("seagravel:seagravel_lime", {
 })
 
 minetest.register_node("seagravel:seagravel_aqua", {
-	description = "Sea gravel aqua",
+	description = S("Sea gravel aqua"),
 	tiles = {"seagravel_seagravel_aqua.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -76,7 +80,7 @@ minetest.register_node("seagravel:seagravel_aqua", {
 })
 
 minetest.register_node("seagravel:seagravel_skyblue", {
-	description = "Sea gravel skyblue",
+	description = S("Sea gravel skyblue"),
 	tiles = {"seagravel_seagravel_skyblue.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -87,7 +91,7 @@ minetest.register_node("seagravel:seagravel_skyblue", {
 })
 
 minetest.register_node("seagravel:seagravel_redviolet", {
-	description = "Sea gravel redviolet",
+	description = S("Sea gravel redviolet"),
 	tiles = {"seagravel_seagravel_redviolet.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
