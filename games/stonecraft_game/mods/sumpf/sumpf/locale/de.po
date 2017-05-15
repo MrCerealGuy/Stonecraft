@@ -1,0 +1,77 @@
+# German translation for sumpf/sumpf mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-15 16:45+0200\n"
+"PO-Revision-Date: 2017-05-15 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+#: birke.lua
+msgid "birch"
+msgstr "Birke"
+
+#: birke.lua
+msgid "birch leaves"
+msgstr "Birkenblätter"
+
+#: birke.lua
+msgid "birch trunk"
+msgstr "Birkenstamm"
+
+#: birke.lua
+msgid "mossy birch trunk"
+msgstr "Bemooster Birkenstamm"
+
+#: birke.lua
+msgid "horizontal birch trunk"
+msgstr "Horizontaler Birkenstamm"
+
+#: init.lua
+msgid "swamp stone"
+msgstr "Sumpfstein"
+
+#: init.lua
+msgid "swamp cobble stone"
+msgstr "Sumpfkiesstein"
+
+#: init.lua
+msgid "swamp stone brick"
+msgstr "Sumpfziegelstein"
+
+#: init.lua
+msgid "peat"
+msgstr "Torf"
+
+#: init.lua
+msgid "coal ore"
+msgstr "Kohleerz"
+
+#: init.lua
+msgid "iron ore"
+msgstr "Eisenerz"
+
+#: init.lua
+msgid "swamp"
+msgstr "Sumpf"
+
+#: init.lua
+msgid "swamp grass roofing"
+msgstr "Sumpfgrasdach"
+
+#: init.lua
+msgid "swamp grass"
+msgstr "Sumpfgras"
+
+#: init.lua
+msgid "swampwater"
+msgstr "Sumpfwasser"

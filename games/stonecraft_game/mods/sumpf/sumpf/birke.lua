@@ -1,3 +1,14 @@
+--[[
+
+2017-05-15 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local sumpf_birch_seed = 113
 
 local function get_random(pos)
@@ -8,7 +19,7 @@ end
 -- Nodes and crafting
 
 minetest.register_node("sumpf:sapling", {
-	description = "birch",
+	description = S("birch"),
 	drawtype = "plantlike",
 	tiles = {"birke_sapling.png"},
 	inventory_image = "birke_sapling.png",
@@ -35,7 +46,7 @@ minetest.register_node("sumpf:birk", {
 })
 
 minetest.register_node("sumpf:leaves", {
-	description = "birch leaves",
+	description = S("birch leaves"),
 	drawtype = "glasslike",
 	tiles = {"birke_leaves.png"},
 	paramtype = "light",
@@ -57,7 +68,7 @@ minetest.register_node("sumpf:leaves", {
 })
 
 minetest.register_node("sumpf:tree", {
-	description = "birch trunk",
+	description = S("birch trunk"),
 	tiles = {"birke_tree_top.png",	"birke_tree_top.png",
 		{name = "birke_tree.png", tileable_vertical = false}
 	},
@@ -68,7 +79,7 @@ minetest.register_node("sumpf:tree", {
 })
 
 minetest.register_node("sumpf:mossytree", {
-	description = "mossy birch trunk",
+	description = S("mossy birch trunk"),
 	tiles = {"birke_tree_top.png",	"sumpf.png",
 		{name="birke_tree.png^(sumpf_transition.png^[transformR180)", tileable_vertical = false}
 	},
@@ -240,7 +251,7 @@ end
 -- legacy
 
 minetest.register_node("sumpf:tree_horizontal", {
-	description = "horizontal birch trunk",
+	description = S("horizontal birch trunk"),
 	tiles = {"birke_tree.png",	"birke_tree.png",	"birke_tree.png^[transformR90",
 			"birke_tree.png^[transformR90", "birke_tree_top.png"},
 	paramtype2 = "facedir",

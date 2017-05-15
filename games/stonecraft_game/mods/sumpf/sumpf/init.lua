@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-15 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_swamps ~= nil and enable_swamps == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local load_time_start = os.clock()
 
@@ -50,7 +56,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("sumpf:junglestone", {
-	description = "swamp stone",
+	description = S("swamp stone"),
 	tiles = {"sumpf_swampstone.png"},
 	groups = {cracky=3},
 	drop = "sumpf:cobble",
@@ -58,21 +64,21 @@ minetest.register_node("sumpf:junglestone", {
 })
 
 minetest.register_node("sumpf:cobble", {
-	description = "swamp cobble stone",
+	description = S("swamp cobble stone"),
 	tiles = {"sumpf_cobble.png"},
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("sumpf:junglestonebrick", {
-	description = "swamp stone brick",
+	description = S("swamp stone brick"),
 	tiles = {"sumpf_swampstone_brick.png"},
 	groups = {cracky=2, stone=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("sumpf:peat", {
-	description = "peat",
+	description = S("peat"),
 	tiles = {"sumpf_peat.png"},
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1},
 	sounds = default.node_sound_sand_defaults({
@@ -84,7 +90,7 @@ minetest.register_node("sumpf:peat", {
 })
 
 minetest.register_node("sumpf:kohle", {
-	description = "coal ore",
+	description = S("coal ore"),
 	tiles = {"sumpf_swampstone.png^default_mineral_coal.png"},
 	groups = {cracky=3},
 	drop = 'default:coal_lump',
@@ -92,7 +98,7 @@ minetest.register_node("sumpf:kohle", {
 })
 
 minetest.register_node("sumpf:eisen", {
-	description = "iron ore",
+	description = S("iron ore"),
 	tiles = {"sumpf_swampstone.png^default_mineral_iron.png"},
 	groups = {cracky=3},
 	drop = 'default:iron_lump',
@@ -100,7 +106,7 @@ minetest.register_node("sumpf:eisen", {
 })
 
 minetest.register_node("sumpf:sumpf", {
-	description = "swamp",
+	description = S("swamp"),
 	tiles = {"sumpf.png"},
 	groups = {crumbly=3, soil=1},
 	sounds = default.node_sound_dirt_defaults({
@@ -120,7 +126,7 @@ minetest.register_node("sumpf:sumpf2", {
 })
 
 minetest.register_node("sumpf:roofing", {
-	description = "swamp grass roofing",
+	description = S("swamp grass roofing"),
 	tiles = {"sumpf_roofing.png"},
 	is_ground_content = false,
 	groups = {snappy = 3, flammable = 1, level = 2},
@@ -185,7 +191,7 @@ end
 
 
 minetest.register_node("sumpf:gras", {
-	description = "swamp grass",
+	description = S("swamp grass"),
 	tiles = {"sumpfgrass.png"},
 	inventory_image = "sumpfgrass.png",
 	drawtype = "plantlike",
@@ -223,7 +229,7 @@ minetest.register_node("sumpf:dirtywater_flowing", {
 })
 
 minetest.register_node("sumpf:dirtywater_source", {
-	description = "swampwater",
+	description = S("swampwater"),
 	drawtype = "liquid",
 	tiles = {
 		{name="sumpf_water_source.png", animation=ani},
