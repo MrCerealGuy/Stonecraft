@@ -1,0 +1,42 @@
+# German translation for 3d_armor/hazmat_suit mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-16 16:45+0200\n"
+"PO-Revision-Date: 2017-05-16 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Hazmat Helmet"
+msgstr "Hazmat-Helm"
+
+#: init.lua
+msgid "Hazmat Chestplate"
+msgstr "Hazmat-Brustplatte"
+
+#: init.lua
+msgid "Hazmat Sleeve"
+msgstr "HazmatÄrmel"
+
+#: init.lua
+msgid "Hazmat Leggins"
+msgstr "Hazmat-Hose"
+
+#: init.lua
+msgid "Hazmat Boots"
+msgstr "Hazmat-Schuhe"
+
+#: init.lua
+msgid "Hazmat Suit"
+msgstr "Hazmat-Anzug"
