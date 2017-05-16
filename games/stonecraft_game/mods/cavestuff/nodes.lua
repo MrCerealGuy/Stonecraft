@@ -1,3 +1,14 @@
+--[[
+
+2017-05-16 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 --Rocks
 
 local cbox = {
@@ -6,7 +17,7 @@ local cbox = {
 }
 
 minetest.register_node("cavestuff:pebble_1",{
-	description = "Pebble",
+	description = S("Pebble"),
 	drawtype = "mesh",
 	mesh = "cavestuff_pebble.obj",
     tiles = {"undergrowth_pebble.png"},
@@ -39,7 +50,7 @@ minetest.register_node("cavestuff:pebble_2",{
 })
 
 minetest.register_node("cavestuff:desert_pebble_1",{
-	description = "Desert Pebble",
+	description = S("Desert Pebble"),
 	drawtype = "mesh",
 	mesh = "cavestuff_pebble.obj",
     tiles = {"default_desert_stone.png"},
@@ -76,7 +87,7 @@ minetest.register_node("cavestuff:stalactite_1",{
 	drawtype="nodebox",
 	tiles = {"undergrowth_pebble.png"},
 	groups = {cracky=3,attached_node=1},
-	description = "Stalactite",
+	description = S("Stalactite"),
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	node_box = {
