@@ -1,12 +1,14 @@
---Kaeza's Internationalization Library support
-	-- Boilerplate to support localized strings if intllib mod is installed.
-	local S
-	if minetest.get_modpath("intllib") then
-		S = intllib.Getter()
-	else
-		-- If you don't use insertions (@1, @2, etc) you can use this:
-		S = function(s) return s end
-	end
+--[[
+
+2017-05-16 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 --Akai ki
 --Miki
 minetest.register_node("redtrees:rtree", {
@@ -86,13 +88,13 @@ minetest.register_node("redtrees:rleaves", {
 --Kaidan
 stairs.register_stair('rwood', 'redtrees:rwood',
 	{choppy=2,oddly_breakable_by_hand=2,flammable=10,wood=1},
-	{"redtrees_wood.png"}, "Fiery Wooden Stairs",
+	{"redtrees_wood.png"}, S("Fiery Wooden Stairs"),
 	default.node_sound_wood_defaults())
 
 --Ita
 stairs.register_slab('rwood', 'redtrees:rwood',
 	{choppy=2,oddly_breakable_by_hand=2,flammable=10,wood=1},
-	{"redtrees_wood.png"}, "Fiery Wooden Slab",
+	{"redtrees_wood.png"}, S("Fiery Wooden Slab"),
 	default.node_sound_wood_defaults())
 
 --Kashana Tobira
