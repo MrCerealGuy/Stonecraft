@@ -133,7 +133,7 @@ local function on_receive_fields(pos, formname, fields, sender)
 end
 
 -- Ores creation
-function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_custom)
+function spawners.create_ore(ore_name, mod_prefix, ore_desc, size, offset, texture, sound_custom)
 	-- dummy inside the spawner
 	local dummy_ore_definition = {
 		hp_max = 1,
@@ -171,7 +171,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner active
 	minetest.register_node("spawners:"..ore_name.."_spawner_active", {
-		description = S("@1 spawner active", ore_name),
+		description = S("@1 spawner active", ore_desc),
 		paramtype = "light",
 		light_source = 4,
 		drawtype = "allfaces",
@@ -201,7 +201,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner waiting - no stone around or no fuel
 	minetest.register_node("spawners:"..ore_name.."_spawner_waiting", {
-		description = S("@1 spawner waiting", ore_name),
+		description = S("@1 spawner waiting", ore_desc),
 		paramtype = "light",
 		light_source = 2,
 		drawtype = "allfaces",
@@ -230,7 +230,7 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 
 	-- node spawner inactive (default)
 	minetest.register_node("spawners:"..ore_name.."_spawner", {
-		description = S("@1 spawner", ore_name),
+		description = S("@1 spawner", ore_desc),
 		paramtype = "light",
 		drawtype = "allfaces",
 		walkable = true,
@@ -308,13 +308,13 @@ function spawners.create_ore(ore_name, mod_prefix, size, offset, texture, sound_
 end
 
 -- default:stone_with_gold
-spawners.create_ore("stone_with_gold", "", {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
+spawners.create_ore("stone_with_gold", "", S("Stone with gold"), {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
 
 -- default:stone_with_iron
-spawners.create_ore("stone_with_iron", "", {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
+spawners.create_ore("stone_with_iron", "", S("Stone with iron"), {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
 
 -- default:stone_with_copper
-spawners.create_ore("stone_with_copper", "", {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
+spawners.create_ore("stone_with_copper", "", S("Stone with copper"), {x=.33,y=.33}, 0, {"default_stone.png^default_mineral_gold.png"}, "strike")
 
 
 -- recipes

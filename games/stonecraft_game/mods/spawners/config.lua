@@ -246,6 +246,7 @@ if minetest.get_modpath("mobs") ~= nil then
 	MOBS_PROPS["spawners"] = {
 		{
 			name="mummy",
+			desc=S("Mummy monster"),
 			egg_name_custom="",
 			dummy_size={x=0.4,y=0.4},
 			dummy_offset=0,
@@ -256,6 +257,7 @@ if minetest.get_modpath("mobs") ~= nil then
 		},
 		{
 			name="mummy",
+			desc=S("Mummy monster"),
 			egg_name_custom="",
 			dummy_size={x=0.4,y=0.4},
 			dummy_offset=0,

@@ -1,5 +1,16 @@
 -- modified Sand Monster by PilzAdam with Mummy by BlockMen
 
+--[[
+
+2017-05-16 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local mummy_def = {
 	type = "monster",
 	passive = false,
@@ -62,4 +73,4 @@ mobs:register_mob("spawners:mummy", mummy_def)
 
 mobs:register_spawn("spawners:mummy", {"default:desert_sand", "default:desert_stone"}, 20, 0, 14000, 2, 31000)
 
-mobs:register_egg("spawners:mummy", "Mummy Monster", "default_sandstone_brick.png", 1)
+mobs:register_egg("spawners:mummy", S("Mummy monster"), "default_sandstone_brick.png", 1)

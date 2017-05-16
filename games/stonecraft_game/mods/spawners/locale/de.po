@@ -73,6 +73,18 @@ msgstr "@1-Spawner wartet"
 msgid "@1 spawner"
 msgstr "@1-Spawner"
 
+#: spawners_ores.lua
+msgid "Stone with gold"
+msgstr "Stein mit Gold"
+
+#: spawners_ores.lua
+msgid "Stone with iron"
+msgstr "Stein mit Eisen"
+
+#: spawners_ores.lua
+msgid "Stone with copper"
+msgstr "Stein mit Kupfer"
+
 #: config.lua
 msgid "White sheep"
 msgstr "Weißes Schaf"
@@ -99,7 +111,7 @@ msgstr "Kätzchen"
 
 #: config.lua
 msgid "Spider"
-msgstr "Spinne"
+msgstr "Spinnen"
 
 #: config.lua
 msgid "Stone monster"
@@ -115,7 +127,7 @@ msgstr "Baummonster"
 
 #: config.lua
 msgid "Mummy"
-msgstr "Mumie"
+msgstr "Mumien"
 
 #: config.lua
 msgid "Ghost"
@@ -123,7 +135,7 @@ msgstr "Geist"
 
 #: config.lua
 msgid "Sheep"
-msgstr "Shaf"
+msgstr "Schaf"
 
 #: config.lua
 msgid "Zombie"
@@ -132,3 +144,11 @@ msgstr "Zombie"
 #: config.lua
 msgid "Oerrki"
 msgstr "Oerrki"
+
+#: config.lua
+msgid "Mummy monster"
+msgstr "Mumienmonster"
+
+#: mob_mummy.lua
+msgid "Mummy monster"
+msgstr "Mumienmonster"
