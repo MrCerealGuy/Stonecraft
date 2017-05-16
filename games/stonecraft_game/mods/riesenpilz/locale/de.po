@@ -74,16 +74,16 @@ msgid "brown bright"
 msgstr "Hellbraun"
 
 #: init.lua
-msgid "giant mushroom "
-msgstr "Großer Pilz "
+msgid "giant mushroom"
+msgstr "Großer Pilz"
 
 #: init.lua
-msgid "@1stem @2"
-msgstr "@1stam @2"
+msgid "@1stem (@2)"
+msgstr "@1stamm (@2)"
 
 #: init.lua
-msgid "@1head @2"
-msgstr "@1kopf @2"
+msgid "@1head (@2)"
+msgstr "@1kopf (@2)"
 
 #: init.lua
 msgid "giant mushroom head red side"

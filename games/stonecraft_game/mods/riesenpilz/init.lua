@@ -1028,9 +1028,9 @@ for _,i in pairs({
 		textures[i] = "riesenpilz_"..textures[i]
 	end
 	local nodename = "riesenpilz:"
-	local desctiption,sounds = S("giant mushroom ")
+	local desctiption,sounds = S("giant mushroom")
 	if i.typ == "stem" then
-		desctiption = S("@1stem @2", desctiption, i.description)
+		desctiption = S("@1stem (@2)", desctiption, i.description)
 		nodename = nodename.."stem"..((i.name and "_"..i.name) or "")
 		sounds = default.node_sound_wood_defaults({
 			footstep = {name="riesenpilz_stem", gain=0.2},
@@ -1039,7 +1039,7 @@ for _,i in pairs({
 			dug = {name="default_wood_footstep", gain=0.3}
 		})
 	elseif i.typ == "head" then
-		desctiption = S("@1head @2", desctiption, i.description)
+		desctiption = S("@1head (@2)", desctiption, i.description)
 		nodename = nodename.."head_"..i.name
 		sounds = head_sounds
 	else
