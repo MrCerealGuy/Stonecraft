@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-16 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,10 +19,14 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- NODES
 
 minetest.register_node("noairblocks:water_flowingx", {
-	description = "Flowing Waterx",
+	description = S("Flowing Waterx"),
 	inventory_image = minetest.inventorycube("default_water.png"),
 	drawtype = "flowingliquid",
 	tiles = {"default_water.png"},
@@ -55,7 +61,7 @@ minetest.register_node("noairblocks:water_flowingx", {
 })
 
 minetest.register_node("noairblocks:water_sourcex", {
-	description = "Water Sourcex",
+	description = S("Water Sourcex"),
 	inventory_image = minetest.inventorycube("default_water.png"),
 	drawtype = "liquid",
 	tiles = {
