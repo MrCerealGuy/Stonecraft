@@ -1,0 +1,66 @@
+# German translation for 3d_armor/technic_armor mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-16 16:45+0200\n"
+"PO-Revision-Date: 2017-05-16 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Lead"
+msgstr "Blei"
+
+#: init.lua
+msgid "Brass"
+msgstr "Messing"
+
+#: init.lua
+msgid "Cast Iron"
+msgstr "Gusseisen"
+
+#: init.lua
+msgid "Carbon Steel"
+msgstr "Carbonstahl"
+
+#: init.lua
+msgid "Stainless Steel"
+msgstr "Rostfreies Stahl"
+
+#: init.lua
+msgid "Tin"
+msgstr "Zinn"
+
+#: init.lua
+msgid "Silver"
+msgstr "Silber"
+
+#: init.lua
+msgid "Helmet"
+msgstr "helm"
+
+#: init.lua
+msgid "Chestplate"
+msgstr "brustplatte"
+
+#: init.lua
+msgid "Leggings"
+msgstr "hose"
+
+#: init.lua
+msgid "Boots"
+msgstr "schuhe"
+
+#: init.lua
+msgid "Shield"
+msgstr "schild"
