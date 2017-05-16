@@ -21,7 +21,7 @@ end
 
 
 minetest.register_node("seawrecks:woodship", {
-	description = "Sand for the wooden ship",
+	description = S("Sand for the wooden ship"),
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -29,7 +29,7 @@ minetest.register_node("seawrecks:woodship", {
 })
 
 minetest.register_node("seawrecks:uboot", {
-	description = "Dirt for the U-boot",
+	description = S("Dirt for the U-boot"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -37,7 +37,7 @@ minetest.register_node("seawrecks:uboot", {
 })
 
 minetest.register_node("seawrecks:woodshipchest", {
-	description = "Wooden ship chest",
+	description = S("Wooden ship chest"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 	paramtype2 = "facedir",
@@ -85,7 +85,7 @@ meta:from_table({
 })
 
 minetest.register_node("seawrecks:ubootchest", {
-	description = "U-boot chest",
+	description = S("U-boot chest"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 	paramtype2 = "facedir",
@@ -109,7 +109,7 @@ meta:from_table({
 	},
 	fields = {
 	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]",
-	infotext = "Normal chest"
+	infotext = S("Normal chest")
 	}
 })
 	end,
