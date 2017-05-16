@@ -8,17 +8,17 @@
 Steel hammer for repairing tools on the anvil = Stahlhammer um Werkzeuge auf dem Amboss zu reparieren
 anvil = Amboss
 Anvil = Amboss
-The workpiece slot is for damaged tools only. = Das Werkstueckfeld gilt nur fuer beschaedigtes Werkzeug.
+The workpiece slot is for damaged tools only. = Das Werkstückfeld gilt nur für beschädigtes Werkzeug.
 Your tool has been repaired successfully. = Dein Werkzeug wurde erfolgreich repariert.
-Your workpiece improves. = Dein Werkstueck verbessert sich.
-Anvil (owned by %s) = Amboss (gehoert %s)
-Workpiece: = Werkstueck
-Optional = Moegliche
-storage for = Aufbewahrung fuer
+Your workpiece improves. = Dein Werkstück verbessert sich.
+Anvil (owned by %s) = Amboss (gehört %s)
+Workpiece: = Werkstück
+Optional = Mögliche
+storage for = Aufbewahrung für
 your hammer = deinen Hammer
 Owner: %s = Besitzer: %s
 Punch anvil with hammer to = Schlage mit dem Hammer auf den Amboss um
-repair tool in workpiece-slot. = das Werkzeug im Werkstueckfeld zu reparieren.
+repair tool in workpiece-slot. = das Werkzeug im Werkstückfeld zu reparieren.
 
 ### nodes_barrel.lua ###
 Pour: = Eingiessen
@@ -31,18 +31,18 @@ tub = Bottich
 
 ### nodes_chests.lua ###
 private NPC chest = Private NSC-Truhe
-chest for work utils and kitchens = NSC-Truhe fuer Arbeitsutensilien und Kuechen
+chest for work utils and kitchens = NSC-Truhe für Arbeitsutensilien und Küchen
 storage chest = NSC-Lagertruhe
 
 ### nodes_doorlike.lua ###
-opened window shutters = Offene Fensterlaeden
-closed window shutters = Geschlossene Fensterlaeden
-half door = Kloentuer
-half door inverted = Umgekehrte Kloentuer
+opened window shutters = Offene Fensterläden
+closed window shutters = Geschlossene Fensterläden
+half door = Kloentür
+half door inverted = Umgekehrte Kloentür
 closed fence gate = Geschlossenes Zauntor
 opened fence gate = Offenes Zauntor
-wooden hatch = Holzfalltuer
-metal hatch = Metallfalltuer
+wooden hatch = Holzfalltür
+metal hatch = Metallfalltür
 
 ### nodes_fences.lua ###
 small fence = Kleiner Zaun
@@ -60,8 +60,8 @@ open storage shelf (in use) = Offenes Lagerregal (in Gebrauch)
 open storage shelf (empty) = Offenes Lagerregal (leer)
 stovepipe = Ofenrohr
 washing place = Waschplatz
-Sorry. This washing place is out of water. Please place it above water! = Entschuldige, dieser Waschplatz hat kein Wasser mehr. Bitte platziere ihn ueber Wasser!
-You feel much cleaner after some washing. = Nach einer kleinen Waesche fuehlst du dich nun sauberer.
+Sorry. This washing place is out of water. Please place it above water! = Entschuldige, dieser Waschplatz hat kein Wasser mehr. Bitte platziere ihn über Wasser!
+You feel much cleaner after some washing. = Nach einer kleinen Wäsche fühlst du dich nun sauberer.
 
 ### nodes_historic.lua ###
 wagon wheel = Wagenrad
@@ -73,7 +73,7 @@ Loam Stairs = Lehmtreppe
 Loam Slab = Lehmstufe
 Clay Stairs = Tontreppe
 Clay Slab = Tonstufe
-straw ground for animals = Strohboden fuer Tiere
+straw ground for animals = Strohboden für Tiere
 simple glass pane = Einfache Fensterscheibe
 
 ### nodes_roof.lua ###
@@ -108,23 +108,23 @@ straw bale = Strohballen
 straw = Stroh
 threshing floor = Dreschboden
 Threshing floor = Dreschboden
-Threshing floor (owned by %s) = Dreschboden (gehoert %s)
+Threshing floor (owned by %s) = Dreschboden (gehört %s)
 Harvested wheat: = Geernteter Weizen
 Straw: = Stroh
-Seeds: = Koerner
+Seeds: = Körner
 Owner: %s = Besitzer: %s
 Punch threshing floor with a stick = Schlage mit einem Stock auf den Dreschboden 
-to get straw and seeds from wheat. = um Stroh und Koerner vom Weizen zu bekommen.
-You have threshed %s wheat (%s are left). =  Du hast %s Weizenaehren gedroschen (%s bleiben uebrig).
-You have threshed the last %s wheat. =  Du hast die letzten %s Weizenaehren gedroschen.
-mill, powered by punching = Muehle, durch Schlagen antreiben
-Mill, powered by punching = Muehle, durch Schlagen antreiben
-Mill, powered by punching (owned by %s) = Muehle, durch Schlagen antreiben (gehoert %s)
-Wheat seeds: = Weizenkoerner
+to get straw and seeds from wheat. = um Stroh und Körner vom Weizen zu bekommen.
+You have threshed %s wheat (%s are left). =  Du hast %s Weizenähren gedroschen (%s bleiben übrig).
+You have threshed the last %s wheat. =  Du hast die letzten %s Weizenähren gedroschen.
+mill, powered by punching = Mühle, durch Schlagen antreiben
+Mill, powered by punching = Mühle, durch Schlagen antreiben
+Mill, powered by punching (owned by %s) = Mühle, durch Schlagen antreiben (gehört %s)
+Wheat seeds: = Weizenkörner
 Flour: = Mehl
-Mill = Muehle
+Mill = Mühle
 Owner: %s = Besitzer: %s
-Punch this hand-driven mill = Schlage auf diese handbetriebene Muehle
+Punch this hand-driven mill = Schlage auf diese handbetriebene Mühle
 to convert wheat seeds into flour. = um Weizenkoerner in Mehl umzuwandeln.
-You have grinded %s wheat seeds (%s are left). = Du hast %s Weizenkoerner gemahlen (%s bleiben uebrig).
-You have grinded the last %s wheat seeds. = Du hast die letzten %s Weizenkoerner gemahlen.
+You have grinded %s wheat seeds (%s are left). = Du hast %s Weizenkörner gemahlen (%s bleiben übrig).
+You have grinded the last %s wheat seeds. = Du hast die letzten %s Weizenkörner gemahlen.

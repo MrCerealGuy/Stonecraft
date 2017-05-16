@@ -19,19 +19,19 @@ msgstr ""
 
 #: admin.lua
 msgid "Admin Helmet"
-msgstr "Admin Helm"
+msgstr "Admin-Helm"
 
 #: admin.lua
 msgid "Admin Chestplate"
-msgstr "Admin Brustplatte"
+msgstr "Admin-Brustplatte"
 
 #: admin.lua
 msgid "Admin Leggings"
-msgstr "Admin Hose"
+msgstr "Admin-Hose"
 
 #: admin.lua
 msgid "Admin Boots"
-msgstr "Admin Stiefel"
+msgstr "Admin-Schuhe"
 
 #: armor.lua
 msgid "Kills player instantly"
@@ -47,124 +47,124 @@ msgstr "Holzhelm"
 
 #: init.lua
 msgid "Wood Chestplate"
-msgstr "Holz Brustplatte"
+msgstr "Holzbrustplatte"
 
 #: init.lua
 msgid "Wood Leggings"
-msgstr "Holz Hose"
+msgstr "Holzhose"
 
 #: init.lua
 msgid "Wood Boots"
-msgstr "Holzstiefel"
+msgstr "Holzschuhe"
 
 #: init.lua
 msgid "Cactus Helmet"
-msgstr "Kaktus Helm"
+msgstr "Kaktushelm"
 
 #: init.lua
 msgid "Cactus Chestplate"
-msgstr "Kaktus Brustplatte"
+msgstr "Kaktusbrustplatte"
 
 #: init.lua
 msgid "Cactus Leggings"
-msgstr "Kaktus Hose"
+msgstr "Kaktushose"
 
 #: init.lua
 msgid "Cactus Boots"
-msgstr "Kaktus Stiefel"
+msgstr "Kaktusschuhe"
 
 #: init.lua
 msgid "Steel Helmet"
-msgstr "Stahl Helm"
+msgstr "Stahlhelm"
 
 #: init.lua
 msgid "Steel Chestplate"
-msgstr "Stahl Brustplatte"
+msgstr "Stahlbrustplatte"
 
 #: init.lua
 msgid "Steel Leggings"
-msgstr "Stahl Hose"
+msgstr "Stahlhose"
 
 #: init.lua
 msgid "Steel Boots"
-msgstr "Stahl Stiefel"
+msgstr "Stahlschuhe"
 
 #: init.lua
 msgid "Bronze Helmet"
-msgstr "Bronze Helm"
+msgstr "Bronzehelm"
 
 #: init.lua
 msgid "Bronze Chestplate"
-msgstr "Bronze Brustplatte"
+msgstr "Bronzebrustplatte"
 
 #: init.lua
 msgid "Bronze Leggings"
-msgstr "Bronze Hose"
+msgstr "Bronzehose"
 
 #: init.lua
 msgid "Bronze Boots"
-msgstr "Bronze Stiefel"
+msgstr "Bronzeschuhe"
 
 #: init.lua
 msgid "Diamond Helmet"
-msgstr "Diamant Helm"
+msgstr "Diamanthelm"
 
 #: init.lua
 msgid "Diamond Chestplate"
-msgstr "Diamant Brustplatte"
+msgstr "Diamantbrustplatte"
 
 #: init.lua
 msgid "Diamond Leggings"
-msgstr "Diamant Hose"
+msgstr "Diamanthose"
 
 #: init.lua
 msgid "Diamond Boots"
-msgstr "Diamant Stiefel"
+msgstr "Diamantschuhe"
 
 #: init.lua
 msgid "Gold Helmet"
-msgstr "Gold Helm"
+msgstr "Goldhelm"
 
 #: init.lua
 msgid "Gold Chestplate"
-msgstr "Gold Brustplatte"
+msgstr "Goldbrustplatte"
 
 #: init.lua
 msgid "Gold Leggings"
-msgstr "Gold Hose"
+msgstr "Goldhose"
 
 #: init.lua
 msgid "Gold Boots"
-msgstr "Gold Stiefel"
+msgstr "Goldschuhe"
 
 #: init.lua
 msgid "Mithril Helmet"
-msgstr "Mithril Helm"
+msgstr "Mithrilhelm"
 
 #: init.lua
 msgid "Mithril Chestplate"
-msgstr "Mithril Brustplatte"
+msgstr "Mithrilbrustplatte"
 
 #: init.lua
 msgid "Mithril Leggings"
-msgstr "Mithril Hose"
+msgstr "Mithrilhose"
 
 #: init.lua
 msgid "Mithril Boots"
-msgstr "Mithril Stiefel"
+msgstr "Mithrilschuhe"
 
 #: init.lua
 msgid "Crystal Helmet"
-msgstr "Kristall Helm"
+msgstr "Kristallhelm"
 
 #: init.lua
 msgid "Crystal Chestplate"
-msgstr "Kristall Brustplatte"
+msgstr "Kristallbrustplatte"
 
 #: init.lua
 msgid "Crystal Leggings"
-msgstr "Kristall Hose"
+msgstr "Kristallhose"
 
 #: init.lua
 msgid "Crystal Boots"
-msgstr "Kristall Stiefel"
+msgstr "Kristallschuhe"

@@ -30,45 +30,105 @@ msgid "trapstone"
 msgstr "Steinfalle"
 
 #: spawners_mobs.lua
-msgid "@1 @2 spawner active"
-msgstr "@1 @2 Spawner aktiv"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner waiting"
-msgstr "@1 @2 Spawner warten"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner"
-msgstr "@1 @2 Spawner"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner overheated"
-msgstr "@1 @2 Spawner überhitzt"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner active env"
-msgstr "@1 @2 Umgebungsspawner aktiv"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner waiting env"
-msgstr "@1 @2 Umgebungsspawner warten"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner env"
-msgstr "@1 @2 Umgebungsspawner"
-
-#: spawners_mobs.lua
-msgid "@1 @2 spawner overheated env"
-msgstr "@1 @2 Umgebungsspawner überhitzt"
-
-#: spawners_ores.lua
 msgid "@1 spawner active"
 msgstr "@1 Spawner aktiv"
 
+#: spawners_mobs.lua
+msgid "@1 spawner waiting"
+msgstr "@1-Spawner warten"
+
+#: spawners_mobs.lua
+msgid "@1 spawner"
+msgstr "@1-Spawner"
+
+#: spawners_mobs.lua
+msgid "@1 spawner overheated"
+msgstr "@1-Spawner überhitzt"
+
+#: spawners_mobs.lua
+msgid "@1 spawner active env"
+msgstr "@1-Umgebungsspawner aktiv"
+
+#: spawners_mobs.lua
+msgid "@1 spawner waiting env"
+msgstr "@1-Umgebungsspawner warten"
+
+#: spawners_mobs.lua
+msgid "@1 spawner env"
+msgstr "@1-Umgebungsspawner"
+
+#: spawners_mobs.lua
+msgid "@1 spawner overheated env"
+msgstr "@1-Umgebungsspawner überhitzt"
+
+#: spawners_ores.lua
+msgid "@1 spawner active"
+msgstr "@1-Spawner aktiv"
+
 #: spawners_ores.lua
 msgid "@1 spawner waiting"
-msgstr "@1 Spawner wartet"
+msgstr "@1-Spawner wartet"
 
 #: spawners_ores.lua
 msgid "@1 spawner"
-msgstr "@1 Spawner"
+msgstr "@1-Spawner"
+
+#: config.lua
+msgid "White sheep"
+msgstr "Weißes Schaf"
+
+#: config.lua
+msgid "Cow"
+msgstr "Kuh"
+
+#: config.lua
+msgid "Chicken"
+msgstr "Huhn"
+
+#: config.lua
+msgid "Pumba"
+msgstr "Pumba"
+
+#: config.lua
+msgid "Bunny"
+msgstr "HHase"
+
+#: config.lua
+msgid "Kitten"
+msgstr "Kätzchen"
+
+#: config.lua
+msgid "Spider"
+msgstr "Spinne"
+
+#: config.lua
+msgid "Stone monster"
+msgstr "Steinmonster"
+
+#: config.lua
+msgid "Oerkki"
+msgstr "Oerkki"
+
+#: config.lua
+msgid "Tree monster"
+msgstr "Baummonster"
+
+#: config.lua
+msgid "Mummy"
+msgstr "Mumie"
+
+#: config.lua
+msgid "Ghost"
+msgstr "Geist"
+
+#: config.lua
+msgid "Sheep"
+msgstr "Shaf"
+
+#: config.lua
+msgid "Zombie"
+msgstr "Zombie"
+
+#: config.lua
+msgid "Oerrki"
+msgstr "Oerrki"

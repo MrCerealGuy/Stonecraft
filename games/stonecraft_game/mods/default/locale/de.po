@@ -449,6 +449,10 @@ msgstr "Mese Postlampe"
 msgid "Cloud"
 msgstr "Wolke"
 
+#: nodes.lua
+msgid "@1 Sign"
+msgstr "@1schild"
+
 #: tools.lua
 msgid "Wooden Pickaxe"
 msgstr "Holzspitzhacke"

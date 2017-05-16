@@ -27,7 +27,7 @@ msgstr "Feurige Holzbretter"
 
 #: nodes.lua
 msgid "Tree Chilli Powder"
-msgstr ""Baumchilipulver
+msgstr "Baumchilipulver"
 
 #: nodes.lua
 msgid "Tree Chilli Treat"
@@ -35,7 +35,7 @@ msgstr "Baumchili-Leckerbissen"
 
 #: nodes.lua
 msgid "Fiery Tree Sapling"
-msgstr "Feuriger Baumsetzling "
+msgstr "Feuriger Baumsetzling"
 
 #: nodes.lua
 msgid "Fiery Leaves"

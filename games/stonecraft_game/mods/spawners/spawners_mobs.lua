@@ -15,7 +15,7 @@ local max_obj_per_mapblock = tonumber(minetest.setting_get("max_objects_per_bloc
 -- * CREATE ALL SPAWNERS NODES *
 -- 
 
-function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, night_only, sound_custom, env)
+function spawners.create(mob_name, mod_prefix, mob_desc, size, offset, mesh, texture, night_only, sound_custom, env)
 	
 	-- 
 	-- DUMMY INSIDE THE SPAWNER
@@ -67,7 +67,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_active", {
-			description = S("@1 @2 spawner active", mod_prefix, mob_name),
+			description = S("@1 spawner active", mob_desc),
 			paramtype = "light",
 			light_source = 4,
 			drawtype = "allfaces",
@@ -101,7 +101,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 
 		-- waiting for light - everything is ok but too much light or not enough light
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_waiting", {
-			description = S("@1 @2 spawner waiting", mod_prefix, mob_name),
+			description = S("@1 spawner waiting", mob_desc),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -129,7 +129,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner", {
-			description = S("@1 @2 spawner", mod_prefix, mob_name),
+			description = S("@1 spawner", mob_desc),
 			paramtype = "light",
 			drawtype = "allfaces",
 			walkable = true,
@@ -156,7 +156,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_overheat", {
-			description = S("@1 @2 spawner overheated", mod_prefix, mob_name),
+			description = S("@1 spawner overheated", mob_desc),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -189,7 +189,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_active_env", {
-			description = S("@1 @2 spawner active env", mod_prefix, mob_name),
+			description = S("@1 spawner active env", mob_desc),
 			paramtype = "light",
 			light_source = 4,
 			drawtype = "allfaces",
@@ -228,7 +228,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 
 		-- waiting for light - everything is ok but too much light or not enough light
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_waiting_env", {
-			description = S("@1 @2 spawner waiting env", mod_prefix, mob_name),
+			description = S("@1 spawner waiting env", mob_desc),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -261,7 +261,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_env", {
-			description = S("@1 @2 spawner env", mod_prefix, mob_name),
+			description = S("@1 spawner env", mob_desc),
 			paramtype = "light",
 			drawtype = "allfaces",
 			walkable = true,
@@ -294,7 +294,7 @@ function spawners.create(mob_name, mod_prefix, size, offset, mesh, texture, nigh
 		-- 
 
 		minetest.register_node("spawners:"..mod_prefix.."_"..mob_name.."_spawner_overheat_env", {
-			description = S("@1 @2 spawner overheated env", mod_prefix, mob_name),
+			description = S("@1 spawner overheated env", mob_desc),
 			paramtype = "light",
 			light_source = 2,
 			drawtype = "allfaces",
@@ -409,6 +409,6 @@ end
 for i, mob_table in ipairs(spawners.mob_tables) do
 	if mob_table then
 
-		spawners.create(mob_table.name, mob_table.mod_prefix, mob_table.dummy_size, mob_table.dummy_offset, mob_table.dummy_mesh, mob_table.dummy_texture, mob_table.night_only, mob_table.sound_custom, mob_table.env)
+		spawners.create(mob_table.name, mob_table.mod_prefix, mob_table.desc, mob_table.dummy_size, mob_table.dummy_offset, mob_table.dummy_mesh, mob_table.dummy_texture, mob_table.night_only, mob_table.sound_custom, mob_table.env)
 	end
 end

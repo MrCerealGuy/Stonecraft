@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-16 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,8 +19,12 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
--- NODES
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
+
+-- NODES
 
 minetest.register_node("seawrecks:woodship", {
 	description = S("Sand for the wooden ship"),

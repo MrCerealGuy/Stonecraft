@@ -14,7 +14,7 @@ for k, mob_mod in ipairs(ENABLED_MODS) do
 				-- do nothing
 			else
 
-				table.insert(spawners.mob_tables, {name=mob.name, mod_prefix=mob_mod, egg_name_custom=mob.egg_name_custom, dummy_size=mob.dummy_size, dummy_offset=mob.dummy_offset, dummy_mesh=mob.dummy_mesh, dummy_texture=mob.dummy_texture, night_only=mob.night_only, sound_custom=mob.sound_custom, env=mob.env})
+				table.insert(spawners.mob_tables, {name=mob.name, mod_prefix=mob_mod, desc=mob.desc, egg_name_custom=mob.egg_name_custom, dummy_size=mob.dummy_size, dummy_offset=mob.dummy_offset, dummy_mesh=mob.dummy_mesh, dummy_texture=mob.dummy_texture, night_only=mob.night_only, sound_custom=mob.sound_custom, env=mob.env})
 
 				-- use custom egg or create a default egg
 				if mob.egg_name_custom ~= "" then 

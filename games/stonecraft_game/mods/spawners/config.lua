@@ -18,6 +18,17 @@
 
 -- [*] -> MANDATORY - has to be filled in!
 
+--[[
+
+2017-05-16 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- mods what should be enabled and loded, remove/add the one you want to load
 ENABLED_MODS = {"mobs", "pyramids", "creatures"}
 
@@ -27,6 +38,7 @@ MOBS_PROPS = {
 	["mobs"] = { -- MOBS REDO CONFIG
 		{
 			name="sheep_white",
+			desc=S("White sheep"),
 			egg_name_custom="",
 			dummy_size={x=0.52,y=0.52},
 			dummy_offset=0.2,
@@ -37,6 +49,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="cow",
+			desc=S("Cow"),
 			egg_name_custom="",
 			dummy_size={x=0.3,y=0.3},
 			dummy_offset=-0.3,
@@ -47,6 +60,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="chicken",
+			desc=S("Chicken"),
 			egg_name_custom="",
 			dummy_size={x=0.9,y=0.9},
 			dummy_offset=0.2,
@@ -57,6 +71,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="pumba",
+			desc=S("Pumba"),
 			egg_name_custom="",
 			dummy_size={x=0.62,y=0.62},
 			dummy_offset=-0.3,
@@ -67,6 +82,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="bunny",
+			desc=S("Bunny"),
 			egg_name_custom="",
 			dummy_size={x=1,y=1},
 			dummy_offset=0.2,
@@ -77,6 +93,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="kitten",
+			desc=S("Kitten"),
 			egg_name_custom="",
 			dummy_size={x=0.32,y=0.32},
 			dummy_offset=0,
@@ -87,6 +104,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="spider",
+			desc=S("Spider"),
 			egg_name_custom="",
 			dummy_size={x=2,y=2},
 			dummy_offset=-0.2,
@@ -97,6 +115,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="spider",
+			desc=S("Spider"),
 			egg_name_custom="",
 			dummy_size={x=2,y=2},
 			dummy_offset=-0.2,
@@ -108,6 +127,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="stone_monster",
+			desc=S("Stone monster"),
 			egg_name_custom="",
 			dummy_size={x=0.5,y=0.5},
 			dummy_offset=0.05,
@@ -118,6 +138,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="oerkki",
+			desc=S("Oerkki"),
 			egg_name_custom="",
 			dummy_size={x=0.5,y=0.5},
 			dummy_offset=0.05,
@@ -128,6 +149,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="tree_monster",
+			desc=S("Tree monster"),
 			egg_name_custom="",
 			dummy_size={x=0.4,y=0.4},
 			dummy_offset=0.05,
@@ -141,6 +163,7 @@ MOBS_PROPS = {
 	["pyramids"] = { -- PYRAMIDS MOD CONFIG
 		{
 			name="mummy",
+			desc=S("Mummy"),
 			egg_name_custom="pyramids:spawn_egg",
 			dummy_size={x=3.3,y=3.3},
 			dummy_offset=-0.3,
@@ -154,6 +177,7 @@ MOBS_PROPS = {
 	["creatures"] = { -- CREATURES MOD CONFIG
 		{
 			name="chicken",
+			desc=S("Chicken"),
 			egg_name_custom="creatures:chicken_spawn_egg",
 			dummy_size={x=0.9,y=0.9},
 			dummy_offset=-0.3,
@@ -164,6 +188,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="ghost",
+			desc=S("Ghost"),
 			egg_name_custom="creatures:ghost_spawn_egg",
 			dummy_size={x=0.7,y=0.7},
 			dummy_offset=-0.5,
@@ -174,6 +199,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="sheep",
+			desc=S("Sheep"),
 			egg_name_custom="creatures:sheep_spawn_egg",
 			dummy_size={x=0.6,y=0.6},
 			dummy_offset=-0.3,
@@ -184,6 +210,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="zombie",
+			desc=S("Zombie"),
 			egg_name_custom="creatures:zombie_spawn_egg",
 			dummy_size={x=0.5,y=0.5},
 			dummy_offset=-0.5,
@@ -194,6 +221,7 @@ MOBS_PROPS = {
 		},
 		{
 			name="oerrki",
+			desc=S("Oerrki"),
 			egg_name_custom="creatures:oerrki_spawn_egg",
 			dummy_size={x=0.4,y=0.4},
 			dummy_offset=-0.5,

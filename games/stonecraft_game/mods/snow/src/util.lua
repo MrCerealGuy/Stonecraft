@@ -203,7 +203,7 @@ minetest.register_chatcommand("snow", {
 	description = S("Show a menu for various actions"),
 	privs = {server=true},
 	func = function(name)
-		minetest.chat_send_player(name, S("Showing snow menu…")
+		minetest.chat_send_player(name, S("Showing snow menu…"))
 		minetest.show_formspec(name, "snow:menu", get_formspec())
 	end,
 })
