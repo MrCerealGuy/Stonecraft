@@ -208,7 +208,7 @@ local function update_meta(meta, enabled)
 	-- this might be more written code, but actually executes less
 	local output = meta:get_inventory():get_stack("output", 1)
 	if output:is_empty() then -- doesn't matter if paused or not
-		meta:set_string("infotext", S("unconfigured Autocrafter")
+		meta:set_string("infotext", S("unconfigured Autocrafter"))
 		return false
 	end
 

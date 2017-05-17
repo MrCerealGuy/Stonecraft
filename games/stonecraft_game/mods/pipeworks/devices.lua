@@ -450,7 +450,7 @@ minetest.register_node("pipeworks:flow_sensor_loaded", {
 -- tanks
 
 for fill = 0, 10 do
-	local filldesc=S("empty)"
+	local filldesc=S("empty")
 	local sgroups = {snappy=3, pipe=1, tankfill=fill+1}
 	local image = nil
 

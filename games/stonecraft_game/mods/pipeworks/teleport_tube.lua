@@ -162,7 +162,7 @@ pipeworks.register_tube("pipeworks:teleport_tube", {
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			update_meta(meta, true)
-			meta:set_string("infotext", S("unconfigured Teleportation Tube")
+			meta:set_string("infotext", S("unconfigured Teleportation Tube"))
 		end,
 		on_receive_fields = function(pos,formname,fields,sender)
 			if not fields.channel -- ignore escaping or clientside manipulation of the form
