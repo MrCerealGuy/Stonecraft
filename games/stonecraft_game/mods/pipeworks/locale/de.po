@@ -1,0 +1,290 @@
+# German translation for pipeworks mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-17 16:45+0200\n"
+"PO-Revision-Date: 2017-05-17 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: autocrafter.lua
+msgid "Unknown item"
+msgstr ""
+
+#: autocrafter.lua
+msgid "'@1' Autocrafter (%@2)"
+msgstr ""
+
+#: autocrafter.lua
+msgid "unconfigured Autocrafter"
+msgstr ""
+
+#: autocrafter.lua
+msgid "'@1' Autocrafter (@2)"
+msgstr ""
+
+#: autocrafter.lua
+msgid "paused '@1' Autocrafter"
+msgstr ""
+
+#: autocrafter.lua
+msgid "Autocrafter"
+msgstr ""
+
+#: compat.lua
+msgid "Locked Chest (owned by "
+msgstr ""
+
+#: crafts.lua
+msgid "Oil extract"
+msgstr ""
+
+#: crafts.lua
+msgid "Unprocessed paraffin"
+msgstr ""
+
+#: decorative_tubes.lua
+msgid "Airtight steelblock embedded tube"
+msgstr ""
+
+#: decorative_tubes.lua
+msgid "Airtight panel embedded tube "
+msgstr ""
+
+#: devices.lua
+msgid "Pump/Intake Module"
+msgstr ""
+
+#: devices.lua
+msgid "Valve"
+msgstr ""
+
+#: devices.lua
+msgid "Decorative grating"
+msgstr ""
+
+#: devices.lua
+msgid "Airtight Pipe entry/exit"
+msgstr ""
+
+#: devices.lua
+msgid "Flow Sensor"
+msgstr ""
+
+#: devices.lua
+msgid "Flow sensor (on)"
+msgstr ""
+
+#: devices.lua
+msgid "0% full"
+msgstr ""
+
+#: devices.lua
+msgid "Expansion Tank (@1)... You hacker, you."
+msgstr ""
+
+#: devices.lua
+msgid "Fluid Storage Tank (@1)"
+msgstr ""
+
+#: devices.lua
+msgid "Fountainhead"
+msgstr ""
+
+#: devices.lua
+msgid "empty)"
+msgstr ""
+
+#: filter-injector.lua
+msgid "@1 Filter-Injector"
+msgstr ""
+
+#: filter-injector.lua
+msgid " (slot #"
+msgstr ""
+
+#: filter-injector.lua
+msgid " next)"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Sequence slots by Priority"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Sequence slots Randomly"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Sequence slots by Rotation"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Exact match - off"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Exact match - on "
+msgstr ""
+
+#: filter-injector.lua
+msgid "Itemwise"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Stackwise"
+msgstr ""
+
+#: filter-injector.lua
+msgid "Digiline"
+msgstr ""
+
+#: legacy.lua
+msgid "Auto-Tap"
+msgstr ""
+
+#: pipes.lua
+msgid "Pipe segement @1... You hacker, you."
+msgstr ""
+
+#: pipes.lua
+msgid "Pipe segment"
+msgstr ""
+
+#: pipes.lua
+msgid "Pipe Segment (legacy)"
+msgstr ""
+
+#: routing_tubes.lua
+msgid "High Priority Tube Segment"
+msgstr ""
+
+#: routing_tubes.lua
+msgid "Accelerating Pneumatic Tube Segment"
+msgstr ""
+
+#: routing_tubes.lua
+msgid "Crossing Pneumatic Tube Segment"
+msgstr ""
+
+#: routing_tubes.lua
+msgid "One way tube"
+msgstr ""
+
+#: signal_tubes.lua
+msgid "Detecting Pneumatic Tube Segment on (you hacker you)"
+msgstr ""
+
+#: signal_tubes.lua
+msgid "Detecting Pneumatic Tube Segment"
+msgstr ""
+
+#: signal_tubes.lua
+msgid "Digiline Detecting Pneumatic Tube Segment"
+msgstr ""
+
+#: signal_tubes.lua
+msgid "Conducting Pneumatic Tube Segment"
+msgstr ""
+
+#: signal_tubes.lua
+msgid "Conducting Pneumatic Tube Segment on (you hacker you)"
+msgstr ""
+
+#: sorting_tubes.lua
+msgid "Sorting Pneumatic Tube Segment"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "Channel"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "channels are public by default"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "use <player>:<channel> for fully private channels"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "use <player>\\;<channel> for private receivers"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "Teleporting Pneumatic Tube Segment"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "unconfigured Teleportation Tube"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "Sorry, channel '@1' is reserved for exclusive use by @2"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "Sorry, receiving from channel '@1' is reserved for @2"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "sending and receiving"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "sending"
+msgstr ""
+
+#: teleport_tube.lua
+msgid "Teleportation Tube @1 on '@2'"
+msgstr ""
+
+#: trashcan.lua
+msgid "Trash Can"
+msgstr ""
+
+#: tube_registration.lua
+msgid "@1 @2... You hacker, you."
+msgstr ""
+
+#: tube_registration.lua
+msgid "Pneumatic tube segment (legacy)"
+msgstr ""
+
+#: vacuum_tubes.lua
+msgid "Vacuuming Pneumatic Tube Segment"
+msgstr ""
+
+#: vacuum_tubes.lua
+msgid "Adjustable Vacuuming Pneumatic Tube Segment"
+msgstr ""
+
+#: vacuum_tubes.lua
+msgid "Adjustable Vacuuming Pneumatic Tube Segment (@1m)"
+msgstr ""
+
+#: vacuum_tubes.lua
+msgid "Vacuum tubes"
+msgstr ""
+
+#: wielder.lua
+msgid "Node Breaker"
+msgstr ""
+
+#: wielder.lua
+msgid "Deployer"
+msgstr ""
+
+#: wielder.lua
+msgid "Dispenser"
+msgstr ""

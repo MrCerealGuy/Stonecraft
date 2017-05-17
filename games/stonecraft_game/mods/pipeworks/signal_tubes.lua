@@ -1,7 +1,18 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if pipeworks.enable_detector_tube then
 	local detector_tube_step = 2 * tonumber(minetest.setting_get("dedicated_server_step"))
 	pipeworks.register_tube("pipeworks:detector_tube_on", {
-			description = "Detecting Pneumatic Tube Segment on (you hacker you)",
+			description = S("Detecting Pneumatic Tube Segment on (you hacker you)"),
 			inventory_image = "pipeworks_detector_tube_inv.png",
 			plain = { "pipeworks_detector_tube_plain.png" },
 			node_def = {
@@ -40,7 +51,7 @@ if pipeworks.enable_detector_tube then
 			},
 	})
 	pipeworks.register_tube("pipeworks:detector_tube_off", {
-			description = "Detecting Pneumatic Tube Segment",
+			description = S("Detecting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_detector_tube_inv.png",
 			plain = { "pipeworks_detector_tube_plain.png" },
 			node_def = {
@@ -69,7 +80,7 @@ end
 
 if minetest.get_modpath("digilines") and pipeworks.enable_digiline_detector_tube then
 	pipeworks.register_tube("pipeworks:digiline_detector_tube", {
-			description = "Digiline Detecting Pneumatic Tube Segment",
+			description = S("Digiline Detecting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_digiline_detector_tube_inv.png",
 			plain = { "pipeworks_digiline_detector_tube_plain.png" },
 			node_def = {
@@ -118,7 +129,7 @@ end
 
 if pipeworks.enable_conductor_tube then
 	pipeworks.register_tube("pipeworks:conductor_tube_off", {
-			description = "Conducting Pneumatic Tube Segment",
+			description = S("Conducting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_conductor_tube_inv.png",
 			short = "pipeworks_conductor_tube_short.png",
 			plain = { "pipeworks_conductor_tube_plain.png" },
@@ -132,7 +143,7 @@ if pipeworks.enable_conductor_tube then
 			},
 	})
 	pipeworks.register_tube("pipeworks:conductor_tube_on", {
-			description = "Conducting Pneumatic Tube Segment on (you hacker you)",
+			description = S("Conducting Pneumatic Tube Segment on (you hacker you)"),
 			inventory_image = "pipeworks_conductor_tube_inv.png",
 			short = "pipeworks_conductor_tube_short.png",
 			plain = { "pipeworks_conductor_tube_on_plain.png" },

@@ -1,6 +1,17 @@
 -- this bit of code modifies the default chests and furnaces to be compatible
 -- with pipeworks.
 
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.override_item("default:furnace", {
 	tiles = {
 		"default_furnace_top.png^pipeworks_tube_connection_stony.png",
@@ -134,7 +145,7 @@ minetest.override_item("default:chest_locked", {
 	after_place_node = function (pos, placer)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Locked Chest (owned by "..
+		meta:set_string("infotext", S("Locked Chest (owned by ")..
 		meta:get_string("owner")..")")
 		pipeworks.after_place(pos)
 	end,

@@ -1,5 +1,16 @@
 -- This file supplies the steel pipes
 
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local REGISTER_COMPATIBILITY = true
 
 local pipes_empty_nodenames = {}
@@ -30,12 +41,12 @@ for index, connects in ipairs(cconnects) do
 	end
 	
 	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1}
-	local pipedesc = "Pipe segement".." "..dump(connects).."... You hacker, you."
+	local pipedesc = S("Pipe segement @1... You hacker, you.", dump(connects))
 	local image = nil
 
 	if #connects == 0 then
 		pgroups = {snappy = 3, tube = 1}
-		pipedesc = "Pipe segment"
+		pipedesc = S("Pipe segment")
 		image = "pipeworks_pipe_inv.png"
 	end
 	
@@ -128,7 +139,7 @@ if REGISTER_COMPATIBILITY then
 		paramtype = "light",
 		inventory_image = "pipeworks_pipe_inv.png",
 		wield_image = "pipeworks_pipe_inv.png",
-		description = "Pipe Segment (legacy)",
+		description = S("Pipe Segment (legacy)"),
 		groups = {not_in_creative_inventory = 1, pipe_to_update = 1},
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)

@@ -1,17 +1,28 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local function delay(x)
 	return (function() return x end)
 end
 
 local function set_filter_infotext(data, meta)
-	local infotext = data.wise_desc.." Filter-Injector"
+	local infotext = S("@1 Filter-Injector", data.wise_desc)
 	if meta:get_int("slotseq_mode") == 2 then
-		infotext = infotext .. " (slot #"..meta:get_int("slotseq_index").." next)"
+		infotext = infotext .. S(" (slot #")..meta:get_int("slotseq_index")..S(" next)")
 	end
 	meta:set_string("infotext", infotext)
 end
 
 local function set_filter_formspec(data, meta)
-	local itemname = data.wise_desc.." Filter-Injector"
+	local itemname = S("@1 Filter-Injector", data.wise_desc)
 
 	local formspec
 	if data.digiline then
@@ -20,19 +31,19 @@ local function set_filter_formspec(data, meta)
 			"label[1,0;"..minetest.formspec_escape(itemname).."]"..
 			"field[0.3,1.5;8.0,1;channel;Channel;${channel}]"..
 			fs_helpers.cycling_button(meta, "button[0,2;4,1", "slotseq_mode",
-				{"Sequence slots by Priority",
-				 "Sequence slots Randomly",
-				 "Sequence slots by Rotation"})..
+				{S("Sequence slots by Priority"),
+				 S("Sequence slots Randomly"),
+				 S("Sequence slots by Rotation")})..
 			fs_helpers.cycling_button(meta, "button[4,2;4,1", "exmatch_mode",
-				{"Exact match - off",
-				 "Exact match - on "})
+				{S("Exact match - off"),
+				 S("Exact match - on ")})
 	else
 		local exmatch_button = ""
 		if data.stackwise then
 			exmatch_button =
 				fs_helpers.cycling_button(meta, "button[4,3.5;4,1", "exmatch_mode",
-					{"Exact match - off",
-					 "Exact match - on "})
+					{S("Exact match - off"),
+					 S("Exact match - on ")})
 		end
 
 		formspec = "size[8,8.5]"..
@@ -41,9 +52,9 @@ local function set_filter_formspec(data, meta)
 			"label[0,1;Prefer item types:]"..
 			"list[context;main;0,1.5;8,2;]"..
 			fs_helpers.cycling_button(meta, "button[0,3.5;4,1", "slotseq_mode",
-				{"Sequence slots by Priority",
-				 "Sequence slots Randomly",
-				 "Sequence slots by Rotation"})..
+				{S("Sequence slots by Priority"),
+				 S("Sequence slots Randomly"),
+				 S("Sequence slots by Rotation")})..
 			exmatch_button..
 			"list[current_player;main;0,4.5;8,4;]" ..
 			"listring[]"
@@ -300,23 +311,23 @@ end
 for _, data in ipairs({
 	{
 		name = "filter",
-		wise_desc = "Itemwise",
+		wise_desc = S("Itemwise"),
 		stackwise = false,
 	},
 	{
 		name = "mese_filter",
-		wise_desc = "Stackwise",
+		wise_desc = S("Stackwise"),
 		stackwise = true,
 	},
 	{ -- register even if no digilines
 		name = "digiline_filter",
-		wise_desc = "Digiline",
+		wise_desc = S("Digiline"),
 		stackwise = true,
 		digiline = true,
 	},
 }) do
 	local node = {
-		description = data.wise_desc.." Filter-Injector",
+		description = S("@1 Filter-Injector", data.wise_desc),
 		tiles = {
 			"pipeworks_"..data.name.."_top.png",
 			"pipeworks_"..data.name.."_top.png",

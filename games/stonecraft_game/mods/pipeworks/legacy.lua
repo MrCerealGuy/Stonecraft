@@ -1,3 +1,13 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 if not minetest.get_modpath("auto_tree_tap") and 
   minetest.get_modpath("technic") then
@@ -20,7 +30,7 @@ if not minetest.get_modpath("auto_tree_tap") and
 	})
 
 	minetest.register_node(":auto_tree_tap:off", {
-		description = "Auto-Tap",
+		description = S("Auto-Tap"),
 		tiles = {"pipeworks_nodebreaker_top_off.png","pipeworks_nodebreaker_bottom_off.png","pipeworks_nodebreaker_side2_off.png","pipeworks_nodebreaker_side1_off.png",
 			"pipeworks_nodebreaker_back.png","pipeworks_nodebreaker_front_off.png"},
 		is_ground_content = true,

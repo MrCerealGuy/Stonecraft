@@ -1,3 +1,14 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Crafting recipes for pipes
 
 minetest.register_craft( {
@@ -88,19 +99,19 @@ minetest.register_craft( {
 if minetest.get_modpath("homedecor") == nil then
 
 	minetest.register_craftitem(":homedecor:oil_extract", {
-		    description = "Oil extract",
+		    description = S("Oil extract"),
 		    inventory_image = "homedecor_oil_extract.png",
 	})
 
 	minetest.register_craftitem(":homedecor:paraffin", {
-		    description = "Unprocessed paraffin",
+		    description = S("Unprocessed paraffin"),
 		    inventory_image = "homedecor_paraffin.png",
 	})
 
 	minetest.register_alias("homedecor:plastic_base", "homedecor:paraffin")
 
 	minetest.register_craftitem(":homedecor:plastic_sheeting", {
-		    description = "Plastic sheet",
+		    description = ("Plastic sheet"),
 		    inventory_image = "homedecor_plastic_sheeting.png",
 	})
 

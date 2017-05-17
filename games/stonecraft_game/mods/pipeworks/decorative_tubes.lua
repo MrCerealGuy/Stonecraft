@@ -1,7 +1,18 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local straight = function(pos, node, velocity, stack) return {velocity} end
 
 minetest.register_node("pipeworks:steel_block_embedded_tube", {
-	description = "Airtight steelblock embedded tube",
+	description = S("Airtight steelblock embedded tube"),
 	tiles = {
 		"default_steel_block.png", "default_steel_block.png",
 		"default_steel_block.png", "default_steel_block.png",
@@ -44,7 +55,7 @@ local pane_box = {
 }
 minetest.register_node("pipeworks:steel_pane_embedded_tube", {
 	drawtype = "nodebox",
-	description = "Airtight panel embedded tube ",
+	description = S("Airtight panel embedded tube "),
 	tiles = {
 		"pipeworks_pane_embedded_tube_sides.png^[transformR90",
 		"pipeworks_pane_embedded_tube_sides.png^[transformR90",

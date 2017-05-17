@@ -1,3 +1,14 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- the default tube and default textures
 pipeworks.register_tube("pipeworks:tube", "Pneumatic tube segment")
 minetest.register_craft( {
@@ -15,7 +26,7 @@ minetest.register_craft( {
 if pipeworks.enable_priority_tube then
 	local color = "#ff3030:128"
 	pipeworks.register_tube("pipeworks:priority_tube", {
-			description = "High Priority Tube Segment",
+			description = S("High Priority Tube Segment"),
 			inventory_image = "pipeworks_tube_inv.png^[colorize:" .. color,
 			plain = { "pipeworks_tube_plain.png^[colorize:" .. color },
 			noctr = { "pipeworks_tube_noctr.png^[colorize:" .. color },
@@ -37,7 +48,7 @@ end
 
 if pipeworks.enable_accelerator_tube then
 	pipeworks.register_tube("pipeworks:accelerator_tube", {
-			description = "Accelerating Pneumatic Tube Segment",
+			description = S("Accelerating Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_accelerator_tube_inv.png",
 			plain = { "pipeworks_accelerator_tube_plain.png" },
 			noctr = { "pipeworks_accelerator_tube_noctr.png" },
@@ -62,7 +73,7 @@ end
 
 if pipeworks.enable_crossing_tube then
 	pipeworks.register_tube("pipeworks:crossing_tube", {
-			description = "Crossing Pneumatic Tube Segment",
+			description = S("Crossing Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_crossing_tube_inv.png",
 			plain = { "pipeworks_crossing_tube_plain.png" },
 			noctr = { "pipeworks_crossing_tube_noctr.png" },
@@ -84,7 +95,7 @@ end
 
 if pipeworks.enable_one_way_tube then
 	minetest.register_node("pipeworks:one_way_tube", {
-		description = "One way tube",
+		description = S("One way tube"),
 		tiles = {"pipeworks_one_way_tube_top.png", "pipeworks_one_way_tube_top.png", "pipeworks_one_way_tube_output.png",
 			"pipeworks_one_way_tube_input.png", "pipeworks_one_way_tube_side.png", "pipeworks_one_way_tube_top.png"},
 		paramtype2 = "facedir",
