@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,11 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 -- MESELAMPS
 -- A lamp is "is an electrical device used to create artificial light" (wikipedia)
@@ -61,7 +68,7 @@ minetest.register_node("mesecons_lamp:lamp_off", {
 	node_box = mesecon_lamp_box,
 	selection_box = mesecon_lamp_box,
 	groups = {dig_immediate=3, mesecon_receptor_off = 1, mesecon_effector_off = 1},
-    	description="Meselamp",
+    	description=S("Meselamp"),
 	sounds = default.node_sound_glass_defaults(),
 	mesecons = {effector = {
 		action_on = function (pos, node)

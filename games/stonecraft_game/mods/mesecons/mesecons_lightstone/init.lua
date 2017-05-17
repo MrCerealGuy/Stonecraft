@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local lightstone_rules = {
 	{x=0,  y=0,  z=-1},
@@ -37,7 +43,7 @@ function mesecon.lightstone_add(name, base_item, texture_off, texture_on)
 	minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_off", {
 		tiles = {texture_off},
 		groups = {cracky=2, mesecon_effector_off = 1, mesecon = 2},
-		description=name.." Lightstone",
+		description=name..S(" Lightstone"),
 		sounds = default.node_sound_stone_defaults(),
 		mesecons = {effector = {
 			rules = lightstone_rules,

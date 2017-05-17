@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Solar Panel
 minetest.register_node("mesecons_solarpanel:solar_panel_on", {
@@ -70,7 +76,7 @@ minetest.register_node("mesecons_solarpanel:solar_panel_off", {
 		wall_side   = { -8/16, -7/16, -7/16, -7/16,  7/16, 7/16 },
 	},
 	groups = {dig_immediate=3},
-    	description="Solar Panel",
+    	description=S("Solar Panel"),
 	sounds = default.node_sound_glass_defaults(),
 	mesecons = {receptor = {
 		state = mesecon.state.off

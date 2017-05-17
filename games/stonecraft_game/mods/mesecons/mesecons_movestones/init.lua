@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,11 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- MOVESTONE
 -- Non-sticky:
@@ -141,7 +148,7 @@ end
 mesecon.register_movestone("mesecons_movestones:movestone", {
 	tiles = {"jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_movestone_arrows.png", "jeija_movestone_arrows.png"},
 	groups = {cracky=3},
-    	description="Movestone",
+    	description=S("Movestone"),
 	sounds = default.node_sound_stone_defaults()
 }, false)
 
@@ -159,7 +166,7 @@ mesecon.register_movestone("mesecons_movestones:sticky_movestone", {
 	tiles = {"jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_movestone_side.png", "jeija_sticky_movestone.png", "jeija_sticky_movestone.png"},
 	inventory_image = minetest.inventorycube("jeija_sticky_movestone.png", "jeija_movestone_side.png", "jeija_movestone_side.png"),
 	groups = {cracky=3},
-    	description="Sticky Movestone",
+    	description=S("Sticky Movestone"),
 	sounds = default.node_sound_stone_defaults(),
 }, true)
 

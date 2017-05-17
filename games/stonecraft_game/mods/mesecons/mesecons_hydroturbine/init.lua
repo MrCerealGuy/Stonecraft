@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- HYDRO_TURBINE
 -- Water turbine:
@@ -34,7 +40,7 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_off", {
 	inventory_image = "jeija_hydro_turbine_inv.png",
 	wield_scale = {x=0.75, y=0.75, z=0.75},
 	groups = {dig_immediate=2},
-	description="Water Turbine",
+	description=S("Water Turbine"),
 	paramtype = "light",
 	selection_box = {
 		type = "fixed",
@@ -59,7 +65,7 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_on", {
 	inventory_image = "jeija_hydro_turbine_inv.png",
 	drop = "mesecons_hydroturbine:hydro_turbine_off 1",
 	groups = {dig_immediate=2,not_in_creative_inventory=1},
-	description="Water Turbine",
+	description=S("Water Turbine"),
 	paramtype = "light",
 	selection_box = {
 		type = "fixed",

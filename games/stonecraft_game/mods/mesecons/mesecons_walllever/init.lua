@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,15 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- WALL LEVER
 -- Basically a switch that can be attached to a wall
 -- Powers the block 2 nodes behind (using a receiver)
 mesecon.register_node("mesecons_walllever:wall_lever", {
-	description="Lever",
+	description=S("Lever"),
 	drawtype = "mesh",
 	inventory_image = "jeija_wall_lever_inv.png",
 	wield_image = "jeija_wall_lever_inv.png",

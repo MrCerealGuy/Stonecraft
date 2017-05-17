@@ -31,6 +31,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -44,6 +46,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local BASENAME = "mesecons_luacontroller:luacontroller"
 
@@ -597,7 +603,7 @@ for d = 0, 1 do
 	}
 
 	minetest.register_node(node_name, {
-		description = "LuaController",
+		description = S("LuaController"),
 		drawtype = "nodebox",
 		tiles = {
 			top,

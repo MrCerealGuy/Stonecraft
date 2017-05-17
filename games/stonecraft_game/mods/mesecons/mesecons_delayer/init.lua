@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Function that get the input/output rules of the delayer
 local delayer_get_output_rules = function(node)
@@ -79,7 +85,7 @@ boxes = {{ -6/16, -8/16, -6/16, 6/16, -7/16, 6/16 },		-- the main slab
 	 { 6/16, -8/16, -1/16, 8/16, -7/16, 1/16 }}
 
 minetest.register_node("mesecons_delayer:delayer_off_"..tostring(i), {
-	description = "Delayer",
+	description = S("Delayer"),
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_delayer_off_"..tostring(i)..".png",
@@ -136,7 +142,7 @@ minetest.register_node("mesecons_delayer:delayer_off_"..tostring(i), {
 
 
 minetest.register_node("mesecons_delayer:delayer_on_"..tostring(i), {
-	description = "You hacker you",
+	description = S("You hacker you"),
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_delayer_on_"..tostring(i)..".png",

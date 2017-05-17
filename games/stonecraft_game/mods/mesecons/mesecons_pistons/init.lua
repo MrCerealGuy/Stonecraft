@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Get mesecon rules of pistons
 piston_rules =
@@ -183,7 +189,7 @@ local pistonspec_normal = {
 
 -- offstate
 minetest.register_node("mesecons_pistons:piston_normal_off", {
-	description = "Piston",
+	description = S("Piston"),
 	tiles = {
 		"mesecons_piston_top.png",
 		"mesecons_piston_bottom.png",
@@ -264,7 +270,7 @@ local pistonspec_sticky = {
 
 -- offstate
 minetest.register_node("mesecons_pistons:piston_sticky_off", {
-	description = "Sticky Piston",
+	description = S("Sticky Piston"),
 	tiles = {
 		"mesecons_piston_top.png",
 		"mesecons_piston_bottom.png",

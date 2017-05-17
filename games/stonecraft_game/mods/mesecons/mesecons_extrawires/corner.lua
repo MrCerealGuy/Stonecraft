@@ -1,3 +1,15 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 local corner_nodebox = {
 	type = "fixed",
 	fixed = {{ -16/32-0.001, -17/32, -3/32, 0, -13/32, 3/32 },
@@ -49,7 +61,7 @@ minetest.register_node("mesecons_extrawires:corner_on", {
 
 minetest.register_node("mesecons_extrawires:corner_off", {
 	drawtype = "nodebox",
-	description = "Mesecon Corner",
+	description = S("Mesecon Corner"),
 	tiles = {
 		"jeija_insulated_wire_curved_tb_off.png",
 		"jeija_insulated_wire_curved_tb_off.png^[transformR270",

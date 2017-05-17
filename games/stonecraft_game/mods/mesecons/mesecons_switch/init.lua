@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,11 +19,15 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- mesecons_switch
 
 mesecon.register_node("mesecons_switch:mesecon_switch", {
 	paramtype2="facedir",
-	description="Switch",
+	description=S("Switch"),
 	sounds = default.node_sound_stone_defaults(),
 	on_rightclick = function (pos, node)
 		if(mesecon.flipstate(pos, node) == "on") then

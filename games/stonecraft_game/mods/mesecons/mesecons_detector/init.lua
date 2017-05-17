@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,6 +19,10 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local GET_COMMAND = "GET"
 
 -- Object detector
@@ -25,8 +31,8 @@ local GET_COMMAND = "GET"
 
 local function object_detector_make_formspec(pos)
 	minetest.get_meta(pos):set_string("formspec", "size[9,2.5]" ..
-		"field[0.3,  0;9,2;scanname;Name of player to scan for (empty for any):;${scanname}]"..
-		"field[0.3,1.5;4,2;digiline_channel;Digiline Channel (optional):;${digiline_channel}]"..
+		"field[0.3,  0;9,2;scanname;"..S("Name of player to scan for (empty for any)")..":;${scanname}]"..
+		"field[0.3,1.5;4,2;digiline_channel;"..S("Digiline Channel (optional)")..":;${digiline_channel}]"..
 		"button_exit[7,0.75;2,3;;Save]")
 end
 
@@ -81,7 +87,7 @@ minetest.register_node("mesecons_detector:object_detector_off", {
 	paramtype = "light",
 	walkable = true,
 	groups = {cracky=3},
-	description="Player Detector",
+	description=S("Player Detector"),
 	mesecons = {receptor = {
 		state = mesecon.state.off,
 		rules = mesecon.rules.pplate
@@ -221,7 +227,7 @@ minetest.register_node("mesecons_detector:node_detector_off", {
 	paramtype2 = "facedir",
 	walkable = true,
 	groups = {cracky=3},
-	description="Node Detector",
+	description=S("Node Detector"),
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},

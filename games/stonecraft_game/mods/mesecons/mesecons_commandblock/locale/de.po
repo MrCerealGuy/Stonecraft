@@ -1,0 +1,79 @@
+# German translation for mesecons/mesecons_commandblock mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-17 16:45+0200\n"
+"PO-Revision-Date: 2017-05-17 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Say <text> as the server"
+msgstr ""
+
+#: init.lua
+msgid "Say <text> to <name> privately"
+msgstr ""
+
+#: init.lua
+msgid "Set health of <name> to <value> hitpoints"
+msgstr ""
+
+#: init.lua
+msgid "Invalid usage: "
+msgstr ""
+
+#: init.lua
+msgid "Invalid target: "
+msgstr ""
+
+#: init.lua
+msgid "Commands"
+msgstr ""
+
+#: init.lua
+msgid ""
+"@nearest, @farthest, and @random are replaced by the respective player names"
+msgstr ""
+
+#: init.lua
+msgid "not owned"
+msgstr ""
+
+#: init.lua
+msgid "owned by "
+msgstr ""
+
+#: init.lua
+msgid "tell @nearest Commandblock unconfigured"
+msgstr ""
+
+#: init.lua
+msgid "The command @1 does not exist"
+msgstr ""
+
+#: init.lua
+msgid "You don't have permission "
+msgstr ""
+
+#: init.lua
+msgid "to run "
+msgstr ""
+
+#: init.lua
+msgid " (missing privileges: "
+msgstr ""
+
+#: init.lua
+msgid "Command Block"
+msgstr ""

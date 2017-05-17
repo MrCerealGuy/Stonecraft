@@ -1,3 +1,14 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 function crossover_get_rules(node)
 	return {
 		{--first wire
@@ -19,7 +30,7 @@ local crossover_states = {
 }
 
 minetest.register_node("mesecons_extrawires:crossover_off", {
-	description = "Insulated Crossover",
+	description = S("Insulated Crossover"),
 	drawtype = "nodebox",
 	tiles = {
 		"jeija_insulated_wire_crossing_tb_off.png",
@@ -51,7 +62,7 @@ minetest.register_node("mesecons_extrawires:crossover_off", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_01", {
-	description = "You hacker you!",
+	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "nodebox",
 	tiles = {
@@ -87,7 +98,7 @@ minetest.register_node("mesecons_extrawires:crossover_01", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_10", {
-	description = "You hacker you!",
+	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "nodebox",
 	tiles = {
@@ -123,7 +134,7 @@ minetest.register_node("mesecons_extrawires:crossover_10", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_on", {
-	description = "You hacker you!",
+	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "nodebox",
 	tiles = {

@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-17 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 --MESECON TORCHES
 
@@ -96,7 +102,7 @@ minetest.register_node("mesecons_torch:mesecon_torch_on", {
 	selection_box = torch_selectionbox,
 	groups = {dig_immediate=3},
 	light_source = default.LIGHT_MAX-5,
-	description="Mesecon Torch",
+	description=S("Mesecon Torch"),
 	mesecons = {receptor = {
 		state = mesecon.state.on,
 		rules = torch_get_output_rules
