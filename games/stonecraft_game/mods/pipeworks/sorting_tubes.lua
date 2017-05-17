@@ -1,3 +1,15 @@
+--[[
+
+2017-05-17 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 if pipeworks.enable_mese_tube then
 	local function update_formspec(pos)
 		local meta = minetest.get_meta(pos)
@@ -49,7 +61,7 @@ if pipeworks.enable_mese_tube then
 	end
 
 	pipeworks.register_tube("pipeworks:mese_tube", {
-			description = "Sorting Pneumatic Tube Segment",
+			description = S("Sorting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_mese_tube_inv.png",
 			noctr = {"pipeworks_mese_tube_noctr_1.png", "pipeworks_mese_tube_noctr_2.png", "pipeworks_mese_tube_noctr_3.png",
 				"pipeworks_mese_tube_noctr_4.png", "pipeworks_mese_tube_noctr_5.png", "pipeworks_mese_tube_noctr_6.png"},
