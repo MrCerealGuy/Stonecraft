@@ -11,6 +11,17 @@
 --   Code: GPL
 --   Texture: CC-BY-SA
 
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 minetest.register_on_punchnode(function(pos, oldnode, digger)
     if oldnode.name == "ropes:rope" then
@@ -104,7 +115,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("ropes:rope", {
-    description = "Rope",
+    description = S("Rope"),
     drawtype = "signlike",
     tiles = {"rope.png"},
     inventory_image = "rope.png",
@@ -133,7 +144,7 @@ minetest.register_node("ropes:rope", {
 
 if minetest.get_modpath("moreblocks") ~= nil then
 	minetest.register_node(":moreblocks:rope", {
-		description = "Rope",
+		description = S("Rope"),
 		drawtype = "signlike",
 		tiles = {"moreblocks_rope.png"},
 		inventory_image = "moreblocks_rope.png",
