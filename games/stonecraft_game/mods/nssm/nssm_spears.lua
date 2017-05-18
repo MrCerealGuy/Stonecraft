@@ -1,3 +1,13 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 --function
 function spears_shot (itemstack, player)
@@ -83,7 +93,7 @@ end
 function spears_register_spear(kind, desc, eq, toughness, material)
 
 	minetest.register_tool("nssm:spear_" .. kind, {
-		description = desc .. " spear",
+		description = desc .. S(" spear"),
                 wield_image = "spear_" .. kind .. ".png",
 		inventory_image = "spear_" .. kind .. ".png^[transform4",
 		wield_scale= {x=2,y=1,z=1},

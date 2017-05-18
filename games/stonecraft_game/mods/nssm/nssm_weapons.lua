@@ -1,3 +1,14 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 --Parameters used by some weapons
 local default_dir = {
     x = 1,
@@ -353,7 +364,7 @@ nssm_register_weapon("kamehameha", {
         nssm:explosion(pos, 6, 1)
     end,
     material = "default:diamondblock",
-    description = "Kamehameha from DragonBall",
+    description = S("Kamehameha from DragonBall"),
 
 })
 
@@ -365,7 +376,7 @@ nssm_register_weapon("kienzan", {
     hit_node = function(self, pos, node)
     end,
     material = "nssm:king_duck_crown",
-    description = "Kienzan from DragonBall",
+    description = S("Kienzan from DragonBall"),
 })
 
 nssm_register_weapon("spirit_ball", {
@@ -379,7 +390,7 @@ nssm_register_weapon("spirit_ball", {
     end,
 
     material = "nssm:cursed_pumpkin_seed",
-    description = "Spirit Ball from DragonBall",
+    description = S("Spirit Ball from DragonBall"),
 })
 
 nssm_register_weapon("hellzone_grenade", {
@@ -397,5 +408,5 @@ nssm_register_weapon("hellzone_grenade", {
         activate_balls(pos)
     end,
     material = "nssm:snake_scute",
-    description = "Hellzone grenade (Press q to activate)",
+    description = S("Hellzone grenade (Press q to activate)"),
 })

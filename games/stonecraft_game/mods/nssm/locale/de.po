@@ -1,0 +1,410 @@
+# German translation for nssm mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-17 16:45+0200\n"
+"PO-Revision-Date: 2018-05-17 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: rainbow_staff.lua
+msgid "Rainbow Staff"
+msgstr ""
+
+#: nssm_weapons.lua
+msgid "Kamehameha from DragonBall"
+msgstr ""
+
+#: nssm_weapons.lua
+msgid "Kienzan from DragonBall"
+msgstr ""
+
+#: nssm_weapons.lua
+msgid "Spirit Ball from DragonBall"
+msgstr ""
+
+#: nssm_weapons.lua
+msgid "Hellzone grenade (Press q to activate)"
+msgstr ""
+
+#: nssm_spears.lua
+msgid " spear"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Sky Feather"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Snake Scute"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Eyed Tentacle"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "King Duck Crown"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Great Energy Globe"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Superior Energy Globe"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Queen Abdomen"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone Skull"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone Skull Fragments"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone Skull Crowned"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Kraken Tentacle"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Lava Titan Eye"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Duck Beak"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ice Tooth"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Little Ice Tooth"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Black Sand"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Black Ice Tooth"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Tarantula Chelicerae"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Crab Chela"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Cursed Pumpkin Seed"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mantis Claw"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Manticore Spine"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Night Feather"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Sun Feather"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone Fang"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "White Wolf Fur"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Stoneater Mandible"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Mandible"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Life Energy"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Wolf Fur"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Energy Globe"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Dirt"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Venomous Gas"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Modders Block"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Web"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ink"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mese Meteor"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Sun Sword"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone Fang Sword"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Night Sword"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Light Crab Mace"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Heavy Crab Mace"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Rope"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Stoneater Pickaxe"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mantis Sword"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Sword"
+msgstr ""
+
+#: nssm_materials.lua
+msgid " Egg"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Stoneater"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Signosigno"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Bloco"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Sand Bloco"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Swimming Duck"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Duck"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Duckking"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Enderduck"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Spiderduck"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Echidna"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Werewolf"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "White Werewolf"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Snow Biter"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Icelamander"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Icesnake"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Lava Titan"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Masticone"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mantis Beast"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mantis"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Larva"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Phoenix"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Night Master"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Scrausics"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Moonheron"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Sandworm"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Giant Sandworm"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Queen"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Soldier"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Ant Worker"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Crocodile"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Dolidrosaurus"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Crab"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Octopus"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Xgaloctopus"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Black Widow"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Uloboros"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Tarantula"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Daddy Long Legs"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Kraken"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Pumpking"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Manticore"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Large Pumpboom"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Small Pumpboom"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Medium Pumpboom"
+msgstr ""
+
+#: nssm_materials.lua
+msgid "Mese Egg"
+msgstr ""
