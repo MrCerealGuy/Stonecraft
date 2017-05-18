@@ -65,3 +65,19 @@ msgstr "Taschenfarnstamm (Dicksonia)"
 #: treefern.lua
 msgid "Tree Fern Sapling (Dicksonia)"
 msgstr "Taschenfarnsetzling (Dicksonia)"
+
+#: crafting.lua
+msgid "Fiddlehead"
+msgstr "Farnspitze"
+
+#: crafting.lua
+msgid "Roasted Fiddlehead"
+msgstr "Geröstete Farnspitze"
+
+#: crafting.lua
+msgid "Fern Tuber"
+msgstr "Farnknolle"
+
+#: crafting.lua
+msgid "Roasted Fern Tuber"
+msgstr "Geröstete Farnknolle"

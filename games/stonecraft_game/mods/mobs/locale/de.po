@@ -83,7 +83,7 @@ msgstr "Netz (rechtsklick auf Tier um es ins Inventar zu legen)"
 
 #: crafts.lua
 msgid "Steel Shears (right-click to shear)"
-msgstr "Stahl Schere (rechtsklick um zu scheren)"
+msgstr "Stahlschere (rechtsklick um zu scheren)"
 
 #: lava_flan.lua
 msgid "Lava Flan"

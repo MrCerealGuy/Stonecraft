@@ -3,6 +3,9 @@ More Blocks: node definitions
 
 Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
+
+2017-05-18 MrCerealGuy: added intllib support
+
 --]]
 
 -- Load support for intllib.

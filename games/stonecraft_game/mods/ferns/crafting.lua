@@ -4,6 +4,18 @@
 -- (by Mossmanikin)
 -- License (everything): 	WTFPL			
 -----------------------------------------------------------------------------------------------
+
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_craft({
 	type = "shapeless",
 	output = "ferns:fiddlehead 3",
@@ -27,7 +39,7 @@ minetest.register_craft({
 minetest.register_alias("archaeplantae:fiddlehead",      "ferns:fiddlehead")
 
 minetest.register_craftitem("ferns:fiddlehead", {
-	description = "Fiddlehead",
+	description = S("Fiddlehead"),
 	inventory_image = "ferns_fiddlehead.png",
 	on_use = minetest.item_eat(-1), -- slightly poisonous when raw
 })
@@ -38,7 +50,7 @@ minetest.register_craft({
 	cooktime = 1,
 })
 minetest.register_craftitem("ferns:fiddlehead_roasted", {
-	description = "Roasted Fiddlehead",
+	description = S("Roasted Fiddlehead"),
 	inventory_image = "ferns_fiddlehead_roasted.png",
 	on_use = minetest.item_eat(1), -- edible when cooked
 })
@@ -48,7 +60,7 @@ minetest.register_craftitem("ferns:fiddlehead_roasted", {
 minetest.register_alias("archaeplantae:ferntuber",      "ferns:ferntuber")
 
 minetest.register_craftitem("ferns:ferntuber", {
-	description = "Fern Tuber",
+	description = S("Fern Tuber"),
 	inventory_image = "ferns_ferntuber.png",
 })
 minetest.register_craft({
@@ -61,7 +73,7 @@ minetest.register_craft({
 minetest.register_alias("archaeplantae:ferntuber_roasted",      "ferns:ferntuber_roasted")
 
 minetest.register_craftitem("ferns:ferntuber_roasted", {
-	description = "Roasted Fern Tuber",
+	description = S("Roasted Fern Tuber"),
 	inventory_image = "ferns_ferntuber_roasted.png",
 	on_use = minetest.item_eat(3),
 })

@@ -202,7 +202,7 @@ msgstr "Rack Server"
 #: ../computer/computers.lua
 #, fuzzy
 msgid "Not enough vertical space to place a server!"
-msgstr "Es gibt nicht genug Raum ueber dieser Stelle um den Server zu platzieren!"
+msgstr "Es gibt nicht genug Raum über dieser Stelle um den Server zu platzieren!"
 
 #: ../computer/tetris.lua
 msgid "New Game"
@@ -249,7 +249,7 @@ msgstr ""
 #: ../itemframes/init.lua
 #, fuzzy
 msgid "Item frame (owned by @1)"
-msgstr "%s (gehoert %s)"
+msgstr "Gegenstandsrahmen (gehört @1)"
 
 #: ../itemframes/init.lua
 msgid "Pedestal"
@@ -258,15 +258,15 @@ msgstr "Sockel"
 #: ../itemframes/init.lua
 #, fuzzy
 msgid "Pedestal (owned by @1)"
-msgstr "%s (gehoert %s)"
+msgstr "Sockel (gehört @1)"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma Screen TV Stand"
-msgstr "Plasma Fernseher Ständer"
+msgstr "Plasma-Fernseherständer"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma TV"
-msgstr "Plasma TV"
+msgstr "Plasma-TV"
 
 #: ../plasmascreen/init.lua
 msgid "Plasma TV (off)"
@@ -289,7 +289,7 @@ msgstr "Geladen!"
 #: ../lrfurn/armchairs.lua ../homedecor/furniture.lua
 #, fuzzy
 msgid "Armchair"
-msgstr "Sessel (%s)"
+msgstr "Sessel"
 
 #: ../lrfurn/sofas.lua
 msgid "Sofa"
@@ -393,22 +393,22 @@ msgstr "Stahl"
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
 msgid "Kitchen Cabinet"
-msgstr "Kuechenschrank"
+msgstr "Küchenschrank"
 
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
 msgid "Kitchen Cabinet (@1 top)"
-msgstr "Kuechenschrank"
+msgstr "Küchenschrank"
 
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
 msgid "Half-height Kitchen Cabinet (on ceiling)"
-msgstr "Halbhoher Kuechenschrank (haengend)"
+msgstr "Halbhoher Küchenschrank (hängend)"
 
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
 msgid "Kitchen Cabinet with sink"
-msgstr "Unterschrank mit Spuele"
+msgstr "Unterschrank mit Spüle"
 
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
@@ -422,7 +422,7 @@ msgstr ""
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
 msgid "Kitchen Faucet"
-msgstr "Kuechenschrank"
+msgstr "Küchenschrank"
 
 #: ../homedecor/kitchen_furniture.lua
 msgid "Paper towels"
@@ -431,12 +431,12 @@ msgstr ""
 #: ../homedecor/furniture_medieval.lua
 #, fuzzy
 msgid "Bars"
-msgstr "Gitterstaebe"
+msgstr "Gitterstäbe"
 
 #: ../homedecor/furniture_medieval.lua
 #, fuzzy
 msgid "Binding Bars"
-msgstr "Eckverbindung fuer Gitterstaebe"
+msgstr "Eckverbindung für Gitterstäbe"
 
 #: ../homedecor/furniture_medieval.lua
 #, fuzzy
@@ -456,12 +456,12 @@ msgstr "Tischlampe"
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy
 msgid "Refrigerator (stainless steel)"
-msgstr "Kuehlschrank"
+msgstr "Kühlschrank"
 
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy
 msgid "Refrigerator"
-msgstr "Kuehlschrank"
+msgstr "Kühlschrank"
 
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy
@@ -580,17 +580,17 @@ msgstr "Fenster (einfach)"
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Window Blinds (thick)"
-msgstr "Weisse Gluehlampe (dick)"
+msgstr "Weisse Glühlampe (dick)"
 
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Window Blinds (thin)"
-msgstr "Weisse Gluehlampe (duenn)"
+msgstr "Weisse Glühlampe (dünn)"
 
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Curtains"
-msgstr "Vorhaenge (%s)"
+msgstr "Vorhänge"
 
 #: ../homedecor/window_treatments.lua ../homedecor/fences.lua
 #: ../homedecor/misc-nodes.lua ../homedecor/tables.lua
@@ -606,7 +606,7 @@ msgstr "Schmiedeeiserne Stange"
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Curtain Rod (@1)"
-msgstr "Vorhaenge (%s)"
+msgstr "Vorhänge (@1)"
 
 #: ../homedecor/window_treatments.lua
 msgid "Window flowerbox"
@@ -737,7 +737,7 @@ msgstr "Stahl Kettenglied"
 #: ../homedecor/crafts.lua
 #, fuzzy
 msgid "Brass chainlink"
-msgstr "Messingzaun/Gelaender"
+msgstr "Messingzaun/Geländer"
 
 #: ../homedecor/crafts.lua
 msgid "Soda Can"
@@ -790,7 +790,7 @@ msgstr "Projektorleinwand"
 #: ../homedecor/electronics.lua
 #, fuzzy
 msgid "Small CRT Television"
-msgstr "Kleiner Roehrenfernseher"
+msgstr "Kleiner Röhrenfernseher"
 
 #: ../homedecor/electronics.lua
 msgid "DVD and VCR"
@@ -831,17 +831,17 @@ msgstr "gelb"
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Thick Glowlight"
-msgstr "Weisse Gluehlampe (duenn)"
+msgstr "Weisse Glühlampe (dünn)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Thin Glowlight"
-msgstr "Weisse Gluehlampe (duenn)"
+msgstr "Weisse Glühlampe (dünn)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Small Glowlight Cube"
-msgstr "Gelbe Gluehlampe (kleiner Wuerfel)"
+msgstr "Gelbe Glühlampe (kleiner Würfel)"
 
 #: ../homedecor/lighting.lua
 msgid "Plasma Lamp"
@@ -891,7 +891,7 @@ msgstr "Hängende Laterne"
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Ceiling Lantern"
-msgstr "Unterschrank"
+msgstr "Deckenlampe"
 
 #: ../homedecor/lighting.lua
 msgid "Lattice lantern (large)"
@@ -926,12 +926,12 @@ msgstr "Deckenlampe (aus)"
 #: ../homedecor/fences.lua
 #, fuzzy
 msgid "Fence/railing (@1)"
-msgstr "Messingzaun/Gelaender"
+msgstr "Messingzaun/Geländer"
 
 #: ../homedecor/fences.lua
 #, fuzzy
 msgid "Fence/railing with sign (@1)"
-msgstr "Messingzaun/Gelaender mit Schild"
+msgstr "Messingzaun/Geländer mit Schild"
 
 #: ../homedecor/fences.lua
 #, fuzzy
@@ -986,12 +986,12 @@ msgstr "Maschendrahtzaunecke"
 #: ../homedecor/fences.lua
 #, fuzzy
 msgid "Wrought Iron fence (type 2)"
-msgstr "Schmiedeeiserner Zaun/Gelaender"
+msgstr "Schmiedeeiserner Zaun/Geländer"
 
 #: ../homedecor/fences.lua
 #, fuzzy
 msgid "Wrought Iron fence (type 2) Corner"
-msgstr "Schmiedeeiserner Zaun/Gelaender"
+msgstr "Schmiedeeiserner Zaun/Geländer"
 
 #: ../homedecor/shutters.lua
 #, fuzzy
@@ -1091,6 +1091,14 @@ msgstr "Duschbrause"
 #: ../homedecor/bathroom_sanitation.lua
 msgid "Bathroom sundries set"
 msgstr "Badezimmer-Beilagen-Set"
+
+#: ../homedecor/bathroom_sanitation.lua
+msgid "Bathtub, clawfoot, with brass taps"
+msgstr "Badewanne, freistehend, mit Messinghähnen"
+
+#: ../homedecor/bathroom_sanitation.lua
+msgid "Bathtub, clawfoot, with chrome taps"
+msgstr "Badewanne, freistehend, mit Chromhähnen"
 
 #: ../homedecor/climate-control.lua
 #, fuzzy
@@ -1196,42 +1204,42 @@ msgstr "Bitte stecke eine Münze in die Maschine."
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Mahogany Closet Door (@1 opening)"
-msgstr "Wandschranktuer aus Mahagoni"
+msgstr "Wandschranktür aus Mahagoni"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Oak Closet Door (@1 opening)"
-msgstr "Wandschranktuer aus Eiche"
+msgstr "Wandschranktür aus Eiche"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Fancy Wood/Glass Door (@1 opening)"
-msgstr "Schicke Holz/Glastuer"
+msgstr "Schicke Holz/Glastür"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Glass Office Door (@1 opening)"
-msgstr "Glasbuerotuer"
+msgstr "Glasbürotür"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Glass and Wood, Oak-colored (@1 opening)"
-msgstr "Glas-Holz-Tuer, eichefarben"
+msgstr "Glas-Holz-Tür, eichefarben"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Glass and Wood, Mahogany-colored (@1 opening)"
-msgstr "Glas-Holz-Tuer, mahagonifarben"
+msgstr "Glas-Holz-Tür, mahagonifarben"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Glass and Wood, White (@1 opening)"
-msgstr "Glas-Holz-Tuer, weiss"
+msgstr "Glas-Holz-Tür, weiss"
 
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Plain Wooden Door (@1 opening)"
-msgstr "Einfache Holztuer"
+msgstr "Einfache Holztür"
 
 #: ../homedecor/doors_and_gates.lua
 msgid "White Bedroom Door (@1 opening)"
@@ -1240,7 +1248,7 @@ msgstr ""
 #: ../homedecor/doors_and_gates.lua
 #, fuzzy
 msgid "Wrought Iron Gate/Door (@1 opening)"
-msgstr "Schmiedeeiserner Zaun/Gelaender"
+msgstr "Schmiedeeiserner Zaun/Geländer"
 
 #: ../homedecor/doors_and_gates.lua
 msgid "Wooden door with glass insert (@1 opening)"
@@ -1515,7 +1523,7 @@ msgstr "Messingtischbeine"
 #: ../homedecor/tables.lua
 #, fuzzy
 msgid "Legs for Utility Table"
-msgstr "Tischbeine fuer Arbeitsplatte"
+msgstr "Tischbeine für Arbeitsplatte"
 
 #: ../homedecor/books.lua
 msgid "Writable Book"
@@ -1533,7 +1541,7 @@ msgstr "Tisch"
 #: ../homedecor/furniture.lua
 #, fuzzy
 msgid "Mahogany Table"
-msgstr "Wandschranktuer aus Mahagoni"
+msgstr "Wandschranktür aus Mahagoni"
 
 #: ../homedecor/furniture.lua
 #, fuzzy
@@ -1547,12 +1555,12 @@ msgstr "einfach"
 #: ../homedecor/furniture.lua
 #, fuzzy
 msgid "dark green"
-msgstr "dunkelgruen"
+msgstr "dunkelgrün"
 
 #: ../homedecor/furniture.lua
 #, fuzzy
 msgid "Kitchen chair"
-msgstr "Kuechenschrank"
+msgstr "Küchenschrank"
 
 #: ../homedecor/furniture.lua
 msgid "Bookshelf (open-frame)"
@@ -1565,7 +1573,7 @@ msgstr "Wandregal"
 #: ../homedecor/handlers/inventory.lua
 #, fuzzy
 msgid "@1 moves stuff in @2 at @3"
-msgstr "%s bewegt etwas im Nachttisch"
+msgstr "@1 bewegt etwas im Nachttisch"
 
 #: ../homedecor/handlers/inventory.lua
 msgid "@1 moves @2 to @3 at @4"
@@ -1578,17 +1586,17 @@ msgstr "@1 nimmt @2 von @3 bei @4"
 #: ../homedecor/handlers/inventory.lua
 #, fuzzy
 msgid "@1 (owned by @2)"
-msgstr "%s (gehoert %s)"
+msgstr "@1 (gehört @2)"
 
 #: ../homedecor/handlers/inventory.lua
 #, fuzzy
 msgid "@1 tried to access a @2 belonging to @3 at @4"
-msgstr "%s versuchte Zugang zu %s von %s zu bekommen bei %s"
+msgstr "@1 versuchte Zugang zu @2 von @3 zu bekommen bei @4"
 
 #: ../homedecor/handlers/inventory.lua
 #, fuzzy
 msgid "@1 (Locked)"
-msgstr "%s (verschlossen)"
+msgstr "@1 (verschlossen)"
 
 #: ../homedecor/handlers/expansion.lua
 msgid "Expansion placeholder (you hacker you!)"
@@ -1609,7 +1617,7 @@ msgstr ""
 #: ../homedecor/handlers/expansion.lua
 #, fuzzy
 msgid "Someone already owns that spot."
-msgstr "Tut mir leid, %s gehoert diese Stelle."
+msgstr "Tut mir leid, jemand gehört diese Stelle."
 
 #: ../homedecor/handlers/furnaces.lua
 msgid "Furnace"
@@ -1626,17 +1634,17 @@ msgstr "@1 (aktiv)"
 #: ../homedecor/handlers/furnaces.lua
 #, fuzzy
 msgid "@1 (active: @2%)"
-msgstr "%s ist aktiv: %d%%"
+msgstr "@1 ist aktiv: @2%"
 
 #: ../homedecor/handlers/furnaces.lua
 #, fuzzy
 msgid "@1 (out of fuel)"
-msgstr ": kein Brennmaterial vorhanden"
+msgstr "@1 kein Brennmaterial vorhanden"
 
 #: ../homedecor/handlers/furnaces.lua
 #, fuzzy
 msgid "@1 (output bins are full)"
-msgstr ": Produktfelder sind voll"
+msgstr "@1 Produktfelder sind voll"
 
 #: ../homedecor/office.lua
 #, fuzzy
@@ -1689,7 +1697,7 @@ msgstr "Handtuchstab mit Handtuch"
 #: ../homedecor/bathroom_furniture.lua
 #, fuzzy
 msgid "Medicine cabinet"
-msgstr "Unterschrank"
+msgstr "Medizinschrank"
 
 #, fuzzy
 #~ msgid "white/grey"
@@ -1709,7 +1717,7 @@ msgstr "Unterschrank"
 
 #, fuzzy
 #~ msgid "dark grey"
-#~ msgstr "dunkelgruen"
+#~ msgstr "dunkelgrün"
 
 #, fuzzy
 #~ msgid "light blue"
@@ -1717,43 +1725,43 @@ msgstr "Unterschrank"
 
 #, fuzzy
 #~ msgid "Armchair (@1)"
-#~ msgstr "Sessel (%s)"
+#~ msgstr "Sessel (@1)"
 
 #, fuzzy
 #~ msgid "dark_grey"
-#~ msgstr "dunkelgruen"
+#~ msgstr "dunkelgrün"
 
 #, fuzzy
 #~ msgid "dark_green"
-#~ msgstr "dunkelgruen"
+#~ msgstr "dunkelgrün"
 
 #~ msgid "%s moves stuff in kitchen cabinet at %s "
-#~ msgstr "%s bewegt etwas im Kuechenschrank bei %s"
+#~ msgstr "%s bewegt etwas im Küchenschrank bei %s"
 
 #~ msgid "%s moves stuff to kitchen cabinet at %s "
-#~ msgstr "%s legt etwas in den Kuechenschrank bei %s"
+#~ msgstr "%s legt etwas in den Küchenschrank bei %s"
 
 #~ msgid "%s takes stuff from kitchen cabinet at %s "
-#~ msgstr "%s nimmt etwas aus dem Kuechenschrank bei %s"
+#~ msgstr "%s nimmt etwas aus dem Küchenschrank bei %s"
 
 #~ msgid "Not enough space above that spot to place a door! "
 #~ msgstr ""
-#~ "Es gibt nicht genug Raum ueber dieser Stelle um die Tuer zu platzieren!"
+#~ "Es gibt nicht genug Raum über dieser Stelle um die Tür zu platzieren!"
 
 #~ msgid "Bucket of white paint "
 #~ msgstr "Eimer mit weisser Farbe"
 
 #~ msgid "Legs for Small Utility table "
-#~ msgstr "Tischbeine fuer kleinen Arbeitsplatte"
+#~ msgstr "Tischbeine für kleinen Arbeitsplatte"
 
 #~ msgid "Titanium Dioxide "
 #~ msgstr "Titandioxid"
 
 #~ msgid "Wrought Iron Fence/railing with sign "
-#~ msgstr "Schmiedeeiserner Zaun/Gelaender mit Schild"
+#~ msgstr "Schmiedeeiserner Zaun/Geländer mit Schild"
 
 #~ msgid "want to simply place the wielded item like usual. "
-#~ msgstr "Moechte einfach den getragenen Gegenstand wie gewohnt platzieren."
+#~ msgstr "Möchte einfach den getragenen Gegenstand wie gewohnt platzieren."
 
 #~ msgid "Red "
 #~ msgstr "rot"
@@ -1789,7 +1797,7 @@ msgstr "Unterschrank"
 #~ msgstr "Glastischplatte (gross)"
 
 #~ msgid "Green Plastic Flower Pot "
-#~ msgstr "Gruener Plastikblumentopf"
+#~ msgstr "Grüner Plastikblumentopf"
 
 #~ msgid "Large Area Rug "
 #~ msgstr "Grosser Teppich"
@@ -1816,7 +1824,7 @@ msgstr "Unterschrank"
 #~ msgstr "Holzjalousie (dunkelgrau)"
 
 #~ msgid "Wooden Shutter (Forest green) "
-#~ msgstr "Holzjalousie (waldgruen)"
+#~ msgstr "Holzjalousie (waldgrün)"
 
 #~ msgid "Wooden Shutter (Grey) "
 #~ msgstr "Holzjalousie (grau)"
@@ -1852,34 +1860,34 @@ msgstr "Unterschrank"
 #~ msgstr "jemand"
 
 #~ msgid "White Glowlight (small cube) "
-#~ msgstr "Weisse Gluehlampe (kleiner Wuerfel)"
+#~ msgstr "Weisse Glühlampe (kleiner Würfel)"
 
 #~ msgid "White Glowlight (small cube, on ceiling) "
-#~ msgstr "Weisse Gluehlampe (kleiner Wuerfel, an der Decke)"
+#~ msgstr "Weisse Glühlampe (kleiner Würfel, an der Decke)"
 
 #~ msgid "White Glowlight (thick, on wall) "
-#~ msgstr "Weisse Gluehlampe (dick, an der Wand)"
+#~ msgstr "Weisse Glühlampe (dick, an der Wand)"
 
 #~ msgid "White Glowlight (thin, on wall) "
-#~ msgstr "Weisse Gluehlampe (duenn, an der Wand)"
+#~ msgstr "Weisse Glühlampe (dünn, an der Wand)"
 
 #~ msgid "Yellow Glowlight (small cube, on ceiling) "
-#~ msgstr "Gelbe Gluehlampe (kleiner Wuerfel, an der Decke)"
+#~ msgstr "Gelbe Glühlampe (kleiner Würfel, an der Decke)"
 
 #~ msgid "Yellow Glowlight (thick) "
-#~ msgstr "Gelbe Gluehlampe (dick)"
+#~ msgstr "Gelbe Glühlampe (dick)"
 
 #~ msgid "Yellow Glowlight (thick, on wall) "
-#~ msgstr "Gelbe Gluehlampe (dick, an der Wand)"
+#~ msgstr "Gelbe Glühlampe (dick, an der Wand)"
 
 #~ msgid "Yellow Glowlight (thin) "
-#~ msgstr "Gelbe Gluehlampe (duenn)"
+#~ msgstr "Gelbe Glühlampe (dünn)"
 
 #~ msgid "Yellow Glowlight (thin, on wall) "
-#~ msgstr "Gelbe Gluehlampe (duenn, an der Wand)"
+#~ msgstr "Gelbe Glühlampe (dünn, an der Wand)"
 
 #~ msgid "Locked Fridge "
-#~ msgstr "Verschlossener Kuehlschrank"
+#~ msgstr "Verschlossener Kühlschrank"
 
 #~ msgid "Locked Cabinet "
 #~ msgstr "Verschlossener Schrank"
@@ -1915,10 +1923,10 @@ msgstr "Unterschrank"
 #~ msgstr "%s ist leer"
 
 #~ msgid "%s moves stuff in refrigerator at %s "
-#~ msgstr "%s bewegt etwas im Kuehlschrank bei %s"
+#~ msgstr "%s bewegt etwas im Kühlschrank bei %s"
 
 #~ msgid "%s moves stuff to refrigerator at %s "
-#~ msgstr "%s legt etwas in den Kuehlschrank bei %s"
+#~ msgstr "%s legt etwas in den Kühlschrank bei %s"
 
 #~ msgid "%s takes stuff from refrigerator at %s "
-#~ msgstr "%s nimmt etwas aus dem Kuehlschrank bei %s"
+#~ msgstr "%s nimmt etwas aus dem Kühlschrank bei %s"

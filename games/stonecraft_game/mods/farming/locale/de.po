@@ -39,11 +39,11 @@ msgstr "Stahlhacke"
 
 #: hoes.lua
 msgid "Bronze Hoe"
-msgstr "Bronze Hacke"
+msgstr "Bronzehacke"
 
 #: hoes.lua
 msgid "Mese Hoe"
-msgstr "Mese Hacke"
+msgstr "Mesehacke"
 
 #: hoes.lua
 msgid "Diamond Hoe"
