@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Lever"
-msgstr ""
+msgstr "Hebel"

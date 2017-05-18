@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "All-sides sticky block"
-msgstr ""
+msgstr "Allseits klebriger Block"

@@ -1,4 +1,4 @@
-# German translation for XXX mod
+# German translation for mesecons/mesecons_gates mod
 # Copyright (C) 2017 MrCerealGuy
 # This file is distributed under the same license as the Stonecraft package.
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
@@ -20,4 +20,4 @@ msgstr ""
 
 #: init.lua
 msgid "Mesecons Logic Gate: "
-msgstr ""
+msgstr "Mesecons logisches Gatter: "

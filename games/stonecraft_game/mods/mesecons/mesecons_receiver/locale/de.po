@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "You hacker you"
-msgstr ""
+msgstr "Du Hacker du"

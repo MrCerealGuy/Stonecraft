@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Insulated Mesecon"
-msgstr ""
+msgstr "Isoliertes Mesecon"

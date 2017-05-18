@@ -19,16 +19,16 @@ msgstr ""
 
 #: init.lua
 msgid "Name of player to scan for (empty for any)"
-msgstr ""
+msgstr "Name des zu scannenden Spielers für (leer für alles)"
 
 #: init.lua
 msgid "Digiline Channel (optional)"
-msgstr ""
+msgstr "Digiline Kanal (optional)"
 
 #: init.lua
 msgid "Player Detector"
-msgstr ""
+msgstr "Spieler-Detektor"
 
 #: init.lua
 msgid "Node Detector"
-msgstr ""
+msgstr "Block-Detektor"

@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Blinky Plant"
-msgstr ""
+msgstr "Blinky Pflanze"

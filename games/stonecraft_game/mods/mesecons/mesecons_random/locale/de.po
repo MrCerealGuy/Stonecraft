@@ -19,8 +19,8 @@ msgstr ""
 
 #: init.lua
 msgid "Removestone"
-msgstr ""
+msgstr "Löschstein"
 
 #: init.lua
 msgid "Ghoststone"
-msgstr ""
+msgstr "Geiststein"

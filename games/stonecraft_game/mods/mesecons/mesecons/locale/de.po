@@ -19,4 +19,4 @@ msgstr ""
 
 #: oldwires.lua
 msgid "Mesecons"
-msgstr ""
+msgstr "Mesecons"

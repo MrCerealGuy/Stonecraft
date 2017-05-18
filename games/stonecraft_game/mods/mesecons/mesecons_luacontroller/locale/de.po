@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "LuaController"
-msgstr ""
+msgstr "LuaController"

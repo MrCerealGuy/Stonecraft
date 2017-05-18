@@ -453,6 +453,14 @@ msgstr "Wolke"
 msgid "@1 Sign"
 msgstr "@1schild"
 
+#: nodes.lua
+msgid "Wooden"
+msgstr "Holz"
+
+#: nodes.lua
+msgid "Steel"
+msgstr "Stahl"
+
 #: tools.lua
 msgid "Wooden Pickaxe"
 msgstr "Holzspitzhacke"

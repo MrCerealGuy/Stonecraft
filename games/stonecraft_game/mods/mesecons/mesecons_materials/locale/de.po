@@ -19,12 +19,12 @@ msgstr ""
 
 #: init.lua
 msgid "Glue"
-msgstr ""
+msgstr "Klebstoff"
 
 #: init.lua
 msgid "Fiber"
-msgstr ""
+msgstr "Faser"
 
 #: init.lua
 msgid "Silicon"
-msgstr ""
+msgstr "Silikon"

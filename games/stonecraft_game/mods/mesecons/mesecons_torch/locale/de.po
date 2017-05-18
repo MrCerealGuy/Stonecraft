@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Mesecon Torch"
-msgstr ""
+msgstr "Mesecon Fackel"

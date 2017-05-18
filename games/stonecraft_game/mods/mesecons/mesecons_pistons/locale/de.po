@@ -19,8 +19,8 @@ msgstr ""
 
 #: init.lua
 msgid "Piston"
-msgstr ""
+msgstr "Kolben"
 
 #: init.lua
 msgid "Sticky Piston"
-msgstr ""
+msgstr "Klebriger Kolben"

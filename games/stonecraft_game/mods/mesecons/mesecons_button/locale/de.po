@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Button"
-msgstr ""
+msgstr "Taste"

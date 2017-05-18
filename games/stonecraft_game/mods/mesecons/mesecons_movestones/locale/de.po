@@ -19,8 +19,8 @@ msgstr ""
 
 #: init.lua
 msgid "Movestone"
-msgstr ""
+msgstr "Bewegungsstein"
 
 #: init.lua
 msgid "Sticky Movestone"
-msgstr ""
+msgstr "Klebriger Bewegungsstein"

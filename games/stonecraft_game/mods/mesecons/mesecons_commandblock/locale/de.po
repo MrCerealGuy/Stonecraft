@@ -19,61 +19,61 @@ msgstr ""
 
 #: init.lua
 msgid "Say <text> as the server"
-msgstr ""
+msgstr "Sage <text> als Server"
 
 #: init.lua
 msgid "Say <text> to <name> privately"
-msgstr ""
+msgstr "Sage privat <text> zu <name>"
 
 #: init.lua
 msgid "Set health of <name> to <value> hitpoints"
-msgstr ""
+msgstr "Setze Gesundheit von <name> auf <value> Trefferpunkte"
 
 #: init.lua
 msgid "Invalid usage: "
-msgstr ""
+msgstr "Ungültige Anwendung: "
 
 #: init.lua
 msgid "Invalid target: "
-msgstr ""
+msgstr "Ungültiges Ziel: "
 
 #: init.lua
 msgid "Commands"
-msgstr ""
+msgstr "Befehle"
 
 #: init.lua
 msgid ""
 "@nearest, @farthest, and @random are replaced by the respective player names"
-msgstr ""
+msgstr "@nearest, @farthest und @random werden durch die entsprechenden Spielernamen ersetzt"
 
 #: init.lua
 msgid "not owned"
-msgstr ""
+msgstr "gehört nicht"
 
 #: init.lua
 msgid "owned by "
-msgstr ""
+msgstr "gehört "
 
 #: init.lua
 msgid "tell @nearest Commandblock unconfigured"
-msgstr ""
+msgstr "sage @nearest Befehlblock nicht konfiguriert"
 
 #: init.lua
 msgid "The command @1 does not exist"
-msgstr ""
+msgstr "Der Befehlt @1 existiert nicht"
 
 #: init.lua
 msgid "You don't have permission "
-msgstr ""
+msgstr "Du hast keine Berechtigung "
 
 #: init.lua
 msgid "to run "
-msgstr ""
+msgstr "zur Ausfürhung von "
 
 #: init.lua
 msgid " (missing privileges: "
-msgstr ""
+msgstr " (fehlende Privilegien: "
 
 #: init.lua
 msgid "Command Block"
-msgstr ""
+msgstr "Befehlblock"

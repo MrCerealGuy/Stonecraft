@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Water Turbine"
-msgstr ""
+msgstr "Wasserturbine"

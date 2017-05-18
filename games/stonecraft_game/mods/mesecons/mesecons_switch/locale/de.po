@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Switch"
-msgstr ""
+msgstr "Schalter"

@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Meselamp"
-msgstr ""
+msgstr "Meselampe"

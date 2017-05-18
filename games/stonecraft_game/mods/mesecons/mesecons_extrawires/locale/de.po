@@ -19,20 +19,20 @@ msgstr ""
 
 #: corner.lua
 msgid "Mesecon Corner"
-msgstr ""
+msgstr "Mesecon Ecke"
 
 #: crossover.lua
 msgid "Insulated Crossover"
-msgstr ""
+msgstr "Isolierter Übergang"
 
 #: crossover.lua
 msgid "You hacker you!"
-msgstr ""
+msgstr "Du Hacker du!"
 
 #: tjunction.lua
 msgid "T-junction"
-msgstr ""
+msgstr "T-Kreuzung"
 
 #: vertical.lua
 msgid "Vertical mesecon"
-msgstr ""
+msgstr "Vertikales Mesecon"
