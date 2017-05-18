@@ -673,7 +673,7 @@ if rawget(_G, "bucket") and bucket.register_liquid then
 		"technic:corium_flowing",
 		"technic:bucket_corium",
 		"technic_bucket_corium.png",
-		"Corium Bucket"
+		S("Corium Bucket")
 	)
 end
 

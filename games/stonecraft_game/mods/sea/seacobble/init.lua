@@ -94,50 +94,50 @@ minetest.register_node("seacobble:seacobble_redviolet", {
 stairs.register_stair_and_slab("seacobble", "seacobble:seacobble",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble.png"},
-		"Seacobble stair",
-		"Seacobble slab",
+		S("Seacobble stair"),
+		S("Seacobble slab"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_cyan", "seacobble:seacobble_cyan",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_cyan.png"},
-		"Seacobble stair cyan",
-		"Seacobble slab cyan",
+		S("Seacobble stair cyan"),
+		S("Seacobble slab cyan"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_magenta", "seacobble:seacobble_magenta",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_magenta.png"},
-		"Seacobble stair magenta",
-		"Seacobble slab magenta",
+		S("Seacobble stair magenta"),
+		S("Seacobble slab magenta"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_lime", "seacobble:seacobble_lime",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_lime.png"},
-		"Seacobble stair lime",
-		"Seacobble slab lime",
+		S("Seacobble stair lime"),
+		S("Seacobble slab lime"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_aqua", "seacobble:seacobble_aqua",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_aqua.png"},
-		"Seacobble stair aqua",
-		"Seacobble slab aqua",
+		S("Seacobble stair aqua"),
+		S("Seacobble slab aqua"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_skyblue", "seacobble:seacobble_skyblue",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_skyblue.png"},
-		"Seacobble stair skyblue ",
-		"Seacobble slab skyblue",
+		S("Seacobble stair skyblue"),
+		S("Seacobble slab skyblue"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_redviolet", "seacobble:seacobble_redviolet",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_redviolet.png"},
-		"Seacobble stair redviolet",
-		"Seacobble slab redviolet",
+		S("Seacobble stair redviolet"),
+		S("Seacobble slab redviolet"),
 		default.node_sound_stone_defaults())
 
 

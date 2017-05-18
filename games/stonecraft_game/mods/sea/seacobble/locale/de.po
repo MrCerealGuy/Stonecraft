@@ -23,24 +23,80 @@ msgstr "Meeresbruchstein"
 
 #: init.lua
 msgid "Sea cobblestone cyan"
-msgstr "Meeresbruchstein cyan"
+msgstr "Meeresbruchstein (cyan)"
 
 #: init.lua
 msgid "Sea cobblestone magenta"
-msgstr "Meeresbruchstein magenta"
+msgstr "Meeresbruchstein (magenta)"
 
 #: init.lua
 msgid "Sea cobblestone lime"
-msgstr "Meeresbruchstein lindgrün"
+msgstr "Meeresbruchstein (hellgrün)"
 
 #: init.lua
 msgid "Sea cobblestone aqua"
-msgstr "Meeresbruchstein wasserblau"
+msgstr "Meeresbruchstein (wasserblau)"
 
 #: init.lua
 msgid "Sea cobblestone skyblue"
-msgstr "Meeresbruchstein himmelblau"
+msgstr "Meeresbruchstein (himmelblau)"
 
 #: init.lua
 msgid "Sea cobblestone redviolet"
-msgstr "Meeresbruchstein rotviolett"
+msgstr "Meeresbruchstein (rotviolett)"
+
+#: init.lua
+msgid "Seacobble stair"
+msgstr "Meeresbruchsteintreppe"
+
+#: init.lua
+msgid "Seacobble slab"
+msgstr "Meeresbruchsteinstufe"
+
+#: init.lua
+msgid "Seacobble stair cyan"
+msgstr "Meeresbruchsteintreppe (cyan)"
+
+#: init.lua
+msgid "Seacobble slab cyan"
+msgstr "Meeresbruchsteinstufe (cyan)"
+
+#: init.lua
+msgid "Seacobble stair magenta"
+msgstr "Meeresbruchsteintreppe (magenta)"
+
+#: init.lua
+msgid "Seacobble slab magenta"
+msgstr "Meeresbruchsteinstufe (magenta)"
+
+#: init.lua
+msgid "Seacobble stair lime"
+msgstr "Meeresbruchsteintreppe (hellgrün)"
+
+#: init.lua
+msgid "Seacobble slab lime"
+msgstr "Meeresbruchsteinstufe (hellgrün)"
+
+#: init.lua
+msgid "Seacobble stair aqua"
+msgstr "Meeresbruchsteintreppe (wasserblau)"
+
+#: init.lua
+msgid "Seacobble slab aqua"
+msgstr "Meeresbruchsteinstufe (wasserblau)"
+
+#: init.lua
+msgid "Seacobble stair skyblue"
+msgstr "Meeresbruchsteintreppe (himmelblau)"
+
+#: init.lua
+msgid "Seacobble slab skyblue"
+msgstr "Meeresbruchsteinstufe (himmelblau)"
+
+#: init.lua
+msgid "Seacobble stair redviolet"
+msgstr "Meeresbruchsteintreppe (rotviolett)"
+
+#: init.lua
+msgid "Seacobble slab redviolet"
+msgstr "Meeresbruchsteinstufe (rotviolett)"

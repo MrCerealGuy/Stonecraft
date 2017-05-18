@@ -11,7 +11,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 local function throwing_register_fireworks(color, desc)
 	minetest.register_craftitem("throwing:arrow_fireworks_" .. color, {
-		description = S("@1fireworks arrow", desc),
+		description = desc..S("fireworks arrow"),
 		inventory_image = "throwing_arrow_fireworks_" .. color .. ".png",
 	})
 	

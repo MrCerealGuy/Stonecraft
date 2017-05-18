@@ -30,7 +30,7 @@ msgid "Fire Arrow"
 msgstr "Feuerpfeil"
 
 #: fireworks_arrows.lua
-msgid "@1fireworks arrow"
+msgid "fireworks arrow"
 msgstr "feuerwerkspfeil"
 
 #: shell_arrow.lua
@@ -52,3 +52,35 @@ msgstr "TNT-Pfeil"
 #: torch_arrow.lua
 msgid "Torch Arrow"
 msgstr "Fackelpfeil"
+
+#: tools.lua
+msgid "Wooden bow"
+msgstr "Holzbogen"
+
+#: tools.lua
+msgid "Longbow"
+msgstr "Langbogen"
+
+#: tools.lua
+msgid "Composite bow"
+msgstr "Kompositbogen"
+
+#: tools.lua
+msgid "Steel bow"
+msgstr "Stahlbogen"
+
+#: tools.lua
+msgid "Royal bow"
+msgstr "Königlicher Bogen"
+
+#: tools.lua
+msgid "Crossbow"
+msgstr "Armbrust"
+
+#: tools.lua
+msgid "Arbalest"
+msgstr "Arbalest-Armbrust"
+
+#: tools.lua
+msgid "Automated arbalest"
+msgstr "Automatische Arbalest-Armbrust"

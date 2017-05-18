@@ -257,7 +257,7 @@ if bucket then
 		"sumpf:dirtywater_flowing",
 		"sumpf:bucket_dirtywater",
 		"bucket.png^sumpf_bucket_dirtywater.png",
-		"swampwater bucket"
+		S("swampwater bucket")
 	)
 end
 

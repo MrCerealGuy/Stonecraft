@@ -75,3 +75,7 @@ msgstr "Sumpfgras"
 #: init.lua
 msgid "swampwater"
 msgstr "Sumpfwasser"
+
+#: init.lua
+msgid "swampwater bucket"
+msgstr "Sumpfwassereimer"

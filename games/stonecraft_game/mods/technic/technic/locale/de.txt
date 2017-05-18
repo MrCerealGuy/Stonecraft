@@ -99,7 +99,11 @@ Fuel-Fired Furnace = Kohle-Ofen
 Wind Mill Frame = Windmühlengerüst
 Forcefield = Kraftfeld
 Nuclear Reactor Rod Compartment = Brennstabfächer
-Administrative World Anchor =
+Administrative World Anchor = Administrativer Weltanker
+@1 Nuclear Reactor Core = @1 Nuklearreaktorkern
+Corium Bucket = Corium-Eimer
+Chernobylite Block = Tschernobylitblock
+
 
 ## Machine-specific
 # $1: Pruduced EU

@@ -1,5 +1,16 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if not DISABLE_WOODEN_BOW then
-	throwing_register_bow ('bow_wood', 'Wooden bow', {x=1, y=1, z=0.5}, 11, 0.8, 50, false, {
+	throwing_register_bow ('bow_wood', S('Wooden bow'), {x=1, y=1, z=0.5}, 11, 0.8, 50, false, {
 			{'', 'default:stick', ''},
 			{'farming:string', '', 'default:stick'},
 			{'', 'default:stick', ''},
@@ -7,7 +18,7 @@ if not DISABLE_WOODEN_BOW then
 end
 
 if not DISABLE_LONGBOW then
-	throwing_register_bow ('longbow', 'Longbow', {x=1, y=2.5, z=0.5}, 17, 1.8, 100, false, {
+	throwing_register_bow ('longbow', S('Longbow'), {x=1, y=2.5, z=0.5}, 17, 1.8, 100, false, {
 			{'farming:string', 'group:wood', ''},
 			{'farming:string', '', 'group:wood'},
 			{'farming:string', 'group:wood', ''},
@@ -15,7 +26,7 @@ if not DISABLE_LONGBOW then
 end
 
 if not DISABLE_COMPOSITE_BOW then
-	throwing_register_bow ('bow_composite', 'Composite bow', {x=1, y=1.4, z=0.5}, 17, 1, 150, false, {
+	throwing_register_bow ('bow_composite', S('Composite bow'), {x=1, y=1.4, z=0.5}, 17, 1, 150, false, {
 			{'farming:string', 'group:wood', ''},
 			{'farming:string', '', 'default:steel_ingot'},
 			{'farming:string', 'group:wood', ''},
@@ -23,7 +34,7 @@ if not DISABLE_COMPOSITE_BOW then
 end
 
 if not DISABLE_STEEL_BOW then
-	throwing_register_bow ('bow_steel', 'Steel bow', {x=1, y=1.4, z=0.5}, 20, 1.3, 250, false, {
+	throwing_register_bow ('bow_steel', S('Steel bow'), {x=1, y=1.4, z=0.5}, 20, 1.3, 250, false, {
 			{'farming:string', 'default:steel_ingot', ''},
 			{'farming:string', '', 'default:steel_ingot'},
 			{'farming:string', 'default:steel_ingot', ''},
@@ -31,7 +42,7 @@ if not DISABLE_STEEL_BOW then
 end
 
 if not DISABLE_ROYAL_BOW then
-	throwing_register_bow ('bow_royal', 'Royal bow', {x=1, y=1.5, z=0.5}, 18, 1.4, 750, false, {
+	throwing_register_bow ('bow_royal', S('Royal bow'), {x=1, y=1.5, z=0.5}, 18, 1.4, 750, false, {
 			{'farming:string', 'group:wood', 'default:diamond'},
 			{'farming:string', '', 'default:gold_ingot'},
 			{'farming:string', 'group:wood', 'default:diamond'},
@@ -39,7 +50,7 @@ if not DISABLE_ROYAL_BOW then
 end
 
 if not DISABLE_CROSSBOW then
-	throwing_register_bow ('crossbow', 'Crossbow', {x=1, y=1.3, z=0.5}, 28, 5, 80, true, {
+	throwing_register_bow ('crossbow', S('Crossbow'), {x=1, y=1.3, z=0.5}, 28, 5, 80, true, {
 			{'group:wood', 'farming:string', ''},
 			{'default:steel_ingot', 'farming:string', 'group:wood'},
 			{'group:wood', 'farming:string', ''},
@@ -47,7 +58,7 @@ if not DISABLE_CROSSBOW then
 end
 
 if not DISABLE_ARBALEST then
-	throwing_register_bow ('arbalest', 'Arbalest', {x=1, y=1.3, z=0.5}, 35, 7.5, 120, true, {
+	throwing_register_bow ('arbalest', S('Arbalest'), {x=1, y=1.3, z=0.5}, 35, 7.5, 120, true, {
 			{'default:steel_ingot', 'farming:string', 'default:stick'},
 			{'default:steel_ingot', 'farming:string', 'default:steel_ingot'},
 			{'default:steel_ingot', 'farming:string', 'default:stick'},
@@ -55,7 +66,7 @@ if not DISABLE_ARBALEST then
 end
 
 if not DISABLE_AUTOMATED_ARBALEST then
-	throwing_register_bow ('arbalest_auto', 'Automated arbalest', {x=1, y=1.3, z=0.5}, 40, 3.5, 60, true, {
+	throwing_register_bow ('arbalest_auto', S('Automated arbalest'), {x=1, y=1.3, z=0.5}, 40, 3.5, 60, true, {
 			{'default:steel_ingot', 'farming:string', 'default:mese_crystal'},
 			{'default:steel_ingot', 'farming:string', 'default:steel_ingot'},
 			{'default:steel_ingot', 'farming:string', 'default:mese_crystal'},
