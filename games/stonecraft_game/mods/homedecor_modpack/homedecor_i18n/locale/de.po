@@ -580,12 +580,12 @@ msgstr "Fenster (einfach)"
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Window Blinds (thick)"
-msgstr "Weisse Glühlampe (dick)"
+msgstr "Fensterrollos (dick)"
 
 #: ../homedecor/window_treatments.lua
 #, fuzzy
 msgid "Window Blinds (thin)"
-msgstr "Weisse Glühlampe (dünn)"
+msgstr "Fensterrollos (dünn)"
 
 #: ../homedecor/window_treatments.lua
 #, fuzzy
@@ -831,12 +831,12 @@ msgstr "gelb"
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Thick Glowlight"
-msgstr "Weisse Glühlampe (dünn)"
+msgstr "Weiße Glühlampe (dünn)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy
 msgid "Thin Glowlight"
-msgstr "Weisse Glühlampe (dünn)"
+msgstr "Weiße Glühlampe (dünn)"
 
 #: ../homedecor/lighting.lua
 #, fuzzy

@@ -18,144 +18,144 @@ msgstr ""
 
 #: init.lua
 msgid "Mossy Stone Brick"
-msgstr ""
+msgstr "Bemooster Ziegelstein"
 
 #: init.lua
 msgid "Very Mossy Stone Brick"
-msgstr ""
+msgstr "Sehr bemooster Ziegelstein"
 
 #: init.lua
 msgid "Mossy Stone Column"
-msgstr ""
+msgstr "Bemooste Steinsäule"
 
 #: init.lua
 msgid "Stone Column"
-msgstr ""
+msgstr "Steinsäule"
 
 #: init.lua
 msgid "Seastone"
-msgstr ""
+msgstr "Meeresstein"
 
 #: init.lua
 msgid "Sea Meselamp"
-msgstr ""
+msgstr "Meeres-Meselampe"
 
 #: init.lua
 msgid "Mantis Clay"
-msgstr ""
+msgstr "Mantis-Ton"
 
 #: init.lua
 msgid "Hardened Mantis Clay"
-msgstr ""
+msgstr "Gehärteter Mantis-Ton"
 
 #: init.lua
 msgid "Ant Stone"
-msgstr ""
+msgstr "Ameisenstein"
 
 #: init.lua
 msgid "Vine"
-msgstr ""
+msgstr "Rebe"
 
 #: init.lua
 msgid "Liana"
-msgstr ""
+msgstr "Liane"
 
 #: init.lua
 msgid "Vertical Web"
-msgstr ""
+msgstr "Vertikales Netz"
 
 #: init.lua
 msgid "Web Cone Up"
-msgstr ""
+msgstr "Spinnennetztrichter (oben)"
 
 #: init.lua
 msgid "Web Cone Down"
-msgstr ""
+msgstr "Spinnennetztrichter (unten)"
 
 #: init.lua
 msgid "Web Cocoon"
-msgstr ""
+msgstr "Spinnennetz-Kokon"
 
 #: init.lua
 msgid " Eggs"
-msgstr ""
+msgstr " Eiter"
 
 #: init.lua
 msgid "Ant Worker"
-msgstr ""
+msgstr "Ameisenarbeiter"
 
 #: init.lua
 msgid "Ant Soldier"
-msgstr ""
+msgstr "Ameisensoldat"
 
 #: init.lua
 msgid "Larva"
-msgstr ""
+msgstr "Larve"
 
 #: init.lua
 msgid "Crab"
-msgstr ""
+msgstr "Krabbe"
 
 #: init.lua
 msgid "Black Widow"
-msgstr ""
+msgstr "Schwarze Witwe"
 
 #: init.lua
 msgid "Uloboros"
-msgstr ""
+msgstr "Uloboros"
 
 #: init.lua
 msgid "Daddy Long Legs"
-msgstr ""
+msgstr "Vati's lange Beine"
 
 #: init.lua
 msgid "Xgaloctopus"
-msgstr ""
+msgstr "Xgaloctopus"
 
 #: init.lua
 msgid "Bloco"
-msgstr ""
+msgstr "Bloco"
 
 #: init.lua
 msgid "Icesnake"
-msgstr ""
+msgstr "Eisschlange"
 
 #: init.lua
 msgid "Snowbiter"
-msgstr ""
+msgstr "Eisbeiser"
 
 #: init.lua
 msgid "Scrausics"
-msgstr ""
+msgstr "Scrausics"
 
 #: init.lua
 msgid "Moonheron"
-msgstr ""
+msgstr "Mondreiher"
 
 #: init.lua
 msgid "Phoenix"
-msgstr ""
+msgstr "Phoenix"
 
 #: init.lua
 msgid "Tarantula"
-msgstr ""
+msgstr "Tarantel"
 
 #: init.lua
 msgid "Night Master"
-msgstr ""
+msgstr "Nachtmeiser"
 
 #: init.lua
 msgid "Ant Queen"
-msgstr ""
+msgstr "Ameisenkönigin"
 
 #: init.lua
 msgid "Icelamander"
-msgstr ""
+msgstr "Icelamander"
 
 #: init.lua
 msgid "Giant Sandworm Egg"
-msgstr ""
+msgstr "Riesensandwurm-Ei"
 
 #: init.lua
 msgid "Seastone Brick"
-msgstr ""
+msgstr "Meeresziegelstein"

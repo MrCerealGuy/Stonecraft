@@ -66,8 +66,44 @@ msgid "Dried Dirt"
 msgstr "Vertrocknete Erde"
 
 #: dirt.lua
-msgid " Dirt"
-msgstr "Erde"
+msgid "Bamboo"
+msgstr "Bambus"
+
+#: dirt.lua
+msgid "Jungle"
+msgstr "Tropen"
+
+#: dirt.lua
+msgid "Grove"
+msgstr "Hain"
+
+#: dirt.lua
+msgid "Prairie"
+msgstr "Prärie"
+
+#: dirt.lua
+msgid "Cold"
+msgstr "Frost"
+
+#: dirt.lua
+msgid "Crystal"
+msgstr "Kristall"
+
+#: dirt.lua
+msgid "Mushroom"
+msgstr "Pilz"
+
+#: dirt.lua
+msgid "Fiery"
+msgstr "Feuer"
+
+#: dirt.lua
+msgid "Gray"
+msgstr "Ödnis"
+
+#: dirt.lua
+msgid "Dirt"
+msgstr "erde"
 
 #: dirt.lua
 msgid "Red Baked Clay"

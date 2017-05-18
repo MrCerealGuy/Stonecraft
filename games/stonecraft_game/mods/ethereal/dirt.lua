@@ -49,8 +49,8 @@ minetest.register_craft({
 })
 
 local dirts = {
-	"Bamboo", "Jungle", "Grove", "Prairie", "Cold",
-	"Crystal", "Mushroom", "Fiery", "Gray"
+	S("Bamboo"), S("Jungle"), S("Grove"), S("Prairie"), S("Cold"),
+	S("Crystal"), S("Mushroom"), S("Fiery"), S("Gray")
 }
 
 for n = 1, #dirts do
@@ -59,7 +59,7 @@ for n = 1, #dirts do
 	local name = desc:lower()
 
 	minetest.register_node("ethereal:"..name.."_dirt", {
-		description = S(desc.." Dirt"),
+		description = desc..S("Dirt"),
 		tiles = {
 			"ethereal_grass_"..name.."_top.png",
 			"default_dirt.png",

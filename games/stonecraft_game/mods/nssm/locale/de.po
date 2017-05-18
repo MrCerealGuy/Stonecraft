@@ -19,392 +19,392 @@ msgstr ""
 
 #: rainbow_staff.lua
 msgid "Rainbow Staff"
-msgstr ""
+msgstr "Regenbogenstab"
 
 #: nssm_weapons.lua
 msgid "Kamehameha from DragonBall"
-msgstr ""
+msgstr "Kamehameha von DragonBall"
 
 #: nssm_weapons.lua
 msgid "Kienzan from DragonBall"
-msgstr ""
+msgstr "Kienzan von DragonBall"
 
 #: nssm_weapons.lua
 msgid "Spirit Ball from DragonBall"
-msgstr ""
+msgstr "Genki Dama von DragonBall"
 
 #: nssm_weapons.lua
 msgid "Hellzone grenade (Press q to activate)"
-msgstr ""
+msgstr "Hellzone Granate (Zum Aktivieren q drücken"
 
 #: nssm_spears.lua
 msgid " spear"
-msgstr ""
+msgstr " Speer"
 
 #: nssm_materials.lua
 msgid "Sky Feather"
-msgstr ""
+msgstr "Himmelsfeder"
 
 #: nssm_materials.lua
 msgid "Snake Scute"
-msgstr ""
+msgstr "Schlangenschuppe"
 
 #: nssm_materials.lua
 msgid "Eyed Tentacle"
-msgstr ""
+msgstr "Tentakel mit Auge"
 
 #: nssm_materials.lua
 msgid "King Duck Crown"
-msgstr ""
+msgstr "King Duck Krone"
 
 #: nssm_materials.lua
 msgid "Great Energy Globe"
-msgstr ""
+msgstr "Große Energiekugel"
 
 #: nssm_materials.lua
 msgid "Superior Energy Globe"
-msgstr ""
+msgstr "Übermächtige Energiekugel"
 
 #: nssm_materials.lua
 msgid "Ant Queen Abdomen"
-msgstr ""
+msgstr "Ameisenköngin-Hinterleib"
 
 #: nssm_materials.lua
 msgid "Masticone Skull"
-msgstr ""
+msgstr "Masticone-Schädel"
 
 #: nssm_materials.lua
 msgid "Masticone Skull Fragments"
-msgstr ""
+msgstr "Masticone-Schädelfragmente"
 
 #: nssm_materials.lua
 msgid "Masticone Skull Crowned"
-msgstr ""
+msgstr "Masticone gekrönter Schädel"
 
 #: nssm_materials.lua
 msgid "Kraken Tentacle"
-msgstr ""
+msgstr "Krakententakel"
 
 #: nssm_materials.lua
 msgid "Lava Titan Eye"
-msgstr ""
+msgstr "Lava-Titanenauge"
 
 #: nssm_materials.lua
 msgid "Duck Beak"
-msgstr ""
+msgstr "Entenschnabel"
 
 #: nssm_materials.lua
 msgid "Ice Tooth"
-msgstr ""
+msgstr "Eiszahn"
 
 #: nssm_materials.lua
 msgid "Little Ice Tooth"
-msgstr ""
+msgstr "Kleiner Eiszahn"
 
 #: nssm_materials.lua
 msgid "Black Sand"
-msgstr ""
+msgstr "Schwarzer Sand"
 
 #: nssm_materials.lua
 msgid "Black Ice Tooth"
-msgstr ""
+msgstr "Schwarzer Eiszahn"
 
 #: nssm_materials.lua
 msgid "Tarantula Chelicerae"
-msgstr ""
+msgstr "Tarantel Chelicerae"
 
 #: nssm_materials.lua
 msgid "Crab Chela"
-msgstr ""
+msgstr "Krabbe Chela"
 
 #: nssm_materials.lua
 msgid "Cursed Pumpkin Seed"
-msgstr ""
+msgstr "Verfluchte Kürbissamen"
 
 #: nssm_materials.lua
 msgid "Mantis Claw"
-msgstr ""
+msgstr "Mantisklaue"
 
 #: nssm_materials.lua
 msgid "Manticore Spine"
-msgstr ""
+msgstr "Mantiore-Rücken"
 
 #: nssm_materials.lua
 msgid "Night Feather"
-msgstr ""
+msgstr "Nachtfeder"
 
 #: nssm_materials.lua
 msgid "Sun Feather"
-msgstr ""
+msgstr "Sonnenfeder"
 
 #: nssm_materials.lua
 msgid "Masticone Fang"
-msgstr ""
+msgstr "Masticone-Reißzahn"
 
 #: nssm_materials.lua
 msgid "White Wolf Fur"
-msgstr ""
+msgstr "Weißer Wolfspelz"
 
 #: nssm_materials.lua
 msgid "Stoneater Mandible"
-msgstr ""
+msgstr "Steinbeißer-Unterkiefer"
 
 #: nssm_materials.lua
 msgid "Ant Mandible"
-msgstr ""
+msgstr "Ameisen-Unterkiefer"
 
 #: nssm_materials.lua
 msgid "Life Energy"
-msgstr ""
+msgstr "Lebensenergie"
 
 #: nssm_materials.lua
 msgid "Wolf Fur"
-msgstr ""
+msgstr "Wolfspelz"
 
 #: nssm_materials.lua
 msgid "Energy Globe"
-msgstr ""
+msgstr "Energiekugel"
 
 #: nssm_materials.lua
 msgid "Ant Dirt"
-msgstr ""
+msgstr "Ameisenerde"
 
 #: nssm_materials.lua
 msgid "Venomous Gas"
-msgstr ""
+msgstr "Giftiges Gas"
 
 #: nssm_materials.lua
 msgid "Modders Block"
-msgstr ""
+msgstr "Modders Block"
 
 #: nssm_materials.lua
 msgid "Web"
-msgstr ""
+msgstr "Netz"
 
 #: nssm_materials.lua
 msgid "Ink"
-msgstr ""
+msgstr "Tinte"
 
 #: nssm_materials.lua
 msgid "Mese Meteor"
-msgstr ""
+msgstr "Mese-Meteor"
 
 #: nssm_materials.lua
 msgid "Sun Sword"
-msgstr ""
+msgstr "Sonnenschwert"
 
 #: nssm_materials.lua
 msgid "Masticone Fang Sword"
-msgstr ""
+msgstr "Masticone-Reißzahnschwert"
 
 #: nssm_materials.lua
 msgid "Night Sword"
-msgstr ""
+msgstr "Nachtschwert"
 
 #: nssm_materials.lua
 msgid "Light Crab Mace"
-msgstr ""
+msgstr "Leichte Krabbenkeule"
 
 #: nssm_materials.lua
 msgid "Heavy Crab Mace"
-msgstr ""
+msgstr "Schwere Krabbenkeule"
 
 #: nssm_materials.lua
 msgid "Rope"
-msgstr ""
+msgstr "Seile"
 
 #: nssm_materials.lua
 msgid "Stoneater Pickaxe"
-msgstr ""
+msgstr "Steinbeißer-Spitzhacke"
 
 #: nssm_materials.lua
 msgid "Mantis Sword"
-msgstr ""
+msgstr "Mantisschwert"
 
 #: nssm_materials.lua
 msgid "Ant Sword"
-msgstr ""
+msgstr "Ameisenschwert"
 
 #: nssm_materials.lua
 msgid " Egg"
-msgstr ""
+msgstr " Ei"
 
 #: nssm_materials.lua
 msgid "Stoneater"
-msgstr ""
+msgstr "Steinbeißer"
 
 #: nssm_materials.lua
 msgid "Signosigno"
-msgstr ""
+msgstr "Signosigno"
 
 #: nssm_materials.lua
 msgid "Bloco"
-msgstr ""
+msgstr "Bloco"
 
 #: nssm_materials.lua
 msgid "Sand Bloco"
-msgstr ""
+msgstr "Sandbloco"
 
 #: nssm_materials.lua
 msgid "Swimming Duck"
-msgstr ""
+msgstr "Schwimmende Ente"
 
 #: nssm_materials.lua
 msgid "Duck"
-msgstr ""
+msgstr "Ente"
 
 #: nssm_materials.lua
 msgid "Duckking"
-msgstr ""
+msgstr "Entenkönig"
 
 #: nssm_materials.lua
 msgid "Enderduck"
-msgstr ""
+msgstr "Enderente"
 
 #: nssm_materials.lua
 msgid "Spiderduck"
-msgstr ""
+msgstr "Spinnenente"
 
 #: nssm_materials.lua
 msgid "Echidna"
-msgstr ""
+msgstr "Echidna"
 
 #: nssm_materials.lua
 msgid "Werewolf"
-msgstr ""
+msgstr "Werwolf"
 
 #: nssm_materials.lua
 msgid "White Werewolf"
-msgstr ""
+msgstr "Weißer Werwolf"
 
 #: nssm_materials.lua
 msgid "Snow Biter"
-msgstr ""
+msgstr "Schneebeißer"
 
 #: nssm_materials.lua
 msgid "Icelamander"
-msgstr ""
+msgstr "Icelamander"
 
 #: nssm_materials.lua
 msgid "Icesnake"
-msgstr ""
+msgstr "Eisschlange"
 
 #: nssm_materials.lua
 msgid "Lava Titan"
-msgstr ""
+msgstr "Lavatitan"
 
 #: nssm_materials.lua
 msgid "Masticone"
-msgstr ""
+msgstr "Masticone"
 
 #: nssm_materials.lua
 msgid "Mantis Beast"
-msgstr ""
+msgstr "Mantisbestie"
 
 #: nssm_materials.lua
 msgid "Mantis"
-msgstr ""
+msgstr "Mantis"
 
 #: nssm_materials.lua
 msgid "Larva"
-msgstr ""
+msgstr "Larve"
 
 #: nssm_materials.lua
 msgid "Phoenix"
-msgstr ""
+msgstr "Phoenix"
 
 #: nssm_materials.lua
 msgid "Night Master"
-msgstr ""
+msgstr "Nachtmeister"
 
 #: nssm_materials.lua
 msgid "Scrausics"
-msgstr ""
+msgstr "Scrausics"
 
 #: nssm_materials.lua
 msgid "Moonheron"
-msgstr ""
+msgstr "Mondreiher"
 
 #: nssm_materials.lua
 msgid "Sandworm"
-msgstr ""
+msgstr "Sandwurm"
 
 #: nssm_materials.lua
 msgid "Giant Sandworm"
-msgstr ""
+msgstr "Riesensandwurm"
 
 #: nssm_materials.lua
 msgid "Ant Queen"
-msgstr ""
+msgstr "Ameisenkönigin"
 
 #: nssm_materials.lua
 msgid "Ant Soldier"
-msgstr ""
+msgstr "Ameisensoldat"
 
 #: nssm_materials.lua
 msgid "Ant Worker"
-msgstr ""
+msgstr "Ameisenarbeiter"
 
 #: nssm_materials.lua
 msgid "Crocodile"
-msgstr ""
+msgstr "Krokodil"
 
 #: nssm_materials.lua
 msgid "Dolidrosaurus"
-msgstr ""
+msgstr "Dolidrosaurus"
 
 #: nssm_materials.lua
 msgid "Crab"
-msgstr ""
+msgstr "Krabbe"
 
 #: nssm_materials.lua
 msgid "Octopus"
-msgstr ""
+msgstr "Tintenfisch"
 
 #: nssm_materials.lua
 msgid "Xgaloctopus"
-msgstr ""
+msgstr "Xgaloctopus"
 
 #: nssm_materials.lua
 msgid "Black Widow"
-msgstr ""
+msgstr "Schwarze Witwe"
 
 #: nssm_materials.lua
 msgid "Uloboros"
-msgstr ""
+msgstr "Uloboros"
 
 #: nssm_materials.lua
 msgid "Tarantula"
-msgstr ""
+msgstr "Tarantel"
 
 #: nssm_materials.lua
 msgid "Daddy Long Legs"
-msgstr ""
+msgstr "Vati's lange Beine"
 
 #: nssm_materials.lua
 msgid "Kraken"
-msgstr ""
+msgstr "Krake"
 
 #: nssm_materials.lua
 msgid "Pumpking"
-msgstr ""
+msgstr "Pumpking"
 
 #: nssm_materials.lua
 msgid "Manticore"
-msgstr ""
+msgstr "Manticore"
 
 #: nssm_materials.lua
 msgid "Large Pumpboom"
-msgstr ""
+msgstr "Großer Kübrisknall"
 
 #: nssm_materials.lua
 msgid "Small Pumpboom"
-msgstr ""
+msgstr "Kleiner Kürbisknall"
 
 #: nssm_materials.lua
 msgid "Medium Pumpboom"
-msgstr ""
+msgstr "Mittlerer Kürbisknall"
 
 #: nssm_materials.lua
 msgid "Mese Egg"
-msgstr ""
+msgstr "Mese-Ei"
