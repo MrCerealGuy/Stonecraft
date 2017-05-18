@@ -1,3 +1,14 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local GET_COMMAND = "GET"
 
 local rtc_nodebox =
@@ -26,7 +37,7 @@ end
 
 minetest.register_alias("digilines_rtc:rtc", "digilines:rtc")
 minetest.register_node("digilines:rtc", {
-	description = "Digiline Real Time Clock (RTC)",
+	description = S("Digiline Real Time Clock (RTC)"),
 	drawtype = "nodebox",
 	tiles = {"digilines_rtc.png"},
 

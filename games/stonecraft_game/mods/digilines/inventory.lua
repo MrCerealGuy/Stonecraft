@@ -1,3 +1,14 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local function sendMessage(pos, msg, channel)
 	if channel == nil then
 		channel = minetest.get_meta(pos):get_string("channel")
@@ -28,7 +39,7 @@ local tubescan = minetest.get_modpath("pipeworks") and function(pos) pipeworks.s
 
 minetest.register_alias("digilines_inventory:chest", "digilines:chest")
 minetest.register_node("digilines:chest", {
-	description = "Digiline Chest",
+	description = S("Digiline Chest"),
 	tiles = {
 		"default_chest_top.png"..tubeconn,
 		"default_chest_top.png"..tubeconn,
