@@ -1,0 +1,161 @@
+# German translation for nssb mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-17 16:45+0200\n"
+"PO-Revision-Date: 2018-05-17 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF
+
+#: init.lua
+msgid "Mossy Stone Brick"
+msgstr ""
+
+#: init.lua
+msgid "Very Mossy Stone Brick"
+msgstr ""
+
+#: init.lua
+msgid "Mossy Stone Column"
+msgstr ""
+
+#: init.lua
+msgid "Stone Column"
+msgstr ""
+
+#: init.lua
+msgid "Seastone"
+msgstr ""
+
+#: init.lua
+msgid "Sea Meselamp"
+msgstr ""
+
+#: init.lua
+msgid "Mantis Clay"
+msgstr ""
+
+#: init.lua
+msgid "Hardened Mantis Clay"
+msgstr ""
+
+#: init.lua
+msgid "Ant Stone"
+msgstr ""
+
+#: init.lua
+msgid "Vine"
+msgstr ""
+
+#: init.lua
+msgid "Liana"
+msgstr ""
+
+#: init.lua
+msgid "Vertical Web"
+msgstr ""
+
+#: init.lua
+msgid "Web Cone Up"
+msgstr ""
+
+#: init.lua
+msgid "Web Cone Down"
+msgstr ""
+
+#: init.lua
+msgid "Web Cocoon"
+msgstr ""
+
+#: init.lua
+msgid " Eggs"
+msgstr ""
+
+#: init.lua
+msgid "Ant Worker"
+msgstr ""
+
+#: init.lua
+msgid "Ant Soldier"
+msgstr ""
+
+#: init.lua
+msgid "Larva"
+msgstr ""
+
+#: init.lua
+msgid "Crab"
+msgstr ""
+
+#: init.lua
+msgid "Black Widow"
+msgstr ""
+
+#: init.lua
+msgid "Uloboros"
+msgstr ""
+
+#: init.lua
+msgid "Daddy Long Legs"
+msgstr ""
+
+#: init.lua
+msgid "Xgaloctopus"
+msgstr ""
+
+#: init.lua
+msgid "Bloco"
+msgstr ""
+
+#: init.lua
+msgid "Icesnake"
+msgstr ""
+
+#: init.lua
+msgid "Snowbiter"
+msgstr ""
+
+#: init.lua
+msgid "Scrausics"
+msgstr ""
+
+#: init.lua
+msgid "Moonheron"
+msgstr ""
+
+#: init.lua
+msgid "Phoenix"
+msgstr ""
+
+#: init.lua
+msgid "Tarantula"
+msgstr ""
+
+#: init.lua
+msgid "Night Master"
+msgstr ""
+
+#: init.lua
+msgid "Ant Queen"
+msgstr ""
+
+#: init.lua
+msgid "Icelamander"
+msgstr ""
+
+#: init.lua
+msgid "Giant Sandworm Egg"
+msgstr ""
+
+#: init.lua
+msgid "Seastone Brick"
+msgstr ""

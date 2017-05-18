@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-18 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -17,10 +19,15 @@ end
 
 -- --------------------------------------------------------------------------------------------------------
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 --Nssb
 --Materials
 minetest.register_node("nssb:mossy_stone_brick", {
-	description = "Mossy Stone Brick",
+	description = S("Mossy Stone Brick"),
 	tiles = {"mossy_stone_brick.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -28,7 +35,7 @@ minetest.register_node("nssb:mossy_stone_brick", {
 })
 
 minetest.register_node("nssb:very_mossy_stone_brick", {
-	description = "Very Mossy Stone Brick",
+	description = S("Very Mossy Stone Brick"),
 	tiles = {"very_mossy_stone_brick.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -36,7 +43,7 @@ minetest.register_node("nssb:very_mossy_stone_brick", {
 })
 
 minetest.register_node("nssb:mossy_stone_column", {
-	description = "Mossy Stone Column",
+	description = S("Mossy Stone Column"),
 	tiles = {"mossy_stone_column.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -44,7 +51,7 @@ minetest.register_node("nssb:mossy_stone_column", {
 })
 
 minetest.register_node("nssb:stone_column", {
-	description = "Stone Column",
+	description = S("Stone Column"),
 	tiles = {"stone_column.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -52,7 +59,7 @@ minetest.register_node("nssb:stone_column", {
 })
 
 minetest.register_node("nssb:marine_stone", {
-	description = "Seastone",
+	description = S("Seastone"),
 	tiles = {"marine_stone.png"},
 	is_ground_content = false,
 	groups = {cracky=1, stone=2},
@@ -60,7 +67,7 @@ minetest.register_node("nssb:marine_stone", {
 })
 
 minetest.register_node("nssb:marine_brick", {
-	description = "Seastone Brick",
+	description = S("Seastone Brick"(,
 	tiles = {"marine_brick.png"},
 	is_ground_content = false,
 	groups = {stone=2},
@@ -68,7 +75,7 @@ minetest.register_node("nssb:marine_brick", {
 })
 
 minetest.register_node("nssb:marine_meselamp", {
-	description = "Sea Meselamp",
+	description = S("Sea Meselamp"),
 	tiles = {"marine_meselamp.png"},
 	is_ground_content = false,
 	groups = {cracky=3},
@@ -78,7 +85,7 @@ minetest.register_node("nssb:marine_meselamp", {
 })
 
 minetest.register_node("nssb:mantis_clay", {
-	description = "Mantis Clay",
+	description = S("Mantis Clay"),
 	tiles = {"mantis_clay.png"},
 	is_ground_content = false,
 	groups = {cracky=2},
@@ -86,7 +93,7 @@ minetest.register_node("nssb:mantis_clay", {
 })
 
 minetest.register_node("nssb:hardened_mantis_clay", {
-	description = "Hardened Mantis Clay",
+	description = S("Hardened Mantis Clay"),
 	tiles = {"hard_mantis_clay.png"},
 	is_ground_content = false,
 	groups = {cracky=1},
@@ -94,7 +101,7 @@ minetest.register_node("nssb:hardened_mantis_clay", {
 })
 
 minetest.register_node("nssb:ant_stone", {
-	description = "Ant Stone",
+	description = S("Ant Stone"),
 	tiles = {"ant_stone.png"},
 	is_ground_content = false,
 	groups = {cracky=1, stone=1},
@@ -102,7 +109,7 @@ minetest.register_node("nssb:ant_stone", {
 })
 
 minetest.register_node("nssb:vine", {
-	description = "Vine",
+	description = S("Vine"),
 	drawtype = "signlike",
 	tiles = {"climbing_plant.png"},
 	inventory_image = {"vine.png"},
@@ -118,7 +125,7 @@ minetest.register_node("nssb:vine", {
 
 
 minetest.register_node("nssb:liana", {
-	description = "Liana",
+	description = S("Liana"),
 	drawtype = "plantlike",
 	inventory_image = {"liana.png"},
 	tiles = {"liana.png"},
@@ -130,7 +137,7 @@ minetest.register_node("nssb:liana", {
 })
 
 minetest.register_node("nssb:vertical_web", {
-	description = "Vertical Web",
+	description = S("Vertical Web"),
 	inventory_image = "vertical_web.png",
 	tiles = {"vertical_web.png"} ,
     drawtype = "plantlike",
@@ -151,7 +158,7 @@ minetest.register_node("nssb:vertical_web", {
 })
 
 minetest.register_node("nssb:web_cone_up", {
-	description = "Web Cone Up",
+	description = S("Web Cone Up"),
 	inventory_image = "web_cone_up.png",
 	tiles = {"web_cone_up.png"} ,
     drawtype = "plantlike",
@@ -172,7 +179,7 @@ minetest.register_node("nssb:web_cone_up", {
 })
 
 minetest.register_node("nssb:web_cone_down", {
-	description = "Web Cone Down",
+	description = S("Web Cone Down"),
 	inventory_image = "web_cone_down.png",
 	tiles = {"web_cone_down.png"} ,
     drawtype = "plantlike",
@@ -202,7 +209,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("nssb:web_cocoon", {
-	description = "Web Cocoon",
+	description = S("Web Cocoon"),
 	tiles = {"web_cocoon.png"},
 	drop = {
          max_items = 1,
@@ -450,7 +457,7 @@ night, --if only at night
 lumin) --luminosity parameter of the egg_block
 
 	minetest.register_node("nssb:".. name .."_eggs", {
-		description = descr .." Eggs",
+		description = descr ..S(" Eggs"),
 		tiles = {name .."_eggs.png"},
 		light_source = lumin,
 		is_ground_content = false,
@@ -489,30 +496,30 @@ lumin) --luminosity parameter of the egg_block
 
 end
 
-nssb_register_eggs ('ant_worker', 'Ant Worker', 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('ant_soldier', 'Ant Soldier', 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('larva', 'Larva', 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('crab', 'Crab', 18, 2, 4, "default:sand", false, 5)
-nssb_register_eggs ('black_widow', 'Black Widow', 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('uloboros', 'Uloboros', 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('daddy_long_legs', 'Daddy Long Legs', 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('xgaloctopus', 'Xgaloctopus', 18, 2, 4, "default:water_source", false, 5)
-nssb_register_eggs ('bloco', 'Bloco', 14, 2, 4, "default:gravel", false, 5)
-nssb_register_eggs ('icesnake', 'Icesnake', 18, 2, 4, "default:ice", false, 5)
-nssb_register_eggs ('snow_biter', 'Snowbiter', 18, 2, 4, "default:ice", false, 5)
-nssb_register_eggs ('scrausics', 'Scrausics', 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('moonheron', 'Moonheron', 18, 2, 4, "air", true, 0)
+nssb_register_eggs ('ant_worker', S('Ant Worker'), 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('ant_soldier', S('Ant Soldier'), 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('larva', S('Larva'), 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('crab', S('Crab'), 18, 2, 4, "default:sand", false, 5)
+nssb_register_eggs ('black_widow', S('Black Widow'), 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('uloboros', S('Uloboros'), 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('daddy_long_legs', S('Daddy Long Legs'), 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('xgaloctopus', S('Xgaloctopus'), 18, 2, 4, "default:water_source", false, 5)
+nssb_register_eggs ('bloco', S('Bloco'), 14, 2, 4, "default:gravel", false, 5)
+nssb_register_eggs ('icesnake', S('Icesnake'), 18, 2, 4, "default:ice", false, 5)
+nssb_register_eggs ('snow_biter', S('Snowbiter'), 18, 2, 4, "default:ice", false, 5)
+nssb_register_eggs ('scrausics', S('Scrausics'), 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('moonheron', S('Moonheron'), 18, 2, 4, "air", true, 0)
 
 --Bosses of the eggs:
-nssb_register_eggs ('phoenix', 'Phoenix', 900, 10, 1, "air", false, 15)
-nssb_register_eggs ('tarantula', 'Tarantula', 900, 2, 1, "air", false, 5)
-nssb_register_eggs ('night_master', 'Night Master', 900, 10, 1, "air", true, 0)
-nssb_register_eggs ('ant_queen', 'Ant Queen', 900, 10, 1, "air", false, 5)
-nssb_register_eggs ('icelamander', 'Icelamander', 900, 10, 1, "air", false, 5)
+nssb_register_eggs ('phoenix', S('Phoenix'), 900, 10, 1, "air", false, 15)
+nssb_register_eggs ('tarantula', S('Tarantula'), 900, 2, 1, "air", false, 5)
+nssb_register_eggs ('night_master', S('Night Master'), 900, 10, 1, "air", true, 0)
+nssb_register_eggs ('ant_queen', S('Ant Queen'), 900, 10, 1, "air", false, 5)
+nssb_register_eggs ('icelamander', S('Icelamander'), 900, 10, 1, "air", false, 5)
 
 
 minetest.register_node("nssb:giant_sandworm_eggs", {
-		description = "Giant Sandworm Egg",
+		description = S("Giant Sandworm Egg"),
 		tiles = {"giant_sandworm_eggs.png"},
 		is_ground_content = false,
 		groups = {choppy=1},
