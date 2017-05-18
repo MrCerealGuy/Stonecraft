@@ -17,6 +17,13 @@
 
 --------------------------------------------------------------------------------
 
+--[[
+
+2017-05-18 MrCerealGuy: added language combobox
+
+--]]
+
+
 local labels = {
 	leaves = {
 		fgettext("Opaque Leaves"),
@@ -42,6 +49,10 @@ local labels = {
 		fgettext("2x"),
 		fgettext("4x"),
 		fgettext("8x")
+	},
+	language = {
+		fgettext("English"),
+		fgettext("German")
 	}
 }
 
@@ -65,6 +76,10 @@ local dd_options = {
 	antialiasing = {
 		table.concat(labels.antialiasing, ","),
 		{"0", "2", "4", "8"}
+	},
+	language = {
+		table.concat(labels.language, ","),
+		{"en", "de"}
 	}
 }
 
@@ -105,6 +120,15 @@ local getSettingIndex = {
 		local antialiasing_setting = core.setting_get("fsaa")
 		for i = 1, #dd_options.antialiasing[2] do
 			if antialiasing_setting == dd_options.antialiasing[2][i] then
+				return i
+			end
+		end
+		return 1
+	end,
+	Language = function()
+		local language_setting = core.setting_get("language")
+		for i = 1, #dd_options.language[2] do
+			if language_setting == dd_options.language[2][i] then
 				return i
 			end
 		end
@@ -175,7 +199,7 @@ end
 
 local function formspec(tabview, name, tabdata)
 	local tab_string =
-		"box[0,0;3.5,4.5;#999999]" ..
+		"box[0,0;3.5,4.8;#999999]" ..
 		"checkbox[0.25,0;cb_smooth_lighting;" .. fgettext("Smooth Lighting") .. ";"
 				.. dump(core.setting_getbool("smooth_lighting")) .. "]" ..
 		"checkbox[0.25,0.5;cb_particles;" .. fgettext("Particles") .. ";"
@@ -190,7 +214,7 @@ local function formspec(tabview, name, tabdata)
 				.. getSettingIndex.NodeHighlighting() .. "]" ..
 		"dropdown[0.25,3.6;3.3;dd_leaves_style;" .. dd_options.leaves[1] .. ";"
 				.. getSettingIndex.Leaves() .. "]" ..
-		"box[3.75,0;3.75,3.45;#999999]" ..
+		"box[3.75,0;3.75,4.8;#999999]" ..
 		"label[3.85,0.1;" .. fgettext("Texturing:") .. "]" ..
 		"dropdown[3.85,0.55;3.85;dd_filters;" .. dd_options.filters[1] .. ";"
 				.. getSettingIndex.Filter() .. "]" ..
@@ -199,7 +223,10 @@ local function formspec(tabview, name, tabdata)
 		"label[3.85,2.15;" .. fgettext("Antialiasing:") .. "]" ..
 		"dropdown[3.85,2.6;3.85;dd_antialiasing;" .. dd_options.antialiasing[1] .. ";"
 				.. getSettingIndex.Antialiasing() .. "]" ..
-		"box[7.75,0;4,4.4;#999999]" ..
+		"label[3.85,3.4;" .. fgettext("Language:") .. "]" ..
+		"dropdown[3.85,3.86;3.65;dd_language;" .. dd_options.language[1] .. ";"
+				.. getSettingIndex.Language() .. "]" ..
+		"box[7.75,0;4,4.8;#999999]" ..
 		"checkbox[8,0;cb_shaders;" .. fgettext("Shaders") .. ";"
 				.. dump(core.setting_getbool("enable_shaders")) .. "]"
 
@@ -209,12 +236,12 @@ local function formspec(tabview, name, tabdata)
 			.. fgettext("Reset singleplayer world") .. "]"
 	else
 		tab_string = tab_string ..
-			"button[8,4.85;3.75,0.5;btn_change_keys;"
+			"button[8,5.05;3.75,0.5;btn_change_keys;"
 			.. fgettext("Change keys") .. "]"
 	end
 
 	tab_string = tab_string ..
-		"button[0,4.85;3.75,0.5;btn_advanced_settings;"
+		"button[0,5.05;3.75,0.5;btn_advanced_settings;"
 		.. fgettext("Advanced Settings") .. "]"
 
 
@@ -384,6 +411,13 @@ local function handle_settings_buttons(this, fields, tabname, tabdata)
 	if fields["dd_antialiasing"] then
 		core.setting_set("fsaa",
 			antialiasing_fname_to_name(fields["dd_antialiasing"]))
+		ddhandled = true
+	end
+	if fields["dd_language"] == labels.language[1] then
+		core.setting_set("language", "en")
+		ddhandled = true
+	elseif fields["dd_language"] == labels.language[2] then
+		core.setting_set("language", "de")
 		ddhandled = true
 	end
 	if fields["dd_touchthreshold"] then

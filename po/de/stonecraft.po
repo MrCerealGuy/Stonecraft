@@ -615,6 +615,18 @@ msgid "8x"
 msgstr "8x"
 
 #: builtin/mainmenu/tab_settings.lua
+msgid "Language:"
+msgstr "Sprache:"
+
+#: builtin/mainmenu/tab_settings.lua
+msgid "German"
+msgstr "Deutsch"
+
+#: builtin/mainmenu/tab_settings.lua
+msgid "English"
+msgstr "Englisch"
+
+#: builtin/mainmenu/tab_settings.lua
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
