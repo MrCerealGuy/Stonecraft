@@ -1,31 +1,42 @@
 --todo: item wear, automatic re-baiting option, different types of fish/sushi, add sound
 
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local FISH_CHANCE = 15
 local WORM_CHANCE = 30
 
 minetest.register_craftitem("fishing:fish_raw", {
-	description = "Raw Fish",
+	description = S("Raw Fish"),
     groups = {},
     inventory_image = "fishing_fish.png",
 	 on_use = minetest.item_eat(2),
 })
 
 minetest.register_craftitem("fishing:fish", {
-	description = "Cooked Fish",
+	description = S("Cooked Fish"),
     groups = {},
     inventory_image = "fishing_fish_cooked.png",
 	 on_use = minetest.item_eat(4),
 })
 
 minetest.register_craftitem("fishing:sushi", {
-	description = "Sushi (Hoso Maki)",
+	description = S("Sushi (Hoso Maki)"),
     groups = {},
     inventory_image = "fishing_sushi.png",
 	 on_use = minetest.item_eat(8),
 })
 
 minetest.register_craftitem("fishing:bait_worm", {
-	description = "Worms",
+	description = S("Worms"),
     groups = { fishing_bait=1 },
     inventory_image = "fishing_worm.png",
 --    wield_image = "fishing_worm_wield.png",
@@ -33,7 +44,7 @@ minetest.register_craftitem("fishing:bait_worm", {
 
 
 minetest.register_craftitem("fishing:pole", {
-	description = "Fishing Pole",
+	description = S("Fishing Pole"),
     groups = {},
     inventory_image = "fishing_pole.png",
 --    wield_image = "", [MAYBE REVERSE IMAGE]
@@ -43,7 +54,7 @@ minetest.register_craftitem("fishing:pole", {
 })
 
 minetest.register_craftitem("fishing:pole_baited", {
-	description = "Baited Fishing Pole",
+	description = S("Baited Fishing Pole"),
 	groups = {},
 	inventory_image = "fishing_pole_baited.png",
 --    wield_image = "",
@@ -120,7 +131,7 @@ minetest.register_craft({
 
 --get worms from digging in dirt:
 minetest.register_node(":default:dirt", {
-	description = "Dirt",
+	description = S("Dirt"),
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
