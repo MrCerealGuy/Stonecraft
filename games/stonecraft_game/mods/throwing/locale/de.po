@@ -41,6 +41,22 @@ msgstr "Panzerpfeil"
 msgid "@1 arrow"
 msgstr "@1pfeil"
 
+#: standard_arrows.lua
+msgid "Stone"
+msgstr "Stein"
+
+#: standard_arrows.lua
+msgid "Steel"
+msgstr "Stahl"
+
+#: standard_arrows.lua
+msgid "Diamond"
+msgstr "Diamant"
+
+#: standard_arrows.lua
+msgid "Obsidian"
+msgstr "Obsidian"
+
 #: teleport_arrow.lua
 msgid "Teleport Arrow"
 msgstr "Teleporterpfeil"

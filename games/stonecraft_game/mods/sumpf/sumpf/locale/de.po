@@ -69,6 +69,38 @@ msgid "swamp grass roofing"
 msgstr "Sumpfgrasdach"
 
 #: init.lua
+msgid "swamp stone stair"
+msgstr "Sumpfsteintreppe"
+
+#: init.lua
+msgid "swamp stone slab"
+msgstr "Sumpfsteinstufe"
+
+#: init.lua
+msgid "swamp cobble stone stair"
+msgstr "Sumpfbruchsteintreppe"
+
+#: init.lua
+msgid "swamp cobble stone slab"
+msgstr "Sumpfbruchsteinstufe"
+
+#: init.lua
+msgid "swamp stone brick stair"
+msgstr "Sumpfziegelsteintreppe"
+
+#: init.lua
+msgid "swamp stone brick slab"
+msgstr "Sumpfziegelsteinstufe"
+
+#: init.lua
+msgid "swamp grass roofing stair"
+msgstr "Sumpfgrasdachtreppe"
+
+#: init.lua
+msgid "swamp grass roofing slab"
+msgstr "Sumpfgrasdachstufe"
+
+#: init.lua
 msgid "swamp grass"
 msgstr "Sumpfgras"
 

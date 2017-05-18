@@ -29,8 +29,8 @@ Graphite = Graphit
 Carbon Cloth = Kohlefasergewebe
 Raw Latex = Rohlatex
 Rubber Fiber = Gummifaser
-%.1f%%-Fissile Uranium Ingot =
-%.1f%%-Fissile Uranium Block =
+%.1f%%-Fissile Uranium Ingot = %.1f%%-spaltbarer Uranbarren
+%.1f%%-Fissile Uranium Block = %.1f%%-spaltbarer Uranblock
 
 ## Machine misc
 Machine cannot be removed because it is not empty = Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist.
@@ -39,7 +39,7 @@ Inventory move disallowed due to protection = Das Inventar ist geschützt, Zugri
 @1 Active (@2 EU) = @1 ist eingeschaltet (@2 EU)
 %s Active = %s ist eingeschaltet
 %s Disabled = %s ist ausgeschaltet
-%s Enabled =
+%s Enabled = %s ist eingeschaltet
 %s Idle = %s ist bereit
 %s Improperly Placed = %s ist falsch plaziert
 %s Unpowered = %s hat keine Stromversorgung 
@@ -55,12 +55,12 @@ Out: = Raus:
 Slot %d = Fach %d
 Itemwise = Einzelstücke
 Stackwise = Ganzer Stapel
-Owner: =
-Unlocked =
-Locked =
-Radius: =
-Enabled =
-Disabled =
+Owner: = Besitzer:
+Unlocked = Offen
+Locked = Verschlossen
+Radius: = Radius:
+Enabled = Eingeschaltet
+Disabled = Ausgeschaltet
 
 ## Machine names
 # $1: Tier
@@ -118,12 +118,12 @@ Production at %d%% = Produktion bei %d%%
 Choose Milling Program: = Wähle ein Fräsprogramm:
 Slim Elements half / normal height: = Schmale Elemente von halber / normaler Höhe:
 Current track %s = Aktueller Titel %s
-Stopped =
+Stopped = Gestoppt
 Keeping %d/%d map blocks loaded =
-Digging not started =
-Digging finished =
-Digging %d m above machine =
-Digging %d m below machine =
+Digging not started = Bohren nicht gestartet
+Digging finished = Bohren beendet
+Digging %d m above machine = Bohren %d m überhalb der Maschine
+Digging %d m below machine = Bohren %d m unterhalb der Maschine
 
 ## CNC
 Cylinder = Zylinder
@@ -181,7 +181,7 @@ Talinite = Talinite
 Tin = Zinn
 Wrought Iron = Schmiedeeisen
 Zinc = Zink
-%.1f%%-Fissile Uranium =
+%.1f%%-Fissile Uranium = %.1f%%-spaltbares Uran
 
 ## Tools
 RE Battery = Akkubatterie
@@ -202,7 +202,7 @@ Sonic Screwdriver = Schallschraubendreher
 Tree Tap = Baumzapfhahn
 
 ## Craft descriptions
-Alloy cooking =
-Grinding =
-Compressing =
-Extracting =
+Alloy cooking = Legierungskochen
+Grinding = Mahlen
+Compressing = Verdichten
+Extracting = Extrahieren

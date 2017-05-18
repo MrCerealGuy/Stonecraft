@@ -20,28 +20,84 @@ msgstr ""
 
 #: init.lua
 msgid "Sea gravel"
-msgstr "Seekies"
+msgstr "Meereskies"
 
 #: init.lua
 msgid "Sea gravel cyan"
-msgstr "Seekies türkis"
+msgstr "Meereskies (türkis)"
 
 #: init.lua
 msgid "Sea gravel magenta"
-msgstr "Seekies magenta"
+msgstr "Meereskies (magenta)"
 
 #: init.lua
 msgid "Sea gravel lime"
-msgstr "Seekies hellgrün"
+msgstr "Meereskies (hellgrün)"
 
 #: init.lua
 msgid "Sea gravel aqua"
-msgstr "Seekies wasserblau"
+msgstr "Meereskies (wasserblau)"
 
 #: init.lua
 msgid "Sea gravel skyblue"
-msgstr "Seekies himmelblau"
+msgstr "Meereskies (himmelblau)"
 
 #: init.lua
 msgid "Sea gravel redviolet"
-msgstr "Seekies rotviolett"
+msgstr "Meereskies (rotviolett)"
+
+#: init.lua
+msgid "Seagravel stair"
+msgstr "Meereskiestreppe"
+
+#: init.lua
+msgid "Seagravel slab"
+msgstr "Meereskiesstufe"
+
+#: init.lua
+msgid "Seagravel stair cyan"
+msgstr "Meereskiestreppe (türkis)"
+
+#: init.lua
+msgid "Seagravel slab cyan"
+msgstr "Meereskiesstufe (türkis)"
+
+#: init.lua
+msgid "Seagravel stair magenta"
+msgstr "Meereskiestreppe (magenta)"
+
+#: init.lua
+msgid "Seagravel slab magenta"
+msgstr "Meereskiesstufe (magenta)"
+
+#: init.lua
+msgid "Seagravel stair lime"
+msgstr "Meereskiestreppe (hellgrün)"
+
+#: init.lua
+msgid "Seagravel slab lime"
+msgstr "Meereskiesstufe (hellgrün)"
+
+#: init.lua
+msgid "Seagravel stair aqua"
+msgstr "Meereskiestreppe (wasserblau)"
+
+#: init.lua
+msgid "Seagravel slab aqua"
+msgstr "Meereskiesstufe (wasserblau)"
+
+#: init.lua
+msgid "Seagravel stair skyblue"
+msgstr "Meereskiestreppe (himmelblau)"
+
+#: init.lua
+msgid "Seagravel slab skyblue"
+msgstr "Meereskiesstufe (himmelblau)"
+
+#: init.lua
+msgid "Seagravel stair redviolet"
+msgstr "Meereskiestreppe (rotviolett)"
+
+#: init.lua
+msgid "Seagravel slab redviolet"
+msgstr "Meereskiesstufe (rotviolett)"

@@ -109,17 +109,17 @@ function throwing_register_arrow_standard (kind, desc, eq, toughness, craft)
 end
 
 if not DISABLE_STONE_ARROW then
-	throwing_register_arrow_standard ('stone', 'Stone', 0, 0.88, 'group:stone')
+	throwing_register_arrow_standard ('stone', S('Stone'), 0, 0.88, 'group:stone')
 end
 
 if not DISABLE_STEEL_ARROW then
-	throwing_register_arrow_standard ('steel', 'Steel', 5, 0.94, 'default:steel_ingot')
+	throwing_register_arrow_standard ('steel', S('Steel'), 5, 0.94, 'default:steel_ingot')
 end
 
 if not DISABLE_DIAMOND_ARROW then
-	throwing_register_arrow_standard ('diamond', 'Diamond', 10, 0.97, 'default:diamond')
+	throwing_register_arrow_standard ('diamond', S('Diamond'), 10, 0.97, 'default:diamond')
 end
 
 if not DISABLE_OBSIDIAN_ARROW then
-	throwing_register_arrow_standard ('obsidian', 'Obsidian', 15, 0.88, 'default:obsidian')
+	throwing_register_arrow_standard ('obsidian', S('Obsidian'), 15, 0.88, 'default:obsidian')
 end

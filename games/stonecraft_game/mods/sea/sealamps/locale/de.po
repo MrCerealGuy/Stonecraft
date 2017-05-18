@@ -19,8 +19,8 @@ msgstr ""
 
 
 #: init.lua
-msgid "Meeresfackel"
-msgstr ""
+msgid "Sea torch"
+msgstr "Meeresfackel"
 
 #: init.lua
 msgid "Sea lantern"
