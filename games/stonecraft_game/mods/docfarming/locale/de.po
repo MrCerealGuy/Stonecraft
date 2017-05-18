@@ -1,0 +1,78 @@
+# German translation for docfarming mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-17 16:45+0200\n"
+"PO-Revision-Date: 2018-05-17 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: carrot.lua
+msgid "Carrot"
+msgstr "Karotte"
+
+#: carrot.lua
+msgid "Carrot Seeds"
+msgstr "Karottensamen"
+
+#: corn.lua
+msgid "Corn Seeds"
+msgstr "Maissamen"
+
+#: corn.lua
+msgid "Corn Ear"
+msgstr "Kornähre"
+
+#: cucumber.lua
+msgid "Cucumber Seeds"
+msgstr "Gurkensamen"
+
+#: cucumber.lua
+msgid "Cucumber"
+msgstr "Gurke"
+
+#: init.lua
+msgid "You hacker you!"
+msgstr "Du Hacker du!"
+
+#: init.lua
+msgid "Wood Hoe"
+msgstr "Holzhacke"
+
+#: init.lua
+msgid "Stone Hoe"
+msgstr "Steinhacke"
+
+#: init.lua
+msgid "Steel Hoe"
+msgstr "Stahlhacke"
+
+#: potato.lua
+msgid "Potato"
+msgstr "Kartoffel"
+
+#: potato.lua
+msgid "Potato Seeds"
+msgstr "Kartoffelsamen"
+
+#: potato.lua
+msgid "Baked Potato"
+msgstr "Gekochte Kartoffel"
+
+#: raspberry.lua
+msgid "Raspberry Seeds"
+msgstr "Himbeersamen"
+
+#: raspberry.lua
+msgid "Raspberries"
+msgstr "Himbeeren"

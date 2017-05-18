@@ -1,5 +1,16 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_craftitem("docfarming:potato", {
-	description = "Potato",
+	description = S("Potato"),
 	inventory_image = "potato.png",
 	on_use = minetest.item_eat(3),
 	on_place = function(itemstack, placer, pointed_thing)
@@ -14,7 +25,7 @@ minetest.register_craftitem("docfarming:potato", {
 
 })
 minetest.register_craftitem("docfarming:potatoseed", {
-	description = "Potato Seeds",
+	description = S("Potato Seeds"),
 	inventory_image = "potatoseed.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local above = minetest.env:get_node(pointed_thing.above)
@@ -28,7 +39,7 @@ minetest.register_craftitem("docfarming:potatoseed", {
 
 })
 minetest.register_craftitem("docfarming:bakedpotato", {
-	description = "Baked Potato",
+	description = S("Baked Potato"),
 	inventory_image = "baked_potato.png",
 	on_use = minetest.item_eat(6),
 })

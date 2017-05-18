@@ -1,3 +1,14 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 dofile(minetest.get_modpath("docfarming").."/corn.lua")
 dofile(minetest.get_modpath("docfarming").."/potato.lua")
 dofile(minetest.get_modpath("docfarming").."/carrot.lua")
@@ -5,7 +16,7 @@ dofile(minetest.get_modpath("docfarming").."/raspberry.lua")
 dofile(minetest.get_modpath("docfarming").."/cucumber.lua")
 
 minetest.register_node("docfarming:plowed", {
-	description = "You hacker you!",
+	description = S("You hacker you!"),
 	tiles = {'dirt.png^plowed.png', 'dirt.png', 	'dirt.png'},
      is_ground_content = true,
 	groups = {crumbly=3},
@@ -87,7 +98,7 @@ local function create_soil(pos, inv, p)
 end
 
 minetest.register_tool("docfarming:hoe_wood", {
-	description = "Wood Hoe",
+	description = S("Wood Hoe"),
 	inventory_image = "farming_hoe_wood.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if create_soil(pointed_thing.under, user:get_inventory(), 0) then
@@ -107,7 +118,7 @@ minetest.register_craft({
 })
 
 minetest.register_tool("docfarming:hoe_stone", {
-	description = "Stone Hoe",
+	description = S("Stone Hoe"),
 	inventory_image = "farming_hoe_stone.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if create_soil(pointed_thing.under, user:get_inventory(), 5) then
@@ -127,7 +138,7 @@ minetest.register_craft({
 })
 
 minetest.register_tool("docfarming:hoe_steel", {
-	description = "Steel Hoe",
+	description = S("Steel Hoe"),
 	inventory_image = "farming_hoe_steel.png",
 	on_use = function(itemstack, user, pointed_thing)
 		if create_soil(pointed_thing.under, user:get_inventory(), 10) then

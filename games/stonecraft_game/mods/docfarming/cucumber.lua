@@ -1,5 +1,16 @@
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_craftitem("docfarming:cucumberseed", {
-	description = "Cucumber Seeds",
+	description = S("Cucumber Seeds"),
 	inventory_image = "cucumberseed.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local above = minetest.env:get_node(pointed_thing.above)
@@ -13,7 +24,7 @@ minetest.register_craftitem("docfarming:cucumberseed", {
 
 })
 minetest.register_craftitem("docfarming:cucumber", {
-	description = "Cucumber",
+	description = S("Cucumber"),
 	inventory_image = "cucumber.png",
 	on_use = minetest.item_eat(4),
 })
