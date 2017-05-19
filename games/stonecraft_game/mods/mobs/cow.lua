@@ -79,7 +79,7 @@ mobs:register_mob("mobs:cow", {
 
 			if self.gotten == true then
 				minetest.chat_send_player(clicker:get_player_name(),
-						S("Cow already milked!")
+						S("Cow already milked!"))
 				return
 			end
 

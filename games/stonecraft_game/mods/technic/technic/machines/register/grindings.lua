@@ -13,7 +13,7 @@ minetest.register_craft({ type = "fuel", recipe = sawdust, burntime = 6 })
 technic.register_compressor_recipe({ input = {sawdust .. " 4"}, output = "default:wood" })
 
 -- tree/wood grindings
-local function register_tree_grinding(name, tree, wood, extract, grinding_color)
+local function register_tree_grinding(name, desc, tree, wood, extract, grinding_color)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	local grindings_name = "technic:"..lname.."_grindings"
@@ -22,7 +22,7 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 		inventory_image = inventory_image .. "^[colorize:" .. grinding_color
 	end
 	minetest.register_craftitem(grindings_name, {
-		description = S("@1 Grinding", name),
+		description = S("@1 Grinding", desc),
 		inventory_image = inventory_image,
 	})
 	minetest.register_craft({
@@ -48,8 +48,8 @@ local rubber_tree_planks = moretrees and "moretrees:rubber_tree_planks"
 local default_extract = dye and "dye:brown 2"
 
 local grinding_recipes = {
-	{S("Common Tree"),	"group:tree",	 			"group:wood",		default_extract },
-	{S("Rubber Tree"),	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
+	{"Common Tree", S("Common Tree"),	"group:tree",	 			"group:wood",		default_extract },
+	{"Rubber Tree", S("Rubber Tree"),	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
 }
 
 for _, data in pairs(grinding_recipes) do
