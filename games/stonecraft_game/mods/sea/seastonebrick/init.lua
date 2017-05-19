@@ -88,50 +88,50 @@ minetest.register_node("seastonebrick:seastonebrick_redviolet", {
 stairs.register_stair_and_slab("seastonebrick", "seastonebrick:seastonebrick",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick.png"},
-		"Seastonebrick stair",
-		"Seastonebrick slab",
+		S("Seastonebrick stair"),
+		S("Seastonebrick slab"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_cyan", "seastonebrick:seastonebrick_cyan",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_cyan.png"},
-		"Seastonebrick stair cyan",
-		"Seastonebrick slab cyan",
+		S("Seastonebrick stair cyan"),
+		S("Seastonebrick slab cyan"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_magenta", "seastonebrick:seastonebrick_magenta",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_magenta.png"},
-		"Seastonebrick stair magenta",
-		"Seastonebrick slab magenta",
+		S("Seastonebrick stair magenta"),
+		S("Seastonebrick slab magenta"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_lime", "seastonebrick:seastonebrick_lime",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_lime.png"},
-		"Seastonebrick stair lime",
-		"Seastonebrick slab lime",
+		S("Seastonebrick stair lime"),
+		S("Seastonebrick slab lime"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_aqua", "seastonebrick:seastonebrick_aqua",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_aqua.png"},
-		"Seastonebrick stair aqua",
-		"Seastonebrick slab aqua",
+		S("Seastonebrick stair aqua"),
+		S("Seastonebrick slab aqua"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_skyblue", "seastonebrick:seastonebrick_skyblue",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_skyblue.png"},
-		"Seastonebrick stair skyblue ",
-		"Seastonebrick slab skyblue",
+		S("Seastonebrick stair skyblue"),
+		S("Seastonebrick slab skyblue"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastonebrick_redviolet", "seastonebrick:seastonebrick_redviolet",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_redviolet.png"},
-		"Seastonebrick stair redviolet",
-		"Seastonebrick slab redviolet",
+		S("Seastonebrick stair redviolet"),
+		S("Seastonebrick slab redviolet"),
 		default.node_sound_stone_defaults())
 
 

@@ -44,3 +44,59 @@ msgstr "Meeressteinziegel (himmelblau)"
 #: init.lua
 msgid "Seastone brick redviolet"
 msgstr "Meeressteinziegel (rotviolett)"
+
+#: init.lua
+msgid "Seastonebrick stair"
+msgstr "Meeressteinziegel-Treppe"
+
+#: init.lua
+msgid "Seastonebrick slab"
+msgstr "Meeressteinziegel-Stufe"
+
+#: init.lua
+msgid "Seastonebrick stair cyan"
+msgstr "Meeressteinziegel-Treppe (cyan)"
+
+#: init.lua
+msgid "Seastonebrick slab cyan"
+msgstr "Meeressteinziegel-Stufe (cyan)"
+
+#: init.lua
+msgid "Seastonebrick stair magenta"
+msgstr "Meeressteinziegel-Treppe (magenta)"
+
+#: init.lua
+msgid "Seastonebrick slab magenta"
+msgstr "Meeressteinziegel-Stufe (magenta)"
+
+#: init.lua
+msgid "Seastonebrick stair lime"
+msgstr "Meeressteinziegel-Treppe (hellgrün)"
+
+#: init.lua
+msgid "Seastonebrick slab lime"
+msgstr "Meeressteinziegel-Stufe (hellgrün)"
+
+#: init.lua
+msgid "Seastonebrick stair aqua"
+msgstr "Meeressteinziegel-Treppe (wasserblau)"
+
+#: init.lua
+msgid "Seastonebrick slab aqua"
+msgstr "Meeressteinziegel-Stufe (wasserblau)"
+
+#: init.lua
+msgid "Seastonebrick stair skyblue"
+msgstr "Meeressteinziegel-Treppe (himmelblau)"
+
+#: init.lua
+msgid "Seastonebrick slab skyblue"
+msgstr "Meeressteinziegel-Stufe (himmelblau)"
+
+#: init.lua
+msgid "Seastonebrick stair redviolet"
+msgstr "Meeressteinziegel-Treppe (rotviolett)"
+
+#: init.lua
+msgid "Seastonebrick slab redviolet"
+msgstr "Meeressteinziegel-Stufe (rotviolett)"
