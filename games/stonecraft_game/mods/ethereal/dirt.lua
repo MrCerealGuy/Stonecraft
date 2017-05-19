@@ -49,14 +49,21 @@ minetest.register_craft({
 })
 
 local dirts = {
-	S("Bamboo"), S("Jungle"), S("Grove"), S("Prairie"), S("Cold"),
-	S("Crystal"), S("Mushroom"), S("Fiery"), S("Gray")
+	{"bamboo", S("Bamboo")}, 
+	{"jungle", S("Jungle")},
+	{"grove", S("Grove")},
+	{"prairie", S("Prairie")},
+	{"cold", S("Cold")},
+	{"crystal", S("Crystal")},
+	{"mushroom", S("Mushroom")},
+	{"fiery", S("Fiery")}, 
+	{"gray", S("Gray")}
 }
 
 for n = 1, #dirts do
 
-	local desc = dirts[n]
-	local name = desc:lower()
+	local desc = dirts[n][2]
+	local name = dirts[n][1]--desc:lower()
 
 	minetest.register_node("ethereal:"..name.."_dirt", {
 		description = desc..S("Dirt"),

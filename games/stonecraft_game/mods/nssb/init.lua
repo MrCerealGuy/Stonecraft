@@ -67,7 +67,7 @@ minetest.register_node("nssb:marine_stone", {
 })
 
 minetest.register_node("nssb:marine_brick", {
-	description = S("Seastone Brick"(,
+	description = S("Seastone Brick"),
 	tiles = {"marine_brick.png"},
 	is_ground_content = false,
 	groups = {stone=2},

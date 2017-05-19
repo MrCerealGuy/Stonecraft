@@ -399,7 +399,7 @@ minetest.register_tool("nssm:masticone_fang_sword", {
 })
 
 minetest.register_tool("nssm:night_sword", {
-	description = S("Night Sword")
+	description = S("Night Sword"),
 	inventory_image = "night_sword.png",
 	tool_capabilities = {
 		full_punch_interval =0.4 ,
