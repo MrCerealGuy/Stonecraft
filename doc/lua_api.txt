@@ -172,8 +172,8 @@ The main Lua script. Running this script should register everything it
 wants to register. Subsequent execution depends on minetest calling the
 registered callbacks.
 
-`minetest.setting_get(name)` and `minetest.setting_getbool(name)` can be used
-to read custom or existing settings at load time, if necessary.
+`minetest.settings` can be used to read custom or existing settings at load
+time, if necessary. (See `Settings`)
 
 ### `models`
 Models for entities or meshnodes.
@@ -456,11 +456,13 @@ Examples of sound parameter tables:
     -- Play locationless on all clients
     {
         gain = 1.0, -- default
+        fade = 0.0, -- default, change to a value > 0 to fade the sound in
     }
     -- Play locationless to one player
     {
         to_player = name,
         gain = 1.0, -- default
+        fade = 0.0, -- default, change to a value > 0 to fade the sound in
     }
     -- Play locationless to one player, looped
     {
@@ -1870,14 +1872,14 @@ Escape sequences
 Most text can contain escape sequences, that can for example color the text.
 There are a few exceptions: tab headers, dropdowns and vertical labels can't.
 The following functions provide escape sequences:
-* `core.get_color_escape_sequence(color)`:
+* `minetest.get_color_escape_sequence(color)`:
     * `color` is a ColorString
     * The escape sequence sets the text color to `color`
-* `core.colorize(color, message)`:
+* `minetest.colorize(color, message)`:
     * Equivalent to:
-      `core.get_color_escape_sequence(color) ..
+      `minetest.get_color_escape_sequence(color) ..
        message ..
-       core.get_color_escape_sequence("#ffffff")`
+       minetest.get_color_escape_sequence("#ffffff")`
 * `color.get_background_escape_sequence(color)`
     * `color` is a ColorString
     * The escape sequence sets the background of the whole text element to
@@ -1929,7 +1931,10 @@ Helper functions
     * e.g. `string:split("a,b", ",") == {"a","b"}`
 * `string:trim()`
     * e.g. `string.trim("\n \t\tfoo bar\t ") == "foo bar"`
-* `minetest.pos_to_string({x=X,y=Y,z=Z}, decimal_places))`: returns `"(X,Y,Z)"`
+* `minetest.wrap_text(str, limit)`: returns a string
+    * Adds new lines to the string to keep it within the specified character limit
+    * limit: Maximal amount of characters in one line
+* `minetest.pos_to_string({x=X,y=Y,z=Z}, decimal_places))`: returns string `"(X,Y,Z)"`
     * Convert position to a printable string
       Optional: 'decimal_places' will round the x, y and z of the pos to the given decimal place.
 * `minetest.string_to_pos(string)`: returns a position
@@ -2024,7 +2029,7 @@ Helper functions
   reliable or verifyable. Compatible forks will have a different name and
   version entirely. To check for the presence of engine features, test
   whether the functions exported by the wanted features exist. For example:
-  `if core.nodeupdate then ... end`.
+  `if minetest.nodeupdate then ... end`.
 
 ### Logging
 * `minetest.debug(...)`
@@ -2175,16 +2180,10 @@ Call these functions only at load time!
     * See `minetest.builtin_auth_handler` in `builtin.lua` for reference
 
 ### Setting-related
-* `minetest.setting_set(name, value)`
-    * Setting names can't contain whitespace or any of `="{}#`.
-    * Setting values can't contain the sequence `\n"""`.
-    * Setting names starting with "secure." can't be set.
-* `minetest.setting_get(name)`: returns string or `nil`
-* `minetest.setting_setbool(name, value)`
-    * See documentation on `setting_set` for restrictions.
-* `minetest.setting_getbool(name)`: returns boolean or `nil`
-* `minetest.setting_get_pos(name)`: returns position or nil
-* `minetest.setting_save()`, returns `nil`, save all settings to config file
+* `minetest.settings`: Settings object containing all of the settings from the
+  main config file (`minetest.conf`).
+* `minetest.setting_get_pos(name)`: Loads a setting from the main settings and
+  parses it as a position (in the format `(1,2,3)`). Returns a position or nil.
 
 ### Authentication
 * `minetest.notify_authentication_modified(name)`
@@ -2278,9 +2277,11 @@ and `minetest.auth_reload` call the authetification handler.
 * `minetest.get_gametime()`: returns the time, in seconds, since the world was created
 * `minetest.get_day_count()`: returns number days elapsed since world was created,
     * accounting for time changes.
-* `minetest.find_node_near(pos, radius, nodenames)`: returns pos or `nil`
+* `minetest.find_node_near(pos, radius, nodenames, [search_center])`: returns pos or `nil`
     * `radius`: using a maximum metric
     * `nodenames`: e.g. `{"ignore", "group:tree"}` or `"default:dirt"`
+    * `search_center` is an optional boolean (default: `false`)
+      If true `pos` is also checked for the nodes
 * `minetest.find_nodes_in_area(minp, maxp, nodenames)`: returns a list of positions
     * returns as second value a table with the count of the individual nodes found
     * `nodenames`: e.g. `{"ignore", "group:tree"}` or `"default:dirt"`
@@ -2361,8 +2362,8 @@ and `minetest.auth_reload` call the authetification handler.
     *   `function EmergeAreaCallback(blockpos, action, calls_remaining, param)`
     * - `blockpos` is the *block* coordinates of the block that had been emerged
     * - `action` could be one of the following constant values:
-    *   `core.EMERGE_CANCELLED`, `core.EMERGE_ERRORED`, `core.EMERGE_FROM_MEMORY`,
-    *   `core.EMERGE_FROM_DISK`, `core.EMERGE_GENERATED`
+    *   `minetest.EMERGE_CANCELLED`, `minetest.EMERGE_ERRORED`, `minetest.EMERGE_FROM_MEMORY`,
+    *   `minetest.EMERGE_FROM_DISK`, `minetest.EMERGE_GENERATED`
     * - `calls_remaining` is the number of callbacks to be expected after this one
     * - `param` is the user-defined parameter passed to emerge_area (or nil if the
     *   parameter was absent)
@@ -2417,11 +2418,11 @@ and `minetest.auth_reload` call the authetification handler.
       might be removed.
     * returns `false` if the area is not fully generated,
       `true` otherwise
-* `core.check_single_for_falling(pos)`
+* `minetest.check_single_for_falling(pos)`
     * causes an unsupported `group:falling_node` node to fall and causes an
       unattached `group:attached_node` node to fall.
     * does not spread these updates to neighbours.
-* `core.check_for_falling(pos)`
+* `minetest.check_for_falling(pos)`
     * causes an unsupported `group:falling_node` node to fall and causes an
       unattached `group:attached_node` node to fall.
     * spread these updates to neighbours and can cause a cascade
@@ -2587,6 +2588,11 @@ These functions return the leftover itemstack.
     * `spec` is a `SimpleSoundSpec`
     * `parameters` is a sound parameter table
 * `minetest.sound_stop(handle)`
+* `minetest.sound_fade(handle, step, gain)`
+    * `handle` is a handle returned by minetest.sound_play
+    * `step` determines how fast a sound will fade.
+      Negative step will lower the sound volume, positive step will increase the sound volume
+    * `gain` the target gain for the fade.
 
 ### Timing
 * `minetest.after(time, func, ...)`
@@ -2892,6 +2898,10 @@ Can be obtained via `minetest.get_meta(pos)`.
 #### Methods
 * All methods in MetaDataRef
 * `get_inventory()`: returns `InvRef`
+* `mark_as_private(name or {name1, name2, ...})`: Mark specific vars as private
+  This will prevent them from being sent to the client. Note that the "private"
+  status will only be remembered if an associated key-value pair exists, meaning
+  it's best to call this when initializing all other meta (e.g. on_construct).
 
 ### `ItemStackMetaRef`
 ItemStack metadata: reference extra data and functionality stored in a stack.
@@ -3025,7 +3035,9 @@ This is basically a reference to a C++ `ServerActiveObject`
         * `0`: player is drowning,
         * `1`-`10`: remaining number of bubbles
         * `11`: bubbles bar is not shown
-* `set_attribute(attribute, value)`: sets an extra attribute with value on player
+* `set_attribute(attribute, value)`:
+    * Sets an extra attribute with value on player.
+    * If value is nil, remove attribute from player.
 * `get_attribute(attribute)`: returns value for extra attribute. Returns nil if no attribute found.
 * `set_inventory_formspec(formspec)`
     * Redefine player's inventory form
@@ -3070,13 +3082,15 @@ This is basically a reference to a C++ `ServerActiveObject`
 * `hud_set_hotbar_selected_image(texturename)`
     * sets image for selected item of hotbar
 * `hud_get_hotbar_selected_image`: returns texturename
-* `set_sky(bgcolor, type, {texture names})`
+* `set_sky(bgcolor, type, {texture names}, clouds)`
     * `bgcolor`: ColorSpec, defaults to white
-    * Available types:
+    * `type`: Available types:
         * `"regular"`: Uses 0 textures, `bgcolor` ignored
         * `"skybox"`: Uses 6 textures, `bgcolor` used
         * `"plain"`: Uses 0 textures, `bgcolor` used
-* `get_sky()`: returns bgcolor, type and a table with the textures
+    * `clouds`: Boolean for whether clouds appear in front of `"skybox"` or
+      `"plain"` custom skyboxes (default: `true`)
+* `get_sky()`: returns bgcolor, type, table of textures, clouds
 * `set_clouds(parameters)`: set cloud parameters
 	* `parameters` is a table with the following optional fields:
 		* `density`: from `0` (no clouds) to `1` (full clouds) (default `0.4`)
@@ -3397,9 +3411,9 @@ Note that the node being queried needs to have already been been registered.
 
 The following builtin node types have their Content IDs defined as constants:
 ```
-core.CONTENT_UNKNOWN (ID for "unknown" nodes)
-core.CONTENT_AIR     (ID for "air" nodes)
-core.CONTENT_IGNORE  (ID for "ignore" nodes)
+minetest.CONTENT_UNKNOWN (ID for "unknown" nodes)
+minetest.CONTENT_AIR     (ID for "air" nodes)
+minetest.CONTENT_IGNORE  (ID for "ignore" nodes)
 ```
 
 ##### Mapgen VoxelManip objects
@@ -3525,10 +3539,15 @@ It can be created via `Settings(filename)`.
 * `get(key)`: returns a value
 * `get_bool(key)`: returns a boolean
 * `set(key, value)`
+    * Setting names can't contain whitespace or any of `="{}#`.
+    * Setting values can't contain the sequence `\n"""`.
+    * Setting names starting with "secure." can't be set on the main settings object (`minetest.settings`).
+* `set_bool(key, value)`
+    * See documentation for set() above.
 * `remove(key)`: returns a boolean (`true` for success)
 * `get_names()`: returns `{key1,...}`
 * `write()`: returns a boolean (`true` for success)
-    * write changes to file
+    * Writes changes to file.
 * `to_table()`: returns `{[key1]=value1,...}`
 
 Mapgen objects
@@ -3690,24 +3709,26 @@ Definition tables
     {
         hp_max = 1,
         physical = true,
-        collide_with_objects = true, -- collide with other objects if physical=true
+        collide_with_objects = true, -- collide with other objects if physical = true
         weight = 5,
-        collisionbox = {-0.5,-0.5,-0.5, 0.5,0.5,0.5},
-        visual = "cube"/"sprite"/"upright_sprite"/"mesh"/"wielditem",
-        visual_size = {x=1, y=1},
+        collisionbox = {-0.5, 0.0, -0.5, 0.5, 1.0, 0.5},
+        visual = "cube" / "sprite" / "upright_sprite" / "mesh" / "wielditem",
+        visual_size = {x = 1, y = 1},
         mesh = "model",
         textures = {}, -- number of required textures depends on visual
         colors = {}, -- number of required colors depends on visual
-        spritediv = {x=1, y=1},
-        initial_sprite_basepos = {x=0, y=0},
+        spritediv = {x = 1, y = 1},
+        initial_sprite_basepos = {x = 0, y = 0},
         is_visible = true,
         makes_footstep_sound = false,
         automatic_rotate = false,
         stepheight = 0,
         automatic_face_movement_dir = 0.0,
-    --  ^ automatically set yaw to movement direction; offset in degrees; false to disable
+    --  ^ Automatically set yaw to movement direction, offset in degrees,
+    --    'false' to disable.
         automatic_face_movement_max_rotation_per_sec = -1,
-    --  ^ limit automatic rotation to this value in degrees per second. values < 0 no limit
+    --  ^ Limit automatic rotation to this value in degrees per second,
+    --    value < 0 no limit.
         backface_culling = true, -- false to disable backface_culling for model
         nametag = "", -- by default empty, for players their name is shown if empty
         nametag_color = <color>, -- sets color of nametag as ColorSpec

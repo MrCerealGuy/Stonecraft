@@ -16,7 +16,7 @@
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 local function current_game()
-	local last_game_id = core.setting_get("menu_last_game")
+	local last_game_id = core.settings:get("menu_last_game")
 	local game, index = gamemgr.find_by_gameid(last_game_id)
 	
 	return game
@@ -26,7 +26,7 @@ local function get_formspec(tabview, name, tabdata)
 	local retval = ""
 
 	local index = filterlist.get_current_index(menudata.worldlist,
-				tonumber(core.setting_get("mainmenu_last_selected_world"))
+				tonumber(core.settings:get("mainmenu_last_selected_world"))
 				)
 
 	retval = retval ..
@@ -36,9 +36,9 @@ local function get_formspec(tabview, name, tabdata)
 			"button[9.9,4.15;1.8,0.5;world_configure;".. fgettext("Configure") .. "]" ..
 			"label[4,-0.25;".. fgettext("Select World:") .. "]"..
 			"checkbox[0.25,0.25;cb_creative_mode;".. fgettext("Creative Mode") .. ";" ..
-			dump(core.setting_getbool("creative_mode")) .. "]"..
+			dump(core.settings:get_bool("creative_mode")) .. "]"..
 			"checkbox[0.25,0.7;cb_enable_damage;".. fgettext("Enable Damage") .. ";" ..
-			dump(core.setting_getbool("enable_damage")) .. "]"..
+			dump(core.settings:get_bool("enable_damage")) .. "]"..
 			"textlist[4,0.25;7.5,3.7;sp_worlds;" ..
 			menu_render_worldlist() ..
 			";" .. index .. "]"
@@ -62,7 +62,7 @@ local function main_button_handler(this, fields, name, tabdata)
 		end
 
 		if event.type == "CHG" and selected ~= nil then
-			core.setting_set("mainmenu_last_selected_world",
+			core.settings:set("mainmenu_last_selected_world",
 				menudata.worldlist:get_raw_index(selected))
 			return true
 		end
@@ -73,7 +73,7 @@ local function main_button_handler(this, fields, name, tabdata)
 	end
 
 	if fields["cb_creative_mode"] then
-		core.setting_set("creative_mode", fields["cb_creative_mode"])
+		core.settings:set("creative_mode", fields["cb_creative_mode"])
 		local selected = core.get_textlist_index("sp_worlds")
 		menu_worldmt(selected, "creative_mode", fields["cb_creative_mode"])
 
@@ -81,7 +81,7 @@ local function main_button_handler(this, fields, name, tabdata)
 	end
 
 	if fields["cb_enable_damage"] then
-		core.setting_set("enable_damage", fields["cb_enable_damage"])
+		core.settings:set("enable_damage", fields["cb_enable_damage"])
 		local selected = core.get_textlist_index("sp_worlds")
 		menu_worldmt(selected, "enable_damage", fields["cb_enable_damage"])
 

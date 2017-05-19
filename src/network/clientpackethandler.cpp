@@ -561,7 +561,6 @@ void Client::handleCommand_MovePlayer(NetworkPacket* pkt)
 
 	*pkt >> pos >> pitch >> yaw;
 
-	player->got_teleported = true;
 	player->setPosition(pos);
 
 	infostream << "Client got TOCLIENT_MOVE_PLAYER"
@@ -755,21 +754,39 @@ void Client::handleCommand_ItemDef(NetworkPacket* pkt)
 
 void Client::handleCommand_PlaySound(NetworkPacket* pkt)
 {
+	/*
+		[0] u32 server_id
+		[4] u16 name length
+		[6] char name[len]
+		[ 6 + len] f32 gain
+		[10 + len] u8 type
+		[11 + len] (f32 * 3) pos
+		[23 + len] u16 object_id
+		[25 + len] bool loop
+		[26 + len] f32 fade
+	*/
+
 	s32 server_id;
 	std::string name;
+
 	float gain;
 	u8 type; // 0=local, 1=positional, 2=object
 	v3f pos;
 	u16 object_id;
 	bool loop;
+	float fade = 0;
 
 	*pkt >> server_id >> name >> gain >> type >> pos >> object_id >> loop;
+
+	try {
+		*pkt >> fade;
+	} catch (PacketError &e) {};
 
 	// Start playing
 	int client_id = -1;
 	switch(type) {
 		case 0: // local
-			client_id = m_sound->playSound(name, loop, gain);
+			client_id = m_sound->playSound(name, loop, gain, fade);
 			break;
 		case 1: // positional
 			client_id = m_sound->playSoundAt(name, loop, gain, pos);
@@ -806,6 +823,21 @@ void Client::handleCommand_StopSound(NetworkPacket* pkt)
 		int client_id = i->second;
 		m_sound->stopSound(client_id);
 	}
+}
+
+void Client::handleCommand_FadeSound(NetworkPacket *pkt)
+{
+	s32 sound_id;
+	float step;
+	float gain;
+
+	*pkt >> sound_id >> step >> gain;
+
+	UNORDERED_MAP<s32, int>::iterator i =
+			m_sounds_server_to_client.find(sound_id);
+
+	if (i != m_sounds_server_to_client.end())
+		m_sound->fadeSound(i->second, step, gain);
 }
 
 void Client::handleCommand_Privileges(NetworkPacket* pkt)
@@ -1118,7 +1150,7 @@ void Client::handleCommand_HudSetFlags(NetworkPacket* pkt)
 	m_minimap_disabled_by_server = !(player->hud_flags & HUD_FLAG_MINIMAP_VISIBLE);
 
 	// Hide minimap if it has been disabled by the server
-	if (m_minimap_disabled_by_server && was_minimap_visible) {
+	if (m_minimap && m_minimap_disabled_by_server && was_minimap_visible) {
 		// defers a minimap update, therefore only call it if really
 		// needed, by checking that minimap was visible before
 		m_minimap->setMinimapMode(MINIMAP_MODE_OFF);
@@ -1160,11 +1192,17 @@ void Client::handleCommand_HudSetSky(NetworkPacket* pkt)
 	for (size_t i = 0; i < count; i++)
 		params->push_back(deSerializeString(is));
 
+	bool clouds = true;
+	try {
+		clouds = readU8(is);
+	} catch (...) {}
+
 	ClientEvent event;
 	event.type            = CE_SET_SKY;
 	event.set_sky.bgcolor = bgcolor;
 	event.set_sky.type    = type;
 	event.set_sky.params  = params;
+	event.set_sky.clouds  = clouds;
 	m_client_event_queue.push(event);
 }
 

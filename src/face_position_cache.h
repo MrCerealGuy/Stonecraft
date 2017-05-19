@@ -1,6 +1,6 @@
 /*
 Minetest
-Copyright (C) 2010-2014 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2015 Nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -17,23 +17,28 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef DRAWSCENE_H_
-#define DRAWSCENE_H_
+#ifndef FACE_POSITION_CACHE_HEADER
+#define FACE_POSITION_CACHE_HEADER
 
-#include "camera.h"
-#include "hud.h"
-#include "minimap.h"
-#include "irrlichttypes_extrabloated.h"
+#include "irr_v3d.h"
+#include "threading/mutex.h"
+#include "util/cpp11_container.h"
 
+#include <map>
+#include <vector>
 
-void draw_load_screen(const std::wstring &text, IrrlichtDevice *device,
-		gui::IGUIEnvironment *guienv, ITextureSource *tsrc, float dtime = 0,
-		int percent = 0, bool clouds = true);
+/*
+ * This class permits caching getFacePosition call results.
+ * This reduces CPU usage and vector calls.
+ */
+class FacePositionCache {
+public:
+	static const std::vector<v3s16> &getFacePositions(u16 d);
 
-void draw_scene(video::IVideoDriver *driver, scene::ISceneManager *smgr,
-		Camera &camera, Client &client, LocalPlayer *player,
-		Hud &hud, Minimap *mapper, gui::IGUIEnvironment *guienv,
-		const v2u32 &screensize, const video::SColor &skycolor,
-		bool show_hud, bool show_minimap);
+private:
+	static const std::vector<v3s16> &generateFacePosition(u16 d);
+	static UNORDERED_MAP<u16, std::vector<v3s16> > cache;
+	static Mutex cache_mutex;
+};
 
-#endif /* DRAWSCENE_H_ */
+#endif

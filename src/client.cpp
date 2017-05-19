@@ -58,6 +58,7 @@ Client::Client(
 		IrrlichtDevice *device,
 		const char *playername,
 		const std::string &password,
+		const std::string &address_name,
 		MapDrawControl &control,
 		IWritableTextureSource *tsrc,
 		IWritableShaderSource *shsrc,
@@ -89,8 +90,10 @@ Client::Client(
 	),
 	m_particle_manager(&m_env),
 	m_con(PROTOCOL_ID, 512, CONNECTION_TIMEOUT, ipv6, this),
+	m_address_name(address_name),
 	m_device(device),
 	m_camera(NULL),
+	m_minimap(NULL),
 	m_minimap_disabled_by_server(false),
 	m_server_ser_ver(SER_FMT_VER_INVALID),
 	m_proto_ver(0),
@@ -125,7 +128,9 @@ Client::Client(
 	// Add local player
 	m_env.setLocalPlayer(new LocalPlayer(this, playername));
 
-	m_minimap = new Minimap(device, this);
+	if (g_settings->getBool("enable_minimap")) {
+		m_minimap = new Minimap(device, this);
+	}
 	m_cache_save_interval = g_settings->getU16("server_map_save_interval");
 
 	m_modding_enabled = g_settings->getBool("enable_client_modding");
@@ -166,7 +171,7 @@ void Client::initMods()
 		if (!string_allowed(mod.name, MODNAME_ALLOWED_CHARS)) {
 			throw ModError("Error loading mod \"" + mod.name +
 				"\": Mod name does not follow naming conventions: "
-					"Only chararacters [a-z0-9_] are allowed.");
+					"Only characters [a-z0-9_] are allowed.");
 		}
 		std::string script_path = mod.path + DIR_DELIM + "init.lua";
 		infostream << "  [" << padStringRight(mod.name, 12) << "] [\""
@@ -253,13 +258,11 @@ Client::~Client()
 	delete m_minimap;
 }
 
-void Client::connect(Address address,
-		const std::string &address_name,
-		bool is_local_server)
+void Client::connect(Address address, bool is_local_server)
 {
 	DSTACK(FUNCTION_NAME);
 
-	initLocalMapSaving(address, address_name, is_local_server);
+	initLocalMapSaving(address, m_address_name, is_local_server);
 
 	m_con.SetTimeoutMs(0);
 	m_con.Connect(address);
@@ -407,6 +410,7 @@ void Client::step(float dtime)
 
 	// Step environment
 	m_env.step(dtime);
+	m_sound->step(dtime);
 
 	/*
 		Get events
@@ -501,7 +505,7 @@ void Client::step(float dtime)
 				delete r.mesh;
 			}
 
-			if (do_mapper_update)
+			if (m_minimap && do_mapper_update)
 				m_minimap->addBlock(r.p, minimap_mapblock);
 
 			if (r.ack_block_to_server) {

@@ -32,7 +32,6 @@ local stonecraft_developers = {
 local core_developers = {
 	"Perttu Ahola (celeron55) <celeron55@gmail.com>",
 	"Ryan Kwolek (kwolekr) <kwolekr@minetest.net>",
-	"PilzAdam <pilzadam@minetest.net>",
 	"sfan5 <sfan5@live.de>",
 	"kahrl <kahrl@gmx.net>",
 	"sapier",
@@ -66,6 +65,7 @@ local previous_core_developers = {
 	"Lisa Milne (darkrose) <lisa@ltmnet.com>",
 	"proller",
 	"Ilya Zhuravlev (xyz) <xyz@minetest.net>",
+	"PilzAdam <pilzadam@minetest.net>",
 }
 
 local previous_contributors = {

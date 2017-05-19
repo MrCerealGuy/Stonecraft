@@ -43,10 +43,10 @@ end
 local function configure_selected_world_params(idx)
 	local worldconfig = modmgr.get_worldconfig(menudata.worldlist:get_list()[idx].path)
 	if worldconfig.creative_mode then
-		core.setting_set("creative_mode", worldconfig.creative_mode)
+		core.settings:set("creative_mode", worldconfig.creative_mode)
 	end
 	if worldconfig.enable_damage then
-		core.setting_set("enable_damage", worldconfig.enable_damage)
+		core.settings:set("enable_damage", worldconfig.enable_damage)
 	end
 end
 
@@ -164,8 +164,8 @@ end
 
 --------------------------------------------------------------------------------
 os.tempfolder = function()
-	if core.setting_get("TMPFolder") then
-		return core.setting_get("TMPFolder") .. DIR_DELIM .. "MT_" .. math.random(0,10000)
+	if core.settings:get("TMPFolder") then
+		return core.settings:get("TMPFolder") .. DIR_DELIM .. "MT_" .. math.random(0,10000)
 	end
 
 	local filetocheck = os.tmpname()
@@ -206,7 +206,7 @@ function menu_handle_key_up_down(fields, textlist, settingname)
 				oldidx < menudata.worldlist:size() then
 			newidx = oldidx + 1
 		end
-		core.setting_set(settingname, menudata.worldlist:get_raw_index(newidx))
+		core.settings:set(settingname, menudata.worldlist:get_raw_index(newidx))
 		configure_selected_world_params(newidx)
 		return true
 	end
@@ -250,7 +250,7 @@ end
 
 --------------------------------------------------------------------------------
 function text2textlist(xpos, ypos, width, height, tl_name, textlen, text, transparency)
-	local textlines = core.splittext(text, textlen)
+	local textlines = core.wrap_text(text, textlen)
 	local retval = "textlist[" .. xpos .. "," .. ypos .. ";" .. width ..
 			"," .. height .. ";" .. tl_name .. ";"
 
@@ -304,7 +304,7 @@ function is_server_protocol_compat_or_error(server_proto_min, server_proto_max)
 end
 --------------------------------------------------------------------------------
 function menu_worldmt(selected, setting, value)
-	--local world = menudata.worldlist:get_list()[selected] -- MrCerealGuy: filterlist.raw_index_by_uid uses m_raw_list!!
+	--local world = menudata.worldlist:get_list()[selected] -- MERGEINFO: MrCerealGuy: filterlist.raw_index_by_uid uses m_raw_list!!
 															-- get_list() returns other sorted list
 	local world = menudata.worldlist.m_raw_list[selected]
 	if world then
@@ -330,9 +330,9 @@ function menu_worldmt_legacy(selected)
 	for _, mode_name in pairs(modes_names) do
 		local mode_val = menu_worldmt(selected, mode_name)
 		if mode_val then
-			core.setting_set(mode_name, mode_val)
+			core.settings:set(mode_name, mode_val)
 		else
-			menu_worldmt(selected, mode_name, core.setting_get(mode_name))
+			menu_worldmt(selected, mode_name, core.settings:get(mode_name))
 		end
 	end
 end
