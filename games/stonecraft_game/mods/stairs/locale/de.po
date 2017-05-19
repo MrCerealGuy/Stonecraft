@@ -87,11 +87,11 @@ msgstr "Moosbedeckte Bruchsteinstufe"
 
 #: init.lua
 msgid "Stone Brick Stair"
-msgstr "Ziegelsteintreppe"
+msgstr "Steinziegeltreppe"
 
 #: init.lua
 msgid "Stone Brick Slab"
-msgstr "Ziegelsteinstufe"
+msgstr "Steinziegelstufe"
 
 #: init.lua
 msgid "Stone Block Stair"
@@ -111,27 +111,27 @@ msgstr "Wüstensteinstufe"
 
 #: init.lua
 msgid "Desert Cobblestone Stair"
-msgstr "Wüstenbruchsteintreppe"
+msgstr "Wüstenbruchstein-Treppe"
 
 #: init.lua
 msgid "Desert Cobblestone Slab"
-msgstr "Wüstenbruchsteinstufe"
+msgstr "Wüstenbruchstein-Stufe"
 
 #: init.lua
 msgid "Desert Stone Brick Stair"
-msgstr "Wüstenziegelsteintreppe"
+msgstr "Wüstensteinziegel-Treppe"
 
 #: init.lua
 msgid "Desert Stone Brick Slab"
-msgstr "Wüstenziegelsteinstufe"
+msgstr "Wüstensteinziegel-Stufe"
 
 #: init.lua
 msgid "Desert Stone Block Stair"
-msgstr "Wüstensteinblocktreppe"
+msgstr "Wüstensteinblock-Treppe"
 
 #: init.lua
 msgid "Desert Stone Block Slab"
-msgstr "Wüstensteinblockstufe"
+msgstr "Wüstensteinblock-Stufe"
 
 #: init.lua
 msgid "Sandstone Stair"
@@ -143,43 +143,43 @@ msgstr "Sandsteinstufe"
 
 #: init.lua
 msgid "Sandstone Brick Stair"
-msgstr "Sandziegelsteintreppe"
+msgstr "Sandsteinziegel-Treppe"
 
 #: init.lua
 msgid "Sandstone Brick Slab"
-msgstr "Sandziegelsteinstufe"
+msgstr "Sandsteinziegel-Stufe"
 
 #: init.lua
 msgid "Sandstone Block Stair"
-msgstr "Sandsteinblocktreppe"
+msgstr "Sandsteinblock-Treppe"
 
 #: init.lua
 msgid "Sandstone Block Slab"
-msgstr "Sandsteinblockstufe"
+msgstr "Sandsteinblock-Stufe"
 
 #: init.lua
 msgid "Desert Sandstone Stair"
-msgstr "Wüstensandsteintreppe"
+msgstr "Wüstensandstein-Treppe"
 
 #: init.lua
 msgid "Desert Sandstone Slab"
-msgstr "Wüstensandsteinstufe"
+msgstr "Wüstensandstein-Stufe"
 
 #: init.lua
 msgid "Desert Sandstone Brick Stair"
-msgstr "Wüstensandziegelsteintreppe"
+msgstr "Wüstensandstein-Ziegeltreppe"
 
 #: init.lua
 msgid "Desert Sandstone Brick Slab"
-msgstr "Wüstensandziegelsteinstufe"
+msgstr "Wüstensandstein-Ziegelstufe"
 
 #: init.lua
 msgid "Desert Sandstone Block Stair"
-msgstr "Wüstensandsteinblocktreppe"
+msgstr "Wüstensandstein-Blocktreppe"
 
 #: init.lua
 msgid "Desert Sandstone Block Slab"
-msgstr "Wüstensandsteinblockstufe"
+msgstr "Wüstensandstein-Blockstufe"
 
 #: init.lua
 msgid "Silver Sandstone Stair"
@@ -191,19 +191,19 @@ msgstr "Silbersandsteinstufe"
 
 #: init.lua
 msgid "Silver Sandstone Brick Stair"
-msgstr "Silbersandziegelsteintreppe"
+msgstr "Silbersandstein-Ziegeltreppe"
 
 #: init.lua
 msgid "Silver Sandstone Brick Slab"
-msgstr "Silbersandziegelsteinstufe"
+msgstr "Silbersandstein-Ziegelstufe"
 
 #: init.lua
 msgid "Silver Sandstone Block Stair"
-msgstr "Silbersandsteinblocktreppe"
+msgstr "Silbersandstein-Blocktreppe"
 
 #: init.lua
 msgid "Silver Sandstone Block Slab"
-msgstr "Silbersandsteinblockstufe"
+msgstr "Silbersandstein-Blockstufe"
 
 #: init.lua
 msgid "Obsidian Stair"

@@ -27,7 +27,7 @@ msgstr "Bruchstein"
 
 #: nodes.lua
 msgid "Stone Brick"
-msgstr "Ziegelstein"
+msgstr "Steinziegel"
 
 #: nodes.lua
 msgid "Stone Block"
@@ -47,7 +47,7 @@ msgstr "Wüstenbruchstein"
 
 #: nodes.lua
 msgid "Desert Stone Brick"
-msgstr "Wüstenziegelstein"
+msgstr "Wüstensteinziegel"
 
 #: nodes.lua
 msgid "Desert Stone Block"
@@ -59,7 +59,7 @@ msgstr "Sandstein"
 
 #: nodes.lua
 msgid "Sandstone Brick"
-msgstr "Sandziegelstein"
+msgstr "Sandsteinziegel"
 
 #: nodes.lua
 msgid "Sandstone Block"
@@ -71,7 +71,7 @@ msgstr "Wüstensandstein"
 
 #: nodes.lua
 msgid "Desert Sandstone Brick"
-msgstr "Wüstensandziegelstein"
+msgstr "Wüstensandsteinziegel"
 
 #: nodes.lua
 msgid "Desert Sandstone Block"
@@ -83,7 +83,7 @@ msgstr "Silbersandstein"
 
 #: nodes.lua
 msgid "Silver Sandstone Brick"
-msgstr "Silbersandziegelstein"
+msgstr "Silbersandsteinziegel"
 
 #: nodes.lua
 msgid "Silver Sandstone Block"
@@ -143,7 +143,7 @@ msgstr "Kies"
 
 #: nodes.lua
 msgid "Clay"
-msgstr "Lehm"
+msgstr "Ton"
 
 #: nodes.lua
 msgid "Snow"
@@ -615,7 +615,7 @@ msgstr "Diamant"
 
 #: craftitems.lua
 msgid "Clay Lump"
-msgstr "Lehmklumpen"
+msgstr "Tonklumpen"
 
 #: craftitems.lua
 msgid "Steel Ingot"
@@ -643,7 +643,7 @@ msgstr "Mesekristallfragment"
 
 #: craftitems.lua
 msgid "Clay Brick"
-msgstr "Lehmziegel"
+msgstr "Tonziegel"
 
 #: craftitems.lua
 msgid "Obsidian Shard"

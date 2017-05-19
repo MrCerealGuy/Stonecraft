@@ -43,7 +43,7 @@ msgstr "Sandstein mit @1"
 
 #: nodes.lua
 msgid "Cracked sandstone brick"
-msgstr "Zerbrochener Sandziegelstein"
+msgstr "Zerbrochener Sandsteinziegel"
 
 #: nodes.lua
 msgid "Trapstone"

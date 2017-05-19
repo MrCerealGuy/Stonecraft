@@ -23,7 +23,7 @@ msgstr "Sandstein mit @1"
 
 #: pyramids_nodes.lua
 msgid "Cracked sandstone brick"
-msgstr "Brüchiger Ziegelsandstein"
+msgstr "Brüchiger Sandsteinziegel"
 
 #: pyramids_nodes.lua
 msgid "trapstone"

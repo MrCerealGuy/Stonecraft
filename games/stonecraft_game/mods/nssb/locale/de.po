@@ -18,11 +18,11 @@ msgstr ""
 
 #: init.lua
 msgid "Mossy Stone Brick"
-msgstr "Bemooster Ziegelstein"
+msgstr "Bemooster Steinziegel"
 
 #: init.lua
 msgid "Very Mossy Stone Brick"
-msgstr "Sehr bemooster Ziegelstein"
+msgstr "Sehr bemooster Steinziegel"
 
 #: init.lua
 msgid "Mossy Stone Column"
@@ -158,4 +158,4 @@ msgstr "Riesensandwurm-Ei"
 
 #: init.lua
 msgid "Seastone Brick"
-msgstr "Meeresziegelstein"
+msgstr "Meeressteinziegel"

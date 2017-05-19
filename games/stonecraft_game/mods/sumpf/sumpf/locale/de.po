@@ -46,7 +46,7 @@ msgstr "Sumpfkiesstein"
 
 #: init.lua
 msgid "swamp stone brick"
-msgstr "Sumpfziegelstein"
+msgstr "Sumpfsteinziegel"
 
 #: init.lua
 msgid "peat"
@@ -78,19 +78,19 @@ msgstr "Sumpfsteinstufe"
 
 #: init.lua
 msgid "swamp cobble stone stair"
-msgstr "Sumpfbruchsteintreppe"
+msgstr "Sumpfbruchstein-Treppe"
 
 #: init.lua
 msgid "swamp cobble stone slab"
-msgstr "Sumpfbruchsteinstufe"
+msgstr "Sumpfbruchstein-Stufe"
 
 #: init.lua
 msgid "swamp stone brick stair"
-msgstr "Sumpfziegelsteintreppe"
+msgstr "Sumpfsteinziegel-Treppe"
 
 #: init.lua
 msgid "swamp stone brick slab"
-msgstr "Sumpfziegelsteinstufe"
+msgstr "Sumpfsteinziegel-Stufe"
 
 #: init.lua
 msgid "swamp grass roofing stair"

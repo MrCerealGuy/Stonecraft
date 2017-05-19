@@ -43,19 +43,19 @@ msgstr "Schneekiesstufe"
 
 #: basic_stairs_slabs.lua
 msgid "Snow Brick Stair"
-msgstr "Ziegelschneetreppe"
+msgstr "Schneeziegeltreppe"
 
 #: basic_stairs_slabs.lua
 msgid "Snow Brick Slab"
-msgstr "Ziegelschneestufe"
+msgstr "Schneeziegelstufe"
 
 #: basic_stairs_slabs.lua
 msgid "Ice Brick Stair"
-msgstr "Ziegeleistreppe"
+msgstr "Eisziegeltreppe"
 
 #: basic_stairs_slabs.lua
 msgid "Ice Brick Slab"
-msgstr "Ziegeleisstufe"
+msgstr "Eisziegelstufe"
 
 #: nodes.lua
 msgid "Pine Needles"
@@ -99,11 +99,11 @@ msgstr "Schneeapfel"
 
 #: nodes.lua
 msgid "Snow Brick"
-msgstr "Ziegelschnee"
+msgstr "Schneeziegel"
 
 #: nodes.lua
 msgid "Ice Brick"
-msgstr "Ziegeleis"
+msgstr "Eisziegel"
 
 #: nodes.lua
 msgid "Icy Snow"
