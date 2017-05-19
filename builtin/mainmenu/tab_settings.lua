@@ -127,7 +127,7 @@ local getSettingIndex = {
 		return 1
 	end,
 	Language = function()
-		local language_setting = core.setting_get("language")
+		local language_setting = core.settings:get("language")
 		for i = 1, #dd_options.language[2] do
 			if language_setting == dd_options.language[2][i] then
 				return i
@@ -202,15 +202,15 @@ local function formspec(tabview, name, tabdata)
 	local tab_string =
 		"box[0,0;3.5,4.8;#999999]" ..
 		"checkbox[0.25,0;cb_smooth_lighting;" .. fgettext("Smooth Lighting") .. ";"
-				.. dump(core.setting_getbool("smooth_lighting")) .. "]" ..
+				.. dump(core.settings:get_bool("smooth_lighting")) .. "]" ..
 		"checkbox[0.25,0.5;cb_particles;" .. fgettext("Particles") .. ";"
-				.. dump(core.setting_getbool("enable_particles")) .. "]" ..
+				.. dump(core.settings:get_bool("enable_particles")) .. "]" ..
 		"checkbox[0.25,1;cb_3d_clouds;" .. fgettext("3D Clouds") .. ";"
-				.. dump(core.setting_getbool("enable_3d_clouds")) .. "]" ..
+				.. dump(core.settings:get_bool("enable_3d_clouds")) .. "]" ..
 		"checkbox[0.25,1.5;cb_opaque_water;" .. fgettext("Opaque Water") .. ";"
-				.. dump(core.setting_getbool("opaque_water")) .. "]" ..
+				.. dump(core.settings:get_bool("opaque_water")) .. "]" ..
 		"checkbox[0.25,2.0;cb_connected_glass;" .. fgettext("Connected Glass") .. ";"
-				.. dump(core.setting_getbool("connected_glass")) .. "]" ..
+				.. dump(core.settings:get_bool("connected_glass")) .. "]" ..
 		"dropdown[0.25,2.8;3.3;dd_node_highlighting;" .. dd_options.node_highlighting[1] .. ";"
 				.. getSettingIndex.NodeHighlighting() .. "]" ..
 		"dropdown[0.25,3.6;3.3;dd_leaves_style;" .. dd_options.leaves[1] .. ";"

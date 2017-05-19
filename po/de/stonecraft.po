@@ -879,6 +879,10 @@ msgid "Continue"
 msgstr "Weiter"
 
 #: src/game.cpp
+msgid "Game paused"
+msgstr "Spiel pausiert"
+
+#: src/game.cpp
 msgid "Creating client..."
 msgstr "Client erstellen …"
 
@@ -1097,6 +1101,30 @@ msgstr "Zoom"
 #: src/guiKeyChangeMenu.cpp
 msgid "press key"
 msgstr "Taste drücken"
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Local command"
+msgstr "Lokaler Befehl"
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Prev. item"
+msgstr "Vorh. Gegenst."
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Next item"
+msgstr "Nächs. Gegenst."
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Mute"
+msgstr "Stumm schalten"
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Dec. volume"
+msgstr "Lautstärke erhöh."
+
+#: src/guiKeyChangeMenu.cpp
+msgid "Inc. volume"
+msgstr "Lautstärke reduz."
 
 #: src/guiPasswordChange.cpp
 msgid "Change"
