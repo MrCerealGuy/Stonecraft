@@ -21,3 +21,15 @@ msgstr ""
 #: init.lua
 msgid "Empty Bucket"
 msgstr "Leerer Eimer"
+
+#: init.lua
+msgid "Water Bucket"
+msgstr "Eimer mit Wasser"
+
+#: init.lua
+msgid "River Water Bucket"
+msgstr "Eimer mit Flusswasser"
+
+#: init.lua
+msgid "Lava Bucket"
+msgstr "Eimer mit Lava"

@@ -6,7 +6,6 @@
 
 ### nodes_anvil.lua ###
 Steel hammer for repairing tools on the anvil = Stahlhammer um Werkzeuge auf dem Amboss zu reparieren
-anvil = Amboss
 Anvil = Amboss
 The workpiece slot is for damaged tools only. = Das Werkstückfeld gilt nur für beschädigtes Werkzeug.
 Your tool has been repaired successfully. = Dein Werkzeug wurde erfolgreich repariert.
@@ -23,11 +22,11 @@ repair tool in workpiece-slot. = das Werkzeug im Werkstückfeld zu reparieren.
 ### nodes_barrel.lua ###
 Pour: = Eingiessen
 Fill: = Ausgiessen
-barrel (closed) = Fass (geschlossen)
-barrel (open) = Fass (offen)
+Barrel (closed) = Fass (geschlossen)
+Barrel (open) = Fass (offen)
 barrel (closed), lying somewhere = Liegendes Fass (geschlossen)
-barrel (opened), lying somewhere = Liegendes Fass (offen)
-tub = Bottich
+Barrel (opened), lying somewhere = Liegendes Fass (offen)
+Tub = Bottich
 
 ### nodes_chests.lua ###
 private NPC chest = Private NSC-Truhe
@@ -35,46 +34,49 @@ chest for work utils and kitchens = NSC-Truhe für Arbeitsutensilien und Küchen
 storage chest = NSC-Lagertruhe
 
 ### nodes_doorlike.lua ###
-opened window shutters = Offene Fensterläden
-closed window shutters = Geschlossene Fensterläden
-half door = Kloentür
-half door inverted = Umgekehrte Kloentür
-closed fence gate = Geschlossenes Zauntor
-opened fence gate = Offenes Zauntor
-wooden hatch = Holzfalltür
-metal hatch = Metallfalltür
+Opened window shutters = Offene Fensterläden
+Closed window shutters = Geschlossene Fensterläden
+Half door = Kloentür
+Half door inverted = Umgekehrte Kloentür
+Closed fence gate = Geschlossenes Zauntor
+Opened fence gate = Offenes Zauntor
+Wooden hatch = Holzfalltür
+Metal hatch = Metallfalltür
 
 ### nodes_fences.lua ###
-small fence = Kleiner Zaun
-small fence corner = Kleiner Zaun (Ecke)
-small fence end = Kleiner Zaun (Ende)
+Small fence = Kleiner Zaun
+Small fence corner = Kleiner Zaun (Ecke)
+Small fence end = Kleiner Zaun (Ende)
 
 ### nodes_furniture.lua ###
 Bed (foot region) = Bett (Fussende)
 Bed (head region) = Bett (Kopfende)
-sleeping mat = Schlafmatte
-simple wooden bench = Einfache Holzbank
-table = Tisch
-open storage shelf = Offenes Lagerregal
-open storage shelf (in use) = Offenes Lagerregal (in Gebrauch)
-open storage shelf (empty) = Offenes Lagerregal (leer)
-stovepipe = Ofenrohr
-washing place = Waschplatz
+Sleeping mat = Schlafmatte
+Simple wooden bench = Einfache Holzbank
+Table = Tisch
+Open storage shelf = Offenes Lagerregal
+Open storage shelf (in use) = Offenes Lagerregal (in Gebrauch)
+Open storage shelf (empty) = Offenes Lagerregal (leer)
+Stovepipe = Ofenrohr
+Washing place = Waschplatz
 Sorry. This washing place is out of water. Please place it above water! = Entschuldige, dieser Waschplatz hat kein Wasser mehr. Bitte platziere ihn über Wasser!
 You feel much cleaner after some washing. = Nach einer kleinen Wäsche fühlst du dich nun sauberer.
 
 ### nodes_historic.lua ###
-wagon wheel = Wagenrad
-dirt road = Feldweg
-loam = Lehm
+Wagon wheel = Wagenrad
+Dirt road = Feldweg
+Loam = Lehm
 Dirt Road Stairs = Feldwegtreppe
 Dirt Road, half height = Feldwegstufe
 Loam Stairs = Lehmtreppe
 Loam Slab = Lehmstufe
 Clay Stairs = Tontreppe
 Clay Slab = Tonstufe
-straw ground for animals = Strohboden für Tiere
-simple glass pane = Einfache Fensterscheibe
+Straw ground for animals = Strohboden für Tiere
+Simple glass pane = Einfache Fensterscheibe
+Flat wooden planks = Flache Holzbretter
+Wool for tents = Wolle für Zelte
+Wool = Wolle
 
 ### nodes_roof.lua ###
 Roof straw = Strohdach
@@ -117,7 +119,6 @@ Punch threshing floor with a stick = Schlage mit einem Stock auf den Dreschboden
 to get straw and seeds from wheat. = um Stroh und Körner vom Weizen zu bekommen.
 You have threshed %s wheat (%s are left). =  Du hast %s Weizenähren gedroschen (%s bleiben übrig).
 You have threshed the last %s wheat. =  Du hast die letzten %s Weizenähren gedroschen.
-mill, powered by punching = Mühle, durch Schlagen antreiben
 Mill, powered by punching = Mühle, durch Schlagen antreiben
 Mill, powered by punching (owned by %s) = Mühle, durch Schlagen antreiben (gehört %s)
 Wheat seeds: = Weizenkörner

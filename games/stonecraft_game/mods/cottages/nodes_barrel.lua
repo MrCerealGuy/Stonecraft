@@ -69,7 +69,7 @@ end
 
 -- right-click to open/close barrel; punch to switch between horizontal/vertical position
         minetest.register_node("cottages:barrel", {
-                description = S("barrel (closed)"),
+                description = S("Barrel (closed)"),
                 paramtype = "light",
                 drawtype = "mesh",
 				mesh = "cottages_barrel_closed.obj",
@@ -100,7 +100,7 @@ end
 
         -- this barrel is opened at the top
         minetest.register_node("cottages:barrel_open", {
-                description = S("barrel (open)"),
+                description = S("Barrel (open)"),
                 paramtype = "light",
                 drawtype = "mesh",
 				mesh = "cottages_barrel.obj",
@@ -119,7 +119,7 @@ end
 
         -- horizontal barrel
         minetest.register_node("cottages:barrel_lying", {
-                description = S("barrel (closed), lying somewhere"),
+                description = S("Barrel (closed), lying somewhere"),
                 paramtype = "light",
 	            paramtype2 = "facedir",
                 drawtype = "mesh",
@@ -143,7 +143,7 @@ end
 
         -- horizontal barrel, open
         minetest.register_node("cottages:barrel_lying_open", {
-                description = S("barrel (opened), lying somewhere"),
+                description = S("Barrel (opened), lying somewhere"),
                 paramtype = "light",
 	            paramtype2 = "facedir",
                 drawtype = "mesh",
@@ -168,7 +168,7 @@ end
 
         -- let's hope "tub" is the correct english word for "bottich"
         minetest.register_node("cottages:tub", {
-                description = S("tub"),
+                description = S("Tub"),
                 paramtype = "light",
                 drawtype = "mesh",
 				mesh = "cottages_tub.obj",
