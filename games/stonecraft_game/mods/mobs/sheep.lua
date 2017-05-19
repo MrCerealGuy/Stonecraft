@@ -182,7 +182,7 @@ for _, col in pairs(all_colours) do
 		end
 	})
 
-	mobs:register_egg("mobs:sheep_"..col[1], col[2] .. S("Sheep"), "wool_"..col[1]..".png", 1)
+	mobs:register_egg("mobs:sheep_"..col[1], col[2] .. " " .. S("Sheep"), "wool_"..col[1]..".png", 1)
 
 end
 

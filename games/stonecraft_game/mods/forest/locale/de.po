@@ -115,35 +115,31 @@ msgstr "Thermometer"
 
 #: trees.lua
 msgid "Oak"
-msgstr "Eiche"
+msgstr "Eichen"
 
 #: trees.lua
 msgid "Birch"
-msgstr "Birke"
+msgstr "Birken"
 
 #: trees.lua
 msgid "Willow"
-msgstr "Trauerweide"
+msgstr "Trauerweiden"
 
 #: trees.lua
 msgid "Fir"
-msgstr "Tanne"
+msgstr "Tannen"
 
 #: trees.lua
 msgid "Mirabelle"
-msgstr "Mirabelle"
+msgstr "Mirabellen"
 
 #: trees.lua
 msgid "Mirabelle with leaves"
 msgstr "Mirabelle mit Blättern"
 
 #: trees.lua
-msgid "Mirabelle"
-msgstr "Mirabelle"
-
-#: trees.lua
 msgid "Cherry"
-msgstr "Kirche"
+msgstr "Kirchen"
 
 #: trees.lua
 msgid "Cherry with leaves"
@@ -151,7 +147,7 @@ msgstr "Kirche mit Blättern"
 
 #: trees.lua
 msgid "Plum"
-msgstr "Pflaume"
+msgstr "Pflaumen"
 
 #: trees.lua
 msgid "Plum with leaves"
@@ -159,7 +155,7 @@ msgstr "Pflaume mit Blättern"
 
 #: trees.lua
 msgid "Prune"
-msgstr "Pflaume"
+msgstr "Pflaumen"
 
 #: trees.lua
 msgid "Apple"
@@ -175,7 +171,7 @@ msgstr "Dschungelbaum"
 
 #: trees.lua
 msgid "Beech"
-msgstr "Buche"
+msgstr "Buchen"
 
 #: trees.lua
 msgid "Ginkgo"

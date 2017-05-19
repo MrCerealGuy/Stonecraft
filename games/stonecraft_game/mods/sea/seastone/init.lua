@@ -94,50 +94,50 @@ minetest.register_node("seastone:seastone_redviolet", {
 stairs.register_stair_and_slab("seastone", "seastone:seastone",
 		{cracky=3, stone=1},
 		{"seastone_seastone.png"},
-		"Seastone stair",
-		"Seastone slab",
+		S("Seastone stair"),
+		S("Seastone slab"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_cyan", "seastone:seastone_cyan",
 		{cracky=3, stone=1},
 		{"seastone_seastone_cyan.png"},
-		"Seastone stair cyan",
-		"Seastone slab cyan",
+		S("Seastone stair cyan"),
+		S("Seastone slab cyan"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_magenta", "seastone:seastone_magenta",
 		{cracky=3, stone=1},
 		{"seastone_seastone_magenta.png"},
-		"Seastone stair magenta",
-		"Seastone slab magenta",
+		S("Seastone stair magenta"),
+		S("Seastone slab magenta"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_lime", "seastone:seastone_lime",
 		{cracky=3, stone=1},
 		{"seastone_seastone_lime.png"},
-		"Seastone stair lime",
-		"Seastone slab lime",
+		S("Seastone stair lime"),
+		S("Seastone slab lime"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_aqua", "seastone:seastone_aqua",
 		{cracky=3, stone=1},
 		{"seastone_seastone_aqua.png"},
-		"Seastone stair aqua",
-		"Seastone slab aqua",
+		S("Seastone stair aqua"),
+		S("Seastone slab aqua"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_skyblue", "seastone:seastone_skyblue",
 		{cracky=3, stone=1},
 		{"seastone_seastone_skyblue.png"},
-		"Seastone stair skyblue ",
-		"Seastone slab skyblue",
+		S("Seastone stair skyblue"),
+		S("Seastone slab skyblue"),
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seastone_redviolet", "seastone:seastone_redviolet",
 		{cracky=3, stone=1},
 		{"seastone_seastone_redviolet.png"},
-		"Seastone stair redviolet",
-		"Seastone slab redviolet",
+		S("Seastone stair redviolet"),
+		S("Seastone slab redviolet"),
 		default.node_sound_stone_defaults())
 
 

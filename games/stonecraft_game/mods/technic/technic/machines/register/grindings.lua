@@ -22,7 +22,7 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 		inventory_image = inventory_image .. "^[colorize:" .. grinding_color
 	end
 	minetest.register_craftitem(grindings_name, {
-		description = S("%s Grinding"):format(S(name)),
+		description = S("@1 Grinding", name),
 		inventory_image = inventory_image,
 	})
 	minetest.register_craft({
@@ -48,8 +48,8 @@ local rubber_tree_planks = moretrees and "moretrees:rubber_tree_planks"
 local default_extract = dye and "dye:brown 2"
 
 local grinding_recipes = {
-	{"Common Tree",	"group:tree",	 			"group:wood",		default_extract },
-	{"Rubber Tree",	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
+	{S("Common Tree"),	"group:tree",	 			"group:wood",		default_extract },
+	{S("Rubber Tree"),	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
 }
 
 for _, data in pairs(grinding_recipes) do
@@ -58,5 +58,5 @@ end
 
 if moretrees and dye then
 	-- https://en.wikipedia.org/wiki/Catechu ancient brown dye from the wood of acacia trees
-	register_tree_grinding("Acacia", "moretrees:acacia_trunk", "moretrees:acacia_planks", "dye:brown 8")
+	register_tree_grinding(S("Acacia"), "moretrees:acacia_trunk", "moretrees:acacia_planks", "dye:brown 8")
 end

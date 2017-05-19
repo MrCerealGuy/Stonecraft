@@ -1,4 +1,16 @@
 
+--[[
+
+2017-05-19 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 -- Dirt Monster by PilzAdam
 
 mobs:register_mob("mobs:dirt_monster", {
@@ -50,4 +62,4 @@ mobs:register_mob("mobs:dirt_monster", {
 mobs:register_spawn("mobs:dirt_monster",
 	{"default:dirt_with_grass", "ethereal:gray_dirt"}, 7, 0, 7000, 2, 31000, false)
 
-mobs:register_egg("mobs:dirt_monster", "Dirt Monster", "default_dirt.png", 1)
+mobs:register_egg("mobs:dirt_monster", S("Dirt Monster"), "default_dirt.png", 1)

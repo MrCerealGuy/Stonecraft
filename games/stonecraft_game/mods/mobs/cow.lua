@@ -79,7 +79,7 @@ mobs:register_mob("mobs:cow", {
 
 			if self.gotten == true then
 				minetest.chat_send_player(clicker:get_player_name(),
-						"Cow already milked!")
+						S("Cow already milked!")
 				return
 			end
 
@@ -107,7 +107,7 @@ mobs:register_mob("mobs:cow", {
 mobs:register_spawn("mobs:cow",
 	{"default:dirt_with_grass", "ethereal:green_dirt"}, 20, 10, 15000, 2, 31000, true)
 
-mobs:register_egg("mobs:cow", "Cow", "default_grass.png", 1)
+mobs:register_egg("mobs:cow", S("Cow"), "default_grass.png", 1)
 
 -- bucket of milk
 minetest.register_craftitem("mobs:bucket_milk", {

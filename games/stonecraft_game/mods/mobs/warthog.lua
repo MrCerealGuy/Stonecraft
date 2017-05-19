@@ -67,7 +67,7 @@ mobs:register_mob("mobs:pumba", {
 mobs:register_spawn("mobs:pumba",
 	{"ethereal:mushroom_dirt", "default:dirt_with_dry_grass"}, 20, 10, 15000, 2, 31000, true)
 
-mobs:register_egg("mobs:pumba", "Warthog", "wool_pink.png", 1)
+mobs:register_egg("mobs:pumba", S("Warthog"), "wool_pink.png", 1)
 
 -- raw porkchop
 minetest.register_craftitem("mobs:pork_raw", {

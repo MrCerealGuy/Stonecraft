@@ -15,6 +15,7 @@ Cast Iron Ingot = Gusseisenbarren
 Carbon Steel Ingot = Kohlenstoffstahlbarren
 Stainless Steel Ingot = Edelstahlbarren
 Iron = Eisen
+Sulfur Lump = Schwefelklumpen
 
 ## nodes.lua
 Uranium Ore = Uranerz

@@ -1,3 +1,13 @@
+--[[
+
+2017-05-19 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Kitten by Jordach / BFD
 
@@ -53,4 +63,4 @@ mobs:register_mob("mobs:kitten", {
 mobs:register_spawn("mobs:kitten",
 	{"default:dirt_with_grass", "ethereal:grove_dirt"}, 20, 12, 22000, 2, 31000, true)
 
-mobs:register_egg("mobs:kitten", "Kitten", "mobs_kitten_inv.png", 0)
+mobs:register_egg("mobs:kitten", S("Kitten"), "mobs_kitten_inv.png", 0)

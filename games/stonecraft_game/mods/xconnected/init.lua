@@ -1,4 +1,15 @@
 
+--[[
+
+2017-05-18 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -----------------------------------------------------------------------
 -- xconnected.lua contains the actual code and api for xconnected nodes
 -----------------------------------------------------------------------

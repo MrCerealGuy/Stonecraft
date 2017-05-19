@@ -166,6 +166,102 @@ msgid "Energy Globe"
 msgstr "Energiekugel"
 
 #: nssm_materials.lua
+msgid "Werewolf Leg"
+msgstr "Werwolfbein"
+
+#: nssm_materials.lua
+msgid "Moonheron Leg"
+msgstr "Mondreiherbein"
+
+#: nssm_materials.lua
+msgid "Chichibio's Moonheron Leg"
+msgstr "Chichibio's Mondreiherbein"
+
+#: nssm_materials.lua
+msgid "Crocodile Tail"
+msgstr "Krokodilsschwanz"
+
+#: nssm_materials.lua
+msgid "Roasted Crocodile Tail"
+msgstr "Gerösteter Krokodilsschwanz"
+
+#: nssm_materials.lua
+msgid "Roasted Werewolf Leg"
+msgstr "Geröstetes Werwolfbein"
+
+#: nssm_materials.lua
+msgid "Duck Legs"
+msgstr "Entenbeine"
+
+#: nssm_materials.lua
+msgid "Roasted Duck Leg"
+msgstr "Geröstetes Entenbein"
+
+#: nssm_materials.lua
+msgid "Ant Leg"
+msgstr "Ameisenbein"
+
+#: nssm_materials.lua
+msgid "Roasted Ant Leg"
+msgstr "Geröstetes Ameisenbein"
+
+#: nssm_materials.lua
+msgid "Spider Leg"
+msgstr "Spinnenbein"
+
+#: nssm_materials.lua
+msgid "Roasted Spider Leg"
+msgstr "Geröstetes Spinnenbein"
+
+#: nssm_materials.lua
+msgid "Tentacle"
+msgstr "Tentakel"
+
+#: nssm_materials.lua
+msgid "Roasted Tentacle"
+msgstr "Geröstete Tentakel"
+
+#: nssm_materials.lua
+msgid "Worm Flesh"
+msgstr "Wurmfleisch"
+
+#: nssm_materials.lua
+msgid "Roasted Worm Flesh"
+msgstr "Geröstetes Wurmfleisch"
+
+#: nssm_materials.lua
+msgid "Amphibian Heart"
+msgstr "Amphibienherz"
+
+#: nssm_materials.lua
+msgid "Roasted Amphibian Heart"
+msgstr "Geröstetes Amphibienherz"
+
+#: nssm_materials.lua
+msgid "Raw Scrausics Wing"
+msgstr "Rohe Scrausics Flügel"
+
+#: nssm_materials.lua
+msgid "Spicy Scrausics Wing"
+msgstr "Würzige Scrausics Flügel"
+
+#: nssm_materials.lua
+msgid "Phoenix Nuggets"
+msgstr "Phoenix Nüsse"
+
+#: nssm_materials.lua
+msgid "Phoenix Tear"
+msgstr "Phoenix Träne"
+
+#: nssm_materials.lua
+msgid "Frosted Amphibian Heart"
+msgstr "Gefrorenes Amphibienherz"
+
+#: nssm_materials.lua
+msgid "Surimi"
+msgstr "Surimi"
+
+#: nssm_materials.lua
 msgid "Ant Dirt"
 msgstr "Ameisenerde"
 

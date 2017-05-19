@@ -200,9 +200,17 @@ Mining Laser Mk%d = Bergbaulaser Modell %d
 Single node. = Einzelblock
 Sonic Screwdriver = Schallschraubendreher
 Tree Tap = Baumzapfhahn
+Vacuum Cleaner = Vakuumreiniger
 
 ## Craft descriptions
 Alloy cooking = Legierungskochen
 Grinding = Mahlen
+@1 Grinding = Mahlen
 Compressing = Verdichten
 Extracting = Extrahieren
+
+
+Sawdust = Sägemehl
+Common Tree = Gewöhnlicher Baum
+Rubber Tree = Gummibaum
+Acacia = Akazie

@@ -1,3 +1,13 @@
+--[[
+
+2017-05-19 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Bunny by ExeterDad
 
@@ -81,4 +91,4 @@ mobs:register_mob("mobs:bunny", {
 mobs:register_spawn("mobs:bunny",
 	{"default:dirt_with_grass", "ethereal:prairie_dirt"}, 20, 10, 15000, 2, 31000, true)
 
-mobs:register_egg("mobs:bunny", "Bunny", "mobs_bunny_inv.png", 0)
+mobs:register_egg("mobs:bunny", S("Bunny"), "mobs_bunny_inv.png", 0)

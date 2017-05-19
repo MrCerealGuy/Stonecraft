@@ -1,3 +1,13 @@
+--[[
+
+2017-05-19 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Tree Monster (or Tree Gollum) by PilzAdam
 
@@ -52,7 +62,7 @@ mobs:register_mob("mobs:tree_monster", {
 mobs:register_spawn("mobs:tree_monster",
 	{"default:leaves", "default:jungleleaves"}, 7, 0, 7000, 2, 31000, false)
 
-mobs:register_egg("mobs:tree_monster", "Tree Monster", "default_tree_top.png", 1)
+mobs:register_egg("mobs:tree_monster", S("Tree Monster"), "default_tree_top.png", 1)
 
 -- ethereal sapling compatibility
 if not minetest.get_modpath("ethereal") then

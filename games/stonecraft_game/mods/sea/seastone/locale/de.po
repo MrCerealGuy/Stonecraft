@@ -23,24 +23,80 @@ msgstr "Meeresstein"
 
 #: init.lua
 msgid "Seastone cyan"
-msgstr "Meeresstein türkis"
+msgstr "Meeresstein (türkis)"
 
 #: init.lua
 msgid "Seastone magenta"
-msgstr "Meeresstein magenta"
+msgstr "Meeresstein (magenta)"
 
 #: init.lua
 msgid "Seastone lime"
-msgstr "Meeresstein hellgrün"
+msgstr "Meeresstein (hellgrün)"
 
 #: init.lua
 msgid "Seastone aqua"
-msgstr "Meeresstein wasserblau"
+msgstr "Meeresstein (wasserblau)"
 
 #: init.lua
 msgid "Seastone skyblue"
-msgstr "Meeresstein himmelblau"
+msgstr "Meeresstein (himmelblau)"
 
 #: init.lua
 msgid "Seastone redviolet"
-msgstr "Meeresstein rotviolett"
+msgstr "Meeresstein (rotviolett)"
+
+#: init.lua
+msgid "Seastone stair"
+msgstr "Meeressteintreppe"
+
+#: init.lua
+msgid "Seastone slab"
+msgstr "Meeressteinstufe"
+
+#: init.lua
+msgid "Seastone stair cyan"
+msgstr "Meeressteintreppe (türkis)"
+
+#: init.lua
+msgid "Seastone slab cyan"
+msgstr "Meeressteinstufe (türkis)"
+
+#: init.lua
+msgid "Seastone stair magenta"
+msgstr "Meeressteintreppe (magenta)"
+
+#: init.lua
+msgid "Seastone slab magenta"
+msgstr "Meeressteinstufe (magenta)"
+
+#: init.lua
+msgid "Seastone stair lime"
+msgstr "Meeressteintreppe (hellgrün)"
+
+#: init.lua
+msgid "Seastone slab lime"
+msgstr "Meeressteinstufe (hellgrün)"
+
+#: init.lua
+msgid "Seastone stair aqua"
+msgstr "Meeressteintreppe (wasserblau)"
+
+#: init.lua
+msgid "Seastone slab aqua"
+msgstr "Meeressteinstufe (wasserblau)"
+
+#: init.lua
+msgid "Seastone stair skyblue"
+msgstr "Meeressteintreppe (himmelblau)"
+
+#: init.lua
+msgid "Seastone slab skyblue"
+msgstr "Meeressteinstufe (himmelblau)"
+
+#: init.lua
+msgid "Seastone stair redviolet"
+msgstr "Meeressteintreppe (rotviolett)"
+
+#: init.lua
+msgid "Seastone slab redviolet"
+msgstr "Meeressteinstufe (rotviolett)"
