@@ -1330,7 +1330,7 @@ minetest.register_node("default:bush_stem", {
 	sounds = default.node_sound_wood_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-7 / 16, -0.5, -7 / 16, 7 / 16, 0.54, 7 / 16},
+		fixed = {-7 / 16, -0.5, -7 / 16, 7 / 16, 0.5, 7 / 16},
 	},
 })
 
@@ -1401,7 +1401,7 @@ minetest.register_node("default:acacia_bush_stem", {
 	sounds = default.node_sound_wood_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-7 / 16, -0.5, -7 / 16, 7 / 16, 0.54, 7 / 16},
+		fixed = {-7 / 16, -0.5, -7 / 16, 7 / 16, 0.5, 7 / 16},
 	},
 })
 
@@ -1783,10 +1783,10 @@ local function get_chest_formspec(pos)
 		default.gui_bg ..
 		default.gui_bg_img ..
 		default.gui_slots ..
-		"list[nodemeta:" .. spos .. ";default:chest;0,0.3;8,4;]" ..
+		"list[nodemeta:" .. spos .. ";main;0,0.3;8,4;]" ..
 		"list[current_player;main;0,4.85;8,1;]" ..
 		"list[current_player;main;0,6.08;8,3;8]" ..
-		"listring[nodemeta:" .. spos .. ";default:chest]" ..
+		"listring[nodemeta:" .. spos .. ";main]" ..
 		"listring[current_player;main]" ..
 		default.get_hotbar_bg(0,4.85)
 	return formspec
@@ -1811,10 +1811,14 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 	if formname ~= "default:chest" then
 		return
 	end
-	if not fields.quit then
+	if not player or not fields.quit then
 		return
 	end
 	local pn = player:get_player_name()
+
+	if not open_chests[pn] then
+		return
+	end
 
 	local pos = open_chests[pn].pos
 	local sound = open_chests[pn].sound
@@ -1848,7 +1852,7 @@ function default.register_chest(name, d)
 			meta:set_string("infotext", "Locked Chest")
 			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
-			inv:set_size("default:chest", 8*4)
+			inv:set_size("main", 8*4)
 		end
 		def.after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
@@ -1859,7 +1863,7 @@ function default.register_chest(name, d)
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
-			return inv:is_empty("default:chest") and
+			return inv:is_empty("main") and
 					default.can_interact_with_node(player, pos)
 		end
 		def.allow_metadata_inventory_move = function(pos, from_list, from_index,
@@ -1945,12 +1949,12 @@ function default.register_chest(name, d)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("infotext", "Chest")
 			local inv = meta:get_inventory()
-			inv:set_size("default:chest", 8*4)
+			inv:set_size("main", 8*4)
 		end
 		def.can_dig = function(pos,player)
 			local meta = minetest.get_meta(pos);
 			local inv = meta:get_inventory()
-			return inv:is_empty("default:chest")
+			return inv:is_empty("main")
 		end
 		def.on_rightclick = function(pos, node, clicker)
 			minetest.sound_play(def.sound_open, {gain = 0.3, pos = pos,
@@ -2005,7 +2009,11 @@ function default.register_chest(name, d)
 		return false
 	end
 
-	def_closed.mesh = "cube.obj"
+	def_closed.mesh = nil
+	def_closed.drawtype = nil
+	def_closed.tiles[6] = def.tiles[5] -- swap textures around for "normal"
+	def_closed.tiles[5] = def.tiles[3] -- drawtype to make them match the mesh
+	def_closed.tiles[3] = def.tiles[3].."^[transformFX"
 
 	minetest.register_node("default:" .. name, def_closed)
 	minetest.register_node("default:" .. name .. "_open", def_opened)
@@ -2013,16 +2021,18 @@ function default.register_chest(name, d)
 	-- convert old chests to this new variant
 	minetest.register_lbm({
 		label = "update chests to opening chests",
-		name = "default:upgrade_" .. name,
+		name = "default:upgrade_" .. name .. "_v2",
 		nodenames = {"default:" .. name},
 		action = function(pos, node)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("formspec", nil)
 			local inv = meta:get_inventory()
-			local list = inv:get_list("main")
-			inv:set_list("main", nil)
-			inv:set_size("default:chest", 8*4)
-			inv:set_list("default:chest", list)
+			local list = inv:get_list("default:chest")
+			if list then
+				inv:set_size("main", 8*4)
+				inv:set_list("main", list)
+				inv:set_list("default:chest", nil)
+			end
 		end
 	})
 end
@@ -2030,7 +2040,14 @@ end
 
 default.register_chest("chest", {
 	description = S("Chest"),
-	tiles = { "default_chest_wood.png" },
+	tiles = {
+		"default_chest_top.png",
+		"default_chest_top.png",
+		"default_chest_side.png",
+		"default_chest_side.png",
+		"default_chest_front.png",
+		"default_chest_inside.png"
+	},
 	sounds = default.node_sound_wood_defaults(),
 	sound_open = "default_chest_open",
 	sound_close = "default_chest_close",
@@ -2039,7 +2056,14 @@ default.register_chest("chest", {
 
 default.register_chest("chest_locked", {
 	description = S("Locked Chest"),
-	tiles = { "default_chest_wood_locked.png" },
+	tiles = {
+		"default_chest_top.png",
+		"default_chest_top.png",
+		"default_chest_side.png",
+		"default_chest_side.png",
+		"default_chest_lock.png",
+		"default_chest_inside.png"
+	},
 	sounds = default.node_sound_wood_defaults(),
 	sound_open = "default_chest_open",
 	sound_close = "default_chest_close",

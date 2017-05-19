@@ -154,7 +154,7 @@ sofar (CC BY-SA 3.0):
   default_aspen_tree
   default_aspen_tree_top, derived from default_pine_tree_top (by paramat)
   default_aspen_wood, derived from default_pine_wood (by paramat)
-  default_chest_wood, default_chest_wood_locked derived from default_chest_* textures by BlockMen
+  default_chest_inside
 
 sofar (WTFPL):
   default_gravel.png -- Derived from Gambit's PixelBOX texture pack light gravel
