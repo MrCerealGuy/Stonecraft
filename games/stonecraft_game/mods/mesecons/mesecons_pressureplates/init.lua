@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-20 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -16,6 +18,10 @@ if enable_mesecons ~= nil and enable_mesecons == "false" then
 end
 
 -- --------------------------------------------------------------------------------------------------------
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local pp_box_off = {
 	type = "fixed",
@@ -96,7 +102,7 @@ end
 
 mesecon.register_pressure_plate(
 	"mesecons_pressureplates:pressure_plate_wood",
-	"Wooden Pressure Plate",
+	S("Wooden Pressure Plate"),
 	{"jeija_pressure_plate_wood_off.png","jeija_pressure_plate_wood_off.png","jeija_pressure_plate_wood_off_edges.png"},
 	{"jeija_pressure_plate_wood_on.png","jeija_pressure_plate_wood_on.png","jeija_pressure_plate_wood_on_edges.png"},
 	"jeija_pressure_plate_wood_wield.png",
@@ -105,7 +111,7 @@ mesecon.register_pressure_plate(
 
 mesecon.register_pressure_plate(
 	"mesecons_pressureplates:pressure_plate_stone",
-	"Stone Pressure Plate",
+	S("Stone Pressure Plate"),
 	{"jeija_pressure_plate_stone_off.png","jeija_pressure_plate_stone_off.png","jeija_pressure_plate_stone_off_edges.png"},
 	{"jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on_edges.png"},
 	"jeija_pressure_plate_stone_wield.png",
