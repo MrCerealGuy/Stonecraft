@@ -636,7 +636,7 @@ end)
 -- kill player when command issued
 minetest.register_chatcommand("kill", {
 	params = "<name>",
-	description = S("Kills player instantly"),
+	description = "Kills player instantly",
 	privs = {ban=true},
 	func = function(name, param)
 		local player = minetest.get_player_by_name(param)
@@ -647,7 +647,7 @@ minetest.register_chatcommand("kill", {
 })
 
 minetest.register_chatcommand("killme", {
-	description = S("Kill yourself instantly"),
+	description = "Kill yourself instantly",
 	func = function(name)
 		local player = minetest.get_player_by_name(name)
 		if player then

@@ -30,7 +30,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_chatcommand("say", {
 	params = "<text>",
-	description = S("Say <text> as the server"),
+	description = "Say <text> as the server",
 	privs = {server=true},
 	func = function(name, param)
 		minetest.chat_send_all(name .. ": " .. param)
@@ -39,7 +39,7 @@ minetest.register_chatcommand("say", {
 
 minetest.register_chatcommand("tell", {
 	params = "<name> <text>",
-	description = S("Say <text> to <name> privately"),
+	description = "Say <text> to <name> privately",
 	func = function(name, param)
 		local found, _, target, message = param:find("^([^%s]+)%s+(.*)$")
 		if found == nil then
@@ -55,19 +55,19 @@ minetest.register_chatcommand("tell", {
 
 minetest.register_chatcommand("hp", {
 	params = "<name> <value>",
-	description = S("Set health of <name> to <value> hitpoints"),
+	description = "Set health of <name> to <value> hitpoints",
 	privs = {ban=true},
 	func = function(name, param)
 		local found, _, target, value = param:find("^([^%s]+)%s+(%d+)$")
 		if found == nil then
-			minetest.chat_send_player(name, S("Invalid usage: ") .. param)
+			minetest.chat_send_player(name, "Invalid usage: " .. param)
 			return
 		end
 		local player = minetest.get_player_by_name(target)
 		if player then
 			player:set_hp(value)
 		else
-			minetest.chat_send_player(name, S("Invalid target: ") .. target)
+			minetest.chat_send_player(name, "Invalid target: " .. target)
 		end
 	end
 })
@@ -180,14 +180,14 @@ local function commandblock_action_on(pos, node)
 		end
 		local cmddef = minetest.chatcommands[cmd]
 		if not cmddef then
-			minetest.chat_send_player(owner, S("The command @1 does not exist", cmd))
+			minetest.chat_send_player(owner, "The command "..cmd.." does not exist")
 			return
 		end
 		local has_privs, missing_privs = minetest.check_player_privs(owner, cmddef.privs)
 		if not has_privs then
-			minetest.chat_send_player(owner, S("You don't have permission ")
-					..S("to run ")..cmd
-					..S(" (missing privileges: ")
+			minetest.chat_send_player(owner, "You don't have permission "
+					.."to run "..cmd
+					.." (missing privileges: "
 					..table.concat(missing_privs, ", ")..")")
 			return
 		end
