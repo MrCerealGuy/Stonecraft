@@ -49,8 +49,16 @@ end
 
 mobf_trader = {}
 
+--[[
+
+2017-05-20 MrCerealGuy: added intllib support
+
+--]]
 
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 dofile(minetest.get_modpath("mobf_trader").."/config.lua");        -- local configuration values
 dofile(minetest.get_modpath("mobf_trader").."/mob_basics.lua");    -- basic functionality: onfig, spawn, ...
@@ -91,7 +99,7 @@ mobf_trader.trader_entity_prototype = {
 	textures     = {"character.png"},
 
 
-	description  = 'Trader',
+	description  = S('Trader'),
 
 	-- this mob only has to stand around and wait for customers
         animation = {
@@ -135,7 +143,7 @@ mobf_trader.trader_entity_prototype = {
 	-- unique ID for each trader
 	trader_id        = '',
 	
-        decription = "Default NPC",
+        decription = S("Default NPC"),
         inventory_image = "npcf_inv_top.png",
 
 
@@ -183,8 +191,8 @@ mobf_trader.trader_entity_prototype = {
 		-- talk to the player
 		if( puncher and puncher:get_player_name() ) then
 			minetest.chat_send_player( puncher:get_player_name(),
-				( self.trader_name or 'A trader' )..': '..
-				'Hey! Stop doing that. I am a peaceful trader. Here, buy something:');
+				( self.trader_name or S('A trader') )..': '..
+				S('Hey! Stop doing that. I am a peaceful trader. Here, buy something:'));
 			-- marketing - if *that* doesn't disencourage aggressive players... :-)
 			mobf_trader.trader_entity_trade( self, puncher );
 		end
@@ -319,8 +327,8 @@ mobf_trader.add_trader = function( prototype, description, speciality, goods, na
 end
 
 -- this trader can be configured by a player or admin
-mobf_trader.add_trader( nil, 'Trader who is working for someone', 'individual', {}, {'nameless'}, {} );
-mobf_trader.add_trader( nil, 'Trader with limited stock',         'random',     {}, {'nameless'}, {} );
+mobf_trader.add_trader( nil, S('Trader who is working for someone'), 'individual', {}, {'nameless'}, {} );
+mobf_trader.add_trader( nil, S('Trader with limited stock'),         'random',     {}, {'nameless'}, {} );
 
 
 
@@ -329,7 +337,7 @@ mobf_trader.add_trader( nil, 'Trader with limited stock',         'random',     
 -----------------------------------------------------------------------------------------------------
 minetest.register_chatcommand( 'trader', {
         params = "<trader type>",
-        description = "Spawns a trader of the given type. Returns a list of types if called without parameter.",
+        description = S("Spawns a trader of the given type. Returns a list of types if called without parameter."),
         privs = {},
         func = function(name, param)
 		-- this function handles the sanity checks and the actual spawning
@@ -346,7 +354,7 @@ minetest.register_chatcommand( 'trader', {
 -- own register_craftitem and use this as an example.
 minetest.register_craftitem("mobf_trader:trader_item", {
 	name            = "Trader",
-	description     = "Trader. Place him somewhere to activate.",
+	description     = S("Trader. Place him somewhere to activate."),
 	groups          = {},
 	inventory_image = "character.png",
 	wield_image     = "character.png",
@@ -364,10 +372,10 @@ mob_pickup.register_mob_for_pickup( 'mobf_trader:trader', 'mobf_trader:trader_it
 	deny_pickup = function( self, player )
 
 		if( not( self )) then
-			return 'Error: Internal error. Trader not found.';
+			return S('Error: Internal error. Trader not found.');
 		end
 		if( not( mob_basics.mob_types[ 'trader' ][ self[ 'trader_typ' ]] )) then
-			return 'Error: The typ of this trader is unkown. Cannot pick him up.';
+			return S('Error: The typ of this trader is unkown. Cannot pick him up.');
 		end
 		return '';
 	end,
@@ -375,7 +383,7 @@ mob_pickup.register_mob_for_pickup( 'mobf_trader:trader', 'mobf_trader:trader_it
 	deny_place = function( data, pos, player )
 
 		if( data and not( mob_basics.mob_types[ 'trader' ][ data[ 'trader_typ']])) then
-			return 'Error: The typ of this trader is unkown. Cannot place him.';
+			return S('Error: The typ of this trader is unkown. Cannot place him.');
 		end
 
 		if( not( player )) then
@@ -385,22 +393,22 @@ mob_pickup.register_mob_for_pickup( 'mobf_trader:trader', 'mobf_trader:trader_it
 
 		local mobs = mob_basics.mob_id_list_by_player( player:get_player_name(), 'trader' );
 		if( #mobs >= mobf_trader.MAX_TRADER_PER_PLAYER and not( minetest.check_player_privs(pname, {mob_basics_spawn=true}))) then
-			return 'Error: You are only allowed to have up to '..tostring( mobf_trader.MAX_TRADER_PER_PLAYER )..' traders '..
-				' (you have '..tostring( #mobs )..' currently).';
+			return S('Error: You are only allowed to have up to ')..tostring( mobf_trader.MAX_TRADER_PER_PLAYER )..S(' traders ')..
+				S(' (you have ')..tostring( #mobs )..S(' currently).');
 		end
 
 		mobs = mob_basics.mob_id_list_by_player( pname, nil );
 		if( #mobs >= mobf_trader.MAX_MOBS_PER_PLAYER and not( minetest.check_player_privs(pname, {mob_basics_spawn=true}))) then
-			return 'Error: You are only allowed to have up to '..tostring( mobf_trader.MAX_MOBS_PER_PLAYER   )..' mobs'..
-				' (you have '..tostring( #mobs )..' currently).';
+			return S('Error: You are only allowed to have up to ')..tostring( mobf_trader.MAX_MOBS_PER_PLAYER   )..S(' mobs')..
+				S(' (you have ')..tostring( #mobs )..S(' currently).');
 		end
 
 		return '';
 	end,
 	
-	pickup_success_msg = 'Mob picked up. In order to use him again, just wield him and place him somewhere.',
+	pickup_success_msg = S('Mob picked up. In order to use him again, just wield him and place him somewhere.'),
 
-	place_success_msg  = 'Trader placed and waiting for trades.',
+	place_success_msg  = S('Trader placed and waiting for trades.'),
 });
 
 
