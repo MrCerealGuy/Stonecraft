@@ -220,6 +220,12 @@ int LuaVoxelManip::l_save_data_from_heap(lua_State *L)
 
 	u32 index = luaL_checknumber(L, 2);
 
+	if (index < 0  || (data_heap.size()-1) < index || data_heap.at(index).empty())
+	{
+		errorstream << "l_save_data_from_heap index: " << index << std::endl;
+		return -1;
+	}
+
 	for (u32 i = 0; i != data_heap.at(index).size(); i++) {
 
 		content_t c = data_heap.at(index).at(i);
@@ -244,7 +250,7 @@ int LuaVoxelManip::l_get_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (data_heap.capacity()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
+	if (key < 0 || index < 0 || (data_heap.capacity()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
 		//infostream << "l_get_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
@@ -273,7 +279,7 @@ int LuaVoxelManip::l_set_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (data_heap.capacity()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
+	if (key < 0 || index < 0 || (data_heap.capacity()-1) < index || data_heap.at(index).empty() || (data_heap.at(index).size()-1) < key)
 	{
 		infostream << "l_set_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		return 0;
@@ -365,6 +371,12 @@ int LuaVoxelManip::l_save_param2_data_from_heap(lua_State *L)
 
 	u32 index = luaL_checknumber(L, 2);
 
+	if (index < 0  || (param2_data_heap.size()-1) < index || param2_data_heap.at(index).empty())
+	{
+		errorstream << "l_save_param2_data_from_heap index: " << index << std::endl;
+		return -1;
+	}
+
 	for (u32 i = 0; i != param2_data_heap.at(index).size(); i++) {
 		u8 param2 = param2_data_heap.at(index).at(i);
 		vm->m_data[i].param2 = param2;
@@ -392,7 +404,7 @@ int LuaVoxelManip::l_get_param2_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (param2_data_heap.capacity()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	if (key < 0 || index < 0 || (param2_data_heap.capacity()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
 	{
 		//infostream << "l_get_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		lua_pushinteger(L, (lua_Integer)-1);
@@ -421,7 +433,7 @@ int LuaVoxelManip::l_set_param2_data_from_heap(lua_State *L)
 	// Lua table index starts with 1 not with 0!
 	key = key-1;
 
-	if (index < 0 || (param2_data_heap.capacity()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
+	if (key < 0 || index < 0 || (param2_data_heap.capacity()-1) < index || param2_data_heap.at(index).empty() || (param2_data_heap.at(index).size()-1) < key)
 	{
 		infostream << "l_set_param2_data_from_heap index, key, volume: "<< index << " " << key << " " << volume << std::endl;
 		return 0;
