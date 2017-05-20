@@ -143,8 +143,6 @@ nodedef = {
 	end,
 }
 
-minetest.log("error", S("Star"))
-
 -- Star on Xmas Trees
 minetest.register_node("snow:star", table.copy(nodedef))
 
