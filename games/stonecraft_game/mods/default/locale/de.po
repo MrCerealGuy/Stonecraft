@@ -652,3 +652,47 @@ msgstr "Obsidianscherbe"
 #: craftitems.lua
 msgid "Flint"
 msgstr "Feuerstein"
+
+#: torch.lua
+msgid "Torch"
+msgstr "Fackel"
+
+#: furnace.lua
+msgid "Furnace is empty"
+msgstr "Ofen ist leer"
+
+#: furnace.lua
+msgid "100% (output full)"
+msgstr "100 % (Ausgabe voll)"
+
+#: furnace.lua
+msgid "Empty"
+msgstr "Leer"
+
+#: furnace.lua
+msgid "Not cookable"
+msgstr "Nicht kochbar"
+
+#: furnace.lua
+msgid "inactive "
+msgstr "inaktiv "
+
+#: furnace.lua
+msgid "active "
+msgstr "aktiv "
+
+#: furnace.lua
+msgid "Furnace "
+msgstr "Ofen "
+
+#: furnace.lua
+msgid "(Item: "
+msgstr "(Gegenstand: "
+
+#: furnace.lua
+msgid "; Fuel: "
+msgstr "; Brennstoff: "
+
+#: furnace.lua
+msgid "Furnace"
+msgstr "Ofen"

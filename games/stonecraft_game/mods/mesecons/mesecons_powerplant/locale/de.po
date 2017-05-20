@@ -19,4 +19,4 @@ msgstr ""
 
 #: init.lua
 msgid "Power Plant"
-msgstr "Kraftwerk"
+msgstr "Power-Pflanze"

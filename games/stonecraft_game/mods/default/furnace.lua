@@ -3,6 +3,17 @@
 -- Formspecs
 --
 
+--[[
+
+2017-05-20 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local function active_formspec(fuel_percent, item_percent)
 	local formspec =
 		"size[8,8.5]"..
@@ -67,7 +78,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "fuel" then
 		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
 			if inv:is_empty("src") then
-				meta:set_string("infotext", "Furnace is empty")
+				meta:set_string("infotext", S("Furnace is empty"))
 			end
 			return stack:get_count()
 		else
@@ -196,24 +207,24 @@ local function furnace_node_timer(pos, elapsed)
 	if cookable then
 		item_percent = math.floor(src_time / cooked.time * 100)
 		if item_percent > 100 then
-			item_state = "100% (output full)"
+			item_state = S("100% (output full)")
 		else
 			item_state = item_percent .. "%"
 		end
 	else
 		if srclist[1]:is_empty() then
-			item_state = "Empty"
+			item_state = S("Empty")
 		else
-			item_state = "Not cookable"
+			item_state = S("Not cookable")
 		end
 	end
 
-	local fuel_state = "Empty"
-	local active = "inactive "
+	local fuel_state = S("Empty")
+	local active = S("inactive ")
 	local result = false
 
 	if fuel_totaltime ~= 0 then
-		active = "active "
+		active = S("active ")
 		local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
 		fuel_state = fuel_percent .. "%"
 		formspec = active_formspec(fuel_percent, item_percent)
@@ -229,7 +240,7 @@ local function furnace_node_timer(pos, elapsed)
 		minetest.get_node_timer(pos):stop()
 	end
 
-	local infotext = "Furnace " .. active .. "(Item: " .. item_state .. "; Fuel: " .. fuel_state .. ")"
+	local infotext = S("Furnace ") .. active .. S("(Item: ") .. item_state .. S("; Fuel: ") .. fuel_state .. ")"
 
 	--
 	-- Set meta values
@@ -248,7 +259,7 @@ end
 --
 
 minetest.register_node("default:furnace", {
-	description = "Furnace",
+	description = S("Furnace"),
 	tiles = {
 		"default_furnace_top.png", "default_furnace_bottom.png",
 		"default_furnace_side.png", "default_furnace_side.png",
@@ -296,7 +307,7 @@ minetest.register_node("default:furnace", {
 })
 
 minetest.register_node("default:furnace_active", {
-	description = "Furnace",
+	description = S("Furnace"),
 	tiles = {
 		"default_furnace_top.png", "default_furnace_bottom.png",
 		"default_furnace_side.png", "default_furnace_side.png",

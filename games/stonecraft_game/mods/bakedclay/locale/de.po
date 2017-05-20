@@ -78,6 +78,14 @@ msgid " Baked Clay"
 msgstr " gebrannter Ton"
 
 #: init.lua
+msgid " Baked Clay Stair"
+msgstr " gebrannte Tontreppe"
+
+#: init.lua
+msgid " Baked Clay Slab"
+msgstr " gebrannte Tonstufe"
+
+#: init.lua
 msgid "Blue Delphinium"
 msgstr "Blauer Rittersporn"
 

@@ -68,8 +68,8 @@ for _, clay in pairs(clay) do
 		stairs.register_stair_and_slab("bakedclay_".. clay[1], "bakedclay:".. clay[1],
 			{cracky = 3},
 			{"baked_clay_" .. clay[1] .. ".png"},
-			clay[2] .. " Baked Clay Stair",
-			clay[2] .. " Baked Clay Slab",
+			clay[2] .. S(" Baked Clay Stair"),
+			clay[2] .. S(" Baked Clay Slab"),
 			default.node_sound_stone_defaults())
 	end
 end

@@ -18,6 +18,18 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: pyramids_nodes.lua
+msgid "eye"
+msgstr "Auge"
+
+#: pyramids_nodes.lua
+msgid "men"
+msgstr "Männern"
+
+#: pyramids_nodes.lua
+msgid "sun"
+msgstr "Sonne"
+
+#: pyramids_nodes.lua
 msgid "Sandstone with @1"
 msgstr "Sandstein mit @1"
 

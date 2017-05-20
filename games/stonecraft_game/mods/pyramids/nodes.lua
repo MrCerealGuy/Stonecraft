@@ -10,11 +10,12 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 
-local img = {S("eye"), S("men"), S("sun")}
+local img = {"eye", "men", "sun"}
+local desc = {S("eye"), S("men"), S("sun")}
 
 for i=1,3 do
 	minetest.register_node("pyramids:deco_stone"..i, {
-		description = S("Sandstone with @1", img[i]),
+		description = S("Sandstone with @1", desc[i]),
 		tiles = {"default_sandstone.png^pyramids_"..img[i]..".png"},
 		is_ground_content = true,
 		groups = {crumbly=2,cracky=3},

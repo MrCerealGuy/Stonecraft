@@ -27,18 +27,18 @@ snow = {
 
 --Config documentation.
 local doc = {
-	snowball_gravity = S("The gravity of thrown snowballs"),
-	snowball_velocity = S("How fast players throw snowballs"),
-	sleds = S("Disable this to prevent sleds from being riden."),
-	enable_snowfall = S("Enables falling snow."),
-	lighter_snowfall = S("Reduces the amount of resources and fps used by snowfall."),
-	debug = S("Enables debug output. Currently it only prints mgv6 info."),
-	smooth_biomes = S("Enables smooth transition of biomes (mgv6)"),
-	smooth_snow = S("Disable this to stop snow from being smoothed."),
-	christmas_content = S("Disable this to remove christmas saplings from being found."),
-	min_height = S("The minumum height a snow biome will generate (mgv7)"),
-	mapgen_rarity = S("mapgen rarity in %"),
-	mapgen_size = S("size of the generated… (has an effect to the rarity, too)"),
+	snowball_gravity = "The gravity of thrown snowballs",
+	snowball_velocity = "How fast players throw snowballs",
+	sleds = "Disable this to prevent sleds from being riden.",
+	enable_snowfall = "Enables falling snow.",
+	lighter_snowfall = "Reduces the amount of resources and fps used by snowfall.",
+	debug = "Enables debug output. Currently it only prints mgv6 info.",
+	smooth_biomes = "Enables smooth transition of biomes (mgv6)",
+	smooth_snow = "Disable this to stop snow from being smoothed.",
+	christmas_content = "Disable this to remove christmas saplings from being found.",
+	min_height = "The minumum height a snow biome will generate (mgv7)",
+	mapgen_rarity = "mapgen rarity in %",
+	mapgen_size = "size of the generated… (has an effect to the rarity, too)",
 }
 
 

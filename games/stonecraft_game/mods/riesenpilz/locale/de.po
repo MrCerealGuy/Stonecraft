@@ -78,12 +78,20 @@ msgid "giant mushroom"
 msgstr "Großer Pilz"
 
 #: init.lua
-msgid "@1stem (@2)"
-msgstr "@1stamm (@2)"
+#msgid "@1stem (@2)"
+#msgstr "@1stamm (@2)"
 
 #: init.lua
-msgid "@1head (@2)"
-msgstr "@1kopf (@2)"
+msgid "@1stem"
+msgstr "@1stamm"
+
+#: init.lua
+#msgid "@1head (@2)"
+#msgstr "@1kopf (@2)"
+
+#: init.lua
+msgid "@1head"
+msgstr "@1kopf"
 
 #: init.lua
 msgid "giant mushroom head red side"
