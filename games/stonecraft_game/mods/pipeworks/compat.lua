@@ -102,9 +102,6 @@ minetest.override_item("default:furnace_active", {
 })
 
 minetest.override_item("default:chest", {
-	tiles = {
-		"default_chest_wood.png"  -- MrCerealGuy: removed pipeworks_tube_connection_wooden.png
-	},
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, tubedevice = 1, tubedevice_receiver = 1},
 	tube = {
 		insert_object = function(pos, node, stack, direction)
