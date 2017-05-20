@@ -19,6 +19,7 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
         3. [Exchanging](#exchanging)
         4. [Throwing away](#throwing-away)
         5. [Automatic transfer](#automatic-transfer)
+    4. [Changing your skin](#changing-your-skin)
 2. [Crafting](#crafting)
     1. [Crafting grid and output slot](#crafting-grid-and-output-slot)
     2. [Shaped and shapeless recipes](#shaped-and-shapeless-recipes)
@@ -61,7 +62,7 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
 
 First, before you can play, you have to create a world. In the world creation dialog you can select optional world generation settings.
 
-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/createworld3.jpg)
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/createworld4.png)
 
 Note: Some settings need huge cpu consumption so it can be laggy for most players.
 
@@ -137,6 +138,24 @@ If you hold an item stack and click with it somewhere outside the menu, the item
 You can automatically transfer an item stack to/from the player inventory to/from another item's inventory slot like a furnace, chest, or any other item with an inventory slot when that item's inventory is accessed. When transferring items to/from the furnace, items that can be smelted will automatically go to the input slot. Items in the furnace output slot will automatically go to the player inventory.
 
   * Shift+Left click: Automatically transfer item stack.
+
+# Changing your skin
+
+If you want to change the default skin, you can do this in your inventory. Just click on the "Skin"-button below.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins1.png)
+
+You see your current skin. Now click on "Change".
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins2.png)
+
+Choose your desired skin.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins3.png)
+
+Congratulations! Press 'F7' to switch in third person mode to see your new skin!
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins4.png)
 
 # Crafting
 
