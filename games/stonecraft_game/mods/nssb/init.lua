@@ -112,7 +112,7 @@ minetest.register_node("nssb:vine", {
 	description = S("Vine"),
 	drawtype = "signlike",
 	tiles = {"climbing_plant.png"},
-	inventory_image = {"vine.png"},
+	inventory_image = {"climbing_plant.png"},
 	walkable = false,
 	climbable = true,
 	paramtype = "light",
