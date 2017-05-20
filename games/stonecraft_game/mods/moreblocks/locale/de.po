@@ -227,3 +227,23 @@ msgstr "jemand"
 #, lua-format
 msgid "Sorry, %s owns that spot."
 msgstr "Tut mir leid, %s gehört diese Stelle."
+
+#: microblocks.lua
+msgid " Microblock"
+msgstr "mikroblock"
+
+#: panels.lua
+msgid " Panel"
+msgstr "scheibe"
+
+#: slabs.lua
+msgid " Slab"
+msgstr "stufe"
+
+#: slopes.lua
+msgid " Slope"
+msgstr "gefälle"
+
+#: stairs.lua
+msgid " Stairs"
+msgstr "treppe"

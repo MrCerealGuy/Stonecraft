@@ -94,7 +94,7 @@ end
 
 function stairsplus:register_panel(modname, subname, recipeitem, fields)
 	local defs = stairsplus.copytable(panels_defs)
-	local desc = S("@1 Panel", fields.description)
+	local desc = fields.description..S(" Panel")
 	for alternate, def in pairs(defs) do
 		for k, v in pairs(fields) do
 			def[k] = v

@@ -94,7 +94,7 @@ end
 
 function stairsplus:register_micro(modname, subname, recipeitem, fields)
 	local defs = stairsplus.copytable(microblocks_defs)
-	local desc = S("@1 Microblock", fields.description)
+	local desc = fields.description..S(" Microblock")
 	for alternate, def in pairs(defs) do
 		for k, v in pairs(fields) do
 			def[k] = v

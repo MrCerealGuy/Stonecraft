@@ -134,7 +134,7 @@ end
 
 function stairsplus:register_stair(modname, subname, recipeitem, fields)
 	local defs = stairsplus.copytable(stairs_defs)
-	local desc = S("@1 Stairs", fields.description)
+	local desc = fields.description..S(" Stairs")
 	for alternate, def in pairs(defs) do
 		for k, v in pairs(fields) do
 			def[k] = v

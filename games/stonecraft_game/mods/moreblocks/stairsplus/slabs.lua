@@ -73,7 +73,7 @@ end
 
 function stairsplus:register_slab(modname, subname, recipeitem, fields)
 	local defs = stairsplus.copytable(slabs_defs)
-	local desc_base = S("@1 Slab", fields.description)
+	local desc_base = fields.description..S(" Slab")
 	for alternate, shape in pairs(defs) do
 
 		local def = {}
