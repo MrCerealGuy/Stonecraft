@@ -419,10 +419,10 @@ local function handle_settings_buttons(this, fields, tabname, tabdata)
 		ddhandled = true
 	end
 	if fields["dd_language"] == labels.language[1] then
-		core.setting_set("language", "en")
+		core.settings:set("language", "en")
 		ddhandled = true
 	elseif fields["dd_language"] == labels.language[2] then
-		core.setting_set("language", "de")
+		core.settings:set("language", "de")
 		ddhandled = true
 	end
 	if fields["dd_touchthreshold"] then

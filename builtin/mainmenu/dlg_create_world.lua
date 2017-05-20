@@ -75,7 +75,7 @@ local function create_world_formspec(dialogdata)
 		"label[2,0;" .. fgettext("World name") .. "]"..
 		"field[4.5,0.4;6,0.5;te_world_name;;]" ..
 		
-		"label[2,1;" .. fgettext("Seed") .. "]"..
+		"label[2,1;" .. fgettext("Seed-Code") .. "]"..
 		"field[4.5,1.4;6,0.5;te_seed;;".. current_seed .. "]" ..
 		
 		"label[2,2;" .. fgettext("Mapgen") .. "]"..

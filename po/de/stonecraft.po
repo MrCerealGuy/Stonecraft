@@ -130,6 +130,14 @@ msgstr "Welt:"
 msgid "enabled"
 msgstr "Aktiviert"
 
+#: builtin/mainmenu/dlg_config_world.lua
+msgid "Dependencies:"
+msgstr "Abhängigkeiten"
+
+#: builtin/mainmenu/dlg_config_world.lua
+msgid "Optional dependencies:"
+msgstr "Optionale Abhängigkeiten"
+
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "A world named \"$1\" already exists"
 msgstr "Eine Welt mit dem Namen „$1“ existiert bereits"
@@ -253,8 +261,8 @@ msgid "No worldname given or no game selected"
 msgstr "Kein Weltname gegeben oder kein Spiel ausgewählt"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Seed"
-msgstr "Seed"
+msgid "Seed-Code"
+msgstr "Seed-Code"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Warning: The minimal development test is meant for developers."
