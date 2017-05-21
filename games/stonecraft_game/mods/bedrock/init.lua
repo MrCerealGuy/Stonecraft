@@ -1,3 +1,14 @@
+--[[
+
+2017-05-21 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "bedrock:bedrock",
@@ -21,7 +32,7 @@ minetest.register_ore({
 })
 
 minetest.register_node("bedrock:bedrock", {
-	description = "Bedrock",
+	description = S("Bedrock"),
 	tiles = {"bedrock_bedrock.png"},
 	drop = "",
 	groups = {unbreakable = 1, not_in_creative_inventory = 1}, -- For Map Tools' admin pickaxe.
@@ -29,7 +40,7 @@ minetest.register_node("bedrock:bedrock", {
 })
 
 minetest.register_node("bedrock:deepstone", {
-	description = "Deepstone",
+	description = S("Deepstone"),
 	tiles = {"bedrock_deepstone.png"},
 	drop = "default:stone", -- Intended.
 	groups = {cracky = 1},
