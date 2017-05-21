@@ -32,3 +32,7 @@ msgstr "Digiline LCD"
 #: inventory.lua
 msgid "Digiline Chest"
 msgstr "Digiline Truhe"
+
+#: lightsensor.lua
+msgid "Digiline Lightsensor"
+msgstr "Digiline Lichtsensor"

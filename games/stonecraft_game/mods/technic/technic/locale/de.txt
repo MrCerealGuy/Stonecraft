@@ -216,3 +216,4 @@ Sawdust = Sägemehl
 Common Tree = Gewöhnlicher Baum
 Rubber Tree = Gummibaum
 Acacia = Akazie
+Prospector = Erzsucher

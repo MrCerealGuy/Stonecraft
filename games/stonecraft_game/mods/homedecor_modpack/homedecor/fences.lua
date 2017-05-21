@@ -17,8 +17,8 @@ end
 local S = homedecor_i18n.gettext
 
 local materials = {
-	{ S("brass"), "brass" },
-	{ S("wrought iron"), "wrought_iron" },
+	{ S("Brass"), "brass" },
+	{ S("Wrought iron"), "wrought_iron" },
 }
 
 for _, m in ipairs(materials) do

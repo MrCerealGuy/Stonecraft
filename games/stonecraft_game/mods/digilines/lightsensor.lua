@@ -1,3 +1,14 @@
+--[[
+
+2017-05-21 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local GET_COMMAND = "GET"
 
 local lsensor_nodebox =
@@ -31,7 +42,7 @@ end
 
 minetest.register_alias("digilines_lightsensor:lightsensor", "digilines:lightsensor")
 minetest.register_node("digilines:lightsensor", {
-	description = "Digiline Lightsensor",
+	description = S("Digiline Lightsensor"),
 	drawtype = "nodebox",
 	tiles = {"digilines_lightsensor.png"},
 

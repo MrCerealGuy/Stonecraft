@@ -526,7 +526,7 @@ msgstr "Holzschindeln"
 #: ../homedecor/roofing.lua
 #, fuzzy
 msgid "@1 (outer corner)"
-msgstr "Holzschindeln (Aussenecke)"
+msgstr "Holzschindeln (Außenecke)"
 
 #: ../homedecor/roofing.lua
 #, fuzzy
@@ -594,14 +594,14 @@ msgstr "Vorhänge"
 
 #: ../homedecor/window_treatments.lua ../homedecor/fences.lua
 #: ../homedecor/misc-nodes.lua ../homedecor/tables.lua
-msgid "brass"
-msgstr ""
+msgid "Brass"
+msgstr "Messing"
 
 #: ../homedecor/window_treatments.lua ../homedecor/fences.lua
 #: ../homedecor/misc-nodes.lua ../homedecor/tables.lua
 #, fuzzy
-msgid "wrought iron"
-msgstr "Schmiedeeiserne Stange"
+msgid "Wrought iron"
+msgstr "Schmiedeeisen"
 
 #: ../homedecor/window_treatments.lua
 #, fuzzy
@@ -1749,7 +1749,7 @@ msgstr "Medizinschrank"
 #~ "Es gibt nicht genug Raum über dieser Stelle um die Tür zu platzieren!"
 
 #~ msgid "Bucket of white paint "
-#~ msgstr "Eimer mit weisser Farbe"
+#~ msgstr "Eimer mit weißer Farbe"
 
 #~ msgid "Legs for Small Utility table "
 #~ msgstr "Tischbeine für kleinen Arbeitsplatte"

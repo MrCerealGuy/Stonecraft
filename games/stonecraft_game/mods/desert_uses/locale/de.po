@@ -71,7 +71,7 @@ msgstr "Wüstenstein-Schwert"
 
 #: init.lua
 msgid "Desert Furnace"
-msgstr "Wüsten Schmelzofen"
+msgstr "Wüstenschmelzofen"
 
 #: init.lua
 msgid "Could not insert '@1'"

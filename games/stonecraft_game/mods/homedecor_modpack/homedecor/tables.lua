@@ -164,8 +164,8 @@ homedecor.register("utility_table_top", {
 
 -- local above
 materials = {
-	{ "brass",          S("brass") },
-	{ "wrought_iron",   S("wrought iron") },
+	{ "brass",          S("Brass") },
+	{ "wrought_iron",   S("Brought iron") },
 }
 
 for _, t in ipairs(materials) do

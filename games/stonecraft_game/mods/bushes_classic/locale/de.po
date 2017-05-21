@@ -62,15 +62,19 @@ msgid "Slice of @1 pie"
 msgstr "Stück von @1kuchen"
 
 #: nodes.lua
-msgid "Basket with "
-msgstr "Korb mit "
+msgid "Basket with @1"
+msgstr "Korb mit @1"
 
 #: nodes.lua
-msgid "currently fruitless"
-msgstr "im Augenblick ohne Früchte"
+msgid " pies"
+msgstr "kuchen"
 
 #: nodes.lua
-msgid " Bush"
+msgid "Currently fruitless"
+msgstr "Im Augenblick früchteloser"
+
+#: nodes.lua
+msgid " bush"
 msgstr " Busch"
 
 #: nodes.lua

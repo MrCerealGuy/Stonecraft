@@ -123,7 +123,7 @@ msgstr "Erde mit Schnee"
 
 #: nodes.lua
 msgid "Dirt with Rainforest Litter"
-msgstr "Erde mit Regenwald Abfall"
+msgstr "Erde mit Regenwaldabfall"
 
 #: nodes.lua
 msgid "Sand"
@@ -295,11 +295,11 @@ msgstr "Goldblock"
 
 #: nodes.lua
 msgid "Diamond Ore"
-msgstr "Diamantenerz"
+msgstr "Diamanterz"
 
 #: nodes.lua
 msgid "Diamond Block"
-msgstr "Diamentenblock"
+msgstr "Diamantblock"
 
 #: nodes.lua
 msgid "Cactus"
@@ -311,7 +311,7 @@ msgstr "Papyrus"
 
 #: nodes.lua
 msgid "Dry Shrub"
-msgstr "Trockenerbusch"
+msgstr "Trockener Strauch"
 
 #: nodes.lua
 msgid "Jungle Grass"
@@ -475,15 +475,15 @@ msgstr "Stahlspitzhacke"
 
 #: tools.lua
 msgid "Bronze Pickaxe"
-msgstr "Bronze Spitzhacke"
+msgstr "Bronzespitzhacke"
 
 #: tools.lua
 msgid "Mese Pickaxe"
-msgstr "Mese Spitzhacke"
+msgstr "Mesespitzhacke"
 
 #: tools.lua
 msgid "Diamond Pickaxe"
-msgstr "Diamant Spitzhacke"
+msgstr "Diamantspitzhacke"
 
 #: tools.lua
 msgid "Wooden Shovel"
@@ -499,15 +499,15 @@ msgstr "Stahlschaufel"
 
 #: tools.lua
 msgid "Bronze Shovel"
-msgstr "Bronze Schaufel"
+msgstr "Bronzeschaufel"
 
 #: tools.lua
 msgid "Mese Shovel"
-msgstr "Mese Schaufel"
+msgstr "Meseschaufel"
 
 #: tools.lua
 msgid "Diamond Shovel"
-msgstr "Diamant Schaufel"
+msgstr "Diamantschaufel"
 
 #: tools.lua
 msgid "Wooden Axe"
@@ -523,11 +523,11 @@ msgstr "Stahlaxt"
 
 #: tools.lua
 msgid "Bronze Axe"
-msgstr "Bronze Axt"
+msgstr "Bronzeaxt"
 
 #: tools.lua
 msgid "Mese Axe"
-msgstr "Mese Axt"
+msgstr "Meseaxt"
 
 #: tools.lua
 msgid "Diamond Axe"
@@ -547,11 +547,11 @@ msgstr "Stahlschwert"
 
 #: tools.lua
 msgid "Bronze Sword"
-msgstr "Bronze Schwert"
+msgstr "Bronzeschwert"
 
 #: tools.lua
 msgid "Mese Sword"
-msgstr "Mese Schwert"
+msgstr "Meseschwert"
 
 #: tools.lua
 msgid "Diamond Sword"

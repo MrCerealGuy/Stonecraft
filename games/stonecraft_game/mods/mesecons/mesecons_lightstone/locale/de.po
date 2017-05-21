@@ -20,3 +20,27 @@ msgstr ""
 #: init.lua
 msgid " Lightstone"
 msgstr " Leuchtstein"
+
+#: init.lua
+msgid "Red"
+msgstr "Roter"
+
+#: init.lua
+msgid "Green"
+msgstr "Grüner"
+
+#: init.lua
+msgid "Blue"
+msgstr "Blauer"
+
+#: init.lua
+msgid "Gray"
+msgstr "Grauer"
+
+#: init.lua
+msgid "Darkgray"
+msgstr "Dunkelgrauer"
+
+#: init.lua
+msgid "Yellow"
+msgstr "Gelber"
