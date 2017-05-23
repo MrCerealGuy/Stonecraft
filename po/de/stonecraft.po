@@ -147,6 +147,98 @@ msgid "Create"
 msgstr "Erstellen"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "World options: (some options can cause lag issues.)"
+msgstr "Welteinstellungen: (einige Optionen können Performance-Einbrüche verursachen.)"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Erosion and sloped blocks"
+msgstr "Erosion und schräge Blöcke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "More forests and red trees"
+msgstr "Mehr Wälder und rote Bäume"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Villages and buildings"
+msgstr "Dörfer und Gebäude"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Ethereal biomes"
+msgstr "Ethereal Biome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Cave realms"
+msgstr "Höhlenbiome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Simple Mobs"
+msgstr "Einfache Mobs"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Home decorations and technic"
+msgstr "Heimdekorationen und Technik"
+
+#: builtin/mainmenu/dlg_create_world.lua
+#msgid "Enable mesecons/pipes/technic"
+#msgstr "Mesecons/Rohre/Technik aktivieren"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Not So Simple Mobs"
+msgstr "Nicht so einfache Mobs"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Pyramids"
+msgstr "Pyramiden"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Giant mushrooms"
+msgstr "Riesenpilze"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Sea plants"
+msgstr "Meerespflanzen"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Swamps biome"
+msgstr "Sumpfbiom"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Snow biome"
+msgstr "Schneebiom"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Wood soils and vines"
+msgstr "Waldböden und Weine"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Surprise blocks"
+msgstr "Überraschungsblöcke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Mines"
+msgstr "Minen"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Mobs and animals"
+msgstr "Mobs und Tiere"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Biomes"
+msgstr "Biome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Stuff"
+msgstr "Verschiedenes"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Nature"
+msgstr "Natur"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Structures"
+msgstr "Bauwerke"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as minetest_game, from minetest.net"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/"
@@ -6019,73 +6111,3 @@ msgstr "cURL-Zeitüberschreitung"
 
 #~ msgid "Hide mp content"
 #~ msgstr "Modpacks verstecken"
-
-#~ msgid "Structures"
-#~ msgstr "Bauwerke"
-
-#~ msgid "Nature"
-#~ msgstr "Natur"
-
-#~ msgid "Stuff"
-#~ msgstr "Verschiedenes"
-
-#~ msgid "Biomes"
-#~ msgstr "Biome"
-
-#~ msgid "Mobs and animals"
-#~ msgstr "Mobs und Tiere"
-
-#~ msgid "Mines"
-#~ msgstr "Minen"
-
-#~ msgid "Surprise blocks"
-#~ msgstr "Überraschungsblöcke"
-
-#~ msgid "Wood soils and vines"
-#~ msgstr "Waldböden und Weine"
-
-#~ msgid "Snow biome"
-#~ msgstr "Schneebiom"
-
-#~ msgid "Swamps biome"
-#~ msgstr "Sumpfbiom"
-
-#~ msgid "Sea plants"
-#~ msgstr "Meerespflanzen"
-
-#~ msgid "Giant mushrooms"
-#~ msgstr "Riesenpilze"
-
-#~ msgid "Pyramids"
-#~ msgstr "Pyramiden"
-
-# msgid "Enable mesecons/pipes/technic"
-# msgstr "Mesecons/Rohre/Technik aktivieren"
-#~ msgid "Not So Simple Mobs"
-#~ msgstr "Nicht so einfache Mobs"
-
-#~ msgid "Home decorations and technic"
-#~ msgstr "Heimdekorationen und Technik"
-
-#~ msgid "Simple Mobs"
-#~ msgstr "Einfache Mobs"
-
-#~ msgid "Cave realms"
-#~ msgstr "Höhlenbiome"
-
-#~ msgid "Ethereal biomes"
-#~ msgstr "Ethereal Biome"
-
-#~ msgid "Villages and buildings"
-#~ msgstr "Dörfer und Gebäude"
-
-#~ msgid "More forests and red trees"
-#~ msgstr "Mehr Wälder und rote Bäume"
-
-#~ msgid "Erosion and sloped blocks"
-#~ msgstr "Erosion und schräge Blöcke"
-
-#~ msgid "World options: (some options can cause lag issues.)"
-#~ msgstr ""
-#~ "Welteinstellungen: (einige Optionen können Performance-Einbrüche "
-#~ "verursachen.)"
