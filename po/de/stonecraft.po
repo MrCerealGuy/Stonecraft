@@ -1140,7 +1140,7 @@ msgstr "Vorwärts"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Inc. volume"
-msgstr "Erh. Lautstärke"
+msgstr "Lautstärke erh."
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Inventory"
@@ -1155,9 +1155,8 @@ msgid "Key already in use"
 msgstr "Taste bereits in Benutzung"
 
 #: src/guiKeyChangeMenu.cpp
-msgid "Keybindings. (If this menu screws up, remove stuff from minetest.conf)"
-msgstr "Steuerung (Falls dieses Menü fehlerhaft formatiert ist, entfernen Sie "
-"Einstellungen aus stonecraft.conf)"
+msgid "Keybindings. (If this menu screws up, remove stuff from stonecraft.conf)"
+msgstr "Steuerung (Falls dieses Menü fehlerhaft formatiert ist, entfernen Sie Einstellungen aus stonecraft.conf)"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Left"
@@ -1177,7 +1176,7 @@ msgstr "Nächst. Gegenst."
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Prev. item"
-msgstr "Vorh. Gegenstand"
+msgstr "Vorh. Gegenst."
 
 #: src/guiKeyChangeMenu.cpp src/settings_translation_file.cpp
 msgid "Print stacks"

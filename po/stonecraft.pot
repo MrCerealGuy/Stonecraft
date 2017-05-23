@@ -1041,7 +1041,7 @@ msgid "Enter "
 msgstr ""
 
 #: src/guiKeyChangeMenu.cpp
-msgid "Keybindings. (If this menu screws up, remove stuff from minetest.conf)"
+msgid "Keybindings. (If this menu screws up, remove stuff from stonecraft.conf)"
 msgstr ""
 
 #: src/guiKeyChangeMenu.cpp
