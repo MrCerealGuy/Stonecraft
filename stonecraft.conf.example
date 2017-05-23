@@ -186,6 +186,31 @@
 #    type: key
 # keymap_noclip = KEY_KEY_H
 
+#    Key for selecting the next item in the hotbar.
+#    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
+#    type: key
+# keymap_hotbar_next = KEY_KEY_N
+
+#    Key for selecting the previous item in the hotbar.
+#    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
+#    type: key
+# keymap_hotbar_previous = KEY_KEY_B
+
+#    Key for muting the game.
+#    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
+#    type: key
+# keymap_mute = KEY_KEY_M
+
+#    Key for increasing the volume.
+#    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
+#    type: key
+# keymap_increase_volume =
+
+#    Key for decreasing the volume.
+#    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
+#    type: key
+# keymap_decrease_volume =
+
 #    Key for toggling autorun.
 #    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
 #    type: key
@@ -318,6 +343,10 @@
 #    type: string
 # serverlist_file = favoriteservers.txt
 
+#    Maximum size of the out chat queue. 0 to disable queueing and -1 to make the queue size unlimited
+#    type: int min: -1
+max_out_chat_queue_size = 20
+
 ## Graphics
 
 ### In-Game
@@ -357,7 +386,7 @@
 # enable_3d_clouds = true
 
 #    Method used to highlight selected object.
-#    type: enum values: box, halo
+#    type: enum values: box, halo, none
 # node_highlighting = box
 
 #    Adds particles when digging a node.
@@ -525,6 +554,10 @@
 #    Height component of the initial window size.
 #    type: int
 # screenH = 600
+
+#    Save the window size automatically when modified.
+#    type: bool
+# autosave_screensize = true
 
 #    Fullscreen mode.
 #    type: bool
@@ -1811,4 +1844,3 @@
 #    Print the engine's profiling data in regular intervals (in seconds). 0 = disable. Useful for developers.
 #    type: int
 # profiler_print_interval = 0
-
