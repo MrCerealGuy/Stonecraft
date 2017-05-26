@@ -1,4 +1,15 @@
-local udef = technic.chests:definition("Wooden", {
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+local udef = technic.chests:definition(S("Wooden"), {
 	width = 8,
 	height = 4,
 	sort = false,
@@ -17,12 +28,12 @@ local uudef = {
 	on_metadata_inventory_put = udef.on_metadata_inventory_put,
 	on_metadata_inventory_take = udef.on_metadata_inventory_take,
 }
-if minetest.registered_nodes["default:chest"].description == "Chest" then
+if minetest.registered_nodes["default:chest"].description == S("Chest") then
 	uudef.description = udef.description
 end
 minetest.override_item("default:chest", uudef)
 
-local ldef = technic.chests:definition("Wooden", {
+local ldef = technic.chests:definition(S("Wooden"), {
 	width = 8,
 	height = 4,
 	sort = false,
@@ -45,7 +56,7 @@ local lldef = {
 	on_metadata_inventory_put = ldef.on_metadata_inventory_put,
 	on_metadata_inventory_take = ldef.on_metadata_inventory_take,
 }
-if minetest.registered_nodes["default:chest_locked"].description == "Locked Chest" then
+if minetest.registered_nodes["default:chest_locked"].description == S("Locked Chest") then
 	lldef.description = ldef.description
 end
 minetest.override_item("default:chest_locked", lldef)

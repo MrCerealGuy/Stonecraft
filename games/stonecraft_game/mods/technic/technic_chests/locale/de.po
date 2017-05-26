@@ -1,0 +1,154 @@
+# German translation for technic/technic_chests mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-26 16:45+0200\n"
+"PO-Revision-Date: 2018-05-26 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: wooden_chest.lua
+msgid "Wooden"
+msgstr "Holz"
+
+#: wooden_chest.lua
+msgid "Chest"
+msgstr "Truhe"
+
+#: wooden_chest.lua
+msgid "Locked Chest"
+msgstr "Verschlossene Truhe"
+
+#: copper_chest.lua
+msgid "Copper"
+msgstr "Kupfer"
+
+#: gold_chest.lua
+msgid "Gold"
+msgstr "Gold"
+
+#: iron_chest.lua
+msgid "Iron"
+msgstr "Eisen"
+
+#: mithril_chest.lua
+msgid "Mithril"
+msgstr "Mithril"
+
+#: register.lua
+msgid "Black"
+msgstr "Schwarz"
+
+#: register.lua
+msgid "Blue"
+msgstr "Blau"
+
+#: register.lua
+msgid "Brown"
+msgstr "Braun"
+
+#: register.lua
+msgid "Cyan"
+msgstr "Türkis"
+
+#: register.lua
+msgid "Dark Green"
+msgstr "Dunkelgrün"
+
+#: register.lua
+msgid "Dark Grey"
+msgstr "Dunkelgrau"
+
+#: register.lua
+msgid "Green"
+msgstr "Grün"
+
+#: register.lua
+msgid "Grey"
+msgstr "Grau"
+
+#: register.lua
+msgid "Magenta"
+msgstr "Magenta"
+
+#: register.lua
+msgid "Orange"
+msgstr "Orange"
+
+#: register.lua
+msgid "Pink"
+msgstr "Pink"
+
+#: register.lua
+msgid "Red"
+msgstr "Rot"
+
+#: register.lua
+msgid "Violet"
+msgstr "Violett"
+
+#: register.lua
+msgid "White"
+msgstr "Weiß"
+
+#: register.lua
+msgid "Yellow"
+msgstr "Gelbt"
+
+#: register.lua
+msgid "Auto-sort is @1"
+msgstr "Autosortierung ist @1"
+
+#: register.lua
+msgid "On"
+msgstr "An"
+
+#: register.lua
+msgid "Off"
+msgstr "Aus"
+
+#: register.lua
+msgid "Edit chest description:"
+msgstr "Ändere Truhenbeschreibung:"
+
+#: register.lua
+msgid "None"
+msgstr "Farblos"
+
+#: register.lua
+msgid "Color Filter: %s"
+msgstr "Farbfiler: @1"
+
+#: register.lua
+msgid "%s Chest"
+msgstr "@1truhe"
+
+#: register.lua
+msgid "Sort"
+msgstr "Sortierung"
+
+#: register.lua
+msgid "@1 Locked Chest (owned by @2)"
+msgstr "@1 verschlossene Truhe (gehört @2)"
+
+#: register.lua
+msgid "@1 Locked Chest"
+msgstr "@1 verschlossene Truhe"
+
+#: register.lua
+msgid "@1 Chest"
+msgstr "@1truhe"
+
+#: silver_chest.lua
+msgid "Silver"
+msgstr "Silber"

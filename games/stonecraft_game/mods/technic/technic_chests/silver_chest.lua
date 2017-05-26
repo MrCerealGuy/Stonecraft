@@ -1,3 +1,15 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+
 if minetest.get_modpath("moreores") then
 	minetest.register_craft({
 		output = 'technic:silver_chest',
@@ -26,7 +38,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), {
 	width = 12,
 	height = 6,
 	sort = true,
@@ -36,7 +48,7 @@ technic.chests:register("Silver", {
 	locked = false,
 })
 
-technic.chests:register("Silver", {
+technic.chests:register(S("Silver"), {
 	width = 12,
 	height = 6,
 	sort = true,

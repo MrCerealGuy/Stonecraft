@@ -1,3 +1,14 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local cast_iron_ingot
 if minetest.get_modpath("technic_worldgen") then
 	cast_iron_ingot = "technic:cast_iron_ingot"
@@ -31,7 +42,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), {
 	width = 9,
 	height = 5,
 	sort = true,
@@ -41,7 +52,7 @@ technic.chests:register("Iron", {
 	locked = false,
 })
 
-technic.chests:register("Iron", {
+technic.chests:register(S("Iron"), {
 	width = 9,
 	height = 5,
 	sort = true,

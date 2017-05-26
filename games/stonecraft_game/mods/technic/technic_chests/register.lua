@@ -1,4 +1,13 @@
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local pipeworks = rawget(_G, "pipeworks")
 if not minetest.get_modpath("pipeworks") then
@@ -74,7 +83,7 @@ local function set_formspec(pos, data, page)
 	local formspec = data.base_formspec
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
+		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is @1", status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
@@ -98,7 +107,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
+		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: @1", colorName).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -204,7 +213,7 @@ function technic.chests:definition(name, data)
 	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
 	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]"..
-			"label[0,0;"..S("%s Chest"):format(name).."]"..
+			"label[0,0;"..S("@1 Chest", name).."]"..
 			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
 			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
 			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";technic_chest_form_bg.png]"..
@@ -223,8 +232,7 @@ function technic.chests:definition(name, data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
 			meta:set_string("infotext",
-					S("%s Locked Chest (owned by %s)")
-					:format(name, meta:get_string("owner")))
+					S("@1 Locked Chest (owned by @2)", name, meta:get_string("owner")))
 			pipeworks.after_place(pos)
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
@@ -234,9 +242,9 @@ function technic.chests:definition(name, data)
 
 	local desc
 	if data.locked then
-		desc = S("%s Locked Chest"):format(name)
+		desc = S("@1 Locked Chest", name)
 	else
-		desc = S("%s Chest"):format(name)
+		desc = S("@1 Chest", name)
 	end
 
 	local def = {

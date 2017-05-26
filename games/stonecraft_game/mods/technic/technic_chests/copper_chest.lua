@@ -1,3 +1,14 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_craft({
 	output = 'technic:copper_chest 1',
 	recipe = {
@@ -24,7 +35,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Copper", {
+technic.chests:register(S("Copper"), {
 	width = 12,
 	height = 5,
 	sort = true,
@@ -34,7 +45,7 @@ technic.chests:register("Copper", {
 	locked = false,
 })
 
-technic.chests:register("Copper", {
+technic.chests:register(S("Copper"), {
 	width = 12,
 	height = 5,
 	sort = true,

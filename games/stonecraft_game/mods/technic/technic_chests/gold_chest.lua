@@ -1,3 +1,13 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local material_list
 if minetest.get_modpath("moreores") then
@@ -35,7 +45,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), {
 	width = 15,
 	height = 6,
 	sort = true,
@@ -45,7 +55,7 @@ technic.chests:register("Gold", {
 	locked = false,
 })
 
-technic.chests:register("Gold", {
+technic.chests:register(S("Gold"), {
 	width = 15,
 	height = 6,
 	sort = true,
