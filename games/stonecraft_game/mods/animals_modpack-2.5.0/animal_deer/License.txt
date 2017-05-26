@@ -3,3 +3,8 @@ Licenses
 Everything not mentioned:
 	CC-BY-SA 3.0, Author sapier
 	URL: http://creativecommons.org/licenses/by-sa/3.0/de/legalcode
+
+2017-05-10 changed by MrCerealGuy
+	CC-BY-SA 3.0
+	animal_deer_mesh_f.png
+	animal_deer_mesh_m.png
