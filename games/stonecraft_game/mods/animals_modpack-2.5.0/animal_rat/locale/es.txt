@@ -1,5 +1,0 @@
-# Spanish translation for Animals Modpack.
-# Traducción al español de Animals Modpack.
-# Author/Autor: Diego Martínez <kaeza>
-
-Rat (Animals) = Rata (Animales)
