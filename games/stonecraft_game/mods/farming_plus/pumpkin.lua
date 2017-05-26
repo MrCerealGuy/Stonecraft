@@ -417,7 +417,7 @@ minetest.register_craftitem(":farming:pumpkin_bread", {
 })
 
 minetest.register_craftitem(":farming:pumpkin_flour", {
-	description = "Pumpkin Flour",
+	description = S("Pumpkin Flour"),
 	inventory_image = "farming_cake_mix_pumpkin.png",
 })
 minetest.register_alias("farming:pumpkin_cake_mix", "farming:pumpkin_flour")

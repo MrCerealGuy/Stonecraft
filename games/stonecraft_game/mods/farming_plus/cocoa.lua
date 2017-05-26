@@ -1,6 +1,13 @@
--- main `S` code in init.lua
-local S
-S = farming.S
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_node("farming_plus:cocoa_sapling", {
 	description = S("Cocoa Tree Sapling"),
@@ -70,7 +77,7 @@ minetest.register_node("farming_plus:cocoa", {
 })
 
 minetest.register_craftitem("farming_plus:cocoa_bean", {
-	description = "Cocoa Bean",
+	description = S("Cocoa Bean"),
 	inventory_image = "farming_cocoa_bean.png",
 })
 

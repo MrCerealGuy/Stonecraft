@@ -41,6 +41,10 @@ msgstr "Kakaobaumsetzling"
 msgid "Cocoa"
 msgstr "Kakao"
 
+#: cocoa.lua
+msgid "Cocoa Bean"
+msgstr "Kakaobohne"
+
 #: oranges.lua
 msgid "Orange Seeds"
 msgstr "Orangensamen"
@@ -84,6 +88,10 @@ msgstr "Leuchtende Vogelscheuche"
 #: pumpkin.lua
 msgid "Pumpkin Bread"
 msgstr "Kürbisbrot"
+
+#: pumpkin.lua
+msgid "Pumpkin Flour"
+msgstr "Kürbismehl"
 
 #: rhubarb.lua
 msgid "Rhubarb Seeds"
