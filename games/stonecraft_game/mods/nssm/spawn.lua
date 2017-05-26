@@ -63,10 +63,11 @@ nssm:spawn_specific("nssm:larva", {"default:dirt_with_grass"}, {"default:tree"},
 nssm:spawn_specific("nssm:masticone", {"default:dirt_with_grass"}, {"default:tree"}, 0, 20, 120, 4000, 2, -31000, 22)
 
 -- SKY
-nssm:spawn_specific("nssm:moonheron", {"air"}, {"air"}, 0, 10, 100, 750000, 1, 10, 40)
-nssm:spawn_specific("nssm:night_master", {"air"}, {"air"}, 0, 7, 120, 5200000, 2, 10, 40)
-nssm:spawn_specific("nssm:phoenix", {"air"}, {"air"}, 10, 20, 120, 5200000, 1, 10, 40)
-nssm:spawn_specific("nssm:scrausics", {"air"}, {"air"}, 10, 20, 100, 750000, 1, 10, 40)
+-- MERGEINFO: MrCerealGuy; these mobs are too strong, changed intervall time to 3600
+nssm:spawn_specific("nssm:moonheron", {"air"}, {"air"}, 0, 10, 3600, 750000, 1, 10, 40)
+nssm:spawn_specific("nssm:night_master", {"air"}, {"air"}, 0, 7, 3600, 5200000, 2, 10, 40)
+nssm:spawn_specific("nssm:phoenix", {"air"}, {"air"}, 10, 20, 3600, 5200000, 1, 10, 40)
+nssm:spawn_specific("nssm:scrausics", {"air"}, {"air"}, 10, 20, 3600, 750000, 1, 10, 40)
 
 -- PINE FOREST
 nssm:spawn_specific("nssm:pumpboom_small", {"default:dirt_with_grass", "default:dirt_with_snow","default:snowblock"}, {"default:pine_tree"}, 0, 20, 30, 300, 1, -31000, 31000)
