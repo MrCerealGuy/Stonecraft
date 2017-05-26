@@ -23,91 +23,91 @@ msgstr ""
 
 #: items.lua
 msgid "Silicon Wafer"
-msgstr ""
+msgstr "Siliziumscheibe"
 
 #: items.lua
 msgid "Doped Silicon Wafer"
-msgstr ""
+msgstr "Dotierte Siliziumscheibe"
 
 #: items.lua
 msgid "Uranium Fuel"
-msgstr ""
+msgstr "Uranbrennstoff"
 
 #: items.lua
 msgid "Diamond Drill Head"
-msgstr ""
+msgstr "Diamantbohrkopf"
 
 #: items.lua
 msgid "Blue Energy Crystal"
-msgstr ""
+msgstr "Blauer Energiekristall"
 
 #: items.lua
 msgid "Green Energy Crystal"
-msgstr ""
+msgstr "Grüner Energiekristall"
 
 #: items.lua
 msgid "Red Energy Crystal"
-msgstr ""
+msgstr "Roter Energiekristall"
 
 #: items.lua
 msgid "Fine Copper Wire"
-msgstr ""
+msgstr "Feinkupferdraht"
 
 #: items.lua
 msgid "Fine Gold Wire"
-msgstr ""
+msgstr "Feingolddraht"
 
 #: items.lua
 msgid "Fine Silver Wire"
-msgstr ""
+msgstr "Feinsilberdraht"
 
 #: items.lua
 msgid "Copper Coil"
-msgstr ""
+msgstr "Kupferspule"
 
 #: items.lua
 msgid "Electric Motor"
-msgstr ""
+msgstr "Elektromotor"
 
 #: items.lua
 msgid "Low Voltage Transformer"
-msgstr ""
+msgstr "Niederspannungstransformator"
 
 #: items.lua
 msgid "Medium Voltage Transformer"
-msgstr ""
+msgstr "Mittelspannungstransformator"
 
 #: items.lua
 msgid "High Voltage Transformer"
-msgstr ""
+msgstr "Hochspannungstransformator"
 
 #: items.lua
 msgid "Control Logic Unit"
-msgstr ""
+msgstr "Steuer- und Regelungseinheit"
 
 #: items.lua
 msgid "Mixed Metal Ingot"
-msgstr ""
+msgstr "Mischmetallbarren"
 
 #: items.lua
 msgid "Composite Plate"
-msgstr ""
+msgstr "Verbundplatte"
 
 #: items.lua
 msgid "Copper Plate"
-msgstr ""
+msgstr "Kupferplatte"
 
 #: items.lua
 msgid "Carbon Plate"
-msgstr ""
+msgstr "Kohlefaserplatte"
 
 #: items.lua
 msgid "Graphite"
-msgstr ""
+msgstr "Graphit"
 
 #: items.lua
 msgid "Carbon Cloth"
-msgstr ""
+msgstr "Kohlefasergewebe"
 
 #: items.lua
 msgid "Machine Casing"
@@ -115,27 +115,27 @@ msgstr ""
 
 #: items.lua
 msgid "@1%-Fissile Uranium Ingot"
-msgstr ""
+msgstr "@1%-spaltbarer Uranbarren"
 
 #: items.lua
 msgid "@1%-Fissile Uranium Block"
-msgstr ""
+msgstr "@1%-spaltbarer Uranblock"
 
 #: machines/supply_converter.lua
 msgid "Supply Converter"
-msgstr ""
+msgstr "Stromumwandler"
 
 #: machines/supply_converter.lua
 msgid "@1 (@2 @3 -> @4 @5)"
-msgstr ""
+msgstr "@1 (@2 @3 -> @4 @5)"
 
 #: machines/supply_converter.lua
 msgid "@1 Has Bad Cabling"
-msgstr ""
+msgstr "%s ist falsch verkabelt"
 
 #: machines/switching_station.lua
 msgid "Switching Station"
-msgstr ""
+msgstr "Schaltanlage"
 
 #: machines/switching_station.lua
 msgid "@1 (Slave)"
@@ -143,81 +143,81 @@ msgstr ""
 
 #: machines/switching_station.lua
 msgid "@1 Has No Network"
-msgstr ""
+msgstr "%s hat kein Netzwerk"
 
 #: machines/switching_station.lua
 msgid "@1. Supply: @2 Demand: @3"
-msgstr ""
+msgstr "@1. Versorgung: @2 Bedarf: @3"
 
 #: machines/HV/forcefield.lua
 msgid "Range"
-msgstr ""
+msgstr "Reichweite"
 
 #: machines/HV/forcefield.lua machines/LV/cnc_api.lua
 msgid "Sphere"
-msgstr ""
+msgstr "Kugel"
 
 #: machines/HV/forcefield.lua
 msgid "Cube"
-msgstr ""
+msgstr "Würfel"
 
 #: machines/HV/forcefield.lua
 msgid "Ignoring Mesecon Signal"
-msgstr ""
+msgstr "Ignoriere Mesecon-Signal"
 
 #: machines/HV/forcefield.lua
 msgid "Controlled by Mesecon Signal"
-msgstr ""
+msgstr "Kontrolliert von Mesecon-Signal"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Forcefield Emitter"
-msgstr ""
+msgstr "%s Kraftfeld-Emitter"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Disabled"
-msgstr ""
+msgstr "%s ist ausgeschaltet"
 
 #: machines/HV/forcefield.lua machines/other/anchor.lua
 msgid "@1 Enabled"
-msgstr ""
+msgstr "%s ist eingeschaltet"
 
 #: machines/HV/forcefield.lua machines/LV/cnc.lua machines/LV/music_player.lua
 #: machines/MV/tool_workshop.lua machines/register/machine_base.lua
 msgid "@1 Unpowered"
-msgstr ""
+msgstr "%s hat keine Stromversorgung"
 
 #: machines/HV/forcefield.lua machines/HV/quarry.lua machines/LV/cnc.lua
 #: machines/LV/music_player.lua machines/MV/tool_workshop.lua
 #: machines/other/coal_alloy_furnace.lua machines/register/machine_base.lua
 msgid "@1 Active"
-msgstr ""
+msgstr "%s ist eingeschaltet"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Forcefield"
-msgstr ""
+msgstr "@1 Kraftfeld"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "@1 Nuclear Reactor Core"
-msgstr ""
+msgstr "@1 Nuklearreaktorkern"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "Nuclear Reactor Rod Compartment"
-msgstr ""
+msgstr "Brennstabfächer"
 
 #: machines/HV/nuclear_reactor.lua machines/LV/cnc.lua
 #: machines/LV/music_player.lua machines/LV/solar_panel.lua
 #: machines/MV/tool_workshop.lua machines/register/battery_box.lua
 #: machines/register/machine_base.lua machines/register/solar_array.lua
 msgid "@1 Idle"
-msgstr ""
+msgstr "%s ist bereit"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "source"
-msgstr ""
+msgstr "quelle"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "Corium Bucket"
-msgstr ""
+msgstr "Corium-Eimer"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "Chernobylite Block"
@@ -225,19 +225,19 @@ msgstr ""
 
 #: machines/HV/quarry.lua
 msgid "@1 Quarry"
-msgstr ""
+msgstr "Tschernobylitblock"
 
 #: machines/HV/quarry.lua machines/other/anchor.lua
 msgid "Radius:"
-msgstr ""
+msgstr "Radius:"
 
 #: machines/HV/quarry.lua machines/other/anchor.lua
 msgid "Disabled"
-msgstr ""
+msgstr "Ausgeschaltet"
 
 #: machines/HV/quarry.lua machines/other/anchor.lua
 msgid "Enabled"
-msgstr ""
+msgstr "Eingeschaltet"
 
 #: machines/HV/quarry.lua
 msgid "Digging not started"
@@ -245,20 +245,27 @@ msgstr ""
 
 #: machines/HV/quarry.lua
 msgid "Digging finished"
-msgstr ""
+msgstr "Bohren nicht gestartet"
 
 #: machines/HV/quarry.lua
 msgid "Purging cache"
 msgstr ""
 
 #: machines/HV/quarry.lua
-#, lua-format
-msgid "Digging %d m "
-msgstr ""
+msgid "Digging @1 m @2 machine"
+msgstr "Bohren @1 m @2 der Maschine"
+
+#: machines/HV/quarry.lua
+msgid "above"
+msgstr "überhalb"
+
+#: machines/HV/quarry.lua
+msgid "below"
+msgstr "unterhalb"
 
 #: machines/HV/quarry.lua
 msgid "Restart"
-msgstr ""
+msgstr "Neustart"
 
 #: machines/HV/quarry.lua
 msgid "@1 purging cache"
@@ -266,77 +273,75 @@ msgstr ""
 
 #: machines/HV/quarry.lua
 msgid "@1 Finished"
-msgstr ""
+msgstr "%s ist fertig"
 
 #: machines/HV/quarry.lua
-msgid ""
-"Manually taking/removing from cache by hand is not possible. If you can't "
-"wait, restart or disable the quarry to start automatic purge."
+msgid "Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge."
 msgstr ""
 
 #: machines/LV/cnc.lua
 msgid "Choose Milling Program:"
-msgstr ""
+msgstr "Wähle ein Fräsprogramm:"
 
 #: machines/LV/cnc.lua
 msgid "Slim Elements half / normal height:"
-msgstr ""
+msgstr "Schmale Elemente von halber / normaler Höhe:"
 
 #: machines/LV/cnc.lua
 msgid "In:"
-msgstr ""
+msgstr "Rein:"
 
 #: machines/LV/cnc.lua
 msgid "Out:"
-msgstr ""
+msgstr "Raus:"
 
 #: machines/LV/cnc.lua
 msgid "@1 CNC Machine"
-msgstr ""
+msgstr "%s CNC-Maschine"
 
 #: machines/LV/cnc_api.lua
 msgid "Stick"
-msgstr ""
+msgstr "Stange"
 
 #: machines/LV/cnc_api.lua
 msgid "Element End Double"
-msgstr ""
+msgstr "Endelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Cross Double"
-msgstr ""
+msgstr "Kreuzelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element T Double"
-msgstr ""
+msgstr "T-Element"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Edge Double"
-msgstr ""
+msgstr "Eckelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Straight Double"
-msgstr ""
+msgstr "Aufrechtes Element"
 
 #: machines/LV/cnc_api.lua
 msgid "Element End"
-msgstr ""
+msgstr "Halbes Endelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Cross"
-msgstr ""
+msgstr "Halbes Kreuzelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element T"
-msgstr ""
+msgstr "Halbes T-Element"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Edge"
-msgstr ""
+msgstr "Halbes Eckelement"
 
 #: machines/LV/cnc_api.lua
 msgid "Element Straight"
-msgstr ""
+msgstr "Halbes aufrechtes Element"
 
 #: machines/LV/cnc_api.lua
 msgid "Oblate spheroid"
@@ -344,111 +349,111 @@ msgstr ""
 
 #: machines/LV/cnc_api.lua
 msgid "Horizontal Cylinder"
-msgstr ""
+msgstr "Liegender Zylinder"
 
 #: machines/LV/cnc_api.lua
 msgid "Cylinder"
-msgstr ""
+msgstr "Zylinder"
 
 #: machines/LV/cnc_api.lua
 msgid "Two Curved Edge/Corner Block"
-msgstr ""
+msgstr "Block mit zwei abgerundeten Kanten"
 
 #: machines/LV/cnc_api.lua
 msgid "One Curved Edge Block"
-msgstr ""
+msgstr "Block mit einer abgerundeten Kante"
 
 #: machines/LV/cnc_api.lua
 msgid "Spike"
-msgstr ""
+msgstr "Spitze"
 
 #: machines/LV/cnc_api.lua
 msgid "Pyramid"
-msgstr ""
+msgstr "Pyramide"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Upside Down Inner Edge/Corner"
-msgstr ""
+msgstr "Umgedrehte Schräge mit Innenecke"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Upside Down Outer Edge/Corner"
-msgstr ""
+msgstr "Umgedrehte Schräge mit Außenecke"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Inner Edge/Corner"
-msgstr ""
+msgstr "Schräge mit Innenecke"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Outer Edge/Corner"
-msgstr ""
+msgstr "Schräge mit Außenecke"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Upside Down"
-msgstr ""
+msgstr "Umgedrehte Schräge"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope Lying"
-msgstr ""
+msgstr "Liegende Schräge"
 
 #: machines/LV/cnc_api.lua
 msgid "Slope"
-msgstr ""
+msgstr "Schräge"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Dirt"
-msgstr ""
+msgstr "Erde:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Wooden"
-msgstr ""
+msgstr "Holz:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Stone"
-msgstr ""
+msgstr "Stein:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Cobble"
-msgstr ""
+msgstr "Pflasterstein:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Brick"
-msgstr ""
+msgstr "Ziegel:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Sandstone"
-msgstr ""
+msgstr "Sandstein:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Leaves"
-msgstr ""
+msgstr "Laub:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Tree"
-msgstr ""
+msgstr "Baumstamm:"
 
 #: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
 msgid "Wrought Iron"
-msgstr ""
+msgstr "Schmiedeeisen"
 
 #: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
 msgid "Bronze"
-msgstr ""
+msgstr "Bronze"
 
 #: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
 msgid "Stainless Steel"
-msgstr ""
+msgstr "Edelstahl"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Marble"
-msgstr ""
+msgstr "Marmor"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Granite"
-msgstr ""
+msgstr "Granit"
 
 #: machines/LV/geothermal.lua
 msgid "Geothermal @1 Generator"
-msgstr ""
+msgstr "%s Geothermie-Generator"
 
 #: machines/LV/music_player.lua
 msgid "@1 Music Player"
