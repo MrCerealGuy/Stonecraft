@@ -219,7 +219,7 @@ msgstr "Nicht genug Raum um das Arcade zu platzieren!"
 #: ../chains/init.lua
 #, fuzzy
 msgid "Hanging chain (wrought iron)"
-msgstr "Schmiedeeiserne Stange"
+msgstr "Hängende Kette (schmiedeeiserne Stange)"
 
 #: ../chains/init.lua
 msgid "Hanging chain (brass)"
@@ -231,12 +231,12 @@ msgstr "Hängende Kette (an Decke befestigt, Schmiedeeisen)"
 
 #: ../chains/init.lua
 msgid "Hanging chain (ceiling mount, brass)"
-msgstr ""
+msgstr "Hängende Kette (an Decke befestigt, Messing)"
 
 #: ../chains/init.lua
 #, fuzzy
 msgid "Chandelier (wrought iron)"
-msgstr "Schmiedeeiserne Stange"
+msgstr "Kronleuchter (schmiedeeiserne Stange)"
 
 #: ../chains/init.lua
 msgid "Chandelier (brass)"
@@ -244,7 +244,7 @@ msgstr "Kronleuchter (Messing)"
 
 #: ../itemframes/init.lua
 msgid "Item frame"
-msgstr ""
+msgstr "Gegenstandsrahmen"
 
 #: ../itemframes/init.lua
 #, fuzzy
@@ -724,7 +724,7 @@ msgstr "Ventilatorflügel"
 
 #: ../homedecor/crafts.lua
 msgid "Copper Strip"
-msgstr "Kupderstreifen"
+msgstr "Kupferstreifen"
 
 #: ../homedecor/crafts.lua
 msgid "Steel Strip"
