@@ -133,7 +133,7 @@ local def = {
       spawn_on = {"default:dirt_with_grass", "default:dirt"},
     },
     abm_interval = 55,
-    abm_chance = 100,
+    abm_chance = 7800,
     max_number = 1,
     number = 1,
     light = {min = 8, max = 15},

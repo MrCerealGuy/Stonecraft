@@ -32,35 +32,26 @@ local rnd = math.random
 
 
 local function knockback(selfOrObject, dir, old_dir, strengh)
-  -- direction error check
-  dir = dir or {x = 0, y = 0, z = 0}
-
   local object = selfOrObject
-  
   if selfOrObject.mob_name then
     object = selfOrObject.object
   end
-  
   local current_fmd = object:get_properties().automatic_face_movement_dir or 0
   object:set_properties({automatic_face_movement_dir = false})
   object:setvelocity(vector.add(old_dir, {x = dir.x * strengh, y = 3.5, z = dir.z * strengh}))
   old_dir.y = 0
- 
   core.after(0.4, function()
     object:set_properties({automatic_face_movement_dir = current_fmd})
     object:setvelocity(old_dir)
     selfOrObject.falltimer = nil
-	
     if selfOrObject.stunned == true then
       selfOrObject.stunned = false
-	  
       if selfOrObject.can_panic == true then
         selfOrObject.target = nil
         selfOrObject.mode = "_run"
         selfOrObject.modetimer = 0
       end
     end
-	
   end)
 end
 
@@ -273,27 +264,8 @@ creatures.on_punch = function(self, puncher, time_from_last_punch, tool_capabili
 
   local me = self.object
   local mypos = me:getpos()
-  
-  -- added by MrCerealGuy 2016-05-05, if tool_capabilities is nil, then set default values (see default/tools.lua)
-  if tool_capabilities == nil then
-	tool_capabilities = {
-		full_punch_interval = 0.9,
-		max_drop_level = 0,
-		groupcaps = {
-			crumbly = {times={[2]=3.00, [3]=0.70}, uses=0, maxlevel=1},
-			snappy = {times={[3]=0.40}, uses=0, maxlevel=1},
-			oddly_breakable_by_hand = {times={[1]=3.50,[2]=2.00,[3]=0.70}, uses=0}
-		},
-		damage_groups = {fleshy=1},
-	} 
-  end 
-		
-  if time_from_last_punch == nil then
-	time_from_last_punch = 1
-  end 
 
   changeHP(self, calcPunchDamage(me, time_from_last_punch, tool_capabilities) * -1)
-  
   if puncher then
     if self.hostile then
       self.mode = "attack"
