@@ -253,14 +253,14 @@ local function mining_drill_mk2_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(2))
+		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk@1 modes.", 2))
 		meta["mode"]=0
 		mode=0
 	end
 	mode=(meta["mode"])
 	mode=mode+1
 	if mode>=5 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
+	minetest.chat_send_player(player_name, S("Mining Drill Mk@1 Mode @2", 2, mode)..": "..mining_drill_mode_text[mode][1])
 	item["name"]="technic:mining_drill_mk2_"..mode
 	meta["mode"]=mode
 	item["metadata"]=minetest.serialize(meta)
@@ -277,14 +277,14 @@ local function mining_drill_mk3_setmode(user,itemstack)
 		mode=0
 	end
 	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(3))
+		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk@1 modes.", 3))
 		meta["mode"]=0
 		mode=0
 	end
 	mode=(meta["mode"])
 	mode=mode+1
 	if mode>=6 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
+	minetest.chat_send_player(player_name, S("Mining Drill Mk@1 Mode @2", 3, mode)..": "..mining_drill_mode_text[mode][1])
 	item["name"]="technic:mining_drill_mk3_"..mode
 	meta["mode"]=mode
 	item["metadata"]=minetest.serialize(meta)
@@ -342,7 +342,7 @@ end
 technic.register_power_tool("technic:mining_drill", max_charge[1])
 
 minetest.register_tool("technic:mining_drill", {
-	description = S("Mining Drill Mk%d"):format(1),
+	description = S("Mining Drill Mk@1", 1),
 	inventory_image = "technic_mining_drill.png",
 	stack_max = 1,
 	wear_represents = "technic_RE_charge",
@@ -370,7 +370,7 @@ minetest.register_tool("technic:mining_drill", {
 })
 
 minetest.register_tool("technic:mining_drill_mk2", {
-	description = S("Mining Drill Mk%d"):format(2),
+	description = S("Mining Drill Mk@1", 2),
 	inventory_image = "technic_mining_drill_mk2.png",
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
@@ -385,7 +385,7 @@ technic.register_power_tool("technic:mining_drill_mk2", max_charge[2])
 for i = 1, 4 do
 	technic.register_power_tool("technic:mining_drill_mk2_"..i, max_charge[2])
 	minetest.register_tool("technic:mining_drill_mk2_"..i, {
-		description = S("Mining Drill Mk%d Mode %d"):format(2, i),
+		description = S("Mining Drill Mk@1 Mode @2", 2, i),
 		inventory_image = "technic_mining_drill_mk2.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk2.png",
 		wear_represents = "technic_RE_charge",
@@ -399,7 +399,7 @@ for i = 1, 4 do
 end
 
 minetest.register_tool("technic:mining_drill_mk3", {
-	description = S("Mining Drill Mk%d"):format(3),
+	description = S("Mining Drill Mk@1", 3),
 	inventory_image = "technic_mining_drill_mk3.png",
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
@@ -414,7 +414,7 @@ technic.register_power_tool("technic:mining_drill_mk3", max_charge[3])
 for i=1,5,1 do
 	technic.register_power_tool("technic:mining_drill_mk3_"..i, max_charge[3])
 	minetest.register_tool("technic:mining_drill_mk3_"..i, {
-		description = S("Mining Drill Mk%d Mode %d"):format(3, i),
+		description = S("Mining Drill Mk@1 Mode @2", 3, i),
 		inventory_image = "technic_mining_drill_mk3.png^technic_tool_mode"..i..".png",
 		wield_image = "technic_mining_drill_mk3.png",
 		wear_represents = "technic_RE_charge",

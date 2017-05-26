@@ -111,7 +111,7 @@ msgstr "Kohlefasergewebe"
 
 #: items.lua
 msgid "Machine Casing"
-msgstr ""
+msgstr "Maschinengehäuse"
 
 #: items.lua
 msgid "@1%-Fissile Uranium Ingot"
@@ -131,7 +131,7 @@ msgstr "@1 (@2 @3 -> @4 @5)"
 
 #: machines/supply_converter.lua
 msgid "@1 Has Bad Cabling"
-msgstr "%s ist falsch verkabelt"
+msgstr "@1 ist falsch verkabelt"
 
 #: machines/switching_station.lua
 msgid "Switching Station"
@@ -143,7 +143,7 @@ msgstr ""
 
 #: machines/switching_station.lua
 msgid "@1 Has No Network"
-msgstr "%s hat kein Netzwerk"
+msgstr "@1 hat kein Netzwerk"
 
 #: machines/switching_station.lua
 msgid "@1. Supply: @2 Demand: @3"
@@ -171,26 +171,26 @@ msgstr "Kontrolliert von Mesecon-Signal"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Forcefield Emitter"
-msgstr "%s Kraftfeld-Emitter"
+msgstr "@1 Kraftfeld-Emitter"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Disabled"
-msgstr "%s ist ausgeschaltet"
+msgstr "@1 ist ausgeschaltet"
 
 #: machines/HV/forcefield.lua machines/other/anchor.lua
 msgid "@1 Enabled"
-msgstr "%s ist eingeschaltet"
+msgstr "@1 ist eingeschaltet"
 
 #: machines/HV/forcefield.lua machines/LV/cnc.lua machines/LV/music_player.lua
 #: machines/MV/tool_workshop.lua machines/register/machine_base.lua
 msgid "@1 Unpowered"
-msgstr "%s hat keine Stromversorgung"
+msgstr "@1 hat keine Stromversorgung"
 
 #: machines/HV/forcefield.lua machines/HV/quarry.lua machines/LV/cnc.lua
 #: machines/LV/music_player.lua machines/MV/tool_workshop.lua
 #: machines/other/coal_alloy_furnace.lua machines/register/machine_base.lua
 msgid "@1 Active"
-msgstr "%s ist eingeschaltet"
+msgstr "@1 ist eingeschaltet"
 
 #: machines/HV/forcefield.lua
 msgid "@1 Forcefield"
@@ -209,7 +209,7 @@ msgstr "Brennstabfächer"
 #: machines/MV/tool_workshop.lua machines/register/battery_box.lua
 #: machines/register/machine_base.lua machines/register/solar_array.lua
 msgid "@1 Idle"
-msgstr "%s ist bereit"
+msgstr "@1 ist bereit"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "source"
@@ -221,11 +221,11 @@ msgstr "Corium-Eimer"
 
 #: machines/HV/nuclear_reactor.lua
 msgid "Chernobylite Block"
-msgstr ""
+msgstr "Tschernobylitblock"
 
 #: machines/HV/quarry.lua
 msgid "@1 Quarry"
-msgstr "Tschernobylitblock"
+msgstr "@1 Steinbruch"
 
 #: machines/HV/quarry.lua machines/other/anchor.lua
 msgid "Radius:"
@@ -241,7 +241,7 @@ msgstr "Eingeschaltet"
 
 #: machines/HV/quarry.lua
 msgid "Digging not started"
-msgstr ""
+msgstr "Graben nicht gestartet"
 
 #: machines/HV/quarry.lua
 msgid "Digging finished"
@@ -273,7 +273,7 @@ msgstr ""
 
 #: machines/HV/quarry.lua
 msgid "@1 Finished"
-msgstr "%s ist fertig"
+msgstr "@1 ist fertig"
 
 #: machines/HV/quarry.lua
 msgid "Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge."
@@ -297,7 +297,7 @@ msgstr "Raus:"
 
 #: machines/LV/cnc.lua
 msgid "@1 CNC Machine"
-msgstr "%s CNC-Maschine"
+msgstr "@1 CNC-Maschine"
 
 #: machines/LV/cnc_api.lua
 msgid "Stick"
@@ -453,11 +453,11 @@ msgstr "Granit"
 
 #: machines/LV/geothermal.lua
 msgid "Geothermal @1 Generator"
-msgstr "%s Geothermie-Generator"
+msgstr "@1 Geothermie-Generator"
 
 #: machines/LV/music_player.lua
 msgid "@1 Music Player"
-msgstr "%s Musikspieler"
+msgstr "@1 Musikspieler"
 
 #: machines/LV/music_player.lua
 msgid "Stopped"
@@ -465,11 +465,11 @@ msgstr "Gestoppt"
 
 #: machines/LV/music_player.lua
 msgid "Current track @1"
-msgstr "Aktueller Titel %s"
+msgstr "Aktueller Titel @1"
 
 #: machines/LV/solar_panel.lua
 msgid "Small Solar @1 Generator"
-msgstr "%s Solarmodul"
+msgstr "@1 Solarmodul"
 
 #: machines/LV/solar_panel.lua machines/register/solar_array.lua
 msgid "@1 Active (@2 EU)"
@@ -477,7 +477,7 @@ msgstr "@1 ist eingeschaltet (@2 EU)"
 
 #: machines/LV/water_mill.lua
 msgid "Hydro @1 Generator"
-msgstr "%s Wassermühle"
+msgstr "@1 Wassermühle"
 
 #: machines/MV/lighting.lua
 msgid "someone"
@@ -485,35 +485,35 @@ msgstr ""
 
 #: machines/MV/lighting.lua
 msgid "Sorry, @1 owns that spot."
-msgstr ""
+msgstr "Tut mir leid, @1 gehört diese Stelle."
 
 #: machines/MV/lighting.lua
 msgid "Yellow Glowlight (thick)"
-msgstr ""
+msgstr "Gelbes Glühlicht (dick)"
 
 #: machines/MV/lighting.lua
 msgid "Yellow Glowlight (thin)"
-msgstr ""
+msgstr "Gelbes Glühlicht (dünn)"
 
 #: machines/MV/lighting.lua
 msgid "White Glowlight (thick)"
-msgstr ""
+msgstr "Weißes Glühlicht (dick)"
 
 #: machines/MV/lighting.lua
 msgid "White Glowlight (thin)"
-msgstr ""
+msgstr "Weißes Glühlicht (dünn)"
 
 #: machines/MV/lighting.lua
 msgid "Yellow Glowlight (small cube)"
-msgstr ""
+msgstr "Gelbes Glühlicht (kleiner Würfel)"
 
 #: machines/MV/lighting.lua
 msgid "White Glowlight (small cube)"
-msgstr ""
+msgstr "Weißes Glühlicht (kleiner Würfel)"
 
 #: machines/MV/tool_workshop.lua
 msgid "@1 Tool Workshop"
-msgstr "%s Werkzeugwerkstatt"
+msgstr "@1 Werkzeugwerkstatt"
 
 #: machines/MV/tool_workshop.lua machines/register/battery_box.lua
 #: machines/register/machine_base.lua
@@ -526,11 +526,11 @@ msgstr "Windmühlengerüst"
 
 #: machines/MV/wind_mill.lua
 msgid "Wind @1 Generator"
-msgstr "%s Windmuehle"
+msgstr "@1 Windmuehle"
 
 #: machines/MV/wind_mill.lua
 msgid "@1 Improperly Placed"
-msgstr "%s ist falsch plaziert"
+msgstr "@1 ist falsch plaziert"
 
 #: machines/MV/wind_mill.lua
 msgid "@1 (@2 EU)"
@@ -558,7 +558,7 @@ msgstr ""
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "Fuel-Fired Alloy Furnace"
-msgstr "%s Kohle-Generator"
+msgstr "@1 Kohle-Generator"
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "@1 is empty"
@@ -566,7 +566,7 @@ msgstr "@1 ist leer"
 
 #: machines/other/coal_alloy_furnace.lua machines/register/generator.lua
 msgid "@1 Out Of Fuel"
-msgstr "%s hat keinen Brennstoff"
+msgstr "@1 hat keinen Brennstoff"
 
 #: machines/other/coal_furnace.lua
 msgid "Fuel-Fired Furnace"
@@ -618,11 +618,11 @@ msgstr "Einzelstücke"
 
 #: machines/register/alloy_furnace.lua
 msgid "@1 Alloy Furnace"
-msgstr ""
+msgstr "@1 Legierungsofen"
 
 #: machines/register/alloy_recipes.lua
 msgid "Alloying"
-msgstr "%s Legierungsofen"
+msgstr "Legierung"
 
 #: machines/register/battery_box.lua
 msgid "RE Battery"
@@ -630,7 +630,7 @@ msgstr "Akkubatterie"
 
 #: machines/register/battery_box.lua
 msgid "@1 Battery Box"
-msgstr "%s Batteriebox"
+msgstr "@1 Batteriebox"
 
 #: machines/register/battery_box.lua
 msgid "Charge"
@@ -650,7 +650,7 @@ msgstr "@2/@3 = @1 Batteriebox: @2/@3"
 
 #: machines/register/cables.lua
 msgid "@1 Cable"
-msgstr "%s Kabel"
+msgstr "@1 Kabel"
 
 #: machines/register/centrifuge.lua
 msgid "@1 Centrifuge"
@@ -658,7 +658,7 @@ msgstr "@1 Zentrifuge"
 
 #: machines/register/centrifuge_recipes.lua
 msgid "Separating"
-msgstr ""
+msgstr "Trennen"
 
 #: machines/register/common.lua
 msgid "Machine cannot be removed because it is not empty"
@@ -670,7 +670,7 @@ msgstr "Das Inventar ist geschützt, Zugriff verweigert."
 
 #: machines/register/compressor.lua
 msgid "@1 Compressor"
-msgstr "%s Kompressor"
+msgstr "@1 Kompressor"
 
 #: machines/register/compressor_recipes.lua
 msgid "Compressing"
@@ -678,11 +678,11 @@ msgstr "Verdichten"
 
 #: machines/register/electric_furnace.lua
 msgid "@1 Furnace"
-msgstr "%s Ofen"
+msgstr "@1 Ofen"
 
 #: machines/register/extractor.lua
 msgid "@1 Extractor"
-msgstr "%s Extraktor"
+msgstr "@1 Extraktor"
 
 #: machines/register/extractor_recipes.lua
 msgid "Extracting"
@@ -690,196 +690,192 @@ msgstr "Extrahieren"
 
 #: machines/register/generator.lua
 msgid "Fuel-Fired @1 Generator"
-msgstr "%s Kohle-Generator"
+msgstr "@1 Kohle-Generator"
 
 #: machines/register/grinder.lua
 msgid "@1 Grinder"
-msgstr ""
+msgstr "@1 Schleifmaschine"
 
 #: machines/register/grinder_recipes.lua
 msgid "Grinding"
-msgstr ""
+msgstr "Mahlen"
 
 #: machines/register/grinder_recipes.lua
 msgid "@1 Dust"
-msgstr ""
+msgstr "@1staub"
 
 #: machines/register/grinder_recipes.lua
 msgid "Brass"
-msgstr ""
+msgstr "Messing"
 
 #: machines/register/grinder_recipes.lua
 msgid "Carbon Steel"
-msgstr ""
+msgstr "Kohlenstoffstahl"
 
 #: machines/register/grinder_recipes.lua
 msgid "Cast Iron"
-msgstr ""
+msgstr "Gusseisen"
 
 #: machines/register/grinder_recipes.lua
 msgid "Chromium"
-msgstr ""
+msgstr "Chrom"
 
 #: machines/register/grinder_recipes.lua
 msgid "Coal"
-msgstr ""
+msgstr "Kohle"
 
 #: machines/register/grinder_recipes.lua
 msgid "Copper"
-msgstr ""
+msgstr "Kupfer"
 
 #: machines/register/grinder_recipes.lua
 msgid "Lead"
-msgstr ""
+msgstr "Blei"
 
 #: machines/register/grinder_recipes.lua
 msgid "Gold"
-msgstr ""
+msgstr "Gold"
 
 #: machines/register/grinder_recipes.lua
 msgid "Mithril"
-msgstr ""
+msgstr "Mithril"
 
 #: machines/register/grinder_recipes.lua
 msgid "Silver"
-msgstr ""
+msgstr "Silber"
 
 #: machines/register/grinder_recipes.lua
 msgid "Sulfur"
-msgstr ""
+msgstr "Schwefel"
 
 #: machines/register/grinder_recipes.lua
 msgid "Tin"
-msgstr ""
+msgstr "Zinn"
 
 #: machines/register/grinder_recipes.lua
 msgid "Zinc"
-msgstr ""
+msgstr "Zink"
 
 #: machines/register/grinder_recipes.lua
 msgid "Akalin"
-msgstr ""
+msgstr "Akalin"
 
 #: machines/register/grinder_recipes.lua
 msgid "Alatro"
-msgstr ""
+msgstr "Alatro"
 
 #: machines/register/grinder_recipes.lua
 msgid "Arol"
-msgstr ""
+msgstr "Arol"
 
 #: machines/register/grinder_recipes.lua
 msgid "Kalite"
-msgstr ""
+msgstr "Kalite"
 
 #: machines/register/grinder_recipes.lua
 msgid "Talinite"
-msgstr ""
+msgstr "Talinite"
 
 #: machines/register/grinder_recipes.lua
 msgid "@1%-Fissile Uranium"
-msgstr ""
+msgstr "@1%-spaltbares Uran"
 
 #: machines/register/grindings.lua
 msgid "Sawdust"
-msgstr ""
+msgstr "Sägemehl"
 
 #: machines/register/grindings.lua
 msgid "@1 Grinding"
-msgstr ""
+msgstr "@1 Mahlen"
 
 #: machines/register/grindings.lua
 msgid "Common Tree"
-msgstr ""
+msgstr "Gewöhnlicher Baum"
 
 #: machines/register/grindings.lua
 msgid "Rubber Tree"
-msgstr ""
+msgstr "Gummibaum"
 
 #: machines/register/grindings.lua
 msgid "Acacia"
-msgstr ""
+msgstr "Akazie"
 
 #: machines/register/solar_array.lua
 msgid "Arrayed Solar @1 Generator"
-msgstr ""
+msgstr "@1 Solaranlage"
 
 #: tools/cans.lua
 msgid "Water Can"
-msgstr ""
+msgstr "Wasserkanister"
 
 #: tools/cans.lua
 msgid "Lava Can"
-msgstr ""
+msgstr "Lavakanister"
 
 #: tools/chainsaw.lua
 msgid "Chainsaw"
-msgstr ""
+msgstr "Kettensäge"
 
 #: tools/flashlight.lua
 msgid "Flashlight"
-msgstr ""
+msgstr "Taschenlampe"
 
 #: tools/mining_drill.lua
 msgid "Single node."
-msgstr ""
+msgstr "Einzelblock"
 
 #: tools/mining_drill.lua
 msgid "3 nodes deep."
-msgstr ""
+msgstr "3 Blöcke tief."
 
 #: tools/mining_drill.lua
 msgid "3 nodes wide."
-msgstr ""
+msgstr "3 Blöcke breit."
 
 #: tools/mining_drill.lua
 msgid "3 nodes tall."
-msgstr ""
+msgstr "3 Blöcke hoch."
 
 #: tools/mining_drill.lua
 msgid "3x3 nodes."
-msgstr ""
+msgstr "3x3 Bloecke."
 
 #: tools/mining_drill.lua
-#, lua-format
-msgid "Use while sneaking to change Mining Drill Mk%d modes."
-msgstr ""
+msgid "Use while sneaking to change Mining Drill Mk@1 modes."
+msgstr "Halte die Schleichen-Taste beim Benutzen gedrückt, um die Funktion des Bergbaubohrers Modell @1 zu ändern."
 
 #: tools/mining_drill.lua
-#, lua-format
-msgid "Mining Drill Mk%d Mode %d"
-msgstr ""
+msgid "Mining Drill Mk@1 Mode @2"
+msgstr "Bergbaubohrer Modell @1 Funktion @2"
 
 #: tools/mining_drill.lua
-#, lua-format
-msgid "Mining Drill Mk%d"
-msgstr ""
+msgid "Mining Drill Mk@1"
+msgstr "Bergbaubohrer Modell @1"
 
 #: tools/mining_lasers.lua
-#, lua-format
-msgid "Mining Laser Mk%d"
-msgstr ""
+msgid "Mining Laser Mk@1"
+msgstr "Bergbaulaser Modell @1"
 
 #: tools/prospector.lua
 msgid "Prospector"
-msgstr ""
+msgstr "Erzsucher"
 
 #: tools/sonic_screwdriver.lua
 msgid "Sonic Screwdriver (left-click rotates face, right-click rotates axis)"
-msgstr ""
+msgstr "Schallschraubendreher"
 
 #: tools/tree_tap.lua
 msgid "Tree Tap"
-msgstr ""
+msgstr "Baumzapfhahn"
 
 #: tools/tree_tap.lua
 msgid "Raw Latex"
-msgstr ""
+msgstr "Rohlatex"
 
 #: tools/tree_tap.lua
 msgid "Rubber Fiber"
-msgstr ""
+msgstr "Gummifaser"
 
 #: tools/vacuum.lua
 msgid "Vacuum Cleaner"
-msgstr ""
+msgstr "Vakuumreiniger"

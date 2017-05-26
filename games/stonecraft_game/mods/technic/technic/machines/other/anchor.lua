@@ -70,7 +70,7 @@ local function set_display(pos, meta)
 		(meta:get_int("enabled") == 0 and
 			"button[3,2;2,1;enable;"..minetest.formspec_escape(S("Disabled")).."]" or
 			"button[3,2;2,1;disable;"..minetest.formspec_escape(S("Enabled")).."]")..
-		"label[0,3;"..minetest.formspec_escape(S("Keeping %d/%d map blocks loaded"):format(#currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta))).."]")
+		"label[0,3;"..minetest.formspec_escape(S("Keeping @1/@2 map blocks loaded", #currently_forceloaded_positions(meta), #compute_forceload_positions(pos, meta))).."]")
 end
 
 minetest.register_node("technic:admin_anchor", {
