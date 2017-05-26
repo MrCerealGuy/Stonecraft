@@ -9,6 +9,18 @@
 --
 -- Contact sapier a t gmx net
 -------------------------------------------------------------------------------
+
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 core.log("action","MOD: mob_warthog loading ...")
 
 local version = "0.0.1"
@@ -44,7 +56,7 @@ local warthog_prototype = {
 			},
 
 		generic = {
-					description="Warthog (Animals)",
+					description=S("Warthog (Animals)"),
 					base_health=15,
 					kill_result=warthog_drop,
 					armor_groups= {
