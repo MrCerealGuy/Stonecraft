@@ -1,5 +1,14 @@
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 technic.register_recipe_type("grinding", { description = S("Grinding") })
 
@@ -73,7 +82,7 @@ local function register_dust(name, ingot)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	minetest.register_craftitem("technic:"..lname.."_dust", {
-		description = S("%s Dust"):format(S(name)),
+		description = S("@1 Dust", S(name)),
 		inventory_image = "technic_"..lname.."_dust.png",
 	})
 	if ingot then
@@ -117,7 +126,7 @@ for p = 0, 35 do
 	local ingot = "technic:uranium"..psuffix.."_ingot"
 	local dust = "technic:uranium"..psuffix.."_dust"
 	minetest.register_craftitem(dust, {
-		description = S("%s Dust"):format(string.format(S("%.1f%%-Fissile Uranium"), p/10)),
+		description = S("@1 Dust", string.format(S("@1%-Fissile Uranium", p/10))),
 		inventory_image = "technic_uranium_dust.png",
 		on_place_on_ground = minetest.craftitem_place_item,
 		groups = {uranium_dust=1, not_in_creative_inventory=nici},

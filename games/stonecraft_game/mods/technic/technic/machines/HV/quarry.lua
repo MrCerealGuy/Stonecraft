@@ -1,5 +1,14 @@
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craft({
 	recipe = {
@@ -18,7 +27,7 @@ local function set_quarry_formspec(meta)
 	local formspec = "size[6,4.3]"..
 		"list[context;cache;0,1;4,3;]"..
 		"item_image[4.8,0;1,1;technic:quarry]"..
-		"label[0,0.2;"..S("%s Quarry"):format("HV").."]"..
+		"label[0,0.2;"..S("@1 Quarry", "HV").."]"..
 		"field[4.3,3.5;2,1;size;"..S("Radius:")..";"..radius.."]"
 	if meta:get_int("enabled") == 0 then
 		formspec = formspec.."button[4,1;2,1;enable;"..S("Disabled").."]"
@@ -42,15 +51,15 @@ end
 local function set_quarry_demand(meta)
 	local radius = meta:get_int("size")
 	local diameter = radius*2 + 1
-	local machine_name = S("%s Quarry"):format("HV")
+	local machine_name = S("@1 Quarry", "HV")
 	if meta:get_int("enabled") == 0 or meta:get_int("purge_on") == 1 then
-		meta:set_string("infotext", S(meta:get_int("purge_on") == 1 and "%s purging cache" or "%s Disabled"):format(machine_name))
+		meta:set_string("infotext", S(meta:get_int("purge_on") == 1 and "@1 purging cache" or "@1 Disabled", machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	elseif meta:get_int("dug") == diameter*diameter * (quarry_dig_above_nodes+1+quarry_max_depth) then
-		meta:set_string("infotext", S("%s Finished"):format(machine_name))
+		meta:set_string("infotext", S("@1 Finished", machine_name))
 		meta:set_int("HV_EU_demand", 0)
 	else
-		meta:set_string("infotext", S(meta:get_int("HV_EU_input") >= quarry_demand and "%s Active" or "%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", S(meta:get_int("HV_EU_input") >= quarry_demand and "@1 Active" or "@1 Unpowered", machine_name))
 		meta:set_int("HV_EU_demand", quarry_demand)
 	end
 end
@@ -205,7 +214,7 @@ local function send_move_error(player)
 end
 
 minetest.register_node("technic:quarry", {
-	description = S("%s Quarry"):format("HV"),
+	description = S("@1 Quarry", "HV"),
 	tiles = {"technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png", "technic_carbon_steel_block.png",
 	         "technic_carbon_steel_block.png^default_tool_mesepick.png", "technic_carbon_steel_block.png"},
@@ -220,7 +229,7 @@ minetest.register_node("technic:quarry", {
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s Quarry"):format("HV"))
+		meta:set_string("infotext", S("@1 Quarry", "HV"))
 		meta:set_int("size", 4)
 		set_quarry_formspec(meta)
 		set_quarry_demand(meta)

@@ -5,7 +5,16 @@ local mining_lasers_list = {
 	{"3", 21, 650000, 3000},
 }
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craft({
 	output = 'technic:laser_mk1',

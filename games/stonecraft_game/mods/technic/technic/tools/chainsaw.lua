@@ -1,3 +1,14 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Configuration
 
 local chainsaw_max_charge      = 30000 -- Maximum charge of the saw
@@ -159,8 +170,6 @@ if minetest.get_modpath("trunks") then
 		timber_nodenames["trunks:treeroot"] = true
 	end
 end
-
-local S = technic.getter
 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
 

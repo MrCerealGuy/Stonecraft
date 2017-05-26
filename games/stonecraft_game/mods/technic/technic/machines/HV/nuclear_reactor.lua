@@ -13,9 +13,18 @@ local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 
-local S = technic.getter
+--[[
 
-local reactor_desc = S("@1 Nuclear Reactor Core", S("HV")),
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
+local reactor_desc = S("@1 Nuclear Reactor Core", "HV"),
 
 
 -- FIXME: Recipe should make more sense like a rod recepticle, steam chamber, HV generator?
@@ -249,7 +258,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("%s Idle"):format(reactor_desc))
+		meta:set_string("infotext", S("@1 Idle", reactor_desc))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)

@@ -8,7 +8,16 @@
 -- Leaves room for upgrades lowering the power drain?
 local forcefield_power_drain   = 10
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craft({
 	output = "technic:forcefield_emitter_off",
@@ -107,9 +116,9 @@ local function set_forcefield_formspec(meta)
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..S("@1 Disabled", S("@1 Forcefield Emitter", "HV")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..S("@1 Enabled", S("@1 Forcefield Emitter", "HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -154,7 +163,7 @@ local function run(pos, node)
 	local meta = minetest.get_meta(pos)
 	local eu_input   = meta:get_int("HV_EU_input")
 	local enabled = meta:get_int("enabled") ~= 0 and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
-	local machine_name = S("%s Forcefield Emitter"):format("HV")
+	local machine_name = S("@1 Forcefield Emitter", "HV")
 
 	local range = meta:get_int("range")
 	local power_requirement
@@ -169,14 +178,14 @@ local function run(pos, node)
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
-			meta:set_string("infotext", S("%s Disabled"):format(machine_name))
+			meta:set_string("infotext", S("@1 Disabled", machine_name))
 		end
 		meta:set_int("HV_EU_demand", 0)
 		return
 	end
 	meta:set_int("HV_EU_demand", power_requirement)
 	if eu_input < power_requirement then
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", S("@1 Unpowered", machine_name))
 		if node.name == "technic:forcefield_emitter_on" then
 			update_forcefield(pos, meta, false)
 			technic.swap_node(pos, "technic:forcefield_emitter_off")
@@ -186,14 +195,14 @@ local function run(pos, node)
 		if node.name == "technic:forcefield_emitter_off" then
 			first = true
 			technic.swap_node(pos, "technic:forcefield_emitter_on")
-			meta:set_string("infotext", S("%s Active"):format(machine_name))
+			meta:set_string("infotext", S("@1 Active", machine_name))
 		end
 		update_forcefield(pos, meta, true, first)
 	end
 end
 
 minetest.register_node("technic:forcefield_emitter_off", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = S("@1 Forcefield Emitter", "HV"),
 	tiles = {"technic_forcefield_emitter_off.png"},
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1},
 	on_receive_fields = forcefield_receive_fields,
@@ -205,7 +214,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 		meta:set_int("enabled", 0)
 		meta:set_int("mesecon_mode", 0)
 		meta:set_int("mesecon_effect", 0)
-		meta:set_string("infotext", S("%s Forcefield Emitter"):format("HV"))
+		meta:set_string("infotext", S("@1 Forcefield Emitter", "HV"))
 		set_forcefield_formspec(meta)
 	end,
 	mesecons = mesecons,
@@ -213,7 +222,7 @@ minetest.register_node("technic:forcefield_emitter_off", {
 })
 
 minetest.register_node("technic:forcefield_emitter_on", {
-	description = S("%s Forcefield Emitter"):format("HV"),
+	description = S("@1 Forcefield Emitter", "HV"),
 	tiles = {"technic_forcefield_emitter_on.png"},
 	groups = {cracky = 1, technic_machine = 1, technic_hv = 1,
 			not_in_creative_inventory=1},
@@ -233,7 +242,7 @@ minetest.register_node("technic:forcefield_emitter_on", {
 })
 
 minetest.register_node("technic:forcefield", {
-	description = S("%s Forcefield"):format("HV"),
+	description = S("@1 Forcefield", "HV"),
 	sunlight_propagates = true,
 	drawtype = "glasslike",
 	groups = {not_in_creative_inventory=1},

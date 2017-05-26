@@ -1,0 +1,883 @@
+# German translation for technic/technic mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-26 16:45+0200\n"
+"PO-Revision-Date: 2018-05-26 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "[Technic] Loaded in @1 seconds"
+msgstr ""
+
+#: items.lua
+msgid "Silicon Wafer"
+msgstr ""
+
+#: items.lua
+msgid "Doped Silicon Wafer"
+msgstr ""
+
+#: items.lua
+msgid "Uranium Fuel"
+msgstr ""
+
+#: items.lua
+msgid "Diamond Drill Head"
+msgstr ""
+
+#: items.lua
+msgid "Blue Energy Crystal"
+msgstr ""
+
+#: items.lua
+msgid "Green Energy Crystal"
+msgstr ""
+
+#: items.lua
+msgid "Red Energy Crystal"
+msgstr ""
+
+#: items.lua
+msgid "Fine Copper Wire"
+msgstr ""
+
+#: items.lua
+msgid "Fine Gold Wire"
+msgstr ""
+
+#: items.lua
+msgid "Fine Silver Wire"
+msgstr ""
+
+#: items.lua
+msgid "Copper Coil"
+msgstr ""
+
+#: items.lua
+msgid "Electric Motor"
+msgstr ""
+
+#: items.lua
+msgid "Low Voltage Transformer"
+msgstr ""
+
+#: items.lua
+msgid "Medium Voltage Transformer"
+msgstr ""
+
+#: items.lua
+msgid "High Voltage Transformer"
+msgstr ""
+
+#: items.lua
+msgid "Control Logic Unit"
+msgstr ""
+
+#: items.lua
+msgid "Mixed Metal Ingot"
+msgstr ""
+
+#: items.lua
+msgid "Composite Plate"
+msgstr ""
+
+#: items.lua
+msgid "Copper Plate"
+msgstr ""
+
+#: items.lua
+msgid "Carbon Plate"
+msgstr ""
+
+#: items.lua
+msgid "Graphite"
+msgstr ""
+
+#: items.lua
+msgid "Carbon Cloth"
+msgstr ""
+
+#: items.lua
+msgid "Machine Casing"
+msgstr ""
+
+#: items.lua
+msgid "@1%-Fissile Uranium Ingot"
+msgstr ""
+
+#: items.lua
+msgid "@1%-Fissile Uranium Block"
+msgstr ""
+
+#: machines/supply_converter.lua
+msgid "Supply Converter"
+msgstr ""
+
+#: machines/supply_converter.lua
+msgid "@1 (@2 @3 -> @4 @5)"
+msgstr ""
+
+#: machines/supply_converter.lua
+msgid "@1 Has Bad Cabling"
+msgstr ""
+
+#: machines/switching_station.lua
+msgid "Switching Station"
+msgstr ""
+
+#: machines/switching_station.lua
+msgid "@1 (Slave)"
+msgstr ""
+
+#: machines/switching_station.lua
+msgid "@1 Has No Network"
+msgstr ""
+
+#: machines/switching_station.lua
+msgid "@1. Supply: @2 Demand: @3"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "Range"
+msgstr ""
+
+#: machines/HV/forcefield.lua machines/LV/cnc_api.lua
+msgid "Sphere"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "Cube"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "Ignoring Mesecon Signal"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "Controlled by Mesecon Signal"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "@1 Forcefield Emitter"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "@1 Disabled"
+msgstr ""
+
+#: machines/HV/forcefield.lua machines/other/anchor.lua
+msgid "@1 Enabled"
+msgstr ""
+
+#: machines/HV/forcefield.lua machines/LV/cnc.lua machines/LV/music_player.lua
+#: machines/MV/tool_workshop.lua machines/register/machine_base.lua
+msgid "@1 Unpowered"
+msgstr ""
+
+#: machines/HV/forcefield.lua machines/HV/quarry.lua machines/LV/cnc.lua
+#: machines/LV/music_player.lua machines/MV/tool_workshop.lua
+#: machines/other/coal_alloy_furnace.lua machines/register/machine_base.lua
+msgid "@1 Active"
+msgstr ""
+
+#: machines/HV/forcefield.lua
+msgid "@1 Forcefield"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua
+msgid "@1 Nuclear Reactor Core"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua
+msgid "Nuclear Reactor Rod Compartment"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua machines/LV/cnc.lua
+#: machines/LV/music_player.lua machines/LV/solar_panel.lua
+#: machines/MV/tool_workshop.lua machines/register/battery_box.lua
+#: machines/register/machine_base.lua machines/register/solar_array.lua
+msgid "@1 Idle"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua
+msgid "source"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua
+msgid "Corium Bucket"
+msgstr ""
+
+#: machines/HV/nuclear_reactor.lua
+msgid "Chernobylite Block"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "@1 Quarry"
+msgstr ""
+
+#: machines/HV/quarry.lua machines/other/anchor.lua
+msgid "Radius:"
+msgstr ""
+
+#: machines/HV/quarry.lua machines/other/anchor.lua
+msgid "Disabled"
+msgstr ""
+
+#: machines/HV/quarry.lua machines/other/anchor.lua
+msgid "Enabled"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "Digging not started"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "Digging finished"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "Purging cache"
+msgstr ""
+
+#: machines/HV/quarry.lua
+#, lua-format
+msgid "Digging %d m "
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "Restart"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "@1 purging cache"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid "@1 Finished"
+msgstr ""
+
+#: machines/HV/quarry.lua
+msgid ""
+"Manually taking/removing from cache by hand is not possible. If you can't "
+"wait, restart or disable the quarry to start automatic purge."
+msgstr ""
+
+#: machines/LV/cnc.lua
+msgid "Choose Milling Program:"
+msgstr ""
+
+#: machines/LV/cnc.lua
+msgid "Slim Elements half / normal height:"
+msgstr ""
+
+#: machines/LV/cnc.lua
+msgid "In:"
+msgstr ""
+
+#: machines/LV/cnc.lua
+msgid "Out:"
+msgstr ""
+
+#: machines/LV/cnc.lua
+msgid "@1 CNC Machine"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Stick"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element End Double"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Cross Double"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element T Double"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Edge Double"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Straight Double"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element End"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Cross"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element T"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Edge"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Element Straight"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Oblate spheroid"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Horizontal Cylinder"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Cylinder"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Two Curved Edge/Corner Block"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "One Curved Edge Block"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Spike"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Pyramid"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Upside Down Inner Edge/Corner"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Upside Down Outer Edge/Corner"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Inner Edge/Corner"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Outer Edge/Corner"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Upside Down"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope Lying"
+msgstr ""
+
+#: machines/LV/cnc_api.lua
+msgid "Slope"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Dirt"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Wooden"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Stone"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Cobble"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Brick"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Sandstone"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Leaves"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Tree"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
+msgid "Wrought Iron"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
+msgid "Bronze"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua machines/register/grinder_recipes.lua
+msgid "Stainless Steel"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Marble"
+msgstr ""
+
+#: machines/LV/cnc_nodes.lua
+msgid "Granite"
+msgstr ""
+
+#: machines/LV/geothermal.lua
+msgid "Geothermal @1 Generator"
+msgstr ""
+
+#: machines/LV/music_player.lua
+msgid "@1 Music Player"
+msgstr ""
+
+#: machines/LV/music_player.lua
+msgid "Stopped"
+msgstr ""
+
+#: machines/LV/music_player.lua
+msgid "Current track @1"
+msgstr ""
+
+#: machines/LV/solar_panel.lua
+msgid "Small Solar @1 Generator"
+msgstr ""
+
+#: machines/LV/solar_panel.lua machines/register/solar_array.lua
+msgid "@1 Active (@2 EU)"
+msgstr ""
+
+#: machines/LV/water_mill.lua
+msgid "Hydro @1 Generator"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "someone"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "Sorry, @1 owns that spot."
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "Yellow Glowlight (thick)"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "Yellow Glowlight (thin)"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "White Glowlight (thick)"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "White Glowlight (thin)"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "Yellow Glowlight (small cube)"
+msgstr ""
+
+#: machines/MV/lighting.lua
+msgid "White Glowlight (small cube)"
+msgstr ""
+
+#: machines/MV/tool_workshop.lua
+msgid "@1 Tool Workshop"
+msgstr ""
+
+#: machines/MV/tool_workshop.lua machines/register/battery_box.lua
+#: machines/register/machine_base.lua
+msgid "Upgrade Slots"
+msgstr ""
+
+#: machines/MV/wind_mill.lua
+msgid "Wind Mill Frame"
+msgstr ""
+
+#: machines/MV/wind_mill.lua
+msgid "Wind @1 Generator"
+msgstr ""
+
+#: machines/MV/wind_mill.lua
+msgid "@1 Improperly Placed"
+msgstr ""
+
+#: machines/MV/wind_mill.lua
+msgid "@1 (@2 EU)"
+msgstr ""
+
+#: machines/other/anchor.lua
+msgid "Administrative World Anchor"
+msgstr ""
+
+#: machines/other/anchor.lua
+msgid "Owner:"
+msgstr ""
+
+#: machines/other/anchor.lua
+msgid "Unlocked"
+msgstr ""
+
+#: machines/other/anchor.lua
+msgid "Locked"
+msgstr ""
+
+#: machines/other/anchor.lua
+#, lua-format
+msgid "Keeping %d/%d map blocks loaded"
+msgstr ""
+
+#: machines/other/coal_alloy_furnace.lua
+msgid "Fuel-Fired Alloy Furnace"
+msgstr ""
+
+#: machines/other/coal_alloy_furnace.lua
+msgid "@1 is empty"
+msgstr ""
+
+#: machines/other/coal_alloy_furnace.lua machines/register/generator.lua
+msgid "@1 Out Of Fuel"
+msgstr ""
+
+#: machines/other/coal_furnace.lua
+msgid "Fuel-Fired Furnace"
+msgstr ""
+
+#: machines/other/constructor.lua
+#, lua-format
+msgid "Constructor Mk%d"
+msgstr ""
+
+#: machines/other/constructor.lua
+#, lua-format
+msgid "Slot %d"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Frame"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Frame Motor"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Template"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Template (replacing)"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Template Tool"
+msgstr ""
+
+#: machines/other/frames.lua
+msgid "Template Motor"
+msgstr ""
+
+#: machines/other/injector.lua
+msgid "Self-Contained Injector"
+msgstr ""
+
+#: machines/other/injector.lua
+msgid "Stackwise"
+msgstr ""
+
+#: machines/other/injector.lua
+msgid "Itemwise"
+msgstr ""
+
+#: machines/register/alloy_furnace.lua
+msgid "@1 Alloy Furnace"
+msgstr ""
+
+#: machines/register/alloy_recipes.lua
+msgid "Alloying"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "RE Battery"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "@1 Battery Box"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "Charge"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "Discharge"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "Power level"
+msgstr ""
+
+#: machines/register/battery_box.lua
+msgid "@1 Battery Box: @2/@3"
+msgstr ""
+
+#: machines/register/cables.lua
+msgid "@1 Cable"
+msgstr ""
+
+#: machines/register/centrifuge.lua
+msgid "@1 Centrifuge"
+msgstr ""
+
+#: machines/register/centrifuge_recipes.lua
+msgid "Separating"
+msgstr ""
+
+#: machines/register/common.lua
+msgid "Machine cannot be removed because it is not empty"
+msgstr ""
+
+#: machines/register/common.lua
+msgid "Inventory move disallowed due to protection"
+msgstr ""
+
+#: machines/register/compressor.lua
+msgid "@1 Compressor"
+msgstr ""
+
+#: machines/register/compressor_recipes.lua
+msgid "Compressing"
+msgstr ""
+
+#: machines/register/electric_furnace.lua
+msgid "@1 Furnace"
+msgstr ""
+
+#: machines/register/extractor.lua
+msgid "@1 Extractor"
+msgstr ""
+
+#: machines/register/extractor_recipes.lua
+msgid "Extracting"
+msgstr ""
+
+#: machines/register/generator.lua
+msgid "Fuel-Fired @1 Generator"
+msgstr ""
+
+#: machines/register/grinder.lua
+msgid "@1 Grinder"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Grinding"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "@1 Dust"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Brass"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Carbon Steel"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Cast Iron"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Chromium"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Coal"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Copper"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Lead"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Gold"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Mithril"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Silver"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Sulfur"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Tin"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Zinc"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Akalin"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Alatro"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Arol"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Kalite"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "Talinite"
+msgstr ""
+
+#: machines/register/grinder_recipes.lua
+msgid "@1%-Fissile Uranium"
+msgstr ""
+
+#: machines/register/grindings.lua
+msgid "Sawdust"
+msgstr ""
+
+#: machines/register/grindings.lua
+msgid "@1 Grinding"
+msgstr ""
+
+#: machines/register/grindings.lua
+msgid "Common Tree"
+msgstr ""
+
+#: machines/register/grindings.lua
+msgid "Rubber Tree"
+msgstr ""
+
+#: machines/register/grindings.lua
+msgid "Acacia"
+msgstr ""
+
+#: machines/register/solar_array.lua
+msgid "Arrayed Solar @1 Generator"
+msgstr ""
+
+#: tools/cans.lua
+msgid "Water Can"
+msgstr ""
+
+#: tools/cans.lua
+msgid "Lava Can"
+msgstr ""
+
+#: tools/chainsaw.lua
+msgid "Chainsaw"
+msgstr ""
+
+#: tools/flashlight.lua
+msgid "Flashlight"
+msgstr ""
+
+#: tools/mining_drill.lua
+msgid "Single node."
+msgstr ""
+
+#: tools/mining_drill.lua
+msgid "3 nodes deep."
+msgstr ""
+
+#: tools/mining_drill.lua
+msgid "3 nodes wide."
+msgstr ""
+
+#: tools/mining_drill.lua
+msgid "3 nodes tall."
+msgstr ""
+
+#: tools/mining_drill.lua
+msgid "3x3 nodes."
+msgstr ""
+
+#: tools/mining_drill.lua
+#, lua-format
+msgid "Use while sneaking to change Mining Drill Mk%d modes."
+msgstr ""
+
+#: tools/mining_drill.lua
+#, lua-format
+msgid "Mining Drill Mk%d Mode %d"
+msgstr ""
+
+#: tools/mining_drill.lua
+#, lua-format
+msgid "Mining Drill Mk%d"
+msgstr ""
+
+#: tools/mining_lasers.lua
+#, lua-format
+msgid "Mining Laser Mk%d"
+msgstr ""
+
+#: tools/prospector.lua
+msgid "Prospector"
+msgstr ""
+
+#: tools/sonic_screwdriver.lua
+msgid "Sonic Screwdriver (left-click rotates face, right-click rotates axis)"
+msgstr ""
+
+#: tools/tree_tap.lua
+msgid "Tree Tap"
+msgstr ""
+
+#: tools/tree_tap.lua
+msgid "Raw Latex"
+msgstr ""
+
+#: tools/tree_tap.lua
+msgid "Rubber Fiber"
+msgstr ""
+
+#: tools/vacuum.lua
+msgid "Vacuum Cleaner"
+msgstr ""

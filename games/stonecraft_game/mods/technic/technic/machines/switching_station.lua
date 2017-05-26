@@ -33,7 +33,16 @@
 
 technic.networks = {}
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craft({
 	output = "technic:switching_station",
@@ -189,7 +198,7 @@ minetest.register_abm({
 			local active_pos = minetest.deserialize(meta:get_string("active_pos"))
 			if active_pos then
 				local meta1 = minetest.get_meta(active_pos)
-				meta:set_string("infotext", S("%s (Slave)"):format(meta1:get_string("infotext")))
+				meta:set_string("infotext", S("@1 (Slave)", meta1:get_string("infotext")))
 			end
 			return
 		end
@@ -203,7 +212,7 @@ minetest.register_abm({
 			PR_nodes, BA_nodes, RE_nodes = get_network(pos, pos1, tier)
 		else
 			--dprint("Not connected to a network")
-			meta:set_string("infotext", S("%s Has No Network"):format(machine_name))
+			meta:set_string("infotext", S("@1 Has No Network", machine_name))
 			return
 		end
 		
@@ -385,7 +394,7 @@ minetest.register_abm({
 				end
 				if nodedef then
 					local meta = minetest.get_meta(pos)
-					meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
+					meta:set_string("infotext", S("@1 Has No Network", nodedef.description))
 				end
 			end
 		end

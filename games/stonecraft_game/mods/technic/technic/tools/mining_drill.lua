@@ -1,7 +1,16 @@
 local max_charge = {50000, 200000, 650000}
 local power_usage_per_node = {200, 500, 800}
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craft({
 	output = 'technic:mining_drill',

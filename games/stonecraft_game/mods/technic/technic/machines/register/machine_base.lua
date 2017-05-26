@@ -1,5 +1,14 @@
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local tube = {
 	insert_object = function(pos, node, stack, direction)
@@ -90,18 +99,18 @@ function technic.register_base_machine(data)
 			local result = technic.get_recipe(typename, inv:get_list("src"))
 			if not result then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", S("@1 Idle", machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", 0)
 				return
 			end
 			meta:set_int(tier.."_EU_demand", machine_demand[EU_upgrade+1])
 			technic.swap_node(pos, machine_node.."_active")
-			meta:set_string("infotext", S("%s Active"):format(machine_desc_tier))
+			meta:set_string("infotext", S("@1 Active", machine_desc_tier))
 			if meta:get_int("src_time") < round(result.time*10) then
 				if not powered then
 					technic.swap_node(pos, machine_node)
-					meta:set_string("infotext", S("%s Unpowered"):format(machine_desc_tier))
+					meta:set_string("infotext", S("@1 Unpowered", machine_desc_tier))
 				end
 				return
 			end
@@ -123,7 +132,7 @@ function technic.register_base_machine(data)
 			end
 			if not room_for_output then
 				technic.swap_node(pos, machine_node)
-				meta:set_string("infotext", S("%s Idle"):format(machine_desc_tier))
+				meta:set_string("infotext", S("@1 Idle", machine_desc_tier))
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int("src_time", round(result.time*10))
 				return

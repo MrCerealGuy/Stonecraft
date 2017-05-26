@@ -1,5 +1,14 @@
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 technic.register_power_tool("technic:battery", 10000)
 technic.register_power_tool("technic:red_energy_crystal", 50000)
@@ -67,7 +76,7 @@ function technic.register_battery_box(data)
 		"list[current_name;src;3,1;1,1;]"..
 		"image[4,1;1,1;technic_battery_reload.png]"..
 		"list[current_name;dst;5,1;1,1;]"..
-		"label[0,0;"..S("%s Battery Box"):format(tier).."]"..
+		"label[0,0;"..S("@1 Battery Box", tier).."]"..
 		"label[3,0;"..S("Charge").."]"..
 		"label[5,0;"..S("Discharge").."]"..
 		"label[1,3;"..S("Power level").."]"..
@@ -153,7 +162,7 @@ function technic.register_battery_box(data)
 		local infotext = S("@1 Battery Box: @2/@3", tier,
 				technic.pretty_num(current_charge), technic.pretty_num(max_charge))
 		if eu_input == 0 then
-			infotext = S("%s Idle"):format(infotext)
+			infotext = S("@1 Idle", infotext)
 		end
 		meta:set_string("infotext", infotext)
 	end
@@ -171,7 +180,7 @@ function technic.register_battery_box(data)
 		end
 		
 		minetest.register_node("technic:"..ltier.."_battery_box"..i, {
-			description = S("%s Battery Box"):format(tier),
+			description = S("@1 Battery Box", tier),
 			tiles = {"technic_"..ltier.."_battery_box_top.png",
 			         "technic_"..ltier.."_battery_box_bottom.png",
 				 "technic_"..ltier.."_battery_box_side.png^technic_power_meter"..i..".png",
@@ -189,7 +198,7 @@ function technic.register_battery_box(data)
 				local inv = meta:get_inventory()
 				local node = minetest.get_node(pos)
 
-				meta:set_string("infotext", S("%s Battery Box"):format(tier))
+				meta:set_string("infotext", S("@1 Battery Box", tier))
 				meta:set_string("formspec", formspec)
 				meta:set_int(tier.."_EU_demand", 0)
 				meta:set_int(tier.."_EU_supply", 0)

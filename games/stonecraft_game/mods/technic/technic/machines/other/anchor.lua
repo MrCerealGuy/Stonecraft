@@ -1,4 +1,13 @@
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local desc = S("Administrative World Anchor")
 
@@ -48,7 +57,7 @@ local function forceload_on(pos, meta)
 end
 
 local function set_display(pos, meta)
-	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "%s Enabled" or "%s Disabled"):format(desc))
+	meta:set_string("infotext", S(meta:get_int("enabled") ~= 0 and "@1 Enabled" or "@1 Disabled", desc))
 	meta:set_string("formspec",
 		"size[5,3.5]"..
 		"item_image[0,0;1,1;technic:admin_anchor]"..

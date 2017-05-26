@@ -7,7 +7,16 @@
 --   Once the receiver side is powered it will deliver power to the other side.
 --   Unused power is wasted just like any other producer!
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local run = function(pos, node)
 	local demand = 10000
@@ -32,7 +41,7 @@ local run = function(pos, node)
 		meta:set_int(to.."_EU_supply", input * remain)
 		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name, technic.pretty_num(input), from, technic.pretty_num(input * remain), to))
 	else
-		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
+		meta:set_string("infotext", S("@1 Has Bad Cabling", machine_name))
 		if to then
 			meta:set_int(to.."_EU_supply", 0)
 		end

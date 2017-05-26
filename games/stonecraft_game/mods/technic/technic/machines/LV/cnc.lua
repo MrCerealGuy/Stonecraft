@@ -7,7 +7,16 @@
 --   I could imagine some form of API allowing modders to come with their own node
 --   box definitions and easily stuff it in the this machine for production.
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 
 minetest.register_craft({
@@ -147,7 +156,7 @@ local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local inv          = meta:get_inventory()
 	local eu_input     = meta:get_int("LV_EU_input")
-	local machine_name = S("%s CNC Machine"):format("LV")
+	local machine_name = S("@1 CNC Machine", "LV")
 	local machine_node = "technic:cnc"
 	local demand       = 450
 
@@ -156,7 +165,7 @@ local run = function(pos, node)
 	   (not minetest.registered_nodes[result]) or
 	   (not inv:room_for_item("dst", result)) then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("%s Idle"):format(machine_name))
+		meta:set_string("infotext", S("@1 Idle", machine_name))
 		meta:set_string("cnc_product", "")
 		meta:set_int("LV_EU_demand", 0)
 		return
@@ -164,10 +173,10 @@ local run = function(pos, node)
 
 	if eu_input < demand then
 		technic.swap_node(pos, machine_node)
-		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
+		meta:set_string("infotext", S("@1 Unpowered", machine_name))
 	elseif eu_input >= demand then
 		technic.swap_node(pos, machine_node.."_active")
-		meta:set_string("infotext", S("%s Active"):format(machine_name))
+		meta:set_string("infotext", S("@1 Active", machine_name))
 		meta:set_int("src_time", meta:get_int("src_time") + 1)
 		if meta:get_int("src_time") >= 3 then -- 3 ticks per output
 			meta:set_int("src_time", 0)
@@ -182,7 +191,7 @@ end
 
 -- The actual block inactive state
 minetest.register_node("technic:cnc", {
-	description = S("%s CNC Machine"):format("LV"),
+	description = S("@1 CNC Machine", "LV"),
 	tiles       = {"technic_cnc_top.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png", "technic_cnc_side.png", "technic_cnc_front.png"},
 	groups = {cracky=2, technic_machine=1, technic_lv=1},
@@ -191,7 +200,7 @@ minetest.register_node("technic:cnc", {
 	legacy_facedir_simple = true,
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("%s CNC Machine"):format("LV"))
+		meta:set_string("infotext", S("@1 CNC Machine", "LV"))
 		meta:set_float("technic_power_machine", 1)
 		meta:set_string("formspec", cnc_formspec)
 		local inv = meta:get_inventory()
@@ -208,7 +217,7 @@ minetest.register_node("technic:cnc", {
 
 -- Active state block
 minetest.register_node("technic:cnc_active", {
-	description = S("%s CNC Machine"):format("LV"),
+	description = S("@1 CNC Machine", "LV"),
 	tiles       = {"technic_cnc_top_active.png", "technic_cnc_bottom.png", "technic_cnc_side.png",
 	               "technic_cnc_side.png",       "technic_cnc_side.png",   "technic_cnc_front_active.png"},
 	groups = {cracky=2, technic_machine=1, technic_lv=1, not_in_creative_inventory=1},

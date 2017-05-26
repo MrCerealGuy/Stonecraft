@@ -1,5 +1,13 @@
+--[[
 
-local S = technic.getter
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_craftitem("technic:silicon_wafer", {
 	description = S("Silicon Wafer"),
@@ -162,7 +170,7 @@ for p = 0, 35 do
 	local block = "technic:uranium"..psuffix.."_block"
 	local ov = p == 7 and minetest.override_item or nil;
 	(ov or minetest.register_craftitem)(ingot, {
-		description = string.format(S("%.1f%%-Fissile Uranium Ingot"), p/10),
+		description = string.format(S("@1%-Fissile Uranium Ingot"), p/10),
 		inventory_image = "technic_uranium_ingot.png",
 		groups = {uranium_ingot=1, not_in_creative_inventory=nici},
 	});
@@ -198,7 +206,7 @@ for p = 0, 35 do
 	-- for a fully-depleted uranium block and radioactive=5286 for
 	-- a 3.5%-fissile uranium block.
 	(ov or minetest.register_node)(block, {
-		description = string.format(S("%.1f%%-Fissile Uranium Block"), p/10),
+		description = string.format(S("@1%-Fissile Uranium Block"), p/10),
 		tiles = {"technic_uranium_block.png"},
 		is_ground_content = true,
 		groups = {uranium_block=1, not_in_creative_inventory=nici, cracky=1, level=2, radioactive=math.floor(1000*math.sqrt((1+5.55*p/35) * 9 / (1+5.55*7/35)) + 0.5)},

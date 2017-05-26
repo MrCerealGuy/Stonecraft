@@ -3,7 +3,16 @@ local vacuum_max_charge        = 10000 -- 10000 - Maximum charge of the vacuum c
 local vacuum_charge_per_object = 100   -- 100   - Capable of picking up 50 objects
 local vacuum_range             = 8     -- 8     - Area in which to pick up objects
 
-local S = technic.getter
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 technic.register_power_tool("technic:vacuum", vacuum_max_charge)
 

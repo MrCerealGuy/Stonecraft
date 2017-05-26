@@ -3,14 +3,16 @@
 
 -- This file supplies electric powered glowlights
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if (minetest.get_modpath("intllib")) then
-	dofile(minetest.get_modpath("intllib").."/intllib.lua")
-	S = intllib.Getter(minetest.get_current_modname())
-else
-	S = function (s) return s end
-end
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 function technic_homedecor_node_is_owned(pos, placer)
         local ownername = false
@@ -38,7 +40,7 @@ function technic_homedecor_node_is_owned(pos, placer)
         end
 
         if ownername ~= false then
-                minetest.chat_send_player(placer:get_player_name(), S("Sorry, %s owns that spot."):format(ownername) )
+                minetest.chat_send_player(placer:get_player_name(), S("Sorry, @1 owns that spot.", ownername) )
                 return true
         else
                 return false
