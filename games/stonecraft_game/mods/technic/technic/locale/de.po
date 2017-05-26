@@ -457,27 +457,27 @@ msgstr "%s Geothermie-Generator"
 
 #: machines/LV/music_player.lua
 msgid "@1 Music Player"
-msgstr ""
+msgstr "%s Musikspieler"
 
 #: machines/LV/music_player.lua
 msgid "Stopped"
-msgstr ""
+msgstr "Gestoppt"
 
 #: machines/LV/music_player.lua
 msgid "Current track @1"
-msgstr ""
+msgstr "Aktueller Titel %s"
 
 #: machines/LV/solar_panel.lua
 msgid "Small Solar @1 Generator"
-msgstr ""
+msgstr "%s Solarmodul"
 
 #: machines/LV/solar_panel.lua machines/register/solar_array.lua
 msgid "@1 Active (@2 EU)"
-msgstr ""
+msgstr "@1 ist eingeschaltet (@2 EU)"
 
 #: machines/LV/water_mill.lua
 msgid "Hydro @1 Generator"
-msgstr ""
+msgstr "%s Wassermühle"
 
 #: machines/MV/lighting.lua
 msgid "someone"
@@ -513,111 +513,108 @@ msgstr ""
 
 #: machines/MV/tool_workshop.lua
 msgid "@1 Tool Workshop"
-msgstr ""
+msgstr "%s Werkzeugwerkstatt"
 
 #: machines/MV/tool_workshop.lua machines/register/battery_box.lua
 #: machines/register/machine_base.lua
 msgid "Upgrade Slots"
-msgstr ""
+msgstr "Verbesserungsfächer"
 
 #: machines/MV/wind_mill.lua
 msgid "Wind Mill Frame"
-msgstr ""
+msgstr "Windmühlengerüst"
 
 #: machines/MV/wind_mill.lua
 msgid "Wind @1 Generator"
-msgstr ""
+msgstr "%s Windmuehle"
 
 #: machines/MV/wind_mill.lua
 msgid "@1 Improperly Placed"
-msgstr ""
+msgstr "%s ist falsch plaziert"
 
 #: machines/MV/wind_mill.lua
 msgid "@1 (@2 EU)"
-msgstr ""
+msgstr "@1 (@2 EU)"
 
 #: machines/other/anchor.lua
 msgid "Administrative World Anchor"
-msgstr ""
+msgstr "Administrativer Weltanker"
 
 #: machines/other/anchor.lua
 msgid "Owner:"
-msgstr ""
+msgstr "Besitzer:"
 
 #: machines/other/anchor.lua
 msgid "Unlocked"
-msgstr ""
+msgstr "Offen"
 
 #: machines/other/anchor.lua
 msgid "Locked"
-msgstr ""
+msgstr "Verschlossen"
 
 #: machines/other/anchor.lua
-#, lua-format
-msgid "Keeping %d/%d map blocks loaded"
+msgid "Keeping @1/@2 map blocks loaded"
 msgstr ""
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "Fuel-Fired Alloy Furnace"
-msgstr ""
+msgstr "%s Kohle-Generator"
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "@1 is empty"
-msgstr ""
+msgstr "@1 ist leer"
 
 #: machines/other/coal_alloy_furnace.lua machines/register/generator.lua
 msgid "@1 Out Of Fuel"
-msgstr ""
+msgstr "%s hat keinen Brennstoff"
 
 #: machines/other/coal_furnace.lua
 msgid "Fuel-Fired Furnace"
-msgstr ""
+msgstr "Kohle-Ofen"
 
 #: machines/other/constructor.lua
-#, lua-format
-msgid "Constructor Mk%d"
-msgstr ""
+msgid "Constructor Mk@1"
+msgstr "Konstruktor Modell @1"
 
 #: machines/other/constructor.lua
-#, lua-format
-msgid "Slot %d"
-msgstr ""
+msgid "Slot @1"
+msgstr "Fach @1"
 
 #: machines/other/frames.lua
 msgid "Frame"
-msgstr ""
+msgstr "Rahmen"
 
 #: machines/other/frames.lua
 msgid "Frame Motor"
-msgstr ""
+msgstr "Rahmenmotor"
 
 #: machines/other/frames.lua
 msgid "Template"
-msgstr ""
+msgstr "Schablone"
 
 #: machines/other/frames.lua
 msgid "Template (replacing)"
-msgstr ""
+msgstr "Schablone (ersetzend)"
 
 #: machines/other/frames.lua
 msgid "Template Tool"
-msgstr ""
+msgstr "Schablonenwerkzeug"
 
 #: machines/other/frames.lua
 msgid "Template Motor"
-msgstr ""
+msgstr "Schablonenmotor"
 
 #: machines/other/injector.lua
 msgid "Self-Contained Injector"
-msgstr ""
+msgstr "Selbstversorger-Injektor"
 
 #: machines/other/injector.lua
 msgid "Stackwise"
-msgstr ""
+msgstr "Ganzer Stapel"
 
 #: machines/other/injector.lua
 msgid "Itemwise"
-msgstr ""
+msgstr "Einzelstücke"
 
 #: machines/register/alloy_furnace.lua
 msgid "@1 Alloy Furnace"
@@ -625,39 +622,39 @@ msgstr ""
 
 #: machines/register/alloy_recipes.lua
 msgid "Alloying"
-msgstr ""
+msgstr "%s Legierungsofen"
 
 #: machines/register/battery_box.lua
 msgid "RE Battery"
-msgstr ""
+msgstr "Akkubatterie"
 
 #: machines/register/battery_box.lua
 msgid "@1 Battery Box"
-msgstr ""
+msgstr "%s Batteriebox"
 
 #: machines/register/battery_box.lua
 msgid "Charge"
-msgstr ""
+msgstr "Aufladen"
 
 #: machines/register/battery_box.lua
 msgid "Discharge"
-msgstr ""
+msgstr "Entladen"
 
 #: machines/register/battery_box.lua
 msgid "Power level"
-msgstr ""
+msgstr "Energiestufe"
 
 #: machines/register/battery_box.lua
 msgid "@1 Battery Box: @2/@3"
-msgstr ""
+msgstr "@2/@3 = @1 Batteriebox: @2/@3"
 
 #: machines/register/cables.lua
 msgid "@1 Cable"
-msgstr ""
+msgstr "%s Kabel"
 
 #: machines/register/centrifuge.lua
 msgid "@1 Centrifuge"
-msgstr ""
+msgstr "@1 Zentrifuge"
 
 #: machines/register/centrifuge_recipes.lua
 msgid "Separating"
@@ -665,35 +662,35 @@ msgstr ""
 
 #: machines/register/common.lua
 msgid "Machine cannot be removed because it is not empty"
-msgstr ""
+msgstr "Die Maschine kann nicht entfernt werden, weil sie noch nicht leer ist."
 
 #: machines/register/common.lua
 msgid "Inventory move disallowed due to protection"
-msgstr ""
+msgstr "Das Inventar ist geschützt, Zugriff verweigert."
 
 #: machines/register/compressor.lua
 msgid "@1 Compressor"
-msgstr ""
+msgstr "%s Kompressor"
 
 #: machines/register/compressor_recipes.lua
 msgid "Compressing"
-msgstr ""
+msgstr "Verdichten"
 
 #: machines/register/electric_furnace.lua
 msgid "@1 Furnace"
-msgstr ""
+msgstr "%s Ofen"
 
 #: machines/register/extractor.lua
 msgid "@1 Extractor"
-msgstr ""
+msgstr "%s Extraktor"
 
 #: machines/register/extractor_recipes.lua
 msgid "Extracting"
-msgstr ""
+msgstr "Extrahieren"
 
 #: machines/register/generator.lua
 msgid "Fuel-Fired @1 Generator"
-msgstr ""
+msgstr "%s Kohle-Generator"
 
 #: machines/register/grinder.lua
 msgid "@1 Grinder"
