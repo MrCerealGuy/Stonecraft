@@ -24,13 +24,16 @@ mobf_assert_backtrace(not core.global_exists("mob_inventory"))
 --! @}
 mob_inventory = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if core.global_exists("intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 -------------------------------------------------------------------------------
 mob_inventory.trader_inventories = {}
 mob_inventory.formspecs = {}
@@ -401,7 +404,7 @@ function mob_inventory.init_trader_inventory(entity)
 		.. tostring(entity) .. "\"" )
 
 	local trader_formspec = "size[8,10;]" ..
-			"label[2,0;"..S("Trader %s Inventory"):format(tradername).."]" ..
+			"label[2,0;"..S("Trader @1 Inventory", tradername).."]" ..
 			"label[0,1;"..S("Selling:").."]" ..
 			"list[detached:" .. unique_entity_id .. ";goods;0,1.5;8,2;]" ..
 			"label[0,4.0;"..S("Selection").."]" ..
