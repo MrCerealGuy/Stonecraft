@@ -32,6 +32,8 @@ Features:
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-20 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -48,12 +50,6 @@ end
 
 
 mobf_trader = {}
-
---[[
-
-2017-05-20 MrCerealGuy: added intllib support
-
---]]
 
 
 -- Load support for intllib.
@@ -337,7 +333,7 @@ mobf_trader.add_trader( nil, S('Trader with limited stock'),         'random',  
 -----------------------------------------------------------------------------------------------------
 minetest.register_chatcommand( 'trader', {
         params = "<trader type>",
-        description = S("Spawns a trader of the given type. Returns a list of types if called without parameter."),
+        description = "Spawns a trader of the given type. Returns a list of types if called without parameter.",
         privs = {},
         func = function(name, param)
 		-- this function handles the sanity checks and the actual spawning

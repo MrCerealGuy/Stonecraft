@@ -1,0 +1,93 @@
+# German translation for mobf_trader mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-26 16:45+0200\n"
+"PO-Revision-Date: 2018-05-26 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+
+#: large_chest.lua
+msgid "Large Storage Chest for Traders"
+msgstr "Große Aufbewahrungstruhe für Händler"
+
+#: init.lua
+msgid "Trader"
+msgstr ""
+
+#: init.lua
+msgid "Default NPC"
+msgstr ""
+
+#: init.lua
+msgid "A trader"
+msgstr ""
+
+#: init.lua
+msgid "Hey! Stop doing that. I am a peaceful trader. Here, buy something:"
+msgstr ""
+
+#: init.lua
+msgid "Trader who is working for someone"
+msgstr ""
+
+#: init.lua
+msgid "Trader with limited stock"
+msgstr ""
+
+#: init.lua
+msgid "Trader. Place him somewhere to activate."
+msgstr ""
+
+#: init.lua
+msgid "Error: Internal error. Trader not found."
+msgstr ""
+
+#: init.lua
+msgid "Error: The typ of this trader is unkown. Cannot pick him up."
+msgstr ""
+
+#: init.lua
+msgid "Error: The typ of this trader is unkown. Cannot place him."
+msgstr ""
+
+#: init.lua
+msgid "Error: You are only allowed to have up to "
+msgstr ""
+
+#: init.lua
+msgid " traders "
+msgstr ""
+
+#: init.lua
+msgid " (you have "
+msgstr ""
+
+#: init.lua
+msgid " currently)."
+msgstr ""
+
+#: init.lua
+msgid " mobs"
+msgstr ""
+
+#: init.lua
+msgid ""
+"Mob picked up. In order to use him again, just wield him and place him "
+"somewhere."
+msgstr ""
+
+#: init.lua
+msgid "Trader placed and waiting for trades."
+msgstr ""

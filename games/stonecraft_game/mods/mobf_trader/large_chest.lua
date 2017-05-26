@@ -9,6 +9,17 @@
 -- * it is possible to scroll row-wise (in steps of 10 inventory slots)
 ---------------------------------------------------------------------------------------------------
 
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 mobf_trader.LARGE_CHEST_SIZE = 4*10*10;
 
 mobf_trader.large_chest_formspec = function( start, player )
@@ -160,7 +171,7 @@ end
 
 -- this is basically a copy of default:chest_locked - except that it has several times the inventory size
 minetest.register_node("mobf_trader:large_chest", {
-	description = "Large Storage Chest for Traders",
+	description = S("Large Storage Chest for Traders"),
 	tiles = {"default_chest_top.png^default_book.png", "default_chest_top.png^default_book.png", "default_chest_side.png^default_book.png",
 		"default_chest_side.png^default_book.png", "default_chest_side.png^default_book.png", "default_chest_lock.png^default_book.png"},
 	paramtype2 = "facedir",
