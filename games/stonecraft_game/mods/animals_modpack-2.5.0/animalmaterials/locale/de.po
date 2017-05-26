@@ -1,0 +1,146 @@
+# German translation for animals_modpack/animalmaterials mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-26 16:45+0200\n"
+"PO-Revision-Date: 2018-05-26 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Sword (Deamondeath)"
+msgstr "Schwert (Dämonentod)"
+
+#: init.lua
+msgid "Scissors"
+msgstr "Schere"
+
+#: init.lua
+msgid "Lasso"
+msgstr "Lasso"
+
+#: init.lua
+msgid "Net"
+msgstr "Netz"
+
+#: init.lua
+msgid "Saddle"
+msgstr "Sattel"
+
+#: init.lua
+msgid "Contract"
+msgstr "Vertrag"
+
+#: init.lua
+msgid "Raw meat"
+msgstr "Rohes Fleisch"
+
+#: init.lua
+msgid "Pork (raw)"
+msgstr "Schweinefleisch (roh)"
+
+#: init.lua
+msgid "Beef (raw)"
+msgstr "Rindfleisch (roh)"
+
+#: init.lua
+msgid "Chicken (raw)"
+msgstr "Hühnerfleisch (roh)"
+
+#: init.lua
+msgid "Lamb (raw)"
+msgstr "Lammfleisch (roh)"
+
+#: init.lua
+msgid "Venison (raw)"
+msgstr "Hirschfleisch (roh)"
+
+#: init.lua
+msgid "Meat (not quite dead)"
+msgstr "Fleisch (nicht ganz tot)"
+
+#: init.lua
+msgid "Toxic Meat"
+msgstr "Giftiges Fleisch"
+
+#: init.lua
+msgid "Ostrich Meat"
+msgstr "Straußenfleisch"
+
+#: init.lua
+msgid "Pork"
+msgstr "Schwein"
+
+#: init.lua
+msgid "Fish (bluewhite)"
+msgstr "Fischfleisch (blau-weiß)"
+
+#: init.lua
+msgid "Fish (clownfish)"
+msgstr "Fischfleisch (Clownfisch)"
+
+#: init.lua
+msgid "Feather"
+msgstr "Feder"
+
+#: init.lua
+msgid "Milk"
+msgstr "Milch"
+
+#: init.lua
+msgid "Egg"
+msgstr "Ei"
+
+#: init.lua
+msgid "Egg (big)"
+msgstr "Ei (groß)"
+
+#: init.lua
+msgid "Bone"
+msgstr "Knochen"
+
+#: init.lua
+msgid "Fur"
+msgstr "Fell"
+
+#: init.lua
+msgid "Deer fur"
+msgstr "Hirschfell"
+
+#: init.lua
+msgid "Cattle coat"
+msgstr "Kuhfell"
+
+#: init.lua
+msgid "Deer horns"
+msgstr "Hirschgeweih"
+
+#: init.lua
+msgid "Ivory"
+msgstr "Elfenbein"
+
+#: init.lua
+msgid "Scale (golden)"
+msgstr "Schuppe (gold)"
+
+#: init.lua
+msgid "Scale (white)"
+msgstr "Schuppe (weiß)"
+
+#: init.lua
+msgid "Scale (grey)"
+msgstr "Schuppe (grau)"
+
+#: init.lua
+msgid "Scale (blue)"
+msgstr "Schuppe (blau)"
