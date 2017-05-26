@@ -497,7 +497,7 @@ msgstr "Ehemalige Hauptentwickler"
 
 #: builtin/mainmenu/tab_local.lua
 msgid "Announce Server"
-msgstr "Server ankündigen"
+msgstr "Server öffentlich machen"
 
 #: builtin/mainmenu/tab_local.lua
 msgid "Bind Address"
@@ -1015,7 +1015,7 @@ msgstr "Hauptmenü"
 
 #: src/game.cpp
 msgid "Exit to OS"
-msgstr "Programm beenden"
+msgstr "Stonecraft beenden"
 
 #: src/game.cpp
 msgid "Game info:"
