@@ -50,14 +50,12 @@ msgid "repair tool in workpiece-slot."
 msgstr "das Werkzeug im Werkstückfeld zu reparieren."
 
 #: nodes_anvil.lua
-#, lua-format
-msgid "Anvil (owned by %s)"
-msgstr "Amboss (gehört %s)"
+msgid "Anvil (owned by @1)"
+msgstr "Amboss (gehört @1)"
 
 #: nodes_anvil.lua nodes_straw.lua
-#, lua-format
-msgid "Owner: %s"
-msgstr "Besitzer: %s"
+msgid "Owner: @1"
+msgstr "Besitzer: @1"
 
 #: nodes_anvil.lua
 msgid "The workpiece slot is for damaged tools only."
@@ -340,9 +338,8 @@ msgid "threshing floor"
 msgstr "Dreschboden"
 
 #: nodes_straw.lua
-#, lua-format
-msgid "Threshing floor (owned by %s)"
-msgstr "Dreschboden (gehört %s)"
+msgid "Threshing floor (owned by @1)"
+msgstr "Dreschboden (gehört @1)"
 
 #: nodes_straw.lua
 msgid "Wheat seeds:"
@@ -369,16 +366,13 @@ msgid "Mill, powered by punching"
 msgstr "Mühle, durch Schlagen antreiben"
 
 #: nodes_straw.lua
-#, lua-format
-msgid "Mill, powered by punching (owned by %s)"
-msgstr "Mühle, durch Schlagen antreiben (gehört %s)"
+msgid "Mill, powered by punching (owned by @1)"
+msgstr "Mühle, durch Schlagen antreiben (gehört @1)"
 
 #: nodes_straw.lua
-#, lua-format
-msgid "You have ground a %s (%s are left)."
-msgstr "Du hast %s Weizenkörner gemahlen (%s bleiben übrig)."
+msgid "You have ground a @1 (@2 are left)."
+msgstr "Du hast @1 Weizenkörner gemahlen (@2 bleiben übrig)."
 
 #: nodes_straw.lua
-#, lua-format
-msgid "You have ground the last %s."
-msgstr "Du hast die letzten %s Weizenkörner gemahlen."
+msgid "You have ground the last @1."
+msgstr "Du hast die letzten @1 Weizenkörner gemahlen."

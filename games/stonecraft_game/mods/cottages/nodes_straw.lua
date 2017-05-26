@@ -151,10 +151,10 @@ minetest.register_node("cottages:threshing_floor", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Threshing floor (owned by @1)", meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+				"label[2.5,-0.5;"..S("Owner: @1", meta:get_string("owner") or "").."]" );
         end,
 
         can_dig = function(pos,player)
@@ -399,10 +399,10 @@ minetest.register_node("cottages:handmill", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Mill, powered by punching (owned by @1)", meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+				"label[2.5,-0.5;"..S("Owner: @1",meta:get_string('owner') or "").."]" );
         end,
 
         can_dig = function(pos,player)
@@ -503,9 +503,9 @@ minetest.register_node("cottages:handmill", {
 
 			local anz_left = found - anz;
 			if( anz_left > 0 ) then
-				minetest.chat_send_player( name, S('You have ground a %s (%s are left).'):format(stack1:get_definition().description,(anz_left)));
+				minetest.chat_send_player( name, S('You have ground a @1 (@2 are left).', stack1:get_definition().description,(anz_left)));
 			else
-				minetest.chat_send_player( name, S('You have ground the last %s.'):format(stack1:get_definition().description));
+				minetest.chat_send_player( name, S('You have ground the last @1.', stack1:get_definition().description));
 			end
 
 			-- if the version of MT is recent enough, rotate the mill a bit
