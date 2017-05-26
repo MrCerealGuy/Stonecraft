@@ -66,7 +66,7 @@ local humidity_persistence = 0.5
 local humidity_scale = 250
 
 local time_scale = 1
-local time_speed = tonumber(minetest.setting_get("time_speed"))
+local time_speed = tonumber(minetest.settings:get("time_speed"))
 
 if time_speed and time_speed > 0 then
 	time_scale = 72 / time_speed
@@ -448,20 +448,24 @@ end)
 -- to prevent unpopulated map areas
 
 minetest.register_on_shutdown(function()
-	print("[biome_lib] Stand by, playing out the rest of the aircheck mapblock log")
-	print("(there are "..#biome_lib.blocklist_aircheck.." entries)...")
-	while true do
-		biome_lib:generate_block_with_air_checking(0.1)
-		if #biome_lib.blocklist_aircheck == 0 then return end
+	if #biome_lib.blocklist_aircheck > 0 then
+		print("[biome_lib] Stand by, playing out the rest of the aircheck mapblock log")
+		print("(there are "..#biome_lib.blocklist_aircheck.." entries)...")
+		while true do
+			biome_lib:generate_block_with_air_checking(0.1)
+			if #biome_lib.blocklist_aircheck == 0 then return end
+		end
 	end
 end)
 
 minetest.register_on_shutdown(function()
-	print("[biome_lib] Stand by, playing out the rest of the no-aircheck mapblock log")
-	print("(there are "..#biome_lib.blocklist_no_aircheck.." entries)...")
-	while true do
-		biome_lib:generate_block_no_aircheck(0.1)
-		if #biome_lib.blocklist_no_aircheck == 0 then return end
+	if #biome_lib.blocklist_no_aircheck > 0 then
+		print("[biome_lib] Stand by, playing out the rest of the no-aircheck mapblock log")
+		print("(there are "..#biome_lib.blocklist_no_aircheck.." entries)...")
+		while true do
+			biome_lib:generate_block_no_aircheck(0.1)
+			if #biome_lib.blocklist_no_aircheck == 0 then return end
+		end
 	end
 end)
 
@@ -713,7 +717,7 @@ end
 
 -- Check for infinite stacks
 
-if minetest.get_modpath("unified_inventory") or not minetest.setting_getbool("creative_mode") then
+if minetest.get_modpath("unified_inventory") or not minetest.settings:get_bool("creative_mode") then
 	biome_lib.expect_infinite_stacks = false
 else
 	biome_lib.expect_infinite_stacks = true
