@@ -7,7 +7,16 @@
 -- License of the hammer picture: CC-by-SA; done by GloopMaster; source:
 --   https://github.com/GloopMaster/glooptest/blob/master/glooptest/textures/glooptest_tool_steelhammer.png
 
-local S = cottages.S
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- the hammer for the anvil
 minetest.register_tool("cottages:hammer", {

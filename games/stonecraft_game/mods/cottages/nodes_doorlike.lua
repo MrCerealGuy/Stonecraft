@@ -10,7 +10,17 @@
 --                   abm that opens/closes the window shutters is called. Anything less than 10 minutes
 --                   (600 seconds) ought to be ok.
 -----------------------------------------------------------------------------------------------------------
-local S = cottages.S
+
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -----------------------------------------------------------------------------------------------------------
 -- small window shutters for single-node-windows; they open at day and close at night if the abm is working

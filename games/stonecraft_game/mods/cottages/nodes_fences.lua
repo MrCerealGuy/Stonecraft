@@ -1,6 +1,15 @@
 -- 22.01.13 Changed texture to that of the wood from the minimal development game
 
-local S = cottages.S
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_node("cottages:fence_small", {
 		description = S("Small fence"),

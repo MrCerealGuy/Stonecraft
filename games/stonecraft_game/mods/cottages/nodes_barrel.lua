@@ -21,7 +21,16 @@
 
 -- TODO: option so that it works without nodeboxes
 
-local S = cottages.S
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 barrel = {};
 

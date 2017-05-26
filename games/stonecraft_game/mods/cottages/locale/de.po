@@ -1,0 +1,384 @@
+# German translation for cottages mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-26 16:45+0200\n"
+"PO-Revision-Date: 2018-05-26 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: nodes_anvil.lua
+msgid "Steel hammer for repairing tools on the anvil"
+msgstr "Stahlhammer um Werkzeuge auf dem Amboss zu reparieren"
+
+#: nodes_anvil.lua
+msgid "Workpiece:"
+msgstr "Werkstück:"
+
+#: nodes_anvil.lua
+msgid "Optional"
+msgstr "Mögliche"
+
+#: nodes_anvil.lua
+msgid "storage for"
+msgstr "Aufbewahrung für"
+
+#: nodes_anvil.lua
+msgid "your hammer"
+msgstr "deinen Hammer"
+
+#: nodes_anvil.lua
+msgid "Anvil"
+msgstr "Amboss"
+
+#: nodes_anvil.lua
+msgid "Punch anvil with hammer to"
+msgstr "Schlage mit dem Hammer auf den Amboss um"
+
+#: nodes_anvil.lua
+msgid "repair tool in workpiece-slot."
+msgstr "das Werkzeug im Werkstückfeld zu reparieren."
+
+#: nodes_anvil.lua
+#, lua-format
+msgid "Anvil (owned by %s)"
+msgstr "Amboss (gehört %s)"
+
+#: nodes_anvil.lua nodes_straw.lua
+#, lua-format
+msgid "Owner: %s"
+msgstr "Besitzer: %s"
+
+#: nodes_anvil.lua
+msgid "The workpiece slot is for damaged tools only."
+msgstr "Das Werkstückfeld gilt nur für beschädigtes Werkzeug."
+
+#: nodes_barrel.lua
+msgid "Pour:"
+msgstr "Eingiessen:"
+
+#: nodes_barrel.lua
+msgid "Fill:"
+msgstr "Ausgiessen:"
+
+#: nodes_barrel.lua
+msgid "Barrel (closed)"
+msgstr "Fass (geschlossen)"
+
+#: nodes_barrel.lua
+msgid "Barrel (open)"
+msgstr "Fass (offen)"
+
+#: nodes_barrel.lua
+msgid "Barrel (closed), lying somewhere"
+msgstr "Liegendes Fass (geschlossen)"
+
+#: nodes_barrel.lua
+msgid "Barrel (opened), lying somewhere"
+msgstr "Liegendes Fass (offen)"
+
+#: nodes_barrel.lua
+msgid "Tub"
+msgstr "Bottich"
+
+#: nodes_chests.lua
+msgid "private NPC chest"
+msgstr "Private NPC-Truhe"
+
+#: nodes_chests.lua
+msgid "chest for work utils and kitchens"
+msgstr "NPC-Truhe für Arbeitsutensilien und Küchen"
+
+#: nodes_chests.lua
+msgid "storage chest"
+msgstr "NPC-Lagertruhe"
+
+#: nodes_doorlike.lua
+msgid "Opened window shutters"
+msgstr "Offene Fensterläden"
+
+#: nodes_doorlike.lua
+msgid "Closed window shutters"
+msgstr "Geschlossene Fensterläden"
+
+#: nodes_doorlike.lua
+msgid "Half door"
+msgstr "Kloentür"
+
+#: nodes_doorlike.lua
+msgid "Half door inverted"
+msgstr "Umgekehrte Kloentür"
+
+#: nodes_doorlike.lua
+msgid "Closed fence gate"
+msgstr "Geschlossenes Zauntor"
+
+#: nodes_doorlike.lua
+msgid "Opened fence gate"
+msgstr "Geschlossene Fensterläden"
+
+#: nodes_doorlike.lua
+msgid "Wooden hatch"
+msgstr "Holzfalltür"
+
+#: nodes_doorlike.lua
+msgid "Metal hatch"
+msgstr "Metallfalltür"
+
+#: nodes_fences.lua
+msgid "Small fence"
+msgstr "Kleiner Zaun"
+
+#: nodes_fences.lua
+msgid "Small fence corner"
+msgstr "Kleiner Zaun (Ecke)"
+
+#: nodes_fences.lua
+msgid "Small fence end"
+msgstr "Kleiner Zaun (Ende)"
+
+#: nodes_historic.lua
+msgid "Wagon wheel"
+msgstr "Wagenrad"
+
+#: nodes_historic.lua
+msgid "Dirt road"
+msgstr "Feldweg"
+
+#: nodes_historic.lua
+msgid "Loam"
+msgstr "Lehm"
+
+#: nodes_historic.lua
+msgid "Dirt Road Stairs"
+msgstr "Feldwegtreppe"
+
+#: nodes_historic.lua
+msgid "Dirt Road, half height"
+msgstr "Feldwegstufe"
+
+#: nodes_historic.lua
+msgid "Loam Stairs"
+msgstr "Lehmtreppe"
+
+#: nodes_historic.lua
+msgid "Loam Slab"
+msgstr "Lehmstufe"
+
+#: nodes_historic.lua
+msgid "Clay Stairs"
+msgstr "Tontreppe"
+
+#: nodes_historic.lua
+msgid "Clay Slab"
+msgstr "Tonstufe"
+
+#: nodes_historic.lua
+msgid "straw ground for animals"
+msgstr "Strohboden für Tiere"
+
+#: nodes_historic.lua
+msgid "Simple glass pane (centered)"
+msgstr "Einfache Fensterscheibe (zentriert)"
+
+#: nodes_historic.lua
+msgid "Simple glass pane"
+msgstr "Einfache Fensterscheibe"
+
+#: nodes_historic.lua
+msgid "Flat wooden planks"
+msgstr "Flache Holzbretter"
+
+#: nodes_historic.lua
+msgid "Wool for tents"
+msgstr "Wolle für Zelte"
+
+#: nodes_historic.lua
+msgid "Wool"
+msgstr "Wolle"
+
+#: nodes_roof.lua
+msgid "Roof straw"
+msgstr "Strohdach"
+
+#: nodes_roof.lua
+msgid "Roof wood"
+msgstr "Holzdach"
+
+#: nodes_roof.lua
+msgid "Roof black"
+msgstr "Schwarzes Dach"
+
+#: nodes_roof.lua
+msgid "Roof red"
+msgstr "Rotes Dach"
+
+#: nodes_roof.lua
+msgid "Roof brown"
+msgstr "Braunes Dach"
+
+#: nodes_roof.lua
+msgid "Roof reet"
+msgstr "Reetdach"
+
+#: nodes_roof.lua
+msgid "Roof slate"
+msgstr "Schieferdach"
+
+#: nodes_roof.lua
+msgid "Roof connector straw"
+msgstr "Strohdachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector wood"
+msgstr "Holzdachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector black"
+msgstr "Schwarzer Dachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector red"
+msgstr "Roter Dachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector brown"
+msgstr "Brauner Dachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector reet"
+msgstr "Reet-Dachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof connector slate"
+msgstr "Schiefer-Dachverbinder"
+
+#: nodes_roof.lua
+msgid "Roof (flat) straw"
+msgstr "Strohdach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) wood"
+msgstr "Holzdach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) black"
+msgstr "Schwarzes Dach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) red"
+msgstr "Rotes Dach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) brown"
+msgstr "Braunes Dach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) reet"
+msgstr "Reetdach (flach)"
+
+#: nodes_roof.lua
+msgid "Roof (flat) slate"
+msgstr "Schieferdach (flach)"
+
+#: nodes_roof.lua
+msgid "Vertical Slate"
+msgstr "Vertikaler Schiefer"
+
+#: nodes_roof.lua
+msgid "Reet for thatching"
+msgstr "Reet"
+
+#: nodes_straw.lua
+msgid "layer of straw"
+msgstr "Strohschicht"
+
+#: nodes_straw.lua
+msgid "straw bale"
+msgstr "Strohballen"
+
+#: nodes_straw.lua
+msgid "straw"
+msgstr "Stroh"
+
+#: nodes_straw.lua
+msgid "Harvested wheat:"
+msgstr "Geernteter Weizen:"
+
+#: nodes_straw.lua
+msgid "Straw:"
+msgstr "Stroh:"
+
+#: nodes_straw.lua
+msgid "Seeds:"
+msgstr "Körner:"
+
+#: nodes_straw.lua
+msgid "Threshing floor"
+msgstr "Dreschboden"
+
+#: nodes_straw.lua
+msgid "Punch threshing floor with a stick"
+msgstr "Schlage mit einem Stock auf den Dreschboden"
+
+#: nodes_straw.lua
+msgid "to get straw and seeds from wheat."
+msgstr "um Stroh und Körner vom Weizen zu bekommen."
+
+#: nodes_straw.lua
+msgid "threshing floor"
+msgstr "Dreschboden"
+
+#: nodes_straw.lua
+#, lua-format
+msgid "Threshing floor (owned by %s)"
+msgstr "Dreschboden (gehört %s)"
+
+#: nodes_straw.lua
+msgid "Wheat seeds:"
+msgstr "Weizenkörner:"
+
+#: nodes_straw.lua
+msgid "Flour:"
+msgstr "Mehl:"
+
+#: nodes_straw.lua
+msgid "Mill"
+msgstr "Mühle"
+
+#: nodes_straw.lua
+msgid "Punch this hand-driven mill"
+msgstr "Schlage auf diese handbetriebene Mühle"
+
+#: nodes_straw.lua
+msgid "to convert wheat seeds into flour."
+msgstr "um Weizenkoerner in Mehl umzuwandeln."
+
+#: nodes_straw.lua
+msgid "Mill, powered by punching"
+msgstr "Mühle, durch Schlagen antreiben"
+
+#: nodes_straw.lua
+#, lua-format
+msgid "Mill, powered by punching (owned by %s)"
+msgstr "Mühle, durch Schlagen antreiben (gehört %s)"
+
+#: nodes_straw.lua
+#, lua-format
+msgid "You have ground a %s (%s are left)."
+msgstr "Du hast %s Weizenkörner gemahlen (%s bleiben übrig)."
+
+#: nodes_straw.lua
+#, lua-format
+msgid "You have ground the last %s."
+msgstr "Du hast die letzten %s Weizenkörner gemahlen."

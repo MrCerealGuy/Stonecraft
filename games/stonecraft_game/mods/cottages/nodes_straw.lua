@@ -4,7 +4,16 @@
 --  * straw mat - for animals and very poor NPC; also basis for other straw things
 --  * straw bale - well, just a good source for building and decoration
 
-local S = cottages.S
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local cottages_can_use = function( meta, player )
 	if( not( player) or not( meta )) then
