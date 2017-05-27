@@ -90,6 +90,14 @@ msgid "Reset search and display everything"
 msgstr "Suche zurücksetzen und alles anzeigen"
 
 #: internal.lua
+msgid "No matching items"
+msgstr "Keine passenden Gegenstände"
+
+#: internal.lua
+msgid "No matches."
+msgstr "Keine Treffer."
+
+#: internal.lua
 msgid "Page"
 msgstr "Seite"
 

@@ -22,44 +22,132 @@ msgstr "Standard Seeglas an"
 
 #: init.lua
 msgid "Seaglass yellow on"
-msgstr "Seeglas gelb an"
+msgstr "Gelbes Seeglas (an)"
 
 #: init.lua
 msgid "Seaglass red on"
-msgstr "Seeglas rot an"
+msgstr "Rotes Seeglas (an)"
 
 #: init.lua
 msgid "Seaglass blue on"
-msgstr "Seeglas blau an"
+msgstr "Blaues Seeglas (an)"
 
 #: init.lua
 msgid "Seaglass white on"
-msgstr "Seeglas weiß an"
+msgstr "Weißes Seeglas (an)"
 
 #: init.lua
 msgid "Seaglass black on"
-msgstr "Seeglas schwarz an"
+msgstr "Schwarzes Seeglas (an)"
 
 #: init.lua
 msgid "Standard seaglass off"
-msgstr "Standard Seeglas aus"
+msgstr "Standard Seeglas (aus)"
 
 #: init.lua
 msgid "Seaglass yellow off"
-msgstr "Seeglas gelb aus"
+msgstr "Gelbes Seeglas (aus)"
 
 #: init.lua
 msgid "Seaglass red off"
-msgstr "Seeglas rot aus"
+msgstr "Rotes Seeglas (aus)"
 
 #: init.lua
 msgid "Seaglass blue off"
-msgstr "Seeglas blau aus"
+msgstr "Blaues Seeglas (aus)"
 
 #: init.lua
 msgid "Seaglass white off"
-msgstr "Seeglas weiß aus"
+msgstr "Weißes Seeglas (aus)"
 
 #: init.lua
 msgid "Seaglass black off"
-msgstr "Seeglas schwarz aus"
+msgstr "Schwarzes Seeglas (aus)"
+
+#: init.lua
+msgid "Seaglass stair on"
+msgstr "Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on"
+msgstr "Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair on yellow"
+msgstr "Gelbe Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on yellow"
+msgstr "Gelbe Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair on red"
+msgstr "Rote Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on red"
+msgstr "Rote Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair on blue"
+msgstr "Blaue Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on blue"
+msgstr "Blaue Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair on white"
+msgstr "Weiße Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on white"
+msgstr "Weiße Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair on black"
+msgstr "Schwarze Seeglastreppe (an)"
+
+#: init.lua
+msgid "Seaglass slab on black"
+msgstr "Schwarze Seeglasstufe (an)"
+
+#: init.lua
+msgid "Seaglass stair off"
+msgstr "Seeglastreppe (aus)"
+
+#: init.lua
+msgid "Seaglass slab off"
+msgstr "Seeglasstufe (aus)"
+
+#: init.lua
+msgid "Seaglass slab off yellow"
+msgstr "Gelbe Seeglasstufe (aus)"
+
+#: init.lua
+msgid "Seaglass stair off red"
+msgstr "Rote Seeglastreppe (aus)"
+
+#: init.lua
+msgid "Seaglass slab off red"
+msgstr "Rote Seeglasstufe (aus)"
+
+#: init.lua
+msgid "Seaglass stair off blue"
+msgstr "Blaue Seeglastreppe (aus)"
+
+#: init.lua
+msgid "Seaglass slab off blue"
+msgstr "Blaue Seeglasstufe (aus)"
+
+#: init.lua
+msgid "Seaglass stair off white"
+msgstr "Weiße Seeglastreppe (aus)"
+
+#: init.lua
+msgid "Seaglass stair off black"
+msgstr "Schwarze Seeglastreppe (aus)"
+
+#: init.lua
+msgid "Seaglass slab off black"
+msgstr "Schwarze Seeglasstufe (aus)"

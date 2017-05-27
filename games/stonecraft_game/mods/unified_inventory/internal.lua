@@ -212,14 +212,14 @@ function unified_inventory.get_formspec(player, page)
 	end
 	n = n+3
 
-	local no_matches = "No matching items"
+	local no_matches = S("No matching items")
 	if draw_lite_mode then
-		no_matches = "No matches."
+		no_matches = S("No matches.")
 	end
 
 	-- Items list
 	if #unified_inventory.filtered_items_list[player_name] == 0 then
-		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";" .. F(no_matches) .. "]"
+		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";" .. S(no_matches) .. "]"
 	else
 		local dir = unified_inventory.active_search_direction[player_name]
 		local list_index = unified_inventory.current_index[player_name]
