@@ -9,7 +9,7 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local udef = technic.chests:definition(S("Wooden"), {
+local udef = technic.chests:definition("Wooden", {
 	width = 8,
 	height = 4,
 	sort = false,
@@ -33,7 +33,7 @@ if minetest.registered_nodes["default:chest"].description == S("Chest") then
 end
 minetest.override_item("default:chest", uudef)
 
-local ldef = technic.chests:definition(S("Wooden"), {
+local ldef = technic.chests:definition("Wooden", {
 	width = 8,
 	height = 4,
 	sort = false,

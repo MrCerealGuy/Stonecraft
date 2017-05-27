@@ -38,7 +38,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register(S("Silver"), {
+technic.chests:register("Silver", {
 	width = 12,
 	height = 6,
 	sort = true,
@@ -48,7 +48,7 @@ technic.chests:register(S("Silver"), {
 	locked = false,
 })
 
-technic.chests:register(S("Silver"), {
+technic.chests:register("Silver", {
 	width = 12,
 	height = 6,
 	sort = true,

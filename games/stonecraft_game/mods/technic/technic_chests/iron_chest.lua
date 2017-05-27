@@ -42,7 +42,7 @@ minetest.register_craft({
 	}
 })
 
-technic.chests:register(S("Iron"), {
+technic.chests:register("Iron", {
 	width = 9,
 	height = 5,
 	sort = true,
@@ -52,7 +52,7 @@ technic.chests:register(S("Iron"), {
 	locked = false,
 })
 
-technic.chests:register(S("Iron"), {
+technic.chests:register("Iron", {
 	width = 9,
 	height = 5,
 	sort = true,
