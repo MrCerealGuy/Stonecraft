@@ -343,7 +343,7 @@ farming.register_plant = function(name, def)
 
 	-- Register harvest
 	minetest.register_craftitem(":" .. mname .. ":" .. pname, {
-		description = pname:gsub("^%l", string.upper),
+		description = S(pname:gsub("^%l", string.upper)),
 		inventory_image = mname .. "_" .. pname .. ".png",
 		groups = {flammable = 2},
 	})

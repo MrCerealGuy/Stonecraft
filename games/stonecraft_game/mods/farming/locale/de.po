@@ -54,6 +54,10 @@ msgid "Wheat seed"
 msgstr "Weizensamen"
 
 #: init.lua
+msgid "Wheat"
+msgstr "Weizen"
+
+#: init.lua
 msgid "Flour"
 msgstr "Mehl"
 
@@ -64,6 +68,10 @@ msgstr "Brot"
 #: init.lua
 msgid "Cotton seed"
 msgstr "Baumwollsamen"
+
+#: init.lua
+msgid "Cotton"
+msgstr "Baumwolle"
 
 #: nodes.lua
 msgid "Soil"
