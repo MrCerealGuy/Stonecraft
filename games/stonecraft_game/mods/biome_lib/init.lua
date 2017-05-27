@@ -8,6 +8,12 @@
 
 -- Various settings - most of these probably won't need to be changed
 
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
 biome_lib = {}
 
 plantslib = setmetatable({}, { __index=function(t,k) print("Use of deprecated function:", k) return biome_lib[k] end })
@@ -31,14 +37,9 @@ biome_lib.modpath = minetest.get_modpath("biome_lib")
 
 biome_lib.total_no_aircheck_calls = 0
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S
-if minetest.get_modpath("intllib") then
-	S = intllib.Getter()
-else
-	S = function(s) return s end
-end
-biome_lib.intllib = S
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local DEBUG = false --... except if you want to spam the console with debugging info :-)
 

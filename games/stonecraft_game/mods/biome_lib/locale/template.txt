@@ -1,5 +1,0 @@
-# Template
-
-someone = 
-Sorry, %s owns that spot. = 
-[Plantlife Library] Loaded = 
