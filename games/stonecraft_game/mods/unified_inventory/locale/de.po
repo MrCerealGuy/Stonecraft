@@ -153,6 +153,47 @@ msgstr "Irgendein Gegenstand, der zur Gruppe @1 gehört"
 msgid "Any item belonging to the groups @1"
 msgstr "Irgendein Gegenstand, der zu den Gruppen @1 gehört"
 
+
+#: register.lua
+msgid "Recipe @1 of @2"
+msgstr "Rezept @1 von @2"
+
+#: register.lua
+msgid "Usage @1 of @2"
+msgstr "Anwendung @1 von @2"
+
+#: register.lua
+msgid "No recipes"
+msgstr "Kein Rezept"
+
+#: register.lua
+msgid "No usages"
+msgstr "Keine Anwendungen"
+
+#: register.lua
+msgid "Result"
+msgstr "Ergebnis"
+
+#: register.lua
+msgid "Ingredient"
+msgstr "Zutat"
+
+#: register.lua
+msgid "Show next recipe"
+msgstr "Zeige nächstes Rezept"
+
+#: register.lua
+msgid "Show next usage"
+msgstr "Zeige nächste Anwendung"
+
+#: register.lua
+msgid "Show previous recipe"
+msgstr "Zeige vorheriges Rezept"
+
+#: register.lua
+msgid "Show previous usage"
+msgstr "Zeige vorherige Anwendung"
+
 #: register.lua
 msgid "@1 (@2)"
 msgstr "@1 (@2)"

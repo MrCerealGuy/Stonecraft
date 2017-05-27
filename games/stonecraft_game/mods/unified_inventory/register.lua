@@ -240,24 +240,24 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 end
 
 local recipe_text = {
-	recipe = "Recipe %d of %d",
-	usage = "Usage %d of %d",
+	recipe = S("Recipe @1 of @2"),
+	usage = S("Usage @1 of @2"),
 }
 local no_recipe_text = {
-	recipe = "No recipes",
-	usage = "No usages",
+	recipe = S("No recipes"),
+	usage = S("No usages"),
 }
 local role_text = {
-	recipe = "Result",
-	usage = "Ingredient",
+	recipe = S("Result"),
+	usage = S("Ingredient"),
 }
 local next_alt_text = {
-	recipe = "Show next recipe",
-	usage = "Show next usage",
+	recipe = S("Show next recipe"),
+	usage = S("Show next usage"),
 }
 local prev_alt_text = {
-	recipe = "Show previous recipe",
-	usage = "Show previous usage",
+	recipe = S("Show previous recipe"),
+	usage = S("Show previous usage"),
 }
 local other_dir = {
 	recipe = "usage",
@@ -301,13 +301,13 @@ unified_inventory.register_page("craftguide", {
 
 		formspec = formspec.."background[0.5,"..(formspecy + 0.2)..";8,3;ui_craftguide_form.png]"
 		formspec = formspec.."textarea["..craftresultx..","..craftresulty
-                           ..";10,1;;"..minetest.formspec_escape(F(role_text[dir])..": "..item_name_shown)..";]"
+                           ..";10,1;;"..minetest.formspec_escape(S(role_text[dir])..": "..item_name_shown)..";]"
 		formspec = formspec..stack_image_button(0, formspecy, 1.1, 1.1, "item_button_"
 		                   .. rdir .. "_", ItemStack(item_name))
 
 		if not craft then
 			formspec = formspec.."label[5.5,"..(formspecy + 2.35)..";"
-			                   ..minetest.formspec_escape(F(no_recipe_text[dir])).."]"
+			                   ..minetest.formspec_escape(S(no_recipe_text[dir])).."]"
 			local no_pos = dir == "recipe" and 4.5 or 6.5
 			local item_pos = dir == "recipe" and 6.5 or 4.5
 			formspec = formspec.."image["..no_pos..","..formspecy..";1.1,1.1;ui_no.png]"
@@ -399,11 +399,11 @@ unified_inventory.register_page("craftguide", {
 
 		if alternates and alternates > 1 then
 			formspec = formspec.."label[5.5,"..(formspecy + 1.6)..";"
-					..string.format(F(recipe_text[dir]), alternate, alternates).."]"
+					..S(recipe_text[dir], alternate, alternates).."]"
 					.."image_button[5.5,"..(formspecy + 2)..";1,1;ui_left_icon.png;alternate_prev;]"
 					.."image_button[6.5,"..(formspecy + 2)..";1,1;ui_right_icon.png;alternate;]"
-					.."tooltip[alternate_prev;"..F(prev_alt_text[dir]).."]"
-					.."tooltip[alternate;"..F(next_alt_text[dir]).."]"
+					.."tooltip[alternate_prev;"..S(prev_alt_text[dir]).."]"
+					.."tooltip[alternate;"..S(next_alt_text[dir]).."]"
 		end
 		return {formspec = formspec}
 	end,
