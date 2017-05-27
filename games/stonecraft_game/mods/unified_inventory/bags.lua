@@ -3,18 +3,26 @@
 -- Copyright (c) 2012 cornernote, Brett O'Donnell <cornernote@gmail.com>
 -- License: GPLv3
 
-local S = unified_inventory.gettext
-local F = unified_inventory.fgettext
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 unified_inventory.register_page("bags", {
 	get_formspec = function(player)
 		local player_name = player:get_player_name()
 		local formspec = "background[0.06,0.99;7.92,7.52;ui_bags_main_form.png]"
-		formspec = formspec.."label[0,0;"..F("Bags").."]"
-		formspec = formspec.."button[0,2;2,0.5;bag1;"..F("Bag @1", 1).."]"
-		formspec = formspec.."button[2,2;2,0.5;bag2;"..F("Bag @1", 2).."]"
-		formspec = formspec.."button[4,2;2,0.5;bag3;"..F("Bag @1", 3).."]"
-		formspec = formspec.."button[6,2;2,0.5;bag4;"..F("Bag @1", 4).."]"
+		formspec = formspec.."label[0,0;"..S("Bags").."]"
+		formspec = formspec.."button[0,2;2,0.5;bag1;"..S("Bag @1", 1).."]"
+		formspec = formspec.."button[2,2;2,0.5;bag2;"..S("Bag @1", 2).."]"
+		formspec = formspec.."button[4,2;2,0.5;bag3;"..S("Bag @1", 3).."]"
+		formspec = formspec.."button[6,2;2,0.5;bag4;"..S("Bag @1", 4).."]"
 		formspec = formspec.."listcolors[#00000000;#00000000]"
 		formspec = formspec.."list[detached:"..minetest.formspec_escape(player_name).."_bags;bag1;0.5,1;1,1;]"
 		formspec = formspec.."list[detached:"..minetest.formspec_escape(player_name).."_bags;bag2;2.5,1;1,1;]"
@@ -38,7 +46,7 @@ for i = 1, 4 do
 			local stack = player:get_inventory():get_stack("bag"..bi, 1)
 			local image = stack:get_definition().inventory_image
 			local formspec = ("image[7,0;1,1;"..image.."]"
-					.."label[0,0;"..F("Bag @1", bi).."]"
+					.."label[0,0;"..S("Bag @1", bi).."]"
 					.."listcolors[#00000000;#00000000]"
 					.."list[current_player;bag"..bi.."contents;0,1;8,3;]"
 					.."listring[current_name;bag"..bi.."contents]"
@@ -71,7 +79,7 @@ for i = 1, 4 do
 						end
 					end
 					local img = def.inventory_image
-					local label = F("Bag @1", i).."\n"..used.."/"..size
+					local label = S("Bag @1", i).."\n"..used.."/"..size
 					button = "image_button["..(i+1)..",0;1,1;"..img..";bag"..i..";"..label.."]"
 				else
 					button = ""

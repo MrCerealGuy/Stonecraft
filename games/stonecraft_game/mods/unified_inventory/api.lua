@@ -1,5 +1,13 @@
-local S = unified_inventory.gettext
-local F = unified_inventory.fgettext
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Create detached creative inventory after loading all mods
 minetest.after(0.01, function()
@@ -233,7 +241,7 @@ end
 
 
 unified_inventory.register_craft_type("normal", {
-	description = F("Crafting"),
+	description = S("Crafting"),
 	icon = "ui_craftgrid_icon.png",
 	width = 3,
 	height = 3,
@@ -249,7 +257,7 @@ unified_inventory.register_craft_type("normal", {
 
 
 unified_inventory.register_craft_type("shapeless", {
-	description = F("Mixing"),
+	description = S("Mixing"),
 	icon = "ui_craftgrid_icon.png",
 	width = 3,
 	height = 3,
@@ -264,7 +272,7 @@ unified_inventory.register_craft_type("shapeless", {
 
 
 unified_inventory.register_craft_type("cooking", {
-	description = F("Cooking"),
+	description = S("Cooking"),
 	icon = "default_furnace_front.png",
 	width = 1,
 	height = 1,
@@ -272,7 +280,7 @@ unified_inventory.register_craft_type("cooking", {
 
 
 unified_inventory.register_craft_type("digging", {
-	description = F("Digging"),
+	description = S("Digging"),
 	icon = "default_tool_steelpick.png",
 	width = 1,
 	height = 1,

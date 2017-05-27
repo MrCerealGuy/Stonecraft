@@ -1,0 +1,258 @@
+# German translation for unified_inventory mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-27 16:45+0200\n"
+"PO-Revision-Date: 2018-05-27 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: api.lua register.lua
+msgid "Crafting"
+msgstr "Fertigung"
+
+#: api.lua
+msgid "Mixing"
+msgstr "Mischen"
+
+#: api.lua
+msgid "Cooking"
+msgstr "Kochen"
+
+#: api.lua
+msgid "Digging"
+msgstr "Graben"
+
+#: bags.lua
+msgid "Bags"
+msgstr "Taschen"
+
+#: bags.lua
+msgid "Bag @1"
+msgstr "Tasche @1"
+
+#: bags.lua
+msgid "Small Bag"
+msgstr "Kleine Tasche"
+
+#: bags.lua
+msgid "Medium Bag"
+msgstr "Mittelgroße Tasche"
+
+#: bags.lua
+msgid "Large Bag"
+msgstr "Große Tasche"
+
+#: group.lua
+msgid " and "
+msgstr " und "
+
+#: internal.lua
+msgid "First page"
+msgstr "Erste Seite"
+
+#: internal.lua
+msgid "Back three pages"
+msgstr "Drei Seiten zurueckblättern"
+
+#: internal.lua
+msgid "Back one page"
+msgstr "Eine Seite zurueckblättern"
+
+#: internal.lua
+msgid "Forward one page"
+msgstr "Eine Seite vorblättern"
+
+#: internal.lua
+msgid "Forward three pages"
+msgstr "Drei Seiten vorblättern"
+
+#: internal.lua
+msgid "Last page"
+msgstr "Letzte Seite"
+
+#: internal.lua
+msgid "Search"
+msgstr "Suchen"
+
+#: internal.lua
+msgid "Reset search and display everything"
+msgstr "Suche zurücksetzen und alles anzeigen"
+
+#: internal.lua
+msgid "Page"
+msgstr "Seite"
+
+#: internal.lua
+msgid "@1 of @2"
+msgstr "@1 von @2"
+
+#: internal.lua
+msgid "Filter"
+msgstr "Filter"
+
+#: register.lua
+msgid "Can use the creative inventory"
+msgstr "Kann das Kreativinventar nutzen"
+
+#: register.lua
+msgid "Forces Unified Inventory to be displayed in Full mode if Lite mode is configured globally"
+msgstr ""
+
+#: register.lua
+msgid "Crafting Grid"
+msgstr "Fertigungsraster"
+
+#: register.lua
+msgid "Crafting Guide"
+msgstr "Fertigungsführer"
+
+#: register.lua
+msgid "Set home position"
+msgstr "Heimatposition setzen"
+
+#: register.lua
+msgid "Go home"
+msgstr "Nach Hause gehen"
+
+#: register.lua
+msgid "Set time to day"
+msgstr "Zur Tageszeit wechseln"
+
+#: register.lua
+msgid "Set time to night"
+msgstr "Zur Nachtzeit wechseln"
+
+#: register.lua
+msgid "Clear inventory"
+msgstr "Inventar leeren"
+
+#: register.lua
+msgid "Trash:"
+msgstr "Müll:"
+
+#: register.lua
+msgid "Refill:"
+msgstr "Nachfüllen:"
+
+#: register.lua
+msgid "Any item belonging to the @1 group"
+msgstr "Irgendein Gegenstand, der zur Gruppe @1 gehört"
+
+#: register.lua
+msgid "Any item belonging to the groups @1"
+msgstr "Irgendein Gegenstand, der zu den Gruppen @1 gehört"
+
+#: register.lua
+msgid "@1 (@2)"
+msgstr "@1 (@2)"
+
+#: register.lua
+msgid "Give me:"
+msgstr "Gib mir:"
+
+#: register.lua
+msgid "This recipe is too\nlarge to be displayed."
+msgstr "Dieses Rezept ist zu\ngroß, um angezeigt\nzu werden."
+
+#: register.lua
+msgid "To craft grid:"
+msgstr "Ins Fertigungsraster kopieren:"
+
+#: register.lua
+msgid "All"
+msgstr "Alles"
+
+#: waypoints.lua
+msgid "White"
+msgstr "Weiß"
+
+#: waypoints.lua
+msgid "Yellow"
+msgstr "Gelb"
+
+#: waypoints.lua
+msgid "Red"
+msgstr "Rot"
+
+#: waypoints.lua
+msgid "Green"
+msgstr "Grün"
+
+#: waypoints.lua
+msgid "Blue"
+msgstr "Blau"
+
+#: waypoints.lua
+msgid "Waypoints"
+msgstr "Wegpunkte"
+
+#: waypoints.lua
+msgid "Select Waypoint #@1"
+msgstr "Wegpunkt Nr. @1 auswählen"
+
+#: waypoints.lua
+msgid "Waypoint @1"
+msgstr "Wegpunkt Nr. @1"
+
+#: waypoints.lua
+msgid "Set waypoint to current location"
+msgstr "Setze Wegpunkt zur derzeitigen Position"
+
+#: waypoints.lua
+msgid "Make waypoint visible"
+msgstr "Wegpunkt sichtbar machen"
+
+#: waypoints.lua
+msgid "Make waypoint invisible"
+msgstr "Wegpunkt verstecken"
+
+#: waypoints.lua
+msgid "Disable display of waypoint coordinates"
+msgstr "Anzeige der Wegpunktkoordinaten deaktivieren"
+
+#: waypoints.lua
+msgid "Enable display of waypoint coordinates"
+msgstr "Anzeige der Wegpunktkoordinaten aktivieren"
+
+#: waypoints.lua
+msgid "Change color of waypoint display"
+msgstr "Farbe der Darstellung der Wegpunkte ändern"
+
+#: waypoints.lua
+msgid "Edit waypoint name"
+msgstr "Name des Wegpunkts ändern"
+
+#: waypoints.lua
+msgid "Waypoint active"
+msgstr "Wegpunkt aktiv"
+
+#: waypoints.lua
+msgid "Waypoint inactive"
+msgstr "Wegpunkt inaktiv"
+
+#: waypoints.lua
+msgid "Finish editing"
+msgstr "Bearbeitung abschließen"
+
+#: waypoints.lua
+msgid "World position"
+msgstr "Weltposition"
+
+#: waypoints.lua
+msgid "Name"
+msgstr "Name"
+
+#: waypoints.lua
+msgid "HUD text color"
+msgstr "HUD-Textfarbe"

@@ -1,16 +1,17 @@
 -- Unified Inventory for Minetest 0.4.8+
 
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 local worldpath = minetest.get_worldpath()
-local mygettext
-if rawget(_G, "intllib") then
-	mygettext = intllib.Getter()
-else
-	function mygettext(s, ...)
-		local t = { ... }
-		return (s:gsub("@(%d+)", function(n) return t[tonumber(n)] end))
-	end
-end
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Data tables definitions
 unified_inventory = {
@@ -38,10 +39,6 @@ unified_inventory = {
 
 	-- Default inventory page
 	default = "craft",
-
-	-- intllib
-	gettext = mygettext,
-	fgettext = function(...) return minetest.formspec_escape(mygettext(...)) end,
 
 	-- "Lite" mode
 	lite_mode = minetest.setting_getbool("unified_inventory_lite"),

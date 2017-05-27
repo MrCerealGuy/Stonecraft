@@ -1,5 +1,13 @@
-local S = unified_inventory.gettext
-local F = unified_inventory.fgettext
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_privilege("creative", {
 	description = S("Can use the creative inventory"),
@@ -171,19 +179,19 @@ unified_inventory.register_page("craft", {
 		local player_name = player:get_player_name()
 		local formspec = "background[2,"..formspecy..";6,3;ui_crafting_form.png]"
 		formspec = formspec.."background[0,"..(formspecy + 3.5)..";8,4;ui_main_inventory.png]"
-		formspec = formspec.."label[0,"..formheadery..";" ..F("Crafting").."]"
+		formspec = formspec.."label[0,"..formheadery..";" ..S("Crafting").."]"
 		formspec = formspec.."listcolors[#00000000;#00000000]"
 		formspec = formspec.."list[current_player;craftpreview;6,"..formspecy..";1,1;]"
 		formspec = formspec.."list[current_player;craft;2,"..formspecy..";3,3;]"
 		if unified_inventory.trash_enabled or unified_inventory.is_creative(player_name) or minetest.get_player_privs(player_name).give then
-			formspec = formspec.."label[7,"..(formspecy + 1.5)..";" .. F("Trash:") .. "]"
+			formspec = formspec.."label[7,"..(formspecy + 1.5)..";" .. S("Trash:") .. "]"
 			formspec = formspec.."background[7,"..(formspecy + 2)..";1,1;ui_single_slot.png]"
 			formspec = formspec.."list[detached:trash;main;7,"..(formspecy + 2)..";1,1;]"
 		end
 		formspec = formspec.."listring[current_name;craft]"
 		formspec = formspec.."listring[current_player;main]"
 		if unified_inventory.is_creative(player_name) then
-			formspec = formspec.."label[0,"..(formspecy + 1.5)..";" .. F("Refill:") .. "]"
+			formspec = formspec.."label[0,"..(formspecy + 1.5)..";" .. S("Refill:") .. "]"
 			formspec = formspec.."list[detached:"..minetest.formspec_escape(player_name).."refill;main;0,"..(formspecy +2)..";1,1;]"
 		end
 		return {formspec=formspec}
@@ -219,9 +227,9 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 		local groupstring, andcount = unified_inventory.extract_groupnames(name)
 		local grouptip
 		if andcount == 1 then
-			grouptip = string.format(S("Any item belonging to the %s group"), groupstring)
+			grouptip = S("Any item belonging to the @1 group", groupstring)
 		elseif andcount > 1 then
-			grouptip = string.format(S("Any item belonging to the groups %s"), groupstring)
+			grouptip = S("Any item belonging to the groups @1", groupstring)
 		end
 		grouptip = minetest.formspec_escape(grouptip)
 		if andcount >= 1 then
@@ -268,13 +276,13 @@ unified_inventory.register_page("craftguide", {
 		local player_privs = minetest.get_player_privs(player_name)
 		local formspec = ""
 		formspec = formspec.."background[0,"..(formspecy + 3.5)..";8,4;ui_main_inventory.png]"
-		formspec = formspec.."label[0,"..formheadery..";" .. F("Crafting Guide") .. "]"
+		formspec = formspec.."label[0,"..formheadery..";" .. S("Crafting Guide") .. "]"
 		formspec = formspec.."listcolors[#00000000;#00000000]"
 		local item_name = unified_inventory.current_item[player_name]
 		if not item_name then return {formspec=formspec} end
 		local item_name_shown
 		if minetest.registered_items[item_name] and minetest.registered_items[item_name].description then
-			item_name_shown = string.format(S("%s (%s)"), minetest.registered_items[item_name].description, item_name)
+			item_name_shown = S("@1 (@2)", minetest.registered_items[item_name].description, item_name)
 		else
 			item_name_shown = item_name
 		end
@@ -306,7 +314,7 @@ unified_inventory.register_page("craftguide", {
 			formspec = formspec..stack_image_button(item_pos, formspecy, 1.1, 1.1, "item_button_"
 			                   ..other_dir[dir].."_", ItemStack(item_name))
 			if player_privs.give == true or player_privs.creative == true or minetest.setting_getbool("creative_mode") == true then
-				formspec = formspec.."label[0,"..(formspecy + 2.10)..";" .. F("Give me:") .. "]"
+				formspec = formspec.."label[0,"..(formspecy + 2.10)..";" .. S("Give me:") .. "]"
 						.."button[0,  "..(formspecy + 2.7)..";0.6,0.5;craftguide_giveme_1;1]"
 						.."button[0.6,"..(formspecy + 2.7)..";0.7,0.5;craftguide_giveme_10;10]"
 						.."button[1.3,"..(formspecy + 2.7)..";0.8,0.5;craftguide_giveme_99;99]"
@@ -377,13 +385,13 @@ unified_inventory.register_page("craftguide", {
 		end
 
 		if craft_type.uses_crafting_grid and display_size.width <= 3 then
-			formspec = formspec.."label[0,"..(formspecy + 0.9)..";" .. F("To craft grid:") .. "]"
+			formspec = formspec.."label[0,"..(formspecy + 0.9)..";" .. S("To craft grid:") .. "]"
 					.."button[0,  "..(formspecy + 1.5)..";0.6,0.5;craftguide_craft_1;1]"
 					.."button[0.6,"..(formspecy + 1.5)..";0.7,0.5;craftguide_craft_10;10]"
-					.."button[1.3,"..(formspecy + 1.5)..";0.8,0.5;craftguide_craft_max;" .. F("All") .. "]"
+					.."button[1.3,"..(formspecy + 1.5)..";0.8,0.5;craftguide_craft_max;" .. S("All") .. "]"
 		end
 		if player_privs.give == true or player_privs.creative == true or minetest.setting_getbool("creative_mode") == true then
-			formspec = formspec.."label[0,"..(formspecy + 2.1)..";" .. F("Give me:") .. "]"
+			formspec = formspec.."label[0,"..(formspecy + 2.1)..";" .. S("Give me:") .. "]"
 					.."button[0,  "..(formspecy + 2.7)..";0.6,0.5;craftguide_giveme_1;1]"
 					.."button[0.6,"..(formspecy + 2.7)..";0.7,0.5;craftguide_giveme_10;10]"
 					.."button[1.3,"..(formspecy + 2.7)..";0.8,0.5;craftguide_giveme_99;99]"

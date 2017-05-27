@@ -1,5 +1,13 @@
-local S = unified_inventory.gettext
-local F = unified_inventory.fgettext
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- This pair of encoding functions is used where variable text must go in
 -- button names, where the text might contain formspec metacharacters.
@@ -145,39 +153,39 @@ function unified_inventory.get_formspec(player, page)
 		formspec[n] =
 			"image_button[" .. (start_x + 0.6 * 0)
 				.. ",9;.8,.8;ui_skip_backward_icon.png;start_list;]"
-			.. "tooltip[start_list;" .. F("First page") .. "]"
+			.. "tooltip[start_list;" .. S("First page") .. "]"
 
 			.. "image_button[" .. (start_x + 0.6 * 1)
 				.. ",9;.8,.8;ui_doubleleft_icon.png;rewind3;]"
-			.. "tooltip[rewind3;" .. F("Back three pages") .. "]"
+			.. "tooltip[rewind3;" .. S("Back three pages") .. "]"
 			.. "image_button[" .. (start_x + 0.6 * 2)
 				.. ",9;.8,.8;ui_left_icon.png;rewind1;]"
-			.. "tooltip[rewind1;" .. F("Back one page") .. "]"
+			.. "tooltip[rewind1;" .. S("Back one page") .. "]"
 
 			.. "image_button[" .. (start_x + 0.6 * 3)
 				.. ",9;.8,.8;ui_right_icon.png;forward1;]"
-			.. "tooltip[forward1;" .. F("Forward one page") .. "]"
+			.. "tooltip[forward1;" .. S("Forward one page") .. "]"
 			.. "image_button[" .. (start_x + 0.6 * 4)
 				.. ",9;.8,.8;ui_doubleright_icon.png;forward3;]"
-			.. "tooltip[forward3;" .. F("Forward three pages") .. "]"
+			.. "tooltip[forward3;" .. S("Forward three pages") .. "]"
 
 			.. "image_button[" .. (start_x + 0.6 * 5)
 				.. ",9;.8,.8;ui_skip_forward_icon.png;end_list;]"
-			.. "tooltip[end_list;" .. F("Last page") .. "]"
+			.. "tooltip[end_list;" .. S("Last page") .. "]"
 	else
 		formspec[n] =
 			"image_button[" .. (8.2 + 0.65 * 0)
 				.. ",5.8;.8,.8;ui_skip_backward_icon.png;start_list;]"
-			.. "tooltip[start_list;" .. F("First page") .. "]"
+			.. "tooltip[start_list;" .. S("First page") .. "]"
 			.. "image_button[" .. (8.2 + 0.65 * 1)
 				.. ",5.8;.8,.8;ui_left_icon.png;rewind1;]"
-			.. "tooltip[rewind1;" .. F("Back one page") .. "]"
+			.. "tooltip[rewind1;" .. S("Back one page") .. "]"
 			.. "image_button[" .. (8.2 + 0.65 * 2)
 				.. ",5.8;.8,.8;ui_right_icon.png;forward1;]"
-			.. "tooltip[forward1;" .. F("Forward one page") .. "]"
+			.. "tooltip[forward1;" .. S("Forward one page") .. "]"
 			.. "image_button[" .. (8.2 + 0.65 * 3)
 				.. ",5.8;.8,.8;ui_skip_forward_icon.png;end_list;]"
-			.. "tooltip[end_list;" .. F("Last page") .. "]"
+			.. "tooltip[end_list;" .. S("Last page") .. "]"
 	end
 	n = n+1
 
@@ -189,18 +197,18 @@ function unified_inventory.get_formspec(player, page)
 		formspec[n] = "field[9.5,8.325;3,1;searchbox;;"
 			.. minetest.formspec_escape(unified_inventory.current_searchbox[player_name]) .. "]"
 		formspec[n+1] = "image_button[12.2,8.1;.8,.8;ui_search_icon.png;searchbutton;]"
-			.. "tooltip[searchbutton;" ..F("Search") .. "]"
+			.. "tooltip[searchbutton;" ..S("Search") .. "]"
 		formspec[n+2] = "image_button[12.9,8.1;.8,.8;ui_reset_icon.png;searchresetbutton;]"
-			.. "tooltip[searchbutton;" ..F("Search") .. "]"
-			.. "tooltip[searchresetbutton;" ..F("Reset search and display everything") .. "]"
+			.. "tooltip[searchbutton;" ..S("Search") .. "]"
+			.. "tooltip[searchresetbutton;" ..S("Reset search and display everything") .. "]"
 	else
 		formspec[n] = "field[8.5,5.225;2.2,1;searchbox;;"
 			.. minetest.formspec_escape(unified_inventory.current_searchbox[player_name]) .. "]"
 		formspec[n+1] = "image_button[10.3,5;.8,.8;ui_search_icon.png;searchbutton;]"
-			.. "tooltip[searchbutton;" ..F("Search") .. "]"
+			.. "tooltip[searchbutton;" ..S("Search") .. "]"
 		formspec[n+2] = "image_button[11,5;.8,.8;ui_reset_icon.png;searchresetbutton;]"
-			.. "tooltip[searchbutton;" ..F("Search") .. "]"
-			.. "tooltip[searchresetbutton;" ..F("Reset search and display everything") .. "]"
+			.. "tooltip[searchbutton;" ..S("Search") .. "]"
+			.. "tooltip[searchresetbutton;" ..S("Reset search and display everything") .. "]"
 	end
 	n = n+3
 
@@ -246,13 +254,13 @@ function unified_inventory.get_formspec(player, page)
 				end
 			end
 		end
-		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";"..F("Page") .. ": "
-			.. S("%s of %s"):format(page,pagemax).."]"
+		formspec[n] = "label[8.2,"..ui_peruser.form_header_y..";"..S("Page") .. ": "
+			.. S("@1 of @2", page,pagemax).."]"
 	end
 	n= n+1
 
 	if unified_inventory.activefilter[player_name] ~= "" then
-		formspec[n] = "label[8.2,"..(ui_peruser.form_header_y + 0.4)..";" .. F("Filter") .. ":]"
+		formspec[n] = "label[8.2,"..(ui_peruser.form_header_y + 0.4)..";" .. S("Filter") .. ":]"
 		formspec[n+1] = "label[9.1,"..(ui_peruser.form_header_y + 0.4)..";"..minetest.formspec_escape(unified_inventory.activefilter[player_name]).."]"
 	end
 	return table.concat(formspec, "")
