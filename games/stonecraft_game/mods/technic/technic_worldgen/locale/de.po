@@ -1,0 +1,162 @@
+# German translation for technic/technic_worldgen mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-27 16:45+0200\n"
+"PO-Revision-Date: 2018-05-27 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: crafts.lua
+msgid "Uranium Lump"
+msgstr "Uranklumpen"
+
+#: crafts.lua
+msgid "Uranium Ingot"
+msgstr "Uranbarren"
+
+#: crafts.lua
+msgid "Chromium Lump"
+msgstr "Chromklumpen"
+
+#: crafts.lua
+msgid "Chromium Ingot"
+msgstr "Chrombarren"
+
+#: crafts.lua
+msgid "Zinc Lump"
+msgstr "Zinkklumpen"
+
+#: crafts.lua
+msgid "Zinc Ingot"
+msgstr "Zinkbarren"
+
+#: crafts.lua
+msgid "Lead Lump"
+msgstr "Bleiklumpen"
+
+#: crafts.lua
+msgid "Lead Ingot"
+msgstr "Bleibarren"
+
+#: crafts.lua
+msgid "Sulfur Lump"
+msgstr "Schwefelklumpen"
+
+#: crafts.lua
+msgid "Brass Ingot"
+msgstr "Messingbarren"
+
+#: crafts.lua
+msgid "Wrought Iron Ingot"
+msgstr "Schmiedeeisenbarren"
+
+#: crafts.lua
+msgid "Cast Iron Ingot"
+msgstr "Gusseisenbarren"
+
+#: crafts.lua
+msgid "Carbon Steel Ingot"
+msgstr "Kohlenstoffstahlbarren"
+
+#: crafts.lua
+msgid "Stainless Steel Ingot"
+msgstr "Edelstahlbarren"
+
+#: crafts.lua
+msgid "Iron"
+msgstr "Eisen"
+
+#: nodes.lua
+msgid "Uranium Ore"
+msgstr "Uranerz"
+
+#: nodes.lua
+msgid "Chromium Ore"
+msgstr "Chromerz"
+
+#: nodes.lua
+msgid "Zinc Ore"
+msgstr "Zinkerz"
+
+#: nodes.lua
+msgid "Lead Ore"
+msgstr "Bleierz"
+
+#: nodes.lua
+msgid "Sulfur Ore"
+msgstr "Schwefelerz"
+
+#: nodes.lua
+msgid "Granite"
+msgstr "Granit"
+
+#: nodes.lua
+msgid "Marble"
+msgstr "Marmor"
+
+#: nodes.lua
+msgid "Marble Bricks"
+msgstr "Marmorziegel"
+
+#: nodes.lua
+msgid "Uranium Block"
+msgstr "Uranblock"
+
+#: nodes.lua
+msgid "Chromium Block"
+msgstr "Chromblock"
+
+#: nodes.lua
+msgid "Zinc Block"
+msgstr "Zinkblock"
+
+#: nodes.lua
+msgid "Lead Block"
+msgstr "Bleiblock"
+
+#: nodes.lua
+msgid "Wrought Iron Block"
+msgstr "Schmiedeeisenblock"
+
+#: nodes.lua
+msgid "Cast Iron Block"
+msgstr "Gusseisenblock"
+
+#: nodes.lua
+msgid "Carbon Steel Block"
+msgstr "Kohlenstoffstahlblock"
+
+#: nodes.lua
+msgid "Stainless Steel Block"
+msgstr "Edelstahlblock"
+
+#: nodes.lua
+msgid "Brass Block"
+msgstr "Messingblock"
+
+#: nodes.lua
+msgid "Wrought Iron"
+msgstr "Schmiedeeisen"
+
+#: rubber.lua
+msgid "Rubber Tree Sapling"
+msgstr "Gummibaumsetzling"
+
+#: rubber.lua
+msgid "Rubber Tree"
+msgstr "Gummibaum"
+
+#: rubber.lua
+msgid "Rubber Tree Leaves"
+msgstr "Gummibaumblätter"
