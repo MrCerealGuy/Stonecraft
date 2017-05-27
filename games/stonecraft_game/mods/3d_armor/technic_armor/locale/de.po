@@ -35,7 +35,7 @@ msgstr "Carbonstahl"
 
 #: init.lua
 msgid "Stainless Steel"
-msgstr "Rostfreies Stahl"
+msgstr "Edelstahl"
 
 #: init.lua
 msgid "Tin"

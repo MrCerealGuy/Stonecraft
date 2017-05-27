@@ -456,7 +456,7 @@ msgstr "Tischlampe"
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy
 msgid "Refrigerator (stainless steel)"
-msgstr "Kühlschrank"
+msgstr "Kühlschrank (Edelstahl)"
 
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy
@@ -470,7 +470,7 @@ msgstr "Herd"
 
 #: ../homedecor/kitchen_appliances.lua
 msgid "Oven (stainless steel)"
-msgstr ""
+msgstr "Herd (Edelstahl)"
 
 #: ../homedecor/kitchen_appliances.lua
 #, fuzzy

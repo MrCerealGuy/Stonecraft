@@ -47,7 +47,7 @@ msgstr "Kohlenstoffstahlblock"
 
 #: init.lua
 msgid "Stainless Steel Block"
-msgstr "Rostfreier Stahlblock"
+msgstr "Edelstahlblock"
 
 #: init.lua
 msgid "Brass Block"
