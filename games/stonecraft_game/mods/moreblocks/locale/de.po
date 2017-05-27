@@ -27,7 +27,7 @@ msgstr "Holzfliese"
 
 #: nodes.lua
 msgid "Centered Wooden Tile"
-msgstr "Holzfliese mittig"
+msgstr "Zentrierte Holzfliese"
 
 #: nodes.lua
 msgid "Full Wooden Tile"
@@ -35,11 +35,11 @@ msgstr "Vollholzfliese"
 
 #: nodes.lua
 msgid "Upwards Wooden Tile"
-msgstr "Holzfliese oben"
+msgstr "Holzfliese"
 
 #: nodes.lua
 msgid "Downwards Wooden Tile"
-msgstr "Holzfliese unten"
+msgstr "Holzfliese"
 
 #: nodes.lua
 msgid "Leftwards Wooden Tile"
@@ -227,7 +227,7 @@ msgstr "mikroblock"
 
 #: panels.lua
 msgid " Panel"
-msgstr "scheibe"
+msgstr "nscheibe"
 
 #: slabs.lua
 msgid " Slab"
