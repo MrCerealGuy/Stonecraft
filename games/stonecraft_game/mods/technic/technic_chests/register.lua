@@ -262,7 +262,7 @@ function technic.chests:definition(name, data)
 
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", S("%s Chest"):format(name))
+			meta:set_string("infotext", S("@1 Chest", name))
 			set_formspec(pos, data, "main")
 			local inv = meta:get_inventory()
 			inv:set_size("main", data.width * data.height)

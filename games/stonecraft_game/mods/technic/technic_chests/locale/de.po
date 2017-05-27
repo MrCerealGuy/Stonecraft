@@ -126,11 +126,11 @@ msgid "None"
 msgstr "Farblos"
 
 #: register.lua
-msgid "Color Filter: %s"
+msgid "Color Filter: @1"
 msgstr "Farbfiler: @1"
 
 #: register.lua
-msgid "%s Chest"
+msgid "@1 Chest"
 msgstr "@1truhe"
 
 #: register.lua
