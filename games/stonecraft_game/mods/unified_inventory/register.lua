@@ -240,24 +240,24 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 end
 
 local recipe_text = {
-	recipe = S("Recipe @1 of @2"),
-	usage = S("Usage @1 of @2"),
+	recipe = "Recipe @1 of @2",
+	usage = "Usage @1 of @2",
 }
 local no_recipe_text = {
-	recipe = S("No recipes"),
-	usage = S("No usages"),
+	recipe = "No recipes",
+	usage = "No usages",
 }
 local role_text = {
-	recipe = S("Result"),
-	usage = S("Ingredient"),
+	recipe = "Result",
+	usage = "Ingredient",
 }
 local next_alt_text = {
-	recipe = S("Show next recipe"),
-	usage = S("Show next usage"),
+	recipe = "Show next recipe",
+	usage = "Show next usage",
 }
 local prev_alt_text = {
-	recipe = S("Show previous recipe"),
-	usage = S("Show previous usage"),
+	recipe = "Show previous recipe",
+	usage = "Show previous usage",
 }
 local other_dir = {
 	recipe = "usage",
