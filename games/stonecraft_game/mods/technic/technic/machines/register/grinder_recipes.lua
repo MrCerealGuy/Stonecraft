@@ -126,7 +126,7 @@ for p = 0, 35 do
 	local ingot = "technic:uranium"..psuffix.."_ingot"
 	local dust = "technic:uranium"..psuffix.."_dust"
 	minetest.register_craftitem(dust, {
-		description = S("@1 Dust", string.format(S("@1%-Fissile Uranium", p/10))),
+		description = S("@1 Dust", S("@1%-Fissile Uranium", p/10)),
 		inventory_image = "technic_uranium_dust.png",
 		on_place_on_ground = minetest.craftitem_place_item,
 		groups = {uranium_dust=1, not_in_creative_inventory=nici},
