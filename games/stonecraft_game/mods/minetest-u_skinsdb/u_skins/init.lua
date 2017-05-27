@@ -2,6 +2,18 @@
 
 -- Copyright (c) 2012 cornernote, Dean Montgomery
 -- License: GPLv3
+
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 u_skins = {}
 u_skins.type = { SPRITE=0, MODEL=1 }
 u_skins.pages = {}
@@ -50,8 +62,8 @@ unified_inventory.register_page("u_skins", {
 			formspec = formspec
 				.. "image[0,.75;1,2;"..u_skins.u_skins[name].."_preview.png]"
 				.. "image[1,.75;1,2;"..u_skins.u_skins[name].."_preview_back.png]"
-				.. "label[6,.5;Raw texture:]"
-				.. "image[6,1;2,1;"..u_skins.u_skins[name]..".png]"
+				--[[.. "label[6,.5;Raw texture:]"
+				.. "image[6,1;2,1;"..u_skins.u_skins[name]..".png]"--]]
 			
 		else
 			formspec = formspec
@@ -74,7 +86,7 @@ unified_inventory.register_page("u_skins", {
 			end
 		end
 
-		formspec = formspec .. "button[.75,3;6.5,.5;u_skins_page_0;Change]"
+		formspec = formspec .. "button[.75,3;6.5,.5;u_skins_page_0;"..S("Change").."]"
 		return {formspec=formspec}
 	end,
 })
