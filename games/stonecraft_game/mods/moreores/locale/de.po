@@ -19,49 +19,40 @@ msgstr ""
 
 
 #: init.lua
-#, lua-format
-msgid "%s Ore"
-msgstr "%serz"
+msgid "@1 Ore"
+msgstr "@1erz"
 
 #: init.lua
-#, lua-format
-msgid "%s Block"
-msgstr "%sblock"
+msgid "@1 Block"
+msgstr "@1block"
 
 #: init.lua
-#, lua-format
-msgid "%s Lump"
-msgstr "%sklumpen"
+msgid "@1 Lump"
+msgstr "@1klumpen"
 
 #: init.lua
-#, lua-format
-msgid "%s Ingot"
-msgstr "%sbarren"
+msgid "@1 Ingot"
+msgstr "@1barren"
 
 #: init.lua
-#, lua-format
-msgid "%s Sword"
-msgstr "%sschwert"
+msgid "@1 Sword"
+msgstr "@1schwert"
 
 #: init.lua
-#, lua-format
-msgid "%s Pickaxe"
-msgstr "%sspitzhacke"
+msgid "@1 Pickaxe"
+msgstr "@1spitzhacke"
 
 #: init.lua
-#, lua-format
-msgid "%s Axe"
-msgstr "%saxt"
+msgid "@1 Axe"
+msgstr "@1axt"
 
 #: init.lua
-#, lua-format
-msgid "%s Shovel"
-msgstr "%sschaufel"
+msgid "@1 Shovel"
+msgstr "@1schaufel"
 
 #: init.lua
-#, lua-format
-msgid "%s Hoe"
-msgstr "%shacke"
+msgid "@1 Hoe"
+msgstr "@1hacke"
 
 #: init.lua
 msgid "Silver"

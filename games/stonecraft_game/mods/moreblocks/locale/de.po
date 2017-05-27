@@ -178,19 +178,15 @@ msgid "Jungle Stick"
 msgstr "Tropenstock"
 
 #: circular_saw.lua
-#, lua-format
-msgid "Circular Saw is empty (owned by %s)"
-msgstr "Kreissäge ist leer (gehört %s)"
+msgid "Circular Saw is empty (owned by @1)"
+msgstr "Kreissäge ist leer (gehört @1)"
 
 #: circular_saw.lua
-#, lua-format
-msgid "Circular Saw is working on %s (owned by %s)"
-msgstr "Kreissäge arbeitet mit %s (gehört %s)"
+msgid "Circular Saw is working on @1 (owned by @2)"
+msgstr "Kreissäge arbeitet mit @1 (gehört @2)"
 
 #: circular_saw.lua
-msgid ""
-"Input\n"
-"material"
+msgid "Input\nmaterial"
 msgstr "Ausgangs-\nmaterial"
 
 #: circular_saw.lua
@@ -198,9 +194,7 @@ msgid "Left-over"
 msgstr "Rest"
 
 #: circular_saw.lua
-msgid ""
-"Recycle\n"
-"output"
+msgid "Recycle\noutput"
 msgstr "Wiederver-\nwerten"
 
 #: circular_saw.lua
@@ -213,7 +207,7 @@ msgstr "Ok"
 
 #: circular_saw.lua
 msgid "Circular Saw is empty"
-msgstr "Kreissäge ist leer (gehört %s)"
+msgstr "Kreissäge ist leer"
 
 #: circular_saw.lua
 msgid "Circular Saw"
@@ -224,9 +218,8 @@ msgid "someone"
 msgstr "jemand"
 
 #: ownership.lua
-#, lua-format
-msgid "Sorry, %s owns that spot."
-msgstr "Tut mir leid, %s gehört diese Stelle."
+msgid "Sorry, @1 owns that spot."
+msgstr "Tut mir leid, @1 gehört diese Stelle."
 
 #: microblocks.lua
 msgid " Microblock"

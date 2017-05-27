@@ -135,8 +135,7 @@ function circular_saw:reset(pos)
 	meta:set_int("anz", 0)
 
 	meta:set_string("infotext",
-			S("Circular Saw is empty (owned by %s)")
-			:format(meta:get_string("owner") or ""))
+			S("Circular Saw is empty (owned by @1)", meta:get_string("owner") or ""))
 end
 
 
@@ -193,8 +192,7 @@ function circular_saw:update_inventory(pos, amount)
 	meta:set_int("anz", amount)
 
 	meta:set_string("infotext",
-			S("Circular Saw is working on %s (owned by %s)")
-			:format(material, meta:get_string("owner") or ""))
+			S("Circular Saw is working on @1 (owned by @2)", material, meta:get_string("owner") or ""))
 end
 
 
@@ -410,8 +408,7 @@ minetest.register_node("moreblocks:circular_saw",  {
 		local owner = placer and placer:get_player_name() or ""
 		meta:set_string("owner",  owner)
 		meta:set_string("infotext",
-				S("Circular Saw is empty (owned by %s)")
-				:format(owner))
+				S("Circular Saw is empty (owned by @1)", owner))
 	end,
 
 	-- The amount of items offered per shape can be configured:
