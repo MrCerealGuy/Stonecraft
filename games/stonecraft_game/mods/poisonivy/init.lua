@@ -1,7 +1,16 @@
 -- This file supplies poison ivy for the plantlife modpack
 -- Last revision:  2013-01-24
 
-local S = biome_lib.intllib
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local SPAWN_DELAY = 1000
 local SPAWN_CHANCE = 200

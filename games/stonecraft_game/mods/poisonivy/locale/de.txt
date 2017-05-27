@@ -1,7 +1,0 @@
-# Translation by Xanthin
-
-Poison ivy (seedling) = Giftefeu (Sämling)
-Poison ivy (sproutling) = Giftefeu (Sprössling)
-Poison ivy (climbing plant) = Giftefeu (Kletterpflanze)
-
-[Poison Ivy] Loaded. = [Poison Ivy] Geladen.
