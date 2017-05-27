@@ -1,3 +1,14 @@
+--[[
+
+2017-05-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 tnt = {}
 
 -- Default to enabled when in singleplayer
@@ -411,7 +422,7 @@ minetest.register_node("tnt:boom", {
 })
 
 minetest.register_node("tnt:gunpowder", {
-	description = "Gun Powder",
+	description = S("Gun Powder"),
 	drawtype = "raillike",
 	paramtype = "light",
 	is_ground_content = false,
@@ -640,6 +651,6 @@ end
 
 tnt.register_tnt({
 	name = "tnt:tnt",
-	description = "TNT",
+	description = S("TNT"),
 	radius = tnt_radius,
 })
