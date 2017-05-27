@@ -73,10 +73,10 @@ unified_inventory.register_page("u_skins", {
 		local meta = u_skins.meta[u_skins.u_skins[name]]
 		if meta then
 			if meta.name then
-				formspec = formspec .. "label[2,.5;Name: "..meta.name.."]"
+				formspec = formspec .. "label[2,.5;"..S("Name:").." "..meta.name.."]"
 			end
 			if meta.author then
-				formspec = formspec .. "label[2,1;Author: "..meta.author.."]"
+				formspec = formspec .. "label[2,1;"..S("Author:").." "..meta.author.."]"
 			end
 			if meta.description then
 				formspec = formspec .. "label[2,1.5;"..meta.description.."]"

@@ -20,3 +20,11 @@ msgstr ""
 #: init.lua
 msgid "Change"
 msgstr "Ändern"
+
+#: init.lua
+msgid "Name:"
+msgstr "Name:"
+
+#: init.lua
+msgid "Author:"
+msgstr "Erstellt von:"
