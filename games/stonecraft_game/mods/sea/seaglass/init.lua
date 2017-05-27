@@ -238,7 +238,7 @@ stairs.register_stair_and_slab("seaglassoff", "seaglass:seaglassoff",
 stairs.register_stair_and_slab("seaglassoff_yellow", "seaglass:seaglassoff_yellow",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_yellow=1, noshine=1},
 		{"seaglass_seaglass_yellow.png"},
-		v"Seaglass stair off yellow"),
+		S("Seaglass stair off yellow"),
 		S("Seaglass slab off yellow"),
 		default.node_sound_glass_defaults())
 
@@ -260,7 +260,7 @@ stairs.register_stair_and_slab("seaglassoff_white", "seaglass:seaglassoff_white"
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_white=1, noshine=1},
 		{"seaglass_seaglass_white.png"},
 		S("Seaglass stair off white"),
-		v"Seaglass slab off white"),
+		S("Seaglass slab off white"),
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_black", "seaglass:seaglassoff_black",
