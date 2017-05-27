@@ -16,6 +16,8 @@ available to survival-mode players.
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-27 MrCerealGuy: added intllib support
+
 --]]
 
 local DIR_DELIM = DIR_DELIM or "/"
@@ -38,8 +40,9 @@ local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
 
--- Boilerplate to support localized strings if intllib mod is installed.
-local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local function get_meta_type(name, metaname)
 	local def = wrench.registered_nodes[name]
@@ -86,7 +89,7 @@ for name, info in pairs(wrench.registered_nodes) do
 			newdef[key] = value
 		end
 		newdef.stack_max = 1
-		newdef.description = S("%s with items"):format(newdef.description)
+		newdef.description = S("@1 with items", newdef.description)
 		newdef.groups = {}
 		newdef.groups.not_in_creative_inventory = 1
 		newdef.on_construct = nil
