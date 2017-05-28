@@ -32,9 +32,10 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
 3. [Mobs](#mobs)
     1. [Simple Mobs](#simple-mobs)
     2. [Not So Simple Mobs](#not-so-simple-mobs)
-4. [Chat](#chat)
+4. [Farming](#farming)
+5. [Chat](#chat)
     1. [Sending messages](#sending-messages)
-5. [Experienced players](#experienced-players)
+6. [Experienced players](#experienced-players)
     1. [Area protection](#area-protection)
     2. [Teleporters](#teleporters)
     3. [Special Controls](#special-controls)
@@ -47,11 +48,11 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
         2. [Privileges from mods](#privileges-from-mods)
         3. [Server configuration](#server-configuration)
     6. [Create and import a schematic file (.mts)](#create-and-import-a-schematic-file-mts)
-6. [Setting up a server](#setting-up-a-server)
+7. [Setting up a server](#setting-up-a-server)
     1. [Running a Server](#running-a-server)
         1. [Linux](#linux)
         2. [Windows](#windows)
-7. [Modding Stonecraft](#modding-stonecraft)
+8. [Modding Stonecraft](#modding-stonecraft)
     1. [Installing mods](#installing-mods)
     2. [Installing texture packs](#installing-texture-packs)
         1. [Server texture pack](#server-texture-pack)
@@ -295,6 +296,22 @@ They all drop life energies. With life energies you can craft tools and special 
 | Morvy<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morvy_nssm.png) | A Morvy is a hostile mob that likes summoning. | 19½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Envious Soul Fragment |
 | Morwa<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morwa_nssm.png) | A Morwa is a hostile mob that can either range you from afar or smash you when your close enough. | 28![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
 
+# Farming
+
+Farmable blocks will spawn either new blocks or yield new items, when mined. All farmable blocks have to be on top of another certain kind of block to grow. Some farmable blocks also need light. The “Maximum profit” column shows the maximum possible outcome a single block will yield, including itself. Please notice: Light level 13 on a farmable crop cannot be achieved at night!
+
+| Block | Grows on | Needs light? | Maximum profit | Theorical growth speed (evolution) | Expected growth speed (full) | Number of growth stages |
+| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton.png) Strings and 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 × 7 = 1120 seconds ≈ 19 minutes | 8 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat.png) Wheat (items) and 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 × 7 = 1260 seconds = 21 minutes | 8 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Tree.png) Jungle Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Tree.png) Trees, many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Leaves.png) Leaves and some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Tree.png) Pine Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 × 20 = 1000 seconds ≈ 17 minutes | 4 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 × 20 = 1000 seconds ≈ 17 minutes | 4 |
+| Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
+| Group:flora | Desert Sand | No | 1 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
 
 # Chat
 
