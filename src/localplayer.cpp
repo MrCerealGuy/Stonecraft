@@ -327,7 +327,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 		// position.Y is not necessary but useful to prevent players from
 		// being inside a node if sneaking on e.g. the lower part of a stair
 		if (!m_sneak_ladder_detected) {
-			position.Y = MYMAX(position.Y, sn_f.Y+bmax.Y);
+			position.Y = MYMAX(position.Y, bmax.Y);
 		} else {
 			// legacy behaviour that sometimes causes some weird slow sinking
 			m_speed.Y = MYMAX(m_speed.Y, 0);

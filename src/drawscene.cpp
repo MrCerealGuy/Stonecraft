@@ -196,7 +196,6 @@ video::ITexture*  draw_hud(video::IVideoDriver* driver, const v2u32& screensize,
 			hud.drawCrosshair();
 		hud.drawHotbar(client.getPlayerItem());
 		hud.drawLuaElements(camera.getOffset());
-		//hud.drawAvatar();
 		camera.drawNametags();
 		guienv->drawAll();
 	}
@@ -583,7 +582,6 @@ void draw_scene(video::IVideoDriver *driver, scene::ISceneManager *smgr,
 
 		hud.drawHotbar(client.getPlayerItem());
 		hud.drawLuaElements(camera.getOffset());
-		//hud.drawAvatar();
 		camera.drawNametags();
 
 		if (mapper && show_minimap)

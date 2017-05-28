@@ -128,7 +128,6 @@ public:
 	void drawHotbar(u16 playeritem);
 	void resizeHotbar();
 	void drawCrosshair();
-	//void drawAvatar();
 	void drawSelectionMesh();
 	void updateSelectionMesh(const v3s16 &camera_offset);
 

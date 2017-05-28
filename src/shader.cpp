@@ -859,7 +859,8 @@ void load_shaders(std::string name, SourceShaderCache *sourcecache,
 			// OpenGL: GLSL
 			vertex_program = sourcecache->getOrLoad(name, "opengl_vertex.glsl");
 			pixel_program = sourcecache->getOrLoad(name, "opengl_fragment.glsl");
-			//geometry_program = sourcecache->getOrLoad(name, "opengl_geometry.glsl");	removed by MrCerealGuy
+			// MERGEINFO: removed by MrCerealGuy
+			//geometry_program = sourcecache->getOrLoad(name, "opengl_geometry.glsl");
 		}
 		if(vertex_program != "" || pixel_program != "" || geometry_program != ""){
 			is_highlevel = true;

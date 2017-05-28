@@ -570,7 +570,7 @@ void Minimap::drawMinimap()
 			img_rect, &dest_rect, &c[0], true);
 	}
 
-	// Draw avatar marker
+	// MERGEINFO: MrCerealGuy: draw avatar marker
 	ITextureSource *tsrc = client->getTextureSource();
 	video::ITexture *avatar = tsrc->getTexture("avatar_minimap.png");
 

@@ -496,23 +496,8 @@ void Hud::drawHotbar(u16 playeritem) {
 	}
 	////////////////////////////////////////////////////////////////////////////
 }
-/*
-void Hud::drawAvatar() {
-	video::ITexture *avatar = tsrc->getTexture("avatar.png");
 
-	if (avatar == NULL)
-	{
-		errorstream << "Loading avatar.png failed!" << std::endl;
-		return;
-	}
 
-	v2u32 size = avatar->getOriginalSize();
-	v2s32 lsize = v2s32(10, 10);
-	driver->draw2DImage(avatar, lsize,
-		core::rect<s32>(0, 0, size.X, size.Y),
-		0, video::SColor(255,255,255,255) , true);
-}
-*/
 void Hud::drawCrosshair()
 {
 	if (use_crosshair_image) {
