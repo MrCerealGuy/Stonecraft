@@ -45,7 +45,7 @@ technic.chests:register("Copper", {
 	locked = false,
 })
 
-technic.chests:register(S("Copper"), {
+technic.chests:register("Copper", {
 	width = 12,
 	height = 5,
 	sort = true,

@@ -75,7 +75,7 @@ msgstr "Im Augenblick früchteloser"
 
 #: nodes.lua
 msgid " bush"
-msgstr " Busch"
+msgstr "busch"
 
 #: nodes.lua
 msgid "Basket"
