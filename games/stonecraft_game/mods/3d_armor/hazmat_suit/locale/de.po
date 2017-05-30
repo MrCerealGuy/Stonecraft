@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-16 16:45+0200\n"
-"PO-Revision-Date: 2017-05-16 16:45+0200\n"
+"POT-Creation-Date: 2017-05-30 16:45+0200\n"
+"PO-Revision-Date: 2017-05-30 16:45+0200\n"
 "Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -27,7 +27,7 @@ msgstr "Hazmat-Brustplatte"
 
 #: init.lua
 msgid "Hazmat Sleeve"
-msgstr "HazmatÄrmel"
+msgstr "Hazmat-Ärmel"
 
 #: init.lua
 msgid "Hazmat Leggins"

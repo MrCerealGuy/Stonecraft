@@ -4,32 +4,17 @@
 
 --]]
 
+if not minetest.get_modpath("technic") then
+	minetest.log("warning", "hazmat_suit: Mod loaded but unused.")
+	return
+end
+
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local part_count = 4
 
-local level = 35
-local heal = 20
-local use = 1000
-local fire = 4
-local water = 1
-local radiation = 50
-
-if minetest.get_modpath("shields") then
-	level = level / 0.9
-end
-
-if part_count == #armor.elements then
-	level = level / 1.1
-end
-
-level = math.floor(level / part_count)
-heal = math.floor(heal / part_count)
-fire = math.floor(fire / part_count)
-radiation = math.floor(radiation / part_count)
 
 minetest.register_craftitem("hazmat_suit:helmet_hazmat", {
 		description = S("Hazmat Helmet"),
@@ -61,21 +46,14 @@ minetest.register_craftitem("hazmat_suit:boots_hazmat", {
 		stack_max = 1,
 })
 
-minetest.register_tool("hazmat_suit:suit_hazmat", {
+armor:register_armor("hazmat_suit:suit_hazmat", {
 	description = S("Hazmat Suit"),
 	inventory_image = "hazmat_suit_inv_suit_hazmat.png",
-	groups = {
-		armor_head = level,
-		armor_torso = level,
-		armor_legs = level,
-		armor_feet = level,
-		armor_heal = heal,
-		armor_use = use,
-		armor_fire = fire,
-		armor_water = water,
-		armor_radiation = radiation,
-	},
-	wear = 0,
+	groups = {armor_head=1, armor_torso=1, armor_legs=1, armor_feet=1,
+		armor_heal=20, armor_fire=4, armor_water=1, armor_use=1000,
+		physics_jump=-0.1, physics_speed=-0.2, physics_gravity=0.1},
+	armor_groups = {fleshy=35, radiation=50},
+	damage_groups = {cracky=3, snappy=3, choppy=2, crumbly=2, level=1},
 })
 
 minetest.register_craft({
