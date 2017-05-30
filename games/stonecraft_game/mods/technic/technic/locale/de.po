@@ -558,7 +558,7 @@ msgstr ""
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "Fuel-Fired Alloy Furnace"
-msgstr "@1 Kohle-Generator"
+msgstr "Kohlebetriebener Legierungsofen"
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "@1 is empty"
@@ -617,8 +617,9 @@ msgid "Itemwise"
 msgstr "Einzelstücke"
 
 #: machines/register/alloy_furnace.lua
-msgid "@1 Alloy Furnace"
-msgstr "@1 Legierungsofen"
+# %s needed because of machine_desc:format
+msgid "%s Alloy Furnace"
+msgstr "%s Legierungsofen"
 
 #: machines/register/alloy_recipes.lua
 msgid "Alloying"
@@ -677,8 +678,9 @@ msgid "Compressing"
 msgstr "Verdichten"
 
 #: machines/register/electric_furnace.lua
-msgid "@1 Furnace"
-msgstr "@1 Ofen"
+# %s needed because of machine_desc:format
+msgid "%s Furnace"
+msgstr "%s Ofen"
 
 #: machines/register/extractor.lua
 msgid "@1 Extractor"
