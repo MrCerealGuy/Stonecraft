@@ -13,7 +13,7 @@ set(PROJECT_NAME_CAPITALIZED "Stonecraft")
 # Also remember to set PROTOCOL_VERSION in network/networkprotocol.h when releasing
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 2)
-set(VERSION_PATCH 1)
+set(VERSION_PATCH 2)
 set(VERSION_EXTRA "alpha" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
