@@ -397,7 +397,7 @@ protected:
 	std::vector<ImageDrawSpec> m_images;
 	std::vector<ImageDrawSpec> m_itemimages;
 	std::vector<BoxDrawSpec> m_boxes;
-	UNORDERED_MAP<std::string, bool> field_close_on_enter;
+	std::unordered_map<std::string, bool> field_close_on_enter;
 	std::vector<FieldSpec> m_fields;
 	std::vector<StaticTextSpec> m_static_texts;
 	std::vector<std::pair<FieldSpec,GUITable*> > m_tables;
@@ -460,7 +460,7 @@ private:
 		GUITable::TableOptions table_options;
 		GUITable::TableColumns table_columns;
 		// used to restore table selection/scroll/treeview state
-		UNORDERED_MAP<std::string, GUITable::DynamicData> table_dyndata;
+		std::unordered_map<std::string, GUITable::DynamicData> table_dyndata;
 	} parserData;
 
 	typedef struct {
@@ -516,6 +516,9 @@ private:
 	void parseAnchor(parserData *data, const std::string &element);
 
 	void tryClose();
+
+	void showTooltip(const std::wstring &text, const irr::video::SColor &color,
+		const irr::video::SColor &bgcolor);
 
 	/**
 	 * check if event is part of a double click

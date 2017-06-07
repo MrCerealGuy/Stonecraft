@@ -23,14 +23,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "constants.h"
 #include "serialization.h"             // for SER_FMT_VER_INVALID
-#include "threading/mutex.h"
 #include "network/networkpacket.h"
-#include "util/cpp11_container.h"
 #include "porting.h"
 
 #include <list>
 #include <vector>
 #include <set>
+#include <mutex>
 
 class MapBlock;
 class ServerEnvironment;
@@ -435,6 +434,8 @@ private:
 	const u64 m_connection_time;
 };
 
+typedef std::unordered_map<u16, RemoteClient*> RemoteClientMap;
+
 class ClientInterface {
 public:
 
@@ -499,7 +500,7 @@ protected:
 	void lock() { m_clients_mutex.lock(); }
 	void unlock() { m_clients_mutex.unlock(); }
 
-	UNORDERED_MAP<u16, RemoteClient*>& getClientList() { return m_clients; }
+	RemoteClientMap& getClientList() { return m_clients; }
 
 private:
 	/* update internal player list */
@@ -507,14 +508,14 @@ private:
 
 	// Connection
 	con::Connection* m_con;
-	Mutex m_clients_mutex;
+	std::mutex m_clients_mutex;
 	// Connected clients (behind the con mutex)
-	UNORDERED_MAP<u16, RemoteClient*> m_clients;
+	RemoteClientMap m_clients;
 	std::vector<std::string> m_clients_names; //for announcing masterserver
 
 	// Environment
 	ServerEnvironment *m_env;
-	Mutex m_env_mutex;
+	std::mutex m_env_mutex;
 
 	float m_print_info_timer;
 

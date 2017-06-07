@@ -677,17 +677,6 @@ void Server::handleCommand_RequestMedia(NetworkPacket* pkt)
 void Server::handleCommand_ClientReady(NetworkPacket* pkt)
 {
 	u16 peer_id = pkt->getPeerId();
-	u16 peer_proto_ver = getClient(peer_id, CS_InitDone)->net_proto_version;
-
-	// clients <= protocol version 22 did not send ready message,
-	// they're already initialized
-	if (peer_proto_ver <= 22) {
-		infostream << "Client sent message not expected by a "
-			<< "client using protocol version <= 22,"
-			<< "disconnecting peer_id: " << peer_id << std::endl;
-		m_con.DisconnectPeer(peer_id);
-		return;
-	}
 
 	PlayerSAO* playersao = StageTwoClientInit(peer_id);
 
@@ -1695,7 +1684,8 @@ void Server::handleCommand_RemovedSounds(NetworkPacket* pkt)
 
 		*pkt >> id;
 
-		UNORDERED_MAP<s32, ServerPlayingSound>::iterator i = m_playing_sounds.find(id);
+		std::unordered_map<s32, ServerPlayingSound>::iterator i =
+			m_playing_sounds.find(id);
 		if (i == m_playing_sounds.end())
 			continue;
 

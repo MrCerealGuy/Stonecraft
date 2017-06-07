@@ -417,7 +417,7 @@ private:
 	// Maps a texture name to an index in the former.
 	std::map<std::string, u32> m_name_to_id;
 	// The two former containers are behind this mutex
-	Mutex m_textureinfo_cache_mutex;
+	std::mutex m_textureinfo_cache_mutex;
 
 	// Queued texture fetches (to be processed by the main thread)
 	RequestQueue<std::string, u32, u8, u8> m_get_texture_queue;
@@ -427,7 +427,7 @@ private:
 	std::vector<video::ITexture*> m_texture_trash;
 
 	// Maps image file names to loaded palettes.
-	UNORDERED_MAP<std::string, Palette> m_palettes;
+	std::unordered_map<std::string, Palette> m_palettes;
 
 	// Cached settings needed for making textures from meshes
 	bool m_setting_trilinear_filter;
@@ -700,7 +700,7 @@ Palette* TextureSource::getPalette(const std::string &name)
 	if (name == "")
 		return NULL;
 
-	UNORDERED_MAP<std::string, Palette>::iterator it = m_palettes.find(name);
+	std::unordered_map<std::string, Palette>::iterator it = m_palettes.find(name);
 	if (it == m_palettes.end()) {
 		// Create palette
 		video::IImage *img = generateImage(name);

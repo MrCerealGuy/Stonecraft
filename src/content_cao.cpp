@@ -49,7 +49,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Settings;
 struct ToolCapabilities;
 
-UNORDERED_MAP<u16, ClientActiveObject::Factory> ClientActiveObject::m_types;
+std::unordered_map<u16, ClientActiveObject::Factory> ClientActiveObject::m_types;
 
 SmoothTranslator::SmoothTranslator():
 	vect_old(0,0,0),
@@ -565,7 +565,7 @@ GenericCAO::GenericCAO(Client *client, ClientEnvironment *env):
 		m_animation_speed(15),
 		m_animation_blend(0),
 		m_animation_loop(true),
-		m_bone_position(UNORDERED_MAP<std::string, core::vector2d<v3f> >()),
+		m_bone_position(),
 		m_attachment_bone(""),
 		m_attachment_position(v3f(0,0,0)),
 		m_attachment_rotation(v3f(0,0,0)),
@@ -1493,7 +1493,7 @@ void GenericCAO::updateBonePosition()
 		return;
 
 	m_animated_meshnode->setJointMode(irr::scene::EJUOR_CONTROL); // To write positions to the mesh on render
-	for(UNORDERED_MAP<std::string, core::vector2d<v3f> >::const_iterator
+	for(std::unordered_map<std::string, core::vector2d<v3f>>::const_iterator
 			ii = m_bone_position.begin(); ii != m_bone_position.end(); ++ii) {
 		std::string bone_name = (*ii).first;
 		v3f bone_pos = (*ii).second.X;
@@ -1735,7 +1735,7 @@ void GenericCAO::processMessage(const std::string &data)
 						m_smgr, m_env, m_position,
 						m_prop.visual_size * BS);
 				m_env->addSimpleObject(simple);
-			} else {
+			} else if (m_reset_textures_timer < 0) {
 				// TODO: Execute defined fast response
 				// Flashing shall suffice as there is no definition
 				m_reset_textures_timer = 0.05;
@@ -1806,10 +1806,12 @@ bool GenericCAO::directReportPunch(v3f dir, const ItemStack *punchitem,
 		}
 		// TODO: Execute defined fast response
 		// Flashing shall suffice as there is no definition
-		m_reset_textures_timer = 0.05;
-		if(result.damage >= 2)
-			m_reset_textures_timer += 0.05 * result.damage;
-		updateTextures(m_current_texture_modifier + "^[brighten");
+		if (m_reset_textures_timer < 0) {
+			m_reset_textures_timer = 0.05;
+			if (result.damage >= 2)
+				m_reset_textures_timer += 0.05 * result.damage;
+			updateTextures(m_current_texture_modifier + "^[brighten");
+		}
 	}
 
 	return false;

@@ -1636,8 +1636,8 @@ void Game::run()
 			&& client->checkPrivilege("fast");
 #endif
 
-	irr::core::dimension2d<u32> previous_screen_size(g_settings->getU16("screenW"),
-		g_settings->getU16("screenH"));
+	irr::core::dimension2d<u32> previous_screen_size(g_settings->getU16("screen_w"),
+		g_settings->getU16("screen_h"));
 
 	while (device->run()
 			&& !(*kill || g_gamecallback->shutdown_requested
@@ -1651,8 +1651,8 @@ void Game::run()
 		if (previous_screen_size != current_screen_size &&
 				current_screen_size != irr::core::dimension2d<u32>(0,0) &&
 				g_settings->getBool("autosave_screensize")) {
-			g_settings->setU16("screenW", current_screen_size.Width);
-			g_settings->setU16("screenH", current_screen_size.Height);
+			g_settings->setU16("screen_w", current_screen_size.Width);
+			g_settings->setU16("screen_h", current_screen_size.Height);
 			previous_screen_size = current_screen_size;
 		}
 
@@ -3607,7 +3607,7 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 	} else if (pointed.type == POINTEDTHING_NODE) {
 		ToolCapabilities playeritem_toolcap =
 				playeritem.getToolCapabilities(itemdef_manager);
-		if (playeritem.name.empty()) {
+		if (playeritem.name.empty() && hand_def.tool_capabilities != NULL) {
 			playeritem_toolcap = *hand_def.tool_capabilities;
 		}
 		handlePointingAtNode(pointed, playeritem_def, playeritem_toolcap, dtime);
