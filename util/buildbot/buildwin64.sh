@@ -78,7 +78,18 @@ fi
 cd stonecraft
 git_hash=$(git rev-parse --short HEAD)
 
-cd ..
+# Get stonecraft windows libraries
+cd lib
+
+if [ -d libdev-win ]; then
+	cd libdev-win && git pull
+else
+	git clone https://github.com/MrCerealGuy/Stonecraft-libdev-win.git libdev-win
+	mv ./libdev-win/* ../
+	rm -Rf ./libdev-win
+fi
+
+cd $builddir
 
 # Build the thing
 cd stonecraft
