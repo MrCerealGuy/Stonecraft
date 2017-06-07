@@ -9,6 +9,8 @@ endif()
 project(stonecraft)
 set(PROJECT_NAME_CAPITALIZED "Stonecraft")
 
+# Works only for cmake 3.1 and greater
+set(CMAKE_CXX_STANDARD 11)
 
 # Also remember to set PROTOCOL_VERSION in network/networkprotocol.h when releasing
 set(VERSION_MAJOR 1)
@@ -24,6 +26,11 @@ if(VERSION_EXTRA)
 	set(VERSION_STRING ${VERSION_STRING}-${VERSION_EXTRA})
 elseif(DEVELOPMENT_BUILD)
 	set(VERSION_STRING "${VERSION_STRING}-dev")
+endif()
+
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+	# Append "-debug" to version string
+	set(VERSION_STRING "${VERSION_STRING}-debug")
 endif()
 
 message(STATUS "*** Will build version ${VERSION_STRING} ***")
@@ -164,7 +171,7 @@ endif()
 
 if(RUN_IN_PLACE)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/mods/mods_here.txt" DESTINATION "${SHAREDIR}/mods")
-	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")	
+	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")
 endif()
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/fonts" DESTINATION "${SHAREDIR}")
