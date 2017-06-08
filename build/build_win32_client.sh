@@ -159,10 +159,6 @@ cmake .. \
 	-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
 	-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a
 	#\
-	#-LIBGCC_DLL=$libdir/mingw32-$mingw32_version/libgcc_s_sjlj-1.dll \
-	#-LIBSTDCXX_DLL=$libdir/mingw32-$mingw32_version/libstdc++-6.dll \
-	#-LIBWINPHTHREAD_DLL=$libdir/mingw32-$mingw32_version/libwinpthread-1.dll
-	#\
 	#-DLEVELDB_INCLUDE_DIR=$libdir/libleveldb-$leveldb_version/include \
 	#-DLEVELDB_LIBRARY=$libdir/libleveldb-$leveldb_version/lib/libleveldb.dll.a \
 	#-DLEVELDB_DLL=$libdir/libleveldb-$leveldb_version/bin/libleveldb.dll

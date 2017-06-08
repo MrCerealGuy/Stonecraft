@@ -103,10 +103,6 @@ cd _build
 
 # LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 
-	#-DCMAKE_BUILD_TYPE:STRING="Release" \
-    #-DCMAKE_CXX_FLAGS:STRING="-march=native -m64 -Ofast -flto" \
-    #-DCMAKE_EXE_LINKER_FLAGS:STRING="-Wl,--allow-multiple-definition" \
-
 cmake .. \
 	-DCMAKE_TOOLCHAIN_FILE=$toolchain_file \
 	-DCMAKE_INSTALL_PREFIX=/tmp \
@@ -162,10 +158,6 @@ cmake .. \
 	\
 	-DLUA_INCLUDE_DIR=$libdir/luajit-$luajit_version/include \
 	-DLUA_LIBRARY=$libdir/luajit-$luajit_version/libluajit.a
-	#\
-	#-LIBGCC_DLL=$libdir/mingw32-$mingw32_version/libgcc_s_seh-1.dll \
-	#-LIBSTDCXX_DLL=$libdir/mingw32-$mingw32_version/libstdc++-6.dll \
-	#-LIBWINPHTHREAD_DLL=$libdir/mingw32-$mingw32_version/libwinpthread-1.dll
 	#\
 	#-DLEVELDB_INCLUDE_DIR=$libdir/libleveldb-$leveldb_version/include \
 	#-DLEVELDB_LIBRARY=$libdir/libleveldb-$leveldb_version/lib/libleveldb.dll.a \
