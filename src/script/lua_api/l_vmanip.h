@@ -25,16 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "lua_api/l_base.h"
 #include <vector>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-#include <lua.h>
-#ifdef __cplusplus
-}
-#endif
-
-
-
 class Map;
 class MapBlock;
 class MMVManip;
