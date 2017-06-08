@@ -1,4 +1,4 @@
-# Stonecraft
+# Stonecraft [![Build Status](https://travis-ci.org/MrCerealGuy/Stonecraft.svg?branch=master)](https://travis-ci.org/MrCerealGuy/Stonecraft)
 
 An InfiniMiner/Minecraft inspired game powered by Minetest 0.4.16
 
