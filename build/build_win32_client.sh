@@ -163,9 +163,9 @@ cmake .. \
 	#-LIBSTDCXX_DLL=$libdir/mingw32-$mingw32_version/libstdc++-6.dll \
 	#-LIBWINPHTHREAD_DLL=$libdir/mingw32-$mingw32_version/libwinpthread-1.dll
 	#\
-	#-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
-	#-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
-	#-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
+	#-DLEVELDB_INCLUDE_DIR=$libdir/libleveldb-$leveldb_version/include \
+	#-DLEVELDB_LIBRARY=$libdir/libleveldb-$leveldb_version/lib/libleveldb.dll.a \
+	#-DLEVELDB_DLL=$libdir/libleveldb-$leveldb_version/bin/libleveldb.dll
 
 echo -e "\E[34;47mdone!"
 

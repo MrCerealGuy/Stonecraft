@@ -118,9 +118,9 @@ cmake .. \
 	-DSQLITE3_LIBRARY=$libdir/sqlite3-$sqlite3_version/lib/libsqlite3.dll.a \
 	-DSQLITE3_DLL=$libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll \
 	\
-	-DLEVELDB_INCLUDE_DIR=$libdir/leveldb-$leveldb_version/include \
-	-DLEVELDB_LIBRARY=$libdir/leveldb-$leveldb_version/lib/libleveldb.dll.a \
-	-DLEVELDB_DLL=$libdir/leveldb-$leveldb_version/bin/libleveldb.dll
+	-DLEVELDB_INCLUDE_DIR=$libdir/libleveldb-$leveldb_version/include \
+	-DLEVELDB_LIBRARY=$libdir/libleveldb-$leveldb_version/lib/libleveldb.dll.a \
+	-DLEVELDB_DLL=$libdir/libleveldb-$leveldb_version/bin/libleveldb.dll
 
 make package -j2
 
