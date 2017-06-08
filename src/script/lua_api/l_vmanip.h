@@ -40,8 +40,8 @@ private:
 
 	static bool is_heap_reserved;
 
-	static std::vector<std::vector<lua_Integer> > data_heap;
-	static std::vector<std::vector<lua_Integer> > param2_data_heap;
+	static std::vector<std::vector<lua_Integer>> data_heap;
+	static std::vector<std::vector<lua_Integer>> param2_data_heap;
 
 	static void reserveHeap(MMVManip *vm);
 
