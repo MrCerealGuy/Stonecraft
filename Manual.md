@@ -43,19 +43,20 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
         1. [Issuing a commands](#issuing-a-command)
         2. [General syntax](#general-syntax)
         3. [Command reference of built-in commands](#command-reference-of-built-in-commands)
-    5. [Privilegs](#privileges)
+    5. [Privileges](#privileges)
         1. [Built-in privileges](#built-in-privileges)
         2. [Privileges from mods](#privileges-from-mods)
         3. [Server configuration](#server-configuration)
     6. [Create and import a schematic file (.mts)](#create-and-import-a-schematic-file-mts)
 7. [Setting up a server](#setting-up-a-server)
-    1. [Running a Server](#running-a-server)
+    1. [Running a dedicated server](#running-a-dedicated-server)
         1. [Linux](#linux)
         2. [Windows](#windows)
 8. [Modding Stonecraft](#modding-stonecraft)
     1. [Installing mods](#installing-mods)
     2. [Installing texture packs](#installing-texture-packs)
         1. [Server texture pack](#server-texture-pack)
+    3. [Profiling mods](#profiling-mods)
 
 # First steps
 
@@ -646,11 +647,17 @@ How to import a schematic file:
 3. Check the port forwarding settings on your router
   * forward your chosen port for UDP (30000 if you left it default) to the internal IP
   * In addition, alter any firewalls you may have to pass the traffic at that port
-4. To see how to run a server, please read the section below
-5. Let your friends know your external IP
-6. Add _server_announce = 1_ to your _stonecraft.conf_ to announce it to a public server list.
+4. Let your friends know your external IP
+5. Make your server listed in the server list by setting the following settings in stonecraft.conf
+  * server_announce = true - makes Stonecraft tell the server list about the server.
+  * server_name - set the value of this to your server's name.
+  * server_description - set the value of this to a longer description describing your server.
+  * server_address - if you have a domain name for your server, then set this to the domain name.
+  * server_url - if you have a website for your server, then set this to the website URL.
+  * motd - a message that is sent to the player when they join. Use this to welcome them.
+  * You should restart the server to make sure any changed settings changed
 
-## Running a Server
+## Running a dedicated server
 
 ### Linux
 
@@ -757,3 +764,27 @@ You will find a folder called _textures_ in your Stonecraft base folder. Place t
 ### Server texture pack
 
 If you create a server and want that the texture pack works not only for you, change the texture pack name to _server_.
+
+## Profiling mods
+
+To activate the profiler simple add to stonecraft.conf following line:
+
+```
+profiler.load = true
+```
+
+Start a game and make sure you have server privileges. Open the console and type
+
+```
+/profiler print
+```
+
+to get the current statistics.
+
+Here you see the usage of the profiler command:
+
+```
+/profiler print [filter] | dump [filter] | save [format [filter]] | reset
+```
+
+Available save formats: txt, csv, lua, json, json_pretty
