@@ -26,7 +26,7 @@ sqlite3_version=3.19.2
 luajit_version=2.1.0-beta3
 #leveldb_version=1.19	# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 zlib_version=1.2.11
-mingw32_version=5.3.1
+mingw32_version=7.7.1
 
 
 dialog --backtitle "Stonecraft Build" --title "Stonecraft Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
