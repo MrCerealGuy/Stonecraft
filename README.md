@@ -123,7 +123,7 @@ To build the **dedicated server** without the client, you have to run the script
 
 # Building Windows on GNU/Linux (cross-compiling)
 
-Please install source and dependencies like above. I've used **MinGW-w64 5.3.1** for cross-compiling.
+Please install source and dependencies like above. I've used **MinGW-w64 7.1.1 20170516** for cross-compiling.
 
 **Download libraries**  
 
