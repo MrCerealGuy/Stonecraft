@@ -98,9 +98,9 @@ cmake .. \
 	-DOPENAL_LIBRARY=$libdir/openal_stripped/lib/libOpenAL32.dll.a \
 	-DOPENAL_DLL=$libdir/openal_stripped/bin/OpenAL32.dll \
 	\
-	-DCURL_DLL=$libdir/libcurl-$curl_version/bin/libcurl-4.dll \
-	-DCURL_INCLUDE_DIR=$libdir/libcurl-$curl_version/include \
-	-DCURL_LIBRARY=$libdir/libcurl-$curl_version/lib/libcurl.dll.a \
+	-DCURL_DLL=$libdir/curl-$curl_version/bin/libcurl-4.dll \
+	-DCURL_INCLUDE_DIR=$libdir/curl-$curl_version/include \
+	-DCURL_LIBRARY=$libdir/curl-$curl_version/lib/libcurl.dll.a \
 	\
 	-DCUSTOM_GETTEXT_PATH=$libdir/gettext-$gettext_version \
 	-DGETTEXT_MSGFMT=`which msgfmt` \
