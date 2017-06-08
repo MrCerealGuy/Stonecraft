@@ -298,9 +298,9 @@ function erosionCL(p,node) if not eroding_lut[node.name] then return end
 		if xr+zr < 1 then xr,zr = p.x-xpsr[1].x,p.z-xpsr[1].z+15
 			minetest.place_node(xpsr[1],{name=flmt})
 		end
-		if xr+zr < 7 then minetest.swap_node(p,{name=rmnn.."_half_raised",param2=math.mod(xr+zr-1,4)})
-		elseif xr+zr < 13 then minetest.swap_node(p,{name=rmnn.."_cut",param2=math.mod(xr>4 and zr/2-2 or 5-zr/2,4)})
-		else minetest.swap_node(p,{name=rmnn.."_inner_cut_half_raised",param2=math.mod(xr>0 and 9-zr/2 or zr/2,4)}) end
+		if xr+zr < 7 then minetest.swap_node(p,{name=rmnn.."_half_raised",param2=math.modf(xr+zr-1,4)})
+		elseif xr+zr < 13 then minetest.swap_node(p,{name=rmnn.."_cut",param2=math.modf(xr>4 and zr/2-2 or 5-zr/2,4)})
+		else minetest.swap_node(p,{name=rmnn.."_inner_cut_half_raised",param2=math.modf(xr>0 and 9-zr/2 or zr/2,4)}) end
 	end
 end
 
@@ -359,7 +359,7 @@ local function place_slope(vm,data,prm2,vpos,m)
 				
 				if not box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
-				and math.mod(vpos,cube3[0][0][1])~=1 then
+				and math.modf(vpos,cube3[0][0][1])~=1 then
 					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
 					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
 				end
@@ -373,7 +373,7 @@ local function place_slope(vm,data,prm2,vpos,m)
 				
 				if not box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
-				and math.mod(vpos,cube3[0][1][0])~=cube3[0][0][1] then
+				and math.modf(vpos,cube3[0][1][0])~=cube3[0][0][1] then
 					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
 					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
 				end
@@ -394,7 +394,7 @@ local function place_slope(vm,data,prm2,vpos,m)
 				
 				if box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
-				and math.mod(vpos,cube3[0][0][1])~=1 then
+				and math.modf(vpos,cube3[0][0][1])~=1 then
 					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
 					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
 				end
@@ -406,7 +406,7 @@ local function place_slope(vm,data,prm2,vpos,m)
 				
 				if box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
-				and math.mod(vpos,cube3[0][1][0])~=cube3[0][0][1] then
+				and math.modf(vpos,cube3[0][1][0])~=cube3[0][0][1] then
 					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
 					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
 				end

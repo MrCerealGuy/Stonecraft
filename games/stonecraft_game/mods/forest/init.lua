@@ -35,7 +35,7 @@ end
 
 function get_instant_temperature(pos)
 	local temperature = minetest.get_perlin(554, 3, 0.6, 40)
-	local season = - math.cos(math.rad(math.mod(minetest.get_gametime(), 14400) / 40)) * 5
+	local season = - math.cos(math.rad(math.modf(minetest.get_gametime(), 14400) / 40)) * 5
 	local time = - math.cos(math.rad(minetest.get_timeofday() * 360 - 45)) * 2
 	local value = temperature:get3d(pos) * 4 - pos.y * 0.16 + 16 + season + time
 	if value < 0 then
@@ -107,9 +107,9 @@ minetest.register_abm({
 		end
 		local superparams = winterblock[node.name]
 		for num, params in pairs(superparams) do
-			local time = math.mod(params.stop - params.start + 12, 12)
-			local season = math.mod(minetest.get_gametime(), 14400) / 1200
-			if math.random() * 100 < params.speed and math.mod(season - params.start + 12, 12) < time then
+			local time = math.modf(params.stop - params.start + 12, 12)
+			local season = math.modf(minetest.get_gametime(), 14400) / 1200
+			if math.random() * 100 < params.speed and math.modf(season - params.start + 12, 12) < time then
 				if minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z}).name ~= "air" then
 					if params.new_node then
 						minetest.set_node(pos, params.new_node)
@@ -134,9 +134,9 @@ minetest.register_abm({
 		local superparams = seasons[node.name]
 		for num, params in pairs(superparams) do
 			if math.random() * 100 < params.speed then
-				local time = math.mod(params.stop - params.start + 12, 12)
-				local season = math.mod(minetest.get_gametime(), 14400) / 1200
-				if math.mod(season - params.start + 12, 12) < time then
+				local time = math.modf(params.stop - params.start + 12, 12)
+				local season = math.modf(minetest.get_gametime(), 14400) / 1200
+				if math.modf(season - params.start + 12, 12) < time then
 					if params.type == "disappear" then
 						minetest.set_node(pos, {name = "forest:winterblock"})
 						print("[forest] "..node.name.." disappears at "..minetest.pos_to_string(pos))
@@ -250,7 +250,7 @@ minetest.register_node("forest:_clock", {
 })
 
 function clockblock(pos)
-	local season = math.floor(math.mod(minetest.get_gametime() + 600 - minetest.get_timeofday() * 1200, 14400) / 1200)
+	local season = math.floor(math.modf(minetest.get_gametime() + 600 - minetest.get_timeofday() * 1200, 14400) / 1200)
 	local month = nil
 	if season == 0 then
 		month = "Janvier"
@@ -280,7 +280,7 @@ function clockblock(pos)
 	local year = math.floor((minetest.get_gametime() + 600 - minetest.get_timeofday() * 1200) / 14400)
 	local time = math.floor(minetest.get_timeofday() * 1440)
 	local hour = math.floor(time / 60)
-	local minute = math.mod(time, 60)
+	local minute = math.modf(time, 60)
 	local meta = minetest.get_meta(pos)
 	local separator = nil
 	if minute < 10 then
