@@ -54,7 +54,7 @@ msgid "Acacia Fence Gate"
 msgstr "Akazienzauntor"
 
 #: init.lua
-msgid "Junglewood Fence Gate"
+msgid "Jungle Wood Fence Gate"
 msgstr "Tropenzauntor"
 
 #: init.lua

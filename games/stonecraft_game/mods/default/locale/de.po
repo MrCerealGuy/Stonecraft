@@ -182,7 +182,7 @@ msgid "Jungle Tree"
 msgstr "Dschungelbaum"
 
 #: nodes.lua
-msgid "Junglewood Planks"
+msgid "Jungle Wood Planks"
 msgstr "Dschungelbaumbretter"
 
 #: nodes.lua
@@ -414,7 +414,7 @@ msgid "Acacia Fence"
 msgstr "Akazienzaun"
 
 #: nodes.lua
-msgid "Junglewood Fence"
+msgid "Jungle Wood Fence"
 msgstr "Dschungelholzzaun"
 
 #: nodes.lua
