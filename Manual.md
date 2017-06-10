@@ -1,8 +1,10 @@
 # Welcome to Stonecraft
 
-An InfiniMiner/Minecraft inspired game.
-
 Copyright © 2016-2017 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
+
+Stonecraft is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine. It will be kept lightweight enough to run on fairly old hardware.
+
+Stonecraft is open-source and free, released under the GNU Lesser General Public License (LGPL). Thanks a lot to the minetest community, to "Notch" the creator of Minecraft and to Linus Torvalds, the creator of the free operating system Linux.
 
 Like in other block sandbox games, you can build and destroy blocks everywhere in a near infinite world. There are two game modes, in survival mode you can loose your life, so you have to fight against many creatures and hunger in a dangerous world with many dungeons and woods of spiders. In creative mode you have access to all blocks, items and tools to build all you can imagine. Choose if you want to play either as singleplayer or multiplayer on servers with your friends. If you like, you can run your own Stonecraft server.
 
@@ -12,14 +14,16 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
 
 1. [First steps](#first-steps)
     1. [Creating a world](#creating-a-world)
-    2. [Basic Controls](#basic-controls)
-    3. [Using blocks/items](#using-blocksitems)
+    2. [Map generator](#map-generator)
+    3. [Biomes](#biomes)
+    4. [Basic Controls](#basic-controls)
+    5. [Using blocks/items](#using-blocksitems)
         1. [Taking](#taking)
         2. [Dropping](#dropping)
         3. [Exchanging](#exchanging)
         4. [Throwing away](#throwing-away)
         5. [Automatic transfer](#automatic-transfer)
-    4. [Changing your skin](#changing-your-skin)
+    6. [Changing your skin](#changing-your-skin)
 2. [Crafting](#crafting)
     1. [Crafting grid and output slot](#crafting-grid-and-output-slot)
     2. [Shaped and shapeless recipes](#shaped-and-shapeless-recipes)
@@ -62,11 +66,237 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
 
 ## Creating a world
 
-First, before you can play, you have to create a world. In the world creation dialog you can select optional world generation settings.
+First, before you can play, you have to create a world. In the world creation dialog you can choose a map generator (default v7) which is responsible for the terrain generation. Then you can add additional biomes and choose other cool stuff.
 
 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/createworld4.png)
 
 Note: Some settings need huge cpu consumption so it can be laggy for most players.
+
+## Map generator
+
+There are a number of different map generators. It is possible to choose between them when creating a map. Some mods may change them radically, also all map generators allow for a lot of configuration in the advanced settings menu.
+
+**v5**
+
+Generates landscapes based on 3D Perlin noise and is notable for its unique and somewhat strange terrain shape and occasional floating islands. The biomes have to defined by mods first, otherwise it will be a stone-only landscape.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v5.jpg)
+
+**v6**
+
+Generated entirely using 2D Perlin noise and has somewhat more “realistic” terrain than v5. The weirdness of v5 is gone. This map generator has predefined biomes: Grasslands/forest, jungle, desert, taiga, tundra and gravel. The biomes can't be modified by mods. Because of the nature of v6, the biomes are much simpler than in the other map generators, and a couple of blocks found in the other map generators can't be found in v6 maps (for example: Silver Sand, Acacia Tree, Orange Coral)
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v6.jpg)
+
+**v7**
+
+Some innovations over v7, uses 2D and 3D Perlin noise. It is the default selection since Minetest 0.4.15. This map generator is notable for many simple broad and deep “rivers” (or “ridges”) at Ocean level, but they can be disabled. Like in v5, the biome have to be defined by mods first
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v7.jpg)
+
+**valleys**
+
+Generates a landscape featuring many hills, mountains and valleys. The valleys often contain rivers with River Water. The rivers very different than in v7, since they are not at ocean level and actually flow downhill
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_valleys.jpg)
+
+**flat**
+
+This generates an (almost) entirely flat world with some biomes like in v7. Caves can still appear underground (if not disabled) and the map generator can be configured to add occasional hills and lakes.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_flat.jpg)
+
+**fractal**
+
+Generates a map based on a fractal. It creates by far the weirdest terrain shapes, but its results are mostly predictable. 
+It is possible to choose one of many fractals which are based on the Mandelbrot and Julia set, which is chosen in the advanced settings menu (technical setting name “mgfractal_fractal”).
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_fractals_fractal_1.jpg)
+
+**singlenode**
+
+By default, this produces a world with only air everywhere. To be precise, it produces only one type of block, air by default. 
+It is useful for mapgen mods which define their own map generation: first, air is generated, then the mod applies its own functions which generates the terrain.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_singlenode.jpg)
+
+## Biomes
+
+Biomes are a part of the map generation. Biomes are areas with similar ground and underground and vegetation. The biomes depend on the map generator used. Most map generators have the same biomes, but v6 is different.
+
+### v5, v7, valleys, flat and fractal 
+
+Biomes in these map generators are defined by optional settings in Stonecraft like Ethereal, swamp and cave biomes and so on. If these are not defined, these map generators only generate stone worlds. Biomes in these map generators are not linked to the terrain shape; this means any biome (including grasslands) can form in flat or very mountainous areas. This section shows the biomes used by Stonecraft.
+
+**Grassland**
+
+Grassland has large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers, Grass and bushes may appear naturally in this area. The underground is made of stone.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_plains_v7.jpg)
+
+**Coniferous forest**
+
+Coniferous forests grow in colder areas and are filled with pine trees. Pine tree forests can also be covered with snow in cold regions.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Pine_forest.jpg)
+
+**Deciduous forest**
+
+Deciduous forests are one of the most common biomes in Stonecraft and form in temperate zones. Trees, apple trees and aspen trees grow here naturally. Generally forests can spawn lakes, ponds, and rivers inside of it. Deciduous forests usually surround plains.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Deciduous_forest_v7.jpg)
+
+**Rainforest**
+
+Rainforests (or jungles) are made of large jungle trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. On fallen jungle tree logs, brown mushrooms may appear rarely. Jungles near oceans form a swamp with waterlilies.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_jungle_v7.jpg)
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_jungle_swamp.jpg)
+
+**Savanna**
+
+The savanna is a dry land which is not a desert, it is populated with acacia trees and dry grass. Flat water bordering to savannahs is likely to have waterlilies and papyri.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Savannah.jpg)
+
+**Desert**
+
+Deserts contain large amounts of desert sand and desert stone. Cacti and dry shrubs also spawn here naturally on desert sand. Cacti can form in two different shapes. Deserts form in hot and dry areas.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_desert.jpg)
+
+**Sandstone desert**
+
+Sandstone deserts are large barren areas covered by sand with sandstone below. They form in temperate and dry climates.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_sandstone_desert.jpg)
+
+**Cold desert**
+
+Cold deserts are large barren areas covered by large amounts of silver sand on top of stone. They form in cold and dry areas.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_cold_desert.jpg)
+
+**Snowy grassland**
+
+The snowy grassland biome usually borders grasslands and is completely covered by a thin layer snow on top of dirt with snow. A few snow-covered bushes can be found here.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Snow_biome.jpg)
+
+**Taiga**
+
+Taigas are cold snow-covered biomes with rich vegetation with snow and dirt with snow as surface. They are populated with snow-covered pine trees. In pine tree forests, mushrooms may appear rarely on fallen pine tree logs.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_taiga.jpg)
+
+**Tundra**
+
+Tundras are barren biomes in very cold climates with no vegetation and a single layer of snow blocks on top of stone. They are usually found between taigas, snowy grass lands and glaciers. This is one of the few biomes where snow blocks (rather than just snow) generates.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_tundra.jpg)
+
+**Glacier**
+
+Glaciers form only in the coldest regions and are made of large amounts of ice, covered by a thick layer of snow blocks without any vegetation. Glacier biomes can be either mountain-like as in the screenshot or very flat. Glacier biomes generally border ice sheet biomes near oceans.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Glacier.jpg)
+
+**Ice sheet**
+
+Ice sheets form only in te coldest regions on top of oceans and generally border glacier biomes. Ice sheets are very flat and consist of a single layer of snow blocks with up to 10 layers of ice beneath, “floating” above water in deep oceans.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Ice_sheet_v6.jpg)
+
+### v6
+
+The v6 map generator has a predefined set of biomes which can't be changed by mods directly. The outcome in different subgames will generally be very similar. Biomes in v6 also somewhat determine the terrain shape. In general, v6 biomes are a lot simpler than the biomes of the other map generators.
+
+**Plains**
+
+Plains are a quite flat biome. Large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers and Grass may appear naturally (since 0.4.7). There are no bushes. The underground is made of stone.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Large_plains.png)
+
+**Forest**
+
+Forests are one of the most common biomes in v6 and form in temperate zones. Trees and apple trees grow here naturally, but no aspen trees. Forests usually surround plains. There are no fallen tree logs either.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_0_4_9.jpg)
+
+**Desert**
+
+Deserts contain large amounts of desert sand and desert stone and often form large cliffs or canyons. Cacti and dry shrubs also spawn here naturally in clusters on desert sand. Deserts spawn underground rivers and lakes which can be over 200 blocks deep. In v6, cacti only form in a “column” shape of up to 4 blocks high.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Desert_at_sunset_0.4.7.png)
+
+**Jungle**
+
+Jungles contains large trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. Jungles in v6 very similar to the jungles in the other map generators, but there are no fallen tree logs, mushrooms or swamps.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Jungle_v6.jpg)
+
+**Taiga**
+
+The surface is covered with snow blocks on top of dirt with snow. Snow-covered pine tree forests are common in this biome.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_taiga.jpg)
+
+**Tundra**
+
+Tundras are large open fields with thin layers of snow and are populated by dry shrubs. There are two variations of this biome.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_dirt_with_snow.jpg)
+
+**Ice sheet**
+
+Ice sheets are two layers of ice on top of ocean water. They generate bordering directly to taigas and tundras.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_ice_sheet.jpg)
+
+**Gravel**
+
+Very rarely, unusually large areas of gravel can appear on the surface. These areas consist of nothing but gravel.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_gravel_biome.png)
+
+### Technical biomes
+
+**Beach**
+
+Beaches are made out of sand and form at at height of Y=2 and below, which is near the sea level by default. Beaches often extend deep into the ocean, which can easily turn a large part of the ocean floor into sand. The sand replaces the floor of other biomes. Depending on the terrain shape, beaches can be short or very long and wide (as seen in the screenshot). Clay can be found in the sand and form in small to medium-sized blobs underwater.
+Beaches are generated based on height and noise; they technically form independent of the water of oceans. This effect can be noted if the water level (with the setting water_level) has been reduced.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_beach.jpg)
+
+**Ocean**
+
+This biome is just a large body of water that can be up to 250 blocks deep. Oceans are commonly referred to as lakes, but are called oceans because they can be so huge, sometimes even 200-350 blocks across. The natural ocean floor is dirt, but sand is also common because of the beach biomes.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_ocean.jpg)
+
+**Island**
+
+Not classifiable as a biome, but still frequent enough to be classified as a technical biome, islands occur many times in oceans. These could even be referred to as a sub-biome, being a product of another biome. Islands usually raise out of the ground 3-10 blocks, but can get as large as 40-80 blocks tall.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Island_0.4.7.jpg)
+
+**Mountain**
+
+Mountains are the most treacherous to scale. Trees and apple trees spawn here naturally. It is quite easy to be killed in a mountain biome if you don't pay attention to where you are going.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mountain.png)
+
+**Plateau**
+
+A giant structure, plateaus are very common around mountain biomes as well as deserts. Plateaus can even float above ground and generate miniature biomes on top of it.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Plateau_0.4.7_alternative.png)
+
+**Water caves**
+
+Water caves are caves that only occur at sea level, which turn into a huge underground river or lake. These caves can lead thousands of blocks down and are extremely easily to get lost in.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Water_cave_0.4.7_alternative.png)
 
 ## Basic Controls
 
