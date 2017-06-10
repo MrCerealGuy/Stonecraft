@@ -26,7 +26,7 @@ end
 local load_start = os.clock()
 
 technic = rawget(_G, "technic") or {}
-technic.creative_mode = minetest.setting_getbool("creative_mode")
+technic.creative_mode = minetest.settings:get_bool("creative_mode")
 
 
 local modpath = minetest.get_modpath("technic")
@@ -51,6 +51,9 @@ dofile(modpath.."/crafts.lua")
 -- Register functions
 dofile(modpath.."/register.lua")
 
+-- Radiation
+dofile(modpath.."/radiation.lua")
+
 -- Machines
 dofile(modpath.."/machines/init.lua")
 
@@ -60,7 +63,7 @@ dofile(modpath.."/tools/init.lua")
 -- Aliases for legacy node/item names
 dofile(modpath.."/legacy.lua")
 
-if minetest.setting_getbool("log_mods") then
+if minetest.settings:get_bool("log_mods") then
 	print(S("[Technic] Loaded in @1 seconds", os.clock() - load_start))
 end
 

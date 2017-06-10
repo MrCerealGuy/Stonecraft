@@ -881,3 +881,7 @@ msgstr "Gummifaser"
 #: tools/vacuum.lua
 msgid "Vacuum Cleaner"
 msgstr "Vakuumreiniger"
+
+#: machines/power_monitor.lua
+msgid "Power Monitor"
+msgstr "Leistungsmonitor"
