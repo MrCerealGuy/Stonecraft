@@ -272,6 +272,7 @@ public:
 	);
 
 	~Client();
+	DISABLE_CLASS_COPY(Client);
 
 	void initMods();
 
@@ -348,6 +349,7 @@ public:
 	void handleCommand_OverrideDayNightRatio(NetworkPacket* pkt);
 	void handleCommand_LocalPlayerAnimations(NetworkPacket* pkt);
 	void handleCommand_EyeOffset(NetworkPacket* pkt);
+	void handleCommand_UpdatePlayerList(NetworkPacket* pkt);
 	void handleCommand_SrpBytesSandB(NetworkPacket* pkt);
 
 	void ProcessData(NetworkPacket *pkt);
@@ -690,7 +692,6 @@ private:
 	GameUIFlags *m_game_ui_flags;
 
 	bool m_shutdown;
-	DISABLE_CLASS_COPY(Client);
 };
 
 #endif // !CLIENT_HEADER

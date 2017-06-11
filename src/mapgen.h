@@ -131,6 +131,9 @@ struct MapgenParams {
 
 	BiomeParams *bparams;
 
+	s16 mapgen_edge_min;
+	s16 mapgen_edge_max;
+
 	MapgenParams() :
 		mgtype(MAPGEN_DEFAULT),
 		chunksize(5),
@@ -139,9 +142,12 @@ struct MapgenParams {
 		mapgen_limit(MAX_MAP_GENERATION_LIMIT),
 		flags(MG_CAVES | MG_LIGHT | MG_DECORATIONS),
 		bparams(NULL),
-		m_sao_limit_min(MAX_MAP_GENERATION_LIMIT * BS),
+
+		mapgen_edge_min(-MAX_MAP_GENERATION_LIMIT),
+		mapgen_edge_max(MAX_MAP_GENERATION_LIMIT),
+		m_sao_limit_min(-MAX_MAP_GENERATION_LIMIT * BS),
 		m_sao_limit_max(MAX_MAP_GENERATION_LIMIT * BS),
-		m_sao_limit_calculated(false)
+		m_mapgen_edges_calculated(false)
 	{
 	}
 
@@ -151,12 +157,14 @@ struct MapgenParams {
 	virtual void writeParams(Settings *settings) const;
 
 	bool saoPosOverLimit(const v3f &p);
+	s32 getSpawnRangeMax();
+
 private:
 	void calcMapgenEdges();
 
 	float m_sao_limit_min;
 	float m_sao_limit_max;
-	bool m_sao_limit_calculated;
+	bool m_mapgen_edges_calculated;
 };
 
 
@@ -192,6 +200,7 @@ public:
 	Mapgen();
 	Mapgen(int mapgenid, MapgenParams *params, EmergeManager *emerge);
 	virtual ~Mapgen();
+	DISABLE_CLASS_COPY(Mapgen);
 
 	virtual MapgenType getType() const { return MAPGEN_INVALID; }
 
@@ -233,7 +242,6 @@ private:
 	// that checks whether there are floodable nodes without liquid beneath
 	// the node at index vi.
 	inline bool isLiquidHorizontallyFlowable(u32 vi, v3s16 em);
-	DISABLE_CLASS_COPY(Mapgen);
 };
 
 /*

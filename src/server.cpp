@@ -1643,15 +1643,18 @@ void Server::SendInventory(PlayerSAO* playerSAO)
 void Server::SendChatMessage(u16 peer_id, const std::wstring &message)
 {
 	DSTACK(FUNCTION_NAME);
-
-	NetworkPacket pkt(TOCLIENT_CHAT_MESSAGE, 0, peer_id);
-	pkt << message;
-
 	if (peer_id != PEER_ID_INEXISTENT) {
+		NetworkPacket pkt(TOCLIENT_CHAT_MESSAGE, 0, peer_id);
+
+		if (m_clients.getProtocolVersion(peer_id) < 27)
+			pkt << unescape_enriched(message);
+		else
+			pkt << message;
+
 		Send(&pkt);
-	}
-	else {
-		m_clients.sendToAll(&pkt);
+	} else {
+		for (u16 id : m_clients.getClientIDs())
+			SendChatMessage(id, message);
 	}
 }
 
@@ -2787,6 +2790,12 @@ void Server::DeleteClient(u16 peer_id, ClientDeletionReason reason)
 			PlayerSAO *playersao = player->getPlayerSAO();
 			assert(playersao);
 
+			// inform connected clients
+			NetworkPacket notice(TOCLIENT_UPDATE_PLAYER_LIST, 0, PEER_ID_INEXISTENT);
+			// (u16) 1 + std::string represents a vector serialization representation
+			notice << (u8) PLAYER_LIST_REMOVE  << (u16) 1 << std::string(playersao->getPlayer()->getName());
+			m_clients.sendToAll(&notice);
+			// run scripts
 			m_script->on_leaveplayer(playersao, reason == CDR_TIMEOUT);
 
 			playersao->disconnected();
@@ -2871,11 +2880,14 @@ void Server::handleChatInterfaceEvent(ChatEvent *evt)
 }
 
 std::wstring Server::handleChat(const std::string &name, const std::wstring &wname,
-	const std::wstring &wmessage, bool check_shout_priv, RemotePlayer *player)
+	std::wstring wmessage, bool check_shout_priv, RemotePlayer *player)
 {
 	// If something goes wrong, this player is to blame
 	RollbackScopeActor rollback_scope(m_rollback,
 		std::string("player:") + name);
+
+	if (g_settings->getBool("strip_color_codes"))
+		wmessage = unescape_enriched(wmessage);
 
 	if (player) {
 		switch (player->canSendChatMessage()) {
@@ -2931,7 +2943,7 @@ std::wstring Server::handleChat(const std::string &name, const std::wstring &wna
 		/*
 			Send the message to others
 		*/
-		actionstream << "CHAT: " << wide_to_narrow(line) << std::endl;
+		actionstream << "CHAT: " << wide_to_narrow(unescape_enriched(line)) << std::endl;
 
 		std::vector<u16> clients = m_clients.getClientIDs();
 
@@ -3511,10 +3523,12 @@ v3f Server::findSpawnPos()
 	}
 
 	bool is_good = false;
+	// Limit spawn range to mapgen edges (determined by 'mapgen_limit')
+	s32 range_max = map.getMapgenParams()->getSpawnRangeMax();
 
 	// Try to find a good place a few times
 	for(s32 i = 0; i < 4000 && !is_good; i++) {
-		s32 range = 1 + i;
+		s32 range = MYMIN(1 + i, range_max);
 		// We're going to try to throw the player to this position
 		v2s16 nodepos2d = v2s16(
 			-range + (myrand() % (range * 2)),

@@ -124,4 +124,7 @@ cmake .. \
 
 make package -j2
 
+[ "x$NO_PACKAGE" = "x" ] && make package
+
+exit 0
 # EOF
