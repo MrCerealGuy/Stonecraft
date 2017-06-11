@@ -28,7 +28,15 @@ or complex internal structure should show no radiation resistance.
 Fractional resistance values are permitted.
 --]]
 
-local S = technic.getter
+--[[
+
+2017-06-11 MrCerealGuy: added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local rad_resistance_node = {
 	["default:brick"] = 13,
