@@ -15,6 +15,13 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+--[[
+
+2017-06-11 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added option Minecraft-like item drop/pick-up
+
+--]]
+
 local world_create_enable_erosion = false
 local world_create_enable_forests = false
 local world_create_enable_villages = false
@@ -32,6 +39,7 @@ local world_create_enable_snow = false
 local world_create_enable_woodsoils = false
 local world_create_enable_surprise = false
 local world_create_enable_mines = false
+local world_create_enable_itemdrop = false
 
 local function create_world_formspec(dialogdata)
 	local mapgens = core.get_mapgen_names()
@@ -101,6 +109,7 @@ local function create_world_formspec(dialogdata)
 							"label[0.25,8.10;" .. fgettext("Stuff") .. "]"..
 							"checkbox[0.25,8.40;cb_enable_surprise;" .. fgettext("Surprise blocks") .. ";false]" ..
 							"checkbox[0.25,8.90;cb_enable_homedecor;" .. fgettext("Home decorations and technic") .. ";false]" ..
+							"checkbox[0.25,9.40;cb_enable_itemdrop;" .. fgettext("Auto pick up items") .. ";false]" ..
 							--"checkbox[0.25,6.50;cb_enable_mesecons;" .. fgettext("Enable mesecons/pipes/technic") .. ";false]" ..
 
 							"label[6.05,3.50;" .. fgettext("Nature") .. "]"..
@@ -246,6 +255,11 @@ local function create_world_buttonhandler(this, fields)
 		world_create_enable_mines = core.is_yes(fields["cb_enable_mines"])
 		return true
 	end
+
+	if fields["cb_enable_itemdrop"] ~= nil then
+		world_create_enable_itemdrop = core.is_yes(fields["cb_enable_itemdrop"])			
+		return true
+	end
 	
 	if fields["world_create_confirm"] or
 		fields["key_enter"] then
@@ -328,6 +342,7 @@ local function create_world_buttonhandler(this, fields)
 
 
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", b2s(world_create_enable_surprise))
+				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_itemdrop", b2s(world_create_enable_itemdrop))
 
 				-- mines
 				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", b2s(world_create_enable_mines))

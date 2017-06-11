@@ -239,6 +239,10 @@ msgid "Structures"
 msgstr "Bauwerke"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Auto pick up items"
+msgstr "Gegenst. autom. fallenlassen/aufheben"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a subgame, such as minetest_game, from minetest.net"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/"

@@ -245,6 +245,10 @@ msgid "Structures"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Auto pick up items"
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "You have no subgames installed."
 msgstr ""
 
