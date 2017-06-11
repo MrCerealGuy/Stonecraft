@@ -417,7 +417,7 @@ msgstr "Unterschrank"
 
 #: ../homedecor/kitchen_furniture.lua
 msgid "Copper pans"
-msgstr ""
+msgstr "Kupferpfannen"
 
 #: ../homedecor/kitchen_furniture.lua
 #, fuzzy
@@ -426,7 +426,7 @@ msgstr "Küchenschrank"
 
 #: ../homedecor/kitchen_furniture.lua
 msgid "Paper towels"
-msgstr ""
+msgstr "Papiertücher"
 
 #: ../homedecor/furniture_medieval.lua
 #, fuzzy
@@ -479,25 +479,25 @@ msgstr "Mikrowelle"
 
 #: ../homedecor/kitchen_appliances.lua
 msgid "Coffee Maker"
-msgstr ""
+msgstr "Kaffeemaschine"
 
 #: ../homedecor/kitchen_appliances.lua
 msgid "Toaster"
-msgstr ""
+msgstr "Toaster"
 
 #: ../homedecor/kitchen_appliances.lua
 msgid "Dishwasher"
-msgstr ""
+msgstr "Geschirrspüler"
 
 #: ../homedecor/kitchen_appliances.lua ../homedecor/roofing.lua
 #: ../homedecor/window_treatments.lua ../homedecor/exterior.lua
 #: ../homedecor/misc-nodes.lua
 msgid "wood"
-msgstr ""
+msgstr "holz"
 
 #: ../homedecor/kitchen_appliances.lua
 msgid "Dishwasher (@1)"
-msgstr ""
+msgstr "Geschirrspüler (@1)"
 
 #: ../homedecor/roofing.lua
 #, fuzzy
