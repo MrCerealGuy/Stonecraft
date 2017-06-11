@@ -18,7 +18,7 @@ local world_conf = Settings(world_file)
 local enable_erosion = world_conf:get("enable_erosion")
 
 if enable_erosion ~= nil and enable_erosion == "false" then
-	minetest.log("info", "[erosions] skip loading mod.")
+	minetest.log("info", "[erosion] skip loading mod.")
 	return
 end
 
