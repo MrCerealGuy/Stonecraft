@@ -87,8 +87,8 @@ cp $libdir/libvorbis-$vorbis_version/bin/libvorbis-0.dll ./bin
 cp $libdir/libvorbis-$vorbis_version/bin/libvorbisfile-3.dll ./bin
 cp $libdir/openal_stripped/bin/OpenAL32.dll ./bin
 cp $libdir/curl-$curl_version/bin/libcurl-4.dll ./bin
-cp $libdir/gettext-$gettext_version/bin/libintl3.dll ./bin
-cp $libdir/gettext-$gettext_version/bin/libiconv2.dll ./bin
+cp $libdir/gettext-$gettext_version/bin/libintl-8.dll ./bin
+cp $libdir/gettext-$gettext_version/bin/libiconv-2.dll ./bin
 cp $libdir/freetype2-$freetype_version/bin/libfreetype-6.dll ./bin
 cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./bin
 #cp $libdir/libleveldb-$leveldb_version/bin/libleveldb.dll ./bin
@@ -142,8 +142,8 @@ cmake .. \
 	\
 	-DCUSTOM_GETTEXT_PATH=$libdir/gettext-$gettext_version \
 	-DGETTEXT_MSGFMT=`which msgfmt` \
-	-DGETTEXT_DLL=$libdir/gettext-$gettext_version/bin/libintl3.dll \
-	-DGETTEXT_ICONV_DLL=$libdir/gettext-$gettext_version/bin/libiconv2.dll \
+	-DGETTEXT_DLL=$libdir/gettext-$gettext_version/bin/libintl-8.dll \
+	-DGETTEXT_ICONV_DLL=$libdir/gettext-$gettext_version/bin/libiconv-2.dll \
 	-DGETTEXT_INCLUDE_DIR=$libdir/gettext-$gettext_version/include \
 	-DGETTEXT_LIBRARY=$libdir/gettext-$gettext_version/lib/libintl.dll.a \
 	\
