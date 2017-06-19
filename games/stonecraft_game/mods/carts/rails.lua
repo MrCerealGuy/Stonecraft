@@ -33,7 +33,7 @@ minetest.register_alias("default:rail", "carts:rail")
 
 
 carts:register_rail("carts:powerrail", {
-	description = S("Powered rail"),
+	description = S("Powered Rail"),
 	tiles = {
 		"carts_rail_straight_pwr.png", "carts_rail_curved_pwr.png",
 		"carts_rail_t_junction_pwr.png", "carts_rail_crossing_pwr.png"
@@ -52,7 +52,7 @@ minetest.register_craft({
 
 
 carts:register_rail("carts:brakerail", {
-	description = S("Brake rail"),
+	description = S("Brake Rail"),
 	tiles = {
 		"carts_rail_straight_brk.png", "carts_rail_curved_brk.png",
 		"carts_rail_t_junction_brk.png", "carts_rail_crossing_brk.png"

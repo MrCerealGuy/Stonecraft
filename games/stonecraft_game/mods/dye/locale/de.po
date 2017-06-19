@@ -79,61 +79,61 @@ msgid "Pink"
 msgstr "Pink"
 
 #: init.lua
-msgid "White dye"
+msgid "White Dye"
 msgstr "Weißer Farbstoff"
 
 #: init.lua
-msgid "Grey dye"
+msgid "Grey Dye"
 msgstr "Grauer Farbstoff"
 
 #: init.lua
-msgid "Dark grey dye"
+msgid "Dark Grey Dye"
 msgstr "Dunkelgrauer Farbstoff"
 
 #: init.lua
-msgid "Black dye"
+msgid "Black Dye"
 msgstr "Schwarzer Farbstoff"
 
 #: init.lua
-msgid "Violet dye"
+msgid "Violet Dye"
 msgstr "Violetter Farbstoff"
 
 #: init.lua
-msgid "Blue dye"
+msgid "Blue Dye"
 msgstr "Blauer Farbstoff"
 
 #: init.lua
-msgid "Cyan dye"
+msgid "Cyan Dye"
 msgstr "Cyan Farbstoff"
 
 #: init.lua
-msgid "Dark green dye"
+msgid "Dark Green Dye"
 msgstr "Dunkelgrüner Farbstoff"
 
 #: init.lua
-msgid "Green dye"
+msgid "Green Dye"
 msgstr "Grüner Farbstoff"
 
 #: init.lua
-msgid "Yellow dye"
+msgid "Yellow Dye"
 msgstr "Gelber Farbstoff"
 
 #: init.lua
-msgid "Brown dye"
+msgid "Brown Dye"
 msgstr "Brauner Farbstoff"
 
 #: init.lua
-msgid "Orange dye"
+msgid "Orange Dye"
 msgstr "Orangener Farbstoff"
 
 #: init.lua
-msgid "Red dye"
+msgid "Red Dye"
 msgstr "Roter Farbstoff"
 
 #: init.lua
-msgid "Magenta dye"
+msgid "Magenta Dye"
 msgstr "Magenta Farbstoff"
 
 #: init.lua
-msgid "Pink dye"
+msgid "Pink Dye"
 msgstr "Pinker Farbstoff"

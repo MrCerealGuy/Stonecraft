@@ -26,9 +26,9 @@ msgid "Rail"
 msgstr "Schiene"
 
 #: rails.lua
-msgid "Powered rail"
+msgid "Powered Rail"
 msgstr "Antriebsschiene"
 
 #: rails.lua
-msgid "Brake rail"
+msgid "Brake Rail"
 msgstr "Bremsschiene"

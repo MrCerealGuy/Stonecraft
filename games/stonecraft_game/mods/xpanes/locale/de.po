@@ -22,5 +22,5 @@ msgid "Glass Pane"
 msgstr "Glasscheibe"
 
 #: init.lua
-msgid "Iron bar"
+msgid "Iron Bar"
 msgstr "Eisenstange"
