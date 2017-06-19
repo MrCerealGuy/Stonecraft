@@ -459,6 +459,10 @@ msgid "Credits"
 msgstr ""
 
 #: builtin/mainmenu/tab_credits.lua
+msgid "Stonecraft Developers"
+msgstr ""
+
+#: builtin/mainmenu/tab_credits.lua
 msgid "Core Developers"
 msgstr ""
 

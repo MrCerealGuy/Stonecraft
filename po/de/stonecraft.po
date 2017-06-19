@@ -480,6 +480,10 @@ msgid "Active Contributors"
 msgstr "Aktive Mitwirkende"
 
 #: builtin/mainmenu/tab_credits.lua
+msgid "Stonecraft Developers"
+msgstr "Stonecraft Entwickler"
+
+#: builtin/mainmenu/tab_credits.lua
 msgid "Core Developers"
 msgstr "Hauptentwickler"
 
