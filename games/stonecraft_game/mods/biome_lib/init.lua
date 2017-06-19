@@ -428,7 +428,7 @@ end)
 -- "Play" them back, populating them with new stuff in the process
 
 minetest.register_globalstep(function(dtime)
-	if dtime < 0.2 and    -- don't attempt to populate if lag is already too high
+	if dtime < 0.1 and    -- don't attempt to populate if lag is already too high
 	  (#biome_lib.blocklist_aircheck > 0 or #biome_lib.blocklist_no_aircheck > 0) then
 		biome_lib.globalstep_start_time = minetest.get_us_time()
 		biome_lib.globalstep_runtime = 0
