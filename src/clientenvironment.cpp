@@ -41,11 +41,9 @@ ClientEnvironment::ClientEnvironment(ClientMap *map, scene::ISceneManager *smgr,
 	IrrlichtDevice *irr):
 	Environment(client),
 	m_map(map),
-	m_local_player(NULL),
 	m_smgr(smgr),
 	m_texturesource(texturesource),
 	m_client(client),
-	m_script(NULL),
 	m_irr(irr)
 {
 	char zero = 0;
@@ -460,7 +458,7 @@ u16 ClientEnvironment::addActiveObject(ClientActiveObject *object)
 	infostream<<"ClientEnvironment::addActiveObject(): "
 		<<"added (id="<<object->getId()<<")"<<std::endl;
 	m_active_objects[object->getId()] = object;
-	object->addToScene(m_smgr, m_texturesource, m_irr);
+	object->addToScene(m_smgr, m_texturesource);
 	{ // Update lighting immediately
 		u8 light = 0;
 		bool pos_ok;

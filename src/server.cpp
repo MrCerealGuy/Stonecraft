@@ -47,7 +47,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mg_biome.h"
 #include "content_mapnode.h"
 #include "content_nodemeta.h"
-#include "content_abm.h"
 #include "content_sao.h"
 #include "mods.h"
 #include "event_manager.h"
@@ -157,41 +156,19 @@ Server::Server(
 	m_simple_singleplayer_mode(simple_singleplayer_mode),
 	m_dedicated(dedicated),
 	m_async_fatal_error(""),
-	m_env(NULL),
 	m_con(PROTOCOL_ID,
 			512,
 			CONNECTION_TIMEOUT,
 			ipv6,
 			this),
-	m_banmanager(NULL),
-	m_rollback(NULL),
-	m_enable_rollback_recording(false),
-	m_emerge(NULL),
-	m_script(NULL),
 	m_itemdef(createItemDefManager()),
 	m_nodedef(createNodeDefManager()),
 	m_craftdef(createCraftDefManager()),
 	m_event(new EventManager()),
-	m_thread(NULL),
-	m_time_of_day_send_timer(0),
 	m_uptime(0),
 	m_clients(&m_con),
-	m_shutdown_requested(false),
-	m_shutdown_ask_reconnect(false),
-	m_shutdown_timer(0.0f),
-	m_admin_chat(iface),
-	m_ignore_map_edit_events(false),
-	m_ignore_map_edit_events_peer_id(0),
-	m_next_sound_id(0),
-	m_mod_storage_save_timer(10.0f)
+	m_admin_chat(iface)
 {
-	m_liquid_transform_timer = 0.0;
-	m_liquid_transform_every = 1.0;
-	m_masterserver_timer = 0.0;
-	m_emergethread_trigger_timer = 0.0;
-	m_savemap_timer = 0.0;
-
-	m_step_dtime = 0.0;
 	m_lag = g_settings->getFloat("dedicated_server_step");
 
 	if(path_world == "")
@@ -317,9 +294,6 @@ Server::Server(
 	} else {
 		m_env->loadDefaultMeta();
 	}
-
-	// Add some test ActiveBlockModifiers to environment
-	add_legacy_abms(m_env, m_nodedef);
 
 	m_liquid_transform_every = g_settings->getFloat("liquid_update");
 	m_max_chatmessage_length = g_settings->getU16("chat_message_max_size");
@@ -638,14 +612,15 @@ void Server::AsyncRunStep(bool initial_step)
 		ScopeProfiler sp(g_profiler, "Server: checking added and deleted objs");
 
 		// Radius inside which objects are active
-		static const s16 radius =
+		static thread_local const s16 radius =
 			g_settings->getS16("active_object_send_range_blocks") * MAP_BLOCKSIZE;
 
 		// Radius inside which players are active
-		static const bool is_transfer_limited =
+		static thread_local const bool is_transfer_limited =
 			g_settings->exists("unlimited_player_transfer_distance") &&
 			!g_settings->getBool("unlimited_player_transfer_distance");
-		static const s16 player_transfer_dist = g_settings->getS16("player_transfer_distance") * MAP_BLOCKSIZE;
+		static thread_local const s16 player_transfer_dist =
+			g_settings->getS16("player_transfer_distance") * MAP_BLOCKSIZE;
 		s16 player_radius = player_transfer_dist;
 		if (player_radius == 0 && is_transfer_limited)
 			player_radius = radius;
@@ -982,7 +957,7 @@ void Server::AsyncRunStep(bool initial_step)
 	{
 		float &counter = m_savemap_timer;
 		counter += dtime;
-		static const float save_interval =
+		static thread_local const float save_interval =
 			g_settings->getFloat("server_map_save_interval");
 		if (counter >= save_interval) {
 			counter = 0.0;
@@ -1684,7 +1659,7 @@ void Server::SendSpawnParticle(u16 peer_id, u16 protocol_version,
 				const struct TileAnimationParams &animation, u8 glow)
 {
 	DSTACK(FUNCTION_NAME);
-	static const float radius =
+	static thread_local const float radius =
 			g_settings->getS16("max_block_send_distance") * MAP_BLOCKSIZE * BS;
 
 	if (peer_id == PEER_ID_INEXISTENT) {
@@ -2098,7 +2073,7 @@ s32 Server::playSound(const SimpleSoundSpec &spec,
 	NetworkPacket pkt(TOCLIENT_PLAY_SOUND, 0);
 	pkt << id << spec.name << gain
 			<< (u8) params.type << pos << params.object
-			<< params.loop << params.fade;
+			<< params.loop << params.fade << params.pitch;
 
 	// Backwards compability
 	bool play_sound = gain > 0;
@@ -3676,8 +3651,9 @@ void dedicated_server_loop(Server &server, bool &kill)
 
 	IntervalLimiter m_profiler_interval;
 
-	static const float steplen = g_settings->getFloat("dedicated_server_step");
-	static const float profiler_print_interval =
+	static thread_local const float steplen =
+			g_settings->getFloat("dedicated_server_step");
+	static thread_local const float profiler_print_interval =
 			g_settings->getFloat("profiler_print_interval");
 
 	for(;;) {

@@ -122,16 +122,6 @@ MapgenV7::~MapgenV7()
 
 MapgenV7Params::MapgenV7Params()
 {
-	spflags             = MGV7_MOUNTAINS | MGV7_RIDGES | MGV7_CAVERNS;
-	cave_width          = 0.09;
-	float_mount_density = 0.6;
-	float_mount_height  = 128.0;
-	floatland_level     = 1280;
-	shadow_limit        = 1024;
-	cavern_limit        = -256;
-	cavern_taper        = 256;
-	cavern_threshold    = 0.7;
-
 	np_terrain_base      = NoiseParams(4,    70,   v3f(600,  600,  600),  82341, 5, 0.6,  2.0);
 	np_terrain_alt       = NoiseParams(4,    25,   v3f(600,  600,  600),  5934,  5, 0.6,  2.0);
 	np_terrain_persist   = NoiseParams(0.6,  0.1,  v3f(2000, 2000, 2000), 539,   3, 0.6,  2.0);
@@ -212,10 +202,7 @@ void MapgenV7Params::writeParams(Settings *settings) const
 
 int MapgenV7::getSpawnLevelAtPoint(v2s16 p)
 {
-	// Base terrain calculation
-	s16 y = baseTerrainLevelAtPoint(p.X, p.Y);
-
-	// If enabled, check if inside a river
+	// If rivers are enabled, first check if in a river
 	if (spflags & MGV7_RIDGES) {
 		float width = 0.2;
 		float uwatern = NoisePerlin2D(&noise_ridge_uwater->np, p.X, p.Y, seed) * 2;
@@ -223,28 +210,41 @@ int MapgenV7::getSpawnLevelAtPoint(v2s16 p)
 			return MAX_MAP_GENERATION_LIMIT;  // Unsuitable spawn point
 	}
 
-	// If mountains are disabled, terrain level is base terrain level
-	// Avoids spawn on non-existant mountain terrain
+	// Terrain noise 'offset' is the average level of that terrain.
+	// At least 50% of terrain will be below the higher of base and alt terrain
+	// 'offset's.
+	// Raising the maximum spawn level above 'water_level + 16' is necessary
+	// for when terrain 'offset's are set much higher than water_level.
+	s16 max_spawn_y = MYMAX(MYMAX(noise_terrain_alt->np.offset,
+			noise_terrain_base->np.offset),
+			water_level + 16);
+	// Base terrain calculation
+	s16 y = baseTerrainLevelAtPoint(p.X, p.Y);
+
+	// If mountains are disabled, terrain level is base terrain level.
+	// Avoids mid-air spawn where mountain terrain would have been.
 	if (!(spflags & MGV7_MOUNTAINS)) {
-		if (y <= water_level || y > water_level + 16)
+		if (y <= water_level || y > max_spawn_y)
 			return MAX_MAP_GENERATION_LIMIT;  // Unsuitable spawn point
 		else
-			return y;
+			// + 1 to not be half-buried in a potential node-deep biome 'dust'
+			return y + 1;
 	}
 
-	// Mountain terrain calculation
-	int iters = 128;
-	while (iters--) {
+	// Search upwards for first node without mountain terrain
+	int iters = 256;
+	while (iters > 0 && y <= max_spawn_y) {
 		if (!getMountainTerrainAtPoint(p.X, y + 1, p.Y)) {  // If air above
-			if (y <= water_level || y > water_level + 16)
+			if (y <= water_level || y > max_spawn_y)
 				return MAX_MAP_GENERATION_LIMIT;  // Unsuitable spawn point
 			else
-				return y;
+				return y + 1;
 		}
 		y++;
+		iters--;
 	}
 
-	// Unsuitable spawn point, no mountain surface found
+	// Unsuitable spawn point
 	return MAX_MAP_GENERATION_LIMIT;
 }
 
@@ -519,7 +519,8 @@ int MapgenV7::generateTerrain()
 
 void MapgenV7::generateRidgeTerrain()
 {
-	if ((node_max.Y < water_level - 16) || (node_max.Y > shadow_limit))
+	if (node_max.Y < water_level - 16 ||
+			((spflags & MGV7_FLOATLANDS) && node_max.Y > shadow_limit))
 		return;
 
 	noise_ridge->perlinMap3D(node_min.X, node_min.Y - 1, node_min.Z);

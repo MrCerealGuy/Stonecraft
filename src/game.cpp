@@ -2534,7 +2534,7 @@ void Game::processKeyInput()
 	} else if (wasKeyDown(KeyType::CINEMATIC)) {
 		toggleCinematic();
 	} else if (wasKeyDown(KeyType::SCREENSHOT)) {
-		client->makeScreenshot(device);
+		client->makeScreenshot();
 	} else if (wasKeyDown(KeyType::TOGGLE_HUD)) {
 		toggleHud();
 	} else if (wasKeyDown(KeyType::MINIMAP)) {
@@ -2653,7 +2653,7 @@ void Game::openInventory()
 	 */
 
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
-	if (player == NULL || player->getCAO() == NULL)
+	if (!player || !player->getCAO())
 		return;
 
 	infostream << "the_game: " << "Launching inventory" << std::endl;
@@ -3412,7 +3412,7 @@ void Game::updateCamera(u32 busy_time, f32 dtime)
 		GenericCAO *playercao = player->getCAO();
 
 		// If playercao not loaded, don't change camera
-		if (playercao == NULL)
+		if (!playercao)
 			return;
 
 		camera->toggleCameraMode();
@@ -3647,7 +3647,7 @@ PointedThing Game::updatePointedThing(
 	std::vector<aabb3f> *selectionboxes = hud->getSelectionBoxes();
 	selectionboxes->clear();
 	hud->setSelectedFaceNormal(v3f(0.0, 0.0, 0.0));
-	static const bool show_entity_selectionbox = g_settings->getBool(
+	static thread_local const bool show_entity_selectionbox = g_settings->getBool(
 		"show_entity_selectionbox");
 
 	ClientMap &map = client->getEnv().getClientMap();
@@ -3990,7 +3990,7 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 		bool is_valid_position;
 		MapNode wasnode = map.getNodeNoEx(nodepos, &is_valid_position);
 		if (is_valid_position) {
-			if (client->moddingEnabled() && 
+			if (client->moddingEnabled() &&
 			    		client->getScript()->on_dignode(nodepos, wasnode)) {
 				return;
 			}

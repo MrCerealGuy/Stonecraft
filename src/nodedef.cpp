@@ -248,15 +248,21 @@ void TileDef::deSerialize(std::istream &is, const u8 contenfeatures_version, con
 */
 
 static void serializeSimpleSoundSpec(const SimpleSoundSpec &ss,
-		std::ostream &os)
+		std::ostream &os, u8 version)
 {
 	os<<serializeString(ss.name);
 	writeF1000(os, ss.gain);
+
+	if (version >= 11)
+		writeF1000(os, ss.pitch);
 }
-static void deSerializeSimpleSoundSpec(SimpleSoundSpec &ss, std::istream &is)
+static void deSerializeSimpleSoundSpec(SimpleSoundSpec &ss, std::istream &is, u8 version)
 {
 	ss.name = deSerializeString(is);
 	ss.gain = readF1000(is);
+
+	if (version >= 11)
+		ss.pitch = readF1000(is);
 }
 
 void TextureSettings::readSettings()
@@ -384,7 +390,8 @@ void ContentFeatures::serialize(std::ostream &os, u16 protocol_version) const
 	}
 
 	// version
-	writeU8(os, 10);
+	u8 version = (protocol_version >= 34) ? 11 : 10;
+	writeU8(os, version);
 
 	// general
 	os << serializeString(name);
@@ -460,9 +467,9 @@ void ContentFeatures::serialize(std::ostream &os, u16 protocol_version) const
 	collision_box.serialize(os, protocol_version);
 
 	// sound
-	serializeSimpleSoundSpec(sound_footstep, os);
-	serializeSimpleSoundSpec(sound_dig, os);
-	serializeSimpleSoundSpec(sound_dug, os);
+	serializeSimpleSoundSpec(sound_footstep, os, version);
+	serializeSimpleSoundSpec(sound_dig, os, version);
+	serializeSimpleSoundSpec(sound_dug, os, version);
 
 	// legacy
 	writeU8(os, legacy_facedir_simple);
@@ -491,7 +498,7 @@ void ContentFeatures::deSerialize(std::istream &is)
 	if (version < 9) {
 		deSerializeOld(is, version);
 		return;
-	} else if (version > 10) {
+	} else if (version > 11) {
 		throw SerializationError("unsupported ContentFeatures version");
 	}
 
@@ -573,9 +580,9 @@ void ContentFeatures::deSerialize(std::istream &is)
 	collision_box.deSerialize(is);
 
 	// sounds
-	deSerializeSimpleSoundSpec(sound_footstep, is);
-	deSerializeSimpleSoundSpec(sound_dig, is);
-	deSerializeSimpleSoundSpec(sound_dug, is);
+	deSerializeSimpleSoundSpec(sound_footstep, is, version);
+	deSerializeSimpleSoundSpec(sound_dig, is, version);
+	deSerializeSimpleSoundSpec(sound_dug, is, version);
 
 	// read legacy properties
 	legacy_facedir_simple = readU8(is);
@@ -1604,9 +1611,9 @@ void ContentFeatures::serializeOld(std::ostream &os, u16 protocol_version) const
 		selection_box.serialize(os, protocol_version);
 		writeU8(os, legacy_facedir_simple);
 		writeU8(os, legacy_wallmounted);
-		serializeSimpleSoundSpec(sound_footstep, os);
-		serializeSimpleSoundSpec(sound_dig, os);
-		serializeSimpleSoundSpec(sound_dug, os);
+		serializeSimpleSoundSpec(sound_footstep, os, 10);
+		serializeSimpleSoundSpec(sound_dig, os, 10);
+		serializeSimpleSoundSpec(sound_dug, os, 10);
 		writeU8(os, rightclickable);
 		writeU8(os, drowning);
 		writeU8(os, leveled);
@@ -1676,9 +1683,9 @@ void ContentFeatures::deSerializeOld(std::istream &is, int version)
 		selection_box.deSerialize(is);
 		legacy_facedir_simple = readU8(is);
 		legacy_wallmounted = readU8(is);
-		deSerializeSimpleSoundSpec(sound_footstep, is);
-		deSerializeSimpleSoundSpec(sound_dig, is);
-		deSerializeSimpleSoundSpec(sound_dug, is);
+		deSerializeSimpleSoundSpec(sound_footstep, is, version);
+		deSerializeSimpleSoundSpec(sound_dig, is, version);
+		deSerializeSimpleSoundSpec(sound_dug, is, version);
 	} else if (version == 6) {
 		name = deSerializeString(is);
 		groups.clear();
@@ -1726,9 +1733,9 @@ void ContentFeatures::deSerializeOld(std::istream &is, int version)
 		selection_box.deSerialize(is);
 		legacy_facedir_simple = readU8(is);
 		legacy_wallmounted = readU8(is);
-		deSerializeSimpleSoundSpec(sound_footstep, is);
-		deSerializeSimpleSoundSpec(sound_dig, is);
-		deSerializeSimpleSoundSpec(sound_dug, is);
+		deSerializeSimpleSoundSpec(sound_footstep, is, version);
+		deSerializeSimpleSoundSpec(sound_dig, is, version);
+		deSerializeSimpleSoundSpec(sound_dug, is, version);
 		rightclickable = readU8(is);
 		drowning = readU8(is);
 		leveled = readU8(is);
@@ -1781,9 +1788,9 @@ void ContentFeatures::deSerializeOld(std::istream &is, int version)
 		selection_box.deSerialize(is);
 		legacy_facedir_simple = readU8(is);
 		legacy_wallmounted = readU8(is);
-		deSerializeSimpleSoundSpec(sound_footstep, is);
-		deSerializeSimpleSoundSpec(sound_dig, is);
-		deSerializeSimpleSoundSpec(sound_dug, is);
+		deSerializeSimpleSoundSpec(sound_footstep, is, version);
+		deSerializeSimpleSoundSpec(sound_dig, is, version);
+		deSerializeSimpleSoundSpec(sound_dug, is, version);
 		rightclickable = readU8(is);
 		drowning = readU8(is);
 		leveled = readU8(is);
@@ -1916,11 +1923,6 @@ bool CNodeDefManager::nodeboxConnects(MapNode from, MapNode to, u8 connect_face)
 
 NodeResolver::NodeResolver()
 {
-	m_ndef            = NULL;
-	m_nodenames_idx   = 0;
-	m_nnlistsizes_idx = 0;
-	m_resolve_done    = false;
-
 	m_nodenames.reserve(16);
 	m_nnlistsizes.reserve(4);
 }

@@ -54,8 +54,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 ABMWithState::ABMWithState(ActiveBlockModifier *abm_):
-	abm(abm_),
-	timer(0)
+	abm(abm_)
 {
 	// Initialize timer to random value to spread processing
 	float itv = abm->getTriggerInterval();
@@ -365,15 +364,7 @@ ServerEnvironment::ServerEnvironment(ServerMap *map,
 	m_map(map),
 	m_script(scriptIface),
 	m_server(server),
-	m_path_world(path_world),
-	m_send_recommended_timer(0),
-	m_active_block_interval_overload_skip(0),
-	m_game_time(0),
-	m_game_time_fraction_counter(0),
-	m_last_clear_objects_time(0),
-	m_recommended_send_interval(0.1),
-	m_max_lag_estimate(0.1),
-	m_player_database(NULL)
+	m_path_world(path_world)
 {
 	// Determine which database backend to use
 	std::string conf_path = path_world + DIR_DELIM + "world.mt";
@@ -1169,7 +1160,8 @@ void ServerEnvironment::step(float dtime)
 	// Update this one
 	// NOTE: This is kind of funny on a singleplayer game, but doesn't
 	// really matter that much.
-	static const float server_step = g_settings->getFloat("dedicated_server_step");
+	static thread_local const float server_step =
+			g_settings->getFloat("dedicated_server_step");
 	m_recommended_send_interval = server_step;
 
 	/*
@@ -1230,7 +1222,8 @@ void ServerEnvironment::step(float dtime)
 		/*
 			Update list of active blocks, collecting changes
 		*/
-		static const s16 active_block_range = g_settings->getS16("active_block_range");
+		static thread_local const s16 active_block_range =
+				g_settings->getS16("active_block_range");
 		std::set<v3s16> blocks_removed;
 		std::set<v3s16> blocks_added;
 		m_active_blocks.update(players_blockpos, active_block_range,

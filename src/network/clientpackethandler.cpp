@@ -683,8 +683,7 @@ void Client::handleCommand_Media(NetworkPacket* pkt)
 	if (num_files == 0)
 		return;
 
-	if (m_media_downloader == NULL ||
-			!m_media_downloader->isStarted()) {
+	if (!m_media_downloader || !m_media_downloader->isStarted()) {
 		const char *problem = m_media_downloader ?
 			"media has not been requested" :
 			"all media has been received already";
@@ -764,6 +763,7 @@ void Client::handleCommand_PlaySound(NetworkPacket* pkt)
 		[23 + len] u16 object_id
 		[25 + len] bool loop
 		[26 + len] f32 fade
+		[30 + len] f32 pitch
 	*/
 
 	s32 server_id;
@@ -774,29 +774,31 @@ void Client::handleCommand_PlaySound(NetworkPacket* pkt)
 	v3f pos;
 	u16 object_id;
 	bool loop;
-	float fade = 0;
+	float fade = 0.0f;
+	float pitch = 1.0f;
 
 	*pkt >> server_id >> name >> gain >> type >> pos >> object_id >> loop;
 
 	try {
 		*pkt >> fade;
+		*pkt >> pitch;
 	} catch (PacketError &e) {};
 
 	// Start playing
 	int client_id = -1;
 	switch(type) {
 		case 0: // local
-			client_id = m_sound->playSound(name, loop, gain, fade);
+			client_id = m_sound->playSound(name, loop, gain, fade, pitch);
 			break;
 		case 1: // positional
-			client_id = m_sound->playSoundAt(name, loop, gain, pos);
+			client_id = m_sound->playSoundAt(name, loop, gain, pos, pitch);
 			break;
 		case 2:
 		{ // object
 			ClientActiveObject *cao = m_env.getActiveObject(object_id);
 			if (cao)
 				pos = cao->getPosition();
-			client_id = m_sound->playSoundAt(name, loop, gain, pos);
+			client_id = m_sound->playSoundAt(name, loop, gain, pos, pitch);
 			// TODO: Set up sound to move with object
 			break;
 		}
@@ -1172,9 +1174,21 @@ void Client::handleCommand_HudSetParam(NetworkPacket* pkt)
 			player->hud_hotbar_itemcount = hotbar_itemcount;
 	}
 	else if (param == HUD_PARAM_HOTBAR_IMAGE) {
+		// If value not empty verify image exists in texture source
+		if (value != "" && !getTextureSource()->isKnownSourceImage(value)) {
+			errorstream << "Server sent wrong Hud hotbar image (sent value: '"
+				<< value << "')" << std::endl;
+			return;
+		}
 		player->hotbar_image = value;
 	}
 	else if (param == HUD_PARAM_HOTBAR_SELECTED_IMAGE) {
+		// If value not empty verify image exists in texture source
+		if (value != "" && !getTextureSource()->isKnownSourceImage(value)) {
+			errorstream << "Server sent wrong Hud hotbar selected image (sent value: '"
+					<< value << "')" << std::endl;
+			return;
+		}
 		player->hotbar_selected_image = value;
 	}
 }

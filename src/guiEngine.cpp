@@ -142,18 +142,7 @@ GUIEngine::GUIEngine(	irr::IrrlichtDevice* dev,
 	m_menumanager(menumgr),
 	m_smgr(smgr),
 	m_data(data),
-	m_texture_source(NULL),
-	m_sound_manager(NULL),
-	m_formspecgui(0),
-	m_buttonhandler(0),
-	m_menu(0),
-	m_kill(kill),
-	m_startgame(false),
-	m_script(0),
-	m_scriptdir(""),
-	m_irr_toplefttext(0),
-	m_clouds_enabled(true),
-	m_cloud()
+	m_kill(kill)
 {
 	//initialize texture pointers
 	for (unsigned int i = 0; i < TEX_LAYER_MAX; i++) {
@@ -334,7 +323,7 @@ GUIEngine::~GUIEngine()
 
 	//clean up texture pointers
 	for (unsigned int i = 0; i < TEX_LAYER_MAX; i++) {
-		if (m_textures[i].texture != NULL)
+		if (m_textures[i].texture)
 			driver->removeTexture(m_textures[i].texture);
 	}
 

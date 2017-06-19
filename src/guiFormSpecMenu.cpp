@@ -89,22 +89,9 @@ GUIFormSpecMenu::GUIFormSpecMenu(irr::IrrlichtDevice* dev,
 	m_invmgr(client),
 	m_tsrc(tsrc),
 	m_client(client),
-	m_selected_item(NULL),
-	m_selected_amount(0),
-	m_selected_dragging(false),
-	m_tooltip_element(NULL),
-	m_hovered_time(0),
-	m_old_tooltip_id(-1),
-	m_rmouse_auto_place(false),
-	m_allowclose(true),
-	m_lock(false),
 	m_form_src(fsrc),
 	m_text_dst(tdst),
-	m_formspec_version(0),
-	m_focused_element(""),
 	m_joystick(joystick),
-	current_field_enter_pending(""),
-	m_font(NULL),
 	m_remap_dbl_click(remap_dbl_click)
 #ifdef __ANDROID__
 	, m_JavaDialogFieldName("")
@@ -2017,7 +2004,7 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 
 	// Add tooltip
 	{
-		assert(m_tooltip_element == NULL);
+		assert(!m_tooltip_element);
 		// Note: parent != this so that the tooltip isn't clipped by the menu rectangle
 		m_tooltip_element = addStaticText(Environment, L"",core::rect<s32>(0,0,110,18));
 		m_tooltip_element->enableOverrideColor(true);
@@ -2170,7 +2157,7 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 	m_tooltip_element->setOverrideFont(m_font);
 
 	gui::IGUISkin* skin = Environment->getSkin();
-	sanity_check(skin != NULL);
+	sanity_check(skin);
 	gui::IGUIFont *old_font = skin->getFont();
 	skin->setFont(m_font);
 
@@ -2629,7 +2616,6 @@ void GUIFormSpecMenu::drawMenu()
 		u64 delta = 0;
 		if (id == -1) {
 			m_old_tooltip_id = id;
-			m_old_tooltip = L"";
 		} else {
 			if (id == m_old_tooltip_id) {
 				delta = porting::getDeltaMs(m_hovered_time, porting::getTimeMs());
@@ -2673,7 +2659,6 @@ void GUIFormSpecMenu::showTooltip(const std::wstring &text,
 {
 	m_tooltip_element->setOverrideColor(color);
 	m_tooltip_element->setBackgroundColor(bgcolor);
-	m_old_tooltip = text;
 	setStaticText(m_tooltip_element, text.c_str());
 
 	// Tooltip size and offset
@@ -3037,7 +3022,6 @@ bool GUIFormSpecMenu::preprocessEvent(const SEvent& event)
 				core::position2d<s32>(x, y));
 		if (event.MouseInput.Event == EMIE_LMOUSE_PRESSED_DOWN) {
 			m_old_tooltip_id = -1;
-			m_old_tooltip = L"";
 		}
 		if (!isChild(hovered,this)) {
 			if (DoubleClickDetection(event)) {
@@ -3298,7 +3282,7 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
 			return true;
 		} else if (m_client != NULL && event.KeyInput.PressedDown &&
 				(kp == getKeySetting("keymap_screenshot"))) {
-			m_client->makeScreenshot(m_device);
+			m_client->makeScreenshot();
 		}
 		if (event.KeyInput.PressedDown &&
 			(event.KeyInput.Key==KEY_RETURN ||
