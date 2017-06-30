@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_homedecor = world_conf:get("enable_homedecor")
-
-if enable_homedecor ~= nil and enable_homedecor == "false" then
-	minetest.log("info", "[homedecor:plasmascreen] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("homedecor") then return end
 
 local S = homedecor_i18n.gettext
 

@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_digilines = world_conf:get("enable_digilines")
-
-if enable_digilines ~= nil and enable_digilines == "false" then
-	minetest.log("info", "[mesecons:digilines] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("digilines") then return end
 
 digiline = {}
 

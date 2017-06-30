@@ -3,26 +3,11 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
---]]
-
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_mesecons = world_conf:get("enable_mesecons")
-
-if enable_mesecons ~= nil and enable_mesecons == "false" then
-	minetest.log("info", "[mesecons:commandblock] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
---[[
-
 2017-05-17 MrCerealGuy: added intllib support
 
 --]]
 
+if core.skip_mod("mesecons") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())

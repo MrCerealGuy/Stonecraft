@@ -10,17 +10,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_technic = world_conf:get("enable_technic")
-
-if enable_technic ~= nil and enable_technic == "false" then
-	minetest.log("info", "[technic:concrete] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("technic") then return end
 
 local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}

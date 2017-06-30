@@ -5,18 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_woodsoils = world_conf:get("enable_woodsoils")
-
-if enable_woodsoils ~= nil and enable_woodsoils == "false" then
-	minetest.log("info", "[woodsoils] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
+if core.skip_mod("woodsoils") then return end
 
 -----------------------------------------------------------------------------------------------
 local title		= "Wood Soils" -- former "Forest Soils"

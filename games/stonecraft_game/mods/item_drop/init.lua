@@ -5,15 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_itemdrop = world_conf:get("enable_itemdrop")
-
-if enable_itemdrop ~= nil and enable_itemdrop == "false" then
-	minetest.log("info", "[item_drop] skip loading mod.")
-	return
-end
+if core.skip_mod("itemdrop") then return end
 
 --GUI for collected items
 item_collect_gui = {}

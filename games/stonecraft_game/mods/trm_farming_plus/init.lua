@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_surprise = world_conf:get("enable_surprise")
-
-if enable_surprise ~= nil and enable_surprise == "false" then
-	minetest.log("info", "[trm_farming_plus] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("surprise") then return end
 
 -- weed
 treasurer.register_treasure("farming:weed",0.2,0.1,{1,20})

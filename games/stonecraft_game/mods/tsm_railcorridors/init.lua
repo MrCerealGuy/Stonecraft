@@ -5,18 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_railcorridors = world_conf:get("enable_railcorridors")
-
-if enable_railcorridors ~= nil and enable_railcorridors == "false" then
-	minetest.log("info", "[tsm_railcorridors] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
+if core.skip_mod("railcorridors") then return end
 
 -- „Parameter“/„Settings“
 local setting

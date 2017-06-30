@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_vines = world_conf:get("enable_vines")
-
-if enable_vines ~= nil and enable_vines == "false" then
-	minetest.log("info", "[vines] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("vines") then return end
 
 vines = {
   name = 'vines',

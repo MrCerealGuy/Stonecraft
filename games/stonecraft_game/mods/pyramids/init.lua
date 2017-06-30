@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_pyramids = world_conf:get("enable_pyramids")
-
-if enable_pyramids ~= nil and enable_pyramids == "false" then
-	minetest.log("info", "[pyramids] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("pyramids") then return end
 
 pyramids = {}
 

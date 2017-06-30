@@ -28,17 +28,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_creatures = world_conf:get("enable_creatures")
-
-if enable_creatures ~= nil and enable_creatures == "false" then
-	minetest.log("info", "[cme:ghost] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("creatures") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())

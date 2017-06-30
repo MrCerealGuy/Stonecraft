@@ -1,3 +1,12 @@
+--[[
+
+2017-06-30 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("homedecor") then return end
+
 computer = {}
 screwdriver = screwdriver or {}
 

@@ -7,18 +7,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_giantmushrooms = world_conf:get("enable_giantmushrooms")
-
-if enable_giantmushrooms ~= nil and enable_giantmushrooms == "false" then
-	minetest.log("info", "[riesenpilz] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
+if core.skip_mod("giantmushrooms") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())

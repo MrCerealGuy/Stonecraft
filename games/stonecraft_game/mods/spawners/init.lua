@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_spawners = world_conf:get("enable_spawners")
-
-if enable_spawners ~= nil and enable_spawners == "false" then
-	minetest.log("info", "[spawners] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("spawners") then return end
 
 -- Main settings
 dofile(minetest.get_modpath("spawners").."/settings.txt")

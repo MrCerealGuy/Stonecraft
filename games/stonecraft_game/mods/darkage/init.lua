@@ -5,15 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_darkage = world_conf:get("enable_darkage")
-
-if enable_darkage ~= nil and enable_darkage == "false" then
-	minetest.log("info", "[darkage] skip loading mod.")
-	return
-end
+if core.skip_mod("darkage") then return end
 
 print (" ---- Dark Age is Loading! ---- ")
 -- Commend this lines if you don't like some of this features

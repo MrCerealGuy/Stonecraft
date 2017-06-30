@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_boost_cart = world_conf:get("enable_boost_cart")
-
-if enable_boost_cart ~= nil and enable_boost_cart == "false" then
-	minetest.log("info", "[boost_cart] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("boost_cart") then return end
 
 boost_cart = {}
 boost_cart.modpath = minetest.get_modpath("boost_cart")

@@ -41,17 +41,7 @@ http://github.com/Splizard/minetest-mod-snow/
 	exit if mod is deactivated
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_snow = world_conf:get("enable_snow")
-
-if enable_snow ~= nil and enable_snow == "false" then
-	minetest.log("info", "[snow] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("snow") then return end
 
 -- Original Lua Files
 --dofile(modpath.."/util.lua")

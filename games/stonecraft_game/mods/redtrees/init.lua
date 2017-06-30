@@ -5,17 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_redtrees = world_conf:get("enable_redtrees")
-
-if enable_redtrees ~= nil and enable_redtrees == "false" then
-	minetest.log("info", "[redtrees] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("redtrees") then return end
 
 --Red Trees (AKA Fiery Trees)
 --Put together by Glory!.

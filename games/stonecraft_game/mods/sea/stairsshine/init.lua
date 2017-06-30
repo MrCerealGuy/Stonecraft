@@ -12,17 +12,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_seaplants = world_conf:get("enable_seaplants")
-
-if enable_seaplants ~= nil and enable_seaplants == "false" then
-	minetest.log("info", "[sea:stairshine] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("seaplants") then return end
 
 stairsshine = {}
 

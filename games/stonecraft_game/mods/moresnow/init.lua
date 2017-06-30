@@ -5,18 +5,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_moresnow = world_conf:get("enable_moresnow")
-
-if enable_moresnow ~= nil and enable_moresnow == "false" then
-	minetest.log("info", "[moresnow] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
+if core.skip_mod("moresnow") then return end
 
 moresnow = {}
 

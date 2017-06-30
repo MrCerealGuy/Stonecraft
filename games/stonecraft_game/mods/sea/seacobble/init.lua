@@ -3,34 +3,17 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
---]]
-
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_seaplants = world_conf:get("enable_seaplants")
-
-if enable_seaplants ~= nil and enable_seaplants == "false" then
-	minetest.log("info", "[sea:seacobble] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
-
--- NODES
-
---[[
-
 2017-05-13 MrCerealGuy: added intllib support
 
 --]]
 
+if core.skip_mod("seaplants") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-
+-- NODES
 minetest.register_node("seacobble:seacobble", {
 	description = S("Sea cobblestone"),
 	tiles = {"seacobble_seacobble.png"},

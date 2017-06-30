@@ -13,17 +13,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_pipeworks = world_conf:get("enable_pipeworks")
-
-if enable_pipeworks ~= nil and enable_pipeworks == "false" then
-	minetest.log("info", "[pipeworks] skip loading mod.")
-	return
-end
-
--- --------------------------------------------------------------------------------------------------------
+if core.skip_mod("pipeworks") then return end
 
 pipeworks = {}
 
