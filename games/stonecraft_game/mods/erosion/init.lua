@@ -12,15 +12,7 @@
 
 --]]
 
-local DIR_DELIM = DIR_DELIM or "/"
-local world_file = minetest.get_worldpath()..DIR_DELIM.."world.mt"
-local world_conf = Settings(world_file)
-local enable_erosion = world_conf:get("enable_erosion")
-
-if enable_erosion ~= nil and enable_erosion == "false" then
-	minetest.log("info", "[erosion] skip loading mod.")
-	return
-end
+if core.skip_mod("erosion") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
