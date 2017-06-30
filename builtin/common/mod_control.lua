@@ -22,5 +22,10 @@ end
 function core.skip_mod(mod)
 	assert(type(mod) == "string")
 
-	return not core.is_world_option("enable_" .. mod)
+	if not core.is_world_option("enable_" .. mod) then
+		minetest.log("info", "[" .. mod .. "] skip loading mod.")
+		return true
+	end
+
+	return false
 end
