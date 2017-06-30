@@ -18,3 +18,9 @@ function core.is_world_option(option)
 
 	return false
 end
+
+function core.skip_mod(mod)
+	assert(type(mod) == "string")
+
+	return not core.is_world_option("enable_" .. mod)
+end
