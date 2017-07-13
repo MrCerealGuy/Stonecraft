@@ -249,7 +249,7 @@ msgstr ""
 "stonecraft heruntergeladen werden"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download one from minetest.net"
+msgid "Download one from mrcerealguy.github.io/stonecraft"
 msgstr ""
 "Spiele können von mrcerealguy.github.io/stonecraft heruntergeladen werden"
 
@@ -276,6 +276,10 @@ msgstr "Warnung: Die minimale Testversion ist für Entwickler gedacht."
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "World name"
 msgstr "Weltname"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Cannot find Stonecraft game data! Download from mrcerealguy.github.io/stonecraft."
+msgstr "Kann Stonecraft-Spieldaten nicht finden! Bitte von mrcerealguy.github.io/stonecraft herunterladen."
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "You have no subgames installed."

@@ -1,0 +1,116 @@
+# This file contains all settings displayed in the world creation menu.
+#
+# General format:
+#    name (Readable name) type type_args
+#
+# Note that the parts are separated by exactly one space
+#
+# `type` can be:
+#    - int
+#    - string
+#    - bool
+#    - float
+#    - enum
+#    - path
+#    - filepath
+#    - key (will be ignored in GUI, since a special key change dialog exists)
+#    - flags
+#    - noise_params
+#
+# `type_args` can be:
+#   * int:
+#            - default
+#            - default min max
+#   * string:
+#            - default (if default is not specified then "" is set)
+#   * bool:
+#            - default
+#   * float:
+#            - default
+#            - default min max
+#   * enum:
+#            - default value1,value2,...
+#   * path:
+#            - default (if default is not specified then "" is set)
+#   * filepath:
+#            - default (if default is not specified then "" is set)
+#   * key:
+#            - default
+#   * flags:
+#            Flags are always separated by comma without spaces.
+#            - default possible_flags
+#   * noise_params:
+#            TODO: these are currently treated like strings
+#
+# Comments directly above a setting are bound to this setting.
+# All other comments are ignored.
+#
+# Comments and (Readable name) are handled by gettext.
+# Comments should be complete sentences that describe the setting and possibly
+#  give the user additional useful insight.
+# Sections are marked by a single line in the format: [Section Name]
+# Sub-section are marked by adding * in front of the section name: [*Sub-section]
+# Sub-sub-sections have two * etc.
+# There shouldn't be too much settings per category; settings that shouldn't be
+#  modified by the "average user" should be in (sub-)categories called "Advanced".
+
+[Mobs and animals]
+
+#    
+enable_creatures (Simple Mobs) bool false
+
+#    
+enable_nssm (Not So Simple Mobs) bool false
+
+[Biomes]
+
+#    
+enable_biomes (Ethereal biomes) bool false
+
+#    
+enable_swamps (Swamps biome) bool false
+
+#    
+enable_snow (Snow biome) bool false
+
+#    
+enable_caverealms (Cave realms) bool false
+
+[Stuff]
+
+#    
+enable_surprise (Surprise blocks) bool false
+
+#    
+enable_homedecor_technic (Home decorations and technic) bool false
+
+#    
+enable_itemdrop (Auto pick up items) bool false
+
+[Nature]
+
+#    
+enable_forests (More forests and red trees) bool false
+
+#    
+enable_seaplants (Sea plants) bool false
+
+#    
+enable_woodsoils_vines (Wood soils and vines) bool false
+
+#    
+enable_giantmushrooms (Giant mushrooms) bool false
+
+#    
+enable_erosion (Erosion and sloped blocks) bool false
+
+[Structures]
+
+#    
+enable_villages (Villages and buildings) bool false
+
+#    
+enable_mines (Mines) bool false
+
+#    
+enable_pyramids (Pyramids) bool false

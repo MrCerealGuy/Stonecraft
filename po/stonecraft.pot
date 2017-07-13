@@ -249,11 +249,15 @@ msgid "Auto pick up items"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Cannot find Stonecraft game data! Download from mrcerealguy.github.io/stonecraft."
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "You have no subgames installed."
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download one from minetest.net"
+msgid "Download one from from mrcerealguy.github.io/stonecraft"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
@@ -261,7 +265,7 @@ msgid "Warning: The minimal development test is meant for developers."
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download a subgame, such as minetest_game, from minetest.net"
+msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
