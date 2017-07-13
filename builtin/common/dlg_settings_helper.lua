@@ -1,3 +1,5 @@
+-- Helper functions for reading setting files
+
 local CHAR_CLASSES = {
 	SPACE = "[%s]",
 	VARIABLE = "[%w_%-%.]",

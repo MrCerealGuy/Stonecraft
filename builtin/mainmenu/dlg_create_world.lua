@@ -20,6 +20,8 @@
 2017-06-11 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	added option Minecraft-like item drop/pick-up
 
+2017-07-13 redesigned dialog
+
 --]]
 
 local FILENAME = "worldoptions.txt"

@@ -15,6 +15,15 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+--[[
+
+2017-06-11 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added option Minecraft-like item drop/pick-up
+
+2017-07-13 moved parse_xxx functions to dlg_settings_helper.lua by MrCerealGuy <mrcerealguy@gmx.de>
+
+--]]
+
 local FILENAME = "settingtypes.txt"
 
 -- include dlg_settings_helper.lua
