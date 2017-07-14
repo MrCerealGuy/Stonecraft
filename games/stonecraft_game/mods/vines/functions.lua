@@ -10,7 +10,6 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 vines.register_vine = function( name, defs, biome )
-  local biome = biome
   local groups = { vines=1, snappy=3, flammable=2 }
 
   local vine_name_end = 'vines:'..name..'_end'
@@ -43,7 +42,7 @@ vines.register_vine = function( name, defs, biome )
     sunlight_propagates = true,
     paramtype = "light",
     paramtype2 = "wallmounted",
-    buildable_to = true,
+    buildable_to = false,
     tiles = { vine_image_end },
     drawtype = drawtype,
     inventory_image = vine_image_end,
@@ -72,7 +71,6 @@ vines.register_vine = function( name, defs, biome )
     end
   })
 
-
   minetest.register_node( vine_name_middle, {
     description = S("Matured @1", defs.description),
     walkable = false,
@@ -81,7 +79,7 @@ vines.register_vine = function( name, defs, biome )
     sunlight_propagates = true,
     paramtype = "light",
     paramtype2 = "wallmounted",
-    buildable_to = true,
+    buildable_to = false,
     tiles = { vine_image_middle },
     wield_image = vine_image_middle,
     drawtype = drawtype,
@@ -90,11 +88,10 @@ vines.register_vine = function( name, defs, biome )
     sounds = default.node_sound_leaves_defaults(),
     selection_box = selection_box,
     on_destruct = function( pos )
-      local node = minetest.get_node( pos )
       local bottom = {x=pos.x, y=pos.y-1, z=pos.z}
       local bottom_node = minetest.get_node( bottom )
-      if minetest.get_item_group( bottom_node.name, "vines") then
-        minetest.remove_node( bottom )
+      if minetest.get_item_group( bottom_node.name, "vines") > 0 then
+        minetest.after( 0, minetest.remove_node, bottom )
       end
     end,
     after_dig_node = function( pos, node, oldmetadata, user )
@@ -104,12 +101,12 @@ vines.register_vine = function( name, defs, biome )
 
   biome_lib:spawn_on_surfaces( biome )
 
-  local override_nodes = function( nodes, defs )
-    local function override( index, registered )
+  local override_nodes = function( nodes, def )
+  local function override( index, registered )
       local node = nodes[ index ]
       if index > #nodes then return registered end
       if minetest.registered_nodes[node] then
-        minetest.override_item( node, defs )
+        minetest.override_item( node, def )
         registered[#registered+1] = node
       end
       override( index+1, registered )
@@ -118,7 +115,7 @@ vines.register_vine = function( name, defs, biome )
   end
 
   override_nodes( biome.spawn_surfaces,{
-    after_destruct = function( pos )
+    on_destruct = function( pos )
       local pos_min = { x = pos.x -1, y = pos.y - 1, z = pos.z - 1 }
       local pos_max = { x = pos.x +1, y = pos.y + 1, z = pos.z + 1 }
       local positions = minetest.find_nodes_in_area( pos_min, pos_max, "group:vines" )
@@ -134,7 +131,7 @@ vines.dig_vine = function( pos, node_name, user )
   --only dig give the vine if shears are used
   if not user then return false end
   local wielded = user:get_wielded_item()
-  if 'vines:shears' == wielded:get_name() then 
+  if 'vines:shears' == wielded:get_name() then
     local inv = user:get_inventory()
     if inv then
       inv:add_item("main", ItemStack( node_name ))

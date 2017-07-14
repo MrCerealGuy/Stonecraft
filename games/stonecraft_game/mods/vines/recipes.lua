@@ -1,12 +1,12 @@
 vines.recipes['rope_block'] = {
-  {'', 'default:wood', ''},
+  {'', 'group:wood', ''},
   {'', 'group:vines', ''},
   {'', 'group:vines', ''}
 }
 
 vines.recipes['shears'] = {
   {'', 'default:steel_ingot', ''},
-  {'default:stick', 'default:wood', 'default:steel_ingot'},
-  {'', '', 'default:stick'}
+  {'group:stick', 'group:wood', 'default:steel_ingot'},
+  {'', '', 'group:stick'}
 }
 

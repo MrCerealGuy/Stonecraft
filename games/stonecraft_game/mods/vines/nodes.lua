@@ -69,7 +69,7 @@ minetest.register_node("vines:rope_end", {
   groups = {flammable=2, not_in_creative_inventory=1},
   sounds =  default.node_sound_leaves_defaults(),
   after_place_node = function(pos)
-    yesh  = {x = pos.x, y= pos.y-1, z=pos.z}
+    local yesh  = {x = pos.x, y= pos.y-1, z=pos.z}
     minetest.add_node(yesh, {name="vines:rope"})
   end,
   selection_box = {
