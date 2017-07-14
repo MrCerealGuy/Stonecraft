@@ -48,8 +48,6 @@ RenderingEngine::RenderingEngine(IEventReceiver *receiver)
 
 	// Resolution selection
 	bool fullscreen = g_settings->getBool("fullscreen");
-	u16 screen_w = g_settings->getU16("screen_w");
-	u16 screen_h = g_settings->getU16("screen_h");
 
 	// bpp, fsaa, vsync
 	bool vsync = g_settings->getBool("vsync");
@@ -80,7 +78,7 @@ RenderingEngine::RenderingEngine(IEventReceiver *receiver)
 
 	SIrrlichtCreationParameters params = SIrrlichtCreationParameters();
 	params.DriverType = driverType;
-	params.WindowSize = core::dimension2d<u32>(screen_w, screen_h);
+	params.WindowSize = getDisplaySize();	// MERGEINFO: changed by MrCerealGuy
 	params.Bits = bits;
 	params.AntiAlias = fsaa;
 	params.Fullscreen = fullscreen;
