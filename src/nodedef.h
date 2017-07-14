@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef SERVER
 #include "client/tile.h"
 #include "shader.h"
+#include <IMeshManipulator.h>
 class Client;
 #endif
 #include "itemgroup.h"
@@ -186,6 +187,8 @@ enum NodeDrawType
 	NDT_GLASSLIKE_FRAMED_OPTIONAL,
 	// Uses static meshes
 	NDT_MESH,
+	// Combined plantlike-on-solid
+	NDT_PLANTLIKE_ROOTED,
 };
 
 // Mesh options for NDT_PLANTLIKE with CPT2_MESHOPTIONS

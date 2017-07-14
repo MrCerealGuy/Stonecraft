@@ -5,6 +5,12 @@
 -- before loading and running any mods.
 --
 
+--[[
+
+2017-06-30 added mod_control.lua by MrCerealGuy <mrcerealguy@gmx.de>
+
+--]]
+
 -- Initialize some very basic things
 function core.debug(...) core.log(table.concat({...}, "\t")) end
 if core.print then
@@ -25,7 +31,7 @@ os.setlocale("C", "numeric")
 minetest = core
 
 -- Load other files
-local scriptdir = core.get_builtin_path() .. DIR_DELIM
+local scriptdir = core.get_builtin_path()
 local gamepath = scriptdir .. "game" .. DIR_DELIM
 local clientpath = scriptdir .. "client" .. DIR_DELIM
 local commonpath = scriptdir .. "common" .. DIR_DELIM

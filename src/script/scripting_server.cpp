@@ -50,6 +50,7 @@ extern "C" {
 ServerScripting::ServerScripting(Server* server)
 {
 	setGameDef(server);
+	setType(ScriptingType::Server);
 
 	// setEnv(env) is called by ScriptApiEnv::initializeEnvironment()
 	// once the environment has been created
@@ -91,6 +92,7 @@ void ServerScripting::InitializeModApi(lua_State *L, int top)
 	LuaPerlinNoiseMap::Register(L);
 	LuaPseudoRandom::Register(L);
 	LuaPcgRandom::Register(L);
+	LuaRaycast::Register(L);
 	LuaSecureRandom::Register(L);
 	LuaVoxelManip::Register(L);
 	NodeMetaRef::Register(L);

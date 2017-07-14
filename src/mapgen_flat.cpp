@@ -51,14 +51,15 @@ FlagDesc flagdesc_mapgen_flat[] = {
 MapgenFlat::MapgenFlat(int mapgenid, MapgenFlatParams *params, EmergeManager *emerge)
 	: MapgenBasic(mapgenid, params, emerge)
 {
-	this->spflags          = params->spflags;
-	this->ground_level     = params->ground_level;
-	this->large_cave_depth = params->large_cave_depth;
-	this->cave_width       = params->cave_width;
-	this->lake_threshold   = params->lake_threshold;
-	this->lake_steepness   = params->lake_steepness;
-	this->hill_threshold   = params->hill_threshold;
-	this->hill_steepness   = params->hill_steepness;
+	spflags          = params->spflags;
+	ground_level     = params->ground_level;
+	large_cave_depth = params->large_cave_depth;
+	lava_depth       = params->lava_depth;
+	cave_width       = params->cave_width;
+	lake_threshold   = params->lake_threshold;
+	lake_steepness   = params->lake_steepness;
+	hill_threshold   = params->hill_threshold;
+	hill_steepness   = params->hill_steepness;
 
 	// 2D noise
 	noise_filler_depth = new Noise(&params->np_filler_depth, seed, csize.X, csize.Z);
@@ -94,6 +95,7 @@ void MapgenFlatParams::readParams(const Settings *settings)
 	settings->getFlagStrNoEx("mgflat_spflags",      spflags, flagdesc_mapgen_flat);
 	settings->getS16NoEx("mgflat_ground_level",     ground_level);
 	settings->getS16NoEx("mgflat_large_cave_depth", large_cave_depth);
+	settings->getS16NoEx("mgflat_lava_depth",       lava_depth);
 	settings->getFloatNoEx("mgflat_cave_width",     cave_width);
 	settings->getFloatNoEx("mgflat_lake_threshold", lake_threshold);
 	settings->getFloatNoEx("mgflat_lake_steepness", lake_steepness);
@@ -112,6 +114,7 @@ void MapgenFlatParams::writeParams(Settings *settings) const
 	settings->setFlagStr("mgflat_spflags",      spflags, flagdesc_mapgen_flat, U32_MAX);
 	settings->setS16("mgflat_ground_level",     ground_level);
 	settings->setS16("mgflat_large_cave_depth", large_cave_depth);
+	settings->setS16("mgflat_lava_depth",       lava_depth);
 	settings->setFloat("mgflat_cave_width",     cave_width);
 	settings->setFloat("mgflat_lake_threshold", lake_threshold);
 	settings->setFloat("mgflat_lake_steepness", lake_steepness);
@@ -186,7 +189,7 @@ void MapgenFlat::makeChunk(BlockMakeData *data)
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
 	biomegen->calcBiomeNoise(node_min);
-	MgStoneType stone_type = generateBiomes();
+	MgStoneType stone_type = generateBiomes(water_level - 1);
 
 	if (flags & MG_CAVES)
 		generateCaves(stone_surface_max_y, large_cave_depth);
@@ -196,10 +199,12 @@ void MapgenFlat::makeChunk(BlockMakeData *data)
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
-		m_emerge->decomgr->placeAllDecos(this, blockseed, node_min, node_max);
+		m_emerge->decomgr->placeAllDecos(this, blockseed,
+			node_min, node_max, water_level - 1);
 
 	// Generate the registered ores
-	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
+	m_emerge->oremgr->placeAllOres(this, blockseed,
+		node_min, node_max, water_level - 1);
 
 	// Sprinkle some dust on top after everything else was generated
 	dustTopNodes();

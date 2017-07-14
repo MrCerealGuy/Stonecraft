@@ -48,11 +48,13 @@ FlagDesc flagdesc_mapgen_v5[] = {
 MapgenV5::MapgenV5(int mapgenid, MapgenV5Params *params, EmergeManager *emerge)
 	: MapgenBasic(mapgenid, params, emerge)
 {
-	this->spflags          = params->spflags;
-	this->cave_width       = params->cave_width;
-	this->cavern_limit     = params->cavern_limit;
-	this->cavern_taper     = params->cavern_taper;
-	this->cavern_threshold = params->cavern_threshold;
+	spflags          = params->spflags;
+	cave_width       = params->cave_width;
+	large_cave_depth = params->large_cave_depth;
+	lava_depth       = params->lava_depth;
+	cavern_limit     = params->cavern_limit;
+	cavern_taper     = params->cavern_taper;
+	cavern_threshold = params->cavern_threshold;
 
 	// Terrain noise
 	noise_filler_depth = new Noise(&params->np_filler_depth, seed, csize.X, csize.Z);
@@ -94,6 +96,8 @@ void MapgenV5Params::readParams(const Settings *settings)
 {
 	settings->getFlagStrNoEx("mgv5_spflags",        spflags, flagdesc_mapgen_v5);
 	settings->getFloatNoEx("mgv5_cave_width",       cave_width);
+	settings->getS16NoEx("mgv5_large_cave_depth",   large_cave_depth);
+	settings->getS16NoEx("mgv5_lava_depth",         lava_depth);
 	settings->getS16NoEx("mgv5_cavern_limit",       cavern_limit);
 	settings->getS16NoEx("mgv5_cavern_taper",       cavern_taper);
 	settings->getFloatNoEx("mgv5_cavern_threshold", cavern_threshold);
@@ -112,6 +116,8 @@ void MapgenV5Params::writeParams(Settings *settings) const
 {
 	settings->setFlagStr("mgv5_spflags",        spflags, flagdesc_mapgen_v5, U32_MAX);
 	settings->setFloat("mgv5_cave_width",       cave_width);
+	settings->setS16("mgv5_large_cave_depth",   large_cave_depth);
+	settings->setS16("mgv5_lava_depth",         lava_depth);
 	settings->setS16("mgv5_cavern_limit",       cavern_limit);
 	settings->setS16("mgv5_cavern_taper",       cavern_taper);
 	settings->setFloat("mgv5_cavern_threshold", cavern_threshold);
@@ -194,7 +200,7 @@ void MapgenV5::makeChunk(BlockMakeData *data)
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
 	biomegen->calcBiomeNoise(node_min);
-	MgStoneType stone_type = generateBiomes();
+	MgStoneType stone_type = generateBiomes(water_level - 1);
 
 	// Generate caverns, tunnels and classic caves
 	if (flags & MG_CAVES) {
@@ -209,7 +215,7 @@ void MapgenV5::makeChunk(BlockMakeData *data)
 			// large caverns and floating blobs of overgenerated liquid.
 			generateCaves(stone_surface_max_y, -MAX_MAP_GENERATION_LIMIT);
 		else
-			generateCaves(stone_surface_max_y, MGV5_LARGE_CAVE_DEPTH);
+			generateCaves(stone_surface_max_y, large_cave_depth);
 	}
 
 	// Generate dungeons and desert temples
@@ -218,10 +224,12 @@ void MapgenV5::makeChunk(BlockMakeData *data)
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
-		m_emerge->decomgr->placeAllDecos(this, blockseed, node_min, node_max);
+		m_emerge->decomgr->placeAllDecos(this, blockseed,
+			node_min, node_max, water_level - 1);
 
 	// Generate the registered ores
-	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
+	m_emerge->oremgr->placeAllOres(this, blockseed,
+		node_min, node_max, water_level - 1);
 
 	// Sprinkle some dust on top after everything else was generated
 	dustTopNodes();

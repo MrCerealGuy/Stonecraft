@@ -40,6 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/numeric.h"
 #include "filesys.h"
 #include "log.h"
+#include "mapgen_carpathian.h"
 #include "mapgen_flat.h"
 #include "mapgen_fractal.h"
 #include "mapgen_v5.h"
@@ -86,6 +87,7 @@ static MapgenDesc g_reg_mapgens[] = {
 	{"fractal",    true},
 	{"valleys",    true},
 	{"singlenode", true},
+	{"carpathian", true},
 };
 
 STATIC_ASSERT(
@@ -159,6 +161,8 @@ Mapgen *Mapgen::createMapgen(MapgenType mgtype, int mgid,
 	MapgenParams *params, EmergeManager *emerge)
 {
 	switch (mgtype) {
+	case MAPGEN_CARPATHIAN:
+		return new MapgenCarpathian(mgid, (MapgenCarpathianParams *)params, emerge);
 	case MAPGEN_FLAT:
 		return new MapgenFlat(mgid, (MapgenFlatParams *)params, emerge);
 	case MAPGEN_FRACTAL:
@@ -182,6 +186,8 @@ Mapgen *Mapgen::createMapgen(MapgenType mgtype, int mgid,
 MapgenParams *Mapgen::createMapgenParams(MapgenType mgtype)
 {
 	switch (mgtype) {
+	case MAPGEN_CARPATHIAN:
+		return new MapgenCarpathianParams;
 	case MAPGEN_FLAT:
 		return new MapgenFlatParams;
 	case MAPGEN_FRACTAL:
@@ -615,7 +621,7 @@ MapgenBasic::~MapgenBasic()
 }
 
 
-MgStoneType MapgenBasic::generateBiomes()
+MgStoneType MapgenBasic::generateBiomes(s16 biome_zero_level)
 {
 	// can't generate biomes without a biome generator!
 	assert(biomegen);
@@ -667,7 +673,10 @@ MgStoneType MapgenBasic::generateBiomes()
 				(air_above || !biome);
 
 			if (is_stone_surface || is_water_surface) {
-				biome = biomegen->getBiomeAtIndex(index, y);
+				// Limit to +-MAX MAP GENERATION LIMIT to work with biome y_min / y_max.
+				s32 relative_y = rangelim(y - biome_zero_level,
+					-MAX_MAP_GENERATION_LIMIT, MAX_MAP_GENERATION_LIMIT);
+				biome = biomegen->getBiomeAtIndex(index, relative_y);
 
 				if (biomemap[index] == BIOME_NONE && is_stone_surface)
 					biomemap[index] = biome->index;
@@ -817,7 +826,7 @@ void MapgenBasic::generateCaves(s16 max_stone_y, s16 large_cave_depth)
 	u32 bruises_count = ps.range(0, 2);
 	for (u32 i = 0; i < bruises_count; i++) {
 		CavesRandomWalk cave(ndef, &gennotify, seed, water_level,
-			c_water_source, CONTENT_IGNORE);
+			c_water_source, CONTENT_IGNORE, lava_depth);
 
 		cave.makeCave(vm, node_min, node_max, &ps, true, max_stone_y, heightmap);
 	}

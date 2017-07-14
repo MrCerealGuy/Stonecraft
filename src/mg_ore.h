@@ -32,13 +32,10 @@ class MMVManip;
 
 /////////////////// Ore generation flags
 
-#define OREFLAG_ABSHEIGHT     0x01
+#define OREFLAG_ABSHEIGHT     0x01 // Non-functional but kept to not break flags
 #define OREFLAG_PUFF_CLIFFS   0x02
 #define OREFLAG_PUFF_ADDITIVE 0x04
 #define OREFLAG_USE_NOISE     0x08
-
-#define ORE_RANGE_ACTUAL 1
-#define ORE_RANGE_MIRROR 2
 
 enum OreType {
 	ORE_SCATTER,
@@ -73,7 +70,8 @@ public:
 
 	virtual void resolveNodeNames();
 
-	size_t placeOre(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
+	size_t placeOre(Mapgen *mg, u32 blockseed,
+		v3s16 nmin, v3s16 nmax, s16 ore_zero_level);
 	virtual void generate(MMVManip *vm, int mapseed, u32 blockseed,
 		v3s16 nmin, v3s16 nmax, u8 *biomemap) = 0;
 };
@@ -166,7 +164,8 @@ public:
 
 	void clear();
 
-	size_t placeAllOres(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
+	size_t placeAllOres(Mapgen *mg, u32 blockseed,
+		v3s16 nmin, v3s16 nmax, s16 ore_zero_level = 0);
 };
 
 #endif

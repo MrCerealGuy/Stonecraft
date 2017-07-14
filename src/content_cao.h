@@ -129,13 +129,13 @@ public:
 
 	void processInitData(const std::string &data);
 
-	ClientActiveObject *getParent();
+	ClientActiveObject *getParent() const;
 
 	bool getCollisionBox(aabb3f *toset) const;
 
 	bool collideWithObjects() const;
 
-	aabb3f *getSelectionBox();
+	virtual bool getSelectionBox(aabb3f *toset) const;
 
 	v3f getPosition();
 	inline float getYaw() const
@@ -168,7 +168,7 @@ public:
 
 	void removeFromScene(bool permanent);
 
-	void addToScene(scene::ISceneManager *smgr, ITextureSource *tsrc);
+	void addToScene(ITextureSource *tsrc);
 
 	inline void expireVisuals()
 	{

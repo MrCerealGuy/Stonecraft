@@ -177,6 +177,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("ambient_occlusion_gamma", "2.2");
 	settings->setDefault("enable_shaders", "true");
 	settings->setDefault("enable_particles", "true");
+	settings->setDefault("arm_inertia", "true");
 
 	settings->setDefault("enable_minimap", "true");
 	settings->setDefault("minimap_shape_round", "true");
@@ -354,6 +355,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("mg_flags", "dungeons");
 	settings->setDefault("fixed_map_seed", "");
 	settings->setDefault("max_block_generate_distance", "1");
+	settings->setDefault("projecting_dungeons", "true");
 	settings->setDefault("enable_mapgen_debug_info", "false");
 
 	// Server list announcing

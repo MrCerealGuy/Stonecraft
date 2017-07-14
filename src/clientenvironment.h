@@ -68,9 +68,7 @@ typedef std::unordered_map<u16, ClientActiveObject*> ClientActiveObjectMap;
 class ClientEnvironment : public Environment
 {
 public:
-	ClientEnvironment(ClientMap *map, scene::ISceneManager *smgr,
-		ITextureSource *texturesource, Client *client,
-		IrrlichtDevice *device);
+	ClientEnvironment(ClientMap *map, ITextureSource *texturesource, Client *client);
 	~ClientEnvironment();
 
 	Map & getMap();
@@ -128,43 +126,14 @@ public:
 		std::vector<DistanceSortedActiveObject> &dest);
 
 	bool hasClientEnvEvents() const { return !m_client_event_queue.empty(); }
+
 	// Get event from queue. If queue is empty, it triggers an assertion failure.
 	ClientEnvEvent getClientEnvEvent();
 
-	/*!
-	 * Gets closest object pointed by the shootline.
-	 * Returns NULL if not found.
-	 *
-	 * \param[in]  shootline_on_map    the shootline for
-	 * the test in world coordinates
-	 * \param[out] intersection_point  the first point where
-	 * the shootline meets the object. Valid only if
-	 * not NULL is returned.
-	 * \param[out] intersection_normal the normal vector of
-	 * the intersection, pointing outwards. Zero vector if
-	 * the shootline starts in an active object.
-	 * Valid only if not NULL is returned.
-	 */
-	ClientActiveObject * getSelectedActiveObject(
+	virtual void getSelectedActiveObjects(
 		const core::line3d<f32> &shootline_on_map,
-		v3f *intersection_point,
-		v3s16 *intersection_normal
+		std::vector<PointedThing> &objects
 	);
-
-	/*!
-	 * Performs a raycast on the world.
-	 * Returns the first thing the shootline meets.
-	 *
-	 * @param[in]  shootline         the shootline, starting from
-	 * the camera position. This also gives the maximal distance
-	 * of the search.
-	 * @param[in]  liquids_pointable if false, liquids are ignored
-	 * @param[in]  look_for_object   if false, objects are ignored
-	 */
-	PointedThing getPointedThing(
-		core::line3d<f32> shootline,
-		bool liquids_pointable,
-		bool look_for_object);
 
 	u16 attachement_parent_ids[USHRT_MAX + 1];
 
@@ -177,11 +146,9 @@ public:
 private:
 	ClientMap *m_map;
 	LocalPlayer *m_local_player = nullptr;
-	scene::ISceneManager *m_smgr;
 	ITextureSource *m_texturesource;
 	Client *m_client;
 	ClientScripting *m_script = nullptr;
-	IrrlichtDevice *m_irr;
 	ClientActiveObjectMap m_active_objects;
 	std::vector<ClientSimpleObject*> m_simple_objects;
 	std::queue<ClientEnvEvent> m_client_event_queue;

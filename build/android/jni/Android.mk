@@ -138,7 +138,6 @@ LOCAL_SRC_FILES := \
 		jni/src/database.cpp                      \
 		jni/src/debug.cpp                         \
 		jni/src/defaultsettings.cpp               \
-		jni/src/drawscene.cpp                     \
 		jni/src/dungeongen.cpp                    \
 		jni/src/emerge.cpp                        \
 		jni/src/environment.cpp                   \
@@ -176,6 +175,7 @@ LOCAL_SRC_FILES := \
 		jni/src/mapblock.cpp                      \
 		jni/src/mapblock_mesh.cpp                 \
 		jni/src/mapgen.cpp                        \
+		jni/src/mapgen_carpathian.cpp             \
 		jni/src/mapgen_flat.cpp                   \
 		jni/src/mapgen_fractal.cpp                \
 		jni/src/mapgen_singlenode.cpp             \
@@ -270,6 +270,7 @@ LOCAL_SRC_FILES := \
 		jni/src/wieldmesh.cpp                     \
 		jni/src/client/clientlauncher.cpp         \
 		jni/src/client/inputhandler.cpp           \
+		jni/src/client/renderingengine.cpp        \
 		jni/src/client/tile.cpp                   \
 		jni/src/client/joystick_controller.cpp    \
 		jni/src/irrlicht_changes/static_text.cpp

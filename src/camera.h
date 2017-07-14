@@ -60,8 +60,7 @@ enum CameraMode {CAMERA_MODE_FIRST, CAMERA_MODE_THIRD, CAMERA_MODE_THIRD_FRONT};
 class Camera
 {
 public:
-	Camera(scene::ISceneManager* smgr, MapDrawControl& draw_control,
-			Client *client);
+	Camera(MapDrawControl &draw_control, Client *client);
 	~Camera();
 
 	// Get camera scene node.
@@ -166,6 +165,8 @@ public:
 
 	void drawNametags();
 
+	inline void addArmInertia(f32 player_yaw);
+
 private:
 	// Nodes
 	scene::ISceneNode *m_playernode = nullptr;
@@ -179,7 +180,6 @@ private:
 	MapDrawControl& m_draw_control;
 
 	Client *m_client;
-	video::IVideoDriver *m_driver;
 
 	// Absolute camera position
 	v3f m_camera_position;
@@ -187,6 +187,12 @@ private:
 	v3f m_camera_direction;
 	// Camera offset
 	v3s16 m_camera_offset;
+
+	v2f m_wieldmesh_offset = v2f(55.0f, -35.0f);
+	v2f m_arm_dir;
+	v2f m_cam_vel;
+	v2f m_cam_vel_old;
+	v2f m_last_cam_pos;
 
 	// Field of view and aspect ratio stuff
 	f32 m_aspect = 1.0f;
@@ -221,6 +227,7 @@ private:
 	f32 m_cache_view_bobbing_amount;
 	f32 m_cache_fov;
 	f32 m_cache_zoom_fov;
+	bool m_arm_inertia;
 
 	std::list<Nametag *> m_nametags;
 };

@@ -531,24 +531,26 @@ for conversion.
 If the `ItemStack`'s metadata contains the `color` field, it will be
 lost on placement, because nodes on the map can only use palettes.
 
-If the `ItemStack`'s metadata contains the `palette_index` field, you
-currently must manually convert between it and the node's `param2` with
-custom `on_place` and `on_dig` callbacks.
+If the `ItemStack`'s metadata contains the `palette_index` field, it is
+automatically transferred between node and item forms by the engine,
+when a player digs or places a colored node.
+You can disable this feature by setting the `drop` field of the node
+to itself (without metadata).
 
 ### Colored items in craft recipes
 Craft recipes only support item strings, but fortunately item strings
 can also contain metadata. Example craft recipe registration:
 
-    local stack = ItemStack("wool:block")
-    dyed:get_meta():set_int("palette_index", 3) -- add index
     minetest.register_craft({
-        output = dyed:to_string(), -- convert to string
+        output = minetest.itemstring_with_palette("wool:block", 3),
         type = "shapeless",
         recipe = {
             "wool:block",
             "dye:red",
         },
     })
+
+To set the `color` field, you can use `minetest.itemstring_with_color`.
 
 Metadata field filtering in the `recipe` field are not supported yet,
 so the craft output is independent of the color of the ingredients.
@@ -578,7 +580,7 @@ Example (colored grass block):
         description = "Dirt with Grass",
         -- Regular tiles, as usual
         -- The dirt tile disables palette coloring
-        tiles = {{name = "default_grass.png"}, 
+        tiles = {{name = "default_grass.png"},
             {name = "default_dirt.png", color = "white"}},
         -- Overlay tiles: define them in the same style
         -- The top and bottom tile does not have overlay
@@ -858,6 +860,7 @@ Look for examples in `games/minimal` or `games/minetest_game`.
 * `raillike`
 * `nodebox` -- See below. (**Experimental!**)
 * `mesh` -- use models for nodes
+* `plantlike_rooted`
 
 `*_optional` drawtypes need less rendering time if deactivated (always client side).
 
@@ -1074,12 +1077,7 @@ Ore attributes
 See section "Flag Specifier Format".
 
 Currently supported flags:
-`absheight`, `puff_cliffs`, `puff_additive_composition`.
-
-### `absheight`
-Also produce this same ore between the height range of `-y_max` and `-y_min`.
-
-Useful for having ore in sky realms without having to duplicate ore entries.
+`puff_cliffs`, `puff_additive_composition`.
 
 ### `puff_cliffs`
 If set, puff ore generation will not taper down large differences in displacement
@@ -2560,6 +2558,12 @@ and `minetest.auth_reload` call the authetification handler.
     * `pos2`: Second position
     * `stepsize`: smaller gives more accurate results but requires more computing
       time. Default is `1`.
+* `minetest.raycast(pos1, pos2, objects, liquids)`: returns `Raycast`
+    * Creates a `Raycast` object.
+    * `pos1`: start of the ray
+    * `pos2`: end of the ray
+    * `objects` : if false, only nodes will be returned. Default is `true`.
+    * `liquids' : if false, liquid nodes won't be returned. Default is `false`.
 * `minetest.find_path(pos1,pos2,searchdistance,max_jump,max_drop,algorithm)`
     * returns table containing path
     * returns a table of 3D points representing a path from `pos1` to `pos2` or `nil`
@@ -2726,6 +2730,21 @@ and `minetest.auth_reload` call the authetification handler.
       digger's inventory
     * Can be overridden to get different functionality (e.g. dropping items on
       ground)
+* `minetest.itemstring_with_palette(item, palette_index)`: returns an item string
+    * Creates an item string which contains palette index information
+      for hardware colorization. You can use the returned string
+      as an output in a craft recipe.
+    * `item`: the item stack which becomes colored. Can be in string,
+      table and native form.
+    * `palette_index`: this index is added to the item stack
+* `minetest.itemstring_with_color(item, colorstring)`: returns an item string
+    * Creates an item string which contains static color information
+      for hardware colorization. Use this method if you wish to colorize
+      an item that does not own a palette. You can use the returned string
+      as an output in a craft recipe.
+    * `item`: the item stack which becomes colored. Can be in string,
+      table and native form.
+    * `colorstring`: the new color of the item stack
 
 ### Rollback
 * `minetest.rollback_get_node_actions(pos, range, seconds, limit)`:
@@ -2956,6 +2975,10 @@ These functions return the leftover itemstack.
     * See documentation on `minetest.compress()` for supported compression methods.
     * currently supported.
     * `...` indicates method-specific arguments. Currently, no methods use this.
+* `minetest.rgba(red, green, blue[, alpha])`: returns a string
+    * Each argument is a 8 Bit unsigned integer
+    * Returns the ColorString from rgb or rgba values
+    * Example: `minetest.rgba(10, 20, 30, 40)`, returns `"#0A141E28"`
 * `minetest.encode_base64(string)`: returns string encoded in base64
     * Encodes a string in base64.
 * `minetest.decode_base64(string)`: returns string
@@ -3326,8 +3349,9 @@ An `InvRef` is a reference to an inventory.
 * `add_item(listname, stack)`: add item somewhere in list, returns leftover `ItemStack`
 * `room_for_item(listname, stack):` returns `true` if the stack of items
   can be fully added to the list
-* `contains_item(listname, stack)`: returns `true` if the stack of items
-  can be fully taken from the list
+* `contains_item(listname, stack, [match_meta])`: returns `true` if
+  the stack of items can be fully taken from the list.
+  If `match_meta` is false, only the items' names are compared (default: `false`).
 * `remove_item(listname, stack)`: take as many items as specified from the list,
   returns the items that were actually removed (as an `ItemStack`) -- note that
   any item metadata is ignored, so attempting to remove a specific unique
@@ -3737,6 +3761,26 @@ It can be created via `Settings(filename)`.
 * `write()`: returns a boolean (`true` for success)
     * Writes changes to file.
 * `to_table()`: returns `{[key1]=value1,...}`
+
+### `Raycast`
+A raycast on the map. It works with selection boxes.
+Can be used as an iterator in a for loop.
+
+The map is loaded as the ray advances. If the
+map is modified after the `Raycast` is created,
+the changes may or may not have an effect on
+the object.
+
+It can be created via `Raycast(pos1, pos2, objects, liquids)` or
+`minetest.raycast(pos1, pos2, objects, liquids)` where:
+    * `pos1`: start of the ray
+    * `pos2`: end of the ray
+    * `objects` : if false, only nodes will be returned. Default is true.
+    * `liquids' : if false, liquid nodes won't be returned. Default is false.
+
+#### Methods
+* `next()`: returns a `pointed_thing`
+    * Returns the next thing pointed by the ray or nil.
 
 Mapgen objects
 --------------
@@ -4376,6 +4420,9 @@ Definition tables
     --  ^ In this example, there is a 3x3x3 cluster where 8 out of the 27 nodes are coal ore
         y_min = -31000,
         y_max = 64,
+    --  ^ Lower and upper limits for ore.
+    --  ^ Limits are relative to y = water_level - 1 for core mapgen, or
+    --  ^ relative to y = 0 for minetest.generate_ores().
         flags = "",
     --  ^ Attributes for this ore generation
         noise_threshold = 0.5,
@@ -4385,7 +4432,7 @@ Definition tables
     --  ^ Needed for sheet ore_type.  Omit from scatter ore_type for a uniform ore distribution
         random_factor = 1.0,
     --  ^ Multiplier of the randomness contribution to the noise value at any
-    --   given point to decide if ore should be placed.  Set to 0 for solid veins.
+    --  ^ given point to decide if ore should be placed.  Set to 0 for solid veins.
     --  ^ This parameter is only valid for ore_type == "vein".
         biomes = {"desert", "rainforest"}
     --  ^ List of biomes in which this decoration occurs.  Occurs in all biomes if this is omitted,
@@ -4423,6 +4470,7 @@ The Biome API is still in an experimental phase and subject to change.
         y_min = 1,
         y_max = 31000,
     --  ^ Lower and upper limits for biome.
+    --  ^ Limits are relative to y = water_level - 1.
     --  ^ Because biome is not recalculated for every node in a node column
     --  ^ some biome materials can exceed their limits, especially stone.
     --  ^ For each node column in a mapchunk, biome is only recalculated at column
@@ -4465,9 +4513,11 @@ The Biome API is still in an experimental phase and subject to change.
     --  ^ Can be a list of (or a single) biome names, IDs, or definitions.
         y_min = -31000
         y_max = 31000
-    -- ^ Minimum and maximum `y` positions these decorations can be generated at.
-    -- ^ This parameter refers to the `y` position of the decoration base, so
-    --   the actual maximum height would be `height_max + size.Y`.
+    --  ^ Lower and upper limits for decoration.
+    --  ^ Limits are relative to y = water_level - 1 for core mapgen, or
+    --  ^ relative to y = 0 for minetest.generate_decorations().
+    --  ^ This parameter refers to the `y` position of the decoration base, so
+    --    the actual maximum height would be `height_max + size.Y`.
         spawn_by = "default:water",
     --  ^ Node (or list of nodes) that the decoration only spawns next to.
     --  ^ Checks two horizontal planes of neighbouring nodes (including diagonal neighbours),

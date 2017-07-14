@@ -60,8 +60,6 @@ DEALINGS IN THE SOFTWARE.
 
 Thread::Thread(const std::string &name) :
 	m_name(name),
-	m_retval(NULL),
-	m_joinable(false),
 	m_request_stop(false),
 	m_running(false)
 {
@@ -130,7 +128,7 @@ bool Thread::wait()
 	m_thread_obj->join();
 
 	delete m_thread_obj;
-	m_thread_obj = NULL;
+	m_thread_obj = nullptr;
 
 	assert(m_running == false);
 	m_joinable = false;
@@ -162,7 +160,7 @@ bool Thread::kill()
 	wait();
 #endif
 
-	m_retval       = NULL;
+	m_retval       = nullptr;
 	m_joinable     = false;
 	m_request_stop = false;
 
@@ -263,9 +261,13 @@ bool Thread::bindToProcessor(unsigned int proc_number)
 
 	return false;
 
-#elif USE_WIN_THREADS
+#elif _MSC_VER
 
 	return SetThreadAffinityMask(getThreadHandle(), 1 << proc_number);
+
+#elif __MINGW32__
+
+	return SetThreadAffinityMask(pthread_gethandle(getThreadHandle()), 1 << proc_number);
 
 #elif __FreeBSD_version >= 702106 || defined(__linux__)
 
@@ -311,9 +313,13 @@ bool Thread::bindToProcessor(unsigned int proc_number)
 
 bool Thread::setPriority(int prio)
 {
-#if USE_WIN_THREADS
+#ifdef _MSC_VER
 
 	return SetThreadPriority(getThreadHandle(), prio);
+
+#elif __MINGW32__
+
+	return SetThreadPriority(pthread_gethandle(getThreadHandle()), prio);
 
 #else
 

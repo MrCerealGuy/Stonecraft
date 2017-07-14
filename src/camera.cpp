@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "clientmap.h"     // MapDrawControl
 #include "player.h"
 #include <cmath>
+#include "client/renderingengine.h"
 #include "settings.h"
 #include "wieldmesh.h"
 #include "noise.h"         // easeCurve
@@ -36,17 +37,14 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "script/scripting_client.h"
 
 #define CAMERA_OFFSET_STEP 200
+#define WIELDMESH_OFFSET_X 55.0f
+#define WIELDMESH_OFFSET_Y -35.0f
 
-#include "nodedef.h"
-
-Camera::Camera(scene::ISceneManager* smgr, MapDrawControl& draw_control,
-		Client *client):
+Camera::Camera(MapDrawControl &draw_control, Client *client):
 	m_draw_control(draw_control),
 	m_client(client)
 {
-	//dstream<<FUNCTION_NAME<<std::endl;
-
-	m_driver = smgr->getVideoDriver();
+	scene::ISceneManager *smgr = RenderingEngine::get_scene_manager();
 	// note: making the camera node a child of the player node
 	// would lead to unexpected behaviour, so we don't do that.
 	m_playernode = smgr->addEmptySceneNode(smgr->getRootSceneNode());
@@ -58,7 +56,7 @@ Camera::Camera(scene::ISceneManager* smgr, MapDrawControl& draw_control,
 	// all other 3D scene nodes and before the GUI.
 	m_wieldmgr = smgr->createNewSceneManager();
 	m_wieldmgr->addCameraSceneNode();
-	m_wieldnode = new WieldMeshSceneNode(m_wieldmgr->getRootSceneNode(), m_wieldmgr, -1, false);
+	m_wieldnode = new WieldMeshSceneNode(m_wieldmgr, -1, false);
 	m_wieldnode->setItem(ItemStack(), m_client);
 	m_wieldnode->drop(); // m_wieldmgr grabbed it
 
@@ -75,6 +73,7 @@ Camera::Camera(scene::ISceneManager* smgr, MapDrawControl& draw_control,
 	m_cache_view_bobbing_amount = g_settings->getFloat("view_bobbing_amount");
 	m_cache_fov                 = g_settings->getFloat("fov");
 	m_cache_zoom_fov            = g_settings->getFloat("zoom_fov");
+	m_arm_inertia		    = g_settings->getBool("arm_inertia");
 	m_nametags.clear();
 }
 
@@ -98,7 +97,7 @@ bool Camera::successfullyCreated(std::string &error_message)
 	} else {
 		error_message.clear();
 	}
-	
+
 	if (g_settings->getBool("enable_client_modding")) {
 		m_client->getScript()->on_camera_ready(this);
 	}
@@ -190,6 +189,96 @@ void Camera::step(f32 dtime)
 				m_client->event()->put(e);
 			}
 		}
+	}
+}
+
+static inline v2f dir(const v2f &pos_dist)
+{
+	f32 x = pos_dist.X - WIELDMESH_OFFSET_X;
+	f32 y = pos_dist.Y - WIELDMESH_OFFSET_Y;
+
+	f32 x_abs = std::fabs(x);
+	f32 y_abs = std::fabs(y);
+
+	if (x_abs >= y_abs) {
+		y *= (1.0f / x_abs);
+		x /= x_abs;
+	}
+
+	if (y_abs >= x_abs) {
+		x *= (1.0f / y_abs);
+		y /= y_abs;
+	}
+
+	return v2f(std::fabs(x), std::fabs(y));
+}
+
+void Camera::addArmInertia(f32 player_yaw)
+{
+	m_cam_vel.X = std::fabs((m_last_cam_pos.X - player_yaw) / 0.016f) * 0.01f;
+	m_cam_vel.Y = std::fabs((m_last_cam_pos.Y - m_camera_direction.Y) / 0.016f);
+	f32 gap_X = std::fabs(WIELDMESH_OFFSET_X - m_wieldmesh_offset.X);
+	f32 gap_Y = std::fabs(WIELDMESH_OFFSET_Y - m_wieldmesh_offset.Y);
+
+	if (m_cam_vel.X > 1.0f || m_cam_vel.Y > 1.0f) {
+		/*
+		    The arm moves relative to the camera speed,
+		    with an acceleration factor.
+		*/
+
+		if (m_cam_vel.X > 1.0f) {
+			if (m_cam_vel.X > m_cam_vel_old.X)
+				m_cam_vel_old.X = m_cam_vel.X;
+
+			f32 acc_X = 0.12f * (m_cam_vel.X - (gap_X * 0.1f));
+			m_wieldmesh_offset.X += m_last_cam_pos.X < player_yaw ? acc_X : -acc_X;
+
+			if (m_last_cam_pos.X != player_yaw)
+				m_last_cam_pos.X = player_yaw;
+
+			m_wieldmesh_offset.X = rangelim(m_wieldmesh_offset.X,
+				WIELDMESH_OFFSET_X - 7.0f, WIELDMESH_OFFSET_X + 7.0f);
+		}
+
+		if (m_cam_vel.Y > 1.0f) {
+			if (m_cam_vel.Y > m_cam_vel_old.Y)
+				m_cam_vel_old.Y = m_cam_vel.Y;
+
+			f32 acc_Y = 0.12f * (m_cam_vel.Y - (gap_Y * 0.1f));
+			m_wieldmesh_offset.Y +=
+				m_last_cam_pos.Y > m_camera_direction.Y ? acc_Y : -acc_Y;
+
+			if (m_last_cam_pos.Y != m_camera_direction.Y)
+				m_last_cam_pos.Y = m_camera_direction.Y;
+
+			m_wieldmesh_offset.Y = rangelim(m_wieldmesh_offset.Y,
+				WIELDMESH_OFFSET_Y - 10.0f, WIELDMESH_OFFSET_Y + 5.0f);
+		}
+
+		m_arm_dir = dir(m_wieldmesh_offset);
+	} else {
+		/*
+		    Now the arm gets back to its default position when the camera stops,
+		    following a vector, with a smooth deceleration factor.
+		*/
+
+		f32 dec_X = 0.12f * (m_cam_vel_old.X * (1.0f +
+			(1.0f - m_arm_dir.X))) * (gap_X / 20.0f);
+
+		f32 dec_Y = 0.06f * (m_cam_vel_old.Y * (1.0f +
+			(1.0f - m_arm_dir.Y))) * (gap_Y / 15.0f);
+
+		if (gap_X < 0.1f)
+			m_cam_vel_old.X = 0.0f;
+
+		m_wieldmesh_offset.X -=
+			m_wieldmesh_offset.X > WIELDMESH_OFFSET_X ? dec_X : -dec_X;
+
+		if (gap_Y < 0.1f)
+			m_cam_vel_old.Y = 0.0f;
+
+		m_wieldmesh_offset.Y -=
+			m_wieldmesh_offset.Y > WIELDMESH_OFFSET_Y ? dec_Y : -dec_Y;
 	}
 }
 
@@ -372,7 +461,8 @@ void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
 	fov_degrees = rangelim(fov_degrees, 7.0, 160.0);
 
 	// FOV and aspect ratio
-	m_aspect = (f32) porting::getWindowSize().X / (f32) porting::getWindowSize().Y;
+	const v2u32 &window_size = RenderingEngine::get_instance()->getWindowSize();
+	m_aspect = (f32) window_size.X / (f32) window_size.Y;
 	m_fov_y = fov_degrees * M_PI / 180.0;
 	// Increase vertical FOV on lower aspect ratios (<16:10)
 	m_fov_y *= MYMAX(1.0, MYMIN(1.4, sqrt(16./10. / m_aspect)));
@@ -380,12 +470,12 @@ void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
 	m_cameranode->setAspectRatio(m_aspect);
 	m_cameranode->setFOV(m_fov_y);
 
-	float wieldmesh_offset_Y = -35 + player->getPitch() * 0.05;
-	wieldmesh_offset_Y = rangelim(wieldmesh_offset_Y, -52, -32);
+	if (m_arm_inertia)
+		addArmInertia(player->getYaw());
 
 	// Position the wielded item
 	//v3f wield_position = v3f(45, -35, 65);
-	v3f wield_position = v3f(55, wieldmesh_offset_Y, 65);
+	v3f wield_position = v3f(m_wieldmesh_offset.X, m_wieldmesh_offset.Y, 65);
 	//v3f wield_rotation = v3f(-100, 120, -100);
 	v3f wield_rotation = v3f(-100, 120, -100);
 	wield_position.Y += fabs(m_wield_change_timer)*320 - 40;
@@ -536,7 +626,7 @@ void Camera::drawNametags()
 				utf8_to_wide(nametag_colorless).c_str());
 			f32 zDiv = transformed_pos[3] == 0.0f ? 1.0f :
 				core::reciprocal(transformed_pos[3]);
-			v2u32 screensize = m_driver->getScreenSize();
+			v2u32 screensize = RenderingEngine::get_video_driver()->getScreenSize();
 			v2s32 screen_pos;
 			screen_pos.X = screensize.X *
 				(0.5 * transformed_pos[0] * zDiv + 0.5) - textsize.Width / 2;

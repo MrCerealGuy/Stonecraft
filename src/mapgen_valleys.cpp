@@ -66,19 +66,19 @@ MapgenValleys::MapgenValleys(int mapgenid, MapgenValleysParams *params, EmergeMa
 	: MapgenBasic(mapgenid, params, emerge)
 {
 	// NOTE: MapgenValleys has a hard dependency on BiomeGenOriginal
-	this->m_bgen = (BiomeGenOriginal *)biomegen;
+	m_bgen = (BiomeGenOriginal *)biomegen;
 
 	BiomeParamsOriginal *bp = (BiomeParamsOriginal *)params->bparams;
 
-	this->spflags            = params->spflags;
-	this->altitude_chill     = params->altitude_chill;
-	this->large_cave_depth   = params->large_cave_depth;
-	this->lava_features_lim  = rangelim(params->lava_features, 0, 10);
-	this->massive_cave_depth = params->massive_cave_depth;
-	this->river_depth_bed    = params->river_depth + 1.f;
-	this->river_size_factor  = params->river_size / 100.f;
-	this->water_features_lim = rangelim(params->water_features, 0, 10);
-	this->cave_width         = params->cave_width;
+	spflags            = params->spflags;
+	altitude_chill     = params->altitude_chill;
+	large_cave_depth   = params->large_cave_depth;
+	lava_features_lim  = rangelim(params->lava_features, 0, 10);
+	massive_cave_depth = params->massive_cave_depth;
+	river_depth_bed    = params->river_depth + 1.f;
+	river_size_factor  = params->river_size / 100.f;
+	water_features_lim = rangelim(params->water_features, 0, 10);
+	cave_width         = params->cave_width;
 
 	//// 2D Terrain noise
 	noise_filler_depth       = new Noise(&params->np_filler_depth,       seed, csize.X, csize.Z);
@@ -96,13 +96,13 @@ MapgenValleys::MapgenValleys(int mapgenid, MapgenValleysParams *params, EmergeMa
 	noise_cave2             = new Noise(&params->np_cave2,             seed, csize.X, csize.Y + 1, csize.Z);
 	noise_massive_caves     = new Noise(&params->np_massive_caves,     seed, csize.X, csize.Y + 1, csize.Z);
 
-	this->humid_rivers       = (spflags & MGVALLEYS_HUMID_RIVERS);
-	this->use_altitude_chill = (spflags & MGVALLEYS_ALT_CHILL);
-	this->humidity_adjust    = bp->np_humidity.offset - 50.f;
+	humid_rivers       = (spflags & MGVALLEYS_HUMID_RIVERS);
+	use_altitude_chill = (spflags & MGVALLEYS_ALT_CHILL);
+	humidity_adjust    = bp->np_humidity.offset - 50.f;
 
 	// a small chance of overflows if the settings are very high
-	this->cave_water_max_height = water_level + MYMAX(0, water_features_lim - 4) * 50;
-	this->lava_max_height       = water_level + MYMAX(0, lava_features_lim - 4) * 50;
+	cave_water_max_height = water_level + MYMAX(0, water_features_lim - 4) * 50;
+	lava_max_height       = water_level + MYMAX(0, lava_features_lim - 4) * 50;
 
 	tcave_cache = new float[csize.Y + 2];
 }
@@ -236,7 +236,7 @@ void MapgenValleys::makeChunk(BlockMakeData *data)
 	updateHeightmap(node_min, node_max);
 
 	// Place biome-specific nodes and build biomemap
-	MgStoneType stone_type = generateBiomes();
+	MgStoneType stone_type = generateBiomes(water_level - 1);
 
 	// Cave creation.
 	if (flags & MG_CAVES)
@@ -248,10 +248,12 @@ void MapgenValleys::makeChunk(BlockMakeData *data)
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
-		m_emerge->decomgr->placeAllDecos(this, blockseed, node_min, node_max);
+		m_emerge->decomgr->placeAllDecos(this, blockseed,
+			node_min, node_max, water_level - 1);
 
 	// Generate the registered ores
-	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
+	m_emerge->oremgr->placeAllOres(this, blockseed,
+		node_min, node_max, water_level - 1);
 
 	// Sprinkle some dust on top after everything else was generated
 	dustTopNodes();
@@ -733,7 +735,7 @@ void MapgenValleys::generateCaves(s16 max_stone_y, s16 large_cave_depth)
 		u32 bruises_count = ps.range(0, 2);
 		for (u32 i = 0; i < bruises_count; i++) {
 			CavesRandomWalk cave(ndef, &gennotify, seed, water_level,
-				c_water_source, c_lava_source);
+				c_water_source, c_lava_source, lava_max_height);
 
 			cave.makeCave(vm, node_min, node_max, &ps, true, max_stone_y, heightmap);
 		}

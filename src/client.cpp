@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <cmath>
 #include <IFileSystem.h>
 #include "threading/mutex_auto_lock.h"
+#include "client/renderingengine.h"
 #include "util/auth.h"
 #include "util/directiontables.h"
 #include "util/pointedthing.h"
@@ -41,7 +42,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "clientmap.h"
 #include "clientmedia.h"
 #include "version.h"
-#include "drawscene.h"
 #include "database-sqlite3.h"
 #include "serialization.h"
 #include "guiscalingfilter.h"
@@ -55,7 +55,6 @@ extern gui::IGUIEnvironment* guienv;
 */
 
 Client::Client(
-		IrrlichtDevice *device,
 		const char *playername,
 		const std::string &password,
 		const std::string &address_name,
@@ -77,16 +76,12 @@ Client::Client(
 	m_event(event),
 	m_mesh_update_thread(this),
 	m_env(
-		new ClientMap(this, control,
-			device->getSceneManager()->getRootSceneNode(),
-			device->getSceneManager(), 666),
-		device->getSceneManager(),
-		tsrc, this, device
+		new ClientMap(this, control, 666),
+		tsrc, this
 	),
 	m_particle_manager(&m_env),
 	m_con(PROTOCOL_ID, 512, CONNECTION_TIMEOUT, ipv6, this),
 	m_address_name(address_name),
-	m_device(device),
 	m_server_ser_ver(SER_FMT_VER_INVALID),
 	m_last_chat_message_sent(time(NULL)),
 	m_password(password),
@@ -99,7 +94,7 @@ Client::Client(
 	m_env.setLocalPlayer(new LocalPlayer(this, playername));
 
 	if (g_settings->getBool("enable_minimap")) {
-		m_minimap = new Minimap(device, this);
+		m_minimap = new Minimap(this);
 	}
 	m_cache_save_interval = g_settings->getU16("server_map_save_interval");
 
@@ -109,17 +104,17 @@ Client::Client(
 	m_script->setEnv(&m_env);
 }
 
-void Client::initMods()
+void Client::loadMods()
 {
-	m_script->loadMod(getBuiltinLuaPath() + DIR_DELIM "init.lua", BUILTIN_MOD_NAME);
+	// Load builtin
+	scanModIntoMemory(BUILTIN_MOD_NAME, getBuiltinLuaPath());
 
 	// If modding is not enabled, don't load mods, just builtin
 	if (!m_modding_enabled) {
 		return;
 	}
-
 	ClientModConfiguration modconf(getClientModsLuaPath());
-	std::vector<ModSpec> mods = modconf.getMods();
+	m_mods = modconf.getMods();
 	std::vector<ModSpec> unsatisfied_mods = modconf.getUnsatisfiedMods();
 	// complain about mods with unsatisfied dependencies
 	if (!modconf.isConsistent()) {
@@ -128,26 +123,50 @@ void Client::initMods()
 
 	// Print mods
 	infostream << "Client Loading mods: ";
-	for (std::vector<ModSpec>::const_iterator i = mods.begin();
-		i != mods.end(); ++i) {
-		infostream << (*i).name << " ";
-	}
-
+	for (const ModSpec &mod : m_mods)
+		infostream << mod.name << " ";
 	infostream << std::endl;
+
 	// Load and run "mod" scripts
-	for (std::vector<ModSpec>::const_iterator it = mods.begin();
-		it != mods.end(); ++it) {
-		const ModSpec &mod = *it;
+	for (const ModSpec &mod : m_mods) {
 		if (!string_allowed(mod.name, MODNAME_ALLOWED_CHARS)) {
 			throw ModError("Error loading mod \"" + mod.name +
 				"\": Mod name does not follow naming conventions: "
 					"Only characters [a-z0-9_] are allowed.");
 		}
-		std::string script_path = mod.path + DIR_DELIM + "init.lua";
-		infostream << "  [" << padStringRight(mod.name, 12) << "] [\""
-			<< script_path << "\"]" << std::endl;
-		m_script->loadMod(script_path, mod.name);
+		scanModIntoMemory(mod.name, mod.path);
 	}
+}
+
+void Client::scanModSubfolder(const std::string &mod_name, const std::string &mod_path,
+			std::string mod_subpath)
+{
+	std::string full_path = mod_path + DIR_DELIM + mod_subpath;
+	std::vector<fs::DirListNode> mod = fs::GetDirListing(full_path);
+	for (unsigned int j=0; j < mod.size(); j++){
+		std::string filename = mod[j].name;
+		if (mod[j].dir) {
+			scanModSubfolder(mod_name, mod_path, mod_subpath
+					+ filename + DIR_DELIM);
+			continue;
+		}
+		std::replace( mod_subpath.begin(), mod_subpath.end(), DIR_DELIM_CHAR, '/');
+		m_mod_files[mod_name + ":" + mod_subpath + filename] = full_path  + filename;
+	}
+}
+
+void Client::initMods()
+{
+	m_script->loadModFromMemory(BUILTIN_MOD_NAME);
+
+	// If modding is not enabled, don't load mods, just builtin
+	if (!m_modding_enabled) {
+		return;
+	}
+
+	// Load and run "mod" scripts
+	for (const ModSpec &mod : m_mods)
+		m_script->loadModFromMemory(mod.name);
 }
 
 const std::string &Client::getBuiltinLuaPath()
@@ -217,12 +236,11 @@ Client::~Client()
 	}
 
 	// cleanup 3d model meshes on client shutdown
-	while (m_device->getSceneManager()->getMeshCache()->getMeshCount() != 0) {
-		scene::IAnimatedMesh *mesh =
-			m_device->getSceneManager()->getMeshCache()->getMeshByIndex(0);
+	while (RenderingEngine::get_mesh_cache()->getMeshCount() != 0) {
+		scene::IAnimatedMesh *mesh = RenderingEngine::get_mesh_cache()->getMeshByIndex(0);
 
 		if (mesh)
-			m_device->getSceneManager()->getMeshCache()->removeMesh(mesh);
+			RenderingEngine::get_mesh_cache()->removeMesh(mesh);
 	}
 
 	delete m_minimap;
@@ -614,8 +632,8 @@ bool Client::loadMedia(const std::string &data, const std::string &filename)
 		verbosestream<<"Client: Attempting to load image "
 		<<"file \""<<filename<<"\""<<std::endl;
 
-		io::IFileSystem *irrfs = m_device->getFileSystem();
-		video::IVideoDriver *vdrv = m_device->getVideoDriver();
+		io::IFileSystem *irrfs = RenderingEngine::get_filesystem();
+		video::IVideoDriver *vdrv = RenderingEngine::get_video_driver();
 
 		// Create an irrlicht memory file
 		io::IReadFile *rfile = irrfs->createMemoryReadFile(
@@ -1628,7 +1646,6 @@ float Client::mediaReceiveProgress()
 }
 
 typedef struct TextureUpdateArgs {
-	IrrlichtDevice *device;
 	gui::IGUIEnvironment *guienv;
 	u64 last_time_ms;
 	u16 last_percent;
@@ -1655,12 +1672,12 @@ void texture_update_progress(void *args, u32 progress, u32 max_progress)
 			targs->last_time_ms = time_ms;
 			std::basic_stringstream<wchar_t> strm;
 			strm << targs->text_base << " " << targs->last_percent << "%...";
-			draw_load_screen(strm.str(), targs->device, targs->guienv, targs->tsrc, 0,
+			RenderingEngine::draw_load_screen(strm.str(), targs->guienv, targs->tsrc, 0,
 				72 + (u16) ((18. / 100.) * (double) targs->last_percent), true);
 		}
 }
 
-void Client::afterContentReceived(IrrlichtDevice *device)
+void Client::afterContentReceived()
 {
 	infostream<<"Client::afterContentReceived() started"<<std::endl;
 	assert(m_itemdef_received); // pre-condition
@@ -1672,25 +1689,25 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 	// Clear cached pre-scaled 2D GUI images, as this cache
 	// might have images with the same name but different
 	// content from previous sessions.
-	guiScalingCacheClear(device->getVideoDriver());
+	guiScalingCacheClear();
 
 	// Rebuild inherited images and recreate textures
 	infostream<<"- Rebuilding images and textures"<<std::endl;
-	draw_load_screen(text,device, guienv, m_tsrc, 0, 70);
+	RenderingEngine::draw_load_screen(text, guienv, m_tsrc, 0, 70);
 	m_tsrc->rebuildImagesAndTextures();
 	delete[] text;
 
 	// Rebuild shaders
 	infostream<<"- Rebuilding shaders"<<std::endl;
 	text = wgettext("Rebuilding shaders...");
-	draw_load_screen(text, device, guienv, m_tsrc, 0, 71);
+	RenderingEngine::draw_load_screen(text, guienv, m_tsrc, 0, 71);
 	m_shsrc->rebuildShaders();
 	delete[] text;
 
 	// Update node aliases
 	infostream<<"- Updating node aliases"<<std::endl;
 	text = wgettext("Initializing nodes...");
-	draw_load_screen(text, device, guienv, m_tsrc, 0, 72);
+	RenderingEngine::draw_load_screen(text, guienv, m_tsrc, 0, 72);
 	m_nodedef->updateAliases(m_itemdef);
 	std::string texture_path = g_settings->get("texture_path");
 	if (texture_path != "" && fs::IsDir(texture_path))
@@ -1702,7 +1719,6 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 	// Update node textures and assign shaders to each tile
 	infostream<<"- Updating node textures"<<std::endl;
 	TextureUpdateArgs tu_args;
-	tu_args.device = device;
 	tu_args.guienv = guienv;
 	tu_args.last_time_ms = porting::getTimeMs();
 	tu_args.last_percent = 0;
@@ -1724,7 +1740,7 @@ void Client::afterContentReceived(IrrlichtDevice *device)
 	}
 
 	text = wgettext("Done!");
-	draw_load_screen(text, device, guienv, m_tsrc, 0, 100);
+	RenderingEngine::draw_load_screen(text, guienv, m_tsrc, 0, 100);
 	infostream<<"Client::afterContentReceived() done"<<std::endl;
 	delete[] text;
 }
@@ -1742,7 +1758,7 @@ float Client::getCurRate()
 
 void Client::makeScreenshot()
 {
-	irr::video::IVideoDriver *driver = m_device->getVideoDriver();
+	irr::video::IVideoDriver *driver = RenderingEngine::get_video_driver();
 	irr::video::IImage* const raw_image = driver->createScreenShot();
 
 	if (!raw_image)
@@ -1857,10 +1873,7 @@ IShaderSource* Client::getShaderSource()
 {
 	return m_shsrc;
 }
-scene::ISceneManager* Client::getSceneManager()
-{
-	return m_device->getSceneManager();
-}
+
 u16 Client::allocateUnknownNodeId(const std::string &name)
 {
 	errorstream << "Client::allocateUnknownNodeId(): "
@@ -1892,23 +1905,32 @@ scene::IAnimatedMesh* Client::getMesh(const std::string &filename)
 		return NULL;
 	}
 	const std::string &data    = it->second;
-	scene::ISceneManager *smgr = m_device->getSceneManager();
 
 	// Create the mesh, remove it from cache and return it
 	// This allows unique vertex colors and other properties for each instance
 	Buffer<char> data_rw(data.c_str(), data.size()); // Const-incorrect Irrlicht
-	io::IFileSystem *irrfs = m_device->getFileSystem();
-	io::IReadFile *rfile   = irrfs->createMemoryReadFile(
+	io::IReadFile *rfile   = RenderingEngine::get_filesystem()->createMemoryReadFile(
 			*data_rw, data_rw.getSize(), filename.c_str());
 	FATAL_ERROR_IF(!rfile, "Could not create/open RAM file");
 
-	scene::IAnimatedMesh *mesh = smgr->getMesh(rfile);
+	scene::IAnimatedMesh *mesh = RenderingEngine::get_scene_manager()->getMesh(rfile);
 	rfile->drop();
 	// NOTE: By playing with Irrlicht refcounts, maybe we could cache a bunch
 	// of uniquely named instances and re-use them
 	mesh->grab();
-	smgr->getMeshCache()->removeMesh(mesh);
+	RenderingEngine::get_mesh_cache()->removeMesh(mesh);
 	return mesh;
+}
+
+const std::string* Client::getModFile(const std::string &filename)
+{
+	StringMap::const_iterator it = m_mod_files.find(filename);
+	if (it == m_mod_files.end()) {
+		errorstream << "Client::getModFile(): File not found: \"" << filename
+			<< "\"" << std::endl;
+		return NULL;
+	}
+	return &it->second;
 }
 
 bool Client::registerModStorage(ModMetadata *storage)

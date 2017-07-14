@@ -49,17 +49,19 @@ FlagDesc flagdesc_mapgen_fractal[] = {
 MapgenFractal::MapgenFractal(int mapgenid, MapgenFractalParams *params, EmergeManager *emerge)
 	: MapgenBasic(mapgenid, params, emerge)
 {
-	this->spflags    = params->spflags;
-	this->cave_width = params->cave_width;
-	this->fractal    = params->fractal;
-	this->iterations = params->iterations;
-	this->scale      = params->scale;
-	this->offset     = params->offset;
-	this->slice_w    = params->slice_w;
-	this->julia_x    = params->julia_x;
-	this->julia_y    = params->julia_y;
-	this->julia_z    = params->julia_z;
-	this->julia_w    = params->julia_w;
+	spflags          = params->spflags;
+	cave_width       = params->cave_width;
+	large_cave_depth = params->large_cave_depth;
+	lava_depth       = params->lava_depth;
+	fractal          = params->fractal;
+	iterations       = params->iterations;
+	scale            = params->scale;
+	offset           = params->offset;
+	slice_w          = params->slice_w;
+	julia_x          = params->julia_x;
+	julia_y          = params->julia_y;
+	julia_z          = params->julia_z;
+	julia_w          = params->julia_w;
 
 	//// 2D terrain noise
 	noise_seabed       = new Noise(&params->np_seabed, seed, csize.X, csize.Z);
@@ -68,8 +70,8 @@ MapgenFractal::MapgenFractal(int mapgenid, MapgenFractalParams *params, EmergeMa
 	MapgenBasic::np_cave1 = params->np_cave1;
 	MapgenBasic::np_cave2 = params->np_cave2;
 
-	this->formula = fractal / 2 + fractal % 2;
-	this->julia   = fractal % 2 == 0;
+	formula = fractal / 2 + fractal % 2;
+	julia   = fractal % 2 == 0;
 }
 
 
@@ -91,17 +93,19 @@ MapgenFractalParams::MapgenFractalParams()
 
 void MapgenFractalParams::readParams(const Settings *settings)
 {
-	settings->getFlagStrNoEx("mgfractal_spflags",  spflags, flagdesc_mapgen_fractal);
-	settings->getFloatNoEx("mgfractal_cave_width", cave_width);
-	settings->getU16NoEx("mgfractal_fractal",      fractal);
-	settings->getU16NoEx("mgfractal_iterations",   iterations);
-	settings->getV3FNoEx("mgfractal_scale",        scale);
-	settings->getV3FNoEx("mgfractal_offset",       offset);
-	settings->getFloatNoEx("mgfractal_slice_w",    slice_w);
-	settings->getFloatNoEx("mgfractal_julia_x",    julia_x);
-	settings->getFloatNoEx("mgfractal_julia_y",    julia_y);
-	settings->getFloatNoEx("mgfractal_julia_z",    julia_z);
-	settings->getFloatNoEx("mgfractal_julia_w",    julia_w);
+	settings->getFlagStrNoEx("mgfractal_spflags",      spflags, flagdesc_mapgen_fractal);
+	settings->getFloatNoEx("mgfractal_cave_width",     cave_width);
+	settings->getS16NoEx("mgfractal_large_cave_depth", large_cave_depth);
+	settings->getS16NoEx("mgfractal_lava_depth",       lava_depth);
+	settings->getU16NoEx("mgfractal_fractal",          fractal);
+	settings->getU16NoEx("mgfractal_iterations",       iterations);
+	settings->getV3FNoEx("mgfractal_scale",            scale);
+	settings->getV3FNoEx("mgfractal_offset",           offset);
+	settings->getFloatNoEx("mgfractal_slice_w",        slice_w);
+	settings->getFloatNoEx("mgfractal_julia_x",        julia_x);
+	settings->getFloatNoEx("mgfractal_julia_y",        julia_y);
+	settings->getFloatNoEx("mgfractal_julia_z",        julia_z);
+	settings->getFloatNoEx("mgfractal_julia_w",        julia_w);
 
 	settings->getNoiseParams("mgfractal_np_seabed",       np_seabed);
 	settings->getNoiseParams("mgfractal_np_filler_depth", np_filler_depth);
@@ -112,17 +116,19 @@ void MapgenFractalParams::readParams(const Settings *settings)
 
 void MapgenFractalParams::writeParams(Settings *settings) const
 {
-	settings->setFlagStr("mgfractal_spflags",  spflags, flagdesc_mapgen_fractal, U32_MAX);
-	settings->setFloat("mgfractal_cave_width", cave_width);
-	settings->setU16("mgfractal_fractal",      fractal);
-	settings->setU16("mgfractal_iterations",   iterations);
-	settings->setV3F("mgfractal_scale",        scale);
-	settings->setV3F("mgfractal_offset",       offset);
-	settings->setFloat("mgfractal_slice_w",    slice_w);
-	settings->setFloat("mgfractal_julia_x",    julia_x);
-	settings->setFloat("mgfractal_julia_y",    julia_y);
-	settings->setFloat("mgfractal_julia_z",    julia_z);
-	settings->setFloat("mgfractal_julia_w",    julia_w);
+	settings->setFlagStr("mgfractal_spflags",      spflags, flagdesc_mapgen_fractal, U32_MAX);
+	settings->setFloat("mgfractal_cave_width",     cave_width);
+	settings->setS16("mgfractal_large_cave_depth", large_cave_depth);
+	settings->setS16("mgfractal_lava_depth",       lava_depth);
+	settings->setU16("mgfractal_fractal",          fractal);
+	settings->setU16("mgfractal_iterations",       iterations);
+	settings->setV3F("mgfractal_scale",            scale);
+	settings->setV3F("mgfractal_offset",           offset);
+	settings->setFloat("mgfractal_slice_w",        slice_w);
+	settings->setFloat("mgfractal_julia_x",        julia_x);
+	settings->setFloat("mgfractal_julia_y",        julia_y);
+	settings->setFloat("mgfractal_julia_z",        julia_z);
+	settings->setFloat("mgfractal_julia_w",        julia_w);
 
 	settings->setNoiseParams("mgfractal_np_seabed",       np_seabed);
 	settings->setNoiseParams("mgfractal_np_filler_depth", np_filler_depth);
@@ -193,20 +199,22 @@ void MapgenFractal::makeChunk(BlockMakeData *data)
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
 	biomegen->calcBiomeNoise(node_min);
-	MgStoneType stone_type = generateBiomes();
+	MgStoneType stone_type = generateBiomes(water_level - 1);
 
 	if (flags & MG_CAVES)
-		generateCaves(stone_surface_max_y, MGFRACTAL_LARGE_CAVE_DEPTH);
+		generateCaves(stone_surface_max_y, large_cave_depth);
 
 	if (flags & MG_DUNGEONS)
 		generateDungeons(stone_surface_max_y, stone_type);
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
-		m_emerge->decomgr->placeAllDecos(this, blockseed, node_min, node_max);
+		m_emerge->decomgr->placeAllDecos(this, blockseed,
+			node_min, node_max, water_level - 1);
 
 	// Generate the registered ores
-	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
+	m_emerge->oremgr->placeAllOres(this, blockseed,
+		node_min, node_max, water_level - 1);
 
 	// Sprinkle some dust on top after everything else was generated
 	dustTopNodes();

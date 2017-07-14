@@ -32,6 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <IMaterialRenderer.h>
 #include <IMaterialRendererServices.h>
 #include <IShaderConstantSetCallBack.h>
+#include "client/renderingengine.h"
 #include "EShaderTypes.h"
 #include "log.h"
 #include "gamedef.h"
@@ -177,7 +178,7 @@ class ShaderCallback : public video::IShaderConstantSetCallBack
 	std::vector<IShaderConstantSetter*> m_setters;
 
 public:
-	ShaderCallback(const std::vector<IShaderConstantSetterFactory*> &factories)
+	ShaderCallback(const std::vector<IShaderConstantSetterFactory *> &factories)
 	{
 		for (u32 i = 0; i < factories.size(); ++i)
 			m_setters.push_back(factories[i]->create());
@@ -260,7 +261,7 @@ public:
 class ShaderSource : public IWritableShaderSource
 {
 public:
-	ShaderSource(IrrlichtDevice *device);
+	ShaderSource();
 	~ShaderSource();
 
 	/*
@@ -309,8 +310,6 @@ private:
 
 	// The id of the thread that is allowed to use irrlicht directly
 	std::thread::id m_main_thread;
-	// The irrlicht device
-	IrrlichtDevice *m_device;
 
 	// Cache of source shaders
 	// This should be only accessed from the main thread
@@ -332,18 +331,17 @@ private:
 	std::vector<ShaderCallback *> m_callbacks;
 };
 
-IWritableShaderSource* createShaderSource(IrrlichtDevice *device)
+IWritableShaderSource *createShaderSource()
 {
-	return new ShaderSource(device);
+	return new ShaderSource();
 }
 
 /*
 	Generate shader given the shader name.
 */
 ShaderInfo generate_shader(const std::string &name,
-		u8 material_type, u8 drawtype,
-		IrrlichtDevice *device, std::vector<ShaderCallback *> &callbacks,
-		const std::vector<IShaderConstantSetterFactory*> &setter_factories,
+		u8 material_type, u8 drawtype, std::vector<ShaderCallback *> &callbacks,
+		const std::vector<IShaderConstantSetterFactory *> &setter_factories,
 		SourceShaderCache *sourcecache);
 
 /*
@@ -354,8 +352,7 @@ void load_shaders(std::string name, SourceShaderCache *sourcecache,
 		std::string &vertex_program, std::string &pixel_program,
 		std::string &geometry_program, bool &is_highlevel);
 
-ShaderSource::ShaderSource(IrrlichtDevice *device):
-		m_device(device)
+ShaderSource::ShaderSource()
 {
 	assert(m_device); // Pre-condition
 
@@ -453,7 +450,7 @@ u32 ShaderSource::getShaderIdDirect(const std::string &name,
 	}
 
 	ShaderInfo info = generate_shader(name, material_type, drawtype,
-			m_device, m_callbacks, m_setter_factories, &m_sourcecache);
+			m_callbacks, m_setter_factories, &m_sourcecache);
 
 	/*
 		Add shader to caches (add dummy shaders too)
@@ -518,7 +515,7 @@ void ShaderSource::rebuildShaders()
 		ShaderInfo *info = &m_shaderinfo_cache[i];
 		if(info->name != ""){
 			*info = generate_shader(info->name, info->material_type,
-					info->drawtype, m_device, m_callbacks,
+					info->drawtype, m_callbacks,
 					m_setter_factories, &m_sourcecache);
 		}
 	}
@@ -526,8 +523,8 @@ void ShaderSource::rebuildShaders()
 
 
 ShaderInfo generate_shader(const std::string &name, u8 material_type, u8 drawtype,
-		IrrlichtDevice *device, std::vector<ShaderCallback *> &callbacks,
-		const std::vector<IShaderConstantSetterFactory*> &setter_factories,
+		std::vector<ShaderCallback *> &callbacks,
+		const std::vector<IShaderConstantSetterFactory *> &setter_factories,
 		SourceShaderCache *sourcecache)
 {
 	ShaderInfo shaderinfo;
@@ -535,24 +532,19 @@ ShaderInfo generate_shader(const std::string &name, u8 material_type, u8 drawtyp
 	shaderinfo.material_type = material_type;
 	shaderinfo.drawtype = drawtype;
 	shaderinfo.material = video::EMT_SOLID;
-	switch(material_type){
-		case TILE_MATERIAL_BASIC:
-			shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
-			break;
-		case TILE_MATERIAL_ALPHA:
-			shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL;
-			break;
-		case TILE_MATERIAL_LIQUID_TRANSPARENT:
-			shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL;
-			break;
-		case TILE_MATERIAL_LIQUID_OPAQUE:
-			shaderinfo.base_material = video::EMT_SOLID;
-			break;
-		case TILE_MATERIAL_WAVING_LEAVES:
-			shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
-			break;
-		case TILE_MATERIAL_WAVING_PLANTS:
-			shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
+	switch (material_type) {
+	case TILE_MATERIAL_OPAQUE:
+	case TILE_MATERIAL_LIQUID_OPAQUE:
+		shaderinfo.base_material = video::EMT_SOLID;
+		break;
+	case TILE_MATERIAL_ALPHA:
+	case TILE_MATERIAL_LIQUID_TRANSPARENT:
+		shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL;
+		break;
+	case TILE_MATERIAL_BASIC:
+	case TILE_MATERIAL_WAVING_LEAVES:
+	case TILE_MATERIAL_WAVING_PLANTS:
+		shaderinfo.base_material = video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
 		break;
 	}
 
@@ -560,8 +552,7 @@ ShaderInfo generate_shader(const std::string &name, u8 material_type, u8 drawtyp
 	if (!enable_shaders)
 		return shaderinfo;
 
-	video::IVideoDriver* driver = device->getVideoDriver();
-	sanity_check(driver);
+	video::IVideoDriver *driver = RenderingEngine::get_video_driver();
 
 	video::IGPUProgrammingServices *gpu = driver->getGPUProgrammingServices();
 	if(!gpu){
@@ -629,7 +620,8 @@ ShaderInfo generate_shader(const std::string &name, u8 material_type, u8 drawtyp
 		"NDT_NODEBOX",
 		"NDT_GLASSLIKE_FRAMED",
 		"NDT_FIRELIKE",
-		"NDT_GLASSLIKE_FRAMED_OPTIONAL"
+		"NDT_GLASSLIKE_FRAMED_OPTIONAL",
+		"NDT_PLANTLIKE_ROOTED",
 	};
 
 	for (int i = 0; i < 14; i++){
@@ -646,10 +638,11 @@ ShaderInfo generate_shader(const std::string &name, u8 material_type, u8 drawtyp
 		"TILE_MATERIAL_LIQUID_TRANSPARENT",
 		"TILE_MATERIAL_LIQUID_OPAQUE",
 		"TILE_MATERIAL_WAVING_LEAVES",
-		"TILE_MATERIAL_WAVING_PLANTS"
+		"TILE_MATERIAL_WAVING_PLANTS",
+		"TILE_MATERIAL_OPAQUE"
 	};
 
-	for (int i = 0; i < 6; i++){
+	for (int i = 0; i < 7; i++){
 		shaders_header += "#define ";
 		shaders_header += materialTypes[i];
 		shaders_header += " ";

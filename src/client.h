@@ -37,6 +37,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapnode.h"
 #include "tileanimation.h"
 #include "mesh_generator_thread.h"
+#include <fstream>
+#include "filesys.h"
 
 #define CLIENT_CHAT_MESSAGE_LIMIT_PER_10S 10.0f
 
@@ -256,7 +258,6 @@ public:
 	*/
 
 	Client(
-			IrrlichtDevice *device,
 			const char *playername,
 			const std::string &password,
 			const std::string &address_name,
@@ -274,6 +275,16 @@ public:
 	~Client();
 	DISABLE_CLASS_COPY(Client);
 
+	// Load local mods into memory
+	void loadMods();
+	void scanModSubfolder(const std::string &mod_name, const std::string &mod_path,
+				std::string mod_subpath);
+	inline void scanModIntoMemory(const std::string &mod_name, const std::string &mod_path)
+	{
+		scanModSubfolder(mod_name, mod_path, "");
+	}
+
+	// Initizle the mods
 	void initMods();
 
 	/*
@@ -467,7 +478,7 @@ public:
 
 	float mediaReceiveProgress();
 
-	void afterContentReceived(IrrlichtDevice *device);
+	void afterContentReceived();
 
 	float getRTT();
 	float getCurRate();
@@ -486,7 +497,6 @@ public:
 	ITextureSource* getTextureSource();
 	virtual IShaderSource* getShaderSource();
 	IShaderSource *shsrc() { return getShaderSource(); }
-	scene::ISceneManager* getSceneManager();
 	virtual u16 allocateUnknownNodeId(const std::string &name);
 	virtual ISoundManager* getSoundManager();
 	virtual MtEventManager* getEventManager();
@@ -494,6 +504,7 @@ public:
 	bool checkLocalPrivilege(const std::string &priv)
 	{ return checkPrivilege(priv); }
 	virtual scene::IAnimatedMesh* getMesh(const std::string &filename);
+	const std::string* getModFile(const std::string &filename);
 
 	virtual std::string getModStoragePath() const;
 	virtual bool registerModStorage(ModMetadata *meta);
@@ -593,7 +604,6 @@ private:
 	ParticleManager m_particle_manager;
 	con::Connection m_con;
 	std::string m_address_name;
-	IrrlichtDevice *m_device;
 	Camera *m_camera = nullptr;
 	Minimap *m_minimap = nullptr;
 	bool m_minimap_disabled_by_server = false;
@@ -675,6 +685,8 @@ private:
 	// Storage for mesh data for creating multiple instances of the same mesh
 	StringMap m_mesh_data;
 
+	StringMap m_mod_files;
+
 	// own state
 	LocalClientState m_state;
 
@@ -687,6 +699,7 @@ private:
 	bool m_modding_enabled;
 	std::unordered_map<std::string, ModMetadata *> m_mod_storages;
 	float m_mod_storage_save_timer = 10.0f;
+	std::vector<ModSpec> m_mods;
 	GameUIFlags *m_game_ui_flags;
 
 	bool m_shutdown = false;
