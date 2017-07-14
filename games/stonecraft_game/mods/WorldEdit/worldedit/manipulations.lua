@@ -42,7 +42,6 @@ end
 --- Replaces all instances of `search_node` with `replace_node` in a region.
 -- When `inverse` is `true`, replaces all instances that are NOT `search_node`.
 -- @return The number of nodes replaced.
-
 function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
@@ -576,14 +575,11 @@ end
 function worldedit.fixlight(pos1, pos2)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
-	worldedit.keep_loaded(pos1, pos2)
+	local vmanip = minetest.get_voxel_manip(pos1, pos2)
+	vmanip:write_to_map()
+	vmanip:update_map() -- this updates the lighting
 
-	local nodes = minetest.find_nodes_in_area(pos1, pos2, "air")
-	local dig_node = minetest.dig_node
-	for _, pos in ipairs(nodes) do
-		dig_node(pos)
-	end
-	return #nodes
+	return worldedit.volume(pos1, pos2)
 end
 
 
