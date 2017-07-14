@@ -38,7 +38,7 @@ msgid "Viola"
 msgstr "Viola"
 
 #: init.lua
-msgid "White dandelion"
+msgid "White Dandelion"
 msgstr "Weißer Löwenzahn"
 
 #: init.lua

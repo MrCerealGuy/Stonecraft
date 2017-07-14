@@ -166,11 +166,11 @@ msgid "Wooden Planks"
 msgstr "Holzbretter"
 
 #: nodes.lua
-msgid "Sapling"
+msgid "Tree Sapling"
 msgstr "Setzling"
 
 #: nodes.lua
-msgid "Leaves"
+msgid "Tree Leaves"
 msgstr "Blätter"
 
 #: nodes.lua
@@ -186,11 +186,11 @@ msgid "Jungle Wood Planks"
 msgstr "Dschungelbaumbretter"
 
 #: nodes.lua
-msgid "Jungle Leaves"
+msgid "Jungle Tree Leaves"
 msgstr "Dschungelblätter"
 
 #: nodes.lua
-msgid "Jungle Sapling"
+msgid "Jungle Tree Sapling"
 msgstr "Dschungelsetzling"
 
 #: nodes.lua
@@ -206,7 +206,7 @@ msgid "Pine Needles"
 msgstr "Kiefernadeln"
 
 #: nodes.lua
-msgid "Pine Sapling"
+msgid "Pine Tree Sapling"
 msgstr "Kiefersetzling"
 
 #: nodes.lua
@@ -218,7 +218,7 @@ msgid "Acacia Wood Planks"
 msgstr "Akazienholzbretter"
 
 #: nodes.lua
-msgid "Acacia Leaves"
+msgid "Acacia Tree Leaves"
 msgstr "Akazienblätter"
 
 #: nodes.lua
@@ -234,7 +234,7 @@ msgid "Aspen Wood Planks"
 msgstr "Espenholzbretter"
 
 #: nodes.lua
-msgid "Aspen Leaves"
+msgid "Aspen Tree Leaves"
 msgstr "Espenblätter"
 
 #: nodes.lua
@@ -410,7 +410,7 @@ msgid "Wooden Fence"
 msgstr "Holzzaun"
 
 #: nodes.lua
-msgid "Acacia Fence"
+msgid "Acacia Wood Fence"
 msgstr "Akazienzaun"
 
 #: nodes.lua
@@ -418,11 +418,11 @@ msgid "Jungle Wood Fence"
 msgstr "Dschungelholzzaun"
 
 #: nodes.lua
-msgid "Pine Fence"
+msgid "Pine Wood Fence"
 msgstr "Kieferzaun"
 
 #: nodes.lua
-msgid "Aspen Fence"
+msgid "Aspen Wood Fence"
 msgstr "Espenzaun"
 
 #: nodes.lua

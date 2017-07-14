@@ -50,7 +50,7 @@ msgid "Wooden Fence Gate"
 msgstr "Holztauntor"
 
 #: init.lua
-msgid "Acacia Fence Gate"
+msgid "Acacia Wood Fence Gate"
 msgstr "Akazienzauntor"
 
 #: init.lua
@@ -58,9 +58,9 @@ msgid "Jungle Wood Fence Gate"
 msgstr "Tropenzauntor"
 
 #: init.lua
-msgid "Pine Fence Gate"
+msgid "Pine Wood Fence Gate"
 msgstr "Kieferzauntor"
 
 #: init.lua
-msgid "Aspen Fence Gate"
+msgid "Aspen Wood Fence Gate"
 msgstr "Espenzauntor"

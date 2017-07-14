@@ -724,7 +724,7 @@ function doors.register_fencegate(name, def)
 	local fence = {
 		description = def.description,
 		drawtype = "mesh",
-		tiles = {def.texture},
+		tiles = {},
 		paramtype = "light",
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
@@ -745,6 +745,16 @@ function doors.register_fencegate(name, def)
 			fixed = {-1/2, -1/2, -1/4, 1/2, 1/2, 1/4},
 		},
 	}
+
+
+	if type(def.texture) == "string" then
+		fence.tiles[1] = {name = def.texture, backface_culling = true}
+	elseif def.texture.backface_culling == nil then
+		fence.tiles[1] = table.copy(def.texture)
+		fence.tiles[1].backface_culling = true
+	else
+		fence.tiles[1] = def.texture
+	end
 
 	if not fence.sounds then
 		fence.sounds = default.node_sound_wood_defaults()
@@ -792,7 +802,7 @@ doors.register_fencegate("doors:gate_wood", {
 })
 
 doors.register_fencegate("doors:gate_acacia_wood", {
-	description = S("Acacia Fence Gate"),
+	description = S("Acacia Wood Fence Gate"),
 	texture = "default_acacia_wood.png",
 	material = "default:acacia_wood",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2}
@@ -806,14 +816,14 @@ doors.register_fencegate("doors:gate_junglewood", {
 })
 
 doors.register_fencegate("doors:gate_pine_wood", {
-	description = S("Pine Fence Gate"),
+	description = S("Pine Wood Fence Gate"),
 	texture = "default_pine_wood.png",
 	material = "default:pine_wood",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3}
 })
 
 doors.register_fencegate("doors:gate_aspen_wood", {
-	description = S("Aspen Fence Gate"),
+	description = S("Aspen Wood Fence Gate"),
 	texture = "default_aspen_wood.png",
 	material = "default:aspen_wood",
 	groups = {choppy = 3, oddly_breakable_by_hand = 2, flammable = 3}
