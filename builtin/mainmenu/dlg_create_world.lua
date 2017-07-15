@@ -167,7 +167,6 @@ local function create_world_buttonhandler(this, fields)
 
 		selected_setting = core.get_table_index("list_world_options")
 		if core.explode_table_event(fields["list_world_options"]).type == "DCL" then
-			minetest.log("error", "DCL")
 			-- Directly toggle booleans
 			local setting = settings[selected_setting]
 			if setting and setting.type == "bool" then
