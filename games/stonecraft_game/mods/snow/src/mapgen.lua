@@ -157,12 +157,12 @@ function snow.voxelmanip_pine(pos,a,data)
 
 			--Make tree.
 			for i = 1,2 do
-				data[a:index(x,pos.y+i,z)] = c_pine_needles
+				vm:set_data_from_heap(data, a:index(x,pos.y+i,z), c_pine_needles)
 				if x ~= 0
 				and z ~= 0
 				and perlin1:get2d({x=x,y=z}) > nosmooth_rarity then
 					local abovenode = a:index(x,pos.y+i+1,z)
-					data[abovenode] = c_snow
+					vm:set_data_from_heap(data, abovenode, c_snow)
 				end
 			end
 		end
@@ -171,29 +171,29 @@ function snow.voxelmanip_pine(pos,a,data)
 		local x = pos.x
 		local y = pos.y+i
 		local z = pos.z
-		data[a:index(x+1,y,z)] = c_pine_needles
-		data[a:index(x-1,y,z)] = c_pine_needles
-		data[a:index(x,y,z+1)] = c_pine_needles
-		data[a:index(x,y,z-1)] = c_pine_needles
+		vm:set_data_from_heap(data, a:index(x+1,y,z), c_pine_needles)
+		vm:set_data_from_heap(data, a:index(x-1,y,z), c_pine_needles)
+		vm:set_data_from_heap(data, a:index(x,y,z+1), c_pine_needles)
+		vm:set_data_from_heap(data, a:index(x,y,z-1), c_pine_needles)
 		if perlin1:get2d({x=x+1,y=z}) > nosmooth_rarity then
-			data[a:index(x+1,y+1,z)] = c_snow
+			vm:set_data_from_heap(data, a:index(x+1,y+1,z), c_snow)
 		end
 		if perlin1:get2d({x=x+1,y=z}) > nosmooth_rarity then
-			data[a:index(x-1,y+1,z)] = c_snow
+			vm:set_data_from_heap(data, a:index(x-1,y+1,z), c_snow)
 		end
 		if perlin1:get2d({x=x,y=z+1}) > nosmooth_rarity then
-			data[a:index(x,y+1,z+1)] = c_snow
+			vm:set_data_from_heap(data, a:index(x,y+1,z+1), c_snow)
 		end
 		if perlin1:get2d({x=x,y=z-1}) > nosmooth_rarity then
-			data[a:index(x,y+1,z-1)] = c_snow
+			vm:set_data_from_heap(data, a:index(x,y+1,z-1), c_snow)
 		end
 	end
 	for i=0, 4 do
-		data[a:index(pos.x,pos.y+i,pos.z)] = c_pinetree
+		vm:set_data_from_heap(data, a:index(pos.x,pos.y+i,pos.z), c_pinetree)
 	end
-	data[a:index(pos.x,pos.y+5,pos.z)] = c_pine_needles
-	data[a:index(pos.x,pos.y+6,pos.z)] = c_pine_needles
+	vm:set_data_from_heap(data, a:index(pos.x,pos.y+5,pos.z), c_pine_needles)
+	vm:set_data_from_heap(data, a:index(pos.x,pos.y+6,pos.z), c_pine_needles)
 	if perlin1:get2d({x=pos.x,y=pos.z}) > nosmooth_rarity then
-		data[a:index(pos.x,pos.y+7,pos.z)] = c_snow
+		vm:set_data_from_heap(data, a:index(pos.x,pos.y+7,pos.z), c_snow)
 	end
 end

@@ -188,9 +188,6 @@ end
 
 local nbuf_default, nbuf_cold, nbuf_ice
 
--- buffer for vm:get_param2_data, added by MrCerealGuy
-local dbuf_param2 = {}
-
 minetest.register_on_generated(function(minp, maxp, seed)
 	local t1 = os.clock()
 
@@ -206,7 +203,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 	local data = vm:load_data_into_heap()
-	local param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
+	local param2s = vm:load_param2_data_into_heap()
 
 	local heightmap = minetest.get_mapgen_object("heightmap")
 
@@ -471,7 +468,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						if replacements[nd] then
 							vm:set_data_from_heap(data, vi, replacements[nd])
 							if plantlike then
-								param2s[vi] = pr:next(0,179)
+								vm:set_param2_data_from_heap(param2s, vi, pr:next(0,179))
 							end
 						elseif nd == c.dirt_with_grass then
 							vm:set_data_from_heap(data, vi, c.dirt_with_snow)
@@ -481,7 +478,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							if vm:get_data_from_heap(data, under) == c.dirt_with_grass then
 								-- replace other plants with shrubs
 								vm:set_data_from_heap(data, vi, c.snow_shrub)
-								param2s[vi] = pr:next(0,179)
+								vm:set_param2_data_from_heap(param2s, vi, pr:next(0,179))
 								vm:set_data_from_heap(data, under, c.dirt_with_snow)
 								break
 							end
@@ -541,7 +538,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								vm:get_data_from_heap(data, vi, c.snow_block)
 							else
 								-- set a specific snow height
-								param2s[vi] = h*7
+								vm:set_param2_data_from_heap(param2s, vi, h*7)
 							end
 						end
 					end
@@ -560,7 +557,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	vm:save_data_from_heap(data)
-	vm:set_param2_data(param2s)
+	vm:save_param2_data_from_heap(param2s)
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
 	vm:write_to_map(true)
