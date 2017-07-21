@@ -125,12 +125,13 @@ It is useful for mapgen mods which define their own map generation: first, air i
 A mapgen featuring a flat base terrain with three types of terrain variation - rolling hills, ridged and step (terraced) mountains. The aim was to create a mapgen with a flat base, somewhere where you can build a village, even a city. But to differentiate it from the flat mapgen, the flat areas are surrounded by hills and various mountain ranges.
 
 Features:
-* Vast plains, average y-level between 5-10
-* Rolling hills - small hills.
-* Ridged mountains - mountains of a similar height will connect with a ridge.
-* Step (terrace) mountains - mountains, sometimes a stair like effect.
-* Fjords - particularly where the larger mountains meet the sea. Rare.
-* Really big mountains - where two or even three mountain noise meet, spectacular and unpredictable peaks form.
+
+  * Vast plains, average y-level between 5-10
+  * Rolling hills - small hills.
+  * Ridged mountains - mountains of a similar height will connect with a ridge.
+  * Step (terrace) mountains - mountains, sometimes a stair like effect.
+  * Fjords - particularly where the larger mountains meet the sea. Rare.
+  * Really big mountains - where two or even three mountain noise meet, spectacular and unpredictable peaks form.
 
 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_Carpathian.jpg)
 
