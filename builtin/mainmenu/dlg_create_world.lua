@@ -40,7 +40,7 @@ local function create_world_formspec(dialogdata)
 
 	local current_worldname = core.settings:get("worldname") or ""
 	local current_seed = core.settings:get("fixed_map_seed") or ""
-	local current_mg   = core.settings:get("mg_name")
+	local current_mg = core.settings:get("mg_name")
 
 	local mglist = ""
 	local selindex = 1
@@ -161,9 +161,10 @@ local function create_world_buttonhandler(this, fields)
 	local list_enter = false
 	if fields["list_world_options"] then
 
-		-- cache worldname/seeds
+		-- cache worldname/seeds/mapgen
 		core.settings:set("worldname", fields["te_world_name"])
 		core.settings:set("fixed_map_seed", fields["te_seed"])
+		core.settings:set("mg_name", fields["dd_mapgen"])
 
 		selected_setting = core.get_table_index("list_world_options")
 		if core.explode_table_event(fields["list_world_options"]).type == "DCL" then
