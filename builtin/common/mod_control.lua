@@ -49,3 +49,24 @@ function core.skip_mod(mod)
 
 	return false
 end
+
+function core.is_mod_setting(mod_setting)
+		assert(type(mod_setting) == "string")
+
+	local world_conf = nil
+
+	local DIR_DELIM = DIR_DELIM or "/"
+	local world_file = core.get_worldpath()..DIR_DELIM.."world.mt"
+	local world_conf_ = Settings(world_file)
+
+	if world_conf ~= nil then
+		world_conf_mod_setting = world_conf:get(mod_setting)
+	end 
+
+	if world_conf_mod_setting == "true" then
+		return true
+	end
+
+	return false
+end
+
