@@ -132,36 +132,50 @@ enable_caverealms (Cave realms) bool false
 
 [*Advanced Etheral biomes settings]
 
-enable_biomes_glacier (Glacier) bool true
-enable_biomes_bamboo (Bamboo) bool true
-enable_biomes_mesa (Mesa) bool true
-enable_biomes_alpine (Alpine) bool true
-enable_biomes_healing (Healing) bool true
-enable_biomes_snowy (Snowy) bool true
-enable_biomes_frost (Frost) bool true
-enable_biomes_grassy (Grassy) bool true
-enable_biomes_caves (Caves) bool true
-enable_biomes_grayness (Rayness) bool true
-enable_biomes_grassytwo (Grassytwo) bool true
-enable_biomes_prairie (Prairie) bool true
-enable_biomes_jumble (Jumble) bool true
-enable_biomes_junglee (Junglee) bool true
-enable_biomes_desert (Desert) bool true
-enable_biomes_grove (Grove) bool true
-enable_biomes_mushroom (Mushroom) bool true
-enable_biomes_sandstone (Sandstone) bool true
-enable_biomes_quicksand (Quicksand) bool true
-enable_biomes_plains (Plains) bool true
-enable_biomes_savannah (Savannah) bool true
-enable_biomes_fiery (Fiery) bool true
-enable_biomes_sandclay (Sandclay) bool true
+etheral_biomes_glacier (Glacier) bool true
+etheral_biomes_bamboo (Bamboo) bool true
+etheral_biomes_mesa (Mesa) bool true
+etheral_biomes_alpine (Alpine) bool true
+etheral_biomes_healing (Healing) bool true
+etheral_biomes_snowy (Snowy) bool true
+etheral_biomes_frost (Frost) bool true
+etheral_biomes_grassy (Grassy) bool true
+etheral_biomes_caves (Caves) bool true
+etheral_biomes_grayness (Rayness) bool true
+etheral_biomes_grassytwo (Grassytwo) bool true
+etheral_biomes_prairie (Prairie) bool true
+etheral_biomes_jumble (Jumble) bool true
+etheral_biomes_junglee (Junglee) bool true
+etheral_biomes_desert (Desert) bool true
+etheral_biomes_grove (Grove) bool true
+etheral_biomes_mushroom (Mushroom) bool true
+etheral_biomes_sandstone (Sandstone) bool true
+etheral_biomes_quicksand (Quicksand) bool true
+etheral_biomes_plains (Plains) bool true
+etheral_biomes_savannah (Savannah) bool true
+etheral_biomes_fiery (Fiery) bool true
+etheral_biomes_sandclay (Sandclay) bool true
 
 [*Advanced Swamp biome settings]
 
-enable_swamps_always_generate (Generate swamps everywhere) bool false
-enable_swamps_smooth (Enables smooth transition of biomes) bool true
-enable_swamps_mapgen_rarity (Rarity in %) int 8
-enable_swamps_swampwater (Enables swampwater) bool true
+swamp_biome_always_generate (Generate swamps everywhere) bool false
+swamp_biome_smooth (Enables smooth transition of biomes) bool true
+swamp_biome_mapgen_rarity (Rarity in %) int 8
+swamp_biome_swampwater (Enables swampwater) bool true
+
+[*Advanced Snow biome settings]
+
+snow_biome_snowfall (Enables falling snow) bool true
+snow_biome_christmas_content (Disable this to remove christmas saplings from being found) bool true
+snow_biome_snowball_gravity (The gravity of thrown snowballs) float 0.91743119266055
+snow_biome_lighter_snowfall (Reduces the amount of resources and fps used by snowfall) bool false
+snow_biome_mapgen_rarity (mapgen rarity in %) int 18
+snow_biome_snowball_velocity (How fast players throw snowballs) int 19
+snow_biome_smooth_snow (Disable this to stop snow from being smoothed) bool true
+snow_biome_mapgen_size (size of the generated…, has an effect to the rarity, too) int 210
+snow_biome_min_height (The minumum height a snow biome will generate - mgv7) int 3 
+snow_biome_smooth_biomes (Enables smooth transition of biomes - mgv6) bool true
+snow_biome_sleds bool (Disable this to prevent sleds from being riden) true
 
 [Stuff]
 
