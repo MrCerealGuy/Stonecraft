@@ -17,9 +17,11 @@
 
 --------------------------------------------------------------------------------
 
--- Gets boolean value from world dialog saved in world.mt
-function core.is_world_option(option)
+-- Checks world.mt if mod is enabled
+function core.is_mod_enabled(option)
 	assert(type(option) == "string")
+
+	option = "enable_" .. mod
 
 	local world_conf_option = nil
 
@@ -38,11 +40,11 @@ function core.is_world_option(option)
 	return false
 end
 
--- Checks active world.mt for loading/skipping mod
+-- Skip mod if not enabled in world.mt
 function core.skip_mod(mod)
 	assert(type(mod) == "string")
 
-	if not core.is_world_option("enable_" .. mod) then
+	if not core.is_mod_enabled(mod) then
 		minetest.log("info", "[" .. mod .. "] skip loading mod.")
 		return true
 	end
@@ -50,23 +52,15 @@ function core.skip_mod(mod)
 	return false
 end
 
-function core.is_mod_setting(mod_setting)
-		assert(type(mod_setting) == "string")
-
-	local world_conf = nil
+-- Get mod setting from world.mt
+function core.get_mod_setting(mod_setting)
+	assert(type(mod_setting) == "string")
 
 	local DIR_DELIM = DIR_DELIM or "/"
 	local world_file = core.get_worldpath()..DIR_DELIM.."world.mt"
-	local world_conf_ = Settings(world_file)
+	local world_conf = Settings(world_file)
 
 	if world_conf ~= nil then
-		world_conf_mod_setting = world_conf:get(mod_setting)
-	end 
-
-	if world_conf_mod_setting == "true" then
-		return true
+		return world_conf:get(mod_setting)
 	end
-
-	return false
 end
-

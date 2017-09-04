@@ -114,6 +114,7 @@ enable_nssm_tarantula (Tarantula) bool true
 enable_nssm_uloboros (Uloboros) bool true
 enable_nssm_werewolf (Werewolf) bool true
 enable_nssm_white_werewolf (White werewolf) bool true
+enable_nssm_mese_dragon (Mese_dragon) bool true
 
 
 [Biomes]
@@ -215,3 +216,8 @@ enable_mines (Mines) bool false
 
 #    
 enable_pyramids (Pyramids) bool false
+
+[*Advanced Villages settings]
+
+villages_enable_protection (Players cannot modify spawned villages without buying the house ) bool true
+villages_first_village_type (The first village - the one the player spawns in) enum medieval medieval,nore,taoki

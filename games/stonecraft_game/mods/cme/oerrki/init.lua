@@ -26,9 +26,12 @@
 
 2017-05-10 added intllib support
 
+2017-09-04 modified by MrCerealGuy <mrcerealguy@gmx.de>
+  added advanced mod control
+
 --]]
 
-if core.skip_mod("creatures") then return end
+if core.skip_mod("creatures") or core.get_mod_setting("enable_creatures_oerrki") == false then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
