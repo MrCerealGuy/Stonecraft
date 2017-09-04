@@ -62,6 +62,60 @@ enable_creatures (Simple Mobs) bool false
 #    
 enable_nssm (Not So Simple Mobs) bool false
 
+[*Advanced Simple Mobs settings]
+
+#	
+enable_creatures_chicken (Chicken) bool true
+enable_creatures_ghost (Ghost) bool true
+enable_creatures_oerrki (Oerrki) bool true
+enable_creatures_sheep (Sheep) bool true
+enable_creatures_zombie (Zombie) bool true
+
+[*Advanced Not So Simple Mobs settings]
+
+#
+enable_nssm_ants (Ants) bool true
+enable_nssm_black_widow (Black Widow) bool true
+enable_nssm_bloco (Bloco) bool true
+enable_nssm_crab (Crab) bool true
+enable_nssm_crocodile (Crocodile) bool true
+enable_nssm_daddy_long_legs (Daddy long legs) bool true
+enable_nssm_dolidrosaurus (Dolidrosaurus) bool true
+enable_nssm_duck (Duck) bool true
+enable_nssm_duckking (Duckking) bool true
+enable_nssm_echidna (Echidna) bool true
+enable_nssm_enderduck (Enderduck) bool true
+enable_nssm_flying_duck (Flying duck) bool true
+enable_nssm_giant_sandworm (Giant sandworm) bool true
+enable_nssm_icelamander (Icelamander) bool true
+enable_nssm_icesnake (Icesnake) bool true
+enable_nssm_kraken (Kraken) bool true
+enable_nssm_larva (Larva) bool true
+enable_nssm_lava_titan (Lava titan) bool true
+enable_nssm_manticore (Manticore) bool true
+enable_nssm_mantis_beast (Mantis beast) bool true
+enable_nssm_mantis (Mantis) bool true
+enable_nssm_masticone (Masticone) bool true
+enable_nssm_moonheron (Moonheron) bool true
+enable_nssm_night_master (Night master) bool true
+enable_nssm_octopus (Octopus) bool true
+enable_nssm_phoenix (Phoenix) bool true
+enable_nssm_pumpboom (Pumpboom) bool true
+enable_nssm_pumpking (Pumpking) bool true
+enable_nssm_sandworm (Sandworm) bool true
+enable_nssm_scrausics (Scrausics) bool true
+enable_nssm_sand_bloco (Sand bloco) bool true
+enable_nssm_signosigno (Signosigno) bool true
+enable_nssm_snow_biter (Snow biter) bool true
+enable_nssm_spiderduck (Spiderduck) bool true
+enable_nssm_stone_eater (Stone eater) bool true
+enable_nssm_swimming_duck (Swimming duck) bool true
+enable_nssm_tarantula (Tarantula) bool true
+enable_nssm_uloboros (Uloboros) bool true
+enable_nssm_werewolf (Werewolf) bool true
+enable_nssm_white_werewolf (White werewolf) bool true
+
+
 [Biomes]
 
 #    
@@ -75,6 +129,39 @@ enable_snow (Snow biome) bool false
 
 #    
 enable_caverealms (Cave realms) bool false
+
+[*Advanced Etheral biomes settings]
+
+enable_biomes_glacier (Glacier) bool true
+enable_biomes_bamboo (Bamboo) bool true
+enable_biomes_mesa (Mesa) bool true
+enable_biomes_alpine (Alpine) bool true
+enable_biomes_healing (Healing) bool true
+enable_biomes_snowy (Snowy) bool true
+enable_biomes_frost (Frost) bool true
+enable_biomes_grassy (Grassy) bool true
+enable_biomes_caves (Caves) bool true
+enable_biomes_grayness (Rayness) bool true
+enable_biomes_grassytwo (Grassytwo) bool true
+enable_biomes_prairie (Prairie) bool true
+enable_biomes_jumble (Jumble) bool true
+enable_biomes_junglee (Junglee) bool true
+enable_biomes_desert (Desert) bool true
+enable_biomes_grove (Grove) bool true
+enable_biomes_mushroom (Mushroom) bool true
+enable_biomes_sandstone (Sandstone) bool true
+enable_biomes_quicksand (Quicksand) bool true
+enable_biomes_plains (Plains) bool true
+enable_biomes_savannah (Savannah) bool true
+enable_biomes_fiery (Fiery) bool true
+enable_biomes_sandclay (Sandclay) bool true
+
+[*Advanced Swamp biome settings]
+
+enable_swamps_always_generate (Generate swamps everywhere) bool false
+enable_swamps_smooth (Enables smooth transition of biomes) bool true
+enable_swamps_mapgen_rarity (Rarity in %) int 8
+enable_swamps_swampwater (Enables swampwater) bool true
 
 [Stuff]
 
