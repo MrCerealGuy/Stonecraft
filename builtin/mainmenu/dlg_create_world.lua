@@ -35,6 +35,200 @@ local search_string = ""
 local settings = full_settings
 local selected_setting = 1
 
+local function create_change_setting_formspec(dialogdata)
+	local setting = settings[selected_setting]
+	local formspec = "size[10,5.2,true]" ..
+			"button[5,4.5;2,1;btn_done;" .. fgettext("Save") .. "]" ..
+			"button[3,4.5;2,1;btn_cancel;" .. fgettext("Cancel") .. "]" ..
+			"tablecolumns[color;text]" ..
+			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
+			"table[0,0;10,3;info;"
+
+	if setting.readable_name then
+		formspec = formspec .. "#FFFF00," .. fgettext(setting.readable_name)
+				.. " (" .. core.formspec_escape(setting.name) .. "),"
+	else
+		formspec = formspec .. "#FFFF00," .. core.formspec_escape(setting.name) .. ","
+	end
+
+	formspec = formspec .. ",,"
+
+	local comment_text = ""
+
+	if setting.comment == "" then
+		comment_text = fgettext_ne("(No description of setting given)")
+	else
+		comment_text = fgettext_ne(setting.comment)
+	end
+	for _, comment_line in ipairs(comment_text:split("\n", true)) do
+		formspec = formspec .. "," .. core.formspec_escape(comment_line) .. ","
+	end
+
+	if setting.type == "flags" then
+		formspec = formspec .. ",,"
+				.. "," .. fgettext("Please enter a comma seperated list of flags.") .. ","
+				.. "," .. fgettext("Possible values are: ")
+				.. core.formspec_escape(setting.possible:gsub(",", ", ")) .. ","
+	elseif setting.type == "noise_params" then
+		formspec = formspec .. ",,"
+				.. "," .. fgettext("Format:") .. ","
+				.. "," .. fgettext("<offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>),") .. ","
+				.. "," .. fgettext("<seed>, <octaves>, <persistence>, <lacunarity>") .. ","
+	elseif setting.type == "v3f" then
+		formspec = formspec .. ",,"
+				.. "," .. fgettext_ne("Format is 3 numbers separated by commas and inside brackets.") .. ","
+	end
+
+	formspec = formspec:sub(1, -2) -- remove trailing comma
+
+	formspec = formspec .. ";1]"
+
+	if setting.type == "bool" then
+		local selected_index
+		if core.is_yes(get_current_value(setting)) then
+			selected_index = 2
+		else
+			selected_index = 1
+		end
+		formspec = formspec .. "dropdown[0.5,3.5;3,1;dd_setting_value;"
+				.. fgettext("Disabled") .. "," .. fgettext("Enabled") .. ";"
+				.. selected_index .. "]"
+
+	elseif setting.type == "enum" then
+		local selected_index = 0
+		formspec = formspec .. "dropdown[0.5,3.5;3,1;dd_setting_value;"
+		for index, value in ipairs(setting.values) do
+			-- translating value is not possible, since it's the value
+			--  that we set the setting to
+			formspec = formspec ..  core.formspec_escape(value) .. ","
+			if get_current_value(setting) == value then
+				selected_index = index
+			end
+		end
+		if #setting.values > 0 then
+			formspec = formspec:sub(1, -2) -- remove trailing comma
+		end
+		formspec = formspec .. ";" .. selected_index .. "]"
+
+	elseif setting.type == "path" or setting.type == "filepath" then
+		local current_value = dialogdata.selected_path
+		if not current_value then
+			current_value = get_current_value(setting)
+		end
+		formspec = formspec .. "field[0.5,4;7.5,1;te_setting_value;;"
+				.. core.formspec_escape(current_value) .. "]"
+				.. "button[8,3.75;2,1;btn_browser_" .. setting.type .. ";" .. fgettext("Browse") .. "]"
+
+	else
+		-- TODO: fancy input for float, int, flags, noise_params, v3f
+		local width = 10
+		local text = get_current_value(setting)
+		if dialogdata.error_message then
+			formspec = formspec .. "tablecolumns[color;text]" ..
+			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
+			"table[5,3.9;5,0.6;error_message;#FF0000,"
+					.. core.formspec_escape(dialogdata.error_message) .. ";0]"
+			width = 5
+			if dialogdata.entered_text then
+				text = dialogdata.entered_text
+			end
+		end
+		formspec = formspec .. "field[0.5,4;" .. width .. ",1;te_setting_value;;"
+				.. core.formspec_escape(text) .. "]"
+	end
+	return formspec
+end
+
+local function handle_change_setting_buttons(this, fields)
+	if fields["btn_done"] or fields["key_enter"] then
+		local setting = settings[selected_setting]
+		if setting.type == "bool" then
+			local new_value = fields["dd_setting_value"]
+			-- Note: new_value is the actual (translated) value shown in the dropdown
+			core.settings:set_bool(setting.name, new_value == fgettext("Enabled"))
+
+		elseif setting.type == "enum" then
+			local new_value = fields["dd_setting_value"]
+			core.settings:set(setting.name, new_value)
+
+		elseif setting.type == "int" then
+			local new_value = tonumber(fields["te_setting_value"])
+			if not new_value or math.floor(new_value) ~= new_value then
+				this.data.error_message = fgettext_ne("Please enter a valid integer.")
+				this.data.entered_text = fields["te_setting_value"]
+				core.update_formspec(this:get_formspec())
+				return true
+			end
+			if setting.min and new_value < setting.min then
+				this.data.error_message = fgettext_ne("The value must be at least $1.", setting.min)
+				this.data.entered_text = fields["te_setting_value"]
+				core.update_formspec(this:get_formspec())
+				return true
+			end
+			if setting.max and new_value > setting.max then
+				this.data.error_message = fgettext_ne("The value must not be larger than $1.", setting.max)
+				this.data.entered_text = fields["te_setting_value"]
+				core.update_formspec(this:get_formspec())
+				return true
+			end
+			core.settings:set(setting.name, new_value)
+
+		elseif setting.type == "float" then
+			local new_value = tonumber(fields["te_setting_value"])
+			if not new_value then
+				this.data.error_message = fgettext_ne("Please enter a valid number.")
+				this.data.entered_text = fields["te_setting_value"]
+				core.update_formspec(this:get_formspec())
+				return true
+			end
+			core.settings:set(setting.name, new_value)
+
+		elseif setting.type == "flags" then
+			local new_value = fields["te_setting_value"]
+			for _,value in ipairs(new_value:split(",", true)) do
+				value = value:trim()
+				local possible = "," .. setting.possible .. ","
+				if not possible:find("," .. value .. ",", 0, true) then
+					this.data.error_message = fgettext_ne("\"$1\" is not a valid flag.", value)
+					this.data.entered_text = fields["te_setting_value"]
+					core.update_formspec(this:get_formspec())
+					return true
+				end
+			end
+			core.settings:set(setting.name, new_value)
+
+		else
+			local new_value = fields["te_setting_value"]
+			core.settings:set(setting.name, new_value)
+		end
+		core.settings:write()
+		this:delete()
+		return true
+	end
+
+	if fields["btn_cancel"] then
+		this:delete()
+		return true
+	end
+
+	if fields["btn_browser_path"] then
+		core.show_path_select_dialog("dlg_browse_path",
+			fgettext_ne("Select directory"), false)
+	end
+
+	if fields["btn_browser_filepath"] then
+		core.show_path_select_dialog("dlg_browse_path",
+			fgettext_ne("Select file"), true)
+	end
+
+	if fields["dlg_browse_path_accepted"] then
+		this.data.selected_path = fields["dlg_browse_path_accepted"]
+		core.update_formspec(this:get_formspec())
+	end
+
+	return false
+end
+
 local function create_world_formspec(dialogdata)
 	local mapgens = core.get_mapgen_names()
 
@@ -91,7 +285,7 @@ local function create_world_formspec(dialogdata)
 		"textlist[-10,3;7,2.3;games;" .. gamemgr.gamelist() ..
 		";" .. gameidx .. ";true]"
 		
-	retval = retval .. "size[10,5.5;true]" ..
+	retval = retval .. "size[10,5.5,true]" ..
 		"tablecolumns[color;tree;text,width=32;text]" ..
 		"tableoptions[background=#00000000;border=false]" ..
 		"table[0.25,3.50;10,3.5;list_world_options;"
@@ -181,6 +375,19 @@ local function create_world_buttonhandler(this, fields)
 		else
 			return true
 		end
+	end
+
+	if list_enter then
+		local setting = settings[selected_setting]
+
+		if setting and setting.type ~= "category" then
+			local edit_dialog = dialog_create("change_setting", create_change_setting_formspec,
+					handle_change_setting_buttons)
+			edit_dialog:set_parent(this)
+			this:hide()
+			edit_dialog:show()
+		end
+		return true
 	end
 
 	if fields["world_create_confirm"] or

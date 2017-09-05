@@ -1,3 +1,10 @@
+--[[
+
+2017-09-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added advanced mod control
+
+--]]
+
 -----------------------------------------------------------------------------
 -- configuration values which you can adjust according to your liking
 -----------------------------------------------------------------------------
@@ -27,10 +34,10 @@ mg_villages.VILLAGE_DETECT_RANGE = 400;
 mg_villages.REQUIRE_PRIV_FOR_TELEPORT = false;
 
 -- if set to true, players cannot modify spawned villages without buying the house from the village first
-mg_villages.ENABLE_PROTECTION = true;
+if core.get_mod_setting("villages_enable_protection") ~= false then mg_villages.ENABLE_PROTECTION = true else mg_villages.ENABLE_PROTECTION = false end
 
 -- the first village - the one the player spawns in - will be of this type
-mg_villages.FIRST_VILLAGE_TYPE = 'medieval';
+if core.get_mod_setting("villages_first_village_type") ~= nil then mg_villages.FIRST_VILLAGE_TYPE = core.get_mod_setting("villages_first_village_type") else mg_villages.FIRST_VILLAGE_TYPE = 'medieval' end
 
 -- the mapgen will disregard mapchunks where min.y > mg_villages.MAX_HEIGHT_TREATED;
 -- you can set this value to 64 if you have a slow machine and a mapgen which does not create extreme mountains

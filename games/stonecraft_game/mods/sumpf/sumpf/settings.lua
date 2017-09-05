@@ -3,6 +3,9 @@
 2016-05-04 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	increased mapgen_rarity
 
+2017-09-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added advanced mod control
+
 --]]
 
 --This file contains configuration options for the swamp mod.
@@ -10,13 +13,13 @@
 sumpf.enable_mapgen = true
 
 --Generate swamps everywhere
-sumpf.always_generate = false
+if core.get_mod_setting("swamp_biome_always_generate") ~= false then sumpf.always_generate = true else sumpf.always_generate = false end
 
 --Enables smooth transition of biomes.
-sumpf.smooth = true
+if core.get_mod_setting("swamp_biome_smooth") ~= false then sumpf.smooth = true else sumpf.smooth = false end
 
 --rarity in %
-sumpf.mapgen_rarity = 8
+if core.get_mod_setting("swamp_biome_mapgen_rarity") ~= nil then sumpf.mapgen_rarity = core.get_mod_setting("swamp_biome_mapgen_rarity") else sumpf.mapgen_rarity = 8 end
 
 --size of the generated… (has an effect to the rarity, too)
 sumpf.mapgen_size = 100
@@ -28,7 +31,7 @@ sumpf.smooth_trans_size = 4
 sumpf.enable_plants = true
 
 --Enables swampwater - it might be a bit buggy with mapgen v6.
-sumpf.swampwater = true
+if core.get_mod_setting("swamp_biome_swampwater") ~= false then sumpf.swampwater = true else sumpf.swampwater = false end
 
 --adds swampwater near sea (different behaviour)
 sumpf.wet_beaches = sumpf.swampwater
