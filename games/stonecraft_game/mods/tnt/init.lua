@@ -349,7 +349,7 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast, owne
 			if cid ~= c_air then
 				vm:set_data_from_heap(data, vi, destroy(drops, p, cid, c_air, c_fire,
 					on_blast_queue, on_construct_queue,
-					ignore_protection, ignore_on_blast, owner)
+					ignore_protection, ignore_on_blast, owner))
 			end
 		end
 		vi = vi + 1
