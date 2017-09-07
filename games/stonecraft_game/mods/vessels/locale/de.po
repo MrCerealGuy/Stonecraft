@@ -22,17 +22,17 @@ msgid "Vessels Shelf"
 msgstr "Gefäßregal"
 
 #: init.lua
-msgid "Glass Bottle (empty)"
-msgstr "Glasflasche (leer)"
+msgid "Empty Glass Bottle"
+msgstr "Leere Glasflasche"
 
 #: init.lua
-msgid "Drinking Glass (empty)"
-msgstr "Trinkglas (leer)"
+msgid "Empty Drinking Glass"
+msgstr "Leeres Trinkglas"
 
 #: init.lua
-msgid "Heavy Steel Bottle (empty)"
-msgstr "Schwere Stahlflasche (leer)"
+msgid "Empty Heavy Steel Bottle"
+msgstr "Leere schwere Stahlflasche"
 
 #: init.lua
-msgid "Pile of Glass Fragments"
-msgstr "Stapel von Glasfragmenten"
+msgid "Glass Fragments"
+msgstr "Glasfragmente"

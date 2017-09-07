@@ -38,16 +38,16 @@ msgid "Obsidian Glass Door"
 msgstr "Obsidianglastür"
 
 #: init.lua
-msgid "Trapdoor"
-msgstr "Falltür"
+msgid "Wooden Trapdoor"
+msgstr "Holzfalltür"
 
 #: init.lua
 msgid "Steel Trapdoor"
 msgstr "Stahlfalltür"
 
 #: init.lua
-msgid "Wooden Fence Gate"
-msgstr "Holztauntor"
+msgid "Apple Wood Fence Gate"
+msgstr "Apfelholzzauntor"
 
 #: init.lua
 msgid "Acacia Wood Fence Gate"

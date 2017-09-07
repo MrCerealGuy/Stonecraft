@@ -18,8 +18,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "Rose"
-msgstr "Rose"
+msgid "Red Rose"
+msgstr "Rote Rose"
 
 #: init.lua
 msgid "Orange Tulip"

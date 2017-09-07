@@ -406,12 +406,12 @@ msgid "Steel Ladder"
 msgstr "Stahlleiter"
 
 #: nodes.lua
-msgid "Wooden Fence"
-msgstr "Holzzaun"
+msgid "Apple Wood Fence"
+msgstr "Apfelholzzaun"
 
 #: nodes.lua
 msgid "Acacia Wood Fence"
-msgstr "Akazienzaun"
+msgstr "Akazienholzzaun"
 
 #: nodes.lua
 msgid "Jungle Wood Fence"
@@ -419,11 +419,11 @@ msgstr "Dschungelholzzaun"
 
 #: nodes.lua
 msgid "Pine Wood Fence"
-msgstr "Kieferzaun"
+msgstr "Kieferholzzaun"
 
 #: nodes.lua
 msgid "Aspen Wood Fence"
-msgstr "Espenzaun"
+msgstr "Espenholzzaun"
 
 #: nodes.lua
 msgid "Glass"

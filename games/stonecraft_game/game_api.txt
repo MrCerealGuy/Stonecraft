@@ -284,8 +284,61 @@ Give Initial Stuff API
 ^ Adds items to the list of items to be given
 
 
+Players API
+-----------
+
+The player API can register player models and update the player's appearence
+
+* `player_api.register_model(name, def)`
+	* Register a new model to be used by players
+	* name: model filename such as "character.x", "foo.b3d", etc.
+	* def: See [#Model definition]
+    * saved to player_api.registered_models
+
+* `player_api.registered_player_models[name]`
+	 * Get a model's definition
+	 * see [#Model definition]
+
+* `player_api.set_model(player, model_name)`
+	* Change a player's model
+	* `player`: PlayerRef
+	* `model_name`: model registered with player_api.register_model()
+
+* `player_api.set_animation(player, anim_name [, speed])`
+	* Applies an animation to a player
+	* anim_name: name of the animation.
+	* speed: frames per second. If nil, default from the model is used
+
+* `player_api.set_textures(player, textures)`
+	* Sets player textures
+	* `player`: PlayerRef
+	* `textures`: array of textures, If `textures` is nil the default
+	  textures from the model def are used
+
+* `player_api.get_animation(player)`
+	* Returns a table containing fields `model`, `textures` and `animation`.
+	* Any of the fields of the returned table may be nil.
+	* player: PlayerRef
+
+### Model Definition
+
+	{
+		animation_speed = 30,            -- Default animation speed, in FPS.
+		textures = {"character.png", },  -- Default array of textures.
+		visual_size = {x = 1, y = 1},    -- Used to scale the model.
+		animations = {
+			-- <anim_name> = {x = <start_frame>, y = <end_frame>},
+			foo = {x = 0, y = 19},
+			bar = {x = 20, y = 39},
+		-- ...
+		},
+		collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.77, 0.3}, -- In nodes from feet position
+		stepheight = 0.6, -- In nodes
+	}
+
+
 TNT API
-----------
+-------
 
 `tnt.register_tnt(definition)`
 
@@ -295,6 +348,7 @@ TNT API
  * `description` A description for your TNT.
  * `radius` The radius within which the TNT can destroy nodes. The default is 3.
  * `damage_radius` The radius within which the TNT can damage players and mobs. By default it is twice the `radius`.
+ * `sound` The sound played when explosion occurs. By default it is `tnt_explode`.
  * `disable_drops` Disable drops. By default it is set to false.
  * `ignore_protection` Don't check `minetest.is_protected` before removing a node.
  * `ignore_on_blast` Don't call `on_blast` even if a node has one.
@@ -309,7 +363,8 @@ TNT API
 ^ Create an explosion.
 
 * `position` The center of explosion.
-* `definition` The TNT definion as passed to `tnt.register`
+* `definition` The TNT definion as passed to `tnt.register` with the following addition:
+ * `explode_center` false by default which removes TNT node on blast, when true will explode center node.
 
 `tnt.burn(position, [nodename])`
 
@@ -592,59 +647,47 @@ Default constants
 
 `default.LIGHT_MAX`  The maximum light level (see [Node definition] light_source)
 
-Player API
-----------
 
-The player API can register player models and update the player's appearence
+GUI and formspecs
+-----------------
 
-`default.player_register_model(name, def)`
+`default.get_hotbar_bg(x, y)`
 
- * Register a new model to be used by players.
- * name: model filename such as "character.x", "foo.b3d", etc.
- * def: See [#Model definition]
+ * Get the hotbar background as string, containing the formspec elements
+ * x: Horizontal position in the formspec
+ * y: Vertical position in the formspec
 
-`default.registered_player_models[name]`
+`default.gui_bg`
 
- * Get a model's definition
- * see [#Model definition]
+ * Background color formspec element
 
-`default.player_set_model(player, model_name)`
+`default.gui_bg_img`
 
- * Change a player's model
- * `player`: PlayerRef
- * `model_name`: model registered with player_register_model()
+ * Image overlay formspec element for the background to use in formspecs
 
-`default.player_set_animation(player, anim_name [, speed])`
+`default.gui_slots`
 
- * Applies an animation to a player
- * anim_name: name of the animation.
- * speed: frames per second. If nil, default from the model is used
+ * `listcolors` formspec element that is used to format the slots in formspecs
 
-`default.player_set_textures(player, textures)`
+`default.gui_survival_form`
 
- * Sets player textures
- * `player`: PlayerRef
- * `textures`: array of textures, If `textures` is nil, the default textures from the model def are used
+ * Entire formspec for the survival inventory
 
-default.player_get_animation(player)
+`default.get_chest_formspec(pos)`
 
- * Returns a table containing fields `model`, `textures` and `animation`.
- * Any of the fields of the returned table may be nil.
- * player: PlayerRef
+ * Get the chest formspec using the defined GUI elements
+ * pos: Location of the node
 
-### Model Definition
+`default.get_furnace_active_formspec(fuel_percent, item_percent)`
 
-	{
-		animation_speed = 30,            -- Default animation speed, in FPS.
-		textures = {"character.png", },  -- Default array of textures.
-		visual_size = {x = 1, y = 1},    -- Used to scale the model.
-		animations = {
-			-- <anim_name> = {x = <start_frame>, y = <end_frame>},
-			foo = {x = 0, y = 19},
-			bar = {x = 20, y = 39},
-		-- ...
-		},
-	}
+ * Get the active furnace formspec using the defined GUI elements
+ * fuel_percent: Percent of how much the fuel is used
+ * item_percent: Percent of how much the item is cooked
+
+`default.get_furnace_inactive_formspec()`
+
+ * Get the inactive furnace formspec using the defined GUI elements
+
 
 Leafdecay
 ---------

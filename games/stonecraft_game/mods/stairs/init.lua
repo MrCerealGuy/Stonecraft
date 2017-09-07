@@ -723,16 +723,6 @@ stairs.register_stair_and_slab(
 )
 
 stairs.register_stair_and_slab(
-	"straw",
-	"farming:straw",
-	{snappy = 3, flammable = 4},
-	{"farming_straw.png"},
-	S("Straw Stair"),
-	S("Straw Slab"),
-	default.node_sound_leaves_defaults()
-)
-
-stairs.register_stair_and_slab(
 	"steelblock",
 	"default:steelblock",
 	{cracky = 1, level = 2},
@@ -785,7 +775,7 @@ stairs.register_stair_and_slab(
 stairs.register_stair_and_slab(
 	"ice",
 	"default:ice",
-	{cracky = 3, puts_out_fire = 1, cools_lava = 1},
+	{cracky = 3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
 	{"default_ice.png"},
 	S("Ice Stair"),
 	S("Ice Slab"),
