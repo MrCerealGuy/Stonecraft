@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef GENERICOBJECT_HEADER
-#define GENERICOBJECT_HEADER
+#pragma once
 
 #include <string>
 #include "irrlichttypes_bloated.h"
@@ -37,7 +36,8 @@ enum GenericCMD {
 	GENERIC_CMD_ATTACH_TO,
 	GENERIC_CMD_SET_PHYSICS_OVERRIDE,
 	GENERIC_CMD_UPDATE_NAMETAG_ATTRIBUTES,
-	GENERIC_CMD_SPAWN_INFANT
+	GENERIC_CMD_SPAWN_INFANT,
+	GENERIC_CMD_SET_ANIMATION_SPEED
 };
 
 #include "object_properties.h"
@@ -73,6 +73,8 @@ std::string gob_cmd_update_physics_override(float physics_override_speed,
 
 std::string gob_cmd_update_animation(v2f frames, float frame_speed, float frame_blend, bool frame_loop);
 
+std::string gob_cmd_update_animation_speed(float frame_speed);
+
 std::string gob_cmd_update_bone_position(const std::string &bone, v3f position,
 		v3f rotation);
 
@@ -83,6 +85,3 @@ std::string gob_cmd_update_nametag_attributes(video::SColor color);
 
 std::string gob_cmd_update_infant(u16 id, u8 type,
 		const std::string &client_initialization_data);
-
-#endif
-

@@ -1,4 +1,4 @@
-Minetest Lua Client Modding API Reference 0.4.16
+Minetest Lua Client Modding API Reference 0.5.0
 ================================================
 * More information at <http://www.minetest.net/>
 * Developer Wiki: <http://dev.minetest.net/>
@@ -408,6 +408,7 @@ examples.
 * Clickable button. When clicked, fields will be sent.
 * `x`, `y` and `name` work as per field
 * `w` and `h` are the size of the button
+* Fixed button height. It will be vertically centred on `h`
 * `label` is the text on the button
 * Position and size units are inventory slots
 
@@ -627,7 +628,7 @@ Minetest namespace reference
   reliable or verifyable. Compatible forks will have a different name and
   version entirely. To check for the presence of engine features, test
   whether the functions exported by the wanted features exist. For example:
-  `if minetest.nodeupdate then ... end`.
+  `if minetest.check_for_falling then ... end`.
 
 ### Logging
 * `minetest.debug(...)`
@@ -700,12 +701,10 @@ Call these functions only at load time!
     * Returns the time of day: `0` for midnight, `0.5` for midday
 
 ### Map
-* `minetest.get_node(pos)`
-    * Returns the node at the given position as table in the format
-      `{name="node_name", param1=0, param2=0}`, returns `{name="ignore", param1=0, param2=0}`
-      for unloaded areas.
 * `minetest.get_node_or_nil(pos)`
-    * Same as `get_node` but returns `nil` for unloaded areas.
+    * Returns the node at the given position as table in the format
+      `{name="node_name", param1=0, param2=0}`, returns `nil`
+      for unloaded areas or flavour limited areas.
 * `minetest.find_node_near(pos, radius, nodenames, [search_center])`: returns pos or `nil`
     * `radius`: using a maximum metric
     * `nodenames`: e.g. `{"ignore", "group:tree"}` or `"default:dirt"`

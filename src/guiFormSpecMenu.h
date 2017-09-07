@@ -17,9 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-
-#ifndef GUIINVENTORYMENU_HEADER
-#define GUIINVENTORYMENU_HEADER
+#pragma once
 
 #include <utility>
 #include <stack>
@@ -55,7 +53,8 @@ typedef enum {
 
 struct TextDest
 {
-	virtual ~TextDest() {}
+	virtual ~TextDest() = default;
+
 	// This is deprecated I guess? -celeron55
 	virtual void gotText(const std::wstring &text) {}
 	virtual void gotText(const StringMap &fields) = 0;
@@ -66,8 +65,8 @@ struct TextDest
 class IFormSource
 {
 public:
-	virtual ~IFormSource(){}
-	virtual std::string getForm() = 0;
+	virtual ~IFormSource() = default;
+	virtual const std::string &getForm() const = 0;
 	// Fill in variables in field text
 	virtual std::string resolveText(const std::string &str) { return str; }
 };
@@ -76,10 +75,7 @@ class GUIFormSpecMenu : public GUIModalMenu
 {
 	struct ItemSpec
 	{
-		ItemSpec() :
-			i(-1)
-		{
-		}
+		ItemSpec() = default;
 
 		ItemSpec(const InventoryLocation &a_inventoryloc,
 				const std::string &a_listname,
@@ -94,14 +90,13 @@ class GUIFormSpecMenu : public GUIModalMenu
 
 		InventoryLocation inventoryloc;
 		std::string listname;
-		s32 i;
+		s32 i = -1;
 	};
 
 	struct ListDrawSpec
 	{
-		ListDrawSpec()
-		{
-		}
+		ListDrawSpec() = default;
+
 		ListDrawSpec(const InventoryLocation &a_inventoryloc,
 				const std::string &a_listname,
 				v2s32 a_pos, v2s32 a_geom, s32 a_start_item_i):
@@ -122,9 +117,8 @@ class GUIFormSpecMenu : public GUIModalMenu
 
 	struct ListRingSpec
 	{
-		ListRingSpec()
-		{
-		}
+		ListRingSpec() = default;
+
 		ListRingSpec(const InventoryLocation &a_inventoryloc,
 				const std::string &a_listname):
 			inventoryloc(a_inventoryloc),
@@ -203,14 +197,13 @@ class GUIFormSpecMenu : public GUIModalMenu
 
 	struct FieldSpec
 	{
-		FieldSpec()
-		{
-		}
+		FieldSpec() = default;
+
 		FieldSpec(const std::string &name, const std::wstring &label,
 				const std::wstring &default_text, int id) :
 			fname(name),
 			flabel(label),
-			fdefault(unescape_enriched(default_text)),
+			fdefault(unescape_enriched(translate_string(default_text))),
 			fid(id),
 			send(false),
 			ftype(f_Unknown),
@@ -243,10 +236,10 @@ class GUIFormSpecMenu : public GUIModalMenu
 
 	struct TooltipSpec
 	{
-		TooltipSpec() {}
-		TooltipSpec(const std::string &a_tooltip, irr::video::SColor a_bgcolor,
+		TooltipSpec() = default;
+		TooltipSpec(const std::wstring &a_tooltip, irr::video::SColor a_bgcolor,
 				irr::video::SColor a_color):
-			tooltip(utf8_to_wide(a_tooltip)),
+			tooltip(translate_string(a_tooltip)),
 			bgcolor(a_bgcolor),
 			color(a_color)
 		{
@@ -426,6 +419,7 @@ protected:
 	bool m_bgfullscreen;
 	bool m_slotborder;
 	video::SColor m_bgcolor;
+	video::SColor m_fullscreen_bgcolor;
 	video::SColor m_slotbg_n;
 	video::SColor m_slotbg_h;
 	video::SColor m_slotbordercolor;
@@ -554,18 +548,17 @@ public:
 	{
 	}
 
-	~FormspecFormSource()
-	{
-	}
+	~FormspecFormSource() = default;
 
 	void setForm(const std::string &formspec)
 	{
 		m_formspec = FORMSPEC_VERSION_STRING + formspec;
 	}
 
-	std::string getForm() { return m_formspec; }
+	const std::string &getForm() const
+	{
+		return m_formspec;
+	}
 
 	std::string m_formspec;
 };
-
-#endif

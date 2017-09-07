@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "noise.h"
 #include "map.h"
 #include "log.h"
+#include "util/numeric.h"
 #include <algorithm>
 
 
@@ -63,8 +64,8 @@ size_t OreManager::placeAllOres(Mapgen *mg, u32 blockseed,
 
 void OreManager::clear()
 {
-	for (size_t i = 0; i < m_objects.size(); i++) {
-		Ore *ore = (Ore *)m_objects[i];
+	for (ObjDef *object : m_objects) {
+		Ore *ore = (Ore *) object;
 		delete ore;
 	}
 	m_objects.clear();
@@ -72,6 +73,7 @@ void OreManager::clear()
 
 
 ///////////////////////////////////////////////////////////////////////////////
+
 
 Ore::~Ore()
 {
@@ -221,11 +223,6 @@ void OreSheet::generate(MMVManip *vm, int mapseed, u32 blockseed,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-OrePuff::OrePuff() :
-	Ore()
-{
-}
-
 
 OrePuff::~OrePuff()
 {
@@ -372,11 +369,6 @@ void OreBlob::generate(MMVManip *vm, int mapseed, u32 blockseed,
 
 ///////////////////////////////////////////////////////////////////////////////
 
-OreVein::OreVein() :
-	Ore()
-{
-}
-
 
 OreVein::~OreVein()
 {
@@ -433,5 +425,60 @@ void OreVein::generate(MMVManip *vm, int mapseed, u32 blockseed,
 			continue;
 
 		vm->m_data[i] = n_ore;
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+OreStratum::~OreStratum()
+{
+	delete noise_stratum_thickness;
+}
+
+
+void OreStratum::generate(MMVManip *vm, int mapseed, u32 blockseed,
+	v3s16 nmin, v3s16 nmax, u8 *biomemap)
+{
+	PcgRandom pr(blockseed + 4234);
+	MapNode n_ore(c_ore, 0, ore_param2);
+
+	if (!noise) {
+		int sx = nmax.X - nmin.X + 1;
+		int sz = nmax.Z - nmin.Z + 1;
+		noise = new Noise(&np, 0, sx, sz);
+		noise_stratum_thickness = new Noise(&np_stratum_thickness, 0, sx, sz);
+	}
+	noise->perlinMap2D(nmin.X, nmin.Z);
+	noise_stratum_thickness->perlinMap2D(nmin.X, nmin.Z);
+
+	size_t index = 0;
+
+	for (int z = nmin.Z; z <= nmax.Z; z++)
+	for (int x = nmin.X; x <= nmax.X; x++, index++) {
+		if (biomemap && !biomes.empty()) {
+			std::unordered_set<u8>::const_iterator it = biomes.find(biomemap[index]);
+			if (it == biomes.end())
+				continue;
+		}
+
+		float nmid = noise->result[index];
+		float nhalfthick = noise_stratum_thickness->result[index] / 2.0f;
+		int y0 = MYMAX(nmin.Y, nmid - nhalfthick);
+		int y1 = MYMIN(nmax.Y, nmid + nhalfthick);
+
+		for (int y = y0; y <= y1; y++) {
+			if (pr.range(1, clust_scarcity) != 1)
+				continue;
+
+			u32 i = vm->m_area.index(x, y, z);
+			if (!vm->m_area.contains(i))
+				continue;
+			if (!CONTAINS(c_wherein, vm->m_data[i].getContent()))
+				continue;
+
+			vm->m_data[i] = n_ore;
+		}
 	}
 }

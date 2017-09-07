@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef OBJECT_PROPERTIES_HEADER
-#define OBJECT_PROPERTIES_HEADER
+#pragma once
 
 #include <string>
 #include "irrlichttypes_bloated.h"
@@ -34,6 +33,8 @@ struct ObjectProperties
 	bool collideWithObjects = true;
 	float weight = 5.0f;
 	aabb3f collisionbox = aabb3f(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f);
+	aabb3f selectionbox = aabb3f(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f);
+	bool pointable = true;
 	std::string visual = "sprite";
 	std::string mesh = "";
 	v2f visual_size = v2f(1, 1);
@@ -43,8 +44,9 @@ struct ObjectProperties
 	v2s16 initial_sprite_basepos;
 	bool is_visible = true;
 	bool makes_footstep_sound = false;
-	float automatic_rotate = 0.0f;
 	f32 stepheight = 0.0f;
+	bool can_zoom = true;
+	float automatic_rotate = 0.0f;
 	bool automatic_face_movement_dir = false;
 	f32 automatic_face_movement_dir_offset = 0.0f;
 	bool backface_culling = true;
@@ -60,5 +62,3 @@ struct ObjectProperties
 	void serialize(std::ostream &os) const;
 	void deSerialize(std::istream &is);
 };
-
-#endif

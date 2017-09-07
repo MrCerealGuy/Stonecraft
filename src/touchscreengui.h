@@ -16,8 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef TOUCHSCREENGUI_HEADER
-#define TOUCHSCREENGUI_HEADER
+#pragma once
 
 #include <IEventReceiver.h>
 #include <IGUIButton.h>
@@ -155,6 +154,14 @@ public:
 
 	double getPitch() { return m_camera_pitch; }
 
+	/*!
+	 * Returns a line which describes what the player is pointing at.
+	 * The starting point and looking direction are significant,
+	 * the line should be scaled to match its length to the actual distance
+	 * the player can reach.
+	 * The line starts at the camera and ends on the camera's far plane.
+	 * The coordinates do not contain the camera offset.
+	 */
 	line3d<f32> getShootline() { return m_shootline; }
 
 	void step(float dtime);
@@ -179,6 +186,12 @@ private:
 	double m_camera_yaw_change = 0.0;
 	double m_camera_pitch = 0.0;
 
+	/*!
+	 * A line starting at the camera and pointing towards the
+	 * selected object.
+	 * The line ends on the camera's far plane.
+	 * The coordinates do not contain the camera offset.
+	 */
 	line3d<f32> m_shootline;
 
 	int m_move_id = -1;
@@ -252,4 +265,3 @@ private:
 	AutoHideButtonBar m_rarecontrolsbar;
 };
 extern TouchScreenGUI *g_touchscreengui;
-#endif

@@ -26,8 +26,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 ObjectProperties::ObjectProperties()
 {
-	textures.push_back("unknown_object.png");
-	colors.push_back(video::SColor(255,255,255,255));
+	textures.emplace_back("unknown_object.png");
+	colors.emplace_back(255,255,255,255);
 }
 
 std::string ObjectProperties::dump()
@@ -42,13 +42,14 @@ std::string ObjectProperties::dump()
 	os<<", mesh="<<mesh;
 	os<<", visual_size="<<PP2(visual_size);
 	os<<", textures=[";
-	for(u32 i=0; i<textures.size(); i++){
-		os<<"\""<<textures[i]<<"\" ";
+	for (const std::string &texture : textures) {
+		os<<"\""<< texture <<"\" ";
 	}
 	os<<"]";
 	os<<", colors=[";
-	for(u32 i=0; i<colors.size(); i++){
-		os<<"\""<<colors[i].getAlpha()<<","<<colors[i].getRed()<<","<<colors[i].getGreen()<<","<<colors[i].getBlue()<<"\" ";
+	for (const video::SColor &color : colors) {
+		os << "\"" << color.getAlpha() << "," << color.getRed() << ","
+			<< color.getGreen() << "," << color.getBlue() << "\" ";
 	}
 	os<<"]";
 	os<<", spritediv="<<PP2(spritediv);
@@ -60,22 +61,28 @@ std::string ObjectProperties::dump()
 	os << ", nametag=" << nametag;
 	os << ", nametag_color=" << "\"" << nametag_color.getAlpha() << "," << nametag_color.getRed()
 			<< "," << nametag_color.getGreen() << "," << nametag_color.getBlue() << "\" ";
+	os << ", selectionbox=" << PP(selectionbox.MinEdge) << "," << PP(selectionbox.MaxEdge);
+	os << ", pointable=" << pointable;
+	os << ", can_zoom=" << can_zoom;
 	return os.str();
 }
 
 void ObjectProperties::serialize(std::ostream &os) const
 {
-	writeU8(os, 1); // version
+	writeU8(os, 2); // version, protocol_version >= 36
 	writeS16(os, hp_max);
 	writeU8(os, physical);
 	writeF1000(os, weight);
 	writeV3F1000(os, collisionbox.MinEdge);
 	writeV3F1000(os, collisionbox.MaxEdge);
-	os<<serializeString(visual);
+	writeV3F1000(os, selectionbox.MinEdge);
+	writeV3F1000(os, selectionbox.MaxEdge);
+	writeU8(os, pointable);
+	os << serializeString(visual);
 	writeV2F1000(os, visual_size);
 	writeU16(os, textures.size());
-	for(u32 i=0; i<textures.size(); i++){
-		os<<serializeString(textures[i]);
+	for (const std::string &texture : textures) {
+		os << serializeString(texture);
 	}
 	writeV2S16(os, spritediv);
 	writeV2S16(os, initial_sprite_basepos);
@@ -83,10 +90,10 @@ void ObjectProperties::serialize(std::ostream &os) const
 	writeU8(os, makes_footstep_sound);
 	writeF1000(os, automatic_rotate);
 	// Added in protocol version 14
-	os<<serializeString(mesh);
+	os << serializeString(mesh);
 	writeU16(os, colors.size());
-	for(u32 i=0; i<colors.size(); i++){
-		writeARGB8(os, colors[i]);
+	for (video::SColor color : colors) {
+		writeARGB8(os, color);
 	}
 	writeU8(os, collideWithObjects);
 	writeF1000(os,stepheight);
@@ -98,6 +105,7 @@ void ObjectProperties::serialize(std::ostream &os) const
 	writeF1000(os, automatic_face_movement_max_rotation_per_sec);
 	os << serializeString(infotext);
 	os << serializeString(wield_item);
+	writeU8(os, can_zoom);
 
 	// Add stuff only at the bottom.
 	// Never remove anything, because we don't want new versions of this
@@ -106,45 +114,43 @@ void ObjectProperties::serialize(std::ostream &os) const
 void ObjectProperties::deSerialize(std::istream &is)
 {
 	int version = readU8(is);
-	if(version == 1)
-	{
-		try{
-			hp_max = readS16(is);
-			physical = readU8(is);
-			weight = readF1000(is);
-			collisionbox.MinEdge = readV3F1000(is);
-			collisionbox.MaxEdge = readV3F1000(is);
-			visual = deSerializeString(is);
-			visual_size = readV2F1000(is);
-			textures.clear();
-			u32 texture_count = readU16(is);
-			for(u32 i=0; i<texture_count; i++){
-				textures.push_back(deSerializeString(is));
-			}
-			spritediv = readV2S16(is);
-			initial_sprite_basepos = readV2S16(is);
-			is_visible = readU8(is);
-			makes_footstep_sound = readU8(is);
-			automatic_rotate = readF1000(is);
-			mesh = deSerializeString(is);
-			u32 color_count = readU16(is);
-			for(u32 i=0; i<color_count; i++){
-				colors.push_back(readARGB8(is));
-			}
-			collideWithObjects = readU8(is);
-			stepheight = readF1000(is);
-			automatic_face_movement_dir = readU8(is);
-			automatic_face_movement_dir_offset = readF1000(is);
-			backface_culling = readU8(is);
-			nametag = deSerializeString(is);
-			nametag_color = readARGB8(is);
-			automatic_face_movement_max_rotation_per_sec = readF1000(is);
-			infotext = deSerializeString(is);
-			wield_item = deSerializeString(is);
-		}catch(SerializationError &e){}
-	}
-	else
-	{
+	if (version != 2)
 		throw SerializationError("unsupported ObjectProperties version");
+
+	hp_max = readS16(is);
+	physical = readU8(is);
+	weight = readF1000(is);
+	collisionbox.MinEdge = readV3F1000(is);
+	collisionbox.MaxEdge = readV3F1000(is);
+	selectionbox.MinEdge = readV3F1000(is);
+	selectionbox.MaxEdge = readV3F1000(is);
+	pointable = readU8(is);
+	visual = deSerializeString(is);
+	visual_size = readV2F1000(is);
+	textures.clear();
+	u32 texture_count = readU16(is);
+	for (u32 i = 0; i < texture_count; i++){
+		textures.push_back(deSerializeString(is));
 	}
+	spritediv = readV2S16(is);
+	initial_sprite_basepos = readV2S16(is);
+	is_visible = readU8(is);
+	makes_footstep_sound = readU8(is);
+	automatic_rotate = readF1000(is);
+	mesh = deSerializeString(is);
+	u32 color_count = readU16(is);
+	for (u32 i = 0; i < color_count; i++){
+		colors.push_back(readARGB8(is));
+	}
+	collideWithObjects = readU8(is);
+	stepheight = readF1000(is);
+	automatic_face_movement_dir = readU8(is);
+	automatic_face_movement_dir_offset = readF1000(is);
+	backface_culling = readU8(is);
+	nametag = deSerializeString(is);
+	nametag_color = readARGB8(is);
+	automatic_face_movement_max_rotation_per_sec = readF1000(is);
+	infotext = deSerializeString(is);
+	wield_item = deSerializeString(is);
+	can_zoom = readU8(is);
 }

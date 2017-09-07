@@ -30,7 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "noise.h"         // easeCurve
 #include "sound.h"
 #include "event.h"
-#include "profiler.h"
+#include "nodedef.h"
 #include "util/numeric.h"
 #include "constants.h"
 #include "fontengine.h"
@@ -215,7 +215,8 @@ static inline v2f dir(const v2f &pos_dist)
 
 void Camera::addArmInertia(f32 player_yaw)
 {
-	m_cam_vel.X = std::fabs((m_last_cam_pos.X - player_yaw) / 0.016f) * 0.01f;
+	m_cam_vel.X = std::fabs(rangelim(m_last_cam_pos.X - player_yaw,
+		-100.0f, 100.0f) / 0.016f) * 0.01f;
 	m_cam_vel.Y = std::fabs((m_last_cam_pos.Y - m_camera_direction.Y) / 0.016f);
 	f32 gap_X = std::fabs(WIELDMESH_OFFSET_X - m_wieldmesh_offset.X);
 	f32 gap_Y = std::fabs(WIELDMESH_OFFSET_Y - m_wieldmesh_offset.Y);
@@ -282,8 +283,7 @@ void Camera::addArmInertia(f32 player_yaw)
 	}
 }
 
-void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
-		f32 tool_reload_ratio, ClientEnvironment &c_env)
+void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime, f32 tool_reload_ratio)
 {
 	// Get player position
 	// Smooth the movement when walking up stairs
@@ -407,19 +407,19 @@ void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
 
 		// Calculate new position
 		bool abort = false;
-		for (int i = BS; i <= BS*2.75; i++)
-		{
-			my_cp.X = m_camera_position.X + m_camera_direction.X*-i;
-			my_cp.Z = m_camera_position.Z + m_camera_direction.Z*-i;
+		for (int i = BS; i <= BS * 2.75; i++) {
+			my_cp.X = m_camera_position.X + m_camera_direction.X * -i;
+			my_cp.Z = m_camera_position.Z + m_camera_direction.Z * -i;
 			if (i > 12)
-				my_cp.Y = m_camera_position.Y + (m_camera_direction.Y*-i);
+				my_cp.Y = m_camera_position.Y + (m_camera_direction.Y * -i);
 
 			// Prevent camera positioned inside nodes
 			INodeDefManager *nodemgr = m_client->ndef();
-			MapNode n = c_env.getClientMap().getNodeNoEx(floatToInt(my_cp, BS));
+			MapNode n = m_client->getEnv().getClientMap()
+				.getNodeNoEx(floatToInt(my_cp, BS));
+
 			const ContentFeatures& features = nodemgr->get(n);
-			if(features.walkable)
-			{
+			if (features.walkable) {
 				my_cp.X += m_camera_direction.X*-1*-BS/2;
 				my_cp.Z += m_camera_direction.Z*-1*-BS/2;
 				my_cp.Y += m_camera_direction.Y*-1*-BS/2;
@@ -453,7 +453,7 @@ void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
 
 	// Get FOV
 	f32 fov_degrees;
-	if (player->getPlayerControl().zoom && m_client->checkLocalPrivilege("zoom")) {
+	if (player->getPlayerControl().zoom && player->getCanZoom()) {
 		fov_degrees = m_cache_zoom_fov;
 	} else {
 		fov_degrees = m_cache_fov;
@@ -525,7 +525,7 @@ void Camera::update(LocalPlayer* player, f32 frametime, f32 busytime,
 	// If the player is walking, swimming, or climbing,
 	// view bobbing is enabled and free_move is off,
 	// start (or continue) the view bobbing animation.
-	v3f speed = player->getSpeed();
+	const v3f &speed = player->getSpeed();
 	const bool movement_XZ = hypot(speed.X, speed.Z) > BS;
 	const bool movement_Y = fabs(speed.Y) > BS;
 
@@ -616,14 +616,15 @@ void Camera::drawNametags()
 			// shadow can remain.
 			continue;
 		}
-		v3f pos = nametag->parent_node->getAbsolutePosition() + v3f(0.0, 1.1 * BS, 0.0);
+		v3f pos = nametag->parent_node->getAbsolutePosition() + nametag->nametag_pos * BS;
 		f32 transformed_pos[4] = { pos.X, pos.Y, pos.Z, 1.0f };
 		trans.multiplyWith1x4Matrix(transformed_pos);
 		if (transformed_pos[3] > 0) {
-			std::string nametag_colorless = unescape_enriched(nametag->nametag_text);
+			std::wstring nametag_colorless =
+				unescape_translate(utf8_to_wide(nametag->nametag_text));
 			core::dimension2d<u32> textsize =
 				g_fontengine->getFont()->getDimension(
-				utf8_to_wide(nametag_colorless).c_str());
+				nametag_colorless.c_str());
 			f32 zDiv = transformed_pos[3] == 0.0f ? 1.0f :
 				core::reciprocal(transformed_pos[3]);
 			v2u32 screensize = RenderingEngine::get_video_driver()->getScreenSize();
@@ -633,16 +634,18 @@ void Camera::drawNametags()
 			screen_pos.Y = screensize.Y *
 				(0.5 - transformed_pos[1] * zDiv * 0.5) - textsize.Height / 2;
 			core::rect<s32> size(0, 0, textsize.Width, textsize.Height);
-			g_fontengine->getFont()->draw(utf8_to_wide(nametag->nametag_text).c_str(),
-					size + screen_pos, nametag->nametag_color);
+			g_fontengine->getFont()->draw(
+				translate_string(utf8_to_wide(nametag->nametag_text)).c_str(),
+				size + screen_pos, nametag->nametag_color);
 		}
 	}
 }
 
 Nametag *Camera::addNametag(scene::ISceneNode *parent_node,
-		std::string nametag_text, video::SColor nametag_color)
+		const std::string &nametag_text, video::SColor nametag_color,
+		const v3f &pos)
 {
-	Nametag *nametag = new Nametag(parent_node, nametag_text, nametag_color);
+	Nametag *nametag = new Nametag(parent_node, nametag_text, nametag_color, pos);
 	m_nametags.push_back(nametag);
 	return nametag;
 }

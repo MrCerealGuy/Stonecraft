@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef LOCALPLAYER_HEADER
-#define LOCALPLAYER_HEADER
+#pragma once
 
 #include "player.h"
 #include "environment.h"
@@ -29,6 +28,7 @@ class Client;
 class Environment;
 class GenericCAO;
 class ClientActiveObject;
+class ClientEnvironment;
 class IGameDef;
 
 enum LocalPlayerAnimations
@@ -43,7 +43,7 @@ class LocalPlayer : public Player
 {
 public:
 	LocalPlayer(Client *client, const char *name);
-	virtual ~LocalPlayer();
+	virtual ~LocalPlayer() = default;
 
 	ClientActiveObject *parent = nullptr;
 
@@ -60,6 +60,7 @@ public:
 	u8 liquid_viscosity = 0;
 	bool is_climbing = false;
 	bool swimming_vertical = false;
+	bool is_slipping = false;
 
 	float physics_override_speed = 1.0f;
 	float physics_override_jump = 1.0f;
@@ -78,7 +79,7 @@ public:
 	void old_move(f32 dtime, Environment *env, f32 pos_max_d,
 			std::vector<CollisionInfo> *collision_info);
 
-	void applyControl(float dtime);
+	void applyControl(float dtime, Environment *env);
 
 	v3s16 getStandingNodePos();
 	v3s16 getFootstepNodePos();
@@ -123,11 +124,9 @@ public:
 	v3s16 getLightPosition() const;
 
 	void setYaw(f32 yaw) { m_yaw = yaw; }
-
 	f32 getYaw() const { return m_yaw; }
 
 	void setPitch(f32 pitch) { m_pitch = pitch; }
-
 	f32 getPitch() const { return m_pitch; }
 
 	inline void setPosition(const v3f &position)
@@ -140,33 +139,39 @@ public:
 	v3f getEyePosition() const { return m_position + getEyeOffset(); }
 	v3f getEyeOffset() const;
 
+	void setCollisionbox(const aabb3f &box) { m_collisionbox = box; }
+
+	bool getCanZoom() const { return m_can_zoom; }
+	void setCanZoom(bool can_zoom) { m_can_zoom = can_zoom; }
+
 private:
 	void accelerateHorizontal(const v3f &target_speed, const f32 max_increase);
 	void accelerateVertical(const v3f &target_speed, const f32 max_increase);
+	bool updateSneakNode(Map *map, const v3f &position, const v3f &sneak_max);
+	float getSlipFactor(Environment *env, const v3f &speedH);
 
 	v3f m_position;
 
 	v3s16 m_sneak_node = v3s16(32767, 32767, 32767);
-	// Stores the max player uplift by m_sneak_node
-	// To support temporary option for old move code
-	f32 m_sneak_node_bb_ymax = 0.0f;
 	// Stores the top bounding box of m_sneak_node
 	aabb3f m_sneak_node_bb_top = aabb3f(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 	// Whether the player is allowed to sneak
 	bool m_sneak_node_exists = false;
-	// Whether recalculation of m_sneak_node and its top bbox is needed
-	bool m_need_to_get_new_sneak_node = true;
 	// Whether a "sneak ladder" structure is detected at the players pos
 	// see detectSneakLadder() in the .cpp for more info (always false if disabled)
 	bool m_sneak_ladder_detected = false;
-	// Whether a 2-node-up ledge is detected at the players pos,
-	// see detectLedge() in the .cpp for more info (always false if disabled).
-	bool m_ledge_detected = false;
 
+	// ***** Variables for temporary option of the old move code *****
+	// Stores the max player uplift by m_sneak_node
+	f32 m_sneak_node_bb_ymax = 0.0f;
+	// Whether recalculation of m_sneak_node and its top bbox is needed
+	bool m_need_to_get_new_sneak_node = true;
 	// Node below player, used to determine whether it has been removed,
 	// and its old type
 	v3s16 m_old_node_below = v3s16(32767, 32767, 32767);
 	std::string m_old_node_below_type = "air";
+	// ***** End of variables for temporary option *****
+
 	bool m_can_jump = false;
 	u16 m_breath = PLAYER_MAX_BREATH;
 	f32 m_yaw = 0.0f;
@@ -174,9 +179,8 @@ private:
 	bool camera_barely_in_ceiling = false;
 	aabb3f m_collisionbox = aabb3f(-BS * 0.30f, 0.0f, -BS * 0.30f, BS * 0.30f,
 			BS * 1.75f, BS * 0.30f);
+	bool m_can_zoom = true;
 
 	GenericCAO *m_cao = nullptr;
 	Client *m_client;
 };
-
-#endif

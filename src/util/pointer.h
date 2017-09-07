@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef UTIL_POINTER_HEADER
-#define UTIL_POINTER_HEADER
+#pragma once
 
 #include "../irrlichttypes.h"
 #include "../debug.h" // For assert()
@@ -105,7 +104,6 @@ private:
 
 /************************************************
  *           !!!  W A R N I N G  !!!            *
- *           !!!  A C H T U N G  !!!            *
  *                                              *
  * This smart pointer class is NOT thread safe. *
  * ONLY use in a single-threaded context!       *
@@ -135,7 +133,6 @@ public:
 	}
 	SharedBuffer(const SharedBuffer &buffer)
 	{
-		//std::cout<<"SharedBuffer(const SharedBuffer &buffer)"<<std::endl;
 		m_size = buffer.m_size;
 		data = buffer.data;
 		refcount = buffer.refcount;
@@ -143,7 +140,6 @@ public:
 	}
 	SharedBuffer & operator=(const SharedBuffer & buffer)
 	{
-		//std::cout<<"SharedBuffer & operator=(const SharedBuffer & buffer)"<<std::endl;
 		if(this == &buffer)
 			return *this;
 		drop();
@@ -175,10 +171,9 @@ public:
 	SharedBuffer(const Buffer<T> &buffer)
 	{
 		m_size = buffer.getSize();
-		if(m_size != 0)
-		{
-			data = new T[m_size];
-			memcpy(data, *buffer, buffer.getSize());
+		if (m_size != 0) {
+				data = new T[m_size];
+				memcpy(data, *buffer, buffer.getSize());
 		}
 		else
 			data = NULL;
@@ -221,12 +216,3 @@ private:
 	unsigned int m_size;
 	unsigned int *refcount;
 };
-
-inline SharedBuffer<u8> SharedBufferFromString(const char *string)
-{
-	SharedBuffer<u8> b((u8*)string, strlen(string)+1);
-	return b;
-}
-
-#endif
-

@@ -17,10 +17,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef SERVER_HEADER
-#define SERVER_HEADER
+#pragma once
 
-#include "network/connection.h"
 #include "irr_v3d.h"
 #include "map.h"
 #include "hud.h"
@@ -30,25 +28,29 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "inventorymanager.h"
 #include "subgame.h"
 #include "tileanimation.h" // struct TileAnimationParams
+#include "network/peerhandler.h"
+#include "network/address.h"
 #include "util/numeric.h"
 #include "util/thread.h"
 #include "util/basic_macros.h"
 #include "serverenvironment.h"
-#include "chat_interface.h"
 #include "clientiface.h"
-#include "remoteplayer.h"
-#include "network/networkpacket.h"
+#include "chatmessage.h"
 #include <string>
 #include <list>
 #include <map>
 #include <vector>
 
+class ChatEvent;
+struct ChatEventChat;
+struct ChatInterface;
 class IWritableItemDefManager;
 class IWritableNodeDefManager;
 class IWritableCraftDefManager;
 class BanManager;
 class EventManager;
 class Inventory;
+class RemotePlayer;
 class PlayerSAO;
 class IRollbackManager;
 struct RollbackAction;
@@ -62,31 +64,6 @@ enum ClientDeletionReason {
 	CDR_LEAVE,
 	CDR_TIMEOUT,
 	CDR_DENY
-};
-
-class MapEditEventAreaIgnorer
-{
-public:
-	MapEditEventAreaIgnorer(VoxelArea *ignorevariable, const VoxelArea &a):
-		m_ignorevariable(ignorevariable)
-	{
-		if(m_ignorevariable->getVolume() == 0)
-			*m_ignorevariable = a;
-		else
-			m_ignorevariable = NULL;
-	}
-
-	~MapEditEventAreaIgnorer()
-	{
-		if(m_ignorevariable)
-		{
-			assert(m_ignorevariable->getVolume() != 0);
-			*m_ignorevariable = VoxelArea();
-		}
-	}
-
-private:
-	VoxelArea *m_ignorevariable;
 };
 
 struct MediaInfo
@@ -309,18 +286,13 @@ public:
 	bool hudChange(RemotePlayer *player, u32 id, HudElementStat stat, void *value);
 	bool hudSetFlags(RemotePlayer *player, u32 flags, u32 mask);
 	bool hudSetHotbarItemcount(RemotePlayer *player, s32 hotbar_itemcount);
-	s32 hudGetHotbarItemcount(RemotePlayer *player) const
-			{ return player->getHotbarItemcount(); }
+	s32 hudGetHotbarItemcount(RemotePlayer *player) const;
 	void hudSetHotbarImage(RemotePlayer *player, std::string name);
 	std::string hudGetHotbarImage(RemotePlayer *player);
 	void hudSetHotbarSelectedImage(RemotePlayer *player, std::string name);
-	const std::string &hudGetHotbarSelectedImage(RemotePlayer *player) const
-	{
-		return player->getHotbarSelectedImage();
-	}
+	const std::string &hudGetHotbarSelectedImage(RemotePlayer *player) const;
 
-	inline Address getPeerAddress(u16 peer_id)
-			{ return m_con.GetPeerAddress(peer_id); }
+	Address getPeerAddress(u16 peer_id);
 
 	bool setLocalPlayerAnimations(RemotePlayer *player, v2s32 animation_frames[4],
 			f32 frame_speed);
@@ -348,7 +320,7 @@ public:
 	void DenyAccess(u16 peer_id, AccessDeniedCode reason, const std::string &custom_reason="");
 	void acceptAuth(u16 peer_id, bool forSudoMode);
 	void DenyAccess_Legacy(u16 peer_id, const std::wstring &reason);
-	bool getClientConInfo(u16 peer_id, con::rtt_stat_type type,float* retval);
+	bool getClientConInfo(u16 peer_id, con::rtt_stat_type type, float* retval);
 	bool getClientInfo(u16 peer_id,ClientState* state, u32* uptime,
 			u8* ser_vers, u16* prot_vers, u8* major, u8* minor, u8* patch,
 			std::string* vers_string);
@@ -375,7 +347,7 @@ private:
 	friend class RemoteClient;
 
 	void SendMovement(u16 peer_id);
-	void SendHP(u16 peer_id, u8 hp);
+	void SendHP(u16 peer_id, u16 hp);
 	void SendBreath(u16 peer_id, u16 breath);
 	void SendAccessDenied(u16 peer_id, AccessDeniedCode reason,
 		const std::string &custom_reason, bool reconnect = false);
@@ -388,7 +360,7 @@ private:
 	void SetBlocksNotSent(std::map<v3s16, MapBlock *>& block);
 
 
-	void SendChatMessage(u16 peer_id, const std::wstring &message);
+	void SendChatMessage(u16 peer_id, const ChatMessage &message);
 	void SendTimeOfDay(u16 peer_id, u16 time, f32 time_speed);
 	void SendPlayerHP(u16 peer_id);
 
@@ -433,7 +405,7 @@ private:
 	void SendBlocks(float dtime);
 
 	void fillMediaCache();
-	void sendMediaAnnouncement(u16 peer_id);
+	void sendMediaAnnouncement(u16 peer_id, const std::string &lang_code);
 	void sendRequestedMedia(u16 peer_id,
 			const std::vector<std::string> &tosend);
 
@@ -465,6 +437,8 @@ private:
 
 	u32 SendActiveObjectRemoveAdd(u16 peer_id, const std::string &datas);
 	void SendActiveObjectMessages(u16 peer_id, const std::string &datas, bool reliable = true);
+	void SendCSMFlavourLimits(u16 peer_id);
+
 	/*
 		Something random
 	*/
@@ -532,7 +506,7 @@ private:
 	ServerEnvironment *m_env = nullptr;
 
 	// server connection
-	con::Connection m_con;
+	std::shared_ptr<con::Connection> m_con;
 
 	// Ban checking
 	BanManager *m_banmanager = nullptr;
@@ -663,6 +637,10 @@ private:
 
 	std::unordered_map<std::string, ModMetadata *> m_mod_storages;
 	float m_mod_storage_save_timer = 10.0f;
+
+	// CSM flavour limits byteflag
+	u64 m_csm_flavour_limits = CSMFlavourLimit::CSM_FL_NONE;
+	u32 m_csm_noderange_limit = 8;
 };
 
 /*
@@ -671,6 +649,3 @@ private:
 	Shuts down when kill is set to true.
 */
 void dedicated_server_loop(Server &server, bool &kill);
-
-#endif
-

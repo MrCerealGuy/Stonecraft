@@ -17,10 +17,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef WIELDMESH_HEADER
-#define WIELDMESH_HEADER
+#pragma once
 
 #include <string>
+#include <vector>
 #include "irrlichttypes_extrabloated.h"
 
 struct ItemStack;
@@ -44,7 +44,7 @@ struct ItemPartColor
 	 */
 	video::SColor color = 0;
 
-	ItemPartColor() {}
+	ItemPartColor() = default;
 
 	ItemPartColor(bool override, video::SColor color)
 	    : override_base(override), color(color)
@@ -65,7 +65,7 @@ struct ItemMesh
 	 */
 	bool needs_shading = true;
 
-	ItemMesh() {}
+	ItemMesh() = default;
 };
 
 /*
@@ -78,8 +78,8 @@ public:
 	virtual ~WieldMeshSceneNode();
 
 	void setCube(const ContentFeatures &f, v3f wield_scale);
-	void setExtruded(const std::string &imagename, v3f wield_scale,
-			ITextureSource *tsrc, u8 num_frames);
+	void setExtruded(const std::string &imagename, const std::string &overlay_image,
+			v3f wield_scale, ITextureSource *tsrc, u8 num_frames);
 	void setItem(const ItemStack &item, Client *client);
 
 	// Sets the vertex color of the wield mesh.
@@ -125,7 +125,8 @@ private:
 
 void getItemMesh(Client *client, const ItemStack &item, ItemMesh *result);
 
-scene::SMesh *getExtrudedMesh(ITextureSource *tsrc, const std::string &imagename);
+scene::SMesh *getExtrudedMesh(ITextureSource *tsrc, const std::string &imagename,
+		const std::string &overlay_name);
 
 /*!
  * Applies overlays, textures and optionally materials to the given mesh and
@@ -135,6 +136,5 @@ scene::SMesh *getExtrudedMesh(ITextureSource *tsrc, const std::string &imagename
  * \param colors returns the colors of the mesh buffers in the mesh.
  */
 void postProcessNodeMesh(scene::SMesh *mesh, const ContentFeatures &f, bool use_shaders,
-		bool set_material, video::E_MATERIAL_TYPE *mattype,
+		bool set_material, const video::E_MATERIAL_TYPE *mattype,
 		std::vector<ItemPartColor> *colors);
-#endif

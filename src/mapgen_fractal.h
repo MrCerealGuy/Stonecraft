@@ -21,8 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef MAPGEN_FRACTAL_HEADER
-#define MAPGEN_FRACTAL_HEADER
+#pragma once
 
 #include "mapgen.h"
 
@@ -39,19 +38,19 @@ struct MapgenFractalParams : public MapgenParams
 	u16 fractal = 1;
 	u16 iterations = 11;
 	v3f scale = v3f(4096.0, 1024.0, 4096.0);
-	v3f offset = v3f(1.79, 0.0, 0.0);
+	v3f offset = v3f(1.52, 0.0, 0.0);
 	float slice_w = 0.0f;
-	float julia_x = 0.33f;
-	float julia_y = 0.33f;
-	float julia_z = 0.33f;
-	float julia_w = 0.33f;
+	float julia_x = 0.267f;
+	float julia_y = 0.2f;
+	float julia_z = 0.133f;
+	float julia_w = 0.067f;
 	NoiseParams np_seabed;
 	NoiseParams np_filler_depth;
 	NoiseParams np_cave1;
 	NoiseParams np_cave2;
 
 	MapgenFractalParams();
-	~MapgenFractalParams() {}
+	~MapgenFractalParams() = default;
 
 	void readParams(const Settings *settings);
 	void writeParams(Settings *settings) const;
@@ -86,5 +85,3 @@ private:
 	float julia_w;
 	Noise *noise_seabed;
 };
-
-#endif

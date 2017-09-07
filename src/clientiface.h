@@ -16,14 +16,15 @@ You should have received a copy of the GNU Lesser General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
-#ifndef _CLIENTIFACE_H_
-#define _CLIENTIFACE_H_
+
+#pragma once
 
 #include "irr_v3d.h"                   // for irrlicht datatypes
 
 #include "constants.h"
 #include "serialization.h"             // for SER_FMT_VER_INVALID
 #include "network/networkpacket.h"
+#include "network/networkprotocol.h"
 #include "porting.h"
 
 #include <list>
@@ -204,7 +205,7 @@ enum ClientStateEvent
 */
 struct PrioritySortedBlockTransfer
 {
-	PrioritySortedBlockTransfer(float a_priority, v3s16 a_pos, u16 a_peer_id)
+	PrioritySortedBlockTransfer(float a_priority, const v3s16 &a_pos, u16 a_peer_id)
 	{
 		priority = a_priority;
 		pos = a_pos;
@@ -245,8 +246,8 @@ public:
 	bool isMechAllowed(AuthMechanism mech)
 	{ return allowed_auth_mechs & mech; }
 
-	RemoteClient() {}
-	~RemoteClient() {}
+	RemoteClient() = default;
+	~RemoteClient() = default;
 
 	/*
 		Finds block that should be sent next to the client.
@@ -417,7 +418,7 @@ public:
 
 	friend class Server;
 
-	ClientInterface(con::Connection* con);
+	ClientInterface(const std::shared_ptr<con::Connection> &con);
 	~ClientInterface();
 
 	/* run sync step */
@@ -425,6 +426,9 @@ public:
 
 	/* get list of active client id's */
 	std::vector<u16> getClientIDs(ClientState min_state=CS_Active);
+
+	/* verify is server user limit was reached */
+	bool isUserLimitReached();
 
 	/* get list of client player names */
 	const std::vector<std::string> &getPlayerNames() const { return m_clients_names; }
@@ -434,6 +438,7 @@ public:
 
 	/* send to all clients */
 	void sendToAll(NetworkPacket *pkt);
+	void sendToAllCompat(NetworkPacket *pkt, NetworkPacket *legacypkt, u16 min_proto_ver);
 
 	/* delete a client */
 	void DeleteClient(u16 peer_id);
@@ -470,7 +475,6 @@ public:
 	}
 
 	static std::string state2Name(ClientState state);
-
 protected:
 	//TODO find way to avoid this functions
 	void lock() { m_clients_mutex.lock(); }
@@ -483,7 +487,7 @@ private:
 	void UpdatePlayerList();
 
 	// Connection
-	con::Connection* m_con;
+	std::shared_ptr<con::Connection> m_con;
 	std::mutex m_clients_mutex;
 	// Connected clients (behind the con mutex)
 	RemoteClientMap m_clients;
@@ -491,11 +495,8 @@ private:
 
 	// Environment
 	ServerEnvironment *m_env;
-	std::mutex m_env_mutex;
 
 	float m_print_info_timer;
 
 	static const char *statenames[];
 };
-
-#endif

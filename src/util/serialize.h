@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef UTIL_SERIALIZE_HEADER
-#define UTIL_SERIALIZE_HEADER
+#pragma once
 
 #include "../irrlichttypes_bloated.h"
 #include "../exceptions.h" // for SerializationError
@@ -38,7 +37,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 		#include <endian.h>
 	#endif
 #endif
-#include <string.h> // for memcpy
+#include <cstring> // for memcpy
 #include <iostream>
 #include <string>
 #include <vector>
@@ -429,8 +428,6 @@ bool deSerializeStringToStruct(std::string valstr,
 //// BufReader
 ////
 
-extern SerializationError eof_ser_err;
-
 #define MAKE_BUFREADER_GETNOEX_FXN(T, N, S) \
 	inline bool get ## N ## NoEx(T *val)    \
 	{                                       \
@@ -446,7 +443,7 @@ extern SerializationError eof_ser_err;
 	{                                \
 		T val;                       \
 		if (!get ## N ## NoEx(&val)) \
-			throw eof_ser_err;       \
+			throw SerializationError("Attempted read past end of data"); \
 		return val;                  \
 	}
 
@@ -503,7 +500,7 @@ public:
 	inline void getRawData(void *val, size_t len)
 	{
 		if (!getRawDataNoEx(val, len))
-			throw eof_ser_err;
+			throw SerializationError("Attempted read past end of data");
 	}
 
 	inline size_t remaining()
@@ -657,5 +654,3 @@ inline void putRawData(std::vector<u8> *dest, const void *src, size_t len)
 {
 	dest->insert(dest->end(), (u8 *)src, (u8 *)src + len);
 }
-
-#endif

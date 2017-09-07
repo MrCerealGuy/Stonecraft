@@ -67,7 +67,7 @@ public:
 		if(m_base_position.Y > 8*BS)
 			m_base_position.Y = 2*BS;
 
-		if(send_recommended == false)
+		if (!send_recommended)
 			return;
 
 		m_timer1 -= dtime;
@@ -153,6 +153,12 @@ void UnitSAO::getAnimation(v2f *frame_range, float *frame_speed, float *frame_bl
 	*frame_speed = m_animation_speed;
 	*frame_blend = m_animation_blend;
 	*frame_loop = m_animation_loop;
+}
+
+void UnitSAO::setAnimationSpeed(float frame_speed)
+{
+	m_animation_speed = frame_speed;
+	m_animation_speed_sent = false;
 }
 
 void UnitSAO::setBonePosition(const std::string &bone, v3f position, v3f rotation)
@@ -245,9 +251,8 @@ LuaEntitySAO::~LuaEntitySAO()
 		m_env->getScriptIface()->luaentity_Remove(m_id);
 	}
 
-	for (std::unordered_set<u32>::iterator it = m_attached_particle_spawners.begin();
-		it != m_attached_particle_spawners.end(); ++it) {
-		m_env->deleteParticleSpawner(*it, false);
+	for (u32 attached_particle_spawner : m_attached_particle_spawners) {
+		m_env->deleteParticleSpawner(attached_particle_spawner, false);
 	}
 }
 
@@ -267,7 +272,7 @@ void LuaEntitySAO::addedToEnvironment(u32 dtime_s)
 		m_hp = m_prop.hp_max;
 		// Activate entity, supplying serialized state
 		m_env->getScriptIface()->
-			luaentity_Activate(m_id, m_init_state.c_str(), dtime_s);
+			luaentity_Activate(m_id, m_init_state, dtime_s);
 	} else {
 		m_prop.infotext = m_init_name;
 	}
@@ -281,7 +286,7 @@ ServerActiveObject* LuaEntitySAO::create(ServerEnvironment *env, v3f pos,
 	s16 hp = 1;
 	v3f velocity;
 	float yaw = 0;
-	if(data != ""){
+	if (!data.empty()) {
 		std::istringstream is(data, std::ios::binary);
 		// read version
 		u8 version = readU8(is);
@@ -402,7 +407,7 @@ void LuaEntitySAO::step(float dtime, bool send_recommended)
 		}
 	}
 
-	if(send_recommended == false)
+	if (!send_recommended)
 		return;
 
 	if(!isAttached())
@@ -423,7 +428,7 @@ void LuaEntitySAO::step(float dtime, bool send_recommended)
 		}
 	}
 
-	if(m_armor_groups_sent == false){
+	if (!m_armor_groups_sent) {
 		m_armor_groups_sent = true;
 		std::string str = gob_cmd_update_armor_groups(
 				m_armor_groups);
@@ -432,7 +437,7 @@ void LuaEntitySAO::step(float dtime, bool send_recommended)
 		m_messages_out.push(aom);
 	}
 
-	if(m_animation_sent == false){
+	if (!m_animation_sent) {
 		m_animation_sent = true;
 		std::string str = gob_cmd_update_animation(
 			m_animation_range, m_animation_speed, m_animation_blend, m_animation_loop);
@@ -441,7 +446,15 @@ void LuaEntitySAO::step(float dtime, bool send_recommended)
 		m_messages_out.push(aom);
 	}
 
-	if(m_bone_position_sent == false){
+	if (!m_animation_speed_sent) {
+		m_animation_speed_sent = true;
+		std::string str = gob_cmd_update_animation_speed(m_animation_speed);
+		// create message and add to list
+		ActiveObjectMessage aom(getId(), true, str);
+		m_messages_out.push(aom);
+	}
+
+	if (!m_bone_position_sent) {
 		m_bone_position_sent = true;
 		for (std::unordered_map<std::string, core::vector2d<v3f>>::const_iterator
 				ii = m_bone_position.begin(); ii != m_bone_position.end(); ++ii){
@@ -453,7 +466,7 @@ void LuaEntitySAO::step(float dtime, bool send_recommended)
 		}
 	}
 
-	if(m_attachment_sent == false){
+	if (!m_attachment_sent) {
 		m_attachment_sent = true;
 		std::string str = gob_cmd_update_attachment(m_attachment_parent_id, m_attachment_bone, m_attachment_position, m_attachment_rotation);
 		// create message and add to list
@@ -582,8 +595,10 @@ int LuaEntitySAO::punch(v3f dir,
 		}
 	}
 
-	if (getHP() == 0)
+	if (getHP() == 0) {
 		m_removed = true;
+		m_env->getScriptIface()->luaentity_on_death(m_id, puncher);
+	}
 
 
 
@@ -751,12 +766,12 @@ bool LuaEntitySAO::getCollisionBox(aabb3f *toset) const
 
 bool LuaEntitySAO::getSelectionBox(aabb3f *toset) const
 {
-	if (!m_prop.is_visible) {
+	if (!m_prop.is_visible || !m_prop.pointable) {
 		return false;
 	}
 
-	toset->MinEdge = m_prop.collisionbox.MinEdge * BS;
-	toset->MaxEdge = m_prop.collisionbox.MaxEdge * BS;
+	toset->MinEdge = m_prop.selectionbox.MinEdge * BS;
+	toset->MaxEdge = m_prop.selectionbox.MaxEdge * BS;
 
 	return true;
 }
@@ -781,23 +796,27 @@ PlayerSAO::PlayerSAO(ServerEnvironment *env_, RemotePlayer *player_, u16 peer_id
 {
 	assert(m_peer_id != 0);	// pre-condition
 
-	m_prop.hp_max = PLAYER_MAX_HP;
+	m_prop.hp_max = PLAYER_MAX_HP_DEFAULT;
 	m_prop.physical = false;
 	m_prop.weight = 75;
-	m_prop.collisionbox = aabb3f(-0.3f, -1.0f, -0.3f, 0.3f, 0.75f, 0.3f);
+	m_prop.collisionbox = aabb3f(-0.3f, 0.0f, -0.3f, 0.3f, 1.77f, 0.3f);
+	m_prop.selectionbox = aabb3f(-0.3f, 0.0f, -0.3f, 0.3f, 1.77f, 0.3f);
+	m_prop.pointable = true;
 	// start of default appearance, this should be overwritten by LUA
 	m_prop.visual = "upright_sprite";
 	m_prop.visual_size = v2f(1, 2);
 	m_prop.textures.clear();
-	m_prop.textures.push_back("player.png");
-	m_prop.textures.push_back("player_back.png");
+	m_prop.textures.emplace_back("player.png");
+	m_prop.textures.emplace_back("player_back.png");
 	m_prop.colors.clear();
-	m_prop.colors.push_back(video::SColor(255, 255, 255, 255));
+	m_prop.colors.emplace_back(255, 255, 255, 255);
 	m_prop.spritediv = v2s16(1,1);
 	// end of default appearance
 	m_prop.is_visible = true;
 	m_prop.makes_footstep_sound = true;
-	m_hp = PLAYER_MAX_HP;
+	m_prop.stepheight = PLAYER_DEFAULT_STEPHEIGHT * BS;
+	m_prop.can_zoom = true;
+	m_hp = m_prop.hp_max;
 }
 
 PlayerSAO::~PlayerSAO()
@@ -840,9 +859,8 @@ void PlayerSAO::removingFromEnvironment()
 	ServerActiveObject::removingFromEnvironment();
 	if (m_player->getPlayerSAO() == this) {
 		unlinkPlayerSessionAndSave();
-		for (std::unordered_set<u32>::iterator it = m_attached_particle_spawners.begin();
-			it != m_attached_particle_spawners.end(); ++it) {
-			m_env->deleteParticleSpawner(*it, false);
+		for (u32 attached_particle_spawner : m_attached_particle_spawners) {
+			m_env->deleteParticleSpawner(attached_particle_spawner, false);
 		}
 	}
 }
@@ -856,7 +874,7 @@ std::string PlayerSAO::getClientInitializationData(u16 protocol_version)
 	os << serializeString(m_player->getName()); // name
 	writeU8(os, 1); // is_player
 	writeS16(os, getId()); //id
-	writeV3F1000(os, m_base_position + v3f(0,BS*1,0));
+	writeV3F1000(os, m_base_position);
 	writeF1000(os, m_yaw);
 	writeS16(os, getHP());
 
@@ -894,7 +912,7 @@ std::string PlayerSAO::getClientInitializationData(u16 protocol_version)
 	return os.str();
 }
 
-void PlayerSAO::getStaticData(std::string *result) const
+void PlayerSAO::getStaticData(std::string * result) const
 {
 	FATAL_ERROR("Deprecated function");
 }
@@ -1009,7 +1027,7 @@ void PlayerSAO::step(float dtime, bool send_recommended)
 		if(isAttached()) // Just in case we ever do send attachment position too
 			pos = m_env->getActiveObject(m_attachment_parent_id)->getBasePosition();
 		else
-			pos = m_base_position + v3f(0,BS*1,0);
+			pos = m_base_position;
 		std::string str = gob_cmd_update_position(
 			pos,
 			v3f(0,0,0),
@@ -1168,7 +1186,7 @@ int PlayerSAO::punch(v3f dir,
 		return 0;
 
 	// No effect if PvP disabled
-	if (g_settings->getBool("enable_pvp") == false) {
+	if (!g_settings->getBool("enable_pvp")) {
 		if (puncher->getType() == ACTIVEOBJECT_TYPE_PLAYER) {
 			std::string str = gob_cmd_punched(0, getHP());
 			// create message and add to list
@@ -1234,8 +1252,8 @@ void PlayerSAO::setHP(s16 hp)
 
 	if (hp < 0)
 		hp = 0;
-	else if (hp > PLAYER_MAX_HP)
-		hp = PLAYER_MAX_HP;
+	else if (hp > m_prop.hp_max)
+		hp = m_prop.hp_max;
 
 	if (hp < oldhp && !g_settings->getBool("enable_damage")) {
 		return;
@@ -1414,7 +1432,9 @@ bool PlayerSAO::checkMovementCheat()
 
 bool PlayerSAO::getCollisionBox(aabb3f *toset) const
 {
-	*toset = aabb3f(-0.3f * BS, 0.0f, -0.3f * BS, 0.3f * BS, 1.75f * BS, 0.3f * BS);
+	//update collision box
+	toset->MinEdge = m_prop.collisionbox.MinEdge * BS;
+	toset->MaxEdge = m_prop.collisionbox.MaxEdge * BS;
 
 	toset->MinEdge += m_base_position;
 	toset->MaxEdge += m_base_position;
@@ -1423,11 +1443,12 @@ bool PlayerSAO::getCollisionBox(aabb3f *toset) const
 
 bool PlayerSAO::getSelectionBox(aabb3f *toset) const
 {
-	if (!m_prop.is_visible) {
+	if (!m_prop.is_visible || !m_prop.pointable) {
 		return false;
 	}
 
-	getCollisionBox(toset);
+	toset->MinEdge = m_prop.selectionbox.MinEdge * BS;
+	toset->MaxEdge = m_prop.selectionbox.MaxEdge * BS;
 
 	return true;
 }

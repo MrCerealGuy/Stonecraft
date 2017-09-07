@@ -25,8 +25,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "lua_api/l_vmanip.h"
 #include "common/c_converter.h"
 #include "common/c_content.h"
+#include <algorithm>
 #include "scripting_server.h"
 #include "environment.h"
+#include "mapblock.h"
 #include "server.h"
 #include "nodedef.h"
 #include "daynightratio.h"
@@ -36,6 +38,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "emerge.h"
 #include "pathfinder.h"
 #include "face_position_cache.h"
+#include "remoteplayer.h"
+#ifndef SERVER
+#include "client.h"
+#endif
 
 struct EnumString ModApiEnvMod::es_ClearObjectsMode[] =
 {
@@ -636,9 +642,11 @@ int ModApiEnvMod::l_get_objects_inside_radius(lua_State *L)
 	std::vector<u16>::const_iterator iter = ids.begin();
 	for(u32 i = 0; iter != ids.end(); ++iter) {
 		ServerActiveObject *obj = env->getActiveObject(*iter);
-		// Insert object reference into table
-		script->objectrefGetOrCreate(L, obj);
-		lua_rawseti(L, -2, ++i);
+		if (!obj->m_removed) {
+			// Insert object reference into table
+			script->objectrefGetOrCreate(L, obj);
+			lua_rawseti(L, -2, ++i);
+		}
 	}
 	return 1;
 }
@@ -726,11 +734,19 @@ int ModApiEnvMod::l_find_node_near(lua_State *L)
 	}
 
 	int start_radius = (lua_toboolean(L, 4)) ? 0 : 1;
+
+#ifndef SERVER
+	// Client API limitations
+	if (getClient(L) &&
+			getClient(L)->checkCSMFlavourLimit(CSMFlavourLimit::CSM_FL_LOOKUP_NODES)) {
+		radius = std::max<int>(radius, getClient(L)->getCSMNodeRangeLimit());
+	}
+#endif
+
 	for (int d = start_radius; d <= radius; d++) {
 		std::vector<v3s16> list = FacePositionCache::getFacePositions(d);
-		for (std::vector<v3s16>::iterator i = list.begin();
-				i != list.end(); ++i) {
-			v3s16 p = pos + (*i);
+		for (const v3s16 &i : list) {
+			v3s16 p = pos + i;
 			content_t c = env->getMap().getNodeNoEx(p).getContent();
 			if (filter.count(c) != 0) {
 				push_v3s16(L, p);
@@ -794,10 +810,9 @@ int ModApiEnvMod::l_find_nodes_in_area(lua_State *L)
 		}
 	}
 	lua_newtable(L);
-	for (std::set<content_t>::const_iterator it = filter.begin();
-			it != filter.end(); ++it) {
-		lua_pushnumber(L, individual_count[*it]);
-		lua_setfield(L, -2, ndef->get(*it).name.c_str());
+	for (content_t it : filter) {
+		lua_pushnumber(L, individual_count[it]);
+		lua_setfield(L, -2, ndef->get(it).name.c_str());
 	}
 	return 2;
 }
@@ -989,12 +1004,11 @@ int ModApiEnvMod::l_fix_light(lua_State *L)
 	for (blockpos.Z = blockpos1.Z; blockpos.Z <= blockpos2.Z; blockpos.Z++) {
 		success = success & map.repairBlockLight(blockpos, &modified_blocks);
 	}
-	if (modified_blocks.size() > 0) {
+	if (!modified_blocks.empty()) {
 		MapEditEvent event;
 		event.type = MEET_OTHER;
-		for (std::map<v3s16, MapBlock *>::iterator it = modified_blocks.begin();
-				it != modified_blocks.end(); ++it)
-			event.modified_blocks.insert(it->first);
+		for (auto &modified_block : modified_blocks)
+			event.modified_blocks.insert(modified_block.first);
 
 		map.dispatchEvent(&event);
 	}
@@ -1111,14 +1125,13 @@ int ModApiEnvMod::l_find_path(lua_State *L)
 	std::vector<v3s16> path = get_path(env, pos1, pos2,
 		searchdistance, max_jump, max_drop, algo);
 
-	if (path.size() > 0)
-	{
+	if (!path.empty()) {
 		lua_newtable(L);
 		int top = lua_gettop(L);
 		unsigned int index = 1;
-		for (std::vector<v3s16>::iterator i = path.begin(); i != path.end(); ++i) {
+		for (const v3s16 &i : path) {
 			lua_pushnumber(L,index);
-			push_v3s16(L, *i);
+			push_v3s16(L, i);
 			lua_settable(L, top);
 			index++;
 		}
@@ -1152,8 +1165,7 @@ int ModApiEnvMod::l_spawn_tree(lua_State *L)
 		tree_def.leavesnode=ndef->getId(leaves);
 		tree_def.leaves2_chance=0;
 		getstringfield(L, 2, "leaves2", leaves);
-		if (leaves !="")
-		{
+		if (!leaves.empty()) {
 			tree_def.leaves2node=ndef->getId(leaves);
 			getintfield(L, 2, "leaves2_chance", tree_def.leaves2_chance);
 		}
@@ -1165,8 +1177,7 @@ int ModApiEnvMod::l_spawn_tree(lua_State *L)
 		getboolfield(L, 2, "thin_branches", tree_def.thin_branches);
 		tree_def.fruit_chance=0;
 		getstringfield(L, 2, "fruit", fruit);
-		if (fruit != "")
-		{
+		if (!fruit.empty()) {
 			tree_def.fruitnode=ndef->getId(fruit);
 			getintfield(L, 2, "fruit_chance",tree_def.fruit_chance);
 		}

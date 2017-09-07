@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef L_MAINMENU_H_
-#define L_MAINMENU_H_
+#pragma once
 
 #include "lua_api/l_base.h"
 
@@ -124,10 +123,6 @@ private:
 
 	static int l_extract_zip(lua_State *L);
 
-	static int l_get_modstore_details(lua_State *L);
-
-	static int l_get_modstore_list(lua_State *L);
-
 	static int l_download_file(lua_State *L);
 
 	static int l_get_video_drivers(lua_State *L);
@@ -155,5 +150,3 @@ public:
 	static void InitializeAsync(lua_State *L, int top);
 
 };
-
-#endif /* L_MAINMENU_H_ */

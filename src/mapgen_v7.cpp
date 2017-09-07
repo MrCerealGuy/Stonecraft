@@ -40,11 +40,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 FlagDesc flagdesc_mapgen_v7[] = {
-	{"mountains",  MGV7_MOUNTAINS},
-	{"ridges",     MGV7_RIDGES},
-	{"floatlands", MGV7_FLOATLANDS},
-	{"caverns",    MGV7_CAVERNS},
-	{NULL,         0}
+	{"mountains",   MGV7_MOUNTAINS},
+	{"ridges",      MGV7_RIDGES},
+	{"floatlands",  MGV7_FLOATLANDS},
+	{"caverns",     MGV7_CAVERNS},
+	{"biomerepeat", MGV7_BIOMEREPEAT},
+	{NULL,          0}
 };
 
 
@@ -55,6 +56,7 @@ MapgenV7::MapgenV7(int mapgenid, MapgenV7Params *params, EmergeManager *emerge)
 	: MapgenBasic(mapgenid, params, emerge)
 {
 	spflags             = params->spflags;
+	mount_zero_level    = params->mount_zero_level;
 	cave_width          = params->cave_width;
 	large_cave_depth    = params->large_cave_depth;
 	lava_depth          = params->lava_depth;
@@ -126,28 +128,29 @@ MapgenV7::~MapgenV7()
 }
 
 
-MapgenV7Params::MapgenV7Params()
+MapgenV7Params::MapgenV7Params():
+	np_terrain_base      (4,    70,   v3f(600,  600,  600),  82341, 5, 0.6,  2.0),
+	np_terrain_alt       (4,    25,   v3f(600,  600,  600),  5934,  5, 0.6,  2.0),
+	np_terrain_persist   (0.6,  0.1,  v3f(2000, 2000, 2000), 539,   3, 0.6,  2.0),
+	np_height_select     (-8,   16,   v3f(500,  500,  500),  4213,  6, 0.7,  2.0),
+	np_filler_depth      (0,    1.2,  v3f(150,  150,  150),  261,   3, 0.7,  2.0),
+	np_mount_height      (256,  112,  v3f(1000, 1000, 1000), 72449, 3, 0.6,  2.0),
+	np_ridge_uwater      (0,    1,    v3f(1000, 1000, 1000), 85039, 5, 0.6,  2.0),
+	np_floatland_base    (-0.6, 1.5,  v3f(600,  600,  600),  114,   5, 0.6,  2.0),
+	np_float_base_height (48,   24,   v3f(300,  300,  300),  907,   4, 0.7,  2.0),
+	np_mountain          (-0.6, 1,    v3f(250,  350,  250),  5333,  5, 0.63, 2.0),
+	np_ridge             (0,    1,    v3f(100,  100,  100),  6467,  4, 0.75, 2.0),
+	np_cavern            (0,    1,    v3f(384,  128,  384),  723,   5, 0.63, 2.0),
+	np_cave1             (0,    12,   v3f(61,   61,   61),   52534, 3, 0.5,  2.0),
+	np_cave2             (0,    12,   v3f(67,   67,   67),   10325, 3, 0.5,  2.0)
 {
-	np_terrain_base      = NoiseParams(4,    70,   v3f(600,  600,  600),  82341, 5, 0.6,  2.0);
-	np_terrain_alt       = NoiseParams(4,    25,   v3f(600,  600,  600),  5934,  5, 0.6,  2.0);
-	np_terrain_persist   = NoiseParams(0.6,  0.1,  v3f(2000, 2000, 2000), 539,   3, 0.6,  2.0);
-	np_height_select     = NoiseParams(-8,   16,   v3f(500,  500,  500),  4213,  6, 0.7,  2.0);
-	np_filler_depth      = NoiseParams(0,    1.2,  v3f(150,  150,  150),  261,   3, 0.7,  2.0);
-	np_mount_height      = NoiseParams(256,  112,  v3f(1000, 1000, 1000), 72449, 3, 0.6,  2.0);
-	np_ridge_uwater      = NoiseParams(0,    1,    v3f(1000, 1000, 1000), 85039, 5, 0.6,  2.0);
-	np_floatland_base    = NoiseParams(-0.6, 1.5,  v3f(600,  600,  600),  114,   5, 0.6,  2.0);
-	np_float_base_height = NoiseParams(48,   24,   v3f(300,  300,  300),  907,   4, 0.7,  2.0);
-	np_mountain          = NoiseParams(-0.6, 1,    v3f(250,  350,  250),  5333,  5, 0.63, 2.0);
-	np_ridge             = NoiseParams(0,    1,    v3f(100,  100,  100),  6467,  4, 0.75, 2.0);
-	np_cavern            = NoiseParams(0,    1,    v3f(384,  128,  384),  723,   5, 0.63, 2.0);
-	np_cave1             = NoiseParams(0,    12,   v3f(61,   61,   61),   52534, 3, 0.5,  2.0);
-	np_cave2             = NoiseParams(0,    12,   v3f(67,   67,   67),   10325, 3, 0.5,  2.0);
 }
 
 
 void MapgenV7Params::readParams(const Settings *settings)
 {
 	settings->getFlagStrNoEx("mgv7_spflags",           spflags, flagdesc_mapgen_v7);
+	settings->getS16NoEx("mgv7_mount_zero_level",      mount_zero_level);
 	settings->getFloatNoEx("mgv7_cave_width",          cave_width);
 	settings->getS16NoEx("mgv7_large_cave_depth",      large_cave_depth);
 	settings->getS16NoEx("mgv7_lava_depth",            lava_depth);
@@ -179,6 +182,7 @@ void MapgenV7Params::readParams(const Settings *settings)
 void MapgenV7Params::writeParams(Settings *settings) const
 {
 	settings->setFlagStr("mgv7_spflags",           spflags, flagdesc_mapgen_v7, U32_MAX);
+	settings->setS16("mgv7_mount_zero_level",      mount_zero_level);
 	settings->setFloat("mgv7_cave_width",          cave_width);
 	settings->setS16("mgv7_large_cave_depth",      large_cave_depth);
 	settings->setS16("mgv7_lava_depth",            lava_depth);
@@ -234,21 +238,22 @@ int MapgenV7::getSpawnLevelAtPoint(v2s16 p)
 	// If mountains are disabled, terrain level is base terrain level.
 	// Avoids mid-air spawn where mountain terrain would have been.
 	if (!(spflags & MGV7_MOUNTAINS)) {
-		if (y <= water_level || y > max_spawn_y)
+		if (y < water_level || y > max_spawn_y)
 			return MAX_MAP_GENERATION_LIMIT;  // Unsuitable spawn point
-		else
-			// + 1 to not be half-buried in a potential node-deep biome 'dust'
-			return y + 1;
+
+		// y + 2 because y is surface level and due to biome 'dust'
+		return y + 2;
 	}
 
 	// Search upwards for first node without mountain terrain
 	int iters = 256;
 	while (iters > 0 && y <= max_spawn_y) {
-		if (!getMountainTerrainAtPoint(p.X, y + 1, p.Y)) {  // If air above
+		if (!getMountainTerrainAtPoint(p.X, y + 1, p.Y)) {
 			if (y <= water_level || y > max_spawn_y)
 				return MAX_MAP_GENERATION_LIMIT;  // Unsuitable spawn point
-			else
-				return y + 1;
+
+			// y + 1 due to biome 'dust'
+			return y + 1;
 		}
 		y++;
 		iters--;
@@ -285,6 +290,12 @@ void MapgenV7::makeChunk(BlockMakeData *data)
 
 	blockseed = getBlockSeed2(full_node_min, seed);
 
+	// Get zero level for biomes and decorations
+	// Optionally repeat surface biomes in floatlands
+	s16 biome_zero_level = ((spflags & MGV7_FLOATLANDS) &&
+		(spflags & MGV7_BIOMEREPEAT) && node_max.Y >= shadow_limit) ?
+		floatland_level - 1 : water_level - 1;
+
 	// Generate base and mountain terrain
 	// An initial heightmap is no longer created here for use in generateRidgeTerrain()
 	s16 stone_surface_max_y = generateTerrain();
@@ -298,7 +309,10 @@ void MapgenV7::makeChunk(BlockMakeData *data)
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
 	biomegen->calcBiomeNoise(node_min);
-	MgStoneType stone_type = generateBiomes(water_level - 1);
+
+	MgStoneType mgstone_type;
+	content_t biome_stone;
+	generateBiomes(&mgstone_type, &biome_stone, water_level - 1);
 
 	// Generate caverns, tunnels and classic caves
 	if (flags & MG_CAVES) {
@@ -318,12 +332,12 @@ void MapgenV7::makeChunk(BlockMakeData *data)
 
 	// Generate dungeons
 	if (flags & MG_DUNGEONS)
-		generateDungeons(stone_surface_max_y, stone_type);
+		generateDungeons(stone_surface_max_y, mgstone_type, biome_stone);
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
 		m_emerge->decomgr->placeAllDecos(this, blockseed,
-			node_min, node_max, water_level - 1);
+			node_min, node_max, biome_zero_level);
 
 	// Generate the registered ores
 	m_emerge->oremgr->placeAllOres(this, blockseed,
@@ -390,7 +404,7 @@ bool MapgenV7::getMountainTerrainAtPoint(s16 x, s16 y, s16 z)
 {
 	float mnt_h_n =
 			MYMAX(NoisePerlin2D(&noise_mount_height->np, x, z, seed), 1.0f);
-	float density_gradient = -((float)y / mnt_h_n);
+	float density_gradient = -((float)(y - mount_zero_level) / mnt_h_n);
 	float mnt_n = NoisePerlin3D(&noise_mountain->np, x, y, z, seed);
 
 	return mnt_n + density_gradient >= 0.0;
@@ -400,7 +414,7 @@ bool MapgenV7::getMountainTerrainAtPoint(s16 x, s16 y, s16 z)
 bool MapgenV7::getMountainTerrainFromMap(int idx_xyz, int idx_xz, s16 y)
 {
 	float mounthn = MYMAX(noise_mount_height->result[idx_xz], 1.0f);
-	float density_gradient = -((float)y / mounthn);
+	float density_gradient = -((float)(y - mount_zero_level) / mounthn);
 	float mountn = noise_mountain->result[idx_xyz];
 
 	return mountn + density_gradient >= 0.0;
@@ -479,7 +493,7 @@ int MapgenV7::generateTerrain()
 	}
 
 	//// Place nodes
-	v3s16 em = vm->m_area.getExtent();
+	const v3s16 &em = vm->m_area.getExtent();
 	s16 stone_surface_max_y = -MAX_MAP_GENERATION_LIMIT;
 	u32 index2d = 0;
 

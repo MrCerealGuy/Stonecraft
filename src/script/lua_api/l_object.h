@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef L_OBJECT_H_
-#define L_OBJECT_H_
+#pragma once
 
 #include "lua_api/l_base.h"
 #include "irrlichttypes.h"
@@ -36,7 +35,7 @@ class ObjectRef : public ModApiBase {
 public:
 	ObjectRef(ServerActiveObject *object);
 
-	~ObjectRef();
+	~ObjectRef() = default;
 
 	// Creates an ObjectRef and leaves it on top of stack
 	// Not callable from Lua; all references are created on the C side.
@@ -126,6 +125,9 @@ private:
 
 	// set_animation(self, frame_range, frame_speed, frame_blend, frame_loop)
 	static int l_set_animation(lua_State *L);
+
+	// set_animation_frame_speed(self, frame_speed)
+	static int l_set_animation_frame_speed(lua_State *L);
 
 	// get_animation(self)
 	static int l_get_animation(lua_State *L);
@@ -333,5 +335,3 @@ private:
 	static int l_get_nametag_attributes(lua_State *L);
 
 };
-
-#endif /* L_OBJECT_H_ */

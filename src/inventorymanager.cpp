@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "inventorymanager.h"
+#include "debug.h"
 #include "log.h"
 #include "serverenvironment.h"
 #include "scripting_server.h"
@@ -611,8 +612,8 @@ void IDropAction::apply(InventoryManager *mgr, ServerActiveObject *player, IGame
 	// Drop the item
 	ItemStack item1 = list_from->getItem(from_i);
 	item1.count = take_count;
-	if (PLAYER_TO_SA(player)->item_OnDrop(item1, player,
-				player->getBasePosition() + v3f(0,1,0))) {
+	if(PLAYER_TO_SA(player)->item_OnDrop(item1, player,
+				player->getBasePosition())) {
 		actually_dropped_count = take_count - item1.count;
 
 		if (actually_dropped_count == 0) {
@@ -774,17 +775,15 @@ void ICraftAction::apply(InventoryManager *mgr,
 
 		// Add the new replacements to the list
 		IItemDefManager *itemdef = gamedef->getItemDefManager();
-		for (std::vector<ItemStack>::iterator it = temp.begin();
-				it != temp.end(); ++it) {
-			for (std::vector<ItemStack>::iterator jt = output_replacements.begin();
-					jt != output_replacements.end(); ++jt) {
-				if (it->name == jt->name) {
-					*it = jt->addItem(*it, itemdef);
-					if (it->empty())
+		for (auto &itemstack : temp) {
+			for (auto &output_replacement : output_replacements) {
+				if (itemstack.name == output_replacement.name) {
+					itemstack = output_replacement.addItem(itemstack, itemdef);
+					if (itemstack.empty())
 						continue;
 				}
 			}
-			output_replacements.push_back(*it);
+			output_replacements.push_back(itemstack);
 		}
 
 		actionstream << player->getDescription()
@@ -795,7 +794,8 @@ void ICraftAction::apply(InventoryManager *mgr,
 		// Decrement counter
 		if (count_remaining == 1)
 			break;
-		else if (count_remaining > 1)
+
+		if (count_remaining > 1)
 			count_remaining--;
 
 		// Get next crafting result
@@ -806,24 +806,23 @@ void ICraftAction::apply(InventoryManager *mgr,
 
 	// Put the replacements in the inventory or drop them on the floor, if
 	// the invenotry is full
-	for (std::vector<ItemStack>::iterator it = output_replacements.begin();
-			it != output_replacements.end(); ++it) {
+	for (auto &output_replacement : output_replacements) {
 		if (list_main)
-			*it = list_main->addItem(*it);
-		if (it->empty())
+			output_replacement = list_main->addItem(output_replacement);
+		if (output_replacement.empty())
 			continue;
-		u16 count = it->count;
+		u16 count = output_replacement.count;
 		do {
-			PLAYER_TO_SA(player)->item_OnDrop(*it, player,
-				player->getBasePosition() + v3f(0,1,0));
-			if (count >= it->count) {
+			PLAYER_TO_SA(player)->item_OnDrop(output_replacement, player,
+				player->getBasePosition());
+			if (count >= output_replacement.count) {
 				errorstream << "Couldn't drop replacement stack " <<
-					it->getItemString() << " because drop loop didn't "
+					output_replacement.getItemString() << " because drop loop didn't "
 					"decrease count." << std::endl;
 
 				break;
 			}
-		} while (!it->empty());
+		} while (!output_replacement.empty());
 	}
 
 	infostream<<"ICraftAction::apply(): crafted "
@@ -843,8 +842,6 @@ bool getCraftingResult(Inventory *inv, ItemStack &result,
 		std::vector<ItemStack> &output_replacements,
 		bool decrementInput, IGameDef *gamedef)
 {
-	DSTACK(FUNCTION_NAME);
-
 	result.clear();
 
 	// Get the InventoryList in which we will operate

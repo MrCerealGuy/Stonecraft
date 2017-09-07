@@ -119,8 +119,6 @@ fake_function() {
 	gettext("Key for increasing the viewing range.\nSee http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3");
 	gettext("View range decrease key");
 	gettext("Key for decreasing the viewing range.\nSee http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3");
-	gettext("Print stacks");
-	gettext("Key for printing debug stacks. Used for development.\nSee http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3");
 	gettext("Network");
 	gettext("Server address");
 	gettext("Address to connect to.\nLeave this blank to start a local server.\nNote that the address field in the main menu overrides this setting.");
@@ -245,6 +243,8 @@ fake_function() {
 	gettext("Field of view while zooming in degrees.\nThis requires the \"zoom\" privilege on the server.");
 	gettext("Gamma");
 	gettext("Adjust the gamma encoding for the light tables. Higher numbers are brighter.\nThis setting is for the client only and is ignored by the server.");
+	gettext("Darkness sharpness");
+	gettext("Lightness sharpness");
 	gettext("Texture path");
 	gettext("Path to texture directory. All textures are first searched from here.");
 	gettext("Video driver");
@@ -769,9 +769,6 @@ fake_function() {
 	gettext("Replaces the default main menu with a custom one.");
 	gettext("Main menu game manager");
 	gettext("Main menu mod manager");
-	gettext("Modstore download URL");
-	gettext("Modstore mods list URL");
-	gettext("Modstore details URL");
 	gettext("Engine profiling data print interval");
 	gettext("Print the engine's profiling data in regular intervals (in seconds). 0 = disable. Useful for developers.");
 }

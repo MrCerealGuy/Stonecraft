@@ -59,7 +59,7 @@ namespace porting
 
 bool g_killed = false;
 
-bool * signal_handler_killstatus(void)
+bool *signal_handler_killstatus()
 {
 	return &g_killed;
 }
@@ -167,7 +167,7 @@ bool detectMSVCBuildDir(const std::string &path)
 		"bin\\Build",
 		NULL
 	};
-	return (removeStringEnd(path, ends) != "");
+	return (!removeStringEnd(path, ends).empty());
 }
 
 std::string get_sysinfo()
@@ -388,7 +388,7 @@ bool setSystemPaths()
 	// It is identified by containing the subdirectory "builtin".
 	std::list<std::string> trylist;
 	std::string static_sharedir = STATIC_SHAREDIR;
-	if (static_sharedir != "" && static_sharedir != ".")
+	if (!static_sharedir.empty() && static_sharedir != ".")
 		trylist.push_back(static_sharedir);
 
 	trylist.push_back(bindir + DIR_DELIM ".." DIR_DELIM "share"
@@ -556,7 +556,7 @@ void initializePaths()
 	infostream << "Detected user path: " << path_user << std::endl;
 	infostream << "Detected cache path: " << path_cache << std::endl;
 
-#ifdef USE_GETTEXT
+#if USE_GETTEXT
 	bool found_localedir = false;
 #  ifdef STATIC_LOCALEDIR
 	if (STATIC_LOCALEDIR[0] && fs::PathExists(STATIC_LOCALEDIR)) {
@@ -623,7 +623,7 @@ bool secure_rand_fill_buf(void *buf, size_t len)
 
 #endif
 
-void attachOrCreateConsole(void)
+void attachOrCreateConsole()
 {
 #ifdef _WIN32
 	static bool consoleAllocated = false;

@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef CONTENT_CAO_HEADER
-#define CONTENT_CAO_HEADER
+#pragma once
 
 #include <map>
 #include "irrlichttypes_extrabloated.h"
@@ -41,11 +40,11 @@ struct SmoothTranslator
 	v3f vect_show;
 	v3f vect_aim;
 	f32 anim_counter = 0;
-	f32 anim_time;
+	f32 anim_time = 0;
 	f32 anim_time_counter = 0;
 	bool aim_is_end = true;
 
-	SmoothTranslator() {};
+	SmoothTranslator() = default;
 
 	void init(v3f vect);
 
@@ -84,8 +83,8 @@ private:
 	bool m_initial_tx_basepos_set = false;
 	bool m_tx_select_horiz_by_yawpitch = false;
 	v2s32 m_animation_range;
-	int m_animation_speed = 15;
-	int m_animation_blend = 0;
+	float m_animation_speed = 15.0f;
+	float m_animation_blend = 0.0f;
 	bool m_animation_loop = true;
 	// stores position and rotation for each bone name
 	std::unordered_map<std::string, core::vector2d<v3f>> m_bone_position;
@@ -147,6 +146,11 @@ public:
 
 	scene::IAnimatedMeshSceneNode *getAnimatedMeshSceneNode();
 
+	inline f32 getStepHeight() const
+	{
+		return m_prop.stepheight;
+	}
+
 	inline bool isLocalPlayer() const
 	{
 		return m_is_local_player;
@@ -193,6 +197,8 @@ public:
 
 	void updateAnimation();
 
+	void updateAnimationSpeed();
+
 	void updateBonePosition();
 
 	void updateAttachments();
@@ -209,6 +215,3 @@ public:
 		return m_prop.infotext;
 	}
 };
-
-
-#endif

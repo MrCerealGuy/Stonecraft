@@ -17,8 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#ifndef MODS_HEADER
-#define MODS_HEADER
+#pragma once
 
 #include "irrlichttypes.h"
 #include <list>
@@ -122,7 +121,7 @@ private:
 	std::unordered_set<std::string> m_name_conflicts;
 
 	// Deleted default constructor
-	ModConfiguration() {}
+	ModConfiguration() = default;
 
 };
 
@@ -141,15 +140,6 @@ public:
 };
 #endif
 
-#if USE_CURL
-Json::Value getModstoreUrl(const std::string &url);
-#else
-inline Json::Value getModstoreUrl(const std::string &url)
-{
-	return Json::Value();
-}
-#endif
-
 struct ModLicenseInfo {
 	int id;
 	std::string shortinfo;
@@ -161,62 +151,11 @@ struct ModAuthorInfo {
 	std::string username;
 };
 
-struct ModStoreMod {
-	int id;
-	std::string title;
-	std::string basename;
-	ModAuthorInfo author;
-	float rating;
-	bool valid;
-};
-
-struct ModStoreCategoryInfo {
-	int id;
-	std::string name;
-};
-
-struct ModStoreVersionEntry {
-	int id;
-	std::string date;
-	std::string file;
-	bool approved;
-	//ugly version number
-	int mtversion;
-};
-
-struct ModStoreTitlePic {
-	int id;
-	std::string file;
-	std::string description;
-	int mod;
-};
-
-struct ModStoreModDetails {
-	/* version_set?? */
-	std::vector<ModStoreCategoryInfo> categories;
-	ModAuthorInfo author;
-	ModLicenseInfo license;
-	ModStoreTitlePic titlepic;
-	int id;
-	std::string title;
-	std::string basename;
-	std::string description;
-	std::string repository;
-	float rating;
-	std::vector<std::string> depends;
-	std::vector<std::string> softdeps;
-
-	std::string download_url;
-	std::string screenshot_url;
-	std::vector<ModStoreVersionEntry> versions;
-	bool valid;
-};
-
 class ModMetadata: public Metadata
 {
 public:
 	ModMetadata(const std::string &mod_name);
-	~ModMetadata() {}
+	~ModMetadata() = default;
 
 	virtual void clear();
 
@@ -231,5 +170,3 @@ private:
 	std::string m_mod_name;
 	bool m_modified = false;
 };
-
-#endif

@@ -25,6 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "log.h"
 #include "client.h"
 #include "inventory.h"
+#include "shader.h"
 #include "client/tile.h"
 #include "localplayer.h"
 #include "camera.h"
@@ -33,7 +34,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "guiscalingfilter.h"
 #include "mesh.h"
 #include "wieldmesh.h"
-#include <IGUIStaticText.h>
 #include "client/renderingengine.h"
 
 #ifdef HAVE_TOUCHSCREENGUI
@@ -55,8 +55,8 @@ Hud::Hud(gui::IGUIEnvironment *guienv, Client *client, LocalPlayer *player,
 	m_hotbar_imagesize *= m_hud_scaling;
 	m_padding = m_hotbar_imagesize / 12;
 
-	for (unsigned int i = 0; i < 4; i++)
-		hbar_colors[i] = video::SColor(255, 255, 255, 255);
+	for (auto &hbar_color : hbar_colors)
+		hbar_color = video::SColor(255, 255, 255, 255);
 
 	tsrc = client->getTextureSource();
 
@@ -220,7 +220,7 @@ void Hud::drawItems(v2s32 upperleftpos, v2s32 screen_offset, s32 itemcount,
 	// Store hotbar_image in member variable, used by drawItem()
 	if (hotbar_image != player->hotbar_image) {
 		hotbar_image = player->hotbar_image;
-		if (hotbar_image != "")
+		if (!hotbar_image.empty())
 			use_hotbar_image = tsrc->isKnownSourceImage(hotbar_image);
 		else
 			use_hotbar_image = false;
@@ -229,7 +229,7 @@ void Hud::drawItems(v2s32 upperleftpos, v2s32 screen_offset, s32 itemcount,
 	// Store hotbar_selected_image in member variable, used by drawItem()
 	if (hotbar_selected_image != player->hotbar_selected_image) {
 		hotbar_selected_image = player->hotbar_selected_image;
-		if (hotbar_selected_image != "")
+		if (!hotbar_selected_image.empty())
 			use_hotbar_selected_image = tsrc->isKnownSourceImage(hotbar_selected_image);
 		else
 			use_hotbar_selected_image = false;
@@ -317,7 +317,7 @@ void Hud::drawLuaElements(const v3s16 &camera_offset)
 										 (e->number >> 8)  & 0xFF,
 										 (e->number >> 0)  & 0xFF);
 				core::rect<s32> size(0, 0, e->scale.X, text_height * e->scale.Y);
-				std::wstring text = unescape_enriched(utf8_to_wide(e->text));
+				std::wstring text = unescape_translate(utf8_to_wide(e->text));
 				core::dimension2d<u32> textsize = font->getDimension(text.c_str());
 				v2s32 offset((e->align.X - 1.0) * (textsize.Width / 2),
 				             (e->align.Y - 1.0) * (textsize.Height / 2));
@@ -354,11 +354,11 @@ void Hud::drawLuaElements(const v3s16 &camera_offset)
 										 (e->number >> 8)  & 0xFF,
 										 (e->number >> 0)  & 0xFF);
 				core::rect<s32> size(0, 0, 200, 2 * text_height);
-				std::wstring text = unescape_enriched(utf8_to_wide(e->name));
+				std::wstring text = unescape_translate(utf8_to_wide(e->name));
 				font->draw(text.c_str(), size + pos, color);
 				std::ostringstream os;
 				os << distance << e->text;
-				text = unescape_enriched(utf8_to_wide(os.str()));
+				text = unescape_translate(utf8_to_wide(os.str()));
 				pos.Y += text_height;
 				font->draw(text.c_str(), size + pos, color);
 				break; }
@@ -399,24 +399,32 @@ void Hud::drawStatbar(v2s32 pos, u16 corner, u16 drawdir, std::string texture,
 	p += offset;
 
 	v2s32 steppos;
+	core::rect<s32> srchalfrect, dsthalfrect;
 	switch (drawdir) {
 		case HUD_DIR_RIGHT_LEFT:
 			steppos = v2s32(-1, 0);
+			srchalfrect = core::rect<s32>(srcd.Width / 2, 0, srcd.Width, srcd.Height);
+			dsthalfrect = core::rect<s32>(dstd.Width / 2, 0, dstd.Width, dstd.Height);
 			break;
 		case HUD_DIR_TOP_BOTTOM:
 			steppos = v2s32(0, 1);
+			srchalfrect = core::rect<s32>(0, 0, srcd.Width, srcd.Height / 2);
+			dsthalfrect = core::rect<s32>(0, 0, dstd.Width, dstd.Height / 2);
 			break;
 		case HUD_DIR_BOTTOM_TOP:
 			steppos = v2s32(0, -1);
+			srchalfrect = core::rect<s32>(0, srcd.Height / 2, srcd.Width, srcd.Height);
+			dsthalfrect = core::rect<s32>(0, dstd.Height / 2, dstd.Width, dstd.Height);
 			break;
 		default:
 			steppos = v2s32(1, 0);
+			srchalfrect = core::rect<s32>(0, 0, srcd.Width / 2, srcd.Height);
+			dsthalfrect = core::rect<s32>(0, 0, dstd.Width / 2, dstd.Height);
 	}
 	steppos.X *= dstd.Width;
 	steppos.Y *= dstd.Height;
 
-	for (s32 i = 0; i < count / 2; i++)
-	{
+	for (s32 i = 0; i < count / 2; i++) {
 		core::rect<s32> srcrect(0, 0, srcd.Width, srcd.Height);
 		core::rect<s32> dstrect(0,0, dstd.Width, dstd.Height);
 
@@ -425,13 +433,9 @@ void Hud::drawStatbar(v2s32 pos, u16 corner, u16 drawdir, std::string texture,
 		p += steppos;
 	}
 
-	if (count % 2 == 1)
-	{
-		core::rect<s32> srcrect(0, 0, srcd.Width / 2, srcd.Height);
-		core::rect<s32> dstrect(0,0, dstd.Width / 2, dstd.Height);
-
-		dstrect += p;
-		draw2DImageFilterScaled(driver, stat_texture, dstrect, srcrect, NULL, colors, true);
+	if (count % 2 == 1) {
+		dsthalfrect += p;
+		draw2DImageFilterScaled(driver, stat_texture, dsthalfrect, srchalfrect, NULL, colors, true);
 	}
 }
 
@@ -572,7 +576,7 @@ void Hud::updateSelectionMesh(const v3s16 &camera_offset)
 		m_selection_mesh = NULL;
 	}
 
-	if (!m_selection_boxes.size()) {
+	if (m_selection_boxes.empty()) {
 		// No pointed object
 		return;
 	}
@@ -597,10 +601,8 @@ void Hud::updateSelectionMesh(const v3s16 &camera_offset)
 	aabb3f halo_box(100.0, 100.0, 100.0, -100.0, -100.0, -100.0);
 	m_halo_boxes.clear();
 
-	for (std::vector<aabb3f>::iterator
-			i = m_selection_boxes.begin();
-			i != m_selection_boxes.end(); ++i) {
-		halo_box.addInternalBox(*i);
+	for (const auto &selection_box : m_selection_boxes) {
+		halo_box.addInternalBox(selection_box);
 	}
 
 	m_halo_boxes.push_back(halo_box);

@@ -263,6 +263,8 @@ if(WIN32)
 		add_definitions ( /D "_CRT_SECURE_NO_DEPRECATE" /W1 )
 		# Get M_PI to work
 		add_definitions(/D "_USE_MATH_DEFINES")
+		# Dont define min/max macros in minwindef.h
+		add_definitions(/D "NOMINMAX")
 	else() # Probably MinGW = GCC
 		set(PLATFORM_LIBS "")
 	endif()
@@ -291,6 +293,9 @@ if(WIN32)
 		set(OGG_DLL "" CACHE FILEPATH "Path to libogg.dll for installation (optional)")
 		set(VORBIS_DLL "" CACHE FILEPATH "Path to libvorbis.dll for installation (optional)")
 		set(VORBISFILE_DLL "" CACHE FILEPATH "Path to libvorbisfile.dll for installation (optional)")
+	endif()
+	if(USE_LUAJIT)
+		set(LUA_DLL "" CACHE FILEPATH "Path to lua51.dll for installation (optional)")
 	endif()
 else()
 	# Unix probably
@@ -439,13 +444,13 @@ set(common_SRCS
 	serverlist.cpp
 	serverobject.cpp
 	settings.cpp
-	socket.cpp
 	sound.cpp
 	staticobject.cpp
 	subgame.cpp
 	terminal_chat_console.cpp
 	tileanimation.cpp
 	tool.cpp
+	translation.cpp
 	treegen.cpp
 	version.cpp
 	voxel.cpp
@@ -808,6 +813,9 @@ if(WIN32)
 	endif()
 	if(LEVELDB_DLL)
 		install(FILES ${LEVELDB_DLL} DESTINATION ${BINDIR})
+	endif()
+	if(LUA_DLL)
+		install(FILES ${LUA_DLL} DESTINATION ${BINDIR})
 	endif()
 endif()
 
