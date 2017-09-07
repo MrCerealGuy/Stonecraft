@@ -21,7 +21,7 @@
 function core.is_mod_enabled(option)
 	assert(type(option) == "string")
 
-	option = "enable_" .. mod
+	option = "enable_" .. option
 
 	local world_conf_option = nil
 
