@@ -1067,12 +1067,10 @@ msgid "Proceed"
 msgstr "Fortsetzen"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "\"Special\" = climb down"
 msgstr "Benutzen = runterklettern"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Autoforward"
 msgstr "Vorwärts"
 
@@ -1081,9 +1079,8 @@ msgid "Backward"
 msgstr "Rückwärts"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Change camera"
-msgstr "Tasten ändern"
+msgstr "Kamera wechseln"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Chat"
@@ -1098,7 +1095,6 @@ msgid "Console"
 msgstr "Konsole"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Dec. range"
 msgstr "Sichtweite verkleinern"
 
@@ -1119,7 +1115,6 @@ msgid "Forward"
 msgstr "Vorwärts"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Inc. range"
 msgstr "Sichtweite erhöhen"
 
@@ -1189,39 +1184,35 @@ msgstr "Spezial"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle Cinematic"
-msgstr "Filmmodus ein-/ausschalten"
+msgstr "Filmmodus ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Toggle HUD"
-msgstr "HUD ein-/ausschalten"
+msgstr "HUD ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Toggle chat log"
-msgstr "Chatlog ein-/ausschalten"
+msgstr "Chatlog ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fast"
-msgstr "Schnellmodus ein-/ausschalten"
+msgstr "Schnellmodus ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fly"
-msgstr "Flugmodus ein-/ausschalten"
+msgstr "Flugmodus ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Toggle fog"
-msgstr "Nebel ein-/ausschalten"
+msgstr "Nebel ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
-#, fuzzy
 msgid "Toggle minimap"
-msgstr "Minimap ein-/ausschalten"
+msgstr "Minimap ein/aus"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle noclip"
-msgstr "Geistmodus"
+msgstr "Geistmodus ein/aus"
 
 #: src/guiKeyChangeMenu.cpp src/keycode.cpp
 msgid "Zoom"
