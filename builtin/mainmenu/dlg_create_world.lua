@@ -22,6 +22,8 @@
 
 2017-07-13 redesigned dialog
 
+2017-09-10 added advanced world options
+
 --]]
 
 local FILENAME = "worldoptions.txt"
@@ -290,6 +292,7 @@ local function create_world_formspec(dialogdata)
 		"tableoptions[background=#00000000;border=false]" ..
 		"table[0.25,3.50;10,3.5;list_world_options;"
 
+	-- loop all world otions and add to formspec table
 	local current_level = 0
 	for _, entry in ipairs(settings) do
 
@@ -350,6 +353,64 @@ local function create_world_formspec(dialogdata)
 end
 
 local function create_world_buttonhandler(this, fields)
+
+	local world_options_dependencies = {
+		["enable_forests"]				= 
+		{
+			["enable_forests"]	 		= true, 
+			["enable_redtrees"]	 		= true
+		},
+
+		["enable_villages"]				=
+		{
+			["enable_villages"]	 		= true,
+			["enable_darkage"]	 		= false,	--explicit deactivated because of backward compatibility for old worlds
+			["enable_mobf_trader"] 		= true,
+			["enable_moresnow"]	 		= true
+		},
+
+		["enable_homedecor_technic"]	=
+		{
+			["enable_homedecor"]	 	= true,
+			["enable_mesecons"]	 		= true,
+			["enable_pipeworks"]		= true,
+			["enable_technic"]	 		= true,
+			["enable_digilines"]		= true
+		},
+
+		["enable_nssm"]					=
+		{
+			["enable_nssm"]				= true,
+			["enable_nssb"]	 			= true
+		},
+
+		["enable_pyramids"]				= 
+		{
+			["enable_pyramids"]			= true,
+			["enable_spawners"]			= true
+		},
+
+		["enable_snow"]					= 
+		{
+			["enable_snow"]	 			= true,
+			["enable_moresnow"]			= true
+		},
+
+		["enable_woodsoils_vines"]		=
+		{
+			["enable_woodsoils"] 		= true,
+			["enable_vines"]	 		= true
+		},
+
+		["enable_mines"]				=
+		{
+			["enable_mines"]	 		= true,
+			["enable_carts"]			= true,
+			["enable_boost_carts"]		= true,
+			["enable_railcorridors"]	= true
+		}
+
+	}
 	
 	-- handle Stonecraft selected world options
 	local list_enter = false
@@ -424,62 +485,34 @@ local function create_world_buttonhandler(this, fields)
 				menudata.worldlist:refresh()
 				core.settings:set("mainmenu_last_selected_world",
 									menudata.worldlist:raw_index_by_uid(worldname))
-		
-				-- write selected Stonecraft mods in world.mt
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_erosion", core.settings:get("enable_erosion"))
 
-				-- forests
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_forests", core.settings:get("enable_forests"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_redtrees", core.settings:get("enable_forests"))
+				-- loop all world options
+				local current_level = 0
+				for _, entry in ipairs(settings) do
 
-				-- villages
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_villages", core.settings:get("enable_villages"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_darkage", "false")  --deactivated
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mobf_trader", core.settings:get("enable_villages"))
+					local name
 
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_biomes", core.settings:get("enable_biomes"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_caverealms", core.settings:get("enable_caverealms"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_creatures", core.settings:get("enable_creatures"))
+					name = entry.name
 
-				-- homedecor/technic
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_homedecor", core.settings:get("enable_homedecor_technic"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mesecons", core.settings:get("enable_homedecor_technic"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pipeworks", core.settings:get("enable_homedecor_technic"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_technic", core.settings:get("enable_homedecor_technic"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_digilines", core.settings:get("enable_homedecor_technic"))
+					if entry.type ~= "category" then
+						if core.settings:get(name) ~= nil then
 
-				-- not so simple mobs
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssm", core.settings:get("enable_nssm"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_nssb", core.settings:get("enable_nssm"))
+							-- copy world options from stonecraft.conf to world.mt
+							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.settings:get(name))
 
-				-- pyramids
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_pyramids", core.settings:get("enable_pyramids"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_spawners", core.settings:get("enable_pyramids"))
+							-- look up for world option dependencies
+							for k,v in pairs(world_options_dependencies) do
+								if k == name then
 
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_giantmushrooms", core.settings:get("enable_giantmushrooms"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_seaplants", core.settings:get("enable_seaplants"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_swamps", core.settings:get("enable_swamps"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_snow", core.settings:get("enable_snow"))
+									for k2,v2 in pairs(v) do
+										menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), k2, tostring(v2))
+									end 
+								end
 
-				-- mg_villages needs the mod more_snow
-				if core.settings:get("enable_snow") or core.settings:get("enable_villages") then
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "true")
-				else
-					menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_moresnow", "false")
+							end
+						end						
+					end
 				end
-
-				-- wood soils/vines
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_woodsoils", core.settings:get("enable_woodsoils_vines"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_vines", core.settings:get("enable_woodsoils_vines"))
-
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_surprise", core.settings:get("enable_surprise"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_itemdrop", core.settings:get("enable_itemdrop"))
-
-				-- mines
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_mines", core.settings:get("enable_mines"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_carts", core.settings:get("enable_mines"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_boost_carts", core.settings:get("enable_mines"))
-				menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), "enable_railcorridors", core.settings:get("enable_mines"))
 
 			end
 		else
