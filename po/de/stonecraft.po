@@ -1177,7 +1177,7 @@ msgstr "Rechts"
 
 #: src/guiKeyChangeMenu.cpp src/settings_translation_file.cpp
 msgid "Screenshot"
-msgstr "Bildschirmfoto"
+msgstr "Screenshot"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Sneak"
@@ -1185,39 +1185,39 @@ msgstr "Schleichen"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Special"
-msgstr ""
+msgstr "Spezial"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle Cinematic"
-msgstr "Filmmodus umschalten"
+msgstr "Filmmodus ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 #, fuzzy
 msgid "Toggle HUD"
-msgstr "HUD ausblenden"
+msgstr "HUD ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 #, fuzzy
 msgid "Toggle chat log"
-msgstr "Chatlog ausblenden"
+msgstr "Chatlog ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fast"
-msgstr "Schnellmodus"
+msgstr "Schnellmodus ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle fly"
-msgstr "Flugmodus"
+msgstr "Flugmodus ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 #, fuzzy
 msgid "Toggle fog"
-msgstr "Nebel ausblenden"
+msgstr "Nebel ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 #, fuzzy
 msgid "Toggle minimap"
-msgstr "Geistmodus"
+msgstr "Minimap ein-/ausschalten"
 
 #: src/guiKeyChangeMenu.cpp
 msgid "Toggle noclip"
@@ -6228,23 +6228,23 @@ msgstr "cURL-Zeitüberschreitung"
 #~ msgid "Autorun key"
 #~ msgstr "Automatisch-gehen-Taste"
 
-#~ msgid "Use"
-#~ msgstr "Benutzen"
+msgid "Use"
+msgstr "Benutzen"
 
-#~ msgid "Shutting down..."
-#~ msgstr "Herunterfahren …"
+msgid "Shutting down..."
+msgstr "Herunterfahren …"
 
-#~ msgid "Resolving address..."
-#~ msgstr "Löse Adresse auf …"
+msgid "Resolving address..."
+msgstr "Löse Adresse auf …"
 
-#~ msgid "Creating server..."
-#~ msgstr "Erstelle Server …"
+msgid "Creating server..."
+msgstr "Erstelle Server …"
 
-#~ msgid "Creating client..."
-#~ msgstr "Client erstellen …"
+msgid "Creating client..."
+msgstr "Client erstellen …"
 
-#~ msgid "Connecting to server..."
-#~ msgstr "Verbinde mit Server …"
+msgid "Connecting to server..."
+msgstr "Verbinde mit Server …"
 
 #~ msgid "re-Install"
 #~ msgstr "Erneut installieren"
