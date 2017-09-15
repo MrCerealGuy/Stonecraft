@@ -563,7 +563,7 @@ mob_basics.spawn_mob = function( pos, mob_typ, player_name, mob_entity_name, pre
 			local self = object:get_luaentity();
 			mob_basics.update( self, prefix ); -- a mob has been added
 		end
-		return;
+		return self;
 	end
 	if object ~= nil then
 		object:setyaw( -1.14 );
@@ -579,6 +579,7 @@ mob_basics.spawn_mob = function( pos, mob_typ, player_name, mob_entity_name, pre
 		elseif( not( no_messages )) then
 			mob_basics.log( 'Error: ID already taken. Can not spawn mob.', nil, prefix );
 		end
+		return self;
 	end
 end
 

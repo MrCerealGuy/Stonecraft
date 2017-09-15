@@ -25,6 +25,7 @@ Features:
 
 -- TODO: produce a bench occasionally and sit down on it; pick up bench when getting up
 -- TODO: rename mod?
+mobf_trader = {}
 
 
 --[[
@@ -51,8 +52,9 @@ dofile(minetest.get_modpath("mobf_trader").."/mob_pickup.lua");    -- pick trade
 dofile(minetest.get_modpath("mobf_trader").."/mob_trading.lua");   -- the actual trading code - complete with formspecs
 dofile(minetest.get_modpath("mobf_trader").."/mob_trading_random.lua");   -- traders with a more random stock
 dofile(minetest.get_modpath("mobf_trader").."/large_chest.lua");   -- one large chest is easier to handle than a collectoin of chests
-dofile(minetest.get_modpath("mobf_trader").."/village_traders.lua");   -- functionality for interaction with mg_villages
---TODO dofile(minetest.get_modpath("mobf_trader").."/mob_sitting.lua");   -- allows the mob to sit/lie on furniture
+--dofile(minetest.get_modpath("mobf_trader").."/village_traders.lua");   -- functionality for interaction with mg_villages
+dofile(minetest.get_modpath("mobf_trader").."/spawn_mg_villages_traders.lua");   -- functionality for interaction with mg_villages
+dofile(minetest.get_modpath("mobf_trader").."/mob_sitting.lua");   -- allows the mob to sit/lie on furniture
 
 
 -- find out the right mesh; if the wrong one is used, the traders become invisible
@@ -127,6 +129,10 @@ mobf_trader.trader_entity_prototype = {
 	trader_stock     = nil,
 	-- unique ID for each trader
 	trader_id        = '',
+	-- position of the object the mob is currently using (i.e. a bed)
+	trader_uses      = nil,
+	-- current trader activity (i.e. sleeping in the bed at trader_uses position)
+	trader_does      = "stand",
 	
         decription = S("Default NPC"),
         inventory_image = "npcf_inv_top.png",
@@ -141,10 +147,6 @@ mobf_trader.trader_entity_prototype = {
 	on_activate = function(self, staticdata, dtime_s)
 		-- set up the trader
 		mobf_trader.trader_entity_on_activate(self, staticdata, dtime_s);
-
-		-- the mob will do nothing but stand around
-		self.object:set_animation({x=self.animation[ self.trader_animation..'_START'], y=self.animation[ self.trader_animation..'_END']},
-				self.animation_speed-5+math.random(10));
 
 		-- the trader has to be subject to gravity
 		self.object:setvelocity(    {x=0, y=  0, z=0});
@@ -229,6 +231,8 @@ mobf_trader.trader_entity_get_staticdata = function( self, serialized_data )
 	data.trader_limit     = self.trader_limit;
 	data.trader_animation = self.trader_animation;
 	data.trader_vsize     = self.trader_vsize;
+	data.trader_uses      = self.trader_uses;
+	data.trader_does      = self.trader_does;
 
 	return minetest.serialize( data );
 end
@@ -254,10 +258,12 @@ mobf_trader.trader_entity_on_activate = function(self, staticdata, dtime_s)
 			self.trader_goods     = data.trader_goods;
 			self.trader_animation = data.trader_animation;
 			self.trader_vsize     = data.trader_vsize;
+			self.trader_uses      = data.trader_uses;
+			self.trader_does      = data.trader_does;
 		end
 
-		if( not( self.trader_animation )) then
-			self.trader_animation = 'stand';
+		if( not( self.trader_animation ) or self.trader_does) then
+			self.trader_animation = self.trader_does;
 		end
 
 		if( self.trader_texture ) then
@@ -266,6 +272,15 @@ mobf_trader.trader_entity_on_activate = function(self, staticdata, dtime_s)
 
 		if( self.trader_vsize ) then
 			mob_basics.update_visual_size( self, self.trader_vsize, false, 'trader' );
+		end
+
+
+		if( self.trader_does == 'sleep' and self.trader_uses and self.trader_uses.x ) then
+			mob_sitting.sleep_on_bed( self, self.trader_uses );
+		else -- default: stand
+			-- the mob will do nothing but stand around
+			self.object:set_animation({x=self.animation[ self.trader_animation..'_START'], y=self.animation[ self.trader_animation..'_END']},
+				self.animation_speed-5+math.random(10));
 		end
 	end
 						
