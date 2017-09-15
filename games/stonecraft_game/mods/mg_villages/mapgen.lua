@@ -23,6 +23,7 @@ mg_villages.part_of_village_spawned = function( village, minp, maxp, data, param
 end
 ------------------------------------------------------------------------------
 
+local trees_to_grow_via_voxelmanip = {};
 
 mg_villages.wseed = 0;
 
@@ -388,7 +389,7 @@ mg_villages.flatten_village_area = function( villages, minp, maxp, vm, data, par
 		   and terrain_blending_value ~= 0
 		   -- some data is stored in a temp table
 		   and village_tmp[ village_nr]
-		   and data[a:index(x, village_tmp[ village_nr ].vh  ,z)] ~= cid.c_ignore) then
+		   and vm:get_data_from_heap(data, a:index(x, village_tmp[ village_nr ].vh  ,z)) ~= cid.c_ignore) then
 
 			if( terrain_blending_value > 0 ) then -- inside a village
 				mg_villages.lower_or_raise_terrain_at_point( x, z,
@@ -967,6 +968,8 @@ end
 
 mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, data, param2_data, a, top, seed )
 	local t1 = minetest.get_us_time();
+	local data;
+	local param2_data;
 
 	local cid = {}
 	cid.c_air    = minetest.get_content_id( 'air' );
@@ -1055,12 +1058,6 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 		end
         end
 	t1 = time_elapsed( t1, 'generate_village, mark_buildings and mark_dirt_roads' );
-	
-	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip");
-	
-	if( not( vm )) then 
-		return;
-	end
 
 	local emin;
 	local emax;
