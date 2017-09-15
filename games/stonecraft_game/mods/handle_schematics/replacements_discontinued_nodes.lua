@@ -24,7 +24,7 @@ replacements_group['discontinued_nodes'].replace = function( replacements )
 	replacements_group['discontinued_nodes'].doors( repl, 'obsidian_glass');
 
 	for i,v in ipairs( repl ) do
-		if( v and v[2] and minetest.registered_nodes[ v[2]] ) then
+		if( v and v[2] and handle_schematics.node_defined( v[2]) ) then
 			local found = false;
 			for j,w in ipairs( replacements ) do
 				if( w and w[1] and w[1]==v[1] ) then

@@ -26,7 +26,7 @@ replacements_group['farming'].replace_material = function( replacements, old_mat
 	for i=1,#old_nodes do
 		local old = old_nodes[i];
 		local new = old;
-		if( i<=#new_nodes and new_nodes[i] and minetest.registered_nodes[ new_nodes[i]] ) then
+		if( i<=#new_nodes and new_nodes[i] and handle_schematics.node_defined( new_nodes[i]) ) then
 			new = new_nodes[i];
 			local found = false;
 			for i,v in ipairs(replacements) do
@@ -39,7 +39,7 @@ replacements_group['farming'].replace_material = function( replacements, old_mat
 				table.insert( replacements, { old, new });
 			end
 		-- default to the last growth stage
-		elseif( i>#new_nodes and minetest.registered_nodes[ new_nodes[ #new_nodes ]]) then
+		elseif( i>#new_nodes and handle_schematics.node_defined( new_nodes[ #new_nodes ])) then
 			table.insert( replacements, { old, new_nodes[ #new_nodes ] });
 		end
 	end
@@ -54,7 +54,7 @@ replacements_group['farming'].add_material = function( fruit, fruit_item, prefix
 
 	local is_loaded = false;
 	if(     minetest.registered_items[ fruit_item ] 
-	    and minetest.registered_nodes[ prefix..fruit..seperator.."1"..postfix ] ) then
+	    and handle_schematics.node_defined( prefix..fruit..seperator.."1"..postfix ) ) then
 		is_loaded = true;
 		table.insert( replacements_group['farming'].found, fruit_item );
 	end
@@ -71,7 +71,7 @@ replacements_group['farming'].add_material = function( fruit, fruit_item, prefix
 	end
 	for i=1,8 do
 		local node_name = prefix..fruit..seperator..tostring(i)..postfix;
-		if( is_loaded and minetest.registered_nodes[ node_name ]) then
+		if( is_loaded and handle_schematics.node_defined( node_name) ) then
 			table.insert( data, node_name );
 		-- if the mod is not loaded, we do not know how many growth stages it has;
 		-- in order to be on the safe side, store them all
@@ -81,7 +81,7 @@ replacements_group['farming'].add_material = function( fruit, fruit_item, prefix
 	end
 	-- the last plant stage (the one that gives the fruit) usually has no number
 	local node_name = prefix..fruit;
-	if( is_loaded and minetest.registered_nodes[ node_name ]) then
+	if( is_loaded and handle_schematics.node_defined( node_name)) then
 		table.insert( data, node_name );
 	elseif( not( is_loaded )) then
 		table.insert( data, node_name );
@@ -151,9 +151,9 @@ replacements_group['farming'].construct_farming_type_list = function()
 			'tomato', 'corn'
 			};
 	for i,fruit in ipairs( fruits ) do
-		if(     minetest.registered_nodes[ 'farming_plus:'..fruit ]
-		    and minetest.registered_nodes[ 'farming_plus:'..fruit..'_1' ]
-		    and minetest.registered_items[ 'farming_plus:'..fruit..'_item' ] ) then
+		if(     handle_schematics.node_defined( 'farming_plus:'..fruit )
+		    and handle_schematics.node_defined( 'farming_plus:'..fruit..'_1' )
+		    and handle_schematics.node_defined( 'farming_plus:'..fruit..'_item' )) then
 			replacements_group['farming'].add_material( fruit, 'farming_plus:'..fruit..'_item',   'farming_plus:', '_', '' );
 		end
 	end

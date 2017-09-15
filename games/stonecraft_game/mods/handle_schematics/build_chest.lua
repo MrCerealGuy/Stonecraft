@@ -68,6 +68,9 @@ build_chest.read_building = function( building_name )
 	build_chest.building[ building_name ].rotated        = res.rotated;	
 	build_chest.building[ building_name ].burried        = res.burried;	
 	build_chest.building[ building_name ].metadata       = res.metadata;
+	build_chest.building[ building_name ].bed_count      = res.bed_count;
+	-- mobs are very intrested in beds in which they might sleep at night
+	build_chest.building[ building_name ].bed_list       = res.bed_list;
 	-- scm_data_cache is not stored as that would take up too much storage space
 	--build_chest.building[ building_name ].scm_data_cache = res.scm_data_cache;	
 
@@ -81,12 +84,14 @@ end
 
 
 
-build_chest.get_start_pos = function( pos )
+build_chest.get_start_pos = function( pos, building_name, param2 )
 	-- rotate the building so that it faces the player
 	local node = minetest.get_node( pos );
 	local meta = minetest.get_meta( pos );
 
-	local building_name = meta:get_string( 'building_name' );
+	if( not( building_name )) then
+		building_name = meta:get_string( 'building_name' );
+	end
 	if( not( building_name )) then
 		return "No building_name provided.";
 	end
@@ -109,8 +114,11 @@ build_chest.get_start_pos = function( pos )
 		start_pos.y = start_pos.y + selected_building.yoff -1;
 	end
 	
+	if( param2 == nil ) then
+		param2 = node.param2;
+	end
 	-- make sure the building always extends forward and to the right of the player
-	local param2_rotated = handle_schematics.translate_param2_to_rotation( node.param2, mirror, start_pos,
+	local param2_rotated = handle_schematics.translate_param2_to_rotation( param2, mirror, start_pos,
 				selected_building.size, selected_building.rotated, selected_building.burried, selected_building.orients,
 				selected_building.yoff );
 
@@ -138,14 +146,31 @@ build_chest.show_size_data = function( building_name )
 	end
 
 	local size = build_chest.building[ building_name ].size;
+	-- the full path and name of the building is often too long and provides information about the filesystem, which is unsuitable for players
+	local shortened_building_name = building_name;
+	shortened_building_name = string.sub( building_name, string.len( building_name ) + 2 - string.find( string.reverse(building_name), "/", 1, true ));
+
 	-- show which building has been selected
 	return "label[0.3,9.5;Selected building:]"..
-		"label[2.3,9.5;"..minetest.formspec_escape(building_name).."]"..
+		"label[2.3,9.5;"..minetest.formspec_escape(shortened_building_name).."]"..
 		-- size of the building
 		"label[0.3,9.8;Size ( wide x length x height ):]"..
 		"label[4.3,9.8;"..tostring( size.x )..' x '..tostring( size.z )..' x '..tostring( size.y ).."]";
 end
 
+
+-- abort a building project - remove all dig_here-indicators and special scaffolding nodes
+handle_schematics.abort_project_remove_indicators = function( meta )
+	local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
+	local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
+	-- find automaticly placed dig-here-indicators and scaffolding nodes
+	if( start_pos and end_pos and start_pos.x and end_pos.x) then
+		local nodes = minetest.find_nodes_in_area( start_pos, end_pos, {"handle_schematics:dig_here", "handle_schematics:support_setup"});
+		for i,v in ipairs( nodes ) do
+			minetest.set_node( v, { name = "air", param2 = 0 });
+		end
+	end
+end
 
 -- helper function for update_formspec that handles saving of a building
 handle_schematics.update_formspec_save_building = function( formspec, meta, player, fields, pos )
@@ -408,8 +433,50 @@ build_chest.update_formspec = function( pos, page, player, fields )
 	-- the building has been placed; offer to restore a backup
 	local backup_file   = meta:get_string('backup');
 	if( backup_file and backup_file ~= "" ) then
-		return formspec.."button[3,3;3,0.5;restore_backup;Restore original landscape]"..
-		                 "button[3,4;3,0.5;show_materials;Show materials used]";
+
+		local is_restore = meta:get_int('is_restore');
+		local nodes_to_dig = meta:get_int( "nodes_to_dig" );
+		if( fields.abort_project ) then
+			return formspec.."label[0,3;Abort this project and select a new one?]"..
+				"button[0,4;1.5,0.5;yes_abort_project;Yes]"..
+				"button[3,4;1.5,0.5;no_abort;No]";
+		elseif( fields.save_file_as ) then
+			local shortened_building_name = building_name;
+			shortened_building_name = string.sub( building_name, string.len( building_name ) + 2 - string.find( string.reverse(building_name), "/", 1, true ));
+
+			local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
+			local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
+			-- how deep the building is burried will also become part of the new filename
+			local burried = (start_pos.y - pos.y);
+			-- the "burried" value will be applied later
+			start_pos.y = pos.y;
+
+			return formspec.."label[0,3;Save the current building as..]"..
+				"field[40,40;0.1,0.1;save_as_p1;;"..minetest.pos_to_string(start_pos).."]"..
+				"field[40,40;0.1,0.1;save_as_p2;;"..minetest.pos_to_string(end_pos).."]"..
+				"field[40,40;0.1,0.1;save_as_yoff;;"..burried.."]"..
+				"label[0,3.5;New filename:]"..
+					"field[4,4;4,0.5;save_as_filename;;"..shortened_building_name.."]"..
+				"button[4,5;1.5,0.5;no_abort;Abort]"..
+				"button[6,5;1.5,0.5;save_as;Save]";
+		elseif( not(is_restore) or is_restore ~= 1 ) then
+			return formspec.."button[0.5,3;4,0.5;proceed_with_scaffolding;Check project status/update]"..
+				 "button[0.5,4;4,0;restore_backup;Restore original landscape]"..
+		                 "button[1,5;3,0.5;show_materials;Show materials used]"..
+		                 "button[0.5,8.5;4,0.5;save_file_as;Save current building as..]"..
+				 "label[5,2.5;Materails needed to complete project:]"..
+				 "label[5,9;"..nodes_to_dig.." blocks need to be digged/removed]"..
+				 "list[nodemeta:"..pos.x..","..pos.y..","..pos.z..";needed;5,3;8,6;]";
+		else
+			return formspec.."button[0,3;5,0.5;restore_backup;Check landscape restauration state/update]"..
+				 "button[0,4;5,0.5;proceed_with_scaffolding;Switch back to planned project]"..
+		                 "button[1,5;3,0.5;show_materials;Show materials used]"..
+		                 "button[0,6;5,0.5;abort_project;Abort this project and select new]"..
+		                 "button[0.5,8.5;4,0.5;save_file_as;Save current building as..]"..
+				 "label[5,2.5;Materails needed to complete project:]"..
+				 "label[5,9;"..nodes_to_dig.." blocks need to be digged/removed]"..
+				 "list[nodemeta:"..pos.x..","..pos.y..","..pos.z..";needed;5,3;8,6;]";
+		end
 	end
 
 	local current_path = minetest.deserialize( meta:get_string( 'current_path' ) or 'return {}' );
@@ -467,7 +534,7 @@ build_chest.update_formspec = function( pos, page, player, fields )
 	if( #options == 1 and options[1] and build_chest.building[ options[1]] ) then
 		-- a building has been selected
 		meta:set_string( 'building_name', options[1] );
-		local start_pos = build_chest.get_start_pos( pos );
+		local start_pos = build_chest.get_start_pos( pos, nil, nil );
 		if( type(start_pos)=='table' and start_pos and start_pos.x and build_chest.building[ options[1]].size) then
 			-- size information has just been read; we can now display it
 			formspec = formspec..build_chest.show_size_data( building_name );
@@ -556,6 +623,9 @@ end
 
 build_chest.on_receive_fields = function(pos, formname, fields, player)
 
+	if( not(pos)) then
+		return;
+	end
 	local meta = minetest.get_meta(pos);
 
 	local owner = meta:get_string('owner');
@@ -654,6 +724,8 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 
 
 	elseif( fields.proceed_with_scaffolding ) then
+		-- used for indicating which mode (actual project or landscape restauration) we are in; here: actual project
+		meta:set_int('is_restore', 0);
 		local building_name = meta:get_string('building_name');
 		local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
 		local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
@@ -674,6 +746,7 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 			minetest.chat_send_player( pname, 'CREATING backup schematic for this place in \"schems/'..base_filename..'.mts\".');
 		end
 		
+		local village_id   = meta:get_string( 'village_id' );
 		local replacement_list = build_chest.replacements_get_current( meta, village_id );
 		local rotate = meta:get_string('rotate');
 		local mirror = meta:get_string('mirror');
@@ -688,7 +761,7 @@ mirror = nil;
 		if( not( minetest.check_player_privs( pname, {creative=true}))) then
 			use_scaffolding = true;
 		end
-		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, false, use_scaffolding );
+		fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, building_name, replacement_list, rotate, axis, mirror, no_plotmarker, false, use_scaffolding, pos );
 		if( fields.error_msg ) then
 			fields.error_msg = 'Error: '..tostring( fields.error_msg );
 		end
@@ -698,17 +771,44 @@ mirror = nil;
 		local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
 		local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
 		local backup_file   = meta:get_string( 'backup' );
+		-- used for indicating which mode (actual project or landscape restauration) we are in; here: landscape restauration
+		meta:set_int('is_restore', 1);
 		if( start_pos and end_pos and start_pos.x and end_pos.x and backup_file and backup_file ~= "" ) then
 			local filename = minetest.get_worldpath()..'/schems/'..backup_file;
 			if( save_restore.file_exists( filename..'.mts' )) then
-				minetest.place_schematic( start_pos, filename..'.mts', "0", {}, true );
-				-- no rotation needed - the metadata can be applied as-is (with the offset applied)
-				-- restore_meta adds the worldpath automaticly
-				handle_schematics.restore_meta( '/schems/'..backup_file, nil, start_pos, end_pos, 0, nil);
-				meta:set_string('backup', nil );
+				if( minetest.check_player_privs( pname, {creative=true})) then
+					minetest.place_schematic( start_pos, filename..'.mts', "0", {}, true );
+					-- no rotation needed - the metadata can be applied as-is (with the offset applied)
+					-- restore_meta adds the worldpath automaticly
+					handle_schematics.restore_meta( '/schems/'..backup_file, nil, start_pos, end_pos, 0, nil);
+					meta:set_string('backup', nil );
+					-- we are back to the beginning - no landscape backup present
+					meta:set_int('is_restore', 0);
+				else
+					minetest.chat_send_player( pname, "Trying to restore backup from file "..filename); -- TODO: debug message
+					local rotate = meta:get_string('rotate');
+					local mirror = meta:get_string('mirror');
+					local axis   = build_chest.building[ building_name ].axis;
+					local no_plotmarker = true;
+					local replacement_list = {};
+					fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, filename, replacement_list, "180", 3, 1, no_plotmarker, false, true, pos );
+					if( fields.error_msg ) then
+						fields.error_msg = 'Error: '..tostring( fields.error_msg );
+						minetest.chat_send_player( pname, fields.error_msg ); -- TODO: debug message
+					end
+				end
 			end
 		end
 	
+
+	-- there has to be a way to abort a project and select another building/project elseif( fields.yes_abort_project ) then
+	elseif( fields.yes_abort_project ) then
+		handle_schematics.abort_project_remove_indicators( meta );
+
+		-- without existing backup it is possible to switch back in the menu
+		meta:set_string('backup', nil );
+
+
 	-- store a new end position
 	elseif( fields.set_end_pos ) then
 		local node = minetest.get_node( pos );
@@ -799,7 +899,7 @@ mirror = nil;
 				filename = pname..'_'..tostring( p1 )..'_'..tostring(p2);
 			end
 
-			-- param2 needs to be translated init initial rotation as well
+			-- param2 needs to be translated inio initial rotation as well
 			local node = minetest.get_node( pos );
 			if(     node.param2 == 0 ) then
 				filename = filename..'_'..burried..'_90';
@@ -828,8 +928,14 @@ mirror = nil;
 			if( not( worldnameparts ) or #worldnameparts < 1 ) then
 				worldnameparts = {'unkown world'};
 			end
-			build_chest.add_entry(    {'main','worlds', worldnameparts[ #worldnameparts], 'schems', filename, worldpath..'/schems/'..filename});
+			local new_path = {'main','worlds', worldnameparts[ #worldnameparts], 'schems', filename, worldpath..'/schems/'..filename};
+			build_chest.add_entry( new_path );
 			build_chest.add_building( worldpath..'/schems/'..filename, {scm=filename, typ='nn'});
+
+			meta:set_string( 'current_path',  minetest.serialize( new_path ));
+			meta:set_string( 'building_name', worldpath..'/schems/'..filename);
+			meta:set_int(    'replace_row', 0 );
+			meta:set_int(    'page_nr',     0 );
 
 			minetest.chat_send_player( pname,
 				'Created schematic \''..tostring( filename )..'\'. Saved area from '..
@@ -940,7 +1046,6 @@ minetest.register_node("handle_schematics:build", { --TODO
         on_metadata_inventory_put = function(pos, listname, index, stack, player)
             return build_chest.on_metadata_inventory_put( pos, listname, index, stack, player );
         end,
-
 })
 
 

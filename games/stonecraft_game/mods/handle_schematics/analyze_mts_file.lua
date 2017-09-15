@@ -93,12 +93,13 @@ handle_schematics.analyze_mts_file = function( path )
 		local name_text   = file:read( name_length );
 
 		table.insert( nodenames, name_text );
+		local node_def = handle_schematics.node_defined( name_text );
 		-- in order to get this information, the node has to be defined and loaded
-		if( minetest.registered_nodes[ name_text ] and minetest.registered_nodes[ name_text ].on_construct) then
+		if( node_def and node_def.on_construct) then
 			table.insert( on_constr, name_text );
 		end
 		-- some nodes need after_place_node to be called for initialization
-		if( minetest.registered_nodes[ name_text ] and minetest.registered_nodes[ name_text ].after_place_node) then
+		if( node_def and node_def.after_place_node) then
 			table.insert( after_place_node, name_text );
 		end
 	end
@@ -127,20 +128,17 @@ handle_schematics.analyze_mts_file = function( path )
 	local data_string = minetest.decompress(compressed_data, "deflate" );
 	file.close(file)
 
-	local ids = {};
-	local needs_on_constr = {};
+	-- find out which id air has in this particular schematic
 	local is_air = 0;
-	-- translate nodenames to ids
 	for i,v in ipairs( nodenames ) do
-		ids[ i ] = minetest.get_content_id( v );
-		needs_on_constr[ i ] = false;
-		if( minetest.registered_nodes[ v ] and minetest.registered_nodes[ v ].on_construct ) then
-			needs_on_constr[ i ] = true;
-		end
 		if( v == 'air' ) then
 			is_air = i;
 		end
 	end
+
+	-- some mods (like mg_villages) might be intrested in the number of npc that can live here
+	local bed_count = 0;
+	local bed_list = {};
 
 	local p2offset = (size.x*size.y*size.z)*3;
 	local i = 1;
@@ -161,12 +159,17 @@ handle_schematics.analyze_mts_file = function( path )
 
 		if( id ~= is_air ) then
 			scm[y][x][z] = {id, p2};
+			if( handle_schematics.bed_node_names[ nodenames[ id ]]) then
+				bed_count = bed_count + 1;
+				table.insert( bed_list, {x=x, y=y, z=z, p2, id});
+			end
 		end
 	end
 	end
 	end
 
-	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = on_constr, after_place_node = after_place_node, rotated=rotated, burried=burried, scm_data_cache = scm };
+	--print( "MTS FILE "..tostring(path)..": "..tostring( bed_count ).." beds.");
+	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = on_constr, after_place_node = after_place_node, rotated=rotated, burried=burried, scm_data_cache = scm, bed_count = bed_count, bed_list = bed_list };
 end
 
 

@@ -62,6 +62,7 @@ end
 -- we only need the function io.open in a version that can read schematic files from diffrent places,
 -- even if a secure environment is enforced; this does require an exception for the mod
 local ie_io_open = io.open;
+--[[ does not work anyway
 if( minetest.request_insecure_environment ) then
 	local ie, req_ie = _G, minetest.request_insecure_environment
 	if req_ie then ie = req_ie() end
@@ -69,6 +70,7 @@ if( minetest.request_insecure_environment ) then
 		ie_io_open = ie.io.open;
 	end
 end
+--]]
 
 -- only a certain type of files can be read and written
 save_restore.file_access = function( path, params )

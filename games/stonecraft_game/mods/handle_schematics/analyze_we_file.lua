@@ -1,6 +1,4 @@
 handle_schematics.analyze_we_file = function(scm, we_origin)
-	local c_ignore = minetest.get_content_id("ignore")
-
 	-- this table will contain the nodes read
 	local nodes = {}
 
@@ -29,6 +27,9 @@ handle_schematics.analyze_we_file = function(scm, we_origin)
 			nodenames[ nodenames_id[ ent.name ] ] = ent.name;
 		end
 	end
+
+	local bed_count = 0;
+	local bed_list = {};
 
 	scm = {}
 	local maxx, maxy, maxz = -1, -1, -1
@@ -77,6 +78,10 @@ handle_schematics.analyze_we_file = function(scm, we_origin)
 
 
 		scm[ent.y][ent.x][ent.z] = { nodenames_id[ ent.name ], ent.param2 };
+		if( handle_schematics.bed_node_names[ ent.name ]) then
+			bed_count = bed_count + 1;
+			table.insert( bed_list, {x=x, y=y, z=z, p2, id});
+		end
 
 	end
 
@@ -96,5 +101,5 @@ handle_schematics.analyze_we_file = function(scm, we_origin)
 	size.x = math.max(maxx,0);
 	size.z = math.max(maxz,0);
 
-	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = {}, after_place_node = {}, rotated=0, burried=0, scm_data_cache = scm, metadata = all_meta };
+	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = {}, after_place_node = {}, rotated=0, burried=0, scm_data_cache = scm, metadata = all_meta, bed_count = bed_count, bed_list = bed_list };
 end

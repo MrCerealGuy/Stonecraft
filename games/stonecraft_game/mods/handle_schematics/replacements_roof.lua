@@ -23,7 +23,7 @@ replacements_group['roof'].replace_material = function( replacements, old_materi
 	for i=1,#old_nodes do
 		local old = old_nodes[i];
 		local new = old;
-		if( i<=#new_nodes and new_nodes[i] and minetest.registered_nodes[ new_nodes[i]] ) then
+		if( i<=#new_nodes and new_nodes[i] and handle_schematics.node_defined( new_nodes[i] )) then
 			new = new_nodes[i];
 			local found = false;
 			for i,v in ipairs(replacements) do
@@ -47,7 +47,7 @@ end
 replacements_group['roof'].add_material = function( nodelist )
 
 	local is_loaded = false;
-	if(  minetest.registered_items[ nodelist[1] ] ) then
+	if(  handle_schematics.node_defined( nodelist[1] )) then
 		is_loaded = true;
 		table.insert( replacements_group['roof'].found, nodelist[1] );
 	end

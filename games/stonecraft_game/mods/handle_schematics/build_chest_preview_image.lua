@@ -5,7 +5,7 @@ build_chest.preview_image_draw_tile = function( content_id, image, x, z, dx, dz,
 		if( not( node_name )) then
 			return '';
 		end
-		local node_def  = minetest.registered_nodes[ node_name ];
+		local node_def  = handle_schematics.node_defined( node_name );
 		if( not( node_def )) then
 			return '';
 		end
@@ -159,13 +159,13 @@ build_chest.preview_image_formspec = function( building_name, replacements, side
 		for j,w in ipairs( replacements ) do
 			if( w and w[1] and w[1]==v) then
 				found        = true;
-				if( minetest.registered_nodes[ w[2]] ) then
+				if( handle_schematics.node_defined( w[2] )) then
 					content_ids[ i ] = minetest.get_content_id( w[2] );
 				end
 			end
 		end
 		if( not( found )) then
-			if( minetest.registered_nodes[ v ]) then
+			if( handle_schematics.node_defined( v )) then
 				content_ids[ i ] = minetest.get_content_id( v );
 			elseif( v ~= 'air' ) then
 				content_ids[ i ] = -1;

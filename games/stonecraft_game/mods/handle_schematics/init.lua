@@ -1,7 +1,33 @@
 
 handle_schematics = {}
 
+-- use the priv "creative" as provided by unified_inventory - or define it new;
+-- the priv allows the player to spawn the schematics direclty (without scaffolding)
+if( not( minetest.get_modpath( 'unified_inventory' ))) then
+	minetest.register_privilege("creative", {
+		description = "Can place schematics directly without scaffolding",
+		give_to_singleplayer = false,
+	})
+end
+
+
 handle_schematics.modpath = minetest.get_modpath( "handle_schematics");
+
+-- realtest handles some things diffrently without beeing easy to identify
+handle_schematics.is_realtest = nil;
+if(        minetest.registered_nodes["oven:oven"]
+  and not( minetest.registered_nodes["default:furnace"])
+  and      minetest.registered_nodes["grounds:clay"]
+  and not( minetest.registered_nodes["default:clay"])) then
+	handle_schematics.is_realtest = true;
+end
+
+-- globally change nodes from the schematics into others; useful if you
+-- i.e. do not have default installed
+dofile(handle_schematics.modpath.."/replacements_global.lua")
+
+-- populate handle_schematics.bed_node_names and handle_schematics.bed_content_ids
+dofile(handle_schematics.modpath.."/mob_bed_detection.lua")
 
 -- adds worldedit_file.* namespace
 -- deserialize worldedit savefiles
@@ -39,6 +65,23 @@ dofile(handle_schematics.modpath.."/replacements_roof.lua")
 -- transforms the replacement list into a table;
 -- also creates a replacement if needed and replaces default:torch
 dofile(handle_schematics.modpath.."/replacements_get_table.lua")
+
+
+-- apart from dirt_with_grass, some other nodes may not be obtainable without
+-- creative because their drop is diffrent from their node name (i.e grass,
+-- farming, doors, ..)
+dofile(handle_schematics.modpath.."/player_can_provide.lua")
+
+-- assume dirt to be a general placeholder for "something you can
+-- walk on"; might be stone, other dirt types etc.; this also
+-- accepts other dirt and sand types for dirt_with_grass
+dofile(handle_schematics.modpath.."/dirt_is_not_always_dirt.lua")
+-- actually enable it (if you do not want this function just set
+-- handle_schematics.also_acceptable = {}  somewhere in your code
+handle_schematics.enable_use_dirt_as_placeholder();
+-- doors have the tendency to come in either "open" or "closed" state - neither
+-- of which ought to make a difference
+handle_schematics.enable_doors_open_closed();
 
 -- uses build_chest.* namespace
 -- a chest for spawning buildings manually

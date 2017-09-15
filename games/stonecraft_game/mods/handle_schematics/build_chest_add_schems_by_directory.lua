@@ -13,7 +13,12 @@ local build_chest_add_files_to_menu_from_directory = function( schem, path, entr
 			if( i ) then
 				schemname = string.sub( schem, 1, i-1 );
 			else
-				return;
+				i = string.find( schem, '.schematic', -10 );
+				if( i ) then
+					schemname = string.sub( schem, 1, i-1 );
+				else
+					return;
+				end
 			end
 		end
 	end
@@ -152,7 +157,8 @@ end
 
 -- TODO: hopfefully, security will get more relaxed regarding reading directories in the future
 -- if security is enabled, our options to get schematics are a bit limited
-if( minetest.setting_getbool( 'secure.enable_security' )) then
+--if( minetest.settings:get( 'secure.enable_security' )) then
+if( minetest.get_dir_list ) then
 	local worldpath = minetest.get_worldpath();
 	local d3 = minetest.get_dir_list( worldpath..'/schems', false );
 	if( d3 ) then

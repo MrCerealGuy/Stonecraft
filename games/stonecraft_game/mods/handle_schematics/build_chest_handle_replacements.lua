@@ -138,6 +138,10 @@ build_chest.replacements_get_list_formspec = function( pos, selected_row, allow_
 					repl = r[2];
 				end
 			end
+			-- show global replacements
+			if( handle_schematics.global_replacement_table[ repl ]) then
+				repl = handle_schematics.global_replacement_table[ repl ];
+			end
 
 			-- avoid empty lines at the end
 			if( not_the_first_entry ) then
@@ -145,10 +149,10 @@ build_chest.replacements_get_list_formspec = function( pos, selected_row, allow_
 			end
 
 			formspec = formspec..'#fff,'..tostring( anz )..',';
-			if( name == repl and repl and minetest.registered_nodes[ repl ]) then
+			if( name == repl and handle_schematics.node_defined( repl )) then
 				formspec = formspec.."#0ff,,#fff,,";
 			else
-				if( name and minetest.registered_nodes[ name ] ) then
+				if( name and handle_schematics.node_defined( name )) then
 					formspec = formspec.."#0f0,"; -- green
 				else
 					formspec = formspec.."#ff0,"; -- yellow
@@ -156,7 +160,7 @@ build_chest.replacements_get_list_formspec = function( pos, selected_row, allow_
 				formspec = formspec..name..',#fff,'..minetest.formspec_escape('-->')..',';
 			end
 
-			if( repl and (minetest.registered_nodes[ repl ] or repl=='air') ) then
+			if( handle_schematics.node_defined( repl ) or repl=='air') then
 				formspec = formspec.."#0f0,"..repl; -- green
 			else
 				formspec = formspec.."#ff0,?"; -- yellow
@@ -232,14 +236,14 @@ build_chest.replacements_replace_rest_with_air = function( pos, meta )
 				if( r and r[1]==name ) then
 					repl = r[2];
 					-- set replacements for inexisting nodes to air
-					if( not( minetest.registered_nodes[ repl ] )) then
+					if( not( handle_schematics.node_defined( repl ))) then
 						r[2] = 'air';
 					end
 				end
 			end
 
 			-- replace nodes that do not exist with air
-			if( not( repl ) or not( minetest.registered_nodes[ repl ])) then
+			if( not( repl ) or not( handle_schematics.node_defined( repl ))) then
 				table.insert( replacements_orig, { name, 'air' });
 			end
 		end
@@ -255,7 +259,7 @@ build_chest.replacements_apply = function( pos, meta, old_material, new_material
 	meta:set_int('replace_row', 0 );
 	local found = false;
 	-- only accept replacements which can actually be placed
-	if( new_material=='air' or minetest.registered_nodes[ new_material ] ) then
+	if( new_material=='air' or handle_schematics.node_defined( new_material )) then
 		local replacements_orig = build_chest.replacements_get_current( meta, village_id );
 		for i,v in ipairs(replacements_orig) do
 			if( v and v[1]==old_material ) then
