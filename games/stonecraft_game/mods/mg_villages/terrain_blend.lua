@@ -3,8 +3,9 @@
 -- it will then calculate the minimum point (xbmin, avsurfy, zbmin) where the house should be spawned
 -- and mark a mapchunk-sized 'house area' for terrain blending
 
--- buffer for get2dMap_flat, added by MrCerealGuy
-local nvals_buf = {}
+-- re-use already created data structures by the perlin noise functions
+local noise_object_blending = nil;
+local noise_buffer = nil;
 
 mg_villages.village_area_mark_single_house_area = function(village_area, minp, maxp, pos, pr, village_nr, village)
 
@@ -33,7 +34,10 @@ mg_villages.village_area_mark_single_house_area = function(village_area, minp, m
 	-- 2D noise perlinmap
 	local chulens = {x=sidelen, y=sidelen, z=sidelen}
 	local minpos = {x=minp.x, y=minp.z}
-	local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos,nvals_buf)  -- buffer added by McCerealGuy
+
+	noise_object_blending = noise_object_blending or minetest.get_perlin_map(np_blend, chulens);
+	local nvals_blend = noise_object_blending:get2dMap_flat(minpos, noise_buffer);
+--	local nvals_blend = minetest.get_perlin_map(np_blend, chulens):get2dMap_flat(minpos)
 
 	-- mark mapchunk-sized house area
 	local ni = 1

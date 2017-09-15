@@ -1,4 +1,19 @@
 
+-- fountains and lakes have river water, not salt water
+handle_schematics.global_replacement_table[ 'default:water_source' ] = 'default:river_water_source';
+handle_schematics.global_replacement_table[ 'default:water_flowing' ] = 'default:river_water_flowing';
+-- always use the cheaper simulated soil that has no problem with water beeing 4 nodes away
+handle_schematics.global_replacement_table[ 'farming:soil_wet'             ] = 'mg_villages:soil';
+handle_schematics.global_replacement_table[ 'farming:soil'                 ] = 'mg_villages:soil';
+handle_schematics.global_replacement_table[ 'farming:desert_sand_soil_wet' ] = 'mg_villages:desert_sand_soil';
+handle_schematics.global_replacement_table[ 'farming:desert_sand_soil'     ] = 'mg_villages:desert_sand_soil';
+
+-- if cottages is not installed, place "normal" beds in the chateau and wherever else needed
+if( not( minetest.get_modpath( 'cottages' ))) then
+	handle_schematics.global_replacement_table[ 'cottages:bed_head' ] = 'beds:fancy_bed_top';
+	handle_schematics.global_replacement_table[ 'cottages:bed_foot' ] = 'beds:fancy_bed_bottom';
+end
+
 -- ethereal comes with some intresting trees
 if( minetest.get_modpath( 'ethereal' )) then
 	mg_villages.ethereal_trees = {'acacia','willow','redwood','frost','mushroom','yellow','palm','banana'};
@@ -610,12 +625,14 @@ mg_villages.replacements_grasshut = function( housetype, pr, replacements )
          table.insert( replacements, {'cottages:straw',                   'dryplants:wetreed' });
          table.insert( replacements, {'stairs:slab_cobble',               'dryplants:reed_slab' });
       end
+--[[ does not look nice
       if( pr:next( 1, 4) == 1 ) then
          table.insert( replacements, {'dryplants:wetreed_roof_corner',    'default:wood' });
          table.insert( replacements, {'dryplants:wetreed_roof_corner_2',  'default:junglewood' });
       end
+--]]
       if( not( minetest.get_modpath( 'cavestuff' ))) then
-         table.insert( replacements, {'cavestuff:desert_pebble_2',        'default:slab_cobble' });
+         table.insert( replacements, {'cavestuff:desert_pebble_2',        'default:slab_desert_stone' });
       end
    
       table.insert( replacements, {'default:desert_sand', 'default:dirt_with_grass' });

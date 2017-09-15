@@ -45,10 +45,16 @@ dofile(mg_villages.modpath.."/trees.lua")
 
 dofile(mg_villages.modpath.."/replacements.lua")
 
+-- fill mg_villages.all_buildings_list with precalculated paths
+dofile(mg_villages.modpath.."/mg_villages_path_info.data");
+
 -- multiple diffrent village types with their own sets of houses are supported
 -- The function mg_villages.add_village_type( village_type_name, village_type_data )
 --   allows other mods to add new village types.
 dofile(mg_villages.modpath.."/village_types.lua")
+
+-- calls path calculation and stores front doors etc.; only called in mg_villages.add_building
+dofile(mg_villages.modpath.."/analyze_building_for_mobs.lua")
 
 -- Note: the "buildings" talbe is not in the mg_villages.* namespace
 -- The function mg_villages.add_building( building_data ) allows other mods to add buildings.
@@ -63,10 +69,18 @@ dofile(mg_villages.modpath.."/name_gen.lua");
 
 dofile(mg_villages.modpath.."/villages.lua")
 
+-- determine type of work, name, age, bed position etc. for villagers (none included!)
+dofile(mg_villages.modpath.."/inhabitants.lua")
+
+-- provides some extra functionality for development of mob mods etc.;
+-- contains some deprecated functions
+dofile(mg_villages.modpath.."/extras_for_development.lua");
 -- adds a command that allows to teleport to a known village
 dofile(mg_villages.modpath.."/chat_commands.lua")
 -- protect villages from griefing
 dofile(mg_villages.modpath.."/protection.lua")
+-- allows to buy/sell/restore/.. plots and their buildings
+dofile(mg_villages.modpath.."/plotmarker_formspec.lua")
 -- create and show a map of the world
 dofile(mg_villages.modpath.."/map_of_world.lua")
 
@@ -81,3 +95,6 @@ dofile(mg_villages.modpath.."/highlandpools.lua")
 dofile(mg_villages.modpath.."/mapgen.lua")
 
 dofile(mg_villages.modpath.."/spawn_player.lua")
+
+-- reconstruct the connection of the roads inside a village
+dofile(mg_villages.modpath.."/roads.lua")
