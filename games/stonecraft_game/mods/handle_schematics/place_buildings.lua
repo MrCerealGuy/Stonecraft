@@ -472,7 +472,7 @@ end
 
 
 -- if scaffolding_only is set, a statistic of missing_nodes will be returned
-local function generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground, scaffolding_only)
+local function generate_building(pos, minp, maxp, vm, data, param2_data, a, extranodes, replacements, cid, extra_calls, building_nr_in_bpos, village_id, binfo_extra, road_node, keep_ground, scaffolding_only)
 	local binfo = binfo_extra;
 	if( not( binfo ) and mg_villages) then
 		binfo = mg_villages.BUILDINGS[pos.btype]
@@ -915,7 +915,7 @@ handle_schematics.place_buildings = function(village, minp, maxp, vm, data, para
 			end
 			extra_calls.workplaces = pos.workplaces;
 			-- do not use scaffolding here; place the building directly
-			generate_building(pos, minp, maxp, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true, false )
+			generate_building(pos, minp, maxp, vm, data, param2_data, a, extranodes, replacements, cid, extra_calls, i, village_id, nil, road_material, true, false )
 			-- the bed positions are of intrest later on
 			pos.beds = extra_calls.beds;
 			pos.workplaces = extra_calls.workplaces;
