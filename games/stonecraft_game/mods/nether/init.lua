@@ -1,3 +1,18 @@
+--[[
+
+2017-09-17 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+2017-09-17 added intllib support
+
+--]]
+
+if core.skip_mod("nether") then return end
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Parameters
 
 local NETHER_DEPTH = -5000
@@ -54,13 +69,13 @@ local function volume_is_natural(minp, maxp)
 	local pos2 = {x = maxp.x, y = maxp.y, z = maxp.z}
 	local emin, emax = vm:read_from_map(pos1, pos2)
 	local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
-	local data = vm:get_data()
+	local data = vm:load_data_into_heap()
 
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
 		local vi = area:index(pos1.x, y, z)
 		for x = pos1.x, pos2.x do
-			local id = data[vi] -- Existing node
+			local id = vm:get_data_from_heap(data, vi) -- Existing node
 			if id ~= c_air and id ~= c_ignore then -- These are natural
 				local name = minetest.get_name_from_content_id(id)
 				if not minetest.registered_nodes[name].is_ground_content then
@@ -307,7 +322,7 @@ minetest.register_abm({
 -- Nodes
 
 minetest.register_node("nether:portal", {
-	description = "Nether Portal",
+	description = S("Nether Portal"),
 	tiles = {
 		"nether_transparent.png",
 		"nether_transparent.png",
@@ -356,7 +371,7 @@ minetest.register_node("nether:portal", {
 })
 
 minetest.register_node(":default:obsidian", {
-	description = "Obsidian",
+	description = S("Obsidian"),
 	tiles = {"default_obsidian.png"},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -418,7 +433,7 @@ minetest.register_node(":default:obsidian", {
 })
 
 minetest.register_node("nether:rack", {
-	description = "Netherrack",
+	description = S("Netherrack"),
 	tiles = {"nether_rack.png"},
 	is_ground_content = true,
 	groups = {cracky = 3, level = 2},
@@ -426,7 +441,7 @@ minetest.register_node("nether:rack", {
 })
 
 minetest.register_node("nether:sand", {
-	description = "Nethersand",
+	description = S("Nethersand"),
 	tiles = {"nether_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, level = 2, falling_node = 1},
@@ -436,7 +451,7 @@ minetest.register_node("nether:sand", {
 })
 
 minetest.register_node("nether:glowstone", {
-	description = "Glowstone",
+	description = S("Glowstone"),
 	tiles = {"nether_glowstone.png"},
 	is_ground_content = true,
 	light_source = 14,
@@ -446,7 +461,7 @@ minetest.register_node("nether:glowstone", {
 })
 
 minetest.register_node("nether:brick", {
-	description = "Nether Brick",
+	description = S("Nether Brick"),
 	tiles = {"nether_brick.png"},
 	is_ground_content = false,
 	groups = {cracky = 2, level = 2},
@@ -457,7 +472,7 @@ local fence_texture =
 	"default_fence_overlay.png^nether_brick.png^default_fence_overlay.png^[makealpha:255,126,126"
 
 minetest.register_node("nether:fence_nether_brick", {
-	description = "Nether Brick Fence",
+	description = S("Nether Brick Fence"),
 	drawtype = "fencelike",
 	tiles = {"nether_brick.png"},
 	inventory_image = fence_texture,
@@ -491,7 +506,7 @@ stairs.register_stair_and_slab(
 if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all(
 		"nether", "brick", "nether:brick", {
-			description = "Nether Brick",
+			description = S("Nether Brick"),
 			groups = {cracky = 2, level = 2},
 			tiles = {"nether_brick.png"},
 			sounds = default.node_sound_stone_defaults(),
@@ -501,7 +516,7 @@ end
 -- Craftitems
 
 minetest.register_craftitem(":default:mese_crystal_fragment", {
-	description = "Mese Crystal Fragment",
+	description = S("Mese Crystal Fragment"),
 	inventory_image = "default_mese_crystal_fragment.png",
 	on_place = function(stack, _, pt)
 		if pt.under and minetest.get_node(pt.under).name == "default:obsidian" then
@@ -593,7 +608,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge = emin, MaxEdge = emax}
-	local data = vm:get_data(dbuf)
+	local data = vm:load_data_into_heap()
 
 	local x11 = emax.x -- Limits of mapchunk plus mapblock shell
 	local y11 = emax.y
@@ -634,7 +649,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 				local in_chunk_yzx = in_chunk_yz and x >= x0 and x <= x1 -- In mapchunk
 
-				local id = data[vi] -- Existing node
+				local id = vm:get_data_from_heap(data, vi) -- Existing node
 				-- Cave air, cave liquids and dungeons are overgenerated,
 				-- convert these throughout mapchunk plus shell
 				if id == c_air or -- Air and liquids to air
@@ -642,30 +657,30 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						id == c_lava_flowing or
 						id == c_water_source or
 						id == c_water_flowing then
-					data[vi] = c_air
+					vm:set_data_from_heap(data, vi, c_air)
 				-- Dungeons are preserved so we don't need
 				-- to check for cavern in the shell
 				elseif id == c_cobble or -- Dungeons (preserved) to netherbrick
 						id == c_mossycobble or
 						id == c_stair_cobble then
-					data[vi] = c_netherbrick
+					vm:set_data_from_heap(data, vi, c_netherbrick)
 				end
 
 				if in_chunk_yzx then -- In mapchunk
 					if nvals_cave[ni] > tcave then -- Only excavate cavern in mapchunk
-						data[vi] = c_air
+						vm:set_data_from_heap(data, vi, c_air)
 					elseif id == c_mese then -- Mese block to lava
-						data[vi] = c_lava_source
+						vm:set_data_from_heap(data, vi, c_lava_source)
 					elseif id == c_stone_with_gold or -- Precious ores to glowstone
 							id == c_stone_with_mese or
 							id == c_stone_with_diamond then
-						data[vi] = c_glowstone
+						vm:set_data_from_heap(data, vi, c_glowstone)
 					elseif id == c_gravel or -- Blob ore to nethersand
 							id == c_dirt or
 							id == c_sand then
-						data[vi] = c_nethersand
+						vm:set_data_from_heap(data, vi, c_nethersand)
 					else -- All else to netherstone
-						data[vi] = c_netherrack
+						vm:set_data_from_heap(data, vi, c_netherrack)
 					end
 
 					ni = ni + 1 -- Only increment noise index in mapchunk
@@ -676,11 +691,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 	end
 
-	vm:set_data(data)
+	vm:save_data_from_heap(data)
 	vm:set_lighting({day = 0, night = 0})
 	vm:calc_lighting()
 	vm:update_liquids()
-	vm:write_to_map()
+	vm:write_to_map(true)
 
 	if DEBUG then
 		local chugent = math.ceil((os.clock() - t1) * 1000)
