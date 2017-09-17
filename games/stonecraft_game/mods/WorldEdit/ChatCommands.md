@@ -17,6 +17,7 @@ Many commands also have shorter names that can be typed faster. For example, if 
 | `//s`      | `//set`            |
 | `//r`      | `//replace`        |
 | `//ri`     | `//replaceinverse` |
+| `//hcube`  | `//hollowcube`     |
 | `//hspr`   | `//hollowsphere`   |
 | `//spr`    | `//sphere`         |
 | `//hdo`    | `//hollowdome`     |
@@ -116,6 +117,10 @@ Set the current WorldEdit region to `<node>`.
     //set Blue Lightstone
     //set dirt with grass
 
+### `//param2 <param2>`
+
+Set the param2 value of all nodes in the current WorldEdit region to `<param2>`.
+
 ### `//mix <node1> ...`
 
 Fill the current WorldEdit region with a random mix of `<node1>`, `...`.
@@ -142,6 +147,19 @@ Replace all nodes other than `<search node>` with `<replace node>` in the curren
     //replaceinverse flowers:flower_waterlily glass
     //replaceinverse dirt Bronze Block
     //replaceinverse mesecons:wire_00000000_off flowers:flower_tulip
+
+### `//hollowcube <width> <height> <length> <node>`
+
+Adds a hollow cube with its ground level centered at WorldEdit position 1 with dimensions `<width>` x `<height>` x `<length>`, composed of `<node>`.
+
+    //hollowcube 6 5 6 Diamond Block
+
+### `//cube <width> <height> <length> <node>`
+
+Adds a cube with its ground level centered at WorldEdit position 1 with dimensions `<width>` x `<height>` x `<length>`, composed of `<node>`.
+
+    //cube 6 5 6 Diamond Block
+    //cube 7 2 1 default:cobble
 
 ### `//hollowsphere <radius> <node>`
 
@@ -175,23 +193,35 @@ Add dome centered at WorldEdit position 1 with radius `<radius>`, composed of `<
     //dome -12 glass
     //dome 17 mesecons:wire_00000000_off
 
-### `//hollowcylinder x/y/z/? <length> <radius> <node>`
+### `//hollowcylinder x/y/z/? <length> <radius1> [radius2] <node>`
 
-Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>` and radius `<radius>`, composed of `<node>`.
+Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>`, base radius `<radius1>` (and top radius `[radius2]`), composed of `<node>`.
+
+Despite its name this command allows you to create cones (`radius2` = 0) as well as any shapes inbetween (0 < `radius2` < `radius1`).
+Swapping `radius1` and `radius2` will create the same object but upside-down.
 
     //hollowcylinder x +5 8 Bronze Block
     //hollowcylinder y 28 10 glass
     //hollowcylinder z -12 3 mesecons:wire_00000000_off
     //hollowcylinder ? 2 4 default:stone
 
-### `//cylinder x/y/z/? <length> <radius> <node>`
+    //hollowcylinder y 10 10 0 walls:cobble
+    //hollowcylinder x 6 0 5 Dirt
+    //hollowcylinder z 20 10 20 default:desert_stone
 
-Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>` and radius `<radius>`, composed of `<node>`.
+### `//cylinder x/y/z/? <length> <radius1> [radius2] <node>`
+
+Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>`, base radius `<radius1>` (and top radius `[radius2]`), composed of `<node>`.
+Can also create shapes other than cylinders, e.g. cones (see documentation above).
 
     //cylinder x +5 8 Bronze Block
     //cylinder y 28 10 glass
     //cylinder z -12 3 mesecons:wire_00000000_off
     //cylinder ? 2 4 default:stone
+
+    //cylinder y 10 10 0 walls:cobble
+    //cylinder x 6 0 5 Dirt
+    //cylinder z 20 10 20 default:desert_stone
     
 ### `//hollowpyramid x/y/z? <height> <node>`
 
