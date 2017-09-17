@@ -1,10 +1,17 @@
+--[[
+
+2017-09-17 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if not minetest.global_exists("unified_inventory") then
 	minetest.log("warning", "3d_armor_ui: Mod loaded but unused.")
 	return
-end
-local S = function(s) return s end
-if minetest.global_exists("intllib") then
-	S = intllib.Getter()
 end
 
 if unified_inventory.sfinv_compat_layer then
@@ -21,6 +28,7 @@ end)
 unified_inventory.register_button("armor", {
 	type = "image",
 	image = "inventory_plus_armor.png",
+	tooltip = S("3d Armor")
 })
 
 unified_inventory.register_page("armor", {

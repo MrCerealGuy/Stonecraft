@@ -345,4 +345,3 @@ minetest.register_craft({
 		{"3d_armor_stand:armor_stand", "default:steel_ingot"},
 	}
 })
-

@@ -1,3 +1,14 @@
+--[[
+
+2017-09-17 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if not minetest.global_exists("inventory_plus") then
 	minetest.log("warning", "3d_armor_ip: Mod loaded but unused.")
 	return

@@ -48,11 +48,11 @@ end
 -- Load Configuration
 
 for name, config in pairs(armor.config) do
-	local setting = minetest.setting_get("armor_"..name)
+	local setting = minetest.settings:get("armor_"..name)
 	if type(config) == "number" then
 		setting = tonumber(setting)
 	elseif type(config) == "boolean" then
-		setting = minetest.setting_getbool("armor_"..name)
+		setting = minetest.settings:get_bool("armor_"..name)
 	end
 	if setting ~= nil then
 		armor.config[name] = setting
@@ -184,7 +184,7 @@ local function init_player_armor(player)
 	end
 	local skin = armor:get_player_skin(name)
 	armor.textures[name] = {
-		skin = skin..".png",
+		skin = skin,
 		armor = "3d_armor_trans.png",
 		wielditem = "3d_armor_trans.png",
 		preview = armor.default_skin.."_preview.png",
@@ -231,7 +231,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if string.find(field, "skins_set") then
 			minetest.after(0, function(player)
 				local skin = armor:get_player_skin(name)
-				armor.textures[name].skin = skin..".png"
+				armor.textures[name].skin = skin
 				armor:set_player_armor(player)
 			end, player)
 		end

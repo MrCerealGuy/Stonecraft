@@ -1,10 +1,21 @@
+--[[
+
+2017-09-17 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if not minetest.global_exists("sfinv") then
 	minetest.log("warning", "3d_armor_sfinv: Mod loaded but unused.")
 	return
 end
 
 sfinv.register_page("3d_armor:armor", {
-	title = "Armor",
+	title = S("Armor"),
 	get = function(self, player, context)
 		local name = player:get_player_name()
 		local formspec = armor:get_armor_formspec(name, true)

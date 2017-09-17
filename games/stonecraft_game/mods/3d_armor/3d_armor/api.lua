@@ -1,3 +1,14 @@
+--[[
+
+2017-09-17 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local skin_previews = {}
 local use_player_monoids = minetest.global_exists("player_monoids")
 local use_armor_monoid = minetest.global_exists("armor_monoid")
@@ -167,6 +178,7 @@ armor.update_player_visuals = function(self, player)
 			self.textures[name].wielditem,
 		})
 	end
+	self:run_callbacks("on_update", player)
 end
 
 armor.set_player_armor = function(self, player)
@@ -195,7 +207,7 @@ armor.set_player_armor = function(self, player)
 		change[group] = 1
 		levels[group] = 0
 	end
-	local list = player_inv:get_list("armor")
+	local list = player_inv:get_list("armor") or {}
 	for i, stack in pairs(list) do
 		if stack:get_count() == 1 then
 			local def = stack:get_definition()
@@ -286,7 +298,6 @@ armor.set_player_armor = function(self, player)
 	self.def[name].state = state
 	self.def[name].count = count
 	self:update_player_visuals(player)
-	self:run_callbacks("on_update", player)
 end
 
 armor.punch = function(self, player, hitter, time_from_last_punch, tool_capabilities)
@@ -376,18 +387,14 @@ armor.damage = function(self, player, index, stack, use)
 end
 
 armor.get_player_skin = function(self, name)
-	local skin = nil
-	if self.skin_mod == "skins" or self.skin_mod == "simple_skins" then
-		skin = skins.skins[name]
-	elseif self.skin_mod == "u_skins" then
-		skin = u_skins.u_skins[name]
-	elseif self.skin_mod == "wardrobe" then
-		local skins = wardrobe.playerSkins or {}
-		if skins[name] then
-			skin = string.gsub(skins[name], "%.png$","")
-		end
+	if (self.skin_mod == "skins" or self.skin_mod == "simple_skins") and skins.skins[name] then
+		return skins.skins[name]..".png"
+	elseif self.skin_mod == "u_skins" and u_skins.u_skins[name] then
+		return u_skins.u_skins[name]..".png"
+	elseif self.skin_mod == "wardrobe" and wardrobe.playerSkins and wardrobe.playerSkins[name] then
+		return wardrobe.playerSkins[name]
 	end
-	return skin or armor.default_skin
+	return armor.default_skin..".png"
 end
 
 armor.add_preview = function(self, preview)
@@ -395,7 +402,7 @@ armor.add_preview = function(self, preview)
 end
 
 armor.get_preview = function(self, name)
-	local preview = armor:get_player_skin(name).."_preview.png"
+	local preview = string.gsub(armor:get_player_skin(name), ".png", "_preview.png")
 	if skin_previews[preview] then
 		return preview
 	end
@@ -431,16 +438,16 @@ armor.set_inventory_stack = function(self, player, i, stack)
 	local msg = "[set_inventory_stack]"
 	local name = player:get_player_name()
 	if not name then
-		minetest.log("warning", "3d_armor: Player name is nil "..msg)
+		minetest.log("warning", S("3d_armor: Player name is nil @1", msg))
 		return
 	end
 	local player_inv = player:get_inventory()
 	local armor_inv = minetest.get_inventory({type="detached", name=name.."_armor"})
 	if not player_inv then
-		minetest.log("warning", "3d_armor: Player inventory is nil "..msg)
+		minetest.log("warning", S("3d_armor: Player inventory is nil @1", msg))
 		return
 	elseif not armor_inv then
-		minetest.log("warning", "3d_armor: Detached armor inventory is nil "..msg)
+		minetest.log("warning", S("3d_armor: Detached armor inventory is nil @1", msg))
 		return
 	end
 	player_inv:set_stack("armor", i, stack)
@@ -450,25 +457,28 @@ end
 armor.get_valid_player = function(self, player, msg)
 	msg = msg or ""
 	if not player then
-		minetest.log("warning", "3d_armor: Player reference is nil "..msg)
+		minetest.log("warning", S("3d_armor: Player reference is nil @1", msg))
 		return
 	end
 	local name = player:get_player_name()
 	if not name then
-		minetest.log("warning", "3d_armor: Player name is nil "..msg)
+		minetest.log("warning", S("3d_armor: Player name is nil @1", msg))
 		return
 	end
 	local inv = player:get_inventory()
 	if not inv then
-		minetest.log("warning", "3d_armor: Player inventory is nil "..msg)
+		minetest.log("warning", S("3d_armor: Player inventory is nil @1", msg))
 		return
 	end
 	return name, inv
 end
 
 armor.drop_armor = function(pos, stack)
-	local obj = minetest.add_item(pos, stack)
-	if obj then
-		obj:setvelocity({x=math.random(-1, 1), y=5, z=math.random(-1, 1)})
+	local node = minetest.get_node_or_nil(pos)
+	if node then
+		local obj = minetest.add_item(pos, stack)
+		if obj then
+			obj:setvelocity({x=math.random(-1, 1), y=5, z=math.random(-1, 1)})
+		end
 	end
 end

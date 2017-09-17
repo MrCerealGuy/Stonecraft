@@ -4,6 +4,10 @@
 
 --]]
 
+if not minetest.get_modpath("technic_worldgen") then
+	minetest.log("warning", S("technic_armor: Mod loaded but unused."))
+	return
+end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
