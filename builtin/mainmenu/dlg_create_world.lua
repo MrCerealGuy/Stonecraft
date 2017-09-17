@@ -265,7 +265,7 @@ local function create_world_formspec(dialogdata)
 	local retval = ""
 	
 	if game ~= nil and game.id == "stonecraft" then
-		retval = retval .. "size[11.5,8.0,true]"
+		retval = retval .. "size[15.5,8.0,true]"
 	else
 		retval = retval .. "size[11.5,3.0,true]label[1.25,1;" ..
 			fgettext("Cannot find Stonecraft game data! Download from mrcerealguy.github.io/stonecraft.") .. "]" ..
@@ -287,10 +287,10 @@ local function create_world_formspec(dialogdata)
 		"textlist[-10,3;7,2.3;games;" .. gamemgr.gamelist() ..
 		";" .. gameidx .. ";true]"
 		
-	retval = retval .. "size[10,5.5,true]" ..
-		"tablecolumns[color;tree;text,width=32;text]" ..
+	retval = retval .. "size[14,5.5,true]" ..
+		"tablecolumns[color;tree;text,width=52;text]" ..
 		"tableoptions[background=#00000000;border=false]" ..
-		"table[0.25,3.50;10,3.5;list_world_options;"
+		"table[0.25,3.50;14,3.5;list_world_options;"
 
 	-- loop all world otions and add to formspec table
 	local current_level = 0
@@ -335,8 +335,8 @@ local function create_world_formspec(dialogdata)
 
 		
 
-	retval = retval .. "button[3.25,7.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
-		"button[5.75,7.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+	retval = retval .. "button[4.5,7.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
+		"button[7.0,7.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
 
 	if #gamemgr.games == 0 then
 		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
