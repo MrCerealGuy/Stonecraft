@@ -248,6 +248,366 @@ msgstr ""
 msgid "Auto pick up items"
 msgstr ""
 
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Simple Mobs)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Chicken"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Ghost"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Oerrki"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sheep"
+msgstr "Zombie"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Not So Simple Mobs)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Ants"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Black Widow"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Bloco"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Crab"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Crocodile"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Daddy long legs"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Dolidrosaurus"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Duck"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Duckking"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Echidna"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enderduck"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Flying duck"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Giant sandworm"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Icelamander"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Icesnake"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Kraken"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Larva"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Lava titan"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Manticore"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mantis beast"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mantis"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Masticone"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Moonheron"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Night master"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Octopus"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Phoenix"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Pumpboom"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Pumpking"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sandworm"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Scrausics"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sand bloco"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Signosigno"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Snow biter"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Spiderduck"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Stoneeater"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Swimming duck"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Tarantula"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Uloboros"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Werewolf"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "White werewolf"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mese dragon"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Etheral biomes)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Glacier"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Bamboo"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mesa"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Alpine"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Healing"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Snowy"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Frost"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Grassy"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Caves"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Rayness"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Grassytwo"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Prairie"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Jumble"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Junglee"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Desert"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Grove"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mushroom"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sandstone"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Quicksand"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Plains"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Savannah"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Fiery"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sandclay"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Swamp biome)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Generate swamps everywhere"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enables smooth transition of biomes"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Rarity in %"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enables swampwater"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enables falling snow"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Disable this to remove christmas saplings from being found"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "The gravity of thrown snowballs"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Reduces the amount of resources and fps used by snowfall"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mapgen rarity in %"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "How fast players throw snowballs"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Disable this to stop snow from being smoothed"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Size of the generated…, has an effect to the rarity, too"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "The minumum height a snow biome will generate - mgv7"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enables smooth transition of biomes - mgv6"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Disable this to prevent sleds from being riden"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Villages and buildings)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Players cannot modify spawned villages without buying the house"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "The first village - the one the player spawns in"
+msgstr ""
+
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Cannot find Stonecraft game data! Download from mrcerealguy.github.io/stonecraft."
 msgstr ""
