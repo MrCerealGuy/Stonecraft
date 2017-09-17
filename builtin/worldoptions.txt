@@ -130,6 +130,9 @@ enable_snow (Snow biome) bool false
 #    
 enable_caverealms (Cave realms) bool false
 
+#    
+enable_nether (Nether) bool false
+
 [*Advanced settings (Etheral biomes)]
 
 etheral_biomes_glacier (Glacier) bool true
