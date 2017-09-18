@@ -25,8 +25,6 @@ Features:
 
 -- TODO: produce a bench occasionally and sit down on it; pick up bench when getting up
 -- TODO: rename mod?
-mobf_trader = {}
-
 
 --[[
 
