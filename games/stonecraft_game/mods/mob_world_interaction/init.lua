@@ -1,3 +1,11 @@
+--[[
+
+2017-09-18 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("mob_world_interaction") then return end
 
 -- a place to store our functions
 mob_world_interaction = {};
