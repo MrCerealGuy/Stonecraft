@@ -503,13 +503,16 @@ local function create_world_buttonhandler(this, fields)
 
 							-- look up for world option dependencies
 							for k,v in pairs(world_options_dependencies) do
-								if k == name then
-
-									for k2,v2 in pairs(v) do
+								if k == name and core.settings:get(name) == "true" then
+									for k2,v2 in pairs(v) do										
+										-- copy world option dependencies to world.mt
 										menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), k2, tostring(v2))
 									end 
 								end
-
+							end
+						else
+							if entry.type == "bool" then
+								menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, "false")
 							end
 						end						
 					end
