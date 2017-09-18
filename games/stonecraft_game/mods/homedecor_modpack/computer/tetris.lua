@@ -33,10 +33,10 @@ local colors = { "computer_cyan.png", "computer_magenta.png", "computer_red.png"
 
 local background = "image[0,0;3.55,6.66;computer_black.png]"
 local buttons = "button[3,4.5;0.6,0.6;left;<]"
-	.."button[3.6,4.5;0.6,0.6;rotateleft;L]"
+	.."button[3.6,4.5;0.6,0.6;rotateleft;"..minetest.formspec_escape(S("L")).."]"
 	.."button[4.2,4.5;0.6,0.6;down;v]"
 	.."button[4.2,5.3;0.6,0.6;drop;V]"
-	.."button[4.8,4.5;0.6,0.6;rotateright;R]"
+	.."button[4.8,4.5;0.6,0.6;rotateright;"..minetest.formspec_escape(S("R")).."]"
 	.."button[5.4,4.5;0.6,0.6;right;>]"
 	.."button[3.5,3;2,2;new;"..minetest.formspec_escape(S("New Game")).."]"
 
@@ -231,7 +231,7 @@ local function step(pos, fields)
 	local scr = { formsize, background,
 		t.boardstring, t.previewstring,
 		draw_shape(t.cur, t.x, t.y, t.rot, boardx, boardy),
-		"label[3.8,0.1;Next...]label[3.8,2.7;Score: ",
+		"label[3.8,0.1;"..S("Next...").."]label[3.8,2.7;"..S("Score: "), 
 		t.score, close, buttons }
 
 

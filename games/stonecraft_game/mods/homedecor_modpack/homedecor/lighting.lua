@@ -21,6 +21,15 @@ minetest.register_node("homedecor:glowlight_half", {
 		"homedecor_glowlight_thick_sides.png",
 		"homedecor_glowlight_thick_sides.png"
 	},
+	overlay_tiles = {
+		{ name = "homedecor_glowlight_top_overlay.png", color = "white"},
+		"",
+		{ name = "homedecor_glowlight_thick_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thick_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thick_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thick_sides_overlay.png", color = "white"},
+	},
+	use_texture_alpha = true,
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "colorwallmounted",
@@ -52,6 +61,15 @@ minetest.register_node("homedecor:glowlight_quarter", {
 		"homedecor_glowlight_thin_sides.png",
 		"homedecor_glowlight_thin_sides.png"
 	},
+	overlay_tiles = {
+		{ name = "homedecor_glowlight_top_overlay.png", color = "white"},
+		"",
+		{ name = "homedecor_glowlight_thin_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thin_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thin_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_thin_sides_overlay.png", color = "white"},
+	},
+	use_texture_alpha = true,
 	drawtype = "nodebox",
 	paramtype = "light",
 	paramtype2 = "colorwallmounted",
@@ -83,6 +101,15 @@ minetest.register_node("homedecor:glowlight_small_cube", {
 		"homedecor_glowlight_cube_sides.png",
 		"homedecor_glowlight_cube_sides.png"
 	},
+	overlay_tiles = {
+		{ name = "homedecor_glowlight_cube_tb_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_cube_tb_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_cube_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_cube_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_cube_sides_overlay.png", color = "white"},
+		{ name = "homedecor_glowlight_cube_sides_overlay.png", color = "white"},
+	},
+	use_texture_alpha = true,
 	paramtype = "light",
 	paramtype2 = "colorwallmounted",
 	drawtype = "nodebox",
@@ -106,9 +133,10 @@ minetest.register_node("homedecor:glowlight_small_cube", {
 
 homedecor.register("plasma_lamp", {
 	description = S("Plasma Lamp"),
-	drawtype = "glasslike_framed",
-	tiles = {"default_gold_block.png","homedecor_glass_face_clean.png"},
-	special_tiles = {
+	drawtype = "mesh",
+	mesh = "plasma_lamp.obj",
+	tiles = {
+		"default_gold_block.png",
 		{
 			name="homedecor_plasma_storm.png",
 			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0},
@@ -119,16 +147,13 @@ homedecor.register("plasma_lamp", {
 	sunlight_propagates = true,
 	groups = {cracky=3,oddly_breakable_by_hand=3},
 	sounds = default.node_sound_glass_defaults(),
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		minetest.swap_node(pos, {name = "homedecor:plasma_lamp", param2 = 255})
-	end
 })
 
 homedecor.register("plasma_ball", {
 	description = S("Plasma Ball"),
 	mesh = "homedecor_plasma_ball.obj",
 	tiles = {
-		"homedecor_generic_plastic.png",
+		{ name = "homedecor_generic_plastic.png", color = homedecor.color_black },
 		{
 			name = "homedecor_plasma_ball_streamers.png",
 			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=2.0},

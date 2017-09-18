@@ -242,16 +242,22 @@ minetest.register_node("building_blocks:Tarmac_spread", {
 	sounds = default.node_sound_dirt_defaults(),
 })
 minetest.register_node("building_blocks:BWtile", {
-	drawtype = "raillike",
+	drawtype = "nodebox",
 	description = S("Chess board tiling"),
-	tiles = {"building_blocks_BWtile.png"},
+	tiles = {
+		"building_blocks_BWtile.png",
+		"building_blocks_BWtile.png^[transformR90",
+		"building_blocks_BWtile.png^[transformR90",
+		"building_blocks_BWtile.png^[transformR90",
+		"building_blocks_BWtile.png",
+		"building_blocks_BWtile.png"
+	},
 	inventory_image = "building_blocks_bwtile_inv.png",
 	paramtype = "light",
 	walkable = false,
-	selection_box = {
+	node_box = {
 		type = "fixed",
-                -- but how to specify the dimensions for curved and sideways rails?
-                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
+		fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
 	},
 	sunlight_propagates = true,
 	is_ground_content = true,

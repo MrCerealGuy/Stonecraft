@@ -74,43 +74,36 @@ local function stop_smoke(pos)
 	this_spawner_meta:set_int("sound", nil)
 end
 
--- FLAME TYPES
-local flame_types = {
-	{ "fake",  S("Fake fire") },
-	{ "ice",   S("Ice fire")  },
-}
+minetest.register_node("fake_fire:ice_fire", {
+	inventory_image = "ice_fire_inv.png",
+	description = S("Ice fire"),
+	drawtype = "plantlike",
+	paramtype = "light",
+	paramtype2 = "facedir",
+	groups = {dig_immediate=3, not_in_creative_inventory=1},
+	sunlight_propagates = true,
+	buildable_to = true,
+	walkable = false,
+	light_source = 14,
+	waving = 1,
+	tiles = {
+		{name="ice_fire_animated.png", animation={type="vertical_frames",
+		aspect_w=16, aspect_h=16, length=1.5}},
+	},
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		start_smoke(pos, node, clicker)
+		return itemstack
+	end,
+	on_destruct = function (pos)
+		stop_smoke(pos)
+		minetest.sound_play("fire_extinguish", {
+			pos = pos, max_hear_distance = 5
+		})
+	end,
+	drop = ""
+})
 
-for _, f in ipairs(flame_types) do
-	local name, desc = unpack(f)
-	minetest.register_node("fake_fire:"..name.."_fire", {
-		inventory_image = name.."_fire_inv.png",
-		description = desc,
-		drawtype = "plantlike",
-		paramtype = "light",
-		paramtype2 = "facedir",
-		groups = {dig_immediate=3, not_in_creative_inventory=1},
-		sunlight_propagates = true,
-		buildable_to = true,
-		walkable = false,
-		light_source = 14,
-		waving = 1,
-		tiles = {
-			{name=name.."_fire_animated.png", animation={type="vertical_frames",
-			aspect_w=16, aspect_h=16, length=1.5}},
-		},
-		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-			start_smoke(pos, node, clicker)
-			return itemstack
-		end,
-		on_destruct = function (pos)
-			stop_smoke(pos)
-			minetest.sound_play("fire_extinguish", {
-				pos = pos, max_hear_distance = 5
-			})
-		end,
-		drop = ""
-	})
-end
+minetest.register_alias("fake_fire:fake_fire", "fire:permanent_flame")
 
 minetest.register_node("fake_fire:fancy_fire", {
 		inventory_image = "fancy_fire_inv.png",
@@ -198,43 +191,18 @@ for _, mat in ipairs(materials) do
 	})
 end
 
--- FLINT and STEEL
-minetest.register_tool("fake_fire:flint_and_steel", {
-	description = S("Flint and steel"),
-	inventory_image = "flint_and_steel.png",
-	liquids_pointable = false,
-	stack_max = 1,
-	tool_capabilities = {
-		full_punch_interval = 1.0,
-		max_drop_level=0,
-		groupcaps={flamable = {uses=65, maxlevel=1}}
-	},
-	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type == "node" and minetest.get_node(pointed_thing.above).name == "air" then
-			if not minetest.is_protected(pointed_thing.above, user:get_player_name()) then
-				if string.find(minetest.get_node(pointed_thing.under).name, "ice") then
-					minetest.set_node(pointed_thing.above, {name="fake_fire:ice_fire"})
-				else
-					minetest.set_node(pointed_thing.above, {name="fake_fire:fake_fire"})
-				end
-			else
-				minetest.chat_send_player(user:get_player_name(), S("This area is protected!"))
-			end
-		else
-			return
-		end
+minetest.register_alias("fake_fire:flint_and_steel", "fire:flint_and_steel")
 
-		itemstack:add_wear(65535/65)
-		return itemstack
+minetest.override_item("default:ice", {
+	on_ignite = function(pos, igniter)
+		local flame_pos = {x = pos.x, y = pos.y + 1, z = pos.z}
+		if minetest.get_node(flame_pos).name == "air" then
+			minetest.set_node(flame_pos, {name = "fake_fire:ice_fire"})
+		end
 	end
 })
 
 -- CRAFTS
-minetest.register_craft({
-	type = "shapeless",
-	output = 'fake_fire:flint_and_steel',
-	recipe = {"default:obsidian_shard", "default:steel_ingot"}
-})
 
 minetest.register_craft({
 	type = "shapeless",

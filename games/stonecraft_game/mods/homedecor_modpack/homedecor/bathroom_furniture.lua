@@ -4,11 +4,11 @@ local S = homedecor_i18n.gettext
 minetest.register_node("homedecor:bathroom_tiles_dark", {
 	description = S("Bathroom/kitchen tiles (dark)"),
 	tiles = {
-		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xff606060 },
-		"homedecor_bathroom_tiles_fg.png"
+		"homedecor_bathroom_tiles_bg.png"
 	},
-	drawtype = "mesh",
-	mesh = "homedecor_block_with_overlay.obj",
+	overlay_tiles = {
+		{ name = "homedecor_bathroom_tiles_fg.png", color = 0xff606060 },
+	},
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
@@ -23,11 +23,11 @@ minetest.register_node("homedecor:bathroom_tiles_dark", {
 minetest.register_node("homedecor:bathroom_tiles_medium", {
 	description = S("Bathroom/kitchen tiles (medium)"),
 	tiles = {
-		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xffc0c0c0 },
-		"homedecor_bathroom_tiles_fg.png"
+		"homedecor_bathroom_tiles_bg.png"
 	},
-	drawtype = "mesh",
-	mesh = "homedecor_block_with_overlay.obj",
+	overlay_tiles = {
+		{ name = "homedecor_bathroom_tiles_fg.png", color = 0xffc0c0c0 },
+	},
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
@@ -42,11 +42,11 @@ minetest.register_node("homedecor:bathroom_tiles_medium", {
 minetest.register_node("homedecor:bathroom_tiles_light", {
 	description = S("Bathroom/kitchen tiles (light)"),
 	tiles = {
-		{ name = "homedecor_bathroom_tiles_bg.png", color = 0xffffffff },
-		"homedecor_bathroom_tiles_fg.png"
+		"homedecor_bathroom_tiles_bg.png"
 	},
-	drawtype = "mesh",
-	mesh = "homedecor_block_with_overlay.obj",
+	overlay_tiles = {
+			{ name = "homedecor_bathroom_tiles_fg.png", color = 0xffffffff },
+	},
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",

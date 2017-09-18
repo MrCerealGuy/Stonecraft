@@ -104,7 +104,7 @@ local function stack(itemstack, placer, fdir, pos, def, pos2, node1, node2, poin
 			ctrl_node_def.after_place_node(pos, placer, itemstack, pointed_thing)
 		end
 
-		if not homedecor.expect_infinite_stacks then
+		if not creative.is_enabled_for(placer_name) then
 			itemstack:take_item()
 		end
 	end

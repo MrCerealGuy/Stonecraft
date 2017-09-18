@@ -46,9 +46,9 @@ function lrfurn.check_right(pos, fdir, long, placer)
 		return false
 	elseif minetest.is_protected(pos2, placer:get_player_name()) then
 		if not long then
-			minetest.chat_send_player(placer:get_player_name(), "Someone else owns the spot where other end goes!")
+			minetest.chat_send_player(placer:get_player_name(), S("Someone else owns the spot where other end goes!"))
 		else
-			minetest.chat_send_player(placer:get_player_name(), "Someone else owns the spot where the middle or far end goes!")
+			minetest.chat_send_player(placer:get_player_name(), S("Someone else owns the spot where the middle or far end goes!"))
 		end
 		return false
 	end
@@ -58,7 +58,7 @@ function lrfurn.check_right(pos, fdir, long, placer)
 		if node3 and node3.name ~= "air" then
 			return false
 		elseif minetest.is_protected(pos3, placer:get_player_name()) then
-			minetest.chat_send_player(placer:get_player_name(), "Someone else owns the spot where the other end goes!")
+			minetest.chat_send_player(placer:get_player_name(), S("Someone else owns the spot where the other end goes!"))
 			return false
 		end
 	end

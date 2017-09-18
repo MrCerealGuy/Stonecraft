@@ -118,7 +118,7 @@ minetest.register_alias("homedecor:deckchair_head", "air")
 homedecor.register("deckchair_striped_blue", {
 	mesh = "homedecor_deckchair.obj",
 	tiles = {"homedecor_deckchair_striped_blue.png"},
-	description = S("Deck Chair"),
+	description = S("Deck Chair (blue striped)"),
 	groups = { snappy = 3 },
 	expand = { forward="placeholder" },
 	sounds = default.node_sound_wood_defaults(),
@@ -251,6 +251,7 @@ homedecor.register("swing", {
 		place_on = "bottom"
 	},
 	on_place = function(itemstack, placer, pointed_thing)
+		local placer_name = placer:get_player_name() or ""
 		local isceiling, pos = homedecor.find_ceiling(itemstack, placer, pointed_thing)
 		if isceiling then
 			local height = 0
@@ -263,7 +264,7 @@ homedecor.register("swing", {
 
 				if not testreg or not testreg.buildable_to then
 					if i < 1 then
-						minetest.chat_send_player(placer:get_player_name(), "No room under there to hang a swing.")
+						minetest.chat_send_player(placer_name, "No room under there to hang a swing.")
 						return itemstack
 					else
 						break
@@ -279,11 +280,11 @@ homedecor.register("swing", {
 
 			minetest.set_node({ x=pos.x, y=pos.y-height, z=pos.z }, { name = "homedecor:swing", param2 = fdir })
 
-			if not homedecor.expect_infinite_stacks then
+			if not creative.is_enabled_for(placer_name) then
 				itemstack:take_item()
 			end
 		else
-			minetest.chat_send_player(placer:get_player_name(), "You have to point at the bottom side of an overhanging object to place a swing.")
+			minetest.chat_send_player(placer_name, "You have to point at the bottom side of an overhanging object to place a swing.")
 		end
 		return itemstack
 	end,
@@ -367,7 +368,7 @@ local shrub_cbox = { -0.5, -0.5, -0.5, 0.5, 0.5, 0.5 }
 
 for _, color in ipairs(homedecor.shrub_colors) do
 	minetest.register_node("homedecor:shrubbery_large_"..color, {
-		description = S("Shrubbery (@1)", S(color)),
+		description = S("Shrubbery (large, @1)", S(color)),
 		drawtype = "mesh",
 		mesh = "homedecor_cube.obj",
 		tiles = {"homedecor_shrubbery_"..color..".png"},

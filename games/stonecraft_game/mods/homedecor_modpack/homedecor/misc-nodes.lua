@@ -396,7 +396,7 @@ local n = { 1, 2 }
 
 for _, i in ipairs(n) do
 	homedecor.register("picture_frame"..i, {
-		description = S("Picture Frame"),
+		description = S("Picture Frame "..i),
 		mesh = "homedecor_picture_frame.obj",
 		tiles = {
 			"homedecor_picture_frame_image"..i..".png",

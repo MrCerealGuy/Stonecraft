@@ -16,7 +16,11 @@ minetest.register_node("lavalamp:lavalamp", {
 	drawtype = "mesh",
 	mesh = "lavalamp.obj",
 	tiles = {
-		 { name = "lavalamp_metal.png", color = 0xffffffff},
+		{ name = "lavalamp_metal.png", color = "white" },
+		{ name = "lavalamp_lamp_liquid.png", color = "white" },
+	},
+	overlay_tiles = {
+		"",
 		{
 			name="lavalamp_lamp_anim.png",
 			animation={
@@ -27,6 +31,7 @@ minetest.register_node("lavalamp:lavalamp", {
 			},
 		},
 	},
+	use_texture_alpha = true,
 	inventory_image = "lavalamp_lamp_inv.png",
 	paramtype = "light",
 	paramtype2 = "color",

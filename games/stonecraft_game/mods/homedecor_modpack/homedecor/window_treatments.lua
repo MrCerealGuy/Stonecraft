@@ -129,7 +129,7 @@ minetest.register_node("homedecor:curtain_closed", {
 })
 
 minetest.register_node("homedecor:curtain_open", {
-	description = S("Curtains"),
+	description = S("Curtains (open)"),
 	tiles = { "homedecor_curtain_open.png" },
 	inventory_image = "homedecor_curtain_open.png",
 	drawtype = 'signlike',

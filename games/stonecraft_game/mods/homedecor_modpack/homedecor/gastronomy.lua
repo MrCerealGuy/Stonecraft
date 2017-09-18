@@ -213,20 +213,24 @@ homedecor.register("soda_machine", {
 	sounds = default.node_sound_wood_defaults(),
 	on_rotate = screwdriver.rotate_simple,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		local playername = clicker:get_player_name()
 		local wielditem = clicker:get_wielded_item()
 		local wieldname = wielditem:get_name()
 		local fdir_to_fwd = { {0, -1}, {-1, 0}, {0, 1}, {1, 0} }
 		local fdir = node.param2
 		local pos_drop = { x=pos.x+fdir_to_fwd[fdir+1][1], y=pos.y, z=pos.z+fdir_to_fwd[fdir+1][2] }
 		if wieldname == "homedecor:coin" then
-			wielditem:take_item()
-			clicker:set_wielded_item(wielditem)
 			minetest.spawn_item(pos_drop, "homedecor:soda_can")
 			minetest.sound_play("insert_coin", {
 				pos=pos, max_hear_distance = 5
 			})
+			if not creative.is_enabled_for(playername) then
+				wielditem:take_item()
+				clicker:set_wielded_item(wielditem)
+				return wielditem
+			end
 		else
-			minetest.chat_send_player(clicker:get_player_name(), S("Please insert a coin in the machine."))
+			minetest.chat_send_player(playername, S("Please insert a coin in the machine."))
 		end
 	end
 })
