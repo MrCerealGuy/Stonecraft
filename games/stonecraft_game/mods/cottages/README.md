@@ -75,6 +75,9 @@ PilzAdam (WTFPL; default and beds mod):
    cottages_beds_bed_top_bottom.png
    cottages_beds_bed_top_top.png
 
+Bas080 (CC; see https://forum.minetest.net/viewtopic.php?t=2344)
+   cottages_rope.png
+
 Derived from Universal schema.jpg by Stefanie Lindener, which can be found here: http://de.wikipedia.org/w/index.php?title=Datei:Universal_schema.jpg&filetimestamp=20060510110309& The texture is CC-by-sa 2.0/de.
    cottages_slate.png
 

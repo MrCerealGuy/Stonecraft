@@ -41,19 +41,6 @@ minetest.register_node("cottages:wagon_wheel", {
 })
 
 
--- a nice dirt road for small villages or paths to fields
-minetest.register_node("cottages:feldweg", {
-        description = S("Dirt road"),
-        tiles = {"cottages_feldweg.png","default_dirt.png", "default_dirt.png^default_grass_side.png"},
-	paramtype2 = "facedir",
-	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
-	legacy_facedir_simple = true,
-        groups = {crumbly=3},
-        sounds = default.node_sound_dirt_defaults,
-	is_ground_content = false,
-})
-
-
 -- people didn't use clay for houses; they did build with loam
 minetest.register_node("cottages:loam", {
         description = S("Loam"),
@@ -66,12 +53,6 @@ minetest.register_node("cottages:loam", {
 
 -- create stairs if possible
 if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab) then
-   stairs.register_stair_and_slab("feldweg", "cottages:feldweg",
-		{snappy=2,choppy=2,oddly_breakable_by_hand=2},
-		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
-		S("Dirt Road Stairs"),
-		S("Dirt Road, half height"),
-		default.node_sound_dirt_defaults())
 
    stairs.register_stair_and_slab("loam", "cottages:loam",
 		{snappy=2,choppy=2,oddly_breakable_by_hand=2},

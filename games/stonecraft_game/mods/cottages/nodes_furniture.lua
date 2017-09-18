@@ -115,13 +115,13 @@ minetest.register_node("cottages:sleeping_mat", {
         node_box = {
                 type = "fixed",
                 fixed = {
-                                        {-0.48, -0.5,-0.48,  0.48, -0.45, 0.48},
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+1/16, 0.48},
                         }
         },
         selection_box = {
                 type = "fixed",
                 fixed = {
-                                        {-0.48, -0.5,-0.48,  0.48, -0.25, 0.48},
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+2/16, 0.48},
                         }
         },
 	is_ground_content = false,
@@ -130,6 +130,37 @@ minetest.register_node("cottages:sleeping_mat", {
 			end
 })
 
+
+-- this one has a pillow for the head; thus, param2 becomes visible to the builder, and mobs may use it as a bed
+minetest.register_node("cottages:sleeping_mat_head", {
+        description = S("sleeping mat with pillow"),
+        drawtype = 'nodebox',
+        tiles = { 'cottages_sleepingmat.png' }, -- done by VanessaE
+        wield_image = 'cottages_sleepingmat.png',
+        inventory_image = 'cottages_sleepingmat.png',
+        sunlight_propagates = true,
+        paramtype = 'light',
+        paramtype2 = "facedir",
+        groups = { snappy = 3 },
+        sounds = default.node_sound_leaves_defaults(),
+        node_box = {
+                type = "fixed",
+                fixed = {
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+1/16, 0.48},
+                                        {-0.34, -0.5+1/16,-0.12,  0.34, -0.5+2/16, 0.34},
+                        }
+        },
+        selection_box = {
+                type = "fixed",
+                fixed = {
+                                        {-0.48, -0.5,-0.48,  0.48, -0.5+2/16, 0.48},
+                        }
+        },
+	is_ground_content = false,
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+				return cottages.sleep_in_bed( pos, node, clicker, itemstack, pointed_thing );
+			end
+})
 
 
 -- furniture; possible replacement: 3dforniture:chair
@@ -178,7 +209,7 @@ local cottages_table_def = {
 			type = "fixed",
 			fixed = {
 				{ -0.1, -0.5, -0.1,  0.1, 0.3,  0.1},
-				{ -0.5,  0.3, -0.5,  0.5, 0.4,  0.5},
+				{ -0.5,  0.48, -0.5,  0.5, 0.4,  0.5},
 			},
 		},
 		selection_box = {
@@ -404,6 +435,12 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 	local animation = default.player_get_animation( clicker );
 	local pname = clicker:get_player_name();
 
+	local p_above = minetest.get_node( {x=pos.x, y=pos.y+1, z=pos.z});
+	if( not( p_above) or not( p_above.name ) or p_above.name ~= 'air' ) then
+		minetest.chat_send_player( pname, "This place is too narrow for sleeping. At least for you!");
+		return;
+	end
+
 	local place_name = 'place';
 	-- if only one node is present, the player can only sit;
 	-- sleeping requires a bed head+foot or two sleeping mats
@@ -471,7 +508,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		end
 		place_name = 'bed';
 
-	elseif( node.name=='cottages:sleeping_mat' or node.name=='cottages:straw_mat') then
+	elseif( node.name=='cottages:sleeping_mat' or node.name=='cottages:straw_mat' or node.name=='cottages:sleeping_mat_head') then
 		place_name = 'mat';
 		dir = node.param2;
 		allow_sleep = false;
@@ -479,7 +516,7 @@ cottages.sleep_in_bed = function( pos, node, clicker, itemstack, pointed_thing )
 		local offset = {{x=0,z=-1}, {x=-1,z=0}, {x=0,z=1}, {x=1,z=0}};
 		for i,off in ipairs( offset ) do
 			node2 = minetest.get_node( {x=pos.x+off.x, y=pos.y, z=pos.z+off.z} );
-			if( node2.name == 'cottages:sleeping_mat' or node2.name=='cottages:straw_mat' ) then
+			if( node2.name == 'cottages:sleeping_mat' or node2.name=='cottages:straw_mat' or node.name=='cottages:sleeping_mat_head' ) then
 				-- if a second mat is found, sleeping is possible
 				allow_sleep = true;
 				dir = i-1;
@@ -565,6 +602,13 @@ minetest.register_craft({
 	}
 })
 
+
+minetest.register_craft({
+	output = "cottages:sleeping_mat_head",
+	recipe = {
+		{"cottages:sleeping_mat","cottages:straw_mat" }
+	}
+})
 
 minetest.register_craft({
 	output = "cottages:table",

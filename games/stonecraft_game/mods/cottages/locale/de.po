@@ -376,3 +376,35 @@ msgstr "Du hast @1 Weizenkörner gemahlen (@2 bleiben übrig)."
 #: nodes_straw.lua
 msgid "You have ground the last @1."
 msgstr "Du hast die letzten @1 Weizenkörner gemahlen."
+
+#: nodes_feldweg.lua
+msgid "Dirt road crossing"
+msgstr "Feldwegkreuzung"
+
+#: nodes_feldweg.lua
+msgid "Dirt road t junction"
+msgstr "Feldweg T-Kreuzung"
+
+#: nodes_feldweg.lua
+msgid "Dirt road curve"
+msgstr "Feldwegkurve"
+
+#: nodes_feldweg.lua
+msgid "Dirt road end"
+msgstr "Feldwegende"
+
+#: nodes_feldweg.lua
+msgid "Dirt road slope"
+msgstr "Feldwegböschung"
+
+#: nodes_feldweg.lua
+msgid "Dirt road slope long"
+msgstr "Lange Feldwegböschung"
+
+#: nodes_mining.lua
+msgid "Rope for climbing"
+msgstr "Kletterseil"
+
+#: nodes_mining.lua
+msgid "Ladder with rail support"
+msgstr "Leiter mit Antriebsunterstützung"
