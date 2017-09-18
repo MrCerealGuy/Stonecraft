@@ -288,7 +288,7 @@ local function create_world_formspec(dialogdata)
 		";" .. gameidx .. ";true]"
 		
 	retval = retval .. "size[14,5.5,true]" ..
-		"tablecolumns[color;tree;text,width=52;text]" ..
+		"tablecolumns[color;tree;text,width=48;text]" ..
 		"tableoptions[background=#00000000;border=false]" ..
 		"table[0.25,3.50;14,3.5;list_world_options;"
 
@@ -355,59 +355,60 @@ end
 local function create_world_buttonhandler(this, fields)
 
 	local world_options_dependencies = {
-		["enable_forests"]				= 
+		["enable_forests"]						= 
 		{
-			["enable_forests"]	 		= true, 
-			["enable_redtrees"]	 		= true
+			["enable_forests"]	 				= true, 
+			["enable_redtrees"]	 				= true
 		},
 
-		["enable_villages"]				=
+		["enable_villages"]						=
 		{
-			["enable_villages"]	 		= true,
-			["enable_darkage"]	 		= false,	--explicit deactivated because of backward compatibility for old worlds
-			["enable_mobf_trader"] 		= true,
-			["enable_moresnow"]	 		= true
+			["enable_villages"]	 				= true,
+			["enable_darkage"]	 				= false,	--explicit deactivated because of backward compatibility for old worlds
+			["enable_mobf_trader"] 				= true,
+			["enable_moresnow"]	 				= true,
+			["enable_mob_world_interaction"] 	= true
 		},
 
-		["enable_homedecor_technic"]	=
+		["enable_homedecor_technic"]			=
 		{
-			["enable_homedecor"]	 	= true,
-			["enable_mesecons"]	 		= true,
-			["enable_pipeworks"]		= true,
-			["enable_technic"]	 		= true,
-			["enable_digilines"]		= true
+			["enable_homedecor"]	 			= true,
+			["enable_mesecons"]	 				= true,
+			["enable_pipeworks"]				= true,
+			["enable_technic"]	 				= true,
+			["enable_digilines"]				= true
 		},
 
-		["enable_nssm"]					=
+		["enable_nssm"]							=
 		{
-			["enable_nssm"]				= true,
-			["enable_nssb"]	 			= true
+			["enable_nssm"]						= true,
+			["enable_nssb"]	 					= true
 		},
 
-		["enable_pyramids"]				= 
+		["enable_pyramids"]						= 
 		{
-			["enable_pyramids"]			= true,
-			["enable_spawners"]			= true
+			["enable_pyramids"]					= true,
+			["enable_spawners"]					= true
 		},
 
-		["enable_snow"]					= 
+		["enable_snow"]							= 
 		{
-			["enable_snow"]	 			= true,
-			["enable_moresnow"]			= true
+			["enable_snow"]	 					= true,
+			["enable_moresnow"]					= true
 		},
 
-		["enable_woodsoils_vines"]		=
+		["enable_woodsoils_vines"]				=
 		{
-			["enable_woodsoils"] 		= true,
-			["enable_vines"]	 		= true
+			["enable_woodsoils"] 				= true,
+			["enable_vines"]	 				= true
 		},
 
-		["enable_mines"]				=
+		["enable_mines"]						=
 		{
-			["enable_mines"]	 		= true,
-			["enable_carts"]			= true,
-			["enable_boost_carts"]		= true,
-			["enable_railcorridors"]	= true
+			["enable_mines"]	 				= true,
+			["enable_carts"]					= true,
+			["enable_boost_carts"]				= true,
+			["enable_railcorridors"]			= true
 		}
 
 	}
