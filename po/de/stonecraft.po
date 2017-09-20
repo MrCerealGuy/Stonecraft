@@ -351,10 +351,6 @@ msgid "Igor"
 msgstr "Igor"
 
 #: builtin/worldoptions.txt
-msgid "NPC"
-msgstr "NPC"
-
-#: builtin/worldoptions.txt
 msgid "Trader"
 msgstr "Händer"
 
@@ -735,7 +731,7 @@ msgid "The first village - the one the player spawns in"
 msgstr "Das erste Dorf in dem der Spieler startet"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download a subgame, such as minetest_game, from minetest.net"
+msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/"
 "stonecraft heruntergeladen werden"

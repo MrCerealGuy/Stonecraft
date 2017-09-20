@@ -177,10 +177,6 @@ msgid "Cave realms"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Simple Mobs"
-msgstr ""
-
-#: builtin/mainmenu/dlg_create_world.lua
 msgid "Home decorations and technic"
 msgstr ""
 
@@ -358,10 +354,6 @@ msgstr ""
 
 #: builtin/worldoptions.txt
 msgid "Igor"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "NPC"
 msgstr ""
 
 #: builtin/worldoptions.txt
