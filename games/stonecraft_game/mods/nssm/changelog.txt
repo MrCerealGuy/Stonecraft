@@ -1,3 +1,14 @@
+v3.0 (22-11-16):
+ - rewritten to add the dependency from mobs_redo. The mobs now directly use the mobs api;
+ - added the mobs Morlu, Morvy, Morgut, Mode, Mordain, Morwa, Morgre and Morvalar for the "Morlendor" dimension (that you can find playing with nssb);
+ - added the "Felucco", to spawn in the savannah;
+ - added the armors made from the drops of mobs (you need 3d_armor to use them);
+ - added two new sets of weapons:
+    -> bombs: you can throw and when they hit the ground they activate special functions;
+    -> normal weapons (like swords and axes) with special functions you can enable by typing "q";
+ - new tools (picks, shovels...) and drops;
+ - a lot of other things (new explosion function, parameters to set difficulty)...
+
 v2.4 (01-05-16):
  - new energy weapon: hellzone_grenade (It follows the target: you can shoot some of them and then activate them by pressing q);
  - the mobs now honors the protected blocks and areas (Thanks to TenPlus1 for his suggestion);

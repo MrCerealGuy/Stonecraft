@@ -1,0 +1,15 @@
+#    ABOUT SETTINGS
+
+# Mapgen: write here (after "int") 6 (mgv6) or 7 (mgv7 or valleys or fractal or flat)
+mymapgenis (Mapgen) int 7
+
+# Mobs-Multiplier: multiplier defining the spawn abundance for the mobs:
+# 0 = spawn disabled
+# a number between 0 and 1000 = less then default
+# 1000 = default
+# more than 1000 = suicide is not the fastest way of dying
+multimobs (Multimobs) int 1000
+
+# Difficult-level:
+# Multiplier to raise life and damage of the mobs
+mob_difficulty (Mob_difficulty) int 1
