@@ -487,7 +487,7 @@ local function create_world_buttonhandler(this, fields)
 				core.settings:set("mainmenu_last_selected_world",
 									menudata.worldlist:raw_index_by_uid(worldname))
 
-				-- loop all world options
+				-- 1. loop all world options, copy default options from worldoptions.txt to world.mt
 				local current_level = 0
 				for _, entry in ipairs(settings) do
 
@@ -496,28 +496,52 @@ local function create_world_buttonhandler(this, fields)
 					name = entry.name
 
 					if entry.type ~= "category" then
-						if core.settings:get(name) ~= nil then
-
-							-- copy world options from stonecraft.conf to world.mt
-							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.settings:get(name))
-
-							-- look up for world option dependencies
-							for k,v in pairs(world_options_dependencies) do
-								if k == name and core.settings:get(name) == "true" then
-									for k2,v2 in pairs(v) do										
-										-- copy world option dependencies to world.mt
-										menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), k2, tostring(v2))
-									end 
-								end
-							end
-						else
-							if entry.type == "bool" then
+						if entry.type == "bool" then
+							local value = get_current_value(entry)
+							if core.is_yes(value) then
+								menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, "true")
+							else
 								menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, "false")
 							end
-						end						
+						else
+							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.formspec_escape(get_current_value(entry)))
+						end			
 					end
 				end
 
+				-- 2. loop all world options, check if a world option was changed
+				for _, entry in ipairs(settings) do
+
+					local name
+
+					name = entry.name
+
+					if entry.type ~= "category" then
+						if core.settings:get(name) ~= nil then
+							-- copy changed world option from stonecraft.conf to world.mt
+							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.settings:get(name))
+						end	
+					end
+				end
+
+				-- 3. loop all world options, look up for world option dependencies
+				for _, entry in ipairs(settings) do
+
+					local name
+
+					name = entry.name
+
+					if entry.type ~= "category" then
+						for k,v in pairs(world_options_dependencies) do
+							if k == name and core.settings:get(name) == "true" then
+								for k2,v2 in pairs(v) do										
+									-- copy world option dependency to world.mt
+									menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), k2, tostring(v2))
+								end 
+							end
+						end	
+					end
+				end
 			end
 		else
 			gamedata.errormessage = fgettext("No game selected")
