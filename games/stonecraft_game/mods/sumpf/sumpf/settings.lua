@@ -13,10 +13,10 @@
 sumpf.enable_mapgen = true
 
 --Generate swamps everywhere
-if core.get_mod_setting("swamp_biome_always_generate") ~= false then sumpf.always_generate = true else sumpf.always_generate = false end
+if core.get_mod_setting("swamp_biome_always_generate") ~= "false" then sumpf.always_generate = true else sumpf.always_generate = false end
 
 --Enables smooth transition of biomes.
-if core.get_mod_setting("swamp_biome_smooth") ~= false then sumpf.smooth = true else sumpf.smooth = false end
+if core.get_mod_setting("swamp_biome_smooth") ~= "false" then sumpf.smooth = true else sumpf.smooth = false end
 
 --rarity in %
 if core.get_mod_setting("swamp_biome_mapgen_rarity") ~= nil then sumpf.mapgen_rarity = core.get_mod_setting("swamp_biome_mapgen_rarity") else sumpf.mapgen_rarity = 8 end
@@ -31,7 +31,7 @@ sumpf.smooth_trans_size = 4
 sumpf.enable_plants = true
 
 --Enables swampwater - it might be a bit buggy with mapgen v6.
-if core.get_mod_setting("swamp_biome_swampwater") ~= false then sumpf.swampwater = true else sumpf.swampwater = false end
+if core.get_mod_setting("swamp_biome_swampwater") ~= "false" then sumpf.swampwater = true else sumpf.swampwater = false end
 
 --adds swampwater near sea (different behaviour)
 sumpf.wet_beaches = sumpf.swampwater

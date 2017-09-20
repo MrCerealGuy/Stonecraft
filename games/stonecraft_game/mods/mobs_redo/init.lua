@@ -1,3 +1,4 @@
+if core.skip_mod("mobs_redo") then return end
 
 local path = minetest.get_modpath("mobs")
 

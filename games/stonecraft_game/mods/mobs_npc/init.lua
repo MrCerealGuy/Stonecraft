@@ -1,3 +1,4 @@
+if core.skip_mod("mobs_npc") then return end
 
 local path = minetest.get_modpath("mobs_npc")
 
@@ -24,9 +25,9 @@ end
 mobs.intllib = S
 
 -- NPC
-dofile(path .. "/npc.lua") -- TenPlus1
-dofile(path .. "/trader.lua")
-dofile(path .. "/igor.lua")
+if core.get_mod_setting("enable_mobs_npc_npc") 		~= "false" then dofile(path .. "/npc.lua")	end -- TenPlus1
+if core.get_mod_setting("enable_mobs_npc_trader") 	~= "false" then dofile(path .. "/trader.lua") end
+if core.get_mod_setting("enable_mobs_npc_igor") 	~= "false" then dofile(path .. "/igor.lua")	end
 
 dofile(path .. "/lucky_block.lua")
 

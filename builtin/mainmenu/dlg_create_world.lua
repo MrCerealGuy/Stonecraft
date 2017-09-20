@@ -355,6 +355,30 @@ end
 local function create_world_buttonhandler(this, fields)
 
 	local world_options_dependencies = {
+		["enable_mobs_animals"]					=
+		{
+			["enable_mobs_animals"]				= true,
+			["enable_mobs_redo"]				= true
+		},
+
+		["enable_mobs_monster"]					=
+		{
+			["enable_mobs_monster"]				= true,
+			["enable_mobs_redo"]				= true
+		},
+
+		["enable_mobs_npc"]						=
+		{
+			["enable_mobs_npc"]					= true,
+			["enable_mobs_redo"]				= true
+		},
+
+		["enable_mobs_animal_horse"]			=
+		{
+			["enable_mobs_animal_horse"]		= true,
+			["enable_mobs_redo"]				= true
+		},
+
 		["enable_forests"]						= 
 		{
 			["enable_forests"]	 				= true, 
@@ -382,7 +406,8 @@ local function create_world_buttonhandler(this, fields)
 		["enable_nssm"]							=
 		{
 			["enable_nssm"]						= true,
-			["enable_nssb"]	 					= true
+			["enable_nssb"]	 					= true,
+			["enable_mobs_redo"]				= true
 		},
 
 		["enable_pyramids"]						= 

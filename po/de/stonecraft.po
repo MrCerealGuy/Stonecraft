@@ -171,10 +171,6 @@ msgid "Cave realms"
 msgstr "Höhlenbiome"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Simple Mobs"
-msgstr "Einfache Mobs"
-
-#: builtin/mainmenu/dlg_create_world.lua
 msgid "Home decorations and technic"
 msgstr "Heimdekorationen und Technik"
 
@@ -243,28 +239,124 @@ msgid "Auto pick up items"
 msgstr "Gegenst. automatisch aufheben"
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Simple Mobs)"
-msgstr "Erw. Einstellungen (Einfache Mobs)"
+msgid "Animals"
+msgstr "Tiere"
+
+#: builtin/worldoptions.txt
+msgid "Monster"
+msgstr "Monster"
+
+#: builtin/worldoptions.txt
+msgid "NPC"
+msgstr "NPC"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Animals)"
+msgstr "Erw. Einstellungen (Tiere)"
+
+#: builtin/worldoptions.txt
+msgid "Horse"
+msgstr "Pferd"
+
+#: builtin/worldoptions.txt
+msgid "Bee"
+msgstr "Biene"
+
+#: builtin/worldoptions.txt
+msgid "Bunny"
+msgstr "Häschen"
 
 #: builtin/worldoptions.txt
 msgid "Chicken"
 msgstr "Huhn"
 
 #: builtin/worldoptions.txt
-msgid "Ghost"
-msgstr "Geist"
+msgid "Cow"
+msgstr "Kuh"
 
 #: builtin/worldoptions.txt
-msgid "Oerrki"
-msgstr "Oerrki"
+msgid "Kitten"
+msgstr "Kätzchen"
+
+#: builtin/worldoptions.txt
+msgid "Penguin"
+msgstr "Pinguin"
+
+#: builtin/worldoptions.txt
+msgid "Rat"
+msgstr "Ratte"
 
 #: builtin/worldoptions.txt
 msgid "Sheep"
 msgstr "Schaf"
 
 #: builtin/worldoptions.txt
+msgid "Warthog"
+msgstr "Warzenschwein"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Monster)"
+msgstr "Erw. Einstellungen (Monster)"
+
+#: builtin/worldoptions.txt
+msgid "Ghost"
+msgstr "Geist"
+
+#: builtin/worldoptions.txt
 msgid "Zombie"
 msgstr "Zombie"
+
+#: builtin/worldoptions.txt
+msgid "Oerrki"
+msgstr "Oerrki"
+
+#: builtin/worldoptions.txt
+msgid "Dirt monster"
+msgstr "Erdmonster"
+
+#: builtin/worldoptions.txt
+msgid "Dungeon master"
+msgstr "Kerkermeister"
+
+#: builtin/worldoptions.txt
+msgid "Lava flan"
+msgstr "Lavaflan"
+
+#: builtin/worldoptions.txt
+msgid "Mese monster"
+msgstr "Mesemonster"
+
+#: builtin/worldoptions.txt
+msgid "Sand monster"
+msgstr "Sandmonster"
+
+#: builtin/worldoptions.txt
+msgid "Spider"
+msgstr "Spinne"
+
+#: builtin/worldoptions.txt
+msgid "Stone monster"
+msgstr "Steinmonster"
+
+#: builtin/worldoptions.txt
+msgid "Tree monster"
+msgstr "Baummonster"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (NPC)"
+msgstr "Erw. Einstellungen (NPC)"
+
+#: builtin/worldoptions.txt
+msgid "Igor"
+msgstr "Igor"
+
+#: builtin/worldoptions.txt
+msgid "NPC"
+msgstr "NPC"
+
+#: builtin/worldoptions.txt
+msgid "Trader"
+msgstr "Händer"
 
 #: builtin/worldoptions.txt
 msgid "Advanced settings (Not So Simple Mobs)"

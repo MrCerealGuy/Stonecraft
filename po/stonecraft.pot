@@ -249,7 +249,31 @@ msgid "Auto pick up items"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Simple Mobs)"
+msgid "Animals"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "NPC"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Animals)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Horse"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Bee"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Bunny"
 msgstr ""
 
 #: builtin/worldoptions.txt
@@ -257,7 +281,39 @@ msgid "Chicken"
 msgstr ""
 
 #: builtin/worldoptions.txt
+msgid "Cow"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Kitten"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Penguin"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Rat"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sheep"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Warthog"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Monster)"
+msgstr ""
+
+#: builtin/worldoptions.txt
 msgid "Ghost"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Zombie"
 msgstr ""
 
 #: builtin/worldoptions.txt
@@ -265,8 +321,52 @@ msgid "Oerrki"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Sheep"
-msgstr "Zombie"
+msgid "Dirt monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Dungeon master"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Lava flan"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Mese monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Sand monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Spider"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Stone monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Tree monster"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (NPC)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Igor"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "NPC"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Trader"
+msgstr ""
 
 #: builtin/worldoptions.txt
 msgid "Advanced settings (Not So Simple Mobs)"
