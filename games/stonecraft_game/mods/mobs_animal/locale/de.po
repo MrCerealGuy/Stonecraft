@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 11:28+0200\n"
+"PO-Revision-Date: 2016-06-10 08:58+0200\n"
+"Last-Translator: Xanthin\n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: bee.lua
+msgid "Bee"
+msgstr "Biene"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Honig"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Bienenstock"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Honigblock"
+
+#: bunny.lua
+msgid "Bunny"
+msgstr "Häschen"
+
+#: chicken.lua
+msgid "Chicken"
+msgstr "Huhn"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Hühnerei"
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Spiegelei"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Rohes Hühnchen"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Gekochtes Hühnchen"
+
+#: chicken.lua
+#, fuzzy
+msgid "Feather"
+msgstr "Feder"
+
+#: cow.lua
+msgid "Cow already milked!"
+msgstr "Kuh ist bereits gemolken!"
+
+#: cow.lua
+msgid "Cow"
+msgstr "Kuh"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Eimer Milch"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Käse"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Käseblock"
+
+#: init.lua
+msgid "[MOD] Mobs Redo 'Animals' loaded"
+msgstr "[MOD] Mobs Redo 'Animals' geladen"
+
+#: kitten.lua
+msgid "Kitten"
+msgstr "Kätzchen"
+
+#: penguin.lua
+#, fuzzy
+msgid "Penguin"
+msgstr "Pinguin"
+
+#: rat.lua
+msgid "Rat"
+msgstr "Ratte"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Gekochte Ratte"
+
+#: sheep.lua
+msgid "Black"
+msgstr "Schwarzes"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "Blaues"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "Braunes"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "Cyan"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "Dunkelgrünes"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "Dunkelgraues"
+
+#: sheep.lua
+msgid "Green"
+msgstr "Grünes"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "Graues"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "Magenta"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "Oranges"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "Pinkes"
+
+#: sheep.lua
+msgid "Red"
+msgstr "Rotes"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "Violettes"
+
+#: sheep.lua
+msgid "White"
+msgstr "Weißes"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "Gelbes"
+
+#: sheep.lua
+#, fuzzy
+msgid "@1 Sheep"
+msgstr "@1 Schaf"
+
+#: warthog.lua
+msgid "Warthog"
+msgstr "Warzenschwein"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Rohes Schweinekotelett"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Gekochtes Schweinekotelett"

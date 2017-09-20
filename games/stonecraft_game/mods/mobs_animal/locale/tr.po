@@ -1,0 +1,180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 11:28+0200\n"
+"PO-Revision-Date: 2017-04-26 09:02+0200\n"
+"Last-Translator: Admicos\n"
+"Language-Team: \n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: bee.lua
+msgid "Bee"
+msgstr "Arı"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Bal"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Arı kovanı"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Bal bloğu"
+
+#: bunny.lua
+msgid "Bunny"
+msgstr "Tavşan"
+
+#: chicken.lua
+msgid "Chicken"
+msgstr "Tavuk"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Tavuk yumurtası "
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Kızarmış yumurta"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Çiğ tavuk"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Pişmiş tavuk"
+
+#: chicken.lua
+msgid "Feather"
+msgstr ""
+
+#: cow.lua
+msgid "Cow already milked!"
+msgstr "İnekte süt yok!"
+
+#: cow.lua
+msgid "Cow"
+msgstr "İnek"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Süt kovası"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Peynir"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Peynir bloğu"
+
+#: init.lua
+msgid "[MOD] Mobs Redo 'Animals' loaded"
+msgstr "[MOD] Mobs Redo 'Hayvanlar' yüklendi"
+
+#: kitten.lua
+msgid "Kitten"
+msgstr "Yavru kedi"
+
+#: penguin.lua
+msgid "Penguin"
+msgstr ""
+
+#: rat.lua
+msgid "Rat"
+msgstr "Sıçan"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Pişmiş sıçan"
+
+#: sheep.lua
+msgid "Black"
+msgstr "Siyah"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "Mavi"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "Kahverengi"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "Camgöbeği"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "Koyu yeşil"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "Koyu gri"
+
+#: sheep.lua
+msgid "Green"
+msgstr "Yeşil"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "Gri"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "Macenta"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "Turuncu"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "Pembe"
+
+#: sheep.lua
+msgid "Red"
+msgstr "Kırmızı"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "Mor"
+
+#: sheep.lua
+msgid "White"
+msgstr "Beyaz"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "Sarı"
+
+#: sheep.lua
+#, fuzzy
+msgid "@1 Sheep"
+msgstr "@1 Koyun"
+
+#: warthog.lua
+msgid "Warthog"
+msgstr "Domuz"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Çiğ pirzola"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Pişmiş pirzola"

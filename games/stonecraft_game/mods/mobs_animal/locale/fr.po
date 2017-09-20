@@ -1,0 +1,180 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 11:28+0200\n"
+"PO-Revision-Date: 2017-07-31 09:18+0200\n"
+"Last-Translator: fat115 <fat115@framasoft.org>\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.12\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: bee.lua
+msgid "Bee"
+msgstr "Abeille"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Miel"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Ruche"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Bloc de miel"
+
+#: bunny.lua
+msgid "Bunny"
+msgstr "Lapin"
+
+#: chicken.lua
+msgid "Chicken"
+msgstr "Poule"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Œuf"
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Œuf au plat"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Poulet cru"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Poulet cuit"
+
+#: chicken.lua
+msgid "Feather"
+msgstr "Plume"
+
+#: cow.lua
+msgid "Cow already milked!"
+msgstr "Vache déjà traite !"
+
+#: cow.lua
+msgid "Cow"
+msgstr "Vache"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Seau de lait"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Fromage"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Bloc de fromage"
+
+#: init.lua
+msgid "[MOD] Mobs Redo 'Animals' loaded"
+msgstr "[MOD] Mobs Redo 'Animals' chargé"
+
+#: kitten.lua
+msgid "Kitten"
+msgstr "Chaton"
+
+#: penguin.lua
+msgid "Penguin"
+msgstr "Manchot"
+
+#: rat.lua
+msgid "Rat"
+msgstr "Rat"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Rat cuit"
+
+#: sheep.lua
+msgid "Black"
+msgstr "noir"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "bleu"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "marron"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "cyan"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "vert foncé"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "gris foncé"
+
+#: sheep.lua
+msgid "Green"
+msgstr "vert"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "gris"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "magenta"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "orange"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "rose"
+
+#: sheep.lua
+msgid "Red"
+msgstr "rouge"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "violet"
+
+#: sheep.lua
+msgid "White"
+msgstr "blanc"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "jaune"
+
+#: sheep.lua
+#, fuzzy
+msgid "@1 Sheep"
+msgstr "Mouton @1"
+
+#: warthog.lua
+msgid "Warthog"
+msgstr "Sanglier"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Côte de sanglier crue"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Côte de sanglier cuite"

@@ -1,0 +1,179 @@
+# ITALIAN LOCALE FILE FOR THE MOBS ANMAL MODULE
+# Copyright (c) 2014 Krupnov Pavel and 2016 TenPlus1
+# This file is distributed under the same license as the MOBS ANIMAL package.
+# Hamlet <h4mlet@riseup.net>, 2017.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Italian localization file for the Mobs Animal mod\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-31 11:28+0200\n"
+"PO-Revision-Date: 2017-08-18 00:56+0100\n"
+"Last-Translator: H4mlet <h4mlet@riseup.net>\n"
+"Language-Team: \n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#: bee.lua
+msgid "Bee"
+msgstr "Ape"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Miele"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Favo"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Blocco di miele"
+
+#: bunny.lua
+msgid "Bunny"
+msgstr "Coniglietto"
+
+#: chicken.lua
+msgid "Chicken"
+msgstr "Gallina"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Uovo di gallina"
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Uovo fritto"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Pollo crudo"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Pollo cotto"
+
+#: chicken.lua
+msgid "Feather"
+msgstr "Piuma"
+
+#: cow.lua
+msgid "Cow already milked!"
+msgstr "Mucca già munta!"
+
+#: cow.lua
+msgid "Cow"
+msgstr "Mucca"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Secchio di latte"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Formaggio"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Blocco di formaggio"
+
+#: init.lua
+msgid "[MOD] Mobs Redo 'Animals' loaded"
+msgstr "[MOD] Mobs Redo 'Animals' caricato"
+
+#: kitten.lua
+msgid "Kitten"
+msgstr "Gattino"
+
+#: penguin.lua
+msgid "Penguin"
+msgstr "Pinguino"
+
+#: rat.lua
+msgid "Rat"
+msgstr "Ratto"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Ratto cotto"
+
+#: sheep.lua
+msgid "Black"
+msgstr "Nera"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "Blu"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "Marrone"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "Ciano"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "Verde scuro"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "Grigio scuro"
+
+#: sheep.lua
+msgid "Green"
+msgstr "Verde"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "Grigia"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "Magenta"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "Arancione"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "Rosa"
+
+#: sheep.lua
+msgid "Red"
+msgstr "Rossa"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "Viola"
+
+#: sheep.lua
+msgid "White"
+msgstr "Bianca"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "Gialla"
+
+#: sheep.lua
+msgid "@1 Sheep"
+msgstr "Pecora @1"
+
+#: warthog.lua
+msgid "Warthog"
+msgstr "Facocero"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Bistecca di maiale cruda"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Bistecca di maiale cotta"

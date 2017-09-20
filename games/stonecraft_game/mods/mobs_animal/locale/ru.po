@@ -1,0 +1,178 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-08-13 16:00+0200\n"
+"PO-Revision-Date: 2017-08-13 16:00+ZONE\n"
+"Last-Translator: Oleg720 <olegsiriak@yandex.ru>\n"
+"Language-Team: 720 Locales <>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: bee.lua
+msgid "Bee"
+msgstr "Пчела"
+
+#: bee.lua
+msgid "Honey"
+msgstr "Мед"
+
+#: bee.lua
+msgid "Beehive"
+msgstr "Улей"
+
+#: bee.lua
+msgid "Honey Block"
+msgstr "Блок меда"
+
+#: bunny.lua
+msgid "Bunny"
+msgstr "Кролик"
+
+#: chicken.lua
+msgid "Chicken"
+msgstr "Курица"
+
+#: chicken.lua
+msgid "Chicken Egg"
+msgstr "Курино яйцо"
+
+#: chicken.lua
+msgid "Fried Egg"
+msgstr "Жареное яйцо"
+
+#: chicken.lua
+msgid "Raw Chicken"
+msgstr "Сырая курятина"
+
+#: chicken.lua
+msgid "Cooked Chicken"
+msgstr "Вареная курятина"
+
+#: chicken.lua
+msgid "Feather"
+msgstr "Перо"
+
+#: cow.lua
+msgid "Cow already milked!"
+msgstr "Корову уже подоили!"
+
+#: cow.lua
+msgid "Cow"
+msgstr "Корова"
+
+#: cow.lua
+msgid "Bucket of Milk"
+msgstr "Ведро молока"
+
+#: cow.lua
+msgid "Cheese"
+msgstr "Сыр"
+
+#: cow.lua
+msgid "Cheese Block"
+msgstr "Блок сыра"
+
+#: init.lua
+msgid "[MOD] Mobs Redo 'Animals' loaded"
+msgstr "[МОД] Mobs Redo 'Animals' загружен"
+
+#: kitten.lua
+msgid "Kitten"
+msgstr "Котенок"
+
+#: penguin.lua
+msgid "Penguin"
+msgstr "Пингвин"
+
+#: rat.lua
+msgid "Rat"
+msgstr "Крыса"
+
+#: rat.lua
+msgid "Cooked Rat"
+msgstr "Приготовленная крыса"
+
+#: sheep.lua
+msgid "Black"
+msgstr "Черный"
+
+#: sheep.lua
+msgid "Blue"
+msgstr "Синий"
+
+#: sheep.lua
+msgid "Brown"
+msgstr "Коричневый"
+
+#: sheep.lua
+msgid "Cyan"
+msgstr "Голубой"
+
+#: sheep.lua
+msgid "Dark Green"
+msgstr "Темно-зеленый"
+
+#: sheep.lua
+msgid "Dark Grey"
+msgstr "Темно-серый"
+
+#: sheep.lua
+msgid "Green"
+msgstr "Зеленый"
+
+#: sheep.lua
+msgid "Grey"
+msgstr "Серый"
+
+#: sheep.lua
+msgid "Magenta"
+msgstr "Пурпурный"
+
+#: sheep.lua
+msgid "Orange"
+msgstr "Оранжевый"
+
+#: sheep.lua
+msgid "Pink"
+msgstr "Розовый"
+
+#: sheep.lua
+msgid "Red"
+msgstr "Красный"
+
+#: sheep.lua
+msgid "Violet"
+msgstr "Фиолетовый"
+
+#: sheep.lua
+msgid "White"
+msgstr "Белый"
+
+#: sheep.lua
+msgid "Yellow"
+msgstr "Желтый"
+
+#: sheep.lua
+msgid "@1 Sheep"
+msgstr "@1 Овец"
+
+#: warthog.lua
+msgid "Warthog"
+msgstr "Бородавочник"
+
+#: warthog.lua
+msgid "Raw Porkchop"
+msgstr "Отбивные из свинины"
+
+#: warthog.lua
+msgid "Cooked Porkchop"
+msgstr "Приготовленные отбивные"
