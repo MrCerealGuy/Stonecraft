@@ -352,7 +352,7 @@ msgstr "Igor"
 
 #: builtin/worldoptions.txt
 msgid "Trader"
-msgstr "Händer"
+msgstr "Händler"
 
 #: builtin/worldoptions.txt
 msgid "Advanced settings (Not So Simple Mobs)"
@@ -559,8 +559,8 @@ msgid "Mese dragon"
 msgstr "Mesedrachen"
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Etheral biomes)"
-msgstr "Erw. Einstellungen (Etheral Biome)"
+msgid "Advanced settings (Ethereal biomes)"
+msgstr "Erw. Einstellungen (Ethereal Biome)"
 
 #: builtin/worldoptions.txt
 msgid "Glacier"

@@ -565,7 +565,7 @@ msgid "Mese dragon"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Etheral biomes)"
+msgid "Advanced settings (Ethereal biomes)"
 msgstr ""
 
 #: builtin/worldoptions.txt
