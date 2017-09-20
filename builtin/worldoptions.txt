@@ -56,24 +56,51 @@
 
 [Mobs and animals]
 
-#    
-enable_creatures (Simple Mobs) bool false
-
-#    
+enable_mobs_animals (Animals) bool false
+enable_mobs_monster (Monster) bool false
+enable_mobs_npc (NPC) bool false
 enable_nssm (Not So Simple Mobs) bool false
 
-[*Advanced settings (Simple Mobs)]
+[*Advanced settings (Animals)]
 
-#	
-enable_creatures_chicken (Chicken) bool true
-enable_creatures_ghost (Ghost) bool true
-enable_creatures_oerrki (Oerrki) bool true
-enable_creatures_sheep (Sheep) bool true
-enable_creatures_zombie (Zombie) bool true
+# Animals
+enable_mobs_animal_horse (horse) bool true
+enable_mobs_animal_bee (bee) bool true
+enable_mobs_animal_bunny (bunny) bool true
+enable_mobs_animal_chicken (chicken) bool true
+enable_mobs_animal_cow (cow) bool true
+enable_mobs_animal_kitten (kitten) bool true
+enable_mobs_animal_penguin (penguin) bool true
+enable_mobs_animal_rat (rat) bool true
+enable_mobs_animal_sheep (sheep) bool true
+enable_mobs_animal_warthog (warthog) bool true
+
+[*Advanced settings (Monster)]
+
+# Monster CME modpack
+enable_mobs_monster_ghost (Ghost) bool true
+enable_mobs_monster_zombie (Zombie) bool true
+
+# Monster
+enable_mobs_monster_dirt_monster (dirt_monster) bool true
+enable_mobs_monster_dungeon_master (dungeon_master) bool true
+enable_mobs_monster_lava_flan (lava_flan) bool true
+enable_mobs_monster_mese_monster (mese_monster) bool true
+enable_mobs_monster_oerkki (oerkki) bool true
+enable_mobs_monster_sand_monster (sand_monster) bool true
+enable_mobs_monster_spider (spider) bool true
+enable_mobs_monster_stone_monster (stone_monster) bool true
+enable_mobs_monster_tree_monster (tree_monster) bool true
+
+[*Advanced settings (NPC)]
+
+# NPC
+enable_mobs_npc_igor (igor) bool true
+enable_mobs_npc_npc (npc) bool true
+enable_mobs_npc_trader (trader) bool true
 
 [*Advanced settings (Not So Simple Mobs)]
 
-#
 enable_nssm_ants (Ants) bool true
 enable_nssm_black_widow (Black Widow) bool true
 enable_nssm_bloco (Bloco) bool true
@@ -126,20 +153,11 @@ enable_nssm_white_werewolf (White werewolf) bool true
 enable_nssm_mese_dragon (Mese dragon) bool true
 
 [Biomes]
-
-#    
+ 
 enable_biomes (Ethereal biomes) bool false
-
-#    
-enable_swamps (Swamps biome) bool false
-
-#    
-enable_snow (Snow biome) bool false
-
-#    
-enable_caverealms (Cave realms) bool false
-
-#    
+enable_swamps (Swamps biome) bool false  
+enable_snow (Snow biome) bool false  
+enable_caverealms (Cave realms) bool false  
 enable_nether (Nether) bool false
 
 [*Advanced settings (Etheral biomes)]
@@ -190,42 +208,23 @@ swamp_biome_swampwater (Enables swampwater) bool true
 #snow_biome_sleds bool (Disable this to prevent sleds from being riden) true
 
 [Stuff]
-
-#    
+  
 enable_surprise (Surprise blocks) bool false
-
-#    
-enable_homedecor_technic (Home decorations and technic) bool false
-
-#    
+enable_homedecor_technic (Home decorations and technic) bool false 
 enable_itemdrop (Auto pick up items) bool false
 
 [Nature]
-
-#    
-enable_forests (More forests and red trees) bool false
-
-#    
-enable_seaplants (Sea plants) bool false
-
-#    
-enable_woodsoils_vines (Wood soils and vines) bool false
-
-#    
-enable_giantmushrooms (Giant mushrooms) bool false
-
-#    
+   
+enable_forests (More forests and red trees) bool false 
+enable_seaplants (Sea plants) bool false   
+enable_woodsoils_vines (Wood soils and vines) bool false  
+enable_giantmushrooms (Giant mushrooms) bool false 
 enable_erosion (Erosion and sloped blocks) bool false
 
 [Structures]
-
-#    
-enable_villages (Villages and buildings) bool false
-
-#    
-enable_mines (Mines) bool false
-
-#    
+   
+enable_villages (Villages and buildings) bool false  
+enable_mines (Mines) bool false   
 enable_pyramids (Pyramids) bool false
 
 [*Advanced settings (Villages and buildings)]
