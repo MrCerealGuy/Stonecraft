@@ -86,6 +86,7 @@ enable_nssm_duckking (Duckking) bool true
 enable_nssm_echidna (Echidna) bool true
 enable_nssm_enderduck (Enderduck) bool true
 enable_nssm_flying_duck (Flying duck) bool true
+enable_nssm_felucco (Felucco) bool true
 enable_nssm_giant_sandworm (Giant sandworm) bool true
 enable_nssm_icelamander (Icelamander) bool true
 enable_nssm_icesnake (Icesnake) bool true
@@ -97,6 +98,14 @@ enable_nssm_mantis_beast (Mantis beast) bool true
 enable_nssm_mantis (Mantis) bool true
 enable_nssm_masticone (Masticone) bool true
 enable_nssm_moonheron (Moonheron) bool true
+enable_nssm_mordain (Mordain) bool true
+enable_nssm_morgre (Morgre) bool true
+enable_nssm_morde (Morde) bool true
+enable_nssm_morgut (Morgut) bool true
+enable_nssm_morlu (Morlu) bool true
+enable_nssm_morvalar (Morvalar) bool true
+enable_nssm_morvy (Morvy) bool true
+enable_nssm_morwa (Morwa) bool true
 enable_nssm_night_master (Night master) bool true
 enable_nssm_octopus (Octopus) bool true
 enable_nssm_phoenix (Phoenix) bool true

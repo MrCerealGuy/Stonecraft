@@ -319,6 +319,10 @@ msgid "Flying duck"
 msgstr "Fliegende Ente"
 
 #: builtin/worldoptions.txt
+msgid "Felucco"
+msgstr "Felucco"
+
+#: builtin/worldoptions.txt
 msgid "Giant sandworm"
 msgstr "Riesensandwurm"
 
@@ -361,6 +365,38 @@ msgstr "Masticone"
 #: builtin/worldoptions.txt
 msgid "Moonheron"
 msgstr "Mondreiher"
+
+#: builtin/worldoptions.txt
+msgid "Mordain"
+msgstr "Mordain"
+
+#: builtin/worldoptions.txt
+msgid "Morgre"
+msgstr "Morgre"
+
+#: builtin/worldoptions.txt
+msgid "Morde"
+msgstr "Morde"
+
+#: builtin/worldoptions.txt
+msgid "Morgut"
+msgstr "Morgut"
+
+#: builtin/worldoptions.txt
+msgid "Morlu"
+msgstr "Morlu"
+
+#: builtin/worldoptions.txt
+msgid "Morvalar"
+msgstr "Morvalar"
+
+#: builtin/worldoptions.txt
+msgid "Morvy"
+msgstr "Morvy"
+
+#: builtin/worldoptions.txt
+msgid "Morwa"
+msgstr "Morwa"
 
 #: builtin/worldoptions.txt
 msgid "Night master"
