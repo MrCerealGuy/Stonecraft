@@ -422,6 +422,7 @@ function doors.register(name, def)
 
 			return secret, "a locked door", owner
 		end
+		def.node_dig_prediction = ""
 	else
 		def.on_blast = function(pos, intensity)
 			minetest.remove_node(pos)
@@ -619,6 +620,7 @@ function doors.register_trapdoor(name, def)
 
 			return secret, "a locked trapdoor", owner
 		end
+		def.node_dig_prediction = ""
 	else
 		def.on_blast = function(pos, intensity)
 			minetest.remove_node(pos)
