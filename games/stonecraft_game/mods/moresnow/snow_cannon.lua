@@ -9,6 +9,12 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+-- this function used to be in builtin/game/falling_node.lua, but there it got made local; we need it here
+moresnow.spawn_falling_node = function(p, node)
+        local obj = core.add_entity(p, "__builtin:falling_node")
+        obj:get_luaentity():set_node(node)
+end
+
 moresnow.throw_snowball = function( pos, dir, player )
 	local snowball_GRAVITY=9
 	local snowball_VELOCITY=19
@@ -39,7 +45,7 @@ moresnow.snow_at_one_place = function( pos )
 
 	local n = minetest.get_node( pos );
 	if( not(n) or not( n.name ) or n.name=='air' ) then
-		spawn_falling_node( pos, {name="default:snow"})
+		moresnow.spawn_falling_node( pos, {name="default:snow"})
 	end
 end
 

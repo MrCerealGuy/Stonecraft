@@ -59,9 +59,17 @@ moresnow.identify_stairs_and_slabs = function()
 
 			-- do nothing; the node has been dealt with
 
-		elseif( v.drawtype and v.drawtype == 'fencelike' ) then
+                -- old fences used to be drawtype fenclike; newer ones have group fence; gates have on_rightclick
+		elseif(( v.drawtype and v.drawtype == 'fencelike' )
+                    or ( v.groups and v.groups.fence and v.groups.fence > 0))  then
 
-			moresnow.snow_cover[ id ] = moresnow.c_snow_fence;
+			-- new fences
+			if( not( v.on_rightclick)) then
+				moresnow.snow_cover[ id ] = moresnow.c_snow_fence;
+			-- gates; they only get snow at the bottom
+			else
+				moresnow.snow_cover[ id ] = moresnow.c_snow_top;
+			end
 
 
 		elseif( n and minetest.registered_nodes[ n ]
@@ -163,7 +171,8 @@ moresnow.identify_stairs_and_slabs = function()
 		-- add snow to the bottom of the node below; it will look acceptable, provided there is a solid node below
 		elseif( v and v.drawtype
 		          and (   v.drawtype == 'fencelike' or v.drawtype=='plantlike'
-			       or v.drawtype == 'signlike'  or v.drawtype=='torchlike' )) then
+			       or v.drawtype == 'signlike'  or v.drawtype=='torchlike'
+                               or v.drawtype == 'mesh' )) then
 
 			moresnow.snow_cover[ id ] = moresnow.c_snow_top;
 	
