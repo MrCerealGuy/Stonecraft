@@ -51,6 +51,8 @@ minetest.register_craft({
 	}
 })
 
+if ethereal.xcraft == true then
+
 -- X pattern craft recipes (5x 'a' in X pattern gives 5 of 'b')
 local cheat = {
 	{"default:cobble", "default:gravel", 5},
@@ -71,6 +73,8 @@ for n = 1, #cheat do
 		}
 	})
 end
+
+end -- END if
 
 -- Paper (2x3 string = 4 paper)
 minetest.register_craft({
@@ -121,7 +125,7 @@ minetest.register_node("ethereal:candle", {
 	sounds = default.node_sound_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = { -0.15, -0.5, -0.15, 0.15, 0.2, 0.15 }
+		fixed = { -0.15, -0.5, -0.15, 0.15, 0, 0.15 }
 	},
 })
 
@@ -172,9 +176,9 @@ minetest.register_node("ethereal:stone_ladder", {
 minetest.register_craft({
 	output = "ethereal:stone_ladder 4",
 	recipe = {
-		{"default:cobble", "", "default:cobble"},
-		{"default:cobble", "default:cobble", "default:cobble"},
-		{"default:cobble", "", "default:cobble"},
+		{"group:stone", "", "group:stone"},
+		{"group:stone", "group:stone", "group:stone"},
+		{"group:stone", "", "group:stone"},
 	}
 })
 
@@ -224,10 +228,9 @@ minetest.register_node("ethereal:glostone", {
 })
 
 minetest.register_craft({
+	type = "shapeless",
 	output = "ethereal:glostone",
-	recipe = {
-		{"default:torch", "default:stone", "dye:yellow"},
-	}
+	recipe = {"default:torch", "default:stone", "dye:yellow"}
 })
 
 -- Charcoal Lump
@@ -271,6 +274,7 @@ minetest.register_tool("ethereal:light_staff", {
 	description = S("Staff of Light"),
 	inventory_image = "light_staff.png",
 	wield_image = "light_staff.png",
+	sound = {breaks = "default_tool_breaks"},
 	stack_max = 1,
 	on_use = function(itemstack, user, pointed_thing)
 

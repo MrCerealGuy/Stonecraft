@@ -13,7 +13,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- override default dirt (to stop caves cutting away dirt)
 minetest.override_item("default:dirt", {is_ground_content = ethereal.cavedirt})
 
--- green dirt
+--[[ green dirt
 minetest.register_node("ethereal:green_dirt", {
 	description = S("Green Dirt"),
 	tiles = {
@@ -29,8 +29,11 @@ minetest.register_node("ethereal:green_dirt", {
 		wet = "farming:soil_wet"
 	},
 	drop = "default:dirt",
-	sounds = default.node_sound_dirt_defaults()
-})
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})]]
+minetest.register_alias("ethereal:green_dirt", "default:dirt_with_grass")
 
 -- dry dirt
 minetest.register_node("ethereal:dry_dirt", {
@@ -49,21 +52,14 @@ minetest.register_craft({
 })
 
 local dirts = {
-	{"bamboo", S("Bamboo")}, 
-	{"jungle", S("Jungle")},
-	{"grove", S("Grove")},
-	{"prairie", S("Prairie")},
-	{"cold", S("Cold")},
-	{"crystal", S("Crystal")},
-	{"mushroom", S("Mushroom")},
-	{"fiery", S("Fiery")}, 
-	{"gray", S("Gray")}
+	"Bamboo", "Jungle", "Grove", "Prairie", "Cold",
+	"Crystal", "Mushroom", "Fiery", "Gray"
 }
 
 for n = 1, #dirts do
 
-	local desc = dirts[n][2]
-	local name = dirts[n][1]--desc:lower()
+	local desc = dirts[n]
+	local name = desc:lower()
 
 	minetest.register_node("ethereal:"..name.."_dirt", {
 		description = desc..S("Dirt"),
@@ -80,7 +76,9 @@ for n = 1, #dirts do
 			wet = "farming:soil_wet"
 		},
 		drop = "default:dirt",
-		sounds = default.node_sound_dirt_defaults()
+		sounds = default.node_sound_dirt_defaults({
+			footstep = {name = "default_grass_footstep", gain = 0.25},
+		}),
 	})
 
 end
@@ -91,7 +89,8 @@ dirts = {
 	"ethereal:prairie_dirt", "ethereal:cold_dirt", "ethereal:crystal_dirt",
 	"ethereal:mushroom_dirt", "ethereal:fiery_dirt", "ethereal:gray_dirt",
 	"default:dirt_with_grass", "default:dirt_with_dry_grass", "ethereal:green_dirt",
-	"default:dirt_with_snow", "default:dirt_with_dry_grass"
+	"default:dirt_with_snow", "default:dirt_with_dry_grass",
+	"default:dirt_with_rainforest_litter"
 }
 
 -- check surrounding grass and change dirt to same colour
@@ -118,8 +117,9 @@ local grass_spread = function(pos, node)
 	local positions, grasses = minetest.find_nodes_in_area(
 		{x = pos.x - 1, y = pos.y - 2, z = pos.z - 1},
 		{x = pos.x + 1, y = pos.y + 2, z = pos.z + 1},
-		{"group:ethereal_grass", "default:dirt_with_grass",
-		"default:dirt_with_dry_grass", "default:dirt_with_snow"})
+--		{"group:ethereal_grass", "default:dirt_with_grass",
+--		"default:dirt_with_dry_grass", "default:dirt_with_snow"})
+		dirts)
 
 	-- count new grass nodes
 	for n = 1, #dirts do
@@ -170,7 +170,12 @@ local flower_spread = function(pos, node)
 	local pos0 = {x = pos.x - 4, y = pos.y - 2, z = pos.z - 4}
 	local pos1 = {x = pos.x + 4, y = pos.y + 2, z = pos.z + 4}
 
-	local num = #minetest.find_nodes_in_area_under_air(pos0, pos1, "group:flora")
+	local num = #minetest.find_nodes_in_area(pos0, pos1, "group:flora")
+
+	-- stop flowers spreading too much just below top of map block
+	if minetest.find_node_near(pos, 2, "ignore") then
+		return
+	end
 
 	if num > 3
 	and node.name == "ethereal:crystalgrass" then
@@ -414,4 +419,17 @@ minetest.register_node("ethereal:quicksand2", {
 	post_effect_color = {r = 230, g = 210, b = 160, a = 245},
 	groups = {crumbly = 3, sand = 1, liquid = 3, disable_jump = 1},
 	sounds = default.node_sound_sand_defaults(),
+})
+
+-- craft quicksand
+minetest.register_craft({
+	output = "ethereal:quicksand2",
+	recipe = {
+		{"group:sand", "group:sand", "group:sand"},
+		{"group:sand", "group:water_bucket", "group:sand"},
+		{"group:sand", "group:sand", "group:sand"},
+	},
+	replacements = {
+		{"group:water_bucket", "bucket:bucket_empty"}
+	}
 })

@@ -80,14 +80,14 @@ minetest.register_craft({
 })
 
 -- default ethereal fish
-local fish = {
+ethereal.fish = {
 	{"ethereal:fish_raw"},
 }
 
 -- xanadu server additional fish
 if minetest.get_modpath("xanadu") then
-	fish[2] = {"mobs:clownfish_raw"}
-	fish[3] = {"mobs:bluefish_raw"}
+	ethereal.fish[2] = {"mobs:clownfish_raw"}
+	ethereal.fish[3] = {"mobs:bluefish_raw"}
 end
 
 -- Fishing Rod (Baited)
@@ -110,7 +110,7 @@ minetest.register_craftitem("ethereal:fishing_rod_baited", {
 		or node == "default:river_water_source")
 		and math.random(1, 100) < 5 then
 
-			local type = fish[math.random(1, #fish)][1]
+			local type = ethereal.fish[math.random(1, #ethereal.fish)][1]
 			local inv = user:get_inventory()
 
 			if inv:room_for_item("main", {name = type}) then

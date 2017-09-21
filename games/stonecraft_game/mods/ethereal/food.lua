@@ -19,7 +19,6 @@ minetest.override_item("default:apple", {
 minetest.register_node("ethereal:banana", {
 	description = S("Banana"),
 	drawtype = "torchlike",
-	visual_scale = 1.0,
 	tiles = {"banana_single.png"},
 	inventory_image = "banana_single.png",
 	wield_image = "banana_single.png",
@@ -28,7 +27,7 @@ minetest.register_node("ethereal:banana", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.2, -0.5, -0.2, 0.2, 0.2, 0.2}
+		fixed = {-0.31, -0.5, -0.31, 0.31, 0.5, 0.31}
 	},
 	groups = {
 		fleshy = 3, dig_immediate = 3, flammable = 2,
@@ -67,7 +66,6 @@ minetest.register_craft({
 minetest.register_node("ethereal:orange", {
 	description = S("Orange"),
 	drawtype = "plantlike",
-	visual_scale = 1.0,
 	tiles = {"farming_orange.png"},
 	inventory_image = "farming_orange.png",
 	wield_image = "farming_orange.png",
@@ -76,7 +74,7 @@ minetest.register_node("ethereal:orange", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.2, -0.3, -0.2, 0.2, 0.2, 0.2}
+		fixed = {-0.27, -0.37, -0.27, 0.27, 0.44, 0.27}
 	},
 	groups = {
 		fleshy = 3, dig_immediate = 3, flammable = 2,
@@ -120,7 +118,7 @@ minetest.register_node("ethereal:coconut", {
 	wield_image = "moretrees_coconut.png",
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.35, -0.35, -0.35, 0.35, 0.35, 0.35}
+		fixed = {-0.31, -0.43, -0.31, 0.31, 0.44, 0.31}
 	},
 	groups = {
 		snappy = 1, oddly_breakable_by_hand = 1, cracky = 1,
@@ -142,7 +140,6 @@ minetest.register_craftitem("ethereal:coconut_slice", {
 minetest.register_node("ethereal:golden_apple", {
 	description = S("Golden Apple"),
 	drawtype = "plantlike",
-	visual_scale = 1.0,
 	tiles = {"default_apple_gold.png"},
 	inventory_image = "default_apple_gold.png",
 	wield_image = "default_apple_gold.png",
@@ -151,7 +148,7 @@ minetest.register_node("ethereal:golden_apple", {
 	walkable = false,
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.2, -0.3, -0.2, 0.2, 0.2, 0.2}
+		fixed = {-0.2, -0.37, -0.2, 0.2, 0.31, 0.2}
 	},
 	groups = {
 		fleshy = 3, dig_immediate = 3,

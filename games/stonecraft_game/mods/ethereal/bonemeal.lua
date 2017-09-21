@@ -91,6 +91,8 @@ local crops = {
 	{"ethereal:strawberry_", 8},
 	{"ethereal:onion_", 5},
 	{"farming:barley_", 7},
+	{"farming:hemp_", 8},
+	{"farming:chili_", 8},
 }
 
 -- check if sapling has enough height room to grow
@@ -134,7 +136,8 @@ local function growth(pointed_thing)
 	})
 
 	-- 50/50 chance of growing a sapling
-	if minetest.get_item_group(node.name, "sapling") > 0 then
+	if minetest.get_item_group(node.name, "sapling") > 0
+	or minetest.get_item_group(node.name, "ethereal_sapling") > 0 then
 
 		if math.random(1, 2) == 1 then
 			return
@@ -226,6 +229,11 @@ local function growth(pointed_thing)
 		elseif node.name == "default:aspen_sapling"
 		and enough_height(pos, 11) then
 			default.grow_new_aspen_tree(pos)
+
+		elseif node.name == "default:bush_sapling" then
+			default.grow_bush(pos)
+		elseif node.name == "default:acacia_bush_sapling" then
+			default.grow_acacia_bush(pos)
 		end
 
 		return

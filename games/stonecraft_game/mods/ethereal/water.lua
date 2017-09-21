@@ -16,7 +16,7 @@ minetest.register_node("ethereal:icebrick", {
 	paramtype = "light",
 	freezemelt = "default:water_source",
 	is_ground_content = false,
-	groups = {cracky = 3, melts = 1},
+	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -35,10 +35,11 @@ minetest.register_node("ethereal:snowbrick", {
 	paramtype = "light",
 	freezemelt = "default:water_source",
 	is_ground_content = false,
-	groups = {crumbly = 3, melts = 1},
+	groups = {crumbly = 3, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_snow_footstep", gain = 0.25},
-		dug = {name="default_snow_footstep", gain = 0.75},
+		footstep = {name = "default_snow_footstep", gain = 0.15},
+		dug = {name = "default_snow_footstep", gain = 0.2},
+		dig = {name = "default_snow_footstep", gain = 0.2},
 	}),
 })
 
@@ -81,7 +82,7 @@ minetest.register_abm({
 	},
 	neighbors = {
 		"fire:basic_fire", "default:lava_source", "default:lava_flowing",
-		"default:furnace_active", "default:torch"
+		"default:furnace_active", "group:torch", "default:torch"
 	},
 	interval = 5,
 	chance = 4,
@@ -107,7 +108,7 @@ minetest.register_abm({
 			minetest.swap_node(pos, {name = "default:dirt_with_grass"})
 		end
 
-		nodeupdate(pos)
+		ethereal.check_falling(pos)
 	end,
 })
 
@@ -129,10 +130,21 @@ minetest.register_abm({
 	end,
 })
 
--- If torch touching water then drop as item
+-- If torch touching water then drop as item (when enabled)
+if ethereal.torchdrop == true then
+
+local torch_drop = "default:torch"
+local drop_sound = "fire_extinguish_flame"
+
+if minetest.get_modpath("real_torch") then
+	torch_drop = "real_torch:torch"
+	drop_sound = "real_torch_extinguish"
+end
+
 minetest.register_abm({
 	label = "Ethereal drop torch",
-	nodenames = {"default:torch"},
+	nodenames = {"default:torch", "default:torch_wall", "default:torch_ceiling",
+	"real_torch:torch", "real_torch:torch_wall", "real_torch:torch_ceiling"},
 	neighbors = {"group:water"},
 	interval = 5,
 	chance = 1,
@@ -144,21 +156,30 @@ minetest.register_abm({
 			{x = pos.x + 1, y = pos.y, z = pos.z},
 			{"group:water"})
 
-		num = num + #minetest.find_nodes_in_area(
-			{x = pos.x, y = pos.y, z = pos.z - 1},
-			{x = pos.x, y = pos.y, z = pos.z + 1},
-			{"group:water"})
+		if num == 0 then
+			num = num + #minetest.find_nodes_in_area(
+				{x = pos.x, y = pos.y, z = pos.z - 1},
+				{x = pos.x, y = pos.y, z = pos.z + 1},
+				{"group:water"})
+		end
 
-		num = num + #minetest.find_nodes_in_area(
-			{x = pos.x, y = pos.y + 1, z = pos.z},
-			{x = pos.x, y = pos.y + 1, z = pos.z},
-			{"group:water"})
+		if num == 0 then
+			num = num + #minetest.find_nodes_in_area(
+				{x = pos.x, y = pos.y + 1, z = pos.z},
+				{x = pos.x, y = pos.y + 1, z = pos.z},
+				{"group:water"})
+		end
 
 		if num > 0 then
 
-			minetest.swap_node(pos, {name = "air"})
+			minetest.set_node(pos, {name = "air"})
 
-			minetest.add_item(pos, {name = node.name})
+			minetest.sound_play({name = drop_sound, gain = 0.2},
+				{pos = pos, max_hear_distance = 10})
+
+			minetest.add_item(pos, {name = torch_drop})
 		end
 	end,
 })
+
+end

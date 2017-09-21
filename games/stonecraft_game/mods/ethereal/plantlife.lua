@@ -27,7 +27,7 @@ minetest.register_node("ethereal:fire_flower", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 1 / 2, 5 / 16},
 	},
 
 	on_punch = function(pos, node, puncher)
@@ -87,9 +87,9 @@ minetest.register_node("ethereal:vine", {
 minetest.register_craft({
 	output = "ethereal:vine 2",
 	recipe = {
-		{"group:leaves", "group:leaves"},
-		{"group:leaves", "group:leaves"},
-		{"group:leaves", "group:leaves"},
+		{"group:leaves", "", "group:leaves"},
+		{"", "group:leaves", ""},
+		{"group:leaves", "", "group:leaves"},
 	}
 })
 
@@ -127,7 +127,7 @@ minetest.register_craft({
 minetest.register_node("ethereal:fern", {
 	description = S("Fern"),
 	drawtype = "plantlike",
-	visual_scale = 1.2,
+	visual_scale = 1.4,
 	tiles = {"fern.png"},
 	inventory_image = "fern.png",
 	wield_image = "fern.png",
@@ -147,7 +147,7 @@ minetest.register_node("ethereal:fern", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 0.67, 5 / 16},
 	},
 })
 
@@ -162,7 +162,6 @@ minetest.register_craftitem("ethereal:fern_tubers", {
 minetest.register_node("ethereal:dry_shrub", {
 	description = S("Fiery Dry Shrub"),
 	drawtype = "plantlike",
-	visual_scale = 1.0,
 	tiles = {"ethereal_dry_shrub.png"},
 	inventory_image = "ethereal_dry_shrub.png",
 	wield_image = "ethereal_dry_shrub.png",
@@ -175,7 +174,7 @@ minetest.register_node("ethereal:dry_shrub", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 4 / 16, 5 / 16},
 	},
 })
 
@@ -196,7 +195,7 @@ minetest.register_node("ethereal:snowygrass", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 5 / 16, 5 / 16},
 	},
 })
 
@@ -217,7 +216,7 @@ minetest.register_node("ethereal:crystalgrass", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 5 / 16, 5 / 16},
 	},
 })
 
@@ -228,12 +227,14 @@ function ethereal.add_moss(typ, descr, texture, receipe_item)
 		description = S("@1 Moss", descr),
 		tiles = {texture},
 		groups = {crumbly = 3},
-		sounds = default.node_sound_dirt_defaults()
+		sounds = default.node_sound_dirt_defaults({
+			footstep = {name = "default_grass_footstep", gain = 0.4}})
 	})
 
 	minetest.register_craft({
+		type = "shapeless",
 		output = "ethereal:"..typ.."_moss",
-		recipe = {{"default:dirt", receipe_item }}
+		recipe = {"default:dirt", receipe_item }
 	})
 end
 
@@ -258,7 +259,7 @@ minetest.register_node("ethereal:illumishroom", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.47, 6 / 16},
 	},
 })
 
@@ -276,7 +277,7 @@ minetest.register_node("ethereal:illumishroom2", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.47, 6 / 16},
 	},
 })
 
@@ -294,6 +295,6 @@ minetest.register_node("ethereal:illumishroom3", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5},
+		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 0.47, 6 / 16},
 	},
 })

@@ -5,7 +5,28 @@ Ethereal Mapgen mod for Minetest (works on all except v6)
 ## Forum Topic
 - https://forum.minetest.net/viewtopic.php?f=11&t=14638
 
+## Lucky Blocks
+35
+
 ## Changelog
+
+### 1.23
+
+ - Added bonemeal support for bush sapling and acacia bush sapling
+ - Added support for [toolranks] mod if found
+ - Reworked Crystal Shovel so it acts more like a normal shovel with soft touch
+
+### 1.22
+
+ - Added coral and silver sand to mapgen (0.4.15 only)
+ - Replaced ethereal:green_dirt with default:dirt_with_grass for mortrees compatibility
+ - Mesa biomes are now topped with dirt with dry grass (redwood saplings grow on dry grass)
+ - Added bonemeal support for moretree's saplings
+ - Added settings.conf file example so that settings remain after mod update
+ - Added support for Real Torch so that torches near water drop an unlit torch
+ - Added support for new leafdecay functions (0.4.15 dev)
+ - Mapgen will use dirt_with_rainforest_litter for jungles if found
+ - Added bushes to mapgen
 
 ### 1.21
 
@@ -13,6 +34,8 @@ Ethereal Mapgen mod for Minetest (works on all except v6)
  - Bonemeal changes to suit new sapling growth
  - Fixes and tweaks
  - Added default Abm overrides
+ - Added 4 new plants from baked clay mod to mapgen
+ - Added swamp biome to outskirts of bamboo areas
 
 ### 1.20
 

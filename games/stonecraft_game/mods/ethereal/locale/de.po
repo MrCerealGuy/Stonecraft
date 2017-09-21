@@ -534,11 +534,11 @@ msgid "Snow Brick Slab"
 msgstr "Schneeziegelplatte"
 
 #: stairs.lua
-msgid "Dry Dirt Stair"
+msgid "Dried Dirt Stair"
 msgstr "Vertrocknete Erdtreppe"
 
 #: stairs.lua
-msgid "Dry Dirt Slab"
+msgid "Dried Dirt Slab"
 msgstr "vertrocknete Erdplatte"
 
 #: stairs.lua
@@ -634,7 +634,7 @@ msgid "Snow Brick"
 msgstr "Schneeziegel"
 
 #: stairs.lua
-msgid "Dry Dirt"
+msgid "Dried Dirt"
 msgstr "Vertrocknete Erd"
 
 #: stairs.lua

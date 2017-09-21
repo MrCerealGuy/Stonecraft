@@ -76,7 +76,10 @@ ethereal.bambootree = {
 	},
 }
 
-minetest.override_item("default:papyrus", {
-	walkable = true,
-	sunlight_propagates = true
-})
+if ethereal.papyruswalk == true then
+
+	minetest.override_item("default:papyrus", {
+		walkable = true,
+		sunlight_propagates = true
+	})
+end

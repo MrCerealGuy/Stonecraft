@@ -14,21 +14,21 @@ local S, NS = dofile(MP.."/intllib.lua")
 if stairs and stairs.mod and stairs.mod == "redo" then
 
 stairs.register_all("crystal_block", "ethereal:crystal_block",
-	{cracky = 1, level = 2},
+	{cracky = 1, level = 2, puts_out_fire = 1, cools_lava = 1},
 	{"crystal_block.png"},
 	S("Crystal Block Stair"),
 	S("Crystal Block Slab"),
 	default.node_sound_glass_defaults())
 
 stairs.register_all("icebrick", "ethereal:icebrick",
-	{crumbly = 3, melts = 1},
+	{cracky = 3, puts_out_fire = 1, cools_lava = 1},
 	{"brick_ice.png"},
 	S("Ice Brick Stair"),
 	S("Ice Brick Slab"),
 	default.node_sound_glass_defaults())
 		
 stairs.register_all("snowbrick", "ethereal:snowbrick",
-	{crumbly = 3, melts = 1},
+	{crumbly = 3, puts_out_fire = 1, cools_lava = 1},
 	{"brick_snow.png"},
 	S("Snow Brick Stair"),
 	S("Snow Brick Slab"),
@@ -40,8 +40,8 @@ stairs.register_all("snowbrick", "ethereal:snowbrick",
 stairs.register_all("dry_dirt", "ethereal:dry_dirt",
 	{crumbly = 3},
 	{"ethereal_dry_dirt.png"},
-	S("Dry Dirt Stair"),
-	S("Dry Dirt Slab"),
+	S("Dried Dirt Stair"),
+	S("Dried Dirt Slab"),
 	default.node_sound_dirt_defaults())
 
 stairs.register_all("mushroom_trunk", "ethereal:mushroom_trunk",
@@ -120,21 +120,21 @@ elseif minetest.global_exists("stairsplus") then
 stairsplus:register_all("ethereal", "crystal_block", "ethereal:crystal_block", {
 	description = S("Crystal block"),
 	tiles = {"crystal_block.png"},
-	groups = {cracky = 1, falling_node = 1, puts_out_fire = 1},
+	groups = {cracky = 1, falling_node = 1, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_glass_defaults(),
 })
 
 stairsplus:register_all("ethereal", "icebrick", "ethereal:icebrick", {
 	description = S("Ice Brick"),
 	tiles = {"brick_ice.png"},
-	groups = {crumbly = 3, melts = 1},
+	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_glass_defaults(),
 })
 
 stairsplus:register_all("ethereal", "snowbrick", "ethereal:snowbrick", {
 	description = S("Snow Brick"),
 	tiles = {"brick_snow.png"},
-	groups = {crumbly = 3, melts = 1},
+	groups = {crumbly = 3, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_snow_footstep", gain = 0.25},
 		dug = {name = "default_snow_footstep", gain = 0.75},
@@ -142,7 +142,7 @@ stairsplus:register_all("ethereal", "snowbrick", "ethereal:snowbrick", {
 })
 
 stairsplus:register_all("ethereal", "dry_dirt", "ethereal:dry_dirt", {
-	description = S("Dry Dirt"),
+	description = S("Dried Dirt"),
 	tiles = {"ethereal_dry_dirt.png"},
 	groups = {crumbly = 3},
 	sounds = default.node_sound_dirt_defaults(),
@@ -222,34 +222,35 @@ stairsplus:register_all("ethereal", "bamboo_wood", "ethereal:bamboo_floor", {
 else
 
 stairs.register_stair_and_slab("crystal_block", "ethereal:crystal_block",
-	{cracky = 1, level = 2},
+	{cracky = 1, level = 2, puts_out_fire = 1, cools_lava = 1},
 	{"crystal_block.png"},
 	S("Crystal Block Stair"),
 	S("Crystal Block Slab"),
 	default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("icebrick", "ethereal:icebrick",
-	{crumbly = 3, melts = 1},
+	{cracky = 3, puts_out_fire = 1, cools_lava = 1},
 	{"brick_ice.png"},
 	S("Ice Brick Stair"),
 	S("Ice Brick Slab"),
 	default.node_sound_glass_defaults())
 		
 stairs.register_stair_and_slab("snowbrick", "ethereal:snowbrick",
-	{crumbly = 3, melts = 1},
+	{crumbly = 3, puts_out_fire = 1, cools_lava = 1},
 	{"brick_snow.png"},
 	S("Snow Brick Stair"),
 	S("Snow Brick Slab"),
 	default.node_sound_dirt_defaults({
-		footstep = {name = "default_snow_footstep", gain = 0.25},
-		dug = {name = "default_snow_footstep", gain = 0.75},
+		footstep = {name = "default_snow_footstep", gain = 0.15},
+		dug = {name = "default_snow_footstep", gain = 0.2},
+		dig = {name = "default_snow_footstep", gain = 0.2}
 	}))
 
 stairs.register_stair_and_slab("dry_dirt", "ethereal:dry_dirt",
 	{crumbly = 3},
 	{"ethereal_dry_dirt.png"},
-	S("Dry Dirt Stair"),
-	S("Dry Dirt Slab"),
+	S("Dried Dirt Stair"),
+	S("Dried Dirt Slab"),
 	default.node_sound_dirt_defaults())
 
 stairs.register_stair_and_slab("mushroom_trunk", "ethereal:mushroom_trunk",
