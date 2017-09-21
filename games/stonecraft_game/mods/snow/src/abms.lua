@@ -68,7 +68,8 @@ minetest.register_abm({
 	 	else
 			return
 		end
-		nodeupdate(pos)
+		--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+		minetest.check_for_falling(pos)
 	end,
 })
 

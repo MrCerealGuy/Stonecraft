@@ -19,7 +19,7 @@ local nodedef = {
 	tiles = {"snow_needles.png"},
 	waving = 1,
 	paramtype = "light",
-	groups = {snappy=3, leafdecay=5},
+	groups = {snappy=3},
 	furnace_burntime = 1,
 	drop = {
 		max_items = 1,
@@ -53,6 +53,12 @@ if snow.christmas_content then
 end
 
 minetest.register_node("snow:needles", table.copy(nodedef))
+
+default.register_leafdecay{
+	trunks = {"default:pine_tree"},
+	leaves = {"snow:needles"},
+	radius = 2,
+}
 
 snow.register_on_configuring(function(name, v)
 	if name == "christmas_content" then
@@ -312,8 +318,9 @@ nodedef = {
 		dug = {name="default_snow_footstep", gain=0.75},
 		place = {name="default_place_node", gain=1.0}
 	}),
- 	-- The "on_construct" part below, thinking in terms of layers, dirt_with_snow could also
- 	-- double as dirt_with_frost which adds subtlety to the winterscape. ~ LazyJ
+	-- The "on_construct" part below, thinking in terms of layers,
+	-- dirt_with_snow could also double as dirt_with_frost which adds subtlety
+	-- to the winterscape. ~ LazyJ
 	on_construct = snow_onto_dirt
 }
 

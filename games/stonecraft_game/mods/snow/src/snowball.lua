@@ -17,13 +17,13 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local creative_mode = minetest.setting_getbool("creative_mode")
+local creative_mode = minetest.settings:get_bool("creative_mode")
 
 
 local snowball_velocity, entity_attack_delay
 local function update_snowball_vel(v)
 	snowball_velocity = v
-	local walkspeed = tonumber(minetest.setting_get("movement_speed_walk")) or 4
+	local walkspeed = tonumber(minetest.settings:get("movement_speed_walk")) or 4
 	entity_attack_delay = (walkspeed+1)/v
 end
 update_snowball_vel(snow.snowball_velocity)
@@ -38,7 +38,7 @@ snow.register_on_configuring(function(name, v)
 end)
 
 local function get_gravity()
-	local grav = tonumber(minetest.setting_get("movement_gravity")) or 9.81
+	local grav = tonumber(minetest.settings:get("movement_gravity")) or 9.81
 	return grav*snowball_gravity
 end
 

@@ -197,3 +197,25 @@ function snow.voxelmanip_pine(pos,a,data)
 		vm:set_data_from_heap(data, a:index(pos.x,pos.y+7,pos.z), c_snow)
 	end
 end
+
+-- treecapitator support
+if minetest.global_exists"treecapitator" then
+	treecapitator.register_tree{
+		trees = {"default:pine_tree"},
+		leaves = {"snow:needles"},
+		range = 1,
+		range_up = 2,
+		range_down = 3,
+		stem_height_min = 1,
+	}
+
+	treecapitator.register_tree{
+		trees = {"default:pine_tree"},
+		leaves = {"snow:needles_decorated"},
+		fruits = {"snow:star_lit", "snow:star"},
+		range = 1,
+		range_up = 3,
+		range_down = 3,
+		stem_height_min = 1,
+	}
+end

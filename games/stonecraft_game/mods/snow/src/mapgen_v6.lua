@@ -187,7 +187,6 @@ local function get_perlins(sidelen)
 end
 
 local nbuf_default, nbuf_cold, nbuf_ice
-
 minetest.register_on_generated(function(minp, maxp, seed)
 	local t1 = os.clock()
 
