@@ -1,3 +1,9 @@
+--[[
+
+2017-05-26 MrCerealGuy: added intllib support
+
+--]]
+
 -- See also technic/doc/api.md
 
 technic.networks = {}
@@ -6,11 +12,6 @@ technic.redundant_warn = {}
 
 local mesecons_path = minetest.get_modpath("mesecons")
 local digilines_path = minetest.get_modpath("digilines")
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
