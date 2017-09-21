@@ -55,7 +55,7 @@ end
 
 minetest.register_node("technic:supply_converter", {
 	description = S("Supply Converter"),
-	tiles  = {"technic_supply_converter_top.png", "technic_supply_converter_bottom.png",
+	tiles  = {"technic_supply_converter_tb.png", "technic_supply_converter_tb.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png",
 	          "technic_supply_converter_side.png", "technic_supply_converter_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
