@@ -1,3 +1,10 @@
+--[[
+
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
+--]]
+
 mobs:register_mob("nssm:mese_dragon", {
 	type = "monster",
 	hp_max = 666,
@@ -106,7 +113,8 @@ mobs:register_mob("nssm:mese_dragon", {
 						local n = minetest.env:get_node(k).name
 						if n=="air" and math.random(1,23)==1 then
 							minetest.env:set_node(k, {name="nssm:mese_meteor"})
-							nodeupdate(k)
+							--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+							minetest.check_for_falling(pos)
 						end
 					end
 				end

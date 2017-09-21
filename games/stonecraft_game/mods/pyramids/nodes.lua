@@ -2,6 +2,9 @@
 
 2017-05-16 MrCerealGuy: added intllib support
 
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
 --]]
 
 
@@ -31,7 +34,8 @@ trap_on_timer = function (pos, elapsed)
 			if n and n.name then
 				if minetest.registered_nodes[n.name].crack and minetest.registered_nodes[n.name].crack < 2 then
 					minetest.set_node(pos, {name="pyramids:trap_2"})
-					nodeupdate(pos)
+					--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+					minetest.check_for_falling(pos)
 				end
 			end
 		end

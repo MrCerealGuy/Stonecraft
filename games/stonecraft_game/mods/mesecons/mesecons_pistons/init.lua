@@ -5,6 +5,9 @@
 
 2017-05-17 MrCerealGuy: added intllib support
 
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
 --]]
 
 if core.skip_mod("mesecons") then return end
@@ -86,7 +89,8 @@ local piston_remove_pusher = function(pos, node)
 		max_hear_distance = 20,
 		gain = 0.3,
 	})
-	nodeupdate(pusherpos)
+	--nodeupdate(pusherpos)  MrCerealGuy: nodeupdate is deprecated
+	minetest.check_for_falling(pusherpos)
 end
 
 local piston_on = function(pos, node)

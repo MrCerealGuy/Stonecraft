@@ -2,6 +2,8 @@
 
 2017-05-15 MrCerealGuy: added intllib support
 
+2017-09-21 replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
 --]]
 
 
@@ -145,7 +147,8 @@ nodedef = {
 	on_punch = function(pos, node) -- Added a "lit" star that can be punched on or off depending on your preference. ~ LazyJ
 		node.name = "snow:star_lit"
 		minetest.set_node(pos, node)
-		nodeupdate(pos)
+		--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+		minetest.check_for_falling(pos)
 	end,
 }
 
@@ -161,7 +164,8 @@ nodedef.groups.not_in_creative_inventory = 1
 nodedef.on_punch = function(pos, node)
 	node.name = "snow:star"
 	minetest.set_node(pos, node)
-	nodeupdate(pos)
+	--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+		minetest.check_for_falling(pos)
 end
 
 minetest.register_node("snow:star_lit", nodedef)

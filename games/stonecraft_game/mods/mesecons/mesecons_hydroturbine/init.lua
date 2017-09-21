@@ -5,6 +5,9 @@
 
 2017-05-17 MrCerealGuy: added intllib support
 
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
 --]]
 
 if core.skip_mod("mesecons") then return end
@@ -76,7 +79,8 @@ nodenames = {"mesecons_hydroturbine:hydro_turbine_off"},
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if minetest.get_node(waterpos).name=="default:water_flowing" then
 			minetest.set_node(pos, {name="mesecons_hydroturbine:hydro_turbine_on"})
-			nodeupdate(pos)
+			--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+			minetest.check_for_falling(pos)
 			mesecon.receptor_on(pos)
 		end
 	end,
@@ -90,7 +94,8 @@ nodenames = {"mesecons_hydroturbine:hydro_turbine_on"},
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if minetest.get_node(waterpos).name~="default:water_flowing" then
 			minetest.set_node(pos, {name="mesecons_hydroturbine:hydro_turbine_off"})
-			nodeupdate(pos)
+			--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
+			minetest.check_for_falling(pos)
 			mesecon.receptor_off(pos)
 		end
 	end,

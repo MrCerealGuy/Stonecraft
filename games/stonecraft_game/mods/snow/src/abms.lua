@@ -1,3 +1,10 @@
+--[[
+
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
+--]]
+
 -- Added to change dirt_with_snow to dirt if covered with blocks that don't let light through (sunlight_propagates) or have a light paramtype and liquidtype combination. ~ LazyJ, 2014_03_08
 
 minetest.register_abm({

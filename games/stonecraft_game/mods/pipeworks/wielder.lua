@@ -2,6 +2,9 @@
 
 2017-05-17 MrCerealGuy: added intllib support
 
+2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
+
 --]]
 
 
@@ -35,7 +38,8 @@ local function wielder_on(data, wielder_pos, wielder_node)
 	if wielder_node.name ~= data.name_base.."_off" then return end
 	wielder_node.name = data.name_base.."_on"
 	minetest.swap_node(wielder_pos, wielder_node)
-	nodeupdate(wielder_pos)
+	--nodeupdate(wielder_pos)  MrCerealGuy: nodeupdate is deprecated
+	minetest.check_for_falling(wielder_pos)
 	local wielder_meta = minetest.get_meta(wielder_pos)
 	local inv = wielder_meta:get_inventory()
 	local wield_inv_name = data.wield_inv_name
