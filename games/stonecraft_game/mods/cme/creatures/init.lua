@@ -26,7 +26,7 @@
 
 --]]
 
-if core.skip_mod("creatures") then return end
+if core.skip_mod("mobs_monster") then return end
 
 creatures = {}
 
