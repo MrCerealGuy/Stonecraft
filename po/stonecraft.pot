@@ -365,7 +365,15 @@ msgid "Advanced settings (Not So Simple Mobs)"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Ants"
+msgid "Ant queen"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Ant soldier"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Ant worker"
 msgstr ""
 
 #: builtin/worldoptions.txt

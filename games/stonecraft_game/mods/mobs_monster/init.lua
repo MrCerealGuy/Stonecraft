@@ -19,15 +19,15 @@ mobs.intllib = S
 
 -- Monsters
 
-if core.get_mod_setting("enable_mobs_monster_dirt_monster") 	~= "false" then dofile(path .. "/dirt_monster.lua") 	end -- PilzAdam
-if core.get_mod_setting("enable_mobs_monster_dungeon_master") 	~= "false" then dofile(path .. "/dungeon_master.lua") end
-if core.get_mod_setting("enable_mobs_monster_oerkki") 			~= "false" then dofile(path .. "/oerkki.lua") 		end
-if core.get_mod_setting("enable_mobs_monster_sand_monster") 	~= "false" then dofile(path .. "/sand_monster.lua") 	end
-if core.get_mod_setting("enable_mobs_monster_tone_monster") 	~= "false" then dofile(path .. "/stone_monster.lua") 	end
-if core.get_mod_setting("enable_mobs_monster_tree_monster") 	~= "false" then dofile(path .. "/tree_monster.lua") 	end
-if core.get_mod_setting("enable_mobs_monster_lava_flan") 		~= "false" then dofile(path .. "/lava_flan.lua") 		end -- Zeg9
-if core.get_mod_setting("enable_mobs_monster_mese_monster") 	~= "false" then dofile(path .. "/mese_monster.lua") 	end
-if core.get_mod_setting("enable_mobs_monster_spider") 			~= "false" then dofile(path .. "/spider.lua") 		end -- AspireMint
+if core.get_mod_setting("mobs_monster_dirt_monster") 	~= "false" then dofile(path .. "/dirt_monster.lua") 	end -- PilzAdam
+if core.get_mod_setting("mobs_monster_dungeon_master") 	~= "false" then dofile(path .. "/dungeon_master.lua") end
+if core.get_mod_setting("mobs_monster_oerkki") 			~= "false" then dofile(path .. "/oerkki.lua") 		end
+if core.get_mod_setting("mobs_monster_sand_monster") 	~= "false" then dofile(path .. "/sand_monster.lua") 	end
+if core.get_mod_setting("mobs_monster_tone_monster") 	~= "false" then dofile(path .. "/stone_monster.lua") 	end
+if core.get_mod_setting("mobs_monster_tree_monster") 	~= "false" then dofile(path .. "/tree_monster.lua") 	end
+if core.get_mod_setting("mobs_monster_lava_flan") 		~= "false" then dofile(path .. "/lava_flan.lua") 		end -- Zeg9
+if core.get_mod_setting("mobs_monster_mese_monster") 	~= "false" then dofile(path .. "/mese_monster.lua") 	end
+if core.get_mod_setting("mobs_monster_spider") 			~= "false" then dofile(path .. "/spider.lua") 		end -- AspireMint
 
 dofile(path .. "/lucky_block.lua")
 

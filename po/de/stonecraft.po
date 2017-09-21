@@ -359,8 +359,16 @@ msgid "Advanced settings (Not So Simple Mobs)"
 msgstr "Erw. Einstellungen (Nicht so einfache Mobs)"
 
 #: builtin/worldoptions.txt
-msgid "Ants"
-msgstr "Ameisen"
+msgid "Ant queen"
+msgstr "Ameisenkönigin"
+
+#: builtin/worldoptions.txt
+msgid "Ant soldier"
+msgstr "Ameisensoldat"
+
+#: builtin/worldoptions.txt
+msgid "Ant worker"
+msgstr "Ameisenarbeiter"
 
 #: builtin/worldoptions.txt
 msgid "Black Widow"

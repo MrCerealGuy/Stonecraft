@@ -1,4 +1,4 @@
-if core.skip_mod("mobs_animals") or core.get_mod_setting("enable_mobs_animal_horse") == "false" then return end
+if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_horse") == "false" then return end
 
 -- rideable horse
 

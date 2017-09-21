@@ -64,93 +64,95 @@ enable_nssm (Not So Simple Mobs) bool false
 [*Advanced settings (Animals)]
 
 # Animals
-enable_mobs_animal_horse (Horse) bool true
-enable_mobs_animal_bee (Bee) bool true
-enable_mobs_animal_bunny (Bunny) bool true
-enable_mobs_animal_chicken (Chicken) bool true
-enable_mobs_animal_cow (Cow) bool true
-enable_mobs_animal_kitten (Kitten) bool true
-enable_mobs_animal_penguin (Penguin) bool true
-enable_mobs_animal_rat (Rat) bool true
-enable_mobs_animal_sheep (Sheep) bool true
-enable_mobs_animal_warthog (Warthog) bool true
+mobs_animal_horse (Horse) bool true
+mobs_animal_bee (Bee) bool true
+mobs_animal_bunny (Bunny) bool true
+mobs_animal_chicken (Chicken) bool true
+mobs_animal_cow (Cow) bool true
+mobs_animal_kitten (Kitten) bool true
+mobs_animal_penguin (Penguin) bool true
+mobs_animal_rat (Rat) bool true
+mobs_animal_sheep (Sheep) bool true
+mobs_animal_warthog (Warthog) bool true
 
 [*Advanced settings (Monster)]
 
 # Monster CME modpack
-enable_mobs_monster_ghost (Ghost) bool true
-enable_mobs_monster_zombie (Zombie) bool true
+mobs_monster_ghost (Ghost) bool true
+mobs_monster_zombie (Zombie) bool true
 
 # Monster
-enable_mobs_monster_dirt_monster (Dirt monster) bool true
-enable_mobs_monster_dungeon_master (Dungeon master) bool true
-enable_mobs_monster_lava_flan (Lava flan) bool true
-enable_mobs_monster_mese_monster (Mese monster) bool true
-enable_mobs_monster_oerkki (Oerkki) bool true
-enable_mobs_monster_sand_monster (Sand monster) bool true
-enable_mobs_monster_spider (Spider) bool true
-enable_mobs_monster_stone_monster (Stone monster) bool true
-enable_mobs_monster_tree_monster (Tree monster) bool true
+mobs_monster_dirt_monster (Dirt monster) bool true
+mobs_monster_dungeon_master (Dungeon master) bool true
+mobs_monster_lava_flan (Lava flan) bool true
+mobs_monster_mese_monster (Mese monster) bool true
+mobs_monster_oerkki (Oerkki) bool true
+mobs_monster_sand_monster (Sand monster) bool true
+mobs_monster_spider (Spider) bool true
+mobs_monster_stone_monster (Stone monster) bool true
+mobs_monster_tree_monster (Tree monster) bool true
 
 [*Advanced settings (NPC)]
 
 # NPC
-enable_mobs_npc_igor (Igor) bool true
-enable_mobs_npc_npc (NPC) bool true
-enable_mobs_npc_trader (Trader) bool true
+mobs_npc_igor (Igor) bool true
+mobs_npc_npc (NPC) bool true
+mobs_npc_trader (Trader) bool true
 
 [*Advanced settings (Not So Simple Mobs)]
 
-enable_nssm_ants (Ants) bool true
-enable_nssm_black_widow (Black Widow) bool true
-enable_nssm_bloco (Bloco) bool true
-enable_nssm_crab (Crab) bool true
-enable_nssm_crocodile (Crocodile) bool true
-enable_nssm_daddy_long_legs (Daddy long legs) bool true
-enable_nssm_dolidrosaurus (Dolidrosaurus) bool true
-enable_nssm_duck (Duck) bool true
-enable_nssm_duckking (Duckking) bool true
-enable_nssm_echidna (Echidna) bool true
-enable_nssm_enderduck (Enderduck) bool true
-enable_nssm_flying_duck (Flying duck) bool true
-enable_nssm_felucco (Felucco) bool true
-enable_nssm_giant_sandworm (Giant sandworm) bool true
-enable_nssm_icelamander (Icelamander) bool true
-enable_nssm_icesnake (Icesnake) bool true
-enable_nssm_kraken (Kraken) bool true
-enable_nssm_larva (Larva) bool true
-enable_nssm_lava_titan (Lava titan) bool true
-enable_nssm_manticore (Manticore) bool true
-enable_nssm_mantis_beast (Mantis beast) bool true
-enable_nssm_mantis (Mantis) bool true
-enable_nssm_masticone (Masticone) bool true
-enable_nssm_moonheron (Moonheron) bool true
-enable_nssm_mordain (Mordain) bool true
-enable_nssm_morgre (Morgre) bool true
-enable_nssm_morde (Morde) bool true
-enable_nssm_morgut (Morgut) bool true
-enable_nssm_morlu (Morlu) bool true
-enable_nssm_morvalar (Morvalar) bool true
-enable_nssm_morvy (Morvy) bool true
-enable_nssm_morwa (Morwa) bool true
-enable_nssm_night_master (Night master) bool true
-enable_nssm_octopus (Octopus) bool true
-enable_nssm_phoenix (Phoenix) bool true
-enable_nssm_pumpboom (Pumpboom) bool true
-enable_nssm_pumpking (Pumpking) bool true
-enable_nssm_sandworm (Sandworm) bool true
-enable_nssm_scrausics (Scrausics) bool true
-enable_nssm_sand_bloco (Sand bloco) bool true
-enable_nssm_signosigno (Signosigno) bool true
-enable_nssm_snow_biter (Snow biter) bool true
-enable_nssm_spiderduck (Spiderduck) bool true
-enable_nssm_stone_eater (Stone eater) bool true
-enable_nssm_swimming_duck (Swimming duck) bool true
-enable_nssm_tarantula (Tarantula) bool true
-enable_nssm_uloboros (Uloboros) bool true
-enable_nssm_werewolf (Werewolf) bool true
-enable_nssm_white_werewolf (White werewolf) bool true
-enable_nssm_mese_dragon (Mese dragon) bool true
+nssm_ant_queen (Ant queen) bool true
+nssm_ant_soldier (Ant soldier) bool true
+nssm_ant_worker (Ant workder) bool true
+nssm_black_widow (Black Widow) bool true
+nssm_bloco (Bloco) bool true
+nssm_crab (Crab) bool true
+nssm_crocodile (Crocodile) bool true
+nssm_daddy_long_legs (Daddy long legs) bool true
+nssm_dolidrosaurus (Dolidrosaurus) bool true
+nssm_duck (Duck) bool true
+nssm_duckking (Duckking) bool true
+nssm_echidna (Echidna) bool true
+nssm_enderduck (Enderduck) bool true
+nssm_flying_duck (Flying duck) bool true
+nssm_felucco (Felucco) bool true
+nssm_giant_sandworm (Giant sandworm) bool true
+nssm_icelamander (Icelamander) bool true
+nssm_icesnake (Icesnake) bool true
+nssm_kraken (Kraken) bool true
+nssm_larva (Larva) bool true
+nssm_lava_titan (Lava titan) bool true
+nssm_manticore (Manticore) bool true
+nssm_mantis_beast (Mantis beast) bool true
+nssm_mantis (Mantis) bool true
+nssm_masticone (Masticone) bool true
+nssm_moonheron (Moonheron) bool true
+nssm_mordain (Mordain) bool true
+nssm_morgre (Morgre) bool true
+nssm_morde (Morde) bool true
+nssm_morgut (Morgut) bool true
+nssm_morlu (Morlu) bool true
+nssm_morvalar (Morvalar) bool true
+nssm_morvy (Morvy) bool true
+nssm_morwa (Morwa) bool true
+nssm_night_master (Night master) bool true
+nssm_octopus (Octopus) bool true
+nssm_phoenix (Phoenix) bool true
+nssm_pumpboom (Pumpboom) bool true
+nssm_pumpking (Pumpking) bool true
+nssm_sandworm (Sandworm) bool true
+nssm_scrausics (Scrausics) bool true
+nssm_sand_bloco (Sand bloco) bool true
+nssm_signosigno (Signosigno) bool true
+nssm_snow_biter (Snow biter) bool true
+nssm_spiderduck (Spiderduck) bool true
+nssm_stone_eater (Stone eater) bool true
+nssm_swimming_duck (Swimming duck) bool true
+nssm_tarantula (Tarantula) bool true
+nssm_uloboros (Uloboros) bool true
+nssm_werewolf (Werewolf) bool true
+nssm_white_werewolf (White werewolf) bool true
+nssm_mese_dragon (Mese dragon) bool true
 
 [Biomes]
 
