@@ -309,31 +309,7 @@ void Client::step(float dtime)
 			LocalPlayer *myplayer = m_env.getLocalPlayer();
 			FATAL_ERROR_IF(myplayer == NULL, "Local player not found in environment.");
 
-			u16 proto_version_min = g_settings->getFlag("send_pre_v25_init") ?
-				CLIENT_PROTOCOL_VERSION_MIN_LEGACY : CLIENT_PROTOCOL_VERSION_MIN;
-
-			if (proto_version_min < 25) {
-				// Send TOSERVER_INIT_LEGACY
-				// [0] u16 TOSERVER_INIT_LEGACY
-				// [2] u8 SER_FMT_VER_HIGHEST_READ
-				// [3] u8[20] player_name
-				// [23] u8[28] password (new in some version)
-				// [51] u16 minimum supported network protocol version (added sometime)
-				// [53] u16 maximum supported network protocol version (added later than the previous one)
-
-				char pName[PLAYERNAME_SIZE];
-				char pPassword[PASSWORD_SIZE];
-				memset(pName, 0, PLAYERNAME_SIZE * sizeof(char));
-				memset(pPassword, 0, PASSWORD_SIZE * sizeof(char));
-
-				std::string hashed_password = translate_password(myplayer->getName(), m_password);
-				snprintf(pName, PLAYERNAME_SIZE, "%s", myplayer->getName());
-				snprintf(pPassword, PASSWORD_SIZE, "%s", hashed_password.c_str());
-
-				sendLegacyInit(pName, pPassword);
-			}
-			if (CLIENT_PROTOCOL_VERSION_MAX >= 25)
-				sendInit(myplayer->getName());
+			sendInit(myplayer->getName());
 		}
 
 		// Not connected, return
@@ -427,11 +403,6 @@ void Client::step(float dtime)
 				event->player_damage.amount = damage;
 				m_client_event_queue.push(event);
 			}
-		}
-		// Protocol v29 or greater obsoleted this event
-		else if (envEvent.type == CEE_PLAYER_BREATH && m_proto_ver < 29) {
-			u16 breath = envEvent.player_breath.amount;
-			sendBreath(breath);
 		}
 	}
 
@@ -974,22 +945,6 @@ AuthMechanism Client::choseAuthMech(const u32 mechs)
 	return AUTH_MECHANISM_NONE;
 }
 
-void Client::sendLegacyInit(const char* playerName, const char* playerPassword)
-{
-	NetworkPacket pkt(TOSERVER_INIT_LEGACY,
-			1 + PLAYERNAME_SIZE + PASSWORD_SIZE + 2 + 2);
-
-	u16 proto_version_min = g_settings->getFlag("send_pre_v25_init") ?
-		CLIENT_PROTOCOL_VERSION_MIN_LEGACY : CLIENT_PROTOCOL_VERSION_MIN;
-
-	pkt << (u8) SER_FMT_VER_HIGHEST_READ;
-	pkt.putRawString(playerName,PLAYERNAME_SIZE);
-	pkt.putRawString(playerPassword, PASSWORD_SIZE);
-	pkt << (u16) proto_version_min << (u16) CLIENT_PROTOCOL_VERSION_MAX;
-
-	Send(&pkt);
-}
-
 void Client::sendInit(const std::string &playerName)
 {
 	NetworkPacket pkt(TOSERVER_INIT, 1 + 2 + 2 + (1 + playerName.size()));
@@ -997,11 +952,8 @@ void Client::sendInit(const std::string &playerName)
 	// we don't support network compression yet
 	u16 supp_comp_modes = NETPROTO_COMPRESSION_NONE;
 
-	u16 proto_version_min = g_settings->getFlag("send_pre_v25_init") ?
-		CLIENT_PROTOCOL_VERSION_MIN_LEGACY : CLIENT_PROTOCOL_VERSION_MIN;
-
 	pkt << (u8) SER_FMT_VER_HIGHEST_READ << (u16) supp_comp_modes;
-	pkt << (u16) proto_version_min << (u16) CLIENT_PROTOCOL_VERSION_MAX;
+	pkt << (u16) CLIENT_PROTOCOL_VERSION_MIN << (u16) CLIENT_PROTOCOL_VERSION_MAX;
 	pkt << playerName;
 
 	Send(&pkt);
@@ -1201,27 +1153,10 @@ void Client::sendChangePassword(const std::string &oldpassword,
 	if (player == NULL)
 		return;
 
-	std::string playername = player->getName();
-	if (m_proto_ver >= 25) {
-		// get into sudo mode and then send new password to server
-		m_password = oldpassword;
-		m_new_password = newpassword;
-		startAuth(choseAuthMech(m_sudo_auth_methods));
-	} else {
-		std::string oldpwd = translate_password(playername, oldpassword);
-		std::string newpwd = translate_password(playername, newpassword);
-
-		NetworkPacket pkt(TOSERVER_PASSWORD_LEGACY, 2 * PASSWORD_SIZE);
-
-		for (u8 i = 0; i < PASSWORD_SIZE; i++) {
-			pkt << (u8) (i < oldpwd.length() ? oldpwd[i] : 0);
-		}
-
-		for (u8 i = 0; i < PASSWORD_SIZE; i++) {
-			pkt << (u8) (i < newpwd.length() ? newpwd[i] : 0);
-		}
-		Send(&pkt);
-	}
+	// get into sudo mode and then send new password to server
+	m_password = oldpassword;
+	m_new_password = newpassword;
+	startAuth(choseAuthMech(m_sudo_auth_methods));
 }
 
 
@@ -1229,17 +1164,6 @@ void Client::sendDamage(u8 damage)
 {
 	NetworkPacket pkt(TOSERVER_DAMAGE, sizeof(u8));
 	pkt << damage;
-	Send(&pkt);
-}
-
-void Client::sendBreath(u16 breath)
-{
-	// Protocol v29 make this obsolete
-	if (m_proto_ver >= 29)
-		return;
-
-	NetworkPacket pkt(TOSERVER_BREATH, sizeof(u16));
-	pkt << breath;
 	Send(&pkt);
 }
 

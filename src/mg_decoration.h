@@ -46,21 +46,6 @@ enum DecorationType {
 extern FlagDesc flagdesc_deco[];
 
 
-#if 0
-struct CutoffData {
-	VoxelArea a;
-	Decoration *deco;
-	//v3s16 p;
-	//v3s16 size;
-	//s16 height;
-
-	CutoffData(s16 x, s16 y, s16 z, s16 h) {
-		p = v3s16(x, y, z);
-		height = h;
-	}
-};
-#endif
-
 class Decoration : public ObjDef, public NodeResolver {
 public:
 	Decoration() = default;
@@ -69,9 +54,7 @@ public:
 	virtual void resolveNodeNames();
 
 	bool canPlaceDecoration(MMVManip *vm, v3s16 p);
-	size_t placeDeco(Mapgen *mg, u32 blockseed,
-		v3s16 nmin, v3s16 nmax, s16 deco_zero_level);
-	//size_t placeCutoffs(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
+	size_t placeDeco(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
 
 	virtual size_t generate(MMVManip *vm, PcgRandom *pr, v3s16 p) = 0;
 	virtual int getHeight() = 0;
@@ -90,6 +73,7 @@ public:
 	std::unordered_set<u8> biomes;
 };
 
+
 class DecoSimple : public Decoration {
 public:
 	virtual void resolveNodeNames();
@@ -102,6 +86,7 @@ public:
 	u8 deco_param2;
 };
 
+
 class DecoSchematic : public Decoration {
 public:
 	DecoSchematic() = default;
@@ -110,6 +95,7 @@ public:
 	virtual int getHeight();
 
 	Rotation rotation;
+	s16 place_offset_y = 0;
 	Schematic *schematic = nullptr;
 };
 
@@ -120,6 +106,7 @@ public:
 	virtual void generate(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
 };
 */
+
 
 class DecorationManager : public ObjDefManager {
 public:
@@ -145,6 +132,5 @@ public:
 		}
 	}
 
-	size_t placeAllDecos(Mapgen *mg, u32 blockseed,
-		v3s16 nmin, v3s16 nmax, s16 deco_zero_level = 0);
+	size_t placeAllDecos(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax);
 };

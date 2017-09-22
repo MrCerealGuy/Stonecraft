@@ -2577,7 +2577,7 @@ void Game::processKeyInput()
 		wchar_t buf[100];
 		g_settings->setFloat("sound_volume", new_volume);
 		const wchar_t *str = wgettext("Volume changed to %d%%");
-		swprintf(buf, sizeof(buf), str, myround(new_volume * 100));
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, myround(new_volume * 100));
 		delete[] str;
 		m_statustext = buf;
 		runData.statustext_time = 0;
@@ -2586,7 +2586,7 @@ void Game::processKeyInput()
 		wchar_t buf[100];
 		g_settings->setFloat("sound_volume", new_volume);
 		const wchar_t *str = wgettext("Volume changed to %d%%");
-		swprintf(buf, sizeof(buf), str, myround(new_volume * 100));
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, myround(new_volume * 100));
 		delete[] str;
 		m_statustext = buf;
 		runData.statustext_time = 0;
@@ -2978,7 +2978,7 @@ void Game::toggleProfiler()
 	if (runData.profiler_current_page != 0) {
 		wchar_t buf[255];
 		const wchar_t* str = wgettext("Profiler shown (page %d of %d)");
-		swprintf(buf, sizeof(buf), str,
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str,
 				runData.profiler_current_page,
 				runData.profiler_max_page);
 		delete[] str;
@@ -3000,13 +3000,13 @@ void Game::increaseViewRange()
 	if (range_new > 4000) {
 		range_new = 4000;
 		str = wgettext("Viewing range is at maximum: %d");
-		swprintf(buf, sizeof(buf), str, range_new);
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, range_new);
 		delete[] str;
 		m_statustext = buf;
 
 	} else {
 		str = wgettext("Viewing range changed to %d");
-		swprintf(buf, sizeof(buf), str, range_new);
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, range_new);
 		delete[] str;
 		m_statustext = buf;
 	}
@@ -3025,12 +3025,12 @@ void Game::decreaseViewRange()
 	if (range_new < 20) {
 		range_new = 20;
 		str = wgettext("Viewing range is at minimum: %d");
-		swprintf(buf, sizeof(buf), str, range_new);
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, range_new);
 		delete[] str;
 		m_statustext = buf;
 	} else {
 		str = wgettext("Viewing range changed to %d");
-		swprintf(buf, sizeof(buf), str, range_new);
+		swprintf(buf, sizeof(buf) / sizeof(wchar_t), str, range_new);
 		delete[] str;
 		m_statustext = buf;
 	}
@@ -4042,7 +4042,7 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 
 		if (m_cache_enable_particles) {
 			const ContentFeatures &features = client->getNodeDefManager()->get(n);
-			client->getParticleManager()->addPunchingParticles(client,
+			client->getParticleManager()->addNodeParticle(client,
 					player, nodepos, n, features);
 		}
 	}
@@ -4114,7 +4114,17 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 			    		client->getScript()->on_dignode(nodepos, wasnode)) {
 				return;
 			}
-			client->removeNode(nodepos);
+
+			const ContentFeatures &f = client->ndef()->get(wasnode);
+			if (f.node_dig_prediction == "air") {
+				client->removeNode(nodepos);
+			} else if (!f.node_dig_prediction.empty()) {
+				content_t id;
+				bool found = client->ndef()->getId(f.node_dig_prediction, id);
+				if (found)
+					client->addNode(nodepos, id, true);
+			}
+			// implicit else: no prediction
 		}
 
 		client->interact(2, pointed);

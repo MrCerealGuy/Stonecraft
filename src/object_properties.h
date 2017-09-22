@@ -27,11 +27,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 struct ObjectProperties
 {
-	// Values are BS=1
 	s16 hp_max = 1;
+	u16 breath_max = 0;
 	bool physical = false;
 	bool collideWithObjects = true;
 	float weight = 5.0f;
+	// Values are BS=1
 	aabb3f collisionbox = aabb3f(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f);
 	aabb3f selectionbox = aabb3f(-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f);
 	bool pointable = true;
@@ -50,6 +51,7 @@ struct ObjectProperties
 	bool automatic_face_movement_dir = false;
 	f32 automatic_face_movement_dir_offset = 0.0f;
 	bool backface_culling = true;
+	s8 glow = 0;
 	std::string nametag = "";
 	video::SColor nametag_color = video::SColor(255, 255, 255, 255);
 	f32 automatic_face_movement_max_rotation_per_sec = -1.0f;

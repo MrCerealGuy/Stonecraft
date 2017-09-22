@@ -710,6 +710,9 @@ gui_scaling_filter_txr2img (GUI scaling filter txr2img) bool true
 #    Delay showing tooltips, stated in milliseconds.
 tooltip_show_delay (Tooltip delay) int 400
 
+#    Append item name to tooltip.
+tooltip_append_itemname (Append item name) bool false
+
 #    Whether freetype fonts are used, requires freetype support to be compiled in.
 freetype (Freetype fonts) bool true
 
@@ -759,6 +762,40 @@ enable_console (Enable console window) bool false
 enable_sound (Sound) bool true
 
 sound_volume (Volume) float 0.7 0.0 1.0
+
+[Client]
+
+[*Network]
+
+#    Address to connect to.
+#    Leave this blank to start a local server.
+#    Note that the address field in the main menu overrides this setting.
+address (Server address) string
+
+#    Port to connect to (UDP).
+#    Note that the port field in the main menu overrides this setting.
+remote_port (Remote port) int 30000 1 65535
+
+#    Save the map received by the client on disk.
+enable_local_map_saving (Saving map received from server) bool false
+
+#    Enable usage of remote media server (if provided by server).
+#    Remote servers offer a significantly faster way to download media (e.g. textures)
+#    when connecting to the server.
+enable_remote_media_server (Connect to external media server) bool true
+
+#    Enable Lua modding support on client.
+#    This support is experimental and API can change.
+enable_client_modding (Client modding) bool false
+
+#    URL to the server list displayed in the Multiplayer Tab.
+serverlist_url (Serverlist URL) string servers.minetest.net
+
+#    File in client/serverlist/ that contains your favorite servers displayed in the Multiplayer Tab.
+serverlist_file (Serverlist file) string favoriteservers.txt
+
+#    Maximum size of the out chat queue. 0 to disable queueing and -1 to make the queue size unlimited
+max_out_chat_queue_size (Maximum size of the out chat queue) int 20
 
 [*Advanced]
 
@@ -825,10 +862,9 @@ ipv6_server (IPv6 server) bool false
 [**Advanced]
 
 #    Maximum number of blocks that are simultaneously sent per client.
+#    The maximum total count is calculated dynamically:
+#    max_total = ceil((#clients + max_users) * per_client / 4)
 max_simultaneous_block_sends_per_client (Maximum simultaneous block sends per client) int 10
-
-#   Maximum number of blocks that are simultaneously sent in total.
-max_simultaneous_block_sends_server_total (Maximum simultaneous block sends total) int 40
 
 #    To reduce lag, block transfers are slowed down when a player is building something.
 #    This determines how long they are slowed down after placing or removing a node.
@@ -1310,10 +1346,9 @@ mgv6_np_apple_trees (Apple trees noise) noise_params 0, 1, (100, 100, 100), 3429
 
 #    Map generation attributes specific to Mapgen v7.
 #    'ridges' enables the rivers.
-#    'biomerepeat' causes surface biomes to repeat in the floatlands.
 #    Flags that are not specified in the flag string are not modified from the default.
 #    Flags starting with 'no' are used to explicitly disable them.
-mgv7_spflags (Mapgen V7 specific flags) flags mountains,ridges,nofloatlands,caverns,biomerepeat mountains,ridges,floatlands,caverns,biomerepeat,nomountains,noridges,nofloatlands,nocaverns,nobiomerepeat
+mgv7_spflags (Mapgen V7 specific flags) flags mountains,ridges,nofloatlands,caverns mountains,ridges,floatlands,caverns,nomountains,noridges,nofloatlands,nocaverns
 
 #    Y of mountain density gradient zero level. Used to shift mountains vertically.
 mgv7_mount_zero_level (Mountain zero level) int 0

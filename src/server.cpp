@@ -1534,9 +1534,6 @@ void Server::SendInventory(PlayerSAO* playerSAO)
 
 void Server::SendChatMessage(u16 peer_id, const ChatMessage &message)
 {
-	NetworkPacket legacypkt(TOCLIENT_CHAT_MESSAGE_OLD, 0, peer_id);
-	legacypkt << message.message;
-
 	NetworkPacket pkt(TOCLIENT_CHAT_MESSAGE, 0, peer_id);
 	u8 version = 1;
 	u8 type = message.type;
@@ -1547,12 +1544,9 @@ void Server::SendChatMessage(u16 peer_id, const ChatMessage &message)
 		if (!player)
 			return;
 
-		if (player->protocol_version < 35)
-			Send(&legacypkt);
-		else
-			Send(&pkt);
+		Send(&pkt);
 	} else {
-		m_clients.sendToAllCompat(&pkt, &legacypkt, 35);
+		m_clients.sendToAll(&pkt);
 	}
 }
 
@@ -1668,17 +1662,15 @@ void Server::SendAddParticleSpawner(u16 peer_id, u16 protocol_version,
 
 void Server::SendDeleteParticleSpawner(u16 peer_id, u32 id)
 {
-	NetworkPacket pkt(TOCLIENT_DELETE_PARTICLESPAWNER_LEGACY, 2, peer_id);
+	NetworkPacket pkt(TOCLIENT_DELETE_PARTICLESPAWNER, 4, peer_id);
 
 	// Ugly error in this packet
-	pkt << (u16) id;
+	pkt << id;
 
-	if (peer_id != PEER_ID_INEXISTENT) {
+	if (peer_id != PEER_ID_INEXISTENT)
 		Send(&pkt);
-	}
-	else {
+	else
 		m_clients.sendToAll(&pkt);
-	}
 
 }
 
@@ -2181,7 +2173,7 @@ void Server::SendBlocks(float dtime)
 
 	std::vector<PrioritySortedBlockTransfer> queue;
 
-	s32 total_sending = 0;
+	u32 total_sending = 0;
 
 	{
 		ScopeProfiler sp2(g_profiler, "Server: selecting blocks for sending");
@@ -2195,7 +2187,7 @@ void Server::SendBlocks(float dtime)
 			if (!client)
 				continue;
 
-			total_sending += client->SendingCount();
+			total_sending += client->getSendingCount();
 			client->GetNextBlocks(m_env,m_emerge, dtime, queue);
 		}
 		m_clients.unlock();
@@ -2207,11 +2199,13 @@ void Server::SendBlocks(float dtime)
 	std::sort(queue.begin(), queue.end());
 
 	m_clients.lock();
-	s32 max_blocks_to_send =
-			g_settings->getS32("max_simultaneous_block_sends_server_total");
+
+	// Maximal total count calculation
+	// The per-client block sends is halved with the maximal online users
+	u32 max_blocks_to_send = (m_env->getPlayerCount() + g_settings->getU32("max_users")) *
+		g_settings->getU32("max_simultaneous_block_sends_per_client") / 4 + 1;
 
 	for (const PrioritySortedBlockTransfer &block_to_send : queue) {
-		//TODO: Calculate limit dynamically
 		if (total_sending >= max_blocks_to_send)
 			break;
 
@@ -2548,7 +2542,7 @@ void Server::RespawnPlayer(u16 peer_id)
 			<< " respawns" << std::endl;
 
 	playersao->setHP(playersao->accessObjectProperties()->hp_max);
-	playersao->setBreath(PLAYER_MAX_BREATH);
+	playersao->setBreath(playersao->accessObjectProperties()->breath_max);
 
 	bool repositioned = m_script->on_respawnplayer(playersao);
 	if (!repositioned) {
@@ -2570,14 +2564,7 @@ void Server::DenySudoAccess(u16 peer_id)
 void Server::DenyAccessVerCompliant(u16 peer_id, u16 proto_ver, AccessDeniedCode reason,
 		const std::string &str_reason, bool reconnect)
 {
-	if (proto_ver >= 25) {
-		SendAccessDenied(peer_id, reason, str_reason, reconnect);
-	} else {
-		std::wstring wreason = utf8_to_wide(
-			reason == SERVER_ACCESSDENIED_CUSTOM_STRING ? str_reason :
-			accessDeniedStrings[(u8)reason]);
-		SendAccessDenied_Legacy(peer_id, wreason);
-	}
+	SendAccessDenied(peer_id, reason, str_reason, reconnect);
 
 	m_clients.event(peer_id, CSE_SetDenied);
 	m_con->DisconnectPeer(peer_id);

@@ -15,8 +15,7 @@ Mods are contained and ran solely on the server side. Definitions and media
 files are automatically transferred to the client.
 
 If you see a deficiency in the API, feel free to attempt to add the
-functionality in the engine and API. You can send such improvements as
-source code patches to <celeron55@gmail.com>.
+functionality in the engine and API.
 
 Programming in Lua
 ------------------
@@ -824,6 +823,15 @@ node definition:
       0 = y+    1 = z+    2 = z-    3 = x+    4 = x-    5 = y-
       facedir modulo 4 = rotation around that axis
     paramtype2 == "leveled"
+    ^ Only valid for "nodebox" with 'type = "leveled"', and "plantlike_rooted".
+      Leveled nodebox:
+        The level of the top face of the nodebox is stored in param2.
+        The other faces are defined by 'fixed = {}' like 'type = "fixed"' nodeboxes.
+        The nodebox height is (param2 / 64) nodes.
+        The maximum accepted value of param2 is 127.
+      Rooted plantlike:
+        The height of the 'plantlike' section is stored in param2.
+        The height is (param2 / 16) nodes.
     paramtype2 == "degrotate"
     ^ The rotation of this node is stored in param2. Plants are rotated this way.
       Values range 0 - 179. The value stored in param2 is multiplied by two to
@@ -859,13 +867,14 @@ node definition:
       The palette should have 32 pixels.
     paramtype2 == "glasslikeliquidlevel"
     ^ Only valid for "glasslike_framed" or "glasslike_framed_optional" drawtypes.
-      param2 defines 64 levels of internal liquid.
+      param2 values 0-63 define 64 levels of internal liquid, 0 being empty and
+      63 being full.
       Liquid texture is defined using `special_tiles = {"modname_tilename.png"},`
 
 Nodes can also contain extra data. See "Node Metadata".
 
 Node drawtypes
----------------
+--------------
 There are a bunch of different looking node types.
 
 Look for examples in `games/minimal` or `games/minetest_game`.
@@ -885,22 +894,18 @@ Look for examples in `games/minimal` or `games/minetest_game`.
 * `firelike`
 * `fencelike`
 * `raillike`
-* `nodebox` -- See below. (**Experimental!**)
-* `mesh` -- use models for nodes
-* `plantlike_rooted`
+* `nodebox` -- See below
+* `mesh` -- Use models for nodes, see below
+* `plantlike_rooted` -- See below
 
 `*_optional` drawtypes need less rendering time if deactivated (always client side).
 
 Node boxes
------------
+----------
 Node selection boxes are defined using "node boxes"
 
-The `nodebox` node drawtype allows defining visual of nodes consisting of
-arbitrary number of boxes. It allows defining stuff like stairs. Only the
-`fixed` and `leveled` box type is supported for these.
-
-Please note that this is still experimental, and may be incompatibly
-changed in the future.
+The `nodebox` node drawtype allows defining nodes consisting of an arbitrary
+number of boxes. It allows defining stuff like stairs and slabs.
 
 A nodebox is defined as any of:
 
@@ -909,8 +914,16 @@ A nodebox is defined as any of:
         type = "regular"
     }
     {
-        -- A fixed box (facedir param2 is used, if applicable)
+        -- A fixed box (or boxes) (facedir param2 is used, if applicable)
         type = "fixed",
+        fixed = box OR {box1, box2, ...}
+    }
+    {
+        -- A variable height box (or boxes) with the top face position defined by
+        -- the node parameter 'leveled = ', or if 'paramtype2 == "leveled"' by
+        -- param2.
+        -- Other faces are defined by 'fixed = {}' as with 'type = "fixed"'.
+        type = "leveled",
         fixed = box OR {box1, box2, ...}
     }
     {
@@ -942,16 +955,24 @@ A box of a regular node would look like:
 
     {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 
-`type = "leveled"` is same as `type = "fixed"`, but `y2` will be automatically
-set to level from `param2`.
-
-
 Meshes
 ------
 If drawtype `mesh` is used, tiles should hold model materials textures.
 Only static meshes are implemented.
 For supported model formats see Irrlicht engine documentation.
 
+Rooted plantlike drawtype
+-------------------------
+The `plantlike_rooted` drawtype was developed to enable underwater plants
+without air bubbles around the plants.
+It consists of a base cube at the co-ordinates of the node (the seabed /
+lakebed / riverbed node) plus a 'plantlike' extension above with a height
+defined by param2 (maximum height 16 nodes). This extension visually passes
+through any nodes above the base cube without affecting them.
+The node is dug by digging the base cube.
+The base cube texture tiles are defined as normal, the plantlike extension
+uses the defined 'special tile', for example:
+`special_tiles = {{name = "default_papyrus.png", tileable_vertical = true}},`
 
 Noise Parameters
 ----------------
@@ -2158,9 +2179,11 @@ Helper functions
     * e.g. `string:split("a,b", ",") == {"a","b"}`
 * `string:trim()`
     * e.g. `string.trim("\n \t\tfoo bar\t ") == "foo bar"`
-* `minetest.wrap_text(str, limit)`: returns a string
-    * Adds new lines to the string to keep it within the specified character limit
+* `minetest.wrap_text(str, limit, [as_table])`: returns a string or table
+    * Adds newlines to the string to keep it within the specified character limit
+      Note that returned lines may be longer than the limit since it only splits at word borders.
     * limit: Maximal amount of characters in one line
+    * as_table: optional, if true return table of lines instead of string
 * `minetest.pos_to_string({x=X,y=Y,z=Z}, decimal_places))`: returns string `"(X,Y,Z)"`
     * Convert position to a printable string
       Optional: 'decimal_places' will round the x, y and z of the pos to the given decimal place.
@@ -3071,6 +3094,10 @@ These functions return the leftover itemstack.
     * Replaces definition of a builtin hud element
     * `name`: `"breath"` or `"health"`
     * `hud_definition`: definition to replace builtin definition
+* `minetest.send_join_message(player_name)`
+    * Can be overridden by mods to change the join message
+* `minetest.send_leave_message(player_name, timed_out)`
+    * Can be overridden by mods to change the leave message
 * `minetest.hash_node_position({x=,y=,z=})`: returns an 48-bit integer
     * Gives a unique hash number for a node position (16+16+16=48bit)
 * `minetest.get_position_from_hash(hash)`: returns a position
@@ -3391,10 +3418,9 @@ This is basically a reference to a C++ `ServerActiveObject`
 * `get_breath()`: returns players breath
 * `set_breath(value)`: sets players breath
      * values:
-        * `0`: player is drowning,
-        * `1`-`10`: remaining number of bubbles
-        * `11`: bubbles bar is not shown
-        * See constant: `minetest.PLAYER_MAX_BREATH`
+        * `0`: player is drowning
+        * max: bubbles bar is not shown
+        * See Object Properties for more information
 * `set_attribute(attribute, value)`:
     * Sets an extra attribute with value on player.
     * `value` must be a string.
@@ -4099,7 +4125,9 @@ Definition tables
 
     {
         hp_max = 1,
-    --  ^ For players, the maximal HP defaults to `minetest.PLAYER_MAX_HP_DEFAULT`
+    --  ^ For players: Defaults to `minetest.PLAYER_MAX_HP_DEFAULT`
+        breath_max = 0,
+    --  ^ For players only. Defaults to `minetest.PLAYER_MAX_BREATH_DEFAULT`
         physical = true,
         collide_with_objects = true, -- collide with other objects if physical = true
         weight = 5,
@@ -4125,6 +4153,10 @@ Definition tables
     --  ^ Limit automatic rotation to this value in degrees per second,
     --    value < 0 no limit.
         backface_culling = true, -- false to disable backface_culling for model
+        glow = 0,
+    --  ^ Add this much extra lighting when calculating texture color.
+          value < 0 disables light's effect on texture color.
+          For faking self-lighting, UI style entities, or programmatic coloring in mods.
         nametag = "", -- by default empty, for players their name is shown if empty
         nametag_color = <color>, -- sets color of nametag as ColorSpec
         infotext = "", -- by default empty, text to be shown when pointed at object
@@ -4235,6 +4267,13 @@ Definition tables
         ^ Otherwise should be name of node which the client immediately places
           on ground when the player places the item. Server will always update
           actual result to client in a short moment.
+        ]]
+        node_dig_prediction = "air",
+        --[[
+        ^ if "", no prediction is made
+        ^ if "air", node is removed
+        ^ Otherwise should be name of node which the client immediately places
+          upon digging. Server will always update actual result shortly.
         ]]
         sound = {
             breaks = "default_tool_break", -- tools only
@@ -4382,9 +4421,11 @@ Definition tables
         liquid_viscosity = 0, -- Higher viscosity = slower flow (max. 7)
         liquid_renewable = true, --[[
         ^ If true, a new liquid source can be created by placing two or more sources nearby ]]
-        leveled = 0, --[[
-        ^ Block contains level in param2. Value is default level, used for snow.
-        ^ Don't forget to use "leveled" type nodebox. ]]
+        leveled = 16, --[[
+        ^ Only valid for "nodebox" drawtype with 'type = "leveled"'.
+        ^ Allows defining the nodebox height without using param2.
+        ^ The nodebox height is 'leveled' / 64 nodes.
+        ^ The maximum value of 'leveled' is 127. ]]
         liquid_range = 8, -- number of flowing nodes around source (max. 8)
         drowning = 0, -- Player will take this amount of damage if no bubbles are left
         light_source = 0, --[[
@@ -4591,8 +4632,6 @@ Definition tables
         y_min = -31000,
         y_max = 64,
     --  ^ Lower and upper limits for ore.
-    --  ^ Limits are relative to y = water_level - 1 for core mapgen, or
-    --  ^ relative to y = 0 for minetest.generate_ores().
         flags = "",
     --  ^ Attributes for this ore generation
         noise_threshold = 0.5,
@@ -4611,9 +4650,6 @@ Definition tables
     }
 
 ### Biome definition (`register_biome`)
-
-**Note**
-The Biome API is still in an experimental phase and subject to change.
 
     {
         name = "tundra",
@@ -4640,14 +4676,6 @@ The Biome API is still in an experimental phase and subject to change.
         y_min = 1,
         y_max = 31000,
     --  ^ Lower and upper limits for biome.
-    --  ^ Limits are relative to y = water_level - 1.
-    --  ^ Because biome is not recalculated for every node in a node column
-    --  ^ some biome materials can exceed their limits, especially stone.
-    --  ^ For each node column in a mapchunk, biome is only recalculated at column
-    --  ^ top and at each of these surfaces:
-    --  ^ Ground below air, water below air, ground below water.
-    --  ^ The selected biome then stays in effect for all nodes below until
-    --  ^ column base or the next biome recalculation.
         heat_point = 0,
         humidity_point = 50,
     --  ^ Characteristic average temperature and humidity for the biome.
@@ -4684,8 +4712,6 @@ The Biome API is still in an experimental phase and subject to change.
         y_min = -31000
         y_max = 31000
     --  ^ Lower and upper limits for decoration.
-    --  ^ Limits are relative to y = water_level - 1 for core mapgen, or
-    --  ^ relative to y = 0 for minetest.generate_decorations().
     --  ^ This parameter refers to the `y` position of the decoration base, so
     --    the actual maximum height would be `height_max + size.Y`.
         spawn_by = "default:water",
@@ -4743,6 +4769,13 @@ The Biome API is still in an experimental phase and subject to change.
     --  ^ Flags for schematic decorations.  See 'Schematic attributes'.
         rotation = "90" -- rotate schematic 90 degrees on placement
     --  ^ Rotation can be "0", "90", "180", "270", or "random".
+        place_offset_y = 0,
+    --  ^ Y offset of the schematic base node layer relative to the 'place_on'
+    --  ^ node.
+    --  ^ Can be positive or negative. Default is 0.
+    --  ^ If the flag 'place_center_y' is set this parameter is ignored.
+    --  ^ If absent or 0 the schematic base node layer will be placed level
+    --  ^ with the 'place_on' node.
     }
 
 ### Chat command definition (`register_chatcommand`)
