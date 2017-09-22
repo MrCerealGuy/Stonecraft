@@ -225,7 +225,7 @@ enable_erosion (Erosion and sloped blocks) bool false
 
 [Structures]
    
-enable_villages (Villages and buildings) bool false
+enable_villages (Villages and buildings - experimentell) bool false
 enable_mines (Mines) bool false
 enable_pyramids (Pyramids) bool false
 
