@@ -159,8 +159,8 @@ msgid "More forests and red trees"
 msgstr "Mehr Wälder und rote Bäume"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Villages and buildings"
-msgstr "Dörfer und Gebäude"
+msgid "Villages and buildings - experimentell"
+msgstr "Dörfer und Gebäude - experimental"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Ethereal biomes"
