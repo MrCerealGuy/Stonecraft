@@ -19,7 +19,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #pragma once
 
-#include <util/numeric.h>
+#include "network/networkprotocol.h"
+#include "util/numeric.h"
 #include "serverobject.h"
 #include "itemgroup.h"
 #include "object_properties.h"
@@ -104,6 +105,8 @@ public:
 			const std::string &data);
 	void step(float dtime, bool send_recommended);
 	std::string getClientInitializationData(u16 protocol_version);
+	bool isStaticAllowed() const
+	{ return m_prop.static_save; }
 	void getStaticData(std::string *result) const;
 	int punch(v3f dir,
 			const ToolCapabilities *toolcap=NULL,
@@ -196,7 +199,8 @@ class RemotePlayer;
 class PlayerSAO : public UnitSAO
 {
 public:
-	PlayerSAO(ServerEnvironment *env_, RemotePlayer *player_, u16 peer_id_, bool is_singleplayer);
+	PlayerSAO(ServerEnvironment *env_, RemotePlayer *player_, session_t peer_id_,
+			bool is_singleplayer);
 	~PlayerSAO();
 	ActiveObjectType getType() const
 	{ return ACTIVEOBJECT_TYPE_PLAYER; }
@@ -311,7 +315,7 @@ public:
 	void disconnected();
 
 	RemotePlayer *getPlayer() { return m_player; }
-	u16 getPeerID() const { return m_peer_id; }
+	session_t getPeerID() const { return m_peer_id; }
 
 	// Cheat prevention
 
@@ -372,7 +376,7 @@ private:
 	void unlinkPlayerSessionAndSave();
 
 	RemotePlayer *m_player = nullptr;
-	u16 m_peer_id = 0;
+	session_t m_peer_id = 0;
 	Inventory *m_inventory = nullptr;
 	s16 m_damage = 0;
 

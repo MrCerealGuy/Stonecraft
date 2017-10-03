@@ -1,6 +1,6 @@
 /*
 Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -17,20 +17,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "version.h"
-#include "config.h"
+#pragma once
 
-#if defined(__ANDROID__)
-	#include "android_version.h"
-	#include "android_version_githash.h"
-#elif defined(USE_CMAKE_CONFIG_H)
-	#include "cmake_config_githash.h"
-#endif
+#include "cpp_api/s_base.h"
+#include "modchannels.h"
 
-#ifndef VERSION_GITHASH
-	#define VERSION_GITHASH VERSION_STRING
-#endif
-
-const char *g_version_string = VERSION_STRING;
-const char *g_version_hash = VERSION_GITHASH;
-const char *g_build_info = BUILD_INFO;
+class ScriptApiModChannels : virtual public ScriptApiBase
+{
+public:
+	void on_modchannel_message(const std::string &channel, const std::string &sender,
+			const std::string &message);
+	void on_modchannel_signal(const std::string &channel, ModChannelSignal signal);
+};

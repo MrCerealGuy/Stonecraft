@@ -763,6 +763,8 @@ enable_sound (Sound) bool true
 
 sound_volume (Volume) float 0.7 0.0 1.0
 
+mute_sound (Mute sound) bool false
+
 [Client]
 
 [*Network]
@@ -927,6 +929,9 @@ player_transfer_distance (Player transfer distance) int 0
 
 #    Whether to allow players to damage and kill each other.
 enable_pvp (Player versus Player) bool true
+
+#    Enable mod channels support.
+enable_mod_channels (Mod channels) bool false
 
 #    If this is set, players will always (re)spawn at the given position.
 static_spawnpoint (Static spawnpoint) string

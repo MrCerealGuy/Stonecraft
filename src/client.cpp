@@ -39,6 +39,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapblock_mesh.h"
 #include "mapblock.h"
 #include "minimap.h"
+#include "modchannels.h"
 #include "mods.h"
 #include "profiler.h"
 #include "shader.h"
@@ -94,7 +95,8 @@ Client::Client(
 	m_chosen_auth_mech(AUTH_MECHANISM_NONE),
 	m_media_downloader(new ClientMediaDownloader()),
 	m_state(LC_Created),
-	m_game_ui_flags(game_ui_flags)
+	m_game_ui_flags(game_ui_flags),
+	m_modchannel_mgr(new ModChannelMgr())
 {
 	// Add local player
 	m_env.setLocalPlayer(new LocalPlayer(this, playername));
@@ -1188,7 +1190,7 @@ void Client::sendReady()
 void Client::sendPlayerPos()
 {
 	LocalPlayer *myplayer = m_env.getLocalPlayer();
-	if(myplayer == NULL)
+	if (!myplayer)
 		return;
 
 	ClientMap &map = m_env.getClientMap();
@@ -1214,20 +1216,6 @@ void Client::sendPlayerPos()
 	myplayer->last_camera_fov   = camera_fov;
 	myplayer->last_wanted_range = wanted_range;
 
-	//infostream << "Sending Player Position information" << std::endl;
-
-	u16 our_peer_id;
-	{
-		//MutexAutoLock lock(m_con_mutex); //bulk comment-out
-		our_peer_id = m_con->GetPeerID();
-	}
-
-	// Set peer id if not set already
-	if(myplayer->peer_id == PEER_ID_INEXISTENT)
-		myplayer->peer_id = our_peer_id;
-
-	assert(myplayer->peer_id == our_peer_id);
-
 	NetworkPacket pkt(TOSERVER_PLAYERPOS, 12 + 12 + 4 + 4 + 4 + 1 + 1);
 
 	writePlayerPos(myplayer, &map, &pkt);
@@ -1238,15 +1226,8 @@ void Client::sendPlayerPos()
 void Client::sendPlayerItem(u16 item)
 {
 	LocalPlayer *myplayer = m_env.getLocalPlayer();
-	if(myplayer == NULL)
+	if (!myplayer)
 		return;
-
-	u16 our_peer_id = m_con->GetPeerID();
-
-	// Set peer id if not set already
-	if(myplayer->peer_id == PEER_ID_INEXISTENT)
-		myplayer->peer_id = our_peer_id;
-	assert(myplayer->peer_id == our_peer_id);
 
 	NetworkPacket pkt(TOSERVER_PLAYERITEM, 2);
 
@@ -1918,4 +1899,58 @@ void Client::unregisterModStorage(const std::string &name)
 std::string Client::getModStoragePath() const
 {
 	return porting::path_user + DIR_DELIM + "client" + DIR_DELIM + "mod_storage";
+}
+
+/*
+ * Mod channels
+ */
+
+bool Client::joinModChannel(const std::string &channel)
+{
+	if (m_modchannel_mgr->channelRegistered(channel))
+		return false;
+
+	NetworkPacket pkt(TOSERVER_MODCHANNEL_JOIN, 2 + channel.size());
+	pkt << channel;
+	Send(&pkt);
+
+	m_modchannel_mgr->joinChannel(channel, 0);
+	return true;
+}
+
+bool Client::leaveModChannel(const std::string &channel)
+{
+	if (!m_modchannel_mgr->channelRegistered(channel))
+		return false;
+
+	NetworkPacket pkt(TOSERVER_MODCHANNEL_LEAVE, 2 + channel.size());
+	pkt << channel;
+	Send(&pkt);
+
+	m_modchannel_mgr->leaveChannel(channel, 0);
+	return true;
+}
+
+bool Client::sendModChannelMessage(const std::string &channel, const std::string &message)
+{
+	if (!m_modchannel_mgr->canWriteOnChannel(channel))
+		return false;
+
+	if (message.size() > STRING_MAX_LEN) {
+		warningstream << "ModChannel message too long, dropping before sending "
+				<< " (" << message.size() << " > " << STRING_MAX_LEN << ", channel: "
+				<< channel << ")" << std::endl;
+		return false;
+	}
+
+	// @TODO: do some client rate limiting
+	NetworkPacket pkt(TOSERVER_MODCHANNEL_MSG, 2 + channel.size() + 2 + message.size());
+	pkt << channel << message;
+	Send(&pkt);
+	return true;
+}
+
+ModChannel* Client::getModChannel(const std::string &channel)
+{
+	return m_modchannel_mgr->getModChannel(channel);
 }

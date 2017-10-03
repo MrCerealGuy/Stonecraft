@@ -37,6 +37,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("address", "");
 	settings->setDefault("enable_sound", "true");
 	settings->setDefault("sound_volume", "0.8");
+	settings->setDefault("mute_sound", "false");
 	settings->setDefault("enable_mesh_cache", "false");
 	settings->setDefault("mesh_generation_interval", "0");
 	settings->setDefault("meshgen_block_cache_size", "20");
@@ -306,6 +307,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("default_password", "");
 	settings->setDefault("default_privs", "interact, shout, home, zoom");
 	settings->setDefault("enable_pvp", "true");
+	settings->setDefault("enable_mod_channels", "false");
 	settings->setDefault("disallow_empty_password", "false");
 	settings->setDefault("disable_anticheat", "false");
 	settings->setDefault("enable_rollback_recording", "false");

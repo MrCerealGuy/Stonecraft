@@ -1098,12 +1098,17 @@ Creates a deformed sphere of ore according to 3d perlin noise described by
 ### `vein`
 Creates veins of ore varying in density by according to the intersection of two
 instances of 3d perlin noise with diffferent seeds, both described by
-`noise_params`.  `random_factor` varies the influence random chance has on
-placement of an ore inside the vein, which is `1` by default. Note that
-modifying this parameter may require adjusting `noise_threshold`.
+`noise_params`.
+
+`random_factor` varies the influence random chance has on placement of an ore
+inside the vein, which is `1` by default. Note that modifying this parameter may
+require adjusting `noise_threshold`.
+
 The parameters `clust_scarcity`, `clust_num_ores`, and `clust_size` are ignored
-by this ore type.  This ore type is difficult to control since it is sensitive
-to small changes.  The following is a decent set of parameters to work from:
+by this ore type.
+
+This ore type is difficult to control since it is sensitive to small changes.
+The following is a decent set of parameters to work from:
 
 	noise_params = {
 	    offset  = 0,
@@ -1122,16 +1127,24 @@ computationally expensive than any other ore.
 ### `stratum`
 Creates a single undulating ore stratum that is continuous across mapchunk
 borders and horizontally spans the world.
+
 The 2D perlin noise described by `noise_params` varies the Y co-ordinate of the
 stratum midpoint. The 2D perlin noise described by `np_stratum_thickness`
 varies the stratum's vertical thickness (in units of nodes). Due to being
 continuous across mapchunk borders the stratum's vertical thickness is
-unlimited. 
+unlimited.
+
 `y_min` and `y_max` define the limits of the ore generation and for performance
 reasons should be set as close together as possible but without clipping the
 stratum's Y variation.
+
+If either of the 2 noise parameters are omitted the ore will occur from y_min
+to y_max in a simple horizontal stratum. As this does not compute noise
+performance improves, and is ideal for placing many layers.
+
 Each node in the stratum has a 1-in-`clust_scarcity` chance of being ore, so a
 solid-ore stratum would require a `clust_scarcity` of 1.
+
 The parameters `clust_num_ores`, `clust_size`, `noise_threshold` and
 `random_factor` are ignored by this ore type.
 
@@ -2163,32 +2176,48 @@ For the following functions `x` can be either a vector or a number:
 
 Helper functions
 ----------------
-* `dump2(obj, name="_", dumped={})`
-     * Return object serialized as a string, handles reference loops
-* `dump(obj, dumped={})`
-    * Return object serialized as a string
+* `dump2(obj, name, dumped)`: returns a string which makes `obj` human readable,
+        handles reference loops
+    * `obj`: arbitrary variable
+    * `name`: string, default: `"_"`
+    * `dumped`: table, default: `{}`
+* `dump(obj, dumped)`: returns a string which makes `obj` human readable
+    * `obj`: arbitrary variable
+    * `dumped`: table, default: `{}`
 * `math.hypot(x, y)`
     * Get the hypotenuse of a triangle with legs x and y.
       Useful for distance calculation.
-* `math.sign(x, tolerance)`
+* `math.sign(x, tolerance)`: returns `-1`, `0` or `1`
     * Get the sign of a number.
-      Optional: Also returns `0` when the absolute value is within the tolerance (default: `0`)
-* `string.split(str, separator=",", include_empty=false, max_splits=-1, sep_is_pattern=false)`
-    * If `max_splits` is negative, do not limit splits.
-    * `sep_is_pattern` specifies if separator is a plain string or a pattern (regex).
-    * e.g. `string:split("a,b", ",") == {"a","b"}`
-* `string:trim()`
-    * e.g. `string.trim("\n \t\tfoo bar\t ") == "foo bar"`
-* `minetest.wrap_text(str, limit, [as_table])`: returns a string or table
-    * Adds newlines to the string to keep it within the specified character limit
-      Note that returned lines may be longer than the limit since it only splits at word borders.
-    * limit: Maximal amount of characters in one line
-    * as_table: optional, if true return table of lines instead of string
-* `minetest.pos_to_string({x=X,y=Y,z=Z}, decimal_places))`: returns string `"(X,Y,Z)"`
-    * Convert position to a printable string
-      Optional: 'decimal_places' will round the x, y and z of the pos to the given decimal place.
-* `minetest.string_to_pos(string)`: returns a position
-    * Same but in reverse. Returns `nil` if the string can't be parsed to a position.
+    * tolerance: number, default: `0.0`
+    * If the absolute value of `x` is within the `tolerance` or `x` is NaN,
+      `0` is returned.
+* `string.split(str, separator, include_empty, max_splits, sep_is_pattern)`
+    * `separator`: string, default: `","`
+    * `include_empty`: boolean, default: `false`
+    * `max_splits`: number, if it's positive, splits aren't limited,
+      default: `-1`
+    * `sep_is_pattern`: boolean, it specifies whether separator is a plain
+      string or a pattern (regex), default: `false`
+    * e.g. `"a,b":split","` returns `{"a","b"}`
+* `string:trim()`: returns the string whithout whitespace pre- and suffixes
+    * e.g. `"\n \t\tfoo bar\t ":trim()` returns `"foo bar"`
+* `minetest.wrap_text(str, limit, as_table)`: returns a string or table
+    * Adds newlines to the string to keep it within the specified character
+      limit
+    * Note that the returned lines may be longer than the limit since it only
+      splits at word borders.
+    * `limit`: number, maximal amount of characters in one line
+    * `as_table`: boolean, if set to true, a table of lines instead of a string
+      is returned, default: `false`
+* `minetest.pos_to_string(pos, decimal_places)`: returns string `"(X,Y,Z)"`
+    * `pos`: table {x=X, y=Y, z=Z}
+    * Converts the position `pos` to a human-readable, printable string
+    * `decimal_places`: number, if specified, the x, y and z values of
+      the position are rounded to the given decimal place.
+* `minetest.string_to_pos(string)`: returns a position or `nil`
+    * Same but in reverse.
+    * If the string can't be parsed to a position, nothing is returned.
 * `minetest.string_to_area("(X1, Y1, Z1) (X2, Y2, Z2)")`: returns two positions
     * Converts a string representing an area box into two positions
 * `minetest.formspec_escape(string)`: returns a string
@@ -2496,6 +2525,20 @@ Call these functions only at load time!
 * `minetest.register_can_bypass_userlimit(function(name, ip))`
     * Called when `name` user connects with `ip`.
     * Return `true` to by pass the player limit
+* `minetest.register_on_modchannel_message(func(channel_name, sender, message))`
+    * Called when an incoming mod channel message is received
+    * You should have joined  some channels to receive events.
+    * If message comes from a server mod, `sender` field is an empty string.
+* `minetest.register_on_modchannel_signal(func(channel_name, signal))`
+    * Called when a valid incoming mod channel signal is received
+    * Signal id permit to react to server mod channel events
+    * Possible values are:
+      0: join_ok
+      1: join_failed
+      2: leave_ok
+      3: leave_failed
+      4: event_on_not_joined_channel
+      5: state_changed
 
 ### Other registration functions
 * `minetest.register_chatcommand(cmd, chatcommand definition)`
@@ -2528,7 +2571,7 @@ Call these functions only at load time!
 ### Authentication
 * `minetest.notify_authentication_modified(name)`
     * Should be called by the authentication handler if privileges changes.
-    * To report everybody, set `name=nil`.
+    * `name`: string, if ommited, everybody is reported
 * `minetest.check_password_entry(name, entry, password)`
     * Returns true if the "db entry" for a player with name matches given
     * password, false otherwise.
@@ -2567,12 +2610,15 @@ and `minetest.auth_reload` call the authetification handler.
 
 ### Environment access
 * `minetest.set_node(pos, node)`
-* `minetest.add_node(pos, node): alias set_node(pos, node)`
-    * Set node at position (`node = {name="foo", param1=0, param2=0}`)
+* `minetest.add_node(pos, node): alias to `minetest.set_node`
+    * Set node at position `pos`
+    * `node`: table `{name=string, param1=number, param2=number}`
+    * If param1 or param2 is omitted, it's set to `0`.
+    * e.g. `minetest.set_node({x=0, y=10, z=0}, {name="default:wood"})`
 * `minetest.swap_node(pos, node)`
     * Set node at position, but don't remove metadata
 * `minetest.remove_node(pos)`
-    * Equivalent to `set_node(pos, "air")`
+    * By default it does the same as `minetest.set_node(pos, {name="air"})`
 * `minetest.get_node(pos)`
     * Returns the node at the given position as table in the format
       `{name="node_name", param1=0, param2=0}`, returns `{name="ignore", param1=0, param2=0}`
@@ -2772,6 +2818,14 @@ and `minetest.auth_reload` call the authetification handler.
       unattached `group:attached_node` node to fall.
     * spread these updates to neighbours and can cause a cascade
       of nodes to fall.
+
+### Mod channels
+You can find mod channels communication scheme in `docs/mod_channels.png`.
+
+* `minetest.mod_channel_join(channel_name)`
+    * Server joins channel `channel_name`, and creates it if necessary. You
+      should listen from incoming messages with `minetest.register_on_modchannel_message`
+      call to receive incoming messages
 
 ### Inventory
 `minetest.get_inventory(location)`: returns an `InvRef`
@@ -3095,10 +3149,11 @@ These functions return the leftover itemstack.
     * `name`: `"breath"` or `"health"`
     * `hud_definition`: definition to replace builtin definition
 * `minetest.send_join_message(player_name)`
-    * Can be overridden by mods to change the join message
+    * This function can be overridden by mods to change the join message.
 * `minetest.send_leave_message(player_name, timed_out)`
-    * Can be overridden by mods to change the leave message
-* `minetest.hash_node_position({x=,y=,z=})`: returns an 48-bit integer
+    * This function can be overridden by mods to change the leave message.
+* `minetest.hash_node_position(pos)`: returns an 48-bit integer
+    * `pos`: table {x=number, y=number, z=number},
     * Gives a unique hash number for a node position (16+16+16=48bit)
 * `minetest.get_position_from_hash(hash)`: returns a position
     * Inverse transform of `minetest.hash_node_position`
@@ -3256,6 +3311,21 @@ These functions return the leftover itemstack.
 Class reference
 ---------------
 
+### ModChannel
+
+An interface to use mod channels on client and server
+
+#### Methods
+* `leave()`: leave the mod channel.
+    * Server leaves channel `channel_name`.
+    * No more incoming or outgoing messages can be sent to this channel from server mods.
+    * This invalidate all future object usage
+    * Ensure your set mod_channel to nil after that to free Lua resources
+* `is_writeable()`: returns true if channel is writeable and mod can send over it.
+* `send_all(message)`: Send `message` though the mod channel.
+    * If mod channel is not writeable or invalid, message will be dropped.
+    * Message size is limited to 65535 characters by protocol.
+
 ### `MetaDataRef`
 See `StorageRef`, `NodeMetaRef` and `ItemStackMetaRef`.
 
@@ -3349,13 +3419,18 @@ This is basically a reference to a C++ `ServerActiveObject`
 * `set_wielded_item(item)`: replaces the wielded item, returns `true` if successful
 * `set_armor_groups({group1=rating, group2=rating, ...})`
 * `get_armor_groups()`: returns a table with the armor group ratings
-* `set_animation({x=1,y=1}, frame_speed=15.0, frame_blend=0, frame_loop=true)`
+* `set_animation(frame_range, frame_speed, frame_blend, frame_loop)`
+  * `frame_range`: table {x=num, y=num}, default: `{x=1, y=1}`
+  * `frame_speed`: number, default: `15.0`
+  * `frame_blend`: number, default: `0.0`
+  * `frame_loop`: boolean, default: `true`
 * `get_animation()`: returns `range`, `frame_speed`, `frame_blend` and `frame_loop`
-* `set_animation_frame_speed(frame_speed=15.0)`
+* `set_animation_frame_speed(frame_speed)`
+  * `frame_speed`: number, default: `15.0`
 * `set_attach(parent, bone, position, rotation)`
     * `bone`: string
     * `position`: `{x=num, y=num, z=num}` (relative)
-    * `rotation`: `{x=num, y=num, z=num}`
+    * `rotation`: `{x=num, y=num, z=num}` = Rotation on each axis, in degrees
 * `get_attach()`: returns parent, bone, position, rotation or nil if it isn't attached
 * `set_detach()`
 * `set_bone_position(bone, position, rotation)`
@@ -3381,18 +3456,25 @@ This is basically a reference to a C++ `ServerActiveObject`
       }
 
 ##### LuaEntitySAO-only (no-op for other objects)
-* `set_velocity({x=num, y=num, z=num})`
-* `get_velocity()`: returns `{x=num, y=num, z=num}`
-* `set_acceleration({x=num, y=num, z=num})`
-* `get_acceleration()`: returns `{x=num, y=num, z=num}`
+* `set_velocity(vel)`
+    * `vel` is a vector, e.g. `{x=0.0, y=2.3, z=1.0}`
+* `get_velocity()`: returns the velocity, a vector
+* `set_acceleration(acc)`
+    * `acc` is a vector
+* `get_acceleration()`: returns the acceleration, a vector
 * `set_yaw(radians)`
 * `get_yaw()`: returns number in radians
 * `set_texture_mod(mod)`
 * `get_texture_mod()` returns current texture modifier
-* `set_sprite(p={x=0,y=0}, num_frames=1, framelength=0.2,
-  select_horiz_by_yawpitch=false)`
-    * Select sprite from spritesheet with optional animation and DM-style
-      texture selection based on yaw relative to camera
+* `set_sprite(p, num_frames, framelength, select_horiz_by_yawpitch)`
+    * Select sprite from spritesheet with optional animation and Dungeon Master
+      style texture selection based on yaw relative to camera
+    * `p`: {x=number, y=number}, the coordinate of the first frame
+      (x: column, y: row), default: `{x=0, y=0}`
+    * `num_frames`: number, default: `1`
+    * `framelength`: number, default: `0.2`
+    * `select_horiz_by_yawpitch`: boolean, this was once used for the Dungeon
+      Master mob, default: `false`
 * `get_entity_name()` (**Deprecated**: Will be removed in a future version)
 * `get_luaentity()`
 
@@ -3433,9 +3515,13 @@ This is basically a reference to a C++ `ServerActiveObject`
     * Should usually be called in `on_joinplayer`
 * `get_inventory_formspec()`: returns a formspec string
 * `get_player_control()`: returns table with player pressed keys
-    * `{jump=bool,right=bool,left=bool,LMB=bool,RMB=bool,sneak=bool,aux1=bool,down=bool,up=bool}`
+    * The table consists of fields with boolean value representing the pressed
+      keys, the fields are jump, right, left, LMB, RMB, sneak, aux1, down and up
+    * example: `{jump=false, right=true, left=false, LMB=false, RMB=false,
+      sneak=true, aux1=false, down=false, up=false}`
 * `get_player_control_bits()`: returns integer with bit packed player pressed keys
-    * bit nr/meaning: 0/up ,1/down ,2/left ,3/right ,4/jump ,5/aux1 ,6/sneak ,7/LMB ,8/RMB
+    * bit nr/meaning: 0/up, 1/down, 2/left, 3/right, 4/jump, 5/aux1, 6/sneak,
+      7/LMB, 8/RMB
 * `set_physics_override(override_table)`
     * `override_table` is a table with the following fields:
         * `speed`: multiplier to default walking speed value (default: `1`)
@@ -3590,36 +3676,42 @@ It can be created via `ItemStack(x)`, where x is an `ItemStack`,
 an itemstring, a table or `nil`.
 
 #### Methods
-* `is_empty()`: Returns `true` if stack is empty.
-* `get_name()`: Returns item name (e.g. `"default:stone"`).
-* `set_name(item_name)`: Returns boolean whether item was cleared
+* `is_empty()`: returns `true` if stack is empty.
+* `get_name()`: returns item name (e.g. `"default:stone"`).
+* `set_name(item_name)`: returns a boolean indicating whether the item was cleared
 * `get_count()`: Returns number of items on the stack.
-* `set_count(count)`: Returns boolean whether item was cleared
-* `get_wear()`: Returns tool wear (`0`-`65535`), `0` for non-tools.
-* `set_wear(wear)`: Returns boolean whether item was cleared
-* `get_meta()`: Returns ItemStackMetaRef. See section for more details
+* `set_count(count)`: returns a boolean indicating whether the item was cleared
+    * `count`: number, unsigned 16 bit integer
+* `get_wear()`: returns tool wear (`0`-`65535`), `0` for non-tools.
+* `set_wear(wear)`: returns boolean indicating whether item was cleared
+    * `wear`: number, unsigned 16 bit integer
+* `get_meta()`: returns ItemStackMetaRef. See section for more details
 * `get_metadata()`: (DEPRECATED) Returns metadata (a string attached to an item stack).
 * `set_metadata(metadata)`: (DEPRECATED) Returns true.
 * `clear()`: removes all items from the stack, making it empty.
 * `replace(item)`: replace the contents of this stack.
     * `item` can also be an itemstring or table.
-* `to_string()`: Returns the stack in itemstring form.
-* `to_table()`: Returns the stack in Lua table form.
-* `get_stack_max()`: Returns the maximum size of the stack (depends on the item).
-* `get_free_space()`: Returns `get_stack_max() - get_count()`.
-* `is_known()`: Returns `true` if the item name refers to a defined item type.
-* `get_definition()`: Returns the item definition table.
-* `get_tool_capabilities()`: Returns the digging properties of the item,
-  or those of the hand if none are defined for this item type
-* `add_wear(amount)`: Increases wear by `amount` if the item is a tool.
-* `add_item(item)`: Put some item or stack onto this stack.
-   Returns leftover `ItemStack`.
-* `item_fits(item)`: Returns `true` if item or stack can be fully added to
-  this one.
-* `take_item(n=1)`: Take (and remove) up to `n` items from this stack.
-  Returns taken `ItemStack`.
-* `peek_item(n=1)`: copy (don't remove) up to `n` items from this stack.
-  Returns taken `ItemStack`.
+* `to_string()`: returns the stack in itemstring form.
+* `to_table()`: returns the stack in Lua table form.
+* `get_stack_max()`: returns the maximum size of the stack (depends on the item).
+* `get_free_space()`: returns `get_stack_max() - get_count()`.
+* `is_known()`: returns `true` if the item name refers to a defined item type.
+* `get_definition()`: returns the item definition table.
+* `get_tool_capabilities()`: returns the digging properties of the item,
+        or those of the hand if none are defined for this item type
+* `add_wear(amount)`
+    * Increases wear by `amount` if the item is a tool
+    * `amount`: number, integer
+* `add_item(item)`: returns leftover `ItemStack`
+    * Put some item or stack onto this stack
+* `item_fits(item)`: returns `true` if item or stack can be fully added to
+        this one.
+* `take_item(n)`: returns taken `ItemStack`
+    * Take (and remove) up to `n` items from this stack
+    * `n`: number, default: `1`
+* `peek_item(n)`: returns taken `ItemStack`
+    * Copy (don't remove) up to `n` items from this stack
+    * `n`: number, default: `1`
 
 ### `PseudoRandom`
 A 16-bit pseudorandom number generator.
@@ -4128,6 +4220,8 @@ Definition tables
     --  ^ For players: Defaults to `minetest.PLAYER_MAX_HP_DEFAULT`
         breath_max = 0,
     --  ^ For players only. Defaults to `minetest.PLAYER_MAX_BREATH_DEFAULT`
+        can_zoom = true,
+    --  ^ For players only. Enables the zoom feature. Defaults to true
         physical = true,
         collide_with_objects = true, -- collide with other objects if physical = true
         weight = 5,
@@ -4160,6 +4254,10 @@ Definition tables
         nametag = "", -- by default empty, for players their name is shown if empty
         nametag_color = <color>, -- sets color of nametag as ColorSpec
         infotext = "", -- by default empty, text to be shown when pointed at object
+        static_save = true,
+    --  ^ If false, never save this object statically. It will simply be deleted when the block gets unloaded.
+    --  ^ The get_staticdata() callback is never called then.
+    --  ^ Defaults to 'true'
     }
 
 ### Entity definition (`register_entity`)
@@ -4384,7 +4482,7 @@ Definition tables
         ^ base tiles. You can use this to colorize only specific parts of
         ^ your texture. If the texture name is an empty string, that
         ^ overlay is not drawn. Since such tiles are drawn twice, it
-        ^ is not recommended to use overlays on very common nodes.
+        ^ is not recommended to use overlays on very common nodes. ]]
         special_tiles = {tile definition 1, Tile definition 2}, --[[
         ^ Special textures of node; used rarely (old field name: special_materials)
         ^ List can be shortened to needed length ]]
@@ -4628,24 +4726,36 @@ Definition tables
     --  ^ Number of ores in a cluster
         clust_size = 3,
     --  ^ Size of the bounding box of the cluster
-    --  ^ In this example, there is a 3x3x3 cluster where 8 out of the 27 nodes are coal ore
+    --  ^ In this example, there is a 3x3x3 cluster where 8 out of the 27 nodes
+    --  ^ are coal ore.
         y_min = -31000,
         y_max = 64,
     --  ^ Lower and upper limits for ore.
         flags = "",
     --  ^ Attributes for this ore generation
         noise_threshold = 0.5,
-    --  ^ If noise is above this threshold, ore is placed.  Not needed for a uniform distribution
-        noise_params = {offset=0, scale=1, spread={x=100, y=100, z=100}, seed=23, octaves=3, persist=0.70}
-    --  ^ NoiseParams structure describing the perlin noise used for ore distribution.
-    --  ^ Needed for sheet ore_type.  Omit from scatter ore_type for a uniform ore distribution
+    --  ^ If noise is above this threshold, ore is placed. Not needed for a
+    --  ^ uniform distribution.
+        noise_params = {
+            offset = 0,
+            scale = 1,
+            spread = {x = 100, y = 100, z = 100},
+            seed = 23,
+            octaves = 3,
+            persist = 0.7
+        },
+    --  ^ NoiseParams structure describing one of the perlin noises used for ore
+    --  ^ distribution.
+    --  ^ Omit from "scatter" ore for a uniform ore distribution.
+    --  ^ Omit from "stratum ore for a simple horizontal strata from y_min to y_max.
         random_factor = 1.0,
     --  ^ Multiplier of the randomness contribution to the noise value at any
     --  ^ given point to decide if ore should be placed.  Set to 0 for solid veins.
     --  ^ This parameter is only valid for ore_type == "vein".
         biomes = {"desert", "rainforest"}
-    --  ^ List of biomes in which this decoration occurs.  Occurs in all biomes if this is omitted,
-    --  ^ and ignored if the Mapgen being used does not support biomes.
+    --  ^ List of biomes in which this decoration occurs.
+    --  ^ Occurs in all biomes if this is omitted, and ignored if the Mapgen being
+    --  ^ used does not support biomes.
     --  ^ Can be a list of (or a single) biome names, IDs, or definitions.
     }
 
