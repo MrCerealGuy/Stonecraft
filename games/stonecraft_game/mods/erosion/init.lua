@@ -410,7 +410,7 @@ minetest.register_on_generated(function(minp,maxp)
 		local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1
 		for z=minp.z,maxp.z do for x=minp.x,maxp.x do
 			vpos = vxa:index(x,heightmap[hndx]+1,z)
-			if vm:get_data_from_heap(data, vpos) == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(data,prm2,vpos,k) end end
+			if vm:get_data_from_heap(data, vpos) == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(vm,data,prm2,vpos,k) end end
 			hndx = hndx+1
 		end end
 	end

@@ -41,7 +41,8 @@ end
 
 -- Unlimited node placement
 minetest.register_on_placenode(function(pos, newnode, placer, oldnode, itemstack)
-	return creative.is_enabled_for(placer:get_player_name())
+	local playername = placer and placer:get_player_name() or ""
+	return creative.is_enabled_for(playername)
 end)
 
 -- Don't pick up if the item is already in the inventory
