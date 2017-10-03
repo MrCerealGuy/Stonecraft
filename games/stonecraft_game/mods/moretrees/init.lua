@@ -21,6 +21,8 @@
 
 --]]
 
+if core.skip_mod("moretrees") then return end
+
 moretrees = {}
 
 -- Read the default config file (and if necessary, copy it to the world folder).

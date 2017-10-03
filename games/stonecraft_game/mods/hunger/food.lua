@@ -11,7 +11,7 @@ if minetest.get_modpath("flowers") ~= nil then
 		register_food("flowers:mushroom_red", 1, "", 3)
 end
 
-if minetest.get_modpath("mobs") ~= nil then
+if minetest.get_modpath("mobs") ~= nil and not core.skip_mod("mobs_redo") then
 	if mobs.mod ~= nil and mobs.mod == "redo" then
 		register_food("mobs:cheese", 4)
 		register_food("mobs:meat", 8)
@@ -33,7 +33,7 @@ if minetest.get_modpath("mobs") ~= nil then
 	end
 end
 
-if minetest.get_modpath("moretrees") ~= nil then
+if minetest.get_modpath("moretrees") ~= nil and not core.skip_mod("moretrees") then
 	register_food("moretrees:coconut_milk", 1)
 	register_food("moretrees:raw_coconut", 2)
 	register_food("moretrees:acorn_muffin", 3)
@@ -177,7 +177,7 @@ if minetest.get_modpath("mush45") ~= nil then
 	register_food("mush45:meal", 4)
 end
 
-if minetest.get_modpath("seaplants") ~= nil then
+if minetest.get_modpath("seaplants") ~= nil and not core.skip_mod("seaplants") then
 	register_food("seaplants:kelpgreen", 1)
 	register_food("seaplants:kelpbrown", 1)
 	register_food("seaplants:seagrassgreen", 1)
@@ -199,13 +199,13 @@ if minetest.get_modpath("mobfcooking") ~= nil then
 	register_food("mobfcooking:cooked_fish", 6)
 end
 
-if minetest.get_modpath("creatures") ~= nil then
+if minetest.get_modpath("creatures") ~= nil and not core.skip_mod("mobs_monster") then
 	register_food("creatures:meat", 6)
 	register_food("creatures:flesh", 3)
 	register_food("creatures:rotten_flesh", 3, "", 3)
 end
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("biomes") then
 	register_food("ethereal:strawberry", 1)
 	register_food("ethereal:banana", 4)
 	register_food("ethereal:pine_nuts", 1)

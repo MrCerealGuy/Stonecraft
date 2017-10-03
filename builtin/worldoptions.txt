@@ -217,6 +217,7 @@ enable_itemdrop (Auto pick up items) bool false
 
 [Nature]
    
+enable_moretrees (More trees) bool false
 enable_forests (More forests and red trees) bool false
 enable_seaplants (Sea plants) bool false
 enable_woodsoils_vines (Wood soils and vines) bool false
