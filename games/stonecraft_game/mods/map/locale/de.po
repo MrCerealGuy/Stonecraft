@@ -1,0 +1,62 @@
+# German translation for erosion mod
+# Copyright (C) 2017 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-20 16:45+0200\n"
+"PO-Revision-Date: 2018-05-20 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Sand"
+msgstr "Sand"
+
+#: init.lua
+msgid "Desert Sand"
+msgstr "Wüstensand"
+
+#: init.lua
+msgid "Gravel"
+msgstr "Kies"
+
+#: init.lua
+msgid "Dirt"
+msgstr "Erde"
+
+#: init.lua
+msgid "Grass Turf"
+msgstr "Rasen"
+
+#: init.lua
+msgid "Dry Turf"
+msgstr "Trockener Rasen"
+
+#: init.lua
+msgid "Snow Turf"
+msgstr "Schneerasen"
+
+#: init.lua
+msgid "Clay"
+msgstr "Ton"
+
+#: init.lua
+msgid "Drifted Snow"
+msgstr "Schneeverwehung"
+
+#: init.lua
+msgid "Loose "
+msgstr "Lockere(r) "
+
+#: init.lua
+msgid "Ice"
+msgstr "Eis"

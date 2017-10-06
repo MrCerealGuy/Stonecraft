@@ -1,3 +1,13 @@
+--[[
+
+2017-10-06 MrCerealGuy: added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Mod global namespace
 
 map = {}
@@ -49,7 +59,7 @@ minetest.after(3.1, cyclic_update)
 -- Mapping kit item
 
 minetest.register_craftitem("map:mapping_kit", {
-	description = "Mapping Kit",
+	description = S("Mapping Kit"),
 	inventory_image = "map_mapping_kit.png",
 	stack_max = 1,
 	groups = {flammable = 3},
