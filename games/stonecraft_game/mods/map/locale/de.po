@@ -1,4 +1,4 @@
-# German translation for erosion mod
+# German translation for map mod
 # Copyright (C) 2017 MrCerealGuy
 # This file is distributed under the same license as the Stonecraft package.
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2017.
@@ -18,45 +18,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "Sand"
-msgstr "Sand"
-
-#: init.lua
-msgid "Desert Sand"
-msgstr "Wüstensand"
-
-#: init.lua
-msgid "Gravel"
-msgstr "Kies"
-
-#: init.lua
-msgid "Dirt"
-msgstr "Erde"
-
-#: init.lua
-msgid "Grass Turf"
-msgstr "Rasen"
-
-#: init.lua
-msgid "Dry Turf"
-msgstr "Trockener Rasen"
-
-#: init.lua
-msgid "Snow Turf"
-msgstr "Schneerasen"
-
-#: init.lua
-msgid "Clay"
-msgstr "Ton"
-
-#: init.lua
-msgid "Drifted Snow"
-msgstr "Schneeverwehung"
-
-#: init.lua
-msgid "Loose "
-msgstr "Lockere(r) "
-
-#: init.lua
-msgid "Ice"
-msgstr "Eis"
+msgid "Mapping Kit"
+msgstr "Karte"
