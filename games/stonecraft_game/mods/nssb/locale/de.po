@@ -49,6 +49,10 @@ msgid "Sea Meselamp"
 msgstr "Meeres-Meselampe"
 
 #: init.lua
+msgid "Morlamp"
+msgstr "Morlampe"
+
+#: init.lua
 msgid "Mantis Clay"
 msgstr "Mantis-Ton"
 
