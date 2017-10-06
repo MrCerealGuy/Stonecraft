@@ -1,2 +1,7 @@
-v1.0 - 22-03-16 
+v2.0 - 22-11-16
+ - added the Morlendor dimension and all its materials;
+ - added the compatibility with the mapgen v7 and valleys (and also fractal and flat);
+ - added the portals to go to Morlendor and come back.
+ 
+v1.0 - 22-03-16
 First stable release

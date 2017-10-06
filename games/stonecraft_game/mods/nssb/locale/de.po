@@ -17,8 +17,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF"
 
 #: init.lua
+msgid "Memoryone"
+msgstr "Memoryone"
+
+#: init.lua
 msgid "Mossy Stone Brick"
 msgstr "Bemooster Steinziegel"
+
+#: init.lua
+msgid "Stone Brick"
+msgstr "Steinziegel"
 
 #: init.lua
 msgid "Very Mossy Stone Brick"
