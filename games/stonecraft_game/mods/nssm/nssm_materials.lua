@@ -1738,7 +1738,7 @@ minetest.register_craft({
 	}
 })
 
-if minetest.get_modpath("nssb") then
+if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	minetest.register_craft({
 		output = 'nssm:axe_of_pride',
 		recipe = {

@@ -34,7 +34,7 @@ minetest.register_craft({
 		{"default:junglegrass"},
 	}
 })
-if minetest.get_modpath("sumpf") ~= nil then
+if minetest.get_modpath("sumpf") ~= nil and not core.skip_mod("swamps") then
 	minetest.register_craft({
 		output = "dryplants:grass",
 		recipe = {

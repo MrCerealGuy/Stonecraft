@@ -397,9 +397,12 @@ local function create_world_buttonhandler(this, fields)
 		["enable_homedecor_technic"]			=
 		{
 			["enable_homedecor"]	 			= true,
+			["enable_technic"]	 				= true
+		},
+
+		["enable_mesecons"]						=
+		{
 			["enable_mesecons"]	 				= true,
-			["enable_pipeworks"]				= true,
-			["enable_technic"]	 				= true,
 			["enable_digilines"]				= true
 		},
 

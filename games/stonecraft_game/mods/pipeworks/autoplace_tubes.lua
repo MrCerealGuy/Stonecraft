@@ -111,7 +111,7 @@ function pipeworks.after_dig(pos)
 	pipeworks.scan_for_tube_objects(pos)
 end
 
-if minetest.get_modpath("mesecons_mvps") then
+if minetest.get_modpath("mesecons_mvps") and not core.skip_mod("mesecons") then
 	mesecon.register_on_mvps_move(function(moved_nodes)
 		for _, n in ipairs(moved_nodes) do
 			pipeworks.scan_for_tube_objects(n.pos)

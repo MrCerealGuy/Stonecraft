@@ -58,7 +58,7 @@ mobs:register_mob("mobs_animal:pumba", {
 
 local spawn_on = "default:dirt_with_grass"
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	spawn_on = "ethereal:mushroom_dirt"
 end
 

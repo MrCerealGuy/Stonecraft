@@ -14,7 +14,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 local pipereceptor_on = nil
 local pipereceptor_off = nil
 
-if minetest.get_modpath("mesecons") then
+if minetest.get_modpath("mesecons") and not core.skip_mod("mesecons") then
 	pipereceptor_on = {
 		receptor = {
 			state = mesecon.state.on,

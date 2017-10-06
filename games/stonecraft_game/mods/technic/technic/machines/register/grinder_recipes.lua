@@ -63,7 +63,7 @@ if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
 	table.insert(recipes, {"gloopores:akalin_lump",   "technic:akalin_dust 2"})
 end
 
-if minetest.get_modpath("homedecor") then
+if minetest.get_modpath("homedecor") and not core.skip_mod("homedecor") then
 	table.insert(recipes, {"home_decor:brass_ingot", "technic:brass_dust 1"})
 end
 

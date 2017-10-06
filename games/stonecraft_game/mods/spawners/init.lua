@@ -23,7 +23,7 @@ dofile(minetest.get_modpath("spawners").."/spawners_mobs.lua")
 dofile(minetest.get_modpath("spawners").."/spawners_ores.lua")
 
 -- include mummy mobs redo addon (mob)
-if minetest.get_modpath("mobs") then
+if minetest.get_modpath("mobs") and not core.skip_mod("mobs_redo") then
 	dofile(minetest.get_modpath("spawners").."/mob_mummy.lua")
 end
 

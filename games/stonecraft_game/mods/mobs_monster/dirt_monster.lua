@@ -53,7 +53,7 @@ mobs:register_mob("mobs_monster:dirt_monster", {
 
 local spawn_on = "default:dirt_with_grass"
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	spawn_on = "ethereal:gray_dirt"
 end
 

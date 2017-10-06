@@ -205,7 +205,7 @@ if minetest.get_modpath("creatures") ~= nil and not core.skip_mod("mobs_monster"
 	register_food("creatures:rotten_flesh", 3, "", 3)
 end
 
-if minetest.get_modpath("ethereal") and not core.skip_mod("biomes") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	register_food("ethereal:strawberry", 1)
 	register_food("ethereal:banana", 4)
 	register_food("ethereal:pine_nuts", 1)

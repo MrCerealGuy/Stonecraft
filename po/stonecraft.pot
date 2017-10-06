@@ -185,6 +185,14 @@ msgid "Home decorations and technic"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Mesecons - electronic stuff"
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Pipes and tubes"
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
 #msgid "Enable mesecons/pipes/technic"
 msgstr ""
 

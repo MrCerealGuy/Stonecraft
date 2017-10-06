@@ -164,7 +164,7 @@ end
 
 if moretrees.enable_fir then
 	biome_lib:register_generate_plant(moretrees.fir_biome, moretrees.spawn_fir_object)
-	if minetest.get_modpath("snow") then
+	if minetest.get_modpath("snow") and not core.skip_mod("snow") then
 		biome_lib:register_generate_plant(moretrees.fir_biome_snow, moretrees.spawn_fir_snow_object)
 	end
 end

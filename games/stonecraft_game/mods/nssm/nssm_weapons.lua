@@ -735,7 +735,7 @@ minetest.register_craft({
 		{'nssm:frosted_amphibian_heart', 'nssm:black_powder', 'nssm:frosted_amphibian_heart'},
 	}
 })
-if minetest.get_modpath("nssb") then
+if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	nssm_register_throwitem("mantis", "Mantis Clay Bomb", {
 		hit_node = function(self,pos)
 			for dx = -1,1 do
@@ -837,7 +837,7 @@ minetest.register_craft({
 	}
 })
 
-if minetest.get_modpath("nssb") then
+if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	nssm_register_throwitem("mornar", "Mornar Bomb", {
 		hit_node = function(self,pos)
 			for dx = -1,1 do
@@ -1128,7 +1128,7 @@ minetest.register_craft({
 	}
 })
 
-if minetest.get_modpath("nssb") then
+if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	nssm_register_throwitem("cage", "Cage Bomb", {
 		hit_node = function(self,pos)
 			for dx = -2,2 do

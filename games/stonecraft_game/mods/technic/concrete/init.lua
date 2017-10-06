@@ -29,7 +29,7 @@ for i = 32, 63 do
 end
 
 local steel_ingot
-if minetest.get_modpath("technic_worldgen") then
+if minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic") then
 	steel_ingot = "technic:carbon_steel_ingot"
 else
 	steel_ingot = "default:steel_ingot"

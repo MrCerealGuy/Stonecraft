@@ -156,7 +156,7 @@ nssm_mese_dragon (Mese dragon) bool true
 
 [Biomes]
 
-enable_biomes (Ethereal biomes) bool false
+enable_ethereal (Ethereal biomes) bool false
 enable_swamps (Swamps biome) bool false
 enable_snow (Snow biome) bool false
 enable_caverealms (Cave realms) bool false
@@ -213,6 +213,8 @@ swamp_biome_swampwater (Enables swampwater) bool true
   
 enable_surprise (Surprise blocks) bool false
 enable_homedecor_technic (Home decorations and technic) bool false
+enable_mesecons (Mesecons - Electronic stuff) bool false
+enable_pipeworks (Pipes and tubes) bool false
 enable_itemdrop (Auto pick up items) bool false
 
 [Nature]

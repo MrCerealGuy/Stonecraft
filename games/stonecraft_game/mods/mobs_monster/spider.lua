@@ -56,7 +56,7 @@ mobs:register_mob("mobs_monster:spider", {
 
 local spawn_on = "default:desert_stone"
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	spawn_on = "ethereal:crystal_dirt"
 else
 	minetest.register_alias("ethereal:crystal_spike", "default:sandstone")

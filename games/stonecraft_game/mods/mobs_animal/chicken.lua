@@ -86,7 +86,7 @@ mobs:register_mob("mobs_animal:chicken", {
 
 local spawn_on = "default:dirt_with_grass"
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	spawn_on = "ethereal:bamboo_dirt"
 end
 

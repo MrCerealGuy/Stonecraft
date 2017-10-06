@@ -241,7 +241,7 @@ minetest.register_craft( {
 	},
 })
 
-if minetest.get_modpath("mesecons_mvps") ~= nil then
+if minetest.get_modpath("mesecons_mvps") ~= nil and not core.skip_mod("mesecons") then
 	mesecon.register_on_mvps_move(function(moved_nodes)
 		for _, n in ipairs(moved_nodes) do
 			if string.find(n.node.name, "pipeworks:teleport_tube") ~= nil then

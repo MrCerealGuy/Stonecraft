@@ -323,7 +323,7 @@ for i = 1, 15 do
 	})
 end
 
-if minetest.get_modpath("technic") then
+if minetest.get_modpath("technic") and not core.skip_mod("technic") then
     for tier, _ in pairs(technic.machines) do
 		local ltier = tier:lower()
 		for i = 0, 8 do

@@ -78,7 +78,7 @@ if pipeworks.enable_detector_tube then
 	})
 end
 
-if minetest.get_modpath("digilines") and pipeworks.enable_digiline_detector_tube then
+if minetest.get_modpath("digilines") and not core.skip_mod("digilines") and pipeworks.enable_digiline_detector_tube then
 	pipeworks.register_tube("pipeworks:digiline_detector_tube", {
 			description = S("Digiline Detecting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_digiline_detector_tube_inv.png",

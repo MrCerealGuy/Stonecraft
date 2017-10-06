@@ -97,7 +97,7 @@ if mm ~= 0 then
 	end
 
 	-- NSSB SPECIAL
-	if minetest.get_modpath("nssb") then
+	if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 		mobs:spawn_specific("nssm:xgaloctopus", {"default:water_source"}, {"nssb:marine_brick"}, 0, 20, 20, 800000/mm, 1, -31000, 0)
 	end
 

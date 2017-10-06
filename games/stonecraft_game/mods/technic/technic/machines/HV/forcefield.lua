@@ -378,7 +378,7 @@ minetest.register_node("technic:forcefield", {
 })
 
 
-if minetest.get_modpath("mesecons_mvps") then
+if minetest.get_modpath("mesecons_mvps") and not core.skip_mod("mesecons") then
 	mesecon.register_mvps_stopper("technic:forcefield")
 end
 

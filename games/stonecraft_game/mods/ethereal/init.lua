@@ -20,7 +20,7 @@
 
 --]]
 
-if core.skip_mod("biomes") then return end
+if core.skip_mod("ethereal") then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
