@@ -122,7 +122,7 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos, node)
-		local superparams = seasons[node.name]
+		local superparams = seasons[node.name] or {}
 		for num, params in pairs(superparams) do
 			if math.random() * 100 < params.speed then
 				local time = math.modf(params.stop - params.start + 12, 12)
