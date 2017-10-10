@@ -162,7 +162,7 @@ enable_snow (Snow biome) bool false
 enable_caverealms (Cave realms) bool false
 enable_nether (Nether) bool false
 
-[*Advanced settings (Etheral biomes)]
+[*Advanced settings (Ethereal biomes)]
 
 etheral_biomes_glacier (Glacier) bool true
 etheral_biomes_bamboo (Bamboo) bool true
@@ -213,7 +213,7 @@ swamp_biome_swampwater (Enables swampwater) bool true
   
 enable_surprise (Surprise blocks) bool false
 enable_homedecor_technic (Home decorations and technic) bool false
-enable_mesecons (Mesecons - Electronic stuff) bool false
+enable_mesecons (Mesecons - electronic stuff) bool false
 enable_pipeworks (Pipes and tubes) bool false
 enable_itemdrop (Auto pick up items) bool false
 
@@ -228,7 +228,7 @@ enable_erosion (Erosion and sloped blocks) bool false
 
 [Structures]
    
-enable_villages (Villages and buildings - experimentell) bool false
+enable_villages (Villages and buildings - experimental) bool false
 enable_mines (Mines) bool false
 enable_pyramids (Pyramids) bool false
 
