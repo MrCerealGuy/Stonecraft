@@ -5,6 +5,11 @@
 
 2017-09-17 added intllib support
 
+2017-10-10 set nether depth from -5.000 to -20.000 (Morlendor begins at -30.000)
+
+2017-10-10 register_on_generated: added Morlendor depth check
+		   make_portal: added Morlendor depth check
+
 --]]
 
 if core.skip_mod("nether") then return end
@@ -15,7 +20,9 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- Parameters
 
-local NETHER_DEPTH = -5000
+local NETHER_DEPTH = -20000	-- MERGEINFO: changed by MrCerealGuy
+local MORLENDOR_DEPTH = -30000
+
 local TCAVE = 0.6
 local BLEND = 128
 local DEBUG = false
@@ -225,7 +232,7 @@ local function make_portal(pos)
 
 	local target = {x = p1.x, y = p1.y, z = p1.z}
 	target.x = target.x + 1
-	if target.y < NETHER_DEPTH then
+	if target.y < NETHER_DEPTH and target.y > MORLENDOR_DEPTH then  -- MERGEINFO: added by MrCerealGuy
 		target.y = find_surface_target_y(target.x, target.z, -16)
 	else
 		local start_y = NETHER_DEPTH - math.random(500, 1500) -- Search start
@@ -593,7 +600,7 @@ local c_netherrack = minetest.get_content_id("nether:rack")
 -- On-generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	if minp.y > NETHER_DEPTH then
+	if minp.y > NETHER_DEPTH or maxp.y < MORLENDOR_DEPTH then	-- MERGEINFO: changed by MrCerealGuy
 		return
 	end
 
