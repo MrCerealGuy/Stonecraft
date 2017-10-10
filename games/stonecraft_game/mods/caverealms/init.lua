@@ -9,6 +9,10 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-05-02 Added Voxmanip heap api functions
+
+2017-10-10 register_on_generated: added call collectgarbage()
+
 --]]
 
 if core.skip_mod("caverealms") then return end
@@ -109,6 +113,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if minp.y > YMAX or maxp.y < YMIN then
 		return --quit; otherwise, you'd have stalagmites all over the place
 	end
+
+	-- free lua memory
+	collectgarbage()
 
 	--easy reference to commonly used values
 	local t1 = os.clock()

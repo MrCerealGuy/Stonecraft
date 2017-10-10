@@ -3,6 +3,8 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
+2017-10-06 seasons[node.name] check for nil in register_abm
+
 2017-05-14 MrCerealGuy: added intllib support
 
 --]]
@@ -122,7 +124,7 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos, node)
-		local superparams = seasons[node.name] or {}
+		local superparams = seasons[node.name] or {}	-- MERGEINFO: changed by MrCerealGuy
 		for num, params in pairs(superparams) do
 			if math.random() * 100 < params.speed then
 				local time = math.modf(params.stop - params.start + 12, 12)

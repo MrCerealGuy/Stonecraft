@@ -1,3 +1,11 @@
+--[[
+
+2017-05-02 Deactivated mapgen and oregen because of bad map generation
+
+2017-10-10 register_on_generated: added call collectgarbage()
+
+--]]
+
 -- 3D noises
 
 local np_n1 = {
@@ -191,6 +199,9 @@ end
 ------------------------ Base map generation ------------------------
 
 minetest.register_on_generated(function(minp, maxp)
+
+	-- free lua memory
+	collectgarbage()
 	
 	local t0 = os.clock()
 	local x1 = maxp.x
