@@ -79,7 +79,7 @@ end
 
 
 local data, area
-function riesenpilz_circle(nam, pos, radius, chance)
+function riesenpilz_circle(vm, data, area, nam, pos, radius, chance)
 	for _,p in pairs(vector.circle(radius)) do
 		if pr:next(1,chance) == 1 then
 			local p = vector.add(pos, p)
@@ -119,9 +119,6 @@ end
 nosmooth_rarity = upper_rarity(nosmooth_rarity)
 
 --local USUAL_STUFF =	{"default:leaves","default:apple","default:tree","default:cactus","default:papyrus"}
-
--- buffer for vm:get_param2_data, added by MrCerealGuy
-local dbuf_param2 = {}
 
 local contents_defined
 
@@ -286,6 +283,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 	riesenpilz.inform("ground finished", 2, t1)
 
+
+	local nodes = {}
+
+	for vpos=area:index(minp.x,minp.y,minp.z),area:index(maxp.x,maxp.y,maxp.z) do
+		 nodes[vpos] =  vm:get_data_from_heap(data, vpos) 
+	end
+
+
 	local param2s
 	if num ~= 1 then
 		local t2 = os.clock()
@@ -293,20 +298,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local p = v[2]
 			local m = v[1]
 			if m == 1 then
-				riesenpilz.red(vm, p, data, area)
+				riesenpilz.red(p, nodes, area)
 			elseif m == 2 then
-				riesenpilz.brown(vm, p, data, area)
+				riesenpilz.brown(p, nodes, area)
 			elseif m == 3 then
 				if not param2s then
-					param2s = vm:get_param2_data(dbuf_param2)	-- buffer added by MrCerealGuy
+					param2s = vm:load_param2_data_into_heap()
 				end
-				riesenpilz.fly_agaric(vm, p, data, area, param2s)
+				riesenpilz.fly_agaric(vm, p, nodes, area, param2s)
 			elseif m == 4 then
-				riesenpilz.lavashroom(vm, p, data, area)
+				riesenpilz.lavashroom(p, nodes, area)
 			elseif m == 5 then
-				riesenpilz.parasol(vm, p, data, area)
+				riesenpilz.parasol(p, nodes, area)
 			elseif m == 6 then
-				riesenpilz.red45(vm, p, data, area)
+				riesenpilz.red45(p, nodes, area)
 			end
 		end
 		riesenpilz.inform("giant shrooms generated", 2, t2)
