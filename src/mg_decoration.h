@@ -69,6 +69,7 @@ public:
 	NoiseParams np;
 	std::vector<content_t> c_spawnby;
 	s16 nspawnby;
+	s16 place_offset_y = 0;
 
 	std::unordered_set<u8> biomes;
 };
@@ -84,6 +85,7 @@ public:
 	s16 deco_height;
 	s16 deco_height_max;
 	u8 deco_param2;
+	u8 deco_param2_max;
 };
 
 
@@ -95,7 +97,6 @@ public:
 	virtual int getHeight();
 
 	Rotation rotation;
-	s16 place_offset_y = 0;
 	Schematic *schematic = nullptr;
 };
 

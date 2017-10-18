@@ -256,8 +256,8 @@ function core.item_place_node(itemstack, placer, pointed_thing, param2)
 	local above = pointed_thing.above
 	local oldnode_above = core.get_node_or_nil(above)
 
+	-- MERGEINFO: MrCerealGuy: check for placer not nil
 	local playername = placer and placer:get_player_name() or ""
-	--local playername = placer:get_player_name()
 
 	if not oldnode_under or not oldnode_above then
 		core.log("info", playername .. " tried to place"

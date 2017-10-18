@@ -906,12 +906,13 @@ int ModApiMapgen::l_register_decoration(lua_State *L)
 		return 0;
 	}
 
-	deco->name       = getstringfield_default(L, index, "name", "");
-	deco->fill_ratio = getfloatfield_default(L, index, "fill_ratio", 0.02);
-	deco->y_min      = getintfield_default(L, index, "y_min", -31000);
-	deco->y_max      = getintfield_default(L, index, "y_max", 31000);
-	deco->nspawnby   = getintfield_default(L, index, "num_spawn_by", -1);
-	deco->sidelen    = getintfield_default(L, index, "sidelen", 8);
+	deco->name           = getstringfield_default(L, index, "name", "");
+	deco->fill_ratio     = getfloatfield_default(L, index, "fill_ratio", 0.02);
+	deco->y_min          = getintfield_default(L, index, "y_min", -31000);
+	deco->y_max          = getintfield_default(L, index, "y_max", 31000);
+	deco->nspawnby       = getintfield_default(L, index, "num_spawn_by", -1);
+	deco->place_offset_y = getintfield_default(L, index, "place_offset_y", 0);
+	deco->sidelen        = getintfield_default(L, index, "sidelen", 8);
 	if (deco->sidelen <= 0) {
 		errorstream << "register_decoration: sidelen must be "
 			"greater than 0" << std::endl;
@@ -981,6 +982,7 @@ bool read_deco_simple(lua_State *L, DecoSimple *deco)
 {
 	int index = 1;
 	int param2;
+	int param2_max;
 
 	deco->deco_height     = getintfield_default(L, index, "height", 1);
 	deco->deco_height_max = getintfield_default(L, index, "height_max", 0);
@@ -993,6 +995,7 @@ bool read_deco_simple(lua_State *L, DecoSimple *deco)
 
 	size_t nnames = getstringlistfield(L, index, "decoration", &deco->m_nodenames);
 	deco->m_nnlistsizes.push_back(nnames);
+
 	if (nnames == 0) {
 		errorstream << "register_decoration: no decoration nodes "
 			"defined" << std::endl;
@@ -1000,12 +1003,16 @@ bool read_deco_simple(lua_State *L, DecoSimple *deco)
 	}
 
 	param2 = getintfield_default(L, index, "param2", 0);
-	if ((param2 < 0) || (param2 > 255)) {
-		errorstream << "register_decoration: param2 out of bounds (0-255)"
+	param2_max = getintfield_default(L, index, "param2_max", 0);
+
+	if (param2 < 0 || param2 > 255 || param2_max < 0 || param2_max > 255) {
+		errorstream << "register_decoration: param2 or param2_max out of bounds (0-255)"
 			<< std::endl;
 		return false;
 	}
+
 	deco->deco_param2 = (u8)param2;
+	deco->deco_param2_max = (u8)param2_max;
 
 	return true;
 }
@@ -1017,8 +1024,6 @@ bool read_deco_schematic(lua_State *L, SchematicManager *schemmgr, DecoSchematic
 
 	deco->rotation = (Rotation)getenumfield(L, index, "rotation",
 		ModApiMapgen::es_Rotation, ROTATE_0);
-
-	deco->place_offset_y = getintfield_default(L, index, "place_offset_y", 0);
 
 	StringMap replace_names;
 	lua_getfield(L, index, "replacements");
