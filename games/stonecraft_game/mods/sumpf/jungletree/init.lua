@@ -245,7 +245,7 @@ function spawn_jungletree(pos)
 	local emerged_pos1, emerged_pos2 = manip:read_from_map({x=pos.x-vwidth, y=pos.y+vdepth, z=pos.z-vwidth},
 		{x=pos.x+vwidth, y=pos.y+vheight, z=pos.z+vwidth})
 	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:gload_data_into_heap()
+	local nodes = manip:load_data_into_heap()
 
 
 	if small then
