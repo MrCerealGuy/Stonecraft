@@ -286,7 +286,8 @@ function core.item_place_node(itemstack, placer, pointed_thing, param2)
 		place_to = {x = under.x, y = under.y, z = under.z}
 	end
 
-	if core.is_protected(place_to, playername) and
+	-- MERGEINFO: MrCerealGuy: check for placer not nil
+	if placer and core.is_protected(place_to, playername) and
 			not minetest.check_player_privs(placer, "protection_bypass") then
 		core.log("action", playername
 				.. " tried to place " .. def.name
@@ -316,7 +317,9 @@ function core.item_place_node(itemstack, placer, pointed_thing, param2)
 	-- Calculate the direction for furnaces and chests and stuff
 	elseif (def.paramtype2 == "facedir" or
 			def.paramtype2 == "colorfacedir") and not param2 then
-		local placer_pos = placer:getpos()
+
+		-- MERGEINFO: MrCerealGuy: check for placer not nil
+		local placer_pos = placer and placer:getpos()
 		if placer_pos then
 			local dir = {
 				x = above.x - placer_pos.x,
