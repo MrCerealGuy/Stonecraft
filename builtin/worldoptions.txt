@@ -241,4 +241,4 @@ enable_pyramids (Pyramids) bool false
 [*Advanced settings (Villages and buildings)]
 
 villages_enable_protection (Players cannot modify spawned villages without buying the house) bool true
-villages_first_village_type (The first village - the one the player spawns in) enum medieval medieval,nore,taoki,charachoal,lumberjack,claytrader,logcabin,grasshut,tent,tower,chateau,forge,tavern,well,trader,sawmill,farm_tiny,farm_full,single
+villages_first_village_type (The first village - the one the player spawns in) enum medieval medieval,nore,taoki,charachoal,lumberjack,claytrader,logcabin,grasshut,tent
