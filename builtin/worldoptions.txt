@@ -226,6 +226,12 @@ enable_woodsoils_vines (Wood soils and vines) bool false
 enable_giantmushrooms (Giant mushrooms) bool false
 enable_erosion (Erosion and sloped blocks) bool false
 
+[*Advanced settings (Giant mushrooms)]
+
+giantmushrooms_always_generate (Generate giant mushroom biomes everywhere) bool false
+giantmushrooms_smooth (Enables smooth transition of biomes) bool true
+giantmushrooms_mapgen_rarity (Mapgen rarity in %) float 0.4
+
 [Structures]
    
 enable_villages (Villages and buildings - experimental) bool false

@@ -745,6 +745,18 @@ msgid "Disable this to prevent sleds from being riden"
 msgstr ""
 
 #: builtin/worldoptions.txt
+msgid "Advanced settings (Giant mushrooms)"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Generate giant mushroom biomes everywhere"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Enables smooth transition of biomes"
+msgstr ""
+
+#: builtin/worldoptions.txt
 msgid "Advanced settings (Villages and buildings)"
 msgstr ""
 
