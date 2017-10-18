@@ -747,10 +747,6 @@ msgid "Generate giant mushroom biomes everywhere"
 msgstr "Überall Riesenpilzbiome generieren"
 
 #: builtin/worldoptions.txt
-msgid "Enables smooth transition of biomes"
-msgstr "Sanfter Biomübergang"
-
-#: builtin/worldoptions.txt
 msgid "Advanced settings (Villages and buildings)"
 msgstr "Erw. Einstellungen (Dörfer und Gebäude)"
 
