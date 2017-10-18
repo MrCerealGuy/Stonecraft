@@ -1,3 +1,9 @@
+--[[
+
+2017-10-18 Added Voxmanip heap api functions
+
+--]]
+
 local minetest = minetest	--Should make things a bit faster.
 
 local c
@@ -167,6 +173,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local data = vm:load_data_into_heap()
+
+	riesenpilz.vm = vm
+	riesenpilz.data = data
+
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
@@ -283,14 +293,6 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 	riesenpilz.inform("ground finished", 2, t1)
 
-
-	local nodes = {}
-
-	for vpos=area:index(minp.x,minp.y,minp.z),area:index(maxp.x,maxp.y,maxp.z) do
-		 nodes[vpos] =  vm:get_data_from_heap(data, vpos) 
-	end
-
-
 	local param2s
 	if num ~= 1 then
 		local t2 = os.clock()
@@ -298,20 +300,21 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			local p = v[2]
 			local m = v[1]
 			if m == 1 then
-				riesenpilz.red(p, nodes, area)
+				riesenpilz.red(vm, p, data, area)
 			elseif m == 2 then
-				riesenpilz.brown(p, nodes, area)
+				riesenpilz.brown(vm, p, data, area)
 			elseif m == 3 then
 				if not param2s then
 					param2s = vm:load_param2_data_into_heap()
+					riesenpilz.param2s = param2s
 				end
-				riesenpilz.fly_agaric(vm, p, nodes, area, param2s)
+				riesenpilz.fly_agaric(vm, p, data, area, param2s)
 			elseif m == 4 then
-				riesenpilz.lavashroom(p, nodes, area)
+				riesenpilz.lavashroom(vm, p, data, area)
 			elseif m == 5 then
-				riesenpilz.parasol(p, nodes, area)
+				riesenpilz.parasol(vm, p, data, area)
 			elseif m == 6 then
-				riesenpilz.red45(p, nodes, area)
+				riesenpilz.red45(vm, p, data, area)
 			end
 		end
 		riesenpilz.inform("giant shrooms generated", 2, t2)

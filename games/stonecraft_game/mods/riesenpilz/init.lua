@@ -5,6 +5,8 @@
 
 2017-05-15 MrCerealGuy: added intllib support
 
+2017-10-18 Added Voxmanip heap api functions
+
 --]]
 
 if core.skip_mod("giantmushrooms") then return end
@@ -53,62 +55,60 @@ end
 
 local set_vm_nodes
 if riesenpilz.giant_restrict_area then
-	function set_vm_nodes(manip, pznodes)
-		local nodes = manip:load_data_into_heap()
-		for vi,id in pairs(pznodes) do
-			if not replacing_allowed(manip:get_data_from_heap(nodes, vi)) then
+	function set_vm_nodes(vm, data)
+		for vi,id in pairs(data) do
+			if not replacing_allowed(vm:get_data_from_heap(data, vi)) then
 				return false
 			end
-			manip:set_data_from_heap(nodes, vi, id)
+			vm:set_data_from_heap(data, vi, id)
 		end
-		manip:save_data_from_heap(nodes)
+		vm:save_data_from_heap(data)
 		return true
 	end
 else
-	function set_vm_nodes(manip, pznodes)
-		local nodes = manip:load_data_into_heap()
-		for vi,id in pairs(pznodes) do
-			if replacing_allowed(manip:get_data_from_heap(nodes, vi)) then
-				manip:set_data_from_heap(nodes, vi, id)
+	function set_vm_nodes(vm, data)
+		for vi,id in pairs(data) do
+			if replacing_allowed(vm:get_data_from_heap(data, vi)) then
+				vm:set_data_from_heap(data, vi, id)
 			end
 		end
-		manip:save_data_from_heap(nodes)
+		vm:save_data_from_heap(data)
 		return true
 	end
 end
 
-local function set_vm_data(manip, pznodes, pos, t1, name)
-	if not set_vm_nodes(manip, pznodes) then
+local function set_vm_data(vm, data, pos, t1, name)
+	if not set_vm_nodes(vm, data) then
 		return
 	end
-	manip:write_to_map(true)
+	vm:write_to_map(true)
 	riesenpilz.inform("a giant "..name.." mushroom grew at "..vector.pos_to_string(pos), 3, t1)
 	local t1 = os.clock()
-	manip:update_map()
+	vm:update_map()
 	riesenpilz.inform("map updated", 3, t1)
 end
 
 
-function riesenpilz.red(pos, nodes, area, w)
+function riesenpilz.red(vm, pos, nodes, area, w)
 	local w = w or math.random(MAX_SIZE)
 	local h = w+2
 
 	for i = 0, h do
-		nodes[area:index(pos.x, pos.y+i, pos.z)] = c.stem
+		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c.stem)
 	end
 
 	local br = w+1
 	for k = -1, 1, 2 do
 		for l = -br+1, br do
-			nodes[area:index(pos.x+br*k, pos.y+h, pos.z-l*k)] = c.head_red
-			nodes[area:index(pos.x+l*k, pos.y+h, pos.z+br*k)] = c.head_red
+			vm:set_data_from_heap(nodes, area:index(pos.x+br*k, pos.y+h, pos.z-l*k), c.head_red)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*k, pos.y+h, pos.z+br*k), c.head_red)
 		end
 	end
 
 	for k = -w, w do
 		for l = -w, w do
-			nodes[area:index(pos.x+l, pos.y+h+1, pos.z+k)] = c.head_red
-			nodes[area:index(pos.x+l, pos.y+h, pos.z+k)] = c.lamellas
+			vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+1, pos.z+k), c.head_red)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h, pos.z+k), c.lamellas)
 		end
 	end
 end
@@ -118,32 +118,33 @@ local function riesenpilz_hybridpilz(pos)
 
 	local w = math.random(MAX_SIZE)
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, w+1, w+3, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.red(pos, pznodes, area, w)
+	local area = r_area(vm, w+1, w+3, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "red")
+	riesenpilz.red(vm, pos, data, area, w)
+
+	set_vm_data(vm, data, pos, t1, "red")
 end
 
 
-function riesenpilz.brown(pos, nodes, area, br)
+function riesenpilz.brown(vm, pos, nodes, area, br)
 	local br = br or math.random(MAX_SIZE-1)+1
 	local h = br+2
 
 	for i in area:iterp(pos, {x=pos.x, y=pos.y+h, z=pos.z}) do
-		nodes[i] = c.stem
+		vm:set_data_from_heap(nodes, i, c.stem)
 	end
 
 	local w = br+1
 	for l = -br, br do
 		for k = -w, w, w*2 do
-			nodes[area:index(pos.x+k, pos.y+h+1, pos.z+l)] = c.head_brown
-			nodes[area:index(pos.x+l, pos.y+h+1, pos.z+k)] = c.head_brown
+			vm:set_data_from_heap(nodes, area:index(pos.x+k, pos.y+h+1, pos.z+l), c.head_brown)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+1, pos.z+k), c.head_brown)
 		end
 		for k = -br, br do
-			nodes[area:index(pos.x+l, pos.y+h+1, pos.z+k)] = c.head_brown
+			vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+1, pos.z+k), c.head_brown)
 		end
 	end
 end
@@ -153,26 +154,27 @@ local function riesenpilz_brauner_minecraftpilz(pos)
 
 	local br = math.random(MAX_SIZE-1)+1
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, br+1, br+3, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.brown(pos, pznodes, area, br)
+	local area = r_area(vm, br+1, br+3, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "brown")
+	riesenpilz.brown(vm, pos, data, area, br)
+
+	set_vm_data(vm, data, pos, t1, "brown")
 end
 
 
-function riesenpilz.fly_agaric(manip, pos, nodes, area, param2s)
+function riesenpilz.fly_agaric(vm, pos, nodes, area, param2s)
 	local h = 3
 
 	for i = 0, h do
-		nodes[area:index(pos.x, pos.y+i, pos.z)] = c.stem
+		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c.stem)
 	end
 
 	for j = -1, 1 do
 		for k = -1, 1 do
-			nodes[area:index(pos.x+j, pos.y+h+1, pos.z+k)] = c.head_red
+			vm:set_data_from_heap(nodes, area:index(pos.x+j, pos.y+h+1, pos.z+k), c.head_red)
 		end
 		for l = 1, h do
 			local y = pos.y+l
@@ -183,8 +185,8 @@ function riesenpilz.fly_agaric(manip, pos, nodes, area, param2s)
 				{area:index(pos.x-2, y, pos.z+j), 3},
 			}) do
 				local tmp = p[1]
-				nodes[tmp] = c.head_red_side
-				manip:set_param2_data_from_heap(param2s, tmp, p[2])
+				vm:set_data_from_heap(nodes, tmp, c.head_red_side)
+				vm:set_param2_data_from_heap(param2s, tmp, p[2])
 			end
 		end
 	end
@@ -193,20 +195,21 @@ end
 local function riesenpilz_minecraft_fliegenpilz(pos)
 	local t1 = os.clock()
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, 2, 4, pos)
-	local param2s = manip:load_param2_data_into_heap()
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
+	local param2s = riesenpilz.param2s
 
-	local pznodes = {}
-	riesenpilz.fly_agaric(manip, pos, pznodes, area, param2s)
+	local area = r_area(vm, 2, 4, pos)
+	
+	riesenpilz.fly_agaric(vm, pos, data, area, param2s)
 
-	if not set_vm_nodes(manip, pznodes) then
+	if not set_vm_nodes(vm, data) then
 		return
 	end
 
-	manip:save_param2_data_from_heap(param2s)
-	manip:write_to_map()
-	manip:update_map()
+	vm:save_param2_data_from_heap(param2s)
+	vm:write_to_map()
+	vm:update_map()
 	riesenpilz.inform("a fly agaric grew at "..vector.pos_to_string(pos), 3, t1)
 end
 
@@ -218,48 +221,48 @@ local function ran_node(a, b, ran)
 	return b
 end
 
-function riesenpilz.lavashroom(pos, nodes, area, h)
+function riesenpilz.lavashroom(vm, pos, nodes, area, h)
 	local h = h or 3+math.random(MAX_SIZE-2)
 
 	-- remove the mushroom
-	nodes[area:indexp(pos)] = c.air
+	vm:set_data_from_heap(nodes, area:indexp(pos), c.air)
 
 	for i = -1, 1, 2 do
 		-- set the stem
 		for n = 0, h do
-			nodes[area:index(pos.x+i, pos.y+n, pos.z)] = c.stem_brown
-			nodes[area:index(pos.x, pos.y+n, pos.z+i)] = c.stem_brown
+			vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+n, pos.z), c.stem_brown)
+			vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+n, pos.z+i), c.stem_brown)
 		end
 
 		local o = 2*i
 		for l = -1, 1 do
 			for k = 2, 3 do
-				nodes[area:index(pos.x+k*i, pos.y+h+2, pos.z+l)] = c.head_brown_full
-				nodes[area:index(pos.x+l, pos.y+h+2, pos.z+k*i)] = c.head_brown_full
+				vm:set_data_from_heap(nodes, area:index(pos.x+k*i, pos.y+h+2, pos.z+l), c.head_brown_full)
+				vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+2, pos.z+k*i), c.head_brown_full)
 			end
-			nodes[area:index(pos.x+l, pos.y+h+1, pos.z+o)] = c.head_brown_full
-			nodes[area:index(pos.x+o, pos.y+h+1, pos.z+l)] = c.head_brown_full
+			vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+1, pos.z+o), c.head_brown_full)
+			vm:set_data_from_heap(nodes, area:index(pos.x+o, pos.y+h+1, pos.z+l), c.head_brown_full)
 		end
 
 		for m = -1, 1, 2 do
 			for k = 2, 3 do
 				for j = 2, 3 do
-					nodes[area:index(pos.x+j*i, pos.y+h+2, pos.z+k*m)] = ran_node(c.head_yellow, c.head_orange, 7)
+					vm:set_data_from_heap(nodes, area:index(pos.x+j*i, pos.y+h+2, pos.z+k*m), ran_node(c.head_yellow, c.head_orange, 7))
 				end
 			end
-			nodes[area:index(pos.x+i, pos.y+h+1, pos.z+m)] = c.head_brown_full
-			nodes[area:index(pos.x+m*2, pos.y+h+1, pos.z+o)] = c.head_brown_full
+			vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+h+1, pos.z+m), c.head_brown_full)
+			vm:set_data_from_heap(nodes, area:index(pos.x+m*2, pos.y+h+1, pos.z+o), c.head_brown_full)
 		end
 
 		for l = -3+1, 3 do
-			nodes[area:index(pos.x+3*i, pos.y+h+5, pos.z-l*i)] = ran_node(c.head_yellow, c.head_orange, 5)
-			nodes[area:index(pos.x+l*i, pos.y+h+5, pos.z+3*i)] = ran_node(c.head_yellow, c.head_orange, 5)
+			vm:set_data_from_heap(nodes, area:index(pos.x+3*i, pos.y+h+5, pos.z-l*i), ran_node(c.head_yellow, c.head_orange, 5))
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*i, pos.y+h+5, pos.z+3*i), ran_node(c.head_yellow, c.head_orange, 5))
 		end
 
 		for j = 0, 1 do
 			for l = -3, 3 do
-				nodes[area:index(pos.x+i*4, pos.y+h+3+j, pos.z+l)] = ran_node(c.head_yellow, c.head_orange, 6)
-				nodes[area:index(pos.x+l, pos.y+h+3+j, pos.z+i*4)] = ran_node(c.head_yellow, c.head_orange, 6)
+				vm:set_data_from_heap(nodes, area:index(pos.x+i*4, pos.y+h+3+j, pos.z+l), ran_node(c.head_yellow, c.head_orange, 6))
+				vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+h+3+j, pos.z+i*4), ran_node(c.head_yellow, c.head_orange, 6))
 			end
 		end
 
@@ -267,7 +270,7 @@ function riesenpilz.lavashroom(pos, nodes, area, h)
 
 	for k = -2, 2 do
 		for l = -2, 2 do
-			nodes[area:index(pos.x+k, pos.y+h+6, pos.z+l)] = ran_node(c.head_yellow, c.head_orange, 4)
+			vm:set_data_from_heap(nodes, area:index(pos.x+k, pos.y+h+6, pos.z+l), ran_node(c.head_yellow, c.head_orange, 4))
 		end
 	end
 end
@@ -277,21 +280,22 @@ local function riesenpilz_lavashroom(pos)
 
 	local h = 3+math.random(MAX_SIZE-2)
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, 4, h+6, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.lavashroom(pos, pznodes, area, h)
+	local area = r_area(vm, 4, h+6, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "lavashroom")
+	riesenpilz.lavashroom(vm, pos, data, area, h)
+
+	set_vm_data(vm, data, pos, t1, "lavashroom")
 end
 
 
-function riesenpilz.glowshroom(pos, nodes, area, h)
+function riesenpilz.glowshroom(vm, pos, nodes, area, h)
 	local h = h or 2+math.random(MAX_SIZE)
 	
 	for i = 0, h do
-		nodes[area:index(pos.x, pos.y+i, pos.z)] = c.stem_blue
+		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c.stem_blue)
 	end
 
 	local br = 2
@@ -299,14 +303,14 @@ function riesenpilz.glowshroom(pos, nodes, area, h)
 
 		for k = -br, br, 2*br do
 			for l = 2, h do
-				nodes[area:index(pos.x+i*br, pos.y+l, pos.z+k)] = c.head_blue
+				vm:set_data_from_heap(nodes, area:index(pos.x+i*br, pos.y+l, pos.z+k), c.head_blue)
 			end
-			nodes[area:index(pos.x+i*br, pos.y+1, pos.z+k)] = c.head_blue_bright
+			vm:set_data_from_heap(nodes, area:index(pos.x+i*br, pos.y+1, pos.z+k), c.head_blue_bright)
 		end
 
 		for l = -br+1, br do
-			nodes[area:index(pos.x+i*br, pos.y+h, pos.z-l*i)] = c.head_blue
-			nodes[area:index(pos.x+l*i, pos.y+h, pos.z+br*i)] = c.head_blue
+			vm:set_data_from_heap(nodes, area:index(pos.x+i*br, pos.y+h, pos.z-l*i), c.head_blue)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*i, pos.y+h, pos.z+br*i), c.head_blue)
 		end
 
 	end
@@ -314,7 +318,7 @@ function riesenpilz.glowshroom(pos, nodes, area, h)
 	for l = 0, br do
 		for i = -br+l, br-l do
 			for k = -br+l, br-l do
-				nodes[area:index(pos.x+i, pos.y+h+1+l, pos.z+k)] = c.head_blue
+				vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+h+1+l, pos.z+k), c.head_blue)
 			end
 		end
 	end
@@ -326,22 +330,23 @@ local function riesenpilz_glowshroom(pos)
 
 	local h = 2+math.random(MAX_SIZE)
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, 2, h+3, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.glowshroom(pos, pznodes, area, h)
+	local area = r_area(vm, 2, h+3, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "glowshroom")
+	riesenpilz.glowshroom(vm, pos, data, area, h)
+
+	set_vm_data(vm, data, pos, t1, "glowshroom")
 end
 
 
-function riesenpilz.parasol(pos, nodes, area, w, h)
+function riesenpilz.parasol(vm, pos, nodes, area, w, h)
 	local h = h or 6+math.random(MAX_SIZE)
 
 	--stem
 	for i in area:iterp(pos, {x=pos.x, y=pos.y+h-2, z=pos.z}) do
-		nodes[i] = c.stem
+		vm:set_data_from_heap(nodes, i, c.stem)
 	end
 
 	local w = w or MAX_SIZE+math.random(2)
@@ -353,23 +358,23 @@ function riesenpilz.parasol(pos, nodes, area, w, h)
 		{bhead1, -1, c.head_binge}
 	}) do
 		for i in area:iter(pos.x-j[1], pos.y+h+j[2], pos.z-j[1], pos.x+j[1], pos.y+h+j[2], pos.z+j[1]) do
-			nodes[i] = j[3]
+			vm:set_data_from_heap(nodes, i, j[3])
 		end
 	end
 
 	local rh = math.random(2,3)
 	for k = -1, 1, 2 do
 		for l = 0, 1 do
-			nodes[area:index(pos.x+k, pos.y+rh, pos.z-l*k)] = c.head_white
-			nodes[area:index(pos.x+l*k, pos.y+rh, pos.z+k)] = c.head_white
+			vm:set_data_from_heap(nodes, area:index(pos.x+k, pos.y+rh, pos.z-l*k), c.head_white)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*k, pos.y+rh, pos.z+k), c.head_white)
 		end
 		for l = -w+1, w do
-			nodes[area:index(pos.x+w*k, pos.y+h-2, pos.z-l*k)] = c.head_binge
-			nodes[area:index(pos.x+l*k, pos.y+h-2, pos.z+w*k)] = c.head_binge
+			vm:set_data_from_heap(nodes, area:index(pos.x+w*k, pos.y+h-2, pos.z-l*k), c.head_binge)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*k, pos.y+h-2, pos.z+w*k), c.head_binge)
 		end
 		for l = -bhead1+1, bhead1 do
-			nodes[area:index(pos.x+bhead1*k, pos.y+h-2, pos.z-l*k)] = c.head_white
-			nodes[area:index(pos.x+l*k, pos.y+h-2, pos.z+bhead1*k)] = c.head_white
+			vm:set_data_from_heap(nodes, area:index(pos.x+bhead1*k, pos.y+h-2, pos.z-l*k), c.head_white)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*k, pos.y+h-2, pos.z+bhead1*k), c.head_white)
 		end
 	end
 end
@@ -380,65 +385,66 @@ local function riesenpilz_parasol(pos)
 	local w = MAX_SIZE+math.random(2)
 	local h = 6+math.random(MAX_SIZE)
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, w, h, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.parasol(pos, pznodes, area, w, h)
+	local area = r_area(vm, w, h, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "parasol")
+	riesenpilz.parasol(vm, pos, data, area, w, h)
+
+	set_vm_data(vm, data, pos, t1, "parasol")
 end
 
 
-function riesenpilz.red45(pos, nodes, area, h1, h2)
+function riesenpilz.red45(vm, pos, nodes, area, h1, h2)
 	local walkspace = h1 or math.random(2,MAX_SIZE)
 	local toph = h2 or math.random(MAX_SIZE)
 	local h = walkspace+toph+4
 
 	-- stem
 	for i in area:iterp(pos, {x=pos.x, y=pos.y+h, z=pos.z}) do
-		nodes[i] = c.stem_red
+		vm:set_data_from_heap(nodes, i, c.stem_red)
 	end
 
 	for i = -1,1,2 do
 		for l = 0, 1 do
 			if math.random(2) == 1 then
-				nodes[area:index(pos.x+i, pos.y, pos.z-l*i)] = c.stem_red
+				vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y, pos.z-l*i), c.stem_red)
 				if math.random(2) == 1 then
-					nodes[area:index(pos.x+i, pos.y+1, pos.z-l*i)] = c.stem_red
+					vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+1, pos.z-l*i), c.stem_red)
 				end
 			end
 			if math.random(2) == 1 then
-				nodes[area:index(pos.x+l*i, pos.y, pos.z+i)] = c.stem_red
+				vm:set_data_from_heap(nodes, area:index(pos.x+l*i, pos.y, pos.z+i), c.stem_red)
 				if math.random(2) == 1 then
-					nodes[area:index(pos.x+l*i, pos.y+1, pos.z+i)] = c.stem_red
+					vm:set_data_from_heap(nodes, area:index(pos.x+l*i, pos.y+1, pos.z+i), c.stem_red)
 				end
 			end
-			nodes[area:index(pos.x+i, pos.y+walkspace+2, pos.z-l*i)] = c.head_red
-			nodes[area:index(pos.x+l*i, pos.y+walkspace+2, pos.z+i)] = c.head_red
+			vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+walkspace+2, pos.z-l*i), c.head_red)
+			vm:set_data_from_heap(nodes, area:index(pos.x+l*i, pos.y+walkspace+2, pos.z+i), c.head_red)
 		end
-		nodes[area:index(pos.x, pos.y+walkspace+3, pos.z+i)] = c.head_red
-		nodes[area:index(pos.x+i, pos.y+walkspace+3, pos.z)] = c.head_red
+		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+walkspace+3, pos.z+i), c.head_red)
+		vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+walkspace+3, pos.z), c.head_red)
 		for j = -1,1,2 do
-			nodes[area:index(pos.x+j, pos.y+walkspace+1, pos.z+i)] = c.head_red
-			nodes[area:index(pos.x+j*3, pos.y+walkspace+1, pos.z+i*3)] = c.head_red
+			vm:set_data_from_heap(nodes, area:index(pos.x+j, pos.y+walkspace+1, pos.z+i), c.head_red)
+			vm:set_data_from_heap(nodes, area:index(pos.x+j*3, pos.y+walkspace+1, pos.z+i*3), c.head_red)
 			for z = 1,2 do
 				for x = 1,2 do
 					for y = h-toph, h-1 do
-						nodes[area:index(pos.x+x*j, pos.y+y, pos.z+z*i)] = c.head_red
+						vm:set_data_from_heap(nodes, area:index(pos.x+x*j, pos.y+y, pos.z+z*i), c.head_red)
 					end
 					if z ~= 2
 					or x ~= 2
 					or math.random(4) ~= 2 then
-						nodes[area:index(pos.x+x*j, pos.y+h, pos.z+z*i)] = c.head_red
+						vm:set_data_from_heap(nodes, area:index(pos.x+x*j, pos.y+h, pos.z+z*i), c.head_red)
 					end
 					local z = z+1
 					x = x+1
-					nodes[area:index(pos.x+x*j, pos.y+walkspace+2, pos.z+z*i)] = c.head_red
+					vm:set_data_from_heap(nodes, area:index(pos.x+x*j, pos.y+walkspace+2, pos.z+z*i), c.head_red)
 					if z ~= 3
 					or x ~= 3
 					or math.random(2) == 1 then
-						nodes[area:index(pos.x+x*j, pos.y+walkspace+3, pos.z+z*i)] = c.head_red
+						vm:set_data_from_heap(nodes, area:index(pos.x+x*j, pos.y+walkspace+3, pos.z+z*i), c.head_red)
 					end
 				end
 			end
@@ -448,7 +454,7 @@ function riesenpilz.red45(pos, nodes, area, h1, h2)
 	-- top
 	for z = -1,1 do
 		for x = -1,1 do
-			nodes[area:index(pos.x+x, pos.y+h+1, pos.z+z)] = c.head_red
+			vm:set_data_from_heap(nodes, area:index(pos.x+x, pos.y+h+1, pos.z+z), c.head_red)
 		end
 	end
 end
@@ -460,17 +466,18 @@ local function riesenpilz_red45(pos)
 	local h2 = math.random(MAX_SIZE)
 	local h = h1+h2+5
 
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, 3, h, pos)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	local pznodes = {}
-	riesenpilz.red45(pos, pznodes, area, h1, h2)
+	local area = r_area(vm, 3, h, pos)
 
-	set_vm_data(manip, pznodes, pos, t1, "red45")
+	riesenpilz.red45(vm, pos, data, area, h1, h2)
+
+	set_vm_data(vm, data, pos, t1, "red45")
 end
 
 
-function riesenpilz.apple(pos, nodes, area)
+function riesenpilz.apple(vm, pos, nodes, area)
 	local size = 5
 	local a = size*2
 	local b = size-1
@@ -478,47 +485,49 @@ function riesenpilz.apple(pos, nodes, area)
 	for l = -b, b do
 		for j = 1, a-1 do
 			for k = -size, size, a do
-				nodes[area:index(pos.x+k, pos.y+j, pos.z+l)] = c.red
-				nodes[area:index(pos.x+l, pos.y+j, pos.z+k)] = c.red
+				vm:set_data_from_heap(nodes, area:index(pos.x+k, pos.y+j, pos.z+l), c.red)
+				vm:set_data_from_heap(nodes, area:index(pos.x+l, pos.y+j, pos.z+k), c.red)
 			end
 		end
 		for i = -b, b do
-			nodes[area:index(pos.x+i, pos.y, pos.z+l)] = c.red
-			nodes[area:index(pos.x+i, pos.y+a, pos.z+l)] = c.red
+			vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y, pos.z+l), c.red)
+			vm:set_data_from_heap(nodes, area:index(pos.x+i, pos.y+a, pos.z+l), c.red)
 		end
 	end
 
 	for i = a+1, a+b do
-		nodes[area:index(pos.x, pos.y+i, pos.z)] = c.tree
+		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c.tree)
 	end
 
 	local d = pos.y+1
 	for i = -3,1,1 do
-		nodes[area:index(pos.x+i, d, pos.z+1)] = c.brown
+		vm:set_data_from_heap(nodes, area:index(pos.x+i, d, pos.z+1), c.brown)
 	end
 	for i = 0,1,1 do
-		nodes[area:index(pos.x+i+1, d, pos.z-1-i)] = c.brown
-		nodes[area:index(pos.x+i+2, d, pos.z-1-i)] = c.brown
+		vm:set_data_from_heap(nodes, area:index(pos.x+i+1, d, pos.z-1-i), c.brown)
+		vm:set_data_from_heap(nodes, area:index(pos.x+i+2, d, pos.z-1-i), c.brown)
 	end
-	nodes[area:index(pos.x+1, d, pos.z)] = c.brown
-	nodes[area:index(pos.x-3, d+1, pos.z+1)] = c.brown
+	vm:set_data_from_heap(nodes, area:index(pos.x+1, d, pos.z), c.brown)
+	vm:set_data_from_heap(nodes, area:index(pos.x-3, d+1, pos.z+1), c.brown)
 end
 
 local function riesenpilz_apple(pos)
 
 	local t1 = os.clock()
-	local manip = minetest.get_voxel_manip()
-	local area = r_area(manip, 5, 14, pos)
 
-	local pznodes = {}
-	riesenpilz.apple(pos, pznodes, area)
+	local vm = riesenpilz.vm
+	local data = riesenpilz.data
 
-	if not set_vm_nodes(manip, pznodes) then
+	local area = r_area(vm, 5, 14, pos)
+
+	riesenpilz.apple(vm, pos, data, area)
+
+	if not set_vm_nodes(vm, data) then
 		return
 	end
-	manip:write_to_map(true)
+	vm:write_to_map(true)
 	riesenpilz.inform("an apple grew at "..vector.pos_to_string(pos), 3, t1)
-	manip:update_map()
+	vm:update_map()
 end
 
 
