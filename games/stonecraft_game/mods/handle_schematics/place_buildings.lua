@@ -1345,6 +1345,6 @@ handle_schematics.clear_area = function( start_pos, end_pos, ground_level)
 end
 
 
-if( minetest.get_modpath('moresnow' )) then
+if( minetest.get_modpath('moresnow' )) and not core.skip_mod("moresnow") then
 	handle_schematics.moresnow_installed = true;
 end
