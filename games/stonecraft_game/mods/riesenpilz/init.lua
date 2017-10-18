@@ -56,22 +56,42 @@ end
 local set_vm_nodes
 if riesenpilz.giant_restrict_area then
 	function set_vm_nodes(vm, data)
-		for vi,id in pairs(data) do
-			if not replacing_allowed(vm:get_data_from_heap(data, vi)) then
+		local vi = 0
+		local id
+
+		--for vi,id in pairs(data) do
+		repeat
+			id = vm:get_data_from_heap(data, vi)
+
+			if not id == -1 and not replacing_allowed(id) then
 				return false
 			end
-			vm:set_data_from_heap(data, vi, id)
-		end
+			--vm:set_data_from_heap(data, vi, id)
+
+			vi = vi+1
+
+		until id == -1
+		--end
 		vm:save_data_from_heap(data)
 		return true
 	end
 else
 	function set_vm_nodes(vm, data)
-		for vi,id in pairs(data) do
-			if replacing_allowed(vm:get_data_from_heap(data, vi)) then
+		--[[local vi = 0
+		local id
+
+		--for vi,id in pairs(data) do
+		repeat
+			id = vm:get_data_from_heap(data, vi)
+
+			if replacing_allowed(id) then
 				vm:set_data_from_heap(data, vi, id)
 			end
-		end
+
+			vi++
+
+		until id == -1
+		--end --]]
 		vm:save_data_from_heap(data)
 		return true
 	end
@@ -118,10 +138,11 @@ local function riesenpilz_hybridpilz(pos)
 
 	local w = math.random(MAX_SIZE)
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, w+1, w+3, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.red(vm, pos, data, area, w)
 
@@ -154,10 +175,11 @@ local function riesenpilz_brauner_minecraftpilz(pos)
 
 	local br = math.random(MAX_SIZE-1)+1
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, br+1, br+3, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.brown(vm, pos, data, area, br)
 
@@ -195,11 +217,12 @@ end
 local function riesenpilz_minecraft_fliegenpilz(pos)
 	local t1 = os.clock()
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-	local param2s = riesenpilz.param2s
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, 2, 4, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
+	local param2s = riesenpilz.param2s or vm:load_param2_data_into_heap()
 	
 	riesenpilz.fly_agaric(vm, pos, data, area, param2s)
 
@@ -280,10 +303,11 @@ local function riesenpilz_lavashroom(pos)
 
 	local h = 3+math.random(MAX_SIZE-2)
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, 4, h+6, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.lavashroom(vm, pos, data, area, h)
 
@@ -330,10 +354,11 @@ local function riesenpilz_glowshroom(pos)
 
 	local h = 2+math.random(MAX_SIZE)
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
 
 	local area = r_area(vm, 2, h+3, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.glowshroom(vm, pos, data, area, h)
 
@@ -385,10 +410,11 @@ local function riesenpilz_parasol(pos)
 	local w = MAX_SIZE+math.random(2)
 	local h = 6+math.random(MAX_SIZE)
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, w, h, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.parasol(vm, pos, data, area, w, h)
 
@@ -466,10 +492,11 @@ local function riesenpilz_red45(pos)
 	local h2 = math.random(MAX_SIZE)
 	local h = h1+h2+5
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, 3, h, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.red45(vm, pos, data, area, h1, h2)
 
@@ -515,10 +542,11 @@ local function riesenpilz_apple(pos)
 
 	local t1 = os.clock()
 
-	local vm = riesenpilz.vm
-	local data = riesenpilz.data
-
+	local vm = riesenpilz.vm or minetest.get_voxel_manip()
+	
 	local area = r_area(vm, 5, 14, pos)
+
+	local data = riesenpilz.data or vm:load_data_into_heap()
 
 	riesenpilz.apple(vm, pos, data, area)
 

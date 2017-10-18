@@ -328,8 +328,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
 	vm:write_to_map(true)
+	
 	data = nil
 	area = nil
+	riesenpilz.vm = nil
+	riesenpilz.data = nil
+	riesenpilz.param2s = nil
+
 	riesenpilz.inform("data set", 2, t2)
 
 	riesenpilz.inform("done", 1, t1)
