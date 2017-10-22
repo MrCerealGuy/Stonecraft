@@ -942,10 +942,10 @@ default_password (Default password) string
 
 #    The privileges that new users automatically get.
 #    See /privs in game for a full list on your server and mod configuration.
-default_privs (Default privileges) string interact, shout, home, zoom
+default_privs (Default privileges) string interact, shout, home
 
 #    Privileges that players with basic_privs can grant
-basic_privs (Basic Privileges) string interact, shout, home, zoom
+basic_privs (Basic Privileges) string interact, shout, home
 
 #    Whether players are shown to clients without any range limit.
 #    Deprecated, use the setting player_transfer_distance instead.

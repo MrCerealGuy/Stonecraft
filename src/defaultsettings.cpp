@@ -309,7 +309,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("show_statusline_on_connect", "true");
 	settings->setDefault("enable_damage", "true");
 	settings->setDefault("default_password", "");
-	settings->setDefault("default_privs", "interact, shout, home, zoom");
+	settings->setDefault("default_privs", "interact, shout, home");
 	settings->setDefault("enable_pvp", "true");
 	settings->setDefault("enable_mod_channels", "false");
 	settings->setDefault("disallow_empty_password", "false");
