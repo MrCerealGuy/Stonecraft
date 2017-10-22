@@ -528,36 +528,7 @@ minetest.register_node("caverealms:mushroom_gills", {
 })
 
 --define special flame so that it does not expire
-minetest.register_node("caverealms:constant_flame", {
-	description = S("Fire"),
-	drawtype = "plantlike",
-	tiles = {{
-		name="fire_basic_flame_animated.png",
-		animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=1},
-	}},
-	inventory_image = "fire_basic_flame.png",
-	light_source = 14,
-	groups = {igniter=2,dig_immediate=3,hot=3, not_in_creative_inventory=1},
-	drop = '',
-	walkable = false,
-	buildable_to = true,
-	damage_per_second = 4,
-	
-	after_place_node = function(pos, placer)
-		if pos.y > DM_TOP then
-			minetest.remove_node(pos)
-		end
-		if not (minetest.get_modpath("moontest")) then
-			fire.on_flame_add_at(pos)
-		end
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if not (minetest.get_modpath("moontest")) then
-			fire.on_flame_remove_at(pos)
-		end
-	end,
-})
+minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {

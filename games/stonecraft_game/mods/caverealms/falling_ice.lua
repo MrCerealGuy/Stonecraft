@@ -186,7 +186,7 @@ function caverealms:nodeupdate_single(p, delay)
 	end
 
 	if minetest.get_item_group(n.name, "attached_node") ~= 0 then
-		if not check_attached_node(p, n) then
+		if not caverealms:check_attached_node(p, n) then
 			caverealms:drop_attached_node(p)
 			caverealms:nodeupdate(p)
 		end
