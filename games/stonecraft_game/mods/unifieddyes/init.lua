@@ -29,18 +29,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 --=====================================================================
 
-unifieddyes = {}
-unifieddyes.last_used_dye = {}
-unifieddyes.last_dyed_node = {}
-
-local creative_mode = minetest.setting_getbool("creative_mode")
-
 --[[
 
 2017-05-27 MrCerealGuy: added intllib support
 
 --]]
 
+unifieddyes = {}
+unifieddyes.last_used_dye = {}
+unifieddyes.last_dyed_node = {}
+
+local creative_mode = minetest.settings:get_bool("creative_mode")
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -210,8 +209,8 @@ end)
 
 function unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
 	local node = minetest.get_node(pos)
-	local yaw = placer:get_look_yaw()
-	local dir = minetest.yaw_to_dir(yaw-1.5)
+	local yaw = placer:get_look_horizontal()
+	local dir = minetest.yaw_to_dir(yaw) -- -1.5)
 	local pitch = placer:get_look_vertical()
 
 	local fdir = minetest.dir_to_wallmounted(dir)
@@ -229,8 +228,8 @@ end
 
 function unifieddyes.fix_rotation_nsew(pos, placer, itemstack, pointed_thing)
 	local node = minetest.get_node(pos)
-	local yaw = placer:get_look_yaw()
-	local dir = minetest.yaw_to_dir(yaw)
+	local yaw = placer:get_look_horizontal()
+	local dir = minetest.yaw_to_dir(yaw+1.5)
 	local fdir = minetest.dir_to_wallmounted(dir)
 	minetest.swap_node(pos, { name = node.name, param2 = fdir })
 end
@@ -318,7 +317,7 @@ function unifieddyes.getpaletteidx(color, palette_type)
 	local origcolor = color
 	local aliases = {
 		["pink"] = "light_red",
-		["brown"] = "dark_orange",
+		["brown"] = "medium_orange",
 	}
 
 	local grayscale = {
@@ -502,7 +501,7 @@ function unifieddyes.getpaletteidx(color, palette_type)
 	else
 		if color == "brown" then
 			color = "orange"
-			shade = "dark"
+			shade = "medium"
 		elseif color == "pink" then
 			color = "red"
 			shade = "light"
@@ -807,12 +806,15 @@ for _, h in ipairs(unifieddyes.HUES_EXTENDED) do
 				on_use = unifieddyes.on_use
 			})
 		else
-			minetest.register_craftitem(":dye:"..val..hue, {
-				description = S(desc),
-				inventory_image = "unifieddyes_dye.png^[colorize:#"..color..":200",
-				groups = { dye=1, not_in_creative_inventory=1 },
-				on_use = unifieddyes.on_use
-			})
+			if (val..hue) ~= "medium_orange"
+			  and (val..hue) ~= "light_red" then
+				minetest.register_craftitem(":dye:"..val..hue, {
+					description = S(desc),
+					inventory_image = "unifieddyes_dye.png^[colorize:#"..color..":200",
+					groups = { dye=1, not_in_creative_inventory=1 },
+					on_use = unifieddyes.on_use
+				})
+			end
 		end
 		minetest.register_alias("unifieddyes:"..val..hue, "dye:"..val..hue)
 
@@ -963,6 +965,8 @@ for _,i in ipairs(unifieddyes.base_color_crafts) do
 		local firstdye = j[3]
 		if firstdye == "color" then firstdye = "dye:"..color end
 
+		-- ignore black, white, anything containing the word "grey"
+
 		if color ~= "black" and color ~= "white" and not string.find(color, "grey") then
 
 			minetest.register_craft( {
@@ -978,6 +982,8 @@ for _,i in ipairs(unifieddyes.base_color_crafts) do
 		end
 	end
 end
+
+-- greys
 
 unifieddyes.greymixes = {
 	{ 1,	"dye:black",			"dye:black",		"dye:black",		"dye:dark_grey",	4 },
@@ -1024,13 +1030,22 @@ for _, i in ipairs(unifieddyes.greymixes) do
 	})
 end
 
-minetest.register_alias("unifieddyes:light_red",  "dye:pink")
-minetest.register_alias("unifieddyes:dark_green", "dye:dark_green")
+-- we can't make dark orange anymore because brown/medium orange conflicts
+
+minetest.register_craft( {
+	type = "shapeless",
+	output = "dye:dark_orange",
+	recipe = {
+		"dye:brown",
+		"dye:brown"
+	},
+})
+
+minetest.register_alias("dye:light_red",  "dye:pink")
+minetest.register_alias("dye:medium_orange", "dye:brown")
+
 minetest.register_alias("unifieddyes:black",      "dye:black")
-minetest.register_alias("unifieddyes:darkgrey",   "dye:dark_grey")
 minetest.register_alias("unifieddyes:dark_grey",  "dye:dark_grey")
-minetest.register_alias("unifieddyes:grey",       "dye:grey")
-minetest.register_alias("unifieddyes:lightgrey",  "dye:light_grey")
 minetest.register_alias("unifieddyes:light_grey", "dye:light_grey")
 minetest.register_alias("unifieddyes:white",      "dye:white")
 
