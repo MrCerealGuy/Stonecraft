@@ -1,4 +1,6 @@
-local S = moretrees.intllib
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- © 2016, Rogier <rogier777@gmail.com>
 
