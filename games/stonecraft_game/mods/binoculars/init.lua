@@ -1,3 +1,14 @@
+--[[
+
+2017-10-24 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- Mod global namespace
 
 binoculars = {}
@@ -47,7 +58,7 @@ minetest.after(4.7, cyclic_update)
 -- Binoculars item
 
 minetest.register_craftitem("binoculars:binoculars", {
-	description = "Binoculars",
+	description = S("Binoculars"),
 	inventory_image = "binoculars_binoculars.png",
 	stack_max = 1,
 

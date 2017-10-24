@@ -67,7 +67,7 @@ msgstr "Kürbis"
 
 #: pumpkin.lua
 msgid "Pumpkin Face"
-msgstr "Kuerbislaterne"
+msgstr "Kürbislaterne"
 
 #: pumpkin.lua
 msgid "Pumpkin Face With Light"

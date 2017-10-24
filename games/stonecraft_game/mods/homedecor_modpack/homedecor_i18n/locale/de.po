@@ -742,10 +742,18 @@ msgstr "gelb"
 msgid "Shrubbery (@1)"
 msgstr "Gebüsch (@1)"
 
+#: ../homedecor/exterior.lua
+msgid "Shrubbery (large, @1)"
+msgstr "Gebüsch (groß, @1)"
+
 #: ../homedecor/fences.lua ../homedecor/misc-nodes.lua ../homedecor/tables.lua
 #: ../homedecor/window_treatments.lua
-msgid "brass"
+msgid "Brass"
 msgstr "Messing"
+
+#: ../homedecor/tables.lua
+msgid "Wrought iron"
+msgstr "Schmiedeeisen"
 
 #: ../homedecor/fences.lua ../homedecor/misc-nodes.lua ../homedecor/tables.lua
 #: ../homedecor/window_treatments.lua

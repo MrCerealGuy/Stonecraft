@@ -1,3 +1,14 @@
+--[[
+
+2017-10-24 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_horse") == "false" then return end
 
 -- rideable horse
@@ -179,7 +190,7 @@ end
 
 -- steel horseshoes
 minetest.register_craftitem(":mobs:horseshoe_steel", {
-	description = "Steel HorseShoes (use on horse to apply)",
+	description = S("Steel HorseShoes (use on horse to apply)"),
 	inventory_image = "mobs_horseshoe_steel.png",
 	on_use = function(itemstack, user, pointed_thing)
 		return apply_shoes(user:get_player_name(), itemstack, pointed_thing,
@@ -198,7 +209,7 @@ minetest.register_craft({
 
 -- bronze horseshoes
 minetest.register_craftitem(":mobs:horseshoe_bronze", {
-	description = "Bronze HorseShoes (use on horse to apply)",
+	description = S("Bronze HorseShoes (use on horse to apply)"),
 	inventory_image = "mobs_horseshoe_bronze.png",
 	on_use = function(itemstack, user, pointed_thing)
 		return apply_shoes(user:get_player_name(), itemstack, pointed_thing,
@@ -217,7 +228,7 @@ minetest.register_craft({
 
 -- mese horseshoes
 minetest.register_craftitem(":mobs:horseshoe_mese", {
-	description = "Mese HorseShoes (use on horse to apply)",
+	description = S("Mese HorseShoes (use on horse to apply)"),
 	inventory_image = "mobs_horseshoe_mese.png",
 	on_use = function(itemstack, user, pointed_thing)
 		return apply_shoes(user:get_player_name(), itemstack, pointed_thing,
@@ -236,7 +247,7 @@ minetest.register_craft({
 
 -- diamond horseshoes
 minetest.register_craftitem(":mobs:horseshoe_diamond", {
-	description = "Diamond HorseShoes (use on horse to apply)",
+	description = S("Diamond HorseShoes (use on horse to apply)"),
 	inventory_image = "mobs_horseshoe_diamond.png",
 	on_use = function(itemstack, user, pointed_thing)
 		return apply_shoes(user:get_player_name(), itemstack, pointed_thing,

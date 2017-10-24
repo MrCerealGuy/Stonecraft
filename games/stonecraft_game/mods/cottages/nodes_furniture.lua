@@ -133,7 +133,7 @@ minetest.register_node("cottages:sleeping_mat", {
 
 -- this one has a pillow for the head; thus, param2 becomes visible to the builder, and mobs may use it as a bed
 minetest.register_node("cottages:sleeping_mat_head", {
-        description = S("sleeping mat with pillow"),
+        description = S("Sleeping mat with pillow"),
         drawtype = 'nodebox',
         tiles = { 'cottages_sleepingmat.png' }, -- done by VanessaE
         wield_image = 'cottages_sleepingmat.png',

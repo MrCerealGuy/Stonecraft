@@ -111,11 +111,11 @@ msgstr "Geschlossene Fensterläden"
 
 #: nodes_doorlike.lua
 msgid "Half door"
-msgstr "Kloentür"
+msgstr "Klöntür"
 
 #: nodes_doorlike.lua
 msgid "Half door inverted"
-msgstr "Umgekehrte Kloentür"
+msgstr "Klöntür (umgekehrt)"
 
 #: nodes_doorlike.lua
 msgid "Closed fence gate"
@@ -408,3 +408,39 @@ msgstr "Kletterseil"
 #: nodes_mining.lua
 msgid "Ladder with rail support"
 msgstr "Leiter mit Antriebsunterstützung"
+
+#: nodes_furniture.lua
+msgid "Bed (foot region)"
+msgstr "Bett (Fußteil)"
+
+#: nodes_furniture.lua
+msgid "Bed (head region)"
+msgstr "Bett (Kopfteil)"
+
+#: nodes_furniture.lua
+msgid "Sleeping mat"
+msgstr "Schlafmatte"
+
+#: nodes_furniture.lua
+msgid "Sleeping mat with pillow"
+msgstr "Schlafmatte mit Kisse"
+
+#: nodes_furniture.lua
+msgid "Simple wooden bench"
+msgstr "Einfache Holzbank"
+
+#: nodes_furniture.lua
+msgid "Table"
+msgstr "Tisch"
+
+#: nodes_furniture.lua
+msgid "Open storage shelf"
+msgstr "Offenes Ablagefach"
+
+#: nodes_furniture.lua
+msgid "Stovepipe"
+msgstr "Ofenrohr"
+
+#: nodes_furniture.lua
+msgid "Washing place"
+msgstr "Waschplätze"
