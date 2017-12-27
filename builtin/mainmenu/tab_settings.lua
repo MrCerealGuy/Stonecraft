@@ -276,7 +276,7 @@ local function formspec(tabview, name, tabdata)
 			"label[8.38,1.2;" .. core.colorize("#888888",
 					fgettext("Tone Mapping")) .. "]" ..
 			"label[8.38,1.7;" .. core.colorize("#888888",
-					fgettext("Normal Mapping")) .. "]" ..
+					fgettext("Generate Normal Maps")) .. "]" ..
 			"label[8.38,2.2;" .. core.colorize("#888888",
 					fgettext("Parallax Occlusion")) .. "]" ..
 			"label[8.38,2.7;" .. core.colorize("#888888",

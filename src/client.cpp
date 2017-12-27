@@ -29,6 +29,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "threading/mutex_auto_lock.h"
 #include "client/clientevent.h"
 #include "client/renderingengine.h"
+#include "client/tile.h"
 #include "util/auth.h"
 #include "util/directiontables.h"
 #include "util/pointedthing.h"
@@ -47,7 +48,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "clientmap.h"
 #include "clientmedia.h"
 #include "version.h"
-#include "database-sqlite3.h"
+#include "database/database-sqlite3.h"
 #include "serialization.h"
 #include "guiscalingfilter.h"
 #include "script/scripting_client.h"
@@ -112,18 +113,38 @@ Client::Client(
 	m_script->setEnv(&m_env);
 }
 
-void Client::loadMods()
+void Client::loadBuiltin()
 {
 	// Load builtin
 	scanModIntoMemory(BUILTIN_MOD_NAME, getBuiltinLuaPath());
 
-	// If modding is not enabled, don't load mods, just builtin
-	if (!m_modding_enabled) {
+	m_script->loadModFromMemory(BUILTIN_MOD_NAME);
+}
+
+void Client::loadMods()
+{
+	// Don't permit to load mods twice
+	if (m_mods_loaded) {
 		return;
 	}
+
+	// If modding is not enabled or flavour disable it, don't load mods, just builtin
+	if (!m_modding_enabled) {
+		warningstream << "Client side mods are disabled by configuration." << std::endl;
+		return;
+	}
+
+	if (checkCSMFlavourLimit(CSMFlavourLimit::CSM_FL_LOAD_CLIENT_MODS)) {
+		warningstream << "Client side mods are disabled by server." << std::endl;
+		// If mods loading is disabled and builtin integrity is wrong, disconnect user.
+		if (!checkBuiltinIntegrity()) {
+			// @TODO disconnect user
+		}
+		return;
+	}
+
 	ClientModConfiguration modconf(getClientModsLuaPath());
 	m_mods = modconf.getMods();
-	std::vector<ModSpec> unsatisfied_mods = modconf.getUnsatisfiedMods();
 	// complain about mods with unsatisfied dependencies
 	if (!modconf.isConsistent()) {
 		modconf.printUnsatisfiedModsError();
@@ -144,6 +165,18 @@ void Client::loadMods()
 		}
 		scanModIntoMemory(mod.name, mod.path);
 	}
+
+	// Load and run "mod" scripts
+	for (const ModSpec &mod : m_mods)
+		m_script->loadModFromMemory(mod.name);
+
+	m_mods_loaded = true;
+}
+
+bool Client::checkBuiltinIntegrity()
+{
+	// @TODO
+	return true;
 }
 
 void Client::scanModSubfolder(const std::string &mod_name, const std::string &mod_path,
@@ -161,20 +194,6 @@ void Client::scanModSubfolder(const std::string &mod_name, const std::string &mo
 		std::replace( mod_subpath.begin(), mod_subpath.end(), DIR_DELIM_CHAR, '/');
 		m_mod_files[mod_name + ":" + mod_subpath + filename] = full_path  + filename;
 	}
-}
-
-void Client::initMods()
-{
-	m_script->loadModFromMemory(BUILTIN_MOD_NAME);
-
-	// If modding is not enabled, don't load mods, just builtin
-	if (!m_modding_enabled) {
-		return;
-	}
-
-	// Load and run "mod" scripts
-	for (const ModSpec &mod : m_mods)
-		m_script->loadModFromMemory(mod.name);
 }
 
 const std::string &Client::getBuiltinLuaPath()
@@ -263,13 +282,8 @@ void Client::connect(Address address, bool is_local_server)
 void Client::step(float dtime)
 {
 	// Limit a bit
-	if(dtime > 2.0)
+	if (dtime > 2.0)
 		dtime = 2.0;
-
-	if(m_ignore_damage_timer > dtime)
-		m_ignore_damage_timer -= dtime;
-	else
-		m_ignore_damage_timer = 0.0;
 
 	m_animation_time += dtime;
 	if(m_animation_time > 60.0)
@@ -393,18 +407,16 @@ void Client::step(float dtime)
 		ClientEnvEvent envEvent = m_env.getClientEnvEvent();
 
 		if (envEvent.type == CEE_PLAYER_DAMAGE) {
-			if (m_ignore_damage_timer <= 0) {
-				u8 damage = envEvent.player_damage.amount;
+			u8 damage = envEvent.player_damage.amount;
 
-				if (envEvent.player_damage.send_to_server)
-					sendDamage(damage);
+			if (envEvent.player_damage.send_to_server)
+				sendDamage(damage);
 
-				// Add to ClientEvent queue
-				ClientEvent *event = new ClientEvent();
-				event->type = CE_PLAYER_DAMAGE;
-				event->player_damage.amount = damage;
-				m_client_event_queue.push(event);
-			}
+			// Add to ClientEvent queue
+			ClientEvent *event = new ClientEvent();
+			event->type = CE_PLAYER_DAMAGE;
+			event->player_damage.amount = damage;
+			m_client_event_queue.push(event);
 		}
 	}
 
@@ -1643,9 +1655,8 @@ void Client::afterContentReceived()
 	text = wgettext("Initializing nodes...");
 	RenderingEngine::draw_load_screen(text, guienv, m_tsrc, 0, 72);
 	m_nodedef->updateAliases(m_itemdef);
-	std::string texture_path = g_settings->get("texture_path");
-	if (!texture_path.empty() && fs::IsDir(texture_path))
-		m_nodedef->applyTextureOverrides(texture_path + DIR_DELIM + "override.txt");
+	for (const auto &path : getTextureDirs())
+		m_nodedef->applyTextureOverrides(path + DIR_DELIM + "override.txt");
 	m_nodedef->setNodeRegistrationStatus(true);
 	m_nodedef->runNodeResolveCallbacks();
 	delete[] text;
@@ -1836,7 +1847,7 @@ ParticleManager* Client::getParticleManager()
 	return &m_particle_manager;
 }
 
-scene::IAnimatedMesh* Client::getMesh(const std::string &filename)
+scene::IAnimatedMesh* Client::getMesh(const std::string &filename, bool cache)
 {
 	StringMap::const_iterator it = m_mesh_data.find(filename);
 	if (it == m_mesh_data.end()) {
@@ -1855,10 +1866,9 @@ scene::IAnimatedMesh* Client::getMesh(const std::string &filename)
 
 	scene::IAnimatedMesh *mesh = RenderingEngine::get_scene_manager()->getMesh(rfile);
 	rfile->drop();
-	// NOTE: By playing with Irrlicht refcounts, maybe we could cache a bunch
-	// of uniquely named instances and re-use them
 	mesh->grab();
-	RenderingEngine::get_mesh_cache()->removeMesh(mesh);
+	if (!cache)
+		RenderingEngine::get_mesh_cache()->removeMesh(mesh);
 	return mesh;
 }
 

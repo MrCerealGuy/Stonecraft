@@ -27,12 +27,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server.h"
 #include "environment.h"
 #include "emerge.h"
-#include "mg_biome.h"
-#include "mg_ore.h"
-#include "mg_decoration.h"
-#include "mg_schematic.h"
-#include "mapgen_v5.h"
-#include "mapgen_v7.h"
+#include "mapgen/mg_biome.h"
+#include "mapgen/mg_ore.h"
+#include "mapgen/mg_decoration.h"
+#include "mapgen/mg_schematic.h"
+#include "mapgen/mapgen_v5.h"
+#include "mapgen/mapgen_v7.h"
 #include "filesys.h"
 #include "settings.h"
 #include "log.h"
@@ -1116,7 +1116,7 @@ int ModApiMapgen::l_register_ore(lua_State *L)
 		ore->flags |= OREFLAG_USE_NOISE;
 	} else if (ore->NEEDS_NOISE) {
 		errorstream << "register_ore: specified ore type requires valid "
-			"noise parameters" << std::endl;
+			"'noise_params' parameter" << std::endl;
 		delete ore;
 		return 0;
 	}
@@ -1161,10 +1161,12 @@ int ModApiMapgen::l_register_ore(lua_State *L)
 			OreStratum *orestratum = (OreStratum *)ore;
 
 			lua_getfield(L, index, "np_stratum_thickness");
-			// If thickness noise missing unset 'use noise' flag
-			if (!read_noiseparams(L, -1, &orestratum->np_stratum_thickness))
-				ore->flags &= ~OREFLAG_USE_NOISE;
+			if (read_noiseparams(L, -1, &orestratum->np_stratum_thickness))
+				ore->flags |= OREFLAG_USE_NOISE2;
 			lua_pop(L, 1);
+
+			orestratum->stratum_thickness = getintfield_default(L, index,
+				"stratum_thickness", 8);
 
 			break;
 		}

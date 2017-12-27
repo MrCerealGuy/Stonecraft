@@ -129,11 +129,12 @@ std::string getTexturePath(const std::string &filename)
 	/*
 		Check from texture_path
 	*/
-	const std::string &texture_path = g_settings->get("texture_path");
-	if (!texture_path.empty()) {
-		std::string testpath = texture_path + DIR_DELIM + filename;
+	for (const auto &path : getTextureDirs()) {
+		std::string testpath = path + DIR_DELIM + filename;
 		// Check all filename extensions. Returns "" if not found.
 		fullpath = getImagePath(testpath);
+		if (!fullpath.empty())
+			break;
 	}
 
 	/*
@@ -1777,7 +1778,8 @@ bool TextureSource::generateImagePart(std::string part_of_name,
 			 * mix high- and low-res textures, or for mods with least-common-denominator
 			 * textures that don't have the resources to offer high-res alternatives.
 			 */
-			s32 scaleto = g_settings->getS32("texture_min_size");
+			const bool filter = m_setting_trilinear_filter || m_setting_bilinear_filter;
+			const s32 scaleto = filter ? g_settings->getS32("texture_min_size") : 1;
 			if (scaleto > 1) {
 				const core::dimension2d<u32> dim = baseimg->getDimension();
 
@@ -2386,4 +2388,11 @@ video::ITexture *TextureSource::getShaderFlagsTexture(bool normalmap_present)
 	flags_image->drop();
 	return getTexture(tname);
 
+}
+
+const std::vector<std::string> &getTextureDirs()
+{
+	static thread_local std::vector<std::string> dirs =
+		fs::GetRecursiveDirs(g_settings->get("texture_path"));
+	return dirs;
 }

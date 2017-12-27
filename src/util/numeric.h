@@ -20,10 +20,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #include "basic_macros.h"
-#include "../irrlichttypes.h"
-#include "../irr_v2d.h"
-#include "../irr_v3d.h"
-#include "../irr_aabb3d.h"
+#include "irrlichttypes.h"
+#include "irr_v2d.h"
+#include "irr_v3d.h"
+#include "irr_aabb3d.h"
 
 #define rangelim(d, min, max) ((d) < (min) ? (min) : ((d) > (max) ? (max) : (d)))
 #define myfloor(x) ((x) < 0.0 ? (int)(x) - 1 : (int)(x))
@@ -230,7 +230,9 @@ inline u32 calc_parity(u32 v)
 u64 murmur_hash_64_ua(const void *key, int len, unsigned int seed);
 
 bool isBlockInSight(v3s16 blockpos_b, v3f camera_pos, v3f camera_dir,
-		f32 camera_fov, f32 range, f32 *distance_ptr=NULL);
+		f32 camera_fov, f32 range, f32 *distance_ptr = NULL);
+
+s16 adjustDist(s16 dist, float zoom_fov);
 
 /*
 	Returns nearest 32-bit integer for given floating point number.
@@ -245,6 +247,17 @@ inline s32 myround(f32 f)
 	Returns integer position of node in given floating point position
 */
 inline v3s16 floatToInt(v3f p, f32 d)
+{
+	return v3s16(
+		(p.X + (p.X > 0 ? d / 2 : -d / 2)) / d,
+		(p.Y + (p.Y > 0 ? d / 2 : -d / 2)) / d,
+		(p.Z + (p.Z > 0 ? d / 2 : -d / 2)) / d);
+}
+
+/*
+	Returns integer position of node in given double precision position
+ */
+inline v3s16 doubleToInt(v3d p, double d)
 {
 	return v3s16(
 		(p.X + (p.X > 0 ? d / 2 : -d / 2)) / d,
@@ -289,18 +302,24 @@ public:
 		return value:
 			true: action should be skipped
 			false: action should be done
+		if passed, the elapsed time since this method last returned true
+		is written to elapsed_ptr
 	*/
-	bool step(float dtime, float wanted_interval)
+	bool step(float dtime, float wanted_interval, float *elapsed_ptr = NULL)
 	{
 		m_accumulator += dtime;
+		if (elapsed_ptr)
+			*elapsed_ptr = m_accumulator - m_last_accumulator;
 		if (m_accumulator < wanted_interval)
 			return false;
 		m_accumulator -= wanted_interval;
+		m_last_accumulator = m_accumulator;
 		return true;
 	}
 
 private:
 	float m_accumulator = 0.0f;
+	float m_last_accumulator = 0.0f;
 };
 
 

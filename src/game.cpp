@@ -39,12 +39,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "log.h"
 #include "filesys.h"
 #include "gettext.h"
-#include "guiChatConsole.h"
-#include "guiFormSpecMenu.h"
-#include "guiKeyChangeMenu.h"
-#include "guiPasswordChange.h"
-#include "guiVolumeChange.h"
-#include "mainmenumanager.h"
+#include "gui/guiChatConsole.h"
+#include "gui/guiFormSpecMenu.h"
+#include "gui/guiKeyChangeMenu.h"
+#include "gui/guiPasswordChange.h"
+#include "gui/guiVolumeChange.h"
+#include "gui/mainmenumanager.h"
 #include "mapblock.h"
 #include "minimap.h"
 #include "nodedef.h"         // Needed for determining pointing to nodes
@@ -993,7 +993,7 @@ static void updateChat(Client &client, f32 dtime, bool show_debug,
 	s32 chat_y = 5;
 
 	if (show_debug)
-		chat_y += 3 * line_height;
+		chat_y += 2 * line_height;
 
 	// first pass to calculate height of text to be set
 	const v2u32 &window_size = RenderingEngine::get_instance()->getWindowSize();
@@ -1283,6 +1283,7 @@ protected:
 	void increaseViewRange();
 	void decreaseViewRange();
 	void toggleFullViewRange();
+	void checkZoomEnabled();
 
 	void updateCameraDirection(CameraOrientation *cam, float dtime);
 	void updateCameraOrientation(CameraOrientation *cam, float dtime);
@@ -1454,7 +1455,6 @@ private:
 	 */
 	gui::IGUIStaticText *guitext;          // First line of debug text
 	gui::IGUIStaticText *guitext2;         // Second line of debug text
-	gui::IGUIStaticText *guitext3;         // Third line of debug text
 	gui::IGUIStaticText *guitext_info;     // At the middle of the screen
 	gui::IGUIStaticText *guitext_status;
 	gui::IGUIStaticText *guitext_chat;	   // Chat text
@@ -1489,6 +1489,8 @@ private:
 	bool m_invert_mouse = false;
 	bool m_first_loop_after_window_activation = false;
 	bool m_camera_offset_changed = false;
+
+	bool m_does_lost_focus_pause_game = false;
 
 #ifdef __ANDROID__
 	bool m_cache_hold_aux1;
@@ -1659,6 +1661,8 @@ bool Game::startup(bool *kill,
 	if (!createClient(playername, password, address, port))
 		return false;
 
+	RenderingEngine::initialize(client, hud);
+
 	return true;
 }
 
@@ -1742,12 +1746,17 @@ void Game::run()
 
 		// Update if minimap has been disabled by the server
 		flags.show_minimap &= client->shouldShowMinimap();
+
+		if (m_does_lost_focus_pause_game && !device->isWindowFocused() && !isMenuActive()) {
+			showPauseMenu();
+		}
 	}
 }
 
 
 void Game::shutdown()
 {
+	RenderingEngine::finalize();
 #if IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR <= 8
 	if (g_settings->get("3d_mode") == "pageflip") {
 		driver->setRenderTarget(irr::video::ERT_STEREO_BOTH_BUFFERS);
@@ -2030,12 +2039,6 @@ bool Game::initGui()
 			core::rect<s32>(0, 0, 0, 0),
 			false, false, guiroot);
 
-	// Third line of debug text
-	guitext3 = addStaticText(guienv,
-			L"",
-			core::rect<s32>(0, 0, 0, 0),
-			false, false, guiroot);
-
 	// At the middle of the screen
 	// Object infos are shown in this
 	guitext_info = addStaticText(guienv,
@@ -2063,7 +2066,7 @@ bool Game::initGui()
 
 	// Make sure the size of the recent messages buffer is right
 	chat_backend->applySettings();
-    
+
 	// Chat backend and console
 	gui_chat_console = new GUIChatConsole(guienv, guienv->getRootGUIElement(),
 			-1, chat_backend, client, &g_menumgr);
@@ -2160,8 +2163,7 @@ bool Game::connectToServer(const std::string &playername,
 
 		fps_control.last_time = RenderingEngine::get_timer_time();
 
-		client->loadMods();
-		client->initMods();
+		client->loadBuiltin();
 
 		while (RenderingEngine::run()) {
 
@@ -2594,6 +2596,8 @@ void Game::processKeyInput()
 		decreaseViewRange();
 	} else if (wasKeyDown(KeyType::RANGESELECT)) {
 		toggleFullViewRange();
+	} else if (wasKeyDown(KeyType::ZOOM)) {
+		checkZoomEnabled();
 	} else if (wasKeyDown(KeyType::QUICKTUNE_NEXT)) {
 		quicktune->next();
 	} else if (wasKeyDown(KeyType::QUICKTUNE_PREV)) {
@@ -2888,7 +2892,7 @@ void Game::toggleMinimap(bool shift_pressed)
 			if (hud_flags & HUD_FLAG_MINIMAP_VISIBLE)
 				showStatusTextSimple("Minimap hidden");
 			else
-				showStatusTextSimple("Minimap disabled by server");
+				showStatusTextSimple("Minimap currently disabled by game or mod");
 	}
 
 	runData.statustext_time = 0;
@@ -3030,6 +3034,14 @@ void Game::toggleFullViewRange()
 		showStatusTextSimple("Enabled unlimited viewing range");
 	else
 		showStatusTextSimple("Disabled unlimited viewing range");
+}
+
+
+void Game::checkZoomEnabled()
+{
+	LocalPlayer *player = client->getEnv().getLocalPlayer();
+	if (player->getZoomFOV() < 0.001f)
+		showStatusTextSimple("Zoom currently disabled by game or mod");
 }
 
 
@@ -3711,8 +3723,13 @@ void Game::processPlayerInteraction(f32 dtime, bool show_hud, bool show_debug)
 	} else if (pointed.type == POINTEDTHING_NODE) {
 		ToolCapabilities playeritem_toolcap =
 				playeritem.getToolCapabilities(itemdef_manager);
-		if (playeritem.name.empty() && hand_def.tool_capabilities != NULL) {
-			playeritem_toolcap = *hand_def.tool_capabilities;
+		if (playeritem.name.empty()) {
+			const ToolCapabilities *handToolcap = hlist
+				? &hlist->getItem(0).getToolCapabilities(itemdef_manager)
+				: itemdef_manager->get("").tool_capabilities;
+
+			if (handToolcap != nullptr)
+				playeritem_toolcap = *handToolcap;
 		}
 		handlePointingAtNode(pointed, playeritem_def, playeritem,
 			playeritem_toolcap, dtime);
@@ -4014,9 +4031,9 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 	// If can't dig, try hand
 	if (!params.diggable) {
 		InventoryList *hlist = local_inventory->getList("hand");
-		const ItemDefinition &hand =
-			hlist ? hlist->getItem(0).getDefinition(itemdef_manager) : itemdef_manager->get("");
-		const ToolCapabilities *tp = hand.tool_capabilities;
+		const ToolCapabilities *tp = hlist
+			? &hlist->getItem(0).getToolCapabilities(itemdef_manager)
+			: itemdef_manager->get("").tool_capabilities;
 
 		if (tp)
 			params = getDigParams(nodedef_manager->get(n).groups, tp);
@@ -4344,9 +4361,20 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 	TimeTaker tt_draw("mainloop: draw");
 	driver->beginScene(true, true, skycolor);
 
-	RenderingEngine::draw_scene(camera, client, player, hud, mapper,
-			guienv, screensize, skycolor, flags.show_hud,
-			flags.show_minimap);
+	bool draw_wield_tool = (flags.show_hud &&
+			(player->hud_flags & HUD_FLAG_WIELDITEM_VISIBLE) &&
+			(camera->getCameraMode() == CAMERA_MODE_FIRST));
+	bool draw_crosshair = (
+			(player->hud_flags & HUD_FLAG_CROSSHAIR_VISIBLE) &&
+			(camera->getCameraMode() != CAMERA_MODE_THIRD_FRONT));
+#ifdef HAVE_TOUCHSCREENGUI
+	try {
+		draw_crosshair = !g_settings->getBool("touchtarget");
+	} catch (SettingNotFoundException) {
+	}
+#endif
+	RenderingEngine::draw_scene(skycolor, flags.show_hud, flags.show_minimap,
+			draw_wield_tool, draw_crosshair);
 
 	/*
 		Profiler graph
@@ -4396,7 +4424,7 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 
 inline static const char *yawToDirectionString(int yaw)
 {
-	static const char *direction[4] = {"North [+Z]", "West [-X]", "South [-Z]", "East [+X]"};
+	static const char *direction[4] = {"N +Z", "W -X", "S -Z", "E +X"};
 
 	yaw = wrapDegrees_0_360(yaw);
 	yaw = (yaw + 45) % 360 / 90;
@@ -4407,7 +4435,7 @@ inline static const char *yawToDirectionString(int yaw)
 
 void Game::updateGui(const RunStats &stats, f32 dtime, const CameraOrientation &cam)
 {
-	v2u32 screensize = driver->getScreenSize();
+	v2u32 screensize = RenderingEngine::get_instance()->getWindowSize();
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
 	v3f player_position = player->getPosition();
 
@@ -4418,18 +4446,18 @@ void Game::updateGui(const RunStats &stats, f32 dtime, const CameraOrientation &
 
 		std::ostringstream os(std::ios_base::binary);
 		os << std::fixed
-		   << PROJECT_NAME_C " " << g_version_hash
-		   << ", FPS = " << fps
-		   << ", range_all = " << draw_control->range_all
-		   << std::setprecision(0)
-		   << ", drawtime = " << drawtime_avg << " ms"
-		   << std::setprecision(1)
-		   << ", dtime_jitter = "
-		   << (stats.dtime_jitter.max_fraction * 100.0) << " %"
-		   << std::setprecision(1)
-		   << ", view_range = " << draw_control->wanted_range
-		   << std::setprecision(3)
-		   << ", RTT = " << client->getRTT() << " s";
+			<< PROJECT_NAME_C " " << g_version_hash
+			<< ", FPS: " << fps
+			<< std::setprecision(0)
+			<< ", drawtime: " << drawtime_avg << "ms"
+			<< std::setprecision(1)
+			<< ", dtime jitter: "
+			<< (stats.dtime_jitter.max_fraction * 100.0) << "%"
+			<< std::setprecision(1)
+			<< ", view range: "
+			<< (draw_control->range_all ? "All" : itos(draw_control->wanted_range))
+			<< std::setprecision(3)
+			<< ", RTT: " << client->getRTT() << "s";
 		setStaticText(guitext, utf8_to_wide(os.str()).c_str());
 		guitext->setVisible(true);
 	} else {
@@ -4447,12 +4475,24 @@ void Game::updateGui(const RunStats &stats, f32 dtime, const CameraOrientation &
 	if (flags.show_debug) {
 		std::ostringstream os(std::ios_base::binary);
 		os << std::setprecision(1) << std::fixed
-		   << "pos = (" << (player_position.X / BS)
-		   << ", " << (player_position.Y / BS)
-		   << ", " << (player_position.Z / BS)
-		   << "), yaw = " << (wrapDegrees_0_360(cam.camera_yaw)) << "°"
-		   << " " << yawToDirectionString(cam.camera_yaw)
-		   << ", seed = " << ((u64)client->getMapSeed());
+			<< "pos: (" << (player_position.X / BS)
+			<< ", " << (player_position.Y / BS)
+			<< ", " << (player_position.Z / BS)
+			<< "), yaw: " << (wrapDegrees_0_360(cam.camera_yaw)) << "° "
+			<< yawToDirectionString(cam.camera_yaw)
+			<< ", seed: " << ((u64)client->getMapSeed());
+
+		if (runData.pointed_old.type == POINTEDTHING_NODE) {
+			ClientMap &map = client->getEnv().getClientMap();
+			const INodeDefManager *nodedef = client->getNodeDefManager();
+			MapNode n = map.getNodeNoEx(runData.pointed_old.node_undersurface);
+
+			if (n.getContent() != CONTENT_IGNORE && nodedef->get(n).name != "unknown") {
+				os << ", pointed: " << nodedef->get(n).name
+					<< ", param2: " << (u64) n.getParam2();
+			}
+		}
+
 		setStaticText(guitext2, utf8_to_wide(os.str()).c_str());
 		guitext2->setVisible(true);
 	} else {
@@ -4465,33 +4505,6 @@ void Game::updateGui(const RunStats &stats, f32 dtime, const CameraOrientation &
 				screensize.X,  5 + g_fontengine->getTextHeight() * 2
 		);
 		guitext2->setRelativePosition(rect);
-	}
-
-	if (flags.show_debug && runData.pointed_old.type == POINTEDTHING_NODE) {
-		ClientMap &map = client->getEnv().getClientMap();
-		const INodeDefManager *nodedef = client->getNodeDefManager();
-		MapNode n = map.getNodeNoEx(runData.pointed_old.node_undersurface);
-
-		if (n.getContent() != CONTENT_IGNORE && nodedef->get(n).name != "unknown") {
-			std::ostringstream os(std::ios_base::binary);
-			os << "pointing_at = (" << nodedef->get(n).name
-			   << ", param2 = " << (u64) n.getParam2()
-			   << ")";
-			setStaticText(guitext3, utf8_to_wide(os.str()).c_str());
-			guitext3->setVisible(true);
-		} else {
-			guitext3->setVisible(false);
-		}
-	} else {
-		guitext3->setVisible(false);
-	}
-
-	if (guitext3->isVisible()) {
-		core::rect<s32> rect(
-				5,             5 + g_fontengine->getTextHeight() * 2,
-				screensize.X,  5 + g_fontengine->getTextHeight() * 3
-		);
-		guitext3->setRelativePosition(rect);
 	}
 
 	setStaticText(guitext_info, translate_string(infotext).c_str());
@@ -4641,6 +4654,7 @@ void Game::readSettings()
 	m_cache_cam_smoothing = rangelim(m_cache_cam_smoothing, 0.01f, 1.0f);
 	m_cache_mouse_sensitivity = rangelim(m_cache_mouse_sensitivity, 0.001, 100.0);
 
+	m_does_lost_focus_pause_game = g_settings->getBool("pause_on_lost_focus");
 }
 
 /****************************************************************************/

@@ -573,10 +573,6 @@ void Client::handleCommand_MovePlayer(NetworkPacket* pkt)
 	event->player_force_move.pitch = pitch;
 	event->player_force_move.yaw = yaw;
 	m_client_event_queue.push(event);
-
-	// Ignore damage for a few seconds, so that the player doesn't
-	// get damage from falling on ground
-	m_ignore_damage_timer = 3.0;
 }
 
 void Client::handleCommand_DeathScreen(NetworkPacket* pkt)
@@ -1330,6 +1326,10 @@ void Client::handleCommand_SrpBytesSandB(NetworkPacket* pkt)
 void Client::handleCommand_CSMFlavourLimits(NetworkPacket *pkt)
 {
 	*pkt >> m_csm_flavour_limits >> m_csm_noderange_limit;
+
+	// Now we have flavours, load mods if it's enabled
+	// Note: this should be moved after mods receptions from server instead
+	loadMods();
 }
 
 /*
