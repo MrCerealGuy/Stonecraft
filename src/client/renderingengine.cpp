@@ -126,11 +126,6 @@ void RenderingEngine::setResizable(bool resize)
 	m_device->setResizable(resize);
 }
 
-video::IVideoDriver *RenderingEngine::getVideoDriver()
-{
-	return m_device->getVideoDriver();
-}
-
 bool RenderingEngine::print_video_modes()
 {
 	IrrlichtDevice *nulldevice;
@@ -256,8 +251,6 @@ bool RenderingEngine::setWindowIcon()
 bool RenderingEngine::setXorgWindowIconFromPath(const std::string &icon_file)
 {
 #ifdef XORG_USED
-
-	video::IVideoDriver *v_driver = m_device->getVideoDriver();
 
 	video::IImageLoader *image_loader = NULL;
 	u32 cnt = driver->getImageLoaderCount();
@@ -448,20 +441,6 @@ std::vector<irr::video::E_DRIVER_TYPE> RenderingEngine::getSupportedVideoDrivers
 
 void RenderingEngine::_initialize(Client *client, Hud *hud)
 {
-	bool draw_wield_tool =
-			(show_hud && (player->hud_flags & HUD_FLAG_WIELDITEM_VISIBLE) &&
-					camera->getCameraMode() < CAMERA_MODE_THIRD);
-
-	bool draw_crosshair = ((player->hud_flags & HUD_FLAG_CROSSHAIR_VISIBLE) &&
-			       (camera->getCameraMode() != CAMERA_MODE_THIRD_FRONT));
-
-#ifdef HAVE_TOUCHSCREENGUI
-	try {
-		draw_crosshair = !g_settings->getBool("touchtarget");
-	} catch (SettingNotFoundException) {
-	}
-#endif
-
 	const std::string &draw_mode = g_settings->get("3d_mode");
 	core.reset(createRenderingCore(draw_mode, m_device, client, hud));
 	core->initialize();

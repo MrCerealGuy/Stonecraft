@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Stonecraft
+GenericName=Stonecraft
+Comment=Stonecraft infinite-world block sandbox
+Comment[de]=Mehrspieler-Sandkastenspiel mit unendlichen Blockwelten
+Exec=stonecraft
+Icon=stonecraft
+Terminal=false
+Type=Application
+Categories=Game;
+StartupNotify=false
+Keywords=sandbox;world;mining;crafting;blocks;nodes;multiplayer;roleplaying;
