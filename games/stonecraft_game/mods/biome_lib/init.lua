@@ -37,6 +37,8 @@ biome_lib.modpath = minetest.get_modpath("biome_lib")
 
 biome_lib.total_no_aircheck_calls = 0
 
+biome_lib.queue_run_ratio = tonumber(minetest.settings:get("biome_lib_queue_run_ratio")) or 100
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
