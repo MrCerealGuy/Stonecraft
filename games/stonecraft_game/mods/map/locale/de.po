@@ -18,5 +18,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "Mapping Kit"
-msgstr "Karte"
+msgid "Mapping Kit\nUse with 'Minimap' key"
+msgstr "Karte\nBenutzen mit 'Minimap'-Taste"

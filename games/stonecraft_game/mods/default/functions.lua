@@ -117,6 +117,21 @@ function default.node_sound_water_defaults(table)
 	return table
 end
 
+function default.node_sound_snow_defaults(table)
+	table = table or {}
+	table.footstep = table.footstep or
+			{name = "default_snow_footstep", gain = 0.2}
+	table.dig = table.dig or
+			{name = "default_snow_footstep", gain = 0.3}
+	table.dug = table.dug or
+			{name = "default_snow_footstep", gain = 0.3}
+	table.place = table.place or
+			{name = "default_place_node", gain = 1.0}
+	default.node_sound_defaults(table)
+	return table
+end
+
+
 --
 -- Lavacooling
 --
@@ -145,8 +160,9 @@ if minetest.settings:get_bool("enable_lavacooling") ~= false then
 	})
 end
 
+
 --
--- optimized helper to put all items in an inventory into a drops list
+-- Optimized helper to put all items in an inventory into a drops list
 --
 
 function default.get_inventory_drops(pos, inventory, drops)
@@ -161,11 +177,12 @@ function default.get_inventory_drops(pos, inventory, drops)
 	end
 end
 
+
 --
 -- Papyrus and cactus growing
 --
 
--- wrapping the functions in abm action is necessary to make overriding them possible
+-- Wrapping the functions in ABM action is necessary to make overriding them possible
 
 function default.grow_cactus(pos, node)
 	if node.param2 >= 4 then
@@ -242,7 +259,7 @@ minetest.register_abm({
 
 
 --
--- dig upwards
+-- Dig upwards
 --
 
 function default.dig_up(pos, node, digger)
@@ -319,7 +336,7 @@ end
 -- Prevent decay of placed leaves
 
 default.after_place_leaves = function(pos, placer, itemstack, pointed_thing)
-	if placer and not placer:get_player_control().sneak then
+	if placer and placer:is_player() and not placer:get_player_control().sneak then
 		local node = minetest.get_node(pos)
 		node.param2 = 1
 		minetest.set_node(pos, node)
@@ -385,6 +402,7 @@ function default.register_leafdecay(def)
 		})
 	end
 end
+
 
 --
 -- Convert dirt to something that fits the environment
@@ -538,7 +556,7 @@ minetest.register_abm({
 
 
 --
--- NOTICE: This method is not an official part of the API yet!
+-- NOTICE: This method is not an official part of the API yet.
 -- This method may change in future.
 --
 
@@ -558,7 +576,7 @@ function default.can_interact_with_node(player, pos)
 		return true
 	end
 
-	-- is player wielding the right key?
+	-- Is player wielding the right key?
 	local item = player:get_wielded_item()
 	if item:get_name() == "default:key" then
 		local key_meta = item:get_meta()

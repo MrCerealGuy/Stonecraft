@@ -88,6 +88,56 @@ The contents of `creative.formspec_add` is appended to every creative inventory
 page. Mods can use it to add additional formspec elements onto the default
 creative inventory formspec to be drawn after each update.
 
+Chests API
+----------
+
+The chests API allows the creation of chests, which have their own inventories for holding items.
+
+`default.chest.get_chest_formspec(pos)`
+
+ * Returns a formspec for a specific chest.
+ * `pos` Location of the chest node, e.g `{x = 1, y = 1, z = 1}`
+
+`default.chest.chest_lid_obstructed(pos)`
+
+ * Returns a boolean depending on whether or not a chest has its top obstructed by a solid node.
+ * `pos` Location of the chest node, e.g `{x = 1, y = 1, z = 1}`
+
+`default.chest.chest_lid_close(pn)`
+
+ * Closes the chest that a player is currently looking in.
+ * `pn` The name of the player whose chest is going to be closed
+
+`default.chest.open_chests`
+
+ * A table indexed by player name to keep track of who opened what chest.
+ * Key: The name of the player.
+ * Value: A table containing information about the chest the player is looking at.
+   e.g `{ pos = {1, 1, 1}, sound = null, swap = "chest" }`
+
+`default.chest.register_chest(name, def)`
+
+ * Registers new chest
+ * `name` Name for chest
+ * `def`  See [#Chest Definition]
+
+### Chest Definition
+
+	description = "Chest",
+	tiles = {
+		"default_chest_top.png",
+		"default_chest_top.png",
+		"default_chest_side.png",
+		"default_chest_side.png",
+		"default_chest_front.png",
+		"default_chest_inside.png"
+	}, -- Textures which are applied to the chest model.
+	sounds = default.node_sound_wood_defaults(),
+	sound_open = "default_chest_open",
+	sound_close = "default_chest_close",
+	groups = {choppy = 2, oddly_breakable_by_hand = 2},
+	protected = false, -- If true, only placer can modify chest.
+
 Doors API
 ---------
 
@@ -160,6 +210,38 @@ The doors mod allows modders to register custom doors and trapdoors.
 	material = "default:wood",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
 	sounds = default.node_sound_wood_defaults(), -- optional
+
+Dungeon Loot API
+----------------
+
+The mod that places chests with loot in dungeons provides an API to register additional loot.
+
+`dungeon_loot.register(def)`
+
+ * Registers one or more loot items
+ * `def` Can be a single [#Loot definition] or a list of them
+
+`dungeon_loot.registered_loot`
+
+ * Table of all registered loot, not to be modified manually
+
+### Loot definition
+
+	name = "item:name",
+	chance = 0.5,
+	-- ^ chance value from 0.0 to 1.0 that the item will appear in the chest when chosen
+	--   due to an extra step in the selection process, 0.5 does not(!) mean that
+	--   on average every second chest will have this item
+	count = {1, 4},
+	-- ^ table with minimum and maximum amounts of this item
+	--   optional, defaults to always single item
+	y = {-32768, -512},
+	-- ^ table with minimum and maximum heights this item can be found at
+	--   optional, defaults to no height restrictions
+	types = {"desert"},
+	-- ^ table with types of dungeons this item can be found in
+	--   supported types: "normal" (the cobble/mossycobble one), "sandstone", "desert"
+	--   optional, defaults to no type restrictions
 
 Fence API
 ---------
@@ -332,8 +414,9 @@ The player API can register player models and update the player's appearence
 			bar = {x = 20, y = 39},
 		-- ...
 		},
-		collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.77, 0.3}, -- In nodes from feet position
+		collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3}, -- In nodes from feet position
 		stepheight = 0.6, -- In nodes
+		eye_height = 1.47, -- In nodes above feet position
 	}
 
 
@@ -672,11 +755,6 @@ GUI and formspecs
 `default.gui_survival_form`
 
  * Entire formspec for the survival inventory
-
-`default.get_chest_formspec(pos)`
-
- * Get the chest formspec using the defined GUI elements
- * pos: Location of the node
 
 `default.get_furnace_active_formspec(fuel_percent, item_percent)`
 

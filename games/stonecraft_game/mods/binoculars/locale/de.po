@@ -19,5 +19,5 @@ msgstr ""
 
 
 #: init.lua
-msgid "Binoculars"
-msgstr "Fernglas"
+msgid "Binoculars\nUse with 'Zoom' key"
+msgstr "Fernglas\nBenutzen mit 'Zoom'-Taste"

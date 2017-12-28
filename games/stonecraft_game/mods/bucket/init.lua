@@ -80,7 +80,8 @@ function bucket.register_liquid(source, flowing, itemname, inventory_image, name
 
 				-- Call on_rightclick if the pointed node defines it
 				if ndef and ndef.on_rightclick and
-				   user and not user:get_player_control().sneak then
+						not (user and user:is_player() and
+						user:get_player_control().sneak) then
 					return ndef.on_rightclick(
 						pointed_thing.under,
 						node, user,
@@ -198,6 +199,12 @@ bucket.register_liquid(
 	S("Water Bucket"),
 	{water_bucket = 1}
 )
+
+-- River water source is 'liquid_renewable = false' to avoid horizontal spread
+-- of water sources in sloping rivers that can cause water to overflow
+-- riverbanks and cause floods.
+-- River water source is instead made renewable by the 'force renew' option
+-- used here.
 
 bucket.register_liquid(
 	"default:river_water_source",

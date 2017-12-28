@@ -87,6 +87,12 @@ flowers.datas = {
 		{color_yellow = 1, flammable = 1}
 	},
 	{
+		"chrysanthemum_green",
+		S("Green Chrysanthemum"),
+		{-4 / 16, -0.5, -4 / 16, 4 / 16, -1 / 16, 4 / 16},
+		{color_green = 1, flammable = 1}
+	},
+	{
 		"geranium",
 		S("Blue Geranium"),
 		{-2 / 16, -0.5, -2 / 16, 2 / 16, 2 / 16, 2 / 16},
@@ -103,6 +109,12 @@ flowers.datas = {
 		S("White Dandelion"),
 		{-5 / 16, -0.5, -5 / 16, 5 / 16, -2 / 16, 5 / 16},
 		{color_white = 1, flammable = 1}
+	},
+	{
+		"tulip_black",
+		S("Black Tulip"),
+		{-2 / 16, -0.5, -2 / 16, 2 / 16, 3 / 16, 2 / 16},
+		{color_black = 1, flammable = 1}
 	},
 }
 
@@ -289,7 +301,7 @@ minetest.register_node("flowers:waterlily", {
 		local pos = pointed_thing.above
 		local node = minetest.get_node(pointed_thing.under)
 		local def = minetest.registered_nodes[node.name]
-		local player_name = placer:get_player_name()
+		local player_name = placer and placer:get_player_name() or ""
 
 		if def and def.on_rightclick then
 			return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
