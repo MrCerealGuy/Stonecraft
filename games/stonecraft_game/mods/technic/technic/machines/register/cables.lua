@@ -187,7 +187,7 @@ function technic.register_cable(tier, size)
 	end
 	for p, i in pairs(xyz) do
 		local def = {
-			description = S("%s Cable Plate"):format(tier),
+			description = S("@1 Cable Plate", tier),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),

@@ -653,6 +653,10 @@ msgstr "@2/@3 = @1 Batteriebox: @2/@3"
 msgid "@1 Cable"
 msgstr "@1 Kabel"
 
+#: machines/register/cables.lua
+msgid "@1 Cable Plate"
+msgstr "@1 Kabelplatte"
+
 #: machines/register/centrifuge.lua
 msgid "@1 Centrifuge"
 msgstr "@1 Zentrifuge"
@@ -885,3 +889,16 @@ msgstr "Vakuumreiniger"
 #: machines/power_monitor.lua
 msgid "Power Monitor"
 msgstr "Leistungsmonitor"
+
+#: radiation.lua
+msgid "Corium Source"
+msgstr "Corium-Quelle"
+
+#: radiation.lua
+msgid "Flowing Corium"
+msgstr "Fließendes Corium"
+
+#: radiation.lua
+msgid "Corium Bucket"
+msgstr "Corium-Eimer"
+
