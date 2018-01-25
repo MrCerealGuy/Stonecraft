@@ -684,7 +684,7 @@ function nssm_register_throwitem(name, descr, def)
     })
 end
 
-nssm_register_throwitem("cobweb", "Cobweb Bomb", {
+nssm_register_throwitem("cobweb", S("Cobweb Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = -1,1 do
@@ -708,7 +708,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("ice", "Ice Bomb", {
+nssm_register_throwitem("ice", S("Ice Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = 1,3 do
@@ -736,7 +736,7 @@ minetest.register_craft({
 	}
 })
 if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
-	nssm_register_throwitem("mantis", "Mantis Clay Bomb", {
+	nssm_register_throwitem("mantis", S("Mantis Clay Bomb"), {
 		hit_node = function(self,pos)
 			for dx = -1,1 do
 				for dy = 1,3 do
@@ -765,7 +765,7 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	})
 end
 
-nssm_register_throwitem("lava", "Lava Bomb", {
+nssm_register_throwitem("lava", S("Lava Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = -1,0 do
@@ -789,7 +789,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("water", "Water Bomb", {
+nssm_register_throwitem("water", S("Water Bomb"), {
     hit_node = function(self,pos)
         for dx = -2,2 do
             for dy = -1,0 do
@@ -813,7 +813,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("fire", "Fire Bomb", {
+nssm_register_throwitem("fire", S("Fire Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = 1,1 do
@@ -838,7 +838,7 @@ minetest.register_craft({
 })
 
 if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
-	nssm_register_throwitem("mornar", "Mornar Bomb", {
+	nssm_register_throwitem("mornar", S("Mornar Bomb"), {
 		hit_node = function(self,pos)
 			for dx = -1,1 do
 				for dy = 1,1 do
@@ -863,7 +863,7 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	})
 end
 
-nssm_register_throwitem("hole", "Hole Bomb", {
+nssm_register_throwitem("hole", S("Hole Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = -10,0 do
@@ -887,7 +887,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("food", "Food Bomb", {
+nssm_register_throwitem("food", S("Food Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = -1,1 do
@@ -912,7 +912,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("phoenix_fire", "Phoenix Fire Bomb", {
+nssm_register_throwitem("phoenix_fire", S("Phoenix Fire Bomb"), {
     hit_node = function(self,pos)
         for dx = -2,2 do
             for dy = 0,1 do
@@ -936,7 +936,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("kaboom", "Explosive Bomb", {
+nssm_register_throwitem("kaboom", S("Explosive Bomb"), {
     hit_node = function(self,pos)
                     local pos1 = {x = pos.x, y=pos.y, z=pos.z}
                     if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
@@ -954,7 +954,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("teleport", "Teleport Bomb", {
+nssm_register_throwitem("teleport", S("Teleport Bomb"), {
     hit_node = function(self,pos,placer)
                     local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
 					local pos2 = {x = pos.x, y=pos.y+2, z=pos.z}
@@ -979,7 +979,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("boom", "Boom Bomb", {
+nssm_register_throwitem("boom", S("Boom Bomb"), {
     hit_node = function(self,pos)
                     local pos1 = {x = pos.x, y=pos.y, z=pos.z}
                     if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
@@ -997,7 +997,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("smoke", "Smoke Bomb", {
+nssm_register_throwitem("smoke", S("Smoke Bomb"), {
     hit_node = function(self,pos)
                     local pos1 = {x = pos.x, y=pos.y, z=pos.z}
                     minetest.add_particlespawner({
@@ -1028,7 +1028,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("thick_web", "Thick Web Bomb", {
+nssm_register_throwitem("thick_web", S("Thick Web Bomb"), {
     hit_node = function(self,pos)
                     local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
 					local pos2 = {x = pos.x, y=pos.y+2, z=pos.z}
@@ -1048,7 +1048,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("poison", "Poison Bomb", {
+nssm_register_throwitem("poison", S("Poison Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = 1,3 do
@@ -1072,7 +1072,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("stone", "Cobblestone Bomb", {
+nssm_register_throwitem("stone", S("Cobblestone Bomb"), {
     hit_node = function(self,pos)
         for dx = -1,1 do
             for dy = 1,3 do
@@ -1096,7 +1096,7 @@ minetest.register_craft({
 	}
 })
 
-nssm_register_throwitem("fire_ring", "Fire Ring Bomb", {
+nssm_register_throwitem("fire_ring", S("Fire Ring Bomb"), {
     hit_node = function(self,pos)
         for dx = -2,2 do
             for dy = 1,2 do
@@ -1129,7 +1129,7 @@ minetest.register_craft({
 })
 
 if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
-	nssm_register_throwitem("cage", "Cage Bomb", {
+	nssm_register_throwitem("cage", S("Cage Bomb"), {
 		hit_node = function(self,pos)
 			for dx = -2,2 do
 				for dy = 0,3 do
@@ -1162,7 +1162,7 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 	})
 end
 	
-nssm_register_throwitem("water_column", "Water Column Bomb", {
+nssm_register_throwitem("water_column", S("Water Column Bomb"), {
     hit_node = function(self,pos)
         for dx = 0,0 do
             for dy = 1,10 do
@@ -1231,7 +1231,7 @@ end
 
 function nssm_register_evocation (evomob, evodescr, numbe)
 
-nssm_register_throwegg(evomob, evodescr.." Bomb", {
+nssm_register_throwegg(evomob, evodescr..S(" Bomb"), {
     hit_node = function(self,pos)
                     local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
                     if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
@@ -1257,10 +1257,10 @@ minetest.register_craft({
 })
 end
 
-nssm_register_evocation ("duck","Duck Evocation", 4)
-nssm_register_evocation ("bloco","Bloco Evocation", 3)
-nssm_register_evocation ("enderduck","Enderduck Evocation", 2)
-nssm_register_evocation ("flying_duck","Flying Duck Evocation", 3)
-nssm_register_evocation ("swimming_duck","Swimming Duck Evocation", 3)
-nssm_register_evocation ("duckking","Duckking Evocation", 1)
-nssm_register_evocation ("spiderduck","Spiderduck Evocation", 2)
+nssm_register_evocation ("duck",S("Duck Evocation"), 4)
+nssm_register_evocation ("bloco",S("Bloco Evocation"), 3)
+nssm_register_evocation ("enderduck",S("Enderduck Evocation"), 2)
+nssm_register_evocation ("flying_duck",S("Flying Duck Evocation"), 3)
+nssm_register_evocation ("swimming_duck",S("Swimming Duck Evocation"), 3)
+nssm_register_evocation ("duckking",S("Duckking Evocation"), 1)
+nssm_register_evocation ("spiderduck",S("Spiderduck Evocation"), 2)

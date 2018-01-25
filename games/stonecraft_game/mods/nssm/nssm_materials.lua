@@ -723,7 +723,7 @@ minetest.register_tool("nssm:ant_shovel", {
 })
 
 minetest.register_tool("nssm:duck_beak_shovel", {
-	description = "Duck Beak Shovel",
+	description = S("Duck Beak Shovel"),
 	inventory_image = "duck_beak_shovel.png",
 	wield_image = "duck_beak_shovel.png^[transformR90",
 	tool_capabilities = {
@@ -737,7 +737,7 @@ minetest.register_tool("nssm:duck_beak_shovel", {
 })
 
 minetest.register_tool("nssm:mantis_axe", {
-	description = "Mantis Axe",
+	description = S("Mantis Axe"),
 	inventory_image = "mantis_axe.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -750,7 +750,7 @@ minetest.register_tool("nssm:mantis_axe", {
 	})
 
 minetest.register_tool("nssm:ant_billhook", {
-	description = "Ant Billhook",
+	description = S("Ant Billhook"),
 	inventory_image = "ant_billhook.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -764,7 +764,7 @@ minetest.register_tool("nssm:ant_billhook", {
 	})
 
 minetest.register_tool("nssm:duck_beak_pick",{
-	description = "Duck Beak Pickaxe",
+	description = S("Duck Beak Pickaxe"),
 	inventory_image = "duck_beak_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 0.6,
@@ -777,7 +777,7 @@ minetest.register_tool("nssm:duck_beak_pick",{
 })
 
 minetest.register_tool("nssm:ant_pick", {
-	description = "Ant Pickaxe",
+	description = S("Ant Pickaxe"),
 	inventory_image = "ant_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
@@ -790,7 +790,7 @@ minetest.register_tool("nssm:ant_pick", {
 })
 
 minetest.register_tool("nssm:mantis_pick", {
-	description = "Mantis Pickaxe",
+	description = S("Mantis Pickaxe"),
 	inventory_image = "mantis_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 1,
@@ -803,7 +803,7 @@ minetest.register_tool("nssm:mantis_pick", {
 })
 
 minetest.register_tool("nssm:tarantula_warhammer", {
-	description = "Tarantula Warhammer",
+	description = S("Tarantula Warhammer"),
 	inventory_image = "tarantula_warhammer.png",
 	wield_scale= {x=2,y=2,z=1.5},
 	tool_capabilities = {
@@ -818,7 +818,7 @@ minetest.register_tool("nssm:tarantula_warhammer", {
 })
 
 minetest.register_tool("nssm:axe_of_pride", {
-	description = "Axe of Pride",
+	description = S("Axe of Pride"),
 	inventory_image = "axe_of_pride.png",
 	wield_scale= {x=2,y=2,z=1.5},
 	tool_capabilities = {
@@ -913,7 +913,7 @@ minetest.register_tool("nssm:axe_of_pride", {
 })
 
 minetest.register_tool("nssm:gratuitousness_battleaxe", {
-	description = "Gratuitousness Battleaxe",
+	description = S("Gratuitousness Battleaxe"),
 	inventory_image = "gratuitousness_battleaxe.png",
 	wield_scale= {x=2.2,y=2.2,z=1.5},
 	tool_capabilities = {
@@ -960,7 +960,7 @@ minetest.register_tool("nssm:gratuitousness_battleaxe", {
 })
 
 minetest.register_tool("nssm:sword_of_eagerness", {
-	description = "Sword of Eagerness",
+	description = S("Sword of Eagerness"),
 	inventory_image = "sword_of_eagerness.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1049,7 +1049,7 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 })
 
 minetest.register_tool("nssm:falchion_of_eagerness", {
-	description = "Falchion of Eagerness",
+	description = S("Falchion of Eagerness"),
 	inventory_image = "falchion_of_eagerness.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1141,7 +1141,7 @@ minetest.register_tool("nssm:falchion_of_eagerness", {
 })
 
 minetest.register_tool("nssm:sword_of_envy", {
-	description = "Sword of Envy",
+	description = S("Sword of Envy"),
 	inventory_image = "sword_of_envy.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1214,7 +1214,7 @@ minetest.register_tool("nssm:sword_of_envy", {
 })
 
 minetest.register_tool("nssm:sword_of_gluttony", {
-	description = "Sword of Gluttony",
+	description = S("Sword of Gluttony"),
 	inventory_image = "sword_of_gluttony.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1309,7 +1309,7 @@ minetest.register_tool("nssm:sword_of_gluttony", {
 })
 
 minetest.register_tool("nssm:death_scythe", {
-	description = "Death Scythe",
+	description = S("Death Scythe"),
 	wield_scale= {x=3,y=3,z=1.3},
 	inventory_image = "death_scythe.png",
 	tool_capabilities = {

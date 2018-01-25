@@ -37,6 +37,118 @@ msgstr "Genki Dama von DragonBall"
 msgid "Hellzone grenade (Press q to activate)"
 msgstr "Hellzone Granate (Zum Aktivieren q drücken"
 
+#: nssm_weapons.lua
+msgid "Fire Ring Bomb"
+msgstr "Feuerringbombe"
+
+#: nssm_weapons.lua
+msgid "Cobblestone Bomb"
+msgstr "Pflastersteinbombe"
+
+#: nssm_weapons.lua
+msgid "Cage Bomb"
+msgstr "Käfigbombe"
+
+#: nssm_weapons.lua
+msgid "Water Column Bomb"
+msgstr "Wasserspaltenbombe"
+
+#: nssm_weapons.lua
+msgid "Cobweb Bomb"
+msgstr "Spinnennetzbombe"
+
+#: nssm_weapons.lua
+msgid "Ice Bomb"
+msgstr "Eisbombe"
+
+#: nssm_weapons.lua
+msgid "Mantis Clay Bomb"
+msgstr "Mantis Lehmbombe"
+
+#: nssm_weapons.lua
+msgid "Lava Bomb"
+msgstr "Lavabombe"
+
+#: nssm_weapons.lua
+msgid "Water Bomb"
+msgstr "Wasserbombe"
+
+#: nssm_weapons.lua
+msgid "Fire Bomb"
+msgstr "Feuerbombe"
+
+#: nssm_weapons.lua
+msgid "Mornar Bomb"
+msgstr "Mornarbombe"
+
+#: nssm_weapons.lua
+msgid "Hole Bomb"
+msgstr "Lochbombe"
+
+#: nssm_weapons.lua
+msgid "Food Bomb"
+msgstr "Nahrungsbombe"
+
+#: nssm_weapons.lua
+msgid "Phoenix Fire Bomb"
+msgstr "Phoenix Feuerbombe"
+
+#: nssm_weapons.lua
+msgid "Explosive Bomb"
+msgstr "Explosive Bombe"
+
+#: nssm_weapons.lua
+msgid "Teleport Bomb"
+msgstr "Teleportationsbombe"
+
+#: nssm_weapons.lua
+msgid "Boom Bomb"
+msgstr "Boombombe"
+
+#: nssm_weapons.lua
+msgid "Smoke Bomb"
+msgstr "Rauchbombe"
+
+#: nssm_weapons.lua
+msgid "Thick Web Bomb"
+msgstr "Dicke Netzbombe"
+
+#: nssm_weapons.lua
+msgid "Poison Bomb"
+msgstr "Giftbombe"
+
+#: nssm_weapons.lua
+msgid " Bomb"
+msgstr "bombe"
+
+#: nssm_weapons.lua
+msgid "Duck Evocation
+msgstr "Entenbeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Bloco Evocation
+msgstr "Blocobeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Enderduck Evocation
+msgstr "Enderduckbeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Flying Duck Evocation
+msgstr "Fliegende Entenbeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Swimming Duck Evocation
+msgstr "Schwimmende Entenbeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Duckking Evocation
+msgstr "Entenkönigbeschwörungs"
+
+#: nssm_weapons.lua
+msgid "Spiderduck Evocation
+msgstr "Spinnenentebeschwörungs"
+
 #: nssm_spears.lua
 msgid " spear"
 msgstr " Speer"
@@ -166,8 +278,108 @@ msgid "Energy Globe"
 msgstr "Energiekugel"
 
 #: nssm_materials.lua
+msgid "Greedy Soul Fragment"
+msgstr "Gieriges Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Lustful Soul Fragment"
+msgstr "Wollüstiges Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Wrathful Soul Fragment"
+msgstr "Zorniges Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Proud Soul Fragment"
+msgstr "Stolzes Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Slothful Soul Fragment"
+msgstr "Faules Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Envious Soul Fragment"
+msgstr "Neidisches Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Gluttonous Soul Fragment"
+msgstr "Gefräßiges Seelenfragment"
+
+#: nssm_materials.lua
+msgid "Gluttonous Moranga"
+msgstr "Gefräßiges Moranga"
+
+#: nssm_materials.lua
+msgid "Envious Moranga"
+msgstr "Neidisches Moranga"
+
+#: nssm_materials.lua
+msgid "Proud Moranga"
+msgstr "Stolzes Moranga"
+
+#: nssm_materials.lua
+msgid "Slothful Moranga"
+msgstr "Faules Moranga"
+
+#: nssm_materials.lua
+msgid "Lustful Moranga"
+msgstr "Wollüstiges Moranga"
+
+#: nssm_materials.lua
+msgid "Wrathful Moranga"
+msgstr "Zorniges Moranga"
+
+#: nssm_materials.lua
+msgid "Greedy Moranga"
+msgstr "Gieriges Moranga"
+
+#: nssm_materials.lua
+msgid "Mantis_skin"
+msgstr "Mantishaut"
+
+#: nssm_materials.lua
+msgid "Sand Bloco Skin"
+msgstr "Sandblocohaut"
+
+#: nssm_materials.lua
+msgid "Sandworm Skin"
+msgstr "Sandwurmhaut"
+
+#: nssm_materials.lua
+msgid "Sky Iron"
+msgstr "Himmelseisen"
+
+#: nssm_materials.lua
+msgid "Cobweb String"
+msgstr "Spinnennetzschnur"
+
+#: nssm_materials.lua
+msgid "Dense Cobweb String"
+msgstr "Kompakte Spinnennetzschnur"
+
+#: nssm_materials.lua
+msgid "Black Powder"
+msgstr "Schwarzes Pulver"
+
+#: nssm_materials.lua
+msgid "Dark Starred Stone Dust"
+msgstr "Dunkler übersäter Steinstaub"
+
+#: nssm_materials.lua
+msgid "Empty Evocation Bomb"
+msgstr "Leere Beschwörungsbombe"
+
+#: nssm_materials.lua
 msgid "Werewolf Leg"
 msgstr "Werwolfbein"
+
+#: nssm_materials.lua
+msgid "Felucco Steak"
+msgstr "Felucco Steak"
+
+#: nssm_materials.lua
+msgid "Roasted Felucco Steak"
+msgstr "Gebratenes Felucco Steak"
 
 #: nssm_materials.lua
 msgid "Moonheron Leg"
@@ -183,11 +395,11 @@ msgstr "Krokodilsschwanz"
 
 #: nssm_materials.lua
 msgid "Roasted Crocodile Tail"
-msgstr "Gerösteter Krokodilsschwanz"
+msgstr "Gebratener Krokodilsschwanz"
 
 #: nssm_materials.lua
 msgid "Roasted Werewolf Leg"
-msgstr "Geröstetes Werwolfbein"
+msgstr "Gebratenes Werwolfbein"
 
 #: nssm_materials.lua
 msgid "Duck Legs"
@@ -195,7 +407,7 @@ msgstr "Entenbeine"
 
 #: nssm_materials.lua
 msgid "Roasted Duck Leg"
-msgstr "Geröstetes Entenbein"
+msgstr "Gebratenes Entenbein"
 
 #: nssm_materials.lua
 msgid "Ant Leg"
@@ -203,7 +415,7 @@ msgstr "Ameisenbein"
 
 #: nssm_materials.lua
 msgid "Roasted Ant Leg"
-msgstr "Geröstetes Ameisenbein"
+msgstr "Gebratenes Ameisenbein"
 
 #: nssm_materials.lua
 msgid "Spider Leg"
@@ -211,7 +423,7 @@ msgstr "Spinnenbein"
 
 #: nssm_materials.lua
 msgid "Roasted Spider Leg"
-msgstr "Geröstetes Spinnenbein"
+msgstr "Gebratenes Spinnenbein"
 
 #: nssm_materials.lua
 msgid "Tentacle"
@@ -219,7 +431,7 @@ msgstr "Tentakel"
 
 #: nssm_materials.lua
 msgid "Roasted Tentacle"
-msgstr "Geröstete Tentakel"
+msgstr "Gebratene Tentakel"
 
 #: nssm_materials.lua
 msgid "Worm Flesh"
@@ -227,7 +439,7 @@ msgstr "Wurmfleisch"
 
 #: nssm_materials.lua
 msgid "Roasted Worm Flesh"
-msgstr "Geröstetes Wurmfleisch"
+msgstr "Gebratenes Wurmfleisch"
 
 #: nssm_materials.lua
 msgid "Amphibian Heart"
@@ -235,7 +447,7 @@ msgstr "Amphibienherz"
 
 #: nssm_materials.lua
 msgid "Roasted Amphibian Heart"
-msgstr "Geröstetes Amphibienherz"
+msgstr "Gebratenes Amphibienherz"
 
 #: nssm_materials.lua
 msgid "Raw Scrausics Wing"
@@ -260,6 +472,66 @@ msgstr "Gefrorenes Amphibienherz"
 #: nssm_materials.lua
 msgid "Surimi"
 msgstr "Surimi"
+
+#: nssm_materials.lua
+msgid "Amphibian Ribs"
+msgstr "Amphibienrippchen"
+
+#: nssm_materials.lua
+msgid "Roasted Amphibian Ribs"
+msgstr "Gebratene Amphibienrippchen"
+
+#: nssm_materials.lua
+msgid "Dolidrosaurus Fin"
+msgstr "Dolidrosaurus-Flosse"
+
+#: nssm_materials.lua
+msgid "Roasted Dolidrosaurus Fin"
+msgstr "Gebratene Dolidrosaurus-Flosse"
+
+#: nssm_materials.lua
+msgid "Larva Meat"
+msgstr "Larvenfleisch"
+
+#: nssm_materials.lua
+msgid "Larva Juice"
+msgstr "Larvensaft"
+
+#: nssm_materials.lua
+msgid "Larva Soup"
+msgstr "Larvensuppe"
+
+#: nssm_materials.lua
+msgid "Mantis Meat"
+msgstr "Mantisfleisch"
+
+#: nssm_materials.lua
+msgid "Roasted Mantis Meat"
+msgstr "Gebratenes Mantisfleisch"
+
+#: nssm_materials.lua
+msgid "Spider Meat"
+msgstr "Spinnenfleisch"
+
+#: nssm_materials.lua
+msgid "Roasted Spider Meat"
+msgstr "Gebratenes Spinnenfleisch"
+
+#: nssm_materials.lua
+msgid "Silk Gland"
+msgstr "Seidendrüse"
+
+#: nssm_materials.lua
+msgid "Roasted Silk Gland"
+msgstr "Gebratene Seidendrüse"
+
+#: nssm_materials.lua
+msgid "Super Silk Gland"
+msgstr "Super-Seidendrüse"
+
+#: nssm_materials.lua
+msgid "Roasted Super Silk Gland"
+msgstr "Gebratene Super-Seidendrüse"
 
 #: nssm_materials.lua
 msgid "Ant Dirt"
@@ -320,6 +592,66 @@ msgstr "Mantisschwert"
 #: nssm_materials.lua
 msgid "Ant Sword"
 msgstr "Ameisenschwert"
+
+#: nssm_materials.lua
+msgid "Duck Beak Shovel"
+msgstr "Entenschnabel-Schaufel"
+
+#: nssm_materials.lua
+msgid "Ant Shovel"
+msgstr "Ameisenschaufel"
+
+#: nssm_materials.lua
+msgid "Mantis Axe"
+msgstr "Mantisaxt"
+
+#: nssm_materials.lua
+msgid "Ant Billhook"
+msgstr "Ameisenhippe"
+
+#: nssm_materials.lua
+msgid "Duck Beak Pickaxe"
+msgstr "Entenschnabel-Spitzhacke"
+
+#: nssm_materials.lua
+msgid "Ant Pickaxe"
+msgstr "Ameisen-Spitzhacke"
+
+#: nssm_materials.lua
+msgid "Mantis Pickaxe"
+msgstr "Mantisspitzhacke"
+
+#: nssm_materials.lua
+msgid "Tarantula Warhammer"
+msgstr "Tarantelkriegshammer"
+
+#: nssm_materials.lua
+msgid "Axe of Pride"
+msgstr "Axt des Stolzes"
+
+#: nssm_materials.lua
+msgid "Gratuitousness Battleaxe"
+msgstr "Streitaxt der Willkür"
+
+#: nssm_materials.lua
+msgid "Sword of Eagerness"
+msgstr "Schwert des Eifers"
+
+#: nssm_materials.lua
+msgid "Falchion of Eagerness"
+msgstr "Krummschwert des Eifers"
+
+#: nssm_materials.lua
+msgid "Sword of Envy"
+msgstr "Schwert der Missgunst"
+
+#: nssm_materials.lua
+msgid "Sword of Gluttony"
+msgstr "Schwert der Unersättlichkeit"
+
+#: nssm_materials.lua
+msgid "Death Scythe"
+msgstr "Sense des Todes"
 
 #: nssm_materials.lua
 msgid " Egg"
