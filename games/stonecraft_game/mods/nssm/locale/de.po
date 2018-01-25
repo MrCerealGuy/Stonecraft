@@ -122,31 +122,31 @@ msgid " Bomb"
 msgstr "bombe"
 
 #: nssm_weapons.lua
-msgid "Duck Evocation
+msgid "Duck Evocation"
 msgstr "Entenbeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Bloco Evocation
+msgid "Bloco Evocation"
 msgstr "Blocobeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Enderduck Evocation
+msgid "Enderduck Evocation"
 msgstr "Enderduckbeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Flying Duck Evocation
+msgid "Flying Duck Evocation"
 msgstr "Fliegende Entenbeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Swimming Duck Evocation
+msgid "Swimming Duck Evocation"
 msgstr "Schwimmende Entenbeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Duckking Evocation
+msgid "Duckking Evocation"
 msgstr "Entenkönigbeschwörungs"
 
 #: nssm_weapons.lua
-msgid "Spiderduck Evocation
+msgid "Spiderduck Evocation"
 msgstr "Spinnenentebeschwörungs"
 
 #: nssm_spears.lua
