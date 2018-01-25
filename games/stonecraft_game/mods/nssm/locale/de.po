@@ -836,3 +836,51 @@ msgstr "Mittlerer Kürbisknall"
 #: nssm_materials.lua
 msgid "Mese Egg"
 msgstr "Mese-Ei"
+
+#: nssm_armor.lua
+msgid "Ice Teeth"
+msgstr "Eiszahn"
+
+#: nssm_armor.lua
+msgid "Black Duck"
+msgstr "Schwarzer Enten"
+
+#: nssm_armor.lua
+msgid "Sky"
+msgstr "Himmel"
+
+#: nssm_armor.lua
+msgid " Helmet"
+msgstr "helm"
+
+#: nssm_armor.lua
+msgid " Chestplate"
+msgstr "brustplatte"
+
+#: nssm_armor.lua
+msgid " Leggings"
+msgstr "hose"
+
+#: nssm_armor.lua
+msgid " Boots"
+msgstr "stiefel"
+
+#: nssm_armor.lua
+msgid "Pumpking Head"
+msgstr "Kürbiskopf"
+
+#: nssm_armor.lua
+msgid "Masticone Head"
+msgstr "Masticone-Kopf"
+
+#: nssm_armor.lua
+msgid "Dukking Crown"
+msgstr "Dukking-Krone"
+
+#: nssm_armor.lua
+msgid "Masticone Crowned Head"
+msgstr "Gekrönter Masticone-Kopf"
+
+#: nssm_armor.lua
+msgid "Snake Scute Chestplate"
+msgstr "Schlangenschuppe-Brustplatte"
