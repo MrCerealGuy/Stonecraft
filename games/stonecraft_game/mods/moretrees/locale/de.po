@@ -164,3 +164,7 @@ msgstr "Douglasiennadeln (breit)"
 #: node_defs.lua
 msgid "Rubber Tree Trunk (Empty)"
 msgstr "Gummibaumstamm (leer)"
+
+#: cocos_palm.lua
+msgid "Coconut Flower"
+msgstr "Kokonussblume"
