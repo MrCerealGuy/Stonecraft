@@ -13,6 +13,18 @@
 --
 -- Contact sapier a t gmx net
 -------------------------------------------------------------------------------
+
+--[[
+
+2018-01-25 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.log("action","MOD: mob_bear loading ...")
 
 local version = "0.1.1"
@@ -36,7 +48,7 @@ bear_prototype = {
 			},
 
 		generic = {
-					description="Bear",
+					description=S("Bear"),
 					base_health=20,
 					kill_result="animalmaterials:fur 2",
 					armor_groups= {
