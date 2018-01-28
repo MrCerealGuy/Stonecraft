@@ -158,6 +158,22 @@ msgid "Ice"
 msgstr "Eis"
 
 #: nodes.lua
+msgid "Apple Tree"
+msgstr "Apfelbaum"
+
+#: nodes.lua
+msgid "Apple Wood Planks"
+msgstr "Apfelbaumbretter"
+
+#: nodes.lua
+msgid "Apple Tree Sapling"
+msgstr "Apfelbaumsetzling"
+
+#: nodes.lua
+msgid "Apple Tree Leaves"
+msgstr "Apfelbaumblätter"
+
+#: nodes.lua
 msgid "Tree"
 msgstr "Baum"
 
@@ -348,6 +364,10 @@ msgstr "Akazienbuschblätter"
 #: nodes.lua
 msgid "Acacia Bush Sapling"
 msgstr "Akazienbuschsetzling"
+
+#: nodes.lua
+msgid "Kelp On Sand"
+msgstr "Seetang auf Sand"
 
 #: nodes.lua
 msgid "Brown Coral"
