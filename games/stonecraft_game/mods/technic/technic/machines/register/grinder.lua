@@ -13,6 +13,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 function technic.register_grinder(data)
 	data.typename = "grinding"
 	data.machine_name = "grinder"
-	data.machine_desc = S("@1 Grinder")
+	data.machine_desc = S("Grinder")
 	technic.register_base_machine(data)
 end

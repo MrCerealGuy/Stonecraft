@@ -658,8 +658,8 @@ msgid "@1 Cable Plate"
 msgstr "@1 Kabelplatte"
 
 #: machines/register/centrifuge.lua
-msgid "@1 Centrifuge"
-msgstr "@1 Zentrifuge"
+msgid "Centrifuge"
+msgstr "Zentrifuge"
 
 #: machines/register/centrifuge_recipes.lua
 msgid "Separating"
@@ -683,12 +683,12 @@ msgstr "Verdichten"
 
 #: machines/register/electric_furnace.lua
 # %s needed because of machine_desc:format
-msgid "%s Furnace"
-msgstr "%s Ofen"
+msgid "Electric furnace"
+msgstr "Elektrischer Ofen"
 
 #: machines/register/extractor.lua
-msgid "@1 Extractor"
-msgstr "@1 Extraktor"
+msgid "Extractor"
+msgstr "Extraktor"
 
 #: machines/register/extractor_recipes.lua
 msgid "Extracting"
@@ -699,12 +699,12 @@ msgid "Fuel-Fired @1 Generator"
 msgstr "@1 Kohle-Generator"
 
 #: machines/register/grinder.lua
-msgid "@1 Grinder"
-msgstr "@1 Schleifmaschine"
+msgid "Grinder"
+msgstr "Schleifmaschine"
 
 #: machines/register/grinder_recipes.lua
 msgid "Grinding"
-msgstr "Mahlen"
+msgstr "Zerkleinerung"
 
 #: machines/register/grinder_recipes.lua
 msgid "@1 Dust"
@@ -792,7 +792,7 @@ msgstr "Sägemehl"
 
 #: machines/register/grindings.lua
 msgid "@1 Grinding"
-msgstr "@1 Mahlen"
+msgstr "@1 Zerkleinerung"
 
 #: machines/register/grindings.lua
 msgid "Common Tree"

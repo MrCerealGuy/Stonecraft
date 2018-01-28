@@ -13,6 +13,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 function technic.register_electric_furnace(data)
 	data.typename = "cooking"
 	data.machine_name = "electric_furnace"
-	data.machine_desc = S("%s Furnace")
+	data.machine_desc = S("Electric furnace")
 	technic.register_base_machine(data)
 end

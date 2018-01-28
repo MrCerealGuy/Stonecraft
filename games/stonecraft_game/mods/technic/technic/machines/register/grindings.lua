@@ -2,6 +2,8 @@
 
 2017-05-26 MrCerealGuy: added intllib support
 
+2018-01-28 added check for moretrees and mesecons mods
+
 --]]
 
 
@@ -9,8 +11,8 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local moretrees = minetest.get_modpath("moretrees")
-local mesecons_materials = minetest.get_modpath("mesecons_materials")
+local moretrees = minetest.get_modpath("moretrees") and not core.skip_mod("moretrees")
+local mesecons_materials = minetest.get_modpath("mesecons_materials") and not core.skip_mod("mesecons")
 local dye = minetest.get_modpath("dye")
 
 -- sawdust, the finest wood/tree grinding
@@ -68,5 +70,5 @@ end
 
 if moretrees and dye then
 	-- https://en.wikipedia.org/wiki/Catechu ancient brown dye from the wood of acacia trees
-	register_tree_grinding(S("Acacia"), "moretrees:acacia_trunk", "moretrees:acacia_planks", "dye:brown 8")
+	register_tree_grinding("Acacia", S("Acacia"), "moretrees:acacia_trunk", "moretrees:acacia_planks", default_extract, "dye:brown 8")
 end

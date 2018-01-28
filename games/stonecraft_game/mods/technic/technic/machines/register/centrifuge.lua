@@ -12,6 +12,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 function technic.register_centrifuge(data)
 	data.typename = "separating"
 	data.machine_name = "centrifuge"
-	data.machine_desc = S("@1 Centrifuge")
+	data.machine_desc = S("Centrifuge")
 	technic.register_base_machine(data)
 end
