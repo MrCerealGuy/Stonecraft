@@ -292,3 +292,11 @@ msgstr "Schneeblocktreppe"
 #: init.lua
 msgid "Snow Block Slab"
 msgstr "Schneeblockstufe"
+
+#: init.lua
+msgid " (inner)"
+msgstr " (innen)"
+
+#: init.lua
+msgid " (outer)"
+msgstr " (außen)"
