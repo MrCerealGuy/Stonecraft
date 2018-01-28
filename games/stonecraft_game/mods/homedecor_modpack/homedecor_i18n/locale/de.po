@@ -685,6 +685,10 @@ msgid "Deck Chair"
 msgstr "Badeliege"
 
 #: ../homedecor/exterior.lua
+msgid "Deck Chair (blue striped)"
+msgstr "Badeliege (blau gestreift)"
+
+#: ../homedecor/exterior.lua
 msgid "Doghouse"
 msgstr "Hundehütte"
 
