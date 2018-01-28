@@ -90,7 +90,7 @@ msgstr "Spinnennetz-Kokon"
 
 #: init.lua
 msgid " Eggs"
-msgstr " Eiter"
+msgstr "-Eier"
 
 #: init.lua
 msgid "Ant Worker"
@@ -171,3 +171,75 @@ msgstr "Riesensandwurm-Ei"
 #: init.lua
 msgid "Seastone Brick"
 msgstr "Meeressteinziegel"
+
+#: nodes.lua
+msgid "Dark Stone"
+msgstr "Dunkler Stein"
+
+#: nodes.lua
+msgid "Exploding Dark Stone"
+msgstr "Explodierender dunkler Stein"
+
+#: nodes.lua
+msgid "Falling Dark Stone"
+msgstr "Fallender dunkler Stein"
+
+#: nodes.lua
+msgid "Dark Indestructible Stone"
+msgstr "Dunkler unzerstörbarer Stein"
+
+#: nodes.lua
+msgid "Dark Starred Stone"
+msgstr "Dunkler sternenübersäter Stein"
+
+#: nodes.lua
+msgid "Dark Dirt"
+msgstr "Dunkle Erde"
+
+#: nodes.lua
+msgid "Dark Air"
+msgstr "Dunkle Luft"
+
+#: nodes.lua
+msgid "Black Flame"
+msgstr "Schwarze Flamme"
+
+#: nodes.lua
+msgid "Black Water"
+msgstr "Schwarzes Wasser"
+
+#: nodes.lua
+msgid "Flowing Dark Water"
+msgstr "Fließendes schwarzes Wasser"
+
+#: nodes.lua
+msgid "Morlendor Portal"
+msgstr "Morlendor Portal"
+
+#: nodes.lua
+msgid "Home Portal"
+msgstr "Heimat-Portal"
+
+#: nodes.lua
+msgid "Morlote"
+msgstr "Morlote"
+
+#: nodes.lua
+msgid "Moranga Ore"
+msgstr "Moranga-Erz"
+
+#: nodes.lua
+msgid "Life Energy Ore"
+msgstr "Lebensenergie-Erz"
+
+#: nodes.lua
+msgid "Moranga Ingot"
+msgstr "Moranga-Barren"
+
+#: nodes.lua
+msgid "Morvalar Block"
+msgstr "Morvalar-Block"
+
+#: nodes.lua
+msgid "Disactivated Morvalar Block"
+msgstr "Deaktivierter Morvalar-Block"
