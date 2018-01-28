@@ -26,10 +26,10 @@ if minetest.get_modpath("moreores") then
 end
 
 local parts = {
-	helmet = { place="head", name=S("Helmet"), level=5, radlevel = 0.10, craft={{1,1,1},{1,0,1}} },
-	chestplate = { place="torso", name=S("Chestplate"), level=8, radlevel = 0.35, craft={{1,0,1},{1,1,1},{1,1,1}} },
-	leggings = { place="legs", name=S("Leggings"), level=7, radlevel = 0.15, craft={{1,1,1},{1,0,1},{1,0,1}} },
-	boots = { place="feet", name=S("Boots"), level=4, radlevel = 0.10, craft={{1,0,1},{1,0,1}} },
+	helmet = { place="head", name=S(" Helmet"), level=5, radlevel = 0.10, craft={{1,1,1},{1,0,1}} },
+	chestplate = { place="torso", name=S(" Chestplate"), level=8, radlevel = 0.35, craft={{1,0,1},{1,1,1},{1,1,1}} },
+	leggings = { place="legs", name=S(" Leggings"), level=7, radlevel = 0.15, craft={{1,1,1},{1,0,1},{1,0,1}} },
+	boots = { place="feet", name=S(" Boots"), level=4, radlevel = 0.10, craft={{1,0,1},{1,0,1}} },
 }
 if minetest.get_modpath("shields") then
 	parts.shield = { place="shield", name=S("Shield"), level=5, radlevel=0.00, craft={{1,1,1},{1,1,1},{0,1,0}} }
@@ -58,7 +58,7 @@ for key, armor in pairs(stats) do
 	for partkey, part in pairs(parts) do
 		local partname = "technic_armor:"..partkey.."_"..key
 		minetest.register_tool(partname, {
-			description = armor.name.." "..part.name,
+			description = armor.name..part.name,
 			inventory_image = "technic_armor_inv_"..partkey.."_"..key..".png",
 			groups = {["armor_"..part.place]=math.floor(part.level*armor.armor), armor_heal=armor.heal, armor_use=armor.use, armor_radiation=math.floor(part.radlevel*armor.radiation)},
 			wear = 0,

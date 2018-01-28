@@ -46,21 +46,21 @@ msgid "Silver"
 msgstr "Silber"
 
 #: init.lua
-msgid "Helmet"
-msgstr "-Helm"
+msgid " Helmet"
+msgstr "helm"
 
 #: init.lua
-msgid "Chestplate"
-msgstr "-Brustplatte"
+msgid " Chestplate"
+msgstr "brustplatte"
 
 #: init.lua
-msgid "Leggings"
-msgstr "-Hose"
+msgid " Leggings"
+msgstr "hose"
 
 #: init.lua
-msgid "Boots"
-msgstr "-Schuhe"
+msgid " Boots"
+msgstr "schuhe"
 
 #: init.lua
-msgid "Shield"
-msgstr "-Schild"
+msgid " Shield"
+msgstr "schild"
