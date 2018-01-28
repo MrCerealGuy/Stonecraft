@@ -239,7 +239,7 @@ msgstr "Mantisklaue"
 
 #: nssm_materials.lua
 msgid "Manticore Spine"
-msgstr "Mantiore-Rücken"
+msgstr "Mantikorwirbelsäule"
 
 #: nssm_materials.lua
 msgid "Night Feather"
@@ -590,6 +590,26 @@ msgid "Mantis Sword"
 msgstr "Mantisschwert"
 
 #: nssm_materials.lua
+msgid "Little Ice Tooth Knife"
+msgstr "Kleines Eiszahn-Messer"
+
+#: nssm_materials.lua
+msgid "Manticore Spine Knife"
+msgstr "Mantikor-Wirbelsäulenmesser"
+
+#: nssm_materials.lua
+msgid "Felucco Knife"
+msgstr "Felucco-Messer"
+
+#: nssm_materials.lua
+msgid "Felucco Hoe"
+msgstr "Felucco-Hacke"
+
+#: nssm_materials.lua
+msgid "Ant Hoe"
+msgstr "Ameisen-Hacke"
+
+#: nssm_materials.lua
 msgid "Ant Sword"
 msgstr "Ameisenschwert"
 
@@ -655,7 +675,7 @@ msgstr "Sense des Todes"
 
 #: nssm_materials.lua
 msgid " Egg"
-msgstr " Ei"
+msgstr "-Ei"
 
 #: nssm_materials.lua
 msgid "Stoneater"
@@ -819,7 +839,7 @@ msgstr "Kürbiskönig"
 
 #: nssm_materials.lua
 msgid "Manticore"
-msgstr "Manticore"
+msgstr "Mantikor"
 
 #: nssm_materials.lua
 msgid "Large Pumpboom"

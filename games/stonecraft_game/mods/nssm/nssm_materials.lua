@@ -706,8 +706,6 @@ minetest.register_tool("nssm:ant_sword", {
 	},
 })
 
-
-
 minetest.register_tool("nssm:ant_shovel", {
 	description = S("Ant Shovel"),
 	inventory_image = "ant_shovel.png",
@@ -1815,7 +1813,7 @@ end
 
 function nssm_register_egg (name, descr)
 	minetest.register_craftitem("nssm:".. name, {
-		description = descr .. " Egg",
+		description = descr .. S(" Egg"),
 		image = name.."_egg.png",
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos1=minetest.get_pointed_thing_position(pointed_thing, true)
