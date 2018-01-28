@@ -355,7 +355,7 @@ msgstr "Spinnennetzschnur"
 
 #: nssm_materials.lua
 msgid "Dense Cobweb String"
-msgstr "Kompakte Spinnennetzschnur"
+msgstr "Kompakte(r) Spinnennetzschnur"
 
 #: nssm_materials.lua
 msgid "Black Powder"
@@ -871,19 +871,19 @@ msgstr "Himmel"
 
 #: nssm_armor.lua
 msgid " Helmet"
-msgstr "helm"
+msgstr "-Helm"
 
 #: nssm_armor.lua
 msgid " Chestplate"
-msgstr "brustplatte"
+msgstr "-Brustplatte"
 
 #: nssm_armor.lua
 msgid " Leggings"
-msgstr "hose"
+msgstr "-Hose"
 
 #: nssm_armor.lua
 msgid " Boots"
-msgstr "stiefel"
+msgstr "-Stiefel"
 
 #: nssm_armor.lua
 msgid "Pumpking Head"
