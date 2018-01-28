@@ -1,5 +1,16 @@
+--[[
+
+2018-01-28 added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 minetest.register_tool(":worldedit:wand", {
-	description = "WorldEdit Wand tool, Left-click to set 1st position, right-click to set 2nd",
+	description = S("WorldEdit Wand tool, Left-click to set 1st position, right-click to set 2nd"),
 	inventory_image = "worldedit_wand.png",
 	stack_max = 1, -- there is no need to have more than one
 	liquids_pointable = true, -- ground with only water on can be selected as well
