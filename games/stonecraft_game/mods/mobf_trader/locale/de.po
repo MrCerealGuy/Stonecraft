@@ -24,70 +24,72 @@ msgstr "Große Aufbewahrungstruhe für Händler"
 
 #: init.lua
 msgid "Trader"
-msgstr ""
+msgstr "Händler"
 
 #: init.lua
 msgid "Default NPC"
-msgstr ""
+msgstr "Standard-NPC"
 
 #: init.lua
 msgid "A trader"
-msgstr ""
+msgstr "Ein Händler"
 
 #: init.lua
 msgid "Hey! Stop doing that. I am a peaceful trader. Here, buy something:"
-msgstr ""
+msgstr "Hey! Höre damit auf. Ich bin ein friedlicher Händler. Hier, kaufe etwas:"
 
 #: init.lua
 msgid "Trader who is working for someone"
-msgstr ""
+msgstr "Händler, der für irgendjemanden arbeitet"
 
 #: init.lua
 msgid "Trader with limited stock"
-msgstr ""
+msgstr "Händler mit begrenztem Bestand"
 
 #: init.lua
 msgid "Trader. Place him somewhere to activate."
-msgstr ""
+msgstr "Händler. Platziere ihn irgendwo hin um ihn zu benutzen."
 
 #: init.lua
 msgid "Error: Internal error. Trader not found."
-msgstr ""
+msgstr "Fehler: Interner Fehler. Händler nicht gefunden."
 
 #: init.lua
 msgid "Error: The typ of this trader is unkown. Cannot pick him up."
-msgstr ""
+msgstr "Fehler: Der Händlertyp ist unbekannt. Kann nicht aufgehoben werden."
 
 #: init.lua
 msgid "Error: The typ of this trader is unkown. Cannot place him."
-msgstr ""
+msgstr "Fehler: Der Händlertyp ist unbekannt. Kann nicht platziert werden."
 
 #: init.lua
 msgid "Error: You are only allowed to have up to "
-msgstr ""
+msgstr "Fehler: Es ist dir nicht erlaubt bis zu "
 
 #: init.lua
 msgid " traders "
-msgstr ""
+msgstr " Händler zu besitzen"
 
 #: init.lua
 msgid " (you have "
-msgstr ""
+msgstr " (du hast "
 
 #: init.lua
 msgid " currently)."
-msgstr ""
+msgstr " aktuell)."
 
 #: init.lua
 msgid " mobs"
-msgstr ""
+msgstr " Mobs"
 
 #: init.lua
 msgid ""
 "Mob picked up. In order to use him again, just wield him and place him "
 "somewhere."
 msgstr ""
+"Mob aufgehoben. Um ihn erneut zu benutzen, wähle ihn einfach aus und platziere ihn "
+"irgendwo."
 
 #: init.lua
 msgid "Trader placed and waiting for trades."
-msgstr ""
+msgstr "Händler platziert, wartet auf Handelsgeschäfte."
