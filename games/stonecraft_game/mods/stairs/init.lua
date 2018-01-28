@@ -330,7 +330,7 @@ function stairs.register_stair_inner(subname, recipeitem, groups, images, descri
 	end
 	groups.stair = 1
 	minetest.register_node(":stairs:stair_inner_" .. subname, {
-		description = "Inner " .. description,
+		description =  description .. S(" (inner)"),
 		drawtype = "nodebox",
 		tiles = stair_images,
 		paramtype = "light",
@@ -407,7 +407,7 @@ function stairs.register_stair_outer(subname, recipeitem, groups, images, descri
 	end
 	groups.stair = 1
 	minetest.register_node(":stairs:stair_outer_" .. subname, {
-		description = "Outer " .. description,
+		description =  description .. S(" (outer)"),
 		drawtype = "nodebox",
 		tiles = stair_images,
 		paramtype = "light",
