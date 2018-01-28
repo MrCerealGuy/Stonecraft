@@ -9,6 +9,18 @@
 --
 -- Contact sapier a t gmx net
 -------------------------------------------------------------------------------
+
+--[[
+
+2018-01-28 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 core.log("action","MOD: mob_ghost loading ...")
 
 local version = "0.0.1"
@@ -55,7 +67,7 @@ local ghost_prototype = {
 			},
 
 		generic = {
-					description="Ghost (Animals)",
+					description=S("Ghost (Animals)"),
 					base_health=12,
 					armor_groups= {
 						fleshy=130,
