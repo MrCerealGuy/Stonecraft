@@ -102,8 +102,8 @@ msgid "Gray"
 msgstr "Ödnis"
 
 #: dirt.lua
-msgid "Dirt"
-msgstr "erde"
+msgid "@1 Dirt"
+msgstr "@1erde"
 
 #: dirt.lua
 msgid "Red Baked Clay"

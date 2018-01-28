@@ -62,7 +62,7 @@ for n = 1, #dirts do
 	local name = desc:lower()
 
 	minetest.register_node("ethereal:"..name.."_dirt", {
-		description = desc..S("Dirt"),
+		description = S("@1 Dirt", S(desc)),
 		tiles = {
 			"ethereal_grass_"..name.."_top.png",
 			"default_dirt.png",
