@@ -1,5 +1,7 @@
 
-local S = mobs.intllib
+-- intllib
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP .. "/intllib.lua")
 
 -- name tag
 minetest.register_craftitem("mobs:nametag", {
