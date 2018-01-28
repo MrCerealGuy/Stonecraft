@@ -71,11 +71,15 @@ msgstr "Riesenmammutbaum"
 
 #: node_defs.lua
 msgid "Birch Tree"
-msgstr "Birken"
+msgstr "Birke"
 
 #: node_defs.lua
 msgid "Palm Tree"
-msgstr "Palmen"
+msgstr "Palme"
+
+#: node_defs.lua
+msgid "Date Palm Tree"
+msgstr "Dattelpalme"
 
 #: node_defs.lua
 msgid "Coconut"
@@ -83,7 +87,15 @@ msgstr "Kokosnuss"
 
 #: node_defs.lua
 msgid "Spruce Tree"
-msgstr "Fichten"
+msgstr "Fichte"
+
+#: node_defs.lua
+msgid "Cedar Tree"
+msgstr "Zeder"
+
+#: node_defs.lua
+msgid "Poplar Tree"
+msgstr "Pappel"
 
 #: node_defs.lua
 msgid "Spruce Cone"
@@ -91,7 +103,7 @@ msgstr "Fichtenzapfen"
 
 #: node_defs.lua
 msgid "Willow Tree"
-msgstr "Weiden"
+msgstr "Weidenbaum"
 
 #: node_defs.lua
 msgid "Rubber Tree"
@@ -99,7 +111,7 @@ msgstr "Gummibaum"
 
 #: node_defs.lua
 msgid "Douglas Fir"
-msgstr "Douglasien"
+msgstr "Douglastanne"
 
 #: node_defs.lua
 msgid "Fir Cone"
@@ -123,35 +135,35 @@ msgstr "Akazien"
 
 #: node_defs.lua
 msgid "@1 Trunk"
-msgstr "@1stamm"
+msgstr "@1-Stamm"
 
 #: node_defs.lua
 msgid "@1 Planks"
-msgstr "@1bretter"
+msgstr "@1-Bretter"
 
 #: node_defs.lua
 msgid "@1 Sapling"
-msgstr "@1setzling"
+msgstr "@1-Setzling"
 
 #: node_defs.lua
 msgid "@1 Leaves"
-msgstr "@1blätter"
+msgstr "@1-Blätter"
 
 #: node_defs.lua
 msgid "@1 Trunk Stair"
-msgstr "@1stammtreppe"
+msgstr "@1-Stammtreppe"
 
 #: node_defs.lua
 msgid "@1 Trunk Slab"
-msgstr "@1stammstufe"
+msgstr "@1-Stammstufe"
 
 #: node_defs.lua
 msgid "@1 Planks Stair"
-msgstr "@1brettertreppe"
+msgstr "@1-Brettertreppe"
 
 #: node_defs.lua
 msgid "@1 Planks Slab"
-msgstr "@1bretterstufe"
+msgstr "@1-Bretterstufe"
 
 #: node_defs.lua
 msgid "Jungle Tree Leaves (@1)"
