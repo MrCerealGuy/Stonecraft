@@ -8,7 +8,15 @@
 -- * glass pane - an improvement compared to fence posts as windows :-)
 ---------------------------------------------------------------------------------------
 
-local S = cottages.S
+--[[
+
+2018-01-28 added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- supported modes:
 -- * simple: only a straight dirt road; no curves, junctions etc.

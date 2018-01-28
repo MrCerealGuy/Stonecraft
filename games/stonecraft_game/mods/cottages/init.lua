@@ -22,13 +22,6 @@
 
 cottages = {}
 
--- Boilerplate to support localized strings if intllib mod is installed.
-if minetest.get_modpath( "intllib" ) and intllib then
-	cottages.S = intllib.Getter()
-else
-	cottages.S = function(s) return s end
-end
-
 --cottages.config_use_mesh_barrel   = false;
 --cottages.config_use_mesh_handmill = true;
 
@@ -68,6 +61,3 @@ dofile(minetest.get_modpath("cottages").."/nodes_mining.lua");
 
 -- this is only required and useful if you run versions of the random_buildings mod where the nodes where defined inside that mod
 dofile(minetest.get_modpath("cottages").."/alias.lua");
-
--- variable no longer needed
-cottages.S = nil;
