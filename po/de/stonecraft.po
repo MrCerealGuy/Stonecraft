@@ -68,8 +68,8 @@ msgid "Server supports protocol versions between $1 and $2. "
 msgstr "Server unterstützt Protokollversionen $1 bis $2. "
 
 #: builtin/mainmenu/common.lua
-msgid "Get further information from wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
-msgstr "Weitere Informationen finden Sie im Wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
+msgid "Get further information from your Stonecraft PDF Manual or from wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
+msgstr "Weitere Informationen finden Sie in Ihrem Stonecraft PDF-Handbuch oder im Wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
 
 #: builtin/mainmenu/common.lua
 msgid "Try reenabling public serverlist and check your internet connection."
@@ -78,12 +78,12 @@ msgstr ""
 "Internetverbindung."
 
 #: builtin/mainmenu/common.lua
-msgid "We only support protocol version $1."
-msgstr "Wir unterstützen nur Protokollversion $1."
+msgid "We only support protocol version $1. "
+msgstr "Wir unterstützen nur Protokollversion $1. "
 
 #: builtin/mainmenu/common.lua
-msgid "We support protocol versions between version $1 and $2."
-msgstr "Wir unterstützen Protokollversionen zwischen $1 und $2."
+msgid "We support protocol versions between version $1 and $2. "
+msgstr "Wir unterstützen Protokollversionen zwischen $1 und $2. "
 
 #: builtin/mainmenu/dlg_config_world.lua builtin/mainmenu/dlg_create_world.lua
 #: builtin/mainmenu/dlg_delete_mod.lua builtin/mainmenu/dlg_delete_world.lua
@@ -1311,6 +1311,10 @@ msgstr "Hauptmenü"
 #: builtin/mainmenu/tab_simple_main.lua
 msgid "Start Singleplayer"
 msgstr "Einzelspieler starten"
+
+#: builtin/mainmenu/tab_texturepacks.lua
+msgid "Texture Packs"
+msgstr "Texturenpakete"
 
 #: builtin/mainmenu/tab_texturepacks.lua
 msgid "Default textures will be used."
