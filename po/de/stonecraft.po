@@ -68,6 +68,10 @@ msgid "Server supports protocol versions between $1 and $2. "
 msgstr "Server unterstützt Protokollversionen $1 bis $2. "
 
 #: builtin/mainmenu/common.lua
+msgid "Get further information from wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
+msgstr "Weitere Informationen finden Sie im Wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues"
+
+#: builtin/mainmenu/common.lua
 msgid "Try reenabling public serverlist and check your internet connection."
 msgstr ""
 "Versuchen Sie, die öffentliche Serverliste neu zu laden und prüfen Sie Ihre "

@@ -277,7 +277,7 @@ end
 --------------------------------------------------------------------------------
 function is_server_protocol_compat_or_error(server_proto_min, server_proto_max)
 	if not is_server_protocol_compat(server_proto_min, server_proto_max) then
-		local server_prot_ver_info, client_prot_ver_info
+		local server_prot_ver_info, client_prot_ver_info, oldclient_download_info
 		local s_p_min = server_proto_min
 		local s_p_max = server_proto_max
 
@@ -294,9 +294,13 @@ function is_server_protocol_compat_or_error(server_proto_min, server_proto_max)
 		else
 			client_prot_ver_info = fgettext_ne("We only support protocol version $1.", min_supp_proto)
 		end
+
+		oldclient_download_info = fgettext_ne("Get further information from wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues")
+
 		gamedata.errormessage = fgettext_ne("Protocol version mismatch. ")
 			.. server_prot_ver_info
 			.. client_prot_ver_info
+			.. oldclient_download_info
 		return false
 	end
 
