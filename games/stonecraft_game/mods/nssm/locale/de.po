@@ -550,6 +550,10 @@ msgid "Web"
 msgstr "Netz"
 
 #: nssm_materials.lua
+msgid "Thick Web"
+msgstr "Dickes Netz"
+
+#: nssm_materials.lua
 msgid "Ink"
 msgstr "Tinte"
 
@@ -723,7 +727,7 @@ msgstr "Werwolf"
 
 #: nssm_materials.lua
 msgid "White Werewolf"
-msgstr "Weißer Werwolf"
+msgstr "Weiße(r) Werwolf"
 
 #: nssm_materials.lua
 msgid "Snow Biter"
@@ -868,6 +872,10 @@ msgstr "Schwarzer Enten"
 #: nssm_armor.lua
 msgid "Sky"
 msgstr "Himmel"
+
+#: nssm_armor.lua
+msgid " Shield"
+msgstr "-Schild"
 
 #: nssm_armor.lua
 msgid " Helmet"
