@@ -1156,29 +1156,74 @@ minetest.register_tool("riesenpilz:growingtool", {
 	inventory_image = "riesenpilz_growingtool.png",
 })
 
+local grow_functions = {
+	["riesenpilz:red"] = riesenpilz_hybridpilz,
+	["riesenpilz:fly_agaric"] = riesenpilz_minecraft_fliegenpilz,
+	["riesenpilz:brown"] = riesenpilz_brauner_minecraftpilz,
+	["riesenpilz:lavashroom"] = riesenpilz_lavashroom,
+	["riesenpilz:glowshroom"] = riesenpilz_glowshroom,
+	["riesenpilz:parasol"] = riesenpilz_parasol,
+	["riesenpilz:red45"] = riesenpilz_red45,
+	["default:apple"] = riesenpilz_apple
+}
+local function get_grow(name)
+	if grow_functions[name] then
+		return grow_functions[name]
+	end
+
+	local is = {}
+	for i = 1,#minetest.registered_abms do
+		local ad = minetest.registered_abms[i]
+		if ad.chance > 1
+		and table.indexof(ad.nodenames, name) ~= -1 then
+			is[#is+1] = ad.action
+		end
+	end
+
+	local func
+	if is[1] then
+		function func(pos, node)
+			for i = 1,#is do
+				is[i](pos, node)
+			end
+		end
+	else
+		local def = minetest.registered_nodes[name]
+		if def then
+			if def.on_timer then
+				func = def.on_timer
+			else
+				func = function(pos, node, player)
+					if def.on_place then
+						def.on_place(ItemStack(name), player, {
+							type = "node",
+							under = vector.new(pos),--{x=pos.x, y=pos.y-1, z=pos.z},
+							above = vector.new(pos)
+						})
+					end
+					if def.after_place_node then
+						def.after_place_node(pos)
+					end
+				end
+			end
+		else
+			func = function() end
+		end
+	end
+
+	grow_functions[name] = func
+	return func
+end
+
 minetest.register_on_punchnode(function(pos, node, player)
 	if player:get_wielded_item():get_name() ~= "riesenpilz:growingtool"
 	or minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
 
-	local name = node.name
-	if name == "riesenpilz:red" then
-		riesenpilz_hybridpilz(pos)
-	elseif name == "riesenpilz:fly_agaric" then
-		riesenpilz_minecraft_fliegenpilz(pos)
-	elseif name == "riesenpilz:brown" then
-		riesenpilz_brauner_minecraftpilz(pos)
-	elseif name == "riesenpilz:lavashroom" then
-		riesenpilz_lavashroom(pos)
-	elseif name == "riesenpilz:glowshroom" then
-		riesenpilz_glowshroom(pos)
-	elseif name == "riesenpilz:parasol" then
-		riesenpilz_parasol(pos)
-	elseif name == "riesenpilz:red45" then
-		riesenpilz_red45(pos)
-	elseif name == "default:apple" then
-		riesenpilz_apple(pos)
+	local func = get_grow(node.name)
+	if func then
+		func(pos, node, player)
 	end
 end)
 
