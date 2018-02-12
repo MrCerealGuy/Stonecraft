@@ -26,6 +26,26 @@ msgid "Raw Coconut"
 msgstr "Kokosnussfleisch"
 
 #: crafts.lua
+msgid "Date"
+msgstr "Dattel"
+
+#: crafts.lua
+msgid "Date & nut snack"
+msgstr "Dattel & Nuss Snack"
+
+#: crafts.lua
+msgid "Date-nut cake batter"
+msgstr "Dattelnuss-Kuchenteig"
+
+#: crafts.lua
+msgid "Date-nut cake"
+msgstr "Dattelnuss-Kuchen"
+
+#: crafts.lua
+msgid "Date-nut energy bar"
+msgstr "Dattelnuss-Energieriegel"
+
+#: crafts.lua
 msgid "Acorn Muffin batter"
 msgstr "Eichelmuffinteig"
 
@@ -38,12 +58,28 @@ msgid "Roasted Spruce Cone Nuts"
 msgstr "Geröstete Fichtenzapfen"
 
 #: crafts.lua
+msgid "Roasted Cedar Cone Nuts"
+msgstr "Geröstete Zederzapfen"
+
+#: crafts.lua
 msgid "Roasted Pine Cone Nuts"
 msgstr "Geröstete Kiefernzapfen"
 
 #: crafts.lua
 msgid "Roasted Fir Cone Nuts"
 msgstr "Geroestete Tannenzapfen"
+
+#: date_palm.lua
+msgid "Date Flowers"
+msgstr "Dattelblumen"
+
+#: date_palm.lua
+msgid "Date Stem"
+msgstr "Dattelstamm"
+
+#: date_palm.lua
+msgid "Dates"
+msgstr "Datteln"
 
 #: init.lua
 msgid "[Moretrees] Loaded (2013-02-11)"
