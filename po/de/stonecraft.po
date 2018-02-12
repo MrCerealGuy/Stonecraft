@@ -555,7 +555,7 @@ msgid "Spiderduck"
 msgstr "Spinnenente"
 
 #: builtin/worldoptions.txt
-msgid "Stoneeater"
+msgid "Stone eater"
 msgstr "Steinbeißer"
 
 #: builtin/worldoptions.txt

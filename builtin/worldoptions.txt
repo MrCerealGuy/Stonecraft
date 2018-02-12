@@ -103,7 +103,7 @@ mobs_npc_trader (Trader) bool true
 
 nssm_ant_queen (Ant queen) bool true
 nssm_ant_soldier (Ant soldier) bool true
-nssm_ant_worker (Ant workder) bool true
+nssm_ant_worker (Ant worker) bool true
 nssm_black_widow (Black Widow) bool true
 nssm_bloco (Bloco) bool true
 nssm_crab (Crab) bool true
