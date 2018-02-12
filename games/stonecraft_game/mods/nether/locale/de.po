@@ -38,6 +38,14 @@ msgid "Glowstone"
 msgstr "Glühstein"
 
 #: init.lua
+msgid "Nether stair"
+msgstr "Nethertreppe"
+
+#: init.lua
+msgid "Nether slab"
+msgstr "Netherstufe"
+
+#: init.lua
 msgid "Nether Brick"
 msgstr "Netherziegel"
 

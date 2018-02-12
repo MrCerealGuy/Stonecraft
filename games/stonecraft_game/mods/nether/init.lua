@@ -503,8 +503,8 @@ stairs.register_stair_and_slab(
 	"nether:brick",
 	{cracky = 2, level = 2},
 	{"nether_brick.png"},
-	"nether stair",
-	"nether slab",
+	S("Nether stair"),
+	S("Nether slab"),
 	default.node_sound_stone_defaults()
 )
 
