@@ -32,7 +32,7 @@ local parts = {
 	boots = { place="feet", name=S(" Boots"), level=4, radlevel = 0.10, craft={{1,0,1},{1,0,1}} },
 }
 if minetest.get_modpath("shields") then
-	parts.shield = { place="shield", name=S("Shield"), level=5, radlevel=0.00, craft={{1,1,1},{1,1,1},{0,1,0}} }
+	parts.shield = { place="shield", name=S(" Shield"), level=5, radlevel=0.00, craft={{1,1,1},{1,1,1},{0,1,0}} }
 end
 
 -- Makes a craft recipe based on a template
