@@ -1183,38 +1183,14 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 
 	-- do on_construct calls AFTER the map data has been written - else i.e. realtest fences can not update themshevles
 	for _, village in ipairs(villages) do
-		for k, v in pairs( village.to_add_data.extra_calls.on_constr ) do
-			local node_name = minetest.get_name_from_content_id( k );
-			if( minetest.registered_nodes[ node_name ].on_construct ) then
-				for _, pos in ipairs(v) do
-					minetest.registered_nodes[ node_name ].on_construct( pos );
-				end
-			end
-		end
+		handle_schematics.call_on_construct( village.to_add_data.extra_calls.on_constr );
 	end
 	t1 = time_elapsed( t1, 'do on_construct calls' );
 
 
 	-- the doors need to be adjusted as well
 	for _, village in ipairs(villages) do
-	  if( village.to_add_data.extra_calls.door_b ) then
-		for k, v in pairs( village.to_add_data.extra_calls.door_b ) do
-			local meta = minetest.get_meta( v );
-
-			local l = 2 -- b
-			local h = meta:get_int("right") + 1
-
-			local replace = {
-			        { { type = "a", state = 0 }, { type = "a", state = 3 } },
-			        { { type = "b", state = 1 }, { type = "b", state = 2 } }
-			}
-			local new = replace[l][h]
---			minetest.swap_node(v, {name = name .. "_" .. new.type, param2 = v.p2})
-			meta:set_int("state", new.state)
-			-- wipe meta on top node as it's unused
-			minetest.set_node({x = v.x, y = v.y + 1, z = v.z}, { name = "doors:hidden" })
-		end
-          end
+		handle_schematics.call_door_setup( village.to_add_data.extra_calls.door_b );
 	end
 	t1 = time_elapsed( t1, 'do door setup' );
 
@@ -1318,7 +1294,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	-- if this mapchunk contains no part of a village, probably a lone building may be found in it
-	if( mg_villages.INVERSE_HOUSE_DENSITY > 0 ) then
+	if( #villages<1 and mg_villages.INVERSE_HOUSE_DENSITY > 0 ) then
 		villages = mg_villages.houses_in_mapchunk(   minp, maxp.x-minp.x+1, villages );
 	end
 
@@ -1337,7 +1313,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	if( villages and #villages > 0 ) then
-		mg_villages.place_villages_via_voxelmanip( villages, minp, maxp, seed );
+		mg_villages.place_villages_via_voxelmanip( villages, minp, maxp, nil, nil, nil, nil, nil, seed );
 	end
 end)
 
