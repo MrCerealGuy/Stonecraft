@@ -1,3 +1,9 @@
+--[[
+
+2018-02-13 MrCerealGuy: check for itemdef not null in func populate_chest
+
+--]]
+
 minetest.set_gen_notify({dungeon = true, temple = true})
 
 local function noise3d_integer(noise, pos)
@@ -88,12 +94,12 @@ local function populate_chest(pos, rand, dungeontype)
 				amount = rand:next(loot.count[1], loot.count[2])
 			end
 
-			if itemdef.tool_capabilities then
+			if itemdef and itemdef.tool_capabilities then
 				for n = 1, amount do
 					local wear = rand:next(0.20 * 65535, 0.75 * 65535) -- 20% to 75% wear
 					table.insert(items, ItemStack({name = loot.name, wear = wear}))
 				end
-			elseif itemdef.stack_max == 1 then
+			elseif itemdef and itemdef.stack_max == 1 then
 				-- not stackable, add separately
 				for n = 1, amount do
 					table.insert(items, loot.name)
