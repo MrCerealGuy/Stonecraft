@@ -23,3 +23,10 @@ docfarming?
 mccompat?
 beds?
 unified_inventory?
+mcl_core?
+mcl_fences?
+mcl_doors?
+mcl_books?
+mcl_chests?
+mcl_torches?
+mcl_signs?

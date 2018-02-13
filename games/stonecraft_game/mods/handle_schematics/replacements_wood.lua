@@ -30,7 +30,7 @@ replacements_group['wood'].replace_material = function( replacements, old_wood, 
 	for i=3,#old_nodes do
 		local old = old_nodes[i];
 		local new = old;
-		if( i<=#new_nodes and new_nodes[i] and handle_schematics.node_defined( new_nodes[i])) then
+		if( old and new_nodes[i] and handle_schematics.node_defined( new_nodes[i])) then
 			new = new_nodes[i];
 			local found = false;
 			for i,v in ipairs(replacements) do
@@ -83,6 +83,8 @@ replacements_group['wood'].add_material = function( candidate_list, mod_prefix, 
 				gate_pre..v..gate_post..'_open',  -- 10.  "  "    for cottages:gate_open
 				gate_pre..v..gate_post..'_closed',-- 11.  "  "    for cottages:gate_closed
 		};
+		data[24] = stair_pre.."inner_"..v..stair_post; -- 24. "  "  for stairs:stair_inner_wood
+		data[25] = stair_pre.."outer_"..v..stair_post; -- 25. "  "  for stairs:stair_outer_wood
 
 		-- normal wood does have a number of nodes which might get replaced by more specialized wood types
 		if( mod_prefix=='default:' and v=='' ) then
@@ -101,6 +103,12 @@ replacements_group['wood'].add_material = function( candidate_list, mod_prefix, 
 			data[21] = 'stairs:slab_'..w..'upside_down';
 			data[22] = 'doors:trapdoor_open';
 			data[23] = 'doors:trapdoor';
+			data[24] = 'stairs:stair_inner_'..w;
+			data[25] = 'stairs:stair_outer_'..w;
+			data[26] = 'doors:door_wood_a';
+			data[27] = 'doors:door_wood_b';
+			data[28] = 'doors:hidden';
+
 		-- realtest has some further replacements
 		elseif( mod_prefix=='trees:' and w_post=='_planks' and t_post=='_log' ) then
 			data[12] = 'trees:'..v..'_ladder';
@@ -115,6 +123,29 @@ replacements_group['wood'].add_material = function( candidate_list, mod_prefix, 
 			data[21] = 'trees:'..v..'_planks_slab_upside_down';
 			data[22] = 'hatches:'..v..'_hatch_opened_top';
 			data[23] = 'hatches:'..v..'_hatch_opened_bottom';
+			data[24] = 'stairs:stair_inner_'..v..'_wood';
+			data[25] = 'stairs:stair_outer_'..v..'_wood';
+			data[26] = data[15];
+			data[27] = data[16];
+			data[28] = 'doors:hidden';
+		elseif( mod_prefix=='mcl_core:') then
+			data[11] = 'mcl_fences:fence_gate_'..v;
+			data[12] = 'mcl_core:ladder';
+			data[13] = 'mcl_doors:'..v..'_door_t_1'; -- TODO: wooden_door
+			data[14] = 'mcl_doors:'..v..'_door_t_2';
+			data[15] = 'mcl_doors:'..v..'_door_b_1';
+			data[16] = 'mcl_doors:'..v..'_door_b_2';
+			data[17] = 'mcl_books:bookshelf';
+			data[18] = 'mcl_chests:chest';
+			data[19] = 'mcl_chests:chest';
+			data[20] =   'stairs:stair_'..v..'upside_down';
+			data[21] =   'stairs:slab_'..v..'upside_down';
+			data[22] = 'doors:'..v..'_trapdoor_open';
+			data[23] = 'doors:'..v..'_trapdoor';
+			data[24] =   'stairs:stair_inner_'..v;
+			data[26] = data[15];
+			data[27] = data[16];
+			data[28] = data[13]; -- no way to decide automaticly which door top fits
 		end
 		replacements_group['wood'].data[ wood_name ] = data;
 
@@ -187,7 +218,7 @@ replacements_group['wood'].construct_wood_type_list = function()
 
 	-- https://github.com/tenplus1/ethereal
 	-- ethereal does not have a common naming convention for leaves
-	replacements_group['wood'].add_material( {'acacia','redwood'},'ethereal:',  '','_wood',   '','_trunk', '','_leaves', '','_sapling',
+	replacements_group['wood'].add_material( {'acacia','redwood','birch'},'ethereal:',  '','_wood',   '','_trunk', '','_leaves', '','_sapling',
 		'stairs:stair_','_wood', 'stairs:slab_','_wood',   'ethereal:fence_','',     'ethereal:','gate');
 	-- frost has another sapling type...
 	replacements_group['wood'].add_material( {'frost'},           'ethereal:',  '','_wood',   '','_tree', '','_leaves', '','_tree_sapling',
@@ -208,6 +239,7 @@ replacements_group['wood'].construct_wood_type_list = function()
 	-- the stairs are also called slightly diffrently (end in _trunk instead of _wood)
 	replacements_group['wood'].add_material( {'mushroom'},        'ethereal:',  '','_pore',   '','_trunk', '','',        '','_sapling',
 		'stairs:stair_','_trunk', 'stairs:slab_','_trunk', 'ethereal:fence_', '',    'ethereal:','gate' );
+	-- note: big tree and orange tree do not have their own wood
 
 	
 	-- https://github.com/VanessaE/realtest_game
@@ -225,6 +257,31 @@ replacements_group['wood'].construct_wood_type_list = function()
 	replacements_group['wood'].add_material( {'mangrove','palm','conifer'},'trees:',  'wood_','',   'tree_','',  'leaves_','', 'sapling_','', 
 		'stairs:stair_','_wood',  'stairs:slab_','_wood',    'NONE','',            'NONE',''        );
 
+
+	-- MineClone2
+	local mineclone2_treelist = {"jungle","spruce","acacia","birch" };
+	replacements_group['wood'].add_material( mineclone2_treelist,
+		'mcl_core:', '', 'wood', '','tree', '','leaves','','sapling',
+		'mcl_stairs:stair_','wood', 'mcl_stairs:slab_','wood',
+		'mcl_fences:','_fence', 'mcl_fences:','_fence_gate' );
+	-- normal wood needs special treatment
+	replacements_group['wood'].add_material( {""},
+		'mcl_core:', '', 'wood', '','tree', '','leaves','','sapling',
+		'mcl_stairs:stair_','wood', 'mcl_stairs:slab_','wood',
+		'mcl_fences:','fence', 'mcl_fences:','fence_gate' );
+	-- the doors made out of wood do not follow the internal naming convention of MineClone2
+	replacements_group['wood'].data[ 'mcl_core:wood' ][13] = 'mcl_doors:wooden_door_t_1';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][14] = 'mcl_doors:wooden_door_t_2';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][15] = 'mcl_doors:wooden_door_b_1';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][16] = 'mcl_doors:wooden_door_b_2';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][26] = 'mcl_doors:wooden_door_b_1';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][27] = 'mcl_doors:wooden_door_b_2';
+	replacements_group['wood'].data[ 'mcl_core:wood' ][28] = 'mcl_doors:wooden_door_t_1';
+	-- dark oak needs special treatment
+	replacements_group['wood'].add_material( {"dark"},
+		'mcl_core:', '', 'wood', '','tree', '','leaves','','sapling',
+		'mcl_stairs:stair_','wood', 'mcl_stairs:slab_','wood',
+		'mcl_fences:','_oak_fence', 'mcl_fences:','_oak_fence_gate' );
 
 	-- https://github.com/PilzAdam/farming_plus
 	-- TODO: this does not come with its own wood... banana and cocoa trees (only leaves, sapling and fruit)

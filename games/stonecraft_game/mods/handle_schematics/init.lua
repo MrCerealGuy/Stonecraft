@@ -22,6 +22,12 @@ if(        minetest.registered_nodes["oven:oven"]
 	handle_schematics.is_realtest = true;
 end
 
+-- MineClone2 renames all nodes
+handle_schematics.is_mineclone2 = nil;
+if( minetest.get_modpath("mcl_core")) then
+	handle_schematics.is_mineclone2 = true;
+end
+
 -- globally change nodes from the schematics into others; useful if you
 -- i.e. do not have default installed
 dofile(handle_schematics.modpath.."/replacements_global.lua")
@@ -59,6 +65,7 @@ replacements_group.node_is_ground = {}
 dofile(handle_schematics.modpath.."/replacements_discontinued_nodes.lua")
 dofile(handle_schematics.modpath.."/replacements_wood.lua")
 dofile(handle_schematics.modpath.."/replacements_realtest.lua")
+dofile(handle_schematics.modpath.."/replacements_mineclone2.lua")
 dofile(handle_schematics.modpath.."/replacements_farming.lua")
 dofile(handle_schematics.modpath.."/replacements_roof.lua")
 
@@ -103,3 +110,6 @@ dofile(handle_schematics.modpath.."/place_buildings.lua")
 -- dofile(handle_schematics.modpath.."/fill_chest.lua")
 
 dofile(handle_schematics.modpath.."/nodes.lua")
+
+-- helper functions for finding flat land to build on
+dofile(handle_schematics.modpath.."/detect_flat_land_fast.lua");
