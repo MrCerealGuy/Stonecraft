@@ -1,4 +1,4 @@
-local load_time_start = os.clock()
+local load_time_start = minetest.get_us_time()
 
 local funcs = {}
 
@@ -207,7 +207,8 @@ function funcs.threeline(x, y, z)
 		return line
 	end
 	if x ~= math.floor(x) then
-		minetest.log("error", "[vector_extras] INFO: The position used for vector.threeline isn't round.")
+		minetest.log("error", "[vector_extras] INFO: The position used for " ..
+			"vector.threeline isn't round.")
 	end
 	local two_line = vector.twoline(x, y)
 	line = {}
@@ -264,6 +265,19 @@ function funcs.cross(v1, v2)
 		y = v1.z*v2.x - v1.x*v2.z,
 		z = v1.x*v2.y - v1.y*v2.x
 	}
+end
+
+-- Tschebyschew norm
+function funcs.maxnorm(v)
+	return math.max(math.max(math.abs(v.x), math.abs(v.y)), math.abs(v.z))
+end
+
+function funcs.sumnorm(v)
+	return math.abs(v.x) + math.abs(v.y) + math.abs(v.z)
+end
+
+function funcs.pnorm(v, p)
+	return (math.abs(v.x)^p + math.abs(v.y)^p + math.abs(v.z)^p)^(1 / p)
 end
 
 --not optimized
@@ -392,7 +406,7 @@ function funcs.explosion_table(r)
 		return table
 	end
 
-	local t1 = os.clock()
+	--~ local t1 = os.clock()
 	local tab, n = {}, 1
 
 	local tmp = r*r + r
@@ -413,7 +427,7 @@ function funcs.explosion_table(r)
 		end
 	end
 	explosion_tables[r] = tab
-	minetest.log("info", string.format("[vector_extras] table created after ca. %.2fs", os.clock() - t1))
+	--~ minetest.log("info", string.format("[vector_extras] table created after ca. %.2fs", os.clock() - t1))
 	return tab
 end
 
@@ -889,83 +903,6 @@ function funcs.collision(p1, p2)
 	return true, collision_pos, node_pos
 end
 
-function funcs.get_data_from_pos(tab, z,y,x)
-	local data = tab[z]
-	if data then
-		data = data[y]
-		if data then
-			return data[x]
-		end
-	end
-end
-
-function funcs.set_data_to_pos(tab, z,y,x, data)
-	if tab[z] then
-		if tab[z][y] then
-			tab[z][y][x] = data
-			return
-		end
-		tab[z][y] = {[x] = data}
-		return
-	end
-	tab[z] = {[y] = {[x] = data}}
-end
-
-function funcs.set_data_to_pos_optional(tab, z,y,x, data)
-	if vector.get_data_from_pos(tab, z,y,x) ~= nil then
-		return
-	end
-	funcs.set_data_to_pos(tab, z,y,x, data)
-end
-
-function funcs.remove_data_from_pos(tab, z,y,x)
-	if vector.get_data_from_pos(tab, z,y,x) == nil then
-		return
-	end
-	tab[z][y][x] = nil
-	if not next(tab[z][y]) then
-		tab[z][y] = nil
-	end
-	if not next(tab[z]) then
-		tab[z] = nil
-	end
-end
-
-function funcs.get_data_pos_table(tab)
-	local t,n = {},1
-	local minz, miny, minx, maxz, maxy, maxx
-	for z,yxs in pairs(tab) do
-		if not minz then
-			minz = z
-			maxz = z
-		else
-			minz = math.min(minz, z)
-			maxz = math.max(maxz, z)
-		end
-		for y,xs in pairs(yxs) do
-			if not miny then
-				miny = y
-				maxy = y
-			else
-				miny = math.min(miny, y)
-				maxy = math.max(maxy, y)
-			end
-			for x,v in pairs(xs) do
-				if not minx then
-					minx = x
-					maxx = x
-				else
-					minx = math.min(minx, x)
-					maxx = math.max(maxx, x)
-				end
-				t[n] = {z,y,x, v}
-				n = n+1
-			end
-		end
-	end
-	return t, {x=minx, y=miny, z=minz}, {x=maxx, y=maxy, z=maxz}, n-1
-end
-
 function funcs.update_minp_maxp(minp, maxp, pos)
 	for _,i in pairs({"z", "y", "x"}) do
 		minp[i] = math.min(minp[i], pos[i])
@@ -1026,14 +963,29 @@ function funcs.serialize(vec)
 end
 
 
+vector_extras_functions = funcs
+
+local path = minetest.get_modpath"vector_extras"
+dofile(path .. "/legacy.lua")
 --dofile(minetest.get_modpath("vector_extras").."/vector_meta.lua")
+
+vector_extras_functions = nil
+
 
 for name,func in pairs(funcs) do
 	if vector[name] then
-		minetest.log("error", "[vector_extras] vector."..name.." already exists.")
+		minetest.log("error", "[vector_extras] vector."..name..
+			" already exists.")
 	else
 		vector[name] = func
 	end
 end
 
-minetest.log("info", string.format("[vector_extras] loaded after ca. %.2fs", os.clock() - load_time_start))
+
+local time = (minetest.get_us_time() - load_time_start) / 1000000
+local msg = "[vector_extras] loaded after ca. " .. time .. " seconds."
+if time > 0.01 then
+	print(msg)
+else
+	minetest.log("info", msg)
+end
