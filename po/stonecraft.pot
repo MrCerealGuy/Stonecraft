@@ -769,7 +769,7 @@ msgid "Cannot find Stonecraft game data! Download from mrcerealguy.github.io/sto
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "You have no subgames installed."
+msgid "You have no games installed."
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
@@ -781,7 +781,7 @@ msgid "Warning: The minimal development test is meant for developers."
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
+msgid "Download a game, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
@@ -952,19 +952,19 @@ msgid "Stonecraft Developers"
 msgstr ""
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Core Developers"
+msgid "Minetest Engine Core Developers"
 msgstr ""
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Active Contributors"
+msgid "Minetest Engine Active Contributors"
 msgstr ""
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Previous Core Developers"
+msgid "Minetest Engine Previous Core Developers"
 msgstr ""
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Previous Contributors"
+msgid "Minetest Engine Previous Contributors"
 msgstr ""
 
 #: builtin/mainmenu/tab_local.lua
@@ -1024,7 +1024,7 @@ msgid "No world created or selected!"
 msgstr ""
 
 #: builtin/mainmenu/tab_local.lua
-msgid "Local Game"
+msgid "Start Game"
 msgstr ""
 
 #: builtin/mainmenu/tab_mods.lua
@@ -1044,7 +1044,7 @@ msgid "Rename"
 msgstr ""
 
 #: builtin/mainmenu/tab_mods.lua
-msgid "Uninstall selected modpack"
+msgid "Uninstall Selected Modpack"
 msgstr ""
 
 #: builtin/mainmenu/tab_mods.lua
@@ -1052,7 +1052,7 @@ msgid "No dependencies."
 msgstr ""
 
 #: builtin/mainmenu/tab_mods.lua
-msgid "Uninstall selected mod"
+msgid "Uninstall Selected Mod"
 msgstr ""
 
 #: builtin/mainmenu/tab_mods.lua
@@ -1096,7 +1096,7 @@ msgid "PvP enabled"
 msgstr ""
 
 #: builtin/mainmenu/tab_online.lua
-msgid "Play Online"
+msgid "Join Game"
 msgstr ""
 
 #: builtin/mainmenu/tab_settings.lua

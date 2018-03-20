@@ -107,13 +107,13 @@ return {
 			"#FFFF00," .. fgettext("Stonecraft Developers") .. ",," ..
 			table.concat(stonecraft_developers, ",,") .. ",," ..
 			"Thanks a lot to the minetest community." .. ",,," ..
-			"#FFFF00," .. fgettext("Core Developers") .. ",," ..
+			"#FFFF00," .. fgettext("Minetest Engine Core Developers") .. ",," ..
 			buildCreditList(core_developers) .. ",,," ..
-			"#FFFF00," .. fgettext("Active Contributors") .. ",," ..
+			"#FFFF00," .. fgettext("Minetest Engine Active Contributors") .. ",," ..
 			buildCreditList(active_contributors) .. ",,," ..
-			"#FFFF00," .. fgettext("Previous Core Developers") ..",," ..
+			"#FFFF00," .. fgettext("Minetest Engine Previous Core Developers") ..",," ..
 			buildCreditList(previous_core_developers) .. ",,," ..
-			"#FFFF00," .. fgettext("Previous Contributors") .. ",," ..
+			"#FFFF00," .. fgettext("Minetest Engine Previous Contributors") .. ",," ..
 			buildCreditList(previous_contributors) .. "," ..
 			";1]"
 	end

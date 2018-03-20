@@ -28,6 +28,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "network/networkpacket.h"
 #include "threading/mutex_auto_lock.h"
 #include "client/clientevent.h"
+#include "client/gameui.h"
 #include "client/renderingengine.h"
 #include "client/tile.h"
 #include "util/auth.h"
@@ -70,11 +71,11 @@ Client::Client(
 		IWritableTextureSource *tsrc,
 		IWritableShaderSource *shsrc,
 		IWritableItemDefManager *itemdef,
-		IWritableNodeDefManager *nodedef,
+		NodeDefManager *nodedef,
 		ISoundManager *sound,
 		MtEventManager *event,
 		bool ipv6,
-		GameUIFlags *game_ui_flags
+		GameUI *game_ui
 ):
 	m_tsrc(tsrc),
 	m_shsrc(shsrc),
@@ -96,7 +97,7 @@ Client::Client(
 	m_chosen_auth_mech(AUTH_MECHANISM_NONE),
 	m_media_downloader(new ClientMediaDownloader()),
 	m_state(LC_Created),
-	m_game_ui_flags(game_ui_flags),
+	m_game_ui(game_ui),
 	m_modchannel_mgr(new ModChannelMgr())
 {
 	// Add local player
@@ -317,6 +318,10 @@ void Client::step(float dtime)
 		initial_step = false;
 	}
 	else if(m_state == LC_Created) {
+		if (m_is_registration_confirmation_state) {
+			// Waiting confirmation
+			return;
+		}
 		float &counter = m_connection_reinit_timer;
 		counter -= dtime;
 		if(counter <= 0.0) {
@@ -971,6 +976,18 @@ void Client::sendInit(const std::string &playerName)
 	pkt << playerName;
 
 	Send(&pkt);
+}
+
+void Client::promptConfirmRegistration(AuthMechanism chosen_auth_mechanism)
+{
+	m_chosen_auth_mech = chosen_auth_mechanism;
+	m_is_registration_confirmation_state = true;
+}
+
+void Client::confirmRegistration()
+{
+	m_is_registration_confirmation_state = false;
+	startAuth(m_chosen_auth_mech);
 }
 
 void Client::startAuth(AuthMechanism chosen_auth_mechanism)
@@ -1681,7 +1698,6 @@ void Client::afterContentReceived()
 
 	if (g_settings->getBool("enable_client_modding")) {
 		m_script->on_client_ready(m_env.getLocalPlayer());
-		m_script->on_connect();
 	}
 
 	text = wgettext("Done!");
@@ -1771,34 +1787,9 @@ void Client::pushToEventQueue(ClientEvent *event)
 	m_client_event_queue.push(event);
 }
 
-void Client::showGameChat(const bool show)
-{
-	m_game_ui_flags->show_chat = show;
-}
-
-void Client::showGameHud(const bool show)
-{
-	m_game_ui_flags->show_hud = show;
-}
-
 void Client::showMinimap(const bool show)
 {
-	m_game_ui_flags->show_minimap = show;
-}
-
-void Client::showProfiler(const bool show)
-{
-	m_game_ui_flags->show_profiler_graph = show;
-}
-
-void Client::showGameFog(const bool show)
-{
-	m_game_ui_flags->force_fog_off = !show;
-}
-
-void Client::showGameDebug(const bool show)
-{
-	m_game_ui_flags->show_debug = show;
+	m_game_ui->showMinimap(show);
 }
 
 // IGameDef interface
@@ -1807,7 +1798,7 @@ IItemDefManager* Client::getItemDefManager()
 {
 	return m_itemdef;
 }
-INodeDefManager* Client::getNodeDefManager()
+const NodeDefManager* Client::getNodeDefManager()
 {
 	return m_nodedef;
 }

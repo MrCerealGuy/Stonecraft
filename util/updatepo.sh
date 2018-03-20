@@ -57,7 +57,7 @@ xgettext --package-name=stonecraft \
 	--keyword=fgettext_ne \
 	--keyword=strgettext \
 	--keyword=wstrgettext \
-	--keyword=showStatusTextSimple \
+	--keyword=showTranslatedStatusText \
 	--output $potfile \
 	--from-code=utf-8 \
 	`find src/ -name '*.cpp' -o -name '*.h'` \

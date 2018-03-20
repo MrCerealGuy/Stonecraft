@@ -1,7 +1,7 @@
 /*
 Minetest
-Copyright (C) 2014-2016 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2017 paramat
+Copyright (C) 2014-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+Copyright (C) 2015-2018 paramat
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -301,10 +301,10 @@ size_t DecoSimple::generate(MMVManip *vm, PcgRandom *pr, v3s16 p, bool ceiling)
 	if (ceiling) {
 		// Ceiling decorations
 		// 'place offset y' is inverted
-		vm->m_area.add_y(em, vi, -place_offset_y);
+		VoxelArea::add_y(em, vi, -place_offset_y);
 
 		for (int i = 0; i < height; i++) {
-			vm->m_area.add_y(em, vi, -1);
+			VoxelArea::add_y(em, vi, -1);
 			content_t c = vm->m_data[vi].getContent();
 			if (c != CONTENT_AIR && c != CONTENT_IGNORE && !force_placement)
 				break;
@@ -312,10 +312,10 @@ size_t DecoSimple::generate(MMVManip *vm, PcgRandom *pr, v3s16 p, bool ceiling)
 			vm->m_data[vi] = MapNode(c_place, 0, param2);
 		}
 	} else { // Heightmap and floor decorations
-		vm->m_area.add_y(em, vi, place_offset_y);
+		VoxelArea::add_y(em, vi, place_offset_y);
 
 		for (int i = 0; i < height; i++) {
-			vm->m_area.add_y(em, vi, 1);
+			VoxelArea::add_y(em, vi, 1);
 			content_t c = vm->m_data[vi].getContent();
 			if (c != CONTENT_AIR && c != CONTENT_IGNORE && !force_placement)
 				break;

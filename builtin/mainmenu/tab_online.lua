@@ -300,6 +300,11 @@ local function main_button_handler(tabview, fields, name, tabdata)
 		return true
 	end
 
+	if fields.btn_mp_refresh then
+		asyncOnlineFavourites()
+		return true
+	end
+
 	if (fields.btn_mp_connect or fields.key_enter)
 			and fields.te_address ~= "" and fields.te_port then
 		gamedata.playername = fields.te_name
@@ -344,7 +349,7 @@ end
 --------------------------------------------------------------------------------
 return {
 	name = "online",
-	caption = fgettext("Play Online"),
+	caption = fgettext("Join Game"),
 	cbf_formspec = get_formspec,
 	cbf_button_handler = main_button_handler,
 	on_change = on_change

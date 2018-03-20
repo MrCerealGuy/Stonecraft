@@ -1,8 +1,8 @@
 /*
 Minetest
-Copyright (C) 2010-2015 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2013-2016 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2017 paramat
+Copyright (C) 2010-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2013-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+Copyright (C) 2015-2018 paramat
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -41,7 +41,7 @@ typedef u8 biome_t;  // copy from mg_biome.h to avoid an unnecessary include
 
 class Settings;
 class MMVManip;
-class INodeDefManager;
+class NodeDefManager;
 
 extern FlagDesc flagdesc_mapgen[];
 extern FlagDesc flagdesc_gennotify[];
@@ -99,8 +99,8 @@ public:
 	void setNotifyOnDecoIds(std::set<u32> *notify_on_deco_ids);
 
 	bool addEvent(GenNotifyType type, v3s16 pos, u32 id=0);
-	void getEvents(std::map<std::string, std::vector<v3s16> > &event_map,
-		bool peek_events=false);
+	void getEvents(std::map<std::string, std::vector<v3s16> > &event_map);
+	void clearEvents();
 
 private:
 	u32 m_notify_on = 0;
@@ -139,14 +139,10 @@ struct MapgenParams {
 	virtual void readParams(const Settings *settings);
 	virtual void writeParams(Settings *settings) const;
 
-	bool saoPosOverLimit(const v3f &p);
 	s32 getSpawnRangeMax();
 
 private:
 	void calcMapgenEdges();
-
-	float m_sao_limit_min = -MAX_MAP_GENERATION_LIMIT * BS;
-	float m_sao_limit_max = MAX_MAP_GENERATION_LIMIT * BS;
 	bool m_mapgen_edges_calculated = false;
 };
 
@@ -170,7 +166,7 @@ public:
 	int id = -1;
 
 	MMVManip *vm = nullptr;
-	INodeDefManager *ndef = nullptr;
+	const NodeDefManager *ndef = nullptr;
 
 	u32 blockseed;
 	s16 *heightmap = nullptr;

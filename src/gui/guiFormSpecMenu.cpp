@@ -39,11 +39,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/renderingengine.h"
 #include "log.h"
 #include "client/tile.h" // ITextureSource
-#include "hud.h" // drawItemStack
+#include "client/hud.h" // drawItemStack
 #include "filesys.h"
 #include "gettime.h"
 #include "gettext.h"
 #include "scripting_server.h"
+#include "mainmenumanager.h"
 #include "porting.h"
 #include "settings.h"
 #include "client.h"
@@ -54,10 +55,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "irrlicht_changes/static_text.h"
 #include "guiscalingfilter.h"
 #include "guiEditBoxWithScrollbar.h"
-
-#if USE_FREETYPE && IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR < 9
 #include "intlGUIEditBox.h"
-#endif
 
 #define MY_CHECKPOS(a,b)													\
 	if (v_pos.size() != 2) {												\
@@ -127,6 +125,28 @@ GUIFormSpecMenu::~GUIFormSpecMenu()
 	delete m_selected_item;
 	delete m_form_src;
 	delete m_text_dst;
+}
+
+void GUIFormSpecMenu::create(GUIFormSpecMenu *&cur_formspec, Client *client,
+	JoystickController *joystick, IFormSource *fs_src, TextDest *txt_dest)
+{
+	if (cur_formspec == nullptr) {
+		cur_formspec = new GUIFormSpecMenu(joystick, guiroot, -1, &g_menumgr,
+			client, client->getTextureSource(), fs_src, txt_dest);
+		cur_formspec->doPause = false;
+
+		/*
+			Caution: do not call (*cur_formspec)->drop() here --
+			the reference might outlive the menu, so we will
+			periodically check if *cur_formspec is the only
+			remaining reference (i.e. the menu was removed)
+			and delete it in that case.
+		*/
+
+	} else {
+		cur_formspec->setFormSource(fs_src);
+		cur_formspec->setTextDest(txt_dest);
+	}
 }
 
 void GUIFormSpecMenu::removeChildren()
@@ -950,12 +970,12 @@ void GUIFormSpecMenu::parsePwdField(parserData* data, const std::string &element
 			Environment->setFocus(e);
 		}
 
-		if (label.length() >= 1)
-		{
+		if (label.length() >= 1) {
 			int font_height = g_fontengine->getTextHeight();
 			rect.UpperLeftCorner.Y -= font_height;
 			rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y + font_height;
-			addStaticText(Environment, spec.flabel.c_str(), rect, false, true, this, 0);
+			gui::StaticText::add(Environment, spec.flabel.c_str(), rect, false, true,
+				this, 0);
 		}
 
 		e->setPasswordBox(true,L'*');
@@ -980,6 +1000,71 @@ void GUIFormSpecMenu::parsePwdField(parserData* data, const std::string &element
 		return;
 	}
 	errorstream<< "Invalid pwdfield element(" << parts.size() << "): '" << element << "'"  << std::endl;
+}
+
+void GUIFormSpecMenu::createTextField(parserData *data, FieldSpec &spec,
+	core::rect<s32> &rect, bool is_multiline)
+{
+	bool is_editable = !spec.fname.empty();
+	if (!is_editable && !is_multiline) {
+		// spec field id to 0, this stops submit searching for a value that isn't there
+		gui::StaticText::add(Environment, spec.flabel.c_str(), rect, false, true,
+			this, spec.fid);
+		return;
+	}
+
+	if (is_editable) {
+		spec.send = true;
+	} else if (is_multiline &&
+			spec.fdefault.empty() && !spec.flabel.empty()) {
+		// Multiline textareas: swap default and label for backwards compat
+		spec.flabel.swap(spec.fdefault);
+	}
+
+	gui::IGUIEditBox *e = nullptr;
+	static constexpr bool use_intl_edit_box = USE_FREETYPE &&
+		IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR < 9;
+
+	if (use_intl_edit_box && g_settings->getBool("freetype")) {
+		e = new gui::intlGUIEditBox(spec.fdefault.c_str(),
+			true, Environment, this, spec.fid, rect, is_editable, is_multiline);
+		e->drop();
+	} else {
+		if (is_multiline)
+			e = new GUIEditBoxWithScrollBar(spec.fdefault.c_str(), true,
+				Environment, this, spec.fid, rect, is_editable, true);
+		else if (is_editable)
+			e = Environment->addEditBox(spec.fdefault.c_str(), rect, true,
+				this, spec.fid);
+	}
+
+	if (e) {
+		if (is_editable && spec.fname == data->focused_fieldname)
+			Environment->setFocus(e);
+
+		if (is_multiline) {
+			e->setMultiLine(true);
+			e->setWordWrap(true);
+			e->setTextAlignment(gui::EGUIA_UPPERLEFT, gui::EGUIA_UPPERLEFT);
+		} else {
+			irr::SEvent evt;
+			evt.EventType            = EET_KEY_INPUT_EVENT;
+			evt.KeyInput.Key         = KEY_END;
+			evt.KeyInput.Char        = 0;
+			evt.KeyInput.Control     = 0;
+			evt.KeyInput.Shift       = 0;
+			evt.KeyInput.PressedDown = true;
+			e->OnEvent(evt);
+		}
+	}
+
+	if (!spec.flabel.empty()) {
+		int font_height = g_fontengine->getTextHeight();
+		rect.UpperLeftCorner.Y -= font_height;
+		rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y + font_height;
+		gui::StaticText::add(Environment, spec.flabel.c_str(), rect, false, true,
+			this, 0);
+	}
 }
 
 void GUIFormSpecMenu::parseSimpleField(parserData* data,
@@ -1015,44 +1100,7 @@ void GUIFormSpecMenu::parseSimpleField(parserData* data,
 		258+m_fields.size()
 	);
 
-	if (name.empty()) {
-		// spec field id to 0, this stops submit searching for a value that isn't there
-		addStaticText(Environment, spec.flabel.c_str(), rect, false, true, this, spec.fid);
-	} else {
-		spec.send = true;
-		gui::IGUIElement *e;
-#if USE_FREETYPE && IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR < 9
-		if (g_settings->getBool("freetype")) {
-			e = (gui::IGUIElement *) new gui::intlGUIEditBox(spec.fdefault.c_str(),
-				true, Environment, this, spec.fid, rect);
-			e->drop();
-		} else {
-#else
-		{
-#endif
-			e = Environment->addEditBox(spec.fdefault.c_str(), rect, true, this, spec.fid);
-		}
-		if (spec.fname == data->focused_fieldname) {
-			Environment->setFocus(e);
-		}
-
-		irr::SEvent evt;
-		evt.EventType            = EET_KEY_INPUT_EVENT;
-		evt.KeyInput.Key         = KEY_END;
-		evt.KeyInput.Char        = 0;
-		evt.KeyInput.Control     = 0;
-		evt.KeyInput.Shift       = 0;
-		evt.KeyInput.PressedDown = true;
-		e->OnEvent(evt);
-
-		if (label.length() >= 1)
-		{
-			int font_height = g_fontengine->getTextHeight();
-			rect.UpperLeftCorner.Y -= font_height;
-			rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y + font_height;
-			addStaticText(Environment, spec.flabel.c_str(), rect, false, true, this, 0);
-		}
-	}
+	createTextField(data, spec, rect, false);
 
 	if (parts.size() >= 4) {
 		// TODO: remove after 2016-11-03
@@ -1115,55 +1163,7 @@ void GUIFormSpecMenu::parseTextArea(parserData* data, std::vector<std::string>& 
 		258+m_fields.size()
 	);
 
-	bool is_editable = !name.empty();
-
-	if (is_editable)
-		spec.send = true;
-
-	gui::IGUIEditBox *e = nullptr;
-	const wchar_t *text = spec.fdefault.empty() ?
-		wlabel.c_str() : spec.fdefault.c_str();
-
-#if USE_FREETYPE && IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR < 9
-	if (g_settings->getBool("freetype")) {
-		e = (gui::IGUIEditBox *) new gui::intlGUIEditBox(text,
-			true, Environment, this, spec.fid, rect, is_editable, true);
-		e->drop();
-	} else {
-#else
-	{
-#endif
-		e = new GUIEditBoxWithScrollBar(text, true,
-			Environment, this, spec.fid, rect, is_editable, true);
-	}
-
-	if (is_editable && spec.fname == data->focused_fieldname)
-		Environment->setFocus(e);
-
-	if (e) {
-		if (type == "textarea")
-		{
-			e->setMultiLine(true);
-			e->setWordWrap(true);
-			e->setTextAlignment(gui::EGUIA_UPPERLEFT, gui::EGUIA_UPPERLEFT);
-		} else {
-			irr::SEvent evt;
-			evt.EventType            = EET_KEY_INPUT_EVENT;
-			evt.KeyInput.Key         = KEY_END;
-			evt.KeyInput.Char        = 0;
-			evt.KeyInput.Control     = 0;
-			evt.KeyInput.Shift       = 0;
-			evt.KeyInput.PressedDown = true;
-			e->OnEvent(evt);
-		}
-	}
-
-	if (is_editable && !label.empty()) {
-		int font_height = g_fontengine->getTextHeight();
-		rect.UpperLeftCorner.Y -= font_height;
-		rect.LowerRightCorner.Y = rect.UpperLeftCorner.Y + font_height;
-		addStaticText(Environment, spec.flabel.c_str(), rect, false, true, this, 0);
-	}
+	createTextField(data, spec, rect, type == "textarea");
 
 	if (parts.size() >= 6) {
 		// TODO: remove after 2016-11-03
@@ -1237,11 +1237,9 @@ void GUIFormSpecMenu::parseLabel(parserData* data, const std::string &element)
 				L"",
 				258+m_fields.size()
 			);
-			gui::IGUIStaticText *e =
-				addStaticText(Environment, spec.flabel.c_str(),
-					rect, false, false, this, spec.fid);
-			e->setTextAlignment(gui::EGUIA_UPPERLEFT,
-						gui::EGUIA_CENTER);
+			gui::IGUIStaticText *e = gui::StaticText::add(Environment,
+				spec.flabel.c_str(), rect, false, false, this, spec.fid);
+			e->setTextAlignment(gui::EGUIA_UPPERLEFT, gui::EGUIA_CENTER);
 			m_fields.push_back(spec);
 		}
 
@@ -1291,8 +1289,8 @@ void GUIFormSpecMenu::parseVertLabel(parserData* data, const std::string &elemen
 			L"",
 			258+m_fields.size()
 		);
-		gui::IGUIStaticText *t =
-				addStaticText(Environment, spec.flabel.c_str(), rect, false, false, this, spec.fid);
+		gui::IGUIStaticText *t = gui::StaticText::add(Environment, spec.flabel.c_str(),
+			rect, false, false, this, spec.fid);
 		t->setTextAlignment(gui::EGUIA_CENTER, gui::EGUIA_CENTER);
 		m_fields.push_back(spec);
 		return;
@@ -2024,7 +2022,8 @@ void GUIFormSpecMenu::regenerateGui(v2u32 screensize)
 	{
 		assert(!m_tooltip_element);
 		// Note: parent != this so that the tooltip isn't clipped by the menu rectangle
-		m_tooltip_element = addStaticText(Environment, L"",core::rect<s32>(0,0,110,18));
+		m_tooltip_element = gui::StaticText::add(Environment, L"",
+			core::rect<s32>(0, 0, 110, 18));
 		m_tooltip_element->enableOverrideColor(true);
 		m_tooltip_element->setBackgroundColor(m_default_tooltip_bgcolor);
 		m_tooltip_element->setDrawBackground(true);
@@ -3669,14 +3668,14 @@ bool GUIFormSpecMenu::OnEvent(const SEvent& event)
 			m_invmgr->inventoryAction(a);
 		} else if (craft_amount > 0) {
 			assert(s.isValid());
-			
+
 			// if there are no items selected or the selected item
 			// belongs to craftresult list, proceed with crafting
 			if (m_selected_item == NULL ||
 					!m_selected_item->isValid() || m_selected_item->listname == "craftresult") {
-				
+
 				m_selected_content_guess = ItemStack(); // Clear
-				
+
 				assert(inv_s);
 
 				// Send IACTION_CRAFT

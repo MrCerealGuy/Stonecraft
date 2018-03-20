@@ -96,7 +96,12 @@ void Client::handleCommand_Hello(NetworkPacket* pkt)
 
 	// Authenticate using that method, or abort if there wasn't any method found
 	if (chosen_auth_mechanism != AUTH_MECHANISM_NONE) {
-		startAuth(chosen_auth_mechanism);
+		if (chosen_auth_mechanism == AUTH_MECHANISM_FIRST_SRP
+				&& !m_simple_singleplayer_mode) {
+			promptConfirmRegistration(chosen_auth_mechanism);
+		} else {
+			startAuth(chosen_auth_mechanism);
+		}
 	} else {
 		m_chosen_auth_mech = AUTH_MECHANISM_NONE;
 		m_access_denied = true;
@@ -351,30 +356,6 @@ void Client::handleCommand_TimeOfDay(NetworkPacket* pkt)
 	infostream << "Client: time_of_day=" << time_of_day
 			<< " time_speed=" << time_speed
 			<< " dr=" << dr << std::endl;
-}
-
-void Client::handleCommand_ChatMessageOld(NetworkPacket *pkt)
-{
-	/*
-		u16 command
-		u16 length
-		wstring message
-	*/
-	u16 len, read_wchar;
-
-	*pkt >> len;
-
-	std::wstring message;
-	for (u32 i = 0; i < len; i++) {
-		*pkt >> read_wchar;
-		message += (wchar_t)read_wchar;
-	}
-
-	// If chat message not consummed by client lua API
-	// @TODO send this to CSM using ChatMessage object
-	if (!moddingEnabled() || !m_script->on_receiving_message(wide_to_utf8(message))) {
-		pushToChatQueue(new ChatMessage(message));
-	}
 }
 
 void Client::handleCommand_ChatMessage(NetworkPacket *pkt)
@@ -951,7 +932,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 	float minsize;
 	float maxsize;
 	bool collisiondetection;
-	u32 id;
+	u32 server_id;
 
 	*pkt >> amount >> spawntime >> minpos >> maxpos >> minvel >> maxvel
 		>> minacc >> maxacc >> minexptime >> maxexptime >> minsize
@@ -959,7 +940,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 
 	std::string texture = pkt->readLongString();
 
-	*pkt >> id;
+	*pkt >> server_id;
 
 	bool vertical = false;
 	bool collision_removal = false;
@@ -978,6 +959,9 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 		animation.deSerialize(is, m_proto_ver);
 		glow = readU8(is);
 	} catch (...) {}
+
+	u32 client_id = m_particle_manager.getSpawnerId();
+	m_particles_server_to_client[server_id] = client_id;
 
 	ClientEvent *event = new ClientEvent();
 	event->type                                   = CE_ADD_PARTICLESPAWNER;
@@ -998,7 +982,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 	event->add_particlespawner.attached_id        = attached_id;
 	event->add_particlespawner.vertical           = vertical;
 	event->add_particlespawner.texture            = new std::string(texture);
-	event->add_particlespawner.id                 = id;
+	event->add_particlespawner.id                 = client_id;
 	event->add_particlespawner.animation          = animation;
 	event->add_particlespawner.glow               = glow;
 
@@ -1008,12 +992,19 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 
 void Client::handleCommand_DeleteParticleSpawner(NetworkPacket* pkt)
 {
-	u32 id;
-	*pkt >> id;
+	u32 server_id;
+	*pkt >> server_id;
+
+	u32 client_id;
+	auto i = m_particles_server_to_client.find(server_id);
+	if (i != m_particles_server_to_client.end())
+		client_id = i->second;
+	else
+		return;
 
 	ClientEvent *event = new ClientEvent();
 	event->type = CE_DELETE_PARTICLESPAWNER;
-	event->delete_particlespawner.id = id;
+	event->delete_particlespawner.id = client_id;
 
 	m_client_event_queue.push(event);
 }
@@ -1023,7 +1014,7 @@ void Client::handleCommand_HudAdd(NetworkPacket* pkt)
 	std::string datastring(pkt->getString(0), pkt->getSize());
 	std::istringstream is(datastring, std::ios_base::binary);
 
-	u32 id;
+	u32 server_id;
 	u8 type;
 	v2f pos;
 	std::string name;
@@ -1037,7 +1028,7 @@ void Client::handleCommand_HudAdd(NetworkPacket* pkt)
 	v3f world_pos;
 	v2s32 size;
 
-	*pkt >> id >> type >> pos >> name >> scale >> text >> number >> item
+	*pkt >> server_id >> type >> pos >> name >> scale >> text >> number >> item
 		>> dir >> align >> offset;
 	try {
 		*pkt >> world_pos;
@@ -1050,7 +1041,7 @@ void Client::handleCommand_HudAdd(NetworkPacket* pkt)
 
 	ClientEvent *event = new ClientEvent();
 	event->type             = CE_HUDADD;
-	event->hudadd.id        = id;
+	event->hudadd.server_id = server_id;
 	event->hudadd.type      = type;
 	event->hudadd.pos       = new v2f(pos);
 	event->hudadd.name      = new std::string(name);
@@ -1068,14 +1059,20 @@ void Client::handleCommand_HudAdd(NetworkPacket* pkt)
 
 void Client::handleCommand_HudRemove(NetworkPacket* pkt)
 {
-	u32 id;
+	u32 server_id;
 
-	*pkt >> id;
+	*pkt >> server_id;
 
-	ClientEvent *event = new ClientEvent();
-	event->type     = CE_HUDRM;
-	event->hudrm.id = id;
-	m_client_event_queue.push(event);
+	auto i = m_hud_server_to_client.find(server_id);
+	if (i != m_hud_server_to_client.end()) {
+		int client_id = i->second;
+		m_hud_server_to_client.erase(i);
+
+		ClientEvent *event = new ClientEvent();
+		event->type     = CE_HUDRM;
+		event->hudrm.id = client_id;
+		m_client_event_queue.push(event);
+	}
 }
 
 void Client::handleCommand_HudChange(NetworkPacket* pkt)
@@ -1085,10 +1082,10 @@ void Client::handleCommand_HudChange(NetworkPacket* pkt)
 	v3f v3fdata;
 	u32 intdata = 0;
 	v2s32 v2s32data;
-	u32 id;
+	u32 server_id;
 	u8 stat;
 
-	*pkt >> id >> stat;
+	*pkt >> server_id >> stat;
 
 	if (stat == HUD_STAT_POS || stat == HUD_STAT_SCALE ||
 		stat == HUD_STAT_ALIGN || stat == HUD_STAT_OFFSET)
@@ -1102,16 +1099,19 @@ void Client::handleCommand_HudChange(NetworkPacket* pkt)
 	else
 		*pkt >> intdata;
 
-	ClientEvent *event = new ClientEvent();
-	event->type              = CE_HUDCHANGE;
-	event->hudchange.id      = id;
-	event->hudchange.stat    = (HudElementStat)stat;
-	event->hudchange.v2fdata = new v2f(v2fdata);
-	event->hudchange.v3fdata = new v3f(v3fdata);
-	event->hudchange.sdata   = new std::string(sdata);
-	event->hudchange.data    = intdata;
-	event->hudchange.v2s32data = new v2s32(v2s32data);
-	m_client_event_queue.push(event);
+	std::unordered_map<u32, u32>::const_iterator i = m_hud_server_to_client.find(server_id);
+	if (i != m_hud_server_to_client.end()) {
+		ClientEvent *event = new ClientEvent();
+		event->type              = CE_HUDCHANGE;
+		event->hudchange.id      = i->second;
+		event->hudchange.stat    = (HudElementStat)stat;
+		event->hudchange.v2fdata = new v2f(v2fdata);
+		event->hudchange.v3fdata = new v3f(v3fdata);
+		event->hudchange.sdata   = new std::string(sdata);
+		event->hudchange.data    = intdata;
+		event->hudchange.v2s32data = new v2s32(v2s32data);
+		m_client_event_queue.push(event);
+	}
 }
 
 void Client::handleCommand_HudSetFlags(NetworkPacket* pkt)

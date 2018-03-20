@@ -28,6 +28,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <memory>
 #include "util/numeric.h"
 
+#if __ANDROID__
+#include <IVideoDriver.h>
+#endif
+
 class IGameDef;
 struct TileSpec;
 struct TileDef;
@@ -153,7 +157,7 @@ public:
 IWritableTextureSource *createTextureSource();
 
 #ifdef __ANDROID__
-video::IImage * Align2Npot2(video::IImage * image, video::IVideoDriver* driver);
+video::IImage * Align2Npot2(video::IImage * image, irr::video::IVideoDriver* driver);
 #endif
 
 enum MaterialType{
@@ -232,6 +236,7 @@ struct TileLayer
 		case TILE_MATERIAL_BASIC:
 		case TILE_MATERIAL_WAVING_LEAVES:
 		case TILE_MATERIAL_WAVING_PLANTS:
+			material.MaterialTypeParam = 0.5;
 			material.MaterialType = video::EMT_TRANSPARENT_ALPHA_CHANNEL_REF;
 			break;
 		case TILE_MATERIAL_ALPHA:
@@ -338,4 +343,4 @@ struct TileSpec
 	TileLayer layers[MAX_TILE_LAYERS];
 };
 
-const std::vector<std::string> &getTextureDirs();
+std::vector<std::string> getTextureDirs();

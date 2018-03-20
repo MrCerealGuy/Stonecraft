@@ -1,9 +1,11 @@
 buildscript {
 	repositories {
 		mavenCentral()
+		jcenter()
+		google()
 	}
 	dependencies {
-		classpath "com.android.tools.build:gradle:1.5.0"
+		classpath "com.android.tools.build:gradle:3.0.1"
 	}
 }
 
@@ -11,7 +13,7 @@ apply plugin: "com.android.application"
 
 android {
 	compileSdkVersion 25
-	buildToolsVersion "25.0.3"
+	buildToolsVersion "26.0.2"
 
 	defaultConfig {
 		versionCode 17
@@ -19,7 +21,13 @@ android {
 		minSdkVersion 14
 		targetSdkVersion 14
 		applicationId "net.stonecraft.stonecraft"
-		manifestPlaceholders = [ package: "net.stonecraft.stonecraft", project: project.name ]
+		manifestPlaceholders = [ package: "net.mstonecraft.stonecraft", project: project.name ]
+		ndk {
+			// Specifies the ABI configurations of your native
+			// libraries Gradle should build and package with your APK.
+			abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a',
+			'arm64-v8a'
+		}
 	}
 
 	lintOptions {

@@ -32,44 +32,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "hud.h"
 #include "scripting_server.h"
 
-struct EnumString es_HudElementType[] =
-{
-	{HUD_ELEM_IMAGE,     "image"},
-	{HUD_ELEM_TEXT,      "text"},
-	{HUD_ELEM_STATBAR,   "statbar"},
-	{HUD_ELEM_INVENTORY, "inventory"},
-	{HUD_ELEM_WAYPOINT,  "waypoint"},
-{0, NULL},
-};
-
-struct EnumString es_HudElementStat[] =
-{
-	{HUD_STAT_POS,    "position"},
-	{HUD_STAT_POS,    "pos"}, /* Deprecated, only for compatibility's sake */
-	{HUD_STAT_NAME,   "name"},
-	{HUD_STAT_SCALE,  "scale"},
-	{HUD_STAT_TEXT,   "text"},
-	{HUD_STAT_NUMBER, "number"},
-	{HUD_STAT_ITEM,   "item"},
-	{HUD_STAT_DIR,    "direction"},
-	{HUD_STAT_ALIGN,  "alignment"},
-	{HUD_STAT_OFFSET, "offset"},
-	{HUD_STAT_WORLD_POS, "world_pos"},
-	{0, NULL},
-};
-
-struct EnumString es_HudBuiltinElement[] =
-{
-	{HUD_FLAG_HOTBAR_VISIBLE,        "hotbar"},
-	{HUD_FLAG_HEALTHBAR_VISIBLE,     "healthbar"},
-	{HUD_FLAG_CROSSHAIR_VISIBLE,     "crosshair"},
-	{HUD_FLAG_WIELDITEM_VISIBLE,     "wielditem"},
-	{HUD_FLAG_BREATHBAR_VISIBLE,     "breathbar"},
-	{HUD_FLAG_MINIMAP_VISIBLE,       "minimap"},
-	{HUD_FLAG_MINIMAP_RADAR_VISIBLE, "minimap_radar"},
-	{0, NULL},
-};
-
 /*
 	ObjectRef
 */
@@ -531,11 +493,9 @@ int ObjectRef::l_set_local_animation(lua_State *L)
 	if (!lua_isnil(L, 6))
 		frame_speed = lua_tonumber(L, 6);
 
-	if (!getServer(L)->setLocalPlayerAnimations(player, frames, frame_speed))
-		return 0;
-
+	getServer(L)->setLocalPlayerAnimations(player, frames, frame_speed);
 	lua_pushboolean(L, true);
-	return 0;
+	return 1;
 }
 
 // get_local_animation(self)
@@ -582,11 +542,9 @@ int ObjectRef::l_set_eye_offset(lua_State *L)
 	/* TODO: if possible: improve the camera colision detetion to allow Y <= -1.5) */
 	offset_third.Y = rangelim(offset_third.Y,-10,15); //1.5*BS
 
-	if (!getServer(L)->setPlayerEyeOffset(player, offset_first, offset_third))
-		return 0;
-
+	getServer(L)->setPlayerEyeOffset(player, offset_first, offset_third);
 	lua_pushboolean(L, true);
-	return 0;
+	return 1;
 }
 
 // get_eye_offset(self)
@@ -1345,48 +1303,7 @@ int ObjectRef::l_hud_add(lua_State *L)
 		return 0;
 
 	HudElement *elem = new HudElement;
-
-	elem->type = (HudElementType)getenumfield(L, 2, "hud_elem_type",
-								es_HudElementType, HUD_ELEM_TEXT);
-
-	lua_getfield(L, 2, "position");
-	elem->pos = lua_istable(L, -1) ? read_v2f(L, -1) : v2f();
-	lua_pop(L, 1);
-
-	lua_getfield(L, 2, "scale");
-	elem->scale = lua_istable(L, -1) ? read_v2f(L, -1) : v2f();
-	lua_pop(L, 1);
-
-	lua_getfield(L, 2, "size");
-	elem->size = lua_istable(L, -1) ? read_v2s32(L, -1) : v2s32();
-	lua_pop(L, 1);
-
-	elem->name   = getstringfield_default(L, 2, "name", "");
-	elem->text   = getstringfield_default(L, 2, "text", "");
-	elem->number = getintfield_default(L, 2, "number", 0);
-	elem->item   = getintfield_default(L, 2, "item", 0);
-	elem->dir    = getintfield_default(L, 2, "direction", 0);
-
-	// Deprecated, only for compatibility's sake
-	if (elem->dir == 0)
-		elem->dir = getintfield_default(L, 2, "dir", 0);
-
-	lua_getfield(L, 2, "alignment");
-	elem->align = lua_istable(L, -1) ? read_v2f(L, -1) : v2f();
-	lua_pop(L, 1);
-
-	lua_getfield(L, 2, "offset");
-	elem->offset = lua_istable(L, -1) ? read_v2f(L, -1) : v2f();
-	lua_pop(L, 1);
-
-	lua_getfield(L, 2, "world_pos");
-	elem->world_pos = lua_istable(L, -1) ? read_v3f(L, -1) : v3f();
-	lua_pop(L, 1);
-
-	/* check for known deprecated element usage */
-	if ((elem->type  == HUD_ELEM_STATBAR) && (elem->size == v2s32())) {
-		log_deprecated(L,"Deprecated usage of statbar without size!");
-	}
+	read_hud_element(L, elem);
 
 	u32 id = getServer(L)->hudAdd(player, elem);
 	if (id == U32_MAX) {
@@ -1433,61 +1350,8 @@ int ObjectRef::l_hud_change(lua_State *L)
 	if (!e)
 		return 0;
 
-	HudElementStat stat = HUD_STAT_NUMBER;
-	if (lua_isstring(L, 3)) {
-		int statint;
-		std::string statstr = lua_tostring(L, 3);
-		stat = string_to_enum(es_HudElementStat, statint, statstr) ?
-				(HudElementStat)statint : HUD_STAT_NUMBER;
-	}
-
 	void *value = NULL;
-	switch (stat) {
-		case HUD_STAT_POS:
-			e->pos = read_v2f(L, 4);
-			value = &e->pos;
-			break;
-		case HUD_STAT_NAME:
-			e->name = luaL_checkstring(L, 4);
-			value = &e->name;
-			break;
-		case HUD_STAT_SCALE:
-			e->scale = read_v2f(L, 4);
-			value = &e->scale;
-			break;
-		case HUD_STAT_TEXT:
-			e->text = luaL_checkstring(L, 4);
-			value = &e->text;
-			break;
-		case HUD_STAT_NUMBER:
-			e->number = luaL_checknumber(L, 4);
-			value = &e->number;
-			break;
-		case HUD_STAT_ITEM:
-			e->item = luaL_checknumber(L, 4);
-			value = &e->item;
-			break;
-		case HUD_STAT_DIR:
-			e->dir = luaL_checknumber(L, 4);
-			value = &e->dir;
-			break;
-		case HUD_STAT_ALIGN:
-			e->align = read_v2f(L, 4);
-			value = &e->align;
-			break;
-		case HUD_STAT_OFFSET:
-			e->offset = read_v2f(L, 4);
-			value = &e->offset;
-			break;
-		case HUD_STAT_WORLD_POS:
-			e->world_pos = read_v3f(L, 4);
-			value = &e->world_pos;
-			break;
-		case HUD_STAT_SIZE:
-			e->size = read_v2s32(L, 4);
-			value = &e->size;
-			break;
-	}
+	HudElementStat stat = read_hud_change(L, e, &value);
 
 	getServer(L)->hudChange(player, id, stat, value);
 
@@ -1509,40 +1373,7 @@ int ObjectRef::l_hud_get(lua_State *L)
 	HudElement *e = player->getHud(id);
 	if (!e)
 		return 0;
-
-	lua_newtable(L);
-
-	lua_pushstring(L, es_HudElementType[(u8)e->type].str);
-	lua_setfield(L, -2, "type");
-
-	push_v2f(L, e->pos);
-	lua_setfield(L, -2, "position");
-
-	lua_pushstring(L, e->name.c_str());
-	lua_setfield(L, -2, "name");
-
-	push_v2f(L, e->scale);
-	lua_setfield(L, -2, "scale");
-
-	lua_pushstring(L, e->text.c_str());
-	lua_setfield(L, -2, "text");
-
-	lua_pushnumber(L, e->number);
-	lua_setfield(L, -2, "number");
-
-	lua_pushnumber(L, e->item);
-	lua_setfield(L, -2, "item");
-
-	lua_pushnumber(L, e->dir);
-	lua_setfield(L, -2, "direction");
-
-	// Deprecated, only for compatibility's sake
-	lua_pushnumber(L, e->dir);
-	lua_setfield(L, -2, "dir");
-
-	push_v3f(L, e->world_pos);
-	lua_setfield(L, -2, "world_pos");
-
+	push_hud_element(L, e);
 	return 1;
 }
 
@@ -1627,9 +1458,7 @@ int ObjectRef::l_hud_get_hotbar_itemcount(lua_State *L)
 	if (player == NULL)
 		return 0;
 
-	s32 hotbar_itemcount = getServer(L)->hudGetHotbarItemcount(player);
-
-	lua_pushnumber(L, hotbar_itemcount);
+	lua_pushnumber(L, player->getHotbarItemcount());
 	return 1;
 }
 
@@ -1657,7 +1486,7 @@ int ObjectRef::l_hud_get_hotbar_image(lua_State *L)
 	if (player == NULL)
 		return 0;
 
-	std::string name = getServer(L)->hudGetHotbarImage(player);
+	const std::string &name = player->getHotbarImage();
 	lua_pushlstring(L, name.c_str(), name.size());
 	return 1;
 }
@@ -1686,7 +1515,7 @@ int ObjectRef::l_hud_get_hotbar_selected_image(lua_State *L)
 	if (player == NULL)
 		return 0;
 
-	const std::string &name = getServer(L)->hudGetHotbarSelectedImage(player);
+	const std::string &name = player->getHotbarSelectedImage();
 	lua_pushlstring(L, name.c_str(), name.size());
 	return 1;
 }
@@ -1726,9 +1555,7 @@ int ObjectRef::l_set_sky(lua_State *L)
 	if (lua_isboolean(L, 5))
 		clouds = lua_toboolean(L, 5);
 
-	if (!getServer(L)->setSky(player, bgcolor, type, params, clouds))
-		return 0;
-
+	getServer(L)->setSky(player, bgcolor, type, params, clouds);
 	lua_pushboolean(L, true);
 	return 1;
 }
@@ -1798,14 +1625,7 @@ int ObjectRef::l_set_clouds(lua_State *L)
 	}
 	lua_pop(L, 1);
 
-	if (!getServer(L)->setClouds(player, cloud_params.density,
-			cloud_params.color_bright, cloud_params.color_ambient,
-			cloud_params.height, cloud_params.thickness,
-			cloud_params.speed))
-		return 0;
-
-	player->setCloudParams(cloud_params);
-
+	getServer(L)->setClouds(player, cloud_params);
 	lua_pushboolean(L, true);
 	return 1;
 }

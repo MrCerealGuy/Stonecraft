@@ -151,7 +151,7 @@ void MapblockMeshGenerator::drawQuad(v3f *coords, const v3s16 &normal,
 //              the faces in the list is up-down-right-left-back-front
 //              (compatible with ContentFeatures).
 void MapblockMeshGenerator::drawCuboid(const aabb3f &box,
-	TileSpec *tiles, int tilecount, const LightPair *lights, const f32 *txc)
+	TileSpec *tiles, int tilecount, const LightInfo *lights, const f32 *txc)
 {
 	assert(tilecount >= 1 && tilecount <= 6); // pre-condition
 
@@ -263,10 +263,12 @@ void MapblockMeshGenerator::drawCuboid(const aabb3f &box,
 
 	if (data->m_smooth_lighting) {
 		for (int j = 0; j < 24; ++j) {
-			vertices[j].Color = encode_light(lights[light_indices[j]],
+			video::S3DVertex &vertex = vertices[j];
+			vertex.Color = encode_light(
+				lights[light_indices[j]].getPair(MYMAX(0.0f, vertex.Normal.Y)),
 				f->light_source);
 			if (!f->light_source)
-				applyFacesShading(vertices[j].Color, vertices[j].Normal);
+				applyFacesShading(vertex.Color, vertex.Normal);
 		}
 	}
 
@@ -280,30 +282,45 @@ void MapblockMeshGenerator::drawCuboid(const aabb3f &box,
 // Gets the base lighting values for a node
 void MapblockMeshGenerator::getSmoothLightFrame()
 {
+	for (int k = 0; k < 8; ++k)
+		frame.sunlight[k] = false;
 	for (int k = 0; k < 8; ++k) {
 		LightPair light(getSmoothLightTransparent(blockpos_nodes + p, light_dirs[k], data));
-		frame.lightsA[k] = light.lightA;
-		frame.lightsB[k] = light.lightB;
+		frame.lightsDay[k] = light.lightDay;
+		frame.lightsNight[k] = light.lightNight;
+		// If there is direct sunlight and no ambient occlusion at some corner,
+		// mark the vertical edge (top and bottom corners) containing it.
+		if (light.lightDay == 255) {
+			frame.sunlight[k] = true;
+			frame.sunlight[k ^ 2] = true;
+		}
 	}
 }
 
 // Calculates vertex light level
 //  vertex_pos - vertex position in the node (coordinates are clamped to [0.0, 1.0] or so)
-LightPair MapblockMeshGenerator::blendLight(const v3f &vertex_pos)
+LightInfo MapblockMeshGenerator::blendLight(const v3f &vertex_pos)
 {
+	// Light levels at (logical) node corners are known. Here,
+	// trilinear interpolation is used to calculate light level
+	// at a given point in the node.
 	f32 x = core::clamp(vertex_pos.X / BS + 0.5, 0.0 - SMOOTH_LIGHTING_OVERSIZE, 1.0 + SMOOTH_LIGHTING_OVERSIZE);
 	f32 y = core::clamp(vertex_pos.Y / BS + 0.5, 0.0 - SMOOTH_LIGHTING_OVERSIZE, 1.0 + SMOOTH_LIGHTING_OVERSIZE);
 	f32 z = core::clamp(vertex_pos.Z / BS + 0.5, 0.0 - SMOOTH_LIGHTING_OVERSIZE, 1.0 + SMOOTH_LIGHTING_OVERSIZE);
-	f32 lightA = 0.0;
-	f32 lightB = 0.0;
+	f32 lightDay = 0.0; // daylight
+	f32 lightNight = 0.0;
+	f32 lightBoosted = 0.0; // daylight + direct sunlight, if any
 	for (int k = 0; k < 8; ++k) {
 		f32 dx = (k & 4) ? x : 1 - x;
 		f32 dy = (k & 2) ? y : 1 - y;
 		f32 dz = (k & 1) ? z : 1 - z;
-		lightA += dx * dy * dz * frame.lightsA[k];
-		lightB += dx * dy * dz * frame.lightsB[k];
+		// Use direct sunlight (255), if any; use daylight otherwise.
+		f32 light_boosted = frame.sunlight[k] ? 255 : frame.lightsDay[k];
+		lightDay += dx * dy * dz * frame.lightsDay[k];
+		lightNight += dx * dy * dz * frame.lightsNight[k];
+		lightBoosted += dx * dy * dz * light_boosted;
 	}
-	return LightPair(lightA, lightB);
+	return LightInfo{lightDay, lightNight, lightBoosted};
 }
 
 // Calculates vertex color to be used in mapblock mesh
@@ -311,14 +328,15 @@ LightPair MapblockMeshGenerator::blendLight(const v3f &vertex_pos)
 //  tile_color - node's tile color
 video::SColor MapblockMeshGenerator::blendLightColor(const v3f &vertex_pos)
 {
-	LightPair light = blendLight(vertex_pos);
-	return encode_light(light, f->light_source);
+	LightInfo light = blendLight(vertex_pos);
+	return encode_light(light.getPair(), f->light_source);
 }
 
 video::SColor MapblockMeshGenerator::blendLightColor(const v3f &vertex_pos,
 	const v3f &vertex_normal)
 {
-	video::SColor color = blendLightColor(vertex_pos);
+	LightInfo light = blendLight(vertex_pos);
+	video::SColor color = encode_light(light.getPair(MYMAX(0.0f, vertex_normal.Y)), f->light_source);
 	if (!f->light_source)
 		applyFacesShading(color, vertex_normal);
 	return color;
@@ -365,7 +383,7 @@ void MapblockMeshGenerator::drawAutoLightedCuboid(aabb3f box, const f32 *txc,
 		tile_count = 1;
 	}
 	if (data->m_smooth_lighting) {
-		LightPair lights[8];
+		LightInfo lights[8];
 		for (int j = 0; j < 8; ++j) {
 			v3f d;
 			d.X = (j & 4) ? dx2 : dx1;
@@ -385,9 +403,16 @@ void MapblockMeshGenerator::prepareLiquidNodeDrawing()
 	getSpecialTile(1, &tile_liquid);
 
 	MapNode ntop = data->m_vmanip.getNodeNoEx(blockpos_nodes + v3s16(p.X, p.Y + 1, p.Z));
+	MapNode nbottom = data->m_vmanip.getNodeNoEx(blockpos_nodes + v3s16(p.X, p.Y - 1, p.Z));
 	c_flowing = nodedef->getId(f->liquid_alternative_flowing);
 	c_source = nodedef->getId(f->liquid_alternative_source);
 	top_is_same_liquid = (ntop.getContent() == c_flowing) || (ntop.getContent() == c_source);
+	draw_liquid_bottom = (nbottom.getContent() != c_flowing) && (nbottom.getContent() != c_source);
+	if (draw_liquid_bottom) {
+		const ContentFeatures &f2 = nodedef->get(nbottom.getContent());
+		if (f2.solidness > 1)
+			draw_liquid_bottom = false;
+	}
 
 	if (data->m_smooth_lighting)
 		return; // don't need to pre-compute anything in this case
@@ -396,7 +421,7 @@ void MapblockMeshGenerator::prepareLiquidNodeDrawing()
 		// If this liquid emits light and doesn't contain light, draw
 		// it at what it emits, for an increased effect
 		u8 e = decode_light(f->light_source);
-		light = LightPair(std::max(e, light.lightA), std::max(e, light.lightB));
+		light = LightPair(std::max(e, light.lightDay), std::max(e, light.lightNight));
 	} else if (nodedef->get(ntop).param_type == CPT_LIGHT) {
 		// Otherwise, use the light of the node on top if possible
 		light = LightPair(getInteriorLight(ntop, 0, nodedef));
@@ -595,6 +620,24 @@ void MapblockMeshGenerator::drawLiquidTop()
 	collector->append(tile_liquid_top, vertices, 4, quad_indices, 6);
 }
 
+void MapblockMeshGenerator::drawLiquidBottom()
+{
+	video::S3DVertex vertices[4] = {
+		video::S3DVertex(-BS / 2, -BS / 2, -BS / 2, 0, 0, 0, color_liquid_top, 0, 0),
+		video::S3DVertex( BS / 2, -BS / 2, -BS / 2, 0, 0, 0, color_liquid_top, 1, 0),
+		video::S3DVertex( BS / 2, -BS / 2,  BS / 2, 0, 0, 0, color_liquid_top, 1, 1),
+		video::S3DVertex(-BS / 2, -BS / 2,  BS / 2, 0, 0, 0, color_liquid_top, 0, 1),
+	};
+
+	for (int i = 0; i < 4; i++) {
+		if (data->m_smooth_lighting)
+			vertices[i].Color = blendLightColor(vertices[i].Pos);
+		vertices[i].Pos += origin;
+	}
+
+	collector->append(tile_liquid_top, vertices, 4, quad_indices, 6);
+}
+
 void MapblockMeshGenerator::drawLiquidNode()
 {
 	prepareLiquidNodeDrawing();
@@ -603,6 +646,8 @@ void MapblockMeshGenerator::drawLiquidNode()
 	drawLiquidSides();
 	if (!top_is_same_liquid)
 		drawLiquidTop();
+	if (draw_liquid_bottom)
+		drawLiquidBottom();
 }
 
 void MapblockMeshGenerator::drawGlasslikeNode()

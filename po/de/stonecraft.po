@@ -763,7 +763,7 @@ msgid "The first village - the one the player spawns in"
 msgstr "Das erste Dorf in dem der Spieler startet"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Download a subgame, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
+msgid "Download a game, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr ""
 "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/"
 "stonecraft heruntergeladen werden"
@@ -802,7 +802,7 @@ msgid "Cannot find Stonecraft game data! Download from mrcerealguy.github.io/sto
 msgstr "Kann Stonecraft-Spieldaten nicht finden! Bitte von mrcerealguy.github.io/stonecraft herunterladen."
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "You have no subgames installed."
+msgid "You have no games installed."
 msgstr "Keine Spiele installiert."
 
 #: builtin/mainmenu/dlg_delete_mod.lua
@@ -969,28 +969,28 @@ msgid "Subgame Mods"
 msgstr "Spiel-Mods"
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Active Contributors"
-msgstr "Aktive Mitwirkende"
+msgid "Minetest Engine Active Contributors"
+msgstr "Minetest Engine Aktive Mitwirkende"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Stonecraft Developers"
 msgstr "Stonecraft Entwickler"
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Core Developers"
-msgstr "Hauptentwickler"
+msgid "Minetest Engine Core Developers"
+msgstr "Minetest Engine Hauptentwickler"
 
 #: builtin/mainmenu/tab_credits.lua
 msgid "Credits"
 msgstr "Mitwirkende"
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Previous Contributors"
-msgstr "Frühere Mitwirkende"
+msgid "Minetest Engine Previous Contributors"
+msgstr "Minetest Engine Frühere Mitwirkende"
 
 #: builtin/mainmenu/tab_credits.lua
-msgid "Previous Core Developers"
-msgstr "Ehemalige Hauptentwickler"
+msgid "Minetest Engine Previous Core Developers"
+msgstr "Minetest Engine Ehemalige Hauptentwickler"
 
 #: builtin/mainmenu/tab_local.lua
 msgid "Announce Server"
@@ -1021,8 +1021,8 @@ msgid "Host Server"
 msgstr "Server hosten"
 
 #: builtin/mainmenu/tab_local.lua
-msgid "Local Game"
-msgstr "Lokales Spiel"
+msgid "Start Game"
+msgstr "Spiel starten"
 
 #: builtin/mainmenu/tab_local.lua
 msgid "Name/Password"
@@ -1077,11 +1077,11 @@ msgid "Select Mod File:"
 msgstr "Mod-Datei auswählen:"
 
 #: builtin/mainmenu/tab_mods.lua
-msgid "Uninstall selected mod"
+msgid "Uninstall Selected Mod"
 msgstr "Ausgewählte Mod deinstallieren"
 
 #: builtin/mainmenu/tab_mods.lua
-msgid "Uninstall selected modpack"
+msgid "Uninstall Selected Modpack"
 msgstr "Ausgewähltes Modpack deinstallieren"
 
 #: builtin/mainmenu/tab_online.lua
@@ -1117,8 +1117,8 @@ msgid "Ping"
 msgstr "Latenz"
 
 #: builtin/mainmenu/tab_online.lua
-msgid "Play Online"
-msgstr "Online spielen"
+msgid "Join Game"
+msgstr "Spiel beitreten"
 
 #: builtin/mainmenu/tab_online.lua builtin/mainmenu/tab_simple_main.lua
 msgid "PvP enabled"
@@ -6700,9 +6700,6 @@ msgstr "cURL-Zeitüberschreitung"
 
 #~ msgid "Attn"
 #~ msgstr "Attn"
-
-#~ msgid "Start Game"
-#~ msgstr "Spiel starten"
 
 #~ msgid "Hide mp content"
 #~ msgstr "Modpacks verstecken"
