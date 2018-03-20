@@ -1,7 +1,7 @@
 # Stonecraft
 
 [![Build Status](https://travis-ci.org/MrCerealGuy/Stonecraft.svg?branch=master)](https://travis-ci.org/MrCerealGuy/Stonecraft)
-[![License](https://img.shields.io/badge/license-LGPLv3.0%2B-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
+[![License](https://img.shields.io/badge/license-LGPLv3.0-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 
 An InfiniMiner/Minecraft inspired game powered by Minetest 0.5.0-dev
 
