@@ -158,6 +158,10 @@ msgid "Ice"
 msgstr "Eis"
 
 #: nodes.lua
+msgid "Cave Ice"
+msgstr "Höhleneis"
+
+#: nodes.lua
 msgid "Apple Tree"
 msgstr "Apfelbaum"
 
@@ -203,11 +207,15 @@ msgstr "Dschungelbaumbretter"
 
 #: nodes.lua
 msgid "Jungle Tree Leaves"
-msgstr "Dschungelblätter"
+msgstr "Dschungelbaumblätter"
 
 #: nodes.lua
 msgid "Jungle Tree Sapling"
-msgstr "Dschungelsetzling"
+msgstr "Dschungelbaumsetzling"
+
+#: nodes.lua
+msgid "Emergent Jungle Tree Sapling"
+msgstr "Junger Dschungelbaumsetzling"
 
 #: nodes.lua
 msgid "Pine Tree"
@@ -342,6 +350,14 @@ msgid "Dry Grass"
 msgstr "Trockenes Gras"
 
 #: nodes.lua
+msgid "Fern"
+msgstr "Farn"
+
+#: nodes.lua
+msgid "Marram Grass"
+msgstr "Strandhafer"
+
+#: nodes.lua
 msgid "Bush Stem"
 msgstr "Buschstamm"
 
@@ -366,8 +382,8 @@ msgid "Acacia Bush Sapling"
 msgstr "Akazienbuschsetzling"
 
 #: nodes.lua
-msgid "Kelp On Sand"
-msgstr "Seetang auf Sand"
+msgid "Kelp"
+msgstr "Seetang"
 
 #: nodes.lua
 msgid "Brown Coral"

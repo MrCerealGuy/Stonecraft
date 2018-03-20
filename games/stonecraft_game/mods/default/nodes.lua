@@ -71,6 +71,7 @@ default:snow
 default:snowblock
 
 default:ice
+default:cave_ice
 
 Trees
 -----
@@ -86,6 +87,7 @@ default:jungletree
 default:junglewood
 default:jungleleaves
 default:junglesapling
+default:emergent_jungle_sapling
 
 default:pine_tree
 default:pine_wood
@@ -152,6 +154,10 @@ default:dry_grass_5
 default:fern_1
 default:fern_2
 default:fern_3
+
+default:marram_grass_1
+default:marram_grass_2
+default:marram_grass_3
 
 default:bush_stem
 default:bush_leaves
@@ -457,7 +463,7 @@ minetest.register_node("default:dirt_with_snow", {
 	tiles = {"default_snow.png", "default_dirt.png",
 		{name = "default_dirt.png^default_snow_side.png",
 			tileable_vertical = false}},
-	groups = {crumbly = 3, spreading_dirt_type = 1, snowy = 1},
+	groups = {crumbly = 3, soil = 1, spreading_dirt_type = 1, snowy = 1},
 	drop = 'default:dirt',
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_snow_footstep", gain = 0.2},
@@ -579,12 +585,23 @@ minetest.register_node("default:snowblock", {
 	end,
 })
 
+-- 'is ground content = false' to avoid tunnels in sea ice or ice rivers
 minetest.register_node("default:ice", {
 	description = S("Ice"),
 	tiles = {"default_ice.png"},
 	is_ground_content = false,
 	paramtype = "light",
 	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+-- Mapgen-placed ice with 'is ground content = true' to contain tunnels
+minetest.register_node("default:cave_ice", {
+	description = S("Cave Ice"),
+	tiles = {"default_ice.png"},
+	paramtype = "light",
+	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
+	drop = "default:ice",
 	sounds = default.node_sound_glass_defaults(),
 })
 
@@ -781,6 +798,41 @@ minetest.register_node("default:junglesapling", {
 	end,
 })
 
+minetest.register_node("default:emergent_jungle_sapling", {
+	description = S("Emergent Jungle Tree Sapling"),
+	drawtype = "plantlike",
+	tiles = {"default_emergent_jungle_sapling.png"},
+	inventory_image = "default_emergent_jungle_sapling.png",
+	wield_image = "default_emergent_jungle_sapling.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	on_timer = default.grow_sapling,
+	selection_box = {
+		type = "fixed",
+		fixed = {-4 / 16, -0.5, -4 / 16, 4 / 16, 7 / 16, 4 / 16}
+	},
+	groups = {snappy = 2, dig_immediate = 3, flammable = 2,
+		attached_node = 1, sapling = 1},
+	sounds = default.node_sound_leaves_defaults(),
+
+	on_construct = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end,
+
+	on_place = function(itemstack, placer, pointed_thing)
+		itemstack = default.sapling_on_place(itemstack, placer, pointed_thing,
+			"default:emergent_jungle_sapling",
+			-- minp, maxp to be checked, relative to sapling pos
+			{x = -3, y = -5, z = -3},
+			{x = 3, y = 31, z = 3},
+			-- maximum interval of interior volume check
+			4)
+
+		return itemstack
+	end,
+})
+
 
 minetest.register_node("default:pine_tree", {
 	description = S("Pine Tree"),
@@ -852,7 +904,7 @@ minetest.register_node("default:pine_sapling", {
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -2, y = 1, z = -2},
-			{x = 2, y = 12, z = 2},
+			{x = 2, y = 14, z = 2},
 			-- maximum interval of interior volume check
 			4)
 
@@ -932,7 +984,7 @@ minetest.register_node("default:acacia_sapling", {
 			-- minp, maxp to be checked, relative to sapling pos
 			-- minp_relative.y = 1 because sapling pos has been checked
 			{x = -4, y = 1, z = -4},
-			{x = 4, y = 6, z = 4},
+			{x = 4, y = 7, z = 4},
 			-- maximum interval of interior volume check
 			4)
 
@@ -1193,6 +1245,8 @@ minetest.register_node("default:dry_shrub", {
 	inventory_image = "default_dry_shrub.png",
 	wield_image = "default_dry_shrub.png",
 	paramtype = "light",
+	paramtype2 = "meshoptions",
+	place_param2 = 4,
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
@@ -1200,7 +1254,7 @@ minetest.register_node("default:dry_shrub", {
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 4 / 16, 5 / 16},
+		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, 4 / 16, 6 / 16},
 	},
 })
 
@@ -1381,6 +1435,57 @@ for i = 2, 3 do
 end
 
 
+minetest.register_node("default:marram_grass_1", {
+	description = S("Marram Grass"),
+	drawtype = "plantlike",
+	waving = 1,
+	tiles = {"default_marram_grass_1.png"},
+	inventory_image = "default_marram_grass_1.png",
+	wield_image = "default_marram_grass_1.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	buildable_to = true,
+	groups = {snappy = 3, flammable = 3, attached_node = 1},
+	sounds = default.node_sound_leaves_defaults(),
+	selection_box = {
+		type = "fixed",
+		fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, -0.25, 6 / 16},
+	},
+
+	on_place = function(itemstack, placer, pointed_thing)
+		-- place a random marram grass node
+		local stack = ItemStack("default:marram_grass_" .. math.random(1, 3))
+		local ret = minetest.item_place(stack, placer, pointed_thing)
+		return ItemStack("default:marram_grass_1 " ..
+			itemstack:get_count() - (1 - ret:get_count()))
+	end,
+})
+
+for i = 2, 3 do
+	minetest.register_node("default:marram_grass_" .. i, {
+		description = "Marram Grass",
+		drawtype = "plantlike",
+		waving = 1,
+		tiles = {"default_marram_grass_" .. i .. ".png"},
+		inventory_image = "default_marram_grass_" .. i .. ".png",
+		wield_image = "default_marram_grass_" .. i .. ".png",
+		paramtype = "light",
+		sunlight_propagates = true,
+		walkable = false,
+		buildable_to = true,
+		groups = {snappy = 3, flammable = 3, attached_node = 1,
+			not_in_creative_inventory=1},
+		drop = "default:marram_grass_1",
+		sounds = default.node_sound_leaves_defaults(),
+		selection_box = {
+			type = "fixed",
+			fixed = {-6 / 16, -0.5, -6 / 16, 6 / 16, -0.25, 6 / 16},
+		},
+	})
+end
+
+
 minetest.register_node("default:bush_stem", {
 	description = S("Bush Stem"),
 	drawtype = "plantlike",
@@ -1524,13 +1629,22 @@ minetest.register_node("default:acacia_bush_sapling", {
 })
 
 minetest.register_node("default:sand_with_kelp", {
-	description = "Kelp On Sand",
+	description = S("Kelp"),
 	drawtype = "plantlike_rooted",
+	waving = 1,
 	tiles = {"default_sand.png"},
 	special_tiles = {{name = "default_kelp.png", tileable_vertical = true}},
 	inventory_image = "default_kelp.png",
 	paramtype2 = "leveled",
 	groups = {snappy = 3},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+				{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+				{-2/16, 0.5, -2/16, 2/16, 3.5, 2/16},
+		},
+	},
+	node_dig_prediction = "default:sand",
 	node_placement_prediction = "",
 
 	on_place = function(itemstack, placer, pointed_thing)
@@ -1545,7 +1659,11 @@ minetest.register_node("default:sand_with_kelp", {
 			end
 		end
 
-		local pos = pointed_thing.above
+		local pos = pointed_thing.under
+		if minetest.get_node(pos).name ~= "default:sand" then
+			return itemstack
+		end
+
 		local height = math.random(4, 6)
 		local pos_top = {x = pos.x, y = pos.y + height, z = pos.z}
 		local node_top = minetest.get_node(pos_top)
@@ -1569,6 +1687,10 @@ minetest.register_node("default:sand_with_kelp", {
 		end
 
 		return itemstack
+	end,
+
+	after_destruct  = function(pos, oldnode)
+		minetest.set_node(pos, {name = "default:sand"})
 	end
 })
 

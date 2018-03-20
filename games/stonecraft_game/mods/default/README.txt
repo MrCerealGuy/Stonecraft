@@ -23,9 +23,6 @@ Cisoun's texture pack (CC BY-SA 3.0):
   default_tree_top.png
   default_water.png
 
-Cisoun's conifers mod (CC BY-SA 3.0):
-  default_pine_needles.png
-
 Originating from G4JC's Almost MC Texture Pack (CC BY-SA 3.0):
   default_torch.png
   default_torch_on_ceiling.png
@@ -69,6 +66,7 @@ InfinityProject (CC BY-SA 3.0):
 
 Splizard (CC BY-SA 3.0):
   default_pine_sapling.png
+  default_pine_needles.png
 
 Zeg9 (CC BY-SA 3.0):
   default_coal_block.png
@@ -114,6 +112,8 @@ paramat (CC BY-SA 3.0):
   default_silver_sandstone_brick.png -- Derived from a texture by GreenXenith (CC-BY-SA 3.0)
   default_silver_sandstone_block.png -- Derived from a texture by GreenXenith (CC-BY-SA 3.0)
   default_bookshelf_slot.png -- Derived from a texture by Gambit (CC-BY-SA 3.0)
+  default_marram_grass_*.png -- Derived from textures by TumeniNodes (CC-BY-SA 3.0)
+  default_emergent_jungle_sapling.png
 
 TumeniNodes (CC BY-SA 3.0):
   default_desert_cobble.png -- Derived from a texture by brunob.santos (CC BY-SA 3.0)

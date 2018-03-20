@@ -1,18 +1,18 @@
 License of media (textures and sounds)
 --------------------------------------
-Copyright (C) 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2016-2018 MrCerealGuy, Andreas Zahnleiter <mrcerealguy@gmx.de>
 See README.txt in each mod directory for information about other authors.
 
 Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 http://creativecommons.org/licenses/by-sa/3.0/
 
-License of menu/header.png
-Copyright (C) 2015 paramat CC BY-SA 3.0
+License of menu/header.png, icon.png and overlay.png
+Copyright (C) 2018 MrCerealGuy CC BY-SA 3.0
 
 
 License of source code
 ----------------------
-Copyright (C) 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2016-2018 MrCerealGuy, Andreas Zahnleiter <mrcerealguy@gmx.de>
 See README.txt in each mod directory for information about other authors.
 
                   GNU LESSER GENERAL PUBLIC LICENSE

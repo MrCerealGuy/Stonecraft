@@ -85,6 +85,10 @@ function default.grow_sapling(pos)
 		minetest.log("action", "An acacia bush sapling grows into a bush at "..
 			minetest.pos_to_string(pos))
 		default.grow_acacia_bush(pos)
+	elseif node.name == "default:emergent_jungle_sapling" then
+		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
+			minetest.pos_to_string(pos))
+		default.grow_new_emergent_jungle_tree(pos)
 	end
 end
 
@@ -394,11 +398,27 @@ function default.grow_new_jungle_tree(pos)
 end
 
 
+-- New emergent jungle tree
+
+function default.grow_new_emergent_jungle_tree(pos)
+	local path = minetest.get_modpath("default") ..
+		"/schematics/emergent_jungle_tree_from_sapling.mts"
+	minetest.place_schematic({x = pos.x - 3, y = pos.y - 5, z = pos.z - 3},
+		path, "random", nil, false)
+end
+
+
 -- New pine tree
 
 function default.grow_new_pine_tree(pos)
-	local path = minetest.get_modpath("default") ..
-		"/schematics/pine_tree_from_sapling.mts"
+	local path
+	if math.random() > 0.5 then
+		path = minetest.get_modpath("default") ..
+			"/schematics/pine_tree_from_sapling.mts"
+	else
+		path = minetest.get_modpath("default") ..
+			"/schematics/small_pine_tree_from_sapling.mts"
+	end
 	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
 		path, "0", nil, false)
 end
@@ -407,8 +427,14 @@ end
 -- New snowy pine tree
 
 function default.grow_new_snowy_pine_tree(pos)
-	local path = minetest.get_modpath("default") ..
-		"/schematics/snowy_pine_tree_from_sapling.mts"
+	local path
+	if math.random() > 0.5 then
+		path = minetest.get_modpath("default") ..
+			"/schematics/snowy_pine_tree_from_sapling.mts"
+	else
+		path = minetest.get_modpath("default") ..
+			"/schematics/snowy_small_pine_tree_from_sapling.mts"
+	end
 	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
 		path, "random", nil, false)
 end
@@ -490,7 +516,7 @@ function default.sapling_on_place(itemstack, placer, pointed_thing,
 		return itemstack
 	end
 	-- Check tree volume for protection
-	if default.intersects_protection(
+	if minetest.is_area_protected(
 			vector.add(pos, minp_relative),
 			vector.add(pos, maxp_relative),
 			player_name,
