@@ -1,6 +1,17 @@
+--[[
+
+2018-03-21 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- firefly
 minetest.register_node("fireflies:firefly", {
-	description = "Firefly",
+	description = S("Firefly"),
 	drawtype = "plantlike",
 	tiles = {{
 		name = "fireflies_firefly_animated.png",
@@ -33,7 +44,7 @@ minetest.register_node("fireflies:firefly", {
 
 -- bug net
 minetest.register_tool("fireflies:bug_net", {
-	description = "Bug Net",
+	description = S("Bug Net"),
 	inventory_image = "fireflies_bugnet.png",
 	on_use = function(itemstack, player, pointed_thing)
 		if not pointed_thing or pointed_thing.type ~= "node" or
@@ -69,7 +80,7 @@ minetest.register_craft( {
 
 -- firefly in a bottle
 minetest.register_node("fireflies:firefly_bottle", {
-	description = "Firefly in a Bottle",
+	description = S("Firefly in a Bottle"),
 	inventory_image = "fireflies_bottle.png",
 	wield_image = "fireflies_bottle.png",
 	tiles = {{
