@@ -2,6 +2,8 @@
 
 2017-05-14 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 
@@ -63,6 +65,9 @@ minetest.register_abm({
 	chance = 4,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed then
+   			return
+		end
 
 		local near = minetest.find_node_near(pos, 1,
 			{"default:water_source", "default:river_water_source"})

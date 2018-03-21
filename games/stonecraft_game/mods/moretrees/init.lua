@@ -19,9 +19,13 @@
 
 2017-05-14 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("moretrees") then return end
+
+local abm_allowed = true
 
 moretrees = {}
 
@@ -313,5 +317,15 @@ function moretrees.grow_fir_snow(pos)
 	end
 	minetest.spawn_tree(pos,moretrees.fir_model)
 end
+
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)
 
 print(S("[Moretrees] Loaded (2013-02-11)"))

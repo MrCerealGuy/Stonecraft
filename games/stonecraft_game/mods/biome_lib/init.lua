@@ -12,9 +12,13 @@
 
 2017-05-27 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 biome_lib = {}
+
+local abm_allowed = true
 
 plantslib = setmetatable({}, { __index=function(t,k) print("Use of deprecated function:", k) return biome_lib[k] end })
 
@@ -505,6 +509,10 @@ function biome_lib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 		chance = biome.spawn_chance,
 		neighbors = biome.neighbors,
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed then
+   				return
+			end
+
 			local p_top = { x = pos.x, y = pos.y + 1, z = pos.z }	
 			local n_top = minetest.get_node(p_top)
 			local perlin_fertile_area = minetest.get_perlin(biome.seed_diff, perlin_octaves, perlin_persistence, perlin_scale)
@@ -592,6 +600,10 @@ function biome_lib:grow_plants(opts)
 		interval = options.interval,
 		chance = options.grow_chance,
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed then
+   				return
+			end
+
 			local p_top = {x=pos.x, y=pos.y+1, z=pos.z}
 			local p_bot = {x=pos.x, y=pos.y-1, z=pos.z}
 			local n_top = minetest.get_node(p_top)
@@ -743,3 +755,12 @@ minetest.after(0, function()
 	print("[Biome Lib] across "..#biome_lib.actionslist_aircheck.." actions with air-checking and "..#biome_lib.actionslist_no_aircheck.." actions without.")
 end)
 
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)

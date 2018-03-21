@@ -13,9 +13,13 @@
 
 2017-10-10 register_on_generated: added call collectgarbage()
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("caverealms") then return end
+
+local abm_allowed = true
 
 caverealms = {} --create a container for functions and constants
 
@@ -435,4 +439,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local chugent = math.ceil((os.clock() - t1) * 1000) --grab how long it took
 	print ("[caverealms] "..chugent.." ms") --tell people how long
 end)
+
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)
+
 print("[caverealms] loaded!")

@@ -1,3 +1,11 @@
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
+--]]
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -48,6 +56,10 @@ local coconut_regrow_abm_spec = {
 	interval = moretrees.coconut_flower_interval,
 	chance = moretrees.coconut_flower_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed then
+		   return
+		end
+
 		local coconuts = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "group:moretrees_coconut")
 		-- Expected growth interval increases exponentially with number of coconuts already hanging.
 		-- Also: if more coconuts are hanging, the chance of picking an empty spot decreases as well...
@@ -77,6 +89,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed then
+		   return
+		end
+
 		minetest.swap_node(pos, {name="moretrees:palm_fruit_trunk"})
 		local poslist = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "air")
 		local genlist = {}
@@ -187,6 +203,10 @@ if moretrees.coconuts_convert_existing_palms then
 		name = "moretrees:convert_existing_cocos_palms_to_regrow_coconuts",
 		nodenames = "moretrees:coconut",
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed then
+   				return
+			end
+
 			local trunks
 			local cvtrunks
 			local leaves

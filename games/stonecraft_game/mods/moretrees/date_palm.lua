@@ -12,6 +12,14 @@
 -- © 2016, Rogier <rogier777@gmail.com>
 -- License: WTFPL
 
+--[[
+
+2017-05-14 MrCerealGuy: added intllib support
+
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
+--]]
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -82,6 +90,10 @@ local date_regrow_abm_spec = {
 	interval = moretrees.dates_flower_interval,
 	chance = moretrees.dates_flower_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed then
+   			return
+		end
+
 		local dates = minetest.find_nodes_in_area({x=pos.x-2, y=pos.y, z=pos.z-2}, {x=pos.x+2, y=pos.y, z=pos.z+2}, "group:moretrees_dates")
 
 		-- New blossom interval increases exponentially with number of dates already hanging
@@ -115,6 +127,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed then
+   			return
+		end
+
 		local type
 		if math.random(100) <= moretrees.dates_female_percent then
 			type = "f"
@@ -725,6 +741,10 @@ if moretrees.dates_regrow_pollinated or moretrees.dates_regrow_unpollinated_perc
 		name = "moretrees:restart_dates_regrow_timer",
 		nodenames = "group:moretrees_dates",
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed then
+   				return
+			end
+
 			local timer = minetest.get_node_timer(pos)
 			if not timer:is_started() then
 				dates_starttimer(pos)

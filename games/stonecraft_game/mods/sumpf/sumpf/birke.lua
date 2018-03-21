@@ -2,6 +2,8 @@
 
 2017-05-15 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 
@@ -218,6 +220,10 @@ minetest.register_abm({
 	interval = 20,
 	chance = 8,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		if sumpf.tree_allowed(pos, 8) then
 			spawn_birch(pos)
 		end

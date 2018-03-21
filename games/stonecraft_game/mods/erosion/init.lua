@@ -10,9 +10,13 @@
 
 2017-05-20 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("erosion") then return end
+
+local abm_allowed = true
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -204,7 +208,13 @@ local function pile_up(k,m,p) p.y = p.y-1
 		end
 	end
 end
-local function slide_off(p,nd) if eroded_lut[nd.name] then p.y = p.y-1
+local function slide_off(p,nd)
+
+	if not abm_allowed then
+		return
+	end
+
+	if eroded_lut[nd.name] then p.y = p.y-1
 	local un = minetest.get_node(p).name
 	
 	if eroded_lut[un] then p.y = p.y+1
@@ -441,7 +451,13 @@ minetest.register_chatcommand("erosion_slope_gen",{
 		return true,"Done."
 	end
 })
-local function wwthrngCL(p,n) p.y = p.y+1
+local function wwthrngCL(p,n) 
+
+	if not abm_allowed then
+		return
+	end
+
+	p.y = p.y+1
 	local k = minetest.get_node(p).name
 	
 	if k == "air" then
@@ -475,3 +491,13 @@ minetest.register_abm({
 })
 
 minetest.register_on_punchnode(wwthrngCL)
+
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)

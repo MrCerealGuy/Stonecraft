@@ -3,8 +3,9 @@
 
 2017-05-14 MrCerealGuy: added intllib support
 
---]]
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
+--]]
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -227,6 +228,9 @@ minetest.register_abm({
 	chance = 50,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed then
+   			return
+		end
 
 		local light_level = minetest.get_node_light(pos)
 

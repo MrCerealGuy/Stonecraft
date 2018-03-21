@@ -2,6 +2,8 @@
 
 2017-05-14 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 
@@ -276,6 +278,10 @@ for i in ipairs(moretrees.treelist) do
 		interval = 1,
 		chance = 1,
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed then
+   				return
+			end
+
 			local fdir = node.param2 or 0
 				nfdir = dirs2[fdir+1]
 			minetest.add_node(pos, {name = "moretrees:"..treename.."_trunk", param2 = nfdir})
@@ -452,6 +458,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed then
+   			return
+		end
+
 		local fdir = node.param2 or 0
 			nfdir = dirs2[fdir+1]
 		minetest.add_node(pos, {name = "moretrees:rubber_tree_trunk_empty", param2 = nfdir})

@@ -5,9 +5,13 @@
 
 2017-05-15 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("swamps") then return end
+
+local abm_allowed = true
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -268,6 +272,10 @@ minetest.register_abm({
 	interval = 40,
 	chance = 5,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		if sumpf.tree_allowed(pos, 7) then
 			spawn_jungletree(pos)
 		end

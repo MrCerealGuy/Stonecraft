@@ -18,9 +18,13 @@
 2017-09-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	added advanced mod control
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("ethereal") then return end
+
+local abm_allowed = true
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -125,5 +129,15 @@ end
 if minetest.get_modpath("xanadu") then
 	dofile(path .. "/plantpack.lua")
 end
+
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)
 
 print (S("[MOD] Ethereal loaded"))

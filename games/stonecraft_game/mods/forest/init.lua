@@ -7,9 +7,13 @@
 
 2017-05-14 MrCerealGuy: added intllib support
 
+2018-03-21 MrCerealGuy: disallow abms when the server is lagging
+
 --]]
 
 if core.skip_mod("forests") then return end
+
+local abm_allowed = true
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -92,6 +96,10 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		local meta = minetest.get_meta(pos)
 		local node = minetest.deserialize(meta:get_string("old_node"))
 		if not node then
@@ -124,6 +132,10 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos, node)
+		if not abm_allowed then
+   			return
+		end
+
 		local superparams = seasons[node.name] or {}	-- MERGEINFO: changed by MrCerealGuy
 		for num, params in pairs(superparams) do
 			if math.random() * 100 < params.speed then
@@ -171,6 +183,10 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		if get_instant_temperature(pos) + math.random() < 8 then
 			minetest.set_node(pos, {name = "default:dirt_with_snow"})
 		else
@@ -184,6 +200,10 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		if get_instant_temperature(pos) + math.random() < 8 then
 			minetest.set_node(pos, {name = "default:ice"})
 		else
@@ -197,6 +217,10 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
+		if not abm_allowed then
+   			return
+		end
+
 		if get_instant_temperature(pos) + math.random() < 8 then
 			minetest.set_node(pos, {name = "forest:mud_ice"})
 		else
@@ -210,7 +234,11 @@ minetest.register_abm({
 	interval = 10,
 	chance = 1,
 	action = function(pos)
-	pos.y = pos.y - 1
+		if not abm_allowed then
+   			return
+		end
+
+		pos.y = pos.y - 1
 		if minetest.get_node(pos).name == "air" then
 			pos.y = pos.y + 1
 			minetest.dig_node(pos)
@@ -428,3 +456,13 @@ minetest.register_craft({
 		{'default:mese_crystal_fragment', 'default:mese_crystal_fragment', 'default:mese_crystal_fragment'},
 	}
 })
+
+-- disallow abms when the server is lagging
+minetest.register_globalstep(function(dtime)
+   if dtime > 0.5
+   and abm_allowed then
+      abm_allowed = false
+      minetest.after(2, function() abm_allowed = true end)
+      --minetest.chat_send_all(dtime)
+   end
+end)
