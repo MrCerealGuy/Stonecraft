@@ -593,7 +593,7 @@ local disallowed_ps = {}
 
 for name,i in pairs({
 	brown = {
-		description = S("brown mushroom"),
+		description = S("Brown mushroom"),
 		box = {
 			{-0.15, -0.2, -0.15, 0.15, -0.1, 0.15},
 			{-0.2, -0.3, -0.2, 0.2, -0.2, 0.2},
@@ -610,7 +610,7 @@ for name,i in pairs({
 		hp = 2,
 	},
 	red = {
-		description = S("red mushroom"),
+		description = S("Red mushroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16, -6/16, 1/16},
 			{-3/16, -6/16, -3/16, 3/16, -5/16, 3/16},
@@ -699,7 +699,7 @@ for name,i in pairs({
 		hp = -3,
 	},
 	parasol = {
-		description = S("white parasol mushroom"),
+		description = S("White parasol mushroom"),
 		box = {
 			{-1/16, -8/16, -1/16, 1/16,  0, 1/16},
 			{-2/16, -6/16, -2/16, 2/16, -5/16, 2/16},
@@ -973,7 +973,7 @@ for _,i in pairs({
 	},
 	{
 		name = "lamellas",
-		description = S("giant mushroom lamella"),
+		description = S("Giant mushroom lamella"),
 		textures = "lamellas.png",
 		sapling = "lamellas"
 	},
@@ -1052,7 +1052,7 @@ for _,i in pairs({
 		textures[i] = "riesenpilz_"..textures[i]
 	end
 	local nodename = "riesenpilz:"
-	local desctiption,sounds = S("giant mushroom")
+	local desctiption,sounds = S("Giant mushroom")
 	if i.typ == "stem" then
 		--desctiption = S("@1stem (@2)", desctiption, i.description)
 		desctiption = S("@1stem", desctiption)
@@ -1091,7 +1091,7 @@ for _,i in pairs({
 end
 
 minetest.register_node("riesenpilz:head_red_side", {
-	description = S("giant mushroom head red side"),
+	description = S("Giant mushroom head red side"),
 	tiles = {"riesenpilz_head.png",	"riesenpilz_lamellas.png",	"riesenpilz_head.png",
 					"riesenpilz_head.png",	"riesenpilz_head.png",	"riesenpilz_lamellas.png"},
 	paramtype2 = "facedir",
@@ -1105,7 +1105,7 @@ minetest.register_node("riesenpilz:head_red_side", {
 
 
 minetest.register_node("riesenpilz:ground", {
-	description = S("dirt with rotten grass"),
+	description = S("Dirt with rotten grass"),
 	tiles = {"riesenpilz_ground_top.png","default_dirt.png",
 		{name="default_dirt.png^riesenpilz_ground_side.png", tileable_vertical = false}
 	},
@@ -1152,7 +1152,7 @@ c = {
 
 
 minetest.register_tool("riesenpilz:growingtool", {
-	description = S("growingtool"),
+	description = S("Growingtool"),
 	inventory_image = "riesenpilz_growingtool.png",
 })
 

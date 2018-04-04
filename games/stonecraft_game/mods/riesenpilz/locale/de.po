@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "brown mushroom"
+msgid "Brown mushroom"
 msgstr "Brauner Pilz"
 
 #: init.lua
-msgid "red mushroom"
+msgid "Red mushroom"
 msgstr "Roter Pilz"
 
 #: init.lua
@@ -42,7 +42,7 @@ msgid "Nether mushroom"
 msgstr "Netherpilz"
 
 #: init.lua
-msgid "white parasol mushroom"
+msgid "White parasol mushroom"
 msgstr "Weißer Sonnenschirmpilz"
 
 #: init.lua
@@ -58,7 +58,7 @@ msgid "white"
 msgstr "Weißer"
 
 #: init.lua
-msgid "giant mushroom lamella"
+msgid "Giant mushroom lamella"
 msgstr "Großer Pilz mit Lamellen"
 
 #: init.lua
@@ -74,7 +74,7 @@ msgid "brown bright"
 msgstr "Hellbraun"
 
 #: init.lua
-msgid "giant mushroom"
+msgid "Giant mushroom"
 msgstr "Großer Pilz"
 
 #: init.lua
@@ -94,15 +94,15 @@ msgid "@1head"
 msgstr "@1kopf"
 
 #: init.lua
-msgid "giant mushroom head red side"
+msgid "Giant mushroom head red side"
 msgstr "Große rote Pilzkopfseite"
 
 #: init.lua
-msgid "dirt with rotten grass"
+msgid "Dirt with rotten grass"
 msgstr "Erde mit verfaultem Gras"
 
 #: init.lua
-msgid "growingtool"
+msgid "Growingtool"
 msgstr "Wachstumswerkzeug"
 
 #: init.lua
