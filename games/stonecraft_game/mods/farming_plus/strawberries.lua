@@ -11,6 +11,7 @@ minetest.register_craftitem("farming_plus:strawberry_seed", {
 })
 
 minetest.register_node("farming_plus:strawberry_1", {
+	description = S("Strawberry"),
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
@@ -27,6 +28,7 @@ minetest.register_node("farming_plus:strawberry_1", {
 })
 
 minetest.register_node("farming_plus:strawberry_2", {
+	description = S("Strawberry"),
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
@@ -43,6 +45,7 @@ minetest.register_node("farming_plus:strawberry_2", {
 })
 
 minetest.register_node("farming_plus:strawberry_3", {
+	description = S("Strawberry"),
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
@@ -59,6 +62,7 @@ minetest.register_node("farming_plus:strawberry_3", {
 })
 
 minetest.register_node("farming_plus:strawberry", {
+	description = S("Strawberry"),
 	paramtype = "light",
 	walkable = false,
 	drawtype = "plantlike",
