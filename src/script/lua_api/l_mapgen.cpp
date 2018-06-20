@@ -40,10 +40,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 struct EnumString ModApiMapgen::es_BiomeTerrainType[] =
 {
 	{BIOMETYPE_NORMAL, "normal"},
-	{BIOMETYPE_LIQUID, "liquid"},
-	{BIOMETYPE_NETHER, "nether"},
-	{BIOMETYPE_AETHER, "aether"},
-	{BIOMETYPE_FLAT,   "flat"},
 	{0, NULL},
 };
 
@@ -393,20 +389,26 @@ Biome *read_biome_def(lua_State *L, int index, const NodeDefManager *ndef)
 	b->vertical_blend  = getintfield_default(L,    index, "vertical_blend",  0);
 	b->flags           = 0; // reserved
 
-	b->min_pos = getv3s16field_default(L, index, "min_pos", v3s16(-31000, -31000, -31000));
+	b->min_pos = getv3s16field_default(
+		L, index, "min_pos", v3s16(-31000, -31000, -31000));
 	getintfield(L, index, "y_min", b->min_pos.Y);
-	b->max_pos = getv3s16field_default(L, index, "max_pos", v3s16(31000, 31000, 31000));
+	b->max_pos = getv3s16field_default(
+		L, index, "max_pos", v3s16(31000, 31000, 31000));
 	getintfield(L, index, "y_max", b->max_pos.Y);
 
 	std::vector<std::string> &nn = b->m_nodenames;
-	nn.push_back(getstringfield_default(L, index, "node_top",         ""));
-	nn.push_back(getstringfield_default(L, index, "node_filler",      ""));
-	nn.push_back(getstringfield_default(L, index, "node_stone",       ""));
-	nn.push_back(getstringfield_default(L, index, "node_water_top",   ""));
-	nn.push_back(getstringfield_default(L, index, "node_water",       ""));
-	nn.push_back(getstringfield_default(L, index, "node_river_water", ""));
-	nn.push_back(getstringfield_default(L, index, "node_riverbed",    ""));
-	nn.push_back(getstringfield_default(L, index, "node_dust",        ""));
+	nn.push_back(getstringfield_default(L, index, "node_top",           ""));
+	nn.push_back(getstringfield_default(L, index, "node_filler",        ""));
+	nn.push_back(getstringfield_default(L, index, "node_stone",         ""));
+	nn.push_back(getstringfield_default(L, index, "node_water_top",     ""));
+	nn.push_back(getstringfield_default(L, index, "node_water",         ""));
+	nn.push_back(getstringfield_default(L, index, "node_river_water",   ""));
+	nn.push_back(getstringfield_default(L, index, "node_riverbed",      ""));
+	nn.push_back(getstringfield_default(L, index, "node_dust",          ""));
+	nn.push_back(getstringfield_default(L, index, "node_cave_liquid",   ""));
+	nn.push_back(getstringfield_default(L, index, "node_dungeon",       ""));
+	nn.push_back(getstringfield_default(L, index, "node_dungeon_alt",   ""));
+	nn.push_back(getstringfield_default(L, index, "node_dungeon_stair", ""));
 	ndef->pendNodeResolve(b);
 
 	return b;

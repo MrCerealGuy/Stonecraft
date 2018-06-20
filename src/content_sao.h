@@ -52,6 +52,8 @@ public:
 	void getBonePosition(const std::string &bone, v3f *position, v3f *rotation);
 	void setAttachment(int parent_id, const std::string &bone, v3f position, v3f rotation);
 	void getAttachment(int *parent_id, std::string *bone, v3f *position, v3f *rotation);
+	void clearChildAttachments();
+	void clearParentAttachment();
 	void addAttachmentChild(int child_id);
 	void removeAttachmentChild(int child_id);
 	const std::unordered_set<int> &getAttachmentChildIds();
@@ -62,7 +64,7 @@ protected:
 	float m_yaw = 0.0f;
 
 	bool m_properties_sent = true;
-	struct ObjectProperties m_prop;
+	ObjectProperties m_prop;
 
 	ItemGroupList m_armor_groups;
 	bool m_armor_groups_sent = false;
@@ -72,7 +74,7 @@ protected:
 	float m_animation_blend = 0.0f;
 	bool m_animation_loop = true;
 	bool m_animation_sent = false;
-        bool m_animation_speed_sent = false;
+	bool m_animation_speed_sent = false;
 
 	// Stores position and rotation for each bone name
 	std::unordered_map<std::string, core::vector2d<v3f>> m_bone_position;
@@ -84,6 +86,9 @@ protected:
 	v3f m_attachment_position;
 	v3f m_attachment_rotation;
 	bool m_attachment_sent = false;
+private:
+	void onAttach(int parent_id);
+	void onDetach(int parent_id);
 };
 
 /*
@@ -117,10 +122,14 @@ public:
 	void moveTo(v3f pos, bool continuous);
 	float getMinimumSavedMovement();
 	std::string getDescription();
-	void setHP(s16 hp);
+	void setHP(s16 hp, const PlayerHPChangeReason &reason);
 	s16 getHP() const;
 	/* LuaEntitySAO-specific */
 	void setVelocity(v3f velocity);
+	void addVelocity(v3f velocity)
+	{
+		m_velocity += velocity;
+	}
 	v3f getVelocity();
 	void setAcceleration(v3f acceleration);
 	v3f getAcceleration();
@@ -193,7 +202,6 @@ public:
 	}
 };
 
-typedef std::unordered_map<std::string, std::string> PlayerAttributes;
 class RemotePlayer;
 
 class PlayerSAO : public UnitSAO
@@ -245,7 +253,7 @@ public:
 		ServerActiveObject *puncher,
 		float time_from_last_punch);
 	void rightClick(ServerActiveObject *clicker) {}
-	void setHP(s16 hp);
+	void setHP(s16 hp, const PlayerHPChangeReason &reason);
 	void setHPRaw(s16 hp) { m_hp = hp; }
 	s16 readDamage();
 	u16 getBreath() const { return m_breath; }
@@ -264,49 +272,6 @@ public:
 	bool setWieldedItem(const ItemStack &item);
 	int getWieldIndex() const;
 	void setWieldIndex(int i);
-
-	/*
-		Modding interface
-	*/
-	inline void setExtendedAttribute(const std::string &attr, const std::string &value)
-	{
-		m_extra_attributes[attr] = value;
-		m_extended_attributes_modified = true;
-	}
-
-	inline bool getExtendedAttribute(const std::string &attr, std::string *value)
-	{
-		if (m_extra_attributes.find(attr) == m_extra_attributes.end())
-			return false;
-
-		*value = m_extra_attributes[attr];
-		return true;
-	}
-
-	inline void removeExtendedAttribute(const std::string &attr)
-	{
-		PlayerAttributes::iterator it = m_extra_attributes.find(attr);
-		if (it == m_extra_attributes.end())
-			return;
-
-		m_extra_attributes.erase(it);
-		m_extended_attributes_modified = true;
-	}
-
-	inline const PlayerAttributes &getExtendedAttributes()
-	{
-		return m_extra_attributes;
-	}
-
-	inline bool extendedAttributesModified() const
-	{
-		return m_extended_attributes_modified;
-	}
-
-	inline void setExtendedAttributeModified(bool v)
-	{
-		m_extended_attributes_modified = v;
-	}
 
 	/*
 		PlayerSAO-specific
@@ -370,6 +335,9 @@ public:
 
 	v3f getEyePosition() const { return m_base_position + getEyeOffset(); }
 	v3f getEyeOffset() const;
+	float getZoomFOV() const;
+
+	inline Metadata &getMeta() { return m_meta; }
 
 private:
 	std::string getPropertyPacket();
@@ -406,8 +374,7 @@ private:
 	f32 m_fov = 0.0f;
 	s16 m_wanted_range = 0.0f;
 
-	PlayerAttributes m_extra_attributes;
-	bool m_extended_attributes_modified = false;
+	Metadata m_meta;
 public:
 	float m_physics_override_speed = 1.0f;
 	float m_physics_override_jump = 1.0f;
@@ -416,4 +383,65 @@ public:
 	bool m_physics_override_sneak_glitch = false;
 	bool m_physics_override_new_move = true;
 	bool m_physics_override_sent = false;
+};
+
+
+struct PlayerHPChangeReason {
+	enum Type : u8 {
+		SET_HP,
+		PLAYER_PUNCH,
+		FALL,
+		NODE_DAMAGE,
+		DROWNING,
+		RESPAWN
+	};
+
+	Type type = SET_HP;
+	ServerActiveObject *object;
+	bool from_mod = false;
+	int lua_reference = -1;
+
+	bool setTypeFromString(const std::string &typestr)
+	{
+		if (typestr == "set_hp")
+			type = SET_HP;
+		else if (typestr == "punch")
+			type = PLAYER_PUNCH;
+		else if (typestr == "fall")
+			type = FALL;
+		else if (typestr == "node_damage")
+			type = NODE_DAMAGE;
+		else if (typestr == "drown")
+			type = DROWNING;
+		else if (typestr == "respawn")
+			type = RESPAWN;
+		else
+			return false;
+
+		return true;
+	}
+
+	std::string getTypeAsString() const
+	{
+		switch (type) {
+		case PlayerHPChangeReason::SET_HP:
+			return "set_hp";
+		case PlayerHPChangeReason::PLAYER_PUNCH:
+			return "punch";
+		case PlayerHPChangeReason::FALL:
+			return "fall";
+		case PlayerHPChangeReason::NODE_DAMAGE:
+			return "node_damage";
+		case PlayerHPChangeReason::DROWNING:
+			return "drown";
+		case PlayerHPChangeReason::RESPAWN:
+			return "respawn";
+		default:
+			return "?";
+		}
+	}
+
+	PlayerHPChangeReason(Type type, ServerActiveObject *object=NULL):
+			type(type), object(object)
+	{}
 };

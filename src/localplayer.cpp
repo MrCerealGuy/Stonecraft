@@ -18,7 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "localplayer.h"
-
+#include <cmath>
 #include "event.h"
 #include "collision.h"
 #include "nodedef.h"
@@ -191,11 +191,12 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 		return;
 	}
 
+	PlayerSettings &player_settings = getPlayerSettings();
+
 	// Skip collision detection if noclip mode is used
 	bool fly_allowed = m_client->checkLocalPrivilege("fly");
-	bool noclip = m_client->checkLocalPrivilege("noclip") &&
-		g_settings->getBool("noclip");
-	bool free_move = g_settings->getBool("free_move") && fly_allowed;
+	bool noclip = m_client->checkLocalPrivilege("noclip") && player_settings.noclip;
+	bool free_move = player_settings.free_move && fly_allowed;
 
 	if (noclip && free_move) {
 		position += m_speed * dtime;
@@ -417,8 +418,7 @@ void LocalPlayer::move(f32 dtime, Environment *env, f32 pos_max_d,
 	*/
 
 	if(!result.standing_on_object && !touching_ground_was && touching_ground) {
-		MtEvent *e = new SimpleTriggerEvent("PlayerRegainGround");
-		m_client->event()->put(e);
+		m_client->getEventManager()->put(new SimpleTriggerEvent(MtEvent::PLAYER_REGAIN_GROUND));
 
 		// Set camera impact value to be used for view bobbing
 		camera_impact = getSpeed().Y * -1;
@@ -480,6 +480,8 @@ void LocalPlayer::applyControl(float dtime, Environment *env)
 		return;
 	}
 
+	PlayerSettings &player_settings = getPlayerSettings();
+
 	v3f move_direction = v3f(0,0,1);
 	move_direction.rotateXZBy(getYaw());
 
@@ -489,12 +491,12 @@ void LocalPlayer::applyControl(float dtime, Environment *env)
 	bool fly_allowed = m_client->checkLocalPrivilege("fly");
 	bool fast_allowed = m_client->checkLocalPrivilege("fast");
 
-	bool free_move = fly_allowed && g_settings->getBool("free_move");
-	bool fast_move = fast_allowed && g_settings->getBool("fast_move");
+	bool free_move = fly_allowed && player_settings.free_move;
+	bool fast_move = fast_allowed && player_settings.fast_move;
 	// When aux1_descends is enabled the fast key is used to go down, so fast isn't possible
-	bool fast_climb = fast_move && control.aux1 && !g_settings->getBool("aux1_descends");
-	bool continuous_forward = g_settings->getBool("continuous_forward");
-	bool always_fly_fast = g_settings->getBool("always_fly_fast");
+	bool fast_climb = fast_move && control.aux1 && !player_settings.aux1_descends;
+	bool continuous_forward = player_settings.continuous_forward;
+	bool always_fly_fast = player_settings.always_fly_fast;
 
 	// Whether superspeed mode is used or not
 	bool superspeed = false;
@@ -503,7 +505,7 @@ void LocalPlayer::applyControl(float dtime, Environment *env)
 		superspeed = true;
 
 	// Old descend control
-	if(g_settings->getBool("aux1_descends"))
+	if (player_settings.aux1_descends)
 	{
 		// If free movement and fast movement, always move fast
 		if(free_move && fast_move)
@@ -611,7 +613,7 @@ void LocalPlayer::applyControl(float dtime, Environment *env)
 	if(control.jump)
 	{
 		if (free_move) {
-			if (g_settings->getBool("aux1_descends") || always_fly_fast) {
+			if (player_settings.aux1_descends || always_fly_fast) {
 				if (fast_move)
 					speedV.Y = movement_speed_fast;
 				else
@@ -634,9 +636,7 @@ void LocalPlayer::applyControl(float dtime, Environment *env)
 			if(speedJ.Y >= -0.5 * BS) {
 				speedJ.Y = movement_speed_jump * physics_override_jump;
 				setSpeed(speedJ);
-
-				MtEvent *e = new SimpleTriggerEvent("PlayerJump");
-				m_client->event()->put(e);
+				m_client->getEventManager()->put(new SimpleTriggerEvent(MtEvent::PLAYER_JUMP));
 			}
 		}
 		else if(in_liquid)
@@ -776,11 +776,12 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 		return;
 	}
 
+	PlayerSettings &player_settings = getPlayerSettings();
+
 	// Skip collision detection if noclip mode is used
 	bool fly_allowed = m_client->checkLocalPrivilege("fly");
-	bool noclip = m_client->checkLocalPrivilege("noclip") &&
-		g_settings->getBool("noclip");
-	bool free_move = noclip && fly_allowed && g_settings->getBool("free_move");
+	bool noclip = m_client->checkLocalPrivilege("noclip") && player_settings.noclip;
+	bool free_move = noclip && fly_allowed && player_settings.free_move;
 	if (free_move) {
 		position += m_speed * dtime;
 		setPosition(position);
@@ -862,7 +863,7 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 		fall off from it
 	*/
 	if (control.sneak && m_sneak_node_exists &&
-			!(fly_allowed && g_settings->getBool("free_move")) && !in_liquid &&
+			!(fly_allowed && player_settings.free_move) && !in_liquid &&
 			physics_override_sneak) {
 		f32 maxd = 0.5 * BS + sneak_max;
 		v3f lwn_f = intToFloat(m_sneak_node, BS);
@@ -944,8 +945,8 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 			v2f node_p2df(pf.X, pf.Z);
 			f32 distance_f = player_p2df.getDistanceFrom(node_p2df);
 			f32 max_axis_distance_f = MYMAX(
-					fabs(player_p2df.X - node_p2df.X),
-					fabs(player_p2df.Y - node_p2df.Y));
+					std::fabs(player_p2df.X - node_p2df.X),
+					std::fabs(player_p2df.Y - node_p2df.Y));
 
 			if (distance_f > min_distance_f ||
 					max_axis_distance_f > 0.5 * BS + sneak_max + 0.1 * BS)
@@ -1006,15 +1007,14 @@ void LocalPlayer::old_move(f32 dtime, Environment *env, f32 pos_max_d,
 		Report collisions
 	*/
 	// Dont report if flying
-	if (collision_info && !(g_settings->getBool("free_move") && fly_allowed)) {
+	if (collision_info && !(player_settings.free_move && fly_allowed)) {
 		for (const auto &info : result.collisions) {
 			collision_info->push_back(info);
 		}
 	}
 
 	if (!result.standing_on_object && !touching_ground_was && touching_ground) {
-		MtEvent *e = new SimpleTriggerEvent("PlayerRegainGround");
-		m_client->event()->put(e);
+		m_client->getEventManager()->put(new SimpleTriggerEvent(MtEvent::PLAYER_REGAIN_GROUND));
 		// Set camera impact value to be used for view bobbing
 		camera_impact = getSpeed().Y * -1;
 	}

@@ -84,6 +84,18 @@ struct PlayerControl
 	float forw_move_joystick_axis = 0.0f;
 };
 
+struct PlayerSettings
+{
+	bool free_move = false;
+	bool fast_move = false;
+	bool continuous_forward = false;
+	bool always_fly_fast = false;
+	bool aux1_descends = false;
+	bool noclip = false;
+
+	void readGlobalSettings();
+};
+
 class Map;
 struct CollisionInfo;
 struct HudElement;
@@ -148,9 +160,12 @@ public:
 	float local_animation_speed;
 
 	std::string inventory_formspec;
+	std::string formspec_prepend;
 
 	PlayerControl control;
 	const PlayerControl& getPlayerControl() { return control; }
+	PlayerSettings &getPlayerSettings() { return m_player_settings; }
+	static void settingsChangedCallback(const std::string &name, void *data);
 
 	u32 keyPressed = 0;
 
@@ -171,4 +186,5 @@ private:
 	// hud for example can be modified by EmergeThread
 	// and ServerThread
 	std::mutex m_mutex;
+	PlayerSettings m_player_settings;
 };

@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 
 #include "mapgen.h"
+#include <cmath>
 #include "voxel.h"
 #include "noise.h"
 #include "mapblock.h"
@@ -205,18 +206,21 @@ void MapgenFractal::makeChunk(BlockMakeData *data)
 	updateHeightmap(node_min, node_max);
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
-	biomegen->calcBiomeNoise(node_min);
+	if (flags & MG_BIOMES) {
+		biomegen->calcBiomeNoise(node_min);
+		generateBiomes();
+	}
 
-	MgStoneType mgstone_type;
-	content_t biome_stone;
-	generateBiomes(&mgstone_type, &biome_stone);
-
-	if (flags & MG_CAVES)
-		generateCaves(stone_surface_max_y, large_cave_depth);
+	if (flags & MG_CAVES) {
+		// Generate tunnels
+		generateCavesNoiseIntersection(stone_surface_max_y);
+		// Generate large randomwalk caves
+		generateCavesRandomWalk(stone_surface_max_y, large_cave_depth);
+	}
 
 	if ((flags & MG_DUNGEONS) && full_node_min.Y >= dungeon_ymin &&
 			full_node_max.Y <= dungeon_ymax)
-		generateDungeons(stone_surface_max_y, mgstone_type, biome_stone);
+		generateDungeons(stone_surface_max_y);
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
@@ -226,7 +230,8 @@ void MapgenFractal::makeChunk(BlockMakeData *data)
 	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
 
 	// Sprinkle some dust on top after everything else was generated
-	dustTopNodes();
+	if (flags & MG_BIOMES)
+		dustTopNodes();
 
 	//printf("makeChunk: %dms\n", t.stop());
 
@@ -306,45 +311,45 @@ bool MapgenFractal::getFractalAtPoint(s16 x, s16 y, s16 z)
 			break;
 		case 6: // 3D "Christmas Tree"
 			// Altering the formula here is necessary to avoid division by zero
-			if (fabs(oz) < 0.000000001f) {
+			if (std::fabs(oz) < 0.000000001f) {
 				nx = ox * ox - oy * oy - oz * oz + cx;
 				ny = 2.0f * oy * ox + cy;
 				nz = 4.0f * oz * ox + cz;
 			} else {
-				float a = (2.0f * ox) / (sqrt(oy * oy + oz * oz));
+				float a = (2.0f * ox) / (std::sqrt(oy * oy + oz * oz));
 				nx = ox * ox - oy * oy - oz * oz + cx;
 				ny = a * (oy * oy - oz * oz) + cy;
 				nz = a * 2.0f * oy * oz + cz;
 			}
 			break;
 		case 7: // 3D "Mandelbulb"
-			if (fabs(oy) < 0.000000001f) {
+			if (std::fabs(oy) < 0.000000001f) {
 				nx = ox * ox - oz * oz + cx;
 				ny = cy;
-				nz = -2.0f * oz * sqrt(ox * ox) + cz;
+				nz = -2.0f * oz * std::sqrt(ox * ox) + cz;
 			} else {
 				float a = 1.0f - (oz * oz) / (ox * ox + oy * oy);
 				nx = (ox * ox - oy * oy) * a + cx;
 				ny = 2.0f * ox * oy * a + cy;
-				nz = -2.0f * oz * sqrt(ox * ox + oy * oy) + cz;
+				nz = -2.0f * oz * std::sqrt(ox * ox + oy * oy) + cz;
 			}
 			break;
 		case 8: // 3D "Cosine Mandelbulb"
-			if (fabs(oy) < 0.000000001f) {
+			if (std::fabs(oy) < 0.000000001f) {
 				nx = 2.0f * ox * oz + cx;
 				ny = 4.0f * oy * oz + cy;
 				nz = oz * oz - ox * ox - oy * oy + cz;
 			} else {
-				float a = (2.0f * oz) / sqrt(ox * ox + oy * oy);
+				float a = (2.0f * oz) / std::sqrt(ox * ox + oy * oy);
 				nx = (ox * ox - oy * oy) * a + cx;
 				ny = 2.0f * ox * oy * a + cy;
 				nz = oz * oz - ox * ox - oy * oy + cz;
 			}
 			break;
 		case 9: // 4D "Mandelbulb"
-			float rxy = sqrt(ox * ox + oy * oy);
-			float rxyz = sqrt(ox * ox + oy * oy + oz * oz);
-			if (fabs(ow) < 0.000000001f && fabs(oz) < 0.000000001f) {
+			float rxy = std::sqrt(ox * ox + oy * oy);
+			float rxyz = std::sqrt(ox * ox + oy * oy + oz * oz);
+			if (std::fabs(ow) < 0.000000001f && std::fabs(oz) < 0.000000001f) {
 				nx = (ox * ox - oy * oy) + cx;
 				ny = 2.0f * ox * oy + cy;
 				nz = -2.0f * rxy * oz + cz;

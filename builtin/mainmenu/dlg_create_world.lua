@@ -254,7 +254,7 @@ local function create_world_formspec(dialogdata)
 	
 	local game, gameidx = nil , 0
 	if gameid ~= nil then
-		game, gameidx = gamemgr.find_by_gameid(gameid)
+		game, gameidx = pkgmgr.find_by_gameid(gameid)
 		
 		if gameidx == nil then
 			gameidx = 0
@@ -284,7 +284,7 @@ local function create_world_formspec(dialogdata)
 		"label[2,2;" .. fgettext("Mapgen") .. "]"..
 		"dropdown[4.2,2;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]" ..
 
-		"textlist[-10,3;7,2.3;games;" .. gamemgr.gamelist() ..
+		"textlist[-10,3;7,2.3;games;" .. pkgmgr.gamelist() ..
 		";" .. gameidx .. ";true]"
 		
 	retval = retval .. "size[14,5.5,true]" ..
@@ -338,11 +338,11 @@ local function create_world_formspec(dialogdata)
 	retval = retval .. "button[4.5,7.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
 		"button[7.0,7.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
 
-	if #gamemgr.games == 0 then
+	if #pkgmgr.games == 0 then
 		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
 				fgettext("You have no games installed.") .. "]label[2.25,4.4;" ..
 				fgettext("Download one from mrcerealguy.github.io/stonecraft") .. "]"
-	elseif #gamemgr.games == 1 and gamemgr.games[1].id == "minimal" then
+	elseif #pkgmgr.games == 1 and pkgmgr.games[1].id == "minimal" then
 		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
 				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
 				fgettext("Download a game, such as stonecraft_game, from mrcerealguy.github.io/stonecraft") .. "]"
@@ -506,10 +506,10 @@ local function create_world_buttonhandler(this, fields)
 			if message ~= nil then
 				gamedata.errormessage = message
 			else
-				core.settings:set("menu_last_game",gamemgr.games[gameindex].id)
+				core.settings:set("menu_last_game",pkgmgr.games[gameindex].id)
 				if this.data.update_worldlist_filter then
-					menudata.worldlist:set_filtercriteria(gamemgr.games[gameindex].id)
-					mm_texture.update("singleplayer", gamemgr.games[gameindex].id)
+					menudata.worldlist:set_filtercriteria(pkgmgr.games[gameindex].id)
+					mm_texture.update("singleplayer", pkgmgr.games[gameindex].id)
 				end
 				menudata.worldlist:refresh()
 				core.settings:set("mainmenu_last_selected_world",
@@ -581,7 +581,7 @@ local function create_world_buttonhandler(this, fields)
 	if fields["games"] then
 		return true
 	end
-	
+
 	if fields["world_create_cancel"] then
 		this:delete()
 		return true

@@ -18,9 +18,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "lua_api/l_object.h"
+#include <cmath>
 #include "lua_api/l_internal.h"
 #include "lua_api/l_inventory.h"
 #include "lua_api/l_item.h"
+#include "lua_api/l_playermeta.h"
 #include "common/c_converter.h"
 #include "common/c_content.h"
 #include "log.h"
@@ -101,12 +103,8 @@ int ObjectRef::l_remove(lua_State *L)
 	if (co->getType() == ACTIVEOBJECT_TYPE_PLAYER)
 		return 0;
 
-	const std::unordered_set<int> &child_ids = co->getAttachmentChildIds();
-	for (int child_id : child_ids) {
-		// Child can be NULL if it was deleted earlier
-		if (ServerActiveObject *child = env->getActiveObject(child_id))
-			child->setAttachment(0, "", v3f(0, 0, 0), v3f(0, 0, 0));
-	}
+	co->clearChildAttachments();
+	co->clearParentAttachment();
 
 	verbosestream << "ObjectRef::l_remove(): id=" << co->getId() << std::endl;
 	co->m_pending_removal = true;
@@ -194,13 +192,14 @@ int ObjectRef::l_punch(lua_State *L)
 	// If the punched is a player, and its HP changed
 	if (src_original_hp != co->getHP() &&
 			co->getType() == ACTIVEOBJECT_TYPE_PLAYER) {
-		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co);
+		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co, PlayerHPChangeReason(PlayerHPChangeReason::PLAYER_PUNCH, puncher));
 	}
 
 	// If the puncher is a player, and its HP changed
 	if (dst_origin_hp != puncher->getHP() &&
 			puncher->getType() == ACTIVEOBJECT_TYPE_PLAYER) {
-		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)puncher);
+		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)puncher,
+				PlayerHPChangeReason(PlayerHPChangeReason::PLAYER_PUNCH, co));
 	}
 	return 0;
 }
@@ -226,17 +225,36 @@ int ObjectRef::l_right_click(lua_State *L)
 int ObjectRef::l_set_hp(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
+
+	// Get Object
 	ObjectRef *ref = checkobject(L, 1);
 	luaL_checknumber(L, 2);
 	ServerActiveObject *co = getobject(ref);
-	if (co == NULL) return 0;
+	if (co == NULL)
+		return 0;
+
+	// Get HP
 	int hp = lua_tonumber(L, 2);
-	/*infostream<<"ObjectRef::l_set_hp(): id="<<co->getId()
-			<<" hp="<<hp<<std::endl;*/
+
+	// Get Reason
+	PlayerHPChangeReason reason(PlayerHPChangeReason::SET_HP);
+	reason.from_mod = true;
+	if (lua_istable(L, 3)) {
+		lua_pushvalue(L, 3);
+
+		lua_getfield(L, -1, "type");
+		if (lua_isstring(L, -1) && !reason.setTypeFromString(lua_tostring(L, -1))) {
+			errorstream << "Bad type given!" << std::endl;
+		}
+		lua_pop(L, 1);
+
+		reason.lua_reference = luaL_ref(L, LUA_REGISTRYINDEX);
+	}
+
 	// Do it
-	co->setHP(hp);
+	co->setHP(hp, reason);
 	if (co->getType() == ACTIVEOBJECT_TYPE_PLAYER)
-		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co);
+		getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co, reason);
 
 	// Return
 	return 0;
@@ -699,21 +717,7 @@ int ObjectRef::l_set_detach(lua_State *L)
 	if (co == NULL)
 		return 0;
 
-	int parent_id = 0;
-	std::string bone;
-	v3f position;
-	v3f rotation;
-	co->getAttachment(&parent_id, &bone, &position, &rotation);
-	ServerActiveObject *parent = NULL;
-	if (parent_id) {
-		parent = env->getActiveObject(parent_id);
-		co->setAttachment(0, "", position, rotation);
-	} else {
-		co->setAttachment(0, "", v3f(0, 0, 0), v3f(0, 0, 0));
-	}
-	// Do it
-	if (parent != NULL)
-		parent->removeAttachmentChild(co->getId());
+	co->clearParentAttachment();
 	return 0;
 }
 
@@ -729,9 +733,10 @@ int ObjectRef::l_set_properties(lua_State *L)
 		return 0;
 	read_object_properties(L, 2, prop, getServer(L)->idef());
 	if (prop->hp_max < co->getHP()) {
-		co->setHP(prop->hp_max);
+		PlayerHPChangeReason reason(PlayerHPChangeReason::SET_HP);
+		co->setHP(prop->hp_max, reason);
 		if (co->getType() == ACTIVEOBJECT_TYPE_PLAYER)
-			getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co);
+			getServer(L)->SendPlayerHPOrDie((PlayerSAO *)co, reason);
 	}
 	co->notifyObjectPropertiesModified();
 	return 0;
@@ -829,6 +834,20 @@ int ObjectRef::l_set_velocity(lua_State *L)
 	return 0;
 }
 
+// add_velocity(self, {x=num, y=num, z=num})
+int ObjectRef::l_add_velocity(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	ObjectRef *ref = checkobject(L, 1);
+	LuaEntitySAO *co = getluaobject(ref);
+	if (!co)
+		return 0;
+	v3f pos = checkFloatPos(L, 2);
+	// Do it
+	co->addVelocity(pos);
+	return 0;
+}
+
 // get_velocity(self)
 int ObjectRef::l_get_velocity(lua_State *L)
 {
@@ -876,7 +895,10 @@ int ObjectRef::l_set_yaw(lua_State *L)
 	ObjectRef *ref = checkobject(L, 1);
 	LuaEntitySAO *co = getluaobject(ref);
 	if (co == NULL) return 0;
-	float yaw = luaL_checknumber(L, 2) * core::RADTODEG;
+	if (isNaN(L, 2))
+		throw LuaError("ObjectRef::set_yaw: NaN value is not allowed.");
+
+	float yaw = readParam<float>(L, 2) * core::RADTODEG;
 	// Do it
 	co->setYaw(yaw);
 	return 0;
@@ -1025,7 +1047,8 @@ int ObjectRef::l_get_look_dir(lua_State *L)
 	// Do it
 	float pitch = co->getRadPitchDep();
 	float yaw = co->getRadYawDep();
-	v3f v(cos(pitch)*cos(yaw), sin(pitch), cos(pitch)*sin(yaw));
+	v3f v(std::cos(pitch) * std::cos(yaw), std::sin(pitch), std::cos(pitch) *
+		std::sin(yaw));
 	push_v3f(L, v);
 	return 1;
 }
@@ -1095,7 +1118,7 @@ int ObjectRef::l_set_look_vertical(lua_State *L)
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
 	if (co == NULL) return 0;
-	float pitch = luaL_checknumber(L, 2) * core::RADTODEG;
+	float pitch = readParam<float>(L, 2) * core::RADTODEG;
 	// Do it
 	co->setPitchAndSend(pitch);
 	return 1;
@@ -1108,7 +1131,7 @@ int ObjectRef::l_set_look_horizontal(lua_State *L)
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
 	if (co == NULL) return 0;
-	float yaw = luaL_checknumber(L, 2) * core::RADTODEG;
+	float yaw = readParam<float>(L, 2) * core::RADTODEG;
 	// Do it
 	co->setYawAndSend(yaw);
 	return 1;
@@ -1126,7 +1149,7 @@ int ObjectRef::l_set_look_pitch(lua_State *L)
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
 	if (co == NULL) return 0;
-	float pitch = luaL_checknumber(L, 2) * core::RADTODEG;
+	float pitch = readParam<float>(L, 2) * core::RADTODEG;
 	// Do it
 	co->setPitchAndSend(pitch);
 	return 1;
@@ -1144,7 +1167,7 @@ int ObjectRef::l_set_look_yaw(lua_State *L)
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
 	if (co == NULL) return 0;
-	float yaw = luaL_checknumber(L, 2) * core::RADTODEG;
+	float yaw = readParam<float>(L, 2) * core::RADTODEG;
 	// Do it
 	co->setYawAndSend(yaw);
 	return 1;
@@ -1181,16 +1204,15 @@ int ObjectRef::l_set_attribute(lua_State *L)
 {
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
-	if (co == NULL) {
+	if (co == NULL)
 		return 0;
-	}
 
 	std::string attr = luaL_checkstring(L, 2);
 	if (lua_isnil(L, 3)) {
-		co->removeExtendedAttribute(attr);
+		co->getMeta().removeString(attr);
 	} else {
 		std::string value = luaL_checkstring(L, 3);
-		co->setExtendedAttribute(attr, value);
+		co->getMeta().setString(attr, value);
 	}
 	return 1;
 }
@@ -1200,19 +1222,31 @@ int ObjectRef::l_get_attribute(lua_State *L)
 {
 	ObjectRef *ref = checkobject(L, 1);
 	PlayerSAO* co = getplayersao(ref);
-	if (co == NULL) {
+	if (co == NULL)
 		return 0;
-	}
 
 	std::string attr = luaL_checkstring(L, 2);
 
 	std::string value;
-	if (co->getExtendedAttribute(attr, &value)) {
+	if (co->getMeta().getStringToRef(attr, value)) {
 		lua_pushstring(L, value.c_str());
 		return 1;
 	}
 
 	return 0;
+}
+
+
+// get_meta(self, attribute)
+int ObjectRef::l_get_meta(lua_State *L)
+{
+	ObjectRef *ref = checkobject(L, 1);
+	PlayerSAO *co = getplayersao(ref);
+	if (co == NULL)
+		return 0;
+
+	PlayerMetaRef::create(L, &co->getMeta());
+	return 1;
 }
 
 
@@ -1240,6 +1274,37 @@ int ObjectRef::l_get_inventory_formspec(lua_State *L)
 	if (player == NULL) return 0;
 
 	std::string formspec = player->inventory_formspec;
+	lua_pushlstring(L, formspec.c_str(), formspec.size());
+	return 1;
+}
+
+// set_formspec_prepend(self, formspec)
+int ObjectRef::l_set_formspec_prepend(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	ObjectRef *ref = checkobject(L, 1);
+	RemotePlayer *player = getplayer(ref);
+	if (player == NULL)
+		return 0;
+
+	std::string formspec = luaL_checkstring(L, 2);
+
+	player->formspec_prepend = formspec;
+	getServer(L)->reportFormspecPrependModified(player->getName());
+	lua_pushboolean(L, true);
+	return 1;
+}
+
+// get_formspec_prepend(self) -> formspec
+int ObjectRef::l_get_formspec_prepend(lua_State *L)
+{
+	NO_MAP_LOCK_REQUIRED;
+	ObjectRef *ref = checkobject(L, 1);
+	RemotePlayer *player = getplayer(ref);
+	if (player == NULL)
+		 return 0;
+
+	std::string formspec = player->formspec_prepend;
 	lua_pushlstring(L, formspec.c_str(), formspec.size());
 	return 1;
 }
@@ -1674,7 +1739,7 @@ int ObjectRef::l_override_day_night_ratio(lua_State *L)
 	float ratio = 0.0f;
 	if (!lua_isnil(L, 2)) {
 		do_override = true;
-		ratio = luaL_checknumber(L, 2);
+		ratio = readParam<float>(L, 2);
 	}
 
 	if (!getServer(L)->overrideDayNightRatio(player, do_override, ratio))
@@ -1788,6 +1853,7 @@ const luaL_Reg ObjectRef::methods[] = {
 	luamethod(ObjectRef, get_nametag_attributes),
 	// LuaEntitySAO-only
 	luamethod_aliased(ObjectRef, set_velocity, setvelocity),
+	luamethod(ObjectRef, add_velocity),
 	luamethod_aliased(ObjectRef, get_velocity, getvelocity),
 	luamethod_aliased(ObjectRef, set_acceleration, setacceleration),
 	luamethod_aliased(ObjectRef, get_acceleration, getacceleration),
@@ -1815,8 +1881,11 @@ const luaL_Reg ObjectRef::methods[] = {
 	luamethod(ObjectRef, set_breath),
 	luamethod(ObjectRef, get_attribute),
 	luamethod(ObjectRef, set_attribute),
+	luamethod(ObjectRef, get_meta),
 	luamethod(ObjectRef, set_inventory_formspec),
 	luamethod(ObjectRef, get_inventory_formspec),
+	luamethod(ObjectRef, set_formspec_prepend),
+	luamethod(ObjectRef, get_formspec_prepend),
 	luamethod(ObjectRef, get_player_control),
 	luamethod(ObjectRef, get_player_control_bits),
 	luamethod(ObjectRef, set_physics_override),

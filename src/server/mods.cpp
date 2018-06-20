@@ -21,7 +21,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "filesys.h"
 #include "log.h"
 #include "scripting_server.h"
-#include "subgame.h"
+#include "content/subgames.h"
 
 /**
  * Manage server mods
@@ -47,6 +47,7 @@ ServerModManager::ServerModManager(const std::string &worldpath) :
 	addModsFromConfig(worldmt, gamespec.addon_mods_paths);
 }
 
+// clang-format off
 // This function cannot be currenctly easily tested but it should be ASAP
 void ServerModManager::loadMods(ServerScripting *script)
 {
@@ -66,11 +67,20 @@ void ServerModManager::loadMods(ServerScripting *script)
 		}
 		std::string script_path = mod.path + DIR_DELIM + "init.lua";
 		infostream << "  [" << padStringRight(mod.name, 12) << "] [\""
-			   << script_path << "\"]" << std::endl;
+			<< script_path << "\"]" << std::endl;
+		auto t = std::chrono::steady_clock::now();
 		script->loadMod(script_path, mod.name);
+		infostream << "Mod \"" << mod.name << "\" loaded after "
+			<< std::chrono::duration_cast<std::chrono::milliseconds>(
+				std::chrono::steady_clock::now() - t).count() * 0.001f
+			<< " seconds" << std::endl;
 	}
+
+	// Run a callback when mods are loaded
+	script->on_mods_loaded();
 }
 
+// clang-format on
 const ModSpec *ServerModManager::getModSpec(const std::string &modname) const
 {
 	std::vector<ModSpec>::const_iterator it;

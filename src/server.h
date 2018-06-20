@@ -24,9 +24,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "hud.h"
 #include "gamedef.h"
 #include "serialization.h" // For SER_FMT_VER_INVALID
-#include "mods.h"
+#include "content/mods.h"
 #include "inventorymanager.h"
-#include "subgame.h"
+#include "content/subgames.h"
 #include "tileanimation.h" // struct TileAnimationParams
 #include "network/peerhandler.h"
 #include "network/address.h"
@@ -53,6 +53,7 @@ class Inventory;
 class ModChannelMgr;
 class RemotePlayer;
 class PlayerSAO;
+struct PlayerHPChangeReason;
 class IRollbackManager;
 struct RollbackAction;
 class EmergeManager;
@@ -127,6 +128,7 @@ public:
 	~Server();
 	DISABLE_CLASS_COPY(Server);
 
+	void init();
 	void start();
 	void stop();
 	// This is mainly a way to pass the time to the server.
@@ -200,7 +202,7 @@ public:
 	inline double getUptime() const { return m_uptime.m_value; }
 
 	// read shutdown state
-	inline bool getShutdownRequested() const { return m_shutdown_requested; }
+	inline bool isShutdownRequested() const { return m_shutdown_state.is_requested; }
 
 	// request server to shutdown
 	void requestShutdown(const std::string &msg, bool reconnect, float delay = 0.0f);
@@ -216,6 +218,7 @@ public:
 	bool checkPriv(const std::string &name, const std::string &priv);
 	void reportPrivsModified(const std::string &name=""); // ""=all
 	void reportInventoryFormspecModified(const std::string &name);
+	void reportFormspecPrependModified(const std::string &name);
 
 	void setIpBanned(const std::string &ip, const std::string &name);
 	void unsetIpBanned(const std::string &ip_or_name);
@@ -261,7 +264,6 @@ public:
 	virtual const NodeDefManager* getNodeDefManager();
 	virtual ICraftDefManager* getCraftDefManager();
 	virtual u16 allocateUnknownNodeId(const std::string &name);
-	virtual MtEventManager* getEventManager();
 	IRollbackManager *getRollbackManager() { return m_rollback; }
 	virtual EmergeManager *getEmergeManager() { return m_emerge; }
 
@@ -327,7 +329,7 @@ public:
 
 	void printToConsoleOnly(const std::string &text);
 
-	void SendPlayerHPOrDie(PlayerSAO *player);
+	void SendPlayerHPOrDie(PlayerSAO *player, const PlayerHPChangeReason &reason);
 	void SendPlayerBreath(PlayerSAO *sao);
 	void SendInventory(PlayerSAO* playerSAO);
 	void SendMovePlayer(session_t peer_id);
@@ -347,9 +349,25 @@ public:
 	std::mutex m_env_mutex;
 
 private:
-
 	friend class EmergeThread;
 	friend class RemoteClient;
+	friend class TestServerShutdownState;
+
+	struct ShutdownState {
+		friend class TestServerShutdownState;
+		public:
+			bool is_requested = false;
+			bool should_reconnect = false;
+			std::string message;
+
+			void reset();
+			void trigger(float delay, const std::string &msg, bool reconnect);
+			void tick(float dtime, Server *server);
+			std::wstring getShutdownTimerMessage() const;
+			bool isTimerRunning() const { return m_timer > 0.0f; }
+		private:
+			float m_timer = 0.0f;
+	};
 
 	void SendMovement(session_t peer_id);
 	void SendHP(session_t peer_id, u16 hp);
@@ -367,7 +385,7 @@ private:
 	void SetBlocksNotSent(std::map<v3s16, MapBlock *>& block);
 
 
-	void SendChatMessage(session_t peer_id, const ChatMessage &message);
+	virtual void SendChatMessage(session_t peer_id, const ChatMessage &message);
 	void SendTimeOfDay(session_t peer_id, u16 time, f32 time_speed);
 	void SendPlayerHP(session_t peer_id);
 
@@ -376,6 +394,7 @@ private:
 	void SendEyeOffset(session_t peer_id, v3f first, v3f third);
 	void SendPlayerPrivileges(session_t peer_id);
 	void SendPlayerInventoryFormspec(session_t peer_id);
+	void SendPlayerFormspecPrepend(session_t peer_id);
 	void SendShowFormspecMessage(session_t peer_id, const std::string &formspec,
 		const std::string &formname);
 	void SendHUDAdd(session_t peer_id, u32 id, HudElement *form);
@@ -449,7 +468,7 @@ private:
 		Something random
 	*/
 
-	void DiePlayer(session_t peer_id);
+	void DiePlayer(session_t peer_id, const PlayerHPChangeReason &reason);
 	void RespawnPlayer(session_t peer_id);
 	void DeleteClient(session_t peer_id, ClientDeletionReason reason);
 	void UpdateCrafting(RemotePlayer *player);
@@ -584,10 +603,7 @@ private:
 		Random stuff
 	*/
 
-	bool m_shutdown_requested = false;
-	std::string m_shutdown_msg;
-	bool m_shutdown_ask_reconnect = false;
-	float m_shutdown_timer = 0.0f;
+	ShutdownState m_shutdown_state;
 
 	ChatInterface *m_admin_chat;
 	std::string m_admin_nick;
@@ -606,12 +622,6 @@ private:
 		This is behind m_env_mutex
 	*/
 	std::queue<MapEditEvent*> m_unsent_map_edit_queue;
-	/*
-		Set to true when the server itself is modifying the map and does
-		all sending of information by itself.
-		This is behind m_env_mutex
-	*/
-	bool m_ignore_map_edit_events = false;
 	/*
 		If a non-empty area, map edit events contained within are left
 		unsent. Done at map generation time to speed up editing of the

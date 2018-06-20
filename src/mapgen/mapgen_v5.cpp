@@ -206,32 +206,36 @@ void MapgenV5::makeChunk(BlockMakeData *data)
 	updateHeightmap(node_min, node_max);
 
 	// Init biome generator, place biome-specific nodes, and build biomemap
-	biomegen->calcBiomeNoise(node_min);
+	if (flags & MG_BIOMES) {
+		biomegen->calcBiomeNoise(node_min);
+		generateBiomes();
+	}
 
-	MgStoneType mgstone_type;
-	content_t biome_stone;
-	generateBiomes(&mgstone_type, &biome_stone);
-
-	// Generate caverns, tunnels and classic caves
+	// Generate tunnels, caverns and large randomwalk caves
 	if (flags & MG_CAVES) {
-		bool near_cavern = false;
+		// Generate tunnels first as caverns confuse them
+		generateCavesNoiseIntersection(stone_surface_max_y);
+
 		// Generate caverns
+		bool near_cavern = false;
 		if (spflags & MGV5_CAVERNS)
-			near_cavern = generateCaverns(stone_surface_max_y);
-		// Generate tunnels and classic caves
+			near_cavern = generateCavernsNoise(stone_surface_max_y);
+
+		// Generate large randomwalk caves
 		if (near_cavern)
-			// Disable classic caves in this mapchunk by setting
+			// Disable large randomwalk caves in this mapchunk by setting
 			// 'large cave depth' to world base. Avoids excessive liquid in
 			// large caverns and floating blobs of overgenerated liquid.
-			generateCaves(stone_surface_max_y, -MAX_MAP_GENERATION_LIMIT);
+			generateCavesRandomWalk(stone_surface_max_y,
+				-MAX_MAP_GENERATION_LIMIT);
 		else
-			generateCaves(stone_surface_max_y, large_cave_depth);
+			generateCavesRandomWalk(stone_surface_max_y, large_cave_depth);
 	}
 
 	// Generate dungeons and desert temples
 	if ((flags & MG_DUNGEONS) && full_node_min.Y >= dungeon_ymin &&
 			full_node_max.Y <= dungeon_ymax)
-		generateDungeons(stone_surface_max_y, mgstone_type, biome_stone);
+		generateDungeons(stone_surface_max_y);
 
 	// Generate the registered decorations
 	if (flags & MG_DECORATIONS)
@@ -241,7 +245,8 @@ void MapgenV5::makeChunk(BlockMakeData *data)
 	m_emerge->oremgr->placeAllOres(this, blockseed, node_min, node_max);
 
 	// Sprinkle some dust on top after everything else was generated
-	dustTopNodes();
+	if (flags & MG_BIOMES)
+		dustTopNodes();
 
 	//printf("makeChunk: %dms\n", t.stop());
 

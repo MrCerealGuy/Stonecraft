@@ -130,6 +130,10 @@ LOCAL_SRC_FILES := \
 		jni/src/content_mapnode.cpp               \
 		jni/src/content_nodemeta.cpp              \
 		jni/src/content_sao.cpp                   \
+		jni/src/content/content.cpp               \
+		jni/src/content/mods.cpp                  \
+		jni/src/content/packages.cpp              \
+		jni/src/content/subgames.cpp              \
 		jni/src/convert_json.cpp                  \
 		jni/src/craftdef.cpp                      \
 		jni/src/database/database-dummy.cpp       \
@@ -198,7 +202,6 @@ LOCAL_SRC_FILES := \
 		jni/src/mapgen/mg_ore.cpp                 \
 		jni/src/mapgen/mg_schematic.cpp           \
 		jni/src/minimap.cpp                       \
-		jni/src/mods.cpp                          \
 		jni/src/modchannels.cpp                   \
 		jni/src/nameidmapping.cpp                 \
 		jni/src/nodedef.cpp                       \
@@ -221,16 +224,14 @@ LOCAL_SRC_FILES := \
 		jni/src/rollback_interface.cpp            \
 		jni/src/serialization.cpp                 \
 		jni/src/server/mods.cpp                   \
+		jni/src/server/serveractiveobjectmap.cpp  \
 		jni/src/server.cpp                        \
 		jni/src/serverenvironment.cpp             \
 		jni/src/serverlist.cpp                    \
 		jni/src/serverobject.cpp                  \
 		jni/src/shader.cpp                        \
 		jni/src/sky.cpp                           \
-		jni/src/sound.cpp                         \
-		jni/src/sound_openal.cpp                  \
 		jni/src/staticobject.cpp                  \
-		jni/src/subgame.cpp                       \
 		jni/src/tileanimation.cpp                 \
 		jni/src/translation.cpp                   \
 		jni/src/tool.cpp                          \
@@ -274,11 +275,14 @@ LOCAL_SRC_FILES := \
 		jni/src/unittest/test_voxelmanipulator.cpp \
 		jni/src/settings.cpp                      \
 		jni/src/wieldmesh.cpp                     \
+		jni/src/client/meshgen/collector.cpp      \
 		jni/src/client/clientlauncher.cpp         \
 		jni/src/client/gameui.cpp                 \
 		jni/src/client/hud.cpp                    \
 		jni/src/client/inputhandler.cpp           \
 		jni/src/client/renderingengine.cpp        \
+		jni/src/client/sound.cpp                  \
+		jni/src/client/sound_openal.cpp           \
 		jni/src/client/tile.cpp                   \
 		jni/src/client/joystick_controller.cpp    \
 		jni/src/client/render/factory.cpp         \
@@ -345,6 +349,7 @@ LOCAL_SRC_FILES += \
 		jni/src/script/lua_api/l_nodetimer.cpp    \
 		jni/src/script/lua_api/l_noise.cpp        \
 		jni/src/script/lua_api/l_object.cpp       \
+		jni/src/script/lua_api/l_playermeta.cpp   \
 		jni/src/script/lua_api/l_particles.cpp    \
 		jni/src/script/lua_api/l_particles_local.cpp\
 		jni/src/script/lua_api/l_rollback.cpp     \

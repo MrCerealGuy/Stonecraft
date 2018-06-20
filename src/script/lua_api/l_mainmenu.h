@@ -71,8 +71,6 @@ private:
 
 	static int l_get_worlds(lua_State *L);
 
-	static int l_get_games(lua_State *L);
-
 	static int l_get_mapgen_names(lua_State *L);
 
 	static int l_get_favorites(lua_State *L);
@@ -80,6 +78,12 @@ private:
 	static int l_delete_favorite(lua_State *L);
 
 	static int l_gettext(lua_State *L);
+
+	//packages
+
+	static int l_get_games(lua_State *L);
+
+	static int l_get_content_info(lua_State *L);
 
 	//gui
 
@@ -128,6 +132,9 @@ private:
 	static int l_get_video_drivers(lua_State *L);
 
 	static int l_get_video_modes(lua_State *L);
+
+	//content store
+	static int l_get_package_list(lua_State *L);
 
 	//version compatibility
 	static int l_get_min_supp_proto(lua_State *L);

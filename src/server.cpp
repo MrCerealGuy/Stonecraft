@@ -49,8 +49,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "content_mapnode.h"
 #include "content_nodemeta.h"
 #include "content_sao.h"
-#include "mods.h"
-#include "event_manager.h"
+#include "content/mods.h"
 #include "modchannels.h"
 #include "serverlist.h"
 #include "util/string.h"
@@ -140,7 +139,60 @@ v3f ServerSoundParams::getPos(ServerEnvironment *env, bool *pos_exists) const
 	return v3f(0,0,0);
 }
 
+void Server::ShutdownState::reset()
+{
+	m_timer = 0.0f;
+	message.clear();
+	should_reconnect = false;
+	is_requested = false;
+}
 
+void Server::ShutdownState::trigger(float delay, const std::string &msg, bool reconnect)
+{
+	m_timer = delay;
+	message = msg;
+	should_reconnect = reconnect;
+}
+
+void Server::ShutdownState::tick(float dtime, Server *server)
+{
+	if (m_timer <= 0.0f)
+		return;
+
+	// Timed shutdown
+	static const float shutdown_msg_times[] =
+	{
+		1, 2, 3, 4, 5, 10, 20, 40, 60, 120, 180, 300, 600, 1200, 1800, 3600
+	};
+
+	// Automated messages
+	if (m_timer < shutdown_msg_times[ARRLEN(shutdown_msg_times) - 1]) {
+		for (float t : shutdown_msg_times) {
+			// If shutdown timer matches an automessage, shot it
+			if (m_timer > t && m_timer - dtime < t) {
+				std::wstring periodicMsg = getShutdownTimerMessage();
+
+				infostream << wide_to_utf8(periodicMsg).c_str() << std::endl;
+				server->SendChatMessage(PEER_ID_INEXISTENT, periodicMsg);
+				break;
+			}
+		}
+	}
+
+	m_timer -= dtime;
+	if (m_timer < 0.0f) {
+		m_timer = 0.0f;
+		is_requested = true;
+	}
+}
+
+std::wstring Server::ShutdownState::getShutdownTimerMessage() const
+{
+	std::wstringstream ws;
+	ws << L"*** Server shutting down in "
+		<< duration_to_string(myround(m_timer)).c_str() << ".";
+	return ws.str();
+}
 
 /*
 	Server
@@ -168,7 +220,6 @@ Server::Server(
 	m_itemdef(createItemDefManager()),
 	m_nodedef(createNodeDefManager()),
 	m_craftdef(createCraftDefManager()),
-	m_event(new EventManager()),
 	m_uptime(0),
 	m_clients(m_con),
 	m_admin_chat(iface),
@@ -176,22 +227,96 @@ Server::Server(
 {
 	m_lag = g_settings->getFloat("dedicated_server_step");
 
-	if (path_world.empty())
+	if (m_path_world.empty())
 		throw ServerError("Supplied empty world path");
 
-	if(!gamespec.isValid())
+	if (!gamespec.isValid())
 		throw ServerError("Supplied invalid gamespec");
+}
 
-	infostream<<"Server created for gameid \""<<m_gamespec.id<<"\"";
-	if(m_simple_singleplayer_mode)
-		infostream<<" in simple singleplayer mode"<<std::endl;
+Server::~Server()
+{
+	infostream << "Server destructing" << std::endl;
+
+	// Send shutdown message
+	SendChatMessage(PEER_ID_INEXISTENT, ChatMessage(CHATMESSAGE_TYPE_ANNOUNCE,
+			L"*** Server shutting down"));
+
+	if (m_env) {
+		MutexAutoLock envlock(m_env_mutex);
+
+		infostream << "Server: Saving players" << std::endl;
+		m_env->saveLoadedPlayers();
+
+		infostream << "Server: Kicking players" << std::endl;
+		std::string kick_msg;
+		bool reconnect = false;
+		if (isShutdownRequested()) {
+			reconnect = m_shutdown_state.should_reconnect;
+			kick_msg = m_shutdown_state.message;
+		}
+		if (kick_msg.empty()) {
+			kick_msg = g_settings->get("kick_msg_shutdown");
+		}
+		m_env->kickAllPlayers(SERVER_ACCESSDENIED_SHUTDOWN,
+			kick_msg, reconnect);
+	}
+
+	// Do this before stopping the server in case mapgen callbacks need to access
+	// server-controlled resources (like ModStorages). Also do them before
+	// shutdown callbacks since they may modify state that is finalized in a
+	// callback.
+	if (m_emerge)
+		m_emerge->stopThreads();
+
+	if (m_env) {
+		MutexAutoLock envlock(m_env_mutex);
+
+		// Execute script shutdown hooks
+		infostream << "Executing shutdown hooks" << std::endl;
+		m_script->on_shutdown();
+
+		infostream << "Server: Saving environment metadata" << std::endl;
+		m_env->saveMeta();
+	}
+
+	// Stop threads
+	if (m_thread) {
+		stop();
+		delete m_thread;
+	}
+
+	// Delete things in the reverse order of creation
+	delete m_emerge;
+	delete m_env;
+	delete m_rollback;
+	delete m_banmanager;
+	delete m_itemdef;
+	delete m_nodedef;
+	delete m_craftdef;
+
+	// Deinitialize scripting
+	infostream << "Server: Deinitializing scripting" << std::endl;
+	delete m_script;
+
+	// Delete detached inventories
+	for (auto &detached_inventory : m_detached_inventories) {
+		delete detached_inventory.second;
+	}
+}
+
+void Server::init()
+{
+	infostream << "Server created for gameid \"" << m_gamespec.id << "\"";
+	if (m_simple_singleplayer_mode)
+		infostream << " in simple singleplayer mode" << std::endl;
 	else
-		infostream<<std::endl;
-	infostream<<"- world:  "<<m_path_world<<std::endl;
-	infostream<<"- game:   "<<m_gamespec.path<<std::endl;
+		infostream << std::endl;
+	infostream << "- world:  " << m_path_world << std::endl;
+	infostream << "- game:   " << m_gamespec.path << std::endl;
 
 	// Create world if it doesn't exist
-	if(!loadGameConfAndInitWorld(m_path_world, m_gamespec))
+	if (!loadGameConfAndInitWorld(m_path_world, m_gamespec))
 		throw ServerError("Failed to initialize world");
 
 	// Create server thread
@@ -204,8 +329,7 @@ Server::Server(
 	std::string ban_path = m_path_world + DIR_DELIM "ipban.txt";
 	m_banmanager = new BanManager(ban_path);
 
-	m_modmgr = std::unique_ptr<ServerModManager>(new ServerModManager(
-		m_path_world));
+	m_modmgr = std::unique_ptr<ServerModManager>(new ServerModManager(m_path_world));
 	std::vector<ModSpec> unsatisfied_mods = m_modmgr->getUnsatisfiedMods();
 	// complain about mods with unsatisfied dependencies
 	if (!m_modmgr->isConsistent()) {
@@ -216,10 +340,10 @@ Server::Server(
 	MutexAutoLock envlock(m_env_mutex);
 
 	// Create the Map (loads map_meta.txt, overriding configured mapgen params)
-	ServerMap *servermap = new ServerMap(path_world, this, m_emerge);
+	ServerMap *servermap = new ServerMap(m_path_world, this, m_emerge);
 
 	// Initialize scripting
-	infostream<<"Server: Initializing Lua"<<std::endl;
+	infostream << "Server: Initializing Lua" << std::endl;
 
 	m_script = new ServerScripting(this);
 
@@ -279,75 +403,6 @@ Server::Server(
 	m_max_chatmessage_length = g_settings->getU16("chat_message_max_size");
 	m_csm_flavour_limits = g_settings->getU64("csm_flavour_limits");
 	m_csm_noderange_limit = g_settings->getU32("csm_flavour_noderange_limit");
-}
-
-Server::~Server()
-{
-	infostream << "Server destructing" << std::endl;
-
-	// Send shutdown message
-	SendChatMessage(PEER_ID_INEXISTENT, ChatMessage(CHATMESSAGE_TYPE_ANNOUNCE,
-			L"*** Server shutting down"));
-
-	{
-		MutexAutoLock envlock(m_env_mutex);
-
-		infostream << "Server: Saving players" << std::endl;
-		m_env->saveLoadedPlayers();
-
-		infostream << "Server: Kicking players" << std::endl;
-		std::string kick_msg;
-		bool reconnect = false;
-		if (getShutdownRequested()) {
-			reconnect = m_shutdown_ask_reconnect;
-			kick_msg = m_shutdown_msg;
-		}
-		if (kick_msg.empty()) {
-			kick_msg = g_settings->get("kick_msg_shutdown");
-		}
-		m_env->kickAllPlayers(SERVER_ACCESSDENIED_SHUTDOWN,
-			kick_msg, reconnect);
-	}
-
-	// Do this before stopping the server in case mapgen callbacks need to access
-	// server-controlled resources (like ModStorages). Also do them before
-	// shutdown callbacks since they may modify state that is finalized in a
-	// callback.
-	m_emerge->stopThreads();
-
-	{
-		MutexAutoLock envlock(m_env_mutex);
-
-		// Execute script shutdown hooks
-		infostream << "Executing shutdown hooks" << std::endl;
-		m_script->on_shutdown();
-
-		infostream << "Server: Saving environment metadata" << std::endl;
-		m_env->saveMeta();
-	}
-
-	// Stop threads
-	stop();
-	delete m_thread;
-
-	// Delete things in the reverse order of creation
-	delete m_emerge;
-	delete m_env;
-	delete m_rollback;
-	delete m_banmanager;
-	delete m_event;
-	delete m_itemdef;
-	delete m_nodedef;
-	delete m_craftdef;
-
-	// Deinitialize scripting
-	infostream << "Server: Deinitializing scripting" << std::endl;
-	delete m_script;
-
-	// Delete detached inventories
-	for (auto &detached_inventory : m_detached_inventories) {
-		delete detached_inventory.second;
-	}
 }
 
 void Server::start()
@@ -919,38 +974,7 @@ void Server::AsyncRunStep(bool initial_step)
 		}
 	}
 
-	// Timed shutdown
-	static const float shutdown_msg_times[] =
-	{
-		1, 2, 3, 4, 5, 10, 15, 20, 25, 30, 45, 60, 120, 180, 300, 600, 1200, 1800, 3600
-	};
-
-	if (m_shutdown_timer > 0.0f) {
-		// Automated messages
-		if (m_shutdown_timer < shutdown_msg_times[ARRLEN(shutdown_msg_times) - 1]) {
-			for (u16 i = 0; i < ARRLEN(shutdown_msg_times) - 1; i++) {
-				// If shutdown timer matches an automessage, shot it
-				if (m_shutdown_timer > shutdown_msg_times[i] &&
-					m_shutdown_timer - dtime < shutdown_msg_times[i]) {
-					std::wstringstream ws;
-
-					ws << L"*** Server shutting down in "
-						<< duration_to_string(myround(m_shutdown_timer - dtime)).c_str()
-						<< ".";
-
-					infostream << wide_to_utf8(ws.str()).c_str() << std::endl;
-					SendChatMessage(PEER_ID_INEXISTENT, ws.str());
-					break;
-				}
-			}
-		}
-
-		m_shutdown_timer -= dtime;
-		if (m_shutdown_timer < 0.0f) {
-			m_shutdown_timer = 0.0f;
-			m_shutdown_requested = true;
-		}
-	}
+	m_shutdown_state.tick(dtime, this);
 }
 
 void Server::Receive()
@@ -1029,7 +1053,8 @@ PlayerSAO* Server::StageTwoClientInit(session_t peer_id)
 	if (playersao->isDead())
 		SendDeathscreen(peer_id, false, v3f(0,0,0));
 	else
-		SendPlayerHPOrDie(playersao);
+		SendPlayerHPOrDie(playersao,
+				PlayerHPChangeReason(PlayerHPChangeReason::SET_HP));
 
 	// Send Breath
 	SendPlayerBreath(playersao);
@@ -1159,9 +1184,7 @@ void Server::setTimeOfDay(u32 time)
 
 void Server::onMapEditEvent(MapEditEvent *event)
 {
-	if(m_ignore_map_edit_events)
-		return;
-	if(m_ignore_map_edit_events_area.contains(event->getArea()))
+	if (m_ignore_map_edit_events_area.contains(event->getArea()))
 		return;
 	MapEditEvent *e = event->clone();
 	m_unsent_map_edit_queue.push(e);
@@ -1392,7 +1415,7 @@ void Server::SendMovement(session_t peer_id)
 	Send(&pkt);
 }
 
-void Server::SendPlayerHPOrDie(PlayerSAO *playersao)
+void Server::SendPlayerHPOrDie(PlayerSAO *playersao, const PlayerHPChangeReason &reason)
 {
 	if (!g_settings->getBool("enable_damage"))
 		return;
@@ -1403,7 +1426,7 @@ void Server::SendPlayerHPOrDie(PlayerSAO *playersao)
 	if (is_alive)
 		SendPlayerHP(peer_id);
 	else
-		DiePlayer(peer_id);
+		DiePlayer(peer_id, reason);
 }
 
 void Server::SendHP(session_t peer_id, u16 hp)
@@ -1870,11 +1893,23 @@ void Server::SendPlayerInventoryFormspec(session_t peer_id)
 {
 	RemotePlayer *player = m_env->getPlayer(peer_id);
 	assert(player);
-	if(player->getPeerId() == PEER_ID_INEXISTENT)
+	if (player->getPeerId() == PEER_ID_INEXISTENT)
 		return;
 
 	NetworkPacket pkt(TOCLIENT_INVENTORY_FORMSPEC, 0, peer_id);
 	pkt.putLongString(FORMSPEC_VERSION_STRING + player->inventory_formspec);
+	Send(&pkt);
+}
+
+void Server::SendPlayerFormspecPrepend(session_t peer_id)
+{
+	RemotePlayer *player = m_env->getPlayer(peer_id);
+	assert(player);
+	if (player->getPeerId() == PEER_ID_INEXISTENT)
+		return;
+
+	NetworkPacket pkt(TOCLIENT_FORMSPEC_PREPEND, 0, peer_id);
+	pkt << FORMSPEC_VERSION_STRING + player->formspec_prepend;
 	Send(&pkt);
 }
 
@@ -2481,7 +2516,7 @@ void Server::sendDetachedInventories(session_t peer_id)
 	Something random
 */
 
-void Server::DiePlayer(session_t peer_id)
+void Server::DiePlayer(session_t peer_id, const PlayerHPChangeReason &reason)
 {
 	PlayerSAO *playersao = getPlayerSAO(peer_id);
 	// In some rare cases this can be NULL -- if the player is disconnected
@@ -2493,10 +2528,11 @@ void Server::DiePlayer(session_t peer_id)
 			<< playersao->getPlayer()->getName()
 			<< " dies" << std::endl;
 
-	playersao->setHP(0);
+	playersao->setHP(0, reason);
+	playersao->clearParentAttachment();
 
 	// Trigger scripted stuff
-	m_script->on_dieplayer(playersao);
+	m_script->on_dieplayer(playersao, reason);
 
 	SendPlayerHP(peer_id);
 	SendDeathscreen(peer_id, false, v3f(0,0,0));
@@ -2511,7 +2547,8 @@ void Server::RespawnPlayer(session_t peer_id)
 			<< playersao->getPlayer()->getName()
 			<< " respawns" << std::endl;
 
-	playersao->setHP(playersao->accessObjectProperties()->hp_max);
+	playersao->setHP(playersao->accessObjectProperties()->hp_max,
+			PlayerHPChangeReason(PlayerHPChangeReason::RESPAWN));
 	playersao->setBreath(playersao->accessObjectProperties()->breath_max);
 
 	bool repositioned = m_script->on_respawnplayer(playersao);
@@ -2620,6 +2657,9 @@ void Server::DeleteClient(session_t peer_id, ClientDeletionReason reason)
 			PlayerSAO *playersao = player->getPlayerSAO();
 			assert(playersao);
 
+			playersao->clearChildAttachments();
+			playersao->clearParentAttachment();
+
 			// inform connected clients
 			NetworkPacket notice(TOCLIENT_UPDATE_PLAYER_LIST, 0, PEER_ID_INEXISTENT);
 			// (u16) 1 + std::string represents a vector serialization representation
@@ -2673,6 +2713,10 @@ void Server::DeleteClient(session_t peer_id, ClientDeletionReason reason)
 
 void Server::UpdateCrafting(RemotePlayer *player)
 {
+	InventoryList *clist = player->inventory.getList("craft");
+	if (!clist || clist->getSize() == 0)
+		return;
+
 	// Get a preview for crafting
 	ItemStack preview;
 	InventoryLocation loc;
@@ -2680,13 +2724,13 @@ void Server::UpdateCrafting(RemotePlayer *player)
 	std::vector<ItemStack> output_replacements;
 	getCraftingResult(&player->inventory, preview, output_replacements, false, this);
 	m_env->getScriptIface()->item_CraftPredict(preview, player->getPlayerSAO(),
-			(&player->inventory)->getList("craft"), loc);
+			clist, loc);
 
-	// Put the new preview in
 	InventoryList *plist = player->inventory.getList("craftpreview");
-	sanity_check(plist);
-	sanity_check(plist->getSize() >= 1);
-	plist->changeItem(0, preview);
+	if (plist && plist->getSize() >= 1) {
+		// Put the new preview in
+		plist->changeItem(0, preview);
+	}
 }
 
 void Server::handleChatInterfaceEvent(ChatEvent *evt)
@@ -2916,6 +2960,14 @@ void Server::reportInventoryFormspecModified(const std::string &name)
 	if (!player)
 		return;
 	SendPlayerInventoryFormspec(player->getPeerId());
+}
+
+void Server::reportFormspecPrependModified(const std::string &name)
+{
+	RemotePlayer *player = m_env->getPlayer(name.c_str());
+	if (!player)
+		return;
+	SendPlayerFormspecPrepend(player->getPeerId());
 }
 
 void Server::setIpBanned(const std::string &ip, const std::string &name)
@@ -3218,7 +3270,8 @@ bool Server::rollbackRevertActions(const std::list<RollbackAction> &actions,
 	ServerMap *map = (ServerMap*)(&m_env->getMap());
 
 	// Fail if no actions to handle
-	if(actions.empty()){
+	if (actions.empty()) {
+		assert(log);
 		log->push_back("Nothing to do.");
 		return false;
 	}
@@ -3272,11 +3325,6 @@ ICraftDefManager *Server::getCraftDefManager()
 u16 Server::allocateUnknownNodeId(const std::string &name)
 {
 	return m_nodedef->allocateDummy(name);
-}
-
-MtEventManager *Server::getEventManager()
-{
-	return m_event;
 }
 
 IWritableItemDefManager *Server::getWritableItemDefManager()
@@ -3373,39 +3421,36 @@ v3f Server::findSpawnPos()
 
 void Server::requestShutdown(const std::string &msg, bool reconnect, float delay)
 {
-	m_shutdown_timer = delay;
-	m_shutdown_msg = msg;
-	m_shutdown_ask_reconnect = reconnect;
-
 	if (delay == 0.0f) {
 	// No delay, shutdown immediately
-		m_shutdown_requested = true;
+		m_shutdown_state.is_requested = true;
 		// only print to the infostream, a chat message saying
 		// "Server Shutting Down" is sent when the server destructs.
 		infostream << "*** Immediate Server shutdown requested." << std::endl;
-	} else if (delay < 0.0f && m_shutdown_timer > 0.0f) {
-	// Negative delay, cancel shutdown if requested
-		m_shutdown_timer = 0.0f;
-		m_shutdown_msg = "";
-		m_shutdown_ask_reconnect = false;
-		m_shutdown_requested = false;
+	} else if (delay < 0.0f && m_shutdown_state.isTimerRunning()) {
+		// Negative delay, cancel shutdown if requested
+		m_shutdown_state.reset();
 		std::wstringstream ws;
 
 		ws << L"*** Server shutdown canceled.";
 
 		infostream << wide_to_utf8(ws.str()).c_str() << std::endl;
 		SendChatMessage(PEER_ID_INEXISTENT, ws.str());
+		// m_shutdown_* are already handled, skip.
+		return;
 	} else if (delay > 0.0f) {
 	// Positive delay, tell the clients when the server will shut down
 		std::wstringstream ws;
 
 		ws << L"*** Server shutting down in "
-				<< duration_to_string(myround(m_shutdown_timer)).c_str()
+				<< duration_to_string(myround(delay)).c_str()
 				<< ".";
 
 		infostream << wide_to_utf8(ws.str()).c_str() << std::endl;
 		SendChatMessage(PEER_ID_INEXISTENT, ws.str());
 	}
+
+	m_shutdown_state.trigger(delay, msg, reconnect);
 }
 
 PlayerSAO* Server::emergePlayer(const char *name, session_t peer_id, u16 proto_version)
@@ -3493,7 +3538,7 @@ void dedicated_server_loop(Server &server, bool &kill)
 		}
 		server.step(steplen);
 
-		if (server.getShutdownRequested() || kill)
+		if (server.isShutdownRequested() || kill)
 			break;
 
 		/*

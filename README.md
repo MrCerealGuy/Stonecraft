@@ -20,6 +20,9 @@ Copyright (c) 2016-2018 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> an
 - Don't expect it to work as well as a finished game will.
 - Please report any bugs. When doing that, debug.txt is useful.
 
+Please use the Stonecraft bug report.
+https://goo.gl/forms/1MwRnBDntHntkuHg2
+
 
 ## Default Controls
 
@@ -85,6 +88,9 @@ Most controls are settable in the configuration file, see the section below.
 --config <path-to-file>
 ```
 
+Command-line options:
+---------------------
+- Use --help
 
 ## Command-line options
 

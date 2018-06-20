@@ -341,7 +341,7 @@ if INIT == "game" then
 	local dirs2 = {20, 23, 22, 21}
 
 	function core.rotate_and_place(itemstack, placer, pointed_thing,
-				infinitestacks, orient_flags)
+			infinitestacks, orient_flags, prevent_after_place)
 		orient_flags = orient_flags or {}
 
 		local unode = core.get_node_or_nil(pointed_thing.under)
@@ -394,7 +394,7 @@ if INIT == "game" then
 
 		local old_itemstack = ItemStack(itemstack)
 		local new_itemstack, removed = core.item_place_node(
-			itemstack, placer, pointed_thing, param2
+			itemstack, placer, pointed_thing, param2, prevent_after_place
 		)
 		return infinitestacks and old_itemstack or new_itemstack
 	end
@@ -415,7 +415,7 @@ if INIT == "game" then
 		local invert_wall = placer and placer:get_player_control().sneak or false
 		core.rotate_and_place(itemstack, placer, pointed_thing,
 				is_creative(name),
-				{invert_wall = invert_wall})
+				{invert_wall = invert_wall}, true)
 		return itemstack
 	end
 end
@@ -551,6 +551,16 @@ function table.copy(t, seen)
 	end
 	return n
 end
+
+
+function table.insert_all(t, other)
+	for i=1, #other do
+		t[#t + 1] = other[i]
+	end
+	return t
+end
+
+
 --------------------------------------------------------------------------------
 -- mainmenu only functions
 --------------------------------------------------------------------------------
@@ -675,6 +685,12 @@ end
 -- Returns the exact coordinate of a pointed surface
 --------------------------------------------------------------------------------
 function core.pointed_thing_to_face_pos(placer, pointed_thing)
+	-- Avoid crash in some situations when player is inside a node, causing
+	-- 'above' to equal 'under'.
+	if vector.equals(pointed_thing.above, pointed_thing.under) then
+		return pointed_thing.under
+	end
+
 	local eye_height = placer:get_properties().eye_height
 	local eye_offset_first = placer:get_eye_offset()
 	local node_pos = pointed_thing.under

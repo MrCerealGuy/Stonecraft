@@ -402,11 +402,8 @@ void Server::handleCommand_ClientReady(NetworkPacket* pkt)
 	m_clients.event(peer_id, CSE_SetClientReady);
 	m_script->on_joinplayer(playersao);
 	// Send shutdown timer if shutdown has been scheduled
-	if (m_shutdown_timer > 0.0f) {
-		std::wstringstream ws;
-		ws << L"*** Server shutting down in "
-				<< duration_to_string(myround(m_shutdown_timer)).c_str() << ".";
-		SendChatMessage(pkt->getPeerId(), ws.str());
+	if (m_shutdown_state.isTimerRunning()) {
+		SendChatMessage(pkt->getPeerId(), m_shutdown_state.getShutdownTimerMessage());
 	}
 }
 
@@ -812,8 +809,9 @@ void Server::handleCommand_Damage(NetworkPacket* pkt)
 				<< (int)damage << " hp at " << PP(playersao->getBasePosition() / BS)
 				<< std::endl;
 
-		playersao->setHP(playersao->getHP() - damage);
-		SendPlayerHPOrDie(playersao);
+		PlayerHPChangeReason reason(PlayerHPChangeReason::FALL);
+		playersao->setHP(playersao->getHP() - damage, reason);
+		SendPlayerHPOrDie(playersao, reason);
 	}
 }
 
@@ -1175,12 +1173,14 @@ void Server::handleCommand_Interact(NetworkPacket* pkt)
 			// If the object is a player and its HP changed
 			if (src_original_hp != pointed_object->getHP() &&
 					pointed_object->getType() == ACTIVEOBJECT_TYPE_PLAYER) {
-				SendPlayerHPOrDie((PlayerSAO *)pointed_object);
+				SendPlayerHPOrDie((PlayerSAO *)pointed_object,
+						PlayerHPChangeReason(PlayerHPChangeReason::PLAYER_PUNCH, playersao));
 			}
 
 			// If the puncher is a player and its HP changed
 			if (dst_origin_hp != playersao->getHP())
-				SendPlayerHPOrDie(playersao);
+				SendPlayerHPOrDie(playersao,
+						PlayerHPChangeReason(PlayerHPChangeReason::PLAYER_PUNCH, pointed_object));
 		}
 
 	} // action == 0
@@ -1511,9 +1511,10 @@ void Server::handleCommand_InventoryFields(NetworkPacket* pkt)
 	if (peer_state_iterator != m_formspec_state_data.end()) {
 		const std::string &server_formspec_name = peer_state_iterator->second;
 		if (client_formspec_name == server_formspec_name) {
-			m_script->on_playerReceiveFields(playersao, client_formspec_name, fields);
 			if (fields["quit"] == "true")
 				m_formspec_state_data.erase(peer_state_iterator);
+
+			m_script->on_playerReceiveFields(playersao, client_formspec_name, fields);
 			return;
 		}
 		actionstream << "'" << player->getName()

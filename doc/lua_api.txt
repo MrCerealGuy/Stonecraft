@@ -55,10 +55,10 @@ Where `gameid` is unique to each game.
 
 The game directory can contain the following files:
 
-* `game.conf`, which contains:
-    * `name = <Human-readable full name of the game>` e.g. `name = Minetest`
-    * Optionally, game.conf can also contain
-      `disallowed_mapgens = <comma-separated mapgens>`
+* `game.conf`, with the following keys:
+    * `name` - required, human readable name  e.g. `name = Minetest`
+    * `description` - Short description to be shown in the content tab
+    * `disallowed_mapgens = <comma-separated mapgens>`
       e.g. `disallowed_mapgens = v5,v6,flat`
       These mapgens are removed from the list of mapgens for the game.
 * `minetest.conf`:
@@ -130,9 +130,8 @@ Mod directory structure
 
     mods
     |-- modname
-    |   |-- depends.txt
+    |   |-- mod.conf
     |   |-- screenshot.png
-    |   |-- description.txt
     |   |-- settingtypes.txt
     |   |-- init.lua
     |   |-- models
@@ -145,12 +144,32 @@ Mod directory structure
     |   `-- <custom data>
     `-- another
 
-
 ### modname
 The location of this directory can be fetched by using
 `minetest.get_modpath(modname)`.
 
+### mod.conf
+A key-value store of mod details.
+
+* `name` - the mod name. Allows Minetest to determine the mod name even if the
+           folder is wrongly named.
+* `description` - Description of mod to be shown in the Mods tab of the mainmenu.
+* `depends` - A comma separated list of dependencies. These are mods that must
+              be loaded before this mod.
+* `optional_depends` - A comma separated list of optional dependencies.
+                       Like a dependency, but no error if the mod doesn't exist.
+
+Note: to support 0.4.x, please also provide depends.txt.
+
+### `screenshot.png`
+A screenshot shown in the mod manager within the main menu. It should
+have an aspect ratio of 3:2 and a minimum size of 300×200 pixels.
+
 ### `depends.txt`
+**Deprecated:** you should use mod.conf instead.
+
+This file is used if there are no dependencies in mod.conf.
+
 List of mods that have to be loaded before loading this mod.
 
 A single line contains a single modname.
@@ -159,11 +178,11 @@ Optional dependencies can be defined by appending a question mark
 to a single modname. This means that if the specified mod
 is missing, it does not prevent this mod from being loaded.
 
-### `screenshot.png`
-A screenshot shown in the mod manager within the main menu. It should
-have an aspect ratio of 3:2 and a minimum size of 300×200 pixels.
-
 ### `description.txt`
+**Deprecated:** you should use mod.conf instead.
+
+This file is used if there is no description in mod.conf.
+
 A file containing a description to be shown in the Mods tab of the mainmenu.
 
 ### `settingtypes.txt`
@@ -888,9 +907,19 @@ node definition:
 
     paramtype = "light"
     ^ The value stores light with and without sun in its upper and lower 4 bits
-      respectively. Allows light to propagate from or through the node with
-      light value falling by 1 per node. This is essential for a light source
-      node to spread its light.
+      respectively.
+      Required by a light source node to enable spreading its light.
+      Required by the following drawtypes as they determine their visual
+      brightness from their internal light value:
+        torchlike,
+        signlike,
+        firelike,
+        fencelike,
+        raillike,
+        nodebox,
+        mesh,
+        plantlike,
+        plantlike_rooted.
 
 `param2` is reserved for the engine when any of these are used:
 
@@ -1118,54 +1147,113 @@ A box of a regular node would look like:
 
     {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 
+Perlin noise
+------------
+Perlin noise creates a continuously-varying value depending on the input values.
+Usually in Minetest the input values are either 2D or 3D co-ordinates in nodes.
+The result is used during map generation to create the terrain shape, vary heat
+and humidity to distribute biomes, vary the density of decorations or vary the
+structure of ores.
+
+### Structure of perlin noise
+An 'octave' is a simple noise generator that outputs a value between -1 and 1.
+The smooth wavy noise it generates has a single characteristic scale, almost
+like a 'wavelength', so on its own does not create fine detail.
+Due to this perlin noise combines several octaves to create variation on
+multiple scales. Each additional octave has a smaller 'wavelength' than the
+previous.
+
+This combination results in noise varying very roughly between -2.0 and 2.0 and
+with an average value of 0.0, so `scale` and `offset` are then used to multiply
+and offset the noise variation.
+
+The final perlin noise variation is created as follows:
+
+noise = offset + scale * (octave1 +
+                          octave2 * persistence +
+                          octave3 * persistence ^ 2 +
+                          octave4 * persistence ^ 3 +
+                          ...)
+
 Noise Parameters
 ----------------
-Noise Parameters, or commonly called "`NoiseParams`", define the properties of
-perlin noise.
+Noise Parameters are commonly called `NoiseParams`.
 
 ### `offset`
-Offset that the noise is translated by (i.e. added) after calculation.
+After the multiplication by `scale` this is added to the result and is the final
+step in creating the noise value.
+Can be positive or negative.
 
 ### `scale`
-Factor that the noise is scaled by (i.e. multiplied) after calculation.
+Once all octaves have been combined, the result is multiplied by this.
+Can be positive or negative.
 
 ### `spread`
-Vector containing values by which each coordinate is divided by before
-calculation.
-Higher spread values result in larger noise features.
+For octave1, this is roughly the change of input value needed for a very large
+variation in the noise value generated by octave1. It is almost like a
+'wavelength' for the wavy noise variation.
+Each additional octave has a 'wavelength' that is smaller than the previous
+octave, to create finer detail. `spread` will therefore roughly be the typical
+size of the largest structures in the final noise variation.
 
-A value of `{x=250, y=250, z=250}` is common.
+`spread` is a vector with values for x, y, z to allow the noise variation to be
+stretched or compressed in the desired axes.
+Values are positive numbers.
 
 ### `seed`
-Random seed for the noise. Add the world seed to a seed offset for world-unique
-noise. In the case of `minetest.get_perlin()`, this value has the world seed
-automatically added.
+This is a whole number that determines the entire pattern of the noise
+variation. Altering it enables different noise patterns to be created.
+With other parameters equal, different seeds produce different noise patterns
+and identical seeds produce identical noise patterns.
+
+For this parameter you can randomly choose any whole number. Usually it is
+preferable for this to be different from other seeds, but sometimes it is useful
+to be able to create identical noise patterns.
+
+When used in mapgen this is actually a 'seed offset', it is added to the
+'world seed' to create the seed used by the noise, to ensure the noise has a
+different pattern in different worlds.
 
 ### `octaves`
-Number of times the noise gradient is accumulated into the noise.
+The number of simple noise generators that are combined.
+A whole number, 1 or more.
+Each additional octave adds finer detail to the noise but also increases the
+noise calculation load.
+3 is a typical minimum for a high quality, complex and natural-looking noise
+variation. 1 octave has a slight 'gridlike' appearence.
 
-Increase this number to increase the amount of detail in the resulting noise.
-
-A value of `6` is common.
+Choose the number of octaves according to the `spread` and `lacunarity`, and the
+size of the finest detail you require. For example:
+if `spread` is 512 nodes, `lacunarity` is 2.0 and finest detail required is 16
+nodes, octaves will be 6 because the 'wavelengths' of the octaves will be
+512, 256, 128, 64, 32, 16 nodes.
+Warning: If the 'wavelength' of any octave falls below 1 an error will occur.
 
 ### `persistence`
-Factor by which the effect of the noise gradient function changes with each
-successive octave.
+Each additional octave has an amplitude that is the amplitude of the previous
+octave multiplied by `persistence`, to reduce the amplitude of finer details,
+as is often helpful and natural to do so.
+Since this controls the balance of fine detail to large-scale detail
+`persistence` can be thought of as the 'roughness' of the noise.
 
-Values less than `1` make the details of successive octaves' noise diminish,
-while values greater than `1` make successive octaves stronger.
-
-A value of `0.6` is common.
+A positive or negative non-zero number, often between 0.3 and 1.0.
+A common medium value is 0.5, such that each octave has half the amplitude of
+the previous octave.
+This may need to be tuned when altering `lacunarity`; when doing so consider
+that a common medium value is 1 / lacunarity.
 
 ### `lacunarity`
-Factor by which the noise feature sizes change with each successive octave.
+Each additional octave has a 'wavelength' that is the 'wavelength' of the
+previous octave multiplied by 1 / lacunarity, to create finer detail.
+'lacunarity' is often 2.0 so 'wavelength' often halves per octave.
 
-A value of `2.0` is common.
+A positive number no smaller than 1.0.
+Values below 2.0 create higher quality noise at the expense of requiring more
+octaves to cover a paticular range of 'wavelengths'.
 
 ### `flags`
 Leave this field unset for no special handling.
-
-Currently supported are `defaults`, `eased` and `absvalue`.
+Currently supported are `defaults`, `eased` and `absvalue`:
 
 #### `defaults`
 Specify this if you would like to keep auto-selection of eased/not-eased while
@@ -1174,28 +1262,39 @@ specifying some other flags.
 #### `eased`
 Maps noise gradient values onto a quintic S-curve before performing
 interpolation. This results in smooth, rolling noise.
-Disable this (`noeased`) for sharp-looking noise.
+Disable this (`noeased`) for sharp-looking noise with a slightly gridded
+appearence.
 If no flags are specified (or defaults is), 2D noise is eased and 3D noise is
 not eased.
+Easing a 3D noise significantly increases the noise calculation load, so use
+with restraint.
 
 #### `absvalue`
-Accumulates the absolute value of each noise gradient result.
+The absolute value of each octave's noise variation is used when combining the
+octaves. The final perlin noise variation is created as follows:
 
-Noise parameters format example for 2D or 3D perlin noise or perlin noise maps:
+noise = offset + scale * (abs(octave1) +
+                          abs(octave2) * persistence +
+                          abs(octave3) * persistence ^ 2 +
+                          abs(octave4) * persistence ^ 3 +
+                          ...)
+
+###Format example
+For 2D or 3D perlin noise or perlin noise maps:
 
     np_terrain = {
         offset = 0,
         scale = 1,
-        spread = {x=500, y=500, z=500},
+        spread = {x = 500, y = 500, z = 500},
         seed = 571347,
         octaves = 5,
         persist = 0.63,
         lacunarity = 2.0,
-        flags = "defaults, absvalue"
+        flags = "defaults, absvalue",
     }
-    ^ A single noise parameter table can be used to get 2D or 3D noise,
-      when getting 2D noise spread.z is ignored.
 
+For 2D noise the Z component of `spread` is still defined but is ignored.
+A single noise parameter table can be used for 2D or 3D noise.
 
 Ore types
 ---------
@@ -1268,6 +1367,7 @@ The following is a decent set of parameters to work from:
         seed    = 5390,
         octaves = 4,
         persist = 0.5,
+        lacunarity = 2.0,
         flags = "eased",
     },
     noise_threshold = 1.6
@@ -1416,9 +1516,6 @@ factor!
 
 Below are the specific uses for fields in each type; fields not listed for that
 type are ignored.
-
-**Note**: Future revisions to the HUD API may be incompatible; the HUD API is
-still in the experimental stages.
 
 ### `image`
 Displays an image on the HUD.
@@ -1931,6 +2028,10 @@ supported. It is a string, with a somewhat strange format.
 Spaces and newlines can be inserted between the blocks, as is used in the
 examples.
 
+WARNING: Minetest allows you to add elements to every single formspec instance
+using player:set_formspec_prepend(), which may be the reason backgrounds are
+appearing when you don't expect them to. See `no_prepend[]`
+
 ### Examples
 
 #### Chest
@@ -1982,6 +2083,10 @@ examples.
 
 * `position` and `anchor` elements need suitable values to avoid a formspec
   extending off the game window due to particular game window sizes.
+
+#### `no_prepend[]`
+* Must be used after the `size`, `position`, and `anchor` elements (if present).
+* Disables player:set_formspec_prepend() from applying to this formspec.
 
 #### `container[<X>,<Y>]`
 * Start of a container block, moves all physical elements in the container by
@@ -2186,10 +2291,11 @@ examples.
 * `draw_border` (optional): draw border
 
 #### `box[<X>,<Y>;<W>,<H>;<color>]`
-* Simple colored semitransparent box
+* Simple colored box
 * `x` and `y` position the box relative to the top left of the menu
 * `w` and `h` are the size of box
-* `color` is color specified as a `ColorString`
+* `color` is color specified as a `ColorString`.
+  If the alpha component is left blank, the box will be semitransparent.
 
 #### `dropdown[<X>,<Y>;<W>;<name>;<item 1>,<item 2>, ...,<item n>;<selected idx>]`
 * Show a dropdown field
@@ -2443,10 +2549,15 @@ Helper functions
       in formspecs.
 * `minetest.is_yes(arg)`
     * returns true if passed 'y', 'yes', 'true' or a number that isn't zero.
+* `minetest.is_nan(arg)`
+    * returns true when the passed number represents NaN.
 * `minetest.get_us_time()`
     * returns time with microsecond precision. May not return wall time.
 * `table.copy(table)`: returns a table
     * returns a deep copy of `table`
+* `table.insert_all(table, other_table)`:
+    * Appends all values in `other_table` to `table` - uses `#table + 1` to
+      find new indices.
 * `minetest.pointed_thing_to_face_pos(placer, pointed_thing)`: returns a
   position.
     * returns the exact position on the surface of a pointed node
@@ -2512,7 +2623,7 @@ operations such as `minetest.colorize` which are also concatenation.
 
 ### Translation file format
 A translation file has the suffix `.[lang].tr`, where `[lang]` is the language
-it corresponds to.
+it corresponds to. It must be put into the `locale` subdirectory of the mod.
 The file should be a text file, with the following format:
 
 * Lines beginning with `# textdomain:` (the space is significant) can be used
@@ -2563,7 +2674,7 @@ Strings that need to be translated can contain several escapes, preceded by `@`.
            chat_send_player_param3 = true,
            get_all_craft_recipes_works = true,
            use_texture_alpha = true,
-        -- ^ The transparency channel of textures can be used optionally
+        -- ^ The transparency channel of textures can optionally be used on nodes
            no_legacy_abms = true,
         -- ^ Tree and grass ABMs are no longer done from C++
            texture_names_parens = true,
@@ -2574,6 +2685,9 @@ Strings that need to be translated can contain several escapes, preceded by `@`.
         -- ^ add_entity supports passing initial staticdata to on_activate
            no_chat_message_prediction = true,
         -- ^ Chat messages are no longer predicted
+           object_use_texture_alpha = true
+        -- ^ The transparency channel of textures can optionally be used on
+        --   objects (ie: players and lua entities)
         }
 * `minetest.has_feature(arg)`: returns `boolean, missing_features`
     * `arg`: string or table in format `{foo=true, bar=true}`
@@ -2679,6 +2793,9 @@ Call these functions only at load time!
 
 * `minetest.register_globalstep(func(dtime))`
     * Called every server step, usually interval of 0.1s
+* `minetest.register_on_mods_loaded(func())`
+    * Called after mods have finished loading and before the media is cached or the
+      aliases handled.
 * `minetest.register_on_shutdown(func())`
     * Called before server shutdown
     * **Warning**: If the server terminates abnormally (i.e. crashes), the
@@ -2701,8 +2818,6 @@ Call these functions only at load time!
       is a bit faster than usually.
 * `minetest.register_on_newplayer(func(ObjectRef))`
     * Called after a new player has been created
-* `minetest.register_on_dieplayer(func(ObjectRef))`
-    * Called when a player dies
 * `minetest.register_on_punchplayer(func(player, hitter, time_from_last_punch, tool_capabilities, dir, damage))`
     * Called when a player is punched
     * `player` - ObjectRef - Player that was punched
@@ -2714,15 +2829,28 @@ Call these functions only at load time!
       the puncher to the punched.
     * `damage` - number that represents the damage calculated by the engine
     * should return `true` to prevent the default damage mechanism
-* `minetest.register_on_player_hpchange(func(player, hp_change), modifier)`
+* `minetest.register_on_player_hpchange(func(player, hp_change, reason), modifier)`
     * Called when the player gets damaged or healed
     * `player`: ObjectRef of the player
     * `hp_change`: the amount of change. Negative when it is damage.
+    * `reason`: a PlayerHPChangeReason table.
+        * The `type` field will have one of the following values:
+            * `set_hp` - A mod or the engine called `set_hp` without
+                         giving a type - use this for custom damage types.
+            * `punch` - Was punched. `reason.object` will hold the puncher, or nil if none.
+            * `fall`
+            * `node_damage` - damage_per_second from a neighbouring node.
+            * `drown`
+            * `respawn`
+        * Any of the above types may have additional fields from mods.
+        * `reason.from` will be `mod` or `engine`.
     * `modifier`: when true, the function should return the actual `hp_change`.
-      Note: modifiers only get a temporary hp_change that can be modified by
-      later modifiers. modifiers can return true as a second argument to stop
-      the execution of further functions. Non-modifiers receive the final hp
-      change calculated by the modifiers.
+       Note: modifiers only get a temporary hp_change that can be modified by later modifiers.
+       modifiers can return true as a second argument to stop the execution of further functions.
+       Non-modifiers receive the final hp change calculated by the modifiers.
+* `minetest.register_on_dieplayer(func(ObjectRef, reason))`
+    * Called when a player dies
+    * `reason`: a PlayerHPChangeReason table, see register_on_player_hpchange
 * `minetest.register_on_respawnplayer(func(ObjectRef))`
     * Called when player is to be respawned
     * Called _before_ repositioning of player occurs
@@ -2769,6 +2897,22 @@ Call these functions only at load time!
 * `minetest.register_craft_predict(func(itemstack, player, old_craft_grid, craft_inv))`
     * The same as before, except that it is called before the player crafts, to
       make craft prediction, and it should not change anything.
+* `minetest.register_allow_player_inventory_action(func(player, inventory, action, inventory_info))`
+    * Determinates how much of a stack may be taken, put or moved to a
+      player inventory.
+    * `player` (type `ObjectRef`) is the player who modified the inventory
+      `inventory` (type `InvRef`).
+    * List of possible `action` (string) values and their
+      `inventory_info` (table) contents:
+        * `move`: `{from_list=string, to_list=string, from_index=number, to_index=number, count=number}`
+        * `put`:  `{listname=string, index=number, stack=ItemStack}`
+        * `take`: Same as `put`
+    * Return a numeric value to limit the amount of items to be taken, put or
+      moved. A value of `-1` for `take` will make the source stack infinite.
+* `minetest.register_on_player_inventory_action(func(player, inventory, action, inventory_info))`
+    * Called after a take, put or move event from/to/in a player inventory
+    * Function arguments: see `minetest.register_allow_player_inventory_action`
+    * Does not accept or handle any return value.
 * `minetest.register_on_protection_violation(func(pos, name))`
     * Called by `builtin` and mods when a player violates protection at a
       position (eg, digs a node or punches a protected entity).
@@ -3350,9 +3494,11 @@ You can find mod channels communication scheme in `docs/mod_channels.png`.
 ### Defaults for the `on_*` item definition functions
 These functions return the leftover itemstack.
 
-* `minetest.item_place_node(itemstack, placer, pointed_thing, param2)`
+* `minetest.item_place_node(itemstack, placer, pointed_thing[, param2, prevent_after_place])`
     * Place item as a node
     * `param2` overrides `facedir` and wallmounted `param2`
+    * `prevent_after_place`: if set to `true`, `after_place_node` is not called
+      for the newly placed node to prevent a callback and placement loop
     * returns `itemstack, success`
 * `minetest.item_place_object(itemstack, placer, pointed_thing)`
     * Place item as-is
@@ -3673,13 +3819,14 @@ These functions return the leftover itemstack.
     * Like `minetest.is_protected`, this function may be extended or
       overwritten by mods to provide a faster implementation to check the
       cuboid for intersections.
-* `minetest.rotate_and_place(itemstack, placer, pointed_thing, infinitestacks, orient_flags)`
+* `minetest.rotate_and_place(itemstack, placer, pointed_thing[, infinitestacks,
+        orient_flags, prevent_after_place])`
     * Attempt to predict the desired orientation of the facedir-capable node
       defined by `itemstack`, and place it accordingly (on-wall, on the floor,
-      or hanging from the ceiling). Stacks are handled normally if the
-      `infinitestacks` field is false or omitted (else, the itemstack is not
-      changed). `orient_flags` is an optional table containing extra tweaks to
-      the placement code:
+      or hanging from the ceiling).
+    * `infinitestacks`: if `true`, the itemstack is not changed. Otherwise the
+      stacks are handled normally.
+    * `orient_flags`: Optional table containing extra tweaks to the placement code:
         * `invert_wall`:   if `true`, place wall-orientation on the ground and
           ground-orientation on the wall.
         * `force_wall` :   if `true`, always place the node in wall orientation.
@@ -3689,10 +3836,12 @@ These functions return the leftover itemstack.
           when placing on the floor or ceiling.
         * The first four options are mutually-exclusive; the last in the list
           takes precedence over the first.
+    * `prevent_after_place` is directly passed to `minetest.item_place_node`
+    * Returns the new itemstack after placement
 * `minetest.rotate_node(itemstack, placer, pointed_thing)`
-    * calls `rotate_and_place()` with infinitestacks set according to the state
-      of the creative mode setting, and checks for "sneak" to set the
-      `invert_wall` parameter.
+    * calls `rotate_and_place()` with `infinitestacks` set according to the state
+      of the creative mode setting, checks for "sneak" to set the `invert_wall`
+      parameter and `prevent_after_place` set to `true`.
 
 * `minetest.forceload_block(pos[, transient])`
     * forceloads the position `pos`.
@@ -3770,15 +3919,18 @@ An interface to use mod channels on client and server
     * Message size is limited to 65535 characters by protocol.
 
 ### `MetaDataRef`
-See `StorageRef`, `NodeMetaRef` and `ItemStackMetaRef`.
+See `StorageRef`, `NodeMetaRef`, `ItemStackMetaRef`, and `PlayerMetaRef`.
 
 #### Methods
-* `set_string(name, value)`
-* `get_string(name)`
-* `set_int(name, value)`
-* `get_int(name)`
-* `set_float(name, value)`
-* `get_float(name)`
+* `contains(key)`: Returns true if key present, otherwise false.
+    * Returns `nil` when the MetaData is inexistent.
+* `get(key)`: Returns `nil` if key not present, else the stored string.
+* `set_string(key, value)`: Value of `""` will delete the key.
+* `get_string(key)`: Returns `""` if key not present.
+* `set_int(key, value)`
+* `get_int(key)`: Returns `0` if key not present.
+* `set_float(key, value)`
+* `get_float(key)`: Returns `0` if key not present.
 * `to_table()`: returns `nil` or a table with keys:
     * `fields`: key-value storage
     * `inventory`: `{list1 = {}, ...}}` (NodeMetaRef only)
@@ -3816,6 +3968,15 @@ Can be obtained via `item:get_meta()`.
 ### `StorageRef`
 Mod metadata: per mod metadata, saved automatically.
 Can be obtained via `minetest.get_mod_storage()` during load time.
+
+#### Methods
+* All methods in MetaDataRef
+
+### `PlayerMetaRef`
+Player metadata.
+Uses the same method of storage as the deprecated player attribute API, so
+data there will also be in player meta.
+Can be obtained using `player:get_meta()`.
 
 #### Methods
 * All methods in MetaDataRef
@@ -3861,7 +4022,8 @@ This is basically a reference to a C++ `ServerActiveObject`
     * `direction`: can be `nil`
 * `right_click(clicker)`; `clicker` is another `ObjectRef`
 * `get_hp()`: returns number of hitpoints (2 * number of hearts)
-* `set_hp(hp)`: set number of hitpoints (2 * number of hearts)
+* `set_hp(hp, reason)`: set number of hitpoints (2 * number of hearts).
+    * See reason in register_on_player_hpchange
 * `get_inventory()`: returns an `InvRef`
 * `get_wield_list()`: returns the name of the inventory list the wielded item
    is in.
@@ -3912,6 +4074,10 @@ This is basically a reference to a C++ `ServerActiveObject`
 ##### LuaEntitySAO-only (no-op for other objects)
 * `set_velocity(vel)`
     * `vel` is a vector, e.g. `{x=0.0, y=2.3, z=1.0}`
+* `add_velocity(vel)`
+    * `vel` is a vector, e.g. `{x=0.0, y=2.3, z=1.0}`
+    * In comparison to using get_velocity, adding the velocity and then using
+      set_velocity, add_velocity is supposed to avoid synchronization problems.
 * `get_velocity()`: returns the velocity, a vector
 * `set_acceleration(acc)`
     * `acc` is a vector
@@ -3964,18 +4130,26 @@ This is basically a reference to a C++ `ServerActiveObject`
         * `0`: player is drowning
         * max: bubbles bar is not shown
         * See Object Properties for more information
-* `set_attribute(attribute, value)`:
+* `set_attribute(attribute, value)`:  DEPRECATED, use get_meta() instead
     * Sets an extra attribute with value on player.
     * `value` must be a string, or a number which will be converted to a
       string.
     * If `value` is `nil`, remove attribute from player.
-* `get_attribute(attribute)`:
+* `get_attribute(attribute)`:  DEPRECATED, use get_meta() instead
     * Returns value (a string) for extra attribute.
     * Returns `nil` if no attribute found.
+* `get_meta()`: Returns a PlayerMetaRef.
 * `set_inventory_formspec(formspec)`
     * Redefine player's inventory form
     * Should usually be called in `on_joinplayer`
 * `get_inventory_formspec()`: returns a formspec string
+* `set_formspec_prepend(formspec)`:
+    * the formspec string will be added to every formspec shown to the user,
+      except for those with a no_prepend[] tag.
+    * This should be used to set style elements such as background[] and
+      bgcolor[], any non-style elements (eg: label) may result in weird behaviour.
+    * Only affects formspecs shown after this is called.
+* `get_formspec_prepend(formspec)`: returns a formspec string.
 * `get_player_control()`: returns table with player pressed keys
     * The table consists of fields with boolean value representing the pressed
       keys, the fields are jump, right, left, LMB, RMB, sneak, aux1, down, up.
@@ -4562,9 +4736,14 @@ The coordinates are *inclusive*, like most other things in Minetest.
   `MaxEdge`.
 * `index(x, y, z)`: returns the index of an absolute position in a flat array
   starting at `1`.
-    * useful for things like `VoxelManip`, raw Schematic specifiers,
+    * `x`, `y` and `z` must be integers to avoid an incorrect index result.
+    * The position (x, y, z) is not checked for being inside the area volume,
+      being outside can cause an incorrect index result.
+    * Useful for things like `VoxelManip`, raw Schematic specifiers,
       `PerlinNoiseMap:get2d`/`3dMap`, and so on.
-* `indexp(p)`: same as above, except takes a vector
+* `indexp(p)`: same functionality as `index(x, y, z)` but takes a vector.
+    * As with `index(x, y, z)`, the components of `p` must be integers, and `p`
+      is not checked for being inside the area volume.
 * `position(i)`: returns the absolute position vector corresponding to index
   `i`.
 * `contains(x, y, z)`: check if (`x`,`y`,`z`) is inside area formed by
@@ -4707,6 +4886,13 @@ Registered entities
         * Called when the object dies.
         * `killer`: an `ObjectRef` (can be `nil`)
     * `on_rightclick(self, clicker)`
+    * `on_attach_child(self, child)`
+        * `child`: an `ObjectRef` of the child that attaches
+    * `on_detach_child(self, child)`
+        * `child`: an `ObjectRef` of the child that detaches
+    * `on_detach(self, parent)`
+        * `parent`: an `ObjectRef` (can be `nil`) from where it got detached
+        * This happens before the parent object is removed from the world
     * `get_staticdata(self)`
         * Should return a string that will be passed to `on_activate` when
           the object is instantiated the next time.
@@ -4841,6 +5027,10 @@ Definition tables
     --  ^ "wielditem" expects 'textures = {itemname}' (see 'visual' above).
         colors = {},
     --  ^ Number of required colors depends on visual.
+        use_texture_alpha = false,
+    --  ^ Use texture's alpha channel, excludes "upright_sprite" and "wielditem"
+	--  ^ Note: currently causes visual issues when viewed through other
+	--  ^ semi-transparent materials such as water.
         spritediv = {x = 1, y = 1},
     --  ^ Used with spritesheet textures for animation and/or frame selection
     --    according to position relative to player.
@@ -5148,11 +5338,7 @@ Definition tables
         ^ Only when `paramtype2` supports palettes. ]]
         post_effect_color = "green#0F",
         ^ Screen tint if player is inside node, see "ColorSpec".
-        paramtype = "none", --[[
-        ^ See "Nodes".
-        ^ paramtype = "light" allows light to propagate from or through the
-        ^ node with light value falling by 1 per node. This line is essential
-        ^ for a light source node to spread its light. ]]
+        paramtype = "none", -- See "Nodes".
         paramtype2 = "none", -- See "Nodes"
         place_param2 = nil, -- Force value for param2 when player places node
         is_ground_content = true,
@@ -5200,10 +5386,26 @@ Definition tables
         ^ Tells connected nodebox nodes to connect only to these sides of this
         ^ node. ]]
         mesh = "model",
-        selection_box = {type="regular"}, --[[
-        ^ See "Node boxes".
+        selection_box = {
+            type = "fixed",
+            fixed = {
+                {-2 / 16, -0.5, -2 / 16, 2 / 16, 3 / 16, 2 / 16},
+            },
+        },
+        ^ Custom selection box definition. Multiple boxes can be defined.
         ^ If drawtype "nodebox" is used and selection_box is nil, then node_box
-        ^ is used. ]]
+        ^ definition is used for the selection box.
+        collision_box = {
+            type = "fixed",
+            fixed = {
+                {-2 / 16, -0.5, -2 / 16, 2 / 16, 3 / 16, 2 / 16},
+            },
+        },
+        ^ Custom collision box definition. Multiple boxes can be defined.
+        ^ If drawtype "nodebox" is used and collision_box is nil, then node_box
+        ^ definition is used for the collision box.
+        ^ For both of the above a box is defined as:
+        ^ {xmin, ymin, zmin, xmax, ymax, zmax} in nodes from node center.
         legacy_facedir_simple = false,
         ^ Support maps made in and before January 2012.
         legacy_wallmounted = false,
@@ -5514,6 +5716,21 @@ Definition tables
         node_riverbed = "default:gravel",
         depth_riverbed = 2,
     --  ^ Node placed under river water and thickness of this layer.
+        node_cave_liquid = "default:water_source",
+    --  ^ Nodes placed as a blob of liquid in 50% of large caves.
+    --  ^ If absent, cave liquids fall back to classic behaviour of lava or
+    --  ^ water distributed according to a hardcoded 3D noise.
+        node_dungeon = "default:cobble",
+    --  ^ Node used for primary dungeon structure.
+    --  ^ If absent, dungeon materials fall back to classic behaviour.
+    --  ^ If present, the following two nodes are also used.
+        node_dungeon_alt = "default:mossycobble",
+    --  ^ Node used for randomly-distributed alternative structure nodes.
+    --  ^ If alternative structure nodes are not wanted leave this absent for
+    --  ^ performance reasons.
+        node_dungeon_stair = "stairs:stair_cobble",
+    --  ^ Node used for dungeon stairs.
+    --  ^ If absent, stairs fall back to 'node_dungeon'.
         y_max = 31000,
         y_min = 1,
     --  ^ Upper and lower limits for biome.
@@ -5757,11 +5974,12 @@ Note that in params, use of symbols is as follows:
         texture = "image.png",
     --  ^ Uses texture (string)
         playername = "singleplayer",
-    --  ^ optional, if specified spawns particle only on the player's client
+    --  ^ Optional, if specified spawns particle only on the player's client
         animation = {Tile Animation definition},
-    --  ^ optional, specifies how to animate the particle texture
+    --  ^ Optional, specifies how to animate the particle texture
         glow = 0
-    --  ^ optional, specify particle self-luminescence in darkness
+    --  ^ Optional, specify particle self-luminescence in darkness.
+    --  ^ Values 0-14.
     }
 
 
@@ -5802,9 +6020,10 @@ Note that in params, use of symbols is as follows:
     --  ^ Playername is optional, if specified spawns particle only on the
     --  ^ player's client.
         animation = {Tile Animation definition},
-    --  ^ optional, specifies how to animate the particle texture
+    --  ^ Optional, specifies how to animate the particle texture
         glow = 0
-    --  ^ optional, specify particle self-luminescence in darkness
+    --  ^ Optional, specify particle self-luminescence in darkness.
+    --  ^ Values 0-14.
     }
 
 ### `HTTPRequest` definition (`HTTPApiTable.fetch_async`, `HTTPApiTable.fetch_async`)

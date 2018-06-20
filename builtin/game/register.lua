@@ -116,8 +116,6 @@ function core.register_item(name, itemdef)
 	end
 	itemdef.name = name
 
-	local is_overriding = core.registered_items[name]
-
 	-- Apply defaults and add to registered_* table
 	if itemdef.type == "node" then
 		-- Use the nodebox as selection box if it's not set manually
@@ -179,13 +177,7 @@ function core.register_item(name, itemdef)
 	--core.log("Registering item: " .. itemdef.name)
 	core.registered_items[itemdef.name] = itemdef
 	core.registered_aliases[itemdef.name] = nil
-
-	-- Used to allow builtin to register ignore to registered_items
-	if name ~= "ignore" then
-		register_item_raw(itemdef)
-	elseif is_overriding then
-		core.log("warning", "Attempted redefinition of \"ignore\"")
-	end
+	register_item_raw(itemdef)
 end
 
 function core.unregister_item(name)
@@ -338,7 +330,7 @@ core.register_item(":unknown", {
 })
 
 core.register_node(":air", {
-	description = "Air (you hacker you!)",
+	description = "Air",
 	inventory_image = "air.png",
 	wield_image = "air.png",
 	drawtype = "airlike",
@@ -355,7 +347,7 @@ core.register_node(":air", {
 })
 
 core.register_node(":ignore", {
-	description = "Ignore (you hacker you!)",
+	description = "Ignore",
 	inventory_image = "ignore.png",
 	wield_image = "ignore.png",
 	drawtype = "airlike",
@@ -368,6 +360,13 @@ core.register_node(":ignore", {
 	air_equivalent = true,
 	drop = "",
 	groups = {not_in_creative_inventory=1},
+	on_place = function(itemstack, placer, pointed_thing)
+		minetest.chat_send_player(
+				placer:get_player_name(),
+				minetest.colorize("#FF0000",
+				"You can't place 'ignore' nodes!"))
+		return ""
+	end,
 })
 
 -- The hand (bare definition)
@@ -446,7 +445,7 @@ end
 function core.run_priv_callbacks(name, priv, caller, method)
 	local def = core.registered_privileges[priv]
 	if not def or not def["on_" .. method] or
-			not def[priv]["on_" .. method](name, caller) then
+			not def["on_" .. method](name, caller) then
 		for _, func in ipairs(core["registered_on_priv_" .. method]) do
 			if not func(name, caller, priv) then
 				break
@@ -529,11 +528,11 @@ end
 
 core.registered_on_player_hpchanges = { modifiers = { }, loggers = { } }
 
-function core.registered_on_player_hpchange(player, hp_change)
+function core.registered_on_player_hpchange(player, hp_change, reason)
 	local last = false
 	for i = #core.registered_on_player_hpchanges.modifiers, 1, -1 do
 		local func = core.registered_on_player_hpchanges.modifiers[i]
-		hp_change, last = func(player, hp_change)
+		hp_change, last = func(player, hp_change, reason)
 		if type(hp_change) ~= "number" then
 			local debuginfo = debug.getinfo(func)
 			error("The register_on_hp_changes function has to return a number at " ..
@@ -544,7 +543,7 @@ function core.registered_on_player_hpchange(player, hp_change)
 		end
 	end
 	for i, func in ipairs(core.registered_on_player_hpchanges.loggers) do
-		func(player, hp_change)
+		func(player, hp_change, reason)
 	end
 	return hp_change
 end
@@ -570,6 +569,7 @@ core.unregister_biome = make_wrap_deregistration(core.register_biome, core.clear
 core.registered_on_chat_messages, core.register_on_chat_message = make_registration()
 core.registered_globalsteps, core.register_globalstep = make_registration()
 core.registered_playerevents, core.register_playerevent = make_registration()
+core.registered_on_mods_loaded, core.register_on_mods_loaded = make_registration()
 core.registered_on_shutdown, core.register_on_shutdown = make_registration()
 core.registered_on_punchnodes, core.register_on_punchnode = make_registration()
 core.registered_on_placenodes, core.register_on_placenode = make_registration()
@@ -593,6 +593,8 @@ core.registered_on_priv_revoke, core.register_on_priv_revoke = make_registration
 core.registered_can_bypass_userlimit, core.register_can_bypass_userlimit = make_registration()
 core.registered_on_modchannel_message, core.register_on_modchannel_message = make_registration()
 core.registered_on_auth_fail, core.register_on_auth_fail = make_registration()
+core.registered_on_player_inventory_actions, core.register_on_player_inventory_action = make_registration()
+core.registered_allow_player_inventory_actions, core.register_allow_player_inventory_action = make_registration()
 
 --
 -- Compatibility for on_mapgen_init()

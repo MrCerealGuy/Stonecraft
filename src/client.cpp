@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/clientevent.h"
 #include "client/gameui.h"
 #include "client/renderingengine.h"
+#include "client/sound.h"
 #include "client/tile.h"
 #include "util/auth.h"
 #include "util/directiontables.h"
@@ -42,7 +43,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "mapblock.h"
 #include "minimap.h"
 #include "modchannels.h"
-#include "mods.h"
+#include "content/mods.h"
 #include "profiler.h"
 #include "shader.h"
 #include "gettext.h"
@@ -171,6 +172,8 @@ void Client::loadMods()
 	for (const ModSpec &mod : m_mods)
 		m_script->loadModFromMemory(mod.name);
 
+	// Run a callback when mods are loaded
+	m_script->on_mods_loaded();
 	m_mods_loaded = true;
 }
 
@@ -522,21 +525,18 @@ void Client::step(float dtime)
 		the local inventory (so the player notices the lag problem
 		and knows something is wrong).
 	*/
-	if(m_inventory_from_server)
-	{
-		float interval = 10.0;
-		float count_before = floor(m_inventory_from_server_age / interval);
+	if (m_inventory_from_server) {
+		float interval = 10.0f;
+		float count_before = std::floor(m_inventory_from_server_age / interval);
 
 		m_inventory_from_server_age += dtime;
 
-		float count_after = floor(m_inventory_from_server_age / interval);
+		float count_after = std::floor(m_inventory_from_server_age / interval);
 
-		if(count_after != count_before)
-		{
+		if (count_after != count_before) {
 			// Do this every <interval> seconds after TOCLIENT_INVENTORY
 			// Reset the locally changed inventory to the authoritative inventory
-			LocalPlayer *player = m_env.getLocalPlayer();
-			player->inventory = *m_inventory_from_server;
+			m_env.getLocalPlayer()->inventory = *m_inventory_from_server;
 			m_inventory_updated = true;
 		}
 	}

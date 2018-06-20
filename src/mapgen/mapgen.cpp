@@ -56,7 +56,8 @@ FlagDesc flagdesc_mapgen[] = {
 	{"dungeons",    MG_DUNGEONS},
 	{"light",       MG_LIGHT},
 	{"decorations", MG_DECORATIONS},
-	{NULL,       0}
+	{"biomes",      MG_BIOMES},
+	{NULL,          0}
 };
 
 FlagDesc flagdesc_gennotify[] = {
@@ -640,8 +641,7 @@ MapgenBasic::~MapgenBasic()
 }
 
 
-void MapgenBasic::generateBiomes(MgStoneType *mgstone_type,
-	content_t *biome_stone)
+void MapgenBasic::generateBiomes()
 {
 	// can't generate biomes without a biome generator!
 	assert(biomegen);
@@ -649,8 +649,6 @@ void MapgenBasic::generateBiomes(MgStoneType *mgstone_type,
 
 	const v3s16 &em = vm->m_area.getExtent();
 	u32 index = 0;
-	MgStoneType stone_type = MGSTONE_OTHER;
-	content_t c_biome_stone = c_stone;
 
 	noise_filler_depth->perlinMap2D(node_min.X, node_min.Z);
 
@@ -695,6 +693,7 @@ void MapgenBasic::generateBiomes(MgStoneType *mgstone_type,
 				// (Re)calculate biome
 				biome = biomegen->getBiomeAtIndex(index, v3s16(x, y, z));
 
+				// Add biome to biomemap at first stone surface detected
 				if (biomemap[index] == BIOME_NONE && is_stone_surface)
 					biomemap[index] = biome->index;
 
@@ -705,17 +704,6 @@ void MapgenBasic::generateBiomes(MgStoneType *mgstone_type,
 				depth_water_top = biome->depth_water_top;
 				depth_riverbed = biome->depth_riverbed;
 				biome_y_min = biome->min_pos.Y;
-
-				// Detect stone type for dungeons during every biome calculation.
-				// If none detected the last selected biome stone is chosen.
-				if (biome->c_stone == c_stone)
-					stone_type = MGSTONE_STONE;
-				else if (biome->c_stone == c_desert_stone)
-					stone_type = MGSTONE_DESERT_STONE;
-				else if (biome->c_stone == c_sandstone)
-					stone_type = MGSTONE_SANDSTONE;
-
-				c_biome_stone = biome->c_stone;
 			}
 
 			if (c == c_stone) {
@@ -776,9 +764,6 @@ void MapgenBasic::generateBiomes(MgStoneType *mgstone_type,
 			VoxelArea::add_y(em, vi, -1);
 		}
 	}
-
-	*mgstone_type = stone_type;
-	*biome_stone = c_biome_stone;
 }
 
 
@@ -797,6 +782,10 @@ void MapgenBasic::dustTopNodes()
 		if (biome->c_dust == CONTENT_IGNORE)
 			continue;
 
+		// Check if mapchunk above has generated, if so, drop dust from 16 nodes
+		// above current mapchunk top, above decorations that will extend above
+		// the current mapchunk. If the mapchunk above has not generated, it
+		// will provide this required dust when it does.
 		u32 vi = vm->m_area.index(x, full_node_max.Y, z);
 		content_t c_full_max = vm->m_data[vi].getContent();
 		s16 y_start;
@@ -825,14 +814,15 @@ void MapgenBasic::dustTopNodes()
 
 		content_t c = vm->m_data[vi].getContent();
 		NodeDrawType dtype = ndef->get(c).drawtype;
-		// Only place on walkable cubic non-liquid nodes
-		// Dust check needed due to vertical overgeneration
+		// Only place on cubic, walkable, non-dust nodes.
+		// Dust check needed due to avoid double layer of dust caused by
+		// dropping dust from 16 nodes above mapchunk top.
 		if ((dtype == NDT_NORMAL ||
+				dtype == NDT_ALLFACES ||
 				dtype == NDT_ALLFACES_OPTIONAL ||
-				dtype == NDT_GLASSLIKE_FRAMED_OPTIONAL ||
 				dtype == NDT_GLASSLIKE ||
 				dtype == NDT_GLASSLIKE_FRAMED ||
-				dtype == NDT_ALLFACES) &&
+				dtype == NDT_GLASSLIKE_FRAMED_OPTIONAL) &&
 				ndef->get(c).walkable && c != biome->c_dust) {
 			VoxelArea::add_y(em, vi, 1);
 			vm->m_data[vi] = MapNode(biome->c_dust);
@@ -841,31 +831,37 @@ void MapgenBasic::dustTopNodes()
 }
 
 
-void MapgenBasic::generateCaves(s16 max_stone_y, s16 large_cave_depth)
+void MapgenBasic::generateCavesNoiseIntersection(s16 max_stone_y)
 {
-	if (max_stone_y < node_min.Y)
+	if (node_min.Y > max_stone_y)
 		return;
 
 	CavesNoiseIntersection caves_noise(ndef, m_bmgr, csize,
 		&np_cave1, &np_cave2, seed, cave_width);
 
 	caves_noise.generateCaves(vm, node_min, node_max, biomemap);
+}
 
-	if (node_max.Y > large_cave_depth)
+
+void MapgenBasic::generateCavesRandomWalk(s16 max_stone_y, s16 large_cave_depth)
+{
+	if (node_min.Y > max_stone_y || node_max.Y > large_cave_depth)
 		return;
 
 	PseudoRandom ps(blockseed + 21343);
 	u32 bruises_count = ps.range(0, 2);
+
 	for (u32 i = 0; i < bruises_count; i++) {
 		CavesRandomWalk cave(ndef, &gennotify, seed, water_level,
-			c_water_source, CONTENT_IGNORE, lava_depth);
+			c_water_source, c_lava_source, lava_depth, biomegen);
 
-		cave.makeCave(vm, node_min, node_max, &ps, true, max_stone_y, heightmap);
+		cave.makeCave(vm, node_min, node_max, &ps, true, max_stone_y,
+			heightmap);
 	}
 }
 
 
-bool MapgenBasic::generateCaverns(s16 max_stone_y)
+bool MapgenBasic::generateCavernsNoise(s16 max_stone_y)
 {
 	if (node_min.Y > max_stone_y || node_min.Y > cavern_limit)
 		return false;
@@ -877,30 +873,48 @@ bool MapgenBasic::generateCaverns(s16 max_stone_y)
 }
 
 
-void MapgenBasic::generateDungeons(s16 max_stone_y,
-	MgStoneType stone_type, content_t biome_stone)
+void MapgenBasic::generateDungeons(s16 max_stone_y)
 {
 	if (max_stone_y < node_min.Y)
 		return;
 
+	// Get biome at mapchunk midpoint
+	v3s16 chunk_mid = node_min + (node_max - node_min) / v3s16(2, 2, 2);
+	Biome *biome = (Biome *)biomegen->getBiomeAtPoint(chunk_mid);
+
 	DungeonParams dp;
 
 	dp.seed             = seed;
-
 	dp.only_in_ground   = true;
 	dp.corridor_len_min = 1;
 	dp.corridor_len_max = 13;
 	dp.rooms_min        = 2;
 	dp.rooms_max        = 16;
-	dp.y_min            = -MAX_MAP_GENERATION_LIMIT;
-	dp.y_max            = MAX_MAP_GENERATION_LIMIT;
 
 	dp.np_density       = nparams_dungeon_density;
 	dp.np_alt_wall      = nparams_dungeon_alt_wall;
 
-	switch (stone_type) {
-	default:
-	case MGSTONE_STONE:
+	// Biome-defined dungeon nodes
+	if (biome->c_dungeon != CONTENT_IGNORE) {
+		dp.c_wall              = biome->c_dungeon;
+		// If 'node_dungeon_alt' is not defined by biome, it and dp.c_alt_wall
+		// become CONTENT_IGNORE which skips the alt wall node placement loop in
+		// dungeongen.cpp.
+		dp.c_alt_wall          = biome->c_dungeon_alt;
+		// Stairs fall back to 'c_dungeon' if not defined by biome
+		dp.c_stair = (biome->c_dungeon_stair != CONTENT_IGNORE) ?
+			biome->c_dungeon_stair : biome->c_dungeon;
+
+		dp.diagonal_dirs       = false;
+		dp.holesize            = v3s16(2, 2, 2);
+		dp.room_size_min       = v3s16(6, 4, 6);
+		dp.room_size_max       = v3s16(10, 6, 10);
+		dp.room_size_large_min = v3s16(10, 8, 10);
+		dp.room_size_large_max = v3s16(18, 16, 18);
+		dp.notifytype          = GENNOTIFY_DUNGEON;
+
+	// Otherwise classic behaviour
+	} else if (biome->c_stone == c_stone) {
 		dp.c_wall              = c_cobble;
 		dp.c_alt_wall          = c_mossycobble;
 		dp.c_stair             = c_stair_cobble;
@@ -912,8 +926,8 @@ void MapgenBasic::generateDungeons(s16 max_stone_y,
 		dp.room_size_large_min = v3s16(8, 8, 8);
 		dp.room_size_large_max = v3s16(16, 16, 16);
 		dp.notifytype          = GENNOTIFY_DUNGEON;
-		break;
-	case MGSTONE_DESERT_STONE:
+
+	} else if (biome->c_stone == c_desert_stone) {
 		dp.c_wall              = c_desert_stone;
 		dp.c_alt_wall          = CONTENT_IGNORE;
 		dp.c_stair             = c_stair_desert_stone;
@@ -925,8 +939,8 @@ void MapgenBasic::generateDungeons(s16 max_stone_y,
 		dp.room_size_large_min = v3s16(10, 13, 10);
 		dp.room_size_large_max = v3s16(18, 21, 18);
 		dp.notifytype          = GENNOTIFY_TEMPLE;
-		break;
-	case MGSTONE_SANDSTONE:
+
+	} else if (biome->c_stone == c_sandstone) {
 		dp.c_wall              = c_sandstonebrick;
 		dp.c_alt_wall          = CONTENT_IGNORE;
 		dp.c_stair             = c_stair_sandstone_block;
@@ -938,20 +952,20 @@ void MapgenBasic::generateDungeons(s16 max_stone_y,
 		dp.room_size_large_min = v3s16(10, 8, 10);
 		dp.room_size_large_max = v3s16(18, 16, 18);
 		dp.notifytype          = GENNOTIFY_DUNGEON;
-		break;
-	case MGSTONE_OTHER:
-		dp.c_wall              = biome_stone;
-		dp.c_alt_wall          = biome_stone;
-		dp.c_stair             = biome_stone;
+
+	// Fallback to using biome 'node_stone'
+	} else {
+		dp.c_wall              = biome->c_stone;
+		dp.c_alt_wall          = CONTENT_IGNORE;
+		dp.c_stair             = biome->c_stone;
 
 		dp.diagonal_dirs       = false;
-		dp.holesize            = v3s16(1, 2, 1);
-		dp.room_size_min       = v3s16(4, 4, 4);
-		dp.room_size_max       = v3s16(8, 6, 8);
-		dp.room_size_large_min = v3s16(8, 8, 8);
-		dp.room_size_large_max = v3s16(16, 16, 16);
+		dp.holesize            = v3s16(2, 2, 2);
+		dp.room_size_min       = v3s16(6, 4, 6);
+		dp.room_size_max       = v3s16(10, 6, 10);
+		dp.room_size_large_min = v3s16(10, 8, 10);
+		dp.room_size_large_max = v3s16(18, 16, 18);
 		dp.notifytype          = GENNOTIFY_DUNGEON;
-		break;
 	}
 
 	DungeonGen dgen(ndef, &gennotify, &dp);

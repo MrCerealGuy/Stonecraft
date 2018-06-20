@@ -18,6 +18,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "minimap.h"
+#include <cmath>
 #include "client.h"
 #include "clientmap.h"
 #include "settings.h"
@@ -428,8 +429,8 @@ v3f Minimap::getYawVec()
 {
 	if (data->minimap_shape_round) {
 		return v3f(
-			cos(m_angle * core::DEGTORAD),
-			sin(m_angle * core::DEGTORAD),
+			std::cos(m_angle * core::DEGTORAD),
+			std::sin(m_angle * core::DEGTORAD),
 			1.0);
 	}
 
@@ -510,15 +511,17 @@ void Minimap::drawMinimap()
 	driver->setMaterial(material);
 	driver->drawMeshBuffer(m_meshbuffer);
 
-	// If round minimap, draw player marker
-	if (!data->minimap_shape_round) {
+	// Draw player marker on minimap
+	if (data->minimap_shape_round) {
+		matrix.setRotationDegrees(core::vector3df(0, 0, 0));
+	} else {
 		matrix.setRotationDegrees(core::vector3df(0, 0, m_angle));
-		material.TextureLayer[0].Texture = data->player_marker;
-
-		driver->setTransform(video::ETS_WORLD, matrix);
-		driver->setMaterial(material);
-		driver->drawMeshBuffer(m_meshbuffer);
 	}
+
+	material.TextureLayer[0].Texture = data->player_marker;
+	driver->setTransform(video::ETS_WORLD, matrix);
+	driver->setMaterial(material);
+	driver->drawMeshBuffer(m_meshbuffer);
 
 	// Reset transformations
 	driver->setTransform(video::ETS_VIEW, oldViewMat);
@@ -531,8 +534,8 @@ void Minimap::drawMinimap()
 	core::rect<s32> img_rect(0, 0, imgsize.Width, imgsize.Height);
 	static const video::SColor col(255, 255, 255, 255);
 	static const video::SColor c[4] = {col, col, col, col};
-	f32 sin_angle = sin(m_angle * core::DEGTORAD);
-	f32 cos_angle = cos(m_angle * core::DEGTORAD);
+	f32 sin_angle = std::sin(m_angle * core::DEGTORAD);
+	f32 cos_angle = std::cos(m_angle * core::DEGTORAD);
 	s32 marker_size2 =  0.025 * (float)size;
 	for (std::list<v2f>::const_iterator
 			i = m_active_markers.begin();

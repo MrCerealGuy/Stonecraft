@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "util/numeric.h"
+#include <cmath>
 #include "map.h"
 #include "mapgen.h"
 #include "mapgen_v5.h"
@@ -248,7 +249,7 @@ bool CavernsNoise::generateCaverns(MMVManip *vm, v3s16 nmin, v3s16 nmax)
 				VoxelArea::add_y(em, vi, -1),
 				cavern_amp_index++) {
 			content_t c = vm->m_data[vi].getContent();
-			float n_absamp_cavern = fabs(noise_cavern->result[index3d]) *
+			float n_absamp_cavern = std::fabs(noise_cavern->result[index3d]) *
 				cavern_amp[cavern_amp_index];
 			// Disable CavesRandomWalk at a safe distance from caverns
 			// to avoid excessively spreading liquids in caverns.
@@ -278,7 +279,8 @@ CavesRandomWalk::CavesRandomWalk(
 	int water_level,
 	content_t water_source,
 	content_t lava_source,
-	int lava_depth)
+	int lava_depth,
+	BiomeGen *biomegen)
 {
 	assert(ndef);
 
@@ -288,6 +290,7 @@ CavesRandomWalk::CavesRandomWalk(
 	this->water_level    = water_level;
 	this->np_caveliquids = &nparams_caveliquids;
 	this->lava_depth     = lava_depth;
+	this->bmgn           = biomegen;
 
 	c_water_source = water_source;
 	if (c_water_source == CONTENT_IGNORE)
@@ -352,7 +355,7 @@ void CavesRandomWalk::makeCave(MMVManip *vm, v3s16 nmin, v3s16 nmax,
 
 	route_y_min = 0;
 	// Allow half a diameter + 7 over stone surface
-	route_y_max = -of.Y + max_stone_y + max_tunnel_diameter / 2 + 7;
+	route_y_max = -of.Y + max_stone_height + max_tunnel_diameter / 2 + 7;
 
 	// Limit maximum to area
 	route_y_max = rangelim(route_y_max, 0, ar.Y - 1);
@@ -494,15 +497,28 @@ void CavesRandomWalk::carveRoute(v3f vec, float f, bool randomize_xz)
 	v3s16 startp(orp.X, orp.Y, orp.Z);
 	startp += of;
 
-	float nval = NoisePerlin3D(np_caveliquids, startp.X,
-		startp.Y, startp.Z, seed);
-	MapNode liquidnode = (nval < 0.40f && node_max.Y < lava_depth) ?
-		lavanode : waternode;
-
 	v3f fp = orp + vec * f;
 	fp.X += 0.1f * ps->range(-10, 10);
 	fp.Z += 0.1f * ps->range(-10, 10);
 	v3s16 cp(fp.X, fp.Y, fp.Z);
+
+	// Get biome at 'cp + of', the absolute centre point of this route
+	v3s16 cpabs = cp + of;
+	MapNode liquidnode = CONTENT_IGNORE;
+
+	if (bmgn) {
+		Biome *biome = (Biome *)bmgn->getBiomeAtPoint(cpabs);
+		if (biome->c_cave_liquid != CONTENT_IGNORE)
+			liquidnode = biome->c_cave_liquid;
+	}
+
+	if (liquidnode == CONTENT_IGNORE) {
+		// Fallback to classic behaviour using point 'startp'
+		float nval = NoisePerlin3D(np_caveliquids, startp.X,
+			startp.Y, startp.Z, seed);
+		liquidnode = (nval < 0.40f && node_max.Y < lava_depth) ?
+			lavanode : waternode;
+	}
 
 	s16 d0 = -rs / 2;
 	s16 d1 = d0 + rs;
@@ -553,9 +569,6 @@ void CavesRandomWalk::carveRoute(v3f vec, float f, bool randomize_xz)
 					else
 						vm->m_data[i] = airnode;
 				} else {
-					if (c == CONTENT_IGNORE)
-						continue;
-
 					vm->m_data[i] = airnode;
 					vm->m_flags[i] |= VMANIP_FLAG_CAVE;
 				}
@@ -858,7 +871,7 @@ void CavesV6::carveRoute(v3f vec, float f, bool randomize_xz,
 						vm->m_data[i] = airnode;
 					}
 				} else {
-					if (c == CONTENT_IGNORE || c == CONTENT_AIR)
+					if (c == CONTENT_AIR)
 						continue;
 
 					vm->m_data[i] = airnode;

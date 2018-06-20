@@ -34,7 +34,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "clouds.h"
 #include "config.h"
 #include "content_cao.h"
-#include "event_manager.h"
+#include "client/event_manager.h"
 #include "fontengine.h"
 #include "itemdef.h"
 #include "log.h"
@@ -70,10 +70,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "lua_api/l_vmanip.h"	// For LuaVoxelManip::deleteHeap()
 
 #if USE_SOUND
-	#include "sound_openal.h"
+	#include "client/sound_openal.h"
+#else
+	#include "client/sound.h"
 #endif
-
-
 /*
 	Text input system
 */
@@ -247,9 +247,9 @@ public:
 		p(p),
 		n(n)
 	{}
-	const char *getType() const
+	MtEvent::Type getType() const
 	{
-		return "NodeDug";
+		return MtEvent::NODE_DUG;
 	}
 };
 
@@ -332,14 +332,14 @@ public:
 
 	void registerReceiver(MtEventManager *mgr)
 	{
-		mgr->reg("ViewBobbingStep", SoundMaker::viewBobbingStep, this);
-		mgr->reg("PlayerRegainGround", SoundMaker::playerRegainGround, this);
-		mgr->reg("PlayerJump", SoundMaker::playerJump, this);
-		mgr->reg("CameraPunchLeft", SoundMaker::cameraPunchLeft, this);
-		mgr->reg("CameraPunchRight", SoundMaker::cameraPunchRight, this);
-		mgr->reg("NodeDug", SoundMaker::nodeDug, this);
-		mgr->reg("PlayerDamage", SoundMaker::playerDamage, this);
-		mgr->reg("PlayerFallingDamage", SoundMaker::playerFallingDamage, this);
+		mgr->reg(MtEvent::VIEW_BOBBING_STEP, SoundMaker::viewBobbingStep, this);
+		mgr->reg(MtEvent::PLAYER_REGAIN_GROUND, SoundMaker::playerRegainGround, this);
+		mgr->reg(MtEvent::PLAYER_JUMP, SoundMaker::playerJump, this);
+		mgr->reg(MtEvent::CAMERA_PUNCH_LEFT, SoundMaker::cameraPunchLeft, this);
+		mgr->reg(MtEvent::CAMERA_PUNCH_RIGHT, SoundMaker::cameraPunchRight, this);
+		mgr->reg(MtEvent::NODE_DUG, SoundMaker::nodeDug, this);
+		mgr->reg(MtEvent::PLAYER_DAMAGE, SoundMaker::playerDamage, this);
+		mgr->reg(MtEvent::PLAYER_FALLING_DAMAGE, SoundMaker::playerFallingDamage, this);
 	}
 
 	void step(float dtime)
@@ -1015,7 +1015,8 @@ bool Game::startup(bool *kill,
 	RenderingEngine::get_scene_manager()->getParameters()->
 		setAttribute(scene::OBJ_LOADER_IGNORE_MATERIAL_FILES, true);
 
-	memset(&runData, 0, sizeof(runData));
+	// Reinit runData
+	runData = GameRunData();
 	runData.time_from_last_punch = 10.0;
 	runData.update_wielded_item_trigger = true;
 
@@ -1065,7 +1066,7 @@ void Game::run()
 
 	while (RenderingEngine::run()
 			&& !(*kill || g_gamecallback->shutdown_requested
-			|| (server && server->getShutdownRequested()))) {
+			|| (server && server->isShutdownRequested()))) {
 
 		const irr::core::dimension2d<u32> &current_screen_size =
 			RenderingEngine::get_video_driver()->getScreenSize();
@@ -1222,7 +1223,7 @@ bool Game::initSound()
 #if USE_SOUND
 	if (g_settings->getBool("enable_sound")) {
 		infostream << "Attempting to use OpenAL audio" << std::endl;
-		sound = createOpenALSoundManager(&soundfetcher);
+		sound = createOpenALSoundManager(g_sound_manager_singleton.get(), &soundfetcher);
 		if (!sound)
 			infostream << "Failed to initialize OpenAL audio" << std::endl;
 	} else
@@ -1273,6 +1274,7 @@ bool Game::createSingleplayerServer(const std::string &map_dir,
 	}
 
 	server = new Server(map_dir, gamespec, simple_singleplayer_mode, bind_addr, false);
+	server->init();
 	server->start();
 
 	return true;
@@ -1863,6 +1865,9 @@ void Game::processKeyInput()
 		dropSelectedItem(isKeyDown(KeyType::SNEAK));
 	} else if (wasKeyDown(KeyType::AUTOFORWARD)) {
 		toggleAutoforward();
+	} else if (wasKeyDown(KeyType::BACKWARD)) {
+		if (g_settings->getBool("continuous_forward"))
+			toggleAutoforward();
 	} else if (wasKeyDown(KeyType::INVENTORY)) {
 		openInventory();
 	} else if (input->cancelPressed()) {
@@ -2031,7 +2036,7 @@ void Game::openInventory()
 			|| !client->getScript()->on_inventory_open(fs_src->m_client->getInventory(inventoryloc))) {
 		TextDest *txt_dst = new TextDestPlayerInventory(client);
 		GUIFormSpecMenu::create(current_formspec, client, &input->joystick, fs_src,
-			txt_dst);
+			txt_dst, client->getFormspecPrepend());
 		cur_formname = "";
 		current_formspec->setFormSpec(fs_src->getForm(), inventoryloc);
 	}
@@ -2336,13 +2341,15 @@ void Game::updateCameraDirection(CameraOrientation *cam, float dtime)
 		}
 #endif
 
-		if (m_first_loop_after_window_activation)
+		if (m_first_loop_after_window_activation) {
 			m_first_loop_after_window_activation = false;
-		else
-			updateCameraOrientation(cam, dtime);
 
-		input->setMousePos((driver->getScreenSize().Width / 2),
-				(driver->getScreenSize().Height / 2));
+			input->setMousePos(driver->getScreenSize().Width / 2,
+				driver->getScreenSize().Height / 2);
+		} else {
+			updateCameraOrientation(cam, dtime);
+		}
+
 	} else {
 
 #ifndef ANDROID
@@ -2364,17 +2371,18 @@ void Game::updateCameraOrientation(CameraOrientation *cam, float dtime)
 		cam->camera_pitch  = g_touchscreengui->getPitch();
 	} else {
 #endif
-
-		s32 dx = input->getMousePos().X - (driver->getScreenSize().Width / 2);
-		s32 dy = input->getMousePos().Y - (driver->getScreenSize().Height / 2);
+		v2s32 center(driver->getScreenSize().Width / 2, driver->getScreenSize().Height / 2);
+		v2s32 dist = input->getMousePos() - center;
 
 		if (m_invert_mouse || camera->getCameraMode() == CAMERA_MODE_THIRD_FRONT) {
-			dy = -dy;
+			dist.Y = -dist.Y;
 		}
 
-		cam->camera_yaw   -= dx * m_cache_mouse_sensitivity;
-		cam->camera_pitch += dy * m_cache_mouse_sensitivity;
+		cam->camera_yaw   -= dist.X * m_cache_mouse_sensitivity;
+		cam->camera_pitch += dist.Y * m_cache_mouse_sensitivity;
 
+		if (dist.X != 0 || dist.Y != 0)
+			input->setMousePos(center.X, center.Y);
 #ifdef HAVE_TOUCHSCREENGUI
 	}
 #endif
@@ -2494,15 +2502,15 @@ void Game::handleClientEvent_PlayerDamage(ClientEvent *event, CameraOrientation 
 	}
 
 	runData.damage_flash += 95.0 + 3.2 * event->player_damage.amount;
-	runData.damage_flash = MYMIN(runData.damage_flash, 127.0);
+	runData.damage_flash = MYMIN(runData.damage_flash, 127.0f);
 
 	LocalPlayer *player = client->getEnv().getLocalPlayer();
 
 	player->hurt_tilt_timer = 1.5;
 	player->hurt_tilt_strength =
-		rangelim(event->player_damage.amount / 4, 1.0, 4.0);
+		rangelim(event->player_damage.amount / 4, 1.0f, 4.0f);
 
-	client->event()->put(new SimpleTriggerEvent("PlayerDamage"));
+	client->getEventManager()->put(new SimpleTriggerEvent(MtEvent::PLAYER_DAMAGE));
 }
 
 void Game::handleClientEvent_PlayerForceMove(ClientEvent *event, CameraOrientation *cam)
@@ -2538,7 +2546,7 @@ void Game::handleClientEvent_ShowFormSpec(ClientEvent *event, CameraOrientation 
 			new TextDestPlayerInventory(client, *(event->show_formspec.formname));
 
 		GUIFormSpecMenu::create(current_formspec, client, &input->joystick,
-			fs_src, txt_dst);
+			fs_src, txt_dst, client->getFormspecPrepend());
 		cur_formname = *(event->show_formspec.formname);
 	}
 
@@ -2551,7 +2559,8 @@ void Game::handleClientEvent_ShowLocalFormSpec(ClientEvent *event, CameraOrienta
 	FormspecFormSource *fs_src = new FormspecFormSource(*event->show_formspec.formspec);
 	LocalFormspecHandler *txt_dst =
 		new LocalFormspecHandler(*event->show_formspec.formname, client);
-	GUIFormSpecMenu::create(current_formspec, client, &input->joystick, fs_src, txt_dst);
+	GUIFormSpecMenu::create(current_formspec, client, &input->joystick,
+			fs_src, txt_dst, client->getFormspecPrepend());
 
 	delete event->show_formspec.formspec;
 	delete event->show_formspec.formname;
@@ -2763,8 +2772,8 @@ void Game::updateChat(f32 dtime, const v2u32 &screensize)
 	while (!chat_log_error_buf.empty()) {
 		std::wstring error_message = utf8_to_wide(chat_log_error_buf.get());
 		if (!g_settings->getBool("disable_escape_sequences")) {
-			error_message = L"\x1b(c@red)";
-			error_message.append(error_message).append(L"\x1b(c@white)");
+			error_message.insert(0, L"\x1b(c@red)");
+			error_message.append(L"\x1b(c@white)");
 		}
 		chat_backend->addMessage(L"", error_message);
 	}
@@ -3133,9 +3142,9 @@ PointedThing Game::updatePointedThing(
 		// Modify final color a bit with time
 		u32 timer = porting::getTimeMs() % 5000;
 		float timerf = (float) (irr::core::PI * ((timer / 2500.0) - 0.5));
-		float sin_r = 0.08 * sin(timerf);
-		float sin_g = 0.08 * sin(timerf + irr::core::PI * 0.5);
-		float sin_b = 0.08 * sin(timerf + irr::core::PI);
+		float sin_r = 0.08f * std::sin(timerf);
+		float sin_g = 0.08f * std::sin(timerf + irr::core::PI * 0.5f);
+		float sin_b = 0.08f * std::sin(timerf + irr::core::PI);
 		c.setRed(core::clamp(core::round32(c.getRed() * (0.8 + sin_r)), 0, 255));
 		c.setGreen(core::clamp(core::round32(c.getGreen() * (0.8 + sin_g)), 0, 255));
 		c.setBlue(core::clamp(core::round32(c.getBlue() * (0.8 + sin_b)), 0, 255));
@@ -3213,7 +3222,7 @@ void Game::handlePointingAtNode(const PointedThing &pointed,
 			TextDest *txt_dst = new TextDestNodeMetadata(nodepos, client);
 
 			GUIFormSpecMenu::create(current_formspec, client, &input->joystick, fs_src,
-				txt_dst);
+				txt_dst, client->getFormspecPrepend());
 			cur_formname.clear();
 
 			current_formspec->setFormSpec(meta->getString("formspec"), inventoryloc);
@@ -3588,8 +3597,7 @@ void Game::handleDigging(const PointedThing &pointed, const v3s16 &nodepos,
 
 
 		// Send event to trigger sound
-		MtEvent *e = new NodeDugEvent(nodepos, wasnode);
-		client->event()->put(e);
+		client->getEventManager()->put(new NodeDugEvent(nodepos, wasnode));
 	}
 
 	if (runData.dig_time_complete < 100000.0) {
@@ -3641,12 +3649,12 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 	float time_of_day_smooth = runData.time_of_day_smooth;
 	float time_of_day = client->getEnv().getTimeOfDayF();
 
-	static const float maxsm = 0.05;
-	static const float todsm = 0.05;
+	static const float maxsm = 0.05f;
+	static const float todsm = 0.05f;
 
-	if (fabs(time_of_day - time_of_day_smooth) > maxsm &&
-			fabs(time_of_day - time_of_day_smooth + 1.0) > maxsm &&
-			fabs(time_of_day - time_of_day_smooth - 1.0) > maxsm)
+	if (std::fabs(time_of_day - time_of_day_smooth) > maxsm &&
+			std::fabs(time_of_day - time_of_day_smooth + 1.0) > maxsm &&
+			std::fabs(time_of_day - time_of_day_smooth - 1.0) > maxsm)
 		time_of_day_smooth = time_of_day;
 
 	if (time_of_day_smooth > 0.8 && time_of_day < 0.2)
@@ -3718,7 +3726,7 @@ void Game::updateFrame(ProfilerGraph *graph, RunStats *stats, f32 dtime,
 				video::EFT_FOG_LINEAR,
 				100000 * BS,
 				110000 * BS,
-				0.01,
+				0.01f,
 				false, // pixel fog
 				false // range fog
 		);
@@ -4109,7 +4117,8 @@ void Game::showPauseMenu()
 	FormspecFormSource *fs_src = new FormspecFormSource(os.str());
 	LocalFormspecHandler *txt_dst = new LocalFormspecHandler("MT_PAUSE_MENU");
 
-	GUIFormSpecMenu::create(current_formspec, client, &input->joystick, fs_src, txt_dst);
+	GUIFormSpecMenu::create(current_formspec, client, &input->joystick,
+			fs_src, txt_dst, client->getFormspecPrepend());
 	current_formspec->setFocus("btn_continue");
 	current_formspec->doPause = true;
 }

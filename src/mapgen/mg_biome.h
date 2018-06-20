@@ -36,13 +36,8 @@ typedef u8 biome_t;
 
 #define BIOME_NONE ((biome_t)0)
 
-// TODO(hmmmm): Decide whether this is obsolete or will be used in the future
 enum BiomeType {
 	BIOMETYPE_NORMAL,
-	BIOMETYPE_LIQUID,
-	BIOMETYPE_NETHER,
-	BIOMETYPE_AETHER,
-	BIOMETYPE_FLAT,
 };
 
 class Biome : public ObjDef, public NodeResolver {
@@ -57,6 +52,10 @@ public:
 	content_t c_river_water;
 	content_t c_riverbed;
 	content_t c_dust;
+	content_t c_cave_liquid;
+	content_t c_dungeon;
+	content_t c_dungeon_alt;
+	content_t c_dungeon_stair;
 
 	s16 depth_top;
 	s16 depth_filler;
