@@ -321,7 +321,7 @@ function parse_config_file(read_all, parse_mods, settingfilename)
 		-- Parse games
 		local games_category_initialized = false
 		local index = 1
-		local game = gamemgr.get_game(index)
+		local game = pkgmgr.get_game(index)
 		while game do
 			local path = game.path .. DIR_DELIM .. settingfilename
 			local file = io.open(path, "r")
@@ -348,7 +348,7 @@ function parse_config_file(read_all, parse_mods, settingfilename)
 			end
 
 			index = index + 1
-			game = gamemgr.get_game(index)
+			game = pkgmgr.get_game(index)
 		end
 
 		-- Parse mods
