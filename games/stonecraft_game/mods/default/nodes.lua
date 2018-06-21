@@ -59,6 +59,10 @@ default:dirt_with_snow
 default:dirt_with_rainforest_litter
 default:dirt_with_coniferous_litter
 
+default:permafrost
+default:permafrost_with_stones
+default:permafrost_with_moss
+
 default:sand
 default:desert_sand
 default:silver_sand
@@ -69,7 +73,6 @@ default:clay
 
 default:snow
 default:snowblock
-
 default:ice
 default:cave_ice
 
@@ -500,6 +503,34 @@ minetest.register_node("default:dirt_with_coniferous_litter", {
 	}),
 })
 
+minetest.register_node("default:permafrost", {
+	description = S("Permafrost"),
+	tiles = {"default_permafrost.png"},
+	groups = {cracky = 3},
+	sounds = default.node_sound_dirt_defaults(),
+})
+
+minetest.register_node("default:permafrost_with_stones", {
+	description = S("Permafrost with Stones"),
+	tiles = {"default_permafrost.png^default_stones.png",
+		"default_permafrost.png"},
+	groups = {cracky = 3},
+	drop = "default:permafrost",
+	sounds = default.node_sound_gravel_defaults(),
+})
+
+minetest.register_node("default:permafrost_with_moss", {
+	description = S("Permafrost with Moss"),
+	tiles = {"default_moss.png", "default_permafrost.png",
+		{name = "default_permafrost.png^default_moss_side.png",
+			tileable_vertical = false}},
+	groups = {cracky = 3},
+	drop = "default:permafrost",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
 minetest.register_node("default:sand", {
 	description = S("Sand"),
 	tiles = {"default_sand.png"},
@@ -558,6 +589,12 @@ minetest.register_node("default:snow", {
 		type = "fixed",
 		fixed = {
 			{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5},
+		},
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {
+			{-0.5, -0.5, -0.5, 0.5, -7 / 16, 0.5},
 		},
 	},
 	groups = {crumbly = 3, falling_node = 1, puts_out_fire = 1, snowy = 1},
@@ -709,13 +746,42 @@ minetest.register_node("default:apple", {
 		fixed = {-3 / 16, -7 / 16, -3 / 16, 3 / 16, 4 / 16, 3 / 16}
 	},
 	groups = {fleshy = 3, dig_immediate = 3, flammable = 2,
-		leafdecay = 3, leafdecay_drop = 1},
+		leafdecay = 3, leafdecay_drop = 1, food_apple = 1},
 	on_use = minetest.item_eat(2),
 	sounds = default.node_sound_leaves_defaults(),
 
 	after_place_node = function(pos, placer, itemstack)
 		minetest.set_node(pos, {name = "default:apple", param2 = 1})
 	end,
+
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		if oldnode.param2 == 0 then
+			minetest.set_node(pos, {name = "default:apple_mark"})
+			minetest.get_node_timer(pos):start(math.random(300, 1500))
+		end
+	end,
+})
+
+minetest.register_node("default:apple_mark", {
+	description = "Apple Marker",
+	drawtype = "airlike",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	drop = "",
+	groups = {not_in_creative_inventory = 1},
+	on_timer = function(pos, elapsed)
+		if not minetest.find_node_near(pos, 1, "default:leaves") then
+			minetest.remove_node(pos)
+		elseif minetest.get_node_light(pos) < 11 then
+			minetest.get_node_timer(pos):start(200)
+		else
+			minetest.set_node(pos, {name = "default:apple"})
+		end
+	end
 })
 
 
@@ -1635,6 +1701,7 @@ minetest.register_node("default:sand_with_kelp", {
 	tiles = {"default_sand.png"},
 	special_tiles = {{name = "default_kelp.png", tileable_vertical = true}},
 	inventory_image = "default_kelp.png",
+	paramtype = "light",
 	paramtype2 = "leveled",
 	groups = {snappy = 3},
 	selection_box = {

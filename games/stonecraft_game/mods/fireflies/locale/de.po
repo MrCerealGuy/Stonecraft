@@ -23,6 +23,10 @@ msgid "Firefly"
 msgstr "Glühwürmchen"
 
 #: init.lua
+msgid "Hidden Firefly"
+msgstr "Verstecktes Glühwürmchen"
+
+#: init.lua
 msgid "Bug Net"
 msgstr "Insektennetz"
 

@@ -412,7 +412,7 @@ function tnt.boom(pos, def)
 	local drops, radius = tnt_explode(pos, def.radius, def.ignore_protection,
 			def.ignore_on_blast, owner, def.explode_center)
 	-- append entity drops
-	local damage_radius = (radius / def.radius) * def.damage_radius
+	local damage_radius = (radius / math.max(1, def.radius)) * def.damage_radius
 	entity_physics(pos, damage_radius, drops)
 	if not def.disable_drops then
 		eject_drops(drops, pos, radius)
@@ -557,13 +557,28 @@ minetest.register_craft({
 	recipe = {"default:coal_lump", "default:gravel"}
 })
 
+minetest.register_craftitem("tnt:tnt_stick", {
+	description = S("TNT Stick"),
+	inventory_image = "tnt_tnt_stick.png",
+	groups = {flammable = 5},
+})
+
 if enable_tnt then
+	minetest.register_craft({
+		output = "tnt:tnt_stick 2",
+		recipe = {
+			{"tnt:gunpowder", "", "tnt:gunpowder"},
+			{"tnt:gunpowder", "default:paper", "tnt:gunpowder"},
+			{"tnt:gunpowder", "", "tnt:gunpowder"},
+		}
+	})
+
 	minetest.register_craft({
 		output = "tnt:tnt",
 		recipe = {
-			{"group:wood",    "tnt:gunpowder", "group:wood"},
-			{"tnt:gunpowder", "tnt:gunpowder", "tnt:gunpowder"},
-			{"group:wood",    "tnt:gunpowder", "group:wood"}
+			{"tnt:tnt_stick", "tnt:tnt_stick", "tnt:tnt_stick"},
+			{"tnt:tnt_stick", "tnt:tnt_stick", "tnt:tnt_stick"},
+			{"tnt:tnt_stick", "tnt:tnt_stick", "tnt:tnt_stick"}
 		}
 	})
 

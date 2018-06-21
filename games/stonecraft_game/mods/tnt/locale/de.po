@@ -24,3 +24,7 @@ msgstr "Schießpulver"
 #: init.lua
 msgid "TNT"
 msgstr "TNT"
+
+#: init.lua
+msgid "TNT Stick"
+msgstr "TNT Stange"

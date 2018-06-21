@@ -126,6 +126,22 @@ msgid "Dirt with Rainforest Litter"
 msgstr "Erde mit Regenwaldabfall"
 
 #: nodes.lua
+msgid "Dirt with Coniferous Litter"
+msgstr "Erde mit Nadelwaldabfall"
+
+#: nodes.lua
+msgid "Permafrost"
+msgstr "Permafrostboden"
+
+#: nodes.lua
+msgid "Permafrost with Stones"
+msgstr "Permafrostboden mit Steinen"
+
+#: nodes.lua
+msgid "Permafrost with Moss"
+msgstr "Permafrostboden mit Moos"
+
+#: nodes.lua
 msgid "Sand"
 msgstr "Sand"
 

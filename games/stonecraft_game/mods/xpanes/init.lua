@@ -184,7 +184,7 @@ xpanes.register_pane("obsidian_pane", {
 })
 
 xpanes.register_pane("bar", {
-	description = S("Iron Bar"),
+	description = S("Steel Bars"),
 	textures = {"xpanes_bar.png","xpanes_bar.png","xpanes_bar_top.png"},
 	inventory_image = "xpanes_bar.png",
 	wield_image = "xpanes_bar.png",
