@@ -52,12 +52,12 @@ core.register_entity(":__builtin:falling_node", {
 
 	on_step = function(self, dtime)
 		-- Set gravity
-		local acceleration = self.object:getacceleration()
+		local acceleration = self.object:get_acceleration()
 		if not vector.equals(acceleration, {x = 0, y = -10, z = 0}) then
-			self.object:setacceleration({x = 0, y = -10, z = 0})
+			self.object:set_acceleration({x = 0, y = -10, z = 0})
 		end
 		-- Turn to actual node when colliding with ground, or continue to move
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		-- Position of bottom center point
 		local bcp = {x = pos.x, y = pos.y - 0.7, z = pos.z}
 		-- 'bcn' is nil for unloaded nodes
@@ -124,19 +124,26 @@ core.register_entity(":__builtin:falling_node", {
 			core.check_for_falling(np)
 			return
 		end
-		local vel = self.object:getvelocity()
+		local vel = self.object:get_velocity()
 		if vector.equals(vel, {x = 0, y = 0, z = 0}) then
-			local npos = self.object:getpos()
-			self.object:setpos(vector.round(npos))
+			local npos = self.object:get_pos()
+			self.object:set_pos(vector.round(npos))
 		end
 	end
 })
 
-local function spawn_falling_node(p, node, meta)
-	local obj = core.add_entity(p, "__builtin:falling_node")
-	if obj then
-		obj:get_luaentity():set_node(node, meta)
+local function convert_to_falling_node(pos, node)
+	local obj = core.add_entity(pos, "__builtin:falling_node")
+	if not obj then
+		return false
 	end
+	node.level = core.get_node_level(pos)
+	local meta = core.get_meta(pos)
+	local metatable = meta and meta:to_table() or {}
+
+	obj:get_luaentity():set_node(node, metatable)
+	core.remove_node(pos)
+	return true
 end
 
 function core.spawn_falling_node(pos)
@@ -144,13 +151,7 @@ function core.spawn_falling_node(pos)
 	if node.name == "air" or node.name == "ignore" then
 		return false
 	end
-	local obj = core.add_entity(pos, "__builtin:falling_node")
-	if obj then
-		obj:get_luaentity():set_node(node)
-		core.remove_node(pos)
-		return true
-	end
-	return false
+	return convert_to_falling_node(pos, node)
 end
 
 local function drop_attached_node(p)
@@ -223,14 +224,7 @@ function core.check_single_for_falling(p)
 				core.get_node_max_level(p_bottom))) and
 
 				(not d_bottom.walkable or d_bottom.buildable_to) then
-			n.level = core.get_node_level(p)
-			local meta = core.get_meta(p)
-			local metatable = {}
-			if meta ~= nil then
-				metatable = meta:to_table()
-			end
-			core.remove_node(p)
-			spawn_falling_node(p, n, metatable)
+			convert_to_falling_node(p, n)
 			return true
 		end
 	end

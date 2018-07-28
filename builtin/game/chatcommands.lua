@@ -84,7 +84,7 @@ core.register_chatcommand("admin", {
 	func = function(name)
 		local admin = core.settings:get("name")
 		if admin then
-			return true, "The administrator of this server is "..admin.."."
+			return true, "The administrator of this server is " .. admin .. "."
 		else
 			return false, "There's no administrator named in the config file."
 		end
@@ -97,6 +97,9 @@ core.register_chatcommand("privs", {
 	func = function(caller, param)
 		param = param:trim()
 		local name = (param ~= "" and param or caller)
+		if not core.player_exists(name) then
+			return false, "Player " .. name .. " does not exist."
+		end
 		return true, "Privileges of " .. name .. ": "
 			.. core.privs_to_string(
 				core.get_player_privs(name), ' ')
@@ -377,7 +380,7 @@ core.register_chatcommand("teleport", {
 			end
 			teleportee = core.get_player_by_name(name)
 			if teleportee then
-				teleportee:setpos(p)
+				teleportee:set_pos(p)
 				return true, "Teleporting to "..core.pos_to_string(p)
 			end
 		end
@@ -390,12 +393,12 @@ core.register_chatcommand("teleport", {
 		if target_name then
 			local target = core.get_player_by_name(target_name)
 			if target then
-				p = target:getpos()
+				p = target:get_pos()
 			end
 		end
 		if teleportee and p then
 			p = find_free_position_near(p)
-			teleportee:setpos(p)
+			teleportee:set_pos(p)
 			return true, "Teleporting to " .. target_name
 					.. " at "..core.pos_to_string(p)
 		end
@@ -414,7 +417,7 @@ core.register_chatcommand("teleport", {
 			teleportee = core.get_player_by_name(teleportee_name)
 		end
 		if teleportee and p.x and p.y and p.z then
-			teleportee:setpos(p)
+			teleportee:set_pos(p)
 			return true, "Teleporting " .. teleportee_name
 					.. " to " .. core.pos_to_string(p)
 		end
@@ -430,12 +433,12 @@ core.register_chatcommand("teleport", {
 		if target_name then
 			local target = core.get_player_by_name(target_name)
 			if target then
-				p = target:getpos()
+				p = target:get_pos()
 			end
 		end
 		if teleportee and p then
 			p = find_free_position_near(p)
-			teleportee:setpos(p)
+			teleportee:set_pos(p)
 			return true, "Teleporting " .. teleportee_name
 					.. " to " .. target_name
 					.. " at " .. core.pos_to_string(p)
@@ -661,7 +664,7 @@ core.register_chatcommand("spawnentity", {
 			return false, "Cannot spawn an unknown entity"
 		end
 		if p == "" then
-			p = player:getpos()
+			p = player:get_pos()
 		else
 			p = core.string_to_pos(p)
 			if p == nil then
@@ -683,10 +686,13 @@ core.register_chatcommand("pulverize", {
 			core.log("error", "Unable to pulverize, no player.")
 			return false, "Unable to pulverize, no player."
 		end
-		if player:get_wielded_item():is_empty() then
+		local wielded_item = player:get_wielded_item()
+		if wielded_item:is_empty() then
 			return false, "Unable to pulverize, no item in hand."
 		end
-		player:set_wielded_item(nil)
+		core.log("action", name .. " pulverized \"" ..
+			wielded_item:get_name() .. " " .. wielded_item:get_count() .. "\"")
+		player:set_wielded_item(nil)			
 		return true, "An item was pulverized."
 	end,
 })
@@ -796,7 +802,11 @@ core.register_chatcommand("rollback", {
 core.register_chatcommand("status", {
 	description = "Show server status",
 	func = function(name, param)
-		return true, core.get_server_status()
+		local status = core.get_server_status(name, false)
+		if status and status ~= "" then
+			return true, status
+		end
+		return false, "This command was disabled by a mod or game"
 	end,
 })
 

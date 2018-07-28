@@ -223,13 +223,32 @@ local function formspec(tabview, name, tabdata)
 				.. getSettingIndex.Mipmap() .. "]" ..
 		"label[3.85,2.15;" .. fgettext("Antialiasing:") .. "]" ..
 		"dropdown[3.85,2.6;3.85;dd_antialiasing;" .. dd_options.antialiasing[1] .. ";"
-				.. getSettingIndex.Antialiasing() .. "]" ..
-		"label[3.85,3.4;" .. fgettext("Language:") .. "]" ..
-		"dropdown[3.85,3.86;3.65;dd_language;" .. dd_options.language[1] .. ";"
-				.. getSettingIndex.Language() .. "]" ..
-		"box[7.75,0;4,4.8;#999999]" ..
-		"checkbox[8,0;cb_shaders;" .. fgettext("Shaders") .. ";"
-				.. dump(core.settings:get_bool("enable_shaders")) .. "]"
+				.. getSettingIndex.Antialiasing() .. "]"
+
+-- MERGEINFO: MrCerealGuy deactivated in standard settings
+--		"label[4.25,3.45;" .. fgettext("Screen:") .. "]" ..
+--		"checkbox[4.25,3.6;cb_autosave_screensize;" .. fgettext("Autosave Screen Size") .. ";"
+--				.. dump(core.settings:get_bool("autosave_screensize")) .. "]" ..
+--		"box[8,0;3.75,4.5;#999999]"
+
+	local video_driver = core.settings:get("video_driver")
+	local shaders_supported = video_driver == "opengl"
+	local shaders_enabled = false
+	if shaders_supported then
+		shaders_enabled = core.settings:get_bool("enable_shaders")
+		tab_string = tab_string ..
+			"checkbox[8.25,0;cb_shaders;" .. fgettext("Shaders") .. ";"
+					.. tostring(shaders_enabled) .. "]"
+	else
+		core.settings:set_bool("enable_shaders", false)
+		tab_string = tab_string ..
+			"label[8.38,0.2;" .. core.colorize("#888888",
+					fgettext("Shaders (unavailable)")) .. "]"
+	end
+		tab_string = tab_string ..
+			"label[3.85,3.4;" .. fgettext("Language:") .. "]" ..
+			"dropdown[3.85,3.86;3.65;dd_language;" .. dd_options.language[1] .. ";"
+				.. getSettingIndex.Language() .. "]"
 
 	if PLATFORM == "Android" then
 		tab_string = tab_string ..
@@ -238,7 +257,7 @@ local function formspec(tabview, name, tabdata)
 	else
 		tab_string = tab_string ..
 			"button[8,5.05;3.75,0.5;btn_change_keys;"
-			.. fgettext("Change keys") .. "]"
+			.. fgettext("Change Keys") .. "]"
 	end
 
 	tab_string = tab_string ..
@@ -253,21 +272,21 @@ local function formspec(tabview, name, tabdata)
 			((tonumber(core.settings:get("touchscreen_threshold")) / 10) + 1) .. "]"
 	end
 
-	if core.settings:get_bool("enable_shaders") then
+	if shaders_enabled then
 		tab_string = tab_string ..
-			"checkbox[8,0.5;cb_bumpmapping;" .. fgettext("Bump Mapping") .. ";"
+			"checkbox[8.25,0.5;cb_bumpmapping;" .. fgettext("Bump Mapping") .. ";"
 					.. dump(core.settings:get_bool("enable_bumpmapping")) .. "]" ..
-			"checkbox[8,1;cb_tonemapping;" .. fgettext("Tone Mapping") .. ";"
+			"checkbox[8.25,1;cb_tonemapping;" .. fgettext("Tone Mapping") .. ";"
 					.. dump(core.settings:get_bool("tone_mapping")) .. "]" ..
-			"checkbox[8,1.5;cb_generate_normalmaps;" .. fgettext("Normal Mapping") .. ";"
+			"checkbox[8.25,1.5;cb_generate_normalmaps;" .. fgettext("Generate Normal Maps") .. ";"
 					.. dump(core.settings:get_bool("generate_normalmaps")) .. "]" ..
-			"checkbox[8,2;cb_parallax;" .. fgettext("Parallax Occlusion") .. ";"
+			"checkbox[8.25,2;cb_parallax;" .. fgettext("Parallax Occlusion") .. ";"
 					.. dump(core.settings:get_bool("enable_parallax_occlusion")) .. "]" ..
-			"checkbox[8,2.5;cb_waving_water;" .. fgettext("Waving Water") .. ";"
+			"checkbox[8.25,2.5;cb_waving_water;" .. fgettext("Waving Water") .. ";"
 					.. dump(core.settings:get_bool("enable_waving_water")) .. "]" ..
-			"checkbox[8,3;cb_waving_leaves;" .. fgettext("Waving Leaves") .. ";"
+			"checkbox[8.25,3;cb_waving_leaves;" .. fgettext("Waving Leaves") .. ";"
 					.. dump(core.settings:get_bool("enable_waving_leaves")) .. "]" ..
-			"checkbox[8,3.5;cb_waving_plants;" .. fgettext("Waving Plants") .. ";"
+			"checkbox[8.25,3.5;cb_waving_plants;" .. fgettext("Waving Plants") .. ";"
 					.. dump(core.settings:get_bool("enable_waving_plants")) .. "]"
 	else
 		tab_string = tab_string ..

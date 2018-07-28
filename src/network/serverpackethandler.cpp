@@ -320,7 +320,7 @@ void Server::handleCommand_Init2(NetworkPacket* pkt)
 	float time_speed = g_settings->getFloat("time_speed");
 	SendTimeOfDay(pkt->getPeerId(), time, time_speed);
 
-	SendCSMFlavourLimits(pkt->getPeerId());
+	SendCSMRestrictionFlags(pkt->getPeerId());
 
 	// Warnings about protocol version can be issued here
 	if (getClient(pkt->getPeerId())->net_proto_version < LATEST_PROTOCOL_VERSION) {
@@ -1511,7 +1511,8 @@ void Server::handleCommand_InventoryFields(NetworkPacket* pkt)
 	if (peer_state_iterator != m_formspec_state_data.end()) {
 		const std::string &server_formspec_name = peer_state_iterator->second;
 		if (client_formspec_name == server_formspec_name) {
-			if (fields["quit"] == "true")
+			auto it = fields.find("quit");
+			if (it != fields.end() && it->second == "true")
 				m_formspec_state_data.erase(peer_state_iterator);
 
 			m_script->on_playerReceiveFields(playersao, client_formspec_name, fields);

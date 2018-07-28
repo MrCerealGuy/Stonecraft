@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <iomanip>
 #include <cerrno>
 #include <algorithm>
+#include <cmath>
 #include "connection.h"
 #include "serialization.h"
 #include "log.h"
@@ -600,7 +601,7 @@ void Channel::UpdateBytesSent(unsigned int bytes, unsigned int packets)
 {
 	MutexAutoLock internal(m_internal_mutex);
 	current_bytes_transfered += bytes;
-	current_packet_successfull += packets;
+	current_packet_successful += packets;
 }
 
 void Channel::UpdateBytesReceived(unsigned int bytes) {
@@ -627,17 +628,16 @@ void Channel::UpdatePacketTooLateCounter()
 	current_packet_too_late++;
 }
 
-void Channel::UpdateTimers(float dtime,bool legacy_peer)
+void Channel::UpdateTimers(float dtime)
 {
 	bpm_counter += dtime;
 	packet_loss_counter += dtime;
 
-	if (packet_loss_counter > 1.0)
-	{
-		packet_loss_counter -= 1.0;
+	if (packet_loss_counter > 1.0f) {
+		packet_loss_counter -= 1.0f;
 
 		unsigned int packet_loss = 11; /* use a neutral value for initialization */
-		unsigned int packets_successfull = 0;
+		unsigned int packets_successful = 0;
 		//unsigned int packet_too_late = 0;
 
 		bool reasonable_amount_of_data_transmitted = false;
@@ -646,94 +646,78 @@ void Channel::UpdateTimers(float dtime,bool legacy_peer)
 			MutexAutoLock internal(m_internal_mutex);
 			packet_loss = current_packet_loss;
 			//packet_too_late = current_packet_too_late;
-			packets_successfull = current_packet_successfull;
+			packets_successful = current_packet_successful;
 
-			if (current_bytes_transfered > (unsigned int) (window_size*512/2))
-			{
+			if (current_bytes_transfered > (unsigned int) (window_size*512/2)) {
 				reasonable_amount_of_data_transmitted = true;
 			}
 			current_packet_loss = 0;
 			current_packet_too_late = 0;
-			current_packet_successfull = 0;
+			current_packet_successful = 0;
 		}
 
-		/* dynamic window size is only available for non legacy peers */
-		if (!legacy_peer) {
-			float successfull_to_lost_ratio = 0.0;
-			bool done = false;
+		/* dynamic window size */
+		float successful_to_lost_ratio = 0.0f;
+		bool done = false;
 
-			if (packets_successfull > 0) {
-				successfull_to_lost_ratio = packet_loss/packets_successfull;
-			}
-			else if (packet_loss > 0)
-			{
-				window_size = MYMAX(
-						(window_size - 10),
+		if (packets_successful > 0) {
+			successful_to_lost_ratio = packet_loss/packets_successful;
+		} else if (packet_loss > 0) {
+			window_size = std::max(
+					(window_size - 10),
+					MIN_RELIABLE_WINDOW_SIZE);
+			done = true;
+		}
+
+		if (!done) {
+			if ((successful_to_lost_ratio < 0.01f) &&
+				(window_size < MAX_RELIABLE_WINDOW_SIZE)) {
+				/* don't even think about increasing if we didn't even
+				 * use major parts of our window */
+				if (reasonable_amount_of_data_transmitted)
+					window_size = std::min(
+							(window_size + 100),
+							MAX_RELIABLE_WINDOW_SIZE);
+			} else if ((successful_to_lost_ratio < 0.05f) &&
+					(window_size < MAX_RELIABLE_WINDOW_SIZE)) {
+				/* don't even think about increasing if we didn't even
+				 * use major parts of our window */
+				if (reasonable_amount_of_data_transmitted)
+					window_size = std::min(
+							(window_size + 50),
+							MAX_RELIABLE_WINDOW_SIZE);
+			} else if (successful_to_lost_ratio > 0.15f) {
+				window_size = std::max(
+						(window_size - 100),
 						MIN_RELIABLE_WINDOW_SIZE);
-				done = true;
-			}
-
-			if (!done)
-			{
-				if ((successfull_to_lost_ratio < 0.01) &&
-					(window_size < MAX_RELIABLE_WINDOW_SIZE))
-				{
-					/* don't even think about increasing if we didn't even
-					 * use major parts of our window */
-					if (reasonable_amount_of_data_transmitted)
-						window_size = MYMIN(
-								(window_size + 100),
-								MAX_RELIABLE_WINDOW_SIZE);
-				}
-				else if ((successfull_to_lost_ratio < 0.05) &&
-						(window_size < MAX_RELIABLE_WINDOW_SIZE))
-				{
-					/* don't even think about increasing if we didn't even
-					 * use major parts of our window */
-					if (reasonable_amount_of_data_transmitted)
-						window_size = MYMIN(
-								(window_size + 50),
-								MAX_RELIABLE_WINDOW_SIZE);
-				}
-				else if (successfull_to_lost_ratio > 0.15)
-				{
-					window_size = MYMAX(
-							(window_size - 100),
-							MIN_RELIABLE_WINDOW_SIZE);
-				}
-				else if (successfull_to_lost_ratio > 0.1)
-				{
-					window_size = MYMAX(
-							(window_size - 50),
-							MIN_RELIABLE_WINDOW_SIZE);
-				}
+			} else if (successful_to_lost_ratio > 0.1f) {
+				window_size = std::max(
+						(window_size - 50),
+						MIN_RELIABLE_WINDOW_SIZE);
 			}
 		}
 	}
 
-	if (bpm_counter > 10.0)
-	{
+	if (bpm_counter > 10.0f) {
 		{
 			MutexAutoLock internal(m_internal_mutex);
 			cur_kbps                 =
-					(((float) current_bytes_transfered)/bpm_counter)/1024.0;
+					(((float) current_bytes_transfered)/bpm_counter)/1024.0f;
 			current_bytes_transfered = 0;
 			cur_kbps_lost            =
-					(((float) current_bytes_lost)/bpm_counter)/1024.0;
+					(((float) current_bytes_lost)/bpm_counter)/1024.0f;
 			current_bytes_lost       = 0;
 			cur_incoming_kbps        =
-					(((float) current_bytes_received)/bpm_counter)/1024.0;
+					(((float) current_bytes_received)/bpm_counter)/1024.0f;
 			current_bytes_received   = 0;
-			bpm_counter              = 0;
+			bpm_counter              = 0.0f;
 		}
 
-		if (cur_kbps > max_kbps)
-		{
+		if (cur_kbps > max_kbps) {
 			max_kbps = cur_kbps;
 		}
 
-		if (cur_kbps_lost > max_kbps_lost)
-		{
+		if (cur_kbps_lost > max_kbps_lost) {
 			max_kbps_lost = cur_kbps_lost;
 		}
 
@@ -825,8 +809,9 @@ void Peer::DecUseCount()
 	delete this;
 }
 
-void Peer::RTTStatistics(float rtt, const std::string &profiler_id,
-		unsigned int num_samples) {
+void Peer::RTTStatistics(float rtt, const std::string &profiler_id)
+{
+	static const float avg_factor = 100.0f / MAX_RELIABLE_WINDOW_SIZE;
 
 	if (m_last_rtt > 0) {
 		/* set min max values */
@@ -837,21 +822,14 @@ void Peer::RTTStatistics(float rtt, const std::string &profiler_id,
 
 		/* do average calculation */
 		if (m_rtt.avg_rtt < 0.0)
-			m_rtt.avg_rtt  = rtt;
+			m_rtt.avg_rtt = rtt;
 		else
-			m_rtt.avg_rtt  = m_rtt.avg_rtt * (num_samples/(num_samples-1)) +
-								rtt * (1/num_samples);
+			m_rtt.avg_rtt += (rtt - m_rtt.avg_rtt) * avg_factor;
 
 		/* do jitter calculation */
 
 		//just use some neutral value at beginning
-		float jitter = m_rtt.jitter_min;
-
-		if (rtt > m_last_rtt)
-			jitter = rtt-m_last_rtt;
-
-		if (rtt <= m_last_rtt)
-			jitter = m_last_rtt - rtt;
+		float jitter = std::fabs(rtt - m_last_rtt);
 
 		if (jitter < m_rtt.jitter_min)
 			m_rtt.jitter_min = jitter;
@@ -859,10 +837,9 @@ void Peer::RTTStatistics(float rtt, const std::string &profiler_id,
 			m_rtt.jitter_max = jitter;
 
 		if (m_rtt.jitter_avg < 0.0)
-			m_rtt.jitter_avg  = jitter;
+			m_rtt.jitter_avg = jitter;
 		else
-			m_rtt.jitter_avg  = m_rtt.jitter_avg * (num_samples/(num_samples-1)) +
-								jitter * (1/num_samples);
+			m_rtt.jitter_avg += (jitter - m_rtt.jitter_avg) * avg_factor;
 
 		if (!profiler_id.empty()) {
 			g_profiler->graphAdd(profiler_id + "_rtt", rtt);
@@ -910,6 +887,8 @@ void Peer::Drop()
 UDPPeer::UDPPeer(u16 a_id, Address a_address, Connection* connection) :
 	Peer(a_address,a_id,connection)
 {
+	for (Channel &channel : channels)
+		channel.setWindowSize(g_settings->getU16("max_packets_per_iteration"));
 }
 
 bool UDPPeer::getAddress(MTProtocols type,Address& toset)
@@ -923,27 +902,14 @@ bool UDPPeer::getAddress(MTProtocols type,Address& toset)
 	return false;
 }
 
-void UDPPeer::setNonLegacyPeer()
-{
-	m_legacy_peer = false;
-	for(unsigned int i=0; i< CHANNEL_COUNT; i++)
-	{
-		channels->setWindowSize(g_settings->getU16("max_packets_per_iteration"));
-	}
-}
-
 void UDPPeer::reportRTT(float rtt)
 {
-	if (rtt < 0.0) {
-		return;
-	}
-	RTTStatistics(rtt,"rudp",MAX_RELIABLE_WINDOW_SIZE*10);
+	assert(rtt >= 0.0f);
+
+	RTTStatistics(rtt, "rudp");
 
 	float timeout = getStat(AVG_RTT) * RESEND_TIMEOUT_FACTOR;
-	if (timeout < RESEND_TIMEOUT_MIN)
-		timeout = RESEND_TIMEOUT_MIN;
-	if (timeout > RESEND_TIMEOUT_MAX)
-		timeout = RESEND_TIMEOUT_MAX;
+	timeout = rangelim(timeout, RESEND_TIMEOUT_MIN, RESEND_TIMEOUT_MAX);
 
 	MutexAutoLock usage_lock(m_exclusive_access_mutex);
 	resend_timeout = timeout;

@@ -40,7 +40,7 @@ int LuaPerlinNoise::l_get_2d(lua_State *L)
 {
 	NO_MAP_LOCK_REQUIRED;
 	LuaPerlinNoise *o = checkobject(L, 1);
-	v2f p = check_v2f(L, 2);
+	v2f p = readParam<v2f>(L, 2);
 	lua_Number val = NoisePerlin2D(&o->np, p.X, p.Y, 0);
 	lua_pushnumber(L, val);
 	return 1;
@@ -122,6 +122,7 @@ void LuaPerlinNoise::Register(lua_State *L)
 
 	lua_pop(L, 1);
 
+	markAliasDeprecated(methods);
 	luaL_openlib(L, 0, methods, 0);
 	lua_pop(L, 1);
 
@@ -130,7 +131,7 @@ void LuaPerlinNoise::Register(lua_State *L)
 
 
 const char LuaPerlinNoise::className[] = "PerlinNoise";
-const luaL_Reg LuaPerlinNoise::methods[] = {
+luaL_Reg LuaPerlinNoise::methods[] = {
 	luamethod_aliased(LuaPerlinNoise, get_2d, get2d),
 	luamethod_aliased(LuaPerlinNoise, get_3d, get3d),
 	{0,0}
@@ -165,7 +166,7 @@ int LuaPerlinNoiseMap::l_get_2d_map(lua_State *L)
 	size_t i = 0;
 
 	LuaPerlinNoiseMap *o = checkobject(L, 1);
-	v2f p = check_v2f(L, 2);
+	v2f p = readParam<v2f>(L, 2);
 
 	Noise *n = o->noise;
 	n->perlinMap2D(p.X, p.Y);
@@ -188,8 +189,8 @@ int LuaPerlinNoiseMap::l_get_2d_map_flat(lua_State *L)
 	NO_MAP_LOCK_REQUIRED;
 
 	LuaPerlinNoiseMap *o = checkobject(L, 1);
-	v2f p                = check_v2f(L, 2);
-	bool use_buffer      = lua_istable(L, 3);
+	v2f p = readParam<v2f>(L, 2);
+	bool use_buffer = lua_istable(L, 3);
 
 	Noise *n = o->noise;
 	n->perlinMap2D(p.X, p.Y);
@@ -274,7 +275,7 @@ int LuaPerlinNoiseMap::l_calc_2d_map(lua_State *L)
 	NO_MAP_LOCK_REQUIRED;
 
 	LuaPerlinNoiseMap *o = checkobject(L, 1);
-	v2f p                = check_v2f(L, 2);
+	v2f p = readParam<v2f>(L, 2);
 
 	Noise *n = o->noise;
 	n->perlinMap2D(p.X, p.Y);
@@ -380,6 +381,7 @@ void LuaPerlinNoiseMap::Register(lua_State *L)
 
 	lua_pop(L, 1);
 
+	markAliasDeprecated(methods);
 	luaL_openlib(L, 0, methods, 0);
 	lua_pop(L, 1);
 
@@ -388,7 +390,7 @@ void LuaPerlinNoiseMap::Register(lua_State *L)
 
 
 const char LuaPerlinNoiseMap::className[] = "PerlinNoiseMap";
-const luaL_Reg LuaPerlinNoiseMap::methods[] = {
+luaL_Reg LuaPerlinNoiseMap::methods[] = {
 	luamethod_aliased(LuaPerlinNoiseMap, get_2d_map,      get2dMap),
 	luamethod_aliased(LuaPerlinNoiseMap, get_2d_map_flat, get2dMap_flat),
 	luamethod_aliased(LuaPerlinNoiseMap, calc_2d_map,     calc2dMap),

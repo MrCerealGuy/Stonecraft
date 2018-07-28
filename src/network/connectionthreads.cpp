@@ -206,9 +206,6 @@ void ConnectionSendThread::runTimeouts(float dtime)
 		for (Channel &channel : udpPeer->channels) {
 			std::list<BufferedPacket> timed_outs;
 
-			if (udpPeer->getLegacyPeer())
-				channel.setWindowSize(WINDOW_SIZE);
-
 			// Remove timed out incomplete unreliable split packets
 			channel.incoming_splits.removeUnreliableTimedOuts(dtime, m_timeout);
 
@@ -264,7 +261,7 @@ void ConnectionSendThread::runTimeouts(float dtime)
 				break; /* no need to check other channels if we already did timeout */
 			}
 
-			channel.UpdateTimers(dtime, udpPeer->getLegacyPeer());
+			channel.UpdateTimers(dtime);
 		}
 
 		/* skip to next peer if we did timeout */
@@ -422,15 +419,6 @@ void ConnectionSendThread::processReliableCommand(ConnectionCommand &c)
 		case CONCMD_CREATE_PEER:
 			LOG(dout_con << m_connection->getDesc()
 				<< "UDP processing reliable CONCMD_CREATE_PEER" << std::endl);
-			if (!rawSendAsPacket(c.peer_id, c.channelnum, c.data, c.reliable)) {
-				/* put to queue if we couldn't send it immediately */
-				sendReliable(c);
-			}
-			return;
-
-		case CONCMD_DISABLE_LEGACY:
-			LOG(dout_con << m_connection->getDesc()
-				<< "UDP processing reliable CONCMD_DISABLE_LEGACY" << std::endl);
 			if (!rawSendAsPacket(c.peer_id, c.channelnum, c.data, c.reliable)) {
 				/* put to queue if we couldn't send it immediately */
 				sendReliable(c);
@@ -1167,19 +1155,17 @@ SharedBuffer<u8> ConnectionReceiveThread::handlePacketType_Control(Channel *chan
 
 				// a overflow is quite unlikely but as it'd result in major
 				// rtt miscalculation we handle it here
+				float rtt = 0.0f;
 				if (current_time > p.absolute_send_time) {
-					float rtt = (current_time - p.absolute_send_time) / 1000.0;
-
-					// Let peer calculate stuff according to it
-					// (avg_rtt and resend_timeout)
-					dynamic_cast<UDPPeer *>(peer)->reportRTT(rtt);
+					rtt = (current_time - p.absolute_send_time) / 1000.0f;
 				} else if (p.totaltime > 0) {
-					float rtt = p.totaltime;
-
-					// Let peer calculate stuff according to it
-					// (avg_rtt and resend_timeout)
-					dynamic_cast<UDPPeer *>(peer)->reportRTT(rtt);
+					rtt = p.totaltime;
 				}
+
+				// Let peer calculate stuff according to it
+				// (avg_rtt and resend_timeout)
+				if (rtt != 0.0f)
+					dynamic_cast<UDPPeer *>(peer)->reportRTT(rtt);
 			}
 			// put bytes for max bandwidth calculation
 			channel->UpdateBytesSent(p.data.getSize(), 1);
@@ -1210,14 +1196,6 @@ SharedBuffer<u8> ConnectionReceiveThread::handlePacketType_Control(Channel *chan
 			m_connection->SetPeerID(peer_id_new);
 		}
 
-		ConnectionCommand cmd;
-
-		SharedBuffer<u8> reply(2);
-		writeU8(&reply[0], PACKET_TYPE_CONTROL);
-		writeU8(&reply[1], CONTROLTYPE_ENABLE_BIG_SEND_WINDOW);
-		cmd.disableLegacy(PEER_ID_SERVER, reply);
-		m_connection->putCommand(cmd);
-
 		throw ProcessedSilentlyException("Got a SET_PEER_ID");
 	} else if (controltype == CONTROLTYPE_PING) {
 		// Just ignore it, the incoming data already reset
@@ -1235,9 +1213,6 @@ SharedBuffer<u8> ConnectionReceiveThread::handlePacketType_Control(Channel *chan
 		}
 
 		throw ProcessedSilentlyException("Got a DISCO");
-	} else if (controltype == CONTROLTYPE_ENABLE_BIG_SEND_WINDOW) {
-		dynamic_cast<UDPPeer *>(peer)->setNonLegacyPeer();
-		throw ProcessedSilentlyException("Got non legacy control");
 	} else {
 		LOG(derr_con << m_connection->getDesc()
 			<< "INVALID TYPE_CONTROL: invalid controltype="

@@ -224,7 +224,6 @@ LOCAL_SRC_FILES := \
 		jni/src/rollback_interface.cpp            \
 		jni/src/serialization.cpp                 \
 		jni/src/server/mods.cpp                   \
-		jni/src/server/serveractiveobjectmap.cpp  \
 		jni/src/server.cpp                        \
 		jni/src/serverenvironment.cpp             \
 		jni/src/serverlist.cpp                    \
@@ -316,6 +315,7 @@ LOCAL_SRC_FILES += \
 		jni/src/script/common/c_converter.cpp     \
 		jni/src/script/common/c_internal.cpp      \
 		jni/src/script/common/c_types.cpp         \
+		jni/src/script/common/helper.cpp          \
 		jni/src/script/cpp_api/s_async.cpp        \
 		jni/src/script/cpp_api/s_base.cpp         \
 		jni/src/script/cpp_api/s_client.cpp       \
