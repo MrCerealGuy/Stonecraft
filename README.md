@@ -101,7 +101,19 @@ Use --help
 
 # Building GNU/Linux 
 
-**Install dependencies**. Here's an example for Debian/Ubuntu:
+## Dependencies
+
+| Dependency | Version | Commentary |
+|------------|---------|------------|
+| GCC        | 4.9+    | Can be replaced with Clang 3.4+ |
+| CMake      | 2.6+    |            |
+| Irrlicht   | 1.7.3+  |            |
+| SQLite3    | 3.0+    |            |
+| LuaJIT     | 2.0+    | Bundled Lua 5.1 is used if not present |
+| GMP        | 5.0.0+  | Bundled mini-GMP is used if not present |
+| JsonCPP    | 1.0.0+  | Bundled JsonCPP is used if not present |
+
+**Install dependencies for Debian/Ubuntu**
 ```
 $ sudo apt-get install git-core build-essential libirrlicht-dev cmake libstdc++6 libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses-dev liblua5.2-dev dialog libluajit-5.1-dev
 ```
@@ -137,7 +149,6 @@ Please install source and dependencies like above. I've used **MinGW-w64 7.1.1 2
 **Download libraries**  
 
 Please clone the Windows libraries for MinGW via github:
-
 ```
 $ cd <stonecraft-folder>/lib
 $ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git libdev-win
@@ -158,6 +169,34 @@ $ <stonecraft-folder>/build/build_win64_client.sh
 ```
 
 You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-package in the subdirectory _build.
+
+**Create Windows package with InstallForge**
+
+```
+$ sudo apt-get install wine-stable
+```
+
+Download InstallForge for Windows:
+```
+https://installforge.net/
+```
+
+Install InstallForge with Wine:
+```
+$ wine IFSetup.exe
+```
+
+Now you can run InstallForge:
+```
+$ wine /home/<USER>/.wine/drive_c/Program Files (x86)/solicus/InstallForge/InstallForge.exe
+```
+
+Now select a InstallForge project file from this directory
+```
+<stonecraft-folder>/util/InstallForge/
+```
+and build the windows package. Make sure to extract the correct Windows build zip-package in this folder.
+
 
 # Building Android on GNU/Linux
 
