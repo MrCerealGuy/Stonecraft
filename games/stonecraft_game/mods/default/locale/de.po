@@ -398,6 +398,18 @@ msgid "Acacia Bush Sapling"
 msgstr "Akazienbuschsetzling"
 
 #: nodes.lua
+msgid "Pine Bush Stem"
+msgstr "Kiefernbuschstamm"
+
+#: nodes.lua
+msgid "Pine Bush Needles"
+msgstr "Kiefernbuschnadeln"
+
+#: nodes.lua
+msgid "Pine Bush Sapling"
+msgstr "Kiefernbuschsetzling"
+
+#: nodes.lua
 msgid "Kelp"
 msgstr "Seetang"
 
@@ -476,6 +488,26 @@ msgstr "Kieferholzzaun"
 #: nodes.lua
 msgid "Aspen Wood Fence"
 msgstr "Espenholzzaun"
+
+#: nodes.lua
+msgid "Apple Wood Fence Rail"
+msgstr "Apfelholzlattenzaun"
+
+#: nodes.lua
+msgid "Acacia Wood Fence Rail"
+msgstr "Akazienholzlattenzaun"
+
+#: nodes.lua
+msgid "Jungle Wood Fence Rail"
+msgstr "Dschungelholzlattenzaun"
+
+#: nodes.lua
+msgid "Pine Wood Fence Rail"
+msgstr "Kiefernholzlattenzaun"
+
+#: nodes.lua
+msgid "Aspen Wood Fence Rail"
+msgstr "Espenholzlattenzaun"
 
 #: nodes.lua
 msgid "Glass"

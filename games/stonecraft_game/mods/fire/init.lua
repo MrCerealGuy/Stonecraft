@@ -1,5 +1,7 @@
 -- Global namespace for functions
 
+fire = {}
+
 --[[
 
 2017-05-21 MrCerealGuy: added intllib support
@@ -179,7 +181,7 @@ if flame_sound then
 	function fire.update_player_sound(player)
 		local player_name = player:get_player_name()
 		-- Search for flame nodes in radius around player
-		local ppos = player:getpos()
+		local ppos = player:get_pos()
 		local areamin = vector.subtract(ppos, radius)
 		local areamax = vector.add(ppos, radius)
 		local fpos, num = minetest.find_nodes_in_area(
