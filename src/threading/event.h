@@ -25,7 +25,13 @@ DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include <condition_variable>
+
+
+#if defined(__MINGW32__)
+	#include "../mingw-std-threads/mingw.condition_variable.h"
+#else
+	#include <condition_variable>
+#endif
 
 /** A syncronization primitive that will wake up one waiting thread when signaled.
  * Calling @c signal() multiple times before a waiting thread has had a chance

@@ -20,7 +20,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #include <ctime>
-#include <mutex>
+
+#if defined(__MINGW32__)
+	#include "./mingw-std-threads/mingw.mutex.h"
+#else
+	#include <mutex>
+#endif
+
 #include "mapblock_mesh.h"
 #include "threading/mutex_auto_lock.h"
 #include "util/thread.h"

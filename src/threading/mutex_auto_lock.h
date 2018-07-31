@@ -25,6 +25,11 @@ DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include <mutex>
+#if defined(__MINGW32__)
+	#include "../mingw-std-threads/mingw.mutex.h"
+#else
+	#include <mutex>
+#endif
+
 using MutexAutoLock = std::unique_lock<std::mutex>;
 using RecursiveMutexAutoLock = std::unique_lock<std::recursive_mutex>;

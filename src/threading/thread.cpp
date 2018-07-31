@@ -269,9 +269,9 @@ bool Thread::bindToProcessor(unsigned int proc_number)
 
 	return SetThreadAffinityMask(getThreadHandle(), 1 << proc_number);
 
-#elif __MINGW32__
+//#elif __MINGW32__
 
-	return SetThreadAffinityMask(pthread_gethandle(getThreadHandle()), 1 << proc_number);
+//	return SetThreadAffinityMask(pthread_gethandle(getThreadHandle()), 1 << proc_number);
 
 #elif __FreeBSD_version >= 702106 || defined(__linux__)
 
@@ -323,7 +323,8 @@ bool Thread::setPriority(int prio)
 
 #elif __MINGW32__
 
-	return SetThreadPriority(pthread_gethandle(getThreadHandle()), prio);
+//	return SetThreadPriority(pthread_gethandle(getThreadHandle()), prio);
+	return false;
 
 #else
 

@@ -20,7 +20,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #include <map>
-#include <mutex>
+
+#if defined(__MINGW32__)
+	#include "./mingw-std-threads/mingw.mutex.h"
+#else
+	#include <mutex>
+#endif
+
 #include "network/networkprotocol.h"
 #include "irr_v3d.h"
 #include "util/container.h"

@@ -24,7 +24,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <list>
 #include <map>
 #include <cerrno>
-#include <mutex>
+
+#if defined(__MINGW32__)
+	#include "./mingw-std-threads/mingw.mutex.h"
+#else
+	#include <mutex>
+#endif
+
 #include "network/socket.h" // for select()
 #include "threading/event.h"
 #include "config.h"
