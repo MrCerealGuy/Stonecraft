@@ -323,8 +323,8 @@ bool Thread::setPriority(int prio)
 
 #elif __MINGW32__
 
-//	return SetThreadPriority(pthread_gethandle(getThreadHandle()), prio);
-	return false;
+	//return SetThreadPriority(pthread_gethandle(getThreadHandle()), prio);
+	return SetThreadPriority(getThreadHandle(), prio);
 
 #else
 
