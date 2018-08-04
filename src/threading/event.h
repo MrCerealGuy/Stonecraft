@@ -28,7 +28,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 #if defined(__MINGW32__)
-	#include "../mingw-std-threads/mingw.condition_variable.h"
+	#include "mingw-std-threads/mingw.condition_variable.h"
 #else
 	#include <condition_variable>
 #endif

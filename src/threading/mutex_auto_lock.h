@@ -26,7 +26,7 @@ DEALINGS IN THE SOFTWARE.
 #pragma once
 
 #if defined(__MINGW32__)
-	#include "../mingw-std-threads/mingw.mutex.h"
+	#include "mingw-std-threads/mingw.mutex.h"
 #else
 	#include <mutex>
 #endif

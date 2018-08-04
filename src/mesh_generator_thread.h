@@ -22,7 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <ctime>
 
 #if defined(__MINGW32__)
-	#include "./mingw-std-threads/mingw.mutex.h"
+	#include "mingw-std-threads/mingw.mutex.h"
 #else
 	#include <mutex>
 #endif
