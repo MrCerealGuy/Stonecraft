@@ -23,15 +23,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <queue>
 #include <string>
 #include <fstream>
-
-#if defined(__MINGW32__)
-	#include "mingw-std-threads/mingw.thread.h"
-	#include "mingw-std-threads/mingw.mutex.h"
-#else
-	#include <thread>
-	#include <mutex>
-#endif
-
+#include <thread>
+#include <mutex>
 #if !defined(_WIN32)  // POSIX
 	#include <unistd.h>
 #endif

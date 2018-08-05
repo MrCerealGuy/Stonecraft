@@ -29,14 +29,8 @@ DEALINGS IN THE SOFTWARE.
 
 #include <string>
 #include <atomic>
-
-#if defined(__MINGW32__)
-	#include "mingw-std-threads/mingw.thread.h"
-	#include "mingw-std-threads/mingw.mutex.h"
-#else
-	#include <thread>
-	#include <mutex>
-#endif
+#include <thread>
+#include <mutex>
 
 #ifdef _AIX
 	#include <sys/thread.h> // for tid_t
@@ -167,4 +161,3 @@ private:
 	tid_t m_kernel_thread_id;
 #endif
 };
-

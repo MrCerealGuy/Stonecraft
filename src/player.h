@@ -25,12 +25,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "network/networkprotocol.h"
 #include "util/basic_macros.h"
 #include <list>
-
-#if defined(__MINGW32__)
-	#include "mingw-std-threads/mingw.mutex.h"
-#else
-	#include <mutex>
-#endif
+#include <mutex>
 
 #define PLAYERNAME_SIZE 20
 

@@ -30,12 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <list>
 #include <vector>
 #include <set>
-
-#if defined(__MINGW32__)
-	#include "mingw-std-threads/mingw.mutex.h"
-#else
-	#include <mutex>
-#endif
+#include <mutex>
 
 class MapBlock;
 class ServerEnvironment;
