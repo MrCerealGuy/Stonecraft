@@ -108,15 +108,15 @@ matrix:
           sources: &sources
             - llvm-toolchain-trusty-5.0
 
-before_deploy:
+#before_deploy:
   # Set up git user name and tag this commit
-  - git config --local user.name "MrCerealGuy"
-  - git config --local user.email "mrcerealguy@gmx.de"
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
-deploy:
-  provider: releases
-  api_key: "7ef6495c6b7f6d5f340e9408ce99d3a4165b9cb9"
-  file:
-    - "./util/buildbot/win-x86_64/stonecraft/bin/stonecraft.exe"
-    - "./util/buildbot/win-i686/stonecraft/bin/stonecraft.exe"
-  skip_cleanup: true
+#  - git config --local user.name "MrCerealGuy"
+#  - git config --local user.email "mrcerealguy@gmx.de"
+#  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+#deploy:
+#  provider: releases
+#  api_key: "7ef6495c6b7f6d5f340e9408ce99d3a4165b9cb9"
+#  file:
+#    - "./util/buildbot/win-x86_64/stonecraft/bin/stonecraft.exe"
+#    - "./util/buildbot/win-i686/stonecraft/bin/stonecraft.exe"
+#  skip_cleanup: true
