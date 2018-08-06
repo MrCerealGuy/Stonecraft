@@ -38,6 +38,16 @@ matrix:
           sources: &sources
             - ubuntu-toolchain-r-test
             - sourceline: 'deb http://mirrors.kernel.org/ubuntu xenial main universe'
+      before_deploy:
+        # Set up git user name and tag this commit
+        - git config --local user.name "MrCerealGuy"
+        - git config --local user.email "mrcerealguy@gmx.de"
+        - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+      deploy:
+        provider: releases
+        api_key: "04815e9cfe77e764292aeba5918c28eb0edaa77b"
+        file: "./bin/stonecraft.exe"
+        skip_cleanup: true
 
     - env: PLATFORM=Win64
       compiler: gcc
@@ -48,6 +58,16 @@ matrix:
           sources: &sources
             - ubuntu-toolchain-r-test
             - sourceline: 'deb http://mirrors.kernel.org/ubuntu xenial main universe'
+      before_deploy:
+        # Set up git user name and tag this commit
+        - git config --local user.name "MrCerealGuy"
+        - git config --local user.email "mrcerealguy@gmx.de"
+        - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+      deploy:
+        provider: releases
+        api_key: "04815e9cfe77e764292aeba5918c28eb0edaa77b"
+        file: "./bin/stonecraft.exe"
+        skip_cleanup: true
 
     - env: PLATFORM=Unix
       compiler: clang
