@@ -45,7 +45,7 @@ matrix:
         - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
       deploy:
         provider: releases
-        api_key: "04815e9cfe77e764292aeba5918c28eb0edaa77b"
+        api_key: "7ef6495c6b7f6d5f340e9408ce99d3a4165b9cb9"
         file: "./bin/stonecraft.exe"
         skip_cleanup: true
 
@@ -65,7 +65,7 @@ matrix:
         - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
       deploy:
         provider: releases
-        api_key: "04815e9cfe77e764292aeba5918c28eb0edaa77b"
+        api_key: "7ef6495c6b7f6d5f340e9408ce99d3a4165b9cb9"
         file: "./bin/stonecraft.exe"
         skip_cleanup: true
 
