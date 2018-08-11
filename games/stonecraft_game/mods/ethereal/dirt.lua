@@ -13,26 +13,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- override default dirt (to stop caves cutting away dirt)
 minetest.override_item("default:dirt", {is_ground_content = ethereal.cavedirt})
 
---[[ green dirt
-minetest.register_node("ethereal:green_dirt", {
-	description = S("Green Dirt"),
-	tiles = {
-		"default_grass.png",
-		"default_dirt.png",
-		"default_dirt.png^default_grass_side.png"
-	},
-	is_ground_content = ethereal.cavedirt,
-	groups = {crumbly = 3, soil = 1, ethereal_grass = 1},
-	soil = {
-		base = "ethereal:green_dirt",
-		dry = "farming:soil",
-		wet = "farming:soil_wet"
-	},
-	drop = "default:dirt",
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_grass_footstep", gain = 0.25},
-	}),
-})]]
 minetest.register_alias("ethereal:green_dirt", "default:dirt_with_grass")
 
 -- dry dirt
@@ -66,7 +46,8 @@ for n = 1, #dirts do
 		tiles = {
 			"ethereal_grass_"..name.."_top.png",
 			"default_dirt.png",
-			"default_dirt.png^ethereal_grass_"..name.."_side.png"
+			{name = "default_dirt.png^ethereal_grass_"..name.."_side.png",
+					tileable_vertical = false}
 		},
 		is_ground_content = ethereal.cavedirt,
 		groups = {crumbly = 3, soil = 1, ethereal_grass = 1},
@@ -88,7 +69,7 @@ dirts = {
 	"ethereal:bamboo_dirt", "ethereal:jungle_dirt", "ethereal:grove_dirt",
 	"ethereal:prairie_dirt", "ethereal:cold_dirt", "ethereal:crystal_dirt",
 	"ethereal:mushroom_dirt", "ethereal:fiery_dirt", "ethereal:gray_dirt",
-	"default:dirt_with_grass", "default:dirt_with_dry_grass", "ethereal:green_dirt",
+	"default:dirt_with_grass", "default:dirt_with_dry_grass",
 	"default:dirt_with_snow", "default:dirt_with_dry_grass",
 	"default:dirt_with_rainforest_litter"
 }
@@ -96,17 +77,17 @@ dirts = {
 -- check surrounding grass and change dirt to same colour
 local grass_spread = function(pos, node)
 
-	-- not enough light
 	local above = {x = pos.x, y = pos.y + 1, z = pos.z}
 
+	-- not enough light
 	if (minetest.get_node_light(above) or 0) < 13 then
 		return
 	end
 
-	-- water above grass
 	local name = minetest.get_node(above).name
 	local def = minetest.registered_nodes[name]
 
+	-- water above grass
 	if name == "ignore" or not def or def.liquidtype ~= "none" then
 		return
 	end
@@ -116,10 +97,7 @@ local grass_spread = function(pos, node)
 	-- find all default and ethereal grasses in area around dirt
 	local positions, grasses = minetest.find_nodes_in_area(
 		{x = pos.x - 1, y = pos.y - 2, z = pos.z - 1},
-		{x = pos.x + 1, y = pos.y + 2, z = pos.z + 1},
---		{"group:ethereal_grass", "default:dirt_with_grass",
---		"default:dirt_with_dry_grass", "default:dirt_with_snow"})
-		dirts)
+		{x = pos.x + 1, y = pos.y + 2, z = pos.z + 1}, dirts)
 
 	-- count new grass nodes
 	for n = 1, #dirts do
@@ -135,11 +113,6 @@ local grass_spread = function(pos, node)
 	-- no grass nearby, keep as dirt
 	if curr_type == "" then
 		return
-	end
-
-	-- change default green grass to ethereal green grass
-	if curr_type == "default:dirt_with_grass" then
-		curr_type = "ethereal:green_dirt"
 	end
 
 	minetest.swap_node(pos, {name = curr_type})
@@ -304,18 +277,18 @@ for _, ab in pairs(minetest.registered_abms) do
 	local node2 = ab.nodenames and ab.nodenames[2] or ""
 	local neigh = ab.neighbors and ab.neighbors[1] or ""
 
-	-- find dirt to grass abm and replace with spread function
+	-- find 'dirt to grass abm' and replace with spread function
 	if label == "Grass spread"
 	or (node1 == "default:dirt"
 	and neigh == "default:dirt_with_grass") then
 
 		--ab.interval = 2
 		--ab.chance = 1
-		ab.nodenames = {"default:dirt_with_grass", "default:dirt"}
+		ab.nodenames = {"default:dirt"}
 		ab.neighbors = {"air"}
 		ab.action = grass_spread
 
-	-- find grass devoid of light to dirt abm and change to devoid function
+	-- find 'grass devoid of light to dirt' abm and change to devoid function
 	elseif label == "Grass covered"
 	or (node1 == "default:dirt_with_grass"
 	and node2 == "default:dirt_with_dry_grass") then

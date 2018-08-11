@@ -26,6 +26,12 @@ minetest.override_item("default:leaves", {
 	walkable = ethereal.leafwalk,
 })
 
+-- ability to craft big tree sapling
+minetest.register_craft({
+	recipe = {{"default:sapling", "default:sapling",  "default:sapling"}},
+	output = "ethereal:big_tree_sapling"
+})
+
 -- default jungle tree leaves
 minetest.override_item("default:jungleleaves", {
 	drawtype = leaftype,

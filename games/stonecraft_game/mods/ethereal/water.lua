@@ -65,9 +65,6 @@ minetest.register_abm({
 	chance = 4,
 	catch_up = false,
 	action = function(pos, node)
-		if not abm_allowed then
-   			return
-		end
 
 		local near = minetest.find_node_near(pos, 1,
 			{"default:water_source", "default:river_water_source"})
@@ -78,7 +75,7 @@ minetest.register_abm({
 	end,
 })
 
--- If Heat Source near Ice or Snow then melt
+-- If Heat Source near Ice or Snow then melt.
 minetest.register_abm({
 	label = "Ethereal melt snow/ice",
 	nodenames = {
@@ -87,7 +84,8 @@ minetest.register_abm({
 	},
 	neighbors = {
 		"fire:basic_fire", "default:lava_source", "default:lava_flowing",
-		"default:furnace_active", "group:torch", "default:torch"
+		"default:furnace_active", "default:torch", "default:torch_wall",
+		"default:torch_ceiling"
 	},
 	interval = 5,
 	chance = 4,
@@ -130,7 +128,7 @@ minetest.register_abm({
 		if node == "ethereal:dry_dirt" then
 			minetest.swap_node(pos, {name = "default:dirt"})
 		else
-			minetest.swap_node(pos, {name = "ethereal:green_dirt"})
+			minetest.swap_node(pos, {name = "default:dirt_with_grass"})
 		end
 	end,
 })

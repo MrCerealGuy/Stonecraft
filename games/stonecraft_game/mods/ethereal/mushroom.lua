@@ -22,7 +22,7 @@ minetest.register_craft({
 	recipe = {
 		{"flowers:mushroom_brown"},
 		{"flowers:mushroom_brown"},
-		{"ethereal:bowl"},
+		{"group:food_bowl"},
 	}
 })
 

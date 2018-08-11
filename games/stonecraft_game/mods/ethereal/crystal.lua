@@ -19,13 +19,17 @@ minetest.register_node("ethereal:crystal_spike", {
 	paramtype = "light",
 	light_source = 7,
 	sunlight_propagates = true,
-	walkable = false,
+	walkable = true,
 	damage_per_second = 1,
 	groups = {cracky = 1, falling_node = 1, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_glass_defaults(),
 	selection_box = {
 		type = "fixed",
-		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 0.41, 5 / 16},
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 0, 5 / 16},
+	},
+	node_box = {
+		type = "fixed",
+		fixed = {-5 / 16, -0.5, -5 / 16, 5 / 16, 0, 5 / 16},
 	},
 })
 
@@ -256,5 +260,10 @@ minetest.override_item("ethereal:axe_crystal", {
 minetest.override_item("ethereal:shovel_crystal", {
 	original_description = "Crystal Shovel",
 	description = toolranks.create_description("Crystal Shovel", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("ethereal:sword_crystal", {
+	original_description = "Crystal Sword",
+	description = toolranks.create_description("Crystal Sword", 0, 1),
 	after_use = toolranks.new_afteruse})
 end

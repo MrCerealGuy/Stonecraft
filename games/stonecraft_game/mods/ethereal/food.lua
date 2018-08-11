@@ -30,7 +30,7 @@ minetest.register_node("ethereal:banana", {
 		fixed = {-0.31, -0.5, -0.31, 0.31, 0.5, 0.31}
 	},
 	groups = {
-		fleshy = 3, dig_immediate = 3, flammable = 2,
+		food_banana = 1, fleshy = 3, dig_immediate = 3, flammable = 2,
 		leafdecay = 1, leafdecay_drop = 1
 	},
 	drop = "ethereal:banana",
@@ -52,7 +52,7 @@ minetest.register_craftitem("ethereal:banana_dough", {
 minetest.register_craft({
 	type = "shapeless",
 	output = "ethereal:banana_dough",
-	recipe = {"farming:flour", "ethereal:banana"}
+	recipe = {"group:food_flour", "group:food_banana"}
 })
 
 minetest.register_craft({
@@ -77,7 +77,7 @@ minetest.register_node("ethereal:orange", {
 		fixed = {-0.27, -0.37, -0.27, 0.27, 0.44, 0.27}
 	},
 	groups = {
-		fleshy = 3, dig_immediate = 3, flammable = 2,
+		food_orange = 1, fleshy = 3, dig_immediate = 3, flammable = 2,
 		leafdecay = 3, leafdecay_drop = 1
 	},
 	drop = "ethereal:orange",
@@ -95,6 +95,7 @@ minetest.register_craftitem("ethereal:pine_nuts", {
 	description = S("Pine Nuts"),
 	inventory_image = "pine_nuts.png",
 	wield_image = "pine_nuts.png",
+	groups = {food_pine_nuts = 1, flammable = 2},
 	on_use = minetest.item_eat(1),
 })
 
@@ -103,6 +104,7 @@ minetest.register_craftitem("ethereal:banana_bread", {
 	description = S("Banana Loaf"),
 	inventory_image = "banana_bread.png",
 	wield_image = "banana_bread.png",
+	groups = {food_bread = 1, flammable = 3},
 	on_use = minetest.item_eat(6),
 })
 
@@ -121,7 +123,7 @@ minetest.register_node("ethereal:coconut", {
 		fixed = {-0.31, -0.43, -0.31, 0.31, 0.44, 0.31}
 	},
 	groups = {
-		snappy = 1, oddly_breakable_by_hand = 1, cracky = 1,
+		food_coconut = 1, snappy = 1, oddly_breakable_by_hand = 1, cracky = 1,
 		choppy = 1, flammable = 1, leafdecay = 3, leafdecay_drop = 1
 	},
 	drop = "ethereal:coconut_slice 4",
@@ -175,9 +177,9 @@ minetest.register_craftitem("ethereal:hearty_stew", {
 minetest.register_craft({
 	output = "ethereal:hearty_stew",
 	recipe = {
-		{"ethereal:wild_onion_plant","ethereal:mushroom_plant", "ethereal:fern_tubers"},
-		{"","ethereal:mushroom_plant", ""},
-		{"","ethereal:bowl", ""},
+		{"group:food_onion","flowers:mushroom_brown", "group:food_tuber"},
+		{"","flowers:mushroom_brown", ""},
+		{"","group:food_bowl", ""},
 	}
 })
 
@@ -186,9 +188,9 @@ if farming and farming.mod and farming.mod == "redo" then
 minetest.register_craft({
 	output = "ethereal:hearty_stew",
 	recipe = {
-		{"ethereal:wild_onion_plant","ethereal:mushroom_plant", "farming:beans"},
-		{"","ethereal:mushroom_plant", ""},
-		{"","ethereal:bowl", ""},
+		{"group:food_onion","flowers:mushroom_brown", "group:food_beans"},
+		{"","flowers:mushroom_brown", ""},
+		{"","group:food_bowl", ""},
 	}
 })
 end

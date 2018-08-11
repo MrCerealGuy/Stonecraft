@@ -6,9 +6,15 @@ Ethereal Mapgen mod for Minetest (works on all except v6)
 - https://forum.minetest.net/viewtopic.php?f=11&t=14638
 
 ## Lucky Blocks
-35
+38
 
 ## Changelog
+
+### 1.24
+
+ - Updating code to newer functions, requires Minetest 0.4.16 and above
+ - Added food groups to be more compatible with other food mods
+ - Bonemeal removed (use Bonemeal mod to replace https://forum.minetest.net/viewtopic.php?f=9&t=16446 )
 
 ### 1.23
 

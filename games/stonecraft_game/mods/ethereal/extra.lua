@@ -116,7 +116,7 @@ minetest.register_node("ethereal:candle", {
 				length = 1.0
 			}
 		},
-	},	
+	},
 	paramtype = "light",
 	light_source = 11,
 	sunlight_propagates = true,
@@ -142,10 +142,11 @@ minetest.register_craft({
 minetest.register_craftitem("ethereal:bowl", {
 	description = S("Bowl"),
 	inventory_image = "bowl.png",
+	groups = {food_bowl = 1, flammable = 2},
 })
 
 minetest.register_craft({
-	output = "ethereal:bowl",
+	output = "ethereal:bowl 4",
 	recipe = {
 		{"group:wood", "", "group:wood"},
 		{"", "group:wood", ""},
@@ -297,7 +298,7 @@ minetest.register_tool("ethereal:light_staff", {
 
 			minetest.swap_node(pos, {name = "ethereal:glostone"})
 
-			if not minetest.setting_getbool("creative_mode") then
+			if not ethereal.check_creative(user:get_player_name()) then
 				itemstack:add_wear(65535 / 149) -- 150 uses
 			end
 

@@ -1,6 +1,6 @@
 --[[
 
-	Minetest Ethereal Mod (1st March 2017)
+	Minetest Ethereal Mod
 
 	Created by ChinChow
 
@@ -31,7 +31,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 ethereal = {} -- DO NOT change settings below, use the settings.conf file
-ethereal.version = "1.22"
+ethereal.version = "1.24"
 ethereal.leaftype = 0 -- 0 for 2D plantlike, 1 for 3D allfaces
 ethereal.leafwalk = false -- true for walkable leaves, false to fall through
 ethereal.cavedirt = true -- caves chop through dirt when true
@@ -83,7 +83,7 @@ if core.get_mod_setting("etheral_biomes_grassytwo")	~= "false" then ethereal.gra
 if core.get_mod_setting("etheral_biomes_prairie")	~= "false" then ethereal.prairie 		= 1 else ethereal.prairie 	= 0 end -- Flowery grass with many plants and flowers
 if core.get_mod_setting("etheral_biomes_jumble")	~= "false" then ethereal.jumble 		= 1 else ethereal.jumble 	= 0 end -- Green grass with trees and jungle grass
 if core.get_mod_setting("etheral_biomes_junglee")	~= "false" then ethereal.junglee 		= 1 else ethereal.junglee	= 0 end -- Jungle grass with tall jungle trees
-if core.get_mod_setting("etheral_biomes_esert")		~= "false" then ethereal.esert 		= 1 else ethereal.esert 	= 0 end -- Desert sand with cactus
+if core.get_mod_setting("etheral_biomes_desert")	~= "false" then ethereal.desert 		= 1 else ethereal.desert 	= 0 end -- Desert sand with cactus
 if core.get_mod_setting("etheral_biomes_grove")		~= "false" then ethereal.grove 		= 1 else ethereal.grove 	= 0 end -- Banana groves and ferns
 if core.get_mod_setting("etheral_biomes_mushroom")	~= "false" then ethereal.mushroom 	= 1 else ethereal.mushroom 	= 0 end -- Purple grass with giant mushrooms
 if core.get_mod_setting("etheral_biomes_sandstone")	~= "false" then ethereal.sandstone 	= 1 else ethereal.sandstone = 0 end -- Sandstone with smaller cactus
@@ -92,7 +92,9 @@ if core.get_mod_setting("etheral_biomes_plains")	~= "false" then ethereal.plains
 if core.get_mod_setting("etheral_biomes_savannah")	~= "false" then ethereal.savannah 	= 1 else ethereal.savannah 	= 0 end -- Dry yellow grass with acacia tree's
 if core.get_mod_setting("etheral_biomes_fiery")		~= "false" then ethereal.fiery		= 1 else ethereal.fiery 	= 0 end -- Red grass with lava craters
 if core.get_mod_setting("etheral_biomes_sandclay")	~= "false" then ethereal.sandclay 	= 1 else ethereal.sandclay 	= 0 end -- Sand areas with clay underneath
-
+if core.get_mod_setting("etheral_biomes_swamp")		~= "false" then ethereal.swamp	 	= 1 else ethereal.swamp 	= 0 end -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
+if core.get_mod_setting("etheral_biomes_sealife")	~= "false" then ethereal.sealife	 	= 1 else ethereal.sealife 	= 0 end -- Enable coral and seaweed
+if core.get_mod_setting("etheral_biomes_reefs")		~= "false" then ethereal.reefs	 	= 1 else ethereal.reefs 	= 0 end -- Enable new coral reefs in default
 
 -- Falling node function
 ethereal.check_falling = minetest.check_for_falling or nodeupdate
@@ -118,12 +120,13 @@ dofile(path .. "/compatibility.lua")
 dofile(path .. "/stairs.lua")
 dofile(path .. "/lucky_block.lua")
 
--- Use bonemeal mod instead of ethereal's own if found
+-- Set bonemeal aliases
 if minetest.get_modpath("bonemeal") then
 	minetest.register_alias("ethereal:bone", "bonemeal:bone")
 	minetest.register_alias("ethereal:bonemeal", "bonemeal:bonemeal")
-else
-	dofile(path .. "/bonemeal.lua")
+else -- or return to where it came from
+	minetest.register_alias("ethereal:bone", "default:dirt")
+	minetest.register_alias("ethereal:bonemeal", "default:dirt")
 end
 
 if minetest.get_modpath("xanadu") then

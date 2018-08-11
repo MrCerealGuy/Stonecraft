@@ -25,33 +25,47 @@ lucky_block:add_blocks({
 	{"sch", "acaciatree", 0, false},
 	{"dro", {"ethereal:golden_apple"}, 3},
 	{"sch", "palmtree", 0, false},
-	{"dro", {"ethereal:tree_sapling", "ethereal:orange_tree_sapling", "ethereal:banana_tree_sapling"}, 10},
-	{"dro", {"ethereal:green_dirt", "ethereal:prairie_dirt", "ethereal:grove_dirt", "ethereal:cold_dirt"}, 10},
-	{"dro", {"ethereal:axe_crystal"}, 1},
+	{"dro", {"ethereal:tree_sapling"}, 5},
+	{"dro", {"ethereal:orange_tree_sapling"}, 5},
+	{"dro", {"ethereal:banana_tree_sapling"}, 5},
+	{"dro", {"ethereal:willow_sapling"} ,5},
+	{"dro", {"ethereal:mushroom_sapling"} ,5},
+	{"dro", {"ethereal:palm_sapling"} ,5},
+	{"dro", {"ethereal:birch_sapling"} ,5},
+	{"dro", {"ethereal:redwood_sapling"} ,1},
+	{"dro", {"ethereal:prairie_dirt"}, 10},
+	{"dro", {"ethereal:grove_dirt"}, 10},
+	{"dro", {"ethereal:cold_dirt"}, 10},
+	{"dro", {"ethereal:mushroom_dirt"}, 10},
+	{"dro", {"ethereal:fiery_dirt"}, 10},
+	{"dro", {"ethereal:axe_crystal"}},
 	{"nod", "ethereal:fire_flower", 1},
-	{"dro", {"ethereal:sword_crystal"}, 1},
-	{"dro", {"ethereal:pick_crystal"}, 1},
+	{"dro", {"ethereal:sword_crystal"}},
+	{"dro", {"ethereal:pick_crystal"}},
 	{"sch", "birchtree", 0, false},
-	{"dro", {"ethereal:fish_raw"}, 1},
-	{"dro", {"ethereal:shovel_crystal"}, 1},
-	{"dro", {"ethereal:fishing_rod_baited"}, 1},
+	{"dro", {"ethereal:fish_raw"}},
+	{"dro", {"ethereal:shovel_crystal"}},
+	{"dro", {"ethereal:fishing_rod_baited"}},
 	{"exp"},
 	{"dro", {"ethereal:fire_dust"}, 2},
+	{"exp", 4},
+	{"dro", {"ethereal:crystal_gilly_staff"}},
+	{"dro", {"ethereal:light_staff"}},
 })
 
 if minetest.get_modpath("3d_armor") then
 lucky_block:add_blocks({
-	{"dro", {"3d_armor:helmet_crystal"}, 1},
-	{"dro", {"3d_armor:chestplate_crystal"}, 1},
-	{"dro", {"3d_armor:leggings_crystal"}, 1},
-	{"dro", {"3d_armor:boots_crystal"}, 1},
+	{"dro", {"3d_armor:helmet_crystal"}},
+	{"dro", {"3d_armor:chestplate_crystal"}},
+	{"dro", {"3d_armor:leggings_crystal"}},
+	{"dro", {"3d_armor:boots_crystal"}},
 	{"lig"},
 })
 end
 
 if minetest.get_modpath("shields") then
 lucky_block:add_blocks({
-	{"dro", {"shields:shield_crystal"}, 1},
+	{"dro", {"shields:shield_crystal"}},
 	{"exp"},
 })
 end

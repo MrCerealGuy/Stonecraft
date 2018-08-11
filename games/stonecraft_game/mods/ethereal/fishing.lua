@@ -15,6 +15,7 @@ minetest.register_craftitem("ethereal:fish_raw", {
 	description = S("Raw Fish"),
 	inventory_image = "fish_raw.png",
 	wield_image = "fish_raw.png",
+	groups = {food_fish_raw = 1, flammable = 3},
 	on_use = minetest.item_eat(2),
 })
 
@@ -23,6 +24,7 @@ minetest.register_craftitem("ethereal:fish_cooked", {
 	description = S("Cooked Fish"),
 	inventory_image = "fish_cooked.png",
 	wield_image = "fish_cooked.png",
+	groups = {food_fish = 1, flammable = 3},
 	on_use = minetest.item_eat(5),
 })
 
@@ -44,7 +46,7 @@ minetest.register_craftitem("ethereal:sashimi", {
 minetest.register_craft({
 	output = "ethereal:sashimi 2",
 	recipe = {
-		{'ethereal:seaweed','ethereal:fish_raw','ethereal:seaweed'},
+		{'group:food_seaweed','group:food_fish_raw','group:food_seaweed'},
 	}
 })
 

@@ -38,7 +38,7 @@ minetest.register_alias("ethereal:obsidian_brick", "default:obsidianbrick")
 minetest.register_alias("ethereal:crystal_topped_dirt", "ethereal:crystal_dirt")
 minetest.register_alias("ethereal:fiery_dirt_top", "ethereal:fiery_dirt")
 minetest.register_alias("ethereal:gray_dirt_top", "ethereal:gray_dirt")
-minetest.register_alias("ethereal:green_dirt_top", "ethereal:green_dirt")
+minetest.register_alias("ethereal:green_dirt_top", "default;dirt_with_grass")
 
 minetest.register_alias("ethereal:tree_sapling", "default:sapling")
 minetest.register_alias("ethereal:jungle_tree_sapling", "default:junglesapling")

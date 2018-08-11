@@ -17,6 +17,7 @@ minetest.register_craftitem("ethereal:strawberry", {
 	description = S("Strawberry"),
 	inventory_image = "strawberry.png",
 	wield_image = "strawberry.png",
+	groups = {food_strawberry = 1, flammable = 2},
 	on_place = function(itemstack, placer, pointed_thing)
 		return farming.place_seed(itemstack, placer, pointed_thing, "ethereal:strawberry_1")
 	end,
@@ -109,10 +110,6 @@ minetest.register_abm({
 	chance = 20,
 	catch_up = false,
 	action = function(pos, node)
-
-		if not abm_allowed then
-		   return
-		end
 
 		-- are we on wet soil?
 		pos.y = pos.y - 1
