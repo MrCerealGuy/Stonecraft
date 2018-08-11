@@ -187,6 +187,8 @@ etheral_biomes_plains (Plains) bool true
 etheral_biomes_savannah (Savannah) bool true
 etheral_biomes_fiery (Fiery) bool true
 etheral_biomes_sandclay (Sandclay) bool true
+etheral_sealife (Sealife) bool true
+etheral_reefs (Reefs) bool true
 
 [*Advanced settings (Swamp biome)]
 

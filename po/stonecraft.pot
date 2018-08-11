@@ -681,6 +681,14 @@ msgid "Sandclay"
 msgstr ""
 
 #: builtin/worldoptions.txt
+msgid "Sealife"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Reefs"
+msgstr ""
+
+#: builtin/worldoptions.txt
 msgid "Advanced settings (Swamp biome)"
 msgstr ""
 
