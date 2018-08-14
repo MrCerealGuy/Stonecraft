@@ -15,6 +15,15 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
+--[[
+
+2018-8-14 filter only texture packs in 'store.filter_packages' when selected 'All packages' by MrCerealGuy <mrcerealguy@gmx.de>
+          added screenshot to package_dialog.get_formspec
+
+--]]
+
+
 local store = {}
 local package_dialog = {}
 
@@ -28,18 +37,20 @@ local screenshot_downloaded = {}
 local search_string = ""
 local cur_page = 1
 local num_per_page = 5
-local filter_type = 1
+
+-- MERGEINFO: disable Games and Mods filter types, MrCerealGuy
+local filter_type = 2
 local filter_types_titles = {
 	fgettext("All packages"),
-	fgettext("Games"),
-	fgettext("Mods"),
+	--fgettext("Games"),
+	--fgettext("Mods"),
 	fgettext("Texture packs"),
 }
 
 local filter_types_type = {
 	nil,
-	"game",
-	"mod",
+	--"game",
+	--"mod",
 	"txp",
 }
 
@@ -205,8 +216,11 @@ function package_dialog.get_formspec()
 	local formspec = {
 		"size[9,4;true]",
 		"label[2.5,0.2;", core.formspec_escape(package.title), "]",
-		"textarea[0.2,1;9,3;;;", core.formspec_escape(package.short_description), "]",
+		"textarea[3.6,1;9,3;;;", core.formspec_escape(package.short_description), "]",
 		"button[0,0;2,1;back;", fgettext("Back"), "]",
+
+		-- image
+		"image[0.2,1;3.5,3;", get_screenshot(package), "]",
 	}
 
 	if not package.path then
@@ -306,7 +320,15 @@ end
 
 function store.filter_packages(query)
 	if query == "" and filter_type == 1 then
-		store.packages = store.packages_full
+		-- MERGEINFO: MrCerealGuy show only texture packs when selected "All packages"
+		--store.packages = store.packages_full
+
+		for _, package in pairs(store.packages_full) do
+			if (package.type == filter_types_type[4]) then	
+				store.packages[#store.packages + 1] = package
+			end
+		end
+
 		return
 	end
 
@@ -334,6 +356,7 @@ function store.filter_packages(query)
 	for _, package in pairs(store.packages_full) do
 		if (query == "" or matches_keywords(package, keywords)) and
 				(filter_type == 1 or package.type == filter_types_type[filter_type]) then
+			
 			store.packages[#store.packages + 1] = package
 		end
 	end
