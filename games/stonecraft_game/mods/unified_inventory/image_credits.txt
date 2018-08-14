@@ -25,6 +25,9 @@ ui_skip_backward_icon.png
 ui_skip_forward_icon.png
 	http://commons.wikimedia.org/wiki/File:Media-skip-forward.svg
 
+ui_reset_icon.png
+	https://commons.wikimedia.org/wiki/File:Edit-clear.svg
+
 ui_gohome_icon.png / ui_home_icon.png / ui_sethome_icon.png
 	http://commons.wikimedia.org/wiki/File:Home_256x256.png
 

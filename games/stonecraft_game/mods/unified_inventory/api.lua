@@ -1,13 +1,5 @@
---[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = unified_inventory.gettext
+local F = minetest.formspec_escape
 
 -- Create detached creative inventory after loading all mods
 minetest.after(0.01, function()
@@ -241,7 +233,7 @@ end
 
 
 unified_inventory.register_craft_type("normal", {
-	description = S("Crafting"),
+	description = F(S("Crafting")),
 	icon = "ui_craftgrid_icon.png",
 	width = 3,
 	height = 3,
@@ -257,7 +249,7 @@ unified_inventory.register_craft_type("normal", {
 
 
 unified_inventory.register_craft_type("shapeless", {
-	description = S("Mixing"),
+	description = F(S("Mixing")),
 	icon = "ui_craftgrid_icon.png",
 	width = 3,
 	height = 3,
@@ -272,7 +264,7 @@ unified_inventory.register_craft_type("shapeless", {
 
 
 unified_inventory.register_craft_type("cooking", {
-	description = S("Cooking"),
+	description = F(S("Cooking")),
 	icon = "default_furnace_front.png",
 	width = 1,
 	height = 1,
@@ -280,7 +272,7 @@ unified_inventory.register_craft_type("cooking", {
 
 
 unified_inventory.register_craft_type("digging", {
-	description = S("Digging"),
+	description = F(S("Digging")),
 	icon = "default_tool_steelpick.png",
 	width = 1,
 	height = 1,
@@ -311,6 +303,6 @@ end
 
 function unified_inventory.is_creative(playername)
 	return minetest.check_player_privs(playername, {creative=true})
-	or minetest.setting_getbool("creative_mode")
+		or minetest.settings:get_bool("creative_mode")
 end
 
