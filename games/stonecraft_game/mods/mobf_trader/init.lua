@@ -147,8 +147,8 @@ mobf_trader.trader_entity_prototype = {
 		mobf_trader.trader_entity_on_activate(self, staticdata, dtime_s);
 
 		-- the trader has to be subject to gravity
-		self.object:setvelocity(    {x=0, y=  0, z=0});
-		self.object:setacceleration({x=0, y=-10, z=0});
+		self.object:set_velocity(    {x=0, y=  0, z=0});
+		self.object:set_acceleration({x=0, y=-10, z=0});
 	end,
 
 -- this mob waits for rightclicks and does nothing else

@@ -276,10 +276,10 @@ mob_trading.show_trader_formspec = function( self, player, menu_path, fields, tr
 		             'label[6.5,'..(0.5+m_up)..';'..minetest.formspec_escape( greeting3 )..']'..
 		             'label[0.2,'..(1.5+m_up)..';Goods:]';
 
-	-- the owner and people with the trader_take priv can pick the trader up
+	-- the owner and people with the mob_pickup priv can pick the trader up
 	-- (he will end up in the inventory and can then be placed elsewhere)
 	if( (self.trader_owner and self.trader_owner == pname)
-	  or minetest.check_player_privs( pname, {trader_take=true})) then
+	  or minetest.check_player_privs( pname, {mob_pickup=true})) then
 
 		formspec = formspec..'button_exit[9,0.5;1,0.5;'..npc_id..'_take;Take]';
 	end
@@ -1103,7 +1103,7 @@ mob_trading.can_trade = function( price_stack_str, debtor_name, debtor_inv, rece
 		return { error_msg = nil, price_desc = price_desc, price_stacks = price_stacks, price_types = price_types };
 	end
 	
-	price_stack = ItemStack( price_stack_str );
+	local price_stack = ItemStack( price_stack_str );
 	-- get information about the price
 	local price_desc        = '';
 	local price_stack_name  = price_stack:get_name();
@@ -1308,15 +1308,15 @@ mob_trading.move_trade_goods = function( source_inv, target_inv, stack, player, 
 		while( not( remaining_stack:is_empty() )) do
 
 			-- add as many as possible in one go
-			leftover = target_inv:add_item( 'main', remaining_stack );
+			local leftover = target_inv:add_item( 'main', remaining_stack );
 
 			-- in case nothing was added to target_inv: an error occoured (i.e. target_inv full)
 			if( not( leftover:is_empty())
 			    and (leftover:get_count() >= remaining_stack:get_count())) then
 
 				-- find a place between player and trader so that the player can see the items falling down; slightly elevated
-				local p1 = player:getpos();
-				local p2 = self.object:getpos();
+				local p1 = player:get_pos();
+				local p2 = self.object:get_pos();
 				local p3 = {x=p1.x-((p1.x-p2.x)/2), y=p1.y-((p1.y-p2.y)/2)+1.0, z=p1.z-((p1.z-p2.z)/2)};
 
 				-- tell the player to take a look
@@ -1349,7 +1349,7 @@ mob_trading.find_trader_inv = function( self )
 		return nil;
 	end
 	local RANGE = mob_trading.LOCKED_CHEST_SEARCH_RANGE;
-	local tpos = self.object:getpos(); -- current position of the trader
+	local tpos = self.object:get_pos(); -- current position of the trader
 	-- search for locked chest from default, locks mod and technic mod chests
 	-- ignore technic mithril chests as those are not locked
 	local chest_list = minetest.find_nodes_in_area(
@@ -1501,7 +1501,7 @@ mob_trading.do_trade = function( self, player, menu_path, trade_details, counted
 				' gets '..minetest.serialize(   trade_details[ 1 ])..
 				' for ' ..minetest.serialize(   trade_details[ choice2 ])..
 				' from '..tostring(             self.trader_id )..
-				' at '..minetest.pos_to_string( self.object:getpos() )..
+				' at '..minetest.pos_to_string( self.object:get_pos() )..
 				' (owned by '..tostring(        self.trader_owner )..')'..
 				' typ:'..tostring(              self.trader_typ or '?' )..'.');
 

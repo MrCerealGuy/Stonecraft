@@ -41,9 +41,9 @@ mob_sitting.sleep_on_bed = function( self, pos )
 		t_pos.x = t_pos.x + 0.5; 
 	end
 	-- rotate the npc in the right direction
-	self.object:setyaw( math.rad( yaw ));
+	self.object:set_yaw( math.rad( yaw ));
 	-- move the entity on the furniture; the entity has already been rotated accordingly
-	self.object:setpos( {x=t_pos.x, y=t_pos.y+1.1,z=t_pos.z} );
+	self.object:set_pos( {x=t_pos.x, y=t_pos.y+1.1,z=t_pos.z} );
 
 	-- wield nothing
 	mob_basics.update_texture( self, 'trader', {} );

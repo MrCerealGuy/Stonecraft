@@ -47,7 +47,7 @@ mob_basics.log = function( msg, self, prefix )
 			' id:'..tostring(               self[ prefix..'_id'] )..
 			' typ:'..tostring(              self[ prefix..'_typ'] or '?' )..
 			' prefix:'..tostring(           prefix or '?' )..
-			' at:'..minetest.pos_to_string( self.object:getpos() )..
+			' at:'..minetest.pos_to_string( self.object:get_pos() )..
 			' by:'..tostring(               self[ prefix..'_owner'] )..'.');
 	end
 end
@@ -109,7 +109,7 @@ mob_basics.update = function( self, prefix )
 		return;
 	end
 	-- make sure we save the current position
-	self[ prefix..'_pos' ] = self.object:getpos();	
+	self[ prefix..'_pos' ] = self.object:get_pos();
 
 	local staticdata = self:get_staticdata();
 
@@ -222,8 +222,8 @@ end
 -- turn towards the player
 -----------------------------------------------------------------------------------------------------
 mob_basics.turn_towards_player = function( self, player )
-	if( self.object and self.object.setyaw ) then
-		self.object:setyaw( mob_basics.get_face_direction( self.object:getpos(), player:getpos() ));
+	if( self.object and self.object.set_yaw ) then
+		self.object:set_yaw( mob_basics.get_face_direction( self.object:get_pos(), player:get_pos() ));
 	end
 end
 
@@ -499,7 +499,7 @@ mob_basics.initialize_mob = function( self, mob_name, mob_typ, mob_owner, mob_ho
 	self[ prefix..'_typ']       = mob_typ;      -- the type of the mob
 	self[ prefix..'_owner']     = mob_owner;    -- who spawned this guy?
 	self[ prefix..'_home_pos']  = mob_home_pos; -- position of a control object (build chest, sign?)
-	self[ prefix..'_pos']       = self.object:getpos(); -- the place where the mob was "born"
+	self[ prefix..'_pos']       = self.object:get_pos(); -- the place where the mob was "born"
 	self[ prefix..'_birthtime'] = os.time();       -- when was the npc first called into existence?
 	self[ prefix..'_sold']      = {};              -- the trader is new and had no time to sell anything yet (only makes sense for traders)
 
@@ -521,8 +521,8 @@ mob_basics.initialize_mob = function( self, mob_name, mob_typ, mob_owner, mob_ho
 	end
 
 	-- mobs flying in the air would be odd
-	self.object:setvelocity(    {x=0, y=  0, z=0});
-	self.object:setacceleration({x=0, y=-10, z=0});
+	self.object:set_velocity(    {x=0, y=  0, z=0});
+	self.object:set_acceleration({x=0, y=-10, z=0});
 
 
 	-- if there is already a mob with the same id, remove this one here in order to avoid duplicates
@@ -557,7 +557,7 @@ mob_basics.spawn_mob = function( pos, mob_typ, player_name, mob_entity_name, pre
 		initialize      = true;
 	end
 	-- slightly above the position of the player so that it does not end up in a solid block
-	local object = minetest.env:add_entity( {x=pos.x, y=(pos.y+1.5), z=pos.z}, mob_entity_name );
+	local object = minetest.add_entity( {x=pos.x, y=(pos.y+1.5), z=pos.z}, mob_entity_name );
 	if( not( initialize )) then
 		if( object ~= nil ) then
 			local self = object:get_luaentity();
@@ -566,7 +566,7 @@ mob_basics.spawn_mob = function( pos, mob_typ, player_name, mob_entity_name, pre
 		return self;
 	end
 	if object ~= nil then
-		object:setyaw( -1.14 );
+		object:set_yaw( -1.14 );
 		local self = object:get_luaentity();
 		-- initialize_mob does a mob_basics.update() already
 		if( mob_basics.initialize_mob( self, nil, mob_typ, player_name, pos, prefix )) then
@@ -618,8 +618,8 @@ mob_basics.handle_chat_command = function( name, param, prefix, mob_entity_name 
 		return;
 	end
 
-	local player = minetest.env:get_player_by_name(name);
-	local pos    = player:getpos();
+	local player = minetest.get_player_by_name(name);
+	local pos    = player:get_pos();
 
 	minetest.chat_send_player(name,
 		"Placing "..prefix.." \'"..tostring( param )..
@@ -653,7 +653,7 @@ mob_basics.mob_list_formspec = function( player, formname, fields )
 		return
 	end
 	local pname = player:get_player_name();
-	local ppos  = player:getpos();
+	local ppos  = player:get_pos();
 
 	local search_for  = nil;
 	local id_found    = nil;

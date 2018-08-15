@@ -83,7 +83,7 @@ mob_pickup.log = function( msg, self, prefix )
                         ' id:'..tostring(               self[ prefix..'_id'] )..
                         ' typ:'..tostring(              self[ prefix..'_typ'] or '?' )..
                         ' prefix:'..tostring(           prefix or '?' )..
-                        ' at:'..minetest.pos_to_string( self.object:getpos() )..
+                        ' at:'..minetest.pos_to_string( self.object:get_pos() )..
                         ' by:'..tostring(               self[ prefix..'_owner'] )..'.');
         end
 end
@@ -231,7 +231,7 @@ mob_pickup.place_mob = function( itemstack, placer, pointed_thing, prefix, entit
 	end
 
 
-	local pos  = minetest.get_pointed_thing_position( pointed_thing, above );
+	local pos  = minetest.get_pointed_thing_position( pointed_thing, false );
 
 	-- does this particular mob want to be placed there?
 	local deny = mob_pickup.deny_place[ entity_name ];
@@ -245,14 +245,14 @@ mob_pickup.place_mob = function( itemstack, placer, pointed_thing, prefix, entit
 	end
 
 	-- spawn a mob
-	local object = minetest.env:add_entity( {x=pos.x, y=(pos.y+1.5), z=pos.z}, entity_name );
+	local object = minetest.add_entity( {x=pos.x, y=(pos.y+1.5), z=pos.z}, entity_name );
 	if( not( object )) then
 		minetest.chat_send_player( pname,
 			'Error: Spawning of mob failed.');
 		return itemstack;
 	end
 			
-	object:setyaw( -1.14 );
+	object:set_yaw( -1.14 );
 
 
 	local self = object:get_luaentity();
