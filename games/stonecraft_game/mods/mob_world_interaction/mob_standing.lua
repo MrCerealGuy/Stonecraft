@@ -39,7 +39,7 @@ mob_world_interaction.can_stand_in_node_type = function( node )
 		return {x=pos.x, y=pos.y, z =pos.z, iteration=iteration};
 	end
 
---[[
+
 	-- maybe there is a convenient place one node lower
 end
 
