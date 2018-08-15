@@ -106,7 +106,7 @@ return {
 			"table[3.5,-0.25;8.5,6.05;list_credits;" ..
 			"#FFFF00," .. fgettext("Stonecraft Developers") .. ",," ..
 			table.concat(stonecraft_developers, ",,") .. ",," ..
-			"Thanks a lot to the minetest community." .. ",,," ..
+			fgettext("Thanks a lot to the Minetest community.") .. ",,," ..
 			"#FFFF00," .. fgettext("Minetest Engine Core Developers") .. ",," ..
 			buildCreditList(core_developers) .. ",,," ..
 			"#FFFF00," .. fgettext("Minetest Engine Active Contributors") .. ",," ..
