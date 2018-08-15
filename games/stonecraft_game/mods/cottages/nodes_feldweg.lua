@@ -350,7 +350,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),
 		S("Dirt Road, half height"),
-		default.node_sound_dirt_defaults())
+		default.node_sound_dirt_defaults)
 end
 
 if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then

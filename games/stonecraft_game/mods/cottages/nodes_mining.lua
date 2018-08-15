@@ -62,7 +62,7 @@ minetest.register_node("cottages:ladder_with_rope_and_rail", {
 	},
 	groups = {choppy=2,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1}, --connect_to_raillike=minetest.raillike_group("rail")},
 	legacy_wallmounted = true,
-	sounds = default.node_sound_wood_defaults(),
+	sounds = default.node_sound_wood_defaults,
 })
 
 

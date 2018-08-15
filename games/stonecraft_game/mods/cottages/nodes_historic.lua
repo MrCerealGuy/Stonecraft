@@ -36,7 +36,7 @@ minetest.register_node("cottages:wagon_wheel", {
         },
         groups = {choppy=2,dig_immediate=2,attached_node=1},
         legacy_wallmounted = true,
-        sounds = default.node_sound_defaults(),
+        sounds = default.node_sound_defaults,
 	is_ground_content = false,
 })
 
@@ -59,7 +59,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_loam.png"},
 		S("Loam Stairs"),
 		S("Loam Slab"),
-		default.node_sound_dirt_defaults())
+		default.node_sound_dirt_defaults)
 
    if( minetest.registered_nodes["default:clay"]) then
       stairs.register_stair_and_slab("clay", "default:clay",
@@ -67,7 +67,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_clay.png"},
 		S("Clay Stairs"),
 		S("Clay Slab"),
-		default.node_sound_dirt_defaults())
+		default.node_sound_dirt_defaults)
    end
 end
 

@@ -22,6 +22,11 @@
 
 cottages = {}
 
+-- MineClone2 needs special treatment; default is only needed for
+-- crafting materials and sounds (less important)
+if( not( minetest.get_modpath("default"))) then
+	default = {};
+end
 --cottages.config_use_mesh_barrel   = false;
 --cottages.config_use_mesh_handmill = true;
 
