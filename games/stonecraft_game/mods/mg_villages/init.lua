@@ -84,12 +84,8 @@ dofile(mg_villages.modpath.."/plotmarker_formspec.lua")
 -- create and show a map of the world
 dofile(mg_villages.modpath.."/map_of_world.lua")
 
-dofile(mg_villages.modpath.."/fill_chest.lua")
-
 -- terrain blending for individual houses
 dofile(mg_villages.modpath.."/terrain_blend.lua")
--- highlandpools
-dofile(mg_villages.modpath.."/highlandpools.lua")
 -- the interface for the mapgen;
 -- also takes care of spawning the player
 dofile(mg_villages.modpath.."/mapgen.lua")

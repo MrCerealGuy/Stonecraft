@@ -198,6 +198,7 @@ handle_schematics.analyze_mc_schematic_file = function( path )
 	end
 
 	local bed_count = 0;
+	local bed_list = {};
 
 	local max_msg = 40; -- just for error handling
 	local size = {x=mc_schematic_data.Width,  y=mc_schematic_data.Height, z=mc_schematic_data.Length};
@@ -234,6 +235,7 @@ handle_schematics.analyze_mc_schematic_file = function( path )
 				end
 				if( handle_schematics.bed_node_names[ new_node[1]] ) then
 					bed_count = bed_count + 1;
+					table.insert( bed_list, {x=x, y=y, z=z, p2, minetest.get_content_id( new_node[1])});
 				end
 				-- save some space by not saving air
 				if( new_node[1] ~= 'air' ) then
@@ -242,6 +244,6 @@ handle_schematics.analyze_mc_schematic_file = function( path )
 			end
 		end
 	end
-	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = {}, after_place_node = {}, rotated=90, burried=0, scm_data_cache = scm, metadata = {}, bed_count = bed_count};
+	return { size = { x=size.x, y=size.y, z=size.z}, nodenames = nodenames, on_constr = {}, after_place_node = {}, rotated=90, burried=0, scm_data_cache = scm, metadata = {}, bed_count = bed_count, bed_list = bed_list};
 end
 

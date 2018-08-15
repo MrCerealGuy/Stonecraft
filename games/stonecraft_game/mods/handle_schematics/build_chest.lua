@@ -57,12 +57,19 @@ build_chest.end_pos_list = {};
 
 
 
-build_chest.read_building = function( building_name )
+build_chest.read_building = function( building_name, building_data )
+	if( not( building_data )) then
+		building_data = {};
+	end
+	if( not( build_chest.building[ building_name ] )) then
+		build_chest.building[ building_name ] = building_data;
+	end
 	-- read data
-	local res = handle_schematics.analyze_file( building_name, nil, nil );
+	local res = handle_schematics.analyze_file( building_name, nil, nil, build_chest.building[ building_name ]);
 	if( not( res )) then
 		return;
 	end
+--[[
 	build_chest.building[ building_name ].size           = res.size;	
 	build_chest.building[ building_name ].nodenames      = res.nodenames;	
 	build_chest.building[ building_name ].rotated        = res.rotated;	
@@ -73,7 +80,8 @@ build_chest.read_building = function( building_name )
 	build_chest.building[ building_name ].bed_list       = res.bed_list;
 	-- scm_data_cache is not stored as that would take up too much storage space
 	--build_chest.building[ building_name ].scm_data_cache = res.scm_data_cache;	
-
+--]]
+	build_chest.building[ building_name ] = res;
 	-- create a statistic about how often each node occours
 	build_chest.building[ building_name ].statistic      = handle_schematics.count_nodes( res );
 
@@ -729,22 +737,8 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 		local building_name = meta:get_string('building_name');
 		local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
 		local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
-		local filename      = meta:get_string('backup' );
-		if( not( filename ) or filename == "" ) then
-			local base_filename = 'backup_'..
-                                meta:get_string('owner')..'_'..
-                                tostring( start_pos.x )..':'..tostring( start_pos.y )..':'..tostring( start_pos.z )..'_'..
-				'0_0';
-
-			-- store a backup of the original landscape
-			-- <worldname>/backup_PLAYERNAME_x_y_z_burried_rotation.mts
-			handle_schematics.create_schematic_with_meta( start_pos, end_pos, base_filename );
-			meta:set_string('backup', base_filename );
-			-- clear metadata so that the new building can be placed
-			handle_schematics.clear_meta( start_pos, end_pos );
-
-			minetest.chat_send_player( pname, 'CREATING backup schematic for this place in \"schems/'..base_filename..'.mts\".');
-		end
+		-- create a backup of this landscape if none exists yet
+		handle_schematics.backup_landscape(meta, start_pos, end_pos, pname, false);
 		
 		local village_id   = meta:get_string( 'village_id' );
 		local replacement_list = build_chest.replacements_get_current( meta, village_id );
@@ -768,38 +762,7 @@ mirror = nil;
 
 	-- restore the original landscape
 	elseif( fields.restore_backup ) then
-		local start_pos     = minetest.deserialize( meta:get_string('start_pos'));
-		local end_pos       = minetest.deserialize( meta:get_string('end_pos'));
-		local backup_file   = meta:get_string( 'backup' );
-		-- used for indicating which mode (actual project or landscape restauration) we are in; here: landscape restauration
-		meta:set_int('is_restore', 1);
-		if( start_pos and end_pos and start_pos.x and end_pos.x and backup_file and backup_file ~= "" ) then
-			local filename = minetest.get_worldpath()..'/schems/'..backup_file;
-			if( save_restore.file_exists( filename..'.mts' )) then
-				if( minetest.check_player_privs( pname, {creative=true})) then
-					minetest.place_schematic( start_pos, filename..'.mts', "0", {}, true );
-					-- no rotation needed - the metadata can be applied as-is (with the offset applied)
-					-- restore_meta adds the worldpath automaticly
-					handle_schematics.restore_meta( '/schems/'..backup_file, nil, start_pos, end_pos, 0, nil);
-					meta:set_string('backup', nil );
-					-- we are back to the beginning - no landscape backup present
-					meta:set_int('is_restore', 0);
-				else
-					minetest.chat_send_player( pname, "Trying to restore backup from file "..filename); -- TODO: debug message
-					local rotate = meta:get_string('rotate');
-					local mirror = meta:get_string('mirror');
-					local axis   = build_chest.building[ building_name ].axis;
-					local no_plotmarker = true;
-					local replacement_list = {};
-					fields.error_msg = handle_schematics.place_building_from_file( start_pos, end_pos, filename, replacement_list, "180", 3, 1, no_plotmarker, false, true, pos );
-					if( fields.error_msg ) then
-						fields.error_msg = 'Error: '..tostring( fields.error_msg );
-						minetest.chat_send_player( pname, fields.error_msg ); -- TODO: debug message
-					end
-				end
-			end
-		end
-	
+		handle_schematics.restore_landscape( meta, pname, false, pos);
 
 	-- there has to be a way to abort a project and select another building/project elseif( fields.yes_abort_project ) then
 	elseif( fields.yes_abort_project ) then

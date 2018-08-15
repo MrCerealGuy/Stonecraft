@@ -56,3 +56,14 @@ handle_schematics.get_what_player_can_provide = function( node_wanted )
 	-- the player ought to be able to come up with this node (or we need to define more exceptions)
 	return node_wanted;
 end
+
+-- store the IDs as well (for faster access in generate_building)
+for node_name, player_provides in pairs(handle_schematics.player_can_provide) do
+	if(   minetest.registered_nodes[ node_name ]
+	  and minetest.registered_nodes[ player_provides ]) then
+		handle_schematics.player_can_provide[ minetest.get_content_id( node_name )] =
+			minetest.get_content_id( player_provides );
+		handle_schematics.player_can_provide[ minetest.get_content_id( player_provides )] =
+			minetest.get_content_id( player_provides );
+	end
+end

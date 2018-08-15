@@ -43,20 +43,20 @@ end
 -- if you change any of the 3 constants below, also change them in the function
 --   mg_villages.village_area_mark_inside_village_area
 mg_villages.inside_village = function(x, z, village, vnoise)
-        return mg_villages.get_vn(x, z, vnoise:get2d({x = x, y = z}), village) <= 40
+        return mg_villages.get_vn(x, z, vnoise:get_2d({x = x, y = z}), village) <= 40
 end
 
 mg_villages.inside_village_area = function(x, z, village, vnoise)
-        return mg_villages.get_vn(x, z, vnoise:get2d({x = x, y = z}), village) <= 80
+        return mg_villages.get_vn(x, z, vnoise:get_2d({x = x, y = z}), village) <= 80
 end
 
 mg_villages.inside_village_terrain_blend_area = function(x, z, village, vnoise)
-        return mg_villages.get_vn(x, z, vnoise:get2d({x = x, y = z}), village) <= 160
+        return mg_villages.get_vn(x, z, vnoise:get_2d({x = x, y = z}), village) <= 160
 end
 
 
 mg_villages.get_vnoise = function(x, z, village, vnoise) -- PM v
-        return mg_villages.get_vn(x, z, vnoise:get2d({x = x, y = z}), village)
+        return mg_villages.get_vn(x, z, vnoise:get_2d({x = x, y = z}), village)
 end -- PM ^
 
 mg_villages.get_vn = function(x, z, noise, village)
@@ -1157,11 +1157,6 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 	mg_villages.village_area_fill_with_plants( village_area, villages, tmin, tmax, vm, data, param2_data, a, cid );
 	t1 = time_elapsed( t1, 'fill_with_plants' );
 
-	if( mg_villages.CREATE_HIGHLANDPOOLS ) then
-		mg_villages.do_highlandpools(minp, maxp, seed, vm, a, data, village_area, cid);
-	end
-	t1 = time_elapsed( t1, 'create highlandpools' );
-
 	vm:save_data_from_heap(data)
 	vm:save_param2_data_from_heap(param2_data)
 	t1 = time_elapsed( t1, 'vm data set' );
@@ -1199,8 +1194,8 @@ mg_villages.place_villages_via_voxelmanip = function( villages, minp, maxp, vm, 
 	for _, village in ipairs(villages) do
 		for _,v in ipairs( village.to_add_data.extra_calls.chests ) do
 			local building_nr  = village.to_add_data.bpos[ v.bpos_i ];
-			local building_typ = mg_villages.BUILDINGS[ building_nr.btype ].scm;
-			mg_villages.fill_chest_random( v, pr, building_nr, building_typ );
+			local building_data_typ = mg_villages.BUILDINGS[ building_nr.btype ].typ;
+			handle_schematics.fill_chest_random( v, pr, building_nr, building_data_typ );
 		end
 	end
 	t1 = time_elapsed( t1, 'do fill chests' );

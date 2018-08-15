@@ -9,7 +9,11 @@
 --                         lookfor_z_dim x lookfor_x_dim nodes are flat
 -- minheight and maxheight determine weather places will be acceptable
 --   and returned; use it to i.e. get no places under water
-handle_schematics.find_flat_land_get_candidates_fast = function( heightmap, minp, maxp, lookfor_x_dim, lookfor_z_dim, minheight, maxheight )
+-- allow_floating          ships and submarines do not really require the
+--                         ground below them to be flat; shipwrecks may sink
+--                         partly into the ground; other sunken structures
+--                         may need this to be set to false
+handle_schematics.find_flat_land_get_candidates_fast = function( heightmap, minp, maxp, lookfor_x_dim, lookfor_z_dim, minheight, maxheight, allow_floating )
 
 	-- return empty result if search is invalid
 	if(  lookfor_x_dim < 1
@@ -53,7 +57,7 @@ handle_schematics.find_flat_land_get_candidates_fast = function( heightmap, minp
 
 		-- water just has to be deep enough
 		if(( height==lastheight and ax>minp.x)
-		   or (height<0 and height<=maxheight and lastheight<=maxheight and ax>minp.x)) then
+		   or (allow_floating and height<0 and height<=maxheight and lastheight<=maxheight and ax>minp.x)) then
 			count = count+1;
 		else
 			count = 1;
@@ -70,7 +74,7 @@ handle_schematics.find_flat_land_get_candidates_fast = function( heightmap, minp
 		end
 		-- it is enough to remember the last row in zrun
 		if(( height==height2 and az>minp.z)
-		   or (height<0 and height<=maxheight and height2<=maxheight and az>minp.z)) then
+		   or (allow_floating and height<0 and height<=maxheight and height2<=maxheight and az>minp.z)) then
 			zrun[ ax ] = zrun[ ax ]+1;
 		else
 			zrun[ ax ] = 1;
@@ -124,7 +128,8 @@ end
 handle_schematics.find_flat_land_for_building_with_border = function( heightmap, minp, maxp,
 	sizex, sizez, minheight, maxheight,
 	margin_front, margin_back, margin_right, margin_left,
-	initial_rotation
+	initial_rotation,
+	allow_floating
 	)
 
 	-- handle initial rotation (orients) if our building is rotated by 90 or 270 degree
@@ -140,7 +145,7 @@ handle_schematics.find_flat_land_for_building_with_border = function( heightmap,
 	-- find candidates
 	local res = handle_schematics.find_flat_land_get_candidates_fast( heightmap, minp, maxp,
 		sizex_full, sizez_full,
-		minheight, maxheight );
+		minheight, maxheight, allow_floating );
 
 	--print("Found normal: "..tostring( #res.places_x ).." and rotated: "..tostring( #res.places_z ));
 	-- nothing suitable found? then abort
@@ -182,6 +187,9 @@ handle_schematics.find_flat_land_for_building_with_border = function( heightmap,
 	local chunksize = maxp.x - minp.x + 1;
 	-- translate index back into coordinates
 	local p = {x=minp.x+(i%chunksize)-1, y=heightmap[ i ], z=minp.z+math.floor(i/chunksize)};
+
+	-- the index in the heightmap
+	p.i = i;
 
 	-- p.plot_start and p.plot_end mark the total area of the entire plot,
 	-- including building and borders; perhaps this will be of intrest
@@ -252,38 +260,89 @@ end
 --   * yoffset      some schematics may have basements
 --   * initial_rotation some schematics need to be rotated first so that their
 --                  front shows up at the front. Allowed values: 0,1,2 or 3
--- TODO: add a return value (where, rotation, what, replacements)
+-- Returns information about where and how the building was placed.
 -- TODO: pass yoffset on to the search-for-place-function as well?
 -- TODO: read a larger voxelmanip area for tree modifications?
 handle_schematics.place_schematic_on_flat_land = function( heightmap, minp, maxp,
 	sizex, sizez, minheight, maxheight,
 	margin_front, margin_back, margin_right, margin_left,
 	filename, replacements, yoffset, initial_rotation,
-	binfo
+	binfo,
+	allow_floating
 	)
 
 	-- find a flat area of the required size
 	local p = handle_schematics.find_flat_land_for_building_with_border( heightmap, minp, maxp,
 		sizex, sizez, minheight, maxheight,
-		margin_front, margin_back, margin_right, margin_left, initial_rotation );
+		margin_front, margin_back, margin_right, margin_left, initial_rotation, allow_floating );
 	if( not( p )) then
 		return;
+	end
+
+	if( not( binfo.yoff )) then
+		binfo.yoff = 0;
 	end
 
 	-- ships tend to swim on water
 	if( binfo.is_ship ) then
 		-- TODO: get water level
 		p.y             = 1;
-		p.build_start.y = 1;
+		-- the ship starts below the water surface
+		p.build_start.y = 1 + binfo.yoff;
 		p.build_end.y   = 1;
-		p.plot_start.y  = 1;
+		p.plot_start.y  = 1 + binfo.yoff;
 		p.plot_end.y    = 1;
 	end
 
+	-- shipwrecks need to rest on the ground (more or less); we can also ignore
+	-- the border around them
+	if( binfo.is_submerged ) then
+		-- first step: search for all nodes at the bottom of the schematic
+		-- where the shipwreck connects to the ground - and see how deep
+		-- we have to go so that each of these nodes rests on a ground node
+		local chunksize = maxp.x - minp.x + 1;
+		local target_height = 1;
+		for x=1, binfo.sizex do
+		for z=1, binfo.sizez do
+			if(  binfo.scm_data_cache[1][x][z]
+			 and binfo.scm_data_cache[1][x][z][1]~=c_air) then
+				local nx, nz;
+				if(     p.build_rotation=="0" ) then
+					nx = p.build_start.x+x-1;
+					nz = p.build_start.z+z-1;
+				elseif( p.build_rotation=="90") then
+					nx = p.build_start.x+z-1;
+					nz = p.build_end.z-x+1;
+				elseif( p.build_rotation=="180") then
+					nx = p.build_end.x-x+1;
+					nz = p.build_end.z-z+1;
+				else
+					nx = p.build_end.x-z+1;
+					nz = p.build_start.z+x-1;
+				end
+				local h = heightmap[ (nz-minp.z)*chunksize + (nx-minp.x)];
+				if( h and h>minp.y and h<target_height ) then
+					target_height = h;
+				end
+			end
+		end
+		end
+		-- there will be water or scenery there; no need to clean the area from
+		-- trees or leaves
+		p.build_start.y = target_height + binfo.yoff;
+		p.build_end.y   = target_height;
+		p.plot_start.y  = target_height + binfo.yoff;
+		p.plot_end.y    = target_height;
+		p.y             = target_height;
+		p.plot_start    = p.build_start;
+		p.plot_end      = p.build_end;
+	end
+
+
 	local vm = minetest.get_voxel_manip()
 	local minp2, maxp2 = vm:read_from_map(
-		{x=p.build_start.x, y=p.build_start.y, z=p.build_start.z},
-		{x=p.build_end.x+1, y=maxp.y,          z=p.build_end.z+1});
+		{x=p.plot_start.x-1, y=p.plot_start.y-1, z=p.plot_start.z-1},
+		{x=p.plot_end.x+1, y=maxp.y,          z=p.plot_end.z+1});
 	local a = VoxelArea:new({MinEdge = minp2, MaxEdge = maxp2})
 	local data        = vm:get_data()
 	local param2_data = vm:get_param2_data();
@@ -316,22 +375,26 @@ handle_schematics.place_schematic_on_flat_land = function( heightmap, minp, maxp
 	local replacements_table = handle_schematics.get_replacement_table( nil, nil, replacements );
 	local cid = handle_schematics.get_cid_table( replacements_table );
 
-	-- remove trees, leaves, snow etc.
-	for ax=p.plot_start.x, p.plot_end.x do
-	for az=p.plot_start.z, p.plot_end.z do
-	for ay=p.y+2,          maxp.y do
-		data[ a:index( ax, ay, az )] = cid.c_air;
-	end
-	end
+	-- clear area above ground for buildigns placed there; do not do this
+	-- for shipwrecks and the like
+	if( not( binfo.is_submerged )) then
+		-- remove trees, leaves, snow etc.
+		for ax=p.plot_start.x, p.plot_end.x do
+		for az=p.plot_start.z, p.plot_end.z do
+		for ay=p.y+2,          maxp.y do
+			data[ a:index( ax, ay, az )] = cid.c_air;
+		end
+		end
+		end
 	end
 
+--[[
 	-- place 3 mese lamps so that buildings can be found easier while debugging
 	local cid_meselamp = minetest.get_content_id( "default:meselamp" );
 	for dy = p.y + 6, p.y + 26 do
 		data[ a:index( p.x,dy,p.z )] = cid_meselamp;
 	end
 	
---[[
 	local nodename="wool:white;"
 	if(     p.plot_rotation=="270") then nodename = "wool:cyan";
 	elseif( p.plot_rotation==  "0") then nodename = "wool:yellow";
@@ -363,6 +426,7 @@ handle_schematics.place_schematic_on_flat_land = function( heightmap, minp, maxp
 
 	start_pos.bsizex = math.abs(p.build_end.x - start_pos.x)+1;
 	start_pos.bsizez = math.abs(p.build_end.z - start_pos.z)+1;
+	p.start_pos = start_pos;
 	-- last parameter false -> place dirt nodes instead of trying to keep the ground nodes
 	local missing_nodes = handle_schematics.generate_building(start_pos, minp2, maxp2, data, param2_data, a, extranodes, replacements_table, cid, extra_calls, start_pos.building_nr, start_pos.village_id, binfo, cid.c_gravel, keep_ground, scaffolding_only);
 
@@ -377,6 +441,12 @@ handle_schematics.place_schematic_on_flat_land = function( heightmap, minp, maxp
 	handle_schematics.call_on_construct( extra_calls.on_constr );
 	-- set up doors properly (to whatever minetest_game currently demands)
 	handle_schematics.call_door_setup( extra_calls.door_b );
+	-- players expect chests to be filled with something for them
+	if( not( binfo.typ )) then
+		binfo.typ = "unkown";
+	end
+	handle_schematics.fill_chests( extra_calls.chests, nil, binfo.typ);
+	return p;
 end
 
 

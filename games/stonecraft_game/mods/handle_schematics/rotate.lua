@@ -4,7 +4,7 @@ local rotate_facedir = function(facedir)
 		17, 18, 19, 16,
 		9, 10, 11, 8,
 		5, 6, 7, 4,
-		21, 22, 23, 20})[facedir+1]
+		23, 20, 21, 22})[facedir+1]
 end
 
 

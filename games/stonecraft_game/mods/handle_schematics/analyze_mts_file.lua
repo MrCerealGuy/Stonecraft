@@ -259,24 +259,3 @@ handle_schematics.store_mts_file = function( path, data )
 	file.close(file);
 	print('SAVING '..path..'.mts (converted from .we).'); 
 end
-
-
--- read .mts and .we files
-handle_schematics.analyze_file = function( file_name, origin_offset, store_as_mts )
-	local res  = handle_schematics.analyze_mts_file( file_name ); 
-	-- alternatively, read the mts file
-	if( not( res )) then
-		res = handle_schematics.analyze_we_file( file_name, origin_offset );
-		if( not( res )) then
-			res = handle_schematics.analyze_mc_schematic_file( file_name );
-		end
-		-- print error message only if all import methods failed
-		if( not( res )) then
-			print('[handle_schematics] ERROR: Failed to import file \"'..tostring( file_name )..'\"[.mts|.we|.wem|.schematic]');
-		-- convert to .mts for later usage
-                elseif( store_as_mts ) then
-			handle_schematics.store_mts_file( store_as_mts, res );
-		end
-	end
-	return res;
-end

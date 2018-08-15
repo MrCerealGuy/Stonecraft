@@ -339,9 +339,9 @@ mob_world_interaction.find_nearest_front_door = function( building_data, pos_ins
 				-- the last "2" indicates "is bed"
 				path_lists[ i ][ 1 ] = {pos.x, pos.y, pos.z, 2 };
 				-- param2 is imoprtant for locating the corresponding bed foot
-					local node = mob_world_interaction.get_node( pos, building_data );
-					path_lists[ i ][ 1 ][ 5 ] = node.param2;
-					for j=1,math.min(#path, front_door_index+1) do
+				local node = mob_world_interaction.get_node( pos, building_data );
+				path_lists[ i ][ 1 ][ 5 ] = node.param2;
+				for j=1,math.min(#path, front_door_index+1) do
 					local is_door = 0;
 					if( path[j].is_door ) then
 						is_door = 1;

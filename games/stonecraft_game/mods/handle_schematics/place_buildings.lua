@@ -395,7 +395,9 @@ local function generate_building_what_to_place_here_and_how(t, node_content, new
 	end
 
 	-- TODO: there ought to be no error here....
-	if( not( t) or not( t[1] ) or not( new_nodes[ t[1]]) or not( new_nodes[ t[1]].new_content)) then
+	if( not( t) or not( t[1] ) or not( new_nodes[ t[1]])
+	 -- set air only if the new node is not of type ignore
+	 or (not( new_nodes[ t[1]].new_content) and not(new_nodes[ t[1] ].ignore))) then
 		return { new_content = cid.c_air, new_param2 = 0, n = {} };
 	end
 
@@ -703,7 +705,11 @@ handle_schematics.generate_building = function(pos, minp, maxp, vm, data, param2
 					-- the existing node is not air, scaffolding, special scaffolding or a dig-here-indicator
 					-- -> the existing node needs to be digged
 					if(new_content and new_content ~= node_content
-					   and node_content ~= cid.c_air and node_content ~= c_scaffolding and node_content ~= c_scaffolding_empty and node_content ~= c_dig_here) then
+					   and node_content ~= cid.c_air and node_content ~= c_scaffolding and node_content ~= c_scaffolding_empty
+					   -- if this is just a plant in a diffrent growth stage: ignore it
+					   and not( handle_schematics.player_can_provide[new_content] and
+					            handle_schematics.player_can_provide[new_content] ==
+						    handle_schematics.player_can_provide[node_content])) then
 						local h;
 						-- search upward for the first empty (air) node or dig-here-indicator and place a dig_here-indicator
 						for h=ay, maxp.y do
@@ -765,7 +771,10 @@ handle_schematics.generate_building = function(pos, minp, maxp, vm, data, param2
 
 					-- create a statistic of all missing nodes
 					if( node_content ~= new_content_wanted and node_content and new_content_wanted
-					   and new_content_wanted ~= cid.c_air and new_content_wanted ~= cid.c_ignore ) then
+					   and new_content_wanted ~= cid.c_air and new_content_wanted ~= cid.c_ignore
+					   and not( handle_schematics.player_can_provide[new_content] and
+					            handle_schematics.player_can_provide[new_content] ==
+						    handle_schematics.player_can_provide[node_content])) then
 						if( not( missing_nodes[ new_content_wanted ])) then
 							missing_nodes[ new_content_wanted ] = 1;
 						else
@@ -1090,12 +1099,6 @@ handle_schematics.place_building_from_file = function( start_pos, end_pos, build
 	if( not( binfo )) then
 		return "Failed to import schematic. Only .mts and .we are supported!";
 	end
-
-	-- nodenames and scm_data_cache can be used directly;
-	-- the size dimensions need to be renamed
-	binfo.sizex = binfo.size.x;
-	binfo.sizez = binfo.size.z;
-	binfo.ysize = binfo.size.y;
 
 	-- this value has already been taken care of when determining start_pos
 	binfo.yoff  = 0;

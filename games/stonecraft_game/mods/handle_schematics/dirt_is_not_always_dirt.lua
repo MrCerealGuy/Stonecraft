@@ -43,6 +43,7 @@ handle_schematics.enable_use_dirt_as_placeholder = function()
 		-- falling nodes would be too problematic in this case;
 		-- diffrent dirt types
 		"default:dirt_with_dry_grass","default:dirt_with_grass","default:dirt_with_rainforest_litter",
+		"default:dirt_with_coniferous_litter",
 		"default:dirt_with_snow", "default:snowblock","default:ice"};
 	for i,v in ipairs( fill_nodes ) do
 		handle_schematics.add_also_acceptable( "default:dirt", v )
@@ -54,6 +55,7 @@ handle_schematics.enable_use_dirt_as_placeholder = function()
 		"default:gravel","default:sand","default:desert_sand","default:silver_sand",
 		-- diffrent dirt types
 		"default:dirt_with_dry_grass","default:dirt_with_grass","default:dirt_with_rainforest_litter",
+		"default:dirt_with_coniferous_litter",
 		"default:dirt_with_snow","default:dirt","default:snowblock","default:ice"};
 	for i,v in ipairs( fill_nodes ) do
 		handle_schematics.add_also_acceptable( "default:dirt_with_grass", v )

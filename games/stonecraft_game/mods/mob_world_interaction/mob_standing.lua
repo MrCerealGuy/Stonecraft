@@ -25,6 +25,22 @@ mob_world_interaction.can_stand_in_node_type = function( node )
 	if( not( node ) or not( node.name ) or not( minetest.registered_nodes[ node.name ])) then
 		return false;
 	end
+	-- node where the head of the mob is
+	local node_head = mob_world_interaction.get_node( {x=pos.x, y=pos.y+1, z=pos.z}, data);
+	-- node below the feet of the mob where he stands on
+	local n0 = mob_world_interaction.get_node( {x=pos.x, y=pos.y-1, z=pos.z}, data);
+	--print("standing: "..minetest.pos_to_string( pos ).." nodes: "..tostring( n0.name).." "..tostring(n1.name).." "..tostring(n2.name));
+	-- can the mob stand at this position? then we are finished
+	if(   n1 and not( mob_world_interaction.walkable( n1, 1, 2 )) -- free space for feet
+	  and n2 and not( mob_world_interaction.walkable( n2, 2, 2 )) -- free space for head
+	  and n0 and    ( mob_world_interaction.walkable( n0, 1, 2 )  -- ground for feet to stand on
+	               or mob_world_interaction.climbable( n0 ))) then -- or a ladder
+		--print("found!");
+		return {x=pos.x, y=pos.y, z =pos.z, iteration=iteration};
+	end
+
+--[[
+	-- maybe there is a convenient place one node lower
 end
 
 

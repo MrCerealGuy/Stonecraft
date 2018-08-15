@@ -47,6 +47,10 @@ dofile(handle_schematics.modpath.."/analyze_we_file.lua")
 -- reads and analyzes Minecraft schematic files
 dofile(handle_schematics.modpath.."/translate_nodenames_for_mc_schematic.lua")
 dofile(handle_schematics.modpath.."/analyze_mc_schematic_file.lua")
+-- contains a general function to analyze any of the above files
+dofile(handle_schematics.modpath.."/analyze_file.lua")
+
+
 -- handles rotation and mirroring
 dofile(handle_schematics.modpath.."/rotate.lua")
 -- count nodes, take param2 into account for rotation etc.
@@ -90,6 +94,8 @@ handle_schematics.enable_use_dirt_as_placeholder();
 -- of which ought to make a difference
 handle_schematics.enable_doors_open_closed();
 
+dofile(handle_schematics.modpath.."/backup_landscape.lua")
+
 -- uses build_chest.* namespace
 -- a chest for spawning buildings manually
 dofile(handle_schematics.modpath.."/build_chest.lua")
@@ -110,6 +116,9 @@ dofile(handle_schematics.modpath.."/place_buildings.lua")
 -- dofile(handle_schematics.modpath.."/fill_chest.lua")
 
 dofile(handle_schematics.modpath.."/nodes.lua")
+
+-- players expect chests etc. in spawned buildings to be filled
+dofile(handle_schematics.modpath.."/fill_chest.lua");
 
 -- helper functions for finding flat land to build on
 dofile(handle_schematics.modpath.."/detect_flat_land_fast.lua");
