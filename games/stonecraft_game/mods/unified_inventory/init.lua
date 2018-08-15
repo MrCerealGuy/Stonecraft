@@ -3,8 +3,9 @@
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 local worldpath = minetest.get_worldpath()
 
--- Intllib
-local S, NS = dofile(modpath .. "/intllib.lua")
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- Data tables definitions
 unified_inventory = {
@@ -34,7 +35,7 @@ unified_inventory = {
 	default = "craft",
 
 	-- intllib
-	gettext = S,
+	--gettext = S,
 
 	-- "Lite" mode
 	lite_mode = minetest.settings:get_bool("unified_inventory_lite"),

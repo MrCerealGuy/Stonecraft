@@ -1,4 +1,7 @@
-local S = unified_inventory.gettext
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local F = minetest.formspec_escape
 
 local hud_colors = {
