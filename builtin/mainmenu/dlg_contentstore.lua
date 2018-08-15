@@ -18,8 +18,9 @@
 
 --[[
 
-2018-8-14 filter only texture packs in 'store.filter_packages' when selected 'All packages' by MrCerealGuy <mrcerealguy@gmx.de>
+2018-8-15 filter only texture packs/mods in 'store.filter_packages' when selected 'All packages' by MrCerealGuy <mrcerealguy@gmx.de>
           added screenshot to package_dialog.get_formspec
+          removed short description
 
 --]]
 
@@ -39,23 +40,20 @@ local cur_page = 1
 local num_per_page = 5
 
 -- MERGEINFO: disable Games and Mods filter types, MrCerealGuy
-local filter_type = 2
+local filter_type = 1
 local filter_types_titles = {
-	fgettext("All packages"),
+	--fgettext("All packages"),
 	--fgettext("Games"),
-	--fgettext("Mods"),
 	fgettext("Texture packs"),
+	fgettext("Mods"),
 }
 
 local filter_types_type = {
-	nil,
+	--nil,
 	--"game",
-	--"mod",
 	"txp",
+	"mod",
 }
-
-
-
 
 local function download_package(param)
 	if core.download_file(param.package.url, param.filename) then
@@ -91,9 +89,9 @@ local function start_install(calling_dialog, package)
 				local name_is_title = false
 				if result.package.type == "mod" then
 					conf_path = path .. DIR_DELIM .. "mod.conf"
-				elseif result.package.type == "game" then
-					conf_path = path .. DIR_DELIM .. "game.conf"
-					name_is_title = true
+				--elseif result.package.type == "game" then
+				--	conf_path = path .. DIR_DELIM .. "game.conf"
+				--	name_is_title = true
 				elseif result.package.type == "txp" then
 					conf_path = path .. DIR_DELIM .. "texture_pack.conf"
 				end
@@ -216,8 +214,8 @@ function package_dialog.get_formspec()
 	local formspec = {
 		"size[9,4;true]",
 		"label[2.5,0.2;", core.formspec_escape(package.title), "]",
-		"textarea[3.6,1;9,3;;;", core.formspec_escape(package.short_description), "]",
-		"button[0,0;2,1;back;", fgettext("Back"), "]",
+		"textarea[3.6,1;6,3;;;", core.formspec_escape(package.short_description), "]",
+		"button[0,0;2,1;back;", fgettext("< Back"), "]",
 
 		-- image
 		"image[0.2,1;3.5,3;", get_screenshot(package), "]",
@@ -303,8 +301,8 @@ function store.update_paths()
 		local content
 		if package.type == "mod" then
 			content = mod_hash[package.name]
-		elseif package.type == "game" then
-			content = game_hash[package.name]
+		--elseif package.type == "game" then
+		--	content = game_hash[package.name]
 		elseif package.type == "txp" then
 			content = txp_hash[package.name]
 		end
@@ -319,18 +317,16 @@ function store.update_paths()
 end
 
 function store.filter_packages(query)
-	if query == "" and filter_type == 1 then
-		-- MERGEINFO: MrCerealGuy show only texture packs when selected "All packages"
-		--store.packages = store.packages_full
+	--if query == "" and filter_type == 1 then
+		-- MERGEINFO: MrCerealGuy show only texture packs/mods when selected "All packages"
+	--	for _, package in pairs(store.packages_full) do
+	--		if (package.type == filter_types_type[1] or package.type == filter_types_type[2]) then	
+	--			store.packages[#store.packages + 1] = package
+	--		end
+	--	end
 
-		for _, package in pairs(store.packages_full) do
-			if (package.type == filter_types_type[4]) then	
-				store.packages[#store.packages + 1] = package
-			end
-		end
-
-		return
-	end
+	--	return
+	--end
 
 	local keywords = {}
 	for word in query:lower():gmatch("%S+") do
@@ -355,7 +351,8 @@ function store.filter_packages(query)
 	store.packages = {}
 	for _, package in pairs(store.packages_full) do
 		if (query == "" or matches_keywords(package, keywords)) and
-				(filter_type == 1 or package.type == filter_types_type[filter_type]) then
+				--(filter_type == 1 or package.type == filter_types_type[filter_type]) then
+				(package.type == filter_types_type[filter_type]) then
 			
 			store.packages[#store.packages + 1] = package
 		end
@@ -407,9 +404,9 @@ function store.get_formspec()
 		formspec[#formspec + 1] = "]"
 
 		-- description
-		formspec[#formspec + 1] = "textarea[1.25,0.3;5,1;;;"
-		formspec[#formspec + 1] = core.formspec_escape(package.short_description)
-		formspec[#formspec + 1] = "]"
+		--formspec[#formspec + 1] = "textarea[1.25,0.3;5,1;;;"
+		--formspec[#formspec + 1] = core.formspec_escape(package.short_description)
+		--formspec[#formspec + 1] = "]"
 
 		-- buttons
 		if not package.path then

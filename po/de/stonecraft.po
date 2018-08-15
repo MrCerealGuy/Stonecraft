@@ -1128,6 +1128,50 @@ msgstr "Latenz"
 msgid "Join Game"
 msgstr "Spiel beitreten"
 
+#: builtin/mainmenu/tab_content.lua
+msgid "Content"
+msgstr "Erweiterungen"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Installed Packages:"
+msgstr "Installierte Pakete:"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Browse online content"
+msgstr "Lade online Erweiterungen"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Uninstall Package"
+msgstr "Deinstalliere Paket"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Use Texture Pack"
+msgstr "Benutze Texturenpaket"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Texture packs"
+msgstr "Texturenpakete"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Install"
+msgstr "Installieren"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Uninstall"
+msgstr "Entfernen"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "View"
+msgstr "Details"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Back to Main Menu"
+msgstr "Zum Hauptmenü"
+
+#: builtin/mainmenu/tab_content.lua
+msgid "< Back"
+msgstr "< Zurück"
+
 #: builtin/mainmenu/tab_online.lua builtin/mainmenu/tab_simple_main.lua
 msgid "PvP enabled"
 msgstr "Spielerkampf aktiviert"
@@ -6783,9 +6827,6 @@ msgstr "Verbinde mit Server …"
 
 #~ msgid "Page $1 of $2"
 #~ msgstr "Seite $1 von $2"
-
-#~ msgid "Install"
-#~ msgstr "Installieren"
 
 #~ msgid "Downloading $1, please wait..."
 #~ msgstr "$1 wird heruntergeladen, bitte warten …"

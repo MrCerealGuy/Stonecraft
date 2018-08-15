@@ -1107,6 +1107,50 @@ msgstr ""
 msgid "Join Game"
 msgstr ""
 
+#: builtin/mainmenu/tab_content.lua
+msgid "Content"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Installed Packages:"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Browse online content"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Uninstall Package"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Use Texture Pack"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Texture packs"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Install"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Uninstall"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "View"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "Back to Main Menu"
+msgstr ""
+
+#: builtin/mainmenu/tab_content.lua
+msgid "< Back"
+msgstr ""
+
 #: builtin/mainmenu/tab_settings.lua
 msgid "Opaque Leaves"
 msgstr ""
