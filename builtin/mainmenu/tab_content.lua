@@ -16,6 +16,12 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+--[[
+
+2018-8-16 MrCerealGuy: disable Uninstall button for stonecraft_game
+
+--]]
+
 local packages_raw
 local packages
 
@@ -43,8 +49,12 @@ local function get_formspec(tabview, name, tabdata)
 					element.name == uid
 		end
 
-		packages = filterlist.create(get_data, pkgmgr.compare_package,
-				is_equal, nil, {})
+		packages = filterlist.create(
+			get_data,
+			pkgmgr.compare_package,
+			is_equal, 
+			nil,
+			{})
 	end
 
 	if tabdata.selected_pkg == nil then
@@ -138,8 +148,14 @@ local function get_formspec(tabview, name, tabdata)
 			end
 		end
 
-		retval = retval .. "button[5.5,4.65;3,1;btn_mod_mgr_delete_mod;"
-			.. fgettext("Uninstall Package") .. "]"
+		-- MERGEINFO: MrCerealGuy: Stonecraft cannot be removed
+		if selected_pkg.type == "game" and selected_pkg.name == "Stonecraft" then
+			-- do nothing
+		else
+
+			retval = retval .. "button[5.5,4.65;3,1;btn_mod_mgr_delete_mod;"
+				.. fgettext("Uninstall Package") .. "]"
+		end
 	end
 	return retval
 end
