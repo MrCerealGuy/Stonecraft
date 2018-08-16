@@ -18,12 +18,12 @@
 
 --[[
 
-2018-8-15 filter only texture packs/mods in 'store.filter_packages' when selected 'All packages' by MrCerealGuy <mrcerealguy@gmx.de>
+2018-8-15 MrCerealGuy: filter only texture packs/mods in 'store.filter_packages' when selected 'All packages' by MrCerealGuy <mrcerealguy@gmx.de>
           added screenshot to package_dialog.get_formspec
           removed short description
+2018-8-16 MrCerealGuy: filter content in store defined in file contentstore-exclusions.lua
 
 --]]
-
 
 local store = {}
 local package_dialog = {}
@@ -54,6 +54,11 @@ local filter_types_type = {
 	"txp",
 	"mod",
 }
+
+-- MERGEINFO: added by MrCerealGuy
+-- load content paths to exclude from store
+local basepath = core.get_builtin_path()
+store.package_exclusions = dofile(basepath .. "contentstore-exclusions.lua")
 
 local function download_package(param)
 	if core.download_file(param.package.url, param.filename) then
@@ -317,17 +322,6 @@ function store.update_paths()
 end
 
 function store.filter_packages(query)
-	--if query == "" and filter_type == 1 then
-		-- MERGEINFO: MrCerealGuy show only texture packs/mods when selected "All packages"
-	--	for _, package in pairs(store.packages_full) do
-	--		if (package.type == filter_types_type[1] or package.type == filter_types_type[2]) then	
-	--			store.packages[#store.packages + 1] = package
-	--		end
-	--	end
-
-	--	return
-	--end
-
 	local keywords = {}
 	for word in query:lower():gmatch("%S+") do
 		table.insert(keywords, word)
@@ -348,13 +342,23 @@ function store.filter_packages(query)
 		return false
 	end
 
+	local exclude = false
 	store.packages = {}
 	for _, package in pairs(store.packages_full) do
 		if (query == "" or matches_keywords(package, keywords)) and
-				--(filter_type == 1 or package.type == filter_types_type[filter_type]) then
+				-- MERGEINFO: MrCerealGuy: removed filter_type == 1 (All packages)
 				(package.type == filter_types_type[filter_type]) then
 			
-			store.packages[#store.packages + 1] = package
+			-- Apply contentstore exclusions table
+			exclude = false
+
+			for _, package_exclude in pairs(store.package_exclusions) do
+				if package_exclude.url == package.url then
+					exclude = true
+				end
+			end
+
+			if not exclude then store.packages[#store.packages + 1] = package end
 		end
 	end
 
