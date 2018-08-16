@@ -1153,6 +1153,10 @@ msgid "Use Texture Pack"
 msgstr "Benutze Texturenpaket"
 
 #: builtin/mainmenu/tab_content.lua
+msgid "Disable Texture Pack"
+msgstr "Deakt. Texturenpaket"
+
+#: builtin/mainmenu/tab_content.lua
 msgid "Texture packs"
 msgstr "Texturenpakete"
 
