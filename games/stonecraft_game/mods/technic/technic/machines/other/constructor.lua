@@ -13,6 +13,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 local function deploy_node(inv, slot_name, pos, node, machine_node)
+	if node.param2 > 3 then return end
 	if node.name ~= "air" then
 		if node.name == "ignore" or
 		   node.name == "default:lava_source" or
@@ -32,7 +33,7 @@ local function deploy_node(inv, slot_name, pos, node, machine_node)
 		end
 		if remove_to then
 			for i = 1, remove_to do
-				inv:remove_item(drops[i])
+				inv:remove_item(slot_name, drops[i])
 			end
 		else
 			minetest.remove_node(pos)
@@ -109,7 +110,6 @@ local function make_on(mark, length)
 
 		if node.name == "technic:constructor_mk"..mark.."_off" then
 			technic.swap_node(pos, "technic:constructor_mk"..mark.."_on")
-			--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
 			minetest.check_for_falling(pos)
 			for i = 1, length do
 				place_pos = vector.add(place_pos, dir)
@@ -124,7 +124,6 @@ local function make_off(mark)
 	return function(pos, node)
 		if node.name == "technic:constructor_mk"..mark.."_on" then
 			technic.swap_node(pos,"technic:constructor_mk"..mark.."_off")
-			--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
 			minetest.check_for_falling(pos)
 		end
 	end
@@ -175,6 +174,7 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		on_rotate = screwdriver.rotate_simple
 	})
 
 	minetest.register_node("technic:constructor_mk"..mark.."_on", {
@@ -193,6 +193,7 @@ local function make_constructor(mark, length)
 		allow_metadata_inventory_put = technic.machine_inventory_put,
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
+		on_rotate = false
 	})
 end
 

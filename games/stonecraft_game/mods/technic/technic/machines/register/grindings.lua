@@ -25,7 +25,7 @@ minetest.register_craft({ type = "fuel", recipe = sawdust, burntime = 6 })
 technic.register_compressor_recipe({ input = {sawdust .. " 4"}, output = "default:wood" })
 
 -- tree/wood grindings
-local function register_tree_grinding(name, desc, tree, wood, extract, grinding_color)
+local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 	local lname = string.lower(name)
 	lname = string.gsub(lname, ' ', '_')
 	local grindings_name = "technic:"..lname.."_grindings"

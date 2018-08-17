@@ -14,6 +14,8 @@ minetest.register_alias("tool_workshop", "technic:tool_workshop")
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+local tube_entry = "^pipeworks_tube_connection_wooden.png"
+
 minetest.register_craft({
 	output = 'technic:tool_workshop',
 	recipe = {
@@ -26,7 +28,7 @@ minetest.register_craft({
 local workshop_demand = {5000, 3500, 2000}
 
 local workshop_formspec =
-	"invsize[8,9;]"..
+	"size[8,9;]"..
 	"list[current_name;src;3,1;1,1;]"..
 	"label[0,0;"..S("@1 Tool Workshop", "MV").."]"..
 	"list[current_name;upgrade1;1,3;1,1;]"..
@@ -92,8 +94,14 @@ end
 minetest.register_node("technic:tool_workshop", {
 	description = S("@1 Tool Workshop", "MV"),
 	paramtype2 = "facedir",
-	tiles = {"technic_workshop_top.png", "technic_machine_bottom.png", "technic_workshop_side.png",
-	         "technic_workshop_side.png", "technic_workshop_side.png", "technic_workshop_side.png"},
+	tiles = {
+		"technic_workshop_top.png"..tube_entry,
+		"technic_machine_bottom.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"..tube_entry,
+		"technic_workshop_side.png"
+	},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_mv=1, tubedevice=1, tubedevice_receiver=1},
 	connect_sides = {"bottom", "back", "left", "right"},

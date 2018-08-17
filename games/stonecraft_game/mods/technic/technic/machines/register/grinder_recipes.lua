@@ -19,27 +19,28 @@ end
 
 local recipes = {
 	-- Dusts
-	{"default:coal_lump",       "technic:coal_dust 2"},
-	{"default:copper_lump",     "technic:copper_dust 2"},
-	{"default:desert_stone",    "default:desert_sand"},
-	{"default:gold_lump",       "technic:gold_dust 2"},
-	{"default:iron_lump",       "technic:wrought_iron_dust 2"},
-	{"technic:chromium_lump",   "technic:chromium_dust 2"},
-	{"technic:uranium_lump",    "technic:uranium_dust 2"},
-	{"technic:zinc_lump",       "technic:zinc_dust 2"},
-	{"technic:lead_lump",       "technic:lead_dust 2"},
-	{"technic:sulfur_lump",     "technic:sulfur_dust 2"},
+	{"default:coal_lump",          "technic:coal_dust 2"},
+	{"default:copper_lump",        "technic:copper_dust 2"},
+	{"default:desert_stone",       "default:desert_sand"},
+	{"default:gold_lump",          "technic:gold_dust 2"},
+	{"default:iron_lump",          "technic:wrought_iron_dust 2"},
+	{"default:tin_lump",           "technic:tin_dust 2"},
+	{"technic:chromium_lump",      "technic:chromium_dust 2"},
+	{"technic:uranium_lump",       "technic:uranium_dust 2"},
+	{"technic:zinc_lump",          "technic:zinc_dust 2"},
+	{"technic:lead_lump",          "technic:lead_dust 2"},
+	{"technic:sulfur_lump",        "technic:sulfur_dust 2"},
+	{"default:stone",              "technic:stone_dust"},
+	{"default:sand",               "technic:stone_dust"},
 	
 	-- Other
 	{"default:cobble",          "default:gravel"},
-	{"default:gravel",          "default:dirt"},
-	{"default:stone",           "default:sand"},
+	{"default:gravel",          "default:sand"},
 	{"default:sandstone",       "default:sand 2"}, -- reverse recipe can be found in the compressor
 }
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
-minetest.register_craft({
-	output = "default:sandstone 0",
+minetest.clear_craft({
 	recipe = {
 		{'default:sandstone'}
 	},
@@ -52,7 +53,6 @@ end
 if minetest.get_modpath("moreores") then
 	table.insert(recipes, {"moreores:mithril_lump",   "technic:mithril_dust 2"})
 	table.insert(recipes, {"moreores:silver_lump",    "technic:silver_dust 2"})
-	table.insert(recipes, {"moreores:tin_lump",       "technic:tin_dust 2"})
 end
 
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then
@@ -69,12 +69,6 @@ end
 
 for _, data in pairs(recipes) do
 	technic.register_grinder_recipe({input = {data[1]}, output = data[2]})
-end
-
--- defuse common grinder unfriendly recipes
-if minetest.get_modpath("fake_fire") then -- from homedecor_modpack
-	minetest.register_craft({ output='default:cobble 0', recipe={{'default:cobble'}}})
-	minetest.register_craft({ output='default:gravel 0', recipe={{'default:gravel'}}})
 end
 
 -- dusts
@@ -100,6 +94,7 @@ register_dust("Brass",           "technic:brass_ingot")
 register_dust("Bronze",          "default:bronze_ingot")
 register_dust("Carbon Steel",    "technic:carbon_steel_ingot")
 register_dust("Cast Iron",       "technic:cast_iron_ingot")
+register_dust("Chernobylite",    "technic:chernobylite_block")
 register_dust("Chromium",        "technic:chromium_ingot")
 register_dust("Coal",            nil)
 register_dust("Copper",          "default:copper_ingot")
@@ -108,8 +103,9 @@ register_dust("Gold",            "default:gold_ingot")
 register_dust("Mithril",         "moreores:mithril_ingot")
 register_dust("Silver",          "moreores:silver_ingot")
 register_dust("Stainless Steel", "technic:stainless_steel_ingot")
+register_dust("Stone",           "default:stone")
 register_dust("Sulfur",          nil)
-register_dust("Tin",             "moreores:tin_ingot")
+register_dust("Tin",             "default:tin_ingot")
 register_dust("Wrought Iron",    "technic:wrought_iron_ingot")
 register_dust("Zinc",            "technic:zinc_ingot")
 if minetest.get_modpath("gloopores") or minetest.get_modpath("glooptest") then

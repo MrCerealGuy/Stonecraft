@@ -4,15 +4,21 @@
 
 --]]
 
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 local pipeworks = rawget(_G, "pipeworks")
+local fs_helpers = rawget(_G, "fs_helpers")
+
+local allow_label = ""
+local tube_entry = ""
+local shift_edit_field = 0
+
 if not minetest.get_modpath("pipeworks") then
 	-- Pipeworks is not installed. Simulate using a dummy table...
 	pipeworks = {}
+	fs_helpers = {}
 	local pipeworks_meta = {}
 	setmetatable(pipeworks, pipeworks_meta)
 	local dummy = function()
@@ -24,6 +30,12 @@ if not minetest.get_modpath("pipeworks") then
 		end
 	pipeworks.after_place = dummy
 	pipeworks.after_dig = dummy
+	fs_helpers.cycling_button = function() return "" end
+else
+	fs_helpers = pipeworks.fs_helpers
+	allow_label = "label[0.9,0.36;Allow splitting incoming stacks from tubes]"
+	shift_edit_field = 3
+	tube_entry = "^pipeworks_tube_connection_metallic.png"
 end
 
 local chest_mark_colors = {
@@ -81,20 +93,30 @@ local function set_formspec(pos, data, page)
 	local meta = minetest.get_meta(pos)
 	local node = minetest.get_node(pos)
 	local formspec = data.base_formspec
+	formspec = formspec..fs_helpers.cycling_button(
+				meta,
+				"image_button[0,0.35;1,0.6",
+				"splitstacks",
+				{
+					pipeworks.button_off,
+					pipeworks.button_on
+				}
+			)..allow_label
+
 	if data.autosort then
 		local status = meta:get_int("autosort")
-		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is @1", status == 1 and S("On") or S("Off")).."]"
+		formspec = formspec.."button["..(data.hileft+2)..","..(data.height+1.1)..";3,0.8;autosort_to_"..(1-status)..";"..S("Auto-sort is %s"):format(status == 1 and S("On") or S("Off")).."]"
 	end
 	if data.infotext then
 		local formspec_infotext = minetest.formspec_escape(meta:get_string("infotext"))
 		if page == "main" then
-			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(shift_edit_field+data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_pencil_icon.png;edit_infotext;]"
-					.."label["..(data.hileft+3)..",0;"..formspec_infotext.."]"
+					.."label["..(shift_edit_field+data.hileft+3)..",0;"..formspec_infotext.."]"
 		elseif page == "edit_infotext" then
-			formspec = formspec.."image_button["..(data.hileft+2.1)..",0.1;0.8,0.8;"
+			formspec = formspec.."image_button["..(shift_edit_field+data.hileft+2.1)..",0.1;0.8,0.8;"
 					.."technic_checkmark_icon.png;save_infotext;]"
-					.."field["..(data.hileft+3.3)..",0.2;4.8,1;"
+					.."field["..(shift_edit_field+data.hileft+3.3)..",0.2;4.8,1;"
 					.."infotext_box;"..S("Edit chest description:")..";"
 					..formspec_infotext.."]"
 		end
@@ -107,7 +129,7 @@ local function set_formspec(pos, data, page)
 		else
 			colorName = S("None")
 		end
-		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: @1", colorName).."]"
+		formspec = formspec.."label["..(data.coleft+0.2)..","..(data.lotop+3)..";"..S("Color Filter: %s"):format(colorName).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -123,38 +145,20 @@ local function sort_inventory(inv)
 			local m = st:get_metadata()
 			local k = string.format("%s %05d %s", n, w, m)
 			if not typecnt[k] then
-				typecnt[k] = {
-					name = n,
-					wear = w,
-					metadata = m,
-					stack_max = st:get_stack_max(),
-					count = 0,
-				}
+				typecnt[k] = {st}
 				table.insert(typekeys, k)
+			else
+				table.insert(typecnt[k], st)
 			end
-			typecnt[k].count = typecnt[k].count + st:get_count()
 		end
 	end
 	table.sort(typekeys)
-	local outlist = {}
+	inv:set_list("main", {})
 	for _, k in ipairs(typekeys) do
-		local tc = typecnt[k]
-		while tc.count > 0 do
-			local c = math.min(tc.count, tc.stack_max)
-			table.insert(outlist, ItemStack({
-				name = tc.name,
-				wear = tc.wear,
-				metadata = tc.metadata,
-				count = c,
-			}))
-			tc.count = tc.count - c
+		for _, item in ipairs(typecnt[k]) do
+			inv:add_item("main", item)
 		end
 	end
-	if #outlist > #inlist then return end
-	while #outlist < #inlist do
-		table.insert(outlist, ItemStack(nil))
-	end
-	inv:set_list("main", outlist)
 end
 
 local function get_receive_fields(name, data)
@@ -178,11 +182,16 @@ local function get_receive_fields(name, data)
 			local nn = "technic:"..lname..(data.locked and "_locked" or "").."_chest"
 			check_color_buttons(pos, meta, nn, fields)
 		end
+		if fields["fs_helpers_cycling:0:splitstacks"]
+		  or fields["fs_helpers_cycling:1:splitstacks"] then
+			if not pipeworks.may_configure(pos, sender) then return end
+			fs_helpers.on_receive_fields(pos, fields)
+		end
+
 		meta:get_inventory():set_size("main", data.width * data.height)
 		set_formspec(pos, data, page)
 	end
 end
-
 
 function technic.chests:definition(name, data)
 	local lname = name:lower()
@@ -220,6 +229,7 @@ function technic.chests:definition(name, data)
 			"background["..data.hileft..",1;"..data.width..","..data.height..";technic_"..lname.."_chest_inventory.png]"..
 			"background["..data.loleft..","..data.lotop..";8,4;technic_main_inventory.png]"..
 			"listring[]"
+
 	if data.sort then
 		data.base_formspec = data.base_formspec.."button["..data.hileft..","..(data.height+1.1)..";1,0.8;sort;"..S("Sort").."]"
 	end
@@ -247,11 +257,24 @@ function technic.chests:definition(name, data)
 		desc = S("@1 Chest", name)
 	end
 
+	local tentry = tube_entry
+	if tube_entry ~= "" then
+		if lname == "wooden" then
+			tentry = "^pipeworks_tube_connection_wooden.png"
+		elseif lname == "mithril" then
+			tentry = "^pipeworks_tube_connection_stony.png"
+		end
+	end
 	local def = {
 		description = desc,
-		tiles = {"technic_"..lname.."_chest_top.png", "technic_"..lname.."_chest_top.png",
-			"technic_"..lname.."_chest_side.png", "technic_"..lname.."_chest_side.png",
-			"technic_"..lname.."_chest_side.png", table.concat(front, "^")},
+		tiles = {
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_top.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			"technic_"..lname.."_chest_side.png"..tentry,
+			table.concat(front, "^")
+		},
 		paramtype2 = "facedir",
 		groups = self.groups,
 		tube = self.tube,
@@ -272,11 +295,44 @@ function technic.chests:definition(name, data)
 		on_metadata_inventory_move = self.on_inv_move,
 		on_metadata_inventory_put = self.on_inv_put,
 		on_metadata_inventory_take = self.on_inv_take,
+		on_blast = function(pos)
+			local drops = {}
+			default.get_inventory_drops(pos, "main", drops)
+			drops[#drops+1] = "technic:"..name:lower()..(data.locked and "_locked" or "").."_chest"
+			minetest.remove_node(pos)
+			return drops
+		end,
 	}
 	if data.locked then
 		def.allow_metadata_inventory_move = self.inv_move
 		def.allow_metadata_inventory_put = self.inv_put
 		def.allow_metadata_inventory_take = self.inv_take
+		def.on_blast = function() end
+		def.can_dig = function(pos,player)
+			local meta = minetest.get_meta(pos);
+			local inv = meta:get_inventory()
+			return inv:is_empty("main") and default.can_interact_with_node(player, pos)
+		end
+		def.on_skeleton_key_use = function(pos, player, newsecret)
+			local meta = minetest.get_meta(pos)
+			local owner = meta:get_string("owner")
+			local name = player:get_player_name()
+
+			-- verify placer is owner of lockable chest
+			if owner ~= name then
+				minetest.record_protection_violation(pos, name)
+				minetest.chat_send_player(name, "You do not own this chest.")
+				return nil
+			end
+
+			local secret = meta:get_string("key_lock_secret")
+			if secret == "" then
+				secret = newsecret
+				meta:set_string("key_lock_secret", secret)
+			end
+
+			return secret, "a locked chest", owner
+		end
 	end
 	return def
 end

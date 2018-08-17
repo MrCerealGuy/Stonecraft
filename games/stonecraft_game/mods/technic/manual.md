@@ -766,14 +766,12 @@ source than by actual attenuation.  Dirt halves radiation in 2.4 m,
 and stone in 1.7 m.  When a shield must be deliberately constructed,
 the preferred materials are metals, the denser the better.  Iron and
 steel halve radiation in 1.1 m, copper in 1.0 m, and silver in 0.95 m.
-Lead would halve in 0.69 m if it were in the game, but it's not, which
-poses a bit of a problem due to the drawbacks of the three materials in
-the game that are better shielding than silver.  Gold halves radiation
+Lead would halve in 0.69 m (its in-game shielding value is 80).  Gold halves radiation
 in 0.53 m (factor of 3.7 per meter), but is a bit scarce to use for
 this purpose.  Uranium halves radiation in 0.31 m (factor of 9.4 per
 meter), but is itself radioactive.  The very best shielding in the game
 is nyancat material (nyancats and their rainbow blocks), which halves
-radiation in 0.22 m (factor of 24 per meter), but is extremely scarce.
+radiation in 0.22 m (factor of 24 per meter), but is extremely scarce. See [technic/technic/radiation.lua](https://github.com/minetest-technic/technic/blob/master/technic/radiation.lua) for the in-game shielding values, which are different from real-life values.
 
 If the theoretical radiation damage from a particular source is
 sufficiently small, due to distance and shielding, then no damage at all
@@ -963,7 +961,8 @@ The primary purpose of battery boxes is to temporarily store electrical
 energy to let an electrical network cope with mismatched supply and
 demand.  They have a secondary purpose of charging and discharging
 powered tools.  They are thus a mixture of electrical infrastructure,
-powered machine, and generator.
+powered machine, and generator.  Battery boxes connect to cables only
+from the bottom.
 
 MV and HV battery boxes have upgrade slots.  Energy upgrades increase
 the capacity of a battery box, each by 10% of the un-upgraded capacity.
@@ -978,10 +977,10 @@ be worth building a battery box of higher tier before one has other
 infrastructure of that tier, just to get access to faster charging.
 
 MV and HV battery boxes work with pneumatic tubes.  An item can be input
-to the charging slot through the bottom of the battery box, or to the
-discharging slot through the top.  Items are not accepted through the
-front, back, or sides.  With a tube upgrade, fully charged/discharged
-tools (as appropriate for their slot) will be ejected through a side.
+to the charging slot through the sides or back of the battery box, or
+to the discharging slot through the top.  With a tube upgrade, fully
+charged/discharged tools (as appropriate for their slot) will be ejected
+through a side.
 
 ### processing machines ###
 
@@ -1245,12 +1244,12 @@ with light sources such as meselamps.
 
 ### hydro generator ###
 
-The hydro generator is an LV power generator that generates a small amount
-of power from the natural motion of water.  To operate, the generator must
-be horizontally adjacent to water.  It doesn't matter whether the water
-consists of source blocks or flowing blocks.  Having water adjacent on
-more than one side, up to the full four, increases the generator's output.
-The water itself is unaffected by the generator.
+The hydro generator is an LV power generator that generates a respectable
+amount of power from the natural motion of water.  To operate, the
+generator must be horizontally adjacent to flowing water.  The power
+produced is dependent on how much flow there is across any or all four
+sides, the most flow of course coming from water that's flowing straight
+down.
 
 ### geothermal generator ###
 

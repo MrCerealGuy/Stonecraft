@@ -1,4 +1,3 @@
-
 technic.chests.groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		tubedevice=1, tubedevice_receiver=1}
 technic.chests.groups_noinv = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
@@ -13,6 +12,9 @@ technic.chests.tube = {
 	can_insert = function(pos, node, stack, direction)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
+		if meta:get_int("splitstacks") == 1 then
+			stack = stack:peek_item(1)
+		end
 		return inv:room_for_item("main",stack)
 	end,
 	input_inventory = "main",
@@ -26,12 +28,9 @@ technic.chests.can_dig = function(pos, player)
 end
 
 local function inv_change(pos, count, player)
-	local meta = minetest.get_meta(pos)
-	if not has_locked_chest_privilege(meta, player) then
-		minetest.log("action", player:get_player_name()..
-			" tried to access a locked chest belonging to "..
-			meta:get_string("owner").." at "..
-			minetest.pos_to_string(pos))
+	-- Skip check for pipeworks (fake player)
+	if minetest.is_player(player) and
+			not default.can_interact_with_node(player, pos) then
 		return 0
 	end
 	return count
@@ -54,18 +53,14 @@ function technic.chests.on_inv_move(pos, from_list, from_index, to_list, to_inde
 end
 
 function technic.chests.on_inv_put(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name()..
-		" puts stuff in to chest at "
-		..minetest.pos_to_string(pos))
+	minetest.log("action", player:get_player_name() ..
+			" moves " .. stack:get_name() ..
+			" to chest at " .. minetest.pos_to_string(pos))
 end
 
 function technic.chests.on_inv_take(pos, listname, index, stack, player)
-	minetest.log("action", player:get_player_name()..
-		" takes stuff from chest at "
-		..minetest.pos_to_string(pos))
-end
-
-function has_locked_chest_privilege(meta, player)
-	return player:get_player_name() == meta:get_string("owner")
+	minetest.log("action", player:get_player_name() ..
+			" takes " .. stack:get_name()  ..
+			" from chest at " .. minetest.pos_to_string(pos))
 end
 
