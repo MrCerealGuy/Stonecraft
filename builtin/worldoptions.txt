@@ -164,31 +164,31 @@ enable_nether (Nether) bool false
 
 [*Advanced settings (Ethereal biomes)]
 
-etheral_biomes_glacier (Glacier) bool true
-etheral_biomes_bamboo (Bamboo) bool true
-etheral_biomes_mesa (Mesa) bool true
-etheral_biomes_alpine (Alpine) bool true
-etheral_biomes_healing (Healing) bool true
-etheral_biomes_snowy (Snowy) bool true
-etheral_biomes_frost (Frost) bool true
-etheral_biomes_grassy (Grassy) bool true
-etheral_biomes_caves (Caves) bool true
-etheral_biomes_grayness (Rayness) bool true
-etheral_biomes_grassytwo (Grassytwo) bool true
-etheral_biomes_prairie (Prairie) bool true
-etheral_biomes_jumble (Jumble) bool true
-etheral_biomes_junglee (Junglee) bool true
-etheral_biomes_desert (Desert) bool true
-etheral_biomes_grove (Grove) bool true
-etheral_biomes_mushroom (Mushroom) bool true
-etheral_biomes_sandstone (Sandstone) bool true
-etheral_biomes_quicksand (Quicksand) bool true
-etheral_biomes_plains (Plains) bool true
-etheral_biomes_savannah (Savannah) bool true
-etheral_biomes_fiery (Fiery) bool true
-etheral_biomes_sandclay (Sandclay) bool true
-etheral_sealife (Sealife) bool true
-etheral_reefs (Reefs) bool true
+ethereal_biomes_glacier (Glacier) bool true
+ethereal_biomes_bamboo (Bamboo) bool true
+ethereal_biomes_mesa (Mesa) bool true
+ethereal_biomes_alpine (Alpine) bool true
+ethereal_biomes_healing (Healing) bool true
+ethereal_biomes_snowy (Snowy) bool true
+ethereal_biomes_frost (Frost) bool true
+ethereal_biomes_grassy (Grassy) bool true
+ethereal_biomes_caves (Caves) bool true
+ethereal_biomes_grayness (Rayness) bool true
+ethereal_biomes_grassytwo (Grassytwo) bool true
+ethereal_biomes_prairie (Prairie) bool true
+ethereal_biomes_jumble (Jumble) bool true
+ethereal_biomes_junglee (Junglee) bool true
+ethereal_biomes_desert (Desert) bool true
+ethereal_biomes_grove (Grove) bool true
+ethereal_biomes_mushroom (Mushroom) bool true
+ethereal_biomes_sandstone (Sandstone) bool true
+ethereal_biomes_quicksand (Quicksand) bool true
+ethereal_biomes_plains (Plains) bool true
+ethereal_biomes_savannah (Savannah) bool true
+ethereal_biomes_fiery (Fiery) bool true
+ethereal_biomes_sandclay (Sandclay) bool true
+ethereal_biomes_sealife (Sealife) bool true
+ethereal_biomes_reefs (Reefs) bool true
 
 [*Advanced settings (Swamp biome)]
 
@@ -211,13 +211,6 @@ swamp_biome_swampwater (Enables swampwater) bool true
 #snow_biome_smooth_biomes (Enables smooth transition of biomes - mgv6) bool true
 #snow_biome_sleds bool (Disable this to prevent sleds from being riden) true
 
-[Stuff]
-  
-enable_surprise (Surprise blocks) bool false
-enable_technic (Technic, pipeworks and home decorations) bool false
-enable_mesecons (Mesecons - electronic stuff) bool false
-enable_itemdrop (Auto pick up items) bool false
-
 [Nature]
    
 enable_moretrees (More trees) bool false
@@ -233,6 +226,11 @@ giantmushrooms_always_generate (Generate giant mushroom biomes everywhere) bool 
 giantmushrooms_smooth (Enables smooth transition of biomes) bool true
 giantmushrooms_mapgen_rarity (Mapgen rarity in %) float 0.4
 
+[Technic]
+
+enable_technic (Technic, pipeworks and home decorations) bool false
+enable_mesecons (Mesecons - electronic stuff) bool false
+
 [Structures]
    
 enable_villages (Villages and buildings - experimental) bool false
@@ -243,3 +241,8 @@ enable_pyramids (Pyramids) bool false
 
 villages_enable_protection (Players cannot modify spawned villages without buying the house) bool true
 villages_first_village_type (The first village - the one the player spawns in) enum medieval medieval,nore,taoki,charachoal,lumberjack,claytrader,logcabin,grasshut,tent
+
+[Stuff]
+  
+enable_surprise (Surprise blocks) bool false
+enable_itemdrop (Auto pick up items) bool false

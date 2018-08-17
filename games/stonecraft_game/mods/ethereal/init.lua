@@ -69,32 +69,32 @@ ethereal.reefs     = 1 -- Enable new 0.4.15 coral reefs in default
 local path = minetest.get_modpath("ethereal")
 
 -- Set following to 1 to enable biome or 0 to disable
-if core.get_mod_setting("etheral_biomes_glacier")	~= "false" then ethereal.glaciers		= 1 else ethereal.glacier   = 0 end -- Ice glaciers with snow
-if core.get_mod_setting("etheral_biomes_bamboo")	~= "false" then ethereal.bamboo 		= 1 else ethereal.bamboo 	= 0 end -- Bamboo with sprouts
-if core.get_mod_setting("etheral_biomes_mesa")		~= "false" then ethereal.mesa 		= 1 else ethereal.mesa 		= 0 end -- Mesa red and orange clay with giant redwood
-if core.get_mod_setting("etheral_biomes_alpine")	~= "false" then ethereal.alpine 		= 1 else ethereal.alpine 	= 0 end -- Snowy grass
-if core.get_mod_setting("etheral_biomes_healing")	~= "false" then ethereal.healing 		= 1 else ethereal.healing 	= 0 end -- Snowy peaks with healing trees
-if core.get_mod_setting("etheral_biomes_snowy")		~= "false" then ethereal.snowy 		= 1 else ethereal.snowy 	= 0 end -- Cold grass with pine trees and snow spots
-if core.get_mod_setting("etheral_biomes_frost")		~= "false" then ethereal.frost 		= 1 else ethereal.frost 	= 0 end -- Blue dirt with blue/pink frost trees
-if core.get_mod_setting("etheral_biomes_grassy")	~= "false" then ethereal.grassy 		= 1 else ethereal.grassy 	= 0 end -- Green grass with flowers and trees
-if core.get_mod_setting("etheral_biomes_caves")		~= "false" then ethereal.caves 		= 1 else ethereal.caves 	= 0 end -- Desert stone ares with huge caverns underneath
-if core.get_mod_setting("etheral_biomes_grayness")	~= "false" then ethereal.grayness 	= 1 else ethereal.grayness 	= 0 end -- Grey grass with willow trees
-if core.get_mod_setting("etheral_biomes_grassytwo")	~= "false" then ethereal.grassytwo 	= 1 else ethereal.grassytwo = 0 end -- Sparse trees with old trees and flowers
-if core.get_mod_setting("etheral_biomes_prairie")	~= "false" then ethereal.prairie 		= 1 else ethereal.prairie 	= 0 end -- Flowery grass with many plants and flowers
-if core.get_mod_setting("etheral_biomes_jumble")	~= "false" then ethereal.jumble 		= 1 else ethereal.jumble 	= 0 end -- Green grass with trees and jungle grass
-if core.get_mod_setting("etheral_biomes_junglee")	~= "false" then ethereal.junglee 		= 1 else ethereal.junglee	= 0 end -- Jungle grass with tall jungle trees
-if core.get_mod_setting("etheral_biomes_desert")	~= "false" then ethereal.desert 		= 1 else ethereal.desert 	= 0 end -- Desert sand with cactus
-if core.get_mod_setting("etheral_biomes_grove")		~= "false" then ethereal.grove 		= 1 else ethereal.grove 	= 0 end -- Banana groves and ferns
-if core.get_mod_setting("etheral_biomes_mushroom")	~= "false" then ethereal.mushroom 	= 1 else ethereal.mushroom 	= 0 end -- Purple grass with giant mushrooms
-if core.get_mod_setting("etheral_biomes_sandstone")	~= "false" then ethereal.sandstone 	= 1 else ethereal.sandstone = 0 end -- Sandstone with smaller cactus
-if core.get_mod_setting("etheral_biomes_quicksand")	~= "false" then ethereal.quicksand 	= 1 else ethereal.quicksand = 0 end -- Quicksand banks
-if core.get_mod_setting("etheral_biomes_plains")	~= "false" then ethereal.plains 		= 1 else ethereal.plains 	= 0 end -- Dry dirt with scorched trees
-if core.get_mod_setting("etheral_biomes_savannah")	~= "false" then ethereal.savannah 	= 1 else ethereal.savannah 	= 0 end -- Dry yellow grass with acacia tree's
-if core.get_mod_setting("etheral_biomes_fiery")		~= "false" then ethereal.fiery		= 1 else ethereal.fiery 	= 0 end -- Red grass with lava craters
-if core.get_mod_setting("etheral_biomes_sandclay")	~= "false" then ethereal.sandclay 	= 1 else ethereal.sandclay 	= 0 end -- Sand areas with clay underneath
-if core.get_mod_setting("etheral_biomes_swamp")		~= "false" then ethereal.swamp	 	= 1 else ethereal.swamp 	= 0 end -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
-if core.get_mod_setting("etheral_biomes_sealife")	~= "false" then ethereal.sealife	 	= 1 else ethereal.sealife 	= 0 end -- Enable coral and seaweed
-if core.get_mod_setting("etheral_biomes_reefs")		~= "false" then ethereal.reefs	 	= 1 else ethereal.reefs 	= 0 end -- Enable new coral reefs in default
+if core.get_mod_setting("ethereal_biomes_glacier")		~= "false" then ethereal.glaciers	= 1 else ethereal.glacier   = 0 end -- Ice glaciers with snow
+if core.get_mod_setting("ethereal_biomes_bamboo")		~= "false" then ethereal.bamboo 	= 1 else ethereal.bamboo 	= 0 end -- Bamboo with sprouts
+if core.get_mod_setting("ethereal_biomes_mesa")			~= "false" then ethereal.mesa 		= 1 else ethereal.mesa 		= 0 end -- Mesa red and orange clay with giant redwood
+if core.get_mod_setting("ethereal_biomes_alpine")		~= "false" then ethereal.alpine 	= 1 else ethereal.alpine 	= 0 end -- Snowy grass
+if core.get_mod_setting("ethereal_biomes_healing")		~= "false" then ethereal.healing 	= 1 else ethereal.healing 	= 0 end -- Snowy peaks with healing trees
+if core.get_mod_setting("ethereal_biomes_snowy")		~= "false" then ethereal.snowy 		= 1 else ethereal.snowy 	= 0 end -- Cold grass with pine trees and snow spots
+if core.get_mod_setting("ethereal_biomes_frost")		~= "false" then ethereal.frost 		= 1 else ethereal.frost 	= 0 end -- Blue dirt with blue/pink frost trees
+if core.get_mod_setting("ethereal_biomes_grassy")		~= "false" then ethereal.grassy 	= 1 else ethereal.grassy 	= 0 end -- Green grass with flowers and trees
+if core.get_mod_setting("ethereal_biomes_caves")		~= "false" then ethereal.caves 		= 1 else ethereal.caves 	= 0 end -- Desert stone ares with huge caverns underneath
+if core.get_mod_setting("ethereal_biomes_grayness")		~= "false" then ethereal.grayness 	= 1 else ethereal.grayness 	= 0 end -- Grey grass with willow trees
+if core.get_mod_setting("ethereal_biomes_grassytwo")	~= "false" then ethereal.grassytwo 	= 1 else ethereal.grassytwo = 0 end -- Sparse trees with old trees and flowers
+if core.get_mod_setting("ethereal_biomes_prairie")		~= "false" then ethereal.prairie 	= 1 else ethereal.prairie 	= 0 end -- Flowery grass with many plants and flowers
+if core.get_mod_setting("ethereal_biomes_jumble")		~= "false" then ethereal.jumble 	= 1 else ethereal.jumble 	= 0 end -- Green grass with trees and jungle grass
+if core.get_mod_setting("ethereal_biomes_junglee")		~= "false" then ethereal.junglee 	= 1 else ethereal.junglee	= 0 end -- Jungle grass with tall jungle trees
+if core.get_mod_setting("ethereal_biomes_desert")		~= "false" then ethereal.desert 	= 1 else ethereal.desert 	= 0 end -- Desert sand with cactus
+if core.get_mod_setting("ethereal_biomes_grove")		~= "false" then ethereal.grove 		= 1 else ethereal.grove 	= 0 end -- Banana groves and ferns
+if core.get_mod_setting("ethereal_biomes_mushroom")		~= "false" then ethereal.mushroom 	= 1 else ethereal.mushroom 	= 0 end -- Purple grass with giant mushrooms
+if core.get_mod_setting("ethereal_biomes_sandstone")	~= "false" then ethereal.sandstone 	= 1 else ethereal.sandstone = 0 end -- Sandstone with smaller cactus
+if core.get_mod_setting("ethereal_biomes_quicksand")	~= "false" then ethereal.quicksand 	= 1 else ethereal.quicksand = 0 end -- Quicksand banks
+if core.get_mod_setting("ethereal_biomes_plains")		~= "false" then ethereal.plains 	= 1 else ethereal.plains 	= 0 end -- Dry dirt with scorched trees
+if core.get_mod_setting("ethereal_biomes_savannah")		~= "false" then ethereal.savannah 	= 1 else ethereal.savannah 	= 0 end -- Dry yellow grass with acacia tree's
+if core.get_mod_setting("ethereal_biomes_fiery")		~= "false" then ethereal.fiery		= 1 else ethereal.fiery 	= 0 end -- Red grass with lava craters
+if core.get_mod_setting("ethereal_biomes_sandclay")		~= "false" then ethereal.sandclay 	= 1 else ethereal.sandclay 	= 0 end -- Sand areas with clay underneath
+if core.get_mod_setting("ethereal_biomes_swamp")		~= "false" then ethereal.swamp	 	= 1 else ethereal.swamp 	= 0 end -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
+if core.get_mod_setting("ethereal_biomes_sealife")		~= "false" then ethereal.sealife	= 1 else ethereal.sealife 	= 0 end -- Enable coral and seaweed
+if core.get_mod_setting("ethereal_biomes_reefs")		~= "false" then ethereal.reefs	 	= 1 else ethereal.reefs 	= 0 end -- Enable new coral reefs in default
 
 -- Falling node function
 ethereal.check_falling = minetest.check_for_falling or nodeupdate

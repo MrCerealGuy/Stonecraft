@@ -235,6 +235,10 @@ msgid "Stuff"
 msgstr "Verschiedenes"
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Technic"
+msgstr "Technik"
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Nature"
 msgstr "Natur"
 
