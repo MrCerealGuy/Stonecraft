@@ -5,11 +5,15 @@
 
 --]]
 
-local digilines_path = minetest.get_modpath("digilines")
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
+
+local digilines_path
+
+if minetest.get_modpath("digilines") and not core.skip_mod("digilines") then
+	digilines_path = minetest.get_modpath("digilines")
+end 
 
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 local cable_entry = "^technic_cable_connection_overlay.png"

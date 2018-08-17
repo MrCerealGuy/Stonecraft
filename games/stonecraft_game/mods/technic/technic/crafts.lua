@@ -1,5 +1,9 @@
 -- check if we have the necessary dependencies to allow actually using these materials in the crafts
-local mesecons_materials = minetest.get_modpath("mesecons_materials")
+local mesecons_materials
+
+if minetest.get_modpath("mesecons_materials") and not core.skip_mod("mesecons") then
+	mesecons_materials = minetest.get_modpath("mesecons_materials")
+end
 
 -- Remove some recipes
 -- Bronze

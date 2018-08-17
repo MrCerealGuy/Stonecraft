@@ -88,7 +88,7 @@ function technic.get_or_load_node(pos)
 end
 
 
-technic.tube_inject_item = pipeworks.tube_inject_item or function(pos, start_pos, velocity, item)
+technic.tube_inject_item = pipeworks and pipeworks.tube_inject_item or function(pos, start_pos, velocity, item)
 	local tubed = pipeworks.tube_item(vector.new(pos), item)
 	tubed:get_luaentity().start_pos = vector.new(start_pos)
 	tubed:setvelocity(velocity)

@@ -15,7 +15,7 @@ local allow_label = ""
 local tube_entry = ""
 local shift_edit_field = 0
 
-if not minetest.get_modpath("pipeworks") then
+if not minetest.get_modpath("pipeworks") or core.skip_mod("pipeworks") then
 	-- Pipeworks is not installed. Simulate using a dummy table...
 	pipeworks = {}
 	fs_helpers = {}

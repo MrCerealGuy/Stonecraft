@@ -10,8 +10,17 @@ technic.networks = {}
 technic.cables = {}
 technic.redundant_warn = {}
 
-local mesecons_path = minetest.get_modpath("mesecons")
-local digilines_path = minetest.get_modpath("digilines")
+local mesecons_path
+
+if minetest.get_modpath("mesecons") and not core.skip_mod("mesecons") then
+	mesecons_path = minetest.get_modpath("mesecons")
+end
+
+local digilines_path
+
+if minetest.get_modpath("digilines") and not core.skip_mod("digilines") then
+	digilines_path = minetest.get_modpath("digilines")
+end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
