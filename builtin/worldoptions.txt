@@ -214,9 +214,8 @@ swamp_biome_swampwater (Enables swampwater) bool true
 [Stuff]
   
 enable_surprise (Surprise blocks) bool false
-enable_homedecor_technic (Home decorations and technic) bool false
+enable_technic (Technic, pipeworks and home decorations) bool false
 enable_mesecons (Mesecons - electronic stuff) bool false
-enable_pipeworks (Pipes and tubes) bool false
 enable_itemdrop (Auto pick up items) bool false
 
 [Nature]

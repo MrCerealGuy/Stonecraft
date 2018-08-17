@@ -156,13 +156,20 @@ for _, c in ipairs(bookcolors) do
 end
 
 minetest.register_on_player_receive_fields(function(player, form_name, fields)
-	if form_name ~= BOOK_FORMNAME or not fields.save then
-		return
+	if form_name ~= BOOK_FORMNAME then
+		return false
 	end
 	local player_name = player:get_player_name()
 	local pos = player_current_book[player_name]
-	if not pos then return end
+	if not pos then
+		return true
+	end
 	local meta = minetest.get_meta(pos)
+	local owner = meta:get_string("owner")
+	if owner ~= "" and player_name ~= owner or not fields.save then
+		player_current_book[player_name] = nil
+		return true
+	end
 	meta:set_string("title", fields.title or "")
 	meta:set_string("text", fields.text or "")
 	meta:set_string("owner", player_name)
@@ -171,6 +178,9 @@ minetest.register_on_player_receive_fields(function(player, form_name, fields)
 	end
 	minetest.log("action", S("@1 has written in a book (title: \"@2\"): \"@3\" at location @4",
 			player:get_player_name(), fields.title, fields.text, minetest.pos_to_string(player:getpos())))
+
+	player_current_book[player_name] = nil
+	return true
 end)
 
 minetest.register_alias("homedecor:book", "homedecor:book_grey")

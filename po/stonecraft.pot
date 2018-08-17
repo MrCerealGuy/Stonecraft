@@ -181,19 +181,11 @@ msgid "Cave realms"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Home decorations and technic"
+msgid "Technic, pipeworks and home decorations"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Mesecons - electronic stuff"
-msgstr ""
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Pipes and tubes"
-msgstr ""
-
-#: builtin/mainmenu/dlg_create_world.lua
-#msgid "Enable mesecons/pipes/technic"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua

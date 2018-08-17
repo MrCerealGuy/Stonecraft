@@ -25,7 +25,6 @@ minetest.register_entity("homedecor:mesh_desk_fan", {
 })
 
 local add_mesh_desk_fan_entity = function(pos)
-	print("in add_mesh_desk_fan_entity()")
 	local param2 = minetest.get_node(pos).param2
 	local entity = minetest.add_entity(pos, "homedecor:mesh_desk_fan")
 	if param2 == 0 then

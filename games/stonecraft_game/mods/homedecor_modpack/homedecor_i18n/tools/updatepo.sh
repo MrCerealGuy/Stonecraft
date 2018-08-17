@@ -7,6 +7,8 @@ cd "$(dirname "${BASH_SOURCE[0]}")/..";
 
 # Extract translatable strings.
 xgettext --from-code=UTF-8 \
+		--language=Lua \
+		--sort-by-file \
 		--keyword=S \
 		--keyword=NS:1,2 \
 		--keyword=N_ \

@@ -390,14 +390,15 @@ local function create_world_buttonhandler(this, fields)
 			["enable_villages"]	 				= true,
 			["enable_darkage"]	 				= false,	--explicit deactivated because of backward compatibility for old worlds
 			["enable_mobf_trader"] 				= true,
-			--["enable_moresnow"]	 				= true,
+			--["enable_moresnow"]	 			= true,
 			["enable_mob_world_interaction"] 	= true
 		},
 
-		["enable_homedecor_technic"]			=
+		["enable_technic"]						=
 		{
+			["enable_technic"]	 				= true,
 			["enable_homedecor"]	 			= true,
-			["enable_technic"]	 				= true
+			["enable_pipeworks"]	 			= true
 		},
 
 		["enable_mesecons"]						=

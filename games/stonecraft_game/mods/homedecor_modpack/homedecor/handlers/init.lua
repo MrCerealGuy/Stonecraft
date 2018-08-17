@@ -19,4 +19,6 @@ dofile(handlerpath.."registration.lua")
 -- some nodes have particle spawners
 dofile(handlerpath.."water_particles.lua")
 
+
+dofile(handlerpath.."mt_game_beds_functions.lua")
 dofile(handlerpath.."sit.lua")

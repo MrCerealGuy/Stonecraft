@@ -11,14 +11,14 @@ local S = homedecor_i18n.gettext
 
 local chains_sbox = {
 	type = "fixed",
-	fixed = { -0.1, -0.625, -0.1, 0.1, 0.5, 0.1 }
+	fixed = { -0.1, -0.5, -0.1, 0.1, 0.5, 0.1 }
 }
 
 local topchains_sbox = {
 	type = "fixed",
 	fixed = {
 		{ -0.25, 0.35, -0.25, 0.25, 0.5, 0.25 },
-		{ -0.1, -0.625, -0.1, 0.1, 0.4, 0.1 }
+		{ -0.1, -0.5, -0.1, 0.1, 0.4, 0.1 }
 	}
 }
 
@@ -81,7 +81,7 @@ minetest.register_node("chains:chain_top_brass", {
 minetest.register_node("chains:chandelier", {
 	description = S("Chandelier (wrought iron)"),
 	paramtype = "light",
-	light_source = default.LIGHT_MAX-2,
+	light_source = 12,
 	walkable = false,
 	climbable = true,
 	sunlight_propagates = true,
@@ -107,7 +107,7 @@ minetest.register_node("chains:chandelier", {
 minetest.register_node("chains:chandelier_brass", {
 	description = S("Chandelier (brass)"),
 	paramtype = "light",
-	light_source = default.LIGHT_MAX-2,
+	light_source = 12,
 	walkable = false,
 	climbable = true,
 	sunlight_propagates = true,

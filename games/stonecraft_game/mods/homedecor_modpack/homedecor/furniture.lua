@@ -235,8 +235,6 @@ minetest.register_lbm({
 		local param2 = paletteidx + new_fdir
 		local newname = "homedecor:armchair"
 
-		print(name, dump(a), dump(b), dump(color).."("..dump(paletteidx)..")", dump(param2))
-
 		if node.name == "homedecor:chair" then
 			newname = "homedecor:kitchen_chair_wood"
 		elseif string.find(node.name, "homedecor:chair_") then

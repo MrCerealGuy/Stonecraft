@@ -131,6 +131,24 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
+	output = "homedecor:table_lamp_off",
+	recipe = {
+		{ "wool:white", "default:torch", "wool:white"},
+		{ "", "group:stick", ""},
+		{ "", "moreblocks:slab_wood", "" },
+	},
+})
+
+minetest.register_craft({
+	output = "homedecor:table_lamp_off",
+	recipe = {
+		{ "cottages:wool", "default:torch", "cottages:wool"},
+		{ "", "group:stick", ""},
+		{ "", "moreblocks:slab_wood", "" },
+	},
+})
+
+minetest.register_craft({
 	output = "homedecor:standing_lamp_off",
 	recipe = {
 		{ "homedecor:table_lamp_off"},

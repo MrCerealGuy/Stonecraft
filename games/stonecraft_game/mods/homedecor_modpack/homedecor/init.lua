@@ -128,4 +128,6 @@ dofile(modpath.."/wardrobe.lua")
 
 dofile(modpath.."/crafts.lua")
 
-print("[HomeDecor] " .. S("Loaded!"))
+if minetest.settings:get_bool("log_mod") then
+	minetest.log("action", "[HomeDecor] " .. S("Loaded!"))
+end

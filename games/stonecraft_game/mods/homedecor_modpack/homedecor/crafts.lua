@@ -2920,7 +2920,7 @@ minetest.register_craft({
 	recipe = {
 		{ "", "technic:brass_ingot", ""},
 		{ "", "homedecor:chainlink_brass", ""},
-		{ "default:glass", "homedecor:glowlight_small", "default:glass"}
+		{ "default:glass", "homedecor:glowlight_small_cube", "default:glass"}
 	},
 })
 
@@ -2928,7 +2928,7 @@ minetest.register_craft({
 	output = "homedecor:ceiling_lamp",
 	recipe = {
 		{ "", "chains:chain_top_brass", ""},
-		{ "default:glass", "homedecor:glowlight_small", "default:glass"}
+		{ "default:glass", "homedecor:glowlight_small_cube", "default:glass"}
 	},
 })
 
@@ -2950,23 +2950,29 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "homedecor:coin 5",
-	recipe = {"moreblocks:micro_goldblock_1", "default:sword_stone"}
-})
+if minetest.settings:get_bool("homedecor.disable_coin_crafting") == false then
+	minetest.register_craft({
+		type = "shapeless",
+		output = "homedecor:coin 5",
+		recipe = {"moreblocks:micro_goldblock_1", "default:sword_stone"}
+	})
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "homedecor:coin 15",
-	recipe = {"default:gold_ingot", "default:sword_steel"}
-})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "homedecor:coin 15",
+		recipe = {"default:gold_ingot", "default:sword_steel"}
+	})
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "homedecor:coin 50",
-	recipe = {"default:goldblock", "default:sword_mese"}
-})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "homedecor:coin 50",
+		recipe = {"default:goldblock", "default:sword_mese"}
+	})
+else
+	if minetest.settings:get("log_mods") then
+		minetest.log("[HomeDecor] " .. S("coin crafting is disabled!"))
+	end
+end
 
 minetest.register_craft({
 	output = "homedecor:lattice_wood 8",

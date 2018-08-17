@@ -64,7 +64,6 @@ lrfurn.old_static_armchairs = {}
 
 for _, color in ipairs(lrfurn.colors) do
 	table.insert(lrfurn.old_static_armchairs, "lrfurn:armchair_"..color)
-	print("lrfurn:armchair_"..color)
 end
 
 minetest.register_lbm({

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-03 20:37+0200\n"
+"POT-Creation-Date: 2017-11-14 03:47+0800\n"
 "PO-Revision-Date: 2017-08-13 13:26+0200\n"
 "Last-Translator: Wuzzy <almikes@aol.com>\n"
 "Language-Team: German\n"
@@ -18,147 +18,83 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 2.0.2\n"
 
-#: ../building_blocks/init.lua
-msgid "Adobe"
-msgstr "Adobe"
+#: ../building_blocks/alias.lua
+msgid "Granite"
+msgstr "Granit"
 
-#: ../building_blocks/init.lua
-msgid "Roof block"
-msgstr "Dachblock"
-
-#: ../building_blocks/init.lua
-msgid "Streak Free Glass"
-msgstr "Schlierenfreies Glas"
-
-#: ../building_blocks/init.lua
+#: ../building_blocks/node_stairs.lua
 msgid "Grate"
 msgstr "Rost"
 
-#: ../building_blocks/init.lua
-msgid "Fireplace"
-msgstr "Kamin"
+#: ../building_blocks/node_stairs.lua
+msgid "Streak Free Glass"
+msgstr "Schlierenfreies Glas"
 
-#: ../building_blocks/init.lua
+#: ../building_blocks/node_stairs.lua
 msgid "Wood Framed Glass"
 msgstr "Holzrahmenglas"
 
-#: ../building_blocks/init.lua
-msgid "Terrycloth towel"
-msgstr "Frottiertuch"
+#: ../building_blocks/node_stairs.lua
+msgid "Adobe"
+msgstr "Adobe"
 
-#: ../building_blocks/init.lua
-msgid "Tarmac Spread"
-msgstr "Asphaltboden"
-
-#: ../building_blocks/init.lua
-msgid "Chess board tiling"
-msgstr "Schachbrettkacheln"
-
-#. Translators: "Brobble" is a portmanteau of "Brick" and "Cobble".
-#. Translate however you see fit.
-#: ../building_blocks/init.lua
-msgid "Brobble Spread"
-msgstr "Ziesterboden"
-
-#: ../building_blocks/init.lua
-msgid "Gravel Spread"
-msgstr "Kiesboden"
-
-#: ../building_blocks/init.lua
-msgid "Hardwood"
-msgstr "Hartholz"
-
-#: ../building_blocks/init.lua
-msgid "Marble"
-msgstr "Marmor"
-
-#: ../building_blocks/init.lua
-msgid "Grass"
-msgstr "Gras"
-
-#: ../building_blocks/init.lua
-msgid "Tar"
-msgstr "Teer"
-
-#: ../building_blocks/init.lua
-msgid "Roofing"
-msgstr "Dachdeckung"
-
-#: ../building_blocks/init.lua
-msgid "Marble stair"
-msgstr "Marmortreppe"
-
-#: ../building_blocks/init.lua
-msgid "Marble slab"
-msgstr "Marmorstufe"
-
-#: ../building_blocks/init.lua
-msgid "Hardwood stair"
-msgstr "Hartholztreppe"
-
-#: ../building_blocks/init.lua
-msgid "Hardwood slab"
-msgstr "Hartholzstufe"
-
-#: ../building_blocks/init.lua
-msgid "Grass stair"
-msgstr "Grastreppe"
-
-#: ../building_blocks/init.lua
-msgid "Grass slab"
-msgstr "Grasstufe"
-
-#: ../building_blocks/init.lua
-msgid "Tar stair"
-msgstr "Teertreppe"
-
-#: ../building_blocks/init.lua
-msgid "Tar slab"
-msgstr "Teerstufe"
-
-#: ../building_blocks/init.lua
-msgid "Grate Stair"
-msgstr "Rosttreppe"
-
-#: ../building_blocks/init.lua
-msgid "Grate Slab"
-msgstr "Roststufe"
-
-#: ../building_blocks/init.lua
-msgid "Adobe stair"
-msgstr "Adobetreppe"
-
-#: ../building_blocks/init.lua
-msgid "Adobe slab"
-msgstr "Adobestufe"
-
-#: ../building_blocks/init.lua
-msgid "Roofing stair"
-msgstr "Dachtreppe"
-
-#: ../building_blocks/init.lua
-msgid "Roofing slab"
-msgstr "Dachstufe"
-
-#: ../building_blocks/init.lua
+#: ../building_blocks/node_stairs.lua
 msgid "Fake Grass"
 msgstr "Falsches Gras"
 
-#: ../building_blocks/init.lua
+#: ../building_blocks/node_stairs.lua
+msgid "Hardwood"
+msgstr "Hartholz"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Roof block"
+msgstr "Dachblock"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Tar"
+msgstr "Teer"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Marble"
+msgstr "Marmor"
+
+#. Translators: "Brobble" is a portmanteau of "Brick" and "Cobble".
+#. Translate however you see fit.
+#: ../building_blocks/node_stairs.lua
+msgid "Brobble Spread"
+msgstr "Ziesterboden"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Gravel Spread"
+msgstr "Kiesboden"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Tarmac Spread"
+msgstr "Asphaltboden"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Terrycloth towel"
+msgstr "Frottiertuch"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Chess board tiling"
+msgstr "Schachbrettkacheln"
+
+#: ../building_blocks/node_stairs.lua
+msgid "Fireplace"
+msgstr "Kamin"
+
+#: ../building_blocks/others.lua
 msgid "Small bundle of sticks"
 msgstr "Kleines Bündel Stöcke"
 
-#: ../building_blocks/init.lua
+#: ../building_blocks/others.lua
 msgid "Tar base"
 msgstr "Teerbase"
 
-#: ../building_blocks/init.lua
+#: ../building_blocks/others.lua
 msgid "Tar Knife"
 msgstr "Teermesser"
-
-#: ../building_blocks/init.lua
-msgid "Granite"
-msgstr "Granit"
 
 #: ../chains/init.lua
 msgid "Hanging chain (wrought iron)"
@@ -245,10 +181,6 @@ msgid "No room for place the Arcade!"
 msgstr "Kein Platz, um den Arkadeautomaten zu platzieren!"
 
 #: ../fake_fire/init.lua
-msgid "Fake fire"
-msgstr "Falsches Feuer"
-
-#: ../fake_fire/init.lua
 msgid "Ice fire"
 msgstr "Eisfeuer"
 
@@ -267,14 +199,6 @@ msgstr "Steinschornsteinaufsatz"
 #: ../fake_fire/init.lua
 msgid "Sandstone chimney top"
 msgstr "Sandsteinschornsteinaufsatz"
-
-#: ../fake_fire/init.lua
-msgid "Flint and steel"
-msgstr "Feuerstein und Stahl"
-
-#: ../fake_fire/init.lua
-msgid "This area is protected!"
-msgstr "Dieses Gebiet ist geschützt!"
 
 #: ../homedecor/bathroom_furniture.lua
 msgid "Bathroom/kitchen tiles (dark)"
@@ -367,6 +291,30 @@ msgstr "Nachttisch mit zwei Schubladen (@1)"
 #: ../homedecor/bedroom.lua
 msgid "Two-drawer Nightstand"
 msgstr "Nachttisch mit zwei Schubladen"
+
+#: ../homedecor/books.lua ../homedecor/exterior.lua
+msgid "red"
+msgstr "rot"
+
+#: ../homedecor/books.lua ../homedecor/exterior.lua ../homedecor/misc-nodes.lua
+msgid "green"
+msgstr "grün"
+
+#: ../homedecor/books.lua
+msgid "blue"
+msgstr "blau"
+
+#: ../homedecor/books.lua
+msgid "violet"
+msgstr "violett"
+
+#: ../homedecor/books.lua
+msgid "grey"
+msgstr "grau"
+
+#: ../homedecor/books.lua
+msgid "brown"
+msgstr "braun"
 
 #: ../homedecor/books.lua
 msgid "Writable Book (@1)"
@@ -523,6 +471,10 @@ msgstr "Messingbarren"
 #: ../homedecor/crafts.lua
 msgid "Small Flower Pot"
 msgstr "Kleiner Blumentopf"
+
+#: ../homedecor/crafts.lua
+msgid "coin crafting is disabled!"
+msgstr "Fertigung der Münzen ist ausgeschaltet!"
 
 #: ../homedecor/doors_and_gates.lua
 msgid "Mahogany Closet Door (@1 opening)"
@@ -730,34 +682,23 @@ msgstr "Baumschaukel"
 msgid "Water well"
 msgstr "Wasserbrunnen"
 
-#: ../homedecor/exterior.lua ../homedecor/misc-nodes.lua
-msgid "green"
-msgstr "grün"
-
-#: ../homedecor/exterior.lua
-msgid "red"
-msgstr "rot"
-
 #: ../homedecor/exterior.lua
 msgid "yellow"
 msgstr "gelb"
 
 #: ../homedecor/exterior.lua
-msgid "Shrubbery (@1)"
+#, fuzzy
+msgid "Shrubbery (large, @1)"
 msgstr "Gebüsch (@1)"
 
 #: ../homedecor/exterior.lua
-msgid "Shrubbery (large, @1)"
-msgstr "Gebüsch (groß, @1)"
+msgid "Shrubbery (@1)"
+msgstr "Gebüsch (@1)"
 
 #: ../homedecor/fences.lua ../homedecor/misc-nodes.lua ../homedecor/tables.lua
 #: ../homedecor/window_treatments.lua
 msgid "Brass"
 msgstr "Messing"
-
-#: ../homedecor/tables.lua
-msgid "Wrought iron"
-msgstr "Schmiedeeisen"
 
 #: ../homedecor/fences.lua ../homedecor/misc-nodes.lua ../homedecor/tables.lua
 #: ../homedecor/window_treatments.lua
@@ -1306,12 +1247,9 @@ msgid "Metal tool cabinet and work table"
 msgstr "Metallwerkzeugschrank und Arbeitstisch"
 
 #: ../homedecor/misc-nodes.lua
-msgid "Picture Frame 1"
+#, fuzzy
+msgid "Picture Frame "
 msgstr "Bilderrahmen 1"
-
-#: ../homedecor/misc-nodes.lua
-msgid "Picture Frame 2"
-msgstr "Bilderrahmen 2"
 
 #: ../homedecor/misc-nodes.lua
 msgid "Decorative painting #@1"
@@ -1498,6 +1436,11 @@ msgid "Curtains"
 msgstr "Gardinen"
 
 #: ../homedecor/window_treatments.lua
+#, fuzzy
+msgid "Curtains (open)"
+msgstr "Gardinen"
+
+#: ../homedecor/window_treatments.lua
 msgid "Curtain Rod (@1)"
 msgstr "Gardinenstange (@1)"
 
@@ -1559,7 +1502,9 @@ msgstr "Jemanden gehört schon die Stelle, wo das andere Ende hingehen würde."
 
 #: ../lrfurn/init.lua
 msgid "Someone else owns the spot where the middle or far end goes!"
-msgstr "Jemanden gehört schon die Stelle, wo das mittlere oder ferne Stück hingehen würde."
+msgstr ""
+"Jemanden gehört schon die Stelle, wo das mittlere oder ferne Stück hingehen "
+"würde."
 
 #: ../lrfurn/init.lua
 msgid "Someone else owns the spot where the other end goes!"
@@ -1589,35 +1534,83 @@ msgstr "Plasmafernseher"
 msgid "Plasma TV (off)"
 msgstr "Plasmafernseher (aus)"
 
-msgid "Tumble dryer"
-msgstr "Wäschetrockner"
+#~ msgid "Grass"
+#~ msgstr "Gras"
 
-msgid "Ironing board"
-msgstr "Bügelbrett"
+#~ msgid "Roofing"
+#~ msgstr "Dachdeckung"
 
-msgid "Spiral Staircase"
-msgstr "Wendeltreppe"
+#~ msgid "Marble stair"
+#~ msgstr "Marmortreppe"
 
-msgid "Washing Machine"
-msgstr "Waschmaschine"
+#~ msgid "Marble slab"
+#~ msgstr "Marmorstufe"
 
-msgid "blue"
-msgstr "blau"
+#~ msgid "Hardwood stair"
+#~ msgstr "Hartholztreppe"
 
-msgid "brown"
-msgstr "braun"
+#~ msgid "Hardwood slab"
+#~ msgstr "Hartholzstufe"
+
+#~ msgid "Grass stair"
+#~ msgstr "Grastreppe"
+
+#~ msgid "Grass slab"
+#~ msgstr "Grasstufe"
+
+#~ msgid "Tar stair"
+#~ msgstr "Teertreppe"
+
+#~ msgid "Tar slab"
+#~ msgstr "Teerstufe"
+
+#~ msgid "Grate Stair"
+#~ msgstr "Rosttreppe"
+
+#~ msgid "Grate Slab"
+#~ msgstr "Roststufe"
+
+#~ msgid "Adobe stair"
+#~ msgstr "Adobetreppe"
+
+#~ msgid "Adobe slab"
+#~ msgstr "Adobestufe"
+
+#~ msgid "Roofing stair"
+#~ msgstr "Dachtreppe"
+
+#~ msgid "Roofing slab"
+#~ msgstr "Dachstufe"
+
+#~ msgid "Fake fire"
+#~ msgstr "Falsches Feuer"
+
+#~ msgid "Flint and steel"
+#~ msgstr "Feuerstein und Stahl"
+
+#~ msgid "This area is protected!"
+#~ msgstr "Dieses Gebiet ist geschützt!"
+
+#~ msgid "Picture Frame 2"
+#~ msgstr "Bilderrahmen 2"
+
+#~ msgid "Tumble dryer"
+#~ msgstr "Wäschetrockner"
+
+#~ msgid "Ironing board"
+#~ msgstr "Bügelbrett"
+
+#~ msgid "Spiral Staircase"
+#~ msgstr "Wendeltreppe"
+
+#~ msgid "Washing Machine"
+#~ msgstr "Waschmaschine"
 
 #~ msgid "white"
 #~ msgstr "weiß"
 
 #~ msgid "pink"
 #~ msgstr "rosa"
-
-msgid "violet"
-msgstr "violett"
-
-msgid "grey"
-msgstr "grau"
 
 #~ msgid "dark green"
 #~ msgstr "dunkelgrün"
@@ -1668,7 +1661,8 @@ msgstr "grau"
 #~ msgstr "%s nimmt etwas aus dem Kuechenschrank bei %s"
 
 #~ msgid "Not enough space above that spot to place a door! "
-#~ msgstr "Es gibt nicht genug Raum ueber dieser Stelle um die Tuer zu platzieren!"
+#~ msgstr ""
+#~ "Es gibt nicht genug Raum ueber dieser Stelle um die Tuer zu platzieren!"
 
 #~ msgid "Bucket of white paint "
 #~ msgstr "Eimer mit weisser Farbe"
