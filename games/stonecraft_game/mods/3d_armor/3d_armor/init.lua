@@ -67,7 +67,7 @@ end
 
 -- Mod Compatibility
 
-if minetest.get_modpath("technic") and not core.skip_mod("homedecor_technic") then
+if minetest.get_modpath("technic") and not core.skip_mod("technic") then
 	armor.formspec = armor.formspec..
 		"label[5,2.5;"..S("Radiation")..":  armor_group_radiation]"
 	armor:register_armor_group("radiation")
