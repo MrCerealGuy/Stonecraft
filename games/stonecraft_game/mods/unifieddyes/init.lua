@@ -181,7 +181,7 @@ function unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 			end
 
 			local paletteidx, hue = unifieddyes.getpaletteidx(lastdye, palette_type)
-			if palette_type == true then newname = string.gsub(newname, "_grey", "_"..unifieddyes.HUES[hue]) end
+			if palette_type == true and hue ~= 0 then newname = string.gsub(newname, "_grey", "_"..unifieddyes.HUES[hue]) end
 
 			minetest.set_node(pos, { name = newname, param2 = oldfdir + paletteidx })
 
@@ -1046,6 +1046,7 @@ minetest.register_alias("dye:medium_orange", "dye:brown")
 
 minetest.register_alias("unifieddyes:black",      "dye:black")
 minetest.register_alias("unifieddyes:dark_grey",  "dye:dark_grey")
+minetest.register_alias("unifieddyes:grey", 	  "dye:grey")
 minetest.register_alias("unifieddyes:light_grey", "dye:light_grey")
 minetest.register_alias("unifieddyes:white",      "dye:white")
 
@@ -1069,6 +1070,7 @@ minetest.register_alias("unifieddyes:carbon_black", "dye:black")
 minetest.register_alias("unifieddyes:aqua", "unifieddyes:spring")
 minetest.register_alias("unifieddyes:skyblue", "unifieddyes:azure")
 minetest.register_alias("unifieddyes:redviolet", "unifieddyes:rose")
+minetest.register_alias("unifieddyes:brown", 	  "dye:brown")
 
 print(S("[UnifiedDyes] Loaded!"))
 
