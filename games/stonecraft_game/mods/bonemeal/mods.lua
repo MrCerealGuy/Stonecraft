@@ -1,6 +1,6 @@
 
 -- craft bones from animalmaterials into bonemeal
-if minetest.get_modpath("animalmaterials") then
+if minetest.get_modpath("animalmaterials") and core.skip_mod("animalmaterials") then
 
 	minetest.register_craft({
 		type = "shapeless",
@@ -40,7 +40,7 @@ if farming and farming.mod and farming.mod == "redo" then
 end
 
 
-if minetest.get_modpath("ethereal") then
+if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 
 	bonemeal:add_crop({
 		{"ethereal:strawberry_", 8},
@@ -80,7 +80,7 @@ if minetest.get_modpath("ethereal") then
 end
 
 
-if minetest.get_modpath("moretrees") then
+if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
 
 	-- special fir check for snow
 	local function fir_grow(pos)
