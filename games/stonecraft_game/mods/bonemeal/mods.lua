@@ -114,7 +114,7 @@ if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
 		{"moretrees:fir_sapling", fir_grow, "soil"},
 	})
 
-elseif minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic") then then
+elseif minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic") then
 
 	bonemeal:add_sapling({
 		{"moretrees:rubber_tree_sapling", technic.rubber_tree_model, "soil"},
