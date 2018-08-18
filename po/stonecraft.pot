@@ -181,7 +181,7 @@ msgid "Cave realms"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Technic, pipeworks and home decorations"
+msgid "Technic and pipeworks"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
@@ -214,6 +214,10 @@ msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Wood soils and vines"
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Home decorations"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua

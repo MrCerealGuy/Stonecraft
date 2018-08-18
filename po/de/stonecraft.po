@@ -179,8 +179,8 @@ msgid "Cave realms"
 msgstr "Höhlenbiome"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "Technic, pipeworks and home decorations"
-msgstr "Technik, Rohrbau und Heimdekorationen"
+msgid "Technic and pipeworks"
+msgstr "Technik und Rohrbau"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Mesecons - electronic stuff"
@@ -213,6 +213,10 @@ msgstr "Schneebiom"
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Wood soils and vines"
 msgstr "Waldböden und Weine"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Home decorations"
+msgstr "Heimdekorationen"
 
 #: builtin/mainmenu/dlg_create_world.lua
 msgid "Surprise blocks"
