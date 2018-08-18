@@ -9,11 +9,13 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+local pipeworks_enabled = minetest.get_modpath("pipeworks") ~= nil and not core.skip_mod("pipeworks")
+
 local function sendMessage(pos, msg, channel)
 	if channel == nil then
 		channel = minetest.get_meta(pos):get_string("channel")
 	end
-	digiline:receptor_send(pos,digiline.rules.default,channel,msg)
+	digilines.receptor_send(pos,digilines.rules.default,channel,msg)
 end
 
 local function maybeString(stack)
@@ -34,8 +36,8 @@ local function can_insert(pos, stack)
 	return can
 end
 
-local tubeconn = minetest.get_modpath("pipeworks") and "^pipeworks_tube_connection_wooden.png" or ""
-local tubescan = minetest.get_modpath("pipeworks") and function(pos) pipeworks.scan_for_tube_objects(pos) end or nil
+local tubeconn = pipeworks_enabled and "^pipeworks_tube_connection_wooden.png" or ""
+local tubescan = pipeworks_enabled and function(pos) pipeworks.scan_for_tube_objects(pos) end or nil
 
 minetest.register_alias("digilines_inventory:chest", "digilines:chest")
 minetest.register_node("digilines:chest", {
@@ -63,16 +65,17 @@ minetest.register_node("digilines:chest", {
 			"list[current_name;main;0,1;8,4;]"..
 			"field[2,5.5;5,1;channel;Channel;${channel}]"..
 			((default and default.get_hotbar_bg) and default.get_hotbar_bg(0,6) or "")..
-			"list[current_player;main;0,6;8,4;]")
+			"list[current_player;main;0,6;8,4;]"..
+			"listring[]")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
 	end,
 	after_place_node = tubescan,
 	after_dig_node = tubescan,
-	can_dig = function(pos, player)
+	can_dig = function(pos)
 		return minetest.get_meta(pos):get_inventory():is_empty("main")
 	end,
-	on_receive_fields = function(pos, formname, fields, sender)
+	on_receive_fields = function(pos, _, fields, sender)
 		local name = sender:get_player_name()
 		if minetest.is_protected(pos, name) and not minetest.check_player_privs(name, {protection_bypass=true}) then
 			minetest.record_protection_violation(pos, name)
@@ -85,7 +88,7 @@ minetest.register_node("digilines:chest", {
 	digiline = {
 		receptor = {},
 		effector = {
-			action = function(pos,node,channel,msg) end
+			action = function() end
 		}
 	},
 	tube = {
@@ -94,10 +97,10 @@ minetest.register_node("digilines:chest", {
 			return not pipeworks.connects.facingFront(i,param2)
 		end,
 		input_inventory = "main",
-		can_insert = function(pos, node, stack, direction)
+		can_insert = function(pos, _, stack)
 			return can_insert(pos, stack)
 		end,
-		insert_object = function(pos, node, stack, direction)
+		insert_object = function(pos, _, stack)
 			local inv = minetest.get_meta(pos):get_inventory()
 			local leftover = inv:add_item("main", stack)
 			local count = leftover:get_count()
@@ -119,16 +122,16 @@ minetest.register_node("digilines:chest", {
 			return leftover
 		end,
 	},
-	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_put = function(pos, _, _, stack)
 		if not can_insert(pos, stack) then
 			sendMessage(pos,"uoverflow "..maybeString(stack))
 		end
 		return stack:get_count()
 	end,
-	on_metadata_inventory_move = function(pos, fromlistname, fromindex, tolistname, toindex, count, player)
+	on_metadata_inventory_move = function(pos, _, _, _, _, _, player)
 		minetest.log("action", player:get_player_name().." moves stuff in chest at "..minetest.pos_to_string(pos))
 	end,
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
+	on_metadata_inventory_put = function(pos, _, _, stack, player)
 		local channel = minetest.get_meta(pos):get_string("channel")
 		local send = function(msg)
 			sendMessage(pos,msg,channel)
@@ -143,7 +146,7 @@ minetest.register_node("digilines:chest", {
 		end
 		minetest.log("action", player:get_player_name().." puts stuff into chest at "..minetest.pos_to_string(pos))
 	end,
-	on_metadata_inventory_take = function(pos, listname, index, stack, player)
+	on_metadata_inventory_take = function(pos, listname, _, stack, player)
 		local meta = minetest.get_meta(pos)
 		local channel = meta:get_string("channel")
 		local inv = meta:get_inventory()
