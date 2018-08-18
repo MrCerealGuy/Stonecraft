@@ -6,6 +6,56 @@ function mesecon.move_node(pos, newpos)
 	minetest.get_meta(pos):from_table(meta)
 end
 
+-- Rules rotation Functions:
+function mesecon.rotate_rules_right(rules)
+	local nr = {}
+	for i, rule in ipairs(rules) do
+		table.insert(nr, {
+			x = -rule.z,
+			y =  rule.y,
+			z =  rule.x,
+			name = rule.name})
+	end
+	return nr
+end
+
+function mesecon.rotate_rules_left(rules)
+	local nr = {}
+	for i, rule in ipairs(rules) do
+		table.insert(nr, {
+			x =  rule.z,
+			y =  rule.y,
+			z = -rule.x,
+			name = rule.name})
+	end
+	return nr
+end
+
+function mesecon.rotate_rules_down(rules)
+	local nr = {}
+	for i, rule in ipairs(rules) do
+		table.insert(nr, {
+			x = -rule.y,
+			y =  rule.x,
+			z =  rule.z,
+			name = rule.name})
+	end
+	return nr
+end
+
+function mesecon.rotate_rules_up(rules)
+	local nr = {}
+	for i, rule in ipairs(rules) do
+		table.insert(nr, {
+			x =  rule.y,
+			y = -rule.x,
+			z =  rule.z,
+			name = rule.name})
+	end
+	return nr
+end
+--
+
 function mesecon.flattenrules(allrules)
 --[[
 	{
@@ -178,6 +228,7 @@ end
 
 function mesecon.register_node(name, spec_common, spec_off, spec_on)
 	spec_common.drop = spec_common.drop or name .. "_off"
+	spec_common.on_blast = spec_common.on_blast or mesecon.on_blastnode
 	spec_common.__mesecon_basename = name
 	spec_on.__mesecon_state = "on"
 	spec_off.__mesecon_state = "off"
