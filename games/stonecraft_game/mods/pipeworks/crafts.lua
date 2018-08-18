@@ -21,6 +21,13 @@ minetest.register_craft( {
 })
 
 minetest.register_craft( {
+        output = "pipeworks:straight_pipe_empty 3",
+        recipe = {
+                { "pipeworks:pipe_1_empty", "pipeworks:pipe_1_empty", "pipeworks:pipe_1_empty" },
+        },
+})
+
+minetest.register_craft( {
         output = "pipeworks:spigot 3",
         recipe = {
                 { "pipeworks:pipe_1_empty", "" },
@@ -159,4 +166,18 @@ if minetest.get_modpath("homedecor") == nil then
 	})
 end
 
+-- crafting items for creating node breakers
+minetest.register_craftitem("pipeworks:gear", {
+	description = "Gear",
+	inventory_image = "pipeworks_gear.png",
+})
+
+minetest.register_craft( {
+        output = "pipeworks:gear 6",
+        recipe = {
+                { "", 			"default:steel_ingot",	"" },
+                { "default:steel_ingot","default:stone",	"default:steel_ingot" },
+                { "",			"default:steel_ingot",	"" }
+        },
+})
 

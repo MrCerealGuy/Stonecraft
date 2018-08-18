@@ -1,6 +1,55 @@
 Changelog
 ---------
 
+
+
+2017-10-19 (thetaepsilon)
+Directional flowables are now implemented.
+All devices for which it is relevant (valve, flow sensor etc.) have been converted so that they only flow on their connecting sides, so pressure propogation now works as expected for these devices when pressure logic is enabled.
+Classic mode continues to be preserved by default as before.
+
+
+
+2017-10-14 (thetaepsilon, VanessaE)
+Node breakers have been updated to not have a tool by default, and determine if the node that they are trying to break can be dug with the tool in it's inventory slot.
+The crafting recipe for the node breakers has been updated, using a new gear crafting item that requires iron instead of mese, which should be a more accessible cost in most cases.
+Existing node breakers in worlds will get their mese pick back if their slot is empty via LBM - the mese pick will show up in the inventory slot so you can reclaim your hard-earned mese crystals.
+Gear item texture and updated node breaker textures provided by VanessaE.
+
+
+
+2017-10-08 (thetaepsilon)
+A lot more of the new flow logic work.
+There are two sub-modes of this now,  non-finite and finite mode.
+Non-finite mode most closely resembles "classic mode", whereas finite mode is more intended for use with mods such as dynamic_liquids which enable water sources to move themselves.
+Everything that was functional in classic mode more or less works correctly now.
+Still TODO:
++ Flow directionality - things like flow sensors and airtight panels will flow in directions that don't make sense from their visuals.
+Possible feature requests:
++ Making tanks and gratings do something useful.
+
+
+
+2017-09-27 (thetaepsilon)
+Start of new flow logic re-implementation.
+This mode is current *very* incomplete, and requires a per-world setting to enable.
+Adds a pressure value stored in all pipe node metadata, and a mechanism to balance it out with nearby nodes on ABM trigger.
+Currently, this inhibits the old behaviour when enabled, and (again WHEN ENABLED) breaks pretty much everything but normal pipes, spigots and pumps.
+For this reason it is far from being intended as the default for some time to come yet.
+What *does* work:
++ Pumps will try to take in water (and removes it!) as long as internal pressure does not exceed a threshold.
+	- a TODO is to make this pressure threshold configurable.
++ Pipes will balance this pressure between themselves, and will slowly average out over time.
++ Spigots will try to make the node beneath them a water source if the pressure is great enough and the existing node is flowing water or air.
+	- This is admittedly of fairly limited use with default water mechanics; those looking for more realistic mechanics might want to look at the dynamic_liquid mod, though that mod comes with it's own caveats (most notably drastic changes to previous worlds...).
+What *does not* work:
++ Flow sensors, valves. Valves in particular currently do not function as a barrier to water's path under the experimental logic.
+	- TODO: internal code to allow this to be overriden.
+
+
+
+*seems this hasn't been updated in a while*
+
 2013-01-13: Tubes can transport items now! Namely, I added Novatux/Nore's item 
 transport mod as a default part of this mod, to make tubes do something useful!
 Thanks to Nore and RealBadAngel for the code contributions!

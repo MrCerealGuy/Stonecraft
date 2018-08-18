@@ -46,7 +46,7 @@ if not minetest.get_modpath("auto_tree_tap") and
 		end,
 		after_place_node = function (pos, placer)
 			pipeworks.scan_for_tube_objects(pos, placer)
-			local placer_pos = placer:getpos()
+			local placer_pos = placer:get_pos()
 		
 			--correct for the player's height
 			if placer:is_player() then placer_pos.y = placer_pos.y + 1.5 end

@@ -10,7 +10,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 if pipeworks.enable_detector_tube then
-	local detector_tube_step = 2 * tonumber(minetest.setting_get("dedicated_server_step"))
+	local detector_tube_step = 5 * tonumber(minetest.settings:get("dedicated_server_step"))
 	pipeworks.register_tube("pipeworks:detector_tube_on", {
 			description = S("Detecting Pneumatic Tube Segment on (you hacker you)"),
 			inventory_image = "pipeworks_detector_tube_inv.png",
@@ -78,7 +78,8 @@ if pipeworks.enable_detector_tube then
 	})
 end
 
-if minetest.get_modpath("digilines") and not core.skip_mod("digilines") and pipeworks.enable_digiline_detector_tube then
+local digiline_enabled = minetest.get_modpath("digilines") ~= nil
+if digiline_enabled and pipeworks.enable_digiline_detector_tube then
 	pipeworks.register_tube("pipeworks:digiline_detector_tube", {
 			description = S("Digiline Detecting Pneumatic Tube Segment"),
 			inventory_image = "pipeworks_digiline_detector_tube_inv.png",
@@ -158,14 +159,80 @@ if pipeworks.enable_conductor_tube then
 			},
 	})
 
-	minetest.register_craft( {
-		output = "pipeworks:conductor_tube_off_1 6",
-		recipe = {
-			{ "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
-			{ "mesecons:mesecon", "mesecons:mesecon", "mesecons:mesecon" },
-			{ "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
-		},
+	minetest.register_craft({
+		type = "shapeless",
+		output = "pipeworks:conductor_tube_off_1",
+		recipe = {"pipeworks:tube_1", "mesecons:mesecon"}
 	})
 end
 
+if digiline_enabled and pipeworks.enable_digiline_conductor_tube then
+	pipeworks.register_tube("pipeworks:digiline_conductor_tube", {
+		description = "Digiline Conducting Pneumatic Tube Segment",
+		inventory_image = "pipeworks_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
+		short = "pipeworks_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
+		plain = {"pipeworks_tube_plain.png^pipeworks_digiline_conductor_tube_plain.png"},
+		noctr = {"pipeworks_tube_noctr.png^pipeworks_digiline_conductor_tube_noctr.png"},
+		ends = {"pipeworks_tube_end.png^pipeworks_digiline_conductor_tube_end.png"},
+		node_def = {digiline = {wire = {rules = pipeworks.digilines_rules}}},
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "pipeworks:digiline_conductor_tube_1",
+		recipe = {"pipeworks:tube_1", "digilines:wire_std_00000000"}
+	})
+end
 
+if digiline_enabled and pipeworks.enable_digiline_conductor_tube and
+		pipeworks.enable_conductor_tube then
+	pipeworks.register_tube("pipeworks:mesecon_and_digiline_conductor_tube_off", {
+		description = "Mesecon and Digiline Conducting Pneumatic Tube Segment",
+		inventory_image = "pipeworks_conductor_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
+		short = "pipeworks_conductor_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
+		plain = {"pipeworks_conductor_tube_plain.png^pipeworks_digiline_conductor_tube_plain.png"},
+		noctr = {"pipeworks_conductor_tube_noctr.png^pipeworks_digiline_conductor_tube_noctr.png"},
+		ends = {"pipeworks_conductor_tube_end.png^pipeworks_digiline_conductor_tube_end.png"},
+		node_def = {
+			digiline = {wire = {rules = pipeworks.digilines_rules}},
+			groups = {mesecon = 2},
+			mesecons = {conductor = {
+				state = "off",
+				rules = pipeworks.mesecons_rules,
+				onstate = "pipeworks:mesecon_and_digiline_conductor_tube_on_#id"
+			}},
+		},
+	})
+	pipeworks.register_tube("pipeworks:mesecon_and_digiline_conductor_tube_on", {
+		description = "Mesecon and Digiline Conducting Pneumatic Tube Segment on (you hacker you)",
+		inventory_image = "pipeworks_conductor_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
+		short = "pipeworks_conductor_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
+		plain = {"pipeworks_conductor_tube_on_plain.png^pipeworks_digiline_conductor_tube_plain.png"},
+		noctr = {"pipeworks_conductor_tube_on_noctr.png^pipeworks_digiline_conductor_tube_noctr.png"},
+		ends = {"pipeworks_conductor_tube_on_end.png^pipeworks_digiline_conductor_tube_end.png"},
+		node_def = {
+			digiline = {wire = {rules = pipeworks.digilines_rules}},
+			groups = {mesecon = 2, not_in_creative_inventory = 1},
+			drop = "pipeworks:mesecon_and_digiline_conductor_tube_off_1",
+			mesecons = {conductor = {
+				state = "on",
+				rules = pipeworks.mesecons_rules,
+				offstate = "pipeworks:mesecon_and_digiline_conductor_tube_off_#id"}
+			},
+		},
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "pipeworks:mesecon_and_digiline_conductor_tube_off_1",
+		recipe = {"pipeworks:tube_1", "mesecons:mesecon", "digilines:wire_std_00000000"}
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "pipeworks:mesecon_and_digiline_conductor_tube_off_1",
+		recipe = {"pipeworks:conductor_tube_off_1", "digilines:wire_std_00000000"}
+	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "pipeworks:mesecon_and_digiline_conductor_tube_off_1",
+		recipe = {"pipeworks:digiline_conductor_tube_1", "mesecons:mesecon"}
+	})
+end

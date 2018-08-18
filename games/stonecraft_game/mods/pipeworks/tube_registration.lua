@@ -50,13 +50,13 @@ local register_one_tube = function(name, tname, dropname, desc, plain, noctrs, e
 	local outboxes = {}
 	local outsel = {}
 	local outimgs = {}
-	
+
 	for i = 1, 6 do
 		outimgs[vti[i]] = plain[i]
 	end
-	
+
 	for _, v in ipairs(connects) do
-		table.extend(outboxes, pipeworks.tube_boxes[v])
+		pipeworks.table_extend(outboxes, pipeworks.tube_boxes[v])
 		table.insert(outsel, pipeworks.tube_selectboxes[v])
 		outimgs[vti[v]] = noctrs[v]
 	end
@@ -85,10 +85,10 @@ local register_one_tube = function(name, tname, dropname, desc, plain, noctrs, e
 		outsel = { -24/64, -10/64, -10/64, 24/64, 10/64, 10/64 }
 		wscale = {x = 1, y = 1, z = 0.01}
 	end
-	
+
 	local rname = string.format("%s_%s", name, tname)
 	table.insert(tubenodes, rname)
-	
+
 	local nodedef = {
 		description = tubedesc,
 		drawtype = "nodebox",
@@ -119,12 +119,20 @@ local register_one_tube = function(name, tname, dropname, desc, plain, noctrs, e
 			priority = 50
 		},
 		after_place_node = pipeworks.after_place,
-		after_dig_node = pipeworks.after_dig
+		after_dig_node = pipeworks.after_dig,
+		on_blast = function(pos, intensity)
+			if not intensity or intensity > 1 + 3^0.5 then
+				minetest.remove_node(pos)
+				return {string.format("%s_%s", name, dropname)}
+			end
+			minetest.swap_node(pos, {name = "pipeworks:broken_tube_1"})
+			pipeworks.scan_for_tube_objects(pos)
+		end
 	}
 	if style == "6d" then
 		nodedef.paramtype2 = "facedir"
 	end
-	
+
 	if special == nil then special = {} end
 
 	for key, value in pairs(special) do
@@ -139,7 +147,7 @@ local register_one_tube = function(name, tname, dropname, desc, plain, noctrs, e
 				nodedef.tube[key] = val
 			end
 		else
-			nodedef[key] = table.recursive_replace(value, "#id", tname)
+			nodedef[key] = pipeworks.table_recursive_replace(value, "#id", tname)
 		end
 	end
 

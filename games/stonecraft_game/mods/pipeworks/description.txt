@@ -1,1 +1,1 @@
-This mod uses nodeboxes to supply a complete set of 3D pipes and tubes, along devices that work with them.
+This mod uses mesh nodes and nodeboxes to supply a complete set of 3D pipes and tubes, along with devices that work with them.

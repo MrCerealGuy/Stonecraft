@@ -4,7 +4,7 @@
 -- Contributed by mauvebic, 2013-01-03, rewritten a bit by Vanessa Ezekowitz
 --
 
-local finitewater = minetest.setting_getbool("liquid_finite")
+local finitewater = minetest.settings:get_bool("liquid_finite")
 
 pipeworks.check_for_liquids = function(pos)
 	local coords = {
@@ -31,19 +31,33 @@ pipeworks.check_for_inflows = function(pos,node)
 		{x=pos.x-1,y=pos.y,z=pos.z},
 		{x=pos.x+1,y=pos.y,z=pos.z},
 		{x=pos.x,y=pos.y,z=pos.z-1},
-		{x=pos.x,y=pos.y,z=pos.z+1},	}
+		{x=pos.x,y=pos.y,z=pos.z+1},
+	}
 	local newnode = false
 	local source = false
-	for i =1,6 do
+	for i = 1, 6 do
 		if newnode then break end
-		local name = minetest.get_node(coords[i]).name
+		local testnode = minetest.get_node(coords[i])
+		local name = testnode.name
 		if name and (name == "pipeworks:pump_on" and pipeworks.check_for_liquids(coords[i])) or string.find(name,"_loaded") then
 			if string.find(name,"_loaded") then
 				source = minetest.get_meta(coords[i]):get_string("source")
 				if source == minetest.pos_to_string(pos) then break end
 			end
-			newnode = string.gsub(node.name,"empty","loaded")
-			source = {x=coords[i].x,y=coords[i].y,z=coords[i].z}
+			if string.find(name, "valve") or string.find(name, "sensor")
+			  or string.find(name, "straight_pipe") or string.find(name, "panel") then
+
+				if ((i == 3 or i == 4) and minetest.facedir_to_dir(testnode.param2).x ~= 0)
+				  or ((i == 5 or i == 6) and minetest.facedir_to_dir(testnode.param2).z ~= 0)
+				  or ((i == 1 or i == 2) and minetest.facedir_to_dir(testnode.param2).y ~= 0) then
+
+					newnode = string.gsub(node.name,"empty","loaded")
+					source = {x=coords[i].x,y=coords[i].y,z=coords[i].z}
+				end
+			else
+				newnode = string.gsub(node.name,"empty","loaded")
+				source = {x=coords[i].x,y=coords[i].y,z=coords[i].z}
+			end
 		end
 	end
 	if newnode then 

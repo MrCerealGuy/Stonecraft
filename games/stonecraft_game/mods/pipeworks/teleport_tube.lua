@@ -15,7 +15,7 @@ local tp_tube_db = nil -- nil forces a read
 local tp_tube_db_version = 2.0
 
 local function hash(pos)
-	return string.format("%d", minetest.hash_node_position(pos))
+	return string.format("%.30g", minetest.hash_node_position(pos))
 end
 
 local function save_tube_db()
@@ -61,6 +61,11 @@ local function read_tube_db()
 	return tp_tube_db
 end
 
+-- debug formatter for coordinates used below
+local fmt = function(pos)
+	return pos.x..", "..pos.y..", "..pos.z
+end
+
 -- updates or adds a tube
 local function set_tube(pos, channel, can_receive)
 	local tubes = tp_tube_db or read_tube_db()
@@ -74,6 +79,19 @@ local function set_tube(pos, channel, can_receive)
 	end
 
 	-- we haven't found any tp tube to update, so lets add it
+	-- but sanity check that the hash has not already been inserted.
+	-- if so, complain very loudly and refuse the update so the player knows something is amiss.
+	-- to catch regressions of https://github.com/minetest-mods/pipeworks/issues/166
+	local existing = tp_tube_db[hash]
+	if  existing ~= nil then
+		local e = "error"
+		minetest.log(e, "pipeworks teleport tube update refused due to position hash collision")
+		minetest.log(e, "collided hash: "..hash)
+		minetest.log(e, "tried-to-place tube: "..fmt(pos))
+		minetest.log(e, "existing tube: "..fmt(existing))
+		return
+	end
+
 	tp_tube_db[hash] = {x=pos.x,y=pos.y,z=pos.z,channel=channel,cr=can_receive}
 	save_tube_db()
 end
@@ -120,9 +138,9 @@ local function update_meta(meta, can_receive)
 	meta:set_int("can_receive", can_receive and 1 or 0)
 	local cr_state = can_receive and "on" or "off"
 	meta:set_string("formspec","size[8.6,2.2]"..
-			"field[0.6,0.6;7,1;channel;"..S("Channel")..":;${channel}]"..
+			"field[0.6,0.6;7,1;channel;Channel:;${channel}]"..
 			"label[7.3,0;Receive]"..
-			"image_button[7.3,0.3;1,1;pipeworks_button_" .. cr_state .. ".png;cr" .. (can_receive and 0 or 1) .. ";;;false;pipeworks_button_interm.png]"..
+			"image_button[7.3,0.3;1,0.6;pipeworks_button_" .. cr_state .. ".png;cr" .. (can_receive and 0 or 1) .. ";;;false;pipeworks_button_interm.png]"..
 			"image[0.3,1.3;1,1;pipeworks_teleport_tube_inv.png]"..
 			"label[1.6,1.2;"..S("channels are public by default").."]" ..
 			"label[1.6,1.5;"..S("use <player>:<channel> for fully private channels").."]" ..

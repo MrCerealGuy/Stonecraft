@@ -16,6 +16,11 @@ local REGISTER_COMPATIBILITY = true
 local pipes_empty_nodenames = {}
 local pipes_full_nodenames = {}
 
+local new_flow_logic_register = pipeworks.flowables.register
+
+local polys = ""
+if pipeworks.enable_lowpoly then polys = "_lowpoly" end
+
 local vti = {4, 3, 2, 1, 6, 5}
 local cconnects = {{}, {1}, {1, 2}, {1, 3}, {1, 3, 5}, {1, 2, 3}, {1, 2, 3, 5}, {1, 2, 3, 4}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5, 6}}
 for index, connects in ipairs(cconnects) do
@@ -42,12 +47,10 @@ for index, connects in ipairs(cconnects) do
 	
 	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1}
 	local pipedesc = S("Pipe segement @1... You hacker, you.", dump(connects))
-	local image = nil
 
 	if #connects == 0 then
 		pgroups = {snappy = 3, tube = 1}
 		pipedesc = S("Pipe segment")
-		image = "pipeworks_pipe_inv.png"
 	end
 	
 	local outimg_e = { "pipeworks_pipe_plain.png" }
@@ -58,10 +61,10 @@ for index, connects in ipairs(cconnects) do
 		outimg_l = { "pipeworks_pipe_3_loaded.png" }
 	end
 
-	local mesh = "pipeworks_pipe_"..index..".obj"
+	local mesh = "pipeworks_pipe_"..index..polys..".obj"
 
 	if index == 1 then
-		mesh = "pipeworks_pipe_3.obj"
+		mesh = "pipeworks_pipe_3"..polys..".obj"
 	end
 
 	minetest.register_node("pipeworks:pipe_"..index.."_empty", {
@@ -70,8 +73,6 @@ for index, connects in ipairs(cconnects) do
 		mesh = mesh,
 		tiles = outimg_e,
 		sunlight_propagates = true,
-		inventory_image = image,
-		wield_image = image,
 		paramtype = "light",
 		paramtype2 = "facedir",
 		selection_box = {
@@ -91,7 +92,8 @@ for index, connects in ipairs(cconnects) do
 		end,
 		after_dig_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
-		end
+		end,
+		on_rotate = false
 	})
 	
 	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1}
@@ -117,15 +119,21 @@ for index, connects in ipairs(cconnects) do
 		walkable = true,
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
+			minetest.set_node(pos, { name = "pipeworks:pipe_"..index.."_empty" })
 			pipeworks.scan_for_pipe_objects(pos)
 		end,
 		after_dig_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
-		end
+		end,
+		on_rotate = false
 	})
 	
-	table.insert(pipes_empty_nodenames, "pipeworks:pipe_"..index.."_empty")
-	table.insert(pipes_full_nodenames,  "pipeworks:pipe_"..index.."_loaded")
+	local emptypipe = "pipeworks:pipe_"..index.."_empty"
+	local fullpipe = "pipeworks:pipe_"..index.."_loaded"
+	table.insert(pipes_empty_nodenames, emptypipe)
+	table.insert(pipes_full_nodenames, fullpipe)
+	new_flow_logic_register.simple(emptypipe)
+	new_flow_logic_register.simple(fullpipe)
 end
 
 
@@ -137,25 +145,26 @@ if REGISTER_COMPATIBILITY then
 		drawtype = "airlike",
 		sunlight_propagates = true,
 		paramtype = "light",
-		inventory_image = "pipeworks_pipe_inv.png",
-		wield_image = "pipeworks_pipe_inv.png",
 		description = S("Pipe Segment (legacy)"),
 		groups = {not_in_creative_inventory = 1, pipe_to_update = 1},
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
 		end,
+		on_rotate = false
+
 	})
 	minetest.register_node(cloaded, {
 		drawtype = "airlike",
 		sunlight_propagates = true,
 		paramtype = "light",
-		inventory_image = "pipeworks_pipe_inv.png",
 		groups = {not_in_creative_inventory = 1, pipe_to_update = 1},
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
 		end,
+		on_rotate = false
+
 	})
 	for xm = 0, 1 do
 	for xp = 0, 1 do
@@ -186,14 +195,31 @@ if REGISTER_COMPATIBILITY then
 	})
 end
 
-table.insert(pipes_empty_nodenames,"pipeworks:valve_on_empty")
-table.insert(pipes_empty_nodenames,"pipeworks:valve_off_empty")
-table.insert(pipes_empty_nodenames,"pipeworks:entry_panel_empty")
-table.insert(pipes_empty_nodenames,"pipeworks:flow_sensor_empty")
+local valve_on = "pipeworks:valve_on_empty"
+local valve_off = "pipeworks:valve_off_empty"
+local entry_panel_empty = "pipeworks:entry_panel_empty"
+local flow_sensor_empty = "pipeworks:flow_sensor_empty"
+local sp_empty = "pipeworks:straight_pipe_empty"
+-- XXX: why aren't these in devices.lua!?
+table.insert(pipes_empty_nodenames, valve_on)
+table.insert(pipes_empty_nodenames, valve_off)
+table.insert(pipes_empty_nodenames, entry_panel_empty)
+table.insert(pipes_empty_nodenames, flow_sensor_empty)
+table.insert(pipes_empty_nodenames, sp_empty)
 
-table.insert(pipes_full_nodenames,"pipeworks:valve_on_loaded")
-table.insert(pipes_full_nodenames,"pipeworks:entry_panel_loaded")
-table.insert(pipes_full_nodenames,"pipeworks:flow_sensor_loaded")
+local valve_on_loaded = "pipeworks:valve_on_loaded"
+local entry_panel_loaded = "pipeworks:entry_panel_loaded"
+local flow_sensor_loaded = "pipeworks:flow_sensor_loaded"
+local sp_loaded = "pipeworks:straight_pipe_loaded"
+table.insert(pipes_full_nodenames, valve_on_loaded)
+table.insert(pipes_full_nodenames, entry_panel_loaded)
+table.insert(pipes_full_nodenames, flow_sensor_loaded)
+table.insert(pipes_full_nodenames, sp_loaded)
+
+pipeworks.pipes_full_nodenames = pipes_full_nodenames
+pipeworks.pipes_empty_nodenames = pipes_empty_nodenames
+
+if pipeworks.toggles.pipe_mode == "classic" then
 
 minetest.register_abm({
 	nodenames = pipes_empty_nodenames,
@@ -231,3 +257,6 @@ minetest.register_abm({
 	end
 })
 
+
+
+end

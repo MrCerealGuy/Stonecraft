@@ -113,6 +113,7 @@ local function after_recipe_change(pos, inventory)
 		minetest.get_node_timer(pos):stop()
 		autocrafterCache[minetest.hash_node_position(pos)] = nil
 		meta:set_string("infotext", "unconfigured Autocrafter")
+		inventory:set_stack("output", 1, "")
 		return
 	end
 	local recipe_changed = false
@@ -182,33 +183,35 @@ end
 local function update_meta(meta, enabled)
 	local state = enabled and "on" or "off"
 	meta:set_int("enabled", enabled and 1 or 0)
-	meta:set_string("formspec",
-			"size[8,11]"..
+	local fs = 	"size[8,12]"..
 			"list[context;recipe;0,0;3,3;]"..
 			"image[3,1;1,1;gui_hb_bg.png^[colorize:#141318:255]"..
 			"list[context;output;3,1;1,1;]"..
-			"image_button[3,2;1,1;pipeworks_button_" .. state .. ".png;" .. state .. ";;;false;pipeworks_button_interm.png]" ..
-			"list[context;src;0,3.5;8,3;]"..
+			"image_button[3,2;1,0.6;pipeworks_button_" .. state .. ".png;" .. state .. ";;;false;pipeworks_button_interm.png]" ..
+			"list[context;src;0,4.5;8,3;]"..
 			"list[context;dst;4,0;4,3;]"..
 			default.gui_bg..
 			default.gui_bg_img..
 			default.gui_slots..
-			default.get_hotbar_bg(0,7) ..
-			"list[current_player;main;0,7;8,4;]" ..
+			default.get_hotbar_bg(0,8) ..
+			"list[current_player;main;0,8;8,4;]" ..
 			"listring[current_player;main]"..
 			"listring[context;src]" ..
-			"listring[context;dst]" ..
 			"listring[current_player;main]"..
-			"listring[context;recipe]" ..
-			"listring[context;output]"
-			)
+			"listring[context;dst]" ..
+			"listring[current_player;main]"
+	if minetest.get_modpath("digilines") then
+		fs = fs.."field[1,3.5;4,1;channel;Channel;${channel}]"
+		fs = fs.."button_exit[5,3.2;2,1;save;Save]"
+	end
+	meta:set_string("formspec",fs)
 
 	-- toggling the button doesn't quite call for running a recipe change check
 	-- so instead we run a minimal version for infotext setting only
 	-- this might be more written code, but actually executes less
 	local output = meta:get_inventory():get_stack("output", 1)
 	if output:is_empty() then -- doesn't matter if paused or not
-		meta:set_string("infotext", S("unconfigured Autocrafter"))
+		meta:set_string("infotext", "unconfigured Autocrafter")
 		return false
 	end
 
@@ -293,6 +296,8 @@ minetest.register_node("pipeworks:autocrafter", {
 			if update_meta(meta, true) then
 				start_crafter(pos)
 			end
+		elseif fields.save then
+			meta:set_string("channel",fields.channel)
 		end
 	end,
 	can_dig = function(pos, player)
@@ -373,7 +378,40 @@ minetest.register_node("pipeworks:autocrafter", {
 		after_inventory_change(pos)
 		return count
 	end,
-	on_timer = run_autocrafter
+	on_timer = run_autocrafter,
+	digiline = {
+		receptor = {},
+		effector = {
+			action = function(pos,node,channel,msg)
+				local meta = minetest.get_meta(pos)
+				if channel ~= meta:get_string("channel") then return end
+				if type(msg) == "table" then
+					if #msg < 3 then return end
+					local inv = meta:get_inventory()
+					for y=0,2,1 do
+						for x=1,3,1 do
+							local slot = y*3+x
+							if minetest.registered_items[msg[y+1][x]] then
+								inv:set_stack("recipe",slot,ItemStack(msg[y+1][x]))
+							else
+								inv:set_stack("recipe",slot,ItemStack(""))
+							end
+						end
+					end
+					after_recipe_change(pos,inv)
+				elseif msg == "off" then
+					update_meta(meta, false)
+					minetest.get_node_timer(pos):stop()
+				elseif msg == "on" then
+					if update_meta(meta, true) then
+						start_crafter(pos)
+					end
+				elseif msg == "single" then
+					run_autocrafter(pos,1)
+				end
+			end,
+		},
+	},
 })
 
 minetest.register_craft( {

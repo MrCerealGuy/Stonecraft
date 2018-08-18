@@ -1,6 +1,7 @@
 local max_entity_id = 1000000000000 -- If you need more, there's a problem with your code
 
-luaentity = {}
+local luaentity = {}
+pipeworks.luaentity = luaentity
 
 luaentity.registered_entities = {}
 
@@ -23,6 +24,22 @@ end
 local function read_entities()
 	local t = read_file()
 	for _, entity in pairs(t) do
+
+		local x=entity.start_pos.x
+		local y=entity.start_pos.y
+		local z=entity.start_pos.z
+
+		x=math.max(-30912,x)
+		y=math.max(-30912,y)
+		z=math.max(-30912,z)
+		x=math.min(30927,x)
+		y=math.min(30927,y)
+		z=math.min(30927,z)
+
+		entity.start_pos.x = x                 
+		entity.start_pos.y = y
+		entity.start_pos.z = z
+
 		setmetatable(entity, luaentity.registered_entities[entity.name])
 	end
 	return t
@@ -52,32 +69,27 @@ local function get_blockpos(pos)
 end
 
 local active_blocks = {} -- These only contain active blocks near players (i.e., not forceloaded ones)
-local handle_active_blocks_step = 2
-local handle_active_blocks_timer = 0
-minetest.register_globalstep(function(dtime)
-	handle_active_blocks_timer = handle_active_blocks_timer + dtime
-	if handle_active_blocks_timer >= handle_active_blocks_step then
-		handle_active_blocks_timer = handle_active_blocks_timer - handle_active_blocks_step
-		local active_block_range = tonumber(minetest.setting_get("active_block_range")) or 2
-		local new_active_blocks = {}
-		for _, player in ipairs(minetest.get_connected_players()) do
-			local blockpos = get_blockpos(player:getpos())
-			local minp = vector.subtract(blockpos, active_block_range)
-			local maxp = vector.add(blockpos, active_block_range)
 
-			for x = minp.x, maxp.x do
-			for y = minp.y, maxp.y do
-			for z = minp.z, maxp.z do
-				local pos = {x = x, y = y, z = z}
-				new_active_blocks[minetest.hash_node_position(pos)] = pos
-			end
-			end
-			end
+local move_entities_globalstep_part1 = function(dtime)
+	local active_block_range = tonumber(minetest.settings:get("active_block_range")) or 2
+	local new_active_blocks = {}
+	for _, player in ipairs(minetest.get_connected_players()) do
+		local blockpos = get_blockpos(player:get_pos())
+		local minp = vector.subtract(blockpos, active_block_range)
+		local maxp = vector.add(blockpos, active_block_range)
+
+		for x = minp.x, maxp.x do
+		for y = minp.y, maxp.y do
+		for z = minp.z, maxp.z do
+			local pos = {x = x, y = y, z = z}
+			new_active_blocks[minetest.hash_node_position(pos)] = pos
 		end
-		active_blocks = new_active_blocks
-		-- todo: callbacks on block load/unload
+		end
+		end
 	end
-end)
+	active_blocks = new_active_blocks
+	-- todo: callbacks on block load/unload
+end
 
 local function is_active(pos)
 	return active_blocks[minetest.hash_node_position(get_blockpos(pos))] ~= nil
@@ -102,9 +114,9 @@ local entitydef_default = {
 		if not def.entity then
 			return
 		end
-		def.entity:setpos(vector.add(self._pos, def.offset))
-		def.entity:setvelocity(self._velocity)
-		def.entity:setacceleration(self._acceleration)
+		def.entity:set_pos(vector.add(self._pos, def.offset))
+		def.entity:set_velocity(self._velocity)
+		def.entity:set_acceleration(self._acceleration)
 	end,
 	_attach_all = function(self)
 		local master = self._attached_entities_master
@@ -174,43 +186,43 @@ local entitydef_default = {
 			self:_add_attached(id)
 		end
 	end,
-	getid = function(self)
+	get_id = function(self)
 		return self._id
 	end,
-	getpos = function(self)
+	get_pos = function(self)
 		return vector.new(self._pos)
 	end,
-	setpos = function(self, pos)
+	set_pos = function(self, pos)
 		self._pos = vector.new(pos)
 		--for _, entity in pairs(self._attached_entities) do
 		--	if entity.entity then
-		--		entity.entity:setpos(vector.add(self._pos, entity.offset))
+		--		entity.entity:set_pos(vector.add(self._pos, entity.offset))
 		--	end
 		--end
 		local master = self._attached_entities_master
 		if master then
 			local master_def = self._attached_entities[master]
-			master_def.entity:setpos(vector.add(self._pos, master_def.offset))
+			master_def.entity:set_pos(vector.add(self._pos, master_def.offset))
 		end
 	end,
-	getvelocity = function(self)
+	get_velocity = function(self)
 		return vector.new(self._velocity)	
 	end,
-	setvelocity = function(self, velocity)
+	set_velocity = function(self, velocity)
 		self._velocity = vector.new(velocity)
 		local master = self._attached_entities_master
 		if master then
-			self._attached_entities[master].entity:setvelocity(self._velocity)
+			self._attached_entities[master].entity:set_velocity(self._velocity)
 		end
 	end,
-	getacceleration = function(self)
+	get_acceleration = function(self)
 		return vector.new(self._acceleration)
 	end,
-	setacceleration = function(self, acceleration)
+	set_acceleration = function(self, acceleration)
 		self._acceleration = vector.new(acceleration)
 		local master = self._attached_entities_master
 		if master then
-			self._attached_entities[master].entity:setacceleration(self._acceleration)
+			self._attached_entities[master].entity:set_acceleration(self._acceleration)
 		end
 	end,
 	remove = function(self)
@@ -302,14 +314,14 @@ function luaentity.get_objects_inside_radius(pos, radius)
 	local objects = {}
 	local index = 1
 	for id, entity in pairs(luaentity.entities) do
-		if vector.distance(pos, entity:getpos()) <= radius then
+		if vector.distance(pos, entity:get_pos()) <= radius then
 			objects[index] = entity
 			index = index + 1
 		end
 	end
 end
 
-minetest.register_globalstep(function(dtime)
+local move_entities_globalstep_part2 = function(dtime)
 	if not luaentity.entities then
 		luaentity.entities = read_entities()
 	end
@@ -317,11 +329,11 @@ minetest.register_globalstep(function(dtime)
 		local master = entity._attached_entities_master
 		local master_def = master and entity._attached_entities[master]
 		local master_entity = master_def and master_def.entity
-		local master_entity_pos = master_entity and master_entity:getpos()
+		local master_entity_pos = master_entity and master_entity:get_pos()
 		if master_entity_pos then
 			entity._pos = vector.subtract(master_entity_pos, master_def.offset)
-			entity._velocity = master_entity:getvelocity()
-			entity._acceleration = master_entity:getacceleration()
+			entity._velocity = master_entity:get_velocity()
+			entity._acceleration = master_entity:get_acceleration()
 		else
 			entity._pos = vector.add(vector.add(
 				entity._pos,
@@ -347,5 +359,16 @@ minetest.register_globalstep(function(dtime)
 				entity:on_step(dtime)
 			end
 		end
+	end
+end
+
+local handle_active_blocks_timer = 0.1
+
+minetest.register_globalstep(function(dtime)
+	handle_active_blocks_timer = handle_active_blocks_timer + dtime
+	if dtime < 0.2 or handle_active_blocks_timer >= (dtime * 3) then
+		handle_active_blocks_timer = 0.1
+		move_entities_globalstep_part1(dtime)
+		move_entities_globalstep_part2(dtime)
 	end
 end)

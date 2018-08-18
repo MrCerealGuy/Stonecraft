@@ -1,0 +1,77 @@
+#Enable pipes.
+pipeworks_enable_pipes (Enable Pipes) bool true
+
+#Enable autocrafter.
+pipeworks_enable_autocrafter (Enable Autocrafter) bool true
+
+#Enable deployer.
+pipeworks_enable_deployer (Enable Deployer) bool true
+
+#Enable dispenser.
+pipeworks_enable_dispenser (Enable Dispenser) bool true
+
+#Enable node breaker.
+pipeworks_enable_node_breaker (Enable Node Breaker) bool true
+
+#Enable teleport tube.
+pipeworks_enable_teleport_tube (Enable Teleport Tube) bool true
+
+#Enable pipe devices.
+pipeworks_enable_pipe_devices (Enable Pipe Devices) bool true
+
+#Enable redefines.
+pipeworks_enable_redefines (Enable Node Redefines) bool true
+
+#Enable sorting tube.
+pipeworks_enable_mese_tube (Enable Sorting Tube) bool true
+
+#Enable detector tube.
+pipeworks_enable_detector_tube (Enable Detector Tube) bool true
+
+#Enable digiline detector tube.
+pipeworks_enable_digiline_detector_tube (Enable Digiline Detector Tube) bool true
+
+#Enable mesecon signal conducting tube.
+pipeworks_enable_conductor_tube (Enable Conductor Tube) bool true
+
+#Enable digiline signal conducting tube.
+pipeworks_enable_digiline_conductor_tube (Enable Digiline Conductor Tube) bool true
+
+#Enable accelerator tube.
+pipeworks_enable_accelerator_tube (Enable Accelerator Tube) bool true
+
+#Enable crossing tube.
+#It sends all incoming items to the other side, or if there is no other tube, it sends them back.
+pipeworks_enable_crossing_tube (Enable Crossing Tube) bool true
+
+#Enable vacuum tube.
+#It picks up all items that lay around next to it.
+pipeworks_enable_sand_tube (Enable Vacuum Tube) bool true
+
+#Enable mese vacuum tube.
+#It's like the normal vacuum tube with the
+#differance that you can set the radius up to 8 nodes.
+pipeworks_enable_mese_sand_tube (Enable Mese Vacuum Tube) bool true
+
+#Enable one way tube.
+#It sends items only in one direction.
+#Use it to drop items out of tubes.
+pipeworks_enable_one_way_tube (Enable One Way Tube) bool true
+
+#Enable high priority tube.
+#It has a very high priority and so, on crossings, the items will
+#always go to it if there are multible ways.
+pipeworks_enable_priority_tube (Enable High Priority Tube) bool true
+
+#Enable lua controlled tube.
+#It is comparable with mesecons luacontroller.
+pipeworks_enable_lua_tube (Enable Lua controlled Tube) bool true
+
+#Enable cyclic mode.
+pipeworks_enable_cyclic_mode (Enable Cyclic Mode) bool true
+
+#Drop on routing fail.
+pipeworks_drop_on_routing_fail (Drop On Routing Fail) bool false
+
+#Delete item on clearobject.
+pipeworks_delete_item_on_clearobject (Delete Item On Clearobject) bool true

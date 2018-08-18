@@ -1,0 +1,33 @@
+-- (may not be possible) stop removing water nodes that were not placed by outputs when off
+In non-finite mode, spigots and fountainheads will vanish water sources in their output positions, even if those output nodes did not place them there.
+This is annoying though not game-breaking in non-finite mode, where water sources can at least be easily replenished.
+Fixing this would require some kind of metadata marker on water nodes placed by spigots and fountains, such that only water sources placed while the device is "on" are removed when it is "off".
+It is debateable whether existing water sources should be marked for removal when the device turns on again.
+
+-- Make spigots and fountainheads deactivate by placing a flowing water node
+Currently, in non-finite mode, the spigots and fountainheads react to pressure dropping below threshold by deleting the water source they placed.
+VanessaE would like this changed so that these nodes replace the water source with a flowing water source, such that it drains away at the same rate as surrounding water.
+This should be a simple case of modifying the cleanup handler that is installed for these nodes by the helper that they use, to place flowing water instead of air in the situations where it would normally do so.
+
+--  Decorative grating functionality
+The decorative grating block currently is just that - purely decorative, it serves no purpose.
+VanessaE would like this to function as an output with the following properties:
+* While on, tries to randomly place a water source in an adjacent node every ABM interval, preferring to place it downwards first.
+* Even with multiple water source nodes placed, only drains 1 unit pressure per ABM interval in non-finite mode. Finite mode will cause it to drain 1 unit per water source node placed and simply stop placing sources when below threshold pressure, like spigots and fountainheads already do.
+* When turning off in non-finite mode, for all neighbour nodes, replace the water sources with flowing water as discussed above, but *only* if those neighbouring sources do not have any water source neighbours of their own in turn - this will prevent the block from creating a "hole" in a uniform pool of water sources.
+
+
+
+-- Support for other fluids in pipes (Feature request/wish list)
+Various sources from IRC and github issues have indicated that the ability to carry amounts of substance other than water through pipes would see uses appear for it if it were implemented (there does not appear to be anything trying to do so right now).
+Extending the pressure mechanism to handle new fluids would be simple enough, it would just have to deal with more variables.
+However, this feature raises the question of how to handle mixtures of fluids in pipes.
+
+Two possible solutions appear evident:
++ Don't mix at all. For each flowable registered, either a variant would be created for each supported liquid, or each node would declare which fluid it carries explicitly. Flowable nodes for different fluids would not interact with each other at all.
+
++ Equalise "pressure" of multiple fluid variables in a similar manner to how the single water pressure value is currently balanced out, however this raises the issue of how to deal with mixtures - for instance, how is a spigot to function with a mixed liquid? does it simply refuse to function if it doesn't know how to deal with a certain mixture (as it can only output whole nodes)? likewise for certain mixtures in pipes, should it be allowed for lava and water for instance to mix like they don't interact at all?
+
+This mechanism also hints at a weakness of the pressure logic mechanism as it currently stands - namely that liquids are handled like gases and assumed to be compressible.
+
+
