@@ -20,14 +20,17 @@ local GET_COMMAND = "GET"
 -- The radius can be specified in mesecons/settings.lua
 
 local function object_detector_make_formspec(pos)
-	minetest.get_meta(pos):set_string("formspec", "size[9,2.5]" ..
+	local meta = minetest.get_meta(pos)
+	meta:set_string("formspec", "size[9,2.5]" ..
 		"field[0.3,  0;9,2;scanname;"..S("Name of player to scan for (empty for any)")..":;${scanname}]"..
 		"field[0.3,1.5;4,2;digiline_channel;"..S("Digiline Channel (optional)")..":;${digiline_channel}]"..
 		"button_exit[7,0.75;2,3;;Save]")
 end
 
-local function object_detector_on_receive_fields(pos, _, fields)
+local function object_detector_on_receive_fields(pos, formname, fields, sender)
 	if not fields.scanname or not fields.digiline_channel then return end
+
+	if minetest.is_protected(pos, sender:get_player_name()) then return end
 
 	local meta = minetest.get_meta(pos)
 	meta:set_string("scanname", fields.scanname)
@@ -43,14 +46,17 @@ local function object_detector_scan(pos)
 	if next(objs) == nil then return false end
 
 	local scanname = minetest.get_meta(pos):get_string("scanname")
+	local scan_for = {}
+	for _, str in pairs(string.split(scanname:gsub(" ", ""), ",")) do
+		scan_for[str] = true
+	end
+
 	local every_player = scanname == ""
 	for _, obj in pairs(objs) do
 		-- "" is returned if it is not a player; "" ~= nil; so only handle objects with foundname ~= ""
 		local foundname = obj:get_player_name()
-
 		if foundname ~= "" then
-			-- return true if scanning for any player or if specific playername was detected
-			if scanname == "" or foundname == scanname then
+			if every_player or scan_for[foundname] then
 				return true
 			end
 		end
@@ -75,6 +81,7 @@ local object_detector_digiline = {
 minetest.register_node("mesecons_detector:object_detector_off", {
 	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png", "jeija_object_detector_off.png"},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = true,
 	groups = {cracky=3},
 	description=S("Player Detector"),
@@ -85,12 +92,14 @@ minetest.register_node("mesecons_detector:object_detector_off", {
 	on_construct = object_detector_make_formspec,
 	on_receive_fields = object_detector_on_receive_fields,
 	sounds = default.node_sound_stone_defaults(),
-	digiline = object_detector_digiline
+	digiline = object_detector_digiline,
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_node("mesecons_detector:object_detector_on", {
 	tiles = {"default_steel_block.png", "default_steel_block.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png", "jeija_object_detector_on.png"},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = true,
 	groups = {cracky=3,not_in_creative_inventory=1},
 	drop = 'mesecons_detector:object_detector_off',
@@ -101,7 +110,8 @@ minetest.register_node("mesecons_detector:object_detector_on", {
 	on_construct = object_detector_make_formspec,
 	on_receive_fields = object_detector_on_receive_fields,
 	sounds = default.node_sound_stone_defaults(),
-	digiline = object_detector_digiline
+	digiline = object_detector_digiline,
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({
@@ -109,6 +119,15 @@ minetest.register_craft({
 	recipe = {
 		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
 		{"default:steel_ingot", "mesecons_luacontroller:luacontroller0000", "default:steel_ingot"},
+		{"default:steel_ingot", "group:mesecon_conductor_craftable", "default:steel_ingot"},
+	}
+})
+
+minetest.register_craft({
+	output = 'mesecons_detector:object_detector_off',
+	recipe = {
+		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+		{"default:steel_ingot", "mesecons_microcontroller:microcontroller0000", "default:steel_ingot"},
 		{"default:steel_ingot", "group:mesecon_conductor_craftable", "default:steel_ingot"},
 	}
 })
@@ -143,17 +162,23 @@ minetest.register_abm({
 -- Detects the node in front of it
 
 local function node_detector_make_formspec(pos)
-	minetest.get_meta(pos):set_string("formspec", "size[9,2.5]" ..
+	local meta = minetest.get_meta(pos)
+	if meta:get_string("distance") == ""  then meta:set_string("distance", "0") end
+	meta:set_string("formspec", "size[9,2.5]" ..
 		"field[0.3,  0;9,2;scanname;Name of node to scan for (empty for any):;${scanname}]"..
-		"field[0.3,1.5;4,2;digiline_channel;Digiline Channel (optional):;${digiline_channel}]"..
+		"field[0.3,1.5;2.5,2;distance;Distance (0-"..mesecon.setting("node_detector_distance_max", 10).."):;${distance}]"..
+		"field[3,1.5;4,2;digiline_channel;Digiline Channel (optional):;${digiline_channel}]"..
 		"button_exit[7,0.75;2,3;;Save]")
 end
 
-local function node_detector_on_receive_fields(pos, _, fields)
+local function node_detector_on_receive_fields(pos, fieldname, fields, sender)
 	if not fields.scanname or not fields.digiline_channel then return end
+
+	if minetest.is_protected(pos, sender:get_player_name()) then return end
 
 	local meta = minetest.get_meta(pos)
 	meta:set_string("scanname", fields.scanname)
+	meta:set_string("distance", fields.distance or "0")
 	meta:set_string("digiline_channel", fields.digiline_channel)
 	node_detector_make_formspec(pos)
 end
@@ -163,10 +188,17 @@ local function node_detector_scan(pos)
 	local node = minetest.get_node_or_nil(pos)
 	if not node then return end
 
+	local meta = minetest.get_meta(pos)
+
+	local distance = meta:get_int("distance")
+	local distance_max = mesecon.setting("node_detector_distance_max", 10)
+	if distance < 0 then distance = 0 end
+	if distance > distance_max then distance = distance_max end
+
 	local frontname = minetest.get_node(
-		vector.subtract(pos, minetest.facedir_to_dir(node.param2))
+		vector.subtract(pos, vector.multiply(minetest.facedir_to_dir(node.param2), distance + 1))
 	).name
-	local scanname = minetest.get_meta(pos):get_string("scanname")
+	local scanname = meta:get_string("scanname")
 
 	return (frontname == scanname) or
 		(frontname ~= "air" and frontname ~= "ignore" and scanname == "")
@@ -177,11 +209,17 @@ local node_detector_digiline = {
 	effector = {
 		action = function(pos, node, channel, msg)
 			local meta = minetest.get_meta(pos)
+
+			local distance = meta:get_int("distance")
+			local distance_max = mesecon.setting("node_detector_distance_max", 10)
+			if distance < 0 then distance = 0 end
+			if distance > distance_max then distance = distance_max end
+
 			if channel ~= meta:get_string("digiline_channel") then return end
 
 			if msg == GET_COMMAND then
 				local nodename = minetest.get_node(
-					vector.subtract(pos, minetest.facedir_to_dir(node.param2))
+					vector.subtract(pos, vector.multiply(minetest.facedir_to_dir(node.param2), distance + 1))
 				).name
 
 				digiline:receptor_send(pos, digiline.rules.default, channel, nodename)

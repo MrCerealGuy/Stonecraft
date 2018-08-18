@@ -19,5 +19,5 @@ msgstr ""
 
 
 #: init.lua
-msgid "Mesecons Logic Gate: "
-msgstr "Mesecons logisches Gatter: "
+msgid "Logic Gate: "
+msgstr "Logisches Gatter: "

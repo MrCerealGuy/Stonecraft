@@ -155,7 +155,7 @@ nid_inc = function (nid)
 	return i <= 8
 end
 
-register_wires = function()
+local function register_wires()
 	local nid = {}
 	while true do
 		-- Create group specifiction and nodeid string (see note above for details)
@@ -223,12 +223,15 @@ register_wires = function()
 			wield_image = "mesecons_wire_inv.png",
 			paramtype = "light",
 			paramtype2 = "facedir",
+			is_ground_content = false,
 			sunlight_propagates = true,
 			selection_box = selectionbox,
 			node_box = nodebox,
 			walkable = false,
 			drop = "mesecons:wire_00000000_off",
-			mesecon_wire = true
+			mesecon_wire = true,
+			sounds = default.node_sound_defaults(),
+			on_rotate = false,
 		}, {tiles = tiles_off, mesecons = meseconspec_off, groups = groups_off},
 		{tiles = tiles_on, mesecons = meseconspec_on, groups = groups_on})
 

@@ -18,5 +18,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "All-sides sticky block"
-msgstr "Allseits klebriger Block"
+msgid "Sticky Block"
+msgstr "Klebriger Block"

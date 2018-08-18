@@ -16,6 +16,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 minetest.register_node("mesecons_noteblock:noteblock", {
 	description = S("Noteblock"),
 	tiles = {"mesecons_noteblock.png"},
+	is_ground_content = false,
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},
 	on_punch = function(pos, node) -- change sound when punched
 		node.param2 = (node.param2+1)%12
@@ -27,7 +28,8 @@ minetest.register_node("mesecons_noteblock:noteblock", {
 		action_on = function(pos, node)
 			mesecon.noteblock_play(pos, node.param2)
 		end
-	}}
+	}},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({

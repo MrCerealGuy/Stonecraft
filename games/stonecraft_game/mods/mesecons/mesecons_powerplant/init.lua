@@ -22,9 +22,10 @@ minetest.register_node("mesecons_powerplant:power_plant", {
 	tiles = {"jeija_power_plant.png"},
 	inventory_image = "jeija_power_plant.png",
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = false,
 	groups = {dig_immediate=3, mesecon = 2},
-	light_source = default.LIGHT_MAX-9,
+	light_source = minetest.LIGHT_MAX-9,
     	description=S("Power Plant"),
 	selection_box = {
 		type = "fixed",
@@ -33,7 +34,8 @@ minetest.register_node("mesecons_powerplant:power_plant", {
 	sounds = default.node_sound_leaves_defaults(),
 	mesecons = {receptor = {
 		state = mesecon.state.on
-	}}
+	}},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({

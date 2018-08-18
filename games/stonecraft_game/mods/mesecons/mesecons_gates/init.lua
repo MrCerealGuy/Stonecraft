@@ -70,10 +70,10 @@ local function update_gate(pos, node, link, newstate)
 	end
 end
 
-function register_gate(name, inputnumber, assess, recipe)
+local function register_gate(name, inputnumber, assess, recipe, description)
 	local get_inputrules = inputnumber == 2 and gate_get_input_rules_twoinputs or
 		gate_get_input_rules_oneinput
-	local description = S("Mesecons Logic Gate: ")..name
+	description = S("Logic Gate: ")..name
 
 	local basename = "mesecons_gates:"..name
 	mesecon.register_node(basename, {
@@ -81,6 +81,7 @@ function register_gate(name, inputnumber, assess, recipe)
 		inventory_image = "jeija_gate_off.png^jeija_gate_"..name..".png",
 		paramtype = "light",
 		paramtype2 = "facedir",
+		is_ground_content = false,
 		drawtype = "nodebox",
 		drop = basename.."_off",
 		selection_box = nodebox,
@@ -90,7 +91,8 @@ function register_gate(name, inputnumber, assess, recipe)
 		assess = assess,
 		onstate = basename.."_on",
 		offstate = basename.."_off",
-		inputnumber = inputnumber
+		inputnumber = inputnumber,
+		after_dig_node = mesecon.do_cooldown,
 	},{
 		tiles = {"jeija_microcontroller_bottom.png^".."jeija_gate_off.png^"..
 			"jeija_gate_"..name..".png"},
@@ -119,32 +121,39 @@ function register_gate(name, inputnumber, assess, recipe)
 end
 
 register_gate("diode", 1, function (input) return input end,
-	{{"mesecons:mesecon", "mesecons_torch:mesecon_torch_on", "mesecons_torch:mesecon_torch_on"}})
+	{{"mesecons:mesecon", "mesecons_torch:mesecon_torch_on", "mesecons_torch:mesecon_torch_on"}},
+	"Diode")
 
 register_gate("not", 1, function (input) return not input end,
-	{{"mesecons:mesecon", "mesecons_torch:mesecon_torch_on", "mesecons:mesecon"}})
+	{{"mesecons:mesecon", "mesecons_torch:mesecon_torch_on", "mesecons:mesecon"}},
+	"NOT Gate")
 
 register_gate("and", 2, function (val1, val2) return val1 and val2 end,
 	{{"mesecons:mesecon", "", ""},
 	 {"", "mesecons_materials:silicon", "mesecons:mesecon"},
-	 {"mesecons:mesecon", "", ""}})
+	 {"mesecons:mesecon", "", ""}},
+	"AND Gate")
 
 register_gate("nand", 2, function (val1, val2) return not (val1 and val2) end,
 	{{"mesecons:mesecon", "", ""},
 	 {"", "mesecons_materials:silicon", "mesecons_torch:mesecon_torch_on"},
-	 {"mesecons:mesecon", "", ""}})
+	 {"mesecons:mesecon", "", ""}},
+	"NAND Gate")
 
 register_gate("xor", 2, function (val1, val2) return (val1 or val2) and not (val1 and val2) end,
 	{{"mesecons:mesecon", "", ""},
 	 {"", "mesecons_materials:silicon", "mesecons_materials:silicon"},
-	 {"mesecons:mesecon", "", ""}})
+	 {"mesecons:mesecon", "", ""}},
+	"XOR Gate")
 
 register_gate("nor", 2, function (val1, val2) return not (val1 or val2) end,
 	{{"mesecons:mesecon", "", ""},
 	 {"", "mesecons:mesecon", "mesecons_torch:mesecon_torch_on"},
-	 {"mesecons:mesecon", "", ""}})
+	 {"mesecons:mesecon", "", ""}},
+	"NOR Gate")
 
 register_gate("or", 2, function (val1, val2) return (val1 or val2) end,
 	{{"mesecons:mesecon", "", ""},
 	 {"", "mesecons:mesecon", "mesecons:mesecon"},
-	 {"mesecons:mesecon", "", ""}})
+	 {"mesecons:mesecon", "", ""}},
+	"OR Gate")

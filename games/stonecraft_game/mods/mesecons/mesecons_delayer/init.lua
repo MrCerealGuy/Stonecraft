@@ -64,7 +64,8 @@ elseif	i == 2 then delaytime = 0.3
 elseif	i == 3 then delaytime = 0.5
 elseif	i == 4 then delaytime = 1.0 end
 
-boxes = {{ -6/16, -8/16, -6/16, 6/16, -7/16, 6/16 },		-- the main slab
+local boxes = {
+	 { -6/16, -8/16, -6/16, 6/16, -7/16, 6/16 },		-- the main slab
 
 	 { -2/16, -7/16, -4/16, 2/16, -26/64, -3/16 },		-- the jeweled "on" indicator
 	 { -3/16, -7/16, -3/16, 3/16, -26/64, -2/16 },
@@ -74,7 +75,8 @@ boxes = {{ -6/16, -8/16, -6/16, 6/16, -7/16, 6/16 },		-- the main slab
 
 	 { -6/16, -7/16, -6/16, -4/16, -27/64, -4/16 },		-- the timer indicator
 	 { -8/16, -8/16, -1/16, -6/16, -7/16, 1/16 },		-- the two wire stubs
-	 { 6/16, -8/16, -1/16, 8/16, -7/16, 1/16 }}
+	 { 6/16, -8/16, -1/16, 8/16, -7/16, 1/16 }
+}
 
 minetest.register_node("mesecons_delayer:delayer_off_"..tostring(i), {
 	description = S("Delayer"),
@@ -102,7 +104,7 @@ minetest.register_node("mesecons_delayer:delayer_off_"..tostring(i), {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
-	is_ground_content = true,
+	is_ground_content = false,
 	drop = 'mesecons_delayer:delayer_off_1',
 	on_punch = function (pos, node)
 		if node.name=="mesecons_delayer:delayer_off_1" then
@@ -129,7 +131,8 @@ minetest.register_node("mesecons_delayer:delayer_off_"..tostring(i), {
 			rules = delayer_get_input_rules,
 			action_on = delayer_activate
 		}
-	}
+	},
+	on_blast = mesecon.on_blastnode,
 })
 
 
@@ -157,7 +160,7 @@ minetest.register_node("mesecons_delayer:delayer_on_"..tostring(i), {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
-	is_ground_content = true,
+	is_ground_content = false,
 	drop = 'mesecons_delayer:delayer_off_1',
 	on_punch = function (pos, node)
 		if node.name=="mesecons_delayer:delayer_on_1" then
@@ -172,6 +175,7 @@ minetest.register_node("mesecons_delayer:delayer_on_"..tostring(i), {
 	end,
 	delayer_time = delaytime,
 	delayer_offstate = "mesecons_delayer:delayer_off_"..tostring(i),
+	sounds = default.node_sound_stone_defaults(),
 	mesecons = {
 		receptor =
 		{
@@ -183,7 +187,8 @@ minetest.register_node("mesecons_delayer:delayer_on_"..tostring(i), {
 			rules = delayer_get_input_rules,
 			action_off = delayer_deactivate
 		}
-	}
+	},
+	on_blast = mesecon.on_blastnode,
 })
 end
 

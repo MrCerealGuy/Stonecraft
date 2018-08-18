@@ -23,6 +23,7 @@ mesecon.register_node("mesecons_walllever:wall_lever", {
 	wield_image = "jeija_wall_lever_inv.png",
 	paramtype = "light",
 	paramtype2 = "facedir",
+	is_ground_content = false,
 	sunlight_propagates = true,
 	walkable = false,
 	selection_box = {
@@ -46,6 +47,7 @@ mesecon.register_node("mesecons_walllever:wall_lever", {
 		"jeija_wall_lever_back_edges.png"
 	},
 	mesh="jeija_wall_lever_off.obj",
+	on_rotate = mesecon.buttonlike_onrotate,
 	mesecons = {receptor = {
 		rules = mesecon.rules.buttonlike_get,
 		state = mesecon.state.off
@@ -59,6 +61,7 @@ mesecon.register_node("mesecons_walllever:wall_lever", {
 		"jeija_wall_lever_back_edges.png"
 	},
 	mesh="jeija_wall_lever_on.obj",
+	on_rotate = false,
 	mesecons = {receptor = {
 		rules = mesecon.rules.buttonlike_get,
 		state = mesecon.state.on

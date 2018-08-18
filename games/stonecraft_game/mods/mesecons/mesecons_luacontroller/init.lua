@@ -12,9 +12,11 @@
 -- ports = get_real_port_states(pos): gets if inputs are powered from outside
 -- newport = merge_port_states(state1, state2): just does result = state1 or state2 for every port
 -- set_port(pos, rule, state): activates/deactivates the mesecons according to the port states
--- set_port_states(pos, ports): Applies new port states to a LuaController at pos
--- run(pos): runs the code in the controller at pos
--- reset_meta(pos, code, errmsg): performs a software-reset, installs new code and prints error messages
+-- set_port_states(pos, ports): Applies new port states to a Luacontroller at pos
+-- run_inner(pos, code, event): runs code on the controller at pos and event
+-- reset_formspec(pos, code, errmsg): installs new code and prints error messages, without resetting LCID
+-- reset_meta(pos, code, errmsg): performs a software-reset, installs new code and prints error message
+-- run(pos, event): a wrapper for run_inner which gets code & handles errors via reset_meta
 -- resetn(pos): performs a hardware reset, turns off all ports
 --
 -- The Sandbox
@@ -156,7 +158,7 @@ local function set_port_states(pos, ports)
 		-- Solution / Workaround:
 		-- Remember which output was turned off and ignore next "off" event.
 		local meta = minetest.get_meta(pos)
-		local ign = minetest.deserialize(meta:get_string("ignore_offevents")) or {}
+		local ign = minetest.deserialize(meta:get_string("ignore_offevents"), true) or {}
 		if ports.a and not vports.a and not mesecon.is_powered(pos, rules.a) then ign.A = true end
 		if ports.b and not vports.b and not mesecon.is_powered(pos, rules.b) then ign.B = true end
 		if ports.c and not vports.c and not mesecon.is_powered(pos, rules.c) then ign.C = true end
@@ -198,7 +200,7 @@ end
 
 local function ignore_event(event, meta)
 	if event.type ~= "off" then return false end
-	local ignore_offevents = minetest.deserialize(meta:get_string("ignore_offevents")) or {}
+	local ignore_offevents = minetest.deserialize(meta:get_string("ignore_offevents"), true) or {}
 	if ignore_offevents[event.pin.name] then
 		ignore_offevents[event.pin.name] = nil
 		meta:set_string("ignore_offevents", minetest.serialize(ignore_offevents))
@@ -211,7 +213,11 @@ end
 -------------------------
 
 local function safe_print(param)
+	local string_meta = getmetatable("")
+	local sandbox = string_meta.__index
+	string_meta.__index = string -- Leave string sandbox temporarily
 	print(dump(param))
+	string_meta.__index = sandbox -- Restore string sandbox
 end
 
 local function safe_date()
@@ -234,7 +240,7 @@ end
 local function safe_string_find(...)
 	if (select(4, ...)) ~= true then
 		debug.sethook() -- Clear hook
-		error("string.find: 'plain' (fourth parameter) must always be true in a LuaController")
+		error("string.find: 'plain' (fourth parameter) must always be true in a Luacontroller")
 	end
 
 	return string.find(...)
@@ -247,10 +253,11 @@ local function remove_functions(x)
 	end
 
 	-- Make sure to not serialize the same table multiple times, otherwise
-	-- writing mem.test = mem in the LuaController will lead to infinite recursion
+	-- writing mem.test = mem in the Luacontroller will lead to infinite recursion
 	local seen = {}
 
 	local function rfuncs(x)
+		if x == nil then return end
 		if seen[x] then return end
 		seen[x] = true
 		if type(x) ~= "table" then return end
@@ -274,50 +281,180 @@ local function remove_functions(x)
 	return x
 end
 
-local function get_interrupt(pos)
+-- itbl: Flat table of functions to run after sandbox cleanup, used to prevent various security hazards
+local function get_interrupt(pos, itbl, send_warning)
 	-- iid = interrupt id
 	local function interrupt(time, iid)
+		-- NOTE: This runs within string metatable sandbox, so don't *rely* on anything of the form (""):y
+		-- Hence the values get moved out. Should take less time than original, so totally compatible
 		if type(time) ~= "number" then return end
-		local luac_id = minetest.get_meta(pos):get_int("luac_id")
-		mesecon.queue:add_action(pos, "lc_interrupt", {luac_id, iid}, time, iid, 1)
+		table.insert(itbl, function ()
+			-- Outside string metatable sandbox, can safely run this now
+			local luac_id = minetest.get_meta(pos):get_int("luac_id")
+			-- Check if IID is dodgy, so you can't use interrupts to store an infinite amount of data.
+			-- Note that this is safe from alter-after-free because this code gets run after the sandbox has ended.
+			-- This runs outside of the timer and *shouldn't* harm perf. unless dodgy data is being sent in the first place
+			iid = remove_functions(iid)
+			local msg_ser = minetest.serialize(iid)
+			if #msg_ser <= mesecon.setting("luacontroller_interruptid_maxlen", 256) then
+				mesecon.queue:add_action(pos, "lc_interrupt", {luac_id, iid}, time, iid, 1)
+			else
+				send_warning("An interrupt ID was too large!")
+			end
+		end)
 	end
 	return interrupt
 end
 
 
-local function get_digiline_send(pos)
-	if not digiline then return end
+-- Given a message object passed to digiline_send, clean it up into a form
+-- which is safe to transmit over the network and compute its "cost" (a very
+-- rough estimate of its memory usage).
+--
+-- The cleaning comprises the following:
+-- 1. Functions (and userdata, though user scripts ought not to get hold of
+--    those in the first place) are removed, because they break the model of
+--    Digilines as a network that carries basic data, and they could exfiltrate
+--    references to mutable objects from one Luacontroller to another, allowing
+--    inappropriate high-bandwidth, no-wires communication.
+-- 2. Tables are duplicated because, being mutable, they could otherwise be
+--    modified after the send is complete in order to change what data arrives
+--    at the recipient, perhaps in violation of the previous cleaning rule or
+--    in violation of the message size limit.
+--
+-- The cost indication is only approximate; it’s not a perfect measurement of
+-- the number of bytes of memory used by the message object.
+--
+-- Parameters:
+-- msg -- the message to clean
+-- back_references -- for internal use only; do not provide
+--
+-- Returns:
+-- 1. The cleaned object.
+-- 2. The approximate cost of the object.
+local function clean_and_weigh_digiline_message(msg, back_references)
+	local t = type(msg)
+	if t == "string" then
+		-- Strings are immutable so can be passed by reference, and cost their
+		-- length plus the size of the Lua object header (24 bytes on a 64-bit
+		-- platform) plus one byte for the NUL terminator.
+		return msg, #msg + 25
+	elseif t == "number" then
+		-- Numbers are passed by value so need not be touched, and cost 8 bytes
+		-- as all numbers in Lua are doubles.
+		return msg, 8
+	elseif t == "boolean" then
+		-- Booleans are passed by value so need not be touched, and cost 1
+		-- byte.
+		return msg, 1
+	elseif t == "table" then
+		-- Tables are duplicated. Check if this table has been seen before
+		-- (self-referential or shared table); if so, reuse the cleaned value
+		-- of the previous occurrence, maintaining table topology and avoiding
+		-- infinite recursion, and charge zero bytes for this as the object has
+		-- already been counted.
+		back_references = back_references or {}
+		local bref = back_references[msg]
+		if bref then
+			return bref, 0
+		end
+		-- Construct a new table by cleaning all the keys and values and adding
+		-- up their costs, plus 8 bytes as a rough estimate of table overhead.
+		local cost = 8
+		local ret = {}
+		back_references[msg] = ret
+		for k, v in pairs(msg) do
+			local k_cost, v_cost
+			k, k_cost = clean_and_weigh_digiline_message(k, back_references)
+			v, v_cost = clean_and_weigh_digiline_message(v, back_references)
+			if k ~= nil and v ~= nil then
+				-- Only include an element if its key and value are of legal
+				-- types.
+				ret[k] = v
+			end
+			-- If we only counted the cost of a table element when we actually
+			-- used it, we would be vulnerable to the following attack:
+			-- 1. Construct a huge table (too large to pass the cost limit).
+			-- 2. Insert it somewhere in a table, with a function as a key.
+			-- 3. Insert it somewhere in another table, with a number as a key.
+			-- 4. The first occurrence doesn’t pay the cost because functions
+			--    are stripped and therefore the element is dropped.
+			-- 5. The second occurrence doesn’t pay the cost because it’s in
+			--    back_references.
+			-- By counting the costs regardless of whether the objects will be
+			-- included, we avoid this attack; it may overestimate the cost of
+			-- some messages, but only those that won’t be delivered intact
+			-- anyway because they contain illegal object types.
+			cost = cost + k_cost + v_cost
+		end
+		return ret, cost
+	else
+		return nil, 0
+	end
+end
+
+
+-- itbl: Flat table of functions to run after sandbox cleanup, used to prevent various security hazards
+local function get_digiline_send(pos, itbl, send_warning)
+	if not minetest.global_exists("digilines") then return end
+	local chan_maxlen = mesecon.setting("luacontroller_digiline_channel_maxlen", 256)
+	local maxlen = mesecon.setting("luacontroller_digiline_maxlen", 50000)
 	return function(channel, msg)
-		minetest.after(0, function()
-			digiline:receptor_send(pos, digiline.rules.default, channel, msg)
+		-- NOTE: This runs within string metatable sandbox, so don't *rely* on anything of the form (""):y
+		--        or via anything that could.
+		-- Make sure channel is string, number or boolean
+		if type(channel) == "string" then
+			if #channel > chan_maxlen then
+				send_warning("Channel string too long.")
+				return false
+			end
+		elseif (type(channel) ~= "string" and type(channel) ~= "number" and type(channel) ~= "boolean") then
+			send_warning("Channel must be string, number or boolean.")
+			return false
+		end
+
+		local msg_cost
+		msg, msg_cost = clean_and_weigh_digiline_message(msg)
+		if msg == nil or msg_cost > maxlen then
+			send_warning("Message was too complex, or contained invalid data.")
+			return false
+		end
+
+		table.insert(itbl, function ()
+			-- Runs outside of string metatable sandbox
+			local luac_id = minetest.get_meta(pos):get_int("luac_id")
+			mesecon.queue:add_action(pos, "lc_digiline_relay", {channel, luac_id, msg})
 		end)
+		return true
 	end
 end
 
 
 local safe_globals = {
+	-- Don't add pcall/xpcall unless willing to deal with the consequences (unless very careful, incredibly likely to allow killing server indirectly)
 	"assert", "error", "ipairs", "next", "pairs", "select",
 	"tonumber", "tostring", "type", "unpack", "_VERSION"
 }
-local function create_environment(pos, mem, event)
+
+local function create_environment(pos, mem, event, itbl, send_warning)
 	-- Gather variables for the environment
 	local vports = minetest.registered_nodes[minetest.get_node(pos).name].virtual_portstates
 	local vports_copy = {}
 	for k, v in pairs(vports) do vports_copy[k] = v end
 	local rports = get_real_port_states(pos)
 
-	-- Create new library tables on each call to prevent one LuaController
-	-- from breaking a library and messing up other LuaControllers.
+	-- Create new library tables on each call to prevent one Luacontroller
+	-- from breaking a library and messing up other Luacontrollers.
 	local env = {
 		pin = merge_port_states(vports, rports),
 		port = vports_copy,
 		event = event,
 		mem = mem,
-		heat = minetest.get_meta(pos):get_int("heat"),
+		heat = mesecon.get_heat(pos),
 		heat_max = mesecon.setting("overheat_max", 20),
 		print = safe_print,
-		interrupt = get_interrupt(pos),
-		digiline_send = get_digiline_send(pos),
+		interrupt = get_interrupt(pos, itbl, send_warning),
+		digiline_send = get_digiline_send(pos, itbl, send_warning),
 		string = {
 			byte = string.byte,
 			char = string.char,
@@ -405,10 +542,11 @@ local function create_sandbox(code, env)
 		jit.off(f, true)
 	end
 
+	local maxevents = mesecon.setting("luacontroller_maxevents", 10000)
 	return function(...)
+		-- NOTE: This runs within string metatable sandbox, so the setting's been moved out for safety
 		-- Use instruction counter to stop execution
 		-- after luacontroller_maxevents
-		local maxevents = mesecon.setting("luacontroller_maxevents", 10000)
 		debug.sethook(timeout, "", maxevents)
 		local ok, ret = pcall(f, ...)
 		debug.sethook()  -- Clear hook
@@ -419,7 +557,7 @@ end
 
 
 local function load_memory(meta)
-	return minetest.deserialize(meta:get_string("lc_memory")) or {}
+	return minetest.deserialize(meta:get_string("lc_memory"), true) or {}
 end
 
 
@@ -436,26 +574,42 @@ local function save_memory(pos, meta, mem)
 	end
 end
 
-
-local function run(pos, event)
+-- Returns success (boolean), errmsg (string)
+-- run (as opposed to run_inner) is responsible for setting up meta according to this output
+local function run_inner(pos, code, event)
 	local meta = minetest.get_meta(pos)
-	if overheat(pos) then return end
-	if ignore_event(event, meta) then return end
+	-- Note: These return success, presumably to avoid changing LC ID.
+	if overheat(pos) then return true, "" end
+	if ignore_event(event, meta) then return true, "" end
 
 	-- Load code & mem from meta
 	local mem  = load_memory(meta)
 	local code = meta:get_string("code")
 
+	-- 'Last warning' label.
+	local warning = ""
+	local function send_warning(str)
+		warning = "Warning: " .. str
+	end
+
 	-- Create environment
-	local env = create_environment(pos, mem, event)
+	local itbl = {}
+	local env = create_environment(pos, mem, event, itbl, send_warning)
 
 	-- Create the sandbox and execute code
 	local f, msg = create_sandbox(code, env)
-	if not f then return msg end
+	if not f then return false, msg end
+	-- Start string true sandboxing
+	local onetruestring = getmetatable("")
+	-- If a string sandbox is already up yet inconsistent, something is very wrong
+	assert(onetruestring.__index == string)
+	onetruestring.__index = env.string
 	local success, msg = pcall(f)
-	if not success then return msg end
+	onetruestring.__index = string
+	-- End string true sandboxing
+	if not success then return false, msg end
 	if type(env.port) ~= "table" then
-		return "Ports set are invalid."
+		return false, "Ports set are invalid."
 	end
 
 	-- Actually set the ports
@@ -463,7 +617,55 @@ local function run(pos, event)
 
 	-- Save memory. This may burn the luacontroller if a memory overflow occurs.
 	save_memory(pos, meta, env.mem)
+
+	-- Execute deferred tasks
+	for _, v in ipairs(itbl) do
+		local failure = v()
+		if failure then
+			return false, failure
+		end
+	end
+	return true, warning
 end
+
+local function reset_formspec(meta, code, errmsg)
+	meta:set_string("code", code)
+	code = minetest.formspec_escape(code or "")
+	errmsg = minetest.formspec_escape(tostring(errmsg or ""))
+	meta:set_string("formspec", "size[12,10]"..
+		"background[-0.2,-0.25;12.4,10.75;jeija_luac_background.png]"..
+		"textarea[0.2,0.2;12.2,9.5;code;;"..code.."]"..
+		"image_button[4.75,8.75;2.5,1;jeija_luac_runbutton.png;program;]"..
+		"image_button_exit[11.72,-0.25;0.425,0.4;jeija_close_window.png;exit;]"..
+		"label[0.1,9;"..errmsg.."]")
+end
+
+local function reset_meta(pos, code, errmsg)
+	local meta = minetest.get_meta(pos)
+	reset_formspec(meta, code, errmsg)
+	meta:set_int("luac_id", math.random(1, 65535))
+end
+
+-- Wraps run_inner with LC-reset-on-error
+local function run(pos, event)
+	local meta = minetest.get_meta(pos)
+	local code = meta:get_string("code")
+	local ok, errmsg = run_inner(pos, code, event)
+	if not ok then
+		reset_meta(pos, code, errmsg)
+	else
+		reset_formspec(meta, code, errmsg)
+	end
+	return ok, errmsg
+end
+
+local function reset(pos)
+	set_port_states(pos, {a=false, b=false, c=false, d=false})
+end
+
+-----------------------
+-- A.Queue callbacks --
+-----------------------
 
 mesecon.queue:add_function("lc_interrupt", function (pos, luac_id, iid)
 	-- There is no luacontroller anymore / it has been reprogrammed / replaced / burnt
@@ -472,25 +674,14 @@ mesecon.queue:add_function("lc_interrupt", function (pos, luac_id, iid)
 	run(pos, {type="interrupt", iid = iid})
 end)
 
-local function reset_meta(pos, code, errmsg)
-	local meta = minetest.get_meta(pos)
-	meta:set_string("code", code)
-	code = minetest.formspec_escape(code or "")
-	errmsg = minetest.formspec_escape(errmsg or "")
-	meta:set_string("formspec", "size[10,8]"..
-		"background[-0.2,-0.25;10.4,8.75;jeija_luac_background.png]"..
-		"textarea[0.2,0.6;10.2,5;code;;"..code.."]"..
-		"image_button[3.75,6;2.5,1;jeija_luac_runbutton.png;program;]"..
-		"image_button_exit[9.72,-0.25;0.425,0.4;jeija_close_window.png;exit;]"..
-		"label[0.1,5;"..errmsg.."]")
-	meta:set_int("heat", 0)
-	meta:set_int("luac_id", math.random(1, 65535))
-end
-
-local function reset(pos)
-	set_port_states(pos, {a=false, b=false, c=false, d=false})
-end
-
+mesecon.queue:add_function("lc_digiline_relay", function (pos, channel, luac_id, msg)
+	if not digiline then return end
+	-- This check is only really necessary because in case of server crash, old actions can be thrown into the future
+	if (minetest.get_meta(pos):get_int("luac_id") ~= luac_id) then return end
+	if (minetest.registered_nodes[minetest.get_node(pos).name].is_burnt) then return end
+	-- The actual work
+	digiline:receptor_send(pos, digiline.rules.default, channel, msg)
+end)
 
 -----------------------
 -- Node Registration --
@@ -517,10 +708,23 @@ local digiline = {
 	receptor = {},
 	effector = {
 		action = function(pos, node, channel, msg)
+			msg = clean_and_weigh_digiline_message(msg)
 			run(pos, {type = "digiline", channel = channel, msg = msg})
 		end
 	}
 }
+
+local function get_program(pos)
+	local meta = minetest.get_meta(pos)
+	return meta:get_string("code")
+end
+
+local function set_program(pos, code)
+	reset(pos)
+	reset_meta(pos, code)
+	return run(pos, {type="program"})
+end
+
 local function on_receive_fields(pos, form_name, fields, sender)
 	if not fields.program then
 		return
@@ -530,12 +734,10 @@ local function on_receive_fields(pos, form_name, fields, sender)
 		minetest.record_protection_violation(pos, name)
 		return
 	end
-	reset(pos)
-	reset_meta(pos, fields.code)
-	local err = run(pos, {type="program"})
-	if err then
-		print(err)
-		reset_meta(pos, fields.code, err)
+	local ok, err = set_program(pos, fields.code)
+	if not ok then
+		-- it's not an error from the server perspective
+		minetest.log("action", "Lua controller programming error: " .. tostring(err))
 	end
 end
 
@@ -589,11 +791,15 @@ for d = 0, 1 do
 		receptor = {
 			state = mesecon.state.on,
 			rules = output_rules[cid]
-		}
+		},
+		luacontroller = {
+			get_program = get_program,
+			set_program = set_program,
+		},
 	}
 
 	minetest.register_node(node_name, {
-		description = S("LuaController"),
+		description = S("Luacontroller"),
 		drawtype = "nodebox",
 		tiles = {
 			top,
@@ -605,6 +811,7 @@ for d = 0, 1 do
 		},
 		inventory_image = top,
 		paramtype = "light",
+		is_ground_content = false,
 		groups = groups,
 		drop = BASENAME.."0000",
 		sunlight_propagates = true,
@@ -624,9 +831,11 @@ for d = 0, 1 do
 			d = d == 1,
 		},
 		after_dig_node = function (pos, node)
+			mesecon.do_cooldown(pos)
 			mesecon.receptor_off(pos, output_rules)
 		end,
 		is_luacontroller = true,
+		on_blast = mesecon.on_blastnode,
 	})
 end
 end
@@ -634,7 +843,7 @@ end
 end
 
 ------------------------------
--- Overheated LuaController --
+-- Overheated Luacontroller --
 ------------------------------
 
 minetest.register_node(BASENAME .. "_burnt", {
@@ -650,6 +859,7 @@ minetest.register_node(BASENAME .. "_burnt", {
 	inventory_image = "jeija_luacontroller_burnt_top.png",
 	is_burnt = true,
 	paramtype = "light",
+	is_ground_content = false,
 	groups = {dig_immediate=2, not_in_creative_inventory=1},
 	drop = BASENAME.."0000",
 	sunlight_propagates = true,
@@ -667,6 +877,7 @@ minetest.register_node(BASENAME .. "_burnt", {
 			end,
 		},
 	},
+	on_blast = mesecon.on_blastnode,
 })
 
 ------------------------

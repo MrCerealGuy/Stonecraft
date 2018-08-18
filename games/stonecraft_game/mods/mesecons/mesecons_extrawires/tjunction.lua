@@ -9,6 +9,8 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+local screwdriver_exists = minetest.global_exists("screwdriver")
+
 local tjunction_nodebox = {
 	type = "fixed",
 	fixed = {{ -16/32-0.001, -17/32, -3/32, 16/32+0.001, -13/32, 3/32 },
@@ -45,23 +47,27 @@ minetest.register_node("mesecons_extrawires:tjunction_on", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	is_ground_content = false,
 	walkable = false,
 	sunlight_propagates = true,
 	selection_box = tjunction_selectionbox,
 	node_box = tjunction_nodebox,
 	groups = {dig_immediate = 3, not_in_creative_inventory = 1},
 	drop = "mesecons_extrawires:tjunction_off",
+	sounds = default.node_sound_defaults(),
 	mesecons = {conductor =
 	{
 		state = mesecon.state.on,
 		rules = tjunction_get_rules,
 		offstate = "mesecons_extrawires:tjunction_off"
-	}}
+	}},
+	on_blast = mesecon.on_blastnode,
+	on_rotate = screwdriver_exists and screwdriver.rotate_simple,
 })
 
 minetest.register_node("mesecons_extrawires:tjunction_off", {
 	drawtype = "nodebox",
-	description = S("T-junction"),
+	description = S("Insulated Mesecon T-junction"),
 	tiles = {
 		"jeija_insulated_wire_tjunction_tb_off.png",
 		"jeija_insulated_wire_tjunction_tb_off.png^[transformR180",
@@ -72,17 +78,21 @@ minetest.register_node("mesecons_extrawires:tjunction_off", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	is_ground_content = false,
 	walkable = false,
 	sunlight_propagates = true,
 	selection_box = tjunction_selectionbox,
 	node_box = tjunction_nodebox,
 	groups = {dig_immediate = 3},
+	sounds = default.node_sound_defaults(),
 	mesecons = {conductor =
 	{
 		state = mesecon.state.off,
 		rules = tjunction_get_rules,
 		onstate = "mesecons_extrawires:tjunction_on"
-	}}
+	}},
+	on_blast = mesecon.on_blastnode,
+	on_rotate = screwdriver_exists and screwdriver.rotate_simple,
 })
 
 minetest.register_craft({

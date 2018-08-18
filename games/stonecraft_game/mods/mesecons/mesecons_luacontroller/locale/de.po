@@ -18,5 +18,5 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "LuaController"
-msgstr "LuaController"
+msgid "Luacontroller"
+msgstr "Luacontroller"

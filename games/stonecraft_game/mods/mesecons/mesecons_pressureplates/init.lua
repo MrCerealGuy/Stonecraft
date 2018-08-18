@@ -23,7 +23,7 @@ local pp_box_on = {
 	fixed = { -7/16, -8/16, -7/16, 7/16, -7.5/16, 7/16 },
 }
 
-pp_on_timer = function (pos, elapsed)
+local function pp_on_timer(pos, elapsed)
 	local node = minetest.get_node(pos)
 	local basename = minetest.registered_nodes[node.name].pressureplate_basename
 
@@ -57,30 +57,42 @@ end
 -- tiles_on:	textures of the pressure plate when active
 -- image:	inventory and wield image of the pressure plate
 -- recipe:	crafting recipe of the pressure plate
+-- groups:	groups
+-- sounds:	sound table
 
-function mesecon.register_pressure_plate(basename, description, textures_off, textures_on, image_w, image_i, recipe)
+function mesecon.register_pressure_plate(basename, description, textures_off, textures_on, image_w, image_i, recipe, groups, sounds)
+	local groups_off, groups_on
+	if not groups then
+		groups = {}
+	end
+	local groups_off = table.copy(groups)
+	local groups_on = table.copy(groups)
+	groups_on.not_in_creative_inventory = 1
+
 	mesecon.register_node(basename, {
 		drawtype = "nodebox",
 		inventory_image = image_i,
 		wield_image = image_w,
 		paramtype = "light",
-	    	description = description,
+		is_ground_content = false,
+		description = description,
 		pressureplate_basename = basename,
 		on_timer = pp_on_timer,
 		on_construct = function(pos)
 			minetest.get_node_timer(pos):start(mesecon.setting("pplate_interval", 0.1))
 		end,
+		sounds = sounds,
 	},{
 		mesecons = {receptor = { state = mesecon.state.off, rules = mesecon.rules.pplate }},
 		node_box = pp_box_off,
 		selection_box = pp_box_off,
-		groups = {snappy = 2, oddly_breakable_by_hand = 3},
+		groups = groups_off,
 		tiles = textures_off
 	},{
 		mesecons = {receptor = { state = mesecon.state.on, rules = mesecon.rules.pplate }},
 		node_box = pp_box_on,
 		selection_box = pp_box_on,
-		groups = {snappy = 2, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
+		groups = groups_on,
 		tiles = textures_on
 	})
 
@@ -97,7 +109,9 @@ mesecon.register_pressure_plate(
 	{"jeija_pressure_plate_wood_on.png","jeija_pressure_plate_wood_on.png","jeija_pressure_plate_wood_on_edges.png"},
 	"jeija_pressure_plate_wood_wield.png",
 	"jeija_pressure_plate_wood_inv.png",
-	{{"group:wood", "group:wood"}})
+	{{"group:wood", "group:wood"}},
+	{ choppy = 3, oddly_breakable_by_hand = 3 },
+	default.node_sound_wood_defaults())
 
 mesecon.register_pressure_plate(
 	"mesecons_pressureplates:pressure_plate_stone",
@@ -106,4 +120,6 @@ mesecon.register_pressure_plate(
 	{"jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on.png","jeija_pressure_plate_stone_on_edges.png"},
 	"jeija_pressure_plate_stone_wield.png",
 	"jeija_pressure_plate_stone_inv.png",
-	{{"default:cobble", "default:cobble"}})
+	{{"default:cobble", "default:cobble"}},
+	{ cracky = 3, oddly_breakable_by_hand = 3 },
+	default.node_sound_stone_defaults())

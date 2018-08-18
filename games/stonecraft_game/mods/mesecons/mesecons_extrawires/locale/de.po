@@ -18,21 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: corner.lua
-msgid "Mesecon Corner"
-msgstr "Mesecon Ecke"
+msgid "Insulated Mesecon Corner"
+msgstr "Isolierte Mesecon Ecke"
 
 #: crossover.lua
-msgid "Insulated Crossover"
-msgstr "Isolierter Übergang"
+msgid "Insulated Mesecon Crossover"
+msgstr "Isolierter Mesecon Übergang"
 
 #: crossover.lua
 msgid "You hacker you!"
 msgstr "Du Hacker du!"
 
 #: tjunction.lua
-msgid "T-junction"
-msgstr "T-Kreuzung"
+msgid "Insulated Mesecon T-junction"
+msgstr "Isolierte Mesecon T-Kreuzung"
 
 #: vertical.lua
-msgid "Vertical mesecon"
+msgid "Vertical Mesecon"
 msgstr "Vertikales Mesecon"

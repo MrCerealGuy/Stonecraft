@@ -19,12 +19,13 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 mesecon.button_turnoff = function (pos)
 	local node = minetest.get_node(pos)
-	if node.name=="mesecons_button:button_on" then --has not been dug
-		minetest.swap_node(pos, {name = "mesecons_button:button_off", param2=node.param2})
-		minetest.sound_play("mesecons_button_pop", {pos=pos})
-		local rules = mesecon.rules.buttonlike_get(node)
-		mesecon.receptor_off(pos, rules)
+	if node.name ~= "mesecons_button:button_on" then -- has been dug
+		return
 	end
+	minetest.swap_node(pos, {name = "mesecons_button:button_off", param2 = node.param2})
+	minetest.sound_play("mesecons_button_pop", {pos = pos})
+	local rules = mesecon.rules.buttonlike_get(node)
+	mesecon.receptor_off(pos, rules)
 end
 
 minetest.register_node("mesecons_button:button_off", {
@@ -39,8 +40,10 @@ minetest.register_node("mesecons_button:button_off", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	is_ground_content = false,
 	legacy_wallmounted = true,
 	walkable = false,
+	on_rotate = mesecon.buttonlike_onrotate,
 	sunlight_propagates = true,
 	selection_box = {
 	type = "fixed",
@@ -59,13 +62,14 @@ minetest.register_node("mesecons_button:button_off", {
 		minetest.swap_node(pos, {name = "mesecons_button:button_on", param2=node.param2})
 		mesecon.receptor_on(pos, mesecon.rules.buttonlike_get(node))
 		minetest.sound_play("mesecons_button_push", {pos=pos})
-		minetest.after(1, mesecon.button_turnoff, pos)
+		minetest.get_node_timer(pos):start(1)
 	end,
 	sounds = default.node_sound_stone_defaults(),
 	mesecons = {receptor = {
 		state = mesecon.state.off,
 		rules = mesecon.rules.buttonlike_get
-	}}
+	}},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_node("mesecons_button:button_on", {
@@ -80,9 +84,11 @@ minetest.register_node("mesecons_button:button_on", {
 		},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	is_ground_content = false,
 	legacy_wallmounted = true,
 	walkable = false,
-	light_source = default.LIGHT_MAX-7,
+	on_rotate = false,
+	light_source = minetest.LIGHT_MAX-7,
 	sunlight_propagates = true,
 	selection_box = {
 		type = "fixed",
@@ -102,7 +108,9 @@ minetest.register_node("mesecons_button:button_on", {
 	mesecons = {receptor = {
 		state = mesecon.state.on,
 		rules = mesecon.rules.buttonlike_get
-	}}
+	}},
+	on_timer = mesecon.button_turnoff,
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({

@@ -9,7 +9,7 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-function crossover_get_rules(node)
+local function crossover_get_rules(node)
 	return {
 		{--first wire
 			{x=-1,y=0,z=0},
@@ -30,143 +30,110 @@ local crossover_states = {
 }
 
 minetest.register_node("mesecons_extrawires:crossover_off", {
-	description = S("Insulated Crossover"),
-	drawtype = "nodebox",
+	description = S("Insulated Mesecon Crossover"),
+	drawtype = "mesh",
+	mesh = "mesecons_extrawires_crossover.b3d",
 	tiles = {
-		"jeija_insulated_wire_crossing_tb_off.png",
-		"jeija_insulated_wire_crossing_tb_off.png",
+		"jeija_insulated_wire_ends_off.png",
+		"jeija_insulated_wire_sides_off.png",
+		"jeija_insulated_wire_sides_off.png",
 		"jeija_insulated_wire_ends_off.png"
 	},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = false,
 	stack_max = 99,
 	selection_box = {type="fixed", fixed={-16/32-0.0001, -18/32, -16/32-0.001, 16/32+0.001, -5/32, 16/32+0.001}},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -16/32-0.001, -17/32, -3/32, 16/32+0.001, -13/32, 3/32 },
-			{ -3/32, -17/32, -16/32-0.001, 3/32, -13/32, -6/32 },
-			{ -3/32, -13/32, -9/32, 3/32, -6/32, -6/32 },
-			{ -3/32, -9/32, -9/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -13/32, 6/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -17/32, 6/32, 3/32, -13/32, 16/32+0.001 },
-		},
-	},
 	groups = {dig_immediate=3, mesecon=3},
+	sounds = default.node_sound_defaults(),
 	mesecons = {
 		conductor = {
 			states = crossover_states,
 			rules = crossover_get_rules(),
 		}
 	},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_node("mesecons_extrawires:crossover_01", {
 	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
-	drawtype = "nodebox",
+	drawtype = "mesh",
+	mesh = "mesecons_extrawires_crossover.b3d",
 	tiles = {
-		"jeija_insulated_wire_crossing_tb_01.png",
-		"jeija_insulated_wire_crossing_tb_01.png",
-		"jeija_insulated_wire_ends_01x.png",
-		"jeija_insulated_wire_ends_01x.png",
-		"jeija_insulated_wire_ends_01z.png",
-		"jeija_insulated_wire_ends_01z.png"
+		"jeija_insulated_wire_ends_on.png",
+		"jeija_insulated_wire_sides_on.png",
+		"jeija_insulated_wire_sides_off.png",
+		"jeija_insulated_wire_ends_off.png"
 	},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = false,
 	stack_max = 99,
 	selection_box = {type="fixed", fixed={-16/32-0.0001, -18/32, -16/32-0.001, 16/32+0.001, -5/32, 16/32+0.001}},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -16/32-0.001, -17/32, -3/32, 16/32+0.001, -13/32, 3/32 },
-			{ -3/32, -17/32, -16/32-0.001, 3/32, -13/32, -6/32 },
-			{ -3/32, -13/32, -9/32, 3/32, -6/32, -6/32 },
-			{ -3/32, -9/32, -9/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -13/32, 6/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -17/32, 6/32, 3/32, -13/32, 16/32+0.001 },
-		},
-	},
 	groups = {dig_immediate=3, mesecon=3, not_in_creative_inventory=1},
+	sounds = default.node_sound_defaults(),
 	mesecons = {
 		conductor = {
 			states = crossover_states,
 			rules = crossover_get_rules(),
 		}
 	},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_node("mesecons_extrawires:crossover_10", {
 	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
-	drawtype = "nodebox",
+	drawtype = "mesh",
+	mesh = "mesecons_extrawires_crossover.b3d",
 	tiles = {
-		"jeija_insulated_wire_crossing_tb_10.png",
-		"jeija_insulated_wire_crossing_tb_10.png",
-		"jeija_insulated_wire_ends_10x.png",
-		"jeija_insulated_wire_ends_10x.png",
-		"jeija_insulated_wire_ends_10z.png",
-		"jeija_insulated_wire_ends_10z.png"
+		"jeija_insulated_wire_ends_off.png",
+		"jeija_insulated_wire_sides_off.png",
+		"jeija_insulated_wire_sides_on.png",
+		"jeija_insulated_wire_ends_on.png"
 	},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = false,
 	stack_max = 99,
 	selection_box = {type="fixed", fixed={-16/32-0.0001, -18/32, -16/32-0.001, 16/32+0.001, -5/32, 16/32+0.001}},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -16/32-0.001, -17/32, -3/32, 16/32+0.001, -13/32, 3/32 },
-			{ -3/32, -17/32, -16/32-0.001, 3/32, -13/32, -6/32 },
-			{ -3/32, -13/32, -9/32, 3/32, -6/32, -6/32 },
-			{ -3/32, -9/32, -9/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -13/32, 6/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -17/32, 6/32, 3/32, -13/32, 16/32+0.001 },
-		},
-	},
 	groups = {dig_immediate=3, mesecon=3, not_in_creative_inventory=1},
+	sounds = default.node_sound_defaults(),
 	mesecons = {
 		conductor = {
 			states = crossover_states,
 			rules = crossover_get_rules(),
 		}
 	},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_node("mesecons_extrawires:crossover_on", {
 	description = S("You hacker you!"),
 	drop = "mesecons_extrawires:crossover_off",
-	drawtype = "nodebox",
+	drawtype = "mesh",
+	mesh = "mesecons_extrawires_crossover.b3d",
 	tiles = {
-		"jeija_insulated_wire_crossing_tb_on.png",
-		"jeija_insulated_wire_crossing_tb_on.png",
 		"jeija_insulated_wire_ends_on.png",
-		"jeija_insulated_wire_ends_on.png",
-		"jeija_insulated_wire_ends_on.png",
+		"jeija_insulated_wire_sides_on.png",
+		"jeija_insulated_wire_sides_on.png",
 		"jeija_insulated_wire_ends_on.png"
 	},
 	paramtype = "light",
+	is_ground_content = false,
 	walkable = false,
 	stack_max = 99,
 	selection_box = {type="fixed", fixed={-16/32-0.0001, -18/32, -16/32-0.001, 16/32+0.001, -5/32, 16/32+0.001}},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -16/32-0.001, -17/32, -3/32, 16/32+0.001, -13/32, 3/32 },
-			{ -3/32, -17/32, -16/32-0.001, 3/32, -13/32, -6/32 },
-			{ -3/32, -13/32, -9/32, 3/32, -6/32, -6/32 },
-			{ -3/32, -9/32, -9/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -13/32, 6/32, 3/32, -6/32, 9/32 },
-			{ -3/32, -17/32, 6/32, 3/32, -13/32, 16/32+0.001 },
-		},
-	},
 	groups = {dig_immediate=3, mesecon=3, not_in_creative_inventory=1},
+	sounds = default.node_sound_defaults(),
 	mesecons = {
 		conductor = {
 			states = crossover_states,
 			rules = crossover_get_rules(),
 		}
 	},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({

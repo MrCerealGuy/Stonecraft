@@ -276,8 +276,6 @@ function mesecon.vm_abort()
 end
 
 -- Gets the cache entry covering a position, populating it if necessary.
-
-
 local function vm_get_or_create_entry(pos)
 	local hash = hash_blockpos(pos)
 	local tbl = vm_cache[hash]

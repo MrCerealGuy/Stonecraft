@@ -22,7 +22,7 @@ minetest.register_node("mesecons_solarpanel:solar_panel_on", {
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	walkable = false,
-	is_ground_content = true,
+	is_ground_content = false,
 	node_box = {
 		type = "wallmounted",
 		wall_bottom = { -7/16, -8/16, -7/16,  7/16, -7/16, 7/16 },
@@ -39,8 +39,10 @@ minetest.register_node("mesecons_solarpanel:solar_panel_on", {
 	groups = {dig_immediate=3, not_in_creative_inventory = 1},
 	sounds = default.node_sound_glass_defaults(),
 	mesecons = {receptor = {
-		state = mesecon.state.on
-	}}
+		state = mesecon.state.on,
+		rules = mesecon.rules.wallmounted_get,
+	}},
+	on_blast = mesecon.on_blastnode,
 })
 
 -- Solar Panel
@@ -52,7 +54,7 @@ minetest.register_node("mesecons_solarpanel:solar_panel_off", {
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	walkable = false,
-	is_ground_content = true,
+	is_ground_content = false,
 	node_box = {
 		type = "wallmounted",
 		wall_bottom = { -7/16, -8/16, -7/16,  7/16, -7/16, 7/16 },
@@ -69,8 +71,10 @@ minetest.register_node("mesecons_solarpanel:solar_panel_off", {
     	description=S("Solar Panel"),
 	sounds = default.node_sound_glass_defaults(),
 	mesecons = {receptor = {
-		state = mesecon.state.off
-	}}
+		state = mesecon.state.off,
+		rules = mesecon.rules.wallmounted_get,
+	}},
+	on_blast = mesecon.on_blastnode,
 })
 
 minetest.register_craft({
@@ -89,8 +93,9 @@ minetest.register_abm(
 		local light = minetest.get_node_light(pos, nil)
 
 		if light >= 12 then
-			minetest.set_node(pos, {name="mesecons_solarpanel:solar_panel_on", param2=node.param2})
-			mesecon.receptor_on(pos)
+			node.name = "mesecons_solarpanel:solar_panel_on"
+			minetest.swap_node(pos, node)
+			mesecon.receptor_on(pos, mesecon.rules.wallmounted_get(node))
 		end
 	end,
 })
@@ -103,8 +108,9 @@ minetest.register_abm(
 		local light = minetest.get_node_light(pos, nil)
 
 		if light < 12 then
-			minetest.set_node(pos, {name="mesecons_solarpanel:solar_panel_off", param2=node.param2})
-			mesecon.receptor_off(pos)
+			node.name = "mesecons_solarpanel:solar_panel_off"
+			minetest.swap_node(pos, node)
+			mesecon.receptor_off(pos, mesecon.rules.wallmounted_get(node))
 		end
 	end,
 })
