@@ -5,7 +5,8 @@
 
 --]]
 
-if core.skip_mod("mesecons") then return end
+-- pipeworks needs mesecon_mvps mod
+if core.skip_mod("mesecons") and core.skip_mod("pipeworks") then return end
 
 --register stoppers for movestones/pistons
 

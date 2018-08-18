@@ -46,7 +46,8 @@
 
 --]]
 
-if core.skip_mod("mesecons") then return end
+-- pipeworks needs mesecon mod
+if core.skip_mod("mesecons") and core.skip_mod("pipeworks") then return end
 
 -- PUBLIC VARIABLES
 mesecon={} -- contains all functions and all global variables
