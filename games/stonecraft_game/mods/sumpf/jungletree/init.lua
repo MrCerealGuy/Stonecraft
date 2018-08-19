@@ -169,6 +169,7 @@ end
 local function big_jungletree(manip, pos, height, area, nodes, pr)
 	local h_root = pr:next(0,1)-1
 	local vi = area:index(pos.x, pos.y-2, pos.z)
+	for _ = -2, h_root do
 		manip:set_data_from_heap(nodes, vi + area.zstride + 1, c_jungletree)
 		manip:set_data_from_heap(nodes, vi - area.zstride + 2, c_jungletree)
 		manip:set_data_from_heap(nodes, vi - 2 * area.zstride, c_jungletree)
