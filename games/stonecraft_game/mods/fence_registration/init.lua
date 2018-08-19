@@ -43,8 +43,11 @@ function minetest.register_fence(fencedata, extradef)
 	if origdef.description then
 		def.description = S("@1 fence", origdef.description)
 	end
-	local texture = "default_fence_overlay.png^"..
-		(fencedata.texture or def.tiles[1])..
+	local node_texture_side = fencedata.texture or def.tiles[2] or def.tiles[1]
+	if type(node_texture_side) ~= "string" then
+		node_texture_side = node_texture_side.name
+	end
+	local texture = "default_fence_overlay.png^" .. node_texture_side ..
 		"^default_fence_overlay.png^[makealpha:255,126,126"
 	def.inventory_image = texture
 	def.wield_image = texture
