@@ -1,3 +1,12 @@
+--[[
+
+2018-08-18 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("mesecons") then return end
+
 local plg = {}
 plg.rules = {}
 
