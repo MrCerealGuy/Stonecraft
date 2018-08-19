@@ -2,6 +2,34 @@
 local S = mobs.intllib
 
 
+-- custom particle effects
+local effect = function(pos, amount, texture, min_size, max_size, radius, gravity, glow)
+
+	radius = radius or 2
+	min_size = min_size or 0.5
+	max_size = max_size or 1
+	gravity = gravity or -10
+	glow = glow or 0
+
+	minetest.add_particlespawner({
+		amount = amount,
+		time = 0.25,
+		minpos = pos,
+		maxpos = pos,
+		minvel = {x = -radius, y = -radius, z = -radius},
+		maxvel = {x = radius, y = radius, z = radius},
+		minacc = {x = 0, y = gravity, z = 0},
+		maxacc = {x = -20, y = gravity, z = 15},
+		minexptime = 0.1,
+		maxexptime = 1,
+		minsize = min_size,
+		maxsize = max_size,
+		texture = texture,
+		glow = glow,
+	})
+end
+
+
 -- Sand Monster by PilzAdam
 
 mobs:register_mob("mobs_monster:sand_monster", {
@@ -21,6 +49,7 @@ mobs:register_mob("mobs_monster:sand_monster", {
 	textures = {
 		{"mobs_sand_monster.png"},
 	},
+	blood_texture = "default_desert_sand.png",
 	makes_footstep_sound = true,
 	sounds = {
 		random = "mobs_sandmonster",
@@ -51,10 +80,16 @@ mobs:register_mob("mobs_monster:sand_monster", {
 	},
 --[[
 	custom_attack = function(self, p)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		minetest.add_item(pos, "default:sand")
 	end,
 ]]
+	on_die = function(self, pos)
+		pos.y = pos.y + 0.5
+		effect(pos, 30, "mobs_sand_particles.png", 0.1, 2, 3, 5)
+		pos.y = pos.y + 0.25
+		effect(pos, 30, "mobs_sand_particles.png", 0.1, 2, 3, 5)
+	end,
 })
 
 

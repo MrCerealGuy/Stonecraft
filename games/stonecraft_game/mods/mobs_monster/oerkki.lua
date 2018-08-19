@@ -30,7 +30,8 @@ mobs:register_mob("mobs_monster:oerkki", {
 	view_range = 10,
 	jump = true,
 	drops = {
-		{name = "default:obsidian", chance = 3, min = 1, max = 2},
+		{name = "default:obsidian", chance = 3, min = 0, max = 2},
+		{name = "default:gold_lump", chance = 2, min = 0, max = 2},
 	},
 	water_damage = 2,
 	lava_damage = 4,

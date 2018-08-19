@@ -25,9 +25,9 @@ Sand Monster
 
 - The hot deserts are home to these guys who spawn at any time of the day to attack players. They drop 3-5 desert sand when killed.
 
-Spider
+Spiders
 
-- Found in dark holes inside desertstone (crystal biomes in ethereal), spiders wait for prey to amble past and strike. They are mostly docile during the day though unless hit. Will drop string when killed.
+- Snowy spiders are found on higher cold areas, Tarantula's in higher jungle, Cave spider below -20 and Mese spider near areas containing the ore and Crystal spiders only in Ethereal's crystal biomes.  Some are docile during the daytime and will drop string when killed.
 
 Stone Monster
 

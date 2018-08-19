@@ -37,10 +37,11 @@ mobs:register_mob("mobs_monster:dungeon_master", {
 	jump = true,
 	view_range = 15,
 	drops = {
-		{name = "default:mese_crystal_fragment", chance = 1, min = 1, max = 3},
-		{name = "default:diamond", chance = 4, min = 1, max = 1},
-		{name = "default:mese_crystal", chance = 2, min = 1, max = 2},
-		{name = "default:diamondblock", chance = 30, min = 1, max = 1},
+		{name = "default:mese_crystal_fragment", chance = 1, min = 0, max = 2},
+		{name = "mobs:leather", chance = 2, min = 0, max = 2},
+		{name = "default:mese_crystal", chance = 3, min = 0, max = 2},
+		{name = "default:diamond", chance = 4, min = 0, max = 1},
+		{name = "default:diamondblock", chance = 30, min = 0, max = 1},
 	},
 	water_damage = 1,
 	lava_damage = 1,
@@ -64,8 +65,8 @@ mobs:register_mob("mobs_monster:dungeon_master", {
 mobs:spawn({
 	name = "mobs_monster:dungeon_master",
 	nodes = {"default:stone"},
-	max_light = 7,
-	chance = 7000,
+	max_light = 5,
+	chance = 9000,
 	active_object_count = 1,
 	max_height = -70,
 })
@@ -104,8 +105,10 @@ mobs:register_arrow("mobs_monster:fireball", {
 		}, nil)
 	end,
 
-	-- node hit, bursts into flame
+	-- node hit
 	hit_node = function(self, pos, node)
-		mobs:explosion(pos, 1, 1, 0)
+		mobs:boom(self, pos, 1)
 	end
 })
+
+--minetest.override_item("default:obsidian", {on_blast = function() end})

@@ -35,8 +35,8 @@ mobs:register_mob("mobs_monster:mese_monster", {
 	fall_speed = -6,
 	stepheight = 2.1,
 	drops = {
-		{name = "default:mese_crystal", chance = 9, min = 1, max = 3},
-		{name = "default:mese_crystal_fragment", chance = 1, min = 1, max = 9},
+		{name = "default:mese_crystal", chance = 9, min = 0, max = 2},
+		{name = "default:mese_crystal_fragment", chance = 1, min = 0, max = 2},
 	},
 	water_damage = 1,
 	lava_damage = 1,

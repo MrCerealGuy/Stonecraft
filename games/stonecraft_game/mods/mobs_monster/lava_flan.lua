@@ -51,7 +51,11 @@ mobs:register_mob("mobs_monster:lava_flan", {
 		punch_end = 28,
 	},
 	on_die = function(self, pos)
-		minetest.set_node(pos, {name = "fire:basic_flame"})
+
+		if minetest.get_node(pos).name == "air" then
+			minetest.set_node(pos, {name = "fire:basic_flame"})
+		end
+
 		self.object:remove()
 
 		minetest.add_particlespawner({
@@ -65,8 +69,8 @@ mobs:register_mob("mobs_monster:lava_flan", {
 			maxacc = {x = 0, y = -10, z = 0},
 			minexptime = 0.1,
 			maxexptime = 1,
-			minsize = 0.5,
-			maxsize = 1.0,
+			minsize = 1.0,
+			maxsize = 2.0,
 			texture = "fire_basic_flame.png",
 		})
 	end,
@@ -76,14 +80,13 @@ mobs:register_mob("mobs_monster:lava_flan", {
 mobs:spawn({
 	name = "mobs_monster:lava_flan",
 	nodes = {"default:lava_source"},
-	chance = 1000,
-	active_object_count = 2,
+	chance = 1500,
+	active_object_count = 1,
 	max_height = 0,
 })
 
 
 mobs:register_egg("mobs_monster:lava_flan", S("Lava Flan"), "default_lava.png", 1)
-
 
 mobs:alias_mob("mobs:lava_flan", "mobs_monster:lava_flan") -- compatibility
 

@@ -32,14 +32,20 @@ mobs:register_mob("mobs_monster:tree_monster", {
 	jump = true,
 	view_range = 15,
 	drops = {
-		{name = "default:sapling", chance = 3, min = 1, max = 2},
-		{name = "default:junglesapling", chance = 3, min = 1, max = 2},
-		{name = "default:apple", chance = 2, min = 1, max=3},
+		{name = "default:stick", chance = 1, min = 0, max = 2},
+		{name = "default:sapling", chance = 2, min = 0, max = 2},
+		{name = "default:junglesapling", chance = 3, min = 0, max = 2},
+		{name = "default:apple", chance = 4, min = 1, max = 2},
 	},
 	water_damage = 0,
 	lava_damage = 0,
 	light_damage = 2,
 	fall_damage = 0,
+--	immune_to = {
+--		{"default:axe_diamond", 5},
+--		{"default:sapling", -5}, -- saplings heal
+--		{"all", 0},
+--	},
 	animation = {
 		speed_normal = 15,
 		speed_run = 15,

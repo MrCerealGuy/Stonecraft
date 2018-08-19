@@ -2,26 +2,30 @@
 local S = mobs.intllib
 
 
--- Spider by AspireMint (fishyWET (CC-BY-SA 3.0 license for texture)
+-- Spider by AspireMint (CC-BY-SA 3.0 license)
 
 mobs:register_mob("mobs_monster:spider", {
-	docile_by_day = true,
+	--docile_by_day = true,
 	group_attack = true,
 	type = "monster",
 	passive = false,
 	attack_type = "dogfight",
 	reach = 2,
 	damage = 3,
-	hp_min = 20,
-	hp_max = 40,
+	hp_min = 10,
+	hp_max = 30,
 	armor = 200,
-	collisionbox = {-0.9, -0.01, -0.7, 0.7, 0.6, 0.7},
+	collisionbox = {-0.8, -0.5, -0.8, 0.8, 0, 0.8},
+	visual_size = {x = 1, y = 1},
 	visual = "mesh",
-	mesh = "mobs_spider.x",
+	mesh = "mobs_spider.b3d",
 	textures = {
-		{"mobs_spider.png"},
+		{"mobs_spider_mese.png"},
+		{"mobs_spider_orange.png"},
+		{"mobs_spider_snowy.png"},
+		{"mobs_spider_grey.png"},
+		{"mobs_spider_crystal.png"},
 	},
-	visual_size = {x = 7, y = 7},
 	makes_footstep_sound = false,
 	sounds = {
 		random = "mobs_spider",
@@ -33,51 +37,99 @@ mobs:register_mob("mobs_monster:spider", {
 	view_range = 15,
 	floats = 0,
 	drops = {
-		{name = "farming:string", chance = 1, min = 1, max = 2},
-		{name = "ethereal:crystal_spike", chance = 15, min = 1, max = 2},
+		{name = "farming:string", chance = 1, min = 0, max = 2},
 	},
 	water_damage = 5,
 	lava_damage = 5,
 	light_damage = 0,
 	animation = {
 		speed_normal = 15,
-		speed_run = 15,
-		stand_start = 1,
-		stand_end = 1,
-		walk_start = 20,
-		walk_end = 40,
-		run_start = 20,
-		run_end = 40,
-		punch_start = 50,
-		punch_end = 90,
+		speed_run = 20,--15,
+		stand_start = 0,
+		stand_end = 0,
+		walk_start = 1,
+		walk_end = 21,
+		run_start = 1,
+		run_end = 21,
+		punch_start = 25,
+		punch_end = 45,
 	},
+	-- what kind of spider are we spawning?
+	on_spawn = function(self)
+
+		local pos = self.object:get_pos() ; pos.y = pos.y - 1
+
+		-- snowy spider
+		if minetest.find_node_near(pos, 1,
+				{"default:snow", "default:snowblock", "default:dirt_with_snow"}) then
+			self.base_texture = {"mobs_spider_snowy.png"}
+			self.object:set_properties({textures = self.base_texture})
+			self.docile_by_day = true
+		-- tarantula
+		elseif minetest.find_node_near(pos, 1,
+				{"default:dirt_with_rainforest_litter", "default:jungletree"}) then
+			self.base_texture = {"mobs_spider_orange.png"}
+			self.object:set_properties({textures = self.base_texture})
+			self.docile_by_day = true
+		-- grey spider
+		elseif minetest.find_node_near(pos, 1,
+				{"default:stone", "default:gravel"}) then
+			self.base_texture = {"mobs_spider_grey.png"}
+			self.object:set_properties({textures = self.base_texture})
+		-- mese spider
+		elseif minetest.find_node_near(pos, 1,
+				{"default:mese", "default:stone_with_mese"}) then
+			self.base_texture = {"mobs_spider_mese.png"}
+			self.object:set_properties({textures = self.base_texture})
+		elseif minetest.find_node_near(pos, 1,
+				{"ethereal:crystal_dirt", "ethereal:crystal_spike"}) then
+			self.base_texture = {"mobs_spider_crystal.png"}
+			self.object:set_properties({textures = self.base_texture})
+			self.docile_by_day = true
+			self.drops = {
+				{name = "farming:string", chance = 1, min = 0, max = 2},
+				{name = "ethereal:crystal_spike", chance = 15, min = 1, max = 2},
+			}
+		end
+
+		return true -- run only once, false/nil runs every activation
+	end,
 })
 
 
-local spawn_on = "default:desert_stone"
-
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
-	spawn_on = "ethereal:crystal_dirt"
-else
-	minetest.register_alias("ethereal:crystal_spike", "default:sandstone")
-end
-
+-- above ground spawn
 mobs:spawn({
 	name = "mobs_monster:spider",
-	nodes = {spawn_on},
+	nodes = {
+		"default:dirt_with_rainforest_litter", "default:snowblock",
+		"default:snow", "ethereal:crystal_dirt"
+	},
 	min_light = 0,
-	max_light = 12,
+	max_light = 8,
 	chance = 7000,
 	active_object_count = 1,
-	min_height = -50,
+	min_height = 25,
 	max_height = 31000,
+})
+
+-- below ground spawn
+mobs:spawn({
+	name = "mobs_monster:spider",
+	nodes = {"default:stone_with_mese", "default:mese", "default:stone"},
+	min_light = 0,
+	max_light = 7,
+	chance = 7000,
+	active_object_count = 1,
+	min_height = -31000,
+	max_height = -40,
 })
 
 
 mobs:register_egg("mobs_monster:spider", S("Spider"), "mobs_cobweb.png", 1)
 
 
-mobs:alias_mob("mobs:spider", "mobs_monster:spider") -- compatibility
+mobs:alias_mob("mobs_monster:spider2", "mobs_monster:spider") -- compatibility
+mobs:alias_mob("mobs:spider", "mobs_monster:spider")
 
 
 -- cobweb
