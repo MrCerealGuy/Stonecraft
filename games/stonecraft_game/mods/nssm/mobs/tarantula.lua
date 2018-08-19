@@ -13,8 +13,8 @@ mobs:register_mob("nssm:tarantula", {
 	walk_velocity = 0.7,
 	fear_height = 4,
 	run_velocity = 3,
-    rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "tarry",
 	},
 	damage = 8,
@@ -37,9 +37,9 @@ mobs:register_mob("nssm:tarantula", {
 	on_rightclick = nil,
 	dogshoot_switch = true,
 	attack_type = "dogshoot",
-    arrow = "nssm:thickwebball",
-    shoot_interval = 2,
-    shoot_offset = 1,
+	arrow = "nssm:thickwebball",
+	shoot_interval = 2,
+	shoot_offset = 1,
 	animation = {
 		speed_normal = 20,
 		speed_run = 25,
@@ -91,8 +91,8 @@ mobs:register_mob("nssm:tarantula_propower", {
 	lifetimer = 500,
 	walk_velocity = 1.5,
 	run_velocity = 3.3,
-    rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "tarry",
 	},
 	damage = 12,

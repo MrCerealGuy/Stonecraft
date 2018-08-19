@@ -14,8 +14,8 @@ mobs:register_mob("nssm:morgre", {
 	fear_height = 4,
 	walk_velocity = 0.5,
 	run_velocity = 3.5,
-    sounds = {
-    explode = "tnt_explode",
+	sounds = {
+	explode = "tnt_explode",
 	random = "morgre1",
 	},
 	damage = 1,

@@ -42,9 +42,9 @@ mobs:register_mob("nssm:morwa", {
 	on_rightclick = nil,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
-    arrow = "nssm:morarrow",
-    shoot_interval = 2,
-    shoot_offset = 0,
+	arrow = "nssm:morarrow",
+	shoot_interval = 2,
+	shoot_offset = 0,
 	animation = {
 		speed_normal = 25,
 		speed_run = 25,
@@ -56,16 +56,16 @@ mobs:register_mob("nssm:morwa", {
 		run_end = 120,
 		punch_start = 130,
 		punch_end = 160,
-    	shoot_start =176,
-    	shoot_end=226,
+		shoot_start =176,
+		shoot_end=226,
 	},
 	do_custom = function (self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		local light = minetest.get_node_light(pos)
 		--minetest.chat_send_all("Luce: "..light)
 		if (light < 8) then
 			self.object:remove()
-			minetest.env:set_node(pos, {name="nssm:morwa_statue"})
+			minetest.set_node(pos, {name="nssm:morwa_statue"})
 		end
 	end,
 })

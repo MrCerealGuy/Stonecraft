@@ -1,3 +1,8 @@
+v3.01 (8th Aug 2018):
+ - Fixed missing functions so that nssm uses mobs redo's global functions;
+ - Fixed performance issue thanks to Ihofhansl
+ - Updated to use Minetest 0.4.16 and above functions
+
 v3.0 (22-11-16):
  - rewritten to add the dependency from mobs_redo. The mobs now directly use the mobs api;
  - added the mobs Morlu, Morvy, Morgut, Mode, Mordain, Morwa, Morgre and Morvalar for the "Morlendor" dimension (that you can find playing with nssb);

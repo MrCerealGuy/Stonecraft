@@ -20,7 +20,7 @@ mobs:register_mob("nssm:mese_dragon", {
 	fear_height = 5,
 	walk_velocity = 2,
 	run_velocity = 4,
-    sounds = {
+	sounds = {
 		shoot_attack = "mesed",
 		attack = "mese_dragon",
 		distance = 60,
@@ -37,7 +37,7 @@ mobs:register_mob("nssm:mese_dragon", {
 		chance = 1,
 		min = 99,
 		max = 99},
-    },
+	},
 	armor = 30,
 	drawtype = "front",
 	water_damage = 0,
@@ -69,8 +69,8 @@ mobs:register_mob("nssm:mese_dragon", {
 		punch_end = 275,
 		punch2_start = 330,
 		punch2_end = 370,
-    	dattack_start = 120,
-    	dattack_end = 160,
+		dattack_start = 120,
+		dattack_end = 160,
 	},
 	do_custom = function(self)
 		midas_ability(self, "default:mese_block", self.run_velocity,2, 3)
@@ -81,11 +81,11 @@ mobs:register_mob("nssm:mese_dragon", {
 			self.timer = 0
 			self.attack_rip = self.attack_rip+1
 
-			local s = self.object:getpos()
+			local s = self.object:get_pos()
 			if minetest.is_protected(s, "") then
 				return
 			end
-			local p = self.attack:getpos()
+			local p = self.attack:get_pos()
 
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
@@ -106,15 +106,14 @@ mobs:register_mob("nssm:mese_dragon", {
 			end
 			if self.attack_rip>=8 then
 				self.attack_rip =0
-				set_animation("punch1")
+				mobs:set_animation("punch1")
 				for dx = -17,17 do
 					for dz= -17,17 do
 						local k = {x = s.x+dx, y=s.y+20, z=s.z+dz}
-						local n = minetest.env:get_node(k).name
+						local n = minetest.get_node(k).name
 						if n=="air" and math.random(1,23)==1 then
-							minetest.env:set_node(k, {name="nssm:mese_meteor"})
-							--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
-							minetest.check_for_falling(pos)
+							minetest.set_node(k, {name="nssm:mese_meteor"})
+							nodeupdate(k)
 						end
 					end
 				end

@@ -12,8 +12,8 @@ mobs:register_mob("nssm:sand_bloco", {
 	fear_height = 4,
 	walk_velocity = 0.8,
 	run_velocity = 2,
-    rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "bloco",
 	},
 	damage = 4,

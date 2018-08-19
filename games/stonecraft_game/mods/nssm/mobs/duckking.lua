@@ -17,7 +17,7 @@ mobs:register_mob("nssm:duckking", {
 	run_velocity = 2,
 	damage = 8,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "duckking",
 		attack = "duckking",
 	},

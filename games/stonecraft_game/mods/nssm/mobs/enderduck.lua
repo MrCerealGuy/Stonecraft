@@ -13,7 +13,7 @@ mobs:register_mob("nssm:enderduck", {
 	fear_height = 4,
 	run_velocity = 3.9,
 	rotate = 270,
-  	sounds = {
+	sounds = {
 		random = "duck",
 	},
 	damage = 5,
@@ -24,7 +24,7 @@ mobs:register_mob("nssm:enderduck", {
 		chance = 1,
 		min = 1,
 		max = 2},
-        {name = "nssm:duck_legs",
+		{name = "nssm:duck_legs",
 		chance = 1,
 		min = 1,
 		max = 2},

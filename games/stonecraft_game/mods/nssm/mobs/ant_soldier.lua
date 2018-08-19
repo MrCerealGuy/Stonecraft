@@ -12,8 +12,8 @@ mobs:register_mob("nssm:ant_soldier", {
 	fear_height = 4,
 	walk_velocity = 0.5,
 	run_velocity = 3,
-  	rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "ant",
 	},
 	damage = 6,

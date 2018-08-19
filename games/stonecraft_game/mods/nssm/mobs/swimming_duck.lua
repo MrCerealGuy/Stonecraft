@@ -16,7 +16,7 @@ mobs:register_mob("nssm:swimming_duck", {
 	jump = false,
 	jump_chance = 0,
 	jump_height = 0,
-    sounds = {
+	sounds = {
 		random = "duck",
 	},
 	drops = {

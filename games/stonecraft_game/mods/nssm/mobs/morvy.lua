@@ -12,7 +12,7 @@ mobs:register_mob("nssm:morvy", {
 	fear_height = 5,
 	walk_velocity = 0.7,
 	run_velocity = 2,
-  	rotate = 270,
+	rotate = 270,
 	damage = 4,
 	sounds = {
 		random = "morvy",
@@ -55,19 +55,19 @@ mobs:register_mob("nssm:morvy", {
 	},
 
 	custom_attack = function(self)
-		set_animation(self, "stand")
+		mobs:set_animation(self, "stand")
 		self.morvy_counter = (self.morvy_counter or 0) + 1
 		if self.morvy_counter == 4 then
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 			self.morvy_counter = 0
 			local counter = 0
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
-			if line_of_sight_water(self, p, s) == true then
+			if mobs:line_of_sight(self, p, s) == true then
 				--[[play attack sound
 				if self.sounds.attack then
 					minetest.sound_play(self.sounds.attack, {
@@ -77,14 +77,14 @@ mobs:register_mob("nssm:morvy", {
 				end]]
 				local pos1 = {x=s.x+math.random(-0.5,0.5), y=s.y+0.2, z=s.z+math.random(-0.5,0.5)}
 
-				local objects = minetest.env:get_objects_inside_radius(s, 10)
-			    for _,obj in ipairs(objects) do
-			        if (obj:get_luaentity() and ((obj:get_luaentity().name == "nssm:morbat1") or (obj:get_luaentity().name == "nssm:morbat2") or (obj:get_luaentity().name == "nssm:morbat3"))) then
-			        	counter = counter + 1
+				local objects = minetest.get_objects_inside_radius(s, 10)
+				for _,obj in ipairs(objects) do
+					if (obj:get_luaentity() and ((obj:get_luaentity().name == "nssm:morbat1") or (obj:get_luaentity().name == "nssm:morbat2") or (obj:get_luaentity().name == "nssm:morbat3"))) then
+						counter = counter + 1
 					end
-			    end
+				end
 
-				if (minetest.env:get_node(pos1).name == "air")
+				if (minetest.get_node(pos1).name == "air")
 				and (counter < 5)
 				then
 					local bat
@@ -137,8 +137,8 @@ mobs:register_mob("nssm:morbat1", {
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
-  	fall_speed = 0,
-  	stepheight = 3,
+	fall_speed = 0,
+	stepheight = 3,
 --[[	sounds = {
 		random = "duck",
 	},]]
@@ -159,7 +159,7 @@ mobs:register_mob("nssm:morbat1", {
 	light_damage = 0,
 	blood_texture="morparticle.png",
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 25,
@@ -187,8 +187,8 @@ mobs:register_mob("nssm:morbat2", {
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
-  	fall_speed = 0,
-  	stepheight = 3,
+	fall_speed = 0,
+	stepheight = 3,
 --[[	sounds = {
 		random = "duck",
 	},]]
@@ -209,7 +209,7 @@ mobs:register_mob("nssm:morbat2", {
 	light_damage = 0,
 	blood_texture="morparticle.png",
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "explode",
 	explosion_radius = 3,
 	animation = {
@@ -239,8 +239,8 @@ mobs:register_mob("nssm:morbat3", {
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
-  	fall_speed = 0,
-  	stepheight = 3,
+	fall_speed = 0,
+	stepheight = 3,
 --[[	sounds = {
 		random = "duck",
 	},]]
@@ -261,7 +261,7 @@ mobs:register_mob("nssm:morbat3", {
 	light_damage = 0,
 	blood_texture="morparticle.png",
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "shoot",
 	arrow = "nssm:morarrow",
 	shoot_interval = 3,

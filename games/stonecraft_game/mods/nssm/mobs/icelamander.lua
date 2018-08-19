@@ -13,7 +13,7 @@ mobs:register_mob("nssm:icelamander", {
 	fear_height = 4,
 	walk_velocity = 2,
 	run_velocity = 4,
-    sounds = {
+	sounds = {
 		random = "icelamander",
 	},
 	damage = 12,
@@ -39,7 +39,7 @@ mobs:register_mob("nssm:icelamander", {
 		chance = 2,
 		min = 1,
 		max = 1},
-    },
+	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 0,

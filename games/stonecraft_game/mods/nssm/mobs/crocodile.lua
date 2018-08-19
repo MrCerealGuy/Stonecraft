@@ -6,7 +6,7 @@ mobs:register_mob("nssm:crocodile", {
 	visual = "mesh",
 	mesh = "crocodile.x",
 	textures = {{"croco.png"}},
-  	sounds = {
+	sounds = {
 		random = "crocod",
 	},
 	visual_size = {x=4, y=4},

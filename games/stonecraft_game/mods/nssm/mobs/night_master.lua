@@ -94,7 +94,7 @@ mobs:register_mob("nssm:night_master_2", {
 	lava_damage = 5,
 	light_damage = 0,
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 25,

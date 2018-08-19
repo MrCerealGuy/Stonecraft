@@ -16,7 +16,7 @@ mobs:register_mob("nssm:morlu", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morlu1",
 		random = "morlu2"
 	},
@@ -71,8 +71,8 @@ mobs:register_mob("nssm:morlu", {
 
 		if self.flag == 1 then
 			self.state = ""
-			set_animation(self, "run")
-			self.object:setyaw(self.dir)
+			mobs:set_animation(self, "run")
+			self.object:set_yaw(self.dir)
 			set_velocity(self, 4)
 
 			if os.time() - self.morlu_timer > 3 then
@@ -89,9 +89,9 @@ mobs:register_mob("nssm:morlu", {
 		self.dir = (self.dir or 0)
 		if (os.time() - self.morlu_timer) > 1 then
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
-			set_animation(self, "punch")
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
+			mobs:set_animation(self, "punch")
 			local m = 1
 
 			if self.attack:is_player() then
@@ -163,18 +163,18 @@ mobs:register_mob("nssm:morlu", {
 							minetest.after(1, function (self)
 								if self then
 
-		                            local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
-		                            armor_stack:take_item()
-		                            player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+									local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
+									armor_stack:take_item()
+									player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-		                            armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
-		                            armor_stack:take_item()
-		                            armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+									armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
+									armor_stack:take_item()
+									armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-		                            armor:set_player_armor(self.attack, self.attack)
-		                            --armor:update_armor(self.attack)
-		                            armor:update_inventory(self.attack)
-		                            --armor:update_player_visuals(self.attack)
+									armor:set_player_armor(self.attack, self.attack)
+									--armor:update_armor(self.attack)
+									armor:update_inventory(self.attack)
+									--armor:update_player_visuals(self.attack)
 
 									--Update personal inventory of armors:
 									if (self.invnum ~= nil) and (self.invnum <= 5) then
@@ -184,14 +184,14 @@ mobs:register_mob("nssm:morlu", {
 										self.inventory[self.invnum].name = armor_elements[steal_pos].name
 									end
 
-									set_animation(self, "run")
+									mobs:set_animation(self, "run")
 									self.flag = 1
 									self.morlu_timer = os.time()
 									self.curr_attack = self.attack
 									self.state = ""
 									local pyaw = self.curr_attack: get_look_yaw()
 									self.dir = pyaw
-									self.object:setyaw(pyaw)
+									self.object:set_yaw(pyaw)
 									if self then
 										set_velocity(self, 4)
 									end
@@ -200,10 +200,10 @@ mobs:register_mob("nssm:morlu", {
 						end
 					end
 				else
-					local s = self.object:getpos()
-					local p = self.attack:getpos()
+					local s = self.object:get_pos()
+					local p = self.attack:get_pos()
 
-					set_animation(self, "punch")
+					mobs:set_animation(self, "punch")
 
 					if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
 						-- play attack sound
@@ -224,13 +224,13 @@ mobs:register_mob("nssm:morlu", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		if (self.inventory ~= nil) then
 			if self.invnum > 0 then
 				for i=1,self.invnum do
 					local items = ItemStack(self.inventory[i].name.." 1")
 					local obj = minetest.add_item(pos, items)
-						obj:setvelocity({
+						obj:set_velocity({
 							x = math.random(-1, 1),
 							y = 6,
 							z = math.random(-1, 1)

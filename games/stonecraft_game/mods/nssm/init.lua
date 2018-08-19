@@ -79,10 +79,18 @@ if core.get_mod_setting("nssm_white_werewolf") 	~= "false" then dofile(path.."/m
 if core.get_mod_setting("nssm_mese_dragon") 	~= "false" then dofile(path.."/mobs/mese_dragon.lua") end
 
 --Others
-dofile(path.."/rainbow_staff.lua")
 dofile(path.."/darts.lua")
 dofile(path.."/nssm_materials.lua")
 dofile(path.."/nssm_spears.lua")
 dofile(path.."/nssm_api.lua")
 dofile(path.."/nssm_weapons.lua")
-dofile(path.."/nssm_armor.lua")
+
+if minetest.registered_nodes["nyancat:nyancat_rainbow"] then
+	dofile(path.."/rainbow_staff.lua") ; print ("NYAN!!!!!")
+end
+
+if minetest.get_modpath("3d_armor") then
+	dofile(path.."/nssm_armor.lua")
+end
+
+print("[MOD] NSSM loaded")

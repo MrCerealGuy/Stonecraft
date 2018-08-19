@@ -15,7 +15,7 @@ mobs:register_mob("nssm:snow_biter", {
 	reach = 1.5,
 	walk_velocity = 0.8,
 	run_velocity = 3,
-    sounds = {
+	sounds = {
 		random = "snow_biter",
 	},
 	--pathfinding = true,
@@ -38,7 +38,7 @@ mobs:register_mob("nssm:snow_biter", {
 		chance = 2,
 		min = 0,
 		max = 4},
-    },
+	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 0,

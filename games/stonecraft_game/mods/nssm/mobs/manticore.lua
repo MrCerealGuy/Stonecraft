@@ -40,14 +40,14 @@ mobs:register_mob("nssm:manticore", {
 	on_rightclick = nil,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
-    arrow = "nssm:spine",
-    shoot_interval = 2,
+	arrow = "nssm:spine",
+	shoot_interval = 2,
 	group_attack=true,
 	attack_animals=true,
 	knock_back=2,
 	blood_texture="nssm_blood.png",
 	stepheight=1.1,
-    shoot_offset = 1,
+	shoot_offset = 1,
 	animation = {
 		speed_normal = 25,
 		speed_run = 25,
@@ -59,7 +59,7 @@ mobs:register_mob("nssm:manticore", {
 		run_end = 108,
 		punch_start = 110,
 		punch_end = 143,
-    	shoot_start =180,
-    	shoot_end=230,
+		shoot_start =180,
+		shoot_end=230,
 	}
 })

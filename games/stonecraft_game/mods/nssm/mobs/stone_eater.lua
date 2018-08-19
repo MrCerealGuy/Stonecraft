@@ -18,7 +18,7 @@ mobs:register_mob("nssm:stone_eater", {
 	damage = 5,
 	reach = 1.5,
 	drops = {
-        {name = "default:stone",
+		{name = "default:stone",
 		chance = 2,
 		min = 1,
 		max = 3,},

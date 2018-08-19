@@ -21,7 +21,7 @@ mobs:register_mob("nssm:sandworm", {
 	},
 	jump = false,
 	drops = {
-        {name = "nssm:worm_flesh",
+		{name = "nssm:worm_flesh",
 		chance = 2,
 		min = 1,
 		max = 3,},

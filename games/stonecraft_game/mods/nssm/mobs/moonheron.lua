@@ -39,7 +39,7 @@ mobs:register_mob("nssm:moonheron", {
 	knock_back=4,
 	blood_texture="nssm_blood.png",
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 25,

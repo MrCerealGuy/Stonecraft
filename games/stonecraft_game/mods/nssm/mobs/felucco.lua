@@ -34,7 +34,7 @@ mobs:register_mob("nssm:felucco", {
 		chance = 3,
 		min = 1,
 		max = 2},
-    },
+	},
 	armor = 70,
 	drawtype = "front",
 	water_damage = 2,
@@ -58,5 +58,5 @@ mobs:register_mob("nssm:felucco", {
 		run_end = 160,
 		punch_start = 200,
 		punch_end = 240,
-    }
+	}
 })

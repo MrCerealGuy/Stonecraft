@@ -47,17 +47,17 @@ mobs:register_mob("nssm:lava_titan", {
 	knock_back=0,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
-  	arrow = "nssm:lava_arrow",
-  	shoot_interval = 2,
-  	shoot_offset = 0,
+	arrow = "nssm:lava_arrow",
+	shoot_interval = 2,
+	shoot_offset = 0,
 	--[[
 	on_dist_attack = function(self, player)
-		local pos = player:getpos()
+		local pos = player:get_pos()
 		for dy=-1, 6, 1 do
 			for dx=-1, 1, 2 do
 				for dz=-1, 1, 2 do
 					local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-					local n = minetest.env:get_node(p).name
+					local n = minetest.get_node(p).name
 					if n~="default:lava_flowing" and not minetest.is_protected(p, "") then
 						minetest.set_node(p, {name="default:lava_flowing"})
 					end
@@ -77,8 +77,8 @@ mobs:register_mob("nssm:lava_titan", {
 		run_end = 110,
 		punch_start = 301,
 		punch_end = 340,
-    	shoot_start =340,
-    	shoot_end=400,
+		shoot_start =340,
+		shoot_end=400,
 	},
 	do_custom = function (self)
 		digging_attack(self, nil, self.run_velocity, {x=0, y=4, z=0})
@@ -88,14 +88,14 @@ mobs:register_mob("nssm:lava_titan", {
 	--[[
 	custom_attack = function (self)
 		digging_attack
-		set_animation(self, "punch")
+		mobs:set_animation(self, "punch")
 		local p2 = p
 		local s2 = s
 
 		p2.y = p2.y + 1.5
 		s2.y = s2.y + 1.5
 
-		if line_of_sight_water(self, p2, s2) == true then
+		if mobs:line_of_sight(self, p2, s2) == true then
 
 			-- play attack sound
 			if self.sounds.attack then

@@ -10,355 +10,351 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 --Parameters used by some weapons
-local default_dir = {
-    x = 1,
-    y = 1,
-    z = 1,
-}
+local default_dir = {x = 1, y = 1, z = 1}
 
 --Function used to shoot:
 local function weapons_shot(itemstack, placer, pointed_thing, velocity, name)
-    local dir = placer:get_look_dir();
-    local playerpos = placer:getpos();
-    local obj = minetest.env:add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name)
-    local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
-    obj:setvelocity(vec)
-    return itemstack
+	local dir = placer:get_look_dir();
+	local playerpos = placer:get_pos();
+	local obj = minetest.add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name)
+	local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
+	obj:set_velocity(vec)
+	return itemstack
 end
 
 local function hit(pos, self)
-    local node = node_ok(pos).name
-    self.hit_node(self, pos, node)
-    self.object:remove()
-    return
+	local node = node_ok(pos).name
+	self.hit_node(self, pos, node)
+	self.object:remove()
+	return
 end
 
 local function activate_balls(pos)
-    local radius = 50
-    local objects = minetest.env:get_objects_inside_radius(pos, radius)
-    for _,obj in ipairs(objects) do
-        if (obj:get_luaentity() and obj:get_luaentity().name == "nssm:hellzone_grenade") then
-            obj:get_luaentity().move = 1
-        end
-    end
+	local radius = 50
+	local objects = minetest.get_objects_inside_radius(pos, radius)
+	for _,obj in ipairs(objects) do
+		if (obj:get_luaentity() and obj:get_luaentity().name == "nssm:hellzone_grenade") then
+			obj:get_luaentity().move = 1
+		end
+	end
 end
 
 local function search_on_step2(
-    self,
-    dtime,      --used to count time
-    max_time,   --after this amount of time the entity is removec
-    radius,     --radius in which look for entities to follow
-    vel)        --velocity of the projectile
+	self,
+	dtime,	  --used to count time
+	max_time,   --after this amount of time the entity is removec
+	radius,	 --radius in which look for entities to follow
+	vel)		--velocity of the projectile
 
-    local pos = self.object:getpos()
+	local pos = self.object:get_pos()
 
-    --Disappear after a certain time
-    if self.life_time == 0 then
-        self.life_time = os.time()
-    end
-    if os.time() - self.life_time > max_time then
-        self.object:remove()
-        return
-    end
+	--Disappear after a certain time
+	if self.life_time == 0 then
+		self.life_time = os.time()
+	end
+	if os.time() - self.life_time > max_time then
+		self.object:remove()
+		return
+	end
 
-    --Look for an entity to follow
-    local objects = minetest.env:get_objects_inside_radius(pos, radius)
-    local min_dist = 100
-    local obj_min = nil
-    local obj_p = nil
-    local vec_min = nil
-    for _,obj in ipairs(objects) do
-        if (obj:is_player()) then
-        elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
-            obj_p = obj:getpos()
-            local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
-            local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
-            if (dist<min_dist) then
-                min_dist = dist
-                obj_min = obj
-                vec_min = vec
-            end
-        end
-    end
+	--Look for an entity to follow
+	local objects = minetest.get_objects_inside_radius(pos, radius)
+	local min_dist = 100
+	local obj_min = nil
+	local obj_p = nil
+	local vec_min = nil
+	for _,obj in ipairs(objects) do
+		if (obj:is_player()) then
+		elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
+			obj_p = obj:get_pos()
+			local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
+			local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
+			if (dist<min_dist) then
+				min_dist = dist
+				obj_min = obj
+				vec_min = vec
+			end
+		end
+	end
 
-    --Found an entity to follow:
-    if obj_min ~= nil then
-        local new_vel = {x=0, y=0, z=0}
+	--Found an entity to follow:
+	if obj_min ~= nil then
+		local new_vel = {x=0, y=0, z=0}
 
-        local dir = 0
-        local max_diff = 0
+		local dir = 0
+		local max_diff = 0
 
-        if (max_diff<math.abs(vec_min.x)) then
-            dir = 1
-            max_diff = math.abs(vec_min.x)
-        end
-        if (max_diff<math.abs(vec_min.y)) then
-            dir = 2
-            max_diff = math.abs(vec_min.y)
-        end
-        if (max_diff<math.abs(vec_min.z)) then
-            dir = 3
-            max_diff = math.abs(vec_min.z)
-        end
+		if (max_diff<math.abs(vec_min.x)) then
+			dir = 1
+			max_diff = math.abs(vec_min.x)
+		end
+		if (max_diff<math.abs(vec_min.y)) then
+			dir = 2
+			max_diff = math.abs(vec_min.y)
+		end
+		if (max_diff<math.abs(vec_min.z)) then
+			dir = 3
+			max_diff = math.abs(vec_min.z)
+		end
 
-        vec_min.x = (vec_min.x/max_diff)*vel
-        vec_min.y = (vec_min.y/max_diff)*vel
-        vec_min.z = (vec_min.z/max_diff)*vel
-        obj_p = obj_min:getpos()
-        if min_dist <=8 and self.move==0 then
-            self.object:setvelocity({x=0, y=0, z=0})
+		vec_min.x = (vec_min.x/max_diff)*vel
+		vec_min.y = (vec_min.y/max_diff)*vel
+		vec_min.z = (vec_min.z/max_diff)*vel
+		obj_p = obj_min:get_pos()
+		if min_dist <=8 and self.move==0 then
+			self.object:set_velocity({x=0, y=0, z=0})
 
-            --hit(pos,self)
-        elseif min_dist<=1 and self.move==1 then
-            hit(pos,self)
-        else
-            self.object:setvelocity(vec_min)
-        end
-    end
+			--hit(pos,self)
+		elseif min_dist<=1 and self.move==1 then
+			hit(pos,self)
+		else
+			self.object:set_velocity(vec_min)
+		end
+	end
 
-    local n = minetest.env:get_node(pos).name
-    if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
-        hit(pos,self)
-    end
+	local n = minetest.get_node(pos).name
+	if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
+		hit(pos,self)
+	end
 end
 
 --on_step function able to follow the mobs
 local function search_on_step(
-    self,
-    dtime,      --used to count time
-    max_time,   --after this amount of time the entity is removec
-    radius,     --radius in which look for entities to follow
-    vel)        --velocity of the projectile
+	self,
+	dtime,	  --used to count time
+	max_time,   --after this amount of time the entity is removec
+	radius,	 --radius in which look for entities to follow
+	vel)		--velocity of the projectile
 
 
-    local pos = self.object:getpos()
+	local pos = self.object:get_pos()
 
-    --Disappear after a certain time
-    if self.life_time == 0 then
-        self.life_time = os.time()
-    end
-    if os.time() - self.life_time > max_time then
-        self.object:remove()
-        return
-    end
+	--Disappear after a certain time
+	if self.life_time == 0 then
+		self.life_time = os.time()
+	end
+	if os.time() - self.life_time > max_time then
+		self.object:remove()
+		return
+	end
 
 
-    --Look for an entity to follow
-    local objects = minetest.env:get_objects_inside_radius(pos, radius)
-    local min_dist = 100
-    local obj_min = nil
-    local obj_p = nil
-    local vec_min = nil
-    for _,obj in ipairs(objects) do
-        if (obj:is_player()) then
-        elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
-            obj_p = obj:getpos()
-            local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
-            local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
-            if (dist<min_dist) then
-                min_dist = dist
-                obj_min = obj
-                vec_min = vec
-            end
-        end
-    end
+	--Look for an entity to follow
+	local objects = minetest.get_objects_inside_radius(pos, radius)
+	local min_dist = 100
+	local obj_min = nil
+	local obj_p = nil
+	local vec_min = nil
+	for _,obj in ipairs(objects) do
+		if (obj:is_player()) then
+		elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
+			obj_p = obj:get_pos()
+			local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
+			local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
+			if (dist<min_dist) then
+				min_dist = dist
+				obj_min = obj
+				vec_min = vec
+			end
+		end
+	end
 
-    --Found an entity to follow:
-    if obj_min ~= nil then
-        local new_vel = {x=0, y=0, z=0}
+	--Found an entity to follow:
+	if obj_min ~= nil then
+		local new_vel = {x=0, y=0, z=0}
 
-        local dir = 0
-        local max_diff = 0
+		local dir = 0
+		local max_diff = 0
 
-        if (max_diff<math.abs(vec_min.x)) then
-            dir = 1
-            max_diff = math.abs(vec_min.x)
-        end
-        if (max_diff<math.abs(vec_min.y)) then
-            dir = 2
-            max_diff = math.abs(vec_min.y)
-        end
-        if (max_diff<math.abs(vec_min.z)) then
-            dir = 3
-            max_diff = math.abs(vec_min.z)
-        end
+		if (max_diff<math.abs(vec_min.x)) then
+			dir = 1
+			max_diff = math.abs(vec_min.x)
+		end
+		if (max_diff<math.abs(vec_min.y)) then
+			dir = 2
+			max_diff = math.abs(vec_min.y)
+		end
+		if (max_diff<math.abs(vec_min.z)) then
+			dir = 3
+			max_diff = math.abs(vec_min.z)
+		end
 
-        vec_min.x = (vec_min.x/max_diff)*vel
-        vec_min.y = (vec_min.y/max_diff)*vel
-        vec_min.z = (vec_min.z/max_diff)*vel
-        obj_p = obj_min:getpos()
-        if min_dist < 1 then
-            local node = node_ok(pos).name
-            self.hit_node(self, pos, node)
-            self.object:remove()
-            return
-        else
-            self.object:setvelocity(vec_min)
-        end
-    end
-    local n = minetest.env:get_node(pos).name
-    if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
-        local node = node_ok(pos).name
-        self.hit_node(self, pos, node)
-        self.object:remove()
-        return
-    end
+		vec_min.x = (vec_min.x/max_diff)*vel
+		vec_min.y = (vec_min.y/max_diff)*vel
+		vec_min.z = (vec_min.z/max_diff)*vel
+		obj_p = obj_min:get_pos()
+		if min_dist < 1 then
+			local node = node_ok(pos).name
+			self.hit_node(self, pos, node)
+			self.object:remove()
+			return
+		else
+			self.object:set_velocity(vec_min)
+		end
+	end
+	local n = minetest.get_node(pos).name
+	if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
+		local node = node_ok(pos).name
+		self.hit_node(self, pos, node)
+		self.object:remove()
+		return
+	end
 end
 
 local function default_on_step(
-    self,
-    dtime,              --used to count time
-    max_time,           --after this amount of time the entity is removec
-    damage,             --damage dealt to the entity around
-    dir,                --vector to specify directions in which remove blocks
-    radius,             --radius of blocks removed aroind the projectile
-    not_transparent,    --name of a block or of a group: when the projectile hit one of these blocks the function hit_node is called
-    vel)                --velocity of the projectile
+	self,
+	dtime,			  --used to count time
+	max_time,		   --after this amount of time the entity is removec
+	damage,			 --damage dealt to the entity around
+	dir,				--vector to specify directions in which remove blocks
+	radius,			 --radius of blocks removed aroind the projectile
+	not_transparent,	--name of a block or of a group: when the projectile hit one of these blocks the function hit_node is called
+	vel)				--velocity of the projectile
 
 
-    local pos = self.object:getpos()
+	local pos = self.object:get_pos()
 
-    if self.life_time == 0 then
-        self.life_time = os.time()
-    end
+	if self.life_time == 0 then
+		self.life_time = os.time()
+	end
 
 
-    if os.time() - self.life_time > max_time then
-        local node = node_ok(pos).name
-        self.hit_node(self, pos, node)
-        self.object:remove()
-        return
-    end
+	if os.time() - self.life_time > max_time then
+		local node = node_ok(pos).name
+		self.hit_node(self, pos, node)
+		self.object:remove()
+		return
+	end
 
-    self.timer = self.timer + dtime
-    --minetest.chat_send_all("Timer: "..self.timer)
+	self.timer = self.timer + dtime
+	--minetest.chat_send_all("Timer: "..self.timer)
 
-    --while going around it damages entities
-    local objects = minetest.env:get_objects_inside_radius(pos, 2)
-    if self.timer > 0.1 then
-        self.timer = 0
-        for _,obj in ipairs(objects) do
-            if obj:get_luaentity() then
-                if (obj:get_entity_name() ~= self.object:get_luaentity().name) and (obj:get_luaentity().name ~= "__builtin:item") then
-                    if obj:is_player() then
-                        obj:set_hp(obj:get_hp()-damage)
-                    elseif obj:get_luaentity().health then
-                        obj:get_luaentity().health = obj:get_luaentity().health - damage
-                        --minetest.chat_send_all("Danneggiato: "..obj:get_entity_name().." Vita: "..obj:get_luaentity().health)
-                        check_for_death(obj:get_luaentity())
-                    end
-                end
-            end
-        end
-    end
+	--while going around it damages entities
+	local objects = minetest.get_objects_inside_radius(pos, 2)
+	if self.timer > 0.1 then
+		self.timer = 0
+		for _,obj in ipairs(objects) do
+			if obj:get_luaentity() then
+				if (obj:get_entity_name() ~= self.object:get_luaentity().name) and (obj:get_luaentity().name ~= "__builtin:item") then
+					if obj:is_player() then
+						obj:set_hp(obj:get_hp()-damage)
+					elseif obj:get_luaentity().health then
+						obj:get_luaentity().health = obj:get_luaentity().health - damage
+						--minetest.chat_send_all("Danneggiato: "..obj:get_entity_name().." Vita: "..obj:get_luaentity().health)
+--						check_for_death(obj:get_luaentity())
+					end
+				end
+			end
+		end
+	end
 
-    local n = minetest.env:get_node(pos).name
-    if n==not_transparent or minetest.get_item_group(n, not_transparent)==1 then
-        local node = node_ok(pos).name
-        self.hit_node(self, pos, node)
-        self.object:remove()
-        return
-    else
-        local vec = self.object:getvelocity()
-        local c=vel/10
-        --calculate how many blocks around need to be removed
-        local max = 0
-        local posmax = 0
-        if max<math.abs(vec.x) then
-            max = math.abs(vec.x)
-            posmax = 1
-        end
-        if max<math.abs(vec.y) then
-            max = math.abs(vec.y)
-            posmax = 2
-        end
-        if max<math.abs(vec.z) then
-            max = math.abs(vec.z)
-            posmax = 3
-        end
+	local n = minetest.get_node(pos).name
+	if n==not_transparent or minetest.get_item_group(n, not_transparent)==1 then
+		local node = node_ok(pos).name
+		self.hit_node(self, pos, node)
+		self.object:remove()
+		return
+	else
+		local vec = self.object:get_velocity()
+		local c=vel/10
+		--calculate how many blocks around need to be removed
+		local max = 0
+		local posmax = 0
+		if max<math.abs(vec.x) then
+			max = math.abs(vec.x)
+			posmax = 1
+		end
+		if max<math.abs(vec.y) then
+			max = math.abs(vec.y)
+			posmax = 2
+		end
+		if max<math.abs(vec.z) then
+			max = math.abs(vec.z)
+			posmax = 3
+		end
 
-        local i = radius
-        local j = radius
-        local k = radius
+		local i = radius
+		local j = radius
+		local k = radius
 
-        if dir.x == 0 then
-            i = 0
-        end
-        if dir.y == 0 then
-            j = 0
-        end
-        if dir.z == 0 then
-            k = 0
-        end
+		if dir.x == 0 then
+			i = 0
+		end
+		if dir.y == 0 then
+			j = 0
+		end
+		if dir.z == 0 then
+			k = 0
+		end
 
-        if posmax==1 then
-            i = 0
-        end
+		if posmax==1 then
+			i = 0
+		end
 
-        if posmax==2 then
-            j = 0
-        end
+		if posmax==2 then
+			j = 0
+		end
 
-        if posmax==3 then
-            k = 0
-        end
+		if posmax==3 then
+			k = 0
+		end
 
-        for dx = -i,i do
-            for dy= -j,j do
-                for dz = -k,k do
-                    local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(p, "") or not minetest.get_item_group(n, "unbreakable") == 1 then
-                        minetest.env:remove_node(p)
-                    end
-                end
-            end
-        end
-    end
+		for dx = -i,i do
+			for dy= -j,j do
+				for dz = -k,k do
+					local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(p, "") or not minetest.get_item_group(n, "unbreakable") == 1 then
+						minetest.remove_node(p)
+					end
+				end
+			end
+		end
+	end
 end
 
 --[[
 Function to register new weapons: parameters:
-    - name of the weapon
-    - on_step function (written by you or taken from the standard one above)
-    - hit_node function
-    - description of the weapon
-    - the velocity of the projectile
-    - one material to be used in the receipt
+	- name of the weapon
+	- on_step function (written by you or taken from the standard one above)
+	- hit_node function
+	- description of the weapon
+	- the velocity of the projectile
+	- one material to be used in the receipt
 ]]
 local function nssm_register_weapon(name, def)
-    minetest.register_entity("nssm:"..name, {
-        textures = {name..".png"},
-        on_step = function(self, dtime)
-            def.on_step(self, dtime)
-        end,
-        hit_node = function(self, pos, node)
-            def.hit_node(self, pos, node)
-        end,
-        move = def.move,
-        life_time = 0,
-        timer = 0,
-        custom_timer = 0,
-    })
-
-    minetest.register_craftitem("nssm:"..name.."_hand", {
-        description = def.description,
-        inventory_image = name.."_hand.png",
-        on_use = function(itemstack, placer, pointed_thing)
-            weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
-            itemstack:take_item()
-            return itemstack
-        end,
-        on_drop = def.on_drop or function(itemstack, user, pointed_thing)
+	minetest.register_entity("nssm:"..name, {
+		textures = {name..".png"},
+		on_step = function(self, dtime)
+			def.on_step(self, dtime)
 		end,
-    })
+		hit_node = function(self, pos, node)
+			def.hit_node(self, pos, node)
+		end,
+		move = def.move,
+		life_time = 0,
+		timer = 0,
+		custom_timer = 0,
+	})
+
+	minetest.register_craftitem("nssm:"..name.."_hand", {
+		description = def.description,
+		inventory_image = name.."_hand.png",
+		on_use = function(itemstack, placer, pointed_thing)
+			weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
+			itemstack:take_item()
+			return itemstack
+		end,
+		on_drop = def.on_drop or function(itemstack, user, pointed_thing)
+		end,
+	})
 
 
-    minetest.register_craft({
+	minetest.register_craft({
 		output = 'nssm:'..name.."_hand 23",
 		recipe = {
 			{'nssm:great_energy_globe', 'nssm:great_energy_globe', 'nssm:great_energy_globe'},
-            {'nssm:great_energy_globe', def.material, 'nssm:great_energy_globe'},
-            {'nssm:great_energy_globe', 'nssm:great_energy_globe', 'nssm:great_energy_globe'}
+			{'nssm:great_energy_globe', def.material, 'nssm:great_energy_globe'},
+			{'nssm:great_energy_globe', 'nssm:great_energy_globe', 'nssm:great_energy_globe'}
 		}
 	})
 
@@ -366,337 +362,337 @@ end
 
 --Registered weapons:
 nssm_register_weapon("kamehameha", {
-    velocity = 25,
-    on_step = function(self, dtime)
-        default_on_step(self, dtime, 4, 20, default_dir, 1, "stone", 25)
-    end,
-    hit_node = function(self, pos, node)
-        tnt.boom(pos, {damage_radius=10,radius=6,ignore_protection=false})
-    end,
-    material = "default:diamondblock",
-    description = S("Kamehameha from DragonBall"),
+	velocity = 25,
+	on_step = function(self, dtime)
+		default_on_step(self, dtime, 4, 20, default_dir, 1, "stone", 25)
+	end,
+	hit_node = function(self, pos, node)
+		tnt.boom(pos, {damage_radius=10,radius=6,ignore_protection=false})
+	end,
+	material = "default:diamondblock",
+	description = "Kamehameha from DragonBall",
 
 })
 
 nssm_register_weapon("kienzan", {
-    velocity = 25,
-    on_step = function(self, dtime)
-        default_on_step(self, dtime, 5, 20, {x=1, y=0, z=1}, 1, nil, 25)
-    end,
-    hit_node = function(self, pos, node)
-    end,
-    material = "default:bronzeblock",
-    description = S("Kienzan from DragonBall"),
+	velocity = 25,
+	on_step = function(self, dtime)
+		default_on_step(self, dtime, 5, 20, {x=1, y=0, z=1}, 1, nil, 25)
+	end,
+	hit_node = function(self, pos, node)
+	end,
+	material = "default:bronzeblock",
+	description = S("Kienzan from DragonBall"),
 })
 
 nssm_register_weapon("spirit_ball", {
-    velocity = 25,
-    move = 0,
-    on_step = function(self, dtime)
-        search_on_step(self, dtime, 5, 30, 25)
-    end,
-    hit_node = function(self, pos, node)
-        tnt.boom(pos, {damage_radius=8,radius=4,ignore_protection=false})
-    end,
+	velocity = 25,
+	move = 0,
+	on_step = function(self, dtime)
+		search_on_step(self, dtime, 5, 30, 25)
+	end,
+	hit_node = function(self, pos, node)
+		tnt.boom(pos, {damage_radius=8,radius=4,ignore_protection=false})
+	end,
 
-    material = "default:goldblock",
-    description = S("Spirit Ball from DragonBall"),
+	material = "default:goldblock",
+	description = S("Spirit Ball from DragonBall"),
 })
 
 nssm_register_weapon("hellzone_grenade", {
-    velocity = 25,
-    move = 0,
-    on_step = function(self, dtime)
-        search_on_step2(self, dtime, 30, 30, 25)
-    end,
-    hit_node = function(self, pos, node)
-        tnt.boom(pos, {damage_radius=8,radius=4,ignore_protection=false})
-    end,
+	velocity = 25,
+	move = 0,
+	on_step = function(self, dtime)
+		search_on_step2(self, dtime, 30, 30, 25)
+	end,
+	hit_node = function(self, pos, node)
+		tnt.boom(pos, {damage_radius=8,radius=4,ignore_protection=false})
+	end,
 
-    on_drop = function(itemstack, user, pointed_thing)
-        local pos = user:getpos()
-        activate_balls(pos)
-    end,
-    material = "default:mese",
-    description = S("Hellzone grenade (Press q to activate)"),
+	on_drop = function(itemstack, user, pointed_thing)
+		local pos = user:get_pos()
+		activate_balls(pos)
+	end,
+	material = "default:mese",
+	description = S("Hellzone grenade (Press q to activate)"),
 })
 
 --[[nssm_register_weapon("particles_ball", {
-    velocity = 25,
-    move = 0,
+	velocity = 25,
+	move = 0,
 
-    on_step = function(self, dtime)
-        local pos = self.object:getpos()
-        local vel = 1
+	on_step = function(self, dtime)
+		local pos = self.object:get_pos()
+		local vel = 1
 
-        minetest.add_particlespawner({
-        	amount = 2,
-        	time = 0.01,
-        	minpos = pos,
-        	maxpos = pos,
-        	minvel = {x=3, y=3, z=3},
-        	maxvel = {x=-3, y=-3, z=-3},
-        	minacc = {x=0, y=0, z=0},
-        	maxacc = {x=0, y=0, z=0},
-        	minexptime = 0.5,
-        	maxexptime = 0.5,
-        	minsize = 3,
-        	maxsize = 3,
-        	collisiondetection = false,
-        	vertical = false,
-        	texture = "morparticle.png"
-        })
+		minetest.add_particlespawner({
+			amount = 2,
+			time = 0.01,
+			minpos = pos,
+			maxpos = pos,
+			minvel = {x=3, y=3, z=3},
+			maxvel = {x=-3, y=-3, z=-3},
+			minacc = {x=0, y=0, z=0},
+			maxacc = {x=0, y=0, z=0},
+			minexptime = 0.5,
+			maxexptime = 0.5,
+			minsize = 3,
+			maxsize = 3,
+			collisiondetection = false,
+			vertical = false,
+			texture = "morparticle.png"
+		})
 
-        --Disappear after a certain time
-        if self.life_time == 0 then
-            self.life_time = os.time()
-        end
-        if os.time() - self.life_time > 60 then
-            self.object:remove()
-            return
-        end
+		--Disappear after a certain time
+		if self.life_time == 0 then
+			self.life_time = os.time()
+		end
+		if os.time() - self.life_time > 60 then
+			self.object:remove()
+			return
+		end
 
-        --Look for an entity to follow
-        local objects = minetest.env:get_objects_inside_radius(pos, 20)
-        local min_dist = 100
-        local obj_min = nil
-        local obj_p = nil
-        local vec_min = nil
-        for _,obj in ipairs(objects) do
-            if (obj:is_player()) then
-            elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
-                obj_p = obj:getpos()
-                local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
-                local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
-                if (dist<min_dist) then
-                    min_dist = dist
-                    obj_min = obj
-                    vec_min = vec
-                end
-            end
-        end
+		--Look for an entity to follow
+		local objects = minetest.get_objects_inside_radius(pos, 20)
+		local min_dist = 100
+		local obj_min = nil
+		local obj_p = nil
+		local vec_min = nil
+		for _,obj in ipairs(objects) do
+			if (obj:is_player()) then
+			elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
+				obj_p = obj:get_pos()
+				local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
+				local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
+				if (dist<min_dist) then
+					min_dist = dist
+					obj_min = obj
+					vec_min = vec
+				end
+			end
+		end
 
-        --Found an entity to follow:
-        if obj_min ~= nil then
-            local new_vel = {x=0, y=0, z=0}
+		--Found an entity to follow:
+		if obj_min ~= nil then
+			local new_vel = {x=0, y=0, z=0}
 
-            local dir = 0
-            local max_diff = 0
+			local dir = 0
+			local max_diff = 0
 
-            if (max_diff<math.abs(vec_min.x)) then
-                dir = 1
-                max_diff = math.abs(vec_min.x)
-            end
-            if (max_diff<math.abs(vec_min.y)) then
-                dir = 2
-                max_diff = math.abs(vec_min.y)
-            end
-            if (max_diff<math.abs(vec_min.z)) then
-                dir = 3
-                max_diff = math.abs(vec_min.z)
-            end
+			if (max_diff<math.abs(vec_min.x)) then
+				dir = 1
+				max_diff = math.abs(vec_min.x)
+			end
+			if (max_diff<math.abs(vec_min.y)) then
+				dir = 2
+				max_diff = math.abs(vec_min.y)
+			end
+			if (max_diff<math.abs(vec_min.z)) then
+				dir = 3
+				max_diff = math.abs(vec_min.z)
+			end
 
-            vec_min.x = (vec_min.x/max_diff)*vel
-            vec_min.y = (vec_min.y/max_diff)*vel
-            vec_min.z = (vec_min.z/max_diff)*vel
-            obj_p = obj_min:getpos()
+			vec_min.x = (vec_min.x/max_diff)*vel
+			vec_min.y = (vec_min.y/max_diff)*vel
+			vec_min.z = (vec_min.z/max_diff)*vel
+			obj_p = obj_min:get_pos()
 
-            self.object:setvelocity(vec_min)
-            if min_dist < 1 then
+			self.object:set_velocity(vec_min)
+			if min_dist < 1 then
 
-                local node = nssm:node_ok(pos).name
-                self.hit_node(self, pos, node)
-                self.object:remove()
-                return
-            else
-                self.object:setvelocity(vec_min)
-            end
+				local node = nssm:node_ok(pos).name
+				self.hit_node(self, pos, node)
+				self.object:remove()
+				return
+			else
+				self.object:set_velocity(vec_min)
+			end
 
-        end
-        local n = minetest.env:get_node(pos).name
+		end
+		local n = minetest.get_node(pos).name
 
-        if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
-            local node = nssm:node_ok(pos).name
-            self.hit_node(self, pos, node)
-            self.object:remove()
-            return
-        end
+		if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
+			local node = nssm:node_ok(pos).name
+			self.hit_node(self, pos, node)
+			self.object:remove()
+			return
+		end
 
-    end,
+	end,
 
-    hit_node = function(self, pos, node)
-        --nssm:explosion(pos, 4, 0)
-    end,
+	hit_node = function(self, pos, node)
+		--nssm:explosion(pos, 4, 0)
+	end,
 
-    on_drop = function(itemstack, user, pointed_thing)
-        local pos = user:getpos()
-        --activate_balls(pos)
-    end,
-    material = "group:wood",
-    description = "Particles ball",
+	on_drop = function(itemstack, user, pointed_thing)
+		local pos = user:get_pos()
+		--activate_balls(pos)
+	end,
+	material = "group:wood",
+	description = "Particles ball",
 })]]
 
 --[[
 nssm_register_weapon("light_ball", {
-    velocity = 25,
-    move = 0,
+	velocity = 25,
+	move = 0,
 
-    on_step = function(self, dtime, last_pos)
-        local pos = self.object:getpos()
-        local vel = 1
+	on_step = function(self, dtime, last_pos)
+		local pos = self.object:get_pos()
+		local vel = 1
 
 
-        --Disappear after a certain time
-        if self.life_time == 0 then
-            self.life_time = os.time()
-        end
-        if os.time() - self.life_time > 60 then
-            self.object:remove()
-            return
-        end
+		--Disappear after a certain time
+		if self.life_time == 0 then
+			self.life_time = os.time()
+		end
+		if os.time() - self.life_time > 60 then
+			self.object:remove()
+			return
+		end
 
-        if self.custom_timer == 0 then
-            self.custom_timer = os.time()
-        end
+		if self.custom_timer == 0 then
+			self.custom_timer = os.time()
+		end
 
-        if last_pos == nil or (last_pos ~= nil and last_pos ~= pos) then
-            minetest.set_node(pos, {name="nssm:invisible_light"})
-            if last_pos ~= nil then
-                minetest.set_node(last_pos, {name="air"})
-            end
-            last_pos = pos
-        end
+		if last_pos == nil or (last_pos ~= nil and last_pos ~= pos) then
+			minetest.set_node(pos, {name="nssm:invisible_light"})
+			if last_pos ~= nil then
+				minetest.set_node(last_pos, {name="air"})
+			end
+			last_pos = pos
+		end
 
-        --Look for an entity to follow
-        local objects = minetest.env:get_objects_inside_radius(pos, 20)
-        local min_dist = 100
-        local obj_min = nil
-        local obj_p = nil
-        local vec_min = nil
-        for _,obj in ipairs(objects) do
-            if (obj:is_player()) then
-            elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
-                obj_p = obj:getpos()
-                local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
-                local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
-                if (dist<min_dist) then
-                    min_dist = dist
-                    obj_min = obj
-                    vec_min = vec
-                end
-            end
-        end
+		--Look for an entity to follow
+		local objects = minetest.get_objects_inside_radius(pos, 20)
+		local min_dist = 100
+		local obj_min = nil
+		local obj_p = nil
+		local vec_min = nil
+		for _,obj in ipairs(objects) do
+			if (obj:is_player()) then
+			elseif (obj:get_luaentity() and obj:get_luaentity().name ~= "__builtin:item" and obj:get_luaentity().name ~= self.object:get_luaentity().name) then
+				obj_p = obj:get_pos()
+				local vec = {x=obj_p.x-pos.x, y=obj_p.y-pos.y, z=obj_p.z-pos.z}
+				local dist = (vec.x^2+vec.y^2+vec.z^2)^0.5
+				if (dist<min_dist) then
+					min_dist = dist
+					obj_min = obj
+					vec_min = vec
+				end
+			end
+		end
 
-        --Found an entity to follow:
-        if obj_min ~= nil then
-            local new_vel = {x=0, y=0, z=0}
+		--Found an entity to follow:
+		if obj_min ~= nil then
+			local new_vel = {x=0, y=0, z=0}
 
-            local dir = 0
-            local max_diff = 0
+			local dir = 0
+			local max_diff = 0
 
-            if (max_diff<math.abs(vec_min.x)) then
-                dir = 1
-                max_diff = math.abs(vec_min.x)
-            end
-            if (max_diff<math.abs(vec_min.y)) then
-                dir = 2
-                max_diff = math.abs(vec_min.y)
-            end
-            if (max_diff<math.abs(vec_min.z)) then
-                dir = 3
-                max_diff = math.abs(vec_min.z)
-            end
+			if (max_diff<math.abs(vec_min.x)) then
+				dir = 1
+				max_diff = math.abs(vec_min.x)
+			end
+			if (max_diff<math.abs(vec_min.y)) then
+				dir = 2
+				max_diff = math.abs(vec_min.y)
+			end
+			if (max_diff<math.abs(vec_min.z)) then
+				dir = 3
+				max_diff = math.abs(vec_min.z)
+			end
 
-            vec_min.x = (vec_min.x/max_diff)*vel
-            vec_min.y = (vec_min.y/max_diff)*vel
-            vec_min.z = (vec_min.z/max_diff)*vel
-            obj_p = obj_min:getpos()
+			vec_min.x = (vec_min.x/max_diff)*vel
+			vec_min.y = (vec_min.y/max_diff)*vel
+			vec_min.z = (vec_min.z/max_diff)*vel
+			obj_p = obj_min:get_pos()
 
-            self.object:setvelocity(vec_min)
-            if min_dist < 1 then
+			self.object:set_velocity(vec_min)
+			if min_dist < 1 then
 
-                local node = nssm:node_ok(pos).name
-                self.hit_node(self, pos, node)
-                self.object:remove()
-                return
-            else
-                self.object:setvelocity(vec_min)
-            end
+				local node = nssm:node_ok(pos).name
+				self.hit_node(self, pos, node)
+				self.object:remove()
+				return
+			else
+				self.object:set_velocity(vec_min)
+			end
 
-        end
-        local n = minetest.env:get_node(pos).name
+		end
+		local n = minetest.get_node(pos).name
 
-        if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
-            local node = nssm:node_ok(pos).name
-            self.hit_node(self, pos, node)
-            self.object:remove()
-            return
-        end
+		if n ~= "air" and n ~= "default:water_source" and n ~= "default:water_flowing" then
+			local node = nssm:node_ok(pos).name
+			self.hit_node(self, pos, node)
+			self.object:remove()
+			return
+		end
 
-    end,
+	end,
 
-    hit_node = function(self, pos, node)
-        --nssm:explosion(pos, 4, 0)
-    end,
+	hit_node = function(self, pos, node)
+		--nssm:explosion(pos, 4, 0)
+	end,
 
-    on_drop = function(itemstack, user, pointed_thing)
-        local pos = user:getpos()
-        --activate_balls(pos)
-    end,
-    material = "group:sand",
-    description = "Light Ball",
+	on_drop = function(itemstack, user, pointed_thing)
+		local pos = user:get_pos()
+		--activate_balls(pos)
+	end,
+	material = "group:sand",
+	description = "Light Ball",
 })
 ]]
-function nssm_register_throwitem(name, descr, def)
+local function nssm_register_throwitem(name, descr, def)
 
-    minetest.register_craftitem("nssm:"..name.."_bomb", {
-        description = descr,
-        inventory_image = name.."_bomb.png",
-        on_use = function(itemstack, placer, pointed_thing)
-            --weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
-            local velocity = 15
-            local dir = placer:get_look_dir();
-            local playerpos = placer:getpos();
+	minetest.register_craftitem("nssm:"..name.."_bomb", {
+		description = descr,
+		inventory_image = name.."_bomb.png",
+		on_use = function(itemstack, placer, pointed_thing)
+			--weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
+			local velocity = 15
+			local dir = placer:get_look_dir();
+			local playerpos = placer:get_pos();
 			posthrow = playerpos
-            local obj = minetest.env:add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name.."_bomb_flying")
-            local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
-            local acc = {x=0, y=-9.8, z=0}
-            obj:setvelocity(vec)
-            obj:setacceleration(acc)
-            itemstack:take_item()
-            return itemstack
-        end,
-    })
+			local obj = minetest.add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name.."_bomb_flying")
+			local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
+			local acc = {x=0, y=-9.8, z=0}
+			obj:set_velocity(vec)
+			obj:set_acceleration(acc)
+			itemstack:take_item()
+			return itemstack
+		end,
+	})
 
-    minetest.register_entity("nssm:"..name.."_bomb_flying",{
-        textures = {name.."_bomb.png"},
+	minetest.register_entity("nssm:"..name.."_bomb_flying",{
+		textures = {name.."_bomb.png"},
 		hp_max = 20,
 		collisionbox = {-0.1,-0.1,-0.1, 0.1,0.1,0.1},
-        on_step = function(self, dtime)
-            local pos = self.object:getpos()
-            local node = minetest.get_node(pos)
-            local n = node.name
-            if n ~= "air" then
-                def.hit_node(self, pos)
-                self.object:remove()
-            end
-        end,
-    })
+		on_step = function(self, dtime)
+			local pos = self.object:get_pos()
+			local node = minetest.get_node(pos)
+			local n = node.name
+			if n ~= "air" then
+				def.hit_node(self, pos)
+				self.object:remove()
+			end
+		end,
+	})
 end
 
 nssm_register_throwitem("cobweb", S("Cobweb Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = -1,1 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="nssm:web"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = -1,1 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="nssm:web"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -709,22 +705,22 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("ice", S("Ice Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = 1,3 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = 1,3 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
 					local pos2 = {x = pos.x, y=pos.y+1, z=pos.z}
 					local pos3 = {x = pos.x, y=pos.y+2, z=pos.z}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="default:ice"})
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="default:ice"})
 						minetest.set_node(pos2, {name="air"})
 						minetest.set_node(pos3, {name="air"})
-                    end
-                end
-            end
-        end
-    end,
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -766,18 +762,18 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 end
 
 nssm_register_throwitem("lava", S("Lava Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = -1,0 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="default:lava_source"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = -1,0 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="default:lava_source"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -790,18 +786,18 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("water", S("Water Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -2,2 do
-            for dy = -1,0 do
-                for dz = -2,2 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="default:water_source"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -2,2 do
+			for dy = -1,0 do
+				for dz = -2,2 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="default:water_source"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -814,18 +810,18 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("fire", S("Fire Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = 1,1 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="fire:basic_flame"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = 1,1 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="fire:basic_flame"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -864,18 +860,18 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 end
 
 nssm_register_throwitem("hole", S("Hole Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = -10,0 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="air"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = -10,0 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="air"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -888,19 +884,19 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("food", S("Food Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = -1,1 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="air"})
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = -1,1 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="air"})
 						minetest.add_item(pos1, "nssm:roasted_duck_legs")
-                    end
-                end
-            end
-        end
-    end,
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -913,18 +909,18 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("phoenix_fire", S("Phoenix Fire Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -2,2 do
-            for dy = 0,1 do
-                for dz = -2,2 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="nssm:phoenix_fire"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -2,2 do
+			for dy = 0,1 do
+				for dz = -2,2 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="nssm:phoenix_fire"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -937,12 +933,12 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("kaboom", S("Explosive Bomb"), {
-    hit_node = function(self,pos)
-                    local pos1 = {x = pos.x, y=pos.y, z=pos.z}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        tnt.boom(pos1, {damage_radius=3,radius=2,ignore_protection=false})
-                    end
-    end,
+	hit_node = function(self,pos)
+					local pos1 = {x = pos.x, y=pos.y, z=pos.z}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						tnt.boom(pos1, {damage_radius=3,radius=2,ignore_protection=false})
+					end
+	end,
 })
 
 minetest.register_craft({
@@ -955,19 +951,19 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("teleport", S("Teleport Bomb"), {
-    hit_node = function(self,pos,placer)
-                    local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
+	hit_node = function(self,pos,placer)
+					local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
 					local pos2 = {x = pos.x, y=pos.y+2, z=pos.z}
 						if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
 							for _,obj in ipairs(minetest.get_objects_inside_radius(posthrow, 2)) do
 								if obj:is_player() then
-									obj:setpos(pos1)
+									obj:set_pos(pos1)
 									minetest.set_node(pos1, {name="air"})
 									minetest.set_node(pos2, {name="air"})
 								end
 							end
 						end
-    end,
+	end,
 })
 
 minetest.register_craft({
@@ -980,12 +976,12 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("boom", S("Boom Bomb"), {
-    hit_node = function(self,pos)
-                    local pos1 = {x = pos.x, y=pos.y, z=pos.z}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        tnt.boom(pos1, {damage_radius=4,radius=3,ignore_protection=false})
-                    end
-    end,
+	hit_node = function(self,pos)
+					local pos1 = {x = pos.x, y=pos.y, z=pos.z}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						tnt.boom(pos1, {damage_radius=4,radius=3,ignore_protection=false})
+					end
+	end,
 })
 
 minetest.register_craft({
@@ -998,9 +994,9 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("smoke", S("Smoke Bomb"), {
-    hit_node = function(self,pos)
-                    local pos1 = {x = pos.x, y=pos.y, z=pos.z}
-                    minetest.add_particlespawner({
+	hit_node = function(self,pos)
+					local pos1 = {x = pos.x, y=pos.y, z=pos.z}
+					minetest.add_particlespawner({
 						amount = 6000,
 						time = 20,
 						minpos = {x=pos1.x-3, y=pos1.y+0.5, z=pos1.z-3},
@@ -1016,7 +1012,7 @@ nssm_register_throwitem("smoke", S("Smoke Bomb"), {
 						collisiondetection = false,
 						vertical = false,
 						texture = "tnt_smoke.png",})
-    end,
+	end,
 })
 
 minetest.register_craft({
@@ -1029,14 +1025,14 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("thick_web", S("Thick Web Bomb"), {
-    hit_node = function(self,pos)
-                    local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
+	hit_node = function(self,pos)
+					local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
 					local pos2 = {x = pos.x, y=pos.y+2, z=pos.z}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
 						minetest.set_node(pos1, {name="nssm:thick_web"})
 						minetest.set_node(pos2, {name="nssm:thick_web"})
-                    end
-    end,
+					end
+	end,
 })
 
 minetest.register_craft({
@@ -1049,18 +1045,18 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("poison", S("Poison Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = 1,3 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="nssm:venomous_gas"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = 1,3 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="nssm:venomous_gas"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -1073,18 +1069,18 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("stone", S("Cobblestone Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -1,1 do
-            for dy = 1,3 do
-                for dz = -1,1 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="default:cobble"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = -1,1 do
+			for dy = 1,3 do
+				for dz = -1,1 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="default:cobble"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -1097,13 +1093,13 @@ minetest.register_craft({
 })
 
 nssm_register_throwitem("fire_ring", S("Fire Ring Bomb"), {
-    hit_node = function(self,pos)
-        for dx = -2,2 do
-            for dy = 1,2 do
-                for dz = -2,2 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="fire:basic_flame"})
+	hit_node = function(self,pos)
+		for dx = -2,2 do
+			for dy = 1,2 do
+				for dz = -2,2 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="fire:basic_flame"})
 						 for dx = -1,1 do
 							for dy = 1,2 do
 								for dz = -1,1 do
@@ -1112,11 +1108,11 @@ nssm_register_throwitem("fire_ring", S("Fire Ring Bomb"), {
 								end
 							end
 						end
-                    end
-                end
-            end
-        end
-    end,
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -1163,18 +1159,18 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 end
 	
 nssm_register_throwitem("water_column", S("Water Column Bomb"), {
-    hit_node = function(self,pos)
-        for dx = 0,0 do
-            for dy = 1,10 do
-                for dz = 0,0 do
-                    local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                        minetest.set_node(pos1, {name="default:water_source"})
-                    end
-                end
-            end
-        end
-    end,
+	hit_node = function(self,pos)
+		for dx = 0,0 do
+			for dy = 1,10 do
+				for dz = 0,0 do
+					local pos1 = {x = pos.x+dx, y=pos.y+dy, z=pos.z+dz}
+					if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+						minetest.set_node(pos1, {name="default:water_source"})
+					end
+				end
+			end
+		end
+	end,
 })
 
 minetest.register_craft({
@@ -1195,66 +1191,64 @@ minetest.register_craft({
 	}
 })
 
-function nssm_register_throwegg(name, descr, def)
+local function nssm_register_throwegg(name, descr, def)
 
-    minetest.register_craftitem("nssm:"..name.."_bomb", {
-        description = descr,
-        inventory_image = "evocation_bomb.png^"..name.."_egg.png",
-        on_use = function(itemstack, placer, pointed_thing)
-            --weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
-            local velocity = 15
-            local dir = placer:get_look_dir();
-            local playerpos = placer:getpos();
-            local obj = minetest.env:add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name.."_bomb_flying")
-            local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
-            local acc = {x=0, y=-9.8, z=0}
-            obj:setvelocity(vec)
-            obj:setacceleration(acc)
-            itemstack:take_item()
-            return itemstack
-        end,
-    })
+	minetest.register_craftitem("nssm:"..name.."_bomb", {
+		description = descr,
+		inventory_image = "evocation_bomb.png^"..name.."_egg.png",
+		on_use = function(itemstack, placer, pointed_thing)
+			--weapons_shot(itemstack, placer, pointed_thing, def.velocity, name)
+			local velocity = 15
+			local dir = placer:get_look_dir();
+			local playerpos = placer:get_pos();
+			local obj = minetest.add_entity({x=playerpos.x+0+dir.x,y=playerpos.y+2+dir.y,z=playerpos.z+0+dir.z}, "nssm:"..name.."_bomb_flying")
+			local vec = {x=dir.x*velocity,y=dir.y*velocity,z=dir.z*velocity}
+			local acc = {x=0, y=-9.8, z=0}
+			obj:set_velocity(vec)
+			obj:set_acceleration(acc)
+			itemstack:take_item()
+			return itemstack
+		end,
+	})
 
-    minetest.register_entity("nssm:"..name.."_bomb_flying",{
-        textures = {"evocation_bomb.png^"..name.."_egg.png"},
-        on_step = function(self, dtime)
-            local pos = self.object:getpos()
-            local node = minetest.get_node(pos)
-            local n = node.name
-            if n ~= "air" then
-                def.hit_node(self, pos)
-                self.object:remove()
-            end
-        end,
-    })
+	minetest.register_entity("nssm:"..name.."_bomb_flying",{
+		textures = {"evocation_bomb.png^"..name.."_egg.png"},
+		on_step = function(self, dtime)
+			local pos = self.object:get_pos()
+			local node = minetest.get_node(pos)
+			local n = node.name
+			if n ~= "air" then
+				def.hit_node(self, pos)
+				self.object:remove()
+			end
+		end,
+	})
 end
 
-function nssm_register_evocation (evomob, evodescr, numbe)
+local function nssm_register_evocation (evomob, evodescr, numbe)
 
-nssm_register_throwegg(evomob, evodescr..S(" Bomb"), {
-    hit_node = function(self,pos)
-                    local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
-                    if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
-                       for n=1,numbe do
-							minetest.add_entity(pos1, "nssm:".. evomob)
-					   end
-                    end
-    end,
-})
+	nssm_register_throwegg(evomob, evodescr..S(" Bomb"), {
+		hit_node = function(self,pos)
+			local pos1 = {x = pos.x, y=pos.y+1, z=pos.z}
+			if not minetest.is_protected(pos1, "") or not minetest.get_item_group(minetest.get_node(pos1).name, "unbreakable") == 1 then
+				for n=1,numbe do
+					minetest.add_entity(pos1, "nssm:".. evomob)
+				end
+			end
+		end,
+	})
 
-minetest.register_craft({
-	output = 'nssm:'..evomob.."_bomb",
-	type = "shapeless",
-	recipe = {'nssm:empty_evocation_bomb', 'nssm:'..evomob},
+	minetest.register_craft({
+		output = 'nssm:'..evomob.."_bomb",
+		type = "shapeless",
+		recipe = {'nssm:empty_evocation_bomb', 'nssm:'..evomob},
+	})
 
-})
-
-minetest.register_craft({
-	output = 'nssm:duckking_bomb',
-	type = "shapeless",
-	recipe = {'nssm:empty_evocation_bomb', 'nssm:duckking_egg'},
-
-})
+	minetest.register_craft({
+		output = 'nssm:duckking_bomb',
+		type = "shapeless",
+		recipe = {'nssm:empty_evocation_bomb', 'nssm:duckking_egg'},
+	})
 end
 
 nssm_register_evocation ("duck",S("Duck Evocation"), 4)

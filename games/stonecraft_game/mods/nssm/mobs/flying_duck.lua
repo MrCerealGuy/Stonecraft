@@ -10,8 +10,8 @@ mobs:register_mob("nssm:flying_duck", {
 	view_range = 30,
 	walk_velocity = 2,
 	run_velocity = 2.5,
-  	fall_speed = 0,
-  	stepheight = 3,
+	fall_speed = 0,
+	stepheight = 3,
 	sounds = {
 		random = "duck",
 	},
@@ -46,7 +46,7 @@ mobs:register_mob("nssm:flying_duck", {
 	knock_back=5,
 	blood_texture="nssm_blood.png",
 	on_rightclick = nil,
-  	fly = true,
+	fly = true,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 25,

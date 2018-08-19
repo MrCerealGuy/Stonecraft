@@ -16,7 +16,7 @@ mobs:register_mob("nssm:echidna", {
 	run_velocity = 3.5,
 	damage = 12,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "echidna",
 	},
 	drops = {

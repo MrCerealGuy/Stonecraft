@@ -1,6 +1,6 @@
 Not So Simple Mobs by NPX team
 
-Starting from version 3.0 the mod depends on mobs_redo api: https://github.com/tenplus1/mobs_redo
+Starting from version 3.0 the mod depends on mobs_redo api: https://notabug.org/TenPlus1/mobs_redo
 
 We suggest that you play nssm with:
  - nssb (Not So Simple Buildings, our second mod that adds many blocks and Morlendor, the new dimension):

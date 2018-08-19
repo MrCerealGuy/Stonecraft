@@ -12,8 +12,8 @@ mobs:register_mob("nssm:daddy_long_legs", {
 	walk_velocity = 0.7,
 	fear_height = 4,
 	run_velocity = 3.3,
-  	rotate = 90,
-  	sounds = {
+	rotate = 90,
+	sounds = {
 		random = "daddy",
 	},
 	damage = 3,

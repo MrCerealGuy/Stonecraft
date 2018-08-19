@@ -20,7 +20,7 @@ mobs:register_mob("nssm:kraken", {
 	jump = false,
 	jump_chance = 0,
 	jump_height = 0,
-  	sounds = {
+	sounds = {
 		random = "kraken",
 	},
 	drops = {

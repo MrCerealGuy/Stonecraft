@@ -14,7 +14,7 @@ mobs:register_mob("nssm:pumpking", {
 	view_range = 35,
 	walk_velocity = 2,
 	run_velocity = 4,
-    sounds = {
+	sounds = {
 		random = "king",
 		explode = "tnt_explode",
 	},
@@ -62,10 +62,10 @@ mobs:register_mob("nssm:pumpking", {
 	custom_attack = function(self)
 		self.pumpking_timer = (self.pumpking_timer or os.time())
 		if (os.time() - self.pumpking_timer) >3 then
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 			self.pumpking_timer = os.time()
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
 			if minetest.line_of_sight(p, s) == true then

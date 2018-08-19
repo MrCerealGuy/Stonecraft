@@ -12,8 +12,8 @@ mobs:register_mob("nssm:mordain", {
 	fear_height = 4,
 	walk_velocity = 1,
 	run_velocity = 3.5,
-    rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "mordain",
 	},
 	damage = 6,
@@ -57,10 +57,10 @@ mobs:register_mob("nssm:mordain", {
 		self.mordain_timer = (self.mordain_timer or os.time())
 		if (os.time() - self.mordain_timer) > 1 then
 			self.mordain_timer = os.time()
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 
 			if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
 				-- play attack sound
@@ -89,8 +89,8 @@ mobs:register_mob("nssm:mordain", {
 
 				for j = -3,3 do
 					ty = d.y + j
-					local current = minetest.env:get_node({x = d.x, y = ty, z = d.z}).name
-					local up = minetest.env:get_node({x = d.x, y = ty+1, z = d.z}).name
+					local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
+					local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
 					if up == "air" and current ~= "air" then
 						d.y = d.y + j+1.5
 						flag = 1
@@ -106,8 +106,8 @@ mobs:register_mob("nssm:mordain", {
 					if dist>=2 then
 						for j = -3,3 do
 							ty = d.y + j
-							local current = minetest.env:get_node({x = d.x, y = ty, z = d.z}).name
-							local up = minetest.env:get_node({x = d.x, y = ty+1, z = d.z}).name
+							local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
+							local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
 							if up == "air" and current ~= "air" then
 								d.y = d.y + j+1.5
 								flag = 1
@@ -116,7 +116,7 @@ mobs:register_mob("nssm:mordain", {
 						end
 					end
 				end
-				self.object:setpos(d)
+				self.object:set_pos(d)
 			end)
 		end
 	end

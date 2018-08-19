@@ -14,7 +14,7 @@ mobs:register_mob("nssm:duck", {
 	run_velocity = 2,
 	damage = 2,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "duck",
 	},
 	drops = {

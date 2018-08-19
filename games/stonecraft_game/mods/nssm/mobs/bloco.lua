@@ -12,8 +12,8 @@ mobs:register_mob("nssm:bloco", {
 	fear_height = 4,
 	walk_velocity = 0.6,
 	run_velocity = 2.5,
-    rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "bloco",
 	},
 	damage = 4,

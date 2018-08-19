@@ -13,7 +13,7 @@ mobs:register_mob("nssm:icesnake", {
 	fear_height = 3,
 	walk_velocity = 1.2,
 	run_velocity = 3,
-  	sounds = {
+	sounds = {
 		random = "icesnake",
 	},
 	damage = 4,
@@ -36,7 +36,7 @@ mobs:register_mob("nssm:icesnake", {
 		chance = 2,
 		min = 1,
 		max = 3},
-    },
+	},
 	armor = 70,
 	drawtype = "front",
 	water_damage = 0,

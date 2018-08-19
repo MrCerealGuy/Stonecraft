@@ -38,7 +38,7 @@ mobs:register_mob("nssm:morvalar", {
 	damage = 8,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar7",
 	},
 	armor = 50,
@@ -77,9 +77,9 @@ mobs:register_mob("nssm:morvalar", {
 		self.dir = (self.dir or 0)
 		if (os.time() - self.morvalar_timer) > 2 then
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
-			set_animation(self, "punch")
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
+			mobs:set_animation(self, "punch")
 			local m = 1
 
 			if self.attack:is_player() then
@@ -140,24 +140,24 @@ mobs:register_mob("nssm:morvalar", {
 
 							minetest.after(1, function (self)
 
-	                            local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
-	                            armor_stack:take_item()
-	                            player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+								local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
+								armor_stack:take_item()
+								player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-	                            armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
-	                            armor_stack:take_item()
-	                            armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+								armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
+								armor_stack:take_item()
+								armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-	                            armor:set_player_armor(self.attack, self.attack)
-	                            armor:update_inventory(self.attack)
+								armor:set_player_armor(self.attack, self.attack)
+								armor:update_inventory(self.attack)
 							end,self)
 						end
 					end
 				else
-					local s = self.object:getpos()
-					local p = self.attack:getpos()
+					local s = self.object:get_pos()
+					local p = self.attack:get_pos()
 
-					set_animation(self, "punch")
+					mobs:set_animation(self, "punch")
 
 					if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
 						-- play attack sound
@@ -178,7 +178,7 @@ mobs:register_mob("nssm:morvalar", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar6", pos, "morparticle.png", 10)
 	end,
@@ -202,7 +202,7 @@ mobs:register_mob("nssm:morvalar6", {
 	damage = 8,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar6",
 	},
 	armor = 50,
@@ -238,9 +238,9 @@ mobs:register_mob("nssm:morvalar6", {
 		self.dir = (self.dir or 0)
 		if (os.time() - self.morvalar6_timer) > 1 then
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
-			set_animation(self, "punch")
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
+			mobs:set_animation(self, "punch")
 			local m = 2
 
 
@@ -298,7 +298,7 @@ mobs:register_mob("nssm:morvalar6", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar5", pos, "morparticle.png", 10)
 	end,
@@ -323,7 +323,7 @@ mobs:register_mob("nssm:morvalar5", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar5",
 	},
 	armor = 40,
@@ -359,17 +359,17 @@ mobs:register_mob("nssm:morvalar5", {
 		self.dir = (self.dir or 0)
 		if (os.time() - self.morvalar5_timer) > 2 then
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 			minetest.after(2, function(self)
-				set_animation(self, "punch")
+				mobs:set_animation(self, "punch")
 				tnt_boom_nssm(p, {damage_radius=6,radius=5,ignore_protection=false})
 				self.morvalar5_timer = os.time()
 			end,self)
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar4", pos, "morparticle.png", 10)
 	end,
@@ -394,7 +394,7 @@ mobs:register_mob("nssm:morvalar4", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar4",
 	},
 	armor = 30,
@@ -428,10 +428,10 @@ mobs:register_mob("nssm:morvalar4", {
 		self.morvalar4_timer = (self.morvalar4_timer or os.time())
 		if (os.time() - self.morvalar4_timer) > 1 then
 			self.morvalar4_timer = os.time()
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 
 			if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
 				-- play attack sound
@@ -460,8 +460,8 @@ mobs:register_mob("nssm:morvalar4", {
 
 				for j = -3,3 do
 					ty = d.y + j
-					local current = minetest.env:get_node({x = d.x, y = ty, z = d.z}).name
-					local up = minetest.env:get_node({x = d.x, y = ty+1, z = d.z}).name
+					local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
+					local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
 					if up == "air" and current ~= "air" then
 						d.y = d.y + j+1.5
 						flag = 1
@@ -477,8 +477,8 @@ mobs:register_mob("nssm:morvalar4", {
 					if dist>=2 then
 						for j = -3,3 do
 							ty = d.y + j
-							local current = minetest.env:get_node({x = d.x, y = ty, z = d.z}).name
-							local up = minetest.env:get_node({x = d.x, y = ty+1, z = d.z}).name
+							local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
+							local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
 							if up == "air" and current ~= "air" then
 								d.y = d.y + j+1.5
 								flag = 1
@@ -487,12 +487,12 @@ mobs:register_mob("nssm:morvalar4", {
 						end
 					end
 				end
-				self.object:setpos(d)
+				self.object:set_pos(d)
 			end)
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar3", pos, "morparticle.png", 10)
 	end,
@@ -516,7 +516,7 @@ mobs:register_mob("nssm:morvalar3", {
 	damage = 16,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar3",
 	},
 	armor = 30,
@@ -532,9 +532,9 @@ mobs:register_mob("nssm:morvalar3", {
 	on_rightclick = nil,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
-    arrow = "nssm:morarrow",
-    shoot_interval = 2,
-    shoot_offset = 0,
+	arrow = "nssm:morarrow",
+	shoot_interval = 2,
+	shoot_offset = 0,
 	animation = {
 		speed_normal = 15,
 		speed_run = 30,
@@ -547,13 +547,13 @@ mobs:register_mob("nssm:morvalar3", {
 		punch_start = 375,
 		punch_end = 395,
 		shoot_start = 400,
-    	shoot_end = 450,
+		shoot_end = 450,
 	},
 	do_custom = function(self)
 		respawn_block(self)
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar2", pos, "morparticle.png", 10)
 	end,
@@ -577,7 +577,7 @@ mobs:register_mob("nssm:morvalar2", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar2",
 	},
 	armor = 50,
@@ -611,11 +611,11 @@ mobs:register_mob("nssm:morvalar2", {
 		self.morvalar2_timer = (self.morvalar2_timer or os.time())
 		if (os.time() - self.morvalar2_timer) > 1 then
 			self.morvalar2_timer = os.time()
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
 			local counter = 0
-			local objects = minetest.env:get_objects_inside_radius(s, 7)
+			local objects = minetest.get_objects_inside_radius(s, 7)
 			for _,obj in ipairs(objects) do
 				if obj:get_luaentity() then
 					local name = obj:get_luaentity().name
@@ -626,7 +626,7 @@ mobs:register_mob("nssm:morvalar2", {
 			end
 			minetest.chat_send_all("Ne ho contati: "..counter)
 			if counter < 2 then
-				set_animation(self, "punch")
+				mobs:set_animation(self, "punch")
 
 				local v = vector.subtract(p,s)
 				--local v = {x = s.x-p.x, y = s.y-p.y , z= s.z-p.z}
@@ -653,7 +653,7 @@ mobs:register_mob("nssm:morvalar2", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar1", pos, "morparticle.png", 10)
 	end,
@@ -677,7 +677,7 @@ mobs:register_mob("nssm:morvalar1", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morvalar1",
 	},
 	armor = 20,
@@ -712,10 +712,10 @@ mobs:register_mob("nssm:morvalar1", {
 		if (os.time() - self.morvalar1_timer) > 3 then
 			self.morvalar1_timer = os.time()
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 
 			local m = 3
 
@@ -737,7 +737,7 @@ mobs:register_mob("nssm:morvalar1", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		add_entity_and_particles("nssm:morvalar0", pos, "morparticle.png", 10)
 	end,
@@ -761,7 +761,7 @@ mobs:register_mob("nssm:morvalar0", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "kamehameha",
 	},
 	drops = {
@@ -802,10 +802,10 @@ mobs:register_mob("nssm:morvalar0", {
 		if (os.time() - self.morvalar1_timer) > 1 then
 			self.morvalar1_timer = os.time()
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
-			set_animation(self, "punch")
+			mobs:set_animation(self, "punch")
 
 			local m = 5 	--velocity of the kamehameha
 			local obj = minetest.add_entity(s, "nssm:kamehameha_bad")
@@ -813,11 +813,11 @@ mobs:register_mob("nssm:morvalar0", {
 			s.y = s.y+0.5
 			p.y = p.y+0.9
 			local dir = {x=(p.x-s.x)*m, y=(p.y-s.y)*m, z=(p.z-s.z)*m} --direction of the kamehameha
-			obj:setvelocity(dir)
+			obj:set_velocity(dir)
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		self.object:remove()
 		minetest.add_particlespawner({
 			amount = 500,
@@ -844,7 +844,7 @@ mobs:register_mob("nssm:morvalar0", {
 minetest.register_entity("nssm:kamehameha_bad", {
 	textures = {"kamehameha.png"},
 	on_step = function(self, dtime)
-		local pos = self.object:getpos();
+		local pos = self.object:get_pos();
 		if self.timer == 0 then
 			self.timer = os.time()
 		end
@@ -853,7 +853,7 @@ minetest.register_entity("nssm:kamehameha_bad", {
 			self.object:remove()
 		end
 
-		local objects = minetest.env:get_objects_inside_radius(pos, 2)
+		local objects = minetest.get_objects_inside_radius(pos, 2)
 		for _,obj in ipairs(objects) do
 			if obj:is_player() then
 				minetest.chat_send_all("Dentro il raggio grande")
@@ -862,16 +862,16 @@ minetest.register_entity("nssm:kamehameha_bad", {
 			if obj:get_luaentity() then
 				local name = obj:get_luaentity().name
 				if name ~= "nssm:morvalar0" and name ~="nssm:kamehameha_bad" then
-		            obj:set_hp(obj:get_hp()-5)
-		            if (obj:get_hp() <= 0) then
-		                if (not obj:is_player()) then
-		                    obj:remove()
-		                end
-		            end
+					obj:set_hp(obj:get_hp()-5)
+					if (obj:get_hp() <= 0) then
+						if (not obj:is_player()) then
+							obj:remove()
+						end
+					end
 				end
-	        end
+			end
 		end
-		local objects = minetest.env:get_objects_inside_radius(pos, 1)
+		local objects = minetest.get_objects_inside_radius(pos, 1)
 		for _,obj in ipairs(objects) do
 			if obj:is_player() then
 				tnt_boom_nssm(pos, {damage_radius=6,radius=5,ignore_protection=false})
@@ -887,7 +887,7 @@ minetest.register_entity("nssm:kamehameha_bad", {
 			end
 		end
 
-		local nodename = minetest.env:get_node(pos).name
+		local nodename = minetest.get_node(pos).name
 		if nodename ~= "air" then
 			explosion(pos, 5, 0, 1, true)
 			self.object:remove()

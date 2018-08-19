@@ -1,27 +1,5 @@
--- arrow (duck_arrow)
-mobs:register_arrow("nssm:duck_father", {
-	visual = "sprite",
-	visual_size = {x = 1, y = 1},
-	textures = {"duck_egg.png"},
-	velocity = 8,
-	-- direct hit
-	hit_player = function(self, player)
-		local pos = self.object:getpos()
-		duck_explosion(pos)
-	end,
 
-	hit_mob = function(self, player)
-		local pos = self.object:getpos()
-		duck_explosion(pos)
-	end,
-
-	hit_node = function(self, pos, node)
-		duck_explosion(pos)
-	end,
-
-})
-
-function duck_explosion(pos)
+local function duck_explosion(pos)
 	if minetest.is_protected(pos, "") then
 		return
 	end
@@ -68,6 +46,46 @@ function duck_explosion(pos)
 	end)
 end
 
+-- arrow (duck_arrow)
+mobs:register_arrow("nssm:duck_father", {
+	visual = "sprite",
+	visual_size = {x = 1, y = 1},
+	textures = {"duck_egg.png"},
+	velocity = 8,
+	-- direct hit
+	hit_player = function(self, player)
+		local pos = self.object:get_pos()
+		duck_explosion(pos)
+	end,
+
+	hit_mob = function(self, player)
+		local pos = self.object:get_pos()
+		duck_explosion(pos)
+	end,
+
+	hit_node = function(self, pos, node)
+		duck_explosion(pos)
+	end,
+})
+
+
+local function ice_explosion(pos)
+	for i=pos.x-math.random(0, 1), pos.x+math.random(0, 1), 1 do
+		for j=pos.y-1, pos.y+4, 1 do
+			for k=pos.z-math.random(0, 1), pos.z+math.random(0, 1), 1 do
+				local p = {x=i, y=j, z=k}
+				local n = minetest.get_node(p).name
+				if minetest.get_item_group(n, "unbreakable") == 1
+				or minetest.is_protected(p, "")
+				or (n == "bones:bones" and not nssm:affectbones(self)) then
+				else
+					minetest.set_node({x=i, y=j, z=k}, {name="default:ice"})
+				end
+			end
+		end
+	end
+end
+
 -- snow_arrow
 mobs:register_arrow("nssm:snow_arrow", {
 	visual = "sprite",
@@ -76,12 +94,12 @@ mobs:register_arrow("nssm:snow_arrow", {
 	velocity =20,
 	-- direct hit
 	hit_player = function(self, player)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		ice_explosion(pos)
 	end,
 
 	hit_mob = function(self, player)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		ice_explosion(pos)
 	end,
 	hit_node = function(self, pos, node)
@@ -89,20 +107,6 @@ mobs:register_arrow("nssm:snow_arrow", {
 	end,
 })
 
-function ice_explosion(pos)
-	for i=pos.x-math.random(0, 1), pos.x+math.random(0, 1), 1 do
-		for j=pos.y-1, pos.y+4, 1 do
-			for k=pos.z-math.random(0, 1), pos.z+math.random(0, 1), 1 do
-				local p = {x=i, y=j, z=k}
-				local n = minetest.env:get_node(p).name
-				if minetest.get_item_group(n, "unbreakable") == 1 or minetest.is_protected(p, "") or (n == "bones:bones" and not nssm:affectbones(self)) then
-				else
-					minetest.set_node({x=i, y=j, z=k}, {name="default:ice"})
-				end
-			end
-		end
-	end
-end
 
 -- arrow manticore
 mobs:register_arrow("nssm:spine", {
@@ -126,6 +130,7 @@ mobs:register_arrow("nssm:spine", {
 	end,
 })
 
+
 --morbat arrow
 mobs:register_arrow("nssm:morarrow", {
 	visual = "sprite",
@@ -141,6 +146,32 @@ mobs:register_arrow("nssm:morarrow", {
 	end,
 })
 
+
+local function explosion_web(pos)
+	pos.y = round(pos.y)
+	if minetest.is_protected(pos, "") then
+		return
+	end
+	for i=pos.x-1, pos.x+1, 1 do
+		for j=pos.y-3, pos.y, 1 do
+			for k=pos.z-1, pos.z+1, 1 do
+				local p = {x=i,y=j,z=k}
+				local k = {x=i,y=j+1,z=k}
+				local current = minetest.get_node(p).name
+				local ontop  = minetest.get_node(k).name
+				if 	(current ~= "air") and
+					(current ~= "nssm:web") and
+					(ontop == "air") and not
+					minetest.is_protected(p,"") and not
+					minetest.is_protected(k,"") then
+						minetest.set_node(k, {name="nssm:web"})
+				end
+			end
+		end
+	end
+end
+
+
 -- web arrow
 mobs:register_arrow("nssm:webball", {
 	visual = "sprite",
@@ -149,7 +180,7 @@ mobs:register_arrow("nssm:webball", {
 	velocity = 8,
 	-- direct hit
 	hit_player = function(self, player)
-		local p = player:getpos()
+		local p = player:get_pos()
 		explosion_web(p)
 	end,
 
@@ -165,33 +196,30 @@ mobs:register_arrow("nssm:webball", {
 	end
 })
 
-function explosion_web(pos)
-	if minetest.is_protected(pos, "") then
-		return
-	end
+
+function explosion_thickweb(pos)
 	pos.y = round(pos.y)
 	if minetest.is_protected(pos, "") then
 		return
 	end
-    for i=pos.x-1, pos.x+1, 1 do
-		for j=pos.y-3, pos.y, 1 do
-			for k=pos.z-1, pos.z+1, 1 do
+	for i=pos.x+0, pos.x+0, 1 do
+		for j=pos.y-2, pos.y, 1 do
+			for k=pos.z+0, pos.z+0, 1 do
 				local p = {x=i,y=j,z=k}
 				local k = {x=i,y=j+1,z=k}
-				local current = minetest.env:get_node(p).name
-				local ontop  = minetest.env:get_node(k).name
+				local current = minetest.get_node(p).name
+				local ontop  = minetest.get_node(k).name
 				if 	(current ~= "air") and
-					(current ~= "nssm:web") and
+					(current ~= "nssm:thick_web") and
 					(ontop == "air") and not
 					minetest.is_protected(p,"") and not
 					minetest.is_protected(k,"") then
-						minetest.set_node(k, {name="nssm:web"})
+						minetest.set_node(k, {name="nssm:thick_web"})
 				end
 			end
 		end
 	end
 end
-
 
 -- thick_web arrow
 mobs:register_arrow("nssm:thickwebball", {
@@ -201,7 +229,7 @@ mobs:register_arrow("nssm:thickwebball", {
 	velocity = 8,
 	-- direct hit
 	hit_player = function(self, player)
-		local p = player:getpos()
+		local p = player:get_pos()
 		explosion_thickweb(p)
 	end,
 
@@ -217,32 +245,6 @@ mobs:register_arrow("nssm:thickwebball", {
 	end
 })
 
-function explosion_thickweb(pos)
-	if minetest.is_protected(pos, "") then
-		return
-	end
-	pos.y = round(pos.y)
-	if minetest.is_protected(pos, "") then
-		return
-	end
-    for i=pos.x+0, pos.x+0, 1 do
-		for j=pos.y-2, pos.y, 1 do
-			for k=pos.z+0, pos.z+0, 1 do
-				local p = {x=i,y=j,z=k}
-				local k = {x=i,y=j+1,z=k}
-				local current = minetest.env:get_node(p).name
-				local ontop  = minetest.env:get_node(k).name
-				if 	(current ~= "air") and
-					(current ~= "nssm:thick_web") and
-					(ontop == "air") and not
-					minetest.is_protected(p,"") and not
-					minetest.is_protected(k,"") then
-						minetest.set_node(k, {name="nssm:thick_web"})
-				end
-			end
-		end
-	end
-end
 
 -- arrow=>phoenix arrow
 mobs:register_arrow("nssm:phoenix_arrow", {
@@ -256,23 +258,24 @@ mobs:register_arrow("nssm:phoenix_arrow", {
 
 	on_step = function(self, dtime)
 
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		if minetest.is_protected(pos, "") then
 			return
 		end
 
-		local n = minetest.env:get_node(pos).name
+		local n = minetest.get_node(pos).name
 
 		if self.timer == 0 then
 			self.timer = os.time()
 		end
 
-		if os.time() - self.timer > 5 or minetest.is_protected(pos, "") or ((n~="air") and (n~="nssm:phoenix_fire")) then
+		if os.time() - self.timer > 5 or minetest.is_protected(pos, "")
+		or ((n~="air") and (n~="nssm:phoenix_fire")) then
 			self.object:remove()
 		end
 
 		if math.random(1,2)==2 then
-			minetest.env:set_node(pos, {name="nssm:phoenix_fire"})
+			minetest.set_node(pos, {name="nssm:phoenix_fire"})
 		end
 
 		if math.random(1,6)==1 then
@@ -280,29 +283,13 @@ mobs:register_arrow("nssm:phoenix_arrow", {
 			dy = math.random(-1,1)
 			dz = math.random(-1,1)
 			local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-			local n = minetest.env:get_node(p).name
+			local n = minetest.get_node(p).name
 			if n=="air" then
-				minetest.env:set_node(p, {name="nssm:phoenix_fire"})
+				minetest.set_node(p, {name="nssm:phoenix_fire"})
 			end
 		end
 
 	end,
-})
-
-mobs:register_arrow("nssm:super_gas", {
-	visual = "sprite",
-	visual_size = {x = 1, y = 1},
-	textures = {"transparent.png"},
-	velocity = 8,
-	-- direct hit
-	hit_player = function(self, player)
-		local p = player:getpos()
-		gas_explosion(p)
-	end,
-
-	hit_node = function(self, pos, node)
-		gas_explosion(pos)
-	end
 })
 
 
@@ -317,7 +304,7 @@ function gas_explosion(pos)
 				if minetest.is_protected(p, "") then
 					return
 				end
-				local n = minetest.env:get_node(p).name
+				local n = minetest.get_node(p).name
 				if n== "air" then
 					minetest.set_node(p, {name="nssm:venomous_gas"})
 				end
@@ -326,7 +313,23 @@ function gas_explosion(pos)
 	end
 end
 
---
+mobs:register_arrow("nssm:super_gas", {
+	visual = "sprite",
+	visual_size = {x = 1, y = 1},
+	textures = {"transparent.png"},
+	velocity = 8,
+	-- direct hit
+	hit_player = function(self, player)
+		local p = player:get_pos()
+		gas_explosion(p)
+	end,
+
+	hit_node = function(self, pos, node)
+		gas_explosion(pos)
+	end
+})
+
+
 mobs:register_arrow("nssm:roar_of_the_dragon", {
 	visual = "sprite",
 	visual_size = {x = 1, y = 1},
@@ -335,9 +338,9 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 
 	on_step = function(self, dtime)
 
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 
-		local n = minetest.env:get_node(pos).name
+		local n = minetest.get_node(pos).name
 
 		if self.timer == 0 then
 			self.timer = os.time()
@@ -347,20 +350,21 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 			self.object:remove()
 		end
 
-		local objects = minetest.env:get_objects_inside_radius(pos, 1)
-	    for _,obj in ipairs(objects) do
+		local objects = minetest.get_objects_inside_radius(pos, 1)
+		for _,obj in ipairs(objects) do
 			local name = obj:get_entity_name()
 			if name~="nssm:roar_of_the_dragon" and name ~= "nssm:mese_dragon" then
-		        obj:set_hp(obj:get_hp()-0.05)
-		        if (obj:get_hp() <= 0) then
-		            if (not obj:is_player()) and name ~= self.object:get_luaentity().name then
-		                obj:remove()
-		            end
-		        end
+				obj:set_hp(obj:get_hp()-0.05)
+				if (obj:get_hp() <= 0) then
+					if (not obj:is_player())
+					and name ~= self.object:get_luaentity().name then
+						obj:remove()
+					end
+				end
 			end
-	    end
+		end
 
-		minetest.env:set_node(pos, {name="air"})
+		minetest.set_node(pos, {name="air"})
 		if math.random(1,2)==1 then
 			dx = math.random(-1,1)
 			dy = math.random(-1,1)
@@ -369,7 +373,7 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 				return
 			end
 			local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-			minetest.env:set_node(p, {name="air"})
+			minetest.set_node(p, {name="air"})
 		end
 	end
 })
@@ -382,7 +386,7 @@ mobs:register_arrow("nssm:lava_arrow", {
 	velocity = 10,
 	-- direct hit
 	hit_player = function(self, player)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		if minetest.is_protected(pos, "") then
 			return
 		end
@@ -390,8 +394,9 @@ mobs:register_arrow("nssm:lava_arrow", {
 			for dx=-1, 1, 2 do
 				for dz=-1, 1, 2 do
 					local p = {x=pos.x+dx, y=pos.y+dy, z=pos.z+dz}
-					local n = minetest.env:get_node(p).name
-					if n~="default:lava_flowing" and not minetest.is_protected(p, "") then
+					local n = minetest.get_node(p).name
+					if n~="default:lava_flowing"
+					and not minetest.is_protected(p, "") then
 						minetest.set_node(p, {name="default:lava_flowing"})
 					end
 				end

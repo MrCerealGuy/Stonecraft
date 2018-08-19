@@ -13,8 +13,8 @@ mobs:register_mob("nssm:ant_queen", {
 	walk_velocity = 1.5,
 	run_velocity = 2,
 	lifetimer = 300,
-  	rotate = 270,
-    sounds = {
+	rotate = 270,
+	sounds = {
 		random = "ant",
 		attack = "ant",
 	},
@@ -70,12 +70,13 @@ mobs:register_mob("nssm:ant_queen", {
 			self.ant_queen_counter = 0
 			local counter = 0
 
-			local s = self.object:getpos()
-			local p = self.attack:getpos()
+			local s = self.object:get_pos()
+			local p = self.attack:get_pos()
 
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
-			if line_of_sight_water(self, p, s) == true then
+			if mobs:line_of_sight(self, p, s) == true then
+
 				-- play attack sound
 				if self.sounds.attack then
 					minetest.sound_play(self.sounds.attack, {
@@ -85,15 +86,15 @@ mobs:register_mob("nssm:ant_queen", {
 				end
 				local pos1 = {x=s.x+math.random(-3,3), y=s.y-1, z=s.z+math.random(-3,3)}
 
-				local objects = minetest.env:get_objects_inside_radius(s, 10)
-			    for _,obj in ipairs(objects) do
-			        if (obj:get_luaentity() and obj:get_luaentity().name == "nssm:ant_soldier") then
-			        	counter = counter + 1
+				local objects = minetest.get_objects_inside_radius(s, 10)
+				for _,obj in ipairs(objects) do
+					if (obj:get_luaentity() and obj:get_luaentity().name == "nssm:ant_soldier") then
+						counter = counter + 1
 					end
-			    end
+				end
 
 				if 	((pos1.x~=s.x) and (pos1.z~=s.z))
-				and (minetest.env:get_node(pos1).name == "air")
+				and (minetest.get_node(pos1).name == "air")
 				and (counter < 4)
 				then
 					explosion_particles(pos1, 1)

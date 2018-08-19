@@ -12,7 +12,7 @@ mobs:register_mob("nssm:mantis", {
 	fear_height = 4,
 	walk_velocity = 2,
 	run_velocity = 2.5,
-    sounds = {
+	sounds = {
 		random = "manti",
 	},
 	damage = 4,

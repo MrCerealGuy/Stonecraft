@@ -16,7 +16,7 @@ mobs:register_mob("nssm:morgut", {
 	damage = 4,
 	runaway = true,
 	jump = true,
-    sounds = {
+	sounds = {
 		random = "morgut",
 	},
 	drops = {
@@ -69,8 +69,8 @@ mobs:register_mob("nssm:morgut", {
 
 		if self.flag == 1 then
 			self.state = ""
-			set_animation(self, "run")
-			self.object:setyaw(self.dir)
+			mobs:set_animation(self, "run")
+			self.object:set_yaw(self.dir)
 			set_velocity(self, 4)
 
 			if os.time() - self.morgut_timer > 3 then
@@ -87,9 +87,9 @@ mobs:register_mob("nssm:morgut", {
 		self.dir = (self.dir or 0)
 		if (os.time() - self.morgut_timer) > 1 then
 			if self.attack then
-				local s = self.object:getpos()
-				local p = self.attack:getpos()
-				set_animation(self, "punch")
+				local s = self.object:get_pos()
+				local p = self.attack:get_pos()
+				mobs:set_animation(self, "punch")
 				local m = 2
 
 				minetest.add_particlespawner(
@@ -149,14 +149,14 @@ mobs:register_mob("nssm:morgut", {
 									end
 								end
 							end
-							set_animation(self, "run")
+							mobs:set_animation(self, "run")
 							self.flag = 1
 							self.morgut_timer = os.time()
 							self.curr_attack = self.attack
 							self.state = ""
 							local pyaw = self.curr_attack: get_look_yaw()
 							self.dir = pyaw
-							self.object:setyaw(pyaw)
+							self.object:set_yaw(pyaw)
 							if self then
 								set_velocity(self, 4)
 							end
@@ -167,14 +167,14 @@ mobs:register_mob("nssm:morgut", {
 		end
 	end,
 	on_die = function(self)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		if (self.inventory ~= nil) then
 			local elem
 			for i = 1,32 do
 				if self.inventory[i].num~=0 then
 					local items = ItemStack(self.inventory[i].name.." "..self.inventory[i].num)
 					local obj = minetest.add_item(pos, items)
-						obj:setvelocity({
+						obj:set_velocity({
 							x = math.random(-1, 1),
 							y = 6,
 							z = math.random(-1, 1)

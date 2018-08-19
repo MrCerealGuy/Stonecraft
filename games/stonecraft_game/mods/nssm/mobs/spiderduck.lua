@@ -13,7 +13,7 @@ mobs:register_mob("nssm:spiderduck", {
 	view_range = 24,
 	walk_velocity = 2,
 	run_velocity = 4,
-    sounds = {
+	sounds = {
 		random = "duck",
 	},
 	damage = 6,
@@ -53,10 +53,10 @@ mobs:register_mob("nssm:spiderduck", {
 	on_rightclick = nil,
 	dogshoot_switch = true,
 	attack_type = "dogshoot",
-    arrow = "nssm:webball",
-    reach = 2,
-    shoot_interval = 2,
-    shoot_offset = 2,
+	arrow = "nssm:webball",
+	reach = 2,
+	shoot_interval = 2,
+	shoot_offset = 2,
 	animation = {
 		speed_normal = 25,
 		speed_run = 35,

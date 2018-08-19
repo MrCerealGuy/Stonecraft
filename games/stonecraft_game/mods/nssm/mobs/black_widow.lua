@@ -12,8 +12,8 @@ mobs:register_mob("nssm:black_widow", {
 	fear_height = 4,
 	walk_velocity = 0.8,
 	run_velocity = 2.5,
-    rotate = 270,
-  	sounds = {
+	rotate = 270,
+	sounds = {
 		random = "black_widow",
 	},
 	damage = 4,
