@@ -1,0 +1,2 @@
+#    If enabled will play a random music file from ./minetest/sounds at midnight
+ambience_music (Ambience music) bool true
