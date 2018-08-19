@@ -4,11 +4,11 @@ Copyright © 2016-2018 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mai
 
 Stonecraft is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine. It will be kept lightweight enough to run on fairly old hardware.
 
-Stonecraft is open-source and free, released under the GNU Lesser General Public License (LGPL). Thanks a lot to the minetest community, to "Notch" the creator of Minecraft and to Linus Torvalds, the creator of the free operating system Linux.
+Stonecraft is open-source and free, released under the GNU General Public License v3.0. Thanks a lot to the Minetest community, to "Notch" the creator of Minecraft and to Linus Torvalds, the creator of the free operating system Linux.
 
 Like in other block sandbox games, you can build and destroy blocks everywhere in a near infinite world. There are two game modes, in survival mode you can loose your life, so you have to fight against many creatures and hunger in a dangerous world with many dungeons and woods of spiders. In creative mode you have access to all blocks, items and tools to build all you can imagine. Choose if you want to play either as singleplayer or multiplayer on servers with your friends. If you like, you can run your own Stonecraft server.
 
-Stonecraft is open-source and free, released under the GNU Lesser General Public License (LGPL).
+Stonecraft is open-source and free, released under the GNU General Public License v3.0.
 
 **Table of contents**
 
@@ -37,9 +37,73 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
     1. [Simple Mobs](#simple-mobs)
     2. [Not So Simple Mobs](#not-so-simple-mobs)
 4. [Farming](#farming)
-5. [Chat](#chat)
+5. [Technic](#technic)
+	1. [Machines](#machines)
+		1. [Machine details](#machine-details)
+		2. [Overview](#overview)
+		3. [Getting started](#getting-started)
+	2. [Consumers](#consumers)
+	3. [Generators](#generators)
+	4. [Chests](#chests)
+	5. [Resources](#resources)
+		1. [Latex](#latex)
+	6. [Tools](#tools)
+		1. [Chainsaw](#chainsaw)
+		2. [Flashlight](#flashlight)
+		3. [Lava can](#lava-can)
+		4. [Mining drill](#mining-drill)
+		5. [Mining laser](#mining-laser)
+		6. [Sonic screwdriver](#sonic-screwdriver)
+		7. [Tree tap](#tree-tap)
+		8. [Water can](#water-can)
+		9. [Wrench](#wrench)
+	7. [Digilines](#digilines)
+		1. [Switching Station](#switching-station)
+		2. [Supply Converter](#supply-converter)
+		3. [Battery Boxes](#battery-boxes)
+		4. [Forcefield Emitter](#forcefield-emitter)
+	8. [Reactors](#reactors)
+		1. [Nuclear Reactor](#nuclear-reactor)
+	9. [Geothermal EU generator](#geothermal-eu-generator)
+	10. [Other machines](#other-machines)
+		1. [Switching station](#switching-station)
+		2. [LV/MV/HV Battery Box](#lvmvhv-battery-box)
+		3. [Supply Converter](#supply-converter)
+	11. [Solar array](#solar-array)
+	12. [Solar panel](#solar-panel)
+	13. [Watermill](#watermill)
+6. [Pipeworks](#pipeworks)
+	1. [Description](#description)
+	2. [Fluid Transport](#fluid-transport)
+		1. [Pipes](#pipes)
+		2. [Straight-only pipes](#straight-only-pipes)
+		3. [Spigots](#spigots)
+		4. [Pumps](#pumps)
+		5. [Valves](#valves)
+		6. [Storage Tanks](#storage-tanks)
+		7. [Gratings](#gratings)
+		8. [Sealed/Airtight Pipe Entries](#sealedairtight-pipe-entries)
+		9. [Flow Sensors](#flow-sensors)
+	3. [Item Transport](#item-transport)
+		1. [Base materials/items](#base-materialsitems)
+		2. [Tubes](#tubes)
+		3. [Chests](#chests)
+		4. [Furnaces](#furnaces)
+		5. [Filters/Injectors](#filtersinjectors)
+		6. [Mese Filters/Injectors](#mese-filtersinjectors)
+		7. [Mese Sorting Tubes](#mese-sorting-tubes)
+		8. [Detector Tubes](#detector-tubes)
+		9. [Lua controlled Tubes](#lua-controlled-tubes)
+		10. [Accelerator Tubes](#accelerator-tubes)
+		11. [Teleporter Tubes](#teleporter-tubes)
+		12. [Autocrafters](#autocrafters)
+		13. [Deployers](#deployers)
+		14. [Node Breakers](#node-breakers)
+		15. [Sand Vacuum Tubes](#sand-vacuum-tubes)
+		16. [Mese Sand Vacuum Tubes](#mese-sand-vacuum-tubes)
+7. [Chat](#chat)
     1. [Sending messages](#sending-messages)
-6. [Experienced players](#experienced-players)
+8. [Experienced players](#experienced-players)
     1. [Area protection](#area-protection)
     2. [Teleporters](#teleporters)
     3. [Special Controls](#special-controls)
@@ -52,16 +116,16 @@ Stonecraft is open-source and free, released under the GNU Lesser General Public
         2. [Privileges from mods](#privileges-from-mods)
         3. [Server configuration](#server-configuration)
     6. [Create and import a schematic file (.mts)](#create-and-import-a-schematic-file-mts)
-7. [Setting up a server](#setting-up-a-server)
+9. [Setting up a server](#setting-up-a-server)
     1. [Running a dedicated server](#running-a-dedicated-server)
         1. [Linux](#linux)
         2. [Windows](#windows)
-8. [Modding Stonecraft](#modding-stonecraft)
+10. [Modding Stonecraft](#modding-stonecraft)
     1. [Installing mods](#installing-mods)
     2. [Installing texture packs](#installing-texture-packs)
         1. [Server texture pack](#server-texture-pack)
     3. [Profiling mods](#profiling-mods)
-9. [Troubleshooting](#troubleshooting)
+11. [Troubleshooting](#troubleshooting)
     1. [Multiplayer/Network issues](#multiplayernetwork-issues)
 
 # First steps
@@ -561,6 +625,674 @@ Farmable blocks will spawn either new blocks or yield new items, when mined. All
 | Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
 | Group:flora | Desert Sand | No | 1 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
 
+# Technic
+
+Become an engineer in Stonecraft! From simple water-wheel ore proccessing centers, to massive nuclear-powered force-field networks!
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Technic_Screenshot.png)
+
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mv_alloy_furnace_front.png) [Machines](#machines)
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mv_compressor_front.png) [Consumers](#consumers)
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_hv_generator_front.png) [Generators](#generators)
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png) [Chests](#chests)
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_uranium_ingot.png) [Resources](#resources)
+* ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk3.png) [Tools](#tools)
+
+## Machines
+
+### Machine details
+- [Generators](#generators)
+- [Consumers](#consumers)
+- [Other machines](#other-machines)
+
+### Overview
+Many of the important machines in Technic run on electricity, using wires to connect generators with the consuming machines. These electric circuits consist of a generator, a consumer, wiring, and a switching station. Every independent circuit requires all 4 of these elements to function. In general the machines are all connected on the bottom by wire. Machines should be placed first and then the wire placed under and around them. The wiring should automatically adjust itself to connect to each machine and adjacent wires. If the wiring looks incorrect, it's likely that it won't work so be sure to check this!
+
+Circuits are also grouped into 3 different categories based on how much power they transfer and the corresponding voltage: low voltage (LV), medium voltage (MV), and high voltage (HV). The base level for all electronics is low voltage, so if voltage isn't specified for a electrical component, you may safely assume it's low voltage. Most low-voltage components are upgradable to medium- and high-voltage through further crafting. To get started, you won't need to worry about any MV or HV components, and the basic low-voltage components are fine.
+
+### Getting started
+The first step to working with the more advanced machines are to get a basic electrical circuit set up for converting coal into power for other machines. This will rely on the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/LV_Fuel_Fired_Generator_Crafting.png)
+1x LV Fuel Fired Generator
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Switching_station_crafting.png)
+1x Switching station
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/LV_cable_Crafting.png)
+2x LV Cable
+
+The generator and switching station should be placed side-by-side with the wire underneath connecting both of them. Once this is done, additional consumers can be added to the network. A grinder or extractor are both good choices to expand the capabilities of the coal-fired smelter and coal-fired alloy furnace that you already have.
+
+## Consumers
+
+Consumer is a machine which consume energy to do something. 
+
+This is the list of all consumers avaible in technic mod:
+- Alloy furnace.
+- MV Alloy furnace.
+- Grinder.
+- Electric Furnace.
+- MV - Electric Furnace. 
+- Force field emitter.
+- CNC machine.
+- Power radiator.
+- Tool workshop.
+
+## Generators
+
+This is list of all generators available in technic mod:
+- Coal generator.
+- [Geothermal EU generator](#geothermal-eu-generator).
+- [Watermill](#watermill).
+- [Solar-panel](#solar-panel).
+- LV [solar-array](#solar-array).
+- MV [solar-array](#solar-array).
+- HV [solar-array](#solar-array).
+
+## Chests
+
+Technic extends the base chest from `technic_game` with 5 additional chests, each adding additional inventory slots.
+
+There are all types of chests from worst to best:
+  * ![Iron chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_iron_chest_front.png) Iron chest, 9x10 slots
+  * ![Copper chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_copper_chest_front.png) Copper chest, 10x10 slots
+  * ![Silver chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_silver_chest_front.png) Silver chest, 11x10 slots. Can also be named.
+  * ![Gold chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_gold_chest_front.png) Gold chest, 12x10 slots. Can be named and given a unique color.
+  * ![Mithril chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png) Mithril chest, 13x10 slots. **Note:** The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.
+ 
+## Resources
+
+Technic provides additional resources for building these machines.
+
+### Latex ![latex icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_raw_latex.png)
+Latex is used for manufacturing rubber, which is heavily used for the medium- and high-voltage components within Technic. Latex can be harvested directly from rubber trees (look for the pale green/seafoam leaves) using the tree tap like any other tool. Rubber trees regenerate their latex supplies after about a day.
+
+## Tools
+
+Tools in Technic fall into two categories: manual and electric. Both sets of tools are unstackable in the inventory. They have limited durability that is reduced during use (they disappear after they hit 0 durability). Manual tools can be regenerated by using the Tool Workshop, so that valuable tools, such as mese or diamond tools can be preserved. Electric tools require charging in Battery Boxes (of any voltage) and will not be destroyed when they reach 0 charge. Higher levels of electric tools are more powerful and contain more charge so they work longer.
+
+### Chainsaw ![chainsaw icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_chainsaw.png)
+This electric tool speeds up harvesting of wood by allowing the harvesting of an entire tree in a single click. Just click on any part of a tree, and the wood and leaves of that tree at that point and above will be cut and dropped on the ground as blocks. It has enough charge to cut down about 5 trees before running out of power.
+
+**Note:** If you can't find the drops from using the chainsaw, dig around as they can be buried under neighbouring terrain blocks.
+
+### Flashlight ![flashlight icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_flashlight.png)
+This electric tool illumates the area in front of the player. While it is electric, and so requires charging, to use it one only needs to equip it. Punching with this tool does nothing.
+
+### Lava can ![lava can icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_lava_can.png)
+The lava can works similarly to the bucket tool and the water can, but instead of carrying water, it can carry lava source blocks (the ones that aren't animated), up to 8 at a time. To use, simply equip and click on lava source blocks (they will highlight in black). Then clicking anywhere where there isn't a lava source block will place them again.
+
+**Warning:** Be careful where you place these source blocks! Since you're placing lava source blocks, lava will flow out of them and may trap or burn you depending on where you are.
+
+### Mining drill ![mining drill mk1 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill.png) ![mining drill mk2 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill_mk2.png) ![mining drill mk3 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill_mk3.png)
+This electric tool operates similarly to a pickaxe, though every block takes exactly one click to drill out. While the Mining Laser allows for faster collection of bulk minerals, it's cutting path can sometimes be undesirable, and the mining drill is useful in these instances.
+
+The higher levels of the mining drill allow for drilling more blocks at once, substantially reducing mining time. At mark-2, the mining drill can drill 3 blocks at once, either 3-deep, 3-wide, or 3-tall. At mark-3, the mining drill can drill 9-blocks at once in a 3x3 layout around the block selected. Switching between these modes can be done by shift-clicking.
+
+**Advice:** Since these tools require substantially more diamonds than the mining laser, and yet drills slower, it is suggested that a mining laser be built first.
+
+### Mining laser ![mining laser mk1 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk1.png) ![mining laser mk2 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk2.png) ![mining laser mk3 icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk3.png)
+This electric tool is a substantial upgrade above the pickaxe that you start mining with. The laser works by drilling directly forward 7 blocks making a path that's roughly 1-block in diameter. The laser is electric, requiring charging in a battery box (any voltage). As soon as an LV electrical system is set up, this is a great next step.
+
+### Sonic screwdriver ![sonic screwdriver icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_sonic_screwdriver.png)
+This electric tool is used for rotating nodes, much like the default Screwdriver tool, but loses charge instead of durability. This is useful for any nodes which have a "front" direction, like stairs, machines, furniture, etc. Nodes are rotated around the Y-axes (vertical).
+
+### Tree tap ![tree tap icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_tree_tap.png)
+This manual tool allows for harvesting latex from rubber trees. Extracting latex can be done by hitting rubber trees with it yields for 1 latex. The rubber tree will regenerate its latex supply over the course of a day.
+
+### Water can ![water can icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_water_can.png)
+The water can works similarly to the normal bucket tool, but it can hold 16 `water_source` (the water blocks that don't look like they're flowing) blocks instead of 1. To use, simply equip the water can and click on water source blocks (they will highlight in black). Then clicking anywhere where there isn't a `water_source` block with the water can equipped will place them.
+
+**Warning:** Be careful where you place these source blocks! Since you're placing water source blocks, water will flow out of them and may trap or drown you depending on where you are.
+
+### Wrench ![wrench icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_wrench.png)
+The manual tool allows for moving blocks which contain an inventory, like chests. A shift-right-click on a machine/chest will immediately add it to the inventory.
+
+## Digilines
+You can control some machines with the digilines.
+
+### Switching Station
+There are two ways getting information from the switching station:
+1. Give it a mesecon signal (eg. with a lever) and it will send always when the supply or demand changes.
+
+2. Send to the switching station `"get"` or `"GET"` and it will send back.
+
+The sent message is always a table containing the supply and demand.
+
+### Supply Converter
+You can send the following to it:
+- `"get"`: It will send back a table containing the fields `"enabled"`, `"power"` and `"mesecon_mode"` which are all integers.
+- `"off"`: Deactivate the supply converter.
+- `"on"`: Activate the supply converter.
+- `"toggle"`: Activate or deactivate the supply converter depending on its current state.
+- `"power "..power`: Set the amount of the power, it shall convert.
+- `"mesecon_mode "..<int>`: Set the mesecon mode.
+
+### Battery Boxes
+Send to it `"get"` or `"GET"` and it will send a table back containing:
+- `demand`: A number.
+- `supply`: A number.
+- `input`: A number.
+- `charge`: A number.
+- `max_charge`: A number.
+- `src`: Itemstack made to table.
+- `dst`: Itemstack made to table.
+- `upgrade1`: Itemstack made to table.
+- `upgrade2`: Itemstack made to table.
+
+### Forcefield Emitter
+You should send a table to it containing the `command` and for some commands the `value` field.
+Some strings will automatically be made to tables:
+- `"get"` :arrow_right: `{command = "get"}`
+- `"off"` :arrow_right: `{command = "off"}`
+- `"on"` :arrow_right: `{command = "on"}`
+- `"toggle"` :arrow_right: `{command = "toggle"}`
+- `"range "..range` :arrow_right: `{command = "range", value = range}`
+- `"shape "..shape` :arrow_right: `{command = "shape", value = shape}`
+
+The commands:
+- `"get"`: The forcefield emitter sends back a table containing:
+  - `"enabled"`: `0` is off, `1` is on.
+  - `"range"`
+  - `"shape"`: `0` is spheric, `1` is cubic.
+- `"off"`: Deactivate the forcefield emitter.
+- `"on"`: Activate the forcefield emitter.
+- `"toggle"`: Activate or deactivate the forcefield emitter depending on its current state.
+- `"range"`: Set the range to `value`.
+- `"shape"`: `value` can be a number (`0` or `1`) or a string (`"sphere"` or `"cube"`).
+
+### Nuclear Reactor
+Since the nuclear reactor core can't be accessed by digiline wire because the water layer which mustn't have a hole, you need the digiline_remote to control it.
+You should send a table to it containing at least the `command` field and for some commands other fields.
+Some strings will automatically be made to tables:
+- `"get"` :arrow_right: `{command = "get"}`
+- `"self_destruct "..time` :arrow_right: `{command = "self_destruct", timer = time}`
+- `"start"` :arrow_right: `{command = "start"}`
+
+The commands:
+- `"get"`: The nuclear reactor sends back a table containing:
+  - `"burn_time"`: The time in seconds how long the reactor already runs. One week after start, when it reaches 7 * 24 * 60 * 60 (=604800), the fuel is completely used.
+  - `"enabled"`: A bool.
+  - `"siren"`: A bool.
+  - `"structure_accumulated_badness"`
+  - `"rods"`: A table with 6 numbers in it, one for each fuel slot.
+    -  A positive value is the count of fuel rods in the slot.
+    - `0` means the slot is empty.
+    -  A negative value means some other items are in the slot. The absolute value is the count of these items.
+- `"self_destruct"`: A setting has to be enabled to use this. The reactor will melt down after `timer` seconds or instantly.
+- `"start"`: Tries to start the reactor, `"Start successful"` is sent back on success, `"Error"` if something is wrong.
+
+If the automatic start is enabled, it will always send `"fuel used"` when it uses fuel.
+
+## Reactors
+
+### Nuclear Reactors
+
+If no amount of solar power is enough to sate your hunger for power, why not give reactors a try? Utilising the latest micro-fission technology, you can produce up to 100,000 EU per second!
+
+#### Setup
+
+
+    The standard reactor structure consists of a 9x9x9 cube.  A cross
+    section through the middle:
+	BBB BBB
+	BLL LLB
+	BLWWWLB
+	BLW#WLB
+	BLW|WLB
+	BLL|LLB
+	BBB|BBB
+	B = Blast-resistant concrete, L = Lead Block,
+	W = water node, # = reactor core, | = HV cable
+    The man-hole and the HV cable are only in the middle, and the man-hole
+    is optional.
+
+## Geothermal EU generator
+
+Using hot lava and water this device can create energy from steam
+
+The machine is only producing LV EUs and can thus not drive more advanced equipment
+
+The output is a little more than the coal burning generator (max 300EUs)
+
+## Other machines
+
+Some machines in Technic can not be classified as producers or consumers.
+
+This is a list of this machines:
+- Switching station.
+- LV Battery Box
+- MV Battery Box
+- HV Battery Box
+- Constructor.
+- Deployer.
+- Node Breaker.
+- Supply Converter.
+
+### Switching Station
+The Switching station is the most important part of any network, since without a switching station, no machine will operate!
+
+### LV/MV/HV Battery Box
+These peculiar machines can both generate *and* consume, depending on what's needed. Do note that higher tier machines will charge tools faster!
+
+### Supply Converter
+The Supply Converter can convert one voltage to the next highest or lowest. It will pull a load of 10,000 EU, but will waste it if the other side is unable to accept it. The top is the input voltage, and the bottom is the output. Both sides will require their own switching station!
+  
+## Solar array
+
+The solar array is an assembly of panels into a powerful array
+
+The assembly can deliver more energy than the individual panel because
+of the transformer unit which converts the panel output variations into
+a stable supply.
+
+Solar arrays are not able to store large amounts of energy.
+
+The LV arrays are used to make medium voltage arrays.
+
+
+## Solar Panel
+
+Solar panels are the building blocks of LV solar arrays
+
+They can however also be used separately but with reduced efficiency due to the missing transformer.
+
+Individual panels are less efficient than when the panels are combined into full arrays.
+
+## Watermill
+
+A water mill produces LV EUs by exploiting flowing water across it
+
+It is a LV EU supplyer and fairly low yield (max 120EUs)
+
+It is a little under half as good as the thermal generator.
+
+# Pipeworks
+
+## Description
+
+Pipeworks is used for crafting and usage of pipes and tubes. In addition to providing pipes for transporting liquids and tubes for transporting items, it also contains a number of devices for working with them. Here's what it looks like:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Pipeworks.png)
+
+Mesecons is recommended as well for the best possible experience.
+
+Crafting recipes noted here apply only for plain Pipeworks. If Technic is installed (yes it is in Stonecraft), Pipeworks items use alternate recipes. See the Technic documentation for more details.
+
+### Fluid transport
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/FluidTransport.png)
+
+#### Pipes
+
+Pipes are round, flanged devices that can transport liquids around - by default, only water. They automatically connect to other pipes and devices that are pipe-compatible, such as valves, flow sensors, pumps and spigots.
+
+Pipes transport liquids at a speed of one meter (node) per second - a run of 30 pipes will take 30 seconds to transport liquid from one end to another.
+
+Digging a pipe carrying liquid drops the empty pipe - the liquid inside is lost.
+
+Pipes "light up" when they contain liquid.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPipe.png)
+
+#### Straight-only pipes
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/StraightPipes.png)
+
+In some cases, you may need to run several pipes in parallel, in a confined space.  If you tried to use normal pipes for this purpose, they'd just all connect to one another, which you likely didn't want.  To deal with this, use straight-only pipes.  Aside from only connecting at their ends, their main distinguishing mark is the gray line running the length of the pipe (i.e. a "straight" line).
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftStraightPipe.png)
+
+#### Spigots
+
+Spigots output the liquid input via pipe into the world.
+
+Spigots only connect from one side.
+
+Connecting a spigot to a pipe carrying water makes water flow out of the bottom of the spigot.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftSpigot.png)
+
+#### Pumps
+
+Pumps can be placed inside or over a water source. They are toggled on and off with a right-click, or you can directly control them via Mesecons.
+
+Pumps can be connected to pipes from above. Pipes do not connect to pumps from the side or bottom.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPump.png)
+
+#### Valves
+
+Valves control fluid flow. When active, valves allow liquids to flow through them. Otherwise, liquids cannot flow through them. They are toggled on and off with a right-click, or can be directly controlled using Mesecons.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftValve.png)
+
+#### Storage Tanks
+
+Note: currently not working (does not store any liquid).
+Storage tanks store liquid in a compact way. Placing multiple storage tanks on top of each other forms one large tank with the same capacity as all the single tanks added together.
+
+Storage tanks can be connected to pipes from above or below. Pipes do not connect to storage tanks from the side.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftStorageTank.png)
+
+#### Gratings
+
+Gratings are decorative items that appear similar to fine metal grids used as barriers.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftGrating.png)
+
+#### Sealed/Airtight Pipe Entries
+
+Sealed/airtight pipe entries act as pipes do, except they fill a full block and therefore are generally used for aesthetic purposes, such as running piping through walls.
+
+Sealed/airtight pipe entries can be connected to pipes from the sides, the top, or the bottom.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPipeEntry.png)
+
+#### Flow Sensors
+
+Flow sensors output a Mesecons signal when liquid is present in it, and otherwise does not. They can be used to determine when liquid has reached a particular point.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftFlowSensor.png)
+
+### Item Transport
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/ItemTransport.png)
+
+#### Base materials/items
+
+The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of this mod.  First, craft some leaves (anything in the "leaves" group) to get oil:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/craft-oil.png)
+
+Then cook that into paraffin:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/oil-to-paraffin.png)
+
+Finally, cook the paraffin into plastic:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/paraffin-to-plastic.png)
+
+A couple of objects in this mod require one or more gears.  Craft those with steel ingots and stone, like so:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftGear.png)
+
+#### Tubes
+
+Tubes are boxy, transparent devices that can transport items around. They can automatically connect to other tubes and devices that are tube-compatible, such as chests and injectors. Certain devices may connect to tubes only from certain sides.
+
+Breaking a tube carrying items simply drops the items onto the ground.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftTube.png)
+
+#### Chests
+
+Ordinary chests found in the default game connect to tubes from every side except the front.
+
+Items can be added to chests using tube-related devices, or removed from them using filters/injectors.
+
+Attempting to add items to a full chest results in the item being dropped onto the ground.
+
+Locked Chests
+
+Locked chests from the default game connect to tubes and recieve items as ordinary chests do, but items cannot be removed from locked chests with filters/injectors.
+
+#### Furnaces
+
+Ordinary furnaces found in the default game connect to tubes from every side except the front.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Furnaces.png)
+
+Fuel items can be added to furnaces from the bottom, and items to be smelted can be added from the back. Smelted items can be removed from them using filters/injectors.
+
+Attempting to add items to a full furnace results in the item being dropped onto the ground.
+
+#### Filters/Injectors
+
+Filters/injectors take items from the node behind them and sends them out in front. They only connect to tubes from the front.
+
+Filters/injectors act only when punched, or when activated via a Mesecons signal.
+
+Right clicking a filter/injector brings up an inventory. If items are added to the inventory, only items matching them will be taken from the node behind it when activated. Items that match the first slot on the filter/injector's inventory are always chosen before items in the second slot, which are always chosen before the third slot, etc.
+
+Filters/injectors cannot be dug if they contain any items in their inventory.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftFilter.png)
+
+#### Mese Filters/Injectors
+
+Mese filters/injectors take entire stacks of items from the node behind them and sends them out in front all at once.
+
+Mese filters/injectors act only when punched, or when activated via a Mesecons signal.
+
+Right clicking a mese filter/injector brings up an inventory. If items are added to the inventory, only stacks of items matching them will be taken from the node behind it when activated. Stacks of items that match the first slot on the mese filter/injector's inventory are always chosen before stacks of items in the second slot, which are always chosen before the third slot, etc.
+
+Mese filters/injectors cannot be dug if they contain any items in their inventory.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseFilter.png)
+
+#### Mese Sorting Tubes
+
+Mese sorting tubes are special tubes that can be used to sort items or force them to move in a certain direction at junctions.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/SortingTube.png)
+
+When placed, each direction the tube has a connection to has a distinct color.
+
+Right clicking the tube brings up a form similar to the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/MeseSortingTubeForm.png)
+
+Each row is associated with the color on the left side.
+
+The far right contains an on/off switch for each row.
+
+When "on", only items that match those in the row associated with the color are allowed to move in that direction. If there are no items in the row, all items are allowed.  
+
+When "off", no items will exit through that direction.
+
+If the tube needs to route items directly into a node with an inventory (such as a chest) and that inventory is full, the sorting tube will try one of its other "on" (e.g. enabled) outputs, at that point routing the item as if the sorting tube were just a normal, ordinary tube.  Note that the direction the item cam from may be the first option the item takes.  If that happens, turn that direction "off".  If all connected and otherwise-suitable outputs are "off" and the tube can't route the item, it pops out onto the ground.
+
+When you place an item in these slots, you're placing ghosts only.  That is, only a copy of your item is placed and your inventory remains unchanged.  When you remove an item from these slots, it's simply deleted.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseTube1.png)
+
+Or alternatively:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseTube2.png)
+
+#### Detector Tubes
+
+Detector tubes are special tubes that output a Mesecons signal when an item passes through them.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/DetectorTube.png)
+
+The tubes turn off again when the item leaves.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftDetectorTube.png)
+
+#### Lua controlled Tubes
+
+The lua controlled tube can be programmed like a lua controller.  
+But instead of A, B, C and D, it has the ports blue, red, yellow, green, black and white.  
+Also there's an additional event that is called when an item comes through the tube. Return in this event the port, the item shall exit (eg. `return "blue"`). If a wrong value or nothing is returned, the item will go back to where it came from. The `event` table looks like this:
+```lua
+{
+	type = "item",
+	pin = {name = <src dir>},
+	itemstring = <itemstring>,
+	item = <itemstack made to table>,
+	velocity = <velocity of the tubed item>,
+}
+```
+You can craft lua controlled tubes with a luacontroller and a sorting tube.
+
+#### Accelerator Tubes
+
+Accelerator tubes are special tubes that transport items significantly faster than normal tubes. They appear similar to normal tubes, except with a greenish-blue tint.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/AcceleratorTube.png)
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftAcceleratorTube.png)
+
+#### Teleporter Tubes
+
+Teleporter tubes are special tubes that move items to other teleporter tubes, regardless of the distance separating them.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/TeleporterTube.png)
+
+Putting items into the tube via tube-related devices causes them to be teleported.
+
+Right clicking a teleporter tube brings up a form allowing entry of a channel string, similar to the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/TeleporterTubeForm.png)
+
+Only teleporter tubes that have the same channel will be linked together and allow items to pass through.
+
+The switch on the right enables or disables the tube's receiving capability.  When "on", the tube can receive items. Otherwise, items can only be teleported out of the tube, but not into it.
+
+Teleporter tubes with channel names beginning with the name of a player, followed by a colon, are settable only by the specified player. This is useful for making private teleporter tube channels.
+
+Teleporter tubes with channel names beginning with the name of a player, followed by a semicolon, are usable only by the specified player, or by other players if the tube is not "On" (unable to receive items). This allows for mail-like systems where items can be sent into private dropboxes, but can't be taken out except by the recipient.
+
+If an item enters a teleporter tube, and there are multiple possible teleporter tubes that it can go to, a target is chosen at random from the possibilities.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftTeleporterTube.png)
+
+#### Autocrafters
+
+Autocrafters are devices that can automatically follow craft recipes to make new items.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Autocrafter.png)
+
+Right clicking an autocrafter brings up a form similar to the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/AutocrafterForm.png)
+
+The slots in the top left of the form represent a crafting grid, where items can be arranged in the pattern of a craft recipe. Like the Mese sorting tube, items placed in these slots are ghosts, i.e. copies of what you placed.  Removing an item simply deletes it.
+
+In the middle is a single slot that shows the result of the proposed recipe, same as in your Inventory display.  You can also directly place an item here and the autocrafter will make a guess and fill its recipe slots with the items that should be used to make that item.  Removing the item from this slot deletes it and clears the recipe grid.
+
+Below that is a switch to enable/disable the autocrafter.  Default is disabled.
+
+The slots in the top right of the form are the output from the crafting operations.  That is, items that have been crafted can be found here. These can also be retrieved from the device using filters/injectors.
+
+The slots in the middle of the form, below the craft recipe and result slots, are the autocrafter's internal inventory.  Items added by the user or fed in by tubes are stored here temporarily until the autocrafter can use them.
+
+The slots at the bottom of the form are the player's inventory, as usual.
+
+When sufficient materials are present in the autocrafter's inventory to craft according to its recipe, the device automatically starts crafting them until it runs out of materials.
+
+Here's how you build it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftAutocrafter.png)
+
+#### Deployers
+
+Deployers are devices that place blocks as a player would if one were standing at the exact location of the deployer. They connect to tubes only from the back side.
+
+Deployers act only when activated via a Mesecons signal.  On receipt of a signal, they place the next item in their inventory, and if there's something in the way of the deployer's output, that object gets pushed aside first.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Deployer.png)
+
+Right clicking a deployer brings up a form similar to the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/DeployerForm.png)
+
+The slots in the top of the form are the deployer's inventory, storing materials that are placed when the deployer activates. They are taken in order from left to right, top to bottom. New items can be added here using tube-related devices.
+
+The slots at the bottom of the form are the player's inventory.
+
+Upon activation, a deployer places a node from its inventory into the space directly adjacent to its front side if and only if the space is air. The front side is the face that is fully orange.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftDeployer.png)
+
+#### Node Breakers
+
+Node breakers are devices that dig blocks as a player would if one were standing at the exact location of the node breaker and dug the target node.  They connect to tubes only from the back side.
+
+Node breakers act only when activated via a Mesecons signal.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/NodeBreaker.png)
+
+Upon activation, a node breaker digs the node in the space directly adjacent to its front side if and only if the node is non-liquid, diggable, and not air or unloaded. The front side is the face with the "mouth" with thin interleaved lines resembling a shredder.
+
+When you right-click on it, you get a form similar to the following:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/NodeBreaker-form.png)
+
+The single slot at the top is for you to add in a custom digging tool.  By default, the nodebreaker digs "by hand", but you could for example put a pick, shovel, tree tap, or whatever else you want here as long as it's a viable tool.
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftNodeBreaker.png)
+
+Note: in the past, one used a mese pick to construct a nodebreaker, which it also used as its default tool.  This is no longer the case.  Old nodebreakers that had nothing in the tool slot will automatically be populated with a mese pick.
+
+#### Sand Vacuum Tubes
+
+Sand tubes are special tubes that vacuum up free items around them. When an item drops near the sand tube, it is sucked up and sent along the tube.
+
+Sand tubes have an effective radius of 2 meters (nodes). Outside of this sphere, items are unaffected.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/SandTube.png)
+
+Here's how you craft it:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftSandTube.png)
+
+#### Mese Sand Vacuum Tubes
+
+Mese sand tubes pick up items like sand tubes, but they do so in a customizable cubic region rather than a fixed spherical one.
+
+To change the range of a mese sand tube, change the distance specified in the form.
+
+The number entered here can be anywhere from 0 (the default) to 8; it represents a sort of cubic radius from the tube, thus the default is to only pick up items within the tube's 1x1x1 node, but, if one entered "5", the tube would pick up items in an 11x11x11 cube.
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/MeseSandTubeForm.png)
+
+Crafts are similar to the mese sorting tube:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseSandTube1.png)
+
+...or using mese crystal fragments and a regular sand tube:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseSandTube2.png)
+
 # Chat
 
 The in-game chat functionality allows players to communicate with each other with short text messages inside a server.
@@ -1043,3 +1775,6 @@ Available save formats: txt, csv, lua, json, json_pretty
 Q: There are some online servers that can only run protocol 24 - 32.
 
 A: Please download stonecraft-1.2.4a-XXXX-old-net-proto.zip from https://mrcerealguy.itch.io/stonecraft and extract the binary in _&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/_ folder. Start stonecraft-1.2.4a[.exe] and connect to your desired server.
+
+[![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
+This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
