@@ -9,14 +9,14 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+local disable_sounds = minetest.settings:get_bool("shields_disable_sounds")
 local use_moreores = minetest.get_modpath("moreores")
 local function play_sound_effect(player, name)
-	if player then
+	if not disable_sounds and player then
 		local pos = player:getpos()
 		if pos then
-			minetest.sound_play({
+			minetest.sound_play(name, {
 				pos = pos,
-				name = name,
 				max_hear_distance = 10,
 				gain = 0.5,
 			})
@@ -36,15 +36,6 @@ armor:register_armor("shields:shield_admin", {
 	description = S("Admin Shield"),
 	inventory_image = "shields_inv_shield_admin.png",
 	groups = {armor_shield=1000, armor_heal=100, armor_use=0, not_in_creative_inventory=1},
-	on_punched = function(player, hitter, time_from_last_punch, tool_capabilities)
-		if type(hitter) == "userdata" then
-			if hitter:is_player() then
-				hitter:set_wielded_item("")
-			end
-			play_sound_effect(player, "default_dig_metal")
-		end
-		return false
-	end,
 })
 
 minetest.register_alias("adminshield", "shields:shield_admin")

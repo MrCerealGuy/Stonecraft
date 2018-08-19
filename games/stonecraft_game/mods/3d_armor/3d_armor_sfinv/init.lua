@@ -10,7 +10,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 if not minetest.global_exists("sfinv") then
-	minetest.log("warning", "3d_armor_sfinv: Mod loaded but unused.")
+	minetest.log("warning", S("3d_armor_sfinv: Mod loaded but unused."))
 	return
 end
 

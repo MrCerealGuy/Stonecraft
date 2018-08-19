@@ -173,7 +173,7 @@ minetest.register_node("3d_armor_stand:armor_stand", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", armor_stand_formspec)
-		meta:set_string("infotext", "Armor Stand")
+		meta:set_string("infotext", S("Armor Stand"))
 		local inv = meta:get_inventory()
 		for _, element in pairs(elements) do
 			inv:set_size("armor_"..element, 1)
@@ -241,7 +241,7 @@ minetest.register_node("3d_armor_stand:locked_armor_stand", {
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", armor_stand_formspec)
-		meta:set_string("infotext", "Armor Stand")
+		meta:set_string("infotext", S("Armor Stand"))
 		meta:set_string("owner", "")
 		local inv = meta:get_inventory()
 		for _, element in pairs(elements) do
@@ -262,8 +262,7 @@ minetest.register_node("3d_armor_stand:locked_armor_stand", {
 		minetest.add_entity(pos, "3d_armor_stand:armor_entity")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("owner", placer:get_player_name() or "")
-		meta:set_string("infotext", "Armor Stand (owned by " ..
-		meta:get_string("owner") .. ")")
+		meta:set_string("infotext", S("Armor Stand (owned by @1)", meta:get_string("owner")))
 		add_hidden_node(pos, placer)
 	end,
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
@@ -330,11 +329,23 @@ minetest.register_entity("3d_armor_stand:armor_entity", {
 	end,
 })
 
+minetest.register_abm({
+	nodenames = {"3d_armor_stand:locked_armor_stand", "3d_armor_stand:armor_stand"},
+	interval = 15,
+	chance = 1,
+	action = function(pos, node, active_object_count, active_object_count_wider)
+		local num
+		num = #minetest.get_objects_inside_radius(pos, 0.5)
+		if num > 0 then return end
+		update_entity(pos)
+	end
+})
+
 minetest.register_craft({
 	output = "3d_armor_stand:armor_stand",
 	recipe = {
-		{"", "default:fence_wood", ""},
-		{"", "default:fence_wood", ""},
+		{"", "group:fence", ""},
+		{"", "group:fence", ""},
 		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
 	}
 })

@@ -1,5 +1,5 @@
-Modpack - 3d Armor [0.4.9]
-==========================
+Modpack - 3d Armor [0.4.12]
+===========================
 
 ### Table of Contents
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -9,8 +9,6 @@ Modpack - 3d Armor [0.4.9]
 - [[mod] Visible Player Armor [3d_armor]](#mod-visible-player-armor-3d_armor)
 - [[mod] Visible Wielded Items [wieldview]](#mod-visible-wielded-items-wieldview)
 - [[mod] Shields [shields]](#mod-shields-shields)
-- [[mod] Technic Armor [technic_armor]](#mod-technic-armor-technic_armor)
-- [[mod] Hazmat Suit [hazmat_suit]](#mod-hazmat-suit-hazmat_suit)
 - [[mod] 3d Armor Stand [3d_armor_stand]](#mod-3d-armor-stand-3d_armor_stand)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -19,7 +17,7 @@ Modpack - 3d Armor [0.4.9]
 [mod] Visible Player Armor [3d_armor]
 -------------------------------------
 
-Minetest Version: 0.4.15
+Minetest Version: 0.4.16 - 0.4.17.1
 
 Game: minetest_game and many derivatives
 
@@ -46,6 +44,8 @@ and [simple_skins] by TenPlus1.
 Armor can be configured by adding a file called armor.conf in 3d_armor mod or world directory.
 see armor.conf.example for all available options.
 
+For mod installation instructions, please visit: http://wiki.minetest.com/wiki/Installing_Mods
+
 [mod] Visible Wielded Items [wieldview]
 ---------------------------------------
 
@@ -60,23 +60,6 @@ Depends: 3d_armor
 
 Originally a part of 3d_armor, shields have been re-included as an optional extra.
 If you do not want shields then simply remove the shields folder from the modpack.
-
-[mod] Technic Armor [technic_armor]
------------------------------------
-
-Depends: 3d_armor, technic_worldgen
-
-Adds tin, silver and technic materials to 3d_armor.
-Requires technic (technic_worldgen at least) mod.
-
-[mod] Hazmat Suit [hazmat_suit]
--------------------------------
-
-Depends: 3d_armor, technic
-
-Adds hazmat suit to 3d_armor. It protects rather well from fire (if enabled in configuration) and radiation*, and it has built-in oxygen supply.
-
-Requires technic mod.
 
 [mod] 3d Armor Stand [3d_armor_stand]
 -------------------------------------

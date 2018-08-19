@@ -16,6 +16,14 @@ local last_punch_time = {}
 local pending_players = {}
 local timer = 0
 
+-- support for i18n
+armor_i18n = { }
+armor_i18n.gettext, armor_i18n.ngettext = dofile(modpath.."/intllib.lua")
+
+-- local functions
+local S = armor_i18n.gettext
+local F = minetest.formspec_escape
+
 dofile(modpath.."/api.lua")
 
 -- Legacy Config Support
@@ -69,7 +77,7 @@ end
 
 if minetest.get_modpath("technic") and not core.skip_mod("technic") then
 	armor.formspec = armor.formspec..
-		"label[5,2.5;"..S("Radiation")..":  armor_group_radiation]"
+		"label[5,2.5;"..F(S("Radiation"))..":  armor_group_radiation]"
 	armor:register_armor_group("radiation")
 end
 local skin_mods = {"skins", "u_skins", "simple_skins", "wardrobe"}
@@ -97,10 +105,10 @@ dofile(modpath.."/armor.lua")
 -- Armor Initialization
 
 armor.formspec = armor.formspec..
-	"label[5,1;"..S("Level")..": armor_level]"..
-	"label[5,1.5;"..S("Heal")..":  armor_attr_heal]"
+	"label[5,1;"..F(S("Level"))..": armor_level]"..
+	"label[5,1.5;"..F(S("Heal"))..":  armor_attr_heal]"
 if armor.config.fire_protect then
-	armor.formspec = armor.formspec.."label[5,2;"..S("Fire")..":  armor_fire]"
+	armor.formspec = armor.formspec.."label[5,2;"..F(S("Fire"))..":  armor_attr_fire]"
 end
 armor:register_on_destroy(function(player, index, stack)
 	local name = player:get_player_name()
@@ -111,46 +119,93 @@ armor:register_on_destroy(function(player, index, stack)
 	end
 end)
 
+local function validate_armor_inventory(player)
+	-- Workaround for detached inventory swap exploit
+	local _, inv = armor:get_valid_player(player, "[validate_armor_inventory]")
+	if not inv then
+		return
+	end
+	local armor_prev = {}
+	local armor_list_string = player:get_attribute("3d_armor_inventory")
+	if armor_list_string then
+		local armor_list = armor:deserialize_inventory_list(armor_list_string)
+		for i, stack in ipairs(armor_list) do
+			if stack:get_count() > 0 then
+				armor_prev[stack:get_name()] = i
+			end
+		end
+	end
+	local elements = {}
+	local player_inv = player:get_inventory()
+	for i = 1, 6 do
+		local stack = inv:get_stack("armor", i)
+		if stack:get_count() > 0 then
+			local item = stack:get_name()
+			local element = armor:get_element(item)
+			if element and not elements[element] then
+				if armor_prev[item] then
+					armor_prev[item] = nil
+				else
+					-- Item was not in previous inventory
+					armor:run_callbacks("on_equip", player, i, stack)
+				end
+				elements[element] = true;
+			else
+				inv:remove_item("armor", stack)
+				-- The following code returns invalid items to the player's main
+				-- inventory but could open up the possibity for a hacked client
+				-- to receive items back they never really had. I am not certain
+				-- so remove the is_singleplayer check at your own risk :]
+				if minetest.is_singleplayer() and player_inv and
+						player_inv:room_for_item("main", stack) then
+					player_inv:add_item("main", stack)
+				end
+			end
+		end
+	end
+	for item, i in pairs(armor_prev) do
+		local stack = ItemStack(item)
+		-- Previous item is not in current inventory
+		armor:run_callbacks("on_unequip", player, i, stack)
+	end
+end
+
 local function init_player_armor(player)
 	local name = player:get_player_name()
-	local player_inv = player:get_inventory()
 	local pos = player:getpos()
-	if not name or not player_inv or not pos then
+	if not name or not pos then
 		return false
 	end
 	local armor_inv = minetest.create_detached_inventory(name.."_armor", {
 		on_put = function(inv, listname, index, stack, player)
-			player:get_inventory():set_stack(listname, index, stack)
-			armor:run_callbacks("on_equip", player, index, stack)
+			validate_armor_inventory(player)
+			armor:save_armor_inventory(player)
 			armor:set_player_armor(player)
 		end,
 		on_take = function(inv, listname, index, stack, player)
-			player:get_inventory():set_stack(listname, index, nil)
-			armor:run_callbacks("on_unequip", player, index, stack)
+			validate_armor_inventory(player)
+			armor:save_armor_inventory(player)
 			armor:set_player_armor(player)
 		end,
 		on_move = function(inv, from_list, from_index, to_list, to_index, count, player)
-			local plaver_inv = player:get_inventory()
-			local stack = inv:get_stack(to_list, to_index)
-			player_inv:set_stack(to_list, to_index, stack)
-			player_inv:set_stack(from_list, from_index, nil)
+			validate_armor_inventory(player)
+			armor:save_armor_inventory(player)
 			armor:set_player_armor(player)
 		end,
-		allow_put = function(inv, listname, index, stack, player)
-			local def = stack:get_definition() or {}
-			local allowed = 0
-			for _, element in pairs(armor.elements) do
-				if def.groups["armor_"..element] then
-					allowed = 1
-					for i = 1, 6 do
-						local item = inv:get_stack("armor", i):get_name()
-						if minetest.get_item_group(item, "armor_"..element) > 0 then
-							return 0
-						end
-					end
+		allow_put = function(inv, listname, index, put_stack, player)
+			local element = armor:get_element(put_stack:get_name())
+			if not element then
+				return 0
+			end
+			for i = 1, 6 do
+				local stack = inv:get_stack("armor", i)
+				local def = stack:get_definition() or {}
+				if def.groups and def.groups["armor_"..element]
+						and i ~= index then
+					return 0
 				end
 			end
-			return allowed
+			return 1
 		end,
 		allow_take = function(inv, listname, index, stack, player)
 			return stack:get_count()
@@ -160,11 +215,21 @@ local function init_player_armor(player)
 		end,
 	}, name)
 	armor_inv:set_size("armor", 6)
-	player_inv:set_size("armor", 6)
+	if not armor:load_armor_inventory(player) and armor.migrate_old_inventory then
+		local player_inv = player:get_inventory()
+		player_inv:set_size("armor", 6)
+		for i=1, 6 do
+			local stack = player_inv:get_stack("armor", i)
+			armor_inv:set_stack("armor", i, stack)
+		end
+		armor:save_armor_inventory(player)
+		player_inv:set_size("armor", 0)
+	end
 	for i=1, 6 do
-		local stack = player_inv:get_stack("armor", i)
-		armor_inv:set_stack("armor", i, stack)
-		armor:run_callbacks("on_equip", player, i, stack)
+		local stack = armor_inv:get_stack("armor", i)
+		if stack:get_count() > 0 then
+			armor:run_callbacks("on_equip", player, i, stack)
+		end
 	end
 	armor.def[name] = {
 		init_time = minetest.get_gametime(),
@@ -258,19 +323,20 @@ end)
 
 if armor.config.drop == true or armor.config.destroy == true then
 	minetest.register_on_dieplayer(function(player)
-		local name, player_inv = armor:get_valid_player(player, "[on_dieplayer]")
+		local name, armor_inv = armor:get_valid_player(player, "[on_dieplayer]")
 		if not name then
 			return
 		end
 		local drop = {}
-		for i=1, player_inv:get_size("armor") do
-			local stack = player_inv:get_stack("armor", i)
+		for i=1, armor_inv:get_size("armor") do
+			local stack = armor_inv:get_stack("armor", i)
 			if stack:get_count() > 0 then
 				table.insert(drop, stack)
-				armor:set_inventory_stack(player, i, nil)
 				armor:run_callbacks("on_unequip", player, i, stack)
+				armor_inv:set_stack("armor", i, nil)
 			end
 		end
+		armor:save_armor_inventory(player)
 		armor:set_player_armor(player)
 		local pos = player:getpos()
 		if pos and armor.config.destroy == false then
@@ -321,7 +387,6 @@ minetest.register_on_player_hpchange(function(player, hp_change)
 		local name = player:get_player_name()
 		if name then
 			local heal = armor.def[name].heal
-			heal = heal * armor.config.heal_multiplier
 			if heal >= math.random(100) then
 				hp_change = 0
 			end
@@ -342,7 +407,7 @@ minetest.register_globalstep(function(dtime)
 			local remove = init_player_armor(player) == true
 			pending_players[player] = count + 1
 			if remove == false and count > armor.config.init_times then
-				minetest.log("warning", "3d_armor: Failed to initialize player")
+				minetest.log("warning", S("3d_armor: Failed to initialize player"))
 				remove = true
 			end
 			if remove == true then
@@ -363,7 +428,7 @@ if armor.config.fire_protect == true then
 		end
 	end
 else
-	print ("[3d_armor] Fire Nodes disabled")
+	print (S("[3d_armor] Fire Nodes disabled"))
 end
 
 if armor.config.water_protect == true or armor.config.fire_protect == true then
