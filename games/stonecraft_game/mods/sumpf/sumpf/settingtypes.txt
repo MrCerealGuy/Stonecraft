@@ -1,0 +1,34 @@
+#    Enables swamps mapgen
+sumpf.enable_mapgen (enable mapgen) bool true
+
+#    Generate swamps everywhere
+sumpf.always_generate (always generate) bool false
+
+#    Enables smooth transition of biomes.
+sumpf.smooth (smooth transitions) bool true
+
+#    Disable for testing
+sumpf.enable_plants (enable plants) bool true
+
+#    Enables swampwater - it might be a bit buggy with mapgen v6.
+sumpf.swampwater (swampwater) bool true
+
+#    adds swampwater near sea (different behaviour)
+sumpf.wet_beaches (wet beaches) bool true
+
+#    chance of spawning a hut in a mapchunk, set to 0 to disable it
+sumpf.hut_chance (hut chance) float 50
+
+#    habitat stuff
+sumpf.spawn_plants (spawn plants) bool true
+
+#    says some information.
+sumpf.info (inform) bool true
+
+#    informs the players too
+sumpf.inform_all (inform everyone) bool false
+
+#    1:<a bit of information>
+#    2:<acceptable amount of information>
+#    3:<lots of text>
+sumpf.max_spam (max spam) int 2 1 3

@@ -3,7 +3,8 @@ if sumpf.info then
 		if spam <= sumpf.max_spam then
 			local info
 			if t then
-				info = string.format("[sumpf] "..msg.." after ca. %.2fs", os.clock() - t)
+				info = "[sumpf] " .. msg .. (" after ca. %.3g s"):format(
+					(minetest.get_us_time() - t) / 1000000)
 			else
 				info = "[sumpf] "..msg
 			end
@@ -20,7 +21,8 @@ end
 
 function sumpf.tree_allowed(pos, minlight)
 	local light = minetest.get_node_light(pos)
-	if minetest.get_item_group(minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name, "soil") ~= 1
+	if minetest.get_item_group(
+		minetest.get_node{x=pos.x, y=pos.y-1, z=pos.z}.name, "soil") ~= 1
 	or not light then
 		return false
 	end

@@ -17,7 +17,7 @@ local abm_allowed = true
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local load_time_start = os.clock()
+local load_time_start = minetest.get_us_time()
 
 minetest.register_craft({
 	output = "sumpf:junglestonebrick",
@@ -101,7 +101,8 @@ minetest.register_node("sumpf:eisen", {
 
 minetest.register_node("sumpf:sumpf", {
 	description = S("swamp"),
-	tiles = {"sumpf.png"},
+	--~ tiles = {"sumpf.png"},
+	tiles = {{name="sumpf.png", align_style="world", scale=2}},
 	groups = {crumbly=3, soil=1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="sumpf", gain=0.4},
@@ -257,11 +258,12 @@ end
 
 
 --sumpf = rawget(_G, "sumpf") or {}
-dofile(minetest.get_modpath("sumpf").."/settings.lua")
-dofile(minetest.get_modpath("sumpf").."/functions.lua")
-dofile(minetest.get_modpath("sumpf") .. "/birke.lua")
+local modpath = minetest.get_modpath"sumpf".."/"
+dofile(modpath.."settings.lua")
+dofile(modpath.."functions.lua")
+dofile(modpath .. "birke.lua")
 if sumpf.enable_mapgen then
-	dofile(minetest.get_modpath("sumpf") .. "/mapgen.lua")
+	dofile(modpath .. "mapgen.lua")
 end
 
 
@@ -279,4 +281,10 @@ minetest.register_globalstep(function(dtime)
    end
 end)
 
-minetest.log("info", string.format("[sumpf] loaded after ca. %.2fs", os.clock() - load_time_start))
+local time = (minetest.get_us_time() - load_time_start) / 1000000
+local msg = "[sumpf] loaded after ca. " .. time .. " seconds."
+if time > 0.01 then
+	print(msg)
+else
+	minetest.log("info", msg)
+end

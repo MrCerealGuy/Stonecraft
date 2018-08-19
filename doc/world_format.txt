@@ -217,7 +217,6 @@ Example content (added indentation and - explanations):
   etheral_biomes_sandclay = true
   swamp_biome_always_generate = false
   swamp_biome_smooth = true
-  swamp_biome_mapgen_rarity = 8
   swamp_biome_swampwater = true
   enable_surprise = false
   enable_homedecor_technic = false

@@ -194,7 +194,6 @@ ethereal_biomes_reefs (Reefs) bool true
 
 swamp_biome_always_generate (Generate swamps everywhere) bool false
 swamp_biome_smooth (Enables smooth transition of biomes) bool true
-swamp_biome_mapgen_rarity (Rarity in %) int 8
 swamp_biome_swampwater (Enables swampwater) bool true
 
 #[*Advanced settings (Snow biome)]

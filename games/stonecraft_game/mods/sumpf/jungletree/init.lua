@@ -11,8 +11,6 @@
 
 if core.skip_mod("swamps") then return end
 
-local abm_allowed = true
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -40,13 +38,13 @@ minetest.register_node("jungletree:sapling", {
 	walkable = false,
 	groups = {snappy=2,dig_immediate=3,flammable=2,attached_node=1},
 	on_construct = function(pos)
-		if minetest.setting_getbool("creative_mode") then
+		if minetest.settings:get_bool"creative_mode" then
 			spawn_jungletree(pos)
 		end
 	end
 })
 
-local plantlike_leaves = not minetest.setting_getbool("new_style_leaves")
+local plantlike_leaves = not minetest.settings:get_bool"new_style_leaves"
 local rt2 = math.sqrt(2)
 local tex_sc = (1-(1/rt2))*100-4 --doesn't seem to work right
 local tab = {
@@ -74,8 +72,11 @@ if plantlike_leaves then
 		local leaf_name = "jungletree:leaves_"..leaves[color]
 		tab.visual_scale = math.sqrt(rt2)
 		tab.drawtype = "plantlike"
-		tab.tiles = {"jungletree_leaves_"..leaves[color]..".png^[lowpart:"..tex_sc..":jungletree_invmat.png^[makealpha:255,126,126"}
-		tab.inventory_image = minetest.inventorycube("jungletree_leaves_"..leaves[color]..".png")
+		tab.tiles = {"jungletree_leaves_" .. leaves[color] ..
+			".png^[lowpart:" .. tex_sc ..
+			":jungletree_invmat.png^[makealpha:255,126,126"}
+		tab.inventory_image = minetest.inventorycube("jungletree_leaves_" ..
+			leaves[color] .. ".png")
 		tab.drop.items[2].items[1] = leaf_name
 		minetest.register_node(leaf_name, table.copy(tab))
 	end
@@ -99,7 +100,8 @@ local c_leaves_yellow = minetest.get_content_id("jungletree:leaves_yellow")
 local c_jungletree = minetest.get_content_id("default:jungletree")
 local ndtable = {c_leaves_green, c_leaves_red, c_leaves_yellow}
 
-local airlike_cs = {minetest.get_content_id("air"), minetest.get_content_id("ignore")}
+local airlike_cs = {minetest.get_content_id("air"),
+	minetest.get_content_id("ignore")}
 local function soft_node(id)
 	for i = 1,#airlike_cs do
 		if airlike_cs[i] == id then
@@ -118,17 +120,17 @@ local function tree_branch(manip, pos, area, nodes, pr)
 		leaf = pr:next(1,3)
 	end
 
-	manip:set_data_from_heap(nodes, area:index(pos.x, pos.y, pos.z), c_jungletree)
+	manip:set_data_from_heap(nodes, area:indexp(pos), c_jungletree)
 	for i = pr:next(1,2), -pr:next(1,2), -1 do
 		for k = pr:next(1,2), -pr:next(1,2), -1 do
-			local p_p = area:index(pos.x+i, pos.y, pos.z+k)
-			if soft_node(manip:get_data_from_heap(nodes, p_p)) then
-				manip:set_data_from_heap(nodes, p_p, ndtable[leaf])
+			local vi = area:index(pos.x+i, pos.y, pos.z+k)
+			if soft_node(manip:get_data_from_heap(nodes, vi)) then
+				manip:set_data_from_heap(nodes, vi, ndtable[leaf])
 			end
 			if math.abs(i+k) < 1 then
-				local p_p = area:index(pos.x+i, pos.y+1, pos.z+k)
-				if soft_node(manip:get_data_from_heap(nodes, p_p)) then
-					manip:set_data_from_heap(nodes, p_p, ndtable[leaf])
+				vi = vi + area.ystride
+				if soft_node(manip:get_data_from_heap(nodes, vi)) then
+					manip:set_data_from_heap(nodes, vi, ndtable[leaf])
 				end
 			end
 		end
@@ -149,32 +151,38 @@ local function small_jungletree(manip, pos, height, area, nodes, pr)
 		tree_branch(manip, p, area, nodes, pr)
 	end
 
-	for i = -1, height do
-		manip:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c_jungletree)
+	local vi = area:index(pos.x, pos.y-1, pos.z)
+	for _ = -1, height do
+		manip:set_data_from_heap(nodes, vi, c_jungletree)
+		vi = vi + area.ystride
 	end
 
 	for i = height, 4, -1 do
 		if math.sin(i*i/height) < 0.2
-		and pr:next(0,2) < 1.5 then
-			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)}, area, nodes, pr)
+		and pr:next(0,2) ~= 2 then -- < 1.5
+			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
+				area, nodes, pr)
 		end
 	end
 end
 
 local function big_jungletree(manip, pos, height, area, nodes, pr)
 	local h_root = pr:next(0,1)-1
-	for i = -2, h_root do
-		manip:set_data_from_heap(nodes, area:index(pos.x+1, pos.y+i, pos.z+1), c_jungletree)
-		manip:set_data_from_heap(nodes, area:index(pos.x+2, pos.y+i, pos.z-1), c_jungletree)
-		manip:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z-2), c_jungletree)
+	local vi = area:index(pos.x, pos.y-2, pos.z)
+		manip:set_data_from_heap(nodes, vi + area.zstride + 1, c_jungletree)
+		manip:set_data_from_heap(nodes, vi - area.zstride + 2, c_jungletree)
+		manip:set_data_from_heap(nodes, vi - 2 * area.zstride, c_jungletree)
 
-		manip:set_data_from_heap(nodes, area:index(pos.x-1, pos.y+i, pos.z), c_jungletree)
+		manip:set_data_from_heap(nodes, vi - 1, c_jungletree)
+
+		vi = vi + area.ystride
 	end
 	for i = height, -2, -1 do
 		if i > 3
 		and math.sin(i*i/height) < 0.2
 		and pr:next(0,2) < 1.5 then
-			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)}, area, nodes, pr)
+			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
+				area, nodes, pr)
 		end
 
 		if i == height then
@@ -227,7 +235,7 @@ function sumpf.generate_jungletree(manip, pos, area, nodes, pr, ymax)
 end
 
 function spawn_jungletree(pos)
-	local t1 = os.clock()
+	local t1 = minetest.get_us_time()
 
 	local pr = jungletree_get_random(pos)
 	local height = 5 + pr:next(1,15)
@@ -246,9 +254,10 @@ function spawn_jungletree(pos)
 	vheight = height+vheight
 
 	local manip = minetest.get_voxel_manip()
-	local emerged_pos1, emerged_pos2 = manip:read_from_map({x=pos.x-vwidth, y=pos.y+vdepth, z=pos.z-vwidth},
-		{x=pos.x+vwidth, y=pos.y+vheight, z=pos.z+vwidth})
-	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
+	local emerged_pos1, emerged_pos2 = manip:read_from_map(
+		{x = pos.x - vwidth, y = pos.y + vdepth, z = pos.z - vwidth},
+		{x = pos.x + vwidth, y = pos.y + vheight, z = pos.z + vwidth})
+	local area = VoxelArea:new{MinEdge=emerged_pos1, MaxEdge=emerged_pos2}
 	local nodes = manip:load_data_into_heap()
 
 
@@ -260,10 +269,7 @@ function spawn_jungletree(pos)
 
 	manip:save_data_from_heap(nodes)
 	manip:write_to_map()
-	sumpf.inform("a jungletree grew at ("..pos.x.."|"..pos.y.."|"..pos.z..")", 2, t1)
-	t1 = os.clock()
-	manip:update_map()
-	sumpf.inform("map updated", 2, t1)
+	sumpf.inform("a jungletree grew at " .. minetest.pos_to_string(pos), 2, t1)
 end
 
 minetest.register_abm({
@@ -272,10 +278,6 @@ minetest.register_abm({
 	interval = 40,
 	chance = 5,
 	action = function(pos)
-		if not abm_allowed then
-   			return
-		end
-
 		if sumpf.tree_allowed(pos, 7) then
 			spawn_jungletree(pos)
 		end
