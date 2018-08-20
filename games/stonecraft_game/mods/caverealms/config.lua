@@ -20,14 +20,6 @@ local function setting(stype, name, default)
 	caverealms.config[name] = value
 end
 
---generation settings
-setting("number", "ymin", -33000) --bottom realm limit
-setting("number", "ymax", -700) --top realm limit
-setting("number", "tcave", 0.5) --cave threshold
-
---should player spawn in caves?
-setting("bool", "cavespawn", false)
-
 --falling icicles
 setting("bool", "falling_icicles", true) --enable/disable falling icicles
 setting("number", "fallcha", 0.33) --chance of icicles falling when dug
@@ -63,3 +55,10 @@ setting("number", "deep_cave", -7000) -- upper limit
 setting("number", "min_items", 2)
 --maximum number of items in chests found in fortresses
 setting("number", "max_items", 5)
+
+--should player spawn in caves?
+setting("bool", "cavespawn", false)
+
+setting("number", "ymin", -31000) --bottom realm limit
+setting("number", "ymax", -700) --top realm limit
+setting("number", "tcave", 0.5) --cave threshold

@@ -137,7 +137,7 @@ minetest.register_node("caverealms:thin_ice", {
 	description = S("Thin Ice"),
 	tiles = {"caverealms_thin_ice.png"},
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
 	sounds = default.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	drawtype = "glasslike",
@@ -165,7 +165,7 @@ minetest.register_node("caverealms:hanging_thin_ice", {
 	description = S("Thin Ice"),
 	tiles = {"caverealms_thin_ice.png"},
 	is_ground_content = true,
-	groups = {cracky=3},
+	groups = {cracky=3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
 	sounds = default.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	drawtype = "glasslike",
@@ -467,7 +467,7 @@ minetest.register_node("caverealms:fungus", {
 	inventory_image = "caverealms_fungi.png",
 	wield_image = "caverealms_fungi.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3},
+	groups = {oddly_breakable_by_hand=3, flammable = 1},
 	light_source = 5,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -487,7 +487,7 @@ minetest.register_node("caverealms:mycena", {
 	inventory_image = "caverealms_mycena.png",
 	wield_image = "caverealms_mycena.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3},
+	groups = {oddly_breakable_by_hand=3, flammable = 1},
 	light_source = 6,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -506,7 +506,8 @@ minetest.register_node("caverealms:mushroom_stem", {
 	description = S("Giant Mushroom Stem"),
 	tiles = {"caverealms_mushroom_stem.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
 })
 
 --cap
@@ -514,7 +515,8 @@ minetest.register_node("caverealms:mushroom_cap", {
 	description = S("Giant Mushroom Cap"),
 	tiles = {"caverealms_mushroom_cap.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
 })
 
 --gills
@@ -522,7 +524,8 @@ minetest.register_node("caverealms:mushroom_gills", {
 	description = S("Giant Mushroom Gills"),
 	tiles = {"caverealms_mushroom_gills.png"},
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=1},
+	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
+	sounds = default.node_sound_leaves_defaults(),
 	drawtype = "plantlike",
 	paramtype = "light",
 })
@@ -532,7 +535,7 @@ minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {
-	description = S("Trying to rob the bank before it's opened, eh?"),
+	description = S("Treasure chest placement block"),
 	tiles = {"default_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {choppy=3,oddly_breakable_by_hand=2,cavechest=1, not_in_creative_inventory=1},
@@ -546,7 +549,7 @@ minetest.register_node("caverealms:s_chest", {
 --hacky schematic placers
 
 minetest.register_node("caverealms:s_fountain", {
-	description = S("A Hack like you should know what this does..."),
+	description = S("Fountain placement block"),
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -557,7 +560,7 @@ minetest.register_node("caverealms:s_fountain", {
 })
 
 minetest.register_node("caverealms:s_fortress", {
-	description = S("A Hack like you should know what this does..."),
+	description = S("Fortress placement block"),
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

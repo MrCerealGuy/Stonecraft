@@ -10,10 +10,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-   			return
-		end
-
 		if pos.y > DM_TOP then
 			minetest.remove_node(pos)
 			return
@@ -28,10 +24,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-   			return
-		end
-
 		if pos.y > DM_TOP then
 			minetest.remove_node(pos)
 			return
@@ -62,10 +54,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-   			return
-		end
-
 		oldparam = minetest.get_node(pos).param2
 		minetest.set_node(pos, {name="default:chest", param2=oldparam})
 		minetest.after(1.0, function()
