@@ -95,21 +95,21 @@ local c_stem = minetest.get_content_id("caverealms:mushroom_stem")
 local c_cap = minetest.get_content_id("caverealms:mushroom_cap")
 local c_gills = minetest.get_content_id("caverealms:mushroom_gills")
 
-local glow_worm_ceiling = function(area, data, ai, vi, bi)
-	if math.random() < WORMCHA and data[vi] == c_air and data[bi] == c_air then
-		data[vi] = c_worm
-		data[bi] = c_worm
+local glow_worm_ceiling = function(vm, area, data, ai, vi, bi)
+	if math.random() < WORMCHA and vm:get_data_from_heap(data, vi) == c_air and vm:get_data_from_heap(data, bi) == c_air then
+		vm:set_data_from_heap(data, vi, c_worm)
+		vm:set_data_from_heap(data, bi, c_worm)
 		if math.random(2) == 1 then
 			local pos = area:position(vi)
 			pos.y = pos.y-2
 			local bbi = area:indexp(pos)
-			if data[bbi] == c_air then
-				data[bbi] = c_worm
+			if vm:get_data_from_heap(data, bbi) == c_air then
+				vm:set_data_from_heap(data, bbi, c_worm)
 				if math.random(2) ==1 then
 					pos.y = pos.y-1
 					local bbbi = area:indexp(pos)
-					if data[bbbi] == c_air then
-						data[bbbi] = c_worm
+					if vm:get_data_from_heap(data, bbbi) == c_air then
+						vm:set_data_from_heap(data, bbbi, c_worm)
 					end
 				end
 			end
@@ -117,7 +117,7 @@ local glow_worm_ceiling = function(area, data, ai, vi, bi)
 	end
 end
 
-local obsidian_plug = function(area, data, ai, vi, bi)
+local obsidian_plug = function(vm, area, data, ai, vi, bi)
 	local pos = area:position(ai)
 	local x = pos.x
 	local y = pos.y
@@ -125,7 +125,7 @@ local obsidian_plug = function(area, data, ai, vi, bi)
 	for i = x - 3, x + 3 do
 		for j = y - 1, y + 1 do
 			for k = z - 3, z + 3 do
-				data[area:index(i,j,k)] = c_water
+				vm:set_data_from_heap(data, area:index(i,j,k), c_water)
 			end
 		end
 	end
@@ -134,34 +134,34 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Dungeon
 
-local dungeon_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[bi] = c_hcobble end
+local dungeon_floor = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, bi) == c_stone then vm:set_data_from_heap(data, bi, c_hcobble) end
 	if math.random() < FLACHA then --neverending flames
-		data[vi] = c_flame
+		vm:set_data_from_heap(data, vi, c_flame)
 	elseif math.random() < FOUNCHA and FOUNTAINS then --DM FOUNTAIN
-		data[vi] = c_fountain
+		vm:set_data_from_heap(data, vi, c_fountain)
 	elseif math.random() < FORTCHA and FORTRESSES then --DM FORTRESS
-		data[vi] = c_fortress
+		vm:set_data_from_heap(data, vi, c_fortress)
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
 
-local dungeon_ceiling = function(area, data, ai, vi, bi)
-	glow_worm_ceiling(area, data, ai, vi, bi)
+local dungeon_ceiling = function(vm, area, data, ai, vi, bi)
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
@@ -169,8 +169,8 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Moss
 
-local moss_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[bi] = c_moss end
+local moss_floor = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, bi) == c_stone then vm:set_data_from_heap(data, bi, c_moss) end
 	if math.random() < GEMCHA then
 		-- gems of random size
 		local gems = { c_gem1, c_gem2, c_gem3, c_gem4, c_gem5 }
@@ -178,28 +178,28 @@ local moss_floor = function(area, data, ai, vi, bi)
 		if gidx > 5 then
 			gidx = 1
 		end
-		data[vi] = gems[gidx]
+		vm:set_data_from_heap(data, vi, gems[gidx])
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
 
-local moss_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
-	glow_worm_ceiling(area, data, ai, vi, bi)
+local moss_ceiling = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, ai) == c_lava then obsidian_plug(vm, area, data, ai, vi, bi) end
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		end
 	end	
 end
@@ -207,38 +207,38 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Fungal
 
-local fungal_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[bi] = c_lichen
+local fungal_floor = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, bi) == c_stone then vm:set_data_from_heap(data, bi, c_lichen)
 		if math.random() < MUSHCHA then --mushrooms
-			data[vi] = c_fungus
+			vm:set_data_from_heap(data, vi, c_fungus)
 		elseif math.random() < MYCCHA then --mycena mushrooms
-			data[vi] = c_mycena
+			vm:set_data_from_heap(data, vi, c_mycena)
 		elseif math.random() < GIANTCHA then --giant mushrooms
 			local cap_radius = math.random(2,5)
 			local stem_height = math.random(3,7)
-			subterrane:giant_shroom(vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
+			subterrane:giant_shroom(vm, vi, area, data, c_stem, c_cap, c_gills, stem_height, cap_radius)
 		elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-			subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+			subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 		elseif math.random() < CRYSTAL then
 			if math.random(15) == 1 then
-				subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+				subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 			else
-				subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+				subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 			end
 		end
 	 end
 end
 
-local fungal_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
-	glow_worm_ceiling(area, data, ai, vi, bi)
+local fungal_ceiling = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, ai) == c_lava then obsidian_plug(vm, area, data, ai, vi, bi) end
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		end
 	end
 end
@@ -246,30 +246,30 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Algae
 
-local algae_floor = function(area, data, ai, vi, bi)
-	if data[bi] == c_stone then data[bi] = c_algae end
+local algae_floor = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, bi) == c_stone then vm:set_data_from_heap(data, bi, c_algae) end
 	if subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		end
 	end
 end
 
-local algae_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
-	glow_worm_ceiling(area, data, ai, vi, bi)
+local algae_ceiling = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, ai) == c_lava then obsidian_plug(vm, area, data, ai, vi, bi) end
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(25) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		end
 	end
 
@@ -278,35 +278,35 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Glaciated
 
-local glaciated_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_thinice
-	data[bi] = c_thinice
+local glaciated_floor = function(vm, area, data, ai, vi, bi)
+	vm:set_data_from_heap(data, vi, c_thinice)
+	vm:set_data_from_heap(data, bi, c_thinice)
 	if math.random() < ICICHA then --if glaciated, place icicles
-		data[ai] = c_iciu
+		vm:set_data_from_heap(data, ai, c_iciu)
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
 
-local glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
+local glaciated_ceiling = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, ai) == c_lava then obsidian_plug(vm, area, data, ai, vi, bi) end
 	if math.random() < ICICHA then
-		data[vi] = c_icid
+		vm:set_data_from_heap(data, vi, c_icid)
 	end
-	glow_worm_ceiling(area, data, ai, vi, bi)
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
 		end
 	end
 end
@@ -315,36 +315,36 @@ end
 -- Deep Glaciated
 
 
-local deep_glaciated_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_ice
-	data[bi] = c_ice
+local deep_glaciated_floor = function(vm, area, data, ai, vi, bi)
+	vm:set_data_from_heap(data, vi, c_ice)
+	vm:set_data_from_heap(data, bi, c_ice)
 	if math.random() < ICICHA then --if glaciated, place icicles
-		data[ai] = c_iciu
+		vm:set_data_from_heap(data, ai, c_iciu)
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_ice, c_ice, c_thinice)
 		end
 	end
 end
 
-local deep_glaciated_ceiling = function(area, data, ai, vi, bi)
-	if data[ai] == c_lava then obsidian_plug(area, data, ai, vi, bi) end
+local deep_glaciated_ceiling = function(vm, area, data, ai, vi, bi)
+	if vm:get_data_from_heap(data, ai) == c_lava then obsidian_plug(vm, area, data, ai, vi, bi) end
 	if math.random() < ICICHA then
-		data[vi] = c_icid
+		vm:set_data_from_heap(data, vi, c_icid)
 	end
-	glow_worm_ceiling(area, data, ai, vi, bi)
+	glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(3) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_ice, c_ice, c_thinicehanging)
 		end
 	end	
 end
@@ -354,7 +354,7 @@ end
 
 
 --glowing crystal stalagmite spawner
-local salt_stalagmite = function(vi, area, data)
+local salt_stalagmite = function(vm, vi, area, data)
 	local pos = area:position(vi)
 	local x = pos.x
 	local y = pos.y
@@ -365,10 +365,10 @@ local salt_stalagmite = function(vi, area, data)
 		for j = -3, 3 do
 			for k = -3, 3 do
 				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
+				vm:set_data_from_heap(data, vi, c_stone)
 				if math.abs(j) ~= 3 and math.abs(k) ~= 3 then
 					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -376,10 +376,10 @@ local salt_stalagmite = function(vi, area, data)
 		for j = -4, 4 do
 			for k = -4, 4 do
 				local vi = area:index(x+j, y, z+k)
-				data[vi] = c_stone
+				vm:set_data_from_heap(data, vi, c_stone)
 				if math.abs(j) ~= 4 and math.abs(k) ~= 4 then
 					local vi = area:index(x+j, y+1, z+k)
-					data[vi] = c_stone
+					vm:set_data_from_heap(data, vi, c_stone)
 				end
 			end
 		end
@@ -388,15 +388,15 @@ local salt_stalagmite = function(vi, area, data)
 		for k = -2, scale - 2 do
 			for l = -2, scale - 2 do
 				local vi = area:index(x+k, y+j, z+l)
-				data[vi] = c_saltcrystal -- make cube
+				vm:set_data_from_heap(data, vi, c_saltcrystal) -- make cube
 			end
 		end
 	end
 end
 
-local salt_floor = function(area, data, ai, vi, bi)
-	data[vi] = c_salt
-	data[bi] = c_salt
+local salt_floor = function(vm, area, data, ai, vi, bi)
+	vm:set_data_from_heap(data, vi, c_salt)
+	vm:set_data_from_heap(data, bi, c_salt)
 	if math.random() < GEMCHA then
 		-- gems of random size
 		local gems = { c_saltgem1, c_saltgem2, c_saltgem3, c_saltgem4, c_saltgem5 }
@@ -404,30 +404,30 @@ local salt_floor = function(area, data, ai, vi, bi)
 		if gidx > 5 then
 			gidx = 1
 		end
-		data[ai] = gems[gidx]
+		vm:set_data_from_heap(data, ai, gems[gidx])
 	elseif math.random() < STAGCHA then
-		salt_stalagmite(vi, area, data)
+		salt_stalagmite(vm, vi, area, data)
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_crystore, c_crystal)
 		end
 	end
 end
 
-local salt_ceiling = function(area, data, ai, vi, bi)
-	glow_worm_ceiling(area, data, ai, vi, bi, 7)
+local salt_ceiling = function(vm, area, data, ai, vi, bi)
+	glow_worm_ceiling(vm, area, data, ai, vi, bi, 7)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_crystore, c_crystal)
 		end
 	end	
 end
@@ -435,37 +435,37 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Glowing Obsidian
 
-local obsidian_floor = function(area, data, ai, vi, bi)
+local obsidian_floor = function(vm, area, data, ai, vi, bi)
 	if math.random() < 0.5 then
-		data[vi] = c_gobsidian
-		data[bi] = c_gobsidian
+		vm:set_data_from_heap(data, vi, c_gobsidian)
+		vm:set_data_from_heap(data, bi, c_gobsidian)
 	else
-		data[vi] = c_gobsidian2
-		data[bi] = c_gobsidian2
+		vm:set_data_from_heap(data, vi, c_gobsidian2)
+		vm:set_data_from_heap(data, bi, c_gobsidian2)
 	end
 	if math.random() < FLACHA then --neverending flames
-		data[ai] = c_flame
+		vm:set_data_from_heap(data, ai, c_flame)
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_emore, c_emerald)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
 
-local obsidian_ceiling = function(area, data, ai, vi, bi)
-	glow_worm_ceiling(area, data, ai, vi, bi, 8)
+local obsidian_ceiling = function(vm, area, data, ai, vi, bi)
+	glow_worm_ceiling(vm, area, data, ai, vi, bi, 8)
 	
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_emore, c_emerald)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_rubore, c_ruby)
 		end
 	end
 end
@@ -473,19 +473,19 @@ end
 -----------------------------------------------------------------------------------------------------------
 -- Coal Dust
 
-local coal_floor = function(area, data, ai, vi, bi)
+local coal_floor = function(vm, area, data, ai, vi, bi)
 	if math.random() < 0.05 then
-		data[vi] = c_coalblock
-		data[bi] = c_coalblock
+		vm:set_data_from_heap(data, vi, c_coalblock)
+		vm:set_data_from_heap(data, bi, c_coalblock)
 	elseif math.random() < 0.15 then
-		data[vi] = c_coaldust
-		data[bi] = c_coaldust
+		vm:set_data_from_heap(data, vi, c_coaldust)
+		vm:set_data_from_heap(data, bi, c_coaldust)
 	else
-		data[vi] = c_desand
-		data[bi] = c_desand
+		vm:set_data_from_heap(data, vi, c_desand)
+		vm:set_data_from_heap(data, bi, c_desand)
 	end
 	if math.random() < FLACHA * 0.75 then --neverending flames
-		data[ai] = c_flame
+		vm:set_data_from_heap(data, ai, c_flame)
 	elseif math.random() < GEMCHA then
 		-- spikes of random size
 		local spikes = { c_spike1, c_spike2, c_spike3, c_spike4, c_spike5 }
@@ -493,30 +493,30 @@ local coal_floor = function(area, data, ai, vi, bi)
 		if sidx > 5 then
 			sidx = 1
 		end
-		data[ai] = spikes[sidx]
+		vm:set_data_from_heap(data, ai, spikes[sidx])
 	elseif subterrane:vertically_consistent_random(vi, area) < STAGCHA then
-		subterrane:giant_stalagmite(vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
+		subterrane:giant_stalagmite(vm, vi, area, data, 6, H_LAG, c_stone, c_stone, c_stone)
 	elseif math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalagmite(vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
+			subterrane:giant_stalagmite(vm, vi, area, data, 5, H_CRY, c_stone, c_amethore, c_ameth)
 		end
 	end
 end
 
-local coal_ceiling = function(area, data, ai, vi, bi)
+local coal_ceiling = function(vm, area, data, ai, vi, bi)
 	if math.random() < WORMCHA then
-		glow_worm_ceiling(area, data, ai, vi, bi)
+		glow_worm_ceiling(vm, area, data, ai, vi, bi)
 	end
 	if subterrane:vertically_consistent_random(vi, area) < STALCHA then
-		subterrane:giant_stalactite(vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
+		subterrane:giant_stalactite(vm, vi, area, data, 6, H_LAC, c_stone, c_stone, c_stone)
 	end
 	if math.random() < CRYSTAL then
 		if math.random(15) == 1 then
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_meseore, c_mesecry)
 		else
-			subterrane:giant_stalactite(vi, area, data, 6, H_CLAC, c_stone, c_amethore, c_ameth)
+			subterrane:giant_stalactite(vm, vi, area, data, 6, H_CLAC, c_stone, c_amethore, c_ameth)
 		end
 	end
 end
