@@ -1,0 +1,1 @@
+subterrane_enable_legacy_dripstone (Adds old dripstone node definitions) bool true
