@@ -223,7 +223,7 @@ function package_dialog.get_formspec()
 		"button[0,0;2,1;back;", fgettext("< Back"), "]",
 
 		-- image
-		"image[0.2,1;3.5,3;", get_screenshot(package), "]",
+		"image[0.2,1;3.5,3;", core.formspec_escape(get_screenshot(package)), "]",
 	}
 
 	if not package.path then
@@ -398,7 +398,7 @@ function store.get_formspec()
 
 		-- image
 		formspec[#formspec + 1] = "image[-0.4,0;1.5,1;"
-		formspec[#formspec + 1] = get_screenshot(package)
+		formspec[#formspec + 1] = core.formspec_escape(get_screenshot(package))
 		formspec[#formspec + 1] = "]"
 
 		-- title
