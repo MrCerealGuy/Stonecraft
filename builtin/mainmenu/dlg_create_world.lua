@@ -385,6 +385,12 @@ local function create_world_buttonhandler(this, fields)
 			["enable_redtrees"]	 				= true
 		},
 
+		["enable_caverealms"]					= 
+		{
+			["enable_caverealms"]	 			= true, 
+			["enable_subterrane"]	 			= true
+		},
+
 		["enable_villages"]						=
 		{
 			["enable_villages"]	 				= true,

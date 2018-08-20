@@ -191,6 +191,7 @@ Example content (added indentation and - explanations):
   enable_swamps = false
   enable_snow = false
   enable_caverealms = false
+  enable_subterrane = false
   enable_nether = false
   etheral_biomes_glacier = true
   etheral_biomes_bamboo = true
