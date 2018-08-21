@@ -1,16 +1,16 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Grasses" -- former "Dry plants"
-local version 	= "0.1.5"
+local version	= "0.1.5"
 local mname		= "dryplants"
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
 -- textures & ideas partly by Neuromancer
 
--- License (everything): 	WTFPL
--- Contains code from: 		default, farming 
+-- License (everything):	WTFPL
+-- Contains code from:		default, farming
 -- Looked at code from:		darkage, sickle, stairs
--- Dependencies: 			default, farming, biome_lib
--- Supports:				
+-- Dependencies:			default, farming, biome_lib
+-- Supports:
 -----------------------------------------------------------------------------------------------
 
 --[[

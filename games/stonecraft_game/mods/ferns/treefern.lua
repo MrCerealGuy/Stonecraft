@@ -2,9 +2,9 @@
 -- Ferns - Tree Fern 0.1.1
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything): 	WTFPL
--- Contains code from: 		biome_lib
--- Looked at code from:		default	, trees			
+-- License (everything):	WTFPL
+-- Contains code from:		biome_lib
+-- Looked at code from:		default	, trees
 -----------------------------------------------------------------------------------------------
 
 --[[
@@ -28,24 +28,27 @@ abstract_ferns.grow_tree_fern = function(pos)
 			and minetest.get_node(pos_01).name ~= "default:junglegrass" then
 		return
 	end
-		
+
 	local size = math.random(1, 4) + math.random(1, 4)
 	if (size > 5) then
 		size = 10 - size
 	end
 	size = size + 1
 	local crown = ({ "ferns:tree_fern_leaves", "ferns:tree_fern_leaves_02" })[math.random(1, 2)]
-	
+
 	local i = 1
-	while (i < size-1) do
-		if minetest.get_node({x = pos.x, y = pos.y + i + 1, z = pos.z}).name ~= "air" then
+	local brk = false
+	while (i < size) do
+		if minetest.get_node({x = pos.x, y = pos.y + i, z = pos.z}).name ~= "air" then
+			brk = true
 			break
 		end
 		minetest.set_node({x = pos.x, y = pos.y + i, z = pos.z}, { name = "ferns:fern_trunk" })
 		i = i + 1
 	end
-
-	minetest.set_node({x = pos.x, y = pos.y + i, z = pos.z}, { name = crown })
+	if not brk then
+		minetest.set_node({x = pos.x, y = pos.y + i - 1, z = pos.z}, { name = crown })
+	end
 end
 
 -----------------------------------------------------------------------------------------------
@@ -57,7 +60,7 @@ end
 minetest.register_node("ferns:tree_fern_leaves", {
 	description = S("Tree Fern Crown (Dicksonia)"),
 	drawtype = "plantlike",
-	visual_scale = 2,
+	visual_scale = math.sqrt(8),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	--tiles = {"[combine:32x32:0,0=top_left.png:0,16=bottom_left.png:16,0=top_right.png:16,16=bottom_right.png"},
@@ -91,7 +94,7 @@ minetest.register_node("ferns:tree_fern_leaves", {
 })
 minetest.register_node("ferns:tree_fern_leaves_02", {
 	drawtype = "plantlike",
-	visual_scale = 2,
+	visual_scale = math.sqrt(8),
 	paramtype = "light",
 	tiles = {"ferns_fern_big.png"},
 	walkable = false,
@@ -144,8 +147,8 @@ minetest.register_node("ferns:fern_trunk", {
 	sounds = default.node_sound_wood_defaults(),
 	after_destruct = function(pos,oldnode)
         local node = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z})
-        if node.name == "ferns:fern_trunk" then 
-            minetest.dig_node({x=pos.x,y=pos.y+1,z=pos.z}) 
+        if node.name == "ferns:fern_trunk" then
+            minetest.dig_node({x=pos.x,y=pos.y+1,z=pos.z})
             minetest.add_item(pos,"ferns:fern_trunk")
         end
     end,
@@ -188,6 +191,7 @@ if abstract_ferns.config.enable_treeferns_in_jungle == true then
 	biome_lib:register_generate_plant({
 		surface = {
 			"default:dirt_with_grass",
+			"default:dirt_with_rainforest_litter", -- minetest >= 0.4.16
 			"default:sand",
 			"default:desert_sand",
 		},
@@ -224,7 +228,7 @@ if abstract_ferns.config.enable_treeferns_in_oases == true then
 		neighbors = {"default:desert_sand"},
 		ncount = 1,
 		min_elevation = 1,
-		near_nodes = {"default:water_source"},
+		near_nodes = {"default:water_source","default:river_water_source"},
 		near_nodes_size = 2,
 		near_nodes_vertical = 1,
 		near_nodes_count = 1,

@@ -2,7 +2,7 @@
 -- Ferns - Crafting 0.0.5
 -----------------------------------------------------------------------------------------------
 -- (by Mossmanikin)
--- License (everything): 	WTFPL			
+-- License (everything):	WTFPL
 -----------------------------------------------------------------------------------------------
 
 --[[
@@ -16,12 +16,16 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+local fern1 = minetest.registered_items["default:fern_1"] or false
+fern1 = (fern1 and fern1.name) or "ferns:fern_01"
+
+
 minetest.register_craft({
 	type = "shapeless",
 	output = "ferns:fiddlehead 3",
 	recipe = {"ferns:fern_01"},
 	replacements = {
-		{"ferns:fern_01", "ferns:ferntuber"}
+		{fern1, "ferns:ferntuber"}
 	},
 })
 
@@ -113,4 +117,3 @@ minetest.register_craft({
 	output = "farming:hoe_wood",
 	recipe = {"farming:hoe_wood","group:horsetail","farming:string","default:stick"},
 })]]
-

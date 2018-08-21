@@ -3,9 +3,9 @@
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
 
--- License (everything): 	WTFPL
--- Contains code from: 		biome_lib
--- Looked at code from:		default				
+-- License (everything):	WTFPL
+-- Contains code from:		biome_lib
+-- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
 
 abstract_dryplants.grow_grass = function(pos)

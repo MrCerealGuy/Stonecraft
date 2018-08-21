@@ -4,9 +4,9 @@
 -- by Mossmanikin
 -- textures & ideas partly by Neuromancer
 
--- License (everything): 	WTFPL
--- Contains code from: 		biome_lib
--- Looked at code from:		default			
+-- License (everything):	WTFPL
+-- Contains code from:		biome_lib
+-- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
 
 --[[
@@ -36,7 +36,7 @@ end
 minetest.register_node("dryplants:juncus", {
 	description = S("Juncus"),
 	drawtype = "plantlike",
-	visual_scale = 2,
+	visual_scale = math.sqrt(8),
 	paramtype = "light",
 	tiles = {"dryplants_juncus_03.png"},
 	inventory_image = "dryplants_juncus_inv.png",
@@ -56,8 +56,8 @@ minetest.register_node("dryplants:juncus", {
 	},
 	on_place = function(itemstack, placer, pointed_thing)
 		local playername = placer:get_player_name()
-		if minetest.is_protected(pointed_thing.above, playername) or 
-			minetest.is_protected(pointed_thing.under, playername) then 
+		if minetest.is_protected(pointed_thing.above, playername) or
+			minetest.is_protected(pointed_thing.under, playername) then
 			minetest.chat_send_player(playername, "Someone else owns that spot.")
 			return
 		end
@@ -78,7 +78,7 @@ minetest.register_node("dryplants:juncus", {
 minetest.register_node("dryplants:juncus_02", {
 	description = S("Juncus"),
 	drawtype = "plantlike",
-	visual_scale = 2,
+	visual_scale = math.sqrt(8),
 	paramtype = "light",
 	tiles = {"dryplants_juncus_02.png"},
 	walkable = false,
@@ -103,7 +103,7 @@ minetest.register_node("dryplants:juncus_02", {
 -- near water or swamp
 biome_lib:register_generate_plant({
     surface = {
-		"default:dirt_with_grass", 
+		"default:dirt_with_grass",
 		--"default:desert_sand",
 		--"default:sand",
 		"stoneage:grass_with_silex",
@@ -124,7 +124,7 @@ biome_lib:register_generate_plant({
 -- at dunes/beach
 biome_lib:register_generate_plant({
     surface = {
-		--"default:dirt_with_grass", 
+		--"default:dirt_with_grass",
 		--"default:desert_sand",
 		"default:sand",
 		--"stoneage:grass_with_silex",

@@ -30,7 +30,7 @@ for i in pairs(NoDe) do
 		inventory_image = "trunks_twig_"..NR..".png",
 		wield_image = "trunks_twig_"..NR..".png",
 		drawtype = "nodebox",
-		tiles = { 
+		tiles = {
 			"trunks_twig_"..NR..".png",
 			"trunks_twig_"..NR..".png^[transformFY", -- mirror
 			"trunks_twig_6.png" -- empty
@@ -227,11 +227,11 @@ if Auto_Roof_Corner == true then
 		interval = 1,
 		chance = 1,
 		action = function(pos)
-	
-			local node_east = 			minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  })
-			local node_west = 			minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  })
-			local node_north = 			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z+1})
-			local node_south = 			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z-1})
+
+			local node_east =			minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  })
+			local node_west =			minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  })
+			local node_north =			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z+1})
+			local node_south =			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z-1})
 		-- corner 1
 			if ((node_west.name == roof and node_west.param2 == 0)
 			or (node_west.name == corner and node_west.param2 == 1))
@@ -240,7 +240,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner, param2=0})
 			end
-		
+
 			if ((node_north.name == roof and node_north.param2 == 1)
 			or (node_north.name == corner and node_north.param2 == 2))
 			and ((node_east.name == roof and node_east.param2 == 0)
@@ -248,7 +248,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner, param2=1})
 			end
-		
+
 			if ((node_east.name == roof and node_east.param2 == 2)
 			or (node_east.name == corner and node_east.param2 == 3))
 			and ((node_south.name == roof and node_south.param2 == 1)
@@ -256,7 +256,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner, param2=2})
 			end
-		
+
 			if ((node_south.name == roof and node_south.param2 == 3)
 			or (node_south.name == corner and node_south.param2 == 0))
 			and ((node_west.name == roof and node_west.param2 == 2)
@@ -272,7 +272,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner_2, param2=0})
 			end
-		
+
 			if ((node_north.name == roof and node_north.param2 == 3)
 			or (node_north.name == corner_2 and node_north.param2 == 2))
 			and ((node_east.name == roof and node_east.param2 == 2)
@@ -280,7 +280,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner_2, param2=1})
 			end
-		
+
 			if ((node_east.name == roof and node_east.param2 == 0)
 			or (node_east.name == corner_2 and node_east.param2 == 3))
 			and ((node_south.name == roof and node_south.param2 == 3)
@@ -288,7 +288,7 @@ if Auto_Roof_Corner == true then
 			then
 				minetest.set_node(pos, {name=corner_2, param2=2})
 			end
-		
+
 			if ((node_south.name == roof and node_south.param2 == 1)
 			or (node_south.name == corner_2 and node_south.param2 == 0))
 			and ((node_west.name == roof and node_west.param2 == 0)
@@ -304,7 +304,7 @@ end
 -- MM: The following stuff is just for testing purposes for now; no generating of roots.
 --     I'm not satisfied with this; they should be either bigger or a different drawtype.
 -----------------------------------------------------------------------------------------------
--- RooTS 
+-- RooTS
 -----------------------------------------------------------------------------------------------
 if Roots == true then -- see settings.txt
 
@@ -313,8 +313,8 @@ local roots_cube =	{-2/16, -1/2, -3/16, 2/16, 1/16, 1/2}
 local roots_sheet = {0, -1/2, -1/2, 0, 1/16, 1/2}
 
 local TRuNKS = {
---	  MoD 						 TRuNK
-    {"default",  				"tree"						},
+--	  MoD						 TRuNK
+    {"default",					"tree"						},
 	{"default",					"jungletree"				},
 	{"default",					"pine_tree"					},
 
@@ -336,8 +336,8 @@ local TRuNKS = {
 }
 
 for i in pairs(TRuNKS) do
-	local 	MoD = 			TRuNKS[i][1]
-	local 	TRuNK = 		TRuNKS[i][2]
+	local	MoD =			TRuNKS[i][1]
+	local	TRuNK =			TRuNKS[i][2]
 	if minetest.get_modpath(MoD) ~= nil then
 
 		local node = minetest.registered_nodes[MoD..":"..TRuNK]
@@ -345,7 +345,7 @@ for i in pairs(TRuNKS) do
 			local des = node.description
 
 			minetest.register_node("trunks:"..TRuNK.."root", {
-				description = S("@1 Root", des),
+				description = des.." "..S("Root"),
 				paramtype = "light",
 				paramtype2 = "facedir",
 				tiles = {
@@ -372,7 +372,7 @@ for i in pairs(TRuNKS) do
 			})
 
 		else
-			print(string.format("[Trunks] warning: tree type '%s:%s' not found", MoD, TRuNK))
+			minetest.log("error", string.format("[Trunks] warning: tree type '%s:%s' not found", MoD, TRuNK))
 		end
 	end
 end

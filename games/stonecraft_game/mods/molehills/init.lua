@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Mole Hills"
-local version 	= "0.0.3"
+local version	= "0.0.3"
 local mname		= "molehills"
 -----------------------------------------------------------------------------------------------
 -- Idea by Sokomine
@@ -22,7 +22,7 @@ local mh_cbox = {
 minetest.register_node("molehills:molehill",{
 	drawtype = "mesh",
 	mesh = "molehill_molehill.obj",
-	description = "Mole Hill",
+	description = S("Mole Hill"),
 	inventory_image = "molehills_side.png",
 	tiles = { "molehills_dirt.png" },
 	paramtype = "light",
@@ -47,7 +47,7 @@ minetest.register_craft({ -- molehills --> dirt
 -- GeNeRaTiNG
 -----------------------------------------------------------------------------------------------
 abstract_molehills.place_molehill = function(pos)
-	local right_here 	= {x=pos.x  , y=pos.y+1, z=pos.z  }
+	local right_here	= {x=pos.x  , y=pos.y+1, z=pos.z  }
 	if  minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  }).name ~= "air"
 	and minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  }).name ~= "air"
 	and minetest.get_node({x=pos.x  , y=pos.y, z=pos.z+1}).name ~= "air"
@@ -74,5 +74,5 @@ biome_lib:register_generate_plant({
 )
 
 -----------------------------------------------------------------------------------------------
-print("[Mod] "..title.." ["..version.."] ["..mname.."] Loaded...")
+print("[Mod] "..title.." ["..version.."] ["..mname.."]"..S("Loaded..."))
 -----------------------------------------------------------------------------------------------

@@ -2,11 +2,11 @@
 -- Archae Plantae - Horsetail 0.0.5
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything): 	WTFPL
--- Contains code from: 		biome_lib
+-- License (everything):	WTFPL
+-- Contains code from:		biome_lib
 -- Looked at code from:		default, flowers, trees
--- Dependencies: 			biome_lib
--- Supports:				dryplants, stoneage, sumpf			
+-- Dependencies:			biome_lib
+-- Supports:				dryplants, stoneage, sumpf
 -----------------------------------------------------------------------------------------------
 
 --[[
@@ -50,7 +50,7 @@ local function create_nodes()
 		elseif i == 4 then
 			node_desc = S("Horsetail (Equisetum)")
 		else
-			node_desc = S("Horsetail (Equisetum) ").. string.format("%02d", i)
+			node_desc = S("Horsetail (Equisetum)").." ".. string.format("%02d", i)
 		end
 
 		node_names[i] = node_name
@@ -91,6 +91,7 @@ if abstract_ferns.config.enable_horsetails_spawning == true then
 		spawn_chance = 400,
 		spawn_surfaces = {
 			"default:dirt_with_grass",
+			"default:dirt_with_coniferous_litter", -- minetest >= 0.5
 			"default:desert_sand",
 			"default:sand",
 			"dryplants:grass_short",
@@ -100,7 +101,7 @@ if abstract_ferns.config.enable_horsetails_spawning == true then
 		},
 		seed_diff = 329,
 		min_elevation = 1, -- above sea level
-		near_nodes = {"default:water_source","default:gravel"},
+		near_nodes = {"default:water_source","default:river_water_source","default:gravel"},
 		near_nodes_size = 2,
 		near_nodes_vertical = 1,
 		near_nodes_count = 1,
@@ -116,6 +117,7 @@ if abstract_ferns.config.enable_horsetails_on_grass == true then
 	biome_lib:register_generate_plant({
 		surface = {
 			"default:dirt_with_grass",
+			"default:dirt_with_coniferous_litter", -- minetest >= 0.5
 			"sumpf:sumpf"
 		},
 		max_count = 35,

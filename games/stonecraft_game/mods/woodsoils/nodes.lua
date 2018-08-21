@@ -14,8 +14,8 @@ local S, NS = dofile(MP.."/intllib.lua")
 minetest.register_node("woodsoils:dirt_with_leaves_1", {
 	description = S("Forest Soil 1"),
 	tiles = {
-		"default_dirt.png^woodsoils_ground_cover.png", 
-		"default_dirt.png", 
+		"default_dirt.png^woodsoils_ground_cover.png",
+		"default_dirt.png",
 		"default_dirt.png^woodsoils_ground_cover_side.png"},
 	is_ground_content = true,
 	groups = {
@@ -32,8 +32,8 @@ minetest.register_node("woodsoils:dirt_with_leaves_1", {
 minetest.register_node("woodsoils:dirt_with_leaves_2", {
 	description = S("Forest Soil 2"),
 	tiles = {
-		"woodsoils_ground.png", 
-		"default_dirt.png", 
+		"woodsoils_ground.png",
+		"default_dirt.png",
 		"default_dirt.png^woodsoils_ground_side.png"},
 	is_ground_content = true,
 	groups = {
@@ -50,8 +50,8 @@ minetest.register_node("woodsoils:dirt_with_leaves_2", {
 minetest.register_node("woodsoils:grass_with_leaves_1", {
 	description = S("Forest Soil 3"),
 	tiles = {
-		"default_grass.png^woodsoils_ground_cover2.png", 
-		"default_dirt.png", 
+		"default_grass.png^woodsoils_ground_cover2.png",
+		"default_dirt.png",
 		"default_dirt.png^default_grass_side.png^woodsoils_ground_cover_side2.png"},
 	is_ground_content = true,
 	groups = {
@@ -68,8 +68,8 @@ minetest.register_node("woodsoils:grass_with_leaves_1", {
 minetest.register_node("woodsoils:grass_with_leaves_2", {
 	description = S("Forest Soil 4"),
 	tiles = {
-		"default_grass.png^woodsoils_ground_cover.png", 
-		"default_dirt.png", 
+		"default_grass.png^woodsoils_ground_cover.png",
+		"default_dirt.png",
 		"default_dirt.png^default_grass_side.png^woodsoils_ground_cover_side.png"},
 	is_ground_content = true,
 	groups = {

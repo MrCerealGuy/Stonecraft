@@ -1,6 +1,6 @@
 -- In case you don't wanna have errors:
 
--- Only change what's behind a "=" (or "--"). 
+-- Only change what's behind a "=" (or "--").
 -- Don't use caps (behind a "=").
 
 -- If there's a "false" (behind a "=") you can change it to "true" (and the other way around).
@@ -31,12 +31,12 @@ abstract_ferns.config.lady_ferns_in_groups = false				-- this one is meant as a 
 --
 --	Horsetails
 abstract_ferns.config.enable_horsetails_spawning	= false		-- horsetails will grow in already explored areas, over time, near water or gravel
-abstract_ferns.config.enable_horsetails_on_grass 	= true		-- on dirt with grass and swamp (sumpf mod)
-abstract_ferns.config.enable_horsetails_on_stones 	= true		-- on gravel, mossy cobble and silex (stoneage mod)
+abstract_ferns.config.enable_horsetails_on_grass	= true		-- on dirt with grass and swamp (sumpf mod)
+abstract_ferns.config.enable_horsetails_on_stones	= true		-- on gravel, mossy cobble and silex (stoneage mod)
 --
 -- Tree_Fern
 abstract_ferns.config.enable_treeferns_in_jungle	= true
-abstract_ferns.config.enable_treeferns_in_oases 	= true		-- for oases and tropical beaches
+abstract_ferns.config.enable_treeferns_in_oases		= true		-- for oases and tropical beaches
 --
 -- Giant_Tree_Fern
 abstract_ferns.config.enable_giant_treeferns_in_jungle	= true

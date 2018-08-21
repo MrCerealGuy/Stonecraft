@@ -75,7 +75,7 @@ minetest.register_node("cavestuff:desert_pebble_2",{
     tiles = {"default_desert_stone.png"},
     paramtype = "light",
 	paramtype2 = "facedir",
-    groups = {cracky=3, stone=1, not_in_creative__inventory=1},
+    groups = {cracky=3, stone=1, not_in_creative_inventory=1},
 	selection_box = cbox,
 	collision_box = cbox,
     sounds = default.node_sound_stone_defaults(),
@@ -99,10 +99,10 @@ minetest.register_node("cavestuff:stalactite_1",{
 			{-0.037500,-0.837500,0.037500,0.037500,0.500000,-0.025000},
 		}
 	},
-	
+
 	on_place = function(itemstack, placer, pointed_thing)
 		local pt = pointed_thing
-		if minetest.get_node(pt.under).name=="default:stone" 
+		if minetest.get_node(pt.under).name=="default:stone"
 		and minetest.get_node({x=pt.under.x, y=pt.under.y-1, z=pt.under.z}).name=="air"
 		and minetest.get_node({x=pt.under.x, y=pt.under.y-2, z=pt.under.z}).name=="air" then
 			minetest.set_node({x=pt.under.x, y=pt.under.y-1, z=pt.under.z}, {name="cavestuff:stalactite_"..math.random(1,3)})
@@ -151,6 +151,3 @@ minetest.register_node("cavestuff:stalactite_3",{
 })
 
 --Stalagmites
-
-
-

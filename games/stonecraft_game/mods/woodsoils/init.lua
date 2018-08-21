@@ -9,7 +9,7 @@ if core.skip_mod("woodsoils") then return end
 
 -----------------------------------------------------------------------------------------------
 local title		= "Wood Soils" -- former "Forest Soils"
-local version 	= "0.0.9"
+local version	= "0.0.9"
 local mname		= "woodsoils" -- former "forestsoils"
 -----------------------------------------------------------------------------------------------
 
@@ -19,14 +19,14 @@ dofile(minetest.get_modpath("woodsoils").."/nodes.lua")
 dofile(minetest.get_modpath("woodsoils").."/generating.lua")
 
 -- felt like playing a bit :D
---[[print("  _____                              __")  
+--[[print("  _____                              __")
 print("_/ ____\\___________   ____   _______/  |_")
 print("\\   __\\/  _ \\_  __ \\_/ __ \\ /  ___/\\   __\\")
-print(" |  | (  <_> )  | \\/\\  ___/ \\___ \\  |  |")  
-print(" |__|  \\____/|__|    \\___  >____  > |__|") 
+print(" |  | (  <_> )  | \\/\\  ___/ \\___ \\  |  |")
+print(" |__|  \\____/|__|    \\___  >____  > |__|")
 print("                         \\/     \\/")
 
-print("             .__.__")        
+print("             .__.__")
 print("  __________ |__|  |   ______")
 print(" /  ___/  _ \\|  |  |  /  ___/")
 print(" \\___ (  <_> )  |  |__\\___ \\")

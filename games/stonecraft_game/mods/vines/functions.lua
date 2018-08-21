@@ -72,7 +72,7 @@ vines.register_vine = function( name, defs, biome )
   })
 
   minetest.register_node( vine_name_middle, {
-    description = S("Matured @1", defs.description),
+    description = S("Matured").." "..defs.description,
     walkable = false,
     climbable = true,
     drop = "",

@@ -1,10 +1,10 @@
 -----------------------------------------------------------------------------------------------
 local title		= "Ferns" -- former "Archae Plantae"
-local version 	= "0.2.0"
+local version	= "0.2.1"
 local mname		= "ferns" -- former "archaeplantae"
 -----------------------------------------------------------------------------------------------
 -- (by Mossmanikin)
--- License (everything): 	WTFPL			
+-- License (everything):	WTFPL
 -----------------------------------------------------------------------------------------------
 
 abstract_ferns = {}

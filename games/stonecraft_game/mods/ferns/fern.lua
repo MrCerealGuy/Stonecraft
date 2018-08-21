@@ -2,11 +2,11 @@
 -- Ferns - Fern 0.1.0
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything): 	WTFPL
--- Contains code from: 		biome_lib
+-- License (everything):	WTFPL
+-- Contains code from:		biome_lib
 -- Looked at code from:		default, flowers, painting, trees
--- Dependencies: 			biome_lib
--- Supports:				dryplants, stoneage, sumpf		
+-- Dependencies:			biome_lib
+-- Supports:				dryplants, stoneage, sumpf
 -----------------------------------------------------------------------------------------------
 -- some inspiration from here
 -- https://en.wikipedia.org/wiki/Athyrium_yokoscense
@@ -27,16 +27,24 @@ local S, NS = dofile(MP.."/intllib.lua")
 assert(abstract_ferns.config.enable_lady_fern == true)
 
 -- Maintain backward compatibilty
+-- minetest-0.5: Begin
+local default_ferns = minetest.registered_items["default:fern_1"] or false
+if default_ferns then
+	minetest.register_alias("ferns:fern_03", "default:fern_3")
+	minetest.register_alias("ferns:fern_02", "default:fern_2")
+	minetest.register_alias("ferns:fern_01", "default:fern_1")
+end
+-- minetest-0.5: End
 minetest.register_alias("archaeplantae:fern",		"ferns:fern_03")
 minetest.register_alias("archaeplantae:fern_mid",	"ferns:fern_02")
 minetest.register_alias("archaeplantae:fern_small",	"ferns:fern_01")
-minetest.register_alias("ferns:fern_04",      		"ferns:fern_02") -- for placing
+minetest.register_alias("ferns:fern_04",		"ferns:fern_02") -- for placing
 
 local nodenames = {}
 
 local function create_nodes()
-	local images 	= { "ferns_fern.png", "ferns_fern_mid.png", "ferns_fern_big.png" }
-	local vscales	= { 1, 2, 2.2 }
+	local images	= { "ferns_fern.png", "ferns_fern_mid.png", "ferns_fern_big.png" }
+	local vscales	= { 1, math.sqrt(8), math.sqrt(11) }
 	local descs		= { S("Lady-fern (Athyrium)"), nil, nil }
 
 	for i = 1, 3 do
@@ -51,7 +59,7 @@ local function create_nodes()
 		end
 		nodenames[i] = "ferns:fern_"..string.format("%02d", i)
 		minetest.register_node(nodenames[i], {
-			description = descs[i] or (S("Lady-fern (Athyrium) ") .. string.format("%02d", i)),
+			description = descs[i] or (S("Lady-fern (Athyrium)").." " .. string.format("%02d", i)),
 			inventory_image = "ferns_fern.png",
 			drawtype = "plantlike",
 			visual_scale = vscales[i],
@@ -75,7 +83,13 @@ end
 -- Init
 -----------------------------------------------------------------------------------------------
 
-create_nodes()
+if default_ferns then
+	for i = 1, 3 do
+		nodenames[i] = "ferns:fern_"..string.format("%02d", i)
+	end
+else
+	create_nodes()
+end
 
 -----------------------------------------------------------------------------------------------
 -- Spawning
@@ -144,6 +158,7 @@ if abstract_ferns.config.lady_ferns_near_ores == true then -- this one causes a 
 			"default:mossycobble",
 			"default:stone_with_coal",
 			"default:stone_with_iron",
+			"default:stone_with_tin", -- minetest >= 0.4.16
 			"moreores:mineral_tin",
 			"moreores:mineral_silver",
 			"sumpf:sumpf"
@@ -157,6 +172,7 @@ if abstract_ferns.config.lady_ferns_near_ores == true then -- this one causes a 
 			--"default:stone_with_mese",
 			--"default:stone_with_gold",
 			--"default:stone_with_diamond",
+			"default:stone_with_tin", -- minetest >= 0.4.16
 			"moreores:mineral_tin",
 			"moreores:mineral_silver"
 			--"moreores:mineral_mithril"
@@ -182,6 +198,7 @@ if abstract_ferns.config.lady_ferns_in_groups == true then -- this one is meant 
 			"default:mossycobble",
 			"default:stone_with_coal",
 			"default:stone_with_iron",
+			"default:stone_with_tin", -- minetest >= 0.4.16
 			"moreores:mineral_tin",
 			"moreores:mineral_silver",
 			"sumpf:sumpf"

@@ -2,9 +2,9 @@
 -- Dry Plants - Reed 0.0.5
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything): 	WTFPL
+-- License (everything):	WTFPL
 -- Looked at code from:		darkage, default, stairs
--- Dependencies: 			default			
+-- Dependencies:			default
 -----------------------------------------------------------------------------------------------
 
 --[[
@@ -105,11 +105,11 @@ if AUTO_ROOF_CORNER == true then
 			interval = 1,
 			chance = 1,
 			action = function(pos)
-	
-				local node_east = 			minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  })
-				local node_west = 			minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  })
-				local node_north = 			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z+1})
-				local node_south = 			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z-1})
+
+				local node_east =			minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  })
+				local node_west =			minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  })
+				local node_north =			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z+1})
+				local node_south =			minetest.get_node({x=pos.x,   y=pos.y, z=pos.z-1})
 		-- corner 1
 				if ((node_west.name == roof and node_west.param2 == 0)
 				or (node_west.name == corner and node_west.param2 == 1))
@@ -118,7 +118,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner, param2=0})
 				end
-		
+
 				if ((node_north.name == roof and node_north.param2 == 1)
 				or (node_north.name == corner and node_north.param2 == 2))
 				and ((node_east.name == roof and node_east.param2 == 0)
@@ -126,7 +126,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner, param2=1})
 				end
-		
+
 				if ((node_east.name == roof and node_east.param2 == 2)
 				or (node_east.name == corner and node_east.param2 == 3))
 				and ((node_south.name == roof and node_south.param2 == 1)
@@ -134,7 +134,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner, param2=2})
 				end
-		
+
 				if ((node_south.name == roof and node_south.param2 == 3)
 				or (node_south.name == corner and node_south.param2 == 0))
 				and ((node_west.name == roof and node_west.param2 == 2)
@@ -150,7 +150,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner_2, param2=0})
 				end
-		
+
 				if ((node_north.name == roof and node_north.param2 == 3)
 				or (node_north.name == corner_2 and node_north.param2 == 2))
 				and ((node_east.name == roof and node_east.param2 == 2)
@@ -158,7 +158,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner_2, param2=1})
 				end
-		
+
 				if ((node_east.name == roof and node_east.param2 == 0)
 				or (node_east.name == corner_2 and node_east.param2 == 3))
 				and ((node_south.name == roof and node_south.param2 == 3)
@@ -166,7 +166,7 @@ if AUTO_ROOF_CORNER == true then
 				then
 					minetest.set_node(pos, {name=corner_2, param2=2})
 				end
-		
+
 				if ((node_south.name == roof and node_south.param2 == 1)
 				or (node_south.name == corner_2 and node_south.param2 == 0))
 				and ((node_west.name == roof and node_west.param2 == 0)
@@ -239,14 +239,14 @@ minetest.register_node("dryplants:wetreed_roof_corner_2", {
 	groups = {snappy=3, flammable=2},
 	sounds = default.node_sound_leaves_defaults(),
 })
-		
+
 -----------------------------------------------------------------------------------------------
 -- Wet Reed becomes (dry) Reed over time
 -----------------------------------------------------------------------------------------------
 if REED_WILL_DRY == true then
 
 	local DRyiNG = {
---	  	  WeT									 DRy
+--		  WeT									 DRy
 		{"dryplants:wetreed",					"dryplants:reed"},
 		{"dryplants:wetreed_slab",				"dryplants:reed_slab"},
 		{"dryplants:wetreed_roof",				"dryplants:reed_roof"},

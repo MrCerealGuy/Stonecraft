@@ -9,4 +9,3 @@ vines.recipes['shears'] = {
   {'group:stick', 'group:wood', 'default:steel_ingot'},
   {'', '', 'group:stick'}
 }
-
