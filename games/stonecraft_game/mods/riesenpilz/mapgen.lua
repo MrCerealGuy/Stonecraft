@@ -27,7 +27,6 @@ local function define_contents()
 		riesenpilz_glowshroom = minetest.get_content_id("riesenpilz:glowshroom"),
 		riesenpilz_parasol = minetest.get_content_id("riesenpilz:parasol"),
 
-		GROUND = {},
 		TREE_STUFF = {
 			minetest.get_content_id("default:tree"),
 			minetest.get_content_id("default:leaves"),
@@ -36,31 +35,9 @@ local function define_contents()
 			minetest.get_content_id("default:jungleleaves"),
 			minetest.get_content_id("default:junglegrass"),
 		},
-		USUAL_STUFF = {
-			[minetest.get_content_id("default:cactus")] = true,
-			[minetest.get_content_id("default:papyrus")] = true
-		},
 	}
-	for name,data in pairs(minetest.registered_nodes) do
-		local groups = data.groups
-		if groups then
-			if groups.crumbly == 3
-			or groups.soil == 1 then
-				table.insert(c.GROUND, minetest.get_content_id(name))
-			end
-		end
-	end
 end
 
-
-local function find_ground(a,list)
-	for i = 1,#list do
-		if a == list[i] then
-			return true
-		end
-	end
-	return false
-end
 
 local grounds = {}
 function is_ground(id)
@@ -69,7 +46,8 @@ function is_ground(id)
 		return is
 	end
 	local data = minetest.registered_nodes[minetest.get_name_from_content_id(id)]
-	if not data then
+	if not data
+	or data.paramtype == "light" then
 		grounds[id] = false
 		return false
 	end
@@ -83,51 +61,50 @@ function is_ground(id)
 	return false
 end
 
+local toremoves = {}
+function is_toremove(id)
+	local is = toremoves[id]
+	if is ~= nil then
+		return is
+	end
+	local data = minetest.registered_nodes[minetest.get_name_from_content_id(id)]
+	if not data then
+		toremoves[id] = false
+		return false
+	end
+	local groups = data.groups
+	if groups
+	and groups.flammable then
+		toremoves[id] = true
+		return true
+	end
+	toremoves[id] = false
+	return false
+end
 
-local data, area
+local data
+local area, pr
 function riesenpilz_circle(vm, data, area, nam, pos, radius, chance)
-	for _,p in pairs(vector.circle(radius)) do
-		if pr:next(1,chance) == 1 then
-			local p = vector.add(pos, p)
-			local p_p = area:indexp(p)
-			if (vm:get_data_from_heap(data, p_p) == c.air or vm:get_data_from_heap(data, p_p) == c.ignore)
-			and find_ground(vm:get_data_from_heap(data, area:index(p.x, p.y-1, p.z)), c.GROUND) then
-				vm:set_data_from_heap(data, p_p, nam)
+	local circle = vector.circle(radius)	
+	for i = 1,#circle do
+		if pr:next(1, chance) == 1 then
+			local vi = area:indexp(vector.add(pos, circle[i]))
+			if (vm:get_data_from_heap(data, vi) == c.air
+			and is_ground(vm:get_data_from_heap(data, vi - area.ystride)) then
+				vm:set_data_from_heap(data, vi, nam)
 			end
 		end
 	end
 end
 
-local function say_info(info)
-	local info = "[riesenpilz] "..info
-	print(info)
-	minetest.chat_send_all(info)
-end
 
--- perlin noise "hills" are not peaks but looking like sinus curve
-local function upper_rarity(rarity)
-	return math.sign(rarity)*math.sin(math.abs(rarity)*math.pi/2)
-end
-
-local rarity = riesenpilz.mapgen_rarity
-local riesenpilz_size = riesenpilz.mapgen_size
-
-local nosmooth_rarity = 1-rarity/50
-local perlin_scale = riesenpilz_size*100/rarity
-local smooth_rarity_max, smooth_rarity_min, smooth_rarity_dif
-local smooth = riesenpilz.smooth
-if smooth then
-	local smooth_trans_size = riesenpilz.smooth_trans_size
-	smooth_rarity_max = upper_rarity(nosmooth_rarity+smooth_trans_size*2/perlin_scale)
-	smooth_rarity_min = upper_rarity(nosmooth_rarity-smooth_trans_size/perlin_scale)
-	smooth_rarity_dif = smooth_rarity_max-smooth_rarity_min
-end
-nosmooth_rarity = upper_rarity(nosmooth_rarity)
-
---local USUAL_STUFF =	{"default:leaves","default:apple","default:tree","default:cactus","default:papyrus"}
+local nosmooth_rarity = 0.5
+local smooth_rarity_max = 0.6
+local smooth_rarity_min = 0.4
+local smooth_rarity_dif = smooth_rarity_max - smooth_rarity_min
+local perlin_scale = 500
 
 local contents_defined
-
 minetest.register_on_generated(function(minp, maxp, seed)
 	if maxp.y <= 0
 	or minp.y >= 150 then --avoid generation in the sky
@@ -170,14 +147,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	local heightmap = minetest.get_mapgen_object("heightmap")
 	local hmi = 1
+	local hm_zstride = divs+1
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local data = vm:load_data_into_heap()
+	area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	riesenpilz.vm = vm
 	riesenpilz.data = data
-
-	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
 		local d_p_pos = vm:get_data_from_heap(data, p_pos)
@@ -211,50 +188,56 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				in_biome = true
 			end
 
-			if in_biome and heightmap ~= nil then
+			if in_biome then
 
 				local ymin = math.max(heightmap[hmi]-5, minp.y)
+				local ymax = math.min(heightmap[hmi]+20, maxp.y)
 
 				-- skip the air part
 				local ground
-				for y = math.min(heightmap[hmi]+20, maxp.y),ymin,-1 do
-					if vm:get_data_from_heap(data, area:index(x, y, z)) ~= c.air then
+				local vi = area:index(x, ymax, z)
+				for y = ymax, ymin, -1 do
+					if vm:get_data_from_heap(data, vi) ~= c.air then
 						ground = y
 						break
 					end
+					vi = vi - area.ystride
 				end
 
 				local ground_y
 				if ground then
-					for y = ground,ymin,-1 do
-						local p_pos = area:index(x, y, z)
-						local d_p_pos = vm:get_data_from_heap(data, p_pos)
-						if c.USUAL_STUFF[d_p_pos] then --remove usual stuff
-							vm:set_data_from_heap(data, p_pos, c.air)
+					for y = ground, ymin, -1 do
+						local d_p_pos = vm:get_data_from_heap(data, vi)						
+						if is_toremove(d_p_pos) then
+							-- remove trees etc.
+							vm:set_data_from_heap(data, vi, c.air)
 						else
-							if d_p_pos ~= c.water
-							and is_ground(d_p_pos) then --else search ground_y
+							if is_ground(d_p_pos) then
 								ground_y = y
+								heightmap[hmi] = y
 							end
 							break
 						end
+						vi = vi - area.ystride
 					end
 				end
 
 				if ground_y then
-					vm:set_data_from_heap(data, area:index(x, ground_y, z), c.ground)
+					-- add ground and dirt below if needed
+					vm:set_data_from_heap(data, vi, c.ground)
 					for i = -1,-5,-1 do
-						local p_pos = area:index(x, ground_y+i, z)
-						if vm:get_data_from_heap(data, p_pos) == c.desert_sand then
-							vm:set_data_from_heap(data, p_pos, c.dirt)
-						else
+						local p_pos = vi + i * area.ystride
+						if not is_ground(vm:get_data_from_heap(data, p_pos))
+						or vm:get_data_from_heap(data, p_pos) == c.dirt then
 							break
 						end
+						data[p_pos] = c.dirt
 					end
+
 					local bigtype
 					local boden = {x=x,y=ground_y+1,z=z}
 					if pr:next(1,15) == 1 then
-						vm:set_data_from_heap(data, area:index(x, ground_y+1, z), c.dry_shrub)
+						vm:set_data_from_heap(data, vi + area.ystride, c.dry_shrub)
 					elseif pr:next(1,80) == 1 then
 						riesenpilz_circle(vm, data, area, c.riesenpilz_brown, boden, pr:next(3,4), 3)
 					elseif pr:next(1,85) == 1 then
@@ -298,23 +281,51 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		local t2 = os.clock()
 		for _,v in pairs(tab) do
 			local p = v[2]
-			local m = v[1]
-			if m == 1 then
-				riesenpilz.red(vm, p, data, area)
-			elseif m == 2 then
-				riesenpilz.brown(vm, p, data, area)
-			elseif m == 3 then
-				if not param2s then
-					param2s = vm:load_param2_data_into_heap()
-					riesenpilz.param2s = param2s
+
+			-- simple test for the distance to the biome border
+			local found_border = false
+			local dist = 5
+			local xmin = math.max(minp.x, p.x - dist)
+			local xmax = math.min(maxp.x, p.x + dist)
+			local hm_vi = (p.z - minp.z) * hm_zstride + xmin - minp.x + 1
+			for _ = xmin, xmax do
+				if not heightmap[hm_vi] then
+					found_border = true
+					break
 				end
-				riesenpilz.fly_agaric(vm, p, data, area, param2s)
-			elseif m == 4 then
-				riesenpilz.lavashroom(vm, p, data, area)
-			elseif m == 5 then
-				riesenpilz.parasol(vm, p, data, area)
-			elseif m == 6 then
-				riesenpilz.red45(vm, p, data, area)
+				hm_vi = hm_vi+1
+			end
+			if not found_border then
+				local zmin = math.max(minp.z, p.z - dist)
+				local zmax = math.min(maxp.z, p.z + dist)
+				hm_vi = (zmin - minp.z) * hm_zstride + p.x - minp.x + 1
+				for _ = zmin, zmax do
+					if not heightmap[hm_vi] then
+						found_border = true
+						break
+					end
+					hm_vi = hm_vi + hm_zstride
+				end
+			end
+
+			if not found_border then
+				local m = v[1]
+				if m == 1 then
+					riesenpilz.red(vm, p, data, area)
+				elseif m == 2 then
+					riesenpilz.brown(vm, p, data, area)
+				elseif m == 3 then
+					if not param2s then
+						param2s = vm:load_param2_data_into_heap()
+					end
+					riesenpilz.fly_agaric(vm, p, data, area, param2s)
+				elseif m == 4 then
+					riesenpilz.lavashroom(vm, p, data, area)
+				elseif m == 5 then
+					riesenpilz.parasol(vm, p, data, area)
+				elseif m == 6 then
+					riesenpilz.red45(vm, p, data, area)
+				end
 			end
 		end
 		riesenpilz.inform("giant shrooms generated", 2, t2)

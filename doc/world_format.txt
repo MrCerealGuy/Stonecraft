@@ -232,7 +232,6 @@ Example content (added indentation and - explanations):
   enable_erosion = false
   giantmushrooms_always_generate = false
   giantmushrooms_smooth = true
-  giantmushrooms_mapgen_rarity = 0.4
   enable_villages = false
   enable_mines = false
   enable_pyramids = false

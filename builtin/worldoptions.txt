@@ -223,7 +223,6 @@ enable_erosion (Erosion and sloped blocks) bool false
 
 giantmushrooms_always_generate (Generate giant mushroom biomes everywhere) bool false
 giantmushrooms_smooth (Enables smooth transition of biomes) bool true
-giantmushrooms_mapgen_rarity (Mapgen rarity in %) float 0.4
 
 [Technic]
 

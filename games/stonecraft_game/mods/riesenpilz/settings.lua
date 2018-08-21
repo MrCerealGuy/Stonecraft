@@ -7,22 +7,14 @@
 
 --This file contains configuration options for riesenpilz mod.
 
-riesenpilz.enable_mapgen = true
+-- mapgen size etc. does not work
+riesenpilz.enable_mapgen = false
 
 --Generate giant mushroom biomes everywhere
 if core.get_mod_setting("giantmushrooms_always_generate") ~= nil then riesenpilz.always_generate = core.get_mod_setting("giantmushrooms_always_generate") else riesenpilz.always_generate = false end
 
 --Enables smooth transition of biomes.
 if core.get_mod_setting("giantmushrooms_smooth") ~= nil then riesenpilz.smooth = core.get_mod_setting("giantmushrooms_smooth") else riesenpilz.smooth = true end
-
---rarity in %
-if core.get_mod_setting("giantmushrooms_mapgen_rarity") ~= nil then riesenpilz.mapgen_rarity = core.get_mod_setting("giantmushrooms_mapgen_rarity") else riesenpilz.mapgen_rarity = 0.4 end
-
---size of the generated... (has an effect to the rarity, too)
-riesenpilz.mapgen_size = 200
-
---approximate size of smooth transitions
-riesenpilz.smooth_trans_size = 2
 
 --says some information.
 riesenpilz.info = true

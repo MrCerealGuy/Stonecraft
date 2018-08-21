@@ -55,56 +55,38 @@ end
 
 local set_vm_nodes
 if riesenpilz.giant_restrict_area then
-	function set_vm_nodes(vm, data)
-		local vi = 0
-		local id
-
-		--for vi,id in pairs(data) do
-		repeat
-			id = vm:get_data_from_heap(data, vi)
-
-			if not id == -1 and not replacing_allowed(id) then
+	function set_vm_nodes(manip, pznodes)
+		local nodes = manip:load_data_into_heap()
+		for vi,id in pairs(pznodes) do
+			if not replacing_allowed(manip:get_data_from_heap(nodes, vi)) then
 				return false
 			end
-			--vm:set_data_from_heap(data, vi, id)
-
-			vi = vi+1
-
-		until id == -1
-		--end
-		vm:save_data_from_heap(data)
+			manip:set_data_from_heap(nodes, vi, id)
+		end
+		manip:save_data_from_heap(nodes)
 		return true
 	end
 else
-	function set_vm_nodes(vm, data)
-		--[[local vi = 0
-		local id
-
-		--for vi,id in pairs(data) do
-		repeat
-			id = vm:get_data_from_heap(data, vi)
-
-			if replacing_allowed(id) then
-				vm:set_data_from_heap(data, vi, id)
+	function set_vm_nodes(manip, pznodes)
+		local nodes = manip:load_data_into_heap()
+		for vi,id in pairs(pznodes) do
+			if replacing_allowed(manip:get_data_from_heap(nodes, vi)) then
+				manip:set_data_from_heap(nodes, vi, id)
 			end
-
-			vi++
-
-		until id == -1
-		--end --]]
-		vm:save_data_from_heap(data)
+		end
+		manip:save_data_from_heap(nodes)
 		return true
 	end
 end
 
-local function set_vm_data(vm, data, pos, t1, name)
-	if not set_vm_nodes(vm, data) then
+local function set_vm_data(manip, pznodes, pos, t1, name)
+	if not set_vm_nodes(manip, pznodes) then
 		return
 	end
-	vm:write_to_map(true)
+	manip:write_to_map()
 	riesenpilz.inform("a giant "..name.." mushroom grew at "..vector.pos_to_string(pos), 3, t1)
 	local t1 = os.clock()
-	vm:update_map()
+	manip:update_map()
 	riesenpilz.inform("map updated", 3, t1)
 end
 
@@ -139,7 +121,6 @@ local function riesenpilz_hybridpilz(pos)
 	local w = math.random(MAX_SIZE)
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, w+1, w+3, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
@@ -176,11 +157,9 @@ local function riesenpilz_brauner_minecraftpilz(pos)
 	local br = math.random(MAX_SIZE-1)+1
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, br+1, br+3, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.brown(vm, pos, data, area, br)
 
 	set_vm_data(vm, data, pos, t1, "brown")
@@ -218,12 +197,10 @@ local function riesenpilz_minecraft_fliegenpilz(pos)
 	local t1 = os.clock()
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, 2, 4, pos)
+	local param2s = riesenpilz.param2s or vm:load_param2_data_into_heap()
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-	local param2s = riesenpilz.param2s or vm:load_param2_data_into_heap()
-	
 	riesenpilz.fly_agaric(vm, pos, data, area, param2s)
 
 	if not set_vm_nodes(vm, data) then
@@ -304,11 +281,9 @@ local function riesenpilz_lavashroom(pos)
 	local h = 3+math.random(MAX_SIZE-2)
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, 4, h+6, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.lavashroom(vm, pos, data, area, h)
 
 	set_vm_data(vm, data, pos, t1, "lavashroom")
@@ -317,7 +292,7 @@ end
 
 function riesenpilz.glowshroom(vm, pos, nodes, area, h)
 	local h = h or 2+math.random(MAX_SIZE)
-	
+
 	for i = 0, h do
 		vm:set_data_from_heap(nodes, area:index(pos.x, pos.y+i, pos.z), c.stem_blue)
 	end
@@ -355,11 +330,9 @@ local function riesenpilz_glowshroom(pos)
 	local h = 2+math.random(MAX_SIZE)
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-
 	local area = r_area(vm, 2, h+3, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.glowshroom(vm, pos, data, area, h)
 
 	set_vm_data(vm, data, pos, t1, "glowshroom")
@@ -411,11 +384,9 @@ local function riesenpilz_parasol(pos)
 	local h = 6+math.random(MAX_SIZE)
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, w, h, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.parasol(vm, pos, data, area, w, h)
 
 	set_vm_data(vm, data, pos, t1, "parasol")
@@ -493,11 +464,9 @@ local function riesenpilz_red45(pos)
 	local h = h1+h2+5
 
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, 3, h, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.red45(vm, pos, data, area, h1, h2)
 
 	set_vm_data(vm, data, pos, t1, "red45")
@@ -541,13 +510,10 @@ end
 local function riesenpilz_apple(pos)
 
 	local t1 = os.clock()
-
 	local vm = riesenpilz.vm or minetest.get_voxel_manip()
-	
 	local area = r_area(vm, 5, 14, pos)
 
 	local data = riesenpilz.data or vm:load_data_into_heap()
-
 	riesenpilz.apple(vm, pos, data, area)
 
 	if not set_vm_nodes(vm, data) then
@@ -766,9 +732,12 @@ for name,i in pairs({
 	minetest.register_node(nd, {
 		description = i.description,
 		tiles = {
-			{name = "riesenpilz_"..name.."_top.png", tileable_vertical = false},
-			{name = "riesenpilz_"..name.."_bottom.png", tileable_vertical = false},
-			{name = "riesenpilz_"..name.."_side.png", tileable_vertical = false},
+			--~ {name = "riesenpilz_"..name.."_top.png", tileable_vertical = false},
+			--~ {name = "riesenpilz_"..name.."_bottom.png", tileable_vertical = false},
+			--~ {name = "riesenpilz_"..name.."_side.png", tileable_vertical = false},
+			"riesenpilz_"..name.."_top.png",
+			"riesenpilz_"..name.."_bottom.png",
+			"riesenpilz_"..name.."_side.png",
 		},
 		inventory_image = "riesenpilz_"..name.."_side.png",
 		walkable = false,
