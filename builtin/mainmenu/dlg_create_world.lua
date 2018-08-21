@@ -34,11 +34,11 @@ dofile(basepath .. DIR_DELIM .. "common" .. DIR_DELIM .. "dlg_settings_helper.lu
 
 local full_settings = parse_config_file(false, false, FILENAME)
 local search_string = ""
-local settings = full_settings
+local worldoptions = full_settings
 local selected_setting = 1
 
 local function create_change_setting_formspec(dialogdata)
-	local setting = settings[selected_setting]
+	local setting = worldoptions[selected_setting]
 	local formspec = "size[10,5.2,true]" ..
 			"button[5,4.5;2,1;btn_done;" .. fgettext("Save") .. "]" ..
 			"button[3,4.5;2,1;btn_cancel;" .. fgettext("Cancel") .. "]" ..
@@ -143,7 +143,7 @@ end
 
 local function handle_change_setting_buttons(this, fields)
 	if fields["btn_done"] or fields["key_enter"] then
-		local setting = settings[selected_setting]
+		local setting = worldoptions[selected_setting]
 		if setting.type == "bool" then
 			local new_value = fields["dd_setting_value"]
 			-- Note: new_value is the actual (translated) value shown in the dropdown
@@ -294,7 +294,7 @@ local function create_world_formspec(dialogdata)
 
 	-- loop all world otions and add to formspec table
 	local current_level = 0
-	for _, entry in ipairs(settings) do
+	for _, entry in ipairs(worldoptions) do
 
 		local name
 
@@ -319,7 +319,7 @@ local function create_world_formspec(dialogdata)
 					.. value .. ","
 
 		elseif entry.type == "key" then
-			-- ignore key settings, since we have a special dialog for them
+			-- ignore key worldoptions, since we have a special dialog for them
 
 		else
 			retval = retval .. "," .. (current_level + 1) .. "," .. core.formspec_escape(name) .. ","
@@ -327,7 +327,7 @@ local function create_world_formspec(dialogdata)
 		end
 	end
 
-	if #settings > 0 then
+	if #worldoptions > 0 then
 		retval = retval:sub(1, -2) -- remove trailing comma
 	end
 
@@ -459,7 +459,7 @@ local function create_world_buttonhandler(this, fields)
 		selected_setting = core.get_table_index("list_world_options")
 		if core.explode_table_event(fields["list_world_options"]).type == "DCL" then
 			-- Directly toggle booleans
-			local setting = settings[selected_setting]
+			local setting = worldoptions[selected_setting]
 			if setting and setting.type == "bool" then
 				local current_value = get_current_value(setting)
 				core.settings:set_bool(setting.name, not core.is_yes(current_value))
@@ -474,7 +474,7 @@ local function create_world_buttonhandler(this, fields)
 	end
 
 	if list_enter then
-		local setting = settings[selected_setting]
+		local setting = worldoptions[selected_setting]
 
 		if setting and setting.type ~= "category" then
 			local edit_dialog = dialog_create("change_setting", create_change_setting_formspec,
@@ -490,6 +490,7 @@ local function create_world_buttonhandler(this, fields)
 		fields["key_enter"] then
 
 		local worldname = fields["te_world_name"]
+		local worlduid
 		local gameindex = core.get_textlist_index("games")
 
 		if gameindex ~= nil then
@@ -498,6 +499,7 @@ local function create_world_buttonhandler(this, fields)
 				local random_world_name = "Unnamed" .. random_number
 				worldname = random_world_name
 			end
+			
 			local message = nil
 
 			core.settings:set("fixed_map_seed", fields["te_seed"])
@@ -518,69 +520,65 @@ local function create_world_buttonhandler(this, fields)
 					mm_texture.update("singleplayer", pkgmgr.games[gameindex].id)
 				end
 				menudata.worldlist:refresh()
-				core.settings:set("mainmenu_last_selected_world",
-									menudata.worldlist:raw_index_by_uid(worldname))
+				worlduid = menudata.worldlist:raw_index_by_uid(worldname)
+				core.settings:set("mainmenu_last_selected_world", worlduid)
+				
+				local world = menudata.worldlist.m_raw_list[worlduid]
+				
+				if world then
+					local filename = world.path .. DIR_DELIM .. "world.mt"
+					local world_conf = Settings(filename)
+									
+					-- loop all world options, copy entries to world.mt
+					local current_level = 0
+					for _, entry in ipairs(worldoptions) do
 
-				-- 1. loop all world options, copy default options from worldoptions.txt to world.mt
-				local current_level = 0
-				for _, entry in ipairs(settings) do
-
-					local name
-
-					name = entry.name
-
-					if entry.type ~= "category" then
-						if entry.type == "bool" then
-							local value = get_current_value(entry)
-							if core.is_yes(value) then
-								menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, "true")
+						local name
+						name = entry.name
+						
+						if entry.type ~= "category" then
+							if entry.type == "bool" then
+								local value = get_current_value(entry)
+								if core.is_yes(value) then
+									world_conf:set(name, "true")
+								else
+									world_conf:set(name, "false")
+								end
 							else
-								menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, "false")
+								world_conf:set(name, core.formspec_escape(get_current_value(entry)))
 							end
-						else
-							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.formspec_escape(get_current_value(entry)))
-						end			
-					end
-				end
 
-				-- 2. loop all world options, check if a world option was changed
-				for _, entry in ipairs(settings) do
-
-					local name
-
-					name = entry.name
-
-					if entry.type ~= "category" then
-						if core.settings:get(name) ~= nil then
 							-- copy changed world option from stonecraft.conf to world.mt
-							menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), name, core.settings:get(name))
-						end	
-					end
-				end
-
-				-- 3. loop all world options, look up for world option dependencies
-				for _, entry in ipairs(settings) do
-
-					local name
-
-					name = entry.name
-
-					if entry.type ~= "category" then
-						for k,v in pairs(world_options_dependencies) do
-							if k == name and core.settings:get(name) == "true" then
-								for k2,v2 in pairs(v) do										
-									-- copy world option dependency to world.mt
-									menu_worldmt(menudata.worldlist:raw_index_by_uid(worldname), k2, tostring(v2))
-								end 
+							if core.settings:get(name) ~= nil then
+								world_conf:set(name, core.settings:get(name))
 							end
-						end	
+							
+							-- loop all world options, look up for world option dependencies						
+							for k,v in pairs(world_options_dependencies) do
+								if k == name and core.settings:get(name) == "true" then
+									for k2,v2 in pairs(v) do										
+										-- copy world option dependency to world.mt
+										world_conf:set(k2, tostring(v2))
+									end 
+								end
+							end
+						end
 					end
+					
+					if not world_conf:write() then
+						gamedata.errormessage = fgettext("Failed to write world config file")
+					end
+					
+				else
+					gamedata.errormessage = fgettext("Invalid world uid")
 				end
 			end
 		else
 			gamedata.errormessage = fgettext("No game selected")
 		end
+		
 		this:delete()
+		
 		return true
 	end
 
