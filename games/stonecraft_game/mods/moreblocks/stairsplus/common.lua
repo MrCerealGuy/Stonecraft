@@ -5,7 +5,15 @@ Copyright (c) 2011-2018 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
-local S = moreblocks.intllib
+--[[
+
+2018-08-21 added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 
 stairsplus.register_single = function(category, alternate, info, modname, subname, recipeitem, fields)

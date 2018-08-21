@@ -5,6 +5,12 @@ Copyright (c) 2011-2017 Hugo Locurcio, Sokomine and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
+--[[
+
+2017-05-10 added intllib support
+
+--]]
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
