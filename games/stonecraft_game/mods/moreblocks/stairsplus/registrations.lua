@@ -5,6 +5,7 @@ Copyright (c) 2011-2017 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
+-- default registrations
 local default_nodes = { -- Default stairs/slabs/panels/microblocks:
 	"stone",
 	"stone_block",
@@ -48,73 +49,85 @@ local default_nodes = { -- Default stairs/slabs/panels/microblocks:
 	"desert_sandstone_block",
 	"sandstone_block",
 	"coral_skeleton",
-	"farming:straw"
 }
 
 for _, name in pairs(default_nodes) do
-	local nodename = "default:"..name
-	local a,b = string.find(name, ":")
-	if b then
-		nodename = name
-		name = string.sub(name, b+1)
+	local mod = "default"
+	local nodename = mod .. ":" .. name
+	local ndef = table.copy(minetest.registered_nodes[nodename])
+	ndef.sunlight_propagates = true
+
+	-- Stone and desert_stone drop cobble and desert_cobble respectively.
+	if type(ndef.drop) == "string" then
+		ndef.drop = ndef.drop:gsub(".+:", "")
 	end
-	local ndef = minetest.registered_nodes[nodename]
-	if ndef then
-		local drop
-		if type(ndef.drop) == "string" then
-			drop = ndef.drop:sub((b or 8)+1)
-		end
 
-		local tiles = ndef.tiles
-		if #ndef.tiles > 1 and ndef.drawtype:find("glass") then
-			tiles = { ndef.tiles[1] }
-		end
+	-- Use the primary tile for all sides of cut glasslike nodes and disregard paramtype2.
+	if #ndef.tiles > 1 and ndef.drawtype and ndef.drawtype:find("glass") then
+		ndef.tiles = {ndef.tiles[1]}
+		ndef.paramtype2 = nil
+	end
 
-		stairsplus:register_all("moreblocks", name, nodename, {
-			description = ndef.description,
-			drop = drop,
-			groups = ndef.groups,
-			sounds = ndef.sounds,
-			tiles = tiles,
-			sunlight_propagates = true,
-			light_source = ndef.light_source
-		})
+	mod = "moreblocks"
+	stairsplus:register_all(mod, name, nodename, ndef)
+	minetest.register_alias_force("stairs:stair_" .. name, mod .. ":stair_" .. name)
+	minetest.register_alias_force("stairs:stair_outer_" .. name, mod .. ":stair_" .. name .. "_outer")
+	minetest.register_alias_force("stairs:stair_inner_" .. name, mod .. ":stair_" .. name .. "_inner")
+	minetest.register_alias_force("stairs:slab_"  .. name, mod .. ":slab_"  .. name)
+end
+
+-- farming registrations
+if minetest.get_modpath("farming") then
+	local farming_nodes = {"straw"}
+	for _, name in pairs(farming_nodes) do
+		local mod = "farming"
+		local nodename = mod .. ":" .. name
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
+
+		mod = "moreblocks"
+		stairsplus:register_all(mod, name, nodename, ndef)
+		minetest.register_alias_force("stairs:stair_" .. name, mod .. ":stair_" .. name)
+		minetest.register_alias_force("stairs:stair_outer_" .. name, mod .. ":stair_" .. name .. "_outer")
+		minetest.register_alias_force("stairs:stair_inner_" .. name, mod .. ":stair_" .. name .. "_inner")
+		minetest.register_alias_force("stairs:slab_"  .. name, mod .. ":slab_"  .. name)
 	end
 end
 
 -- wool registrations
-
 if minetest.get_modpath("wool") then
+	local dyes = {"white", "grey", "black", "red", "yellow", "green", "cyan",
+	              "blue", "magenta", "orange", "violet", "brown", "pink",
+	              "dark_grey", "dark_green"}
+	for _, name in pairs(dyes) do
+		local mod = "wool"
+		local nodename = mod .. ":" .. name
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
 
-	local colorlist = {
-		{"white",      "White Wool"},
-		{"grey",       "Grey Wool"},
-		{"black",      "Black Wool"},
-		{"red",        "Red Wool"},
-		{"yellow",     "Yellow Wool"},
-		{"green",      "Green Wool"},
-		{"cyan",       "Cyan Wool"},
-		{"blue",       "Blue Wool"},
-		{"magenta",    "Magenta Wool"},
-		{"orange",     "Orange Wool"},
-		{"violet",     "Violet Wool"},
-		{"brown",      "Brown Wool"},
-		{"pink",       "Pink Wool"},
-		{"dark_grey",  "Dark Grey Wool"},
-		{"dark_green", "Dark Green Wool"},
-	}
+		-- Prevent dye+cut wool recipy from creating a full wool block.
+		ndef.groups.wool = nil
 
-	for i in ipairs(colorlist) do
-		local color = colorlist[i][1]
-		local colordesc = colorlist[i][2]
-		
-		stairsplus:register_all("wool", color, "wool:"..color, {
-			description = colordesc,
-			tiles = {"wool_"..color..".png"},
-			groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,
-					flammable=3,wool=1,not_in_creative_inventory=1},
-			sounds = default.node_sound_defaults(),
-			sunlight_propagates = true,
-		})
+		stairsplus:register_all(mod, name, nodename, ndef)
 	end
 end
+
+-- Alias cuts of split_stone_tile_alt which was renamed checker_stone_tile.
+stairsplus:register_alias_all("moreblocks", "split_stone_tile_alt", "moreblocks", "checker_stone_tile")
+
+-- The following LBM is necessary because the name stair_split_stone_tile_alt
+-- conflicts with another node and so the alias for that specific node gets
+-- ignored.
+minetest.register_lbm({
+	name = "moreblocks:fix_split_stone_tile_alt_name_collision",
+	nodenames = {"moreblocks:stair_split_stone_tile_alt"},
+	action = function(pos, node)
+		minetest.set_node(pos, {
+			name = "moreblocks:stair_checker_stone_tile",
+			param2 = minetest.get_node(pos).param2
+
+		})
+		minetest.log('action', "LBM replaced " .. node.name ..
+			" at " .. minetest.pos_to_string(pos))
+	end,
+})

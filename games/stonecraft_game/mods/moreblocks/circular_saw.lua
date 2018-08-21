@@ -182,7 +182,7 @@ function circular_saw:update_inventory(pos, amount)
 
 	-- 0-7 microblocks may remain left-over:
 	inv:set_list("micro", {
-		modname .. ":micro_" .. material .. "_bottom " .. (amount % 8)
+		modname .. ":micro_" .. material .. " " .. (amount % 8)
 	})
 	-- Display:
 	inv:set_list("output",
@@ -299,6 +299,17 @@ function circular_saw.on_metadata_inventory_put(
 	end
 end
 
+function circular_saw.allow_metadata_inventory_take(pos, listname, index, stack, player)
+	local meta          = minetest.get_meta(pos)
+	local inv           = meta:get_inventory()
+	local input_stack = inv:get_stack(listname,  index)
+	local player_inv = player:get_inventory()
+	if not player_inv:room_for_item("main", input_stack) then
+		return 0
+	else return stack:get_count()
+	end
+end
+
 function circular_saw.on_metadata_inventory_take(
 		pos, listname, index, stack, player)
 
@@ -338,17 +349,27 @@ end
 function circular_saw.on_construct(pos)
 	local meta = minetest.get_meta(pos)
 	local fancy_inv = default.gui_bg..default.gui_bg_img..default.gui_slots
-	meta:set_string("formspec", "size[11,10]"..fancy_inv..
-			"label[0,0;" ..S("Input\nmaterial").. "]" ..
-			"list[current_name;input;1.5,0;1,1;]" ..
-			"label[0,1;" ..S("Left-over").. "]" ..
-			"list[current_name;micro;1.5,1;1,1;]" ..
-			"label[0,2;" ..S("Recycle\noutput").. "]" ..
-			"list[current_name;recycle;1.5,2;1,1;]" ..
-			"field[0.3,3.5;1,1;max_offered;" ..S("Max").. ":;${max_offered}]" ..
-			"button[1,3.2;1,1;Set;" ..S("Set").. "]" ..
-			"list[current_name;output;2.8,0;8,6;]" ..
-			"list[current_player;main;1.5,6.25;8,4;]")
+	meta:set_string(
+		"formspec", "size[11,10]"..fancy_inv..
+		"label[0,0;" ..S("Input\nmaterial").. "]" ..
+		"list[current_name;input;1.5,0;1,1;]" ..
+		"label[0,1;" ..S("Left-over").. "]" ..
+		"list[current_name;micro;1.5,1;1,1;]" ..
+		"label[0,2;" ..S("Recycle\noutput").. "]" ..
+		"list[current_name;recycle;1.5,2;1,1;]" ..
+		"field[0.3,3.5;1,1;max_offered;" ..S("Max").. ":;${max_offered}]" ..
+		"button[1,3.2;1,1;Set;" ..S("Set").. "]" ..
+		"list[current_name;output;2.8,0;8,6;]" ..
+		"list[current_player;main;1.5,6.25;8,4;]" ..
+		"listring[current_name;output]" ..
+		"listring[current_player;main]" ..
+		"listring[current_name;input]" ..
+		"listring[current_player;main]" ..
+		"listring[current_name;micro]" ..
+		"listring[current_player;main]" ..
+		"listring[current_name;recycle]" ..
+		"listring[current_player;main]"
+	)
 
 	meta:set_int("anz", 0) -- No microblocks inside yet.
 	meta:set_string("max_offered", 99) -- How many items of this kind are offered by default?
@@ -416,6 +437,7 @@ minetest.register_node("moreblocks:circular_saw",  {
 	allow_metadata_inventory_move = circular_saw.allow_metadata_inventory_move,
 	-- Only input- and recycle-slot are intended as input slots:
 	allow_metadata_inventory_put = circular_saw.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = circular_saw.allow_metadata_inventory_take,
 	-- Taking is allowed from all slots (even the internal microblock slot). Moving is forbidden.
 	-- Putting something in is slightly more complicated than taking anything because we have to make sure it is of a suitable material:
 	on_metadata_inventory_put = circular_saw.on_metadata_inventory_put,
