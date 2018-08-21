@@ -37,6 +37,7 @@ local package_exclusions =
 	{ ["url"] = "https://content.minetest.net/packages/TenPlus1/ambience/download/",["short_description"] = "Add ambient sounds to the world around you",["title"] = "Ambience Lite",["thumbnail"] = "http://content.minetest.net/thumbnails/350x233/TddGYpxFD4.png",["type"] = "mod",["release"] = 324,["name"] = "ambience",["author"] = "TenPlus1",},
 	{ ["url"] = "https://content.minetest.net/packages/Wuzzy/treasurer/download/",["title"] = "Treasurer",["short_description"] = "A framework to define and distribute random treasures into the world.",["type"] = "mod",["release"] = 436,["name"] = "treasurer",["author"] = "Wuzzy",},
 	{ ["url"] = "https://content.minetest.net/packages/Krock/boost_cart/download/",["short_description"] = "This mod offers improved minecarts and a few more rail types.",["title"] = "Boost Cart",["thumbnail"] = "http://content.minetest.net/thumbnails/350x233/TBULY9V6cy.png",["type"] = "mod",["release"] = 133,["name"] = "boost_cart",["author"] = "Krock",},
+	{ ["url"] = "https://content.minetest.net/packages/FaceDeer/subterrane/download/",["short_description"] = "A mod that creates vast underground caverns and allows biomes to be defined for them",["title"] = "Subterrane",["thumbnail"] = "http://content.minetest.net/thumbnails/350x233/2nYC5QnUQo.png",["type"] = "mod",["release"] = 202,["name"] = "subterrane",["author"] = "FaceDeer",},
 }
 
 return package_exclusions
