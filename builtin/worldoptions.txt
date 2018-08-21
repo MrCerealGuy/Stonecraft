@@ -231,7 +231,7 @@ enable_mesecons (Mesecons - electronic stuff) bool false
 
 [Structures]
    
-enable_villages (Villages and buildings - experimental) bool false
+enable_villages (Villages and buildings) bool false
 enable_mines (Mines) bool false
 enable_pyramids (Pyramids) bool false
 
