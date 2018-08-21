@@ -241,13 +241,18 @@ local function find_fruit_trunks_near(ftpos, sect)
 		return nil
 	end
 
+	local basevec = { x = ftpos.x + 2 * sect.x * sect_hr,
+			  y = ftpos.y,
+			  z = ftpos.z + 2 * sect.z * sect_hr}
+	-- find_nodes_in_area is limited to 82^3, make sure to not overrun it
+	local sizevec = { x = sect_hr, y = sect_vr, z = sect_hr }
+	if sect_hr * sect_hr * sect_vr > 41^3 then
+		sizevec = vector.apply(sizevec, function(a) return math.min(a, 41) end)
+	end
+
 	local all_palms = minetest.find_nodes_in_area(
-				{ x = ftpos.x + 2 * sect.x * sect_hr - sect_hr,
-				  y = ftpos.y - sect_vr,
-				  z = ftpos.z + 2 * sect.z * sect_hr - sect_hr },
-				{ x = ftpos.x + 2 * sect.x * sect_hr + sect_hr,
-				  y = ftpos.y + sect_vr,
-				  z = ftpos.z + 2 * sect.z * sect_hr + sect_hr },
+				vector.subtract(basevec, sizevec),
+				vector.add(basevec, sizevec),
 				{"moretrees:date_palm_mfruit_trunk", "moretrees:date_palm_ffruit_trunk"})
 
 	-- Collect different palms in separate lists.
