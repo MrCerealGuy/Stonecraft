@@ -140,22 +140,40 @@ end
 
 --Snowball_entity.on_step()--> called when snowball is moving.
 function snow_snowball_ENTITY.on_step(self, dtime)
-	self.timer = self.timer+dtime
-	if self.timer > 600 then
-		-- 10 minutes are too long for a snowball to fly somewhere
+	self.timer = self.timer + dtime
+	if self.timer > 10 then
+		-- 10 seconds is too long for a snowball to fly somewhere
 		self.object:remove()
 		return
 	end
 
 	if self.physical then
-		local fell = self.object:getvelocity().y == 0
+		local vel = self.object:getvelocity()
+		local fell = vel.y == 0
 		if not fell then
+			if self.probably_stuck then
+				self.probably_stuck = nil
+			end
+			return
+		end
+		if self.probably_stuck
+		and vel.x == 0
+		and vel.z == 0 then
+			-- add a small velocity to move it from the corner
+			vel.x = math.random() - 0.5
+			vel.z = math.random() - 0.5
+			self.object:set_velocity(vel)
+			self.probably_stuck = nil
 			return
 		end
 		local pos = vector.round(self.object:getpos())
 		if minetest.get_node(pos).name == "air" then
 			pos.y = pos.y-1
 			if minetest.get_node(pos).name == "air" then
+				if vel.x == 0
+				and vel.z == 0 then
+					self.probably_stuck = true
+				end
 				return
 			end
 		end
@@ -184,8 +202,10 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 		return
 	end
 	for _,v in pairs(minetest.get_objects_inside_radius(pos, 1.73)) do
-		if v ~= self.object then
-			local entity_name = v:get_luaentity().name
+		local entity = v:get_luaentity()
+		if v ~= self.object
+		and entity then
+			local entity_name = entity.name
 			if v:is_player()
 			or (entity_name ~= "snow:snowball_entity"
 			and entity_name ~= "__builtin:item"
@@ -203,7 +223,15 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 					{full_punch_interval=1, damage_groups = {fleshy=math.ceil(gain)}}
 				)
 				minetest.sound_play("default_snow_footstep", {pos=pos, gain=gain})
-				spawn_falling_node(pos, {name = "default:snow"})
+
+				-- spawn_falling_node
+				local obj = core.add_entity(pos, "__builtin:falling_node")
+				if obj then
+					obj:get_luaentity():set_node{name = "default:snow"}
+				else
+					minetest.log("error", "Couldn't spawn falling node")
+				end
+
 				self.object:remove()
 				return
 			end

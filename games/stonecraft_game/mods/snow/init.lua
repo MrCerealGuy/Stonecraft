@@ -71,6 +71,7 @@ dofile(srcpath.."snowball.lua")
 -- To get Xmas tree saplings, the "christmas_content", true or false, in "util.lua" has to be determined first.
 -- That means "nodes.lua", where the saplings are controlled, has to come after "util.lua". ~ LazyJ
 dofile(srcpath.."nodes.lua")
+dofile(srcpath.."stairs.lua")
 dofile(srcpath.."mapgen.lua")
 dofile(srcpath.."sled.lua")
 dofile(srcpath.."falling_snow.lua")
@@ -79,7 +80,7 @@ dofile(srcpath.."falling_snow.lua")
 local is_uneven
 --This function places snow checking at the same time for snow level and increasing as needed.
 --This also takes into account sourrounding snow and makes snow even.
-function snow.place(pos)
+function snow.place(pos, disablesound)
 	local node = minetest.get_node_or_nil(pos)
 
 	--Oops, maybe there is no node?
@@ -93,17 +94,23 @@ function snow.place(pos)
 		if level < 63 then
 			if minetest.get_item_group(minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name, "leafdecay") == 0
 			and not is_uneven(pos) then
+				if not disablesound then
 				minetest.sound_play("default_snow_footstep", {pos=pos})
+				end
 				minetest.add_node_level(pos, 7)
 			end
 		elseif level == 63 then
 			local p = minetest.find_node_near(pos, 10, "default:dirt_with_grass")
 			if p
 			and minetest.get_node_light(p, 0.5) == 15 then
+				if not disablesound then
 				minetest.sound_play("default_grass_footstep", {pos=pos})
+				end
 				minetest.place_node({x=pos.x, y=pos.y+1, z=pos.z}, {name="default:snow"})
 			else
+				if not disablesound then
 				minetest.sound_play("default_snow_footstep", {pos=pos})
+				end
 				minetest.add_node(pos, {name="default:snowblock"})
 			end
 		end
@@ -115,7 +122,7 @@ function snow.place(pos)
 		or drawtype == "allfaces_optional" then
 			pos.y = pos.y+1
 			local sound = data.sounds
-			if sound then
+			if sound and not disablesound then
 				sound = sound.footstep
 				if sound then
 					minetest.sound_play(sound.name, {pos=pos, gain=sound.gain})

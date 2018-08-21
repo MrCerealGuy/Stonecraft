@@ -1,5 +1,10 @@
 CHANGELOG:
 ------------
+Version 4.0
+
+	Snow mod is now a complimentary mod to the default snow found in minetest.
+	
+	HybridDog's large changes, fixes and more (see commit log).
 
 Version 3.2
 

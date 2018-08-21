@@ -12,63 +12,66 @@ saplings grow into trees. --]]
 
 -- Part 1: To disable the mapgen, add the *starting* comment under this line.
 
+local perlin_scale, nosmooth_rarity
+if not snow.disable_mapgen then
+	print("[snow] Mapgen enabled!")
 
-snow.mapgen = snow.mapgen or {}
-local mg = snow.mapgen
+	snow.mapgen = snow.mapgen or {}
+	local mg = snow.mapgen
 
--- perlin noise "hills" are not peaks but looking like sinus curve
-local function upper_rarity(rarity)
-	return math.sign(rarity)*math.sin(math.abs(rarity)*math.pi/2)
-end
-
-local rarity = snow.mapgen_rarity
-local size = snow.mapgen_size
-local smooth = snow.smooth_biomes
-
-local nosmooth_rarity, perlin_scale
-local function calc_values()
-	nosmooth_rarity = 1-rarity/50
-	perlin_scale = size*100/rarity
-	mg.perlin_scale = perlin_scale
-	local smooth_rarity_max, smooth_rarity_min, smooth_rarity_dif
-	if smooth then
-		local smooth_trans_size = 4 --snow.smooth_trans_size
-		mg.smooth_rarity_max = upper_rarity(nosmooth_rarity+smooth_trans_size*2/perlin_scale)
-		mg.smooth_rarity_min = upper_rarity(nosmooth_rarity-smooth_trans_size/perlin_scale)
-		mg.smooth_rarity_dif = mg.smooth_rarity_max-mg.smooth_rarity_min
+	-- perlin noise "hills" are not peaks but looking like sinus curve
+	local function upper_rarity(rarity)
+		return math.sign(rarity)*math.sin(math.abs(rarity)*math.pi/2)
 	end
-	nosmooth_rarity = upper_rarity(nosmooth_rarity)
-	mg.nosmooth_rarity = nosmooth_rarity
-end
-calc_values()
 
-snow.register_on_configuring(function(name, v)
-	if name == "mapgen_rarity" then
-		rarity = v
-	elseif name == "mapgen_size" then
-		size = v
-	elseif name == "smooth_biomes" then
-		smooth = v
-	else
-		return
+	local rarity = snow.mapgen_rarity
+	local size = snow.mapgen_size
+	local smooth = snow.smooth_biomes
+
+	local function calc_values()
+		nosmooth_rarity = 1-rarity/50
+		perlin_scale = size*100/rarity
+		mg.perlin_scale = perlin_scale
+		local smooth_rarity_max, smooth_rarity_min, smooth_rarity_dif
+		if smooth then
+			local smooth_trans_size = 4 --snow.smooth_trans_size
+			mg.smooth_rarity_max = upper_rarity(nosmooth_rarity+smooth_trans_size*2/perlin_scale)
+			mg.smooth_rarity_min = upper_rarity(nosmooth_rarity-smooth_trans_size/perlin_scale)
+			mg.smooth_rarity_dif = mg.smooth_rarity_max-mg.smooth_rarity_min
+		end
+		nosmooth_rarity = upper_rarity(nosmooth_rarity)
+		mg.nosmooth_rarity = nosmooth_rarity
 	end
-	-- TODO: if e.g. size and rarity get changed at once, don't calculate the values more times
 	calc_values()
-end)
+
+	snow.register_on_configuring(function(name, v)
+		if name == "mapgen_rarity" then
+			rarity = v
+		elseif name == "mapgen_size" then
+			size = v
+		elseif name == "smooth_biomes" then
+			smooth = v
+		else
+			return
+		end
+		-- TODO: if e.g. size and rarity get changed at once, don't calculate the values more times
+		calc_values()
+	end)
 
 
---Identify the mapgen.
-local mgname = minetest.get_mapgen_setting"mg_name"
-if not mgname then
-	minetest.log("error", "[MOD] Snow Biomes: WARNING! mapgen could not be identifyed!")
-end
-local path = minetest.get_modpath"snow"
-if mgname == "v7" then
-	--Load mapgen_v7 compatibility.
-	dofile(path.."/src/mapgen_v7.lua")
-else
-	--Load mapgen_v6 compatibility.
-	dofile(path.."/src/mapgen_v6.lua")
+	--Identify the mapgen.
+	local mgname = minetest.get_mapgen_setting"mg_name"
+	if not mgname then
+		minetest.log("error", "[MOD] Snow Biomes: WARNING! mapgen could not be identifyed!")
+	end
+	local path = minetest.get_modpath"snow"
+	if mgname == "v7" then
+		--Load mapgen_v7 compatibility.
+		dofile(path.."/src/mapgen_v7.lua")
+	else
+		--Load mapgen_v6 compatibility.
+		dofile(path.."/src/mapgen_v6.lua")
+	end
 end
 
 -- To complete the commenting-out add the *closing* comment under this line.

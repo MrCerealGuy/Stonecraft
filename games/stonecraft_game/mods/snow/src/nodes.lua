@@ -147,8 +147,6 @@ nodedef = {
 	on_punch = function(pos, node) -- Added a "lit" star that can be punched on or off depending on your preference. ~ LazyJ
 		node.name = "snow:star_lit"
 		minetest.set_node(pos, node)
-		--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
-		minetest.check_for_falling(pos)
 	end,
 }
 
@@ -164,8 +162,6 @@ nodedef.groups.not_in_creative_inventory = 1
 nodedef.on_punch = function(pos, node)
 	node.name = "snow:star"
 	minetest.set_node(pos, node)
-	--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
-		minetest.check_for_falling(pos)
 end
 
 minetest.register_node("snow:star_lit", nodedef)
@@ -283,6 +279,15 @@ nodedef.groups.flammable = 1
 minetest.register_node("snow:apple", nodedef)
 snow.known_plants[minetest.get_content_id("default:apple")] = minetest.get_content_id("snow:apple")
 
+if not snow.disable_mapgen then
+	-- decay from default/nodes.lua:2537
+	default.register_leafdecay{
+		trunks = {"default:tree"},
+		leaves = {"snow:apple", "snow:leaves"},
+		radius = minetest.get_mapgen_setting"mg_name" == "v6" and 2 or 3,
+	}
+end
+
 -- TODO
 snow.known_plants[minetest.get_content_id("default:jungleleaves")] = minetest.get_content_id("default:jungleleaves")
 
@@ -362,7 +367,7 @@ minetest.override_item("default:ice", {
 	param2 = 0, --param2 is reserved for how much ice will freezeover.
 	sunlight_propagates = true, -- necessary for dirt_with_grass/snow/just dirt ABMs
 	drawtype = "glasslike",
-	inventory_image  = minetest.inventorycube"default_ice.png".."^[brighten",
+	tiles = {"default_ice.png^[brighten"},
 	liquidtype = "none",
 	 -- I made this a lot harder to dig than snow blocks because ice is much more dense
 	 -- and solid than fluffy snow. ~ LazyJ
@@ -399,13 +404,21 @@ minetest.override_item("default:snow", {
 		}
 	},
 	leveled = 7,
+	paramtype2 = "leveled",
 	node_box = {
 		type = "leveled",
-		fixed = {
-			{-0.5, -0.5, -0.5, 0.5, -0.5, 0.5},
-		},
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5},
 	},
-	groups = {cracky=3, crumbly=3, choppy=3, oddly_breakable_by_hand=3, falling_node=1, melts=2, float=1},
+	collision_box = {
+		type = "leveled",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5},
+	},
+	selection_box = {
+		type = "leveled",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -0.5, 0.5},
+	},
+	groups = {cracky=3, crumbly=3, choppy=3, oddly_breakable_by_hand=3,
+		falling_node=1, melts=2, float=1},
 	sunlight_propagates = true,
 	walkable = true,
 	node_placement_prediction = "",
@@ -438,56 +451,71 @@ minetest.override_item("default:snow", {
 		end
 	end,
 	--Manage snow levels.
-	on_place = function(itemstack, placer, pointed_thing)
-		local under = pointed_thing.under
-		local oldnode_under = minetest.get_node_or_nil(under)
-		local above = pointed_thing.above
-
-		if not oldnode_under
-		or not above then
-			return
+	on_place = function(itemstack, player, pt)
+		local oldnode_under = minetest.get_node_or_nil(pt.under)
+		if not oldnode_under then
+			return itemstack, false
 		end
 
-		local olddef_under = ItemStack({name=oldnode_under.name}):get_definition()
-		olddef_under = olddef_under or minetest.nodedef_default
+		local olddef_under = minetest.registered_nodes[oldnode_under.name]
+		if not olddef_under then
+			return itemstack, false
+		end
 
-		local place_to
 		-- If node under is buildable_to, place into it instead (eg. snow)
+		local pos, node
 		if olddef_under.buildable_to then
-			place_to = under
+			pos = pt.under
+			node = oldnode_under
 		else
-			-- Place above pointed node
-			place_to = above
+			pos = pt.above
+			node = minetest.get_node(pos)
+			local def = minetest.registered_nodes[node.name]
+			if not def
+			or not def.buildable_to then
+				return itemstack, false
+			end
 		end
 
-		local level = minetest.get_node_level(place_to)
-		if level == 63 then
-			minetest.set_node(place_to, {name="default:snowblock"})
-		else
-			minetest.set_node_level(place_to, level+7)
+		-- nil player can place (for snowballs)
+		if player
+		and minetest.is_protected(pos, player:get_player_name()) then
+			return itemstack, false
 		end
 
-		if minetest.get_node(place_to).name ~= "default:snow" then
-			local itemstack, placed = minetest.item_place_node(itemstack, placer, pointed_thing)
-			return itemstack, placed
+		if node.name ~= "default:snow" then
+			if minetest.get_node{x=pos.x, y=pos.y-1, z=pos.z}.name ==
+					"default:snow" then
+				-- grow the snow below (fixes levelled problem)
+				pos.y = pos.y - 1
+			else
+				-- place a snow
+				return minetest.item_place_node(itemstack, player, pt)
+			end
+		end
+
+		-- grow the snow
+		local level = minetest.get_node_level(pos)
+		level = level + 7
+		if level < 64 then
+			minetest.set_node_level(pos, level)
+		else
+			-- place a snowblock and snow onto it if possible
+			local p = {x=pos.x, y=pos.y+1, z=pos.z}
+			local def = minetest.registered_nodes[minetest.get_node(p).name]
+			if not def
+			or not def.buildable_to then
+				return itemstack, false
+			end
+
+			minetest.set_node(pos, {name="default:snowblock"})
+			minetest.set_node(p, {name="default:snow"})
+			level = math.max(level - 64, 7)
+			minetest.set_node_level(p, level)
 		end
 
 		itemstack:take_item()
-
-		return itemstack
+		return itemstack, true
 	end,
 	on_use = snow.shoot_snowball
 })
-
-
-
--- Do stairs files
-
-local path = minetest.get_modpath"snow".."/src/"
-
-dofile(path.."basic_stairs_slabs.lua")
-
-if minetest.global_exists"stairsplus"
-and minetest.get_modpath"moreblocks" then
-	dofile(path.."stairsplus.lua")
-end

@@ -140,7 +140,7 @@ local function sled_rightclick(self, player)
 		position = {x=0.5, y=0.89},
 		name = "sled",
 		scale = {x=2, y=2},
-		text = S("You are on the sled! Press the sneak key to get off the sled."), -- LazyJ
+		text = S("You are on the sled! Hold the sneak key to get off the sled."), -- LazyJ
 		direction = 0,
 	})
 -- End part 1

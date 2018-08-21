@@ -1,0 +1,38 @@
+#The gravity of thrown snowballs.
+snow_snowball_gravity (Snowball Gravity) float 0.91
+
+#How fast players throw snowballs.
+snow_snowball_velocity (Snowball Velocity) float 19
+
+#Enable/Disable sleds.
+snow_sleds (Enable Sleds) bool true
+
+#Enables falling snow.
+snow_enable_snowfall (Enable Snowfall) bool true
+
+#Reduces the amount of resources and fps used by snowfall.
+snow_lighter_snowfall (Use Light Snowfall) bool false
+
+#Enables debug output. Currently it only prints mgv6 info.
+snow_debug (Debug Mode) bool false
+
+#Disable this to remove christmas saplings from being found.
+snow_christmas_content (Enable Christmas Content) bool true
+
+#Enables debug output. Currently it only prints mgv6 info.
+snow_smooth_biomes (Smooth Biome Transitions) bool true
+
+#The minumum height a snow biome will generate (mgv7)
+snow_min_height (Minumum Height for Snow Biomes) int 3
+
+#Disable this to stop snow from being smoothed.
+snow_smooth_snow (Multiple Snow Levels) bool true
+
+#mapgen rarity in %.
+snow_mapgen_rarity (Snow Biome Rarity %) float 18
+
+#size of the generated… (has an effect to the rarity, too)
+snow_mapgen_size (Snow Biome Size) float 210
+
+#Minetest finally has capable snow biomes by default, lets not mess it up with the old snowgen.
+snow_disable_mapgen (Disable mod-generated biomes) bool true
