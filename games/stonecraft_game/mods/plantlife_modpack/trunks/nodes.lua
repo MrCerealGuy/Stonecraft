@@ -1,20 +1,9 @@
 -- Code by Mossmanikin & Neuromancer
+-- support for i18n
+local S = plantlife_i18n.gettext
 -----------------------------------------------------------------------------------------------
 -- TWiGS
 -----------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 -- For compatibility with older stuff
 minetest.register_alias("trunks:twig",	"trunks:twig_1")
 

@@ -6,6 +6,9 @@
 local current_mod_name = minetest.get_current_modname()
 
 nature = {}
+-- support for i18n
+local S = plantlife_i18n.gettext
+
 nature.blossomqueue = {}
 nature.blossomqueue_max = 1000
 

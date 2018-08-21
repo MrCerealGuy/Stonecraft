@@ -1,3 +1,5 @@
+-- support for i18n
+local S = plantlife_i18n.gettext
 -- Blossoms and such
 
 local function spawn_apple_under(pos)

@@ -9,19 +9,10 @@
 -- Supports:				dryplants, stoneage, sumpf
 -----------------------------------------------------------------------------------------------
 
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 assert(abstract_ferns.config.enable_horsetails == true)
 
+-- support for i18n
+local S = plantlife_i18n.gettext
 -----------------------------------------------------------------------------------------------
 -- HORSETAIL  (EQUISETUM)
 -----------------------------------------------------------------------------------------------
@@ -138,8 +129,8 @@ if abstract_ferns.config.enable_horsetails_on_grass == true then
 		near_nodes_count = 1,
 		plantlife_limit = -0.9,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜
-		temp_min = 0.53, -- 0 캜, dies back in winter
+		temp_max = -0.5, -- 55 째C
+		temp_min = 0.53, -- 0 째C, dies back in winter
 		--random_facedir = { 0, 179 },
 	},
 	node_names
@@ -160,8 +151,8 @@ if abstract_ferns.config.enable_horsetails_on_stones == true then
 		min_elevation = 1, -- above sea level
 		plantlife_limit = -0.9,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜
-		temp_min = 0.53, -- 0 캜, dies back in winter
+		temp_max = -0.5, -- 55 째C
+		temp_min = 0.53, -- 0 째C, dies back in winter
 		--random_facedir = { 0, 179 },
 	},
 	node_names

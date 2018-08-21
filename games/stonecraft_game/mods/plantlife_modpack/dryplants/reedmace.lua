@@ -18,20 +18,12 @@
 -- Typha stems and leaves can be used to make paper
 -- The seed hairs were used by some Native American groups as tinder for starting fires
 
+-- support for i18n
+local S = plantlife_i18n.gettext
+
 -----------------------------------------------------------------------------------------------
 -- REEDMACE SHAPES
 -----------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 abstract_dryplants.grow_reedmace = function(pos)
 	local size = math.random(1,3)

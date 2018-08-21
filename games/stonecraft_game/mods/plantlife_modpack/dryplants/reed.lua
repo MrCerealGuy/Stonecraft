@@ -6,17 +6,8 @@
 -- Looked at code from:		darkage, default, stairs
 -- Dependencies:			default
 -----------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 minetest.register_alias("stairs:stair_wetreed",				"dryplants:wetreed_roof")
 minetest.register_alias("stairs:slab_wetreed",				"dryplants:wetreed_slab")

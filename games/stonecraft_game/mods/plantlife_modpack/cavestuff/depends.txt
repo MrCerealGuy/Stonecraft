@@ -1,2 +1,2 @@
 default
-intllib?
+plantlife_i18n

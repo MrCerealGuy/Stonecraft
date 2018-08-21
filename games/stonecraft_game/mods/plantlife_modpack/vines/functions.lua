@@ -1,13 +1,5 @@
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 vines.register_vine = function( name, defs, biome )
   local groups = { vines=1, snappy=3, flammable=2 }

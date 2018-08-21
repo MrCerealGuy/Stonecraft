@@ -13,18 +13,10 @@
 -- http://www.mygarden.net.au/gardening/athyrium-yokoscense/3900/1
 -----------------------------------------------------------------------------------------------
 
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 assert(abstract_ferns.config.enable_lady_fern == true)
+
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 -- Maintain backward compatibilty
 -- minetest-0.5: Begin
@@ -116,8 +108,8 @@ if abstract_ferns.config.lady_ferns_near_tree == true then
 		plantlife_limit = -0.9,
 		humidity_max = -1.0,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜 (too hot?)
-		temp_min = 0.75, -- -12 캜
+		temp_max = -0.5, -- 55 째C (too hot?)
+		temp_min = 0.75, -- -12 째C
 		random_facedir = { 0, 179 },
 	},
 	nodenames
@@ -143,8 +135,8 @@ if abstract_ferns.config.lady_ferns_near_rock == true then
 		plantlife_limit = -0.9,
 		humidity_max = -1.0,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜 (too hot?)
-		temp_min = 0.75, -- -12 캜
+		temp_max = -0.5, -- 55 째C (too hot?)
+		temp_min = 0.75, -- -12 째C
 		random_facedir = { 0, 179 },
 	},
 	nodenames
@@ -183,8 +175,8 @@ if abstract_ferns.config.lady_ferns_near_ores == true then -- this one causes a 
 		plantlife_limit = -0.9,
 		humidity_max = -1.0,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜 (too hot?)
-		temp_min = 0.75, -- -12 캜
+		temp_max = -0.5, -- 55 째C (too hot?)
+		temp_min = 0.75, -- -12 째C
 		random_facedir = { 0, 179 },
 	},
 	nodenames
@@ -215,8 +207,8 @@ if abstract_ferns.config.lady_ferns_in_groups == true then -- this one is meant 
 		plantlife_limit = -0.9,
 		humidity_max = -1.0,
 		humidity_min = 0.4,
-		temp_max = -0.5, -- 55 캜 (too hot?)
-		temp_min = 0.75, -- -12 캜
+		temp_max = -0.5, -- 55 째C (too hot?)
+		temp_min = 0.75, -- -12 째C
 		random_facedir = { 0, 179 },
 	},
 	nodenames

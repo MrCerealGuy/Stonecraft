@@ -1,12 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("woodsoils") then return end
-
 -----------------------------------------------------------------------------------------------
 local title		= "Wood Soils" -- former "Forest Soils"
 local version	= "0.0.9"
@@ -14,6 +5,9 @@ local mname		= "woodsoils" -- former "forestsoils"
 -----------------------------------------------------------------------------------------------
 
 abstract_woodsoils = {}
+
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 dofile(minetest.get_modpath("woodsoils").."/nodes.lua")
 dofile(minetest.get_modpath("woodsoils").."/generating.lua")

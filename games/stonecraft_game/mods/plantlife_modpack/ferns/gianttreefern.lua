@@ -8,19 +8,10 @@
 -- Supports:				vines
 -----------------------------------------------------------------------------------------------
 
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 assert(abstract_ferns.config.enable_giant_treefern == true)
 
+-- support for i18n
+local S = plantlife_i18n.gettext
 -- lot of code, lot to load
 
 abstract_ferns.grow_giant_tree_fern = function(pos)

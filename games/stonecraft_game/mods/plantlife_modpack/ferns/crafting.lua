@@ -1,20 +1,11 @@
+-- support for i18n
+local S = plantlife_i18n.gettext
 -----------------------------------------------------------------------------------------------
 -- Ferns - Crafting 0.0.5
 -----------------------------------------------------------------------------------------------
 -- (by Mossmanikin)
 -- License (everything):	WTFPL
 -----------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local fern1 = minetest.registered_items["default:fern_1"] or false
 fern1 = (fern1 and fern1.name) or "ferns:fern_01"

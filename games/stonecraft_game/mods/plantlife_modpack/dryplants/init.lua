@@ -12,19 +12,10 @@ local mname		= "dryplants"
 -- Dependencies:			default, farming, biome_lib
 -- Supports:
 -----------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 abstract_dryplants = {}
+
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 dofile(minetest.get_modpath("dryplants").."/crafting.lua")
 dofile(minetest.get_modpath("dryplants").."/settings.txt")

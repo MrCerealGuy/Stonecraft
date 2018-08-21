@@ -9,16 +9,8 @@
 -- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for i18n
+local S = plantlife_i18n.gettext
 
 abstract_dryplants.grow_juncus = function(pos)
 	local juncus_type = math.random(2,3)

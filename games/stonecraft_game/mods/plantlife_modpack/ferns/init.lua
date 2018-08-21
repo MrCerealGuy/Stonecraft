@@ -9,6 +9,9 @@ local mname		= "ferns" -- former "archaeplantae"
 
 abstract_ferns = {}
 
+-- support for i18n
+local S = plantlife_i18n.gettext
+
 dofile(minetest.get_modpath("ferns").."/settings.lua")
 
 if abstract_ferns.config.enable_lady_fern == true then

@@ -1,7 +1,7 @@
 default
 biome_lib
+plantlife_i18n
 bushes?
 ferns?
 moretrees?
 trees?
-intllib?
