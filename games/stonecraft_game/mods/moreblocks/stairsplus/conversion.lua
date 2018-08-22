@@ -79,6 +79,10 @@ function stairsplus:register_6dfacedir_conversion(modname, material)
 			interval = 1,
 			chance = 1,
 			action = function(pos, node, active_object_count, active_object_count_wider)
+				if not abm_allowed.yes then
+   					return
+				end
+
 				local fdir = node.param2 or 0
 				local nfdir
 
@@ -123,6 +127,10 @@ function stairsplus:register_6dfacedir_conversion(modname, material)
 			interval = 1,
 			chance = 1,
 			action = function(pos, node, active_object_count, active_object_count_wider)
+				if not abm_allowed.yes then
+   					return
+				end
+
 				local fdir = node.param2
 				local nfdir = 20
 

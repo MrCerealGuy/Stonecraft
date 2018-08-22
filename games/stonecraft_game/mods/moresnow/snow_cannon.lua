@@ -386,6 +386,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		moresnow.snow_cannon_fire( pos );
 	end
 })

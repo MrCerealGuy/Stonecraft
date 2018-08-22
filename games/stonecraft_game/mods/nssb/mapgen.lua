@@ -766,6 +766,10 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
+
 			--minetest.chat_send_all("Ciao ciao pirloni")
 			minetest.place_schematic(posarena, minetest.get_modpath("nssb").."/schems/arena51.mts", "0", {}, true)
 			minetest.place_schematic({x=posarena.x, y=-30096, z=posarena.z-9}, minetest.get_modpath("nssb").."/schems/arena52.mts", "0", {}, true)
@@ -798,6 +802,9 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			if pos.y < -30000 then
 				minetest.remove_node(pos)
 			end
@@ -840,6 +847,9 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			minetest.set_node({x = pos.x, y = pos.y , z = pos.z}, {name = "nssb:mornar"})
 		end
 })
@@ -851,6 +861,9 @@ minetest.register_abm({
 	chance = 100,
 	action =
 	function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
 		local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 		local n = minetest.env:get_node(pos1).name
 		if n ~= "air" then
@@ -868,6 +881,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 	function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
 		for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 7)) do
 			if obj:is_player() then
 				nodeupdate(pos)
@@ -884,6 +900,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 	function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
 		for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 5)) do
 			if obj:is_player() then
 				explosion(pos, 3, 0, 1)
@@ -900,6 +919,9 @@ minetest.register_abm({
 	chance = 5,
 	action =
 		function (pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			minetest.add_particlespawner({
 				amount = 1,
 				time = 2,
@@ -927,6 +949,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			minetest.add_particlespawner({
 				amount = 3,
 				time = 1,
@@ -953,6 +978,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 				if obj:is_player() then
 					local pos1 = posmemory
@@ -980,6 +1008,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			minetest.add_particlespawner({
 				amount = 3,
 				time = 1,
@@ -1007,6 +1038,9 @@ minetest.register_abm({
 	chance = 2,
 	action =
 		function (pos, node)
+			if not abm_allowed.yes then
+   				return
+			end
 			for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 				if obj:is_player() then
 					local pos1 = posmemory

@@ -79,6 +79,10 @@ minetest.register_abm({
 	chance = 10,
 	interval = 2,
 	action = function(pos)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		minetest.set_node(pos, {name = "fire:basic_flame"})
 		minetest.sound_play("default_cool_lava", {pos = pos,  gain = 0.25})
 	end,

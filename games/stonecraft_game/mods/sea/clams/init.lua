@@ -239,6 +239,10 @@ minetest.register_abm({
 	interval = 30,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
 		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if minetest.get_node(y).name == "default:water_source" or
@@ -257,6 +261,10 @@ minetest.register_abm({
 	interval = 30,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
 		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if minetest.get_node(y).name == "default:water_source" or
@@ -275,8 +283,12 @@ minetest.register_abm({
 	interval = 40,
 	chance = 40,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-	local y = {x = pos.x, y = pos.y + 1, z = pos.z }
-	local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
+		if not abm_allowed.yes then
+   			return
+		end
+
+		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
+		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if (active_object_count_wider + active_object_count_wider) > 40 then
 		return
 			elseif (minetest.get_node(y).name == "default:water_source" or
@@ -295,8 +307,11 @@ minetest.register_abm({
 	interval = 40,
 	chance = 40,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-	local y = {x = pos.x, y = pos.y + 1, z = pos.z }
-	local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
+		if not abm_allowed.yes then
+   			return
+		end
+		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
+		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if (active_object_count_wider + active_object_count_wider) > 40 then
 		return
 			elseif (minetest.get_node(y).name == "default:water_source" or

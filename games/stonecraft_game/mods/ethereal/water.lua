@@ -65,6 +65,9 @@ minetest.register_abm({
 	chance = 4,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
 
 		local near = minetest.find_node_near(pos, 1,
 			{"default:water_source", "default:river_water_source"})
@@ -91,6 +94,9 @@ minetest.register_abm({
 	chance = 4,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
 
 		local water_node = "default:water"
 

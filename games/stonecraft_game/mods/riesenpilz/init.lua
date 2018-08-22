@@ -554,7 +554,6 @@ end
 -- Mushroom Nodes
 
 
-local abm_allowed = true
 local disallowed_ps = {}
 
 for name,i in pairs({
@@ -791,8 +790,8 @@ for name,i in pairs({
 			chance = g.chance,
 			catch_up = false,
 			action = function(pos, node)
-				if not abm_allowed then
-					return
+				if not abm_allowed.yes then
+   					return
 				end
 
 			-- don't try to spawn them on the same positions again
@@ -828,8 +827,6 @@ for name,i in pairs({
 				end
 
 			-- should disallow lag
-				abm_allowed = false
-				minetest.after(2, function() abm_allowed = true end)
 				disallowed_ps[#disallowed_ps+1] = pos
 
 			-- witch circles
@@ -892,18 +889,6 @@ for name,i in pairs({
 		})
 	end
 end
-
--- disallow abms when the server is lagging
-minetest.register_globalstep(function(dtime)
-	if dtime > 0.5
-	and abm_allowed then
-		abm_allowed = false
-		minetest.after(2, function() abm_allowed = true end)
-		--minetest.chat_send_all(dtime)
-	end
-end)
-
-
 
 -- Big Mushroom Nodes
 

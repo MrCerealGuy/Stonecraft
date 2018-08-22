@@ -216,6 +216,9 @@ if Auto_Roof_Corner == true then
 		interval = 1,
 		chance = 1,
 		action = function(pos)
+			if not abm_allowed.yes then
+   				return
+			end
 
 			local node_east =			minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  })
 			local node_west =			minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  })

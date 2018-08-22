@@ -394,6 +394,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		if minetest.is_protected(pos, "") then
 			return
 		end
@@ -473,6 +477,10 @@ minetest.register_abm({
 	interval = 3,
 	chance = 2,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		minetest.set_node({x = pos.x, y = pos.y , z = pos.z}, {name = "air"})
 	end
 })
@@ -483,6 +491,10 @@ minetest.register_abm({
 	interval = 15,
 	chance = 3,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		minetest.set_node({x = pos.x, y = pos.y , z = pos.z}, {name = "air"})
 	end
 })
@@ -1941,6 +1953,10 @@ minetest.register_abm({
 	interval = 2,
 	chance = 1,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 		local n = minetest.get_node(pos1).name
 		if n ~= "air" then

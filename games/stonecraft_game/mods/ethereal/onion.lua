@@ -87,6 +87,9 @@ minetest.register_abm({
 	chance = 20,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+			return
+		end
 
 		-- are we on wet soil?
 		pos.y = pos.y - 1

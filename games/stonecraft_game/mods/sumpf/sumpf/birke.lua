@@ -224,6 +224,9 @@ minetest.register_abm({
 	interval = 20,
 	chance = 8,
 	action = function(pos)
+		if not abm_allowed.yes then
+   			return
+		end
 		if sumpf.tree_allowed(pos, 8) then
 			spawn_birch(pos)
 		end

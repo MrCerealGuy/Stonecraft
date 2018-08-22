@@ -261,6 +261,9 @@ function spawners.create_ore(ore_name, mod_prefix, ore_desc, size, offset, textu
 		interval = 5.0,
 		chance = 5,
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed.yes then
+   				return
+			end
 
 			local waiting, found_node = spawners.check_node_status_ores(pos, ore_name,  "default:stone")
 

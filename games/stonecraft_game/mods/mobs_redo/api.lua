@@ -2813,6 +2813,9 @@ function mobs:spawn_specific(name, nodes, neighbors, min_light, max_light,
 		catch_up = false,
 
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed.yes then
+   				return
+			end
 
 			-- is mob actually registered?
 			if not mobs.spawning_mobs[name] then

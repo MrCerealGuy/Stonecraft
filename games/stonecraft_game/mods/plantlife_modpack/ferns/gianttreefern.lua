@@ -284,6 +284,10 @@ minetest.register_abm({
 	interval = 1000,
 	chance = 4,
 	action = function(pos, node, _, _)
+		if not abm_allowed.yes then
+   			return
+		end
+		
 		abstract_ferns.grow_giant_tree_fern({x = pos.x, y = pos.y-1, z = pos.z})
     end
 })

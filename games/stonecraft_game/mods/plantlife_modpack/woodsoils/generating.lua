@@ -129,6 +129,10 @@ minetest.register_abm({
 	interval = 50,
 	chance = 20,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		pos.y = pos.y-1
 		local name = minetest.get_node(pos).name
 		if string.find(name, "_with_leaves_") then

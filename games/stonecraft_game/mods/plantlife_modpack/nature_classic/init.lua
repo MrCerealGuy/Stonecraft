@@ -19,7 +19,7 @@ nature.blossom_leaves = "default:leaves"
 nature.blossom_textures = { "default_leaves.png^nature_blossom.png" }
 nature.blossom_groups = { snappy = 3, leafdecay = 1, leaves = 1, flammable = 2 }
 
-if minetest.get_modpath("moretrees") then
+if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
 	nature.blossom_decay = moretrees.leafdecay_radius
 	nature.blossom_trunk = "moretrees:apple_tree_trunk"
 	nature.blossom_node = "moretrees:apple_blossoms"

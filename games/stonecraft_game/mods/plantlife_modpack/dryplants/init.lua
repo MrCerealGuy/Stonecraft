@@ -148,6 +148,10 @@ minetest.register_abm({
 	interval = HAY_DRYING_TIME, --1200, -- 20 minutes: a minetest-day/night-cycle
 	chance = 1,
 	action = function(pos)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		minetest.set_node(pos, {name="dryplants:hay"})
 	end,
 })
@@ -193,6 +197,10 @@ minetest.register_abm({
 	interval = GRASS_REGROWING_TIME, --1200, -- 20 minutes: a minetest-day/night-cycle
 	chance = 100/GRASS_REGROWING_CHANCE,
 	action = function(pos)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		-- Only become dirt with grass if no cut grass or hay lies on top
 		local above = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 		if above.name ~= "dryplants:grass" and above.name ~= "dryplants:hay" then

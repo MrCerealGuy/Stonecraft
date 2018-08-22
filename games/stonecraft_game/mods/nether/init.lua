@@ -268,6 +268,10 @@ minetest.register_abm({
 	interval = 1,
 	chance = 2,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		minetest.add_particlespawner(
 			32, --amount
 			4, --time

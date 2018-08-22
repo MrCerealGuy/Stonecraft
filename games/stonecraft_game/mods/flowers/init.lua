@@ -182,6 +182,10 @@ minetest.register_abm({
 	interval = 13,
 	chance = 300,
 	action = function(...)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		flowers.flower_spread(...)
 	end,
 })
@@ -258,6 +262,10 @@ minetest.register_abm({
 	interval = 11,
 	chance = 150,
 	action = function(...)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		flowers.mushroom_spread(...)
 	end,
 })

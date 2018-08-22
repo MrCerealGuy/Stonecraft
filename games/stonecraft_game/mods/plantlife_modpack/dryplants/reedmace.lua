@@ -279,6 +279,10 @@ minetest.register_abm({
 	interval = REEDMACE_GROWING_TIME,
 	chance = 100/REEDMACE_GROWING_CHANCE,
 	action = function(pos, node, _, _)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		if string.find(minetest.get_node({x = pos.x + 1, y = pos.y, z = pos.z	 }).name, "default:water")
 		or string.find(minetest.get_node({x = pos.x,	 y = pos.y, z = pos.z + 1}).name, "default:water")
 		or string.find(minetest.get_node({x = pos.x - 1, y = pos.y, z = pos.z	 }).name, "default:water")

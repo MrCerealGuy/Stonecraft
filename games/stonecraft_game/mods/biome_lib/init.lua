@@ -18,8 +18,6 @@
 
 biome_lib = {}
 
-local abm_allowed = true
-
 plantslib = setmetatable({}, { __index=function(t,k) print("Use of deprecated function:", k) return biome_lib[k] end })
 
 biome_lib.blocklist_aircheck = {}
@@ -509,7 +507,7 @@ function biome_lib:spawn_on_surfaces(sd,sp,sr,sc,ss,sa)
 		chance = biome.spawn_chance,
 		neighbors = biome.neighbors,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			if not abm_allowed then
+			if not abm_allowed.yes then
    				return
 			end
 
@@ -600,7 +598,7 @@ function biome_lib:grow_plants(opts)
 		interval = options.interval,
 		chance = options.grow_chance,
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			if not abm_allowed then
+			if not abm_allowed.yes then
    				return
 			end
 
@@ -753,14 +751,4 @@ print("[Biome Lib] Loaded")
 minetest.after(0, function()
 	print("[Biome Lib] Registered a total of "..(#biome_lib.surfaceslist_aircheck)+(#biome_lib.surfaceslist_no_aircheck).." surface types to be evaluated, spread")
 	print("[Biome Lib] across "..#biome_lib.actionslist_aircheck.." actions with air-checking and "..#biome_lib.actionslist_no_aircheck.." actions without.")
-end)
-
--- disallow abms when the server is lagging
-minetest.register_globalstep(function(dtime)
-   if dtime > 0.5
-   and abm_allowed then
-      abm_allowed = false
-      minetest.after(2, function() abm_allowed = true end)
-      --minetest.chat_send_all(dtime)
-   end
 end)

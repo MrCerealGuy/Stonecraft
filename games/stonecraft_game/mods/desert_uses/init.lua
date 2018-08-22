@@ -293,6 +293,10 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local meta = minetest.env:get_meta(pos)
 		for i, name in ipairs({
 				"fuel_totaltime",

@@ -401,6 +401,10 @@ if not minetest.setting_getbool("only_peaceful_mobs") then
 	interval = 2.0,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local player_near = false
 		local mobs = 0
 		for  _,obj in ipairs(minetest.env:get_objects_inside_radius(pos, spawner_range)) do

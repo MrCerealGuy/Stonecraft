@@ -226,6 +226,9 @@ minetest.register_abm({
 	chance = 50,
 	catch_up = false,
 	action = function(pos, node)
+		if not abm_allowed.yes then
+			return
+		end
 
 		local light_level = minetest.get_node_light(pos)
 

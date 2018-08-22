@@ -334,6 +334,10 @@ minetest.register_abm({
 	interval = 15,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
+		if not abm_allowed.yes then
+   			return
+		end
+
 		local num
 		num = #minetest.get_objects_inside_radius(pos, 0.5)
 		if num > 0 then return end

@@ -157,6 +157,9 @@ function register_tree(specie, def)
 			interval = 60,
 			chance = 100 / def.sapling.growing,
 			action = function(pos)
+				if not abm_allowed.yes then
+	   				return
+				end
 				def.growing.method(pos, specie)
 			end
 		})
@@ -236,6 +239,9 @@ function register_tree(specie, def)
 			interval = 60,
 			chance = 100 / def.fruits.chance,
 			action = function(pos)
+				if not abm_allowed.yes then
+	   				return
+				end
 				minetest.set_node(pos, {name = def.names.fruitleaves})
 			end
 		})
@@ -245,6 +251,9 @@ function register_tree(specie, def)
 			interval = 60,
 			chance = (100 * def.fruits.max) / (def.fruits.chance * (100 - def.fruits.max)),
 			action = function(pos)
+				if not abm_allowed.yes then
+	   				return
+				end
 				minetest.set_node(pos, {name = def.names.leaves})
 			end
 		})

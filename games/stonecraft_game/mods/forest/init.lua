@@ -13,8 +13,6 @@
 
 if core.skip_mod("forests") then return end
 
-local abm_allowed = true
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -96,7 +94,7 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -132,7 +130,7 @@ minetest.register_abm({
 	interval = 60,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -183,7 +181,7 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -200,7 +198,7 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -217,7 +215,7 @@ minetest.register_abm({
 	interval = 20,
 	chance = 3,
 	action = function(pos)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -234,7 +232,7 @@ minetest.register_abm({
 	interval = 10,
 	chance = 1,
 	action = function(pos)
-		if not abm_allowed then
+		if not abm_allowed.yes then
    			return
 		end
 
@@ -456,13 +454,3 @@ minetest.register_craft({
 		{'default:mese_crystal_fragment', 'default:mese_crystal_fragment', 'default:mese_crystal_fragment'},
 	}
 })
-
--- disallow abms when the server is lagging
-minetest.register_globalstep(function(dtime)
-   if dtime > 0.5
-   and abm_allowed then
-      abm_allowed = false
-      minetest.after(2, function() abm_allowed = true end)
-      --minetest.chat_send_all(dtime)
-   end
-end)

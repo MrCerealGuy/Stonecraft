@@ -282,6 +282,10 @@ if moretrees.coconuts_regrow then
 		name = "moretrees:restart_coconut_regrow_timer",
 		nodenames = "group:moretrees_coconut",
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed.yes then
+   				return
+			end
+			
 			local timer = minetest.get_node_timer(pos)
 			if not timer:is_started() then
 				coconut_starttimer(pos)

@@ -371,6 +371,10 @@ nodenames = {"seaplants:seaplantsdirtkelpgreen"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -386,6 +390,10 @@ nodenames = {"seaplants:seaplantssandkelpgreen"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -401,6 +409,10 @@ nodenames = {"seaplants:kelpgreen"},
 interval = 6,
 chance = 3,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
 	local yyyp = {x = pos.x, y = pos.y + 3, z = pos.z}
@@ -427,6 +439,10 @@ nodenames = {"seaplants:seaplantsdirtkelpbrown"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -442,6 +458,10 @@ nodenames = {"seaplants:seaplantssandkelpbrown"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -457,6 +477,10 @@ nodenames = {"seaplants:kelpbrown"},
 interval = 6,
 chance = 3,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
 	local yyyp = {x = pos.x, y = pos.y + 3, z = pos.z}
@@ -483,6 +507,10 @@ nodenames = {"seaplants:seaplantsdirtseagrassgreen"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -498,6 +526,10 @@ nodenames = {"seaplants:seaplantssandseagrassgreen"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -513,6 +545,10 @@ nodenames = {"seaplants:seaplantsdirtseagrassred"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
@@ -528,6 +564,10 @@ nodenames = {"seaplants:seaplantssandseagrassred"},
 interval = 12,
 chance = 12,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if (minetest.get_node(yp).name == "default:water_source" or
 	minetest.get_node(yp).name == "noairblocks:water_sourcex") then

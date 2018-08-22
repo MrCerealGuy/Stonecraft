@@ -201,6 +201,10 @@ nodenames = {"seawrecks:woodship"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 local yp = {x = pos.x, y = pos.y + 3, z = pos.z}
 	if minetest.get_node(pos).name == "seawrecks:woodship" and 
 	(minetest.get_node(yp).name == "default:water_source" or
@@ -378,6 +382,10 @@ nodenames = {"seawrecks:uboot"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
+	if not abm_allowed.yes then
+   		return
+	end
+
 local yp = {x = pos.x, y = pos.y + 8, z = pos.z}
 	if minetest.get_node(pos).name == "seawrecks:uboot" and 
 	(minetest.get_node(yp).name == "default:water_source" or

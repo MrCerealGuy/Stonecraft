@@ -340,6 +340,9 @@ function spawners.create(mob_name, mod_prefix, mob_desc, size, offset, mesh, tex
 		chance = 6,
 		catch_up = false,
 		action = function(pos, node, active_object_count, active_object_count_wider)
+			if not abm_allowed.yes then
+   				return
+			end
 
 			local random_pos, waiting = spawners.check_node_status(pos, mob_name, night_only)
 
