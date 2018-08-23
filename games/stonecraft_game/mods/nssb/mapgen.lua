@@ -1,3 +1,10 @@
+--[[
+
+2018-03-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	replace default:stone_with_tin with air
+
+--]]
+
 local moreores
 if minetest.get_modpath("moreores") then
 	moreores=true
@@ -514,6 +521,7 @@ replace4("default:stone_with_mese", "air")
 replace4("default:stone_with_diamond", "air")
 replace4("default:stone_with_gold", "air")
 replace4("default:stone_with_copper", "air")
+replace4("default:stone_with_tin", "air")	-- MERGEINFO: MrCerealGuy: replace default:stone_with_tin with air
 replace4("default:gravel", "nssb:morkemen")
 replace4("default:dirt", "nssb:morkemen")
 replace4("default:sand", "nssb:morkemen")
