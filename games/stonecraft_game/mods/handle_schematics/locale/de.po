@@ -1,0 +1,30 @@
+# German translation for boats mod
+# Copyright (C) 2018 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-23 16:45+0200\n"
+"PO-Revision-Date: 2018-08-23 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: nodes.lua
+msgid "Support structure for buildings"
+msgstr "Tragstruktur für Gebäude"
+
+#: nodes.lua
+msgid "Support structure for buildings (configured)"
+msgstr "Tragstruktur für Gebäude (konfiguriert)"
+
+#: nodes.lua
+msgid "Dig the node below this one"
+msgstr "Graben sie den Block unter diesem"

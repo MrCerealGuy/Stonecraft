@@ -1,5 +1,12 @@
+--[[
 
+2018-08-23 MrCerealGuy: added intllib support
 
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 ---------------------------------------------------------------------------------------
 -- helper node that is used during construction of a house; scaffolding
@@ -7,7 +14,7 @@
 
 -- this node can be crafted
 minetest.register_node("handle_schematics:support", {
-        description = "support structure for buildings",
+        description = S("Support structure for buildings"),
         tiles = {"handle_schematics_support.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3},
 	visual_scale = 1.2,
@@ -203,7 +210,7 @@ end
 
 -- this node will only be placed by spawning a house with handle_schematics
 minetest.register_node("handle_schematics:support_setup", {
-        description = "support structure for buildings (configured)",
+        description = S("Support structure for buildings (configured)"),
         tiles = {"handle_schematics_support.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3},
 	visual_scale = 1.2,
@@ -224,7 +231,7 @@ minetest.register_node("handle_schematics:support_setup", {
 
 -- no craft receipe for this node as it's only an indicator that the player shall dig here
 minetest.register_node("handle_schematics:dig_here", {
-	description = "dig the node below this one",
+	description = S("Dig the node below this one"),
 	tiles = {"default_tool_mesepick.png^[colorize:#FF0000^[transformFXR90"},
 	inventory_image = "default_tool_mesepick.png^[colorize:#FF0000^[transformFXR90";
 	-- falling node; will notice if the node below it is beeing digged; cannot be destroyed the normal way
