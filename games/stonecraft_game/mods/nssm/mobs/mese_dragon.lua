@@ -113,7 +113,7 @@ mobs:register_mob("nssm:mese_dragon", {
 						local n = minetest.get_node(k).name
 						if n=="air" and math.random(1,23)==1 then
 							minetest.set_node(k, {name="nssm:mese_meteor"})
-							nodeupdate(k)
+							minetest.check_for_falling(k)
 						end
 					end
 				end

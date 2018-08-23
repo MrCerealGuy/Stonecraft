@@ -740,7 +740,7 @@ local on_lamp_puncher = function (pos, node, puncher)
 		minetest.check_for_falling(pos)
 			elseif node.name == "stairs:slab_seaglassoff_black" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_black"})
-			nodeupdate(pos) else
+			minetest.check_for_falling(pos) else
 			return
 	end
 end
