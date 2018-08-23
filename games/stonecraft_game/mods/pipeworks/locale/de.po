@@ -50,8 +50,16 @@ msgid "Oil extract"
 msgstr "Ölextrakt"
 
 #: crafts.lua
+msgid "Plastic sheet"
+msgstr "Kunststoffplatte"
+
+#: crafts.lua
 msgid "Unprocessed paraffin"
 msgstr "Unverarbeitetes Paraffin"
+
+#: crafts.lua
+msgid "Gear"
+msgstr "Getriebe"
 
 #: decorative_tubes.lua
 msgid "Airtight steelblock embedded tube"
@@ -72,6 +80,10 @@ msgstr "Ventil"
 #: devices.lua
 msgid "Decorative grating"
 msgstr "Dekoratives Gitter"
+
+#: devices.lua
+msgid "Spigot outlet"
+msgstr "Auslaufzapfhahn"
 
 #: devices.lua
 msgid "Airtight Pipe entry/exit"
@@ -99,11 +111,15 @@ msgstr "Wasserspeichertank (@1)"
 
 #: devices.lua
 msgid "Fountainhead"
-msgstr "Urquell"
+msgstr "Fontänenkopf"
 
 #: devices.lua
-msgid "empty)"
-msgstr "leer)"
+msgid "Straight-only Pipe"
+msgstr "Geradliniges Rohr"
+
+#: devices.lua
+msgid "empty"
+msgstr "leer"
 
 #: filter-injector.lua
 msgid "@1 Filter-Injector"
@@ -198,6 +214,18 @@ msgid "Conducting Pneumatic Tube Segment"
 msgstr "Leitendes pneumatisches Rohrsegment"
 
 #: signal_tubes.lua
+msgid "Digiline Conducting Pneumatic Tube Segment"
+msgstr "Digiline leitendes pneumatisches Rohrsegment"
+
+#: signal_tubes.lua
+msgid "Mesecon and Digiline Conducting Pneumatic Tube Segment"
+msgstr "Mesecon und Digiline leitendes pneumatisches Rohrsegment"
+
+#: signal_tubes.lua
+msgid "Mesecon and Digiline Conducting Pneumatic Tube Segment on (you hacker you)"
+msgstr "Mesecon und Digiline leitendes pneumatisches Rohrsegment an (du Hacker du)"
+
+#: signal_tubes.lua
 msgid "Conducting Pneumatic Tube Segment on (you hacker you)"
 msgstr "Leitendes pneumatisches Rohrsegment an (du Hacker du)"
 
@@ -288,3 +316,7 @@ msgstr "Verteiler"
 #: wielder.lua
 msgid "Dispenser"
 msgstr "Spender"
+
+#: lua_tube.lua
+msgid "Lua controlled Tube"
+msgstr "Lua-gesteuertes Rohr"

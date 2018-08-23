@@ -44,3 +44,27 @@ msgstr "Dunkelgrauer"
 #: init.lua
 msgid "Yellow"
 msgstr "Gelber"
+
+#: init.lua
+msgid "Orange"
+msgstr "Orangener"
+
+#: init.lua
+msgid "White"
+msgstr "Weißer"
+
+#: init.lua
+msgid "Pink"
+msgstr "Pinker"
+
+#: init.lua
+msgid "Magenta"
+msgstr "Magentafarbener"
+
+#: init.lua
+msgid "Cyan"
+msgstr "Türkisfarbener"
+
+#: init.lua
+msgid "Violet"
+msgstr "Violettfarbener"

@@ -1,8 +1,23 @@
 return function(plg)
 
+--[[
+
+2018-08-23 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+2018-08-23 MrCerealGuy: added intllib support
+
+--]]
+
+if core.skip_mod("mesecons") then return end
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 
 minetest.register_tool("mesecons_fpga:programmer", {
-	description = "FPGA Programmer",
+	description = S("FPGA Programmer"),
 	inventory_image = "jeija_fpga_programmer.png",
 	stack_max = 1,
 	on_place = function(itemstack, placer, pointed_thing)

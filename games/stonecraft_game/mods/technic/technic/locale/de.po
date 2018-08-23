@@ -674,8 +674,8 @@ msgid "Inventory move disallowed due to protection"
 msgstr "Das Inventar ist geschützt, Zugriff verweigert."
 
 #: machines/register/compressor.lua
-msgid "@1 Compressor"
-msgstr "@1 Kompressor"
+msgid "Compressor"
+msgstr "Kompressor"
 
 #: machines/register/compressor_recipes.lua
 msgid "Compressing"

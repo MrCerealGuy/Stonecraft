@@ -52,3 +52,11 @@ msgstr "Edelstahlblock"
 #: init.lua
 msgid "Brass Block"
 msgstr "Messingblock"
+
+#: init.lua
+msgid "Insulator/cable clip"
+msgstr "Isolator/Kabelschelle"
+
+
+
+

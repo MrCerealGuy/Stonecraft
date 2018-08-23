@@ -118,7 +118,7 @@ if minetest.get_modpath("homedecor") == nil then
 	minetest.register_alias("homedecor:plastic_base", "homedecor:paraffin")
 
 	minetest.register_craftitem(":homedecor:plastic_sheeting", {
-		    description = ("Plastic sheet"),
+		    description = S("Plastic sheet"),
 		    inventory_image = "homedecor_plastic_sheeting.png",
 	})
 
@@ -168,7 +168,7 @@ end
 
 -- crafting items for creating node breakers
 minetest.register_craftitem("pipeworks:gear", {
-	description = "Gear",
+	description = S("Gear"),
 	inventory_image = "pipeworks_gear.png",
 })
 

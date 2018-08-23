@@ -168,7 +168,7 @@ end
 
 if digiline_enabled and pipeworks.enable_digiline_conductor_tube then
 	pipeworks.register_tube("pipeworks:digiline_conductor_tube", {
-		description = "Digiline Conducting Pneumatic Tube Segment",
+		description = S("Digiline Conducting Pneumatic Tube Segment"),
 		inventory_image = "pipeworks_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
 		short = "pipeworks_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
 		plain = {"pipeworks_tube_plain.png^pipeworks_digiline_conductor_tube_plain.png"},
@@ -186,7 +186,7 @@ end
 if digiline_enabled and pipeworks.enable_digiline_conductor_tube and
 		pipeworks.enable_conductor_tube then
 	pipeworks.register_tube("pipeworks:mesecon_and_digiline_conductor_tube_off", {
-		description = "Mesecon and Digiline Conducting Pneumatic Tube Segment",
+		description = S("Mesecon and Digiline Conducting Pneumatic Tube Segment"),
 		inventory_image = "pipeworks_conductor_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
 		short = "pipeworks_conductor_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
 		plain = {"pipeworks_conductor_tube_plain.png^pipeworks_digiline_conductor_tube_plain.png"},
@@ -203,7 +203,7 @@ if digiline_enabled and pipeworks.enable_digiline_conductor_tube and
 		},
 	})
 	pipeworks.register_tube("pipeworks:mesecon_and_digiline_conductor_tube_on", {
-		description = "Mesecon and Digiline Conducting Pneumatic Tube Segment on (you hacker you)",
+		description = S("Mesecon and Digiline Conducting Pneumatic Tube Segment on (you hacker you)"),
 		inventory_image = "pipeworks_conductor_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
 		short = "pipeworks_conductor_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
 		plain = {"pipeworks_conductor_tube_on_plain.png^pipeworks_digiline_conductor_tube_plain.png"},

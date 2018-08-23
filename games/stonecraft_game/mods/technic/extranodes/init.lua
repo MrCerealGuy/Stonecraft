@@ -117,7 +117,7 @@ if minetest.get_modpath("moreblocks") then
 end
 
 local iclip_def = {
-	description = "Insulator/cable clip",
+	description = S("Insulator/cable clip"),
 	drawtype = "mesh",
 	mesh = "technic_insulator_clip.obj",
 	tiles = {"technic_insulator_clip.png"},
@@ -127,7 +127,7 @@ local iclip_def = {
 }
 
 local iclipfence_def = {
-	description = "Insulator/cable clip",
+	description = S("Insulator/cable clip"),
 	tiles = {"technic_insulator_clip.png"},
 	is_ground_content = false,
 	paramtype = "light",

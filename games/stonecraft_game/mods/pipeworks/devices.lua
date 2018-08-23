@@ -189,7 +189,7 @@ for s in ipairs(states) do
 
 	local nodename_valve_empty = "pipeworks:valve_"..states[s].."_empty"
 	minetest.register_node(nodename_valve_empty, {
-		description = "Valve",
+		description = S("Valve"),
 		drawtype = "mesh",
 		mesh = "pipeworks_valve_"..states[s]..polys..".obj",
 		tiles = { "pipeworks_valve.png" },
@@ -316,7 +316,7 @@ minetest.register_node("pipeworks:grating", {
 
 local nodename_spigot_empty = "pipeworks:spigot"
 minetest.register_node(nodename_spigot_empty, {
-	description = ("Spigot outlet"),
+	description = S("Spigot outlet"),
 	drawtype = "mesh",
 	mesh = "pipeworks_spigot"..polys..".obj",
 	tiles = { "pipeworks_spigot.png" },
@@ -702,7 +702,7 @@ local sp_cbox = {
 
 local nodename_sp_empty = "pipeworks:straight_pipe_empty"
 minetest.register_node(nodename_sp_empty, {
-	description = "Straight-only Pipe",
+	description = S("Straight-only Pipe"),
 	drawtype = "mesh",
 	mesh = "pipeworks_straight_pipe"..polys..".obj",
 	tiles = { "pipeworks_straight_pipe_empty.png" },
@@ -722,7 +722,7 @@ minetest.register_node(nodename_sp_empty, {
 
 local nodename_sp_loaded = "pipeworks:straight_pipe_loaded"
 minetest.register_node(nodename_sp_loaded, {
-	description = "Straight-only Pipe",
+	description = S("Straight-only Pipe"),
 	drawtype = "mesh",
 	mesh = "pipeworks_straight_pipe"..polys..".obj",
 	tiles = { "pipeworks_straight_pipe_loaded.png" },

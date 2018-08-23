@@ -696,7 +696,7 @@ for white  = 0, 1 do
 	}
 
 	minetest.register_node(node_name, {
-		description = "Lua controlled Tube",
+		description = S("Lua controlled Tube"),
 		drawtype = "nodebox",
 		tiles = tiles,
 		paramtype = "light",

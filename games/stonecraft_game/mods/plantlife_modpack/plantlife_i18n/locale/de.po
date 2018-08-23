@@ -20,15 +20,15 @@ msgstr ""
 
 #: ../bushes/init.lua
 msgid "Young Tree 2 (bottom)"
-msgstr ""
+msgstr "Junger Baum 2 (unten)"
 
 #: ../bushes/init.lua
 msgid "Bush Branches @1"
-msgstr ""
+msgstr "Buschzweige @1"
 
 #: ../bushes/init.lua
 msgid "Bush Leaves @1"
-msgstr ""
+msgstr "Buschblätter @1"
 
 #: ../bushes_classic/cooking.lua
 msgid "Sugar"
@@ -48,7 +48,7 @@ msgstr "Rohe Erdbeertorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Strawberry pie"
-msgstr "Erdbeertortenstueck"
+msgstr "Erdbeertortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "Strawberry"
@@ -80,7 +80,7 @@ msgstr "Rohe Brombeertorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Blackberry pie"
-msgstr "Brombeertortenstueck"
+msgstr "Brombeertortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "Basket with Blueberry pies"
@@ -104,7 +104,7 @@ msgstr "Rohe Blaubeertorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Blueberry pie"
-msgstr "Blaubeertortenstueck"
+msgstr "Blaubeertortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "Basket with Raspberry pies"
@@ -128,7 +128,7 @@ msgstr "Rohe Himbeertorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Raspberry pie"
-msgstr "Himbeertortenstueck"
+msgstr "Himbeertortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "Basket with Gooseberry pies"
@@ -152,20 +152,20 @@ msgstr "Rohe Stachelbeertorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Gooseberry pie"
-msgstr "Stachelbeertortenstueck"
+msgstr "Stachelbeertortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "Basket with Mixed Berry pies"
-msgstr "Korb mit Beerenmixtorten"
+msgstr "Korb mit gemischten Beerentorten"
 
 #: ../bushes_classic/init.lua
 msgid "Cooked Mixed Berry pie"
-msgstr "Beerenmixtorte"
+msgstr "Gemischte Beerentorte"
 
 #: ../bushes_classic/init.lua
 #, fuzzy
 msgid "Currently fruitless Bush"
-msgstr "zur Zeit fruechteloser"
+msgstr "zur Zeit früchteloser"
 
 #: ../bushes_classic/init.lua
 msgid "Mixed Berry"
@@ -173,11 +173,11 @@ msgstr "Beerenmix"
 
 #: ../bushes_classic/init.lua
 msgid "Raw Mixed Berry pie"
-msgstr "Rohe Beerenmixtorte"
+msgstr "Rohe gemischte Beerentorte"
 
 #: ../bushes_classic/init.lua
 msgid "Slice of Mixed Berry pie"
-msgstr "Beerenmixtortenstueck"
+msgstr "Gemischtes Beerentortenstück"
 
 #: ../bushes_classic/init.lua
 msgid "[Bushes] Loaded."
@@ -189,151 +189,151 @@ msgstr "Korb"
 
 #: ../cavestuff/nodes.lua
 msgid "Pebble"
-msgstr ""
+msgstr "Kieselstein"
 
 #: ../cavestuff/nodes.lua
 msgid "Desert Pebble"
-msgstr ""
+msgstr "Wüstenkieselstein"
 
 #: ../cavestuff/nodes.lua
 msgid "Stalactite"
-msgstr ""
+msgstr "Stalaktit"
 
 #: ../dryplants/init.lua
 msgid "Sickle"
-msgstr ""
+msgstr "Sichel"
 
 #: ../dryplants/init.lua
 msgid "Cut Grass"
-msgstr ""
+msgstr "Gemähtes Gras"
 
 #: ../dryplants/init.lua
 msgid "Hay"
-msgstr ""
+msgstr "Heu"
 
 #: ../dryplants/init.lua
 msgid "Short Grass"
-msgstr ""
+msgstr "Kurzes Gras"
 
 #: ../dryplants/juncus.lua
 msgid "Juncus"
-msgstr ""
+msgstr "Juncus"
 
 #: ../dryplants/reed.lua
 msgid "Wet Reed"
-msgstr ""
+msgstr "Nasses Reet"
 
 #: ../dryplants/reed.lua
 msgid "Wet Reed Slab"
-msgstr ""
+msgstr "Nasse Reetstufe"
 
 #: ../dryplants/reed.lua
 msgid "Wet Reed Roof"
-msgstr ""
+msgstr "Nasses Reetdach"
 
 #: ../dryplants/reed.lua
 msgid "Wet Reed Roof Corner"
-msgstr ""
+msgstr "Nasse Reetdachecke"
 
 #: ../dryplants/reed.lua
 msgid "Wet Reed Roof Corner 2"
-msgstr ""
+msgstr "Nasse Reetdachecke 2"
 
 #: ../dryplants/reed.lua
 msgid "Reed"
-msgstr ""
+msgstr "Reet"
 
 #: ../dryplants/reed.lua
 msgid "Reed Slab"
-msgstr ""
+msgstr "Reetstufe"
 
 #: ../dryplants/reed.lua
 msgid "Reed Roof"
-msgstr ""
+msgstr "Reetdach"
 
 #: ../dryplants/reed.lua
 msgid "Reed Roof Corner"
-msgstr ""
+msgstr "Reetdachecke"
 
 #: ../dryplants/reed.lua
 msgid "Reed Roof Corner 2"
-msgstr ""
+msgstr "Reetdachecke 2"
 
 #: ../dryplants/reedmace.lua
 msgid "Reedmace"
-msgstr ""
+msgstr "Rohrkolben"
 
 #: ../dryplants/reedmace.lua
 msgid "Reedmace, height: 1"
-msgstr ""
+msgstr "Rohrkolben, Höhe: 1"
 
 #: ../dryplants/reedmace.lua
 msgid "Reedmace, height: 2"
-msgstr ""
+msgstr "Rohrkolben. Höhe: 2"
 
 #: ../dryplants/reedmace.lua
 msgid "Reedmace, height: 3"
-msgstr ""
+msgstr "Rohrkolben, Höhe: 3"
 
 #: ../dryplants/reedmace.lua
 msgid "Reedmace, height: 3 & Spikes"
-msgstr ""
+msgstr "Rohrkolben, Höhe: 3 & Spitzen"
 
 #: ../ferns/crafting.lua
 msgid "Fiddlehead"
-msgstr ""
+msgstr "Farnspitze"
 
 #: ../ferns/crafting.lua
 msgid "Roasted Fiddlehead"
-msgstr ""
+msgstr "Geröstete Farnspitze"
 
 #: ../ferns/crafting.lua
 msgid "Fern Tuber"
-msgstr ""
+msgstr "Farnknolle"
 
 #: ../ferns/crafting.lua
 msgid "Roasted Fern Tuber"
-msgstr ""
+msgstr "Geröstete Farnknolle"
 
 #: ../ferns/fern.lua
 msgid "Lady-fern (Athyrium)"
-msgstr ""
+msgstr "Frauenfarn (Athyrium)"
 
 #: ../ferns/gianttreefern.lua ../ferns/treefern.lua
 msgid "Tree Fern Crown (Dicksonia)"
-msgstr ""
+msgstr "Taschenfarn (Dicksonia)"
 
 #: ../ferns/gianttreefern.lua
 msgid "Giant Tree Fern Leaves"
-msgstr ""
+msgstr "Große Baumfarnblätter"
 
 #: ../ferns/gianttreefern.lua
 msgid "Giant Tree Fern Leave End"
-msgstr ""
+msgstr "Großes Baumfarnblattende"
 
 #: ../ferns/gianttreefern.lua
 msgid "Giant Fern Trunk"
-msgstr ""
+msgstr "Großer Farnstamm"
 
 #: ../ferns/gianttreefern.lua
 msgid "Giant Tree Fern Sapling"
-msgstr ""
+msgstr "Großer Baumfarnsetzling"
 
 #: ../ferns/horsetail.lua
 msgid "Young Horsetail (Equisetum)"
-msgstr ""
+msgstr "Junger Schachtelhalm"
 
 #: ../ferns/horsetail.lua
 msgid "Horsetail (Equisetum)"
-msgstr ""
+msgstr "Schachtelhalm (Equisetum)"
 
 #: ../ferns/treefern.lua
 msgid "Fern Trunk (Dicksonia)"
-msgstr ""
+msgstr "Taschenfarnstamm (Dicksonia)"
 
 #: ../ferns/treefern.lua
 msgid "Tree Fern Sapling (Dicksonia)"
-msgstr ""
+msgstr "Taschenfarnsetzling (Dicksonia)"
 
 #: ../flowers_plus/init.lua
 msgid "Waterlily"
@@ -353,19 +353,19 @@ msgstr "[Flowers] Geladen."
 
 #: ../molehills/init.lua
 msgid "Mole Hill"
-msgstr ""
+msgstr "Maulwurfshügel"
 
 #: ../molehills/init.lua
 msgid "Loaded..."
-msgstr ""
+msgstr "Geladen..."
 
 #: ../nature_classic/blossom.lua
 msgid "Apple blossoms"
-msgstr ""
+msgstr "Apfelblüten"
 
 #: ../nature_classic/init.lua
 msgid "[Nature Classic] loaded!"
-msgstr ""
+msgstr "[Nature Classic] geladen!"
 
 #: ../poisonivy/init.lua
 msgid "Poison ivy (seedling)"
@@ -385,104 +385,104 @@ msgstr "[Poison Ivy] Geladen."
 
 #: ../trunks/nodes.lua
 msgid "Twig"
-msgstr ""
+msgstr "Zweig"
 
 #: ../trunks/nodes.lua
 msgid "Moss"
-msgstr ""
+msgstr "Moos"
 
 #: ../trunks/nodes.lua
 msgid "Moss with Fungus"
-msgstr ""
+msgstr "Moos mit Pilz"
 
 #: ../trunks/nodes.lua
 msgid "Twigs Block"
-msgstr ""
+msgstr "Zweigblock"
 
 #: ../trunks/nodes.lua
 msgid "Twigs Slab"
-msgstr ""
+msgstr "Zweigstufe"
 
 #: ../trunks/nodes.lua
 msgid "Twigs Roof"
-msgstr ""
+msgstr "Zweigdach"
 
 #: ../trunks/nodes.lua
 msgid "Twigs Roof Corner 1"
-msgstr ""
+msgstr "Zweigdachecke 1"
 
 #: ../trunks/nodes.lua
 msgid "Twigs Roof Corner 2"
-msgstr ""
+msgstr "Zweigdachecke 2"
 
 #: ../trunks/nodes.lua
 msgid "Root"
-msgstr ""
+msgstr "Wurzel"
 
 #: ../vines/crafts.lua ../vines/vines.lua
 msgid "Vines"
-msgstr ""
+msgstr "Rebengewächs"
 
 #: ../vines/functions.lua
 msgid "Matured"
-msgstr ""
+msgstr "Gereiftes"
 
 #: ../vines/init.lua
 msgid "[Vines] Loaded!"
-msgstr ""
+msgstr "[Vines] geladen!"
 
 #: ../vines/nodes.lua
 msgid "Rope"
-msgstr ""
+msgstr "Seil"
 
 #: ../vines/shear.lua
 msgid "Shears"
-msgstr ""
+msgstr "Schere"
 
 #: ../vines/vines.lua
 msgid "Roots"
-msgstr ""
+msgstr "Wurzeln"
 
 #: ../vines/vines.lua
 msgid "Jungle Vines"
-msgstr ""
+msgstr "Tropenrebengewächs"
 
 #: ../vines/vines.lua
 msgid "Willow Vines"
-msgstr ""
+msgstr "Weidenrebengewächs"
 
 #: ../woodsoils/nodes.lua
 msgid "Forest Soil 1"
-msgstr ""
+msgstr "Waldboden 1"
 
 #: ../woodsoils/nodes.lua
 msgid "Forest Soil 2"
-msgstr ""
+msgstr "Waldboden 2"
 
 #: ../woodsoils/nodes.lua
 msgid "Forest Soil 3"
-msgstr ""
+msgstr "Waldboden 3"
 
 #: ../woodsoils/nodes.lua
 msgid "Forest Soil 4"
-msgstr ""
+msgstr "Waldboden 4"
 
 #: ../youngtrees/init.lua
 msgid "Young Bamboo Tree"
-msgstr ""
+msgstr "Junger Bambusbaum"
 
 #: ../youngtrees/init.lua
 msgid "Young Tree 2 (middle)"
-msgstr ""
+msgstr "Junger Baum 2 (Mitte)"
 
 #: ../youngtrees/init.lua
 msgid "Young Tree (top)"
-msgstr ""
+msgstr "Junger Baum (oben)"
 
 #: ../youngtrees/init.lua
 msgid "Young Tree (middle)"
-msgstr ""
+msgstr "Junger Baum (Mitte)"
 
 #: ../youngtrees/init.lua
 msgid "Young Tree (bottom)"
-msgstr ""
+msgstr "Junger Baum (unten)"
