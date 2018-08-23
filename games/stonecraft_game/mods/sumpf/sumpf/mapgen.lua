@@ -290,7 +290,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								if vm:get_data_from_heap(data, vi) == c.water then
 									vm:set_data_from_heap(data, vi, c.dirtywater)
 								else
-									vm:set_data_from_heap(data, pvi, c.peat)
+									vm:set_data_from_heap(data, vi, c.peat)
 								end
 								vi = vi - area.ystride
 							end
