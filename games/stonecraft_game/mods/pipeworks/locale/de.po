@@ -179,7 +179,15 @@ msgstr "Rohrsegment"
 
 #: pipes.lua
 msgid "Pipe Segment (legacy)"
-msgstr "Rohrsegment (legacy)"
+msgstr "Rohrsegment (veraltet)"
+
+#: routing_tubes.lua
+msgid "Pneumatic tube segment"
+msgstr "Pneumatisches Rohrsegment"
+
+#: routing_tubes.lua
+msgid "Broken Tube (you hacker you)"
+msgstr "Kaputtes Rohr (du Hacker du)"
 
 #: routing_tubes.lua
 msgid "High Priority Tube Segment"

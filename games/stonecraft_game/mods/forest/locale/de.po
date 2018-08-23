@@ -65,6 +65,10 @@ msgstr "Ölflut"
 msgid "Oil source"
 msgstr "Ölquelle"
 
+#: oil.lua
+msgid "Oil bucket"
+msgstr "Eimer mit Öl"
+
 #: ores.lua
 msgid "Coal ore in desert stone"
 msgstr "Kohleerz in Wüstenstein"

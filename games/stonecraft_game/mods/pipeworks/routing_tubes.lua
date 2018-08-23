@@ -10,7 +10,7 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 -- the default tube and default textures
-pipeworks.register_tube("pipeworks:tube", "Pneumatic tube segment")
+pipeworks.register_tube("pipeworks:tube", S("Pneumatic tube segment"))
 minetest.register_craft( {
 	output = "pipeworks:tube_1 6",
 	recipe = {
@@ -23,7 +23,7 @@ minetest.register_craft( {
 local nodecolor = 0xffff3030
 
 pipeworks.register_tube("pipeworks:broken_tube", {
-	description = "Broken Tube (you hacker you)",
+	description = S("Broken Tube (you hacker you)"),
 	plain = { { name = "pipeworks_broken_tube_plain.png", backface_culling = false, color = nodecolor } },
 	noctr = { { name = "pipeworks_broken_tube_plain.png", backface_culling = false, color = nodecolor } },
 	ends  = { { name = "pipeworks_broken_tube_end.png",   color = nodecolor } },
