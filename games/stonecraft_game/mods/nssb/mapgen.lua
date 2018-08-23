@@ -1,7 +1,7 @@
 --[[
 
 2018-03-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replace default:stone_with_tin with air
+	replace default:stone_with_tin
 
 --]]
 
@@ -242,7 +242,7 @@ for i=1,9 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "nssb:indistructible_morentir",
-		wherein        = {"default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick"},
+		wherein        = {"default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin","nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
@@ -290,6 +290,7 @@ replace2("default:stone_with_mese", "nssb:morelentir")
 replace2("default:stone_with_diamond", "nssb:morelentir")
 replace2("default:stone_with_gold", "nssb:morelentir")
 replace2("default:stone_with_copper", "nssb:morelentir")
+replace2("default:stone_with_tin", "nssb:morelentir")
 replace2("default:gravel", "nssb:morelentir")
 replace2("default:dirt", "nssb:morelentir")
 replace2("default:sand", "nssb:morelentir")
@@ -341,7 +342,7 @@ for i=1,32 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "air",
-		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper"},
+		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
@@ -521,7 +522,7 @@ replace4("default:stone_with_mese", "air")
 replace4("default:stone_with_diamond", "air")
 replace4("default:stone_with_gold", "air")
 replace4("default:stone_with_copper", "air")
-replace4("default:stone_with_tin", "air")	-- MERGEINFO: MrCerealGuy: replace default:stone_with_tin with air
+replace4("default:stone_with_tin", "air")
 replace4("default:gravel", "nssb:morkemen")
 replace4("default:dirt", "nssb:morkemen")
 replace4("default:sand", "nssb:morkemen")
@@ -611,6 +612,7 @@ replace5("default:stone_with_mese", "nssb:morentir")
 replace5("default:stone_with_diamond", "nssb:life_energy_ore")
 replace5("default:stone_with_gold", "nssb:life_energy_ore")
 replace5("default:stone_with_copper", "nssb:morentir")
+replace5("default:stone_with_tin", "nssb:morentir")
 replace5("default:gravel", "nssb:morkemen")
 replace5("default:dirt", "nssb:morkemen")
 replace5("default:sand", "nssb:morkemen")
@@ -649,6 +651,7 @@ replace6("default:stone_with_mese", "nssb:moranga")
 replace6("default:stone_with_diamond", "nssb:life_energy_ore")
 replace6("default:stone_with_gold", "nssb:life_energy_ore")
 replace6("default:stone_with_copper", "nssb:moranga")
+replace6("default:stone_with_tin", "nssb:moranga")
 replace6("default:gravel", "nssb:morkemen")
 replace6("default:dirt", "nssb:morkemen")
 replace6("default:sand", "nssb:morkemen")
@@ -681,7 +684,7 @@ for i=1,9 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "nssb:indistructible_morentir",
-		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper"},
+		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
