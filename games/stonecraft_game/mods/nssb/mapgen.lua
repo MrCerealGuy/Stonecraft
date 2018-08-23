@@ -2,6 +2,7 @@
 
 2018-03-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	replace default:stone_with_tin
+	changed nodeupdate(pos) to minetest.check_for_falling(pos)
 
 --]]
 
@@ -897,7 +898,7 @@ minetest.register_abm({
 		end
 		for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 7)) do
 			if obj:is_player() then
-				nodeupdate(pos)
+				minetest.check_for_falling(pos)
 			end
 		end
 	end
