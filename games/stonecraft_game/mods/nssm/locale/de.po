@@ -282,6 +282,10 @@ msgid "Sun Feather"
 msgstr "Sonnenfeder"
 
 #: nssm_materials.lua
+msgid "Duck Feather"
+msgstr "Entenfeder"
+
+#: nssm_materials.lua
 msgid "Masticone Fang"
 msgstr "Masticone-Reißzahn"
 

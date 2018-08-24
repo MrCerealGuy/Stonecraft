@@ -11,9 +11,9 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- register butterflies
 local butter_list = {
-	{S("white"), S("White")},
-	{S("red"), S("Red")},
-	{S("violet"), S("Violet")}
+	{"white", S("White")},
+	{"red", S("Red")},
+	{"violet", S("Violet")}
 }
 
 for i in ipairs (butter_list) do

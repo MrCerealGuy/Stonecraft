@@ -1808,7 +1808,7 @@ end
 
 local function nssm_register_egg (name, descr)
 	minetest.register_craftitem("nssm:".. name, {
-		description = descr .. S(" Egg"),
+		description = S(descr) .. S(" Egg"),
 		image = name.."_egg.png",
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos1=minetest.get_pointed_thing_position(pointed_thing, true)
@@ -1824,7 +1824,7 @@ end
 
 local function nssm_register_egg2 (name, descr) --mobs you can't catch
 	minetest.register_craftitem("nssm:".. name.."_egg", {
-		description = descr .. " Egg",
+		description = S(descr) .. S(" Egg"),
 		image = name.."_egg.png",
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos1=minetest.get_pointed_thing_position(pointed_thing, true)

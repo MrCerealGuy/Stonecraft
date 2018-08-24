@@ -18,18 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: init.lua
-msgid "white"
-msgstr "weißer"
-
-#: init.lua
-msgid "red"
-msgstr "roter"
-
-#: init.lua
-msgid "violet"
-msgstr "violetter"
-
-#: init.lua
 msgid "White"
 msgstr "Weißer"
 
