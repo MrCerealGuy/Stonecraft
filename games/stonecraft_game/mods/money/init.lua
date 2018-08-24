@@ -3,6 +3,17 @@
 	Version 2012.8.12.0
 ]]
 
+--[[
+
+2018-08-24 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 dofile(minetest.get_modpath("money") .. "/settings.txt") --Loading settings.
 
 --Loading accounts
@@ -210,7 +221,7 @@ end
 
 --Shop.
 minetest.register_node("money:shop", {
-	description = "Shop",
+	description = S("Shop"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "money_shop_front.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -401,7 +412,7 @@ minetest.register_alias("shop", "money:shop")
 
 --Barter shop.
 minetest.register_node("money:barter_shop", {
-	description = "Barter Shop",
+	description = S("Barter Shop"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "money_barter_shop_front.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -533,7 +544,7 @@ minetest.register_alias("barter_shop", "money:barter_shop")
 
 --Admin shop.
 minetest.register_node("money:admin_shop", {
-	description = "Admin Shop",
+	description = S("Admin Shop"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "money_admin_shop_front.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
@@ -643,7 +654,7 @@ minetest.register_alias("admin_shop", "money:admin_shop")
 
 --Admin barter shop.
 minetest.register_node("money:admin_barter_shop", {
-	description = "Admin Barter Shop",
+	description = S("Admin Barter Shop"),
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "money_admin_barter_shop_front.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
