@@ -284,7 +284,7 @@ function default.chest.register_chest(name, d)
 end
 
 default.chest.register_chest("chest", {
-	description = "Chest",
+	description = S("Chest"),
 	tiles = {
 		"default_chest_top.png",
 		"default_chest_top.png",
@@ -300,7 +300,7 @@ default.chest.register_chest("chest", {
 })
 
 default.chest.register_chest("chest_locked", {
-	description = "Locked Chest",
+	description = S("Locked Chest"),
 	tiles = {
 		"default_chest_top.png",
 		"default_chest_top.png",

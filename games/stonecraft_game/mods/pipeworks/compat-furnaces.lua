@@ -1,4 +1,14 @@
 
+--[[
+
+2018-08-24 MrCerealGuy: added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- this file is basically a modified copy of
 -- minetest_game/mods/default/furnaces.lua
 
@@ -271,7 +281,7 @@ end
 --
 
 minetest.register_node(":default:furnace", {
-	description = "Furnace",
+	description = S("Furnace"),
 	tiles = {
 		"default_furnace_top.png"..tube_entry,
 		"default_furnace_bottom.png"..tube_entry,
@@ -359,7 +369,7 @@ minetest.register_node(":default:furnace", {
 })
 
 minetest.register_node(":default:furnace_active", {
-	description = "Furnace",
+	description = S("Furnace"),
 	tiles = {
 		"default_furnace_top.png"..tube_entry,
 		"default_furnace_bottom.png"..tube_entry,

@@ -517,7 +517,7 @@ for _, side in ipairs({"diagonal_left", "diagonal_right", "horizontal"}) do
 end
 
 homedecor.register("spiral_staircase", {
-	description = "Spiral Staircase",
+	description = S("Spiral Staircase"),
 	mesh = "homedecor_spiral_staircase.obj",
 	wield_scale = { x=0.4, y=0.4, z=0.4 },
 	tiles = {

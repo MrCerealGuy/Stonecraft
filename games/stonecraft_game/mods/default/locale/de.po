@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: chests.lua
+msgid "Chest"
+msgstr "Truhe"
+
+#: chests.lua
+msgid "Locked Chest"
+msgstr "Verschlossene Truhe"
+
 #: nodes.lua
 msgid "Stone"
 msgstr "Stein"
@@ -212,6 +220,10 @@ msgstr "Blätter"
 #: nodes.lua
 msgid "Apple"
 msgstr "Apfel"
+
+#: nodes.lua
+msgid "Apple Marker"
+msgstr "Apfelmarkierung"
 
 #: nodes.lua
 msgid "Jungle Tree"
@@ -448,14 +460,6 @@ msgstr "Lavaquelle"
 #: nodes.lua
 msgid "Flowing Lava"
 msgstr "Fließende Lava"
-
-#: nodes.lua
-msgid "Chest"
-msgstr "Truhe"
-
-#: nodes.lua
-msgid "Locked Chest"
-msgstr "Verschlossene Truhe"
 
 #: nodes.lua
 msgid "Bookshelf"

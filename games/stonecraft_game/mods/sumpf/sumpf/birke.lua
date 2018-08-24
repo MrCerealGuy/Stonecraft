@@ -260,7 +260,7 @@ end
 -- legacy
 
 minetest.register_node("sumpf:tree_horizontal", {
-	description = "horizontal birch trunk",
+	description = S("Horizontal birch trunk"),
 	tiles = {"birke_tree.png", "birke_tree.png", "birke_tree.png^[transformR90",
 		"birke_tree.png^[transformR90", "birke_tree_top.png"},
 	paramtype2 = "facedir",

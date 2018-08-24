@@ -233,6 +233,10 @@ msgid "Life Energy Ore"
 msgstr "Lebensenergie-Erz"
 
 #: nodes.lua
+msgid "Moranga Lump"
+msgstr "Moranga-Klumpen"
+
+#: nodes.lua
 msgid "Moranga Ingot"
 msgstr "Moranga-Barren"
 

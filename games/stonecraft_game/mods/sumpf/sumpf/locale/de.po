@@ -33,7 +33,7 @@ msgid "mossy birch trunk"
 msgstr "Bemooster Birkenstamm"
 
 #: birke.lua
-msgid "horizontal birch trunk"
+msgid "Horizontal birch trunk"
 msgstr "Horizontaler Birkenstamm"
 
 #: init.lua

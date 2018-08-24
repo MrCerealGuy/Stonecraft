@@ -296,7 +296,7 @@ minetest.register_node("mesecons_pistons:piston_normal_off", {
 
 -- onstate
 minetest.register_node("mesecons_pistons:piston_normal_on", {
-	description = "Activated Piston Base",
+	description = S("Activated Piston Base"),
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_piston_top.png",

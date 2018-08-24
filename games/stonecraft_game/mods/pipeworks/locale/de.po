@@ -45,6 +45,10 @@ msgstr "Autocrafter"
 msgid "Locked Chest (owned by "
 msgstr "Verschlossene Truhe (gehört ""
 
+#: compat-furnaces.lua
+msgid "Furnace"
+msgstr "Schmelzofen"
+
 #: crafts.lua
 msgid "Oil extract"
 msgstr "Ölextrakt"

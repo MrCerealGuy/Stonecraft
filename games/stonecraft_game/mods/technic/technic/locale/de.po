@@ -186,6 +186,10 @@ msgstr "@1 ist eingeschaltet"
 msgid "@1 Unpowered"
 msgstr "@1 hat keine Stromversorgung"
 
+#: machines/MV/power_radiator.lua
+msgid "MV Power Radiator"
+msgstr "MV Leistungsstrahler"
+
 #: machines/HV/forcefield.lua machines/HV/quarry.lua machines/LV/cnc.lua
 #: machines/LV/music_player.lua machines/MV/tool_workshop.lua
 #: machines/other/coal_alloy_furnace.lua machines/register/machine_base.lua

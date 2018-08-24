@@ -58,7 +58,7 @@ minetest.register_node("fireflies:firefly", {
 })
 
 minetest.register_node("fireflies:hidden_firefly", {
-	description = "Hidden Firefly",
+	description = S("Hidden Firefly"),
 	drawtype = "airlike",
 	inventory_image = "fireflies_firefly.png",
 	wield_image =  "fireflies_firefly.png",

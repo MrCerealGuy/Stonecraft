@@ -337,7 +337,7 @@ for i in pairs(TRuNKS) do
 			local des = node.description
 
 			minetest.register_node("trunks:"..TRuNK.."root", {
-				description = des.." "..S("Root"),
+				description = des..S(" Root"),	-- MERGEINFO: changed by MrCerealGuy, works better with moretrees de translation
 				paramtype = "light",
 				paramtype2 = "facedir",
 				tiles = {

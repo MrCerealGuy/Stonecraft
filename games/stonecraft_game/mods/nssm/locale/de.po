@@ -151,7 +151,39 @@ msgstr "Spinnenentebeschwörungs"
 
 #: nssm_spears.lua
 msgid " spear"
-msgstr " Speer"
+msgstr "speer"
+
+#: nssm_spears.lua
+msgid "Ant"
+msgstr "Ameisen"
+
+#: nssm_spears.lua
+msgid "Mantis"
+msgstr "Mantis"
+
+#: nssm_spears.lua
+msgid "Manticore"
+msgstr "Mantikor"
+
+#: nssm_spears.lua
+msgid "Ice Tooth"
+msgstr "Eiszahn"
+
+#: nssm_spears.lua
+msgid "Little Ice Tooth"
+msgstr "Kleiner Eiszahn"
+
+#: nssm_spears.lua
+msgid "Duck Beak"
+msgstr "Entenschnabel"
+
+#: nssm_spears.lua
+msgid "Felucco Horn"
+msgstr "Felucco Horn"
+
+#: nssm_spears.lua
+msgid "Spear of Peace"
+msgstr "Speer des Friedens"
 
 #: nssm_materials.lua
 msgid "Sky Feather"
@@ -272,6 +304,14 @@ msgstr "Lebensenergie"
 #: nssm_materials.lua
 msgid "Wolf Fur"
 msgstr "Wolfspelz"
+
+#: nssm_materials.lua
+msgid "Felucco Fur"
+msgstr "Felucco-Pelz"
+
+#: nssm_materials.lua
+msgid "Felucco Horn"
+msgstr "Felucco-Horn"
 
 #: nssm_materials.lua
 msgid "Energy Globe"

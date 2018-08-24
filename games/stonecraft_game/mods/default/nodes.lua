@@ -763,7 +763,7 @@ minetest.register_node("default:apple", {
 })
 
 minetest.register_node("default:apple_mark", {
-	description = "Apple Marker",
+	description = S("Apple Marker"),
 	drawtype = "airlike",
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -1530,7 +1530,7 @@ minetest.register_node("default:marram_grass_1", {
 
 for i = 2, 3 do
 	minetest.register_node("default:marram_grass_" .. i, {
-		description = "Marram Grass",
+		description = S("Marram Grass"),
 		drawtype = "plantlike",
 		waving = 1,
 		tiles = {"default_marram_grass_" .. i .. ".png"},

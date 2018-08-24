@@ -755,7 +755,7 @@ minetest.register_node("nssb:life_energy_ore", {
 })
 
 minetest.register_craftitem("nssb:moranga_lump", {
-	description = "Moranga Lump",
+	description = S("Moranga Lump"),
 	image = "moranga_lump.png",
 })
 

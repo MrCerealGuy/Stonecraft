@@ -416,8 +416,8 @@ msgid "Twigs Roof Corner 2"
 msgstr "Zweigdachecke 2"
 
 #: ../trunks/nodes.lua
-msgid "Root"
-msgstr "Wurzel"
+msgid " Root"
+msgstr "wurzel"
 
 #: ../vines/crafts.lua ../vines/vines.lua
 msgid "Vines"

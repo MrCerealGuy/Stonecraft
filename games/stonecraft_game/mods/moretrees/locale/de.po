@@ -171,35 +171,35 @@ msgstr "Akazien"
 
 #: node_defs.lua
 msgid "@1 Trunk"
-msgstr "@1-Stamm"
+msgstr "@1stamm"
 
 #: node_defs.lua
 msgid "@1 Planks"
-msgstr "@1-Bretter"
+msgstr "@1bretter"
 
 #: node_defs.lua
 msgid "@1 Sapling"
-msgstr "@1-Setzling"
+msgstr "@1setzling"
 
 #: node_defs.lua
 msgid "@1 Leaves"
-msgstr "@1-Blätter"
+msgstr "@1blätter"
 
 #: node_defs.lua
 msgid "@1 Trunk Stair"
-msgstr "@1-Stammtreppe"
+msgstr "@1stammtreppe"
 
 #: node_defs.lua
 msgid "@1 Trunk Slab"
-msgstr "@1-Stammstufe"
+msgstr "@1stammstufe"
 
 #: node_defs.lua
 msgid "@1 Planks Stair"
-msgstr "@1-Brettertreppe"
+msgstr "@1brettertreppe"
 
 #: node_defs.lua
 msgid "@1 Planks Slab"
-msgstr "@1-Bretterstufe"
+msgstr "@1bretterstufe"
 
 #: node_defs.lua
 msgid "Jungle Tree Leaves (@1)"

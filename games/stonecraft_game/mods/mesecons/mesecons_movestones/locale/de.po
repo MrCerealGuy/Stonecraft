@@ -24,3 +24,11 @@ msgstr "Bewegungsstein"
 #: init.lua
 msgid "Sticky Movestone"
 msgstr "Klebriger Bewegungsstein"
+
+#: init.lua
+msgid "Vertical Movestone"
+msgstr "Vertikaler Bewegungsstein"
+
+#: init.lua
+msgid "Vertical Sticky Movestone"
+msgstr "Vertikaler klebriger Bewegungsstein"

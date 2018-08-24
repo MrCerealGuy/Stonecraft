@@ -50,6 +50,10 @@ msgid "Crystal Pickaxe"
 msgstr "Kristallspitzhacke"
 
 #: crystal.lua
+msgid "Crystal Shovel"
+msgstr "Kristallschaufel"
+
+#: crystal.lua
 msgid "Crystal (soft touch) Shovel"
 msgstr "Kristallschaufel (Behutsamkeit)"
 
@@ -103,7 +107,7 @@ msgstr "Ödnis"
 
 #: dirt.lua
 msgid "@1 Dirt"
-msgstr "@1erde"
+msgstr "@1 Erde"
 
 #: dirt.lua
 msgid "Red Baked Clay"
@@ -415,7 +419,7 @@ msgstr "Pilz"
 
 #: plantlife.lua
 msgid "Fiery"
-msgstr "Feuerrotes"
+msgstr "Glut"
 
 #: plantlife.lua
 msgid "Gray"

@@ -22,5 +22,9 @@ msgid "Piston"
 msgstr "Kolben"
 
 #: init.lua
+msgid "Activated Piston Base"
+msgstr "Aktivierter Kolbensockel"
+
+#: init.lua
 msgid "Sticky Piston"
 msgstr "Klebriger Kolben"

@@ -231,7 +231,7 @@ for k,v in pairs(erosion_materials) do local drt = eroding_nodes[k][2] == "dirt"
 	v.groups.crumbly,v.groups.falling_node,v.groups.not_in_creative_inventory = 3,1,1
 	if not drt or k == "dirt" then
 		minetest.register_node("erosion:fall_"..k, {
-			description = S("Loose ")..v.description,
+			description = v.description .. S(" (loose)"),
 			tiles = v.tiles,
 			groups = v.groups,
 			sounds = v.sounds,

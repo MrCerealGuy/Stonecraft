@@ -10,6 +10,17 @@
 --
 -- Punching the radiator will toggle the power state of all attached appliances.
 
+--[[
+
+2018-08-24 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 local power_radius = 12
 
 
@@ -118,7 +129,7 @@ local toggle_on_off_inductive_appliances = function(pos, node, puncher)
 end
 
 minetest.register_node("technic:power_radiator", {
-	description = "MV Power Radiator",
+	description = S("MV Power Radiator"),
 	tiles  = {"technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png",
 	          "technic_lv_cable.png", "technic_lv_cable.png", "technic_lv_cable.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2},

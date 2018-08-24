@@ -54,8 +54,8 @@ msgid "Drifted Snow"
 msgstr "Schneeverwehung"
 
 #: init.lua
-msgid "Loose "
-msgstr "Lockere(r) "
+msgid " (loose)"
+msgstr " (zerstreut)"
 
 #: init.lua
 msgid "Ice"

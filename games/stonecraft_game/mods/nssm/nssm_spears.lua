@@ -148,24 +148,24 @@ local function spears_register_spear(kind, desc, eq, toughness, material)
 end
 
 
-spears_register_spear('ant', 'Ant', 6, 25, 'nssm:ant_mandible')
+spears_register_spear('ant', S('Ant'), 6, 25, 'nssm:ant_mandible')
 
-spears_register_spear('mantis', 'Mantis', 6, 10, 'nssm:mantis_claw')
+spears_register_spear('mantis', S('Mantis'), 6, 10, 'nssm:mantis_claw')
 
-spears_register_spear('manticore', 'Manticore', 8, 8, 'nssm:manticore_spine')
+spears_register_spear('manticore', S('Manticore'), 8, 8, 'nssm:manticore_spine')
 
-spears_register_spear('ice_tooth', 'Ice Tooth', 16, 200, 'nssm:ice_tooth')
+spears_register_spear('ice_tooth', S('Ice Tooth'), 16, 200, 'nssm:ice_tooth')
 
-spears_register_spear('little_ice_tooth', 'Little Ice Tooth', 7, 10, 'nssm:little_ice_tooth')
+spears_register_spear('little_ice_tooth', S('Little Ice Tooth'), 7, 10, 'nssm:little_ice_tooth')
 
-spears_register_spear('duck_beak', 'Duck Beak', 5, 6, 'nssm:duck_beak')
+spears_register_spear('duck_beak', S('Duck Beak'), 5, 6, 'nssm:duck_beak')
 
-spears_register_spear('felucco_horn', 'Felucco Horn', 7, 9, 'nssm:felucco_horn')
+spears_register_spear('felucco_horn', S('Felucco Horn'), 7, 9, 'nssm:felucco_horn')
 
 
 --Spear of peace
 minetest.register_tool("nssm:spear_of_peace", {
-	description = "Spear of Peace",
+	description = S("Spear of Peace"),
 	wield_image = "spear_of_peace.png",
 	inventory_image = "spear_of_peace.png^[transform4",
 	wield_scale= {x=4,y=2,z=2},
