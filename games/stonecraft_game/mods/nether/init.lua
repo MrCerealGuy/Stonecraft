@@ -5,7 +5,7 @@
 
 2017-09-17 added intllib support
 
-2017-10-10 set nether depth from -5.000 to -20.000 (Morlendor begins at -30.000)
+2017-10-10 set nether depth from -20.000 to -30.000 (Morlendor begins at -30.000)
 
 2017-10-10 register_on_generated: added Morlendor depth check
 		   make_portal: added Morlendor depth check
