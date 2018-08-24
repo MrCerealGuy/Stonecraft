@@ -1,7 +1,17 @@
+--[[
+
+2016-11-28 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	MrCerealGuy: added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 -- slightly lower than a normal nodes for better look
 minetest.register_node("mg_villages:road", {
-	description = "village road",
+	description = S("Village road"),
 	tiles = {"default_gravel.png", "default_dirt.png"},
         is_ground_content = false, -- will not be removed by the cave generator
         groups = {crumbly=2}, -- does not fall
@@ -28,7 +38,7 @@ end
 
 -- special soil that does not need abms/lbms or water
 minetest.register_node("mg_villages:soil", {
-	description = "Soil found on a field",
+	description = S("Soil found on a field"),
 	tiles = {"default_dirt.png^farming_soil_wet.png", "default_dirt.png"},
 	drop = "default:dirt",
 	is_ground_content = true,
@@ -37,7 +47,7 @@ minetest.register_node("mg_villages:soil", {
 })
 
 minetest.register_node("mg_villages:desert_sand_soil", {
-	description = "Desert Sand",
+	description = S("Desert Sand"),
 	tiles = {"default_desert_sand.png^farming_soil_wet.png", "default_desert_sand.png"},
 	is_ground_content = true,
 	drop   = "default:desert_sand",
@@ -50,7 +60,7 @@ minetest.register_node("mg_villages:desert_sand_soil", {
 if( mg_villages.USE_DEFAULT_3D_TORCHES == false ) then
 	-- This torch is not hot. It will not melt snow and cause no floodings in villages.
 	minetest.register_node("mg_villages:torch", {
-		description = "Torch",
+		description = S("Torch"),
 		drawtype = "torchlike",
 		--tiles = {"default_torch_on_floor.png", "default_torch_on_ceiling.png", "default_torch.png"},
 		tiles = {
@@ -82,7 +92,7 @@ end
 
 -- get information about a plot, the building, its inhabitants; allow to buy the plot etc.
 minetest.register_node("mg_villages:plotmarker", {
-	description = "Plot marker",
+	description = S("Plot marker"),
 	drawtype = "nodebox",
 	tiles = {"default_stone_brick.png"},
 	is_ground_content = false,
@@ -117,7 +127,7 @@ minetest.register_node("mg_villages:plotmarker", {
 
 -- place this node where a mob that works in your building ought to stand
 minetest.register_node("mg_villages:mob_workplace_marker", {
-	description = "Place where a mob ought to work",
+	description = S("Place where a mob ought to work"),
 	drawtype = "nodebox",
 	tiles = {"character.png"},
 	paramtype = "light",
@@ -135,7 +145,7 @@ minetest.register_node("mg_villages:mob_workplace_marker", {
 
 -- helper node for villager/mob mods that want to spawn npc
 minetest.register_node("mg_villages:mob_spawner", {
-	description = "Mob spawner",
+	description = S("Mob spawner"),
 	tiles = {"wool_cyan.png^beds_bed_fancy.png","wool_blue.png^doors_door_wood.png"},
 	is_ground_content = false,
 	groups = {not_in_creative_inventory = 1 }, -- cannot be digged by players
@@ -157,7 +167,7 @@ if( not( mg_villages.use_normal_unsafe_lava )) then
 		new_def.groups.hot     = nil;
 		new_def.groups.igniter = nil;
 		new_def.groups.lava_tamed = 3;
-		new_def.description = "Lava Source (tame)";
+		new_def.description = S("Lava Source (tame)");
 		new_def.liquid_alternative_flowing = "mg_villages:lava_flowing_tamed";
 		new_def.liquid_alternative_source = "mg_villages:lava_source_tamed";
 		-- we create a NEW type of lava for this
@@ -175,7 +185,7 @@ if( not( mg_villages.use_normal_unsafe_lava )) then
 		new_def.groups.hot     = nil;
 		new_def.groups.igniter = nil;
 		new_def.groups.lava_tamed = 3;
-		new_def.description = "Flowing Lava (tame)";
+		new_def.description = S("Flowing Lava (tame)");
 		new_def.liquid_alternative_flowing = "mg_villages:lava_flowing_tamed";
 		new_def.liquid_alternative_source = "mg_villages:lava_source_tamed";
 		-- and a NEW type of flowing lava...
