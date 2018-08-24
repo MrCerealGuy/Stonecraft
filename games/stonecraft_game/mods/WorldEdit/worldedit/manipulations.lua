@@ -69,7 +69,7 @@ function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
 	local manip, area = mh.init(pos1, pos2)
-	local data = manip:load_data_into_heap()
+	local data = manip:get_data()
 
 	local search_id = minetest.get_content_id(search_node)
 	local replace_id = minetest.get_content_id(replace_node)
@@ -81,15 +81,15 @@ function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 	-- to matter?
 	if not inverse then
 		for i in area:iterp(pos1, pos2) do
-			if manip:get_data_from_heap(data, i) == search_id then
-				manip:set_data_from_heap(data, i, replace_id)
+			if data[i] == search_id then
+				data[i] = replace_id
 				count = count + 1
 			end
 		end
 	else
 		for i in area:iterp(pos1, pos2) do
-			if manip:get_data_from_heap(data, i) ~= search_id then
-				manip:set_data_from_heap(data, i, replace_id)
+			if data[i] ~= search_id then
+				data[i] = replace_id
 				count = count + 1
 			end
 		end
@@ -301,7 +301,7 @@ function worldedit.stack(pos1, pos2, axis, count)
 	local amount = 0
 	local copy = worldedit.copy
 	local i = 1
-	function next_one()
+	local function next_one()
 		if i <= count then
 			i = i + 1
 			amount = amount + length

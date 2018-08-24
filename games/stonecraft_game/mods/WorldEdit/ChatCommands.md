@@ -283,13 +283,13 @@ Stack the current WorldEdit region `<count>` times by offset `<x>`, `<y>`, `<z>`
     //stack2 5 3 8 2
     //stack2 1 -1 -1 -1
 
-### `//scale <factor>`
+### `//stretch <stretchx> <stretchy> <stretchz>`
 
-Scale the current WorldEdit positions and region by a factor of positive integer `<factor>` with position 1 as the origin.
+Scale the current WorldEdit positions and region by a factor of `<stretchx>`, `<stretchy>`, `<stretchz>` along the X, Y, and Z axes, repectively, with position 1 as the origin.
 
-    //scale 2
-    //scale 1
-    //scale 10
+    //scale 2 2 2
+    //scale 1 2 1
+    //scale 10 20 1
 
 ### `//transpose x/y/z/? x/y/z/?`
 
@@ -463,3 +463,14 @@ Contracts the selection in all directions by `<amount>`. If specified, the selec
 or vertically in the y axis `[v]`.
 
 		//outset v 5
+
+### `//brush none/<command> [parameters]`
+
+Assigns the given `<command>` to the currently held brush item, it will be ran with the first pointed solid node (as determined via raycast) as
+WorldEdit position 1 when using that specific brush item.
+Passing `none` instead clears the command assigned to the currently held brush item.
+Note that this functionality requires the `worldedit_brush` mod enabled.
+
+		//brush cube 8 8 8 Cobblestone
+		//brush spr 12 glass
+		//brush none
