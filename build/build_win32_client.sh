@@ -55,6 +55,8 @@ echo -e "\E[34;47mGenerate Manual.html with Pandoc..."
 cd $stonecraftdir/util/
 ./convert_manual-md2html.sh
 
+echo -e "\E[34;47mdone!"
+
 
 # Get stonecraft
 echo -e "\E[34;47mCopy stonecraft files into build dir..."
