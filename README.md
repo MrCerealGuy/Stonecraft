@@ -392,7 +392,7 @@ See README.txt in each mod/textures directory for information about other author
 # License of Stonecraft source code
 
 Stonecraft
-Copyright (C) 2016-2017 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
+Copyright (C) 2016-2018 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -411,8 +411,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 # License of Minetest Engine source code
 
-Minetest Engine
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
+Minetest
+Copyright (C) 2010-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -511,25 +511,18 @@ THE SOFTWARE.
 
 # Fonts
 
-DejaVu Sans Mono:
-
-  Fonts are (c) Bitstream (see below). DejaVu changes are in public domain.
-  Glyphs imported from Arev fonts are (c) Tavmjong Bah (see below)
-
 Bitstream Vera Fonts Copyright:
 
   Copyright (c) 2003 by Bitstream, Inc. All Rights Reserved. Bitstream Vera is
   a trademark of Bitstream, Inc.
 
-Arev Fonts Copyright:
+Arimo - Apache License, version 2.0
+  Digitized data copyright (c) 2010-2012 Google Corporation.
 
-  Copyright (c) 2006 by Tavmjong Bah. All Rights Reserved.
+Cousine - Apache License, version 2.0
+  Digitized data copyright (c) 2010-2012 Google Corporation.
 
-Liberation Fonts Copyright:
-
-  Copyright (c) 2007 Red Hat, Inc. All rights reserved. LIBERATION is a trademark of Red Hat, Inc.
-
-DroidSansFallback:
+DroidSansFallBackFull:
 
   Copyright (C) 2008 The Android Open Source Project
 
