@@ -421,7 +421,7 @@ void Server::start()
 	m_thread->start();
 
 	// ASCII art for the win!
-	actionstream
+	std::cerr
 	<<"  _________ __                                            _____  __   " << std::endl
 	<<" /   _____//  |_  ____   ____   ____   ________________ _/ ____\\/  |_ " << std::endl
 	<<" \\_____  \\   __\\/  _ \\ /    \\_/ __ \\_/ ___\\_  __ \\__  \\\\   __\\\\   __\\" << std::endl
