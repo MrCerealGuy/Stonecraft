@@ -392,7 +392,7 @@ There are three big underground realms:
   * Caverealms
   * Nether
   * Morlendor (Not So Simple Mobs must be enabled)
-  
+
 Here is an overview where the realms are located in the depth:
 
 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Underground_Realms.png)
