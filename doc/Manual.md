@@ -1,3 +1,7 @@
+% Stonecraft Wiki
+% Andreas Zahnleiter
+% August 25, 2018
+
 # Welcome to Stonecraft
 
 Copyright © 2016-2018 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
@@ -13,29 +17,30 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 **Table of contents**
 
 1. [First steps](#first-steps)
-    1. [Creating a world](#creating-a-world)
-    2. [Map generator](#map-generator)
-    3. [Biomes](#biomes)
-    4. [Basic Controls](#basic-controls)
-    5. [Using blocks/items](#using-blocksitems)
-        1. [Taking](#taking)
-        2. [Dropping](#dropping)
-        3. [Exchanging](#exchanging)
-        4. [Throwing away](#throwing-away)
-        5. [Automatic transfer](#automatic-transfer)
-    6. [Changing your skin](#changing-your-skin)
+	1. [Creating a world](#creating-a-world)
+	2. [Map generator](#map-generator)
+	3. [Biomes](#biomes)
+	4. [Underground realms](#underground-realms)
+	5. [Basic Controls](#basic-controls)
+	6. [Using blocks/items](#using-blocksitems)
+		1. [Taking](#taking)
+		2. [Dropping](#dropping)
+		3. [Exchanging](#exchanging)
+		4. [Throwing away](#throwing-away)
+		5. [Automatic transfer](#automatic-transfer)
+	7. [Changing your skin](#changing-your-skin)
 2. [Crafting](#crafting)
-    1. [Crafting grid and output slot](#crafting-grid-and-output-slot)
-    2. [Shaped and shapeless recipes](#shaped-and-shapeless-recipes)
-    3. [Example recipes](#example-recipes)
-        1. [Shapeless recipes](#shapeless-recipes)
-        2. [Shaped recipes](#shaped-recipes)
-    4. [Smelting](#smelting)
-        1. [Fuel](#fuel)
-        2. [Recipeshttps](#recipes)
+	1. [Crafting grid and output slot](#crafting-grid-and-output-slot)
+	2. [Shaped and shapeless recipes](#shaped-and-shapeless-recipes)
+	3. [Example recipes](#example-recipes)
+		1. [Shapeless recipes](#shapeless-recipes)
+		2. [Shaped recipes](#shaped-recipes)
+	4. [Smelting](#smelting)
+		1. [Fuel](#fuel)
+		2. [Recipeshttps](#recipes)
 3. [Mobs](#mobs)
-    1. [Simple Mobs](#simple-mobs)
-    2. [Not So Simple Mobs](#not-so-simple-mobs)
+	1. [Simple Mobs](#simple-mobs)
+	2. [Not So Simple Mobs](#not-so-simple-mobs)
 4. [Farming](#farming)
 5. [Technic](#technic)
 	1. [Machines](#machines)
@@ -102,31 +107,32 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 		15. [Sand Vacuum Tubes](#sand-vacuum-tubes)
 		16. [Mese Sand Vacuum Tubes](#mese-sand-vacuum-tubes)
 7. [Chat](#chat)
-    1. [Sending messages](#sending-messages)
+	1. [Sending messages](#sending-messages)
 8. [Experienced players](#experienced-players)
-    1. [Area protection](#area-protection)
-    2. [Teleporters](#teleporters)
-    3. [Special Controls](#special-controls)
-    4. [Server commands](#server-commands)
-        1. [Issuing a commands](#issuing-a-command)
-        2. [General syntax](#general-syntax)
-        3. [Command reference of built-in commands](#command-reference-of-built-in-commands)
-    5. [Privileges](#privileges)
-        1. [Built-in privileges](#built-in-privileges)
-        2. [Privileges from mods](#privileges-from-mods)
-        3. [Server configuration](#server-configuration)
-    6. [Create and import a schematic file (.mts)](#create-and-import-a-schematic-file-mts)
+	1. [Area protection](#area-protection)
+	2. [Teleporters](#teleporters)
+	3. [Special Controls](#special-controls)
+	4. [Server commands](#server-commands)
+		1. [Issuing a commands](#issuing-a-command)
+		2. [General syntax](#general-syntax)
+		3. [Command reference of built-in commands](#command-reference-of-built-in-commands)
+	5. [Privileges](#privileges)
+		1. [Built-in privileges](#built-in-privileges)
+		2. [Privileges from mods](#privileges-from-mods)
+		3. [Server configuration](#server-configuration)
+	6. [WorldEdit Chat Commands](#worldedit-chat-commands)
+	7. [Create and import a schematic file (.mts) with WorldEdit](#create-and-import-a-schematic-file-mts-with-worldedit)
 9. [Setting up a server](#setting-up-a-server)
-    1. [Running a dedicated server](#running-a-dedicated-server)
-        1. [Linux](#linux)
-        2. [Windows](#windows)
+	1. [Running a dedicated server](#running-a-dedicated-server)
+		1. [Linux](#linux)
+		2. [Windows](#windows)
 10. [Modding Stonecraft](#modding-stonecraft)
-    1. [Installing mods](#installing-mods)
-    2. [Installing texture packs](#installing-texture-packs)
-        1. [Server texture pack](#server-texture-pack)
-    3. [Profiling mods](#profiling-mods)
+	1. [Installing mods](#installing-mods)
+	2. [Installing texture packs](#installing-texture-packs)
+		1. [Server texture pack](#server-texture-pack)
+	3. [Profiling mods](#profiling-mods)
 11. [Troubleshooting](#troubleshooting)
-    1. [Multiplayer/Network issues](#multiplayernetwork-issues)
+	1. [Multiplayer/Network issues](#multiplayernetwork-issues)
 
 # First steps
 
@@ -379,6 +385,32 @@ Water caves are caves that only occur at sea level, which turn into a huge under
 
 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Water_cave_0.4.7_alternative.png)
 
+## Underground realms
+
+There are three big underground realms:
+
+  * Caverealms
+  * Nether
+  * Morlendor (Not So Simple Mobs must be enabled)
+  
+Here is an overview where the realms are located in the depth:
+
+![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Underground_Realms.png)
+
+No worry, you don't have to dig to Nether or Morlendor, there are special portals for them.
+
+### Caverealms
+
+Coming soon!
+
+### Nether
+
+Coming soon!
+
+### Morlendor
+
+Coming soon!
+
 ## Basic Controls
 
 Most of these can be changed in the "Change Keys" menu. The default and most important controls are:
@@ -507,24 +539,24 @@ Most crafting recipes are _shaped recipes_. If not noted otherwise, it is assume
 | Paper | Papyrus | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped1.jpg) |
 | Paper | Papyrus | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped2.jpg) |
 | Paper | Papyrus | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped3.jpg) |
-  
- 
+
+
 ## Smelting
 
 ### Fuel
  
 |  | Block | Burning time in seconds | Items smelted for fuel |
 | ------------- | ------------- | ------------- | ------------- |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal_block.png) | Coal Block | 370 | 123⅓ |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal_block.png) | Coal Block | 370 | 123 1/3 |
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Bucket_lava.png) | Lava Bucket | 60 | 20 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal.png) | Coal Lump | 40 | 13⅓ |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Jungle_Tree.png) | Jungle Tree | 38 | 12⅔​​ |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Acacia_Tree.png) | Acacia Tree | 34 | 11⅓ |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal.png) | Coal Lump | 40 | 13 1/3 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Jungle_Tree.png) | Jungle Tree | 38 | 12 2/3 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Acacia_Tree.png) | Acacia Tree | 34 | 11 1/3 |
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Tree.png) | Tree | 30 | 10 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Pine_Tree.png) | Pine Tree | 26 | 8​⅔ |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Aspen_Tree.png) | Aspen Tree | 22 | 7​⅓ |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Pine_Tree.png) | Pine Tree | 26 | 8 2/3 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Aspen_Tree.png) | Aspen Tree | 22 | 7 1/3 |
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Cactus.png) | Cactus | 15 | 5 |
-  
+
 And many more…
 
 ### Recipes
@@ -544,7 +576,7 @@ And many more…
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Group_sand.png) | Sand/Desert sand | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Pile_of_Glass_Fragments.png) | Pile of Glass Fragments | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
 | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Obsidian_shard.png) | Obsidian Shard | ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Obsidian_glass.png) | Obsidian Glass | 3s | Used as decoration or a building material. |
-  
+
 And many more…
 
 # Mobs
@@ -569,43 +601,43 @@ They all drop life energies. With life energies you can craft tools and special 
 
 | Mob | Description | Health/Armor/Damage | Drops |
 | ------------- | ------------- | ------------- | ------------- |
-| Black Widow<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_black_widow.png) | A black widow is a hostile medium sized spider with a big abdomen. They attack with small but powerful chelicerae. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Spider Leg<br>Web |
-| Stone Bloco<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_Stone_bloco.png) | A Bloco is a hostile mob made of stone with a little head, short arms and legs. Bloco Is a little clumsy in walking and he chases his enemies rolling like a ball, a cubic ball obviously!<br><br>He is a true Rolling Stones fan. | 7½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Stone |
-| Crab<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_crab.png) | Crab is a hostile mob that lives on the beach and they don't float in water, they prefer walking on the sand pinching their enemies with their powerful chelas. Crabs have two possible colors of their carapace, red and light orange. | 17![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Surimi<br>Crab Chela |
-| Crocodile<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_crocodile.png) | A Crocodile is a hostile mob. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Crocodile Tail |
-| Daddy Long Legs<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_daddy_long_legs.png) | A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs! | 9½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Spider Leg |
+| Black Widow<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_black_widow.png) | A black widow is a hostile medium sized spider with a big abdomen. They attack with small but powerful chelicerae. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Spider Leg<br>Web |
+| Stone Bloco<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_Stone_bloco.png) | A Bloco is a hostile mob made of stone with a little head, short arms and legs. Bloco Is a little clumsy in walking and he chases his enemies rolling like a ball, a cubic ball obviously!<br><br>He is a true Rolling Stones fan. | 7 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Stone |
+| Crab<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_crab.png) | Crab is a hostile mob that lives on the beach and they don't float in water, they prefer walking on the sand pinching their enemies with their powerful chelas. Crabs have two possible colors of their carapace, red and light orange. | 17![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Surimi<br>Crab Chela |
+| Crocodile<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_crocodile.png) | A Crocodile is a hostile mob. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Crocodile Tail |
+| Daddy Long Legs<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_daddy_long_legs.png) | A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs! | 9 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Spider Leg |
 | Dolidrosaurus<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/98px-Nssm_dolidrosaurus.png) | A Dolidrosaurus is an aquatic reptile hostile mob with a long tail and a fin at the end. They're fully adapted to living in water and they have two others fins on the side which allow them to swim faster and more precisely. Dolidrosaurus derives from greek, Dolicolos means long, Hydor water and Sauros lizard. Dolidrosauruses have five possible variations of their skin: Dark green, green, light green, blue-green and blue-pink. | 13![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy |
-| Duck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
+| Duck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
 | Echidna<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/68px-Nssm_echidna.png) | An Echidna is a beautiful human hostile mob. It's skin is pale, sick-green and they have black hair. They're half naked but you probably won't care, the one who looses himself in thoose evil, but beautiful, eyes is dead. When you are to close she will slash you with her tail. She emits poison to blocks nearby which does not go away, it causes half heart of damage each game tick and you can drown in it like you would in water. | 45![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Snake Scute |
-| Enderduck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/69px-Nssm_enderduck.png) | An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak |
-| Felucco<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Felucco_nssm.png) | The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: "fel" stands for "felino", feline, because of its similarity with leopards. "Ucc" stands for "mucca", cow, because of his peculiar horns and "o" is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear. | 16![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn |
+| Enderduck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/69px-Nssm_enderduck.png) | An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night. | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak |
+| Felucco<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Felucco_nssm.png) | The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: "fel" stands for "felino", feline, because of its similarity with leopards. "Ucc" stands for "mucca", cow, because of his peculiar horns and "o" is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear. | 16![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn |
 | Giant Sandworm<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/74px-Nssm_Giant_sandworm.png) | A Giant Sandworm is a huge hostile mob that likes to stay in one place and damages players when they get within a 7 block range. | 65![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Worm Flesh<br>Black Sand |
 | Icelamander<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_icelamander.png) | The Icelamander is the boss of ice biomes. Nearly nothing could defeat this dangerous mob. Taller than a normal Sam, the Icelamanders have even more frightening jaws than Snow Biters! They have a long tail that helps them to keep the balance on their two legs. The Icelamanders are so cold that they frost everything while walking, not only water! Their frosting power is so strong that they can freeze you in an ice column even from a great distance! Not the simple default ice, but the Coldest Ice, so cold that can freeze the souls of the unlucky creatues trapped in it.<br><br>Icelamander eats their with their horrible fangs that can damage really bad their preys. You have now certainly understood that Icelamanders are really really dangerous. | 230![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
-| Icesnake<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/111px-Nssm_icesnake.png) | An Icesnake is an amphibian that live in ice plains and mountains. Long ago its body has been adapted to cold biomes using ice and cold in order to preserve the water content in cells. In fact the heat produced by the frosting of ice in the environment allows the Icesnake and the others ice amphibians as Snow Biters, Icelamanders and Icelizards to keep in the liquid form their body fluids.<br><br>Icesnakes aren't very big or evil but they attack enemies with their fangs very rapidly. | 13½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
+| Icesnake<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/111px-Nssm_icesnake.png) | An Icesnake is an amphibian that live in ice plains and mountains. Long ago its body has been adapted to cold biomes using ice and cold in order to preserve the water content in cells. In fact the heat produced by the frosting of ice in the environment allows the Icesnake and the others ice amphibians as Snow Biters, Icelamanders and Icelizards to keep in the liquid form their body fluids.<br><br>Icesnakes aren't very big or evil but they attack enemies with their fangs very rapidly. | 13 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
 | Kraken<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/65px-Nssm_kraken.png) | A Kraken is the king of the sea hostile gigantic octopus mob with long tentacles. There attack with tentacles is devastating but there dimensions doesn't allow them to go fast. Females are red-rose as Octpuses, on the other side the males are dark green. Kraken can produce ink in the water which make seeing in water even more difficult. | 75![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Tentacle<br>Tentacle Curly |
-| Larva<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_larva.png) | A Larva is a hostile mob. It is the first stadium of Mantis and Mantis Beasts development. Their body is white and the head is brown. After around half a minute they become Mantis or Mantis Beasts! So be careful and slay all of them before it is too late. | 5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy |
-| Lava Titan<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/90px-Nssm_lava_titan.png) | A Lava Titan is a hostile mob that turns nearby blocks into lava and has two attack styles.<br>- Lava titan hits the ground with his fist, kneels and summons lava blocks diagonaly around players.<br>- Lava titan marches straight toward you rushing through blocks and destroying every block he touches. | 40![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/3½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Lava Bucket<br>Lava Titan Eye |
-| Manticore<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/84px-Nssm_manticore.png) | A Manticore is a strong, fast hostile mob. It attacks either with projectiles from a far or with the scorpion sting on it's tail when you're too near.<br><br>Appearence<br>With face like a man's, a skin red as cinnabar, and is as large as a lion. It has three rows of teeth, ears and light-blue eyes like those of a man; its tail is like that of a land scorpion, containing a sting more than a cubit long at the end. It has other stings on each side of its tail. | 12½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Manticore Spine |
-| Mantis<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/80px-Nssm_mantis.png) | A Mantis is a tall and humanlike hostile mob that has two possible colors and attacks with two powerful kung fu moves with its 4 arms! It walks on two legs looking for fresh meat: you! | 7½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Mantis Claw |
-| Mantis Beast<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_mantis_beast.png) | A Mantis Beast is a hostile mob that is Very similar to their relatives that walk on only two legs, Mantis Beasts are faster thanks to their 6 claws used in running and their position is more "beastly"! | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Mantis Claw |
-| Masticone<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_masticone.png) | A Masticone is a hostile mob that alone isn't a real danger, but when you kill one of them two others come to venge their friend. Kill as many as you can then run as fast as you can! | 7½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Masticone Fang<br>Masticone Skull<br>Fragments |
-| Mese Dragon<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/95px-Nssm_messe_dragon.png) | A Mese Dragon is a massive hostile boss mob with midas touch that turns nearby blocks into mese blocks and has meele and firebreath attack. Mese dragon is not damaged by sunlight, water or lava. | 166½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/8![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Energy Globe<br>Rainbow Staff |
+| Larva<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_larva.png) | A Larva is a hostile mob. It is the first stadium of Mantis and Mantis Beasts development. Their body is white and the head is brown. After around half a minute they become Mantis or Mantis Beasts! So be careful and slay all of them before it is too late. | 5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy |
+| Lava Titan<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/90px-Nssm_lava_titan.png) | A Lava Titan is a hostile mob that turns nearby blocks into lava and has two attack styles.<br>- Lava titan hits the ground with his fist, kneels and summons lava blocks diagonaly around players.<br>- Lava titan marches straight toward you rushing through blocks and destroying every block he touches. | 40![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/3 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Lava Bucket<br>Lava Titan Eye |
+| Manticore<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/84px-Nssm_manticore.png) | A Manticore is a strong, fast hostile mob. It attacks either with projectiles from a far or with the scorpion sting on it's tail when you're too near.<br><br>Appearence<br>With face like a man's, a skin red as cinnabar, and is as large as a lion. It has three rows of teeth, ears and light-blue eyes like those of a man; its tail is like that of a land scorpion, containing a sting more than a cubit long at the end. It has other stings on each side of its tail. | 12 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Manticore Spine |
+| Mantis<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/80px-Nssm_mantis.png) | A Mantis is a tall and humanlike hostile mob that has two possible colors and attacks with two powerful kung fu moves with its 4 arms! It walks on two legs looking for fresh meat: you! | 7 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Mantis Claw |
+| Mantis Beast<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_mantis_beast.png) | A Mantis Beast is a hostile mob that is Very similar to their relatives that walk on only two legs, Mantis Beasts are faster thanks to their 6 claws used in running and their position is more "beastly"! | 10![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Mantis Claw |
+| Masticone<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_masticone.png) | A Masticone is a hostile mob that alone isn't a real danger, but when you kill one of them two others come to venge their friend. Kill as many as you can then run as fast as you can! | 7 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Masticone Fang<br>Masticone Skull<br>Fragments |
+| Mese Dragon<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/95px-Nssm_messe_dragon.png) | A Mese Dragon is a massive hostile boss mob with midas touch that turns nearby blocks into mese blocks and has meele and firebreath attack. Mese dragon is not damaged by sunlight, water or lava. | 166 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/8![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Energy Globe<br>Rainbow Staff |
 | Night Master<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_moonherontrio.png) | A Night Master is a hostile mob that is a special kind of Moonheron that has three heads. | 15![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Heron Leg<br>Night Feather |
-| Octopus<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/106px-Nssm_octopus.png) | An octopus is a hostile mob that is weaker brother of Kraken, they're not able to produce ink and they are all red-rose. | 11![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Tentacle |
+| Octopus<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/106px-Nssm_octopus.png) | An octopus is a hostile mob that is weaker brother of Kraken, they're not able to produce ink and they are all red-rose. | 11![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/-![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Tentacle |
 | Phoenix<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_phoenix.png) | A Phoenix is a hostile mob made of fire and energy. Nobody, unless the sun, is brighter than this beatiful bird in the sky. | 30![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Sun Feather<br>Phoenix Tear<br>Phoenix Nuggets |
-| Pumpking<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/98px-Nssm_pumpking.png) | A Pumpking is a hostile mob king of the pumbooms it is tall creepy creature with a humanlike black thin bodies covered with the blood of their victims, their head is very similar to a Pumpboom and their body to Signosigno. On their death they have a little explosive surprise for the unlucky warrior able enough to defeat them... | 50![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Cursed Pumpkin Seed |
+| Pumpking<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/98px-Nssm_pumpking.png) | A Pumpking is a hostile mob king of the pumbooms it is tall creepy creature with a humanlike black thin bodies covered with the blood of their victims, their head is very similar to a Pumpboom and their body to Signosigno. On their death they have a little explosive surprise for the unlucky warrior able enough to defeat them... | 50![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Cursed Pumpkin Seed |
 | Scrausics<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Scrausics_nssm.png) | A scrausics is a hostile mob. | 15![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Raw Scrausics Wing |
 | Snowbiter<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Snowbiter_nssm.png) | A Snow Biter is a hostile mob. | 15![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Frosted Amphibian Heart<br>Amphibian Ribs<br>Little Ice Tooth |
 | Spiderduck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Spiderduck_nssm.png) | Spiderducks have evolved from Enderducks to become more similar to the spiders. They have a dark skin and 8 legs, but the body is the one of a duck.<br><br>Even if they are not bosses they are extremely dangerous! In fact if you don't know what to expect from a spiderduck you can easily fall in its web and become a tasteful snack! Spiderducks spawn only at night and because of their dark color they are able to easily blend with the environment. If a spiderduck sees you it starts shooting at you web projectiles. When they hit the target a sticky web covers the soil trapping the victims. And if you have been trapped then expect the spiderduck to come at you and to eat you! | 24-35![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Duck legs<br>Life Energy<br>Web<br>Duck beak |
-| Stone Eater<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Stone_Eater_nssm.png) | A Stone Eater is a hostile mob that is imune to any sword weapon. When under attack he bites back while eating stone that is around. | 14![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Stoneater Mandible<br>Stone |
-| Swimming Duck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Swiming_Duck_nssm.png) | A Swimming Duck is a hostile mob. | 12½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak<br>Duck Feather |
+| Stone Eater<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Stone_Eater_nssm.png) | A Stone Eater is a hostile mob that is imune to any sword weapon. When under attack he bites back while eating stone that is around. | 14![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/6![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Stoneater Mandible<br>Stone |
+| Swimming Duck<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Swiming_Duck_nssm.png) | A Swimming Duck is a hostile mob. | 12 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak<br>Duck Feather |
 | Tarantula<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Tarantula_nssm.png) | A Tarantula is a hostile mob that can either bite or slow down your movement trapping you inside a cocon. After killing it Tarantula Propower appears. | 25![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Super Silk Gland |
 | Mordain<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Mordain_nssm.png) | A Mordain is a hostile mob that likes teleporting. | 16![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Slothful Soul Fragment |
-| Morde<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morde_nssm.png) | A Morde is a hostile mob that has an ability to heal himself. | 23½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Proud Soul Fragment |
-| Morgre<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morgre_nssm.png) | A Morgre is a hostile mob that likes to explode. | 17![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Greedy Soul Fragment |
+| Morde<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morde_nssm.png) | A Morde is a hostile mob that has an ability to heal himself. | 23 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Proud Soul Fragment |
+| Morgre<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morgre_nssm.png) | A Morgre is a hostile mob that likes to explode. | 17![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Greedy Soul Fragment |
 | Morgut<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morgut_nssm.png) | Dont let it get to close to you or else it will steal your precious food. You can get your food back by slaying Morgut.<br><br>With the Gluttonous soul fragment it is possible to craft a strong weapon Sword of Gluttony and Food Bomb | 18![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/3![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Gluttonous soul fragment |
 | Morlu<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morlu_nssm.png) | Dont let it get to close to you or else it will steal your precious equipped armor. You can get your armor back by slaying Morlu.<br><br>With the Lustful Soul Fragment it is possible to craft strong Morlu armor and Cage Bomb | 28![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
-| Morvy<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morvy_nssm.png) | A Morvy is a hostile mob that likes summoning. | 19½![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Envious Soul Fragment |
+| Morvy<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morvy_nssm.png) | A Morvy is a hostile mob that likes summoning. | 19 1/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/2![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Envious Soul Fragment |
 | Morwa<br>![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morwa_nssm.png) | A Morwa is a hostile mob that can either range you from afar or smash you when your close enough. | 28![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png)/5![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png)/4![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
 
 # Farming
@@ -614,16 +646,16 @@ Farmable blocks will spawn either new blocks or yield new items, when mined. All
 
 | Block | Grows on | Needs light? | Maximum profit | Theorical growth speed (evolution) | Expected growth speed (full) | Number of growth stages |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton.png) Strings and 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 × 7 = 1120 seconds ≈ 19 minutes | 8 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat.png) Wheat (items) and 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 × 7 = 1260 seconds = 21 minutes | 8 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Tree.png) Jungle Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Tree.png) Trees, many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Leaves.png) Leaves and some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Tree.png) Pine Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 × 50 = 500 seconds ≈ 8 minutes | 2 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 × 20 = 1000 seconds ≈ 17 minutes | 4 |
-| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 × 20 = 1000 seconds ≈ 17 minutes | 4 |
-| Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
-| Group:flora | Desert Sand | No | 1 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 × 25 = 1250 seconds ≈ 21 minutes | 1 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton.png) Strings and 3 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 x 7 = 1120 seconds ~ 19 minutes | 8 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat.png) Wheat (items) and 2 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 x 7 = 1260 seconds = 21 minutes | 8 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Tree.png) Jungle Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Tree.png) Trees, many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Leaves.png) Leaves and some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Tree.png) Pine Trees and many ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
+| ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
+| Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
+| Group:flora | Desert Sand | No | 1 ![](https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
 
 # Technic
 
@@ -641,9 +673,9 @@ Become an engineer in Stonecraft! From simple water-wheel ore proccessing center
 ## Machines
 
 ### Machine details
-- [Generators](#generators)
-- [Consumers](#consumers)
-- [Other machines](#other-machines)
+* [Generators](#generators)
+* [Consumers](#consumers)
+* [Other machines](#other-machines)
 
 ### Overview
 Many of the important machines in Technic run on electricity, using wires to connect generators with the consuming machines. These electric circuits consist of a generator, a consumer, wiring, and a switching station. Every independent circuit requires all 4 of these elements to function. In general the machines are all connected on the bottom by wire. Machines should be placed first and then the wire placed under and around them. The wiring should automatically adjust itself to connect to each machine and adjacent wires. If the wiring looks incorrect, it's likely that it won't work so be sure to check this!
@@ -669,37 +701,40 @@ The generator and switching station should be placed side-by-side with the wire 
 Consumer is a machine which consume energy to do something. 
 
 This is the list of all consumers avaible in technic mod:
-- Alloy furnace.
-- MV Alloy furnace.
-- Grinder.
-- Electric Furnace.
-- MV - Electric Furnace. 
-- Force field emitter.
-- CNC machine.
-- Power radiator.
-- Tool workshop.
+
+* Alloy furnace
+* MV Alloy furnace
+* Grinder
+* Electric Furnace
+* MV - Electric Furnace
+* Force field emitter
+* CNC machine
+* Power radiator
+* Tool workshop
 
 ## Generators
 
 This is list of all generators available in technic mod:
-- Coal generator.
-- [Geothermal EU generator](#geothermal-eu-generator).
-- [Watermill](#watermill).
-- [Solar-panel](#solar-panel).
-- LV [solar-array](#solar-array).
-- MV [solar-array](#solar-array).
-- HV [solar-array](#solar-array).
+
+* Coal generator 
+* [Geothermal EU generator](#geothermal-eu-generator) 
+* [Watermill](#watermill) 
+* [Solar-panel](#solar-panel) 
+* LV [solar-array](#solar-array) 
+* MV [solar-array](#solar-array) 
+* HV [solar-array](#solar-array) 
 
 ## Chests
 
 Technic extends the base chest from `technic_game` with 5 additional chests, each adding additional inventory slots.
 
 There are all types of chests from worst to best:
-  * ![Iron chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_iron_chest_front.png) Iron chest, 9x10 slots
-  * ![Copper chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_copper_chest_front.png) Copper chest, 10x10 slots
-  * ![Silver chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_silver_chest_front.png) Silver chest, 11x10 slots. Can also be named.
-  * ![Gold chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_gold_chest_front.png) Gold chest, 12x10 slots. Can be named and given a unique color.
-  * ![Mithril chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png) Mithril chest, 13x10 slots. **Note:** The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.
+
+* ![Iron chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_iron_chest_front.png) Iron chest, 9x10 slots
+* ![Copper chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_copper_chest_front.png) Copper chest, 10x10 slots
+* ![Silver chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_silver_chest_front.png) Silver chest, 11x10 slots. Can also be named.
+* ![Gold chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_gold_chest_front.png) Gold chest, 12x10 slots. Can be named and given a unique color.
+* ![Mithril chest icon](https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png) Mithril chest, 13x10 slots. **Note:** The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.
  
 ## Resources
 
@@ -754,74 +789,80 @@ You can control some machines with the digilines.
 
 ### Switching Station
 There are two ways getting information from the switching station:
-1. Give it a mesecon signal (eg. with a lever) and it will send always when the supply or demand changes.
 
-2. Send to the switching station `"get"` or `"GET"` and it will send back.
+1. Give it a mesecon signal (eg. with a lever) and it will send always when the supply or demand changes. 
+2. Send to the switching station `"get"` or `"GET"` and it will send back. 
 
 The sent message is always a table containing the supply and demand.
 
 ### Supply Converter
 You can send the following to it:
-- `"get"`: It will send back a table containing the fields `"enabled"`, `"power"` and `"mesecon_mode"` which are all integers.
-- `"off"`: Deactivate the supply converter.
-- `"on"`: Activate the supply converter.
-- `"toggle"`: Activate or deactivate the supply converter depending on its current state.
-- `"power "..power`: Set the amount of the power, it shall convert.
-- `"mesecon_mode "..<int>`: Set the mesecon mode.
+
+* `"get"`: It will send back a table containing the fields `"enabled"`, `"power"` and `"mesecon_mode"` which are all integers. 
+* `"off"`: Deactivate the supply converter. 
+* `"on"`: Activate the supply converter. 
+* `"toggle"`: Activate or deactivate the supply converter depending on its current state. 
+* `"power "..power`: Set the amount of the power, it shall convert. 
+* `"mesecon_mode "..<int>`: Set the mesecon mode. 
 
 ### Battery Boxes
 Send to it `"get"` or `"GET"` and it will send a table back containing:
-- `demand`: A number.
-- `supply`: A number.
-- `input`: A number.
-- `charge`: A number.
-- `max_charge`: A number.
-- `src`: Itemstack made to table.
-- `dst`: Itemstack made to table.
-- `upgrade1`: Itemstack made to table.
-- `upgrade2`: Itemstack made to table.
+
+* `demand`: A number. 
+* `supply`: A number. 
+* `input`: A number. 
+* `charge`: A number. 
+* `max_charge`: A number. 
+* `src`: Itemstack made to table. 
+* `dst`: Itemstack made to table. 
+* `upgrade1`: Itemstack made to table. 
+* `upgrade2`: Itemstack made to table. 
 
 ### Forcefield Emitter
 You should send a table to it containing the `command` and for some commands the `value` field.
 Some strings will automatically be made to tables:
-- `"get"` :arrow_right: `{command = "get"}`
-- `"off"` :arrow_right: `{command = "off"}`
-- `"on"` :arrow_right: `{command = "on"}`
-- `"toggle"` :arrow_right: `{command = "toggle"}`
-- `"range "..range` :arrow_right: `{command = "range", value = range}`
-- `"shape "..shape` :arrow_right: `{command = "shape", value = shape}`
+
+* `"get"` :arrow_right: `{command = "get"}` 
+* `"off"` :arrow_right: `{command = "off"}` 
+* `"on"` :arrow_right: `{command = "on"}` 
+* `"toggle"` :arrow_right: `{command = "toggle"}` 
+* `"range "..range` :arrow_right: `{command = "range", value = range}` 
+* `"shape "..shape` :arrow_right: `{command = "shape", value = shape}` 
 
 The commands:
-- `"get"`: The forcefield emitter sends back a table containing:
-  - `"enabled"`: `0` is off, `1` is on.
-  - `"range"`
-  - `"shape"`: `0` is spheric, `1` is cubic.
-- `"off"`: Deactivate the forcefield emitter.
-- `"on"`: Activate the forcefield emitter.
-- `"toggle"`: Activate or deactivate the forcefield emitter depending on its current state.
-- `"range"`: Set the range to `value`.
-- `"shape"`: `value` can be a number (`0` or `1`) or a string (`"sphere"` or `"cube"`).
+
+* `"get"`: The forcefield emitter sends back a table containing: 
+	* `"enabled"`: `0` is off, `1` is on. 
+	* `"range"` 
+	* `"shape"`: `0` is spheric, `1` is cubic. 
+* `"off"`: Deactivate the forcefield emitter. 
+* `"on"`: Activate the forcefield emitter. 
+* `"toggle"`: Activate or deactivate the forcefield emitter depending on its current state. 
+* `"range"`: Set the range to `value`. 
+* `"shape"`: `value` can be a number (`0` or `1`) or a string (`"sphere"` or `"cube"`). 
 
 ### Nuclear Reactor
 Since the nuclear reactor core can't be accessed by digiline wire because the water layer which mustn't have a hole, you need the digiline_remote to control it.
 You should send a table to it containing at least the `command` field and for some commands other fields.
 Some strings will automatically be made to tables:
-- `"get"` :arrow_right: `{command = "get"}`
-- `"self_destruct "..time` :arrow_right: `{command = "self_destruct", timer = time}`
-- `"start"` :arrow_right: `{command = "start"}`
+
+* `"get"` :arrow_right: `{command = "get"}` 
+* `"self_destruct "..time` :arrow_right: `{command = "self_destruct", timer = time}` 
+* `"start"` :arrow_right: `{command = "start"}` 
 
 The commands:
-- `"get"`: The nuclear reactor sends back a table containing:
-  - `"burn_time"`: The time in seconds how long the reactor already runs. One week after start, when it reaches 7 * 24 * 60 * 60 (=604800), the fuel is completely used.
-  - `"enabled"`: A bool.
-  - `"siren"`: A bool.
-  - `"structure_accumulated_badness"`
-  - `"rods"`: A table with 6 numbers in it, one for each fuel slot.
-    -  A positive value is the count of fuel rods in the slot.
-    - `0` means the slot is empty.
-    -  A negative value means some other items are in the slot. The absolute value is the count of these items.
-- `"self_destruct"`: A setting has to be enabled to use this. The reactor will melt down after `timer` seconds or instantly.
-- `"start"`: Tries to start the reactor, `"Start successful"` is sent back on success, `"Error"` if something is wrong.
+
+* `"get"`: The nuclear reactor sends back a table containing: 
+	* `"burn_time"`: The time in seconds how long the reactor already runs. One week after start, when it reaches 7 * 24 * 60 * 60 (=604800), the fuel is completely used. 
+	* `"enabled"`: A bool. 
+	* `"siren"`: A bool. 
+	* `"structure_accumulated_badness"` 
+	* `"rods"`: A table with 6 numbers in it, one for each fuel slot. 
+		*  A positive value is the count of fuel rods in the slot. 
+		* `0` means the slot is empty. 
+		*  A negative value means some other items are in the slot. The absolute value is the count of these items. 
+* `"self_destruct"`: A setting has to be enabled to use this. The reactor will melt down after `timer` seconds or instantly. 
+* `"start"`: Tries to start the reactor, `"Start successful"` is sent back on success, `"Error"` if something is wrong. 
 
 If the automatic start is enabled, it will always send `"fuel used"` when it uses fuel.
 
@@ -836,6 +877,7 @@ If no amount of solar power is enough to sate your hunger for power, why not giv
 
     The standard reactor structure consists of a 9x9x9 cube.  A cross
     section through the middle:
+```
 	BBB BBB
 	BLL LLB
 	BLWWWLB
@@ -843,6 +885,7 @@ If no amount of solar power is enough to sate your hunger for power, why not giv
 	BLW|WLB
 	BLL|LLB
 	BBB|BBB
+```
 	B = Blast-resistant concrete, L = Lead Block,
 	W = water node, # = reactor core, | = HV cable
     The man-hole and the HV cable are only in the middle, and the man-hole
@@ -861,14 +904,15 @@ The output is a little more than the coal burning generator (max 300EUs)
 Some machines in Technic can not be classified as producers or consumers.
 
 This is a list of this machines:
-- Switching station.
-- LV Battery Box
-- MV Battery Box
-- HV Battery Box
-- Constructor.
-- Deployer.
-- Node Breaker.
-- Supply Converter.
+
+* Switching station 
+* LV Battery Box 
+* MV Battery Box 
+* HV Battery Box 
+* Constructor 
+* Deployer 
+* Node Breaker 
+* Supply Converter 
 
 ### Switching Station
 The Switching station is the most important part of any network, since without a switching station, no machine will operate!
@@ -878,14 +922,12 @@ These peculiar machines can both generate *and* consume, depending on what's nee
 
 ### Supply Converter
 The Supply Converter can convert one voltage to the next highest or lowest. It will pull a load of 10,000 EU, but will waste it if the other side is unable to accept it. The top is the input voltage, and the bottom is the output. Both sides will require their own switching station!
-  
+
 ## Solar array
 
 The solar array is an assembly of panels into a powerful array
 
-The assembly can deliver more energy than the individual panel because
-of the transformer unit which converts the panel output variations into
-a stable supply.
+The assembly can deliver more energy than the individual panel because of the transformer unit which converts the panel output variations into a stable supply.
 
 Solar arrays are not able to store large amounts of energy.
 
@@ -1442,31 +1484,31 @@ All commands start with "/". After that, one word follows which is itself follow
 
 Show short documentation of server commands and privileges; it will appear in the chat log, too. In case the help is too long, you can open the console with F10 to view everything again.
 
-  * **/help** - Shows a list of the available commands - depending on your privileges - on the server
-  * **/help &lt;command&gt;** - Shows short description about the given command. You can view the help of a command even if you do   not have the privilege to issue it
-  * **/help all** - Lists the available commands - depending on your privileges - on the server and a short description and syntax reference to each one
-  * **/help privs** - Lists all privileges on the server that could possibly be granted to players and shows a short description about each of them
+  * **/help** - Shows a list of the available commands - depending on your privileges - on the server 
+  * **/help &lt;command&gt;** - Shows short description about the given command. You can view the help of a command even if you do   not have the privilege to issue it 
+  * **/help all** - Lists the available commands - depending on your privileges - on the server and a short description and syntax reference to each one 
+  * **/help privs** - Lists all privileges on the server that could possibly be granted to players and shows a short description about each of them 
 
 **Player-related**
 **Informational**
 
-  * **/privs [&lt;player&gt;]** - List of privileges granted to &lt;player&gt;, if not specified, your own privileges
-  * **/last-login [&lt;player&gt;]** - Show the date and time when &lt;player&gt; has logged in the last time into this server (UTC time zone, ISO 8601 format). If not specified, shows your own last login time
+  * **/privs [&lt;player&gt;]** - List of privileges granted to &lt;player&gt;, if not specified, your own privileges 
+  * **/last-login [&lt;player&gt;]** - Show the date and time when &lt;player&gt; has logged in the last time into this server (UTC time zone, ISO 8601 format). If not specified, shows your own last login time 
 
 **Chat**
 
 These commands require the "shout" privilege to work.
 
-  * **/msg &lt;player&gt; &lt;message&gt;** - Send a private message &lt;message&gt; to &lt;player&gt;
-  * **/me &lt;action&gt;** - Makes a text in the format "* &lt;your name&gt; &lt;action&gt;" appear in the chat log. E.g. "/me eats pizza." leads to "* Alfred eats pizza." (if your name is "Alfred")
+  * **/msg &lt;player&gt; &lt;message&gt;** - Send a private message &lt;message&gt; to &lt;player&gt; 
+  * **/me &lt;action&gt;** - Makes a text in the format "* &lt;your name&gt; &lt;action&gt;" appear in the chat log. E.g. "/me eats pizza." leads to "* Alfred eats pizza." (if your name is "Alfred") 
 
 **Items**
 
 For the /give and /giveme commands, a negative count will count down from 65536. This means for example that giving -1 of an itemstring will give 65535 items of that itemstring, which is also the hard size limit of a stack.
 
-  * **/giveme &lt;itemstring&gt; [&lt;count&gt;]** - Give certain item &lt;count&gt; times (default: 1) to yourself. For a list of items to use this with, see the Itemstrings page. Requires the "give" privilege
-  * **/give &lt;player&gt; &lt;itemstring&gt; [&lt;count&gt;]** - Give certain item &lt;count&gt; times (default: 1) to the player. Requires the "give" privilege
-  * **/pulverize** - Destroys the wielded item. Can be used by any player
+  * **/giveme &lt;itemstring&gt; [&lt;count&gt;]** - Give certain item &lt;count&gt; times (default: 1) to yourself. For a list of items to use this with, see the Itemstrings page. Requires the "give" privilege 
+  * **/give &lt;player&gt; &lt;itemstring&gt; [&lt;count&gt;]** - Give certain item &lt;count&gt; times (default: 1) to the player. Requires the "give" privilege 
+  * **/pulverize** - Destroys the wielded item. Can be used by any player 
 
 **Teleportation**
 
@@ -1553,22 +1595,26 @@ Every player has a set of privileges, which differ from server to server. Roughl
 ### Built-in privileges
 
 gameplay-related:
-  * **interact** - build, mine or use blocks
-  * **give** - can use the /give and /giveme commands
-  * **zoom** - can zoom (Z key by default)
-  * **teleport** - can use the /teleport command to teleport oneself to certain coordinates or to another player
-  * **bring** - in combination with teleport, can use the /teleport command to teleport any player to certain coordinates or to yet another player
-  * **fast** - allows the player to activate fast mode
-  * **fly** - allows the player to activate fly mode
-  * **noclip** - allows the player to activate "noclip" mode, which allows them to fly through walls
+
+  * **interact** - build, mine or use blocks 
+  * **give** - can use the /give and /giveme commands 
+  * **zoom** - can zoom (Z key by default) 
+  * **teleport** - can use the /teleport command to teleport oneself to certain coordinates or to another player 
+  * **bring** - in combination with teleport, can use the /teleport command to teleport any player to certain coordinates or to yet another player 
+  * **fast** - allows the player to activate fast mode 
+  * **fly** - allows the player to activate fly mode 
+  * **noclip** - allows the player to activate "noclip" mode, which allows them to fly through walls 
 
 chat-related:
+
   * **shout** - can chat with other people
 
 world-manipulation-related:
+
   * **settime** - can set time of day using /time
 
 moderation-related:
+
   * **privs** - can set any privileges of players using /grant and /revoke
   * **basic_privs** - can set "interact" and "shout" privileges using /grant and /revoke
   * **kick** - can kick players with /kick
@@ -1577,6 +1623,7 @@ moderation-related:
   * **protection_bypass** - can bypass protection of blocks (e.g. can open locked chests or steel doors of everyone)
 
 administration-related:
+
   * **server** - can do server maintenance stuff such as /shutdown, /clearobjects, /set, …
   * **debug** - can access advanced debug features and informations, such as the wirewrame in the debug screens (F5)
 
@@ -1595,7 +1642,484 @@ Privileges are stored in the _auth.txt_ file. The format of every line in that f
 
 The _auth.txt_ file is written periodically and at shutdown, so you should edit it only when the server is not running.
 
-## Create and import a schematic file (.mts)
+## WorldEdit Chat Commands
+
+For more information, see the [README](README.md).
+
+Many commands also have shorter names that can be typed faster. For example, if we wanted to use `//move ? 5`, we could instead type `//m ? 5`. All shortened names are listed below:
+
+| Short Name | Original Name      |
+|:-----------|:-------------------|
+| `//i`      | `//inspect`        |
+| `//rst`    | `//reset`          |
+| `//mk`     | `//mark`           |
+| `//umk`    | `//unmark`         |
+| `//1`      | `//pos1`           |
+| `//2`      | `//pos2`           |
+| `//fp`     | `//fixedpos`       |
+| `//v`      | `//volume`         |
+| `//s`      | `//set`            |
+| `//r`      | `//replace`        |
+| `//ri`     | `//replaceinverse` |
+| `//hcube`  | `//hollowcube`     |
+| `//hspr`   | `//hollowsphere`   |
+| `//spr`    | `//sphere`         |
+| `//hdo`    | `//hollowdome`     |
+| `//do`     | `//dome`           |
+| `//hcyl`   | `//hollowcylinder` |
+| `//cyl`    | `//cylinder`       |
+| `//hpyr`   | `//hollowpyramid`  |
+| `//pyr`    | `//pyramid`        |
+
+### `//about`
+
+Get information about the mod.
+
+    //about
+
+### `//inspect on/off/1/0/true/false/yes/no/enable/disable/<blank>`
+
+Enable or disable node inspection.
+
+    //inspect on
+    //inspect off
+    //inspect 1
+    //inspect 0
+    //inspect true
+    //inspect false
+    //inspect yes
+    //inspect no
+    //inspect enable
+    //inspect disable
+    //inspect
+
+### `//reset`
+
+Reset the region so that it is empty.
+
+    //reset
+
+### `//mark`
+
+Show markers at the region positions.
+
+    //mark
+
+### `//unmark`
+
+Hide markers if currently shown.
+
+    //unmark
+
+### `//pos1`
+
+Set WorldEdit region position 1 to the player's location.
+
+    //pos1
+
+### `//pos2`
+
+Set WorldEdit region position 2 to the player's location.
+
+    //pos2
+
+### `//p set/set1/set2/get`
+
+Set WorldEdit region, WorldEdit position 1, or WorldEdit position 2 by punching nodes, or display the current WorldEdit region.
+
+    //p set
+    //p set1
+    //p set2
+    //p get
+
+### `//fixedpos set1 x y z`
+
+Set a WorldEdit region position to the position at (`<x>`, `<y>`, `<z>`).
+
+    //fixedpos set1 0  0 0
+    //fixedpos set1 -30 5 28
+    //fixedpos set2 1004 -200 432
+
+### `//volume`
+
+Display the volume of the current WorldEdit region.
+
+    //volume
+
+### `//deleteblocks`
+
+Delete the MapBlocks (16x16x16 units) that contain the selected region. This means that mapgen will be invoked for that area. As only whole MapBlocks get removed, the deleted area is usually larger than the selected one. Also, mapgen can trigger mechanisms like mud reflow or cavegen, which affects nodes (up to 112 nodes away) outside the MapBlock, so dont use this near buildings. Note that active entities are not part of a MapBlock and do not get deleted.
+
+    //deleteblocks
+
+### `//set <node>`
+
+Set the current WorldEdit region to `<node>`.
+
+    //set air
+    //set cactus
+    //set Blue Lightstone
+    //set dirt with grass
+
+### `//param2 <param2>`
+
+Set the param2 value of all nodes in the current WorldEdit region to `<param2>`.
+
+### `//mix <node1> ...`
+
+Fill the current WorldEdit region with a random mix of `<node1>`, `...`.
+
+    //mix air
+    //mix cactus stone glass sandstone
+    //mix Bronze
+    //mix default:cobble air
+
+### `//replace <search node> <replace node>`
+
+Replace all instances of `<search node>` with `<replace node>` in the current WorldEdit region.
+
+    //replace Cobblestone air
+    //replace lightstone_blue glass
+    //replace dirt Bronze Block
+    //replace mesecons:wire_00000000_off flowers:flower_tulip
+
+### `//replaceinverse <search node> <replace node>`
+
+Replace all nodes other than `<search node>` with `<replace node>` in the current WorldEdit region.
+
+    //replaceinverse Cobblestone air
+    //replaceinverse flowers:flower_waterlily glass
+    //replaceinverse dirt Bronze Block
+    //replaceinverse mesecons:wire_00000000_off flowers:flower_tulip
+
+### `//hollowcube <width> <height> <length> <node>`
+
+Adds a hollow cube with its ground level centered at WorldEdit position 1 with dimensions `<width>` x `<height>` x `<length>`, composed of `<node>`.
+
+    //hollowcube 6 5 6 Diamond Block
+
+### `//cube <width> <height> <length> <node>`
+
+Adds a cube with its ground level centered at WorldEdit position 1 with dimensions `<width>` x `<height>` x `<length>`, composed of `<node>`.
+
+    //cube 6 5 6 Diamond Block
+    //cube 7 2 1 default:cobble
+
+### `//hollowsphere <radius> <node>`
+
+Add hollow sphere centered at WorldEdit position 1 with radius `<radius>`, composed of `<node>`.
+
+    //hollowsphere 5 Diamond Block
+    //hollowsphere 12 glass
+    //hollowsphere 17 mesecons:wire_00000000_off
+
+### `//sphere <radius> <node>`
+
+Add sphere centered at WorldEdit position 1 with radius `<radius>`, composed of `<node>`.
+
+    //sphere 5 Diamond Block
+    //sphere 12 glass
+    //sphere 17 mesecons:wire_00000000_off
+
+### `//hollowdome <radius> <node>`
+
+Add hollow dome centered at WorldEdit position 1 with radius `<radius>`, composed of `<node>`.
+
+    //hollowdome 5 Diamond Block
+    //hollowdome -12 glass
+    //hollowdome 17 mesecons:wire_00000000_off
+
+### `//dome <radius> <node>`
+
+Add dome centered at WorldEdit position 1 with radius `<radius>`, composed of `<node>`.
+
+    //dome 5 Diamond Block
+    //dome -12 glass
+    //dome 17 mesecons:wire_00000000_off
+
+### `//hollowcylinder x/y/z/? <length> <radius1> [radius2] <node>`
+
+Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>`, base radius `<radius1>` (and top radius `[radius2]`), composed of `<node>`.
+
+Despite its name this command allows you to create cones (`radius2` = 0) as well as any shapes inbetween (0 < `radius2` < `radius1`).
+Swapping `radius1` and `radius2` will create the same object but upside-down.
+
+    //hollowcylinder x +5 8 Bronze Block
+    //hollowcylinder y 28 10 glass
+    //hollowcylinder z -12 3 mesecons:wire_00000000_off
+    //hollowcylinder ? 2 4 default:stone
+
+    //hollowcylinder y 10 10 0 walls:cobble
+    //hollowcylinder x 6 0 5 Dirt
+    //hollowcylinder z 20 10 20 default:desert_stone
+
+### `//cylinder x/y/z/? <length> <radius1> [radius2] <node>`
+
+Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length `<length>`, base radius `<radius1>` (and top radius `[radius2]`), composed of `<node>`.
+Can also create shapes other than cylinders, e.g. cones (see documentation above).
+
+    //cylinder x +5 8 Bronze Block
+    //cylinder y 28 10 glass
+    //cylinder z -12 3 mesecons:wire_00000000_off
+    //cylinder ? 2 4 default:stone
+
+    //cylinder y 10 10 0 walls:cobble
+    //cylinder x 6 0 5 Dirt
+    //cylinder z 20 10 20 default:desert_stone
+    
+### `//hollowpyramid x/y/z? <height> <node>`
+
+Add hollow pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height `<height>`, composed of `<node>`.
+
+    //hollowpyramid x 8 Diamond Block
+    //hollowpyramid y -5 glass
+    //hollowpyramid z 2 mesecons:wire_00000000_off
+    //hollowpyramid ? 12 mesecons:wire_00000000_off
+
+### `//pyramid x/y/z? <height> <node>`
+
+Add pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height `<height>`, composed of `<node>`.
+
+    //pyramid x 8 Diamond Block
+    //pyramid y -5 glass
+    //pyramid z 2 mesecons:wire_00000000_off
+    //pyramid ? 12 mesecons:wire_00000000_off
+
+### `//spiral <length> <height> <spacer> <node>`
+
+Add spiral centered at WorldEdit position 1 with side length `<length>`, height `<height>`, space between walls `<spacer>`, composed of `<node>`.
+
+    //spiral 20 5 3 Diamond Block
+    //spiral 5 2 1 glass
+    //spiral 7 1 5 mesecons:wire_00000000_off
+
+### `//copy x/y/z/? <amount>`
+
+Copy the current WorldEdit region along the x/y/z/? axis by `<amount>` nodes.
+
+    //copy x 15
+    //copy y -7
+    //copy z +4
+    //copy ? 8
+
+### `//move x/y/z/? <amount>`
+
+Move the current WorldEdit positions and region along the x/y/z/? axis by `<amount>` nodes.
+
+    //move x 15
+    //move y -7
+    //move z +4
+    //move ? -1
+
+### `//stack x/y/z/? <count>`
+
+Stack the current WorldEdit region along the x/y/z/? axis `<count>` times.
+
+    //stack x 3
+    //stack y -1
+    //stack z +5
+    //stack ? 12
+
+### `//stack2 <count> <x> <y> <z>`
+
+Stack the current WorldEdit region `<count>` times by offset `<x>`, `<y>`, `<z>`.
+
+    //stack2 5 3 8 2
+    //stack2 1 -1 -1 -1
+
+### `//stretch <stretchx> <stretchy> <stretchz>`
+
+Scale the current WorldEdit positions and region by a factor of `<stretchx>`, `<stretchy>`, `<stretchz>` along the X, Y, and Z axes, repectively, with position 1 as the origin.
+
+    //scale 2 2 2
+    //scale 1 2 1
+    //scale 10 20 1
+
+### `//transpose x/y/z/? x/y/z/?`
+
+Transpose the current WorldEdit positions and region along the x/y/z/? and x/y/z/? axes.
+
+    //transpose x y
+    //transpose x z
+    //transpose y z
+    //transpose ? y
+
+### `//flip x/y/z/?`
+
+Flip the current WorldEdit region along the x/y/z/? axis.
+
+    //flip x
+    //flip y
+    //flip z
+    //flip ?
+
+### `//rotate x/y/z/? <angle>`
+
+Rotate the current WorldEdit positions and region along the x/y/z/? axis by angle `<angle>` (90 degree increment).
+
+    //rotate x 90
+    //rotate y 180
+    //rotate z 270
+    //rotate ? -90
+
+### `//orient <angle>`
+
+Rotate oriented nodes in the current WorldEdit region around the Y axis by angle `<angle>` (90 degree increment)
+
+    //orient 90
+    //orient 180
+    //orient 270
+    //orient -90
+
+### `//fixlight`
+
+Fixes the lighting in the current WorldEdit region.
+
+    //fixlight
+
+### `//drain`
+
+Removes any fluid node within the current WorldEdit region.
+
+    //drain
+
+### `//hide`
+
+Hide all nodes in the current WorldEdit region non-destructively.
+
+    //hide
+
+### `//suppress <node>`
+
+Suppress all <node> in the current WorldEdit region non-destructively.
+
+    //suppress Diamond Block
+    //suppress glass
+    //suppress mesecons:wire_00000000_off
+
+### `//highlight <node>`
+
+Highlight <node> in the current WorldEdit region by hiding everything else non-destructively.
+
+    //highlight Diamond Block
+    //highlight glass
+    //highlight mesecons:wire_00000000_off
+
+### `//restore`
+
+Restores nodes hidden with WorldEdit in the current WorldEdit region.
+
+    //restore
+
+### `//save <file>`
+
+Save the current WorldEdit region to "(world folder)/schems/`<file>`.we".
+
+    //save some random filename
+    //save huge_base
+
+### `//allocate <file>`
+
+Set the region defined by nodes from "(world folder)/schems/`<file>`.we" as the current WorldEdit region.
+
+    //allocate some random filename
+    //allocate huge_base
+
+### `//load <file>`
+
+Load nodes from "(world folder)/schems/`<file>`.we" with position 1 of the current WorldEdit region as the origin.
+
+    //load some random filename
+    //load huge_base
+
+### `//lua <code>`
+
+Executes `<code>` as a Lua chunk in the global namespace.
+
+    //lua worldedit.pos1["singleplayer"] = {x=0, y=0, z=0}
+    //lua worldedit.rotate(worldedit.pos1["singleplayer"], worldedit.pos2["singleplayer"], "y", 90)
+
+### `//luatransform <code>`
+
+Executes `<code>` as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region.
+
+    //luatransform minetest.add_node(pos, {name="default:stone"})
+    //luatransform if minetest.get_node(pos).name == "air" then minetest.add_node(pos, {name="default:water_source"})
+
+### `//mtschemcreate <file>`
+
+Save the current WorldEdit region using the Minetest Schematic format to "(world folder)/schems/`<file>`.mts".
+
+    //mtschemcreate some random filename
+    //mtschemcreate huge_base
+
+### `//mtschemplace <file>`
+
+Load nodes from "(world folder)/schems/`<file>`.mts" with position 1 of the current WorldEdit region as the origin.
+
+    //mtschemplace some random filename
+    //mtschemplace huge_base
+
+### `//mtschemprob start/finish/get`
+
+After using `//mtschemprob start` all nodes punched will bring up a text field where a probablity can be entered.
+This mode can be left with `//mtschemprob finish`. `//mtschemprob get` will display the probabilities saved for the nodes.
+
+    //mtschemprob get
+
+### `//clearobjects`
+
+Clears all objects within the WorldEdit region.
+
+    //clearobjects
+    
+### `//shift x/y/z/?/up/down/left/right/front/back [+|-]<amount>`
+
+Shifts the selection area by `[+|-]<amount>` without touching its contents. The shifting axis can be absolute (`x/y/z`) or 
+relative (`up/down/left/right/front/back`). 
+
+    //shift left 5
+
+### `//expand [+|-]x/y/z/?/up/down/left/right/front/back <amount> [reverse-amount]`
+
+Expands the selection by `<amount>` in the selected absolute or relative axis. If specified, the selection can be expanded in the
+opposite direction over the same axis by `[reverse-amount]`.
+
+    //expand right 7 5
+
+### `//contract [+|-]x/y/z/?/up/down/left/right/front/back <amount> [reverse-amount]`
+
+Contracts the selection by `<amount>` in the selected absolute or relative axis. If specified, the selection can be contracted in the
+opposite direction over the same axis by `[reverse-amount]`.
+
+    //expand right 7 5
+
+### `//outset [hv] <amount>`
+
+Expands the selection in all directions by `<amount>`. If specified, the selection can be expanded horizontally in the x and z axes `[h]`
+or vertically in the y axis `[v]`.
+
+    //outset v 5
+
+### `//inset [hv] <amount>`
+
+Contracts the selection in all directions by `<amount>`. If specified, the selection can be contracted horizontally in the x and z axes `[h]`
+or vertically in the y axis `[v]`.
+
+    //outset v 5
+
+### `//brush none/<command> [parameters]`
+
+Assigns the given `<command>` to the currently held brush item, it will be ran with the first pointed solid node (as determined via raycast) as
+WorldEdit position 1 when using that specific brush item.
+Passing `none` instead clears the command assigned to the currently held brush item.
+Note that this functionality requires the `worldedit_brush` mod enabled.
+
+    //brush cube 8 8 8 Cobblestone
+    //brush spr 12 glass
+    //brush none
+
+## Create and import a schematic file (.mts) with WorldEdit
 
 How to create a schematic file: 
 
@@ -1619,22 +2143,22 @@ How to import a schematic file:
 # Setting up a server
 
 1. Start your server on your desired port
-  * **Note**: It is recommended to leave the port at the default (30000)
+	* **Note**: It is recommended to leave the port at the default (30000)
 2. Find out your internal IP of the computer you are running the server on
-  * **Linux**: open a terminal and type ifconfig and hit enter
-  * **Windows**: _Start -> Run … -> cmd.exe -> ipconfig_
+	* **Linux**: open a terminal and type ifconfig and hit enter
+	* **Windows**: _Start -> Run … -> cmd.exe -> ipconfig_
 3. Check the port forwarding settings on your router
-  * forward your chosen port for UDP (30000 if you left it default) to the internal IP
-  * In addition, alter any firewalls you may have to pass the traffic at that port
+	* forward your chosen port for UDP (30000 if you left it default) to the internal IP
+	* In addition, alter any firewalls you may have to pass the traffic at that port
 4. Let your friends know your external IP
 5. Make your server listed in the server list by setting the following settings in stonecraft.conf
-  * server_announce = true - makes Stonecraft tell the server list about the server.
-  * server_name - set the value of this to your server's name.
-  * server_description - set the value of this to a longer description describing your server.
-  * server_address - if you have a domain name for your server, then set this to the domain name.
-  * server_url - if you have a website for your server, then set this to the website URL.
-  * motd - a message that is sent to the player when they join. Use this to welcome them.
-  * You should restart the server to make sure any changed settings changed
+	* server_announce = true - makes Stonecraft tell the server list about the server.
+	* server_name - set the value of this to your server's name.
+	* server_description - set the value of this to a longer description describing your server.
+	* server_address - if you have a domain name for your server, then set this to the domain name.
+	* server_url - if you have a website for your server, then set this to the website URL.
+	* motd - a message that is sent to the player when they join. Use this to welcome them.
+	* You should restart the server to make sure any changed settings changed
 
 ## Running a dedicated server
 
@@ -1642,8 +2166,8 @@ How to import a schematic file:
 
 1. Open a terminal.
 2. Type in _&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/stonecraftserver_ or just drop the stonecraftserver executable (located in _/Stonecraft/bin/_) into the terminal **(PLEASE READ THE NOTES BELOW!)**
-  * If you want to specify a specific game ID, the game ID choices are located in _/Stonecraft/games/_. Add in _--gameid thegameid_ to the end of the command.
-  * If you get the error "Multiple worlds are available.", the world choices are located in _/Stonecraft/worlds/_. Add in _--worldname theWorld_ to the end of the command.
+	* If you want to specify a specific game ID, the game ID choices are located in _/Stonecraft/games/_. Add in _--gameid thegameid_ to the end of the command.
+	* If you get the error "Multiple worlds are available.", the world choices are located in _/Stonecraft/worlds/_. Add in _--worldname theWorld_ to the end of the command.
 3. If your server crashes, then look at the debug.txt in _/Stonecraft/bin/_
 4. Enjoy running a Stonecraft server!
 
@@ -1695,7 +2219,7 @@ exit 0
 
 1. Open command prompt by going in the _/Stonecraft/bin/_ folder, hold Shift, do a right click on _bin_ and click "Open command window here".
 2. Type this: _stonecraft.exe --server_.
-  * If you get the error "Multiple worlds are available.", use _stonecraft.exe --server --worldname world_name_ instead, where world_name is the name of the world.
+	* If you get the error "Multiple worlds are available.", use _stonecraft.exe --server --worldname world_name_ instead, where world_name is the name of the world.
 3. If your server crashes, then look at the debug.txt in _/Stonecraft/bin/_
 4. Enjoy running a Stonecraft server!
 

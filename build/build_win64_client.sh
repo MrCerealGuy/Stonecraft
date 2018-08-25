@@ -49,6 +49,13 @@ if [ "$antwort" -eq "0" ]
 fi
 
 
+# Generate doc/Manual.html from doc/Manual.md with Pandoc
+echo -e "\E[34;47mGenerate Manual.html with Pandoc..."
+
+cd $stonecraftdir/util/
+./convert_manual-md2html.sh
+
+
 # Get stonecraft
 echo -e "\E[34;47mCopy stonecraft files into build dir..."
 

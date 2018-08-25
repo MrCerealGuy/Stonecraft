@@ -1,0 +1,2672 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Andreas Zahnleiter" />
+  <meta name="date" content="2018-08-25" />
+  <title>Stonecraft Wiki</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Stonecraft Wiki</h1>
+<h2 class="author">Andreas Zahnleiter</h2>
+<h3 class="date">August 25, 2018</h3>
+</div>
+<h1 id="welcome-to-stonecraft">Welcome to Stonecraft</h1>
+<p>Copyright © 2016-2018 Andreas &quot;MrCerealGuy&quot; Zahnleiter <script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#120;&#46;&#100;&#x65;';a='&#64;';n='&#x6d;&#114;&#x63;&#x65;&#114;&#x65;&#x61;&#108;&#x67;&#x75;&#x79;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x6d;&#114;&#x63;&#x65;&#114;&#x65;&#x61;&#108;&#x67;&#x75;&#x79;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#120;&#32;&#100;&#x6f;&#116;&#32;&#100;&#x65;</noscript></p>
+<p>Stonecraft is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine. It will be kept lightweight enough to run on fairly old hardware.</p>
+<p>Stonecraft is open-source and free, released under the GNU General Public License v3.0. Thanks a lot to the Minetest community, to &quot;Notch&quot; the creator of Minecraft and to Linus Torvalds, the creator of the free operating system Linux.</p>
+<p>Like in other block sandbox games, you can build and destroy blocks everywhere in a near infinite world. There are two game modes, in survival mode you can loose your life, so you have to fight against many creatures and hunger in a dangerous world with many dungeons and woods of spiders. In creative mode you have access to all blocks, items and tools to build all you can imagine. Choose if you want to play either as singleplayer or multiplayer on servers with your friends. If you like, you can run your own Stonecraft server.</p>
+<p>Stonecraft is open-source and free, released under the GNU General Public License v3.0.</p>
+<p><strong>Table of contents</strong></p>
+<ol style="list-style-type: decimal">
+<li><a href="#first-steps">First steps</a>
+<ol style="list-style-type: decimal">
+<li><a href="#creating-a-world">Creating a world</a></li>
+<li><a href="#map-generator">Map generator</a></li>
+<li><a href="#biomes">Biomes</a></li>
+<li><a href="#underground-realms">Underground realms</a></li>
+<li><a href="#basic-controls">Basic Controls</a></li>
+<li><a href="#using-blocksitems">Using blocks/items</a>
+<ol style="list-style-type: decimal">
+<li><a href="#taking">Taking</a></li>
+<li><a href="#dropping">Dropping</a></li>
+<li><a href="#exchanging">Exchanging</a></li>
+<li><a href="#throwing-away">Throwing away</a></li>
+<li><a href="#automatic-transfer">Automatic transfer</a></li>
+</ol></li>
+<li><a href="#changing-your-skin">Changing your skin</a></li>
+</ol></li>
+<li><a href="#crafting">Crafting</a>
+<ol style="list-style-type: decimal">
+<li><a href="#crafting-grid-and-output-slot">Crafting grid and output slot</a></li>
+<li><a href="#shaped-and-shapeless-recipes">Shaped and shapeless recipes</a></li>
+<li><a href="#example-recipes">Example recipes</a>
+<ol style="list-style-type: decimal">
+<li><a href="#shapeless-recipes">Shapeless recipes</a></li>
+<li><a href="#shaped-recipes">Shaped recipes</a></li>
+</ol></li>
+<li><a href="#smelting">Smelting</a>
+<ol style="list-style-type: decimal">
+<li><a href="#fuel">Fuel</a></li>
+<li><a href="#recipes">Recipeshttps</a></li>
+</ol></li>
+</ol></li>
+<li><a href="#mobs">Mobs</a>
+<ol style="list-style-type: decimal">
+<li><a href="#simple-mobs">Simple Mobs</a></li>
+<li><a href="#not-so-simple-mobs">Not So Simple Mobs</a></li>
+</ol></li>
+<li><a href="#farming">Farming</a></li>
+<li><a href="#technic">Technic</a>
+<ol style="list-style-type: decimal">
+<li><a href="#machines">Machines</a>
+<ol style="list-style-type: decimal">
+<li><a href="#machine-details">Machine details</a></li>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#getting-started">Getting started</a></li>
+</ol></li>
+<li><a href="#consumers">Consumers</a></li>
+<li><a href="#generators">Generators</a></li>
+<li><a href="#chests">Chests</a></li>
+<li><a href="#resources">Resources</a>
+<ol style="list-style-type: decimal">
+<li><a href="#latex">Latex</a></li>
+</ol></li>
+<li><a href="#tools">Tools</a>
+<ol style="list-style-type: decimal">
+<li><a href="#chainsaw">Chainsaw</a></li>
+<li><a href="#flashlight">Flashlight</a></li>
+<li><a href="#lava-can">Lava can</a></li>
+<li><a href="#mining-drill">Mining drill</a></li>
+<li><a href="#mining-laser">Mining laser</a></li>
+<li><a href="#sonic-screwdriver">Sonic screwdriver</a></li>
+<li><a href="#tree-tap">Tree tap</a></li>
+<li><a href="#water-can">Water can</a></li>
+<li><a href="#wrench">Wrench</a></li>
+</ol></li>
+<li><a href="#digilines">Digilines</a>
+<ol style="list-style-type: decimal">
+<li><a href="#switching-station">Switching Station</a></li>
+<li><a href="#supply-converter">Supply Converter</a></li>
+<li><a href="#battery-boxes">Battery Boxes</a></li>
+<li><a href="#forcefield-emitter">Forcefield Emitter</a></li>
+</ol></li>
+<li><a href="#reactors">Reactors</a>
+<ol style="list-style-type: decimal">
+<li><a href="#nuclear-reactor">Nuclear Reactor</a></li>
+</ol></li>
+<li><a href="#geothermal-eu-generator">Geothermal EU generator</a></li>
+<li><a href="#other-machines">Other machines</a>
+<ol style="list-style-type: decimal">
+<li><a href="#switching-station">Switching station</a></li>
+<li><a href="#lvmvhv-battery-box">LV/MV/HV Battery Box</a></li>
+<li><a href="#supply-converter">Supply Converter</a></li>
+</ol></li>
+<li><a href="#solar-array">Solar array</a></li>
+<li><a href="#solar-panel">Solar panel</a></li>
+<li><a href="#watermill">Watermill</a></li>
+</ol></li>
+<li><a href="#pipeworks">Pipeworks</a>
+<ol style="list-style-type: decimal">
+<li><a href="#description">Description</a></li>
+<li><a href="#fluid-transport">Fluid Transport</a>
+<ol style="list-style-type: decimal">
+<li><a href="#pipes">Pipes</a></li>
+<li><a href="#straight-only-pipes">Straight-only pipes</a></li>
+<li><a href="#spigots">Spigots</a></li>
+<li><a href="#pumps">Pumps</a></li>
+<li><a href="#valves">Valves</a></li>
+<li><a href="#storage-tanks">Storage Tanks</a></li>
+<li><a href="#gratings">Gratings</a></li>
+<li><a href="#sealedairtight-pipe-entries">Sealed/Airtight Pipe Entries</a></li>
+<li><a href="#flow-sensors">Flow Sensors</a></li>
+</ol></li>
+<li><a href="#item-transport">Item Transport</a>
+<ol style="list-style-type: decimal">
+<li><a href="#base-materialsitems">Base materials/items</a></li>
+<li><a href="#tubes">Tubes</a></li>
+<li><a href="#chests">Chests</a></li>
+<li><a href="#furnaces">Furnaces</a></li>
+<li><a href="#filtersinjectors">Filters/Injectors</a></li>
+<li><a href="#mese-filtersinjectors">Mese Filters/Injectors</a></li>
+<li><a href="#mese-sorting-tubes">Mese Sorting Tubes</a></li>
+<li><a href="#detector-tubes">Detector Tubes</a></li>
+<li><a href="#lua-controlled-tubes">Lua controlled Tubes</a></li>
+<li><a href="#accelerator-tubes">Accelerator Tubes</a></li>
+<li><a href="#teleporter-tubes">Teleporter Tubes</a></li>
+<li><a href="#autocrafters">Autocrafters</a></li>
+<li><a href="#deployers">Deployers</a></li>
+<li><a href="#node-breakers">Node Breakers</a></li>
+<li><a href="#sand-vacuum-tubes">Sand Vacuum Tubes</a></li>
+<li><a href="#mese-sand-vacuum-tubes">Mese Sand Vacuum Tubes</a></li>
+</ol></li>
+</ol></li>
+<li><a href="#chat">Chat</a>
+<ol style="list-style-type: decimal">
+<li><a href="#sending-messages">Sending messages</a></li>
+</ol></li>
+<li><a href="#experienced-players">Experienced players</a>
+<ol style="list-style-type: decimal">
+<li><a href="#area-protection">Area protection</a></li>
+<li><a href="#teleporters">Teleporters</a></li>
+<li><a href="#special-controls">Special Controls</a></li>
+<li><a href="#server-commands">Server commands</a>
+<ol style="list-style-type: decimal">
+<li><a href="#issuing-a-command">Issuing a commands</a></li>
+<li><a href="#general-syntax">General syntax</a></li>
+<li><a href="#command-reference-of-built-in-commands">Command reference of built-in commands</a></li>
+</ol></li>
+<li><a href="#privileges">Privileges</a>
+<ol style="list-style-type: decimal">
+<li><a href="#built-in-privileges">Built-in privileges</a></li>
+<li><a href="#privileges-from-mods">Privileges from mods</a></li>
+<li><a href="#server-configuration">Server configuration</a></li>
+</ol></li>
+<li><a href="#worldedit-chat-commands">WorldEdit Chat Commands</a></li>
+<li><a href="#create-and-import-a-schematic-file-mts-with-worldedit">Create and import a schematic file (.mts) with WorldEdit</a></li>
+</ol></li>
+<li><a href="#setting-up-a-server">Setting up a server</a>
+<ol style="list-style-type: decimal">
+<li><a href="#running-a-dedicated-server">Running a dedicated server</a>
+<ol style="list-style-type: decimal">
+<li><a href="#linux">Linux</a></li>
+<li><a href="#windows">Windows</a></li>
+</ol></li>
+</ol></li>
+<li><a href="#modding-stonecraft">Modding Stonecraft</a>
+<ol style="list-style-type: decimal">
+<li><a href="#installing-mods">Installing mods</a></li>
+<li><a href="#installing-texture-packs">Installing texture packs</a>
+<ol style="list-style-type: decimal">
+<li><a href="#server-texture-pack">Server texture pack</a></li>
+</ol></li>
+<li><a href="#profiling-mods">Profiling mods</a></li>
+</ol></li>
+<li><a href="#troubleshooting">Troubleshooting</a>
+<ol style="list-style-type: decimal">
+<li><a href="#multiplayernetwork-issues">Multiplayer/Network issues</a></li>
+</ol></li>
+</ol>
+<h1 id="first-steps">First steps</h1>
+<h2 id="creating-a-world">Creating a world</h2>
+<p>First, before you can play, you have to create a world. In the world creation dialog you can choose a map generator (default v7) which is responsible for the terrain generation. Then you can add additional biomes and choose other cool stuff.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/createworld4.png" />
+
+</div>
+<p>Note: Some settings need huge cpu consumption so it can be laggy for most players.</p>
+<h2 id="map-generator">Map generator</h2>
+<p>There are a number of different map generators. It is possible to choose between them when creating a map. Some mods may change them radically, also all map generators allow for a lot of configuration in the advanced settings menu.</p>
+<p><strong>v5</strong></p>
+<p>Generates landscapes based on 3D Perlin noise and is notable for its unique and somewhat strange terrain shape and occasional floating islands. The biomes have to defined by mods first, otherwise it will be a stone-only landscape.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v5.jpg" />
+
+</div>
+<p><strong>v6</strong></p>
+<p>Generated entirely using 2D Perlin noise and has somewhat more “realistic” terrain than v5. The weirdness of v5 is gone. This map generator has predefined biomes: Grasslands/forest, jungle, desert, taiga, tundra and gravel. The biomes can't be modified by mods. Because of the nature of v6, the biomes are much simpler than in the other map generators, and a couple of blocks found in the other map generators can't be found in v6 maps (for example: Silver Sand, Acacia Tree, Orange Coral)</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v6.jpg" />
+
+</div>
+<p><strong>v7</strong></p>
+<p>Some innovations over v7, uses 2D and 3D Perlin noise. It is the default selection since Minetest 0.4.15. This map generator is notable for many simple broad and deep “rivers” (or “ridges”) at Ocean level, but they can be disabled. Like in v5, the biome have to be defined by mods first</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_v7.jpg" />
+
+</div>
+<p><strong>valleys</strong></p>
+<p>Generates a landscape featuring many hills, mountains and valleys. The valleys often contain rivers with River Water. The rivers very different than in v7, since they are not at ocean level and actually flow downhill</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_valleys.jpg" />
+
+</div>
+<p><strong>flat</strong></p>
+<p>This generates an (almost) entirely flat world with some biomes like in v7. Caves can still appear underground (if not disabled) and the map generator can be configured to add occasional hills and lakes.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_flat.jpg" />
+
+</div>
+<p><strong>fractal</strong></p>
+<p>Generates a map based on a fractal. It creates by far the weirdest terrain shapes, but its results are mostly predictable. It is possible to choose one of many fractals which are based on the Mandelbrot and Julia set, which is chosen in the advanced settings menu (technical setting name “mgfractal_fractal”).</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_fractals_fractal_1.jpg" />
+
+</div>
+<p><strong>singlenode</strong></p>
+<p>By default, this produces a world with only air everywhere. To be precise, it produces only one type of block, air by default. It is useful for mapgen mods which define their own map generation: first, air is generated, then the mod applies its own functions which generates the terrain.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_singlenode.jpg" />
+
+</div>
+<p><strong>carpathian</strong></p>
+<p>A mapgen featuring a flat base terrain with three types of terrain variation - rolling hills, ridged and step (terraced) mountains. The aim was to create a mapgen with a flat base, somewhere where you can build a village, even a city. But to differentiate it from the flat mapgen, the flat areas are surrounded by hills and various mountain ranges.</p>
+<p>Features:</p>
+<ul>
+<li>Vast plains, average y-level between 5-10</li>
+<li>Rolling hills - small hills.</li>
+<li>Ridged mountains - mountains of a similar height will connect with a ridge.</li>
+<li>Step (terrace) mountains - mountains, sometimes a stair like effect.</li>
+<li>Fjords - particularly where the larger mountains meet the sea. Rare.</li>
+<li>Really big mountains - where two or even three mountain noise meet, spectacular and unpredictable peaks form.</li>
+</ul>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/400px-Mapgen_Carpathian.jpg" />
+
+</div>
+<h2 id="biomes">Biomes</h2>
+<p>Biomes are a part of the map generation. Biomes are areas with similar ground and underground and vegetation. The biomes depend on the map generator used. Most map generators have the same biomes, but v6 is different.</p>
+<h3 id="v5-v7-valleys-flat-and-fractal">v5, v7, valleys, flat and fractal</h3>
+<p>Biomes in these map generators are defined by optional settings in Stonecraft like Ethereal, swamp and cave biomes and so on. If these are not defined, these map generators only generate stone worlds. Biomes in these map generators are not linked to the terrain shape; this means any biome (including grasslands) can form in flat or very mountainous areas. This section shows the biomes used by Stonecraft.</p>
+<p><strong>Grassland</strong></p>
+<p>Grassland has large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers, Grass and bushes may appear naturally in this area. The underground is made of stone.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_plains_v7.jpg" />
+
+</div>
+<p><strong>Coniferous forest</strong></p>
+<p>Coniferous forests grow in colder areas and are filled with pine trees. Pine tree forests can also be covered with snow in cold regions.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Pine_forest.jpg" />
+
+</div>
+<p><strong>Deciduous forest</strong></p>
+<p>Deciduous forests are one of the most common biomes in Stonecraft and form in temperate zones. Trees, apple trees and aspen trees grow here naturally. Generally forests can spawn lakes, ponds, and rivers inside of it. Deciduous forests usually surround plains.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Deciduous_forest_v7.jpg" />
+
+</div>
+<p><strong>Rainforest</strong></p>
+<p>Rainforests (or jungles) are made of large jungle trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. On fallen jungle tree logs, brown mushrooms may appear rarely. Jungles near oceans form a swamp with waterlilies.</p>
+<p><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_jungle_v7.jpg" /> <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_jungle_swamp.jpg" /></p>
+<p><strong>Savanna</strong></p>
+<p>The savanna is a dry land which is not a desert, it is populated with acacia trees and dry grass. Flat water bordering to savannahs is likely to have waterlilies and papyri.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Savannah.jpg" />
+
+</div>
+<p><strong>Desert</strong></p>
+<p>Deserts contain large amounts of desert sand and desert stone. Cacti and dry shrubs also spawn here naturally on desert sand. Cacti can form in two different shapes. Deserts form in hot and dry areas.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_desert.jpg" />
+
+</div>
+<p><strong>Sandstone desert</strong></p>
+<p>Sandstone deserts are large barren areas covered by sand with sandstone below. They form in temperate and dry climates.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_sandstone_desert.jpg" />
+
+</div>
+<p><strong>Cold desert</strong></p>
+<p>Cold deserts are large barren areas covered by large amounts of silver sand on top of stone. They form in cold and dry areas.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_cold_desert.jpg" />
+
+</div>
+<p><strong>Snowy grassland</strong></p>
+<p>The snowy grassland biome usually borders grasslands and is completely covered by a thin layer snow on top of dirt with snow. A few snow-covered bushes can be found here.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Snow_biome.jpg" />
+
+</div>
+<p><strong>Taiga</strong></p>
+<p>Taigas are cold snow-covered biomes with rich vegetation with snow and dirt with snow as surface. They are populated with snow-covered pine trees. In pine tree forests, mushrooms may appear rarely on fallen pine tree logs.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_taiga.jpg" />
+
+</div>
+<p><strong>Tundra</strong></p>
+<p>Tundras are barren biomes in very cold climates with no vegetation and a single layer of snow blocks on top of stone. They are usually found between taigas, snowy grass lands and glaciers. This is one of the few biomes where snow blocks (rather than just snow) generates.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_tundra.jpg" />
+
+</div>
+<p><strong>Glacier</strong></p>
+<p>Glaciers form only in the coldest regions and are made of large amounts of ice, covered by a thick layer of snow blocks without any vegetation. Glacier biomes can be either mountain-like as in the screenshot or very flat. Glacier biomes generally border ice sheet biomes near oceans.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Glacier.jpg" />
+
+</div>
+<p><strong>Ice sheet</strong></p>
+<p>Ice sheets form only in te coldest regions on top of oceans and generally border glacier biomes. Ice sheets are very flat and consist of a single layer of snow blocks with up to 10 layers of ice beneath, “floating” above water in deep oceans.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Ice_sheet_v6.jpg" />
+
+</div>
+<h3 id="v6">v6</h3>
+<p>The v6 map generator has a predefined set of biomes which can't be changed by mods directly. The outcome in different subgames will generally be very similar. Biomes in v6 also somewhat determine the terrain shape. In general, v6 biomes are a lot simpler than the biomes of the other map generators.</p>
+<p><strong>Plains</strong></p>
+<p>Plains are a quite flat biome. Large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers and Grass may appear naturally (since 0.4.7). There are no bushes. The underground is made of stone.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Large_plains.png" />
+
+</div>
+<p><strong>Forest</strong></p>
+<p>Forests are one of the most common biomes in v6 and form in temperate zones. Trees and apple trees grow here naturally, but no aspen trees. Forests usually surround plains. There are no fallen tree logs either.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_0_4_9.jpg" />
+
+</div>
+<p><strong>Desert</strong></p>
+<p>Deserts contain large amounts of desert sand and desert stone and often form large cliffs or canyons. Cacti and dry shrubs also spawn here naturally in clusters on desert sand. Deserts spawn underground rivers and lakes which can be over 200 blocks deep. In v6, cacti only form in a “column” shape of up to 4 blocks high.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Desert_at_sunset_0.4.7.png" />
+
+</div>
+<p><strong>Jungle</strong></p>
+<p>Jungles contains large trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. Jungles in v6 very similar to the jungles in the other map generators, but there are no fallen tree logs, mushrooms or swamps.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Jungle_v6.jpg" />
+
+</div>
+<p><strong>Taiga</strong></p>
+<p>The surface is covered with snow blocks on top of dirt with snow. Snow-covered pine tree forests are common in this biome.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_taiga.jpg" />
+
+</div>
+<p><strong>Tundra</strong></p>
+<p>Tundras are large open fields with thin layers of snow and are populated by dry shrubs. There are two variations of this biome.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_dirt_with_snow.jpg" />
+
+</div>
+<p><strong>Ice sheet</strong></p>
+<p>Ice sheets are two layers of ice on top of ocean water. They generate bordering directly to taigas and tundras.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Minetest_Game_ice_sheet.jpg" />
+
+</div>
+<p><strong>Gravel</strong></p>
+<p>Very rarely, unusually large areas of gravel can appear on the surface. These areas consist of nothing but gravel.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_gravel_biome.png" />
+
+</div>
+<h3 id="technical-biomes">Technical biomes</h3>
+<p><strong>Beach</strong></p>
+<p>Beaches are made out of sand and form at at height of Y=2 and below, which is near the sea level by default. Beaches often extend deep into the ocean, which can easily turn a large part of the ocean floor into sand. The sand replaces the floor of other biomes. Depending on the terrain shape, beaches can be short or very long and wide (as seen in the screenshot). Clay can be found in the sand and form in small to medium-sized blobs underwater. Beaches are generated based on height and noise; they technically form independent of the water of oceans. This effect can be noted if the water level (with the setting water_level) has been reduced.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_beach.jpg" />
+
+</div>
+<p><strong>Ocean</strong></p>
+<p>This biome is just a large body of water that can be up to 250 blocks deep. Oceans are commonly referred to as lakes, but are called oceans because they can be so huge, sometimes even 200-350 blocks across. The natural ocean floor is dirt, but sand is also common because of the beach biomes.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mapgen_v6_ocean.jpg" />
+
+</div>
+<p><strong>Island</strong></p>
+<p>Not classifiable as a biome, but still frequent enough to be classified as a technical biome, islands occur many times in oceans. These could even be referred to as a sub-biome, being a product of another biome. Islands usually raise out of the ground 3-10 blocks, but can get as large as 40-80 blocks tall.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Island_0.4.7.jpg" />
+
+</div>
+<p><strong>Mountain</strong></p>
+<p>Mountains are the most treacherous to scale. Trees and apple trees spawn here naturally. It is quite easy to be killed in a mountain biome if you don't pay attention to where you are going.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Mountain.png" />
+
+</div>
+<p><strong>Plateau</strong></p>
+<p>A giant structure, plateaus are very common around mountain biomes as well as deserts. Plateaus can even float above ground and generate miniature biomes on top of it.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Plateau_0.4.7_alternative.png" />
+
+</div>
+<p><strong>Water caves</strong></p>
+<p>Water caves are caves that only occur at sea level, which turn into a huge underground river or lake. These caves can lead thousands of blocks down and are extremely easily to get lost in.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/350px-Water_cave_0.4.7_alternative.png" />
+
+</div>
+<h2 id="underground-realms">Underground realms</h2>
+<p>There are three big underground realms:</p>
+<ul>
+<li>Caverealms</li>
+<li>Nether</li>
+<li>Morlendor (Not So Simple Mobs must be enabled)</li>
+</ul>
+<p>Here is an overview where the realms are located in the depth:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Underground_Realms.png" />
+
+</div>
+<p>No worry, you don't have to dig to Nether or Morlendor, there are special portals for them.</p>
+<h3 id="caverealms">Caverealms</h3>
+<p>Coming soon!</p>
+<h3 id="nether">Nether</h3>
+<p>Coming soon!</p>
+<h3 id="morlendor">Morlendor</h3>
+<p>Coming soon!</p>
+<h2 id="basic-controls">Basic Controls</h2>
+<p>Most of these can be changed in the &quot;Change Keys&quot; menu. The default and most important controls are:</p>
+<table style="width:39%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Control</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>W/A/S/D</strong></td>
+<td align="left">move</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Space</strong></td>
+<td align="left">jump</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Left mouse button</strong></td>
+<td align="left">Punch, mine blocks, move an item stack in an inventory</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Right mouse button</strong></td>
+<td align="left">use (e.g. open chest or furnace), place blocks, move one item or split items in an inventory</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Shift+Right mouse button</strong></td>
+<td align="left">place blocks</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Middle mouse button</strong></td>
+<td align="left">move 10 items in an inventory</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Mouse wheel</strong></td>
+<td align="left">select item in the hotbar</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>0-9</strong></td>
+<td align="left">select item in the hotbar</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>Q</strong></td>
+<td align="left">drop block, item or tool in hand</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>I</strong></td>
+<td align="left">open or close the inventory menu</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>T</strong></td>
+<td align="left">open the chat window</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Strg</strong></td>
+<td align="left">descend on ladders or sneak (walk slower, prevents falling off ledges)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F9</strong></td>
+<td align="left">Cycle through minimap modes</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Shift + F9</strong></td>
+<td align="left">Change minimap orientation</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F12</strong></td>
+<td align="left">Take screenshot</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>Esc</strong></td>
+<td align="left">Pause menu/abort/exit (pauses only singleplayer game)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="using-blocksitems">Using blocks/items</h2>
+<p>Using refers to a specific activity with a block. The kind of activity depends on the block. Not all blocks can be used. By default, using is done by clicking with the right mouse button on the block that shall be used.</p>
+<p>By using, you can:</p>
+<ul>
+<li>open and close Doors, Trapdoors and Fence Gates,</li>
+<li>access a Chest's, Locked Chest's or Bones' inventory,</li>
+<li>access a Furnace's menu,</li>
+<li>access a Sign's menu to edit its text,</li>
+<li>access a Book's menu to edit its text,</li>
+<li>access the inventory of a Bookshelf or Vessels Shelf,</li>
+<li>skip the night by sleeping in a Simple Bed or Fancy Bed,</li>
+<li>make fire with Flint and Steel,</li>
+<li>eat food, such as Apples or Bread.</li>
+</ul>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/inventory.png" />
+
+</div>
+<h3 id="taking">Taking</h3>
+<p>You can take items from an occupied slot if the cursor holds nothing.</p>
+<ul>
+<li>Left click: take entire item stack</li>
+<li>Right click: take half from the item stack (rounding up if uneven)</li>
+<li>Middle click: take 10 items from the item stack</li>
+</ul>
+<h3 id="dropping">Dropping</h3>
+<p>You can drop items onto a slot if the cursor holds 1 or more items and the slot is either empty or contains an item stack of the same item type.</p>
+<ul>
+<li>Left click: drop entire item stack</li>
+<li>Right click: drop 1 item of the item stack</li>
+<li>Middle click: drop 10 items of the item stack</li>
+</ul>
+<h3 id="exchanging">Exchanging</h3>
+<p>You can exchange items if the cursor holds 1 or more items and the destination slot is occupied by a different item type.</p>
+<ul>
+<li>Left, middle and right click: exchange item stacks from cursor and from selected item slot</li>
+</ul>
+<h3 id="throwing-away">Throwing away</h3>
+<p>If you hold an item stack and click with it somewhere outside the menu, the item stack gets thrown away into the environment.</p>
+<h3 id="automatic-transfer">Automatic Transfer</h3>
+<p>You can automatically transfer an item stack to/from the player inventory to/from another item's inventory slot like a furnace, chest, or any other item with an inventory slot when that item's inventory is accessed. When transferring items to/from the furnace, items that can be smelted will automatically go to the input slot. Items in the furnace output slot will automatically go to the player inventory.</p>
+<ul>
+<li>Shift+Left click: Automatically transfer item stack.</li>
+</ul>
+<h1 id="changing-your-skin">Changing your skin</h1>
+<p>If you want to change the default skin, you can do this in your inventory. Just click on the &quot;Skin&quot;-button below.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins1.png" />
+
+</div>
+<p>You see your current skin. Now click on &quot;Change&quot;.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins2.png" />
+
+</div>
+<p>Choose your desired skin.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins3.png" />
+
+</div>
+<p>Congratulations! Press 'F7' to switch in third person mode to see your new skin!</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/skins4.png" />
+
+</div>
+<h1 id="crafting">Crafting</h1>
+<h2 id="crafting-grid-and-output-slot">Crafting grid and output slot</h2>
+<p>To be able to craft anything at all, you need a crafting grid. A crafting grid consists of a number of inventory slots and you can place and move and remove items from it like you can with an inventory. To craft, the items have to be arranged somehow in the crafting grid. Next to a crafting grid there is one output slot, in which the craft appears if you arranged the items in a valid way. Click on this symbol with the left mouse button to make this craft once. The needed items in the crafting grid will be used up. Click on the output slot with the middle mouse button to make this craft up to ten times (depending on how much items are left in the crafting grid). Crafting generally takes no time and you can use the resulting items immediately.</p>
+<p>Crafting grids generally work like inventories. So a crafting grid found in your inventory menu can be used/abused as an extension of the player inventory.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/craftingslot.png" />
+
+</div>
+<h2 id="shaped-and-shapeless-recipes">Shaped and shapeless recipes</h2>
+<p>There are are two kinds of crafting recipes, <em>shaped ones</em> and <em>shapeless ones</em>.</p>
+<p>For a shaped recipe, the items have to be arranged into an exact pattern. If a crafting recipe takes up a smaller rectangle than the crafting grid, it can be moved on any part of the crafting grid. For example, a 2x2 recipe can be arranged on the top left, top right, bottom left or bottom right on a 3x3 crafting grid. If a crafting recipe uses more space than available in the crafting grid, you are unable to craft this item with it. You need a larger one.</p>
+<p>For a <em>shapeless recipe</em>, the necessary items just have to be placed on any available slots of the crafting grid. Stacking items does not work, however.</p>
+<p>Most crafting recipes are <em>shaped recipes</em>. If not noted otherwise, it is assumed that a crafting recipe is shaped.</p>
+<h2 id="example-recipes">Example recipes</h2>
+<h3 id="shapeless-recipes">Shapeless recipes</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="left">Ingredients</th>
+<th align="left">Grid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Bronze Ingot</td>
+<td align="left">Steel Ingot + Copper ingot</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shapeless1.jpg" /></td>
+</tr>
+<tr class="even">
+<td align="left">Bronze Ingot</td>
+<td align="left">Steel Ingot + Copper ingot</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shapeless2.jpg" /></td>
+</tr>
+<tr class="odd">
+<td align="left">Bronze Ingot</td>
+<td align="left">Steel Ingot + Copper ingot</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shapeless3.jpg" /></td>
+</tr>
+</tbody>
+</table>
+<h3 id="shaped-recipes">Shaped recipes</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Item</th>
+<th align="left">Ingredients</th>
+<th align="left">Grid</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Paper</td>
+<td align="left">Papyrus</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped1.jpg" /></td>
+</tr>
+<tr class="even">
+<td align="left">Paper</td>
+<td align="left">Papyrus</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped2.jpg" /></td>
+</tr>
+<tr class="odd">
+<td align="left">Paper</td>
+<td align="left">Papyrus</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/shaped3.jpg" /></td>
+</tr>
+</tbody>
+</table>
+<h2 id="smelting">Smelting</h2>
+<h3 id="fuel">Fuel</h3>
+<table>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Block</th>
+<th align="left">Burning time in seconds</th>
+<th align="left">Items smelted for fuel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal_block.png" /></td>
+<td align="left">Coal Block</td>
+<td align="left">370</td>
+<td align="left">123 1/3</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Bucket_lava.png" /></td>
+<td align="left">Lava Bucket</td>
+<td align="left">60</td>
+<td align="left">20</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Coal.png" /></td>
+<td align="left">Coal Lump</td>
+<td align="left">40</td>
+<td align="left">13 1/3</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Jungle_Tree.png" /></td>
+<td align="left">Jungle Tree</td>
+<td align="left">38</td>
+<td align="left">12 2/3</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Acacia_Tree.png" /></td>
+<td align="left">Acacia Tree</td>
+<td align="left">34</td>
+<td align="left">11 1/3</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Tree.png" /></td>
+<td align="left">Tree</td>
+<td align="left">30</td>
+<td align="left">10</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Pine_Tree.png" /></td>
+<td align="left">Pine Tree</td>
+<td align="left">26</td>
+<td align="left">8 2/3</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Aspen_Tree.png" /></td>
+<td align="left">Aspen Tree</td>
+<td align="left">22</td>
+<td align="left">7 1/3</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Cactus.png" /></td>
+<td align="left">Cactus</td>
+<td align="left">15</td>
+<td align="left">5</td>
+</tr>
+</tbody>
+</table>
+<p>And many more…</p>
+<h3 id="recipes">Recipes</h3>
+<table style="width:100%;">
+<colgroup>
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="left">Input</th>
+<th align="left"></th>
+<th align="left">Output</th>
+<th align="left">Smelting time</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Flour.png" /></td>
+<td align="left">Flour</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Bread.png" /></td>
+<td align="left">Bread</td>
+<td align="left">15s</td>
+<td align="left">Can be eaten to restore health.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Cobblestone.png" /></td>
+<td align="left">Cobblestone</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Stone.png" /></td>
+<td align="left">Stone</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Mossy_Cobblestone.png" /></td>
+<td align="left">Mossy Cobblestone</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Stone.png" /></td>
+<td align="left">Stone</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Desert_Cobblestone.png" /></td>
+<td align="left">Desert Cobblestone</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Desert_stone.png" /></td>
+<td align="left">Desert Stone</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Clay_Lump.png" /></td>
+<td align="left">Clay Lump</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Clay_Brick.png" /></td>
+<td align="left">Clay Brick</td>
+<td align="left">3s</td>
+<td align="left">Used to craft bricks.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Copper_lump.png" /></td>
+<td align="left">Copper Lump</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Copper_Ingot.png" /></td>
+<td align="left">Copper Ingot</td>
+<td align="left">3s</td>
+<td align="left">Can be combined with a steel ingot to make a bronze ingot.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Gold_lump.png" /></td>
+<td align="left">Gold Lump</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Gold_ingot.png" /></td>
+<td align="left">Gold Ingot</td>
+<td align="left">3s</td>
+<td align="left">Used for crafting Gold Block and Skeleton Key.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Skeleton_Key.png" /></td>
+<td align="left">Skeleton Key</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Gold_ingot.png" /></td>
+<td align="left">Gold Ingot</td>
+<td align="left">5s</td>
+<td align="left">Used for crafting Gold Block and Skeleton Key.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Iron_lump.png" /></td>
+<td align="left">Iron Lump</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Steel_Ingot.png" /></td>
+<td align="left">Steel Ingot</td>
+<td align="left">3s</td>
+<td align="left">Used for crafting several items.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Steel_bottle.png" /></td>
+<td align="left">Heavy Steel Bottle</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Steel_Ingot.png" /></td>
+<td align="left">Steel Ingot</td>
+<td align="left">3s</td>
+<td align="left">Used for crafting several items.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Group_sand.png" /></td>
+<td align="left">Sand/Desert sand</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Glass.png" /></td>
+<td align="left">Glass</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration or a building material.</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Pile_of_Glass_Fragments.png" /></td>
+<td align="left">Pile of Glass Fragments</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Glass.png" /></td>
+<td align="left">Glass</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration or a building material.</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Obsidian_shard.png" /></td>
+<td align="left">Obsidian Shard</td>
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/48px-Obsidian_glass.png" /></td>
+<td align="left">Obsidian Glass</td>
+<td align="left">3s</td>
+<td align="left">Used as decoration or a building material.</td>
+</tr>
+</tbody>
+</table>
+<p>And many more…</p>
+<h1 id="mobs">Mobs</h1>
+<h2 id="simple-mobs">Simple mobs</h2>
+<p>A few simple creatures in Stonecraft, not all are bad.</p>
+<table style="width:78%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Mob</th>
+<th align="left">Description</th>
+<th align="left">Health/Armor/Damage</th>
+<th align="left">Drops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Zombie<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/90px-CME_Zombie.png" /></td>
+<td align="left">Zombies can spawn at every time of day in the world as long there is not too much light. So you will find some in caves, dark forests and of cause a lot at night. If they notice you they will attack. Zombies have 20 HP (like players) and drop sometimes rotten flesh on death. On day Zombies die because of the sunlight.</td>
+<td align="left">20<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Rotten flesh</td>
+</tr>
+<tr class="even">
+<td align="left">Ghost<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/118px-CME_Ghost.png" /></td>
+<td align="left">Ghosts only spawn at night-time and they don't spawn underground. They are flying in the world and attack you aswell if they notice you. Ghosts have 15 HP and don't drop any items atm (might be changed in future).They can't harm you in your house. If it becomes day Ghosts will take damage by the sunlight, so they will die after a while.</td>
+<td align="left">15<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">-</td>
+</tr>
+<tr class="odd">
+<td align="left">Sheep<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/111px-CME_Sheep.png" /></td>
+<td align="left">Sheep spawn only at day-time and are friendly mobs. They remain around 5 minutes in the world unless they are tamed with 5 wheat (rightclick). There are four different wool colors: white, grey, brown and black. If there is grass (dirt with grass) they eat the grass and make new wool that way. Sheep have 8 HP and drop 1-2 wool when punched or sheared with shears. They need to eat grass until they can give wool again.</td>
+<td align="left">8<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">1-2 wool</td>
+</tr>
+<tr class="even">
+<td align="left">Chicken<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-CME_Chicken.png" /></td>
+<td align="left">Chicken are friendly and spawn only at day-time too. They drop randomly eggs and remain 5 minutes. Currently you can't tame or breed them. They drop chicken meat and feather(s) on death. Eggs can be thrown to spawn (rarely) new chicken, or cooked in furnace to gain fried eggs, which are eatable.</td>
+<td align="left">-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Chicken meat<br>Feather(s)</td>
+</tr>
+<tr class="odd">
+<td align="left">Oerrki<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/62px-CME_Oerki1.png" /></td>
+<td align="left">Oerrki spawn only at night on stone or dirt like blocks. They attack players and make more damage than Zombies or Ghosts. Daylight can't harm them.</td>
+<td align="left">-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="not-so-simple-mobs">Not So Simple Mobs</h2>
+<p><strong>Not So Simple Mobs</strong> are more complex mobs in Stonecraft, for the purpose of increasing the difficulty of playing. There are more than 50 different mobs. They are divided in groups, each one who lives in a different biome.</p>
+<p>They all drop life energies. With life energies you can craft tools and special powerful weapons to defend yourself from the monsters.</p>
+<table style="width:78%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Mob</th>
+<th align="left">Description</th>
+<th align="left">Health/Armor/Damage</th>
+<th align="left">Drops</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Black Widow<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_black_widow.png" /></td>
+<td align="left">A black widow is a hostile medium sized spider with a big abdomen. They attack with small but powerful chelicerae.</td>
+<td align="left">10<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Spider Leg<br>Web</td>
+</tr>
+<tr class="even">
+<td align="left">Stone Bloco<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_Stone_bloco.png" /></td>
+<td align="left">A Bloco is a hostile mob made of stone with a little head, short arms and legs. Bloco Is a little clumsy in walking and he chases his enemies rolling like a ball, a cubic ball obviously!<br><br>He is a true Rolling Stones fan.</td>
+<td align="left">7 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Stone</td>
+</tr>
+<tr class="odd">
+<td align="left">Crab<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_crab.png" /></td>
+<td align="left">Crab is a hostile mob that lives on the beach and they don't float in water, they prefer walking on the sand pinching their enemies with their powerful chelas. Crabs have two possible colors of their carapace, red and light orange.</td>
+<td align="left">17<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Surimi<br>Crab Chela</td>
+</tr>
+<tr class="even">
+<td align="left">Crocodile<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_crocodile.png" /></td>
+<td align="left">A Crocodile is a hostile mob.</td>
+<td align="left">10<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/1<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Crocodile Tail</td>
+</tr>
+<tr class="odd">
+<td align="left">Daddy Long Legs<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_daddy_long_legs.png" /></td>
+<td align="left">A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs!</td>
+<td align="left">9 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Spider Leg</td>
+</tr>
+<tr class="even">
+<td align="left">Dolidrosaurus<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/98px-Nssm_dolidrosaurus.png" /></td>
+<td align="left">A Dolidrosaurus is an aquatic reptile hostile mob with a long tail and a fin at the end. They're fully adapted to living in water and they have two others fins on the side which allow them to swim faster and more precisely. Dolidrosaurus derives from greek, Dolicolos means long, Hydor water and Sauros lizard. Dolidrosauruses have five possible variations of their skin: Dark green, green, light green, blue-green and blue-pink.</td>
+<td align="left">13<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy</td>
+</tr>
+<tr class="odd">
+<td align="left">Duck<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/61px-Nssm_duck.png" /></td>
+<td align="left">A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs.</td>
+<td align="left">5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Duck Legs<br>Duck Beak</td>
+</tr>
+<tr class="even">
+<td align="left">Echidna<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/68px-Nssm_echidna.png" /></td>
+<td align="left">An Echidna is a beautiful human hostile mob. It's skin is pale, sick-green and they have black hair. They're half naked but you probably won't care, the one who looses himself in thoose evil, but beautiful, eyes is dead. When you are to close she will slash you with her tail. She emits poison to blocks nearby which does not go away, it causes half heart of damage each game tick and you can drown in it like you would in water.</td>
+<td align="left">45<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Snake Scute</td>
+</tr>
+<tr class="odd">
+<td align="left">Enderduck<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/69px-Nssm_enderduck.png" /></td>
+<td align="left">An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night.</td>
+<td align="left">10<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Duck Legs<br>Duck Beak</td>
+</tr>
+<tr class="even">
+<td align="left">Felucco<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Felucco_nssm.png" /></td>
+<td align="left">The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: &quot;fel&quot; stands for &quot;felino&quot;, feline, because of its similarity with leopards. &quot;Ucc&quot; stands for &quot;mucca&quot;, cow, because of his peculiar horns and &quot;o&quot; is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear.</td>
+<td align="left">16<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn</td>
+</tr>
+<tr class="odd">
+<td align="left">Giant Sandworm<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/74px-Nssm_Giant_sandworm.png" /></td>
+<td align="left">A Giant Sandworm is a huge hostile mob that likes to stay in one place and damages players when they get within a 7 block range.</td>
+<td align="left">65<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Worm Flesh<br>Black Sand</td>
+</tr>
+<tr class="even">
+<td align="left">Icelamander<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_icelamander.png" /></td>
+<td align="left">The Icelamander is the boss of ice biomes. Nearly nothing could defeat this dangerous mob. Taller than a normal Sam, the Icelamanders have even more frightening jaws than Snow Biters! They have a long tail that helps them to keep the balance on their two legs. The Icelamanders are so cold that they frost everything while walking, not only water! Their frosting power is so strong that they can freeze you in an ice column even from a great distance! Not the simple default ice, but the Coldest Ice, so cold that can freeze the souls of the unlucky creatues trapped in it.<br><br>Icelamander eats their with their horrible fangs that can damage really bad their preys. You have now certainly understood that Icelamanders are really really dangerous.</td>
+<td align="left">230<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/6<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/6<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs</td>
+</tr>
+<tr class="odd">
+<td align="left">Icesnake<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/111px-Nssm_icesnake.png" /></td>
+<td align="left">An Icesnake is an amphibian that live in ice plains and mountains. Long ago its body has been adapted to cold biomes using ice and cold in order to preserve the water content in cells. In fact the heat produced by the frosting of ice in the environment allows the Icesnake and the others ice amphibians as Snow Biters, Icelamanders and Icelizards to keep in the liquid form their body fluids.<br><br>Icesnakes aren't very big or evil but they attack enemies with their fangs very rapidly.</td>
+<td align="left">13 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs</td>
+</tr>
+<tr class="even">
+<td align="left">Kraken<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/65px-Nssm_kraken.png" /></td>
+<td align="left">A Kraken is the king of the sea hostile gigantic octopus mob with long tentacles. There attack with tentacles is devastating but there dimensions doesn't allow them to go fast. Females are red-rose as Octpuses, on the other side the males are dark green. Kraken can produce ink in the water which make seeing in water even more difficult.</td>
+<td align="left">75<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Tentacle<br>Tentacle Curly</td>
+</tr>
+<tr class="odd">
+<td align="left">Larva<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/108px-Nssm_larva.png" /></td>
+<td align="left">A Larva is a hostile mob. It is the first stadium of Mantis and Mantis Beasts development. Their body is white and the head is brown. After around half a minute they become Mantis or Mantis Beasts! So be careful and slay all of them before it is too late.</td>
+<td align="left">5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy</td>
+</tr>
+<tr class="even">
+<td align="left">Lava Titan<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/90px-Nssm_lava_titan.png" /></td>
+<td align="left">A Lava Titan is a hostile mob that turns nearby blocks into lava and has two attack styles.<br>- Lava titan hits the ground with his fist, kneels and summons lava blocks diagonaly around players.<br>- Lava titan marches straight toward you rushing through blocks and destroying every block he touches.</td>
+<td align="left">40<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/6<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/3 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Lava Bucket<br>Lava Titan Eye</td>
+</tr>
+<tr class="odd">
+<td align="left">Manticore<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/84px-Nssm_manticore.png" /></td>
+<td align="left">A Manticore is a strong, fast hostile mob. It attacks either with projectiles from a far or with the scorpion sting on it's tail when you're too near.<br><br>Appearence<br>With face like a man's, a skin red as cinnabar, and is as large as a lion. It has three rows of teeth, ears and light-blue eyes like those of a man; its tail is like that of a land scorpion, containing a sting more than a cubit long at the end. It has other stings on each side of its tail.</td>
+<td align="left">12 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Manticore Spine</td>
+</tr>
+<tr class="even">
+<td align="left">Mantis<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/80px-Nssm_mantis.png" /></td>
+<td align="left">A Mantis is a tall and humanlike hostile mob that has two possible colors and attacks with two powerful kung fu moves with its 4 arms! It walks on two legs looking for fresh meat: you!</td>
+<td align="left">7 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Mantis Claw</td>
+</tr>
+<tr class="odd">
+<td align="left">Mantis Beast<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_mantis_beast.png" /></td>
+<td align="left">A Mantis Beast is a hostile mob that is Very similar to their relatives that walk on only two legs, Mantis Beasts are faster thanks to their 6 claws used in running and their position is more &quot;beastly&quot;!</td>
+<td align="left">10<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Mantis Claw</td>
+</tr>
+<tr class="even">
+<td align="left">Masticone<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_masticone.png" /></td>
+<td align="left">A Masticone is a hostile mob that alone isn't a real danger, but when you kill one of them two others come to venge their friend. Kill as many as you can then run as fast as you can!</td>
+<td align="left">7 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Masticone Fang<br>Masticone Skull<br>Fragments</td>
+</tr>
+<tr class="odd">
+<td align="left">Mese Dragon<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/95px-Nssm_messe_dragon.png" /></td>
+<td align="left">A Mese Dragon is a massive hostile boss mob with midas touch that turns nearby blocks into mese blocks and has meele and firebreath attack. Mese dragon is not damaged by sunlight, water or lava.</td>
+<td align="left">166 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/8<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Energy Globe<br>Rainbow Staff</td>
+</tr>
+<tr class="even">
+<td align="left">Night Master<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_moonherontrio.png" /></td>
+<td align="left">A Night Master is a hostile mob that is a special kind of Moonheron that has three heads.</td>
+<td align="left">15<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Heron Leg<br>Night Feather</td>
+</tr>
+<tr class="odd">
+<td align="left">Octopus<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/106px-Nssm_octopus.png" /></td>
+<td align="left">An octopus is a hostile mob that is weaker brother of Kraken, they're not able to produce ink and they are all red-rose.</td>
+<td align="left">11<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/-<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Tentacle</td>
+</tr>
+<tr class="even">
+<td align="left">Phoenix<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Nssm_phoenix.png" /></td>
+<td align="left">A Phoenix is a hostile mob made of fire and energy. Nobody, unless the sun, is brighter than this beatiful bird in the sky.</td>
+<td align="left">30<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Sun Feather<br>Phoenix Tear<br>Phoenix Nuggets</td>
+</tr>
+<tr class="odd">
+<td align="left">Pumpking<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/98px-Nssm_pumpking.png" /></td>
+<td align="left">A Pumpking is a hostile mob king of the pumbooms it is tall creepy creature with a humanlike black thin bodies covered with the blood of their victims, their head is very similar to a Pumpboom and their body to Signosigno. On their death they have a little explosive surprise for the unlucky warrior able enough to defeat them...</td>
+<td align="left">50<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Cursed Pumpkin Seed</td>
+</tr>
+<tr class="even">
+<td align="left">Scrausics<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Scrausics_nssm.png" /></td>
+<td align="left">A scrausics is a hostile mob.</td>
+<td align="left">15<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Raw Scrausics Wing</td>
+</tr>
+<tr class="odd">
+<td align="left">Snowbiter<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Snowbiter_nssm.png" /></td>
+<td align="left">A Snow Biter is a hostile mob.</td>
+<td align="left">15<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Frosted Amphibian Heart<br>Amphibian Ribs<br>Little Ice Tooth</td>
+</tr>
+<tr class="even">
+<td align="left">Spiderduck<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Spiderduck_nssm.png" /></td>
+<td align="left">Spiderducks have evolved from Enderducks to become more similar to the spiders. They have a dark skin and 8 legs, but the body is the one of a duck.<br><br>Even if they are not bosses they are extremely dangerous! In fact if you don't know what to expect from a spiderduck you can easily fall in its web and become a tasteful snack! Spiderducks spawn only at night and because of their dark color they are able to easily blend with the environment. If a spiderduck sees you it starts shooting at you web projectiles. When they hit the target a sticky web covers the soil trapping the victims. And if you have been trapped then expect the spiderduck to come at you and to eat you!</td>
+<td align="left">24-35<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/6<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Duck legs<br>Life Energy<br>Web<br>Duck beak</td>
+</tr>
+<tr class="odd">
+<td align="left">Stone Eater<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Stone_Eater_nssm.png" /></td>
+<td align="left">A Stone Eater is a hostile mob that is imune to any sword weapon. When under attack he bites back while eating stone that is around.</td>
+<td align="left">14<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/6<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Stoneater Mandible<br>Stone</td>
+</tr>
+<tr class="even">
+<td align="left">Swimming Duck<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Swiming_Duck_nssm.png" /></td>
+<td align="left">A Swimming Duck is a hostile mob.</td>
+<td align="left">12 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Duck Legs<br>Duck Beak<br>Duck Feather</td>
+</tr>
+<tr class="odd">
+<td align="left">Tarantula<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Tarantula_nssm.png" /></td>
+<td align="left">A Tarantula is a hostile mob that can either bite or slow down your movement trapping you inside a cocon. After killing it Tarantula Propower appears.</td>
+<td align="left">25<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Super Silk Gland</td>
+</tr>
+<tr class="even">
+<td align="left">Mordain<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Mordain_nssm.png" /></td>
+<td align="left">A Mordain is a hostile mob that likes teleporting.</td>
+<td align="left">16<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Slothful Soul Fragment</td>
+</tr>
+<tr class="odd">
+<td align="left">Morde<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morde_nssm.png" /></td>
+<td align="left">A Morde is a hostile mob that has an ability to heal himself.</td>
+<td align="left">23 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Proud Soul Fragment</td>
+</tr>
+<tr class="even">
+<td align="left">Morgre<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morgre_nssm.png" /></td>
+<td align="left">A Morgre is a hostile mob that likes to explode.</td>
+<td align="left">17<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Greedy Soul Fragment</td>
+</tr>
+<tr class="odd">
+<td align="left">Morgut<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morgut_nssm.png" /></td>
+<td align="left">Dont let it get to close to you or else it will steal your precious food. You can get your food back by slaying Morgut.<br><br>With the Gluttonous soul fragment it is possible to craft a strong weapon Sword of Gluttony and Food Bomb</td>
+<td align="left">18<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/3<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Gluttonous soul fragment</td>
+</tr>
+<tr class="even">
+<td align="left">Morlu<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morlu_nssm.png" /></td>
+<td align="left">Dont let it get to close to you or else it will steal your precious equipped armor. You can get your armor back by slaying Morlu.<br><br>With the Lustful Soul Fragment it is possible to craft strong Morlu armor and Cage Bomb</td>
+<td align="left">28<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Wrathful Soul Fragment</td>
+</tr>
+<tr class="odd">
+<td align="left">Morvy<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morvy_nssm.png" /></td>
+<td align="left">A Morvy is a hostile mob that likes summoning.</td>
+<td align="left">19 1/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/2<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Envious Soul Fragment</td>
+</tr>
+<tr class="even">
+<td align="left">Morwa<br><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/120px-Morwa_nssm.png" /></td>
+<td align="left">A Morwa is a hostile mob that can either range you from afar or smash you when your close enough.</td>
+<td align="left">28<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" />/5<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Armor.png" />/4<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/16px-Heart.png" /></td>
+<td align="left">Life Energy<br>Wrathful Soul Fragment</td>
+</tr>
+</tbody>
+</table>
+<h1 id="farming">Farming</h1>
+<p>Farmable blocks will spawn either new blocks or yield new items, when mined. All farmable blocks have to be on top of another certain kind of block to grow. Some farmable blocks also need light. The “Maximum profit” column shows the maximum possible outcome a single block will yield, including itself. Please notice: Light level 13 on a farmable crop cannot be achieved at night!</p>
+<table style="width:100%;">
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Block</th>
+<th align="left">Grows on</th>
+<th align="left">Needs light?</th>
+<th align="left">Maximum profit</th>
+<th align="left">Theorical growth speed (evolution)</th>
+<th align="left">Expected growth speed (full)</th>
+<th align="left">Number of growth stages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_8.png" /> Cotton (plant)</td>
+<td align="left">Wet Soil, Wet Desert Sand Soil</td>
+<td align="left">Yes, 13 or higher</td>
+<td align="left">3 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton.png" /> Strings and 3 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cotton_Seed.png" /> Cotton Seeds</td>
+<td align="left">1/2 chance to grow every 80 seconds = about 160 seconds per stage</td>
+<td align="left">160 x 7 = 1120 seconds ~ 19 minutes</td>
+<td align="left">8</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_8.png" /> Wheat (plant)</td>
+<td align="left">Wet Soil</td>
+<td align="left">Yes, 13 or higher</td>
+<td align="left">2 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat.png" /> Wheat (items) and 2 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Wheat_Seed.png" />Wheat Seeds</td>
+<td align="left">1/2 chance to grow every 90 seconds = about 180 seconds per stage</td>
+<td align="left">180 x 7 = 1260 seconds = 21 minutes</td>
+<td align="left">8</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Sapling.png" /> Jungle Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left">About 20 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Tree.png" /> Jungle Trees and many <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Jungle_Leaves.png" /> Jungle Leaves</td>
+<td align="left">1/50 chance every 10 seconds</td>
+<td align="left">10 x 50 = 500 seconds ~ 8 minutes</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Sapling.png" /> Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left">5 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Tree.png" /> Trees, many <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Leaves.png" /> Leaves and some <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Apple.png" /> Apples</td>
+<td align="left">1/50 chance every 10 seconds</td>
+<td align="left">10 x 50 = 500 seconds ~ 8 minutes</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree_Sapling.png" /> Acacia Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left">13 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Tree.png" /> Acacia Trees and ca. 75 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Acacia_Leaves.png" /> Acacia Leaves</td>
+<td align="left">1/50 chance every 10 seconds</td>
+<td align="left">10 x 50 = 500 seconds ~ 8 minutes</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Sapling.png" /> Pine Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left">Some <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Tree.png" /> Pine Trees and many <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Pine_Needles.png" /> Pine Needles</td>
+<td align="left">1/50 chance every 10 seconds</td>
+<td align="left">10 x 50 = 500 seconds ~ 8 minutes</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png" /> Cactus</td>
+<td align="left">Any kind of sand</td>
+<td align="left">No</td>
+<td align="left">4 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Cactus.png" /> Cacti</td>
+<td align="left">1/20 chance every 50 seconds</td>
+<td align="left">50 x 20 = 1000 seconds ~ 17 minutes</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png" /> Papyrus</td>
+<td align="left">Dirt, Dirt with Grass. (Water must be to 3 blocks away)</td>
+<td align="left">No</td>
+<td align="left">4 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Papyrus.png" /> Papyri</td>
+<td align="left">1/20 chance every 50 seconds</td>
+<td align="left">50 x 20 = 1000 seconds ~ 17 minutes</td>
+<td align="left">4</td>
+</tr>
+<tr class="odd">
+<td align="left">Group:flora</td>
+<td align="left">Dirt with Grass</td>
+<td align="left">Yes, 13 or higher</td>
+<td align="left">4 flora blocks of the same kind</td>
+<td align="left">1/25 chance every 50 seconds</td>
+<td align="left">50 x 25 = 1250 seconds ~ 21 minutes</td>
+<td align="left">1</td>
+</tr>
+<tr class="even">
+<td align="left">Group:flora</td>
+<td align="left">Desert Sand</td>
+<td align="left">No</td>
+<td align="left">1 <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/32px-Dry_Shrub.png" /> Dry Shrub</td>
+<td align="left">1/25 chance every 50 seconds</td>
+<td align="left">50 x 25 = 1250 seconds ~ 21 minutes</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="technic">Technic</h1>
+<p>Become an engineer in Stonecraft! From simple water-wheel ore proccessing centers, to massive nuclear-powered force-field networks!</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Technic_Screenshot.png" />
+
+</div>
+<ul>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mv_alloy_furnace_front.png" /> <a href="#machines">Machines</a></li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mv_compressor_front.png" /> <a href="#consumers">Consumers</a></li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_hv_generator_front.png" /> <a href="#generators">Generators</a></li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png" /> <a href="#chests">Chests</a></li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_uranium_ingot.png" /> <a href="#resources">Resources</a></li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk3.png" /> <a href="#tools">Tools</a></li>
+</ul>
+<h2 id="machines">Machines</h2>
+<h3 id="machine-details">Machine details</h3>
+<ul>
+<li><a href="#generators">Generators</a></li>
+<li><a href="#consumers">Consumers</a></li>
+<li><a href="#other-machines">Other machines</a></li>
+</ul>
+<h3 id="overview">Overview</h3>
+<p>Many of the important machines in Technic run on electricity, using wires to connect generators with the consuming machines. These electric circuits consist of a generator, a consumer, wiring, and a switching station. Every independent circuit requires all 4 of these elements to function. In general the machines are all connected on the bottom by wire. Machines should be placed first and then the wire placed under and around them. The wiring should automatically adjust itself to connect to each machine and adjacent wires. If the wiring looks incorrect, it's likely that it won't work so be sure to check this!</p>
+<p>Circuits are also grouped into 3 different categories based on how much power they transfer and the corresponding voltage: low voltage (LV), medium voltage (MV), and high voltage (HV). The base level for all electronics is low voltage, so if voltage isn't specified for a electrical component, you may safely assume it's low voltage. Most low-voltage components are upgradable to medium- and high-voltage through further crafting. To get started, you won't need to worry about any MV or HV components, and the basic low-voltage components are fine.</p>
+<h3 id="getting-started">Getting started</h3>
+<p>The first step to working with the more advanced machines are to get a basic electrical circuit set up for converting coal into power for other machines. This will rely on the following:</p>
+<p><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/LV_Fuel_Fired_Generator_Crafting.png" /> 1x LV Fuel Fired Generator</p>
+<p><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Switching_station_crafting.png" /> 1x Switching station</p>
+<p><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/LV_cable_Crafting.png" /> 2x LV Cable</p>
+<p>The generator and switching station should be placed side-by-side with the wire underneath connecting both of them. Once this is done, additional consumers can be added to the network. A grinder or extractor are both good choices to expand the capabilities of the coal-fired smelter and coal-fired alloy furnace that you already have.</p>
+<h2 id="consumers">Consumers</h2>
+<p>Consumer is a machine which consume energy to do something.</p>
+<p>This is the list of all consumers avaible in technic mod:</p>
+<ul>
+<li>Alloy furnace</li>
+<li>MV Alloy furnace</li>
+<li>Grinder</li>
+<li>Electric Furnace</li>
+<li>MV - Electric Furnace</li>
+<li>Force field emitter</li>
+<li>CNC machine</li>
+<li>Power radiator</li>
+<li>Tool workshop</li>
+</ul>
+<h2 id="generators">Generators</h2>
+<p>This is list of all generators available in technic mod:</p>
+<ul>
+<li>Coal generator</li>
+<li><a href="#geothermal-eu-generator">Geothermal EU generator</a></li>
+<li><a href="#watermill">Watermill</a></li>
+<li><a href="#solar-panel">Solar-panel</a></li>
+<li>LV <a href="#solar-array">solar-array</a></li>
+<li>MV <a href="#solar-array">solar-array</a></li>
+<li>HV <a href="#solar-array">solar-array</a></li>
+</ul>
+<h2 id="chests">Chests</h2>
+<p>Technic extends the base chest from <code>technic_game</code> with 5 additional chests, each adding additional inventory slots.</p>
+<p>There are all types of chests from worst to best:</p>
+<ul>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_iron_chest_front.png" alt="Iron chest icon" /> Iron chest, 9x10 slots</li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_copper_chest_front.png" alt="Copper chest icon" /> Copper chest, 10x10 slots</li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_silver_chest_front.png" alt="Silver chest icon" /> Silver chest, 11x10 slots. Can also be named.</li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_gold_chest_front.png" alt="Gold chest icon" /> Gold chest, 12x10 slots. Can be named and given a unique color.</li>
+<li><img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mithril_chest_front.png" alt="Mithril chest icon" /> Mithril chest, 13x10 slots. <strong>Note:</strong> The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<p>Technic provides additional resources for building these machines.</p>
+<h3 id="latex-latex-icon">Latex <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_raw_latex.png" alt="latex icon" /></h3>
+<p>Latex is used for manufacturing rubber, which is heavily used for the medium- and high-voltage components within Technic. Latex can be harvested directly from rubber trees (look for the pale green/seafoam leaves) using the tree tap like any other tool. Rubber trees regenerate their latex supplies after about a day.</p>
+<h2 id="tools">Tools</h2>
+<p>Tools in Technic fall into two categories: manual and electric. Both sets of tools are unstackable in the inventory. They have limited durability that is reduced during use (they disappear after they hit 0 durability). Manual tools can be regenerated by using the Tool Workshop, so that valuable tools, such as mese or diamond tools can be preserved. Electric tools require charging in Battery Boxes (of any voltage) and will not be destroyed when they reach 0 charge. Higher levels of electric tools are more powerful and contain more charge so they work longer.</p>
+<h3 id="chainsaw-chainsaw-icon">Chainsaw <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_chainsaw.png" alt="chainsaw icon" /></h3>
+<p>This electric tool speeds up harvesting of wood by allowing the harvesting of an entire tree in a single click. Just click on any part of a tree, and the wood and leaves of that tree at that point and above will be cut and dropped on the ground as blocks. It has enough charge to cut down about 5 trees before running out of power.</p>
+<p><strong>Note:</strong> If you can't find the drops from using the chainsaw, dig around as they can be buried under neighbouring terrain blocks.</p>
+<h3 id="flashlight-flashlight-icon">Flashlight <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_flashlight.png" alt="flashlight icon" /></h3>
+<p>This electric tool illumates the area in front of the player. While it is electric, and so requires charging, to use it one only needs to equip it. Punching with this tool does nothing.</p>
+<h3 id="lava-can-lava-can-icon">Lava can <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_lava_can.png" alt="lava can icon" /></h3>
+<p>The lava can works similarly to the bucket tool and the water can, but instead of carrying water, it can carry lava source blocks (the ones that aren't animated), up to 8 at a time. To use, simply equip and click on lava source blocks (they will highlight in black). Then clicking anywhere where there isn't a lava source block will place them again.</p>
+<p><strong>Warning:</strong> Be careful where you place these source blocks! Since you're placing lava source blocks, lava will flow out of them and may trap or burn you depending on where you are.</p>
+<h3 id="mining-drill-mining-drill-mk1-icon-mining-drill-mk2-icon-mining-drill-mk3-icon">Mining drill <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill.png" alt="mining drill mk1 icon" /> <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill_mk2.png" alt="mining drill mk2 icon" /> <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_drill_mk3.png" alt="mining drill mk3 icon" /></h3>
+<p>This electric tool operates similarly to a pickaxe, though every block takes exactly one click to drill out. While the Mining Laser allows for faster collection of bulk minerals, it's cutting path can sometimes be undesirable, and the mining drill is useful in these instances.</p>
+<p>The higher levels of the mining drill allow for drilling more blocks at once, substantially reducing mining time. At mark-2, the mining drill can drill 3 blocks at once, either 3-deep, 3-wide, or 3-tall. At mark-3, the mining drill can drill 9-blocks at once in a 3x3 layout around the block selected. Switching between these modes can be done by shift-clicking.</p>
+<p><strong>Advice:</strong> Since these tools require substantially more diamonds than the mining laser, and yet drills slower, it is suggested that a mining laser be built first.</p>
+<h3 id="mining-laser-mining-laser-mk1-icon-mining-laser-mk2-icon-mining-laser-mk3-icon">Mining laser <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk1.png" alt="mining laser mk1 icon" /> <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk2.png" alt="mining laser mk2 icon" /> <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_mining_laser_mk3.png" alt="mining laser mk3 icon" /></h3>
+<p>This electric tool is a substantial upgrade above the pickaxe that you start mining with. The laser works by drilling directly forward 7 blocks making a path that's roughly 1-block in diameter. The laser is electric, requiring charging in a battery box (any voltage). As soon as an LV electrical system is set up, this is a great next step.</p>
+<h3 id="sonic-screwdriver-sonic-screwdriver-icon">Sonic screwdriver <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_sonic_screwdriver.png" alt="sonic screwdriver icon" /></h3>
+<p>This electric tool is used for rotating nodes, much like the default Screwdriver tool, but loses charge instead of durability. This is useful for any nodes which have a &quot;front&quot; direction, like stairs, machines, furniture, etc. Nodes are rotated around the Y-axes (vertical).</p>
+<h3 id="tree-tap-tree-tap-icon">Tree tap <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_tree_tap.png" alt="tree tap icon" /></h3>
+<p>This manual tool allows for harvesting latex from rubber trees. Extracting latex can be done by hitting rubber trees with it yields for 1 latex. The rubber tree will regenerate its latex supply over the course of a day.</p>
+<h3 id="water-can-water-can-icon">Water can <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_water_can.png" alt="water can icon" /></h3>
+<p>The water can works similarly to the normal bucket tool, but it can hold 16 <code>water_source</code> (the water blocks that don't look like they're flowing) blocks instead of 1. To use, simply equip the water can and click on water source blocks (they will highlight in black). Then clicking anywhere where there isn't a <code>water_source</code> block with the water can equipped will place them.</p>
+<p><strong>Warning:</strong> Be careful where you place these source blocks! Since you're placing water source blocks, water will flow out of them and may trap or drown you depending on where you are.</p>
+<h3 id="wrench-wrench-icon">Wrench <img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/technic_wrench.png" alt="wrench icon" /></h3>
+<p>The manual tool allows for moving blocks which contain an inventory, like chests. A shift-right-click on a machine/chest will immediately add it to the inventory.</p>
+<h2 id="digilines">Digilines</h2>
+<p>You can control some machines with the digilines.</p>
+<h3 id="switching-station">Switching Station</h3>
+<p>There are two ways getting information from the switching station:</p>
+<ol style="list-style-type: decimal">
+<li>Give it a mesecon signal (eg. with a lever) and it will send always when the supply or demand changes.</li>
+<li>Send to the switching station <code>&quot;get&quot;</code> or <code>&quot;GET&quot;</code> and it will send back.</li>
+</ol>
+<p>The sent message is always a table containing the supply and demand.</p>
+<h3 id="supply-converter">Supply Converter</h3>
+<p>You can send the following to it:</p>
+<ul>
+<li><code>&quot;get&quot;</code>: It will send back a table containing the fields <code>&quot;enabled&quot;</code>, <code>&quot;power&quot;</code> and <code>&quot;mesecon_mode&quot;</code> which are all integers.</li>
+<li><code>&quot;off&quot;</code>: Deactivate the supply converter.</li>
+<li><code>&quot;on&quot;</code>: Activate the supply converter.</li>
+<li><code>&quot;toggle&quot;</code>: Activate or deactivate the supply converter depending on its current state.</li>
+<li><code>&quot;power &quot;..power</code>: Set the amount of the power, it shall convert.</li>
+<li><code>&quot;mesecon_mode &quot;..&lt;int&gt;</code>: Set the mesecon mode.</li>
+</ul>
+<h3 id="battery-boxes">Battery Boxes</h3>
+<p>Send to it <code>&quot;get&quot;</code> or <code>&quot;GET&quot;</code> and it will send a table back containing:</p>
+<ul>
+<li><code>demand</code>: A number.</li>
+<li><code>supply</code>: A number.</li>
+<li><code>input</code>: A number.</li>
+<li><code>charge</code>: A number.</li>
+<li><code>max_charge</code>: A number.</li>
+<li><code>src</code>: Itemstack made to table.</li>
+<li><code>dst</code>: Itemstack made to table.</li>
+<li><code>upgrade1</code>: Itemstack made to table.</li>
+<li><code>upgrade2</code>: Itemstack made to table.</li>
+</ul>
+<h3 id="forcefield-emitter">Forcefield Emitter</h3>
+<p>You should send a table to it containing the <code>command</code> and for some commands the <code>value</code> field. Some strings will automatically be made to tables:</p>
+<ul>
+<li><code>&quot;get&quot;</code> :arrow_right: <code>{command = &quot;get&quot;}</code></li>
+<li><code>&quot;off&quot;</code> :arrow_right: <code>{command = &quot;off&quot;}</code></li>
+<li><code>&quot;on&quot;</code> :arrow_right: <code>{command = &quot;on&quot;}</code></li>
+<li><code>&quot;toggle&quot;</code> :arrow_right: <code>{command = &quot;toggle&quot;}</code></li>
+<li><code>&quot;range &quot;..range</code> :arrow_right: <code>{command = &quot;range&quot;, value = range}</code></li>
+<li><code>&quot;shape &quot;..shape</code> :arrow_right: <code>{command = &quot;shape&quot;, value = shape}</code></li>
+</ul>
+<p>The commands:</p>
+<ul>
+<li><code>&quot;get&quot;</code>: The forcefield emitter sends back a table containing:
+<ul>
+<li><code>&quot;enabled&quot;</code>: <code>0</code> is off, <code>1</code> is on.</li>
+<li><code>&quot;range&quot;</code></li>
+<li><code>&quot;shape&quot;</code>: <code>0</code> is spheric, <code>1</code> is cubic.</li>
+</ul></li>
+<li><code>&quot;off&quot;</code>: Deactivate the forcefield emitter.</li>
+<li><code>&quot;on&quot;</code>: Activate the forcefield emitter.</li>
+<li><code>&quot;toggle&quot;</code>: Activate or deactivate the forcefield emitter depending on its current state.</li>
+<li><code>&quot;range&quot;</code>: Set the range to <code>value</code>.</li>
+<li><code>&quot;shape&quot;</code>: <code>value</code> can be a number (<code>0</code> or <code>1</code>) or a string (<code>&quot;sphere&quot;</code> or <code>&quot;cube&quot;</code>).</li>
+</ul>
+<h3 id="nuclear-reactor">Nuclear Reactor</h3>
+<p>Since the nuclear reactor core can't be accessed by digiline wire because the water layer which mustn't have a hole, you need the digiline_remote to control it. You should send a table to it containing at least the <code>command</code> field and for some commands other fields. Some strings will automatically be made to tables:</p>
+<ul>
+<li><code>&quot;get&quot;</code> :arrow_right: <code>{command = &quot;get&quot;}</code></li>
+<li><code>&quot;self_destruct &quot;..time</code> :arrow_right: <code>{command = &quot;self_destruct&quot;, timer = time}</code></li>
+<li><code>&quot;start&quot;</code> :arrow_right: <code>{command = &quot;start&quot;}</code></li>
+</ul>
+<p>The commands:</p>
+<ul>
+<li><code>&quot;get&quot;</code>: The nuclear reactor sends back a table containing:
+<ul>
+<li><code>&quot;burn_time&quot;</code>: The time in seconds how long the reactor already runs. One week after start, when it reaches 7 * 24 * 60 * 60 (=604800), the fuel is completely used.</li>
+<li><code>&quot;enabled&quot;</code>: A bool.</li>
+<li><code>&quot;siren&quot;</code>: A bool.</li>
+<li><code>&quot;structure_accumulated_badness&quot;</code></li>
+<li><code>&quot;rods&quot;</code>: A table with 6 numbers in it, one for each fuel slot.
+<ul>
+<li>A positive value is the count of fuel rods in the slot.</li>
+<li><code>0</code> means the slot is empty.</li>
+<li>A negative value means some other items are in the slot. The absolute value is the count of these items.</li>
+</ul></li>
+</ul></li>
+<li><code>&quot;self_destruct&quot;</code>: A setting has to be enabled to use this. The reactor will melt down after <code>timer</code> seconds or instantly.</li>
+<li><code>&quot;start&quot;</code>: Tries to start the reactor, <code>&quot;Start successful&quot;</code> is sent back on success, <code>&quot;Error&quot;</code> if something is wrong.</li>
+</ul>
+<p>If the automatic start is enabled, it will always send <code>&quot;fuel used&quot;</code> when it uses fuel.</p>
+<h2 id="reactors">Reactors</h2>
+<h3 id="nuclear-reactors">Nuclear Reactors</h3>
+<p>If no amount of solar power is enough to sate your hunger for power, why not give reactors a try? Utilising the latest micro-fission technology, you can produce up to 100,000 EU per second!</p>
+<h4 id="setup">Setup</h4>
+<pre><code>The standard reactor structure consists of a 9x9x9 cube.  A cross
+section through the middle:</code></pre>
+<pre><code>    BBB BBB
+    BLL LLB
+    BLWWWLB
+    BLW#WLB
+    BLW|WLB
+    BLL|LLB
+    BBB|BBB</code></pre>
+<pre><code>B = Blast-resistant concrete, L = Lead Block,
+W = water node, # = reactor core, | = HV cable
+The man-hole and the HV cable are only in the middle, and the man-hole
+is optional.</code></pre>
+<h2 id="geothermal-eu-generator">Geothermal EU generator</h2>
+<p>Using hot lava and water this device can create energy from steam</p>
+<p>The machine is only producing LV EUs and can thus not drive more advanced equipment</p>
+<p>The output is a little more than the coal burning generator (max 300EUs)</p>
+<h2 id="other-machines">Other machines</h2>
+<p>Some machines in Technic can not be classified as producers or consumers.</p>
+<p>This is a list of this machines:</p>
+<ul>
+<li>Switching station</li>
+<li>LV Battery Box</li>
+<li>MV Battery Box</li>
+<li>HV Battery Box</li>
+<li>Constructor</li>
+<li>Deployer</li>
+<li>Node Breaker</li>
+<li>Supply Converter</li>
+</ul>
+<h3 id="switching-station-1">Switching Station</h3>
+<p>The Switching station is the most important part of any network, since without a switching station, no machine will operate!</p>
+<h3 id="lvmvhv-battery-box">LV/MV/HV Battery Box</h3>
+<p>These peculiar machines can both generate <em>and</em> consume, depending on what's needed. Do note that higher tier machines will charge tools faster!</p>
+<h3 id="supply-converter-1">Supply Converter</h3>
+<p>The Supply Converter can convert one voltage to the next highest or lowest. It will pull a load of 10,000 EU, but will waste it if the other side is unable to accept it. The top is the input voltage, and the bottom is the output. Both sides will require their own switching station!</p>
+<h2 id="solar-array">Solar array</h2>
+<p>The solar array is an assembly of panels into a powerful array</p>
+<p>The assembly can deliver more energy than the individual panel because of the transformer unit which converts the panel output variations into a stable supply.</p>
+<p>Solar arrays are not able to store large amounts of energy.</p>
+<p>The LV arrays are used to make medium voltage arrays.</p>
+<h2 id="solar-panel">Solar Panel</h2>
+<p>Solar panels are the building blocks of LV solar arrays</p>
+<p>They can however also be used separately but with reduced efficiency due to the missing transformer.</p>
+<p>Individual panels are less efficient than when the panels are combined into full arrays.</p>
+<h2 id="watermill">Watermill</h2>
+<p>A water mill produces LV EUs by exploiting flowing water across it</p>
+<p>It is a LV EU supplyer and fairly low yield (max 120EUs)</p>
+<p>It is a little under half as good as the thermal generator.</p>
+<h1 id="pipeworks">Pipeworks</h1>
+<h2 id="description">Description</h2>
+<p>Pipeworks is used for crafting and usage of pipes and tubes. In addition to providing pipes for transporting liquids and tubes for transporting items, it also contains a number of devices for working with them. Here's what it looks like:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Pipeworks.png" />
+
+</div>
+<p>Mesecons is recommended as well for the best possible experience.</p>
+<p>Crafting recipes noted here apply only for plain Pipeworks. If Technic is installed (yes it is in Stonecraft), Pipeworks items use alternate recipes. See the Technic documentation for more details.</p>
+<h3 id="fluid-transport">Fluid transport</h3>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/FluidTransport.png" />
+
+</div>
+<h4 id="pipes">Pipes</h4>
+<p>Pipes are round, flanged devices that can transport liquids around - by default, only water. They automatically connect to other pipes and devices that are pipe-compatible, such as valves, flow sensors, pumps and spigots.</p>
+<p>Pipes transport liquids at a speed of one meter (node) per second - a run of 30 pipes will take 30 seconds to transport liquid from one end to another.</p>
+<p>Digging a pipe carrying liquid drops the empty pipe - the liquid inside is lost.</p>
+<p>Pipes &quot;light up&quot; when they contain liquid.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPipe.png" />
+
+</div>
+<h4 id="straight-only-pipes">Straight-only pipes</h4>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/StraightPipes.png" />
+
+</div>
+<p>In some cases, you may need to run several pipes in parallel, in a confined space. If you tried to use normal pipes for this purpose, they'd just all connect to one another, which you likely didn't want. To deal with this, use straight-only pipes. Aside from only connecting at their ends, their main distinguishing mark is the gray line running the length of the pipe (i.e. a &quot;straight&quot; line).</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftStraightPipe.png" />
+
+</div>
+<h4 id="spigots">Spigots</h4>
+<p>Spigots output the liquid input via pipe into the world.</p>
+<p>Spigots only connect from one side.</p>
+<p>Connecting a spigot to a pipe carrying water makes water flow out of the bottom of the spigot.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftSpigot.png" />
+
+</div>
+<h4 id="pumps">Pumps</h4>
+<p>Pumps can be placed inside or over a water source. They are toggled on and off with a right-click, or you can directly control them via Mesecons.</p>
+<p>Pumps can be connected to pipes from above. Pipes do not connect to pumps from the side or bottom.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPump.png" />
+
+</div>
+<h4 id="valves">Valves</h4>
+<p>Valves control fluid flow. When active, valves allow liquids to flow through them. Otherwise, liquids cannot flow through them. They are toggled on and off with a right-click, or can be directly controlled using Mesecons.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftValve.png" />
+
+</div>
+<h4 id="storage-tanks">Storage Tanks</h4>
+<p>Note: currently not working (does not store any liquid). Storage tanks store liquid in a compact way. Placing multiple storage tanks on top of each other forms one large tank with the same capacity as all the single tanks added together.</p>
+<p>Storage tanks can be connected to pipes from above or below. Pipes do not connect to storage tanks from the side.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftStorageTank.png" />
+
+</div>
+<h4 id="gratings">Gratings</h4>
+<p>Gratings are decorative items that appear similar to fine metal grids used as barriers.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftGrating.png" />
+
+</div>
+<h4 id="sealedairtight-pipe-entries">Sealed/Airtight Pipe Entries</h4>
+<p>Sealed/airtight pipe entries act as pipes do, except they fill a full block and therefore are generally used for aesthetic purposes, such as running piping through walls.</p>
+<p>Sealed/airtight pipe entries can be connected to pipes from the sides, the top, or the bottom.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftPipeEntry.png" />
+
+</div>
+<h4 id="flow-sensors">Flow Sensors</h4>
+<p>Flow sensors output a Mesecons signal when liquid is present in it, and otherwise does not. They can be used to determine when liquid has reached a particular point.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftFlowSensor.png" />
+
+</div>
+<h3 id="item-transport">Item Transport</h3>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/ItemTransport.png" />
+
+</div>
+<h4 id="base-materialsitems">Base materials/items</h4>
+<p>The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of this mod. First, craft some leaves (anything in the &quot;leaves&quot; group) to get oil:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/craft-oil.png" />
+
+</div>
+<p>Then cook that into paraffin:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/oil-to-paraffin.png" />
+
+</div>
+<p>Finally, cook the paraffin into plastic:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/paraffin-to-plastic.png" />
+
+</div>
+<p>A couple of objects in this mod require one or more gears. Craft those with steel ingots and stone, like so:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftGear.png" />
+
+</div>
+<h4 id="tubes">Tubes</h4>
+<p>Tubes are boxy, transparent devices that can transport items around. They can automatically connect to other tubes and devices that are tube-compatible, such as chests and injectors. Certain devices may connect to tubes only from certain sides.</p>
+<p>Breaking a tube carrying items simply drops the items onto the ground.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftTube.png" />
+
+</div>
+<h4 id="chests-1">Chests</h4>
+<p>Ordinary chests found in the default game connect to tubes from every side except the front.</p>
+<p>Items can be added to chests using tube-related devices, or removed from them using filters/injectors.</p>
+<p>Attempting to add items to a full chest results in the item being dropped onto the ground.</p>
+<p>Locked Chests</p>
+<p>Locked chests from the default game connect to tubes and recieve items as ordinary chests do, but items cannot be removed from locked chests with filters/injectors.</p>
+<h4 id="furnaces">Furnaces</h4>
+<p>Ordinary furnaces found in the default game connect to tubes from every side except the front.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Furnaces.png" />
+
+</div>
+<p>Fuel items can be added to furnaces from the bottom, and items to be smelted can be added from the back. Smelted items can be removed from them using filters/injectors.</p>
+<p>Attempting to add items to a full furnace results in the item being dropped onto the ground.</p>
+<h4 id="filtersinjectors">Filters/Injectors</h4>
+<p>Filters/injectors take items from the node behind them and sends them out in front. They only connect to tubes from the front.</p>
+<p>Filters/injectors act only when punched, or when activated via a Mesecons signal.</p>
+<p>Right clicking a filter/injector brings up an inventory. If items are added to the inventory, only items matching them will be taken from the node behind it when activated. Items that match the first slot on the filter/injector's inventory are always chosen before items in the second slot, which are always chosen before the third slot, etc.</p>
+<p>Filters/injectors cannot be dug if they contain any items in their inventory.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftFilter.png" />
+
+</div>
+<h4 id="mese-filtersinjectors">Mese Filters/Injectors</h4>
+<p>Mese filters/injectors take entire stacks of items from the node behind them and sends them out in front all at once.</p>
+<p>Mese filters/injectors act only when punched, or when activated via a Mesecons signal.</p>
+<p>Right clicking a mese filter/injector brings up an inventory. If items are added to the inventory, only stacks of items matching them will be taken from the node behind it when activated. Stacks of items that match the first slot on the mese filter/injector's inventory are always chosen before stacks of items in the second slot, which are always chosen before the third slot, etc.</p>
+<p>Mese filters/injectors cannot be dug if they contain any items in their inventory.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseFilter.png" />
+
+</div>
+<h4 id="mese-sorting-tubes">Mese Sorting Tubes</h4>
+<p>Mese sorting tubes are special tubes that can be used to sort items or force them to move in a certain direction at junctions.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/SortingTube.png" />
+
+</div>
+<p>When placed, each direction the tube has a connection to has a distinct color.</p>
+<p>Right clicking the tube brings up a form similar to the following:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/MeseSortingTubeForm.png" />
+
+</div>
+<p>Each row is associated with the color on the left side.</p>
+<p>The far right contains an on/off switch for each row.</p>
+<p>When &quot;on&quot;, only items that match those in the row associated with the color are allowed to move in that direction. If there are no items in the row, all items are allowed.</p>
+<p>When &quot;off&quot;, no items will exit through that direction.</p>
+<p>If the tube needs to route items directly into a node with an inventory (such as a chest) and that inventory is full, the sorting tube will try one of its other &quot;on&quot; (e.g. enabled) outputs, at that point routing the item as if the sorting tube were just a normal, ordinary tube. Note that the direction the item cam from may be the first option the item takes. If that happens, turn that direction &quot;off&quot;. If all connected and otherwise-suitable outputs are &quot;off&quot; and the tube can't route the item, it pops out onto the ground.</p>
+<p>When you place an item in these slots, you're placing ghosts only. That is, only a copy of your item is placed and your inventory remains unchanged. When you remove an item from these slots, it's simply deleted.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseTube1.png" />
+
+</div>
+<p>Or alternatively:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseTube2.png" />
+
+</div>
+<h4 id="detector-tubes">Detector Tubes</h4>
+<p>Detector tubes are special tubes that output a Mesecons signal when an item passes through them.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/DetectorTube.png" />
+
+</div>
+<p>The tubes turn off again when the item leaves.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftDetectorTube.png" />
+
+</div>
+<h4 id="lua-controlled-tubes">Lua controlled Tubes</h4>
+<p>The lua controlled tube can be programmed like a lua controller.<br />
+But instead of A, B, C and D, it has the ports blue, red, yellow, green, black and white.<br />
+Also there's an additional event that is called when an item comes through the tube. Return in this event the port, the item shall exit (eg. <code>return &quot;blue&quot;</code>). If a wrong value or nothing is returned, the item will go back to where it came from. The <code>event</code> table looks like this:</p>
+<div class="sourceCode"><pre class="sourceCode lua"><code class="sourceCode lua"><span class="ot">{</span>
+    <span class="fu">type</span> <span class="ot">=</span> <span class="st">&quot;item&quot;</span><span class="ot">,</span>
+    pin <span class="ot">=</span> <span class="ot">{</span>name <span class="ot">=</span> <span class="ot">&lt;</span>src dir<span class="ot">&gt;},</span>
+    itemstring <span class="ot">=</span> <span class="ot">&lt;</span>itemstring<span class="ot">&gt;,</span>
+    item <span class="ot">=</span> <span class="ot">&lt;</span>itemstack made to table<span class="ot">&gt;,</span>
+    velocity <span class="ot">=</span> <span class="ot">&lt;</span>velocity of the tubed item<span class="ot">&gt;,</span>
+<span class="ot">}</span></code></pre></div>
+<p>You can craft lua controlled tubes with a luacontroller and a sorting tube.</p>
+<h4 id="accelerator-tubes">Accelerator Tubes</h4>
+<p>Accelerator tubes are special tubes that transport items significantly faster than normal tubes. They appear similar to normal tubes, except with a greenish-blue tint.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/AcceleratorTube.png" />
+
+</div>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftAcceleratorTube.png" />
+
+</div>
+<h4 id="teleporter-tubes">Teleporter Tubes</h4>
+<p>Teleporter tubes are special tubes that move items to other teleporter tubes, regardless of the distance separating them.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/TeleporterTube.png" />
+
+</div>
+<p>Putting items into the tube via tube-related devices causes them to be teleported.</p>
+<p>Right clicking a teleporter tube brings up a form allowing entry of a channel string, similar to the following:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/TeleporterTubeForm.png" />
+
+</div>
+<p>Only teleporter tubes that have the same channel will be linked together and allow items to pass through.</p>
+<p>The switch on the right enables or disables the tube's receiving capability. When &quot;on&quot;, the tube can receive items. Otherwise, items can only be teleported out of the tube, but not into it.</p>
+<p>Teleporter tubes with channel names beginning with the name of a player, followed by a colon, are settable only by the specified player. This is useful for making private teleporter tube channels.</p>
+<p>Teleporter tubes with channel names beginning with the name of a player, followed by a semicolon, are usable only by the specified player, or by other players if the tube is not &quot;On&quot; (unable to receive items). This allows for mail-like systems where items can be sent into private dropboxes, but can't be taken out except by the recipient.</p>
+<p>If an item enters a teleporter tube, and there are multiple possible teleporter tubes that it can go to, a target is chosen at random from the possibilities.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftTeleporterTube.png" />
+
+</div>
+<h4 id="autocrafters">Autocrafters</h4>
+<p>Autocrafters are devices that can automatically follow craft recipes to make new items.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Autocrafter.png" />
+
+</div>
+<p>Right clicking an autocrafter brings up a form similar to the following:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/AutocrafterForm.png" />
+
+</div>
+<p>The slots in the top left of the form represent a crafting grid, where items can be arranged in the pattern of a craft recipe. Like the Mese sorting tube, items placed in these slots are ghosts, i.e. copies of what you placed. Removing an item simply deletes it.</p>
+<p>In the middle is a single slot that shows the result of the proposed recipe, same as in your Inventory display. You can also directly place an item here and the autocrafter will make a guess and fill its recipe slots with the items that should be used to make that item. Removing the item from this slot deletes it and clears the recipe grid.</p>
+<p>Below that is a switch to enable/disable the autocrafter. Default is disabled.</p>
+<p>The slots in the top right of the form are the output from the crafting operations. That is, items that have been crafted can be found here. These can also be retrieved from the device using filters/injectors.</p>
+<p>The slots in the middle of the form, below the craft recipe and result slots, are the autocrafter's internal inventory. Items added by the user or fed in by tubes are stored here temporarily until the autocrafter can use them.</p>
+<p>The slots at the bottom of the form are the player's inventory, as usual.</p>
+<p>When sufficient materials are present in the autocrafter's inventory to craft according to its recipe, the device automatically starts crafting them until it runs out of materials.</p>
+<p>Here's how you build it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftAutocrafter.png" />
+
+</div>
+<h4 id="deployers">Deployers</h4>
+<p>Deployers are devices that place blocks as a player would if one were standing at the exact location of the deployer. They connect to tubes only from the back side.</p>
+<p>Deployers act only when activated via a Mesecons signal. On receipt of a signal, they place the next item in their inventory, and if there's something in the way of the deployer's output, that object gets pushed aside first.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/Deployer.png" />
+
+</div>
+<p>Right clicking a deployer brings up a form similar to the following:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/DeployerForm.png" />
+
+</div>
+<p>The slots in the top of the form are the deployer's inventory, storing materials that are placed when the deployer activates. They are taken in order from left to right, top to bottom. New items can be added here using tube-related devices.</p>
+<p>The slots at the bottom of the form are the player's inventory.</p>
+<p>Upon activation, a deployer places a node from its inventory into the space directly adjacent to its front side if and only if the space is air. The front side is the face that is fully orange.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftDeployer.png" />
+
+</div>
+<h4 id="node-breakers">Node Breakers</h4>
+<p>Node breakers are devices that dig blocks as a player would if one were standing at the exact location of the node breaker and dug the target node. They connect to tubes only from the back side.</p>
+<p>Node breakers act only when activated via a Mesecons signal.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/NodeBreaker.png" />
+
+</div>
+<p>Upon activation, a node breaker digs the node in the space directly adjacent to its front side if and only if the node is non-liquid, diggable, and not air or unloaded. The front side is the face with the &quot;mouth&quot; with thin interleaved lines resembling a shredder.</p>
+<p>When you right-click on it, you get a form similar to the following:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/NodeBreaker-form.png" />
+
+</div>
+<p>The single slot at the top is for you to add in a custom digging tool. By default, the nodebreaker digs &quot;by hand&quot;, but you could for example put a pick, shovel, tree tap, or whatever else you want here as long as it's a viable tool.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftNodeBreaker.png" />
+
+</div>
+<p>Note: in the past, one used a mese pick to construct a nodebreaker, which it also used as its default tool. This is no longer the case. Old nodebreakers that had nothing in the tool slot will automatically be populated with a mese pick.</p>
+<h4 id="sand-vacuum-tubes">Sand Vacuum Tubes</h4>
+<p>Sand tubes are special tubes that vacuum up free items around them. When an item drops near the sand tube, it is sucked up and sent along the tube.</p>
+<p>Sand tubes have an effective radius of 2 meters (nodes). Outside of this sphere, items are unaffected.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/SandTube.png" />
+
+</div>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftSandTube.png" />
+
+</div>
+<h4 id="mese-sand-vacuum-tubes">Mese Sand Vacuum Tubes</h4>
+<p>Mese sand tubes pick up items like sand tubes, but they do so in a customizable cubic region rather than a fixed spherical one.</p>
+<p>To change the range of a mese sand tube, change the distance specified in the form.</p>
+<p>The number entered here can be anywhere from 0 (the default) to 8; it represents a sort of cubic radius from the tube, thus the default is to only pick up items within the tube's 1x1x1 node, but, if one entered &quot;5&quot;, the tube would pick up items in an 11x11x11 cube.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/MeseSandTubeForm.png" />
+
+</div>
+<p>Crafts are similar to the mese sorting tube:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseSandTube1.png" />
+
+</div>
+<p>...or using mese crystal fragments and a regular sand tube:</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/CraftMeseSandTube2.png" />
+
+</div>
+<h1 id="chat">Chat</h1>
+<p>The in-game chat functionality allows players to communicate with each other with short text messages inside a server.</p>
+<h2 id="sending-messages">Sending messages</h2>
+<p>First of all, before you can chat anything at all, you require the &quot;shout&quot; privilege. Don't worry, most servers give you this privilege by default.</p>
+<p>You can chat either by opening the chat window or the console which can be opened with the keys T or F10, respectively (assuming you use the default key bindings). Use the chat window or the console to enter a chat message. There are two kinds of chat messages, public ones and private ones.</p>
+<p><strong>Public messages</strong></p>
+<p>A public message is a message which is visible to all connected players.</p>
+<p><strong>Ordinary public messages</strong></p>
+<p>Your chat message is a normal public message if it doesn't begin with a &quot;/&quot;. It appears like this in the chat log:</p>
+<pre><code>&lt;player&gt; message</code></pre>
+<p>Example: If you enter &quot;Hello, how are you?&quot; as MrCerealGuy, then this will appear in the chat log:</p>
+<pre><code>&lt;MrCerealGuy&gt; Hello, how are you?</code></pre>
+<p><strong>/me messages</strong></p>
+<p>This function is more like a gimmick than anything else. A /me message is a special case of a public message. The only real difference from the ordinary one is its appearance in the chat log. A /me message can be entered with:</p>
+<pre><code>/me &lt;message&gt;</code></pre>
+<p>Replace &quot;&lt;message&gt;&quot; with the actual message. You will get a message in the chat log which looks like this:</p>
+<pre><code>* &lt;player&gt; &lt;message&gt;</code></pre>
+<p>Example: Assume you want to say that you think that Stonecraft is awesome, in the third person. If you enter &quot;/me thinks Stonecraft is awesome.&quot;, you get:</p>
+<pre><code>* MrCerealGuy thinks Stonecraft is awesome.</code></pre>
+<p><strong>Private messages</strong></p>
+<p>A private message is a chat message which appears only on the chat logs of the sender and a chosen receiver of the message.</p>
+<p>You can send a private message (PM) to someone by using the &quot;/msg&quot; server command. Say something in the form of:</p>
+<pre><code>/msg &lt;player&gt; &lt;message&gt;</code></pre>
+<p>Replace &quot;&lt;message&gt;&quot; by your actual message and &quot;&lt;player&gt;&quot; by the name of the player you want to send the message to. The message won't be publicly visible in the chatlog and only appears to you and the other player. Be aware that the messages are not encrypted, so do not transfer really sensitive information using the private message feature.</p>
+<p>Example: If your name is &quot;MrCerealGuy&quot; and you entered &quot;/msg MrFr33maN I want to show you my hidden chest.&quot;, then this will appear in the chat log of MrFr33maN:</p>
+<pre><code>PM from MrCerealGuy: I want to show you my hidden chest.</code></pre>
+<h1 id="experienced-players">Experienced players</h1>
+<h2 id="area-protection">Area protection</h2>
+<p>To protect your area from griefing by other player, choose the first corner on the ground of your area you want to protect. Then open the console with F10 and set the marker with <strong>/area_pos1</strong>.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/areapos1.jpg" />
+
+</div>
+<p>Now select the second corner in opposite direction of the first corner above the ground and set the marker with the command <strong>/area_pos2</strong>.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/areapos2.jpg" />
+
+</div>
+<p>Now it's time to protect your area with <strong>/protect &lt;description&gt;</strong>, eg. /protect &quot;My Home&quot;.</p>
+<h2 id="teleporters">Teleporters</h2>
+<p>A teleporter pad teleports players, or items to the linked receiver pad. A teleporter must be linked to a receiver first, before you can use it. One teleporter pad can only be linked to one receiver pad, you have to unlink it first, before using a new receiver. A receiver pad can accessed by many teleporter pads.</p>
+<p>Example:</p>
+<p>If you find an interesting location, then you can place a receiver pad.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/teleporter1.jpg" />
+
+</div>
+<p>Do a right-click on the pad. You have enter a name and a optional description for your receiver pad. For servers you can make your receiver pad public for other players.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/teleporter2.jpg" />
+
+</div>
+<p>Now your receiver pad is placed. At home you can place a teleporter pad.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/teleporter3.jpg" />
+
+</div>
+<p>Do a right-click on the pad and select your receiver pad.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/teleporter4.jpg" />
+
+</div>
+<p>Now you have linked the teleporter with the receiver pad.</p>
+<div class="figure">
+<img src="https://mrcerealguy.github.io/stonecraft/gfx/wiki/teleporter5.jpg" />
+
+</div>
+<h2 id="special-controls">Special Controls</h2>
+<p>You don't need these controls to play, but in special situations these controls can be useful.</p>
+<table style="width:39%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Control</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Z</strong></td>
+<td align="left">Zoom</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>/</strong></td>
+<td align="left">Command</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>R</strong></td>
+<td align="left">Enable/disable full range view</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>+</strong></td>
+<td align="left">Increase view range</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>-</strong></td>
+<td align="left">Decrease view range</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>K</strong></td>
+<td align="left">Enable/disable fly mode (needs fly privilege)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>J</strong></td>
+<td align="left">Enable/disable fast mode (needs fast privilege)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>H</strong></td>
+<td align="left">Enable/disable noclip mode (needs noclip privilege)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F1</strong></td>
+<td align="left">Hide/show HUD</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F2</strong></td>
+<td align="left">Hide/show chat</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F3</strong></td>
+<td align="left">Disable/enable fog</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F4</strong></td>
+<td align="left">Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F5</strong></td>
+<td align="left">Cycle through debug info screens</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F6</strong></td>
+<td align="left">Cycle through profiler info screens</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F7</strong></td>
+<td align="left">Cycle through camera modes</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F8</strong></td>
+<td align="left">Toggle cinematic mode</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F10</strong></td>
+<td align="left">Show/hide console</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>P</strong></td>
+<td align="left">Write stack traces into debug.txt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="server-commands">Server commands</h2>
+<p>Server commands are special commands to the server that can be entered by any player via the chat to cause the server to do something. There are a few commands which can be issued by everyone, but some commands only work if you have certain privileges granted on the server. Use <em>&quot;/privs&quot;</em> to see your own privileges. If not noted otherwise, the commands in this article are assumed to require no privileges.</p>
+<h3 id="issuing-a-command">Issuing a command</h3>
+<p>To issue a command, simply type it like a chat message or use the console. Alternatively, you can just press the &quot;/&quot; key (only in default controls) which simply opens a chat window where the &quot;/&quot; has already been typed for you and then type the command right away. The command itself will not appear in the chat. Since every command starts with &quot;/&quot;, this means that ordinary chat messages can't start with &quot;/&quot;; they will be interpreted as a command instead, even if such a command does not exist. You can tell whether or not a command was successful by the server's response. If you see something <em>&quot;-!- Invalid command: /blargh&quot;</em> in the chat, you probably misspelled something. The most commands will cause the server to write you something else on the chat log for you, if successful.</p>
+<h3 id="general-syntax">General syntax</h3>
+<p>All commands start with &quot;/&quot;. After that, one word follows which is itself followed by some or none arguments. You&quot;ll find the exact syntax in the command reference. In the following command reference, text enclosed in &lt;&gt; is a placeholder for an actual value. Anything written in [] can be omitted.</p>
+<h3 id="command-reference-of-built-in-commands">Command reference of built-in commands</h3>
+<p><strong>Quick documentation</strong></p>
+<p>Show short documentation of server commands and privileges; it will appear in the chat log, too. In case the help is too long, you can open the console with F10 to view everything again.</p>
+<ul>
+<li><strong>/help</strong> - Shows a list of the available commands - depending on your privileges - on the server</li>
+<li><strong>/help &lt;command&gt;</strong> - Shows short description about the given command. You can view the help of a command even if you do not have the privilege to issue it</li>
+<li><strong>/help all</strong> - Lists the available commands - depending on your privileges - on the server and a short description and syntax reference to each one</li>
+<li><strong>/help privs</strong> - Lists all privileges on the server that could possibly be granted to players and shows a short description about each of them</li>
+</ul>
+<p><strong>Player-related</strong> <strong>Informational</strong></p>
+<ul>
+<li><strong>/privs [&lt;player&gt;]</strong> - List of privileges granted to &lt;player&gt;, if not specified, your own privileges</li>
+<li><strong>/last-login [&lt;player&gt;]</strong> - Show the date and time when &lt;player&gt; has logged in the last time into this server (UTC time zone, ISO 8601 format). If not specified, shows your own last login time</li>
+</ul>
+<p><strong>Chat</strong></p>
+<p>These commands require the &quot;shout&quot; privilege to work.</p>
+<ul>
+<li><strong>/msg &lt;player&gt; &lt;message&gt;</strong> - Send a private message &lt;message&gt; to &lt;player&gt;</li>
+<li><strong>/me &lt;action&gt;</strong> - Makes a text in the format &quot;* &lt;your name&gt; &lt;action&gt;&quot; appear in the chat log. E.g. &quot;/me eats pizza.&quot; leads to &quot;* Alfred eats pizza.&quot; (if your name is &quot;Alfred&quot;)</li>
+</ul>
+<p><strong>Items</strong></p>
+<p>For the /give and /giveme commands, a negative count will count down from 65536. This means for example that giving -1 of an itemstring will give 65535 items of that itemstring, which is also the hard size limit of a stack.</p>
+<ul>
+<li><strong>/giveme &lt;itemstring&gt; [&lt;count&gt;]</strong> - Give certain item &lt;count&gt; times (default: 1) to yourself. For a list of items to use this with, see the Itemstrings page. Requires the &quot;give&quot; privilege</li>
+<li><strong>/give &lt;player&gt; &lt;itemstring&gt; [&lt;count&gt;]</strong> - Give certain item &lt;count&gt; times (default: 1) to the player. Requires the &quot;give&quot; privilege</li>
+<li><strong>/pulverize</strong> - Destroys the wielded item. Can be used by any player</li>
+</ul>
+<p><strong>Teleportation</strong></p>
+<p>Teleportation is the immediate displacement of any player to a given position. All of the following commands require the &quot;teleport&quot; privilege</p>
+<ul>
+<li><strong>/teleport &lt;x&gt;,&lt;y&gt;,&lt;z&gt;</strong> - Teleports yourself to given coordinates</li>
+<li><strong>/teleport &lt;target_player&gt;</strong> - Teleports yourself to the player with the name &lt;target_player&gt;</li>
+<li><strong>/teleport &lt;player&gt; &lt;x&gt;,&lt;y&gt;,&lt;z&gt;</strong> - Teleports &lt;player&gt; to given coordinates. Also requires the &quot;bring&quot; privilege</li>
+<li><strong>/teleport &lt;player1&gt; &lt;player2&gt;</strong> - Teleports &lt;player1&gt; to &lt;player2&gt;. Also requires the &quot;bring&quot; privilege</li>
+</ul>
+<p><strong>Moderation</strong></p>
+<p><strong>Password manipulation</strong></p>
+<p>These commands allow to set and reset the passwords of any player and require the &quot;password&quot; privilege to work.</p>
+<ul>
+<li><strong>/setpassword &lt;player&gt; &lt;password&gt;</strong> - Sets password of &lt;player&gt; to &lt;password&gt;</li>
+<li><strong>/clearpassword &lt;player&gt;</strong> - Makes password of &lt;player&gt; empty</li>
+</ul>
+<p><strong>Privilege manipulation</strong></p>
+<p>All these commands require you to have the &quot;privs&quot; (to manipulate all privileges) or &quot;basic_privs&quot; (to manipulate &quot;interact&quot; and &quot;shout&quot; privileges) privilege.</p>
+<ul>
+<li><strong>/grant &lt;player&gt; &lt;privilege&gt;</strong> - Gives the &lt;privilege&gt; to &lt;player&gt;</li>
+<li><strong>/grant &lt;player&gt; all</strong> - Give all available privileges to &lt;player&gt;</li>
+<li><strong>/grantme &lt;privilege&gt;</strong> - Give &lt;privilege&gt; to yourself</li>
+<li><strong>/grantme all</strong> - Gives all privilege to yourself</li>
+<li><strong>/revoke &lt;player&gt; &lt;privilege&gt;</strong> - Takes away a &lt;privilege&gt; from &lt;player&gt;</li>
+<li><strong>/revoke &lt;player&gt; all</strong> - Takes away as many privileges as possible from &lt;player&gt;</li>
+</ul>
+<p><strong>Excluding players from server</strong></p>
+<p>These commands allow the user to kick, ban and unban players. Kicking a player means to remove a connected player from the server. This requires the &quot;kick&quot; privilege. Banning a player prevents him/her to connect to the server again. The player does not need to be connected at this time. Unbanning means to remove a ban from a player, allowing him/her to connect to the server again. The ban and unban commands require the &quot;ban&quot; privilege.</p>
+<ul>
+<li><strong>/kick &lt;player name&gt; [&lt;reason&gt;]</strong> - Kicks the player with the name &lt;player name&gt;. Optionally a &lt;reason&gt; can be provided in text-form. This text is also shown to the kicked player.</li>
+<li><strong>/ban</strong> - show list of banned players</li>
+<li><strong>/ban &lt;player name&gt;</strong> - Ban IP of player</li>
+<li><strong>/unban &lt;player name&gt;</strong> - Remove ban of player with the specified name</li>
+<li><strong>/unban &lt;IP address&gt;</strong> - Remove ban of player with the specified IP address</li>
+</ul>
+<p><strong>Server-related</strong> <strong>Informational</strong></p>
+<p>Request some information from the server; the answer from the server will also be written into the chatlog.</p>
+<ul>
+<li><strong>/admin</strong> - Player name of the administrator / server operator of the server you're connected to.</li>
+<li><strong>/status</strong> - Server's Stonecraft version, time the server is running in seconds (called &quot;uptime&quot;), list of connected * players and the message of the day (if it exists).</li>
+<li><strong>/mods</strong> - List of mods installed on the server.</li>
+<li><strong>/days</strong> - Current game day (counting starts at 0)</li>
+<li><strong>/time</strong> - Current game time (24h clock)</li>
+</ul>
+<p><strong>World manipulation</strong></p>
+<ul>
+<li><strong>/time &lt;hours&gt;:&lt;minutes&gt;</strong> - Sets the time of day in the 24-hour format (0:00-23:59). Requires the &quot;settime&quot; privilege</li>
+<li><strong>/time &lt;time_of_day&gt;</strong> - Sets the time of day (tod) (number between 0 and 24000). 0 tod and 24000 tod are midnight, 12000 tod is noon, 18600 tod is sunset, 4750 tod is sunrise. (time of day = hour * 1000). Requires the &quot;settime&quot; privilege</li>
+<li><strong>/set -n time_speed &lt;speed&gt;</strong> - Sets the speed of day/night cycle where &lt;speed&gt; is the time speed (read as &quot;&lt;speed&gt; times faster than in real life&quot;). 72 is the default, which means a day-night cycle lasts 20 minutes by default. Requires the &quot;server&quot; privilege</li>
+<li><strong>/spawnentity &lt;entity&gt; [&lt;X&gt;,&lt;Y&gt;,&lt;Z&gt;]</strong> - Spawns an entity of type &lt;entity&gt; (see List of entity names) near your position or at the X,Y,Z coordinates, if specified. Requires &quot;give&quot; and &quot;interact&quot; privileges</li>
+</ul>
+<p><strong>Server maintenance</strong></p>
+<p>All of these commands require the &quot;server&quot; privilege.</p>
+<ul>
+<li><strong>/shutdown</strong> - Shuts down the server</li>
+<li><strong>/set &lt;variable&gt;</strong> - Shows the value of the given server &lt;variable&gt;</li>
+<li><strong>/set &lt;variable&gt; &lt;new value&gt;</strong> - Sets the existing server &lt;variable&gt; to the given &lt;new value&gt;</li>
+<li><strong>/set -n &lt;variable&gt; &lt;initial value&gt;</strong> - Creates a new server variable named &lt;variable&gt; and sets it to &lt;initial value&gt;</li>
+<li><strong>/clearobjects [full|quick]</strong> - Clears all objects/entities (removes all dropped items, mobs and possibly more). Note this may crash the server or slow it down to a crawl for 10 to more than 60 seconds</li>
+<li><strong>/auth_reload</strong> - Reloads auth.txt, which is the authentication data, containing privileges and Base64-scrambled passwords</li>
+<li><strong>/deleteblocks here [&lt;radius&gt;]</strong> - Removes the MapBlock the player is in, from the database. As this triggers mapgen, this might start mechanisms like mud reflow or cavegen which very likely affect mapblocks outside the specified range. 113 blocks are a safe-distance for a server with no interfering mods. &lt;radius&gt; is an optional argument to specify the range in which MapBlocks are deleted</li>
+<li><strong>/deleteblocks &lt;pos1&gt; &lt;pos2&gt;</strong> - Removes the MapBlock containing blocks inside the area from pos1 to pos2 from the database. May crash for larger areas. Warnings from above apply</li>
+</ul>
+<p><strong>Rollback</strong></p>
+<p>Allows to use Rollback. Requires the &quot;rollback&quot; privilege.</p>
+<ul>
+<li><strong>/rollback_check [&lt;range&gt;] [&lt;seconds&gt;]</strong> - Checks who has last touched a node or near it, max. &lt;seconds&gt; ago (default &lt;range&gt;=0, default &lt;seconds&gt;=86400, which equals 24 hours in real time).</li>
+<li><strong>/rollback &lt;player name&gt; [&lt;seconds&gt;]</strong> - Reverts actions of a player; default for &lt;seconds&gt; is 60</li>
+<li><strong>/rollback :&lt;actor name&gt; [&lt;seconds&gt;]</strong> - Reverts actions of an actor (not a player); default for &lt;seconds&gt; is 60</li>
+</ul>
+<h2 id="privileges">Privileges</h2>
+<p>Every player has a set of privileges, which differ from server to server. Roughly spoken, one's privileges determine what one is able to do and what not. Each privilege has a name (the meaning is described below). Privileges can be granted and revoked from other players by any player who has the privilege called <em>&quot;privs&quot;</em>. On a multiplayer server with a default configuration, new players start with the privileges called &quot;interact, shout&quot; and &quot;zoom&quot;. To view one's own privileges, one can issue the server command <em>&quot;/privs&quot;</em>.</p>
+<h3 id="built-in-privileges">Built-in privileges</h3>
+<p>gameplay-related:</p>
+<ul>
+<li><strong>interact</strong> - build, mine or use blocks</li>
+<li><strong>give</strong> - can use the /give and /giveme commands</li>
+<li><strong>zoom</strong> - can zoom (Z key by default)</li>
+<li><strong>teleport</strong> - can use the /teleport command to teleport oneself to certain coordinates or to another player</li>
+<li><strong>bring</strong> - in combination with teleport, can use the /teleport command to teleport any player to certain coordinates or to yet another player</li>
+<li><strong>fast</strong> - allows the player to activate fast mode</li>
+<li><strong>fly</strong> - allows the player to activate fly mode</li>
+<li><strong>noclip</strong> - allows the player to activate &quot;noclip&quot; mode, which allows them to fly through walls</li>
+</ul>
+<p>chat-related:</p>
+<ul>
+<li><strong>shout</strong> - can chat with other people</li>
+</ul>
+<p>world-manipulation-related:</p>
+<ul>
+<li><strong>settime</strong> - can set time of day using /time</li>
+</ul>
+<p>moderation-related:</p>
+<ul>
+<li><strong>privs</strong> - can set any privileges of players using /grant and /revoke</li>
+<li><strong>basic_privs</strong> - can set &quot;interact&quot; and &quot;shout&quot; privileges using /grant and /revoke</li>
+<li><strong>kick</strong> - can kick players with /kick</li>
+<li><strong>ban</strong> - can ban/unban IPs and names using /ban and /unban</li>
+<li><strong>rollback</strong> - can use the rollback functionality</li>
+<li><strong>protection_bypass</strong> - can bypass protection of blocks (e.g. can open locked chests or steel doors of everyone)</li>
+</ul>
+<p>administration-related:</p>
+<ul>
+<li><strong>server</strong> - can do server maintenance stuff such as /shutdown, /clearobjects, /set, …</li>
+<li><strong>debug</strong> - can access advanced debug features and informations, such as the wirewrame in the debug screens (F5)</li>
+</ul>
+<h3 id="privileges-from-mods">Privileges from mods</h3>
+<p>Mods may make additional privileges available on the server. Issue the server command <em>/help privs</em> to receive a full list (and short descriptions) of all possible privileges on the server.</p>
+<h3 id="server-configuration">Server configuration</h3>
+<p>Using the server's configuration files, a lot of privilege-related stuff can be manipulated.</p>
+<p>There is an option in the configuration file for setting the default privileges for new players. <em>default_privs = interact, shout, zoom</em></p>
+<p>The player having the name in the <em>&quot;name&quot; field</em> of the configuration has all the privileges. Privileges are stored in the <em>auth.txt</em> file. The format of every line in that file is <em>name:hashed_password:privs</em>. A real example: <em>mrcerealguy:CcCUjNUDVJxmXmTHj+7WKHvA9Ds:interact,shout,zoom</em></p>
+<p>The <em>auth.txt</em> file is written periodically and at shutdown, so you should edit it only when the server is not running.</p>
+<h2 id="worldedit-chat-commands">WorldEdit Chat Commands</h2>
+<p>For more information, see the <a href="README.md">README</a>.</p>
+<p>Many commands also have shorter names that can be typed faster. For example, if we wanted to use <code>//move ? 5</code>, we could instead type <code>//m ? 5</code>. All shortened names are listed below:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Short Name</th>
+<th align="left">Original Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>//i</code></td>
+<td align="left"><code>//inspect</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//rst</code></td>
+<td align="left"><code>//reset</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//mk</code></td>
+<td align="left"><code>//mark</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//umk</code></td>
+<td align="left"><code>//unmark</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//1</code></td>
+<td align="left"><code>//pos1</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//2</code></td>
+<td align="left"><code>//pos2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//fp</code></td>
+<td align="left"><code>//fixedpos</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//v</code></td>
+<td align="left"><code>//volume</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//s</code></td>
+<td align="left"><code>//set</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//r</code></td>
+<td align="left"><code>//replace</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//ri</code></td>
+<td align="left"><code>//replaceinverse</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//hcube</code></td>
+<td align="left"><code>//hollowcube</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hspr</code></td>
+<td align="left"><code>//hollowsphere</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//spr</code></td>
+<td align="left"><code>//sphere</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hdo</code></td>
+<td align="left"><code>//hollowdome</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//do</code></td>
+<td align="left"><code>//dome</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hcyl</code></td>
+<td align="left"><code>//hollowcylinder</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//cyl</code></td>
+<td align="left"><code>//cylinder</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hpyr</code></td>
+<td align="left"><code>//hollowpyramid</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//pyr</code></td>
+<td align="left"><code>//pyramid</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="about"><code>//about</code></h3>
+<p>Get information about the mod.</p>
+<pre><code>//about</code></pre>
+<h3 id="inspect-onoff10truefalseyesnoenabledisableblank"><code>//inspect on/off/1/0/true/false/yes/no/enable/disable/&lt;blank&gt;</code></h3>
+<p>Enable or disable node inspection.</p>
+<pre><code>//inspect on
+//inspect off
+//inspect 1
+//inspect 0
+//inspect true
+//inspect false
+//inspect yes
+//inspect no
+//inspect enable
+//inspect disable
+//inspect</code></pre>
+<h3 id="reset"><code>//reset</code></h3>
+<p>Reset the region so that it is empty.</p>
+<pre><code>//reset</code></pre>
+<h3 id="mark"><code>//mark</code></h3>
+<p>Show markers at the region positions.</p>
+<pre><code>//mark</code></pre>
+<h3 id="unmark"><code>//unmark</code></h3>
+<p>Hide markers if currently shown.</p>
+<pre><code>//unmark</code></pre>
+<h3 id="pos1"><code>//pos1</code></h3>
+<p>Set WorldEdit region position 1 to the player's location.</p>
+<pre><code>//pos1</code></pre>
+<h3 id="pos2"><code>//pos2</code></h3>
+<p>Set WorldEdit region position 2 to the player's location.</p>
+<pre><code>//pos2</code></pre>
+<h3 id="p-setset1set2get"><code>//p set/set1/set2/get</code></h3>
+<p>Set WorldEdit region, WorldEdit position 1, or WorldEdit position 2 by punching nodes, or display the current WorldEdit region.</p>
+<pre><code>//p set
+//p set1
+//p set2
+//p get</code></pre>
+<h3 id="fixedpos-set1-x-y-z"><code>//fixedpos set1 x y z</code></h3>
+<p>Set a WorldEdit region position to the position at (<code>&lt;x&gt;</code>, <code>&lt;y&gt;</code>, <code>&lt;z&gt;</code>).</p>
+<pre><code>//fixedpos set1 0  0 0
+//fixedpos set1 -30 5 28
+//fixedpos set2 1004 -200 432</code></pre>
+<h3 id="volume"><code>//volume</code></h3>
+<p>Display the volume of the current WorldEdit region.</p>
+<pre><code>//volume</code></pre>
+<h3 id="deleteblocks"><code>//deleteblocks</code></h3>
+<p>Delete the MapBlocks (16x16x16 units) that contain the selected region. This means that mapgen will be invoked for that area. As only whole MapBlocks get removed, the deleted area is usually larger than the selected one. Also, mapgen can trigger mechanisms like mud reflow or cavegen, which affects nodes (up to 112 nodes away) outside the MapBlock, so dont use this near buildings. Note that active entities are not part of a MapBlock and do not get deleted.</p>
+<pre><code>//deleteblocks</code></pre>
+<h3 id="set-node"><code>//set &lt;node&gt;</code></h3>
+<p>Set the current WorldEdit region to <code>&lt;node&gt;</code>.</p>
+<pre><code>//set air
+//set cactus
+//set Blue Lightstone
+//set dirt with grass</code></pre>
+<h3 id="param2-param2"><code>//param2 &lt;param2&gt;</code></h3>
+<p>Set the param2 value of all nodes in the current WorldEdit region to <code>&lt;param2&gt;</code>.</p>
+<h3 id="mix-node1-..."><code>//mix &lt;node1&gt; ...</code></h3>
+<p>Fill the current WorldEdit region with a random mix of <code>&lt;node1&gt;</code>, <code>...</code>.</p>
+<pre><code>//mix air
+//mix cactus stone glass sandstone
+//mix Bronze
+//mix default:cobble air</code></pre>
+<h3 id="replace-search-node-replace-node"><code>//replace &lt;search node&gt; &lt;replace node&gt;</code></h3>
+<p>Replace all instances of <code>&lt;search node&gt;</code> with <code>&lt;replace node&gt;</code> in the current WorldEdit region.</p>
+<pre><code>//replace Cobblestone air
+//replace lightstone_blue glass
+//replace dirt Bronze Block
+//replace mesecons:wire_00000000_off flowers:flower_tulip</code></pre>
+<h3 id="replaceinverse-search-node-replace-node"><code>//replaceinverse &lt;search node&gt; &lt;replace node&gt;</code></h3>
+<p>Replace all nodes other than <code>&lt;search node&gt;</code> with <code>&lt;replace node&gt;</code> in the current WorldEdit region.</p>
+<pre><code>//replaceinverse Cobblestone air
+//replaceinverse flowers:flower_waterlily glass
+//replaceinverse dirt Bronze Block
+//replaceinverse mesecons:wire_00000000_off flowers:flower_tulip</code></pre>
+<h3 id="hollowcube-width-height-length-node"><code>//hollowcube &lt;width&gt; &lt;height&gt; &lt;length&gt; &lt;node&gt;</code></h3>
+<p>Adds a hollow cube with its ground level centered at WorldEdit position 1 with dimensions <code>&lt;width&gt;</code> x <code>&lt;height&gt;</code> x <code>&lt;length&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowcube 6 5 6 Diamond Block</code></pre>
+<h3 id="cube-width-height-length-node"><code>//cube &lt;width&gt; &lt;height&gt; &lt;length&gt; &lt;node&gt;</code></h3>
+<p>Adds a cube with its ground level centered at WorldEdit position 1 with dimensions <code>&lt;width&gt;</code> x <code>&lt;height&gt;</code> x <code>&lt;length&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//cube 6 5 6 Diamond Block
+//cube 7 2 1 default:cobble</code></pre>
+<h3 id="hollowsphere-radius-node"><code>//hollowsphere &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add hollow sphere centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowsphere 5 Diamond Block
+//hollowsphere 12 glass
+//hollowsphere 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="sphere-radius-node"><code>//sphere &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add sphere centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//sphere 5 Diamond Block
+//sphere 12 glass
+//sphere 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="hollowdome-radius-node"><code>//hollowdome &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add hollow dome centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowdome 5 Diamond Block
+//hollowdome -12 glass
+//hollowdome 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="dome-radius-node"><code>//dome &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add dome centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//dome 5 Diamond Block
+//dome -12 glass
+//dome 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="hollowcylinder-xyz-length-radius1-radius2-node"><code>//hollowcylinder x/y/z/? &lt;length&gt; &lt;radius1&gt; [radius2] &lt;node&gt;</code></h3>
+<p>Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length <code>&lt;length&gt;</code>, base radius <code>&lt;radius1&gt;</code> (and top radius <code>[radius2]</code>), composed of <code>&lt;node&gt;</code>.</p>
+<p>Despite its name this command allows you to create cones (<code>radius2</code> = 0) as well as any shapes inbetween (0 &lt; <code>radius2</code> &lt; <code>radius1</code>). Swapping <code>radius1</code> and <code>radius2</code> will create the same object but upside-down.</p>
+<pre><code>//hollowcylinder x +5 8 Bronze Block
+//hollowcylinder y 28 10 glass
+//hollowcylinder z -12 3 mesecons:wire_00000000_off
+//hollowcylinder ? 2 4 default:stone
+
+//hollowcylinder y 10 10 0 walls:cobble
+//hollowcylinder x 6 0 5 Dirt
+//hollowcylinder z 20 10 20 default:desert_stone</code></pre>
+<h3 id="cylinder-xyz-length-radius1-radius2-node"><code>//cylinder x/y/z/? &lt;length&gt; &lt;radius1&gt; [radius2] &lt;node&gt;</code></h3>
+<p>Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length <code>&lt;length&gt;</code>, base radius <code>&lt;radius1&gt;</code> (and top radius <code>[radius2]</code>), composed of <code>&lt;node&gt;</code>. Can also create shapes other than cylinders, e.g. cones (see documentation above).</p>
+<pre><code>//cylinder x +5 8 Bronze Block
+//cylinder y 28 10 glass
+//cylinder z -12 3 mesecons:wire_00000000_off
+//cylinder ? 2 4 default:stone
+
+//cylinder y 10 10 0 walls:cobble
+//cylinder x 6 0 5 Dirt
+//cylinder z 20 10 20 default:desert_stone</code></pre>
+<h3 id="hollowpyramid-xyz-height-node"><code>//hollowpyramid x/y/z? &lt;height&gt; &lt;node&gt;</code></h3>
+<p>Add hollow pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height <code>&lt;height&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowpyramid x 8 Diamond Block
+//hollowpyramid y -5 glass
+//hollowpyramid z 2 mesecons:wire_00000000_off
+//hollowpyramid ? 12 mesecons:wire_00000000_off</code></pre>
+<h3 id="pyramid-xyz-height-node"><code>//pyramid x/y/z? &lt;height&gt; &lt;node&gt;</code></h3>
+<p>Add pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height <code>&lt;height&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//pyramid x 8 Diamond Block
+//pyramid y -5 glass
+//pyramid z 2 mesecons:wire_00000000_off
+//pyramid ? 12 mesecons:wire_00000000_off</code></pre>
+<h3 id="spiral-length-height-spacer-node"><code>//spiral &lt;length&gt; &lt;height&gt; &lt;spacer&gt; &lt;node&gt;</code></h3>
+<p>Add spiral centered at WorldEdit position 1 with side length <code>&lt;length&gt;</code>, height <code>&lt;height&gt;</code>, space between walls <code>&lt;spacer&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//spiral 20 5 3 Diamond Block
+//spiral 5 2 1 glass
+//spiral 7 1 5 mesecons:wire_00000000_off</code></pre>
+<h3 id="copy-xyz-amount"><code>//copy x/y/z/? &lt;amount&gt;</code></h3>
+<p>Copy the current WorldEdit region along the x/y/z/? axis by <code>&lt;amount&gt;</code> nodes.</p>
+<pre><code>//copy x 15
+//copy y -7
+//copy z +4
+//copy ? 8</code></pre>
+<h3 id="move-xyz-amount"><code>//move x/y/z/? &lt;amount&gt;</code></h3>
+<p>Move the current WorldEdit positions and region along the x/y/z/? axis by <code>&lt;amount&gt;</code> nodes.</p>
+<pre><code>//move x 15
+//move y -7
+//move z +4
+//move ? -1</code></pre>
+<h3 id="stack-xyz-count"><code>//stack x/y/z/? &lt;count&gt;</code></h3>
+<p>Stack the current WorldEdit region along the x/y/z/? axis <code>&lt;count&gt;</code> times.</p>
+<pre><code>//stack x 3
+//stack y -1
+//stack z +5
+//stack ? 12</code></pre>
+<h3 id="stack2-count-x-y-z"><code>//stack2 &lt;count&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt;</code></h3>
+<p>Stack the current WorldEdit region <code>&lt;count&gt;</code> times by offset <code>&lt;x&gt;</code>, <code>&lt;y&gt;</code>, <code>&lt;z&gt;</code>.</p>
+<pre><code>//stack2 5 3 8 2
+//stack2 1 -1 -1 -1</code></pre>
+<h3 id="stretch-stretchx-stretchy-stretchz"><code>//stretch &lt;stretchx&gt; &lt;stretchy&gt; &lt;stretchz&gt;</code></h3>
+<p>Scale the current WorldEdit positions and region by a factor of <code>&lt;stretchx&gt;</code>, <code>&lt;stretchy&gt;</code>, <code>&lt;stretchz&gt;</code> along the X, Y, and Z axes, repectively, with position 1 as the origin.</p>
+<pre><code>//scale 2 2 2
+//scale 1 2 1
+//scale 10 20 1</code></pre>
+<h3 id="transpose-xyz-xyz"><code>//transpose x/y/z/? x/y/z/?</code></h3>
+<p>Transpose the current WorldEdit positions and region along the x/y/z/? and x/y/z/? axes.</p>
+<pre><code>//transpose x y
+//transpose x z
+//transpose y z
+//transpose ? y</code></pre>
+<h3 id="flip-xyz"><code>//flip x/y/z/?</code></h3>
+<p>Flip the current WorldEdit region along the x/y/z/? axis.</p>
+<pre><code>//flip x
+//flip y
+//flip z
+//flip ?</code></pre>
+<h3 id="rotate-xyz-angle"><code>//rotate x/y/z/? &lt;angle&gt;</code></h3>
+<p>Rotate the current WorldEdit positions and region along the x/y/z/? axis by angle <code>&lt;angle&gt;</code> (90 degree increment).</p>
+<pre><code>//rotate x 90
+//rotate y 180
+//rotate z 270
+//rotate ? -90</code></pre>
+<h3 id="orient-angle"><code>//orient &lt;angle&gt;</code></h3>
+<p>Rotate oriented nodes in the current WorldEdit region around the Y axis by angle <code>&lt;angle&gt;</code> (90 degree increment)</p>
+<pre><code>//orient 90
+//orient 180
+//orient 270
+//orient -90</code></pre>
+<h3 id="fixlight"><code>//fixlight</code></h3>
+<p>Fixes the lighting in the current WorldEdit region.</p>
+<pre><code>//fixlight</code></pre>
+<h3 id="drain"><code>//drain</code></h3>
+<p>Removes any fluid node within the current WorldEdit region.</p>
+<pre><code>//drain</code></pre>
+<h3 id="hide"><code>//hide</code></h3>
+<p>Hide all nodes in the current WorldEdit region non-destructively.</p>
+<pre><code>//hide</code></pre>
+<h3 id="suppress-node"><code>//suppress &lt;node&gt;</code></h3>
+<p>Suppress all <node> in the current WorldEdit region non-destructively.</p>
+<pre><code>//suppress Diamond Block
+//suppress glass
+//suppress mesecons:wire_00000000_off</code></pre>
+<h3 id="highlight-node"><code>//highlight &lt;node&gt;</code></h3>
+<p>Highlight <node> in the current WorldEdit region by hiding everything else non-destructively.</p>
+<pre><code>//highlight Diamond Block
+//highlight glass
+//highlight mesecons:wire_00000000_off</code></pre>
+<h3 id="restore"><code>//restore</code></h3>
+<p>Restores nodes hidden with WorldEdit in the current WorldEdit region.</p>
+<pre><code>//restore</code></pre>
+<h3 id="save-file"><code>//save &lt;file&gt;</code></h3>
+<p>Save the current WorldEdit region to &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot;.</p>
+<pre><code>//save some random filename
+//save huge_base</code></pre>
+<h3 id="allocate-file"><code>//allocate &lt;file&gt;</code></h3>
+<p>Set the region defined by nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot; as the current WorldEdit region.</p>
+<pre><code>//allocate some random filename
+//allocate huge_base</code></pre>
+<h3 id="load-file"><code>//load &lt;file&gt;</code></h3>
+<p>Load nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot; with position 1 of the current WorldEdit region as the origin.</p>
+<pre><code>//load some random filename
+//load huge_base</code></pre>
+<h3 id="lua-code"><code>//lua &lt;code&gt;</code></h3>
+<p>Executes <code>&lt;code&gt;</code> as a Lua chunk in the global namespace.</p>
+<pre><code>//lua worldedit.pos1[&quot;singleplayer&quot;] = {x=0, y=0, z=0}
+//lua worldedit.rotate(worldedit.pos1[&quot;singleplayer&quot;], worldedit.pos2[&quot;singleplayer&quot;], &quot;y&quot;, 90)</code></pre>
+<h3 id="luatransform-code"><code>//luatransform &lt;code&gt;</code></h3>
+<p>Executes <code>&lt;code&gt;</code> as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region.</p>
+<pre><code>//luatransform minetest.add_node(pos, {name=&quot;default:stone&quot;})
+//luatransform if minetest.get_node(pos).name == &quot;air&quot; then minetest.add_node(pos, {name=&quot;default:water_source&quot;})</code></pre>
+<h3 id="mtschemcreate-file"><code>//mtschemcreate &lt;file&gt;</code></h3>
+<p>Save the current WorldEdit region using the Minetest Schematic format to &quot;(world folder)/schems/<code>&lt;file&gt;</code>.mts&quot;.</p>
+<pre><code>//mtschemcreate some random filename
+//mtschemcreate huge_base</code></pre>
+<h3 id="mtschemplace-file"><code>//mtschemplace &lt;file&gt;</code></h3>
+<p>Load nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.mts&quot; with position 1 of the current WorldEdit region as the origin.</p>
+<pre><code>//mtschemplace some random filename
+//mtschemplace huge_base</code></pre>
+<h3 id="mtschemprob-startfinishget"><code>//mtschemprob start/finish/get</code></h3>
+<p>After using <code>//mtschemprob start</code> all nodes punched will bring up a text field where a probablity can be entered. This mode can be left with <code>//mtschemprob finish</code>. <code>//mtschemprob get</code> will display the probabilities saved for the nodes.</p>
+<pre><code>//mtschemprob get</code></pre>
+<h3 id="clearobjects"><code>//clearobjects</code></h3>
+<p>Clears all objects within the WorldEdit region.</p>
+<pre><code>//clearobjects</code></pre>
+<h3 id="shift-xyzupdownleftrightfrontback--amount"><code>//shift x/y/z/?/up/down/left/right/front/back [+|-]&lt;amount&gt;</code></h3>
+<p>Shifts the selection area by <code>[+|-]&lt;amount&gt;</code> without touching its contents. The shifting axis can be absolute (<code>x/y/z</code>) or relative (<code>up/down/left/right/front/back</code>).</p>
+<pre><code>//shift left 5</code></pre>
+<h3 id="expand--xyzupdownleftrightfrontback-amount-reverse-amount"><code>//expand [+|-]x/y/z/?/up/down/left/right/front/back &lt;amount&gt; [reverse-amount]</code></h3>
+<p>Expands the selection by <code>&lt;amount&gt;</code> in the selected absolute or relative axis. If specified, the selection can be expanded in the opposite direction over the same axis by <code>[reverse-amount]</code>.</p>
+<pre><code>//expand right 7 5</code></pre>
+<h3 id="contract--xyzupdownleftrightfrontback-amount-reverse-amount"><code>//contract [+|-]x/y/z/?/up/down/left/right/front/back &lt;amount&gt; [reverse-amount]</code></h3>
+<p>Contracts the selection by <code>&lt;amount&gt;</code> in the selected absolute or relative axis. If specified, the selection can be contracted in the opposite direction over the same axis by <code>[reverse-amount]</code>.</p>
+<pre><code>//expand right 7 5</code></pre>
+<h3 id="outset-hv-amount"><code>//outset [hv] &lt;amount&gt;</code></h3>
+<p>Expands the selection in all directions by <code>&lt;amount&gt;</code>. If specified, the selection can be expanded horizontally in the x and z axes <code>[h]</code> or vertically in the y axis <code>[v]</code>.</p>
+<pre><code>//outset v 5</code></pre>
+<h3 id="inset-hv-amount"><code>//inset [hv] &lt;amount&gt;</code></h3>
+<p>Contracts the selection in all directions by <code>&lt;amount&gt;</code>. If specified, the selection can be contracted horizontally in the x and z axes <code>[h]</code> or vertically in the y axis <code>[v]</code>.</p>
+<pre><code>//outset v 5</code></pre>
+<h3 id="brush-nonecommand-parameters"><code>//brush none/&lt;command&gt; [parameters]</code></h3>
+<p>Assigns the given <code>&lt;command&gt;</code> to the currently held brush item, it will be ran with the first pointed solid node (as determined via raycast) as WorldEdit position 1 when using that specific brush item. Passing <code>none</code> instead clears the command assigned to the currently held brush item. Note that this functionality requires the <code>worldedit_brush</code> mod enabled.</p>
+<pre><code>//brush cube 8 8 8 Cobblestone
+//brush spr 12 glass
+//brush none</code></pre>
+<h2 id="create-and-import-a-schematic-file-.mts-with-worldedit">Create and import a schematic file (.mts) with WorldEdit</h2>
+<p>How to create a schematic file:</p>
+<ol style="list-style-type: decimal">
+<li>Enter in your world (with WorldEdit enabled).</li>
+<li>Grant yourself all privileges : <strong>/grant singleplayer all</strong>.</li>
+<li>Press F5 to display the coordinates.</li>
+<li>Select the area to export with : <strong>//pos1</strong> and <strong>//pos2</strong>.</li>
+<li>Create your schematic file with : <strong>//mtschemcreate &lt;name of your schematic file&gt;</strong>. Without extension .mts.</li>
+</ol>
+<p>Your schematic will appears into the <strong>worlds/&lt;my_world&gt;/schems</strong> folder.</p>
+<p>How to import a schematic file:</p>
+<ol style="list-style-type: decimal">
+<li>Enter in your world (with WorldEdit enabled).</li>
+<li>Grant yourself all privileges : <strong>/grant singleplayer all</strong>.</li>
+<li>Move a schematic file into the <strong>worlds/&lt;my_world&gt;/schems</strong> folder.</li>
+<li>Press F5 to display the coordinates.</li>
+<li>Select a position with : <strong>//pos1</strong></li>
+<li>Import your schematic file from the chosen position with : <strong>//mtschemplace &lt;name of your schematic file&gt;</strong>. Without extension .mts.</li>
+</ol>
+<h1 id="setting-up-a-server">Setting up a server</h1>
+<ol style="list-style-type: decimal">
+<li>Start your server on your desired port
+<ul>
+<li><strong>Note</strong>: It is recommended to leave the port at the default (30000)</li>
+</ul></li>
+<li>Find out your internal IP of the computer you are running the server on
+<ul>
+<li><strong>Linux</strong>: open a terminal and type ifconfig and hit enter</li>
+<li><strong>Windows</strong>: <em>Start -&gt; Run … -&gt; cmd.exe -&gt; ipconfig</em></li>
+</ul></li>
+<li>Check the port forwarding settings on your router
+<ul>
+<li>forward your chosen port for UDP (30000 if you left it default) to the internal IP</li>
+<li>In addition, alter any firewalls you may have to pass the traffic at that port</li>
+</ul></li>
+<li>Let your friends know your external IP</li>
+<li>Make your server listed in the server list by setting the following settings in stonecraft.conf
+<ul>
+<li>server_announce = true - makes Stonecraft tell the server list about the server.</li>
+<li>server_name - set the value of this to your server's name.</li>
+<li>server_description - set the value of this to a longer description describing your server.</li>
+<li>server_address - if you have a domain name for your server, then set this to the domain name.</li>
+<li>server_url - if you have a website for your server, then set this to the website URL.</li>
+<li>motd - a message that is sent to the player when they join. Use this to welcome them.</li>
+<li>You should restart the server to make sure any changed settings changed</li>
+</ul></li>
+</ol>
+<h2 id="running-a-dedicated-server">Running a dedicated server</h2>
+<h3 id="linux">Linux</h3>
+<ol style="list-style-type: decimal">
+<li>Open a terminal.</li>
+<li>Type in <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/stonecraftserver</em> or just drop the stonecraftserver executable (located in <em>/Stonecraft/bin/</em>) into the terminal <strong>(PLEASE READ THE NOTES BELOW!)</strong>
+<ul>
+<li>If you want to specify a specific game ID, the game ID choices are located in <em>/Stonecraft/games/</em>. Add in <em>--gameid thegameid</em> to the end of the command.</li>
+<li>If you get the error &quot;Multiple worlds are available.&quot;, the world choices are located in <em>/Stonecraft/worlds/</em>. Add in <em>--worldname theWorld</em> to the end of the command.</li>
+</ul></li>
+<li>If your server crashes, then look at the debug.txt in <em>/Stonecraft/bin/</em></li>
+<li>Enjoy running a Stonecraft server!</li>
+</ol>
+<p>For easy use you can create a file named <em>start-stonecraft.sh</em>, add the lines below and put it in your <em>/Stonecraft/bin/</em> folder.</p>
+<pre><code>#!/bin/bash -e
+
+until ./stonecraftserver --worldname ../worlds/&lt;YOUR-WORLD&gt;; do
+    echo &quot;Server &#39;stonecraftserver&#39; crashed with exit code $?. Respawning..&quot; &gt;&amp;2
+    sleep 1
+done</code></pre>
+<p>You have to make the script executable with the command</p>
+<pre><code>chmod +x start-stonecraft.sh</code></pre>
+<p>To run the server, just execute the script in a terminal with</p>
+<pre><code>./start-stonecraft.sh</code></pre>
+<p>Tipp: Add the start script to your /etc/rc.local file to run Stonecraft automatically if your system is rebooting.</p>
+<pre><code>#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will &quot;exit 0&quot; on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/start-stonecraft.sh
+
+exit 0</code></pre>
+<h3 id="windows">Windows</h3>
+<ol style="list-style-type: decimal">
+<li>Open command prompt by going in the <em>/Stonecraft/bin/</em> folder, hold Shift, do a right click on <em>bin</em> and click &quot;Open command window here&quot;.</li>
+<li>Type this: <em>stonecraft.exe --server</em>.
+<ul>
+<li>If you get the error &quot;Multiple worlds are available.&quot;, use <em>stonecraft.exe --server --worldname world_name</em> instead, where world_name is the name of the world.</li>
+</ul></li>
+<li>If your server crashes, then look at the debug.txt in <em>/Stonecraft/bin/</em></li>
+<li>Enjoy running a Stonecraft server!</li>
+</ol>
+<p>If you don't like to start the crashed server, simply start the server out of a batch file which contains the following code:</p>
+<pre><code>@echo off
+:crash
+stonecraft.exe --server --worldname world_name
+goto crash</code></pre>
+<h1 id="modding-stonecraft">Modding Stonecraft</h1>
+<p>If you wish to make your own mod for Stonecraft, I recommend to learn how the engine works and to become familiar with the Lua API. The following links can be useful:</p>
+<ol style="list-style-type: decimal">
+<li><p>Learn the structure of the <strong>Minetest engine</strong> http://dev.minetest.net/Main_Page</p></li>
+<li><p>Learn the <strong>Lua programming language</strong> https://www.lua.org/pil/contents.html</p></li>
+<li><p>Learn the <strong>Lua Mod API</strong> http://rubenwardy.com/minetest_modding_book/</p></li>
+</ol>
+<h2 id="installing-mods">Installing mods</h2>
+<p>You can get mods from the <a href="http://www.minetest.net/customize/">Minetest community</a>, I can give no warranties that they work with Stonecraft. The mods are installed globally and enabled per world.</p>
+<p>The common place to install them is <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/mods/</em>. After extracting the mod there you need to enable it for your world. This can either be done in the GUI by clicking on &quot;Configure&quot; in the world selection, or by adding</p>
+<pre><code>load_mod_&lt;modname&gt; = true</code></pre>
+<p>in the <em>world.mt</em> file in the world directory.</p>
+<p>Note that newly installed mods are disabled for all worlds by default, so you explicitly need to enable them.</p>
+<p>If you want to use a mod only in a specified world, then you have to extract your mod in <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/worlds/&lt;YOUR-WORLD&gt;/worldmods/</em>.</p>
+<h2 id="installing-texture-packs">Installing texture packs</h2>
+<p>You will find a folder called <em>textures</em> in your Stonecraft base folder. Place the texture pack there. Start Stonecraft and select a new style in the <em>textures tab</em>.</p>
+<h3 id="server-texture-pack">Server texture pack</h3>
+<p>If you create a server and want that the texture pack works not only for you, change the texture pack name to <em>server</em>.</p>
+<h2 id="profiling-mods">Profiling mods</h2>
+<p>To activate the profiler simple add to stonecraft.conf following line:</p>
+<pre><code>profiler.load = true</code></pre>
+<p>Start a game and make sure you have server privileges. Open the console and type</p>
+<pre><code>/profiler print</code></pre>
+<p>to get the current statistics.</p>
+<p>Here you see the usage of the profiler command:</p>
+<pre><code>/profiler print [filter] | dump [filter] | save [format [filter]] | reset</code></pre>
+<p>Available save formats: txt, csv, lua, json, json_pretty</p>
+<h1 id="troubleshooting">Troubleshooting</h1>
+<h2 id="multiplayernetwork-issues">Multiplayer/Network issues</h2>
+<p>Q: There are some online servers that can only run protocol 24 - 32.</p>
+<p>A: Please download stonecraft-1.2.4a-XXXX-old-net-proto.zip from https://mrcerealguy.itch.io/stonecraft and extract the binary in <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/</em> folder. Start stonecraft-1.2.4a[.exe] and connect to your desired server.</p>
+<p><a href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img src="https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" alt="Creative Commons License" /></a><br />
+This work is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+</body>
+</html>

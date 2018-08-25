@@ -115,7 +115,7 @@ Use --help
 
 **Install dependencies for Debian/Ubuntu**
 ```
-$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libstdc++6 libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses5-dev liblua5.2-dev dialog libluajit-5.1-dev
+$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libstdc++6 libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses5-dev liblua5.2-dev dialog libluajit-5.1-dev pandoc
 ```
 
 **Download source** (this is the URL to the latest of source repository, which might not work at all times) using git:
@@ -251,7 +251,10 @@ $ mv ./libdev-win/* ../
 $ rm -Rf ./libdev-win
 ```
 
-**Win 32-Bit**
+**Win 32-Bit** (no longer supported)
+
+Note: Uses LuaJIT without GC64 enabled, so it is not recommendable for Stonecraft.
+
 ```
 $ <stonecraft-folder>/build/build_win32_client.sh
 ```
@@ -259,6 +262,9 @@ $ <stonecraft-folder>/build/build_win32_client.sh
 You'll find the build in &lt;stonecraft-folder&gt;/build/win-i686 and the ZIP-package in the subdirectory _build.
 
 **Win 64-Bit**
+
+Note: Uses LuaJIT with enabled GC64, see https://github.com/MrCerealGuy/LuaJIT-2.1.0-beta3-GC64.
+
 ```
 $ <stonecraft-folder>/build/build_win64_client.sh
 ```
