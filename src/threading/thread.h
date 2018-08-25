@@ -161,3 +161,4 @@ private:
 	tid_t m_kernel_thread_id;
 #endif
 };
+

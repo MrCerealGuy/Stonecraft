@@ -341,3 +341,4 @@ bool Thread::setPriority(int prio)
 
 #endif
 }
+
