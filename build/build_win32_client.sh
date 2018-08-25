@@ -104,6 +104,10 @@ cp $libdir/sqlite3-$sqlite3_version/bin/libsqlite3-0.dll ./bin
 echo -e "\E[34;47mdone!"
 
 
+# Generate git hash
+git_hash=$(git rev-parse --short HEAD)
+
+
 # Build the thing
 echo -e "\E[34;47mRun cmake..."
 [ -d _build ] && rm -Rf _build/
@@ -115,6 +119,7 @@ cd _build
 cmake .. \
 	-DCMAKE_TOOLCHAIN_FILE=$toolchain_file \
 	-DCMAKE_INSTALL_PREFIX=/tmp \
+	-DVERSION_EXTRA=$git_hash \
 	-DBUILD_CLIENT=1 -DBUILD_SERVER=0 \
 	\
 	-DENABLE_SOUND=1 \
