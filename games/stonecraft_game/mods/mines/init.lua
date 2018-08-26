@@ -22,7 +22,7 @@ if not MINE_FACTOR then
 end
 
 minetest.register_node("mines:dummy", {
-	description = "Air (you hacker you!)",
+	description = "Mine Air (you hacker you!)",
 	inventory_image = "unknown_node.png",
 	wield_image = "unknown_node.png",
 	drawtype = "airlike",
@@ -37,13 +37,12 @@ minetest.register_node("mines:dummy", {
 	groups = {not_in_creative_inventory=1},
 })
 
-
-local ids = {
-	air = minetest.get_content_id("air"),
-	fence = minetest.get_content_id("default:fence_wood"),
-	wood = minetest.get_content_id("default:wood"),
-	dummy = minetest.get_content_id("mines:dummy")
-}
+-- get node content ids
+local c_air = minetest.get_content_id("air")
+local c_fence = minetest.get_content_id("default:fence_wood")
+local c_wood = minetest.get_content_id("default:wood")
+local c_water = minetest.get_content_id("default:water_source")
+local c_dummy = minetest.get_content_id("mines:dummy")
 
 local chest_stuff = {
 	{name="default:apple", max = 3},
@@ -53,7 +52,6 @@ local chest_stuff = {
 	{name="default:diamond", max = 1},
 	{name="default:pick_steel", max = 1},
 	{name="default:pick_diamond", max = 1}
-
 }
 
 local function rotate_torch(pos)
@@ -106,7 +104,7 @@ local function check_dir(dir,old_dir)
 	end
 	return false
 end
-local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt)
+local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt, flooded)
 	local pos = {x=mpos.x,y=mpos.y,z=mpos.z}
 	for j=0,12,1 do
 	local switch = cnt+1
@@ -117,11 +115,19 @@ local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt)
 	switch = n_switch
 
 		for i=0,20,1 do
-			local pillar = ids.air
-			local pillar_top = ids.air
+			local pillar = c_air
+			local pillar_top = c_air
+			if flooded then
+				pillar = c_water
+				pillar_top = c_water
+			end
+			local fill_with = c_air
+			if flooded then
+				fill_with = c_water
+			end
 			if i==0 or i == 5 or i == 10 or i == 15 or i == 20 then
-				pillar = ids.fence
-				pillar_top = ids.wood
+				pillar = c_fence
+				pillar_top = c_wood
 			end
 			local x1
 			local x2
@@ -180,49 +186,48 @@ local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt)
 				z4 = pos.z
 				z5 = pos.z+1
 			end
-
 			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x1, y=pos.y-1, z=z1}), pillar)
-			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y-1, z=z2}), ids.air)
+			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y-1, z=z2}), fill_with)
 			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x3, y=pos.y-1, z=z3}), pillar)
 
 			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x1, y=pos.y, z=z1}), pillar)
-			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y, z=z2}), ids.air)
+			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y, z=z2}), fill_with)
 			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x3, y=pos.y, z=z3}), pillar)
 
-			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x1, y=pos.y+1, z=z1}), pillar_top)
-			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y+1, z=z2}), pillar_top)
-			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x3, y=pos.y+1, z=z3}), pillar_top)
+			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x1, y=pos.y, z=z1}), pillar_top)
+			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x2, y=pos.y, z=z2}), pillar_top)
+			vm:set_data_from_heap(vm_data, vx_area:indexp({x=x3, y=pos.y, z=z3}), pillar_top)
 
-			if math.random(0,6) == 3 then 
-				vm:set_data_from_heap(vm_data, vx_area:indexp({x=x4, y=pos.y-1, z=z4}), ids.dummy)
+			if not flooded and math.random(0,6) == 3 then
+				vm:set_data_from_heap(vm_data, vx_area:indexp({x=x4, y=pos.y-1, z=z4}), c_dummy)
 				rotate_torch({x=x4, y=pos.y-1, z=z4})
 			end
 			if math.random(0,60) == 13 then
 				local p = {x=x5, y=pos.y-1, z=z5}
-				if vm:get_data_from_heap(vm_data, vx_area:indexp(p)) ~= ids.fence then
-					vm:set_data_from_heap(vm_data, vx_area:indexp(p),ids.dummy)
+				if vm:get_data_from_heap(vm_data, vx_area:indexp(p)) ~= c_fence then
+					vm:set_data_from_heap(vm_data, vx_area:indexp(p),c_dummy)
 					fill_chest(p)
 				end
 			end
 		end
-		if switch == 1 then			
+		if switch == 1 then
 			pos.z = pos.z+20
 			--pos.x = pos.x+step
 		elseif switch == 2 then
 			pos.x = pos.x+20
 			--pos.z = pos.z+step
-		elseif switch == 3 then			
+		elseif switch == 3 then
 			pos.z = pos.z-20
 			--pos.x = pos.x+step
-		elseif switch == 4 then	
+		elseif switch == 4 then
 			pos.x = pos.x-20
 			--pos.z = pos.z+step
 		end
 	end
 	if cnt == 0 then
 		minetest.log("action", "Created mine at ("..mpos.x..","..mpos.y..","..mpos.z..")")
-		local out2 = make_mine(p2,p3,mpos,vm,vm_data,vx_area,1)
-		local out3 = make_mine(p3,p2,mpos,vm,out2,vx_area,2)
+		local out2 = make_mine(p2,p3,mpos,vm,vm_data,vx_area,1,flooded)
+		local out3 = make_mine(p3,p2,mpos,vm,out2,vx_area,2,flooded)
 		return out3
 	else
 		return vm_data
@@ -230,18 +235,16 @@ local function make_mine(mpos,p2,p3, vm, vm_data, vx_area,cnt)
 end
 
 local function find_cave(min,max,vm, vm_data, vx_area)
-	local out = nil
 	for i in vx_area:iterp(min, max) do
-		if vm:get_data_from_heap(vm_data, i) == ids.air then
+		if vm:get_data_from_heap(vm_data, i) == c_air then
 			local p = vx_area:position(i)
 			if p.y <= MINE_DEEP_MIN then out = p end
-		end		
+		end
 	end
 	return out
 end
 
 local cnt = 0
-
 minetest.register_on_generated(function(minp, maxp, seed)
 	if minp.y > MINE_DEEP_MIN or minp.y < MINE_DEEP_MAX then
 		return
@@ -255,10 +258,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local data = vm:load_data_into_heap()
 	local va = VoxelArea:new{ MinEdge = emin, MaxEdge = emax }
 	local mpos = find_cave(emin,emax,vm,data,va)
-	if mpos == nil then return end
+	if not mpos then return end
 	local mpos2 = {x=mpos.x+math.random(0,3),y=mpos.y-1,z=mpos.z}
 	local mpos3 = {x=mpos.x,y=mpos.y-2,z=mpos.z+math.random(0,3)}
-	make_mine(mpos,mpos2,mpos3, vm, data, va, 0)
+	local flooded = false
+	if math.random(0,20) == 20 then
+		flooded = true
+	end
+	make_mine(mpos,mpos2,mpos3, vm, data, va, 0, flooded)
 	vm:save_data_from_heap(data)
 	vm:calc_lighting(emin,emax)
 	vm:update_liquids()

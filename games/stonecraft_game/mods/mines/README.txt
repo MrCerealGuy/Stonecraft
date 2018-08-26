@@ -1,15 +1,16 @@
 Minetest mod "Mines"
 ====================
-version: 0.3 Beta
+version: 0.4 Beta
 
 License of source code and textures: WTFPL
------------------------------------------
-(c) Copyright BlockMen (2013)
+ -----------------------------------------
+(c) Copyright 2013-2016 BlockMen <blockmen2015@gmail.com>
 
 
 Contributors:
 -------------
-cHyper (mine deep can be set by .conf)
+- cHyper (mine deep can be set by .conf)
+- red-001 (flooded Mines)
 
 This program is free software. It comes without any warranty, to
 the extent permitted by applicable law. You can redistribute it
@@ -21,7 +22,7 @@ http://sam.zoy.org/wtfpl/COPYING for more details.
 Using the mod:
 --------------
 
-This mod adds abandoned mines, similar to MC. 
+This mod adds abandoned mines, similar to MC.
 
 You can find chest with different stuff like food, resources, ingots or even tools.
 
