@@ -30,7 +30,7 @@ mobs:register_mob("mob_horse:horse", {
 		run_end = 100,
 	},
 	textures = {
-		{"mobs_horse.png"},
+		{"mobs_horse.png"}, -- textures by Mjollna
 		{"mobs_horsepeg.png"},
 		{"mobs_horseara.png"}
 	},
@@ -49,7 +49,7 @@ mobs:register_mob("mob_horse:horse", {
 	water_damage = 1,
 	makes_footstep_sound = true,
 	drops = {
-		{name = "mobs:meat_raw", chance = 1, min = 2, max = 3}
+		{name = "mobs:leather", chance = 1, min = 0, max = 2}
 	},
 
 	do_custom = function(self, dtime)
@@ -123,7 +123,7 @@ mobs:register_mob("mob_horse:horse", {
 				if inv:room_for_item("main", "mobs:saddle") then
 					inv:add_item("main", "mobs:saddle")
 				else
-					minetest.add_item(clicker:getpos(), "mobs:saddle")
+					minetest.add_item(clicker:get_pos(), "mobs:saddle")
 				end
 
 			-- attach player to horse
@@ -146,8 +146,9 @@ mobs:register_mob("mob_horse:horse", {
 mobs:spawn({
 	name = "mob_horse:horse",
 	nodes = {"default:dirt_with_grass", "ethereal:dry_dirt"},
-	min_light = 10,
-	chance = 15000,
+	min_light = 14,
+	interval = 60,
+	chance = 16000,
 	min_height = 10,
 	max_height = 31000,
 	day_toggle = true,
@@ -167,7 +168,7 @@ local apply_shoes = function(name, itemstack, obj, shoes, speed, jump, reverse)
 	if ent and ent.name and ent.name == "mob_horse:horse" then
 
 		if ent.shoed then
-			minetest.add_item(mob:getpos(), ent.shoed)
+			minetest.add_item(mob:get_pos(), ent.shoed)
 		end
 
 		ent.max_speed_forward = speed
@@ -263,3 +264,15 @@ minetest.register_craft({
 		{"default:diamond", "", "default:diamond"},
 	}
 })
+
+-- lucky blocks
+if minetest.get_modpath("lucky_block") then
+
+lucky_block:add_blocks({
+	{"dro", {"mobs:horseshoe_steel"}},
+	{"dro", {"mobs:horseshoe_bronze"}},
+	{"dro", {"mobs:horseshoe_mese"}},
+	{"dro", {"mobs:horseshoe_diamond"}},
+})
+
+end
