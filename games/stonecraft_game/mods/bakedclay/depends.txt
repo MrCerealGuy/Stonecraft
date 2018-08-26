@@ -1,4 +1,5 @@
 default
 stairs
+moreblocks?
 lucky_block?
 intllib?

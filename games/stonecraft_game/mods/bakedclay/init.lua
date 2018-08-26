@@ -9,6 +9,8 @@
 
 
 -- Load support for intllib.
+-- Baked Clay by TenPlus1
+
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
@@ -29,6 +31,10 @@ local clay = {
 	{"dark_grey", S("Dark Grey")},
 	{"dark_green", S("Dark Green")},
 }
+
+local stairs_mod = minetest.get_modpath("stairs")
+local stairsplus_mod = minetest.get_modpath("moreblocks")
+	and minetest.global_exists("stairsplus")
 
 for _, clay in pairs(clay) do
 
@@ -53,17 +59,30 @@ for _, clay in pairs(clay) do
 	})
 
 	-- register stairsplus stairs if found
-	if minetest.global_exists("stairsplus") then
+	if stairsplus_mod then
 
-		stairsplus:register_all("bakedclay", clay[1], "bakedclay:" .. clay[1], {
+		stairsplus:register_all("bakedclay", "baked_clay_" .. clay[1], "bakedclay:" .. clay[1], {
 			description = clay[2] .. S(" Baked Clay"),
 			tiles = {"baked_clay_" .. clay[1] .. ".png"},
 			groups = {cracky = 3},
 			sounds = default.node_sound_stone_defaults(),
 		})
 
-	-- register stair and slab (unless stairs redo active)
-	elseif stairs and not stairs.mod then
+		stairsplus:register_alias_all("bakedclay", clay[1], "bakedclay", "baked_clay_" .. clay[1])
+		minetest.register_alias("stairs:slab_bakedclay_".. clay[1], "bakedclay:slab_baked_clay_" .. clay[1])
+		minetest.register_alias("stairs:stair_bakedclay_".. clay[1], "bakedclay:stair_baked_clay_" .. clay[1])
+
+	-- register all stair types for stairs redo
+	elseif stairs_mod and stairs.mod then
+
+		stairs.register_all("bakedclay_" .. clay[1], "bakedclay:" .. clay[1],
+			{cracky = 3},
+			{"baked_clay_" .. clay[1] .. ".png"},
+			clay[2] .. S(" Baked Clay"),
+			default.node_sound_stone_defaults())
+
+	-- register stair and slab using default stairs
+	elseif stairs_mod then
 
 		stairs.register_stair_and_slab("bakedclay_".. clay[1], "bakedclay:".. clay[1],
 			{cracky = 3},
@@ -114,9 +133,16 @@ minetest.register_craft( {
 	recipe = {"default:dry_shrub"}
 })
 
+-- 2x2 red bakedclay makes 16x clay brick
+minetest.register_craft( {
+	output = "default:clay_brick 16",
+	recipe = {
+		{"bakedclay:red", "bakedclay:red"},
+		{"bakedclay:red", "bakedclay:red"},
+	}
+})
+
 -- register some new flowers to fill in missing dye colours
-
-
 -- flower registration (borrowed from default game)
 
 local function add_simple_flower(name, desc, box, f_groups)
@@ -196,7 +222,7 @@ minetest.register_decoration({
 
 minetest.register_decoration({
 	deco_type = "simple",
-	place_on = {"default:dirt_with_grass"},
+	place_on = {"default:dirt_with_grass", "default:dirt_with_rainforest_litter"},
 	sidelen = 16,
 	noise_params = {
 		offset = 0,
@@ -244,7 +270,13 @@ lucky_block:add_blocks({
 	{"fal", {p.."black", p.."blue", p.."brown", p.."cyan", p.."dark_green",
 		p.."dark_grey", p.."green", p.."grey", p.."magenta", p.."orange",
 		p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 0, true},
-	{"dro", {p.."delphinium", p.."lazarus", p.."mannagrass"}, 6},
+	{"dro", {p.."delphinium"}, 5},
+	{"dro", {p.."lazarus"}, 5},
+	{"dro", {p.."mannagrass"}, 5},
+	{"dro", {p.."thistle"}, 6},
+	{"flo", 5, {p.."black", p.."blue", p.."brown", p.."cyan", p.."dark_green",
+		p.."dark_grey", p.."green", p.."grey", p.."magenta", p.."orange",
+		p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 2},
 })
 end
 
