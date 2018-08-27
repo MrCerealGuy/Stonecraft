@@ -57,7 +57,8 @@ function spawners_env.create(mob_name, mod_prefix, size, offset, mesh, texture, 
 	-- 
 
 	minetest.register_node("spawners_env:"..mod_prefix.."_"..mob_name.."_spawner_active", {
-		description = mod_prefix.."_"..mob_name.." spawner active env",
+		--description = mod_prefix.."_"..mob_name.." spawner active env",
+		description = mob_desc..S(" spawner active env"),
 		paramtype = "light",
 		light_source = 4,
 		paramtype2 = "glasslikeliquidlevel",
@@ -101,7 +102,8 @@ function spawners_env.create(mob_name, mod_prefix, size, offset, mesh, texture, 
 
 	-- waiting for light - everything is ok but too much light or not enough light
 	minetest.register_node("spawners_env:"..mod_prefix.."_"..mob_name.."_spawner_waiting", {
-		description = mod_prefix.."_"..mob_name.." spawner waiting env",
+		--description = mod_prefix.."_"..mob_name.." spawner waiting env",
+		description = mob_desc..S(" spawner waiting env"),
 		paramtype = "light",
 		light_source = 2,
 		paramtype2 = "glasslikeliquidlevel",
@@ -139,7 +141,8 @@ function spawners_env.create(mob_name, mod_prefix, size, offset, mesh, texture, 
 	-- 
 
 	minetest.register_node("spawners_env:"..mod_prefix.."_"..mob_name.."_spawner", {
-		description = mod_prefix.."_"..mob_name.." spawner env",
+		--description = mod_prefix.."_"..mob_name.." spawner env",
+		description =mob_desc..S(" spawner env"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
 		drawtype = "glasslike_framed_optional",

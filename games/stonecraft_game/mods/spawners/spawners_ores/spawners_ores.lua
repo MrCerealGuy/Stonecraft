@@ -75,6 +75,7 @@ end
 function spawners_ores.create(def)
 
 	local ore_name = def.ore_name or nil
+	local ore_desc = def.desc or nil
 	local size = def.size or {x = 0.33, y = 0.33}
 	local offset = def.offset or 0
 
@@ -120,7 +121,8 @@ function spawners_ores.create(def)
 
 	-- node spawner active
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner_active", {
-		description = ore_name.." spawner active",
+		--description = ore_name..S(" spawner active"),
+		description = ore_desc..S(" spawner active"),
 		paramtype = "light",
 		light_source = 4,
 		paramtype2 = "glasslikeliquidlevel",
@@ -163,7 +165,8 @@ function spawners_ores.create(def)
 
 	-- node spawner waiting - no stone around or no fuel
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner_waiting", {
-		description = ore_name.." spawner waiting",
+		--description = ore_name..S(" spawner waiting"),
+		description = ore_desc..S(" spawner waiting"),
 		paramtype = "light",
 		light_source = 2,
 		paramtype2 = "glasslikeliquidlevel",
@@ -215,7 +218,8 @@ function spawners_ores.create(def)
 
 	-- node spawner inactive (default)
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner", {
-		description = ore_name.." spawner",
+		--description = ore_name..S(" spawner"),
+		description = ore_desc..S(" spawner"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
 		drawtype = "glasslike_framed_optional",
@@ -289,6 +293,7 @@ end
 -- default:stone_with_gold
 spawners_ores.create({
 	ore_name = "stone_with_gold",
+	desc = S("Stone with gold"),
 	size = {x = 0.33, y = 0.33},
 	offset = 0
 })
@@ -296,6 +301,7 @@ spawners_ores.create({
 -- default:stone_with_iron
 spawners_ores.create({
 	ore_name = "stone_with_iron",
+	desc = S("Stone with iron"),
 	size = {x = 0.33, y = 0.33},
 	offset = 0
 })
@@ -303,6 +309,7 @@ spawners_ores.create({
 -- default:stone_with_copper
 spawners_ores.create({
 	ore_name = "stone_with_copper",
+	desc = S("Stone with copper"),
 	size = {x = 0.33, y = 0.33},
 	offset = 0
 })
@@ -310,6 +317,7 @@ spawners_ores.create({
 -- default:stone_with_tin
 spawners_ores.create({
 	ore_name = "stone_with_tin",
+	desc = S("Stone with tin"),
 	size = {x = 0.33, y = 0.33},
 	offset = 0
 })

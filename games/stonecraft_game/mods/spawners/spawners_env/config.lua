@@ -1,3 +1,14 @@
+--[[
+
+2018-08-27 MrCerealGuy: added intllib support
+
+--]]
+
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -- * [name : string] - Name of the mob used in the mod.
 
 -- [egg_name_custom : string] - Custom name for the egg item. If empty default name will be used i.e. 'mobs:chicken'.
@@ -25,6 +36,7 @@ MOBS_PROPS = {
 	["mobs"] = { -- MOBS REDO CONFIG
 		{
 			name = "sheep_white",
+			desc = S("White sheep"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.52, y = 0.52},
 			dummy_offset = 0.2,
@@ -35,6 +47,7 @@ MOBS_PROPS = {
 		},
 		{
 			name = "cow",
+			desc = S("Cow"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.3, y = 0.3},
 			dummy_offset = -0.3,
@@ -45,6 +58,7 @@ MOBS_PROPS = {
 		},
 		{
 			name = "chicken",
+			desc = S("Chicken"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.9, y = 0.9},
 			dummy_offset = 0.2,
@@ -55,6 +69,7 @@ MOBS_PROPS = {
 		},
 		{
 			name = "pumba",
+			desc = S("Pumba"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.62, y = 0.62},
 			dummy_offset = -0.3,
@@ -85,17 +100,19 @@ MOBS_PROPS = {
 		-- },
 		{
 			name = "spider",
+			desc = S("Spider"),
 			egg_name_custom = "",
 			dummy_size = {x = 2, y = 2},
 			dummy_offset = -0.2,
-			dummy_mesh = "mobs_spider.x",
-			dummy_texture = {"mobs_spider.png"},
+			dummy_mesh = "mobs_spider.b3d",
+			dummy_texture = {"mobs_spider_orange.png"},
 			night_only = true,
 			sound_custom = "",
 			env = true
 		},
 		{
 			name = "stone_monster",
+			desc = S("Stone monster"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.5, y = 0.5},
 			dummy_offset = 0.05,
@@ -106,6 +123,7 @@ MOBS_PROPS = {
 		},
 		{
 			name = "oerkki",
+			desc = S("Oerkki"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.5, y = 0.5},
 			dummy_offset = 0.05,
@@ -116,6 +134,7 @@ MOBS_PROPS = {
 		},
 		{
 			name = "tree_monster",
+			desc = S("Tree monster"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.4, y = 0.4},
 			dummy_offset = 0.05,

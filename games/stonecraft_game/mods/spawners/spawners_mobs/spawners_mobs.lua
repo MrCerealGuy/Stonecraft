@@ -14,6 +14,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- 
 function spawners_mobs.create(mob_table, idx)
 	local mob_name = mob_table.name
+	local mob_desc = mob_table.desc
 	local mod_prefix = mob_table.mod_prefix
 	local size = mob_table.dummy_size
 	local mesh = mob_table.dummy_mesh
@@ -45,7 +46,8 @@ function spawners_mobs.create(mob_table, idx)
 	-- DEFAULT SPAWNER
 	-- 
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner", {
-		description = mod_prefix.."_"..mob_name.." spawner",
+		--description = mod_prefix.."_"..mob_name.." spawner",
+		description = mob_desc..S(" spawner"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
 		drawtype = "glasslike_framed_optional",
@@ -88,7 +90,8 @@ function spawners_mobs.create(mob_table, idx)
 	-- WAITING SPAWNER
 	-- 
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner_waiting", {
-		description = mod_prefix.."_"..mob_name.." spawner waiting",
+		--description = mod_prefix.."_"..mob_name.." spawner waiting",
+		description = mob_desc..S(" spawner waiting"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
 		drawtype = "glasslike_framed_optional",
@@ -118,7 +121,8 @@ function spawners_mobs.create(mob_table, idx)
 	-- RUSTY SPAWNER
 	-- 
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner_rusty", {
-		description = mod_prefix.."_"..mob_name.." spawner rusty",
+		--description = mod_prefix.."_"..mob_name.." spawner rusty",
+		description = mob_desc..S(" spawner rusty"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
 		drawtype = "glasslike_framed_optional",

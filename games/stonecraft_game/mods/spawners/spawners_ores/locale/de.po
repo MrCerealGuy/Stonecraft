@@ -17,6 +17,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: init.lua
-msgid ""
-msgstr ""
+#: spawners_ores.lua
+msgid "Stone with gold"
+msgstr "Stein mit Gold"
+
+#: spawners_ores.lua
+msgid "Stone with iron"
+msgstr "Stein mit Eisen"
+
+#: spawners_ores.lua
+msgid "Stone with copper"
+msgstr "Stein mit Kupfer"
+
+#: spawners_ores.lua
+msgid "Stone with tin"
+msgstr "Stein mit Zinn"
+
+#: spawners_ores.lua
+msgid "  spawner active"
+msgstr " Spawner (aktiv)"
+
+#: spawners_ores.lua
+msgid " spawner waiting"
+msgstr " Spawner (wartend)"
+
+#: spawners_ores.lua
+msgid " spawner"
+msgstr " Spawner"

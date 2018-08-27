@@ -17,6 +17,46 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: init.lua
-msgid ""
-msgstr ""
+#: config.lua
+msgid "White sheep"
+msgstr "Weißes Schaf"
+
+#: config.lua
+msgid "Cow"
+msgstr "Kuh"
+
+#: config.lua
+msgid "Chicken"
+msgstr "Huhn"
+
+#: config.lua
+msgid "Pumba"
+msgstr "Pumba"
+
+#: config.lua
+msgid "Spider"
+msgstr "Spinne"
+
+#: config.lua
+msgid "Stone monster"
+msgstr "Steinmonster"
+
+#: config.lua
+msgid "Oerkki"
+msgstr "Oerkki"
+
+#: config.lua
+msgid "Tree monster"
+msgstr "Baummonster"
+
+#: spawners_mobs.lua
+msgid " spawner"
+msgstr " Spawner"
+
+#: spawners_mobs.lua
+msgid " spawner waiting"
+msgstr " Spawner (wartend)"
+
+#: spawners_mobs.lua
+msgid " spawner rusty"
+msgstr " Spawner (rostig)"
