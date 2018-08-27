@@ -1,0 +1,182 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-24 23:06+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: barter.lua
+msgid "Start"
+msgstr ""
+
+#: barter.lua
+msgid "Confirm"
+msgstr ""
+
+#: barter.lua
+msgid "Cancel"
+msgstr ""
+
+#: barter.lua shop.lua
+msgid "Exchange"
+msgstr ""
+
+#: barter.lua
+msgid "Barter Table"
+msgstr ""
+
+#: craftitems.lua
+msgid "1 MineGeld Note"
+msgstr ""
+
+#: craftitems.lua
+msgid "5 MineGeld Note"
+msgstr ""
+
+#: craftitems.lua
+msgid "10 MineGeld Note"
+msgstr ""
+
+#: craftitems.lua
+msgid "50 MineGeld Note"
+msgstr ""
+
+#: craftitems.lua
+msgid "Bundle of random Minegeld notes"
+msgstr ""
+
+#: income.lua
+msgid "basic income for @1"
+msgstr ""
+
+#: income.lua
+msgid "added basic income for @1 to inventory"
+msgstr ""
+
+#: init.lua
+msgid "Currency mod loading..."
+msgstr ""
+
+#: init.lua
+msgid "Craft_items Loaded!"
+msgstr ""
+
+#: init.lua
+msgid "Shop Loaded!"
+msgstr ""
+
+#: init.lua
+msgid "Barter Loaded!"
+msgstr ""
+
+#: init.lua
+msgid "Safe Loaded!"
+msgstr ""
+
+#: init.lua
+msgid "Crafting Loaded!"
+msgstr ""
+
+#: init.lua
+msgid "Creative mode in use, skipping basic income."
+msgstr ""
+
+#: init.lua
+msgid "Income Loaded!"
+msgstr ""
+
+#: safe.lua
+msgid "Safe"
+msgstr ""
+
+#: safe.lua
+msgid "Safe (owned by @1)"
+msgstr ""
+
+#: safe.lua
+msgid "@1 tried to access a safe belonging to @2 at @3"
+msgstr ""
+
+#: safe.lua
+msgid "@1 moves stuff in safe at @2"
+msgstr ""
+
+#: safe.lua
+msgid "@1 moves stuff to safe at @2"
+msgstr ""
+
+#: safe.lua
+msgid "@1 takes stuff from safe at @2"
+msgstr ""
+
+#: shop.lua
+msgid "Customer gives (pay here!)"
+msgstr ""
+
+#: shop.lua
+msgid "Customer gets:"
+msgstr ""
+
+#: shop.lua
+msgid "Owner wants:"
+msgstr ""
+
+#: shop.lua
+msgid "Owner gives:"
+msgstr ""
+
+#: shop.lua
+msgid "Customers gave:"
+msgstr ""
+
+#: shop.lua
+msgid "Your stock:"
+msgstr ""
+
+#: shop.lua
+msgid "You want:"
+msgstr ""
+
+#: shop.lua
+msgid "In exchange, you give:"
+msgstr ""
+
+#: shop.lua
+msgid "Owner, Use (E)+Place (right mouse button) for customer interface"
+msgstr ""
+
+#: shop.lua
+msgid "Shop"
+msgstr ""
+
+#: shop.lua
+msgid "Exchange shop (owned by @1)"
+msgstr ""
+
+#: shop.lua
+msgid "This is your own shop, you can't exchange to yourself!"
+msgstr ""
+
+#: shop.lua
+msgid "Exchanged!"
+msgstr ""
+
+#: shop.lua
+msgid "Exchange can not be done, contact the shop owner."
+msgstr ""
+
+#: shop.lua
+msgid "Exchange can not be done, check if you put all items!"
+msgstr ""

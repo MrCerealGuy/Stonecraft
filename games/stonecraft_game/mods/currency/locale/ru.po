@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-24 23:06+0200\n"
+"PO-Revision-Date: 2017-08-11 19:03+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+
+#: barter.lua
+msgid "Start"
+msgstr "Старт"
+
+#: barter.lua
+msgid "Confirm"
+msgstr "Подтверждение"
+
+#: barter.lua
+msgid "Cancel"
+msgstr "Отмена"
+
+#: barter.lua shop.lua
+msgid "Exchange"
+msgstr "Обмен"
+
+#: barter.lua
+msgid "Barter Table"
+msgstr "Таблица бартера"
+
+#: craftitems.lua
+msgid "1 MineGeld Note"
+msgstr "Банкнота в 1 MineGeld"
+
+#: craftitems.lua
+msgid "5 MineGeld Note"
+msgstr "Банкнота в 5 MineGeld"
+
+#: craftitems.lua
+msgid "10 MineGeld Note"
+msgstr "Банкнота в 10 MineGeld"
+
+#: craftitems.lua
+#, fuzzy
+msgid "50 MineGeld Note"
+msgstr "Банкнота в 5 MineGeld"
+
+#: craftitems.lua
+msgid "Bundle of random Minegeld notes"
+msgstr "Пачка случайных банкнот Minegeld"
+
+#: income.lua
+msgid "basic income for @1"
+msgstr "базовая прибыль для @1"
+
+#: income.lua
+msgid "added basic income for @1 to inventory"
+msgstr "базовая прибыль для @1 добавлена в инвентарь"
+
+#: init.lua
+msgid "Currency mod loading..."
+msgstr "Загружается мод Currency..."
+
+#: init.lua
+msgid "Craft_items Loaded!"
+msgstr "Предметы для сборки загружены!"
+
+#: init.lua
+msgid "Shop Loaded!"
+msgstr "Магазин загружен!"
+
+#: init.lua
+msgid "Barter Loaded!"
+msgstr "Бартер загружен!"
+
+#: init.lua
+msgid "Safe Loaded!"
+msgstr "Сейф загружен!"
+
+#: init.lua
+msgid "Crafting Loaded!"
+msgstr "Механизм сборки загружен!"
+
+#: init.lua
+msgid "Creative mode in use, skipping basic income."
+msgstr "Используется режим творчества, пропускаем базовую прибыль."
+
+#: init.lua
+msgid "Income Loaded!"
+msgstr "Прибыль загружена!"
+
+#: safe.lua
+msgid "Safe"
+msgstr "Сейф"
+
+#: safe.lua
+msgid "Safe (owned by @1)"
+msgstr "Сейф (принадлежит @1)"
+
+#: safe.lua
+msgid "@1 tried to access a safe belonging to @2 at @3"
+msgstr "@1 попробовал открыть сейф, принадлежащий @2 в @3"
+
+#: safe.lua
+msgid "@1 moves stuff in safe at @2"
+msgstr "@1 перемещает вещи в сейфе в @2"
+
+#: safe.lua
+msgid "@1 moves stuff to safe at @2"
+msgstr "@1 кладёт вещи в сейф в @2"
+
+#: safe.lua
+msgid "@1 takes stuff from safe at @2"
+msgstr "@1 забирает вещи из сейфа в @2"
+
+#: shop.lua
+msgid "Customer gives (pay here!)"
+msgstr "Покупатель отдаёт (здесь оплата!)"
+
+#: shop.lua
+msgid "Customer gets:"
+msgstr "Покупатель получает:"
+
+#: shop.lua
+msgid "Owner wants:"
+msgstr "Владелец хочет:"
+
+#: shop.lua
+msgid "Owner gives:"
+msgstr "Владелец отдаёт:"
+
+#: shop.lua
+msgid "Customers gave:"
+msgstr "Покупатель отдал:"
+
+#: shop.lua
+msgid "Your stock:"
+msgstr "Ваш запас:"
+
+#: shop.lua
+msgid "You want:"
+msgstr "Вы хотите:"
+
+#: shop.lua
+msgid "In exchange, you give:"
+msgstr "Взамен вы даёте:"
+
+#: shop.lua
+msgid "Owner, Use (E)+Place (right mouse button) for customer interface"
+msgstr ""
+"Владелец, используйте (E)+Разместить (правая кнопка мыши) для открытия "
+"интерфейса покупателя"
+
+#: shop.lua
+msgid "Shop"
+msgstr "Магазин"
+
+#: shop.lua
+msgid "Exchange shop (owned by @1)"
+msgstr "Пункт обмена (принадлежит @1)"
+
+#: shop.lua
+msgid "This is your own shop, you can't exchange to yourself!"
+msgstr "Это ваш собственный магазин, вы не можете обмениваться с самим собой!"
+
+#: shop.lua
+msgid "Exchanged!"
+msgstr "Обмен произведён!"
+
+#: shop.lua
+msgid "Exchange can not be done, contact the shop owner."
+msgstr "Обмен невозможен, свяжитесь с владельцем магазина."
+
+#: shop.lua
+msgid "Exchange can not be done, check if you put all items!"
+msgstr "Обмен невозможен, проверьте, что вы положили все предметы!"

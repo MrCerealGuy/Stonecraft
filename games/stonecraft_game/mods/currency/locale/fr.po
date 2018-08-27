@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-24 23:06+0200\n"
+"PO-Revision-Date: 2018-05-12 14:55+0200\n"
+"Last-Translator: Papou30\n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.7\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: barter.lua
+msgid "Start"
+msgstr "Début"
+
+#: barter.lua
+msgid "Confirm"
+msgstr "Confirmer"
+
+#: barter.lua
+msgid "Cancel"
+msgstr "Annuler"
+
+#: barter.lua shop.lua
+msgid "Exchange"
+msgstr "Échange"
+
+#: barter.lua
+msgid "Barter Table"
+msgstr "Table de troc"
+
+#: craftitems.lua
+msgid "1 MineGeld Note"
+msgstr "1 MineGeld"
+
+#: craftitems.lua
+msgid "5 MineGeld Note"
+msgstr "5 MineGeld"
+
+#: craftitems.lua
+msgid "10 MineGeld Note"
+msgstr "10 MineGeld"
+
+#: craftitems.lua
+#, fuzzy
+msgid "50 MineGeld Note"
+msgstr "5 MineGeld"
+
+#: craftitems.lua
+msgid "Bundle of random Minegeld notes"
+msgstr "Liasse de Minegeld aléatoire"
+
+#: income.lua
+msgid "basic income for @1"
+msgstr "revenu de base pour @1"
+
+#: income.lua
+msgid "added basic income for @1 to inventory"
+msgstr "revenu de base ajouté pour @1 à l'inventaire"
+
+#: init.lua
+msgid "Currency mod loading..."
+msgstr "Chargement du mod Currency..."
+
+#: init.lua
+msgid "Craft_items Loaded!"
+msgstr "Fabrication d'objets (Craft_items) chargé!"
+
+#: init.lua
+msgid "Shop Loaded!"
+msgstr "Boutique (Shop) chargée!"
+
+#: init.lua
+msgid "Barter Loaded!"
+msgstr "Troc (Barter) chargé!"
+
+#: init.lua
+msgid "Safe Loaded!"
+msgstr "Coffre-fort (Safe) chargé!"
+
+#: init.lua
+msgid "Crafting Loaded!"
+msgstr "Artisanat (Crafting) chargé!"
+
+#: init.lua
+msgid "Creative mode in use, skipping basic income."
+msgstr "Mod créatif en cours d'utilisation, ignoré le revenu de base."
+
+#: init.lua
+msgid "Income Loaded!"
+msgstr "Revenu de base (Income) chargé!"
+
+#: safe.lua
+msgid "Safe"
+msgstr "Coffre-fort"
+
+#: safe.lua
+msgid "Safe (owned by @1)"
+msgstr "Coffre-fort (appartenant à @1)"
+
+#: safe.lua
+msgid "@1 tried to access a safe belonging to @2 at @3"
+msgstr "@1 a tenté d'accéder à un coffre-fort appartenant à @2 à @3"
+
+#: safe.lua
+msgid "@1 moves stuff in safe at @2"
+msgstr "@1 déplace le matériel dans coffre-fort à @2"
+
+#: safe.lua
+msgid "@1 moves stuff to safe at @2"
+msgstr "@1 déplace le matériel vers coffre-fort à @2"
+
+#: safe.lua
+msgid "@1 takes stuff from safe at @2"
+msgstr "@1 prend le matériel dans le coffre-fort à @2"
+
+#: shop.lua
+msgid "Customer gives (pay here!)"
+msgstr "Client donne (payer ici!)"
+
+#: shop.lua
+msgid "Customer gets:"
+msgstr "Client obtient:"
+
+#: shop.lua
+msgid "Owner wants:"
+msgstr "Le propriétaire veut:"
+
+#: shop.lua
+msgid "Owner gives:"
+msgstr "Propriétaire donne:"
+
+#: shop.lua
+msgid "Customers gave:"
+msgstr "Le client a donné:"
+
+#: shop.lua
+msgid "Your stock:"
+msgstr "Votre stock:"
+
+#: shop.lua
+msgid "You want:"
+msgstr "Vous voulez:"
+
+#: shop.lua
+msgid "In exchange, you give:"
+msgstr "En échange, vous donnez:"
+
+#: shop.lua
+msgid "Owner, Use (E)+Place (right mouse button) for customer interface"
+msgstr ""
+"Propriétaire, utilisez (E) + place (bouton droit de la souris) pour "
+"l'interface client"
+
+#: shop.lua
+msgid "Shop"
+msgstr "Boutique"
+
+#: shop.lua
+msgid "Exchange shop (owned by @1)"
+msgstr "Boutique d'échange (détenue par @1)"
+
+#: shop.lua
+msgid "This is your own shop, you can't exchange to yourself!"
+msgstr "C'est ta propre boutique, tu ne peux pas échanger avec toi-même!"
+
+#: shop.lua
+msgid "Exchanged!"
+msgstr "Échangé!"
+
+#: shop.lua
+msgid "Exchange can not be done, contact the shop owner."
+msgstr "L'échange ne peut être fait, contactez le propriétaire du magasin."
+
+#: shop.lua
+msgid "Exchange can not be done, check if you put all items!"
+msgstr ""
+"L'echange ne peut pas etre fait, verifiez si vous mettez tous les articles!"
