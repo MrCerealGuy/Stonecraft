@@ -17,11 +17,18 @@ Crafts:
  - Magic Lasso is similar to nets but with a better chance of picking up larger mobs.
  - Shears are used to right-click sheep and return 1-3 wool.
  - Protection Rune lets you protect tamed mobs from harm by other players
+ - Mob Fence and Fence Top (to stop mobs escaping/glitching through fences)
 
 Lucky Blocks: 9
 
 
 Changelog:
+- 1.45- Added Fence Top to add on top of any fence to stop mobs escaping, new line_of_sight tweaked by Astrobe
+- 1.44- Added ToolRanks support for swords when attacking mobs
+- 1.43- Better 0.4.16 compatibility, added general attack function and settings
+- 1.42- Added "all" option to immune_to table, tidied floating mobs to be less intensive
+- 1.41- Mob pathfinding has been updated thanks to Elkien3
+- 1.40- Updated to use newer functions, requires Minetest 0.4.16+ to work.
 - 1.39- Added 'on_breed', 'on_grown' and 'do_punch' custom functions per mob
 - 1.38- Better entity checking, nametag setting and on_spawn function added to mob registry, tweaked light damage
 - 1.37- Added support for Raymoo's CMI (common mob interface) mod: https://forum.minetest.net/viewtopic.php?f=9&t=15448

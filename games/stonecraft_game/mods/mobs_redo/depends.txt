@@ -6,3 +6,4 @@ invisibility?
 intllib?
 lucky_block?
 cmi?
+toolranks?

@@ -74,7 +74,7 @@ minetest.register_node("mobs:spawner", {
 })
 
 
-local max_per_block = tonumber(minetest.setting_get("max_objects_per_block") or 99)
+local max_per_block = tonumber(minetest.settings:get("max_objects_per_block") or 99)
 
 -- spawner abm
 minetest.register_abm({
