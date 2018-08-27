@@ -14,6 +14,7 @@ mobs:register_mob("mobs_npc:npc", {
 	damage = 3,
 	attack_type = "dogfight",
 	attacks_monsters = true,
+	attack_npcs = false,
 	owner_loyal = true,
 	pathfinding = true,
 	hp_min = 10,
@@ -21,7 +22,7 @@ mobs:register_mob("mobs_npc:npc", {
 	armor = 100,
 	collisionbox = {-0.35,-1.0,-0.35, 0.35,0.8,0.35},
 	visual = "mesh",
-	mesh = "character.b3d",
+	mesh = "mobs_character.b3d",
 	drawtype = "front",
 	textures = {
 		{"mobs_npc.png"},
@@ -77,12 +78,12 @@ mobs:register_mob("mobs_npc:npc", {
 		-- right clicking with gold lump drops random item from mobs.npc_drops
 		if item:get_name() == "default:gold_lump" then
 
-			if not minetest.setting_getbool("creative_mode") then
+			if not mobs.is_creative(name) then
 				item:take_item()
 				clicker:set_wielded_item(item)
 			end
 
-			local pos = self.object:getpos()
+			local pos = self.object:get_pos()
 
 			pos.y = pos.y + 0.5
 

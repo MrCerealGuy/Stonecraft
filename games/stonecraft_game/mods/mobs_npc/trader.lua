@@ -1,7 +1,15 @@
 
 local S = mobs.intllib
 
+-- define table containing names for use and shop items for sale
+
 mobs.human = {
+
+	names = {
+		"Bob", "Duncan", "Bill", "Tom", "James", "Ian", "Lenny",
+		"Dylan", "Ethan"
+	},
+
 	items = {
 		--{item for sale, price, chance of appearing in trader's inventory}
 		{"default:apple 10", "default:gold_ingot 2", 10},
@@ -19,9 +27,10 @@ mobs.human = {
 		{"default:pick_steel 1", "default:gold_ingot 2", 7},
 		{"default:sword_steel 1", "default:gold_ingot 2", 17},
 		{"default:shovel_steel 1", "default:gold_ingot 1", 17},
-	},
-	names = {
-		"Bob", "Duncan", "Bill", "Tom", "James", "Ian", "Lenny"
+		{"default:cactus 2", "default:gold_ingot 2", 40},
+		{"default:papyrus 2", "default:gold_ingot 2", 40},
+		{"default:mese_crystal_fragment 1", "default:dirt_with_grass 10", 90},
+		{"default:mese_crystal_fragment 1", "default:gold_ingot 5", 90},
 	}
 }
 
@@ -33,15 +42,19 @@ mobs:register_mob("mobs_npc:trader", {
 	damage = 3,
 	attack_type = "dogfight",
 	attacks_monsters = true,
+	attack_animals = false,
+	attack_npcs = false,
 	pathfinding = false,
 	hp_min = 10,
 	hp_max = 20,
 	armor = 100,
 	collisionbox = {-0.35,-1.0,-0.35, 0.35,0.8,0.35},
 	visual = "mesh",
-	mesh = "character.b3d",
+	mesh = "mobs_character.b3d",
 	textures = {
 		{"mobs_trader.png"}, -- by Frerin
+		{"mobs_trader2.png"},
+		{"mobs_trader3.png"},
 	},
 	makes_footstep_sound = true,
 	sounds = {},
@@ -72,6 +85,14 @@ mobs:register_mob("mobs_npc:trader", {
 	on_rightclick = function(self, clicker)
 		mobs_trader(self, clicker, entity, mobs.human)
 	end,
+	on_spawn = function(self)
+		self.nametag = S("Trader")
+		self.object:set_properties({
+			nametag = self.nametag,
+			nametag_color = "#FFFFFF"
+		})
+		return true -- return true so on_spawn is run once only
+	end,
 })
 
 --This code comes almost exclusively from the trader and inventory of mobf, by Sapier.
@@ -97,149 +118,58 @@ mobs:register_mob("mobs_npc:trader", {
 -- Contact sapier a t gmx net
 -------------------------------------------------------------------------------
 
-function mobs.allow_move(inv, from_list, from_index, to_list, to_index, count, player)
+-- This code has been heavily modified by isaiah658.
+-- Trades are saved in entity metadata so they always stay the same after
+-- initially being chosen.  Also the formspec uses item image buttons instead of
+-- inventory slots.
 
-	if to_list ~= "selection"
-	or from_list == "price"
-	or from_list == "payment"
-	or from_list == "takeaway"
-	or from_list == "identifier" then
+function mobs.add_goods(self, entity, race)
 
-		return 0
+	local trade_index = 1
+	local trades_already_added = {}
+	local trader_pool_size = 10
+	local item_pool_size = #race.items -- get number of items on list
+
+	self.trades = {}
+
+	if item_pool_size < trader_pool_size then
+		trader_pool_size = item_pool_size
 	end
 
-	-- forbid moving split stacks
-	local old_stack = inv.get_stack(inv, from_list, from_index)
+	for i = 1, trader_pool_size do
 
-	if count ~= old_stack.get_count(old_stack) then
-		return 0
-	end
+		-- If there are more trades than the amount being added, they are
+		-- randomly selected.  If they are equal, there is no reason to randomly
+		-- select them
+		local random_trade = nil
 
-	return count
-end
-
-function mobs.allow_put(inv, listname, index, stack, player)
-
-	if listname == "payment" then
-		return 99
-	end
-
-	return 0
-end
-
-function mobs.allow_take(inv, listname, index, stack, player)
-
-	if listname == "takeaway"
-	or listname == "payment" then
-
-		return 99
-	else
-		return 0
-	end
-end
-
-function mobs.on_put(inv, listname, index, stack)
-
-	if listname == "payment" then
-		mobs.update_takeaway(inv)
-	end
-end
-
-function mobs.on_take(inv, listname, count, index, stack, player)
-
-	if listname == "takeaway" then
-
-		local amount = inv:get_stack("payment", 1):get_count()
-		local price = inv:get_stack("price", 1):get_count()
-		local thing = inv:get_stack("payment", 1):get_name()
-
-		inv.set_stack(inv,"selection", 1, nil)
-		inv.set_stack(inv,"price", 1, nil)
-		inv.set_stack(inv,"takeaway", 1, nil)
-		inv.set_stack(inv,"payment", 1, thing .. " " .. amount - price)
-	end
-
-	if listname == "payment" then
-
-		if mobs.check_pay(inv, false) then
-
-			local selection = inv.get_stack(inv, "selection", 1)
-
-			if selection ~= nil then
-				inv.set_stack(inv,"takeaway", 1, selection)
-			end
+		if item_pool_size == trader_pool_size then
+			random_trade = i
 		else
-			inv.set_stack(inv, "takeaway", 1, nil)
-		end
-	end
-end
+			while random_trade == nil do
 
-function mobs.update_takeaway(inv)
+				local num = math.random(item_pool_size)
 
-	if mobs.check_pay(inv,false) then
-
-		local selection = inv.get_stack(inv,"selection", 1)
-
-		if selection ~= nil then
-			inv.set_stack(inv,"takeaway", 1, selection)
-		end
-	else
-		inv.set_stack(inv,"takeaway", 1, nil)
-	end
-end
-
-function mobs.check_pay(inv, paynow)
-
-	local now_at_pay = inv.get_stack(inv,"payment", 1)
-	local count = now_at_pay.get_count(now_at_pay)
-	local name  = now_at_pay.get_name(now_at_pay)
-	local price = inv.get_stack(inv, "price", 1)
-
-	if price:get_name() == name then
-
-		local price = price:get_count()
-
-		if price > 0
-		and price <= count then
-
-			if paynow then
-
-				now_at_pay.take_item(now_at_pay, price)
-
-				inv.set_stack(inv,"payment", 1, now_at_pay)
-
-				return true
-			else
-				return true
-			end
-		else
-			if paynow then
-				inv.set_stack(inv, "payment", 1, nil)
+				if trades_already_added[num] == nil then
+					trades_already_added[num] = true
+					random_trade = num
+				end
 			end
 		end
-	end
 
-	return false
-end
+		if math.random(0, 100) > race.items[random_trade][3] then
 
-mobs.trader_inventories = {}
+			self.trades[trade_index] = {
+				race.items[random_trade][1],
+				race.items[random_trade][2]}
 
-function mobs.add_goods(entity, race)
-
-	local goods_to_add = nil
-
-	for i = 1, 15 do
-
-		if math.random(0, 100) > race.items[i][3] then
-			mobs.trader_inventory.set_stack(mobs.trader_inventory,
-				"goods", i, race.items[i][1])
+			trade_index = trade_index + 1
 		end
 	end
 end
+
 
 function mobs_trader(self, clicker, entity, race)
-
-	local player = clicker:get_player_name()
 
 	if not self.id then
 		self.id = (math.random(1, 1000) * math.random(1, 10000))
@@ -255,99 +185,111 @@ function mobs_trader(self, clicker, entity, race)
 			nametag = self.nametag,
 			nametag_color = "#00FF00"
 		})
-
 	end
 
-	local unique_entity_id = self.id
-	local is_inventory = minetest.get_inventory({
-		type = "detached", name = unique_entity_id})
-
-	local move_put_take = {
-
-		allow_move = mobs.allow_move,
-		allow_put = mobs.allow_put,
-		allow_take = mobs.allow_take,
-
-		on_move = function(inventory, from_list, from_index, to_list, to_index, count, player)
-
-			if from_list == "goods"
-			and to_list == "selection" then
-
-				local inv = inventory
-				local moved = inv.get_stack(inv,to_list, to_index)
-				local goodname = moved.get_name(moved)
-				local elements = moved.get_count(moved)
-
-				if elements > count then
-
-					-- remove the surplus parts
-					inv.set_stack(inv,"selection", 1,
-						goodname .. " " .. tostring(count))
-
-					-- the slot we took from is now free
-					inv.set_stack(inv,"goods",from_index,
-						goodname .. " " .. tostring(elements - count))
-
-					-- update the real amount of items in the slot now
-					elements = count
-				end
-
-				local good = nil
-
-				for i = 1, #race.items, 1 do
-
-					local stackstring = goodname .." " .. count
-
-					if race.items[i][1] == stackstring then
-						good = race.items[i]
-					end
-				end
-
-				if good ~= nil then
-					inventory.set_stack(inventory,"price", 1, good[2])
-				else
-					inventory.set_stack(inventory,"price", 1, nil)
-				end
-
-			mobs.update_takeaway(inv)
-
-			end
-		end,
-
-		on_put = mobs.on_put,
-		on_take = mobs.on_take
-	}
-
-	if is_inventory == nil then
-
-		mobs.trader_inventory = minetest.create_detached_inventory(unique_entity_id, move_put_take)
-		mobs.trader_inventory.set_size(mobs.trader_inventory,"goods", 15)
-		mobs.trader_inventory.set_size(mobs.trader_inventory,"takeaway", 1)
-		mobs.trader_inventory.set_size(mobs.trader_inventory,"selection", 1)
-		mobs.trader_inventory.set_size(mobs.trader_inventory,"price", 1)
-		mobs.trader_inventory.set_size(mobs.trader_inventory,"payment", 1)
-		mobs.add_goods(entity, race)
+	if self.trades == nil then
+		mobs.add_goods(self, entity, race)
 	end
 
-	minetest.chat_send_player(player, S("[NPC] <Trader @1 > Hello, @2, have a look at my wares.",
+	local player = clicker:get_player_name()
+
+	minetest.chat_send_player(player,
+		S("[NPC] <Trader @1> Hello, @2, have a look at my wares.",
 		self.game_name, player))
 
-	minetest.show_formspec(player, "trade", "size[8,10;]"
+	-- Make formspec trade list
+	local formspec_trade_list = ""
+	local x, y
+
+	for i = 1, 10 do
+
+		if self.trades[i] and self.trades[i] ~= "" then
+
+			if i < 6 then
+				x = 0.5
+				y = i - 0.5
+			else
+				x = 4.5
+				y = i - 5.5
+			end
+
+			formspec_trade_list = formspec_trade_list
+			.. "item_image_button[".. x ..",".. y ..";1,1;"
+				.. self.trades[i][2] .. ";prices#".. i .."#".. self.id ..";]"
+			.. "item_image_button[".. x + 2 ..",".. y ..";1,1;"
+				.. self.trades[i][1] .. ";goods#".. i .."#".. self.id ..";]"
+			.. "image[".. x + 1 ..",".. y ..";1,1;gui_arrow_blank.png]"
+		end
+	end
+
+	minetest.show_formspec(player, "mobs_npc:trade", "size[8,10]"
 		.. default.gui_bg_img
 		.. default.gui_slots
-		.. "label[0,0;" .. S("Trader @1's stock:", self.game_name) .. "]"
-		.. "list[detached:" .. unique_entity_id .. ";goods;.5,.5;3,5;]"
-		.. "label[4.5,0.5;" .. S("Selection") .. "]"
-		.. "list[detached:" .. unique_entity_id .. ";selection;4.5,1;5.5,2;]"
-		.. "label[6,0.5;" .. S("Price") .. "]"
-		.. "list[detached:" .. unique_entity_id .. ";price;6,1;7,2;]"
-		.. "label[4.5,3.5;" .. S("Payment") .. "]"
-		.. "list[detached:" .. unique_entity_id .. ";payment;4.5,4;5.5,5;]"
-		.. "label[6,3.5;" .. S("Bought items") .. "]"
-		.. "list[detached:" .. unique_entity_id .. ";takeaway;6,4;7.5,5.5;]"
+		.. "label[0.5,-0.1;" .. S("Trader @1's stock:", self.game_name) .. "]"
+		.. formspec_trade_list
 		.. "list[current_player;main;0,6;8,4;]"
 	)
 end
+
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+
+	if formname ~= "mobs_npc:trade" then return end
+
+	if fields then
+
+		local trade = ""
+
+		for k, v in pairs(fields) do
+			trade = tostring(k)
+		end
+
+		local id = trade:split("#")[3]
+		local self = nil
+
+		if id ~= nil then
+
+			for k, v in pairs(minetest.luaentities) do
+
+				if v.object and v.id and v.id == id then
+					self = v
+					break
+				end
+			end
+		end
+
+		if self ~= nil then
+
+			local trade_number = tonumber(trade:split("#")[2])
+
+			if trade_number ~= nil and self.trades[trade_number] ~= nil then
+
+				local price = self.trades[trade_number][2]
+				local goods = self.trades[trade_number][1]
+				local inv = player:get_inventory()
+
+				if inv:contains_item("main", price) then
+
+					inv:remove_item("main", price)
+
+					local leftover = inv:add_item("main", goods)
+
+					if leftover:get_count() > 0 then
+
+						-- drop item(s) in front of player
+						local droppos = player:get_pos()
+						local dir = player:get_look_dir()
+
+						droppos.x = droppos.x + dir.x
+						droppos.z = droppos.z + dir.z
+
+						minetest.add_item(droppos, leftover)
+					end
+				end
+			end
+		end
+	end
+end)
 
 mobs:register_egg("mobs_npc:trader", S("Trader"), "default_sandstone.png", 1)
 
