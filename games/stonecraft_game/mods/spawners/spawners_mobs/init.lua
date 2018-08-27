@@ -1,3 +1,13 @@
+
+--[[
+
+2018-08-27 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("spawners_mobs") then return end
+
 MOD_NAME = minetest.get_current_modname()
 
 -- Spawners configurations

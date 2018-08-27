@@ -109,6 +109,10 @@ Example content (added indentation and - explanations):
   load_mod_<mod> = false        - whether <mod> is to be loaded in this world
   enable_mobs_animals = false   - the following content is game-specific, the user can change it in the world options
   enable_mobs_monster = false
+  enable_mobs_redo = false
+  enable_spawners_env = false
+  enable_spawners_mobs = false
+  enable_spawners_ores = false
   enable_mobs_npc = false
   enable_nssm = false
   mobs_animal_horse = true

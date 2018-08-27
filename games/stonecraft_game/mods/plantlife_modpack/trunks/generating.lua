@@ -227,7 +227,7 @@ for i in pairs(TRuNKS) do
 	local	TRuNK = TRuNKS[i][2]
 	local	NR =	TRuNKS[i][3]
 	local	trunkname = MoD..":"..TRuNK
-	if minetest.get_modpath(MoD) ~= nil
+	if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD)
 	and NR < 6 -- moretrees trunks allready have facedir
 	and minetest.registered_nodes[trunkname] then -- the node being called exists.
 			temptrunk = clone_node(trunkname)

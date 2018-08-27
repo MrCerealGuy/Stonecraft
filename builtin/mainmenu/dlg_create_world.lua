@@ -364,7 +364,10 @@ local function create_world_buttonhandler(this, fields)
 		["enable_mobs_monster"]					=
 		{
 			["enable_mobs_monster"]				= true,
-			["enable_mobs_redo"]				= true
+			["enable_mobs_redo"]				= true,
+			["enable_spawners_env"]				= true,
+			["enable_spawners_mobs"]			= true,
+			["enable_spawners_ores"]			= true
 		},
 
 		["enable_mobs_npc"]						=
@@ -379,15 +382,15 @@ local function create_world_buttonhandler(this, fields)
 			["enable_mobs_redo"]				= true
 		},
 
-		["enable_forests"]						= 
+		["enable_forests"]						=
 		{
-			["enable_forests"]	 				= true, 
+			["enable_forests"]	 				= true,
 			["enable_redtrees"]	 				= true
 		},
 
-		["enable_caverealms"]					= 
+		["enable_caverealms"]					=
 		{
-			["enable_caverealms"]	 			= true, 
+			["enable_caverealms"]	 			= true,
 			["enable_subterrane"]	 			= true
 		},
 
@@ -419,13 +422,13 @@ local function create_world_buttonhandler(this, fields)
 			["enable_mobs_redo"]				= true
 		},
 
-		["enable_pyramids"]						= 
+		["enable_pyramids"]						=
 		{
 			["enable_pyramids"]					= true,
 			["enable_spawners"]					= true
 		},
 
-		["enable_snow"]							= 
+		["enable_snow"]							=
 		{
 			["enable_snow"]	 					= true,
 			["enable_moresnow"]					= true
@@ -446,7 +449,7 @@ local function create_world_buttonhandler(this, fields)
 		}
 
 	}
-	
+
 	-- handle Stonecraft selected world options
 	local list_enter = false
 	if fields["list_world_options"] then
