@@ -1,0 +1,1 @@
+This MOD for Minetest let the player craft Mob Spawners. Mobs are spawning randomly in a short intervals. This MOD is giving the option of creating mob farms and grinders.

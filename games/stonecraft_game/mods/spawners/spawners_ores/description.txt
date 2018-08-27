@@ -1,0 +1,1 @@
+This MOD for Minetest let the player craft ore Spawners. Ores are spawning randomly in a short intervals and you get 10% more ores from inputed ingots. This MOD is giving the option of creating lumps back from ingots.
