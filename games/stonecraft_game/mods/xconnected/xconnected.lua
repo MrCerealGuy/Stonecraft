@@ -11,6 +11,11 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 xconnected = {}
 
+-- if unifieddyes or morecolor is installed, use colorfacedir
+xconnected.with_unifieddyes = minetest.get_modpath( "unifieddyes");
+-- morecolor adds less colors than unifieddyes (but more than none)
+xconnected.with_morecolor = minetest.get_modpath( "morecolor");
+
 -- change the drops value if you want the player to get one of the other node types when digged (i.e. c0 or ln or lp)
 local drops = "c4";
 
@@ -111,12 +116,15 @@ xconnected_update_one_node = function( pos, name, digged )
 	end
 	local new_node = xconnected_get_candidate[ id ];
 	if( new_node and new_node[1] ) then
+		local node = minetest.get_node(pos);
+		-- support for coloredfacedir
+		local p2_color = node.param2 - (node.param2 % 32);
 		local new_name = string.sub( name, 1, string.len( name )-3 )..new_node[1];
 		if(     new_name and minetest.registered_nodes[ new_name ]) then
-			minetest.swap_node( pos, {name=new_name, param2=new_node[2] });
+			minetest.swap_node( pos, {name=new_name, param2=new_node[2] + p2_color });
 		-- if no central node without neighbours is defined, take the c4 variant
 		elseif( new_node[1]=='_c0' and not( minetest.registered_nodes[ new_name ])) then
-			minetest.swap_node( pos, {name=name,     param2=0 });
+			minetest.swap_node( pos, {name=name,     param2=p2_color });
 		end
 	end
 	return candidates;
@@ -147,7 +155,15 @@ xconnected.register = function( name, def, node_box_data, selection_box_data, cr
 		-- some common values for all xconnected nodes
 		def.drawtype   = "nodebox";
 		def.paramtype  = "light";
-		def.paramtype2 = "facedir";
+		if( xconnected.with_morecolor ) then
+			def.paramtype2 = "colorfacedir";
+			def.palette = "colorfacedir_palette.png";
+		elseif( xconnected.with_unifieddyes ) then
+			def.paramtype2 = "colorfacedir";
+			def.palette = "unifieddyes_palette_colorwallmounted.png";
+		else
+			def.paramtype2 = "facedir";
+		end
 		-- similar xconnected nodes are identified by having the same drop
 		def.drop = name.."_"..drops; -- default: "_c4";
 		-- nodebox and selection box have been calculated using smmyetry
@@ -170,6 +186,8 @@ xconnected.register = function( name, def, node_box_data, selection_box_data, cr
 		else
 			def.groups.xconnected = 1;
 		end
+		-- that group apparently got a new meaning
+		def.groups.pane = nil;
 
 		local new_def = minetest.deserialize( minetest.serialize( def ));
 		if( k==drops ) then
@@ -200,7 +218,7 @@ xconnected.register = function( name, def, node_box_data, selection_box_data, cr
 			output = name.."_"..drops.." 6",
 			recipe = {
 				{craft_from, craft_from, craft_from},
-				{craft_from, craft_from, craft_from}
+				{'default:stick', craft_from, 'default:stick'},
 			}
 		})
 	end
@@ -298,7 +316,7 @@ xconnected.register_pane = function( name, desc, tiles, craft_from, def )
 			sunlight_propagates = true,
 			use_texture_alpha = true,
 			sounds = default.node_sound_glass_defaults(),
-			groups = {snappy=2, cracky=3, oddly_breakable_by_hand=3, pane=1},
+			groups = {snappy=3, cracky=3, oddly_breakable_by_hand=3},
 		};
 	end
 	xconnected.register( name,
@@ -334,7 +352,7 @@ xconnected.register_wall = function( name, desc, tiles, craft_from, def )
 			is_ground_content = false,
 			sunlight_propagates = true,
 			sounds = default.node_sound_stone_defaults(),
-			groups = {cracky=3, stone=1, pane=1},
+			groups = {cracky=3, stone=2},
 		};
 	end
 	xconnected.register( name,
@@ -370,7 +388,7 @@ xconnected.register_fence = function( name, desc, tiles, craft_from, def )
 			is_ground_content = false,
 			sunlight_propagates = true,
 			sounds = default.node_sound_stone_defaults(),
-			groups = {snappy=2, cracky=3, oddly_breakable_by_hand=2, pane=1, flammable=2},
+			groups = {snappy=3, cracky=3, oddly_breakable_by_hand=3},
 		};
 	end
 	xconnected.register( name,

@@ -85,6 +85,10 @@ msgstr "Tropenholz"
 msgid "Acacia Wood"
 msgstr "Akazienholz"
 
+#: init.lua
+msgid "Aspen Wood"
+msgstr "Espenholz"
+
 #: xconnected.lua
 msgid "@1 Pane"
 msgstr "@1scheibe"
