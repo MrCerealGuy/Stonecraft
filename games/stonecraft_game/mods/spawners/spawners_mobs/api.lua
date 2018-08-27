@@ -20,6 +20,7 @@ for k, mob_mod in ipairs(ENABLED_MODS) do
 			table.insert(spawners_mobs.mob_tables,
 				{
 					name = mob.name,
+					desc = mob.desc,
 					mod_prefix = mob_mod,
 					egg_name_custom = mob.egg_name_custom,
 					dummy_size = mob.dummy_size,

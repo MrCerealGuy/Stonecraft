@@ -13,7 +13,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- * CREATE ALL SPAWNERS NODES *
 -- 
 
-function spawners_env.create(mob_name, mod_prefix, size, offset, mesh, texture, night_only, sound_custom, env, boss)
+function spawners_env.create(mob_name, mob_desc, mod_prefix, size, offset, mesh, texture, night_only, sound_custom, env, boss)
 	
 	-- 
 	-- DUMMY INSIDE THE SPAWNER
@@ -272,6 +272,6 @@ end
 for i, mob_table in ipairs(spawners_env.mob_tables) do
 	if mob_table then
 
-		spawners_env.create(mob_table.name, mob_table.mod_prefix, mob_table.dummy_size, mob_table.dummy_offset, mob_table.dummy_mesh, mob_table.dummy_texture, mob_table.night_only, mob_table.sound_custom, mob_table.env, mob_table.boss)
+		spawners_env.create(mob_table.name, mob_table.desc, mob_table.mod_prefix, mob_table.dummy_size, mob_table.dummy_offset, mob_table.dummy_mesh, mob_table.dummy_texture, mob_table.night_only, mob_table.sound_custom, mob_table.env, mob_table.boss)
 	end
 end

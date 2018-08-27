@@ -49,6 +49,22 @@ msgstr "Oerkki"
 msgid "Tree monster"
 msgstr "Baummonster"
 
+#: config.lua
+msgid "Mummy"
+msgstr "Mumie"
+
+#: config.lua
+msgid "Bunny evil"
+msgstr "Böser Hase"
+
+#: config.lua
+msgid "Uruk hai"
+msgstr "Uruk hai"
+
+#: config.lua
+msgid "Balrog"
+msgstr "Balrog"
+
 #: spawners_mobs.lua
 msgid " spawner"
 msgstr " Spawner"

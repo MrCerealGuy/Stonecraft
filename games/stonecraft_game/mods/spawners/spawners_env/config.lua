@@ -212,6 +212,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 	MOBS_PROPS["spawners_mobs"] = {
 		{
 			name = "mummy",
+			desc = S("Mummy"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.4, y = 0.4},
 			dummy_offset = 0,
@@ -222,6 +223,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 		},
 		{
 			name = "bunny_evil",
+			desc = S("Bunny evil"),
 			egg_name_custom = "",
 			dummy_size = {x = 1, y = 1},
 			dummy_offset = 0.2,
@@ -232,6 +234,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 		},
 		{
 			name = "uruk_hai",
+			desc = S("Uruk hai"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.5, y = 0.5},
 			dummy_offset = 0,
@@ -243,6 +246,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 		},
 		{
 			name = "balrog",
+			desc = S("Balrog"),
 			egg_name_custom = "",
 			dummy_size = {x = 0.2, y = 0.2},
 			dummy_offset = 0,
