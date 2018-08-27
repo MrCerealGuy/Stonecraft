@@ -28,3 +28,7 @@ msgstr "Tragstruktur für Gebäude (konfiguriert)"
 #: nodes.lua
 msgid "Dig the node below this one"
 msgstr "Graben sie den Block unter diesem"
+
+#: build-chest.lua
+msgid "Building-Spawner"
+msgstr "Gebäude-Spawner"

@@ -1,3 +1,13 @@
+--[[
+
+2018-08-27 MrCerealGuy: added intllib support
+
+--]]
+
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 -----------------------------------------------------------------------------------------------------------------
 -- interface for manual placement of houses 
 -----------------------------------------------------------------------------------------------------------------
@@ -924,7 +934,7 @@ end
 
 
 minetest.register_node("handle_schematics:build", { --TODO
-	description = "Building-Spawner",
+	description = S("Building-Spawner"),
 	tiles = {"default_chest_side.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 --        drawtype = 'signlike',
