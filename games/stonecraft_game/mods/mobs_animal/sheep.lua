@@ -26,6 +26,7 @@ local all_colours = {
 for _, col in ipairs(all_colours) do
 
 	mobs:register_mob("mobs_animal:sheep_"..col[1], {
+stepheight = 0.6,
 		type = "animal",
 		passive = true,
 		hp_min = 8,
@@ -47,9 +48,10 @@ for _, col in ipairs(all_colours) do
 		run_velocity = 2,
 		runaway = true,
 		jump = true,
+		jump_height = 6,
 		drops = {
-			{name = "mobs:meat_raw", chance = 1, min = 1, max = 2},
-			--{name = "wool:"..col[1], chance = 1, min = 1, max = 1},
+			{name = "mobs:mutton_raw", chance = 1, min = 1, max = 2},
+			{name = "wool:"..col[1], chance = 1, min = 1, max = 1},
 		},
 		water_damage = 1,
 		lava_damage = 5,
@@ -93,12 +95,14 @@ for _, col in ipairs(all_colours) do
 
 			local item = clicker:get_wielded_item()
 			local itemname = item:get_name()
+			local name = clicker:get_player_name()
 
 			--are we giving a haircut>
 			if itemname == "mobs:shears" then
 
 				if self.gotten ~= false
 				or self.child ~= false
+				or name ~= self.owner
 				or not minetest.get_modpath("wool") then
 					return
 				end
@@ -106,7 +110,7 @@ for _, col in ipairs(all_colours) do
 				self.gotten = true -- shaved
 
 				local obj = minetest.add_item(
-					self.object:getpos(),
+					self.object:get_pos(),
 					ItemStack( "wool:" .. col[1] .. " " .. math.random(1, 3) )
 				)
 
@@ -131,8 +135,6 @@ for _, col in ipairs(all_colours) do
 				return
 			end
 
-			local name = clicker:get_player_name()
-
 			--are we coloring?
 			if itemname:find("dye:") then
 
@@ -147,7 +149,7 @@ for _, col in ipairs(all_colours) do
 
 						if c[1] == colr then
 
-							local pos = self.object:getpos()
+							local pos = self.object:get_pos()
 
 							self.object:remove()
 
@@ -158,7 +160,7 @@ for _, col in ipairs(all_colours) do
 							ent.tamed = true
 
 							-- take item
-							if not minetest.setting_getbool("creative_mode") then
+							if not mobs.is_creative(clicker:get_player_name()) then
 								item:take_item()
 								clicker:set_wielded_item(item)
 							end
@@ -187,21 +189,40 @@ for _, col in ipairs(all_colours) do
 end
 
 
-local spawn_on = "default:dirt_with_grass"
-
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
-	spawn_on = "ethereal:green_dirt"
-end
-
 mobs:spawn({
 	name = "mobs_animal:sheep_white",
-	nodes = {spawn_on},
-	min_light = 10,
-	chance = 15000,
+	nodes = {"default:dirt_with_grass", "ethereal:green_dirt"},
+	neighbors = {"group:grass"},
+	min_light = 14,
+	interval = 60,
+	chance = 8000, -- 15000
 	min_height = 0,
-	max_height = 31000,
+	max_height = 200,
 	day_toggle = true,
 })
 
 
 mobs:alias_mob("mobs:sheep", "mobs_animal:sheep_white") -- compatibility
+
+-- raw mutton
+minetest.register_craftitem(":mobs:mutton_raw", {
+	description = S("Raw Mutton"),
+	inventory_image = "mobs_mutton_raw.png",
+	on_use = minetest.item_eat(2),
+	groups = {food_meat_raw = 1, food_mutton_raw = 1, flammable = 2},
+})
+
+-- cooked mutton
+minetest.register_craftitem(":mobs:mutton_cooked", {
+	description = S("Cooked Mutton"),
+	inventory_image = "mobs_mutton_cooked.png",
+	on_use = minetest.item_eat(6),
+	groups = {food_meat = 1, food_mutton = 1, flammable = 2},
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "mobs:mutton_cooked",
+	recipe = "mobs:mutton_raw",
+	cooktime = 5,
+})

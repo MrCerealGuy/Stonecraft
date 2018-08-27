@@ -38,6 +38,18 @@ msgstr "Honigblock"
 msgid "Bunny"
 msgstr "Häschen"
 
+#: bunny.lua
+msgid "Raw Rabbit"
+msgstr "Rohes Kaninchen"
+
+#: bunny.lua
+msgid "Cooked Rabbit"
+msgstr "Gekochtes Kaninchen"
+
+#: bunny.lua
+msgid "Rabbit Hide"
+msgstr "Kaninchenfell"
+
 #: chicken.lua
 msgid "Chicken"
 msgstr "Huhn"
@@ -168,6 +180,15 @@ msgstr "Gelbes"
 #, fuzzy
 msgid "@1 Sheep"
 msgstr "@1 Schaf"
+
+#: sheep.lua
+msgid "Raw Mutton"
+msgstr "Rohes Hammelfleisch"
+
+#: sheep.lua
+#, fuzzy
+msgid "Cooked Mutton"
+msgstr "Gekochtes Hammelfleisch"
 
 #: warthog.lua
 msgid "Warthog"

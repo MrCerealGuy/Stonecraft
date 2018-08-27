@@ -5,6 +5,7 @@ local S = mobs.intllib
 -- Chicken by JK Murray
 
 mobs:register_mob("mobs_animal:chicken", {
+stepheight = 0.6,
 	type = "animal",
 	passive = true,
 	hp_min = 5,
@@ -31,9 +32,10 @@ mobs:register_mob("mobs_animal:chicken", {
 	walk_velocity = 1,
 	run_velocity = 3,
 	runaway = true,
+	runaway_from = {"player", "mobs_animal:pumba"},
 	drops = {
-		{name = "mobs:chicken_raw", chance = 1, min = 2, max = 2},
-		{name = "mobs:chicken_feather", chance = 3, min = 1, max = 2},
+		{name = "mobs:chicken_raw", chance = 1, min = 1, max = 1},
+		{name = "mobs:chicken_feather", chance = 1, min = 0, max = 2},
 	},
 	water_damage = 1,
 	lava_damage = 5,
@@ -71,7 +73,7 @@ mobs:register_mob("mobs_animal:chicken", {
 			return
 		end
 
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 
 		minetest.add_item(pos, "mobs:egg")
 
@@ -93,10 +95,12 @@ end
 mobs:spawn({
 	name = "mobs_animal:chicken",
 	nodes = {spawn_on},
-	min_light = 10,
-	chance = 15000,
-	active_object_count = 2,
-	min_height = 0,
+	neighbors = {"group:grass"},
+	min_light = 14,
+	interval = 60,
+	chance = 8000, -- 15000
+	min_height = 5,
+	max_height = 200,
 	day_toggle = true,
 })
 
@@ -179,7 +183,7 @@ local egg_VELOCITY = 19
 -- shoot egg
 local mobs_shoot_egg = function (item, player, pointed_thing)
 
-	local playerpos = player:getpos()
+	local playerpos = player:get_pos()
 
 	minetest.sound_play("default_place_node_hard", {
 		pos = playerpos,
@@ -237,7 +241,7 @@ minetest.register_node(":mobs:egg", {
 		type = "fixed",
 		fixed = {-0.2, -0.5, -0.2, 0.2, 0, 0.2}
 	},
-	groups = {snappy = 2, dig_immediate = 3},
+	groups = {food_egg = 1, snappy = 2, dig_immediate = 3},
 	after_place_node = function(pos, placer, itemstack)
 		if placer:is_player() then
 			minetest.set_node(pos, {name = "mobs:egg", param2 = 1})
@@ -252,6 +256,7 @@ minetest.register_craftitem(":mobs:chicken_egg_fried", {
 	description = S("Fried Egg"),
 	inventory_image = "mobs_chicken_egg_fried.png",
 	on_use = minetest.item_eat(2),
+	groups = {food_egg_fried = 1, flammable = 2},
 })
 
 minetest.register_craft({
@@ -265,6 +270,7 @@ minetest.register_craftitem(":mobs:chicken_raw", {
 description = S("Raw Chicken"),
 	inventory_image = "mobs_chicken_raw.png",
 	on_use = minetest.item_eat(2),
+	groups = {food_meat_raw = 1, food_chicken_raw = 1, flammable = 2},
 })
 
 -- cooked chicken
@@ -272,6 +278,7 @@ minetest.register_craftitem(":mobs:chicken_cooked", {
 description = S("Cooked Chicken"),
 	inventory_image = "mobs_chicken_cooked.png",
 	on_use = minetest.item_eat(6),
+	groups = {food_meat = 1, food_chicken = 1, flammable = 2},
 })
 
 minetest.register_craft({
@@ -284,4 +291,11 @@ minetest.register_craft({
 minetest.register_craftitem(":mobs:chicken_feather", {
 	description = S("Feather"),
 	inventory_image = "mobs_chicken_feather.png",
+	groups = {flammable = 2},
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "mobs:chicken_feather",
+	burntime = 1,
 })

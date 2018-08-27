@@ -5,6 +5,7 @@ local S = mobs.intllib
 -- Bunny by ExeterDad
 
 mobs:register_mob("mobs_animal:bunny", {
+stepheight = 0.6,
 	type = "animal",
 	passive = true,
 	reach = 1,
@@ -25,9 +26,12 @@ mobs:register_mob("mobs_animal:bunny", {
 	walk_velocity = 1,
 	run_velocity = 2,
 	runaway = true,
+	runaway_from = {"mobs_animal:pumba", "player"},
 	jump = true,
+	jump_height = 6,
 	drops = {
-		{name = "mobs:meat_raw", chance = 1, min = 1, max = 1},
+		{name = "mobs:rabbit_raw", chance = 1, min = 1, max = 1},
+		{name = "mobs:rabbit_hide", chance = 1, min = 0, max = 1},
 	},
 	water_damage = 1,
 	lava_damage = 4,
@@ -59,7 +63,7 @@ mobs:register_mob("mobs_animal:bunny", {
 
 		if item:get_name() == "mobs:lava_orb" then
 
-			if not minetest.setting_getbool("creative_mode") then
+			if not mobs.is_creative(clicker:get_player_name()) then
 				item:take_item()
 				clicker:set_wielded_item(item)
 			end
@@ -70,13 +74,14 @@ mobs:register_mob("mobs_animal:bunny", {
 
 			self.type = "monster"
 			self.health = 20
+			self.passive = false
 
 			return
 		end
 	end,
 	on_spawn = function(self)
 
-		local pos = self.object:getpos() ; pos.y = pos.y - 1
+		local pos = self.object:get_pos() ; pos.y = pos.y - 1
 
 		-- white snowy bunny
 		if minetest.find_node_near(pos, 1,
@@ -111,9 +116,12 @@ end
 mobs:spawn({
 	name = "mobs_animal:bunny",
 	nodes = {spawn_on},
-	min_light = 10,
-	chance = 15000,
-	min_height = 0,
+	neighbors = {"group:grass"},
+	min_light = 14,
+	interval = 60,
+	chance = 8000, -- 15000
+	min_height = 5,
+	max_height = 200,
 	day_toggle = true,
 })
 
@@ -122,3 +130,49 @@ mobs:register_egg("mobs_animal:bunny", S("Bunny"), "mobs_bunny_inv.png", 0)
 
 
 mobs:alias_mob("mobs:bunny", "mobs_animal:bunny") -- compatibility
+
+
+-- raw rabbit
+minetest.register_craftitem(":mobs:rabbit_raw", {
+	description = S("Raw Rabbit"),
+	inventory_image = "mobs_rabbit_raw.png",
+	on_use = minetest.item_eat(3),
+	groups = {food_meat_raw = 1, food_rabbit_raw = 1, flammable = 2},
+})
+
+-- cooked rabbit
+minetest.register_craftitem(":mobs:rabbit_cooked", {
+	description = S("Cooked Rabbit"),
+	inventory_image = "mobs_rabbit_cooked.png",
+	on_use = minetest.item_eat(5),
+	groups = {food_meat = 1, food_rabbit = 1, flammable = 2},
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "mobs:rabbit_cooked",
+	recipe = "mobs:rabbit_raw",
+	cooktime = 5,
+})
+
+-- rabbit hide
+minetest.register_craftitem(":mobs:rabbit_hide", {
+	description = S("Rabbit Hide"),
+	inventory_image = "mobs_rabbit_hide.png",
+	groups = {flammable = 2},
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "mobs:rabbit_hide",
+	burntime = 2,
+})
+
+minetest.register_craft({
+	output = "mobs:leather",
+	type = "shapeless",
+	recipe = {
+		"mobs:rabbit_hide", "mobs:rabbit_hide",
+		"mobs:rabbit_hide", "mobs:rabbit_hide"
+	}
+})

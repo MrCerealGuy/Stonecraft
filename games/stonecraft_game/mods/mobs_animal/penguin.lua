@@ -5,6 +5,7 @@ local S = mobs.intllib
 -- Penguin by D00Med
 
 mobs:register_mob("mobs_animal:penguin", {
+stepheight = 0.6,
 	type = "animal",
 	passive = true,
 	reach = 1,
@@ -42,7 +43,7 @@ mobs:register_mob("mobs_animal:penguin", {
 		fly_end = 95,
 		-- 50-70 is slide/water idle
 	},
-	fly_in = "default:water_source",
+	fly_in = {"default:water_source", "default:water_flowing"},
 	floats = 0,
 	follow = {"ethereal:fish_raw", "mobs_fish:clownfish", "mobs_fish:tropical"},
 	view_range = 5,
@@ -60,9 +61,11 @@ mobs:register_mob("mobs_animal:penguin", {
 mobs:spawn({
 	name = "mobs_animal:penguin",
 	nodes = {"default:snowblock"},
-	min_light = 10,
+	min_light = 14,
+	interval = 60,
 	chance = 20000,
 	min_height = 0,
+	max_height = 200,
 	day_toggle = true,
 })
 

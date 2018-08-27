@@ -5,6 +5,7 @@ local S = mobs.intllib
 -- Rat by PilzAdam
 
 mobs:register_mob("mobs_animal:rat", {
+stepheight = 0.6,
 	type = "animal",
 	passive = true,
 	hp_min = 1,
@@ -41,7 +42,7 @@ mobs:register_mob("mobs_animal:rat", {
 
 		self.rat_timer = 0
 
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 
 		print("rat pos", pos.x, pos.y, pos.z, dtime)
 
@@ -70,7 +71,9 @@ mobs:spawn({
 	name = "mobs_animal:rat",
 	nodes = {"default:stone"},
 	min_light = 3,
-	active_object_count = 2,
+	max_light = 9,
+	interval = 60,
+	chance = 8000,
 	max_height = 0,
 --	on_spawn = rat_spawn,
 })
@@ -87,11 +90,12 @@ minetest.register_craftitem(":mobs:rat_cooked", {
 	description = S("Cooked Rat"),
 	inventory_image = "mobs_cooked_rat.png",
 	on_use = minetest.item_eat(3),
+	groups = {food_rat = 1, flammable = 2},
 })
 
 minetest.register_craft({
 	type = "cooking",
 	output = "mobs:rat_cooked",
-	recipe = "mobs:rat",
+	recipe = "mobs_animal:rat",
 	cooktime = 5,
 })

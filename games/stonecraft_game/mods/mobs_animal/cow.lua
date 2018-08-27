@@ -8,12 +8,13 @@ mobs:register_mob("mobs_animal:cow", {
 	type = "animal",
 	passive = false,
 	attack_type = "dogfight",
+	attack_npcs = false,
 	reach = 2,
 	damage = 4,
 	hp_min = 5,
 	hp_max = 20,
 	armor = 200,
-	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
+	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1.2, 0.4},
 	visual = "mesh",
 	mesh = "mobs_cow.x",
 	textures = {
@@ -27,9 +28,10 @@ mobs:register_mob("mobs_animal:cow", {
 	walk_velocity = 1,
 	run_velocity = 2,
 	jump = true,
+	jump_height = 6,
 	drops = {
 		{name = "mobs:meat_raw", chance = 1, min = 1, max = 3},
-		{name = "mobs:leather", chance = 1, min = 1, max = 2},
+		{name = "mobs:leather", chance = 1, min = 0, max = 2},
 	},
 	water_damage = 1,
 	lava_damage = 5,
@@ -87,7 +89,7 @@ mobs:register_mob("mobs_animal:cow", {
 			if inv:room_for_item("main", {name = "mobs:bucket_milk"}) then
 				clicker:get_inventory():add_item("main", "mobs:bucket_milk")
 			else
-				local pos = self.object:getpos()
+				local pos = self.object:get_pos()
 				pos.y = pos.y + 0.5
 				minetest.add_item(pos, {name = "mobs:bucket_milk"})
 			end
@@ -100,19 +102,15 @@ mobs:register_mob("mobs_animal:cow", {
 })
 
 
-local spawn_on = "default:dirt_with_grass"
-
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
-	spawn_on = "ethereal:green_dirt"
-end
-
 mobs:spawn({
 	name = "mobs_animal:cow",
-	nodes = {spawn_on},
-	min_light = 10,
-	chance = 15000,
-	min_height = 0,
-	max_height = 31000,
+	nodes = {"default:dirt_with_grass", "ethereal:green_dirt"},
+	neighbors = {"group:grass"},
+	min_light = 14,
+	interval = 60,
+	chance = 8000, -- 15000
+	min_height = 5,
+	max_height = 200,
 	day_toggle = true,
 })
 
@@ -129,13 +127,39 @@ minetest.register_craftitem(":mobs:bucket_milk", {
 	inventory_image = "mobs_bucket_milk.png",
 	stack_max = 1,
 	on_use = minetest.item_eat(8, 'bucket:bucket_empty'),
+	groups = {food_milk = 1, flammable = 3},
 })
+
+-- butter
+minetest.register_craftitem(":mobs:butter", {
+	description = S("Butter"),
+	inventory_image = "mobs_butter.png",
+	on_use = minetest.item_eat(1),
+	groups = {food_butter = 1, flammable = 2},
+})
+
+if minetest.get_modpath("farming") and farming and farming.mod then
+minetest.register_craft({
+	type = "shapeless",
+	output = "mobs:butter",
+	recipe = {"mobs:bucket_milk", "farming:salt"},
+	replacements = {{ "mobs:bucket_milk", "bucket:bucket_empty"}}
+})
+else -- some saplings are high in sodium so makes a good replacement item
+minetest.register_craft({
+	type = "shapeless",
+	output = "mobs:butter",
+	recipe = {"mobs:bucket_milk", "default:sapling"},
+	replacements = {{ "mobs:bucket_milk", "bucket:bucket_empty"}}
+})
+end
 
 -- cheese wedge
 minetest.register_craftitem(":mobs:cheese", {
 	description = S("Cheese"),
 	inventory_image = "mobs_cheese.png",
 	on_use = minetest.item_eat(4),
+	groups = {food_cheese = 1, flammable = 2},
 })
 
 minetest.register_craft({

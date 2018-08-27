@@ -14,8 +14,12 @@ if minetest.get_modpath("lucky_block") then
 		{"spw", "mobs:cow", 5},
 		{"dro", {"mobs:bucket_milk"}, 8},
 		{"spw", "mobs:kitten", 2},
-		{"tro", "default:nyancat", "mobs_kitten", true},
 		{"exp"},
 	})
-	
+
+	if minetest.registered_nodes["default:nyancat"] then
+		lucky_block:add_blocks({
+			{"tro", "default:nyancat", "mobs_kitten", true},
+		})
+	end
 end

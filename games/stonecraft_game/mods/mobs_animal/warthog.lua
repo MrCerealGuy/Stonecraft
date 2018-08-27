@@ -5,17 +5,19 @@ local S = mobs.intllib
 -- Warthog by KrupnoPavel
 
 mobs:register_mob("mobs_animal:pumba", {
+stepheight = 0.6,
 	type = "animal",
 	passive = false,
 	attack_type = "dogfight",
 	group_attack = true,
 	owner_loyal = true,
+	attack_npcs = false,
 	reach = 2,
 	damage = 2,
 	hp_min = 5,
 	hp_max = 15,
 	armor = 200,
-	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1, 0.4},
+	collisionbox = {-0.4, -0.01, -0.4, 0.4, 0.95, 0.4},
 	visual = "mesh",
 	mesh = "mobs_pumba.x",
 	textures = {
@@ -29,6 +31,7 @@ mobs:register_mob("mobs_animal:pumba", {
 	walk_velocity = 2,
 	run_velocity = 3,
 	jump = true,
+	jump_height = 6,
 	follow = {"default:apple", "farming:potato"},
 	view_range = 10,
 	drops = {
@@ -55,20 +58,28 @@ mobs:register_mob("mobs_animal:pumba", {
 	end,
 })
 
+local spawn_on = {"default:dirt_with_grass"}
+local spawn_by = {"group:grass"}
 
-local spawn_on = "default:dirt_with_grass"
+if minetest.get_mapgen_setting("mg_name") ~= "v6" then
+	spawn_on = {"default:dirt_with_dry_grass"}
+	spawn_by = {"group:dry_grass"}
+end
 
 if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
-	spawn_on = "ethereal:mushroom_dirt"
+	spawn_on = {"ethereal:mushroom_dirt"}
+	spawn_by = {"flowers:mushroom_brown", "flowers:mushroom_brown"}
 end
 
 mobs:spawn({
 	name = "mobs_animal:pumba",
-	nodes = {spawn_on},
-	min_light = 10,
-	chance = 15000,
+	nodes = spawn_on,
+	neighbors = spawn_by,
+	min_light = 14,
+	interval = 60,
+	chance = 8000, -- 15000
 	min_height = 0,
-	max_height = 31000,
+	max_height = 200,
 	day_toggle = true,
 })
 
@@ -84,6 +95,7 @@ minetest.register_craftitem(":mobs:pork_raw", {
 	description = S("Raw Porkchop"),
 	inventory_image = "mobs_pork_raw.png",
 	on_use = minetest.item_eat(4),
+	groups = {food_meat_raw = 1, food_pork_raw = 1, flammable = 2},
 })
 
 -- cooked porkchop
@@ -91,6 +103,7 @@ minetest.register_craftitem(":mobs:pork_cooked", {
 	description = S("Cooked Porkchop"),
 	inventory_image = "mobs_pork_cooked.png",
 	on_use = minetest.item_eat(8),
+	groups = {food_meat = 1, food_pork = 1, flammable = 2},
 })
 
 minetest.register_craft({
