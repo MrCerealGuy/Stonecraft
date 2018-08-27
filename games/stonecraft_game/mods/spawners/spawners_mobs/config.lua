@@ -17,7 +17,7 @@
 -- [*] -> MANDATORY - has to be filled in!
 
 -- mods what should be enabled and loded, remove/add the one you want to load
-ENABLED_MODS = {"mobs", "creatures"}
+ENABLED_MODS = {"mobs"}--, "creatures"}
 
 -- mobs properties - setup all you mobs here
 MOBS_PROPS = {
@@ -185,7 +185,7 @@ MOBS_PROPS = {
 -- 
 
 -- include mummy mobs redo addon (spawner)
-if minetest.get_modpath("mobs") ~=  nil then
+if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 	-- enable spawner
 	table.insert(ENABLED_MODS, "spawners_mobs")
 

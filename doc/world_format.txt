@@ -108,6 +108,7 @@ Example content (added indentation and - explanations):
   server_announce = false       - whether the server is publicly announced or not
   load_mod_<mod> = false        - whether <mod> is to be loaded in this world
   enable_mobs_animals = false   - the following content is game-specific, the user can change it in the world options
+  enable_cme = false
   enable_mobs_monster = false
   enable_mobs_redo = false
   enable_spawners_env = false

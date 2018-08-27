@@ -249,13 +249,13 @@ local function create_world_formspec(dialogdata)
 		mglist = mglist .. v .. ","
 	end
 	mglist = mglist:sub(1, -2)
-	
+
 	local gameid = core.settings:get("menu_last_game")
-	
+
 	local game, gameidx = nil , 0
 	if gameid ~= nil then
 		game, gameidx = pkgmgr.find_by_gameid(gameid)
-		
+
 		if gameidx == nil then
 			gameidx = 0
 		end
@@ -263,7 +263,7 @@ local function create_world_formspec(dialogdata)
 
 	current_seed = core.formspec_escape(current_seed)
 	local retval = ""
-	
+
 	if game ~= nil and game.id == "stonecraft" then
 		retval = retval .. "size[15.5,8.0,true]"
 	else
@@ -273,20 +273,20 @@ local function create_world_formspec(dialogdata)
 
 		return retval
 	end
-	
-	retval = retval ..		
+
+	retval = retval ..
 		"label[2,0;" .. fgettext("World name") .. "]"..
 		"field[4.5,0.4;6,0.5;te_world_name;;".. current_worldname .."]" ..
-		
+
 		"label[2,1;" .. fgettext("Seed-Code") .. "]"..
 		"field[4.5,1.4;6,0.5;te_seed;;".. current_seed .. "]" ..
-		
+
 		"label[2,2;" .. fgettext("Mapgen") .. "]"..
 		"dropdown[4.2,2;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]" ..
 
 		"textlist[-10,3;7,2.3;games;" .. pkgmgr.gamelist() ..
 		";" .. gameidx .. ";true]"
-		
+
 	retval = retval .. "size[14,5.5,true]" ..
 		"tablecolumns[color;tree;text,width=48;text]" ..
 		"tableoptions[background=#00000000;border=false]" ..
@@ -333,8 +333,6 @@ local function create_world_formspec(dialogdata)
 
 	retval = retval .. ";" .. selected_setting .. "]"
 
-		
-
 	retval = retval .. "button[4.5,7.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
 		"button[7.0,7.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
 
@@ -363,6 +361,7 @@ local function create_world_buttonhandler(this, fields)
 
 		["enable_mobs_monster"]					=
 		{
+			["enable_cme"]						= true,
 			["enable_mobs_monster"]				= true,
 			["enable_mobs_redo"]				= true,
 			["enable_spawners_env"]				= true,
@@ -375,13 +374,13 @@ local function create_world_buttonhandler(this, fields)
 			["enable_mobs_npc"]					= true,
 			["enable_mobs_redo"]				= true
 		},
-
+--[[
 		["enable_mobs_animal_horse"]			=
 		{
 			["enable_mobs_animal_horse"]		= true,
 			["enable_mobs_redo"]				= true
 		},
-
+--]]
 		["enable_forests"]						=
 		{
 			["enable_forests"]	 				= true,
