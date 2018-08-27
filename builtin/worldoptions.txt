@@ -71,6 +71,7 @@ mobs_animal_chicken (Chicken) bool true
 mobs_animal_cow (Cow) bool true
 mobs_animal_kitten (Kitten) bool true
 mobs_animal_penguin (Penguin) bool true
+mobs_animal_panda (Panda) bool true
 mobs_animal_rat (Rat) bool true
 mobs_animal_sheep (Sheep) bool true
 mobs_animal_warthog (Warthog) bool true
@@ -206,12 +207,12 @@ swamp_biome_swampwater (Enables swampwater) bool true
 #snow_biome_snowball_velocity (How fast players throw snowballs) int 19
 #snow_biome_smooth_snow (Disable this to stop snow from being smoothed) bool true
 #snow_biome_mapgen_size (Size of the generated…, has an effect to the rarity, too) int 210
-#snow_biome_min_height (The minumum height a snow biome will generate - mgv7) int 3 
+#snow_biome_min_height (The minumum height a snow biome will generate - mgv7) int 3
 #snow_biome_smooth_biomes (Enables smooth transition of biomes - mgv6) bool true
 #snow_biome_sleds bool (Disable this to prevent sleds from being riden) true
 
 [Nature]
-   
+
 enable_moretrees (More trees) bool false
 enable_forests (More forests and red trees) bool false
 enable_seaplants (Sea plants) bool false
@@ -230,7 +231,7 @@ enable_technic (Technic and pipeworks) bool false
 enable_mesecons (Mesecons - electronic stuff) bool false
 
 [Structures]
-   
+
 enable_villages (Villages and buildings) bool false
 enable_mines (Mines) bool false
 enable_pyramids (Pyramids) bool false
