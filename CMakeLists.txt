@@ -188,8 +188,11 @@ install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/fonts" DESTINATION "${SHAREDIR}")
 
 install(FILES "README.md" DESTINATION "${DOCDIR}")
 install(FILES "LICENSE" DESTINATION "${DOCDIR}")
+
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc/wiki-images" DESTINATION "${DOCDIR}")
 install(FILES "doc/Manual.html" DESTINATION "${DOCDIR}")
 install(FILES "doc/Manual.md" DESTINATION "${DOCDIR}")
+
 install(FILES "doc/lua_api.txt" DESTINATION "${DOCDIR}")
 install(FILES "doc/menu_lua_api.txt" DESTINATION "${DOCDIR}")
 install(FILES "doc/texture_packs.txt" DESTINATION "${DOCDIR}")
