@@ -133,8 +133,8 @@ bool RecursiveDelete(const std::string &path)
 	if(!is_directory)
 	{
 		infostream<<"RecursiveDelete: Deleting file "<<path<<std::endl;
-		//bool did = DeleteFile(path.c_str());
-		bool did = true;
+		bool did = DeleteFile(path.c_str());
+		//bool did = true;	-- MERGEINFO: changed by MrCerealGuy
 		if(!did){
 			errorstream<<"RecursiveDelete: Failed to delete file "
 					<<path<<std::endl;
@@ -157,8 +157,8 @@ bool RecursiveDelete(const std::string &path)
 			}
 		}
 		infostream<<"RecursiveDelete: Deleting directory "<<path<<std::endl;
-		//bool did = RemoveDirectory(path.c_str();
-		bool did = true;
+		bool did = RemoveDirectory(path.c_str());
+		//bool did = true;	-- MERGEINFO: changed by MrCerealGuy
 		if(!did){
 			errorstream<<"Failed to recursively delete directory "
 					<<path<<std::endl;
