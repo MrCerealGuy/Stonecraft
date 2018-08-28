@@ -140,7 +140,7 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 
 First, before you can play, you have to create a world. In the world creation dialog you can choose a map generator (default v7) which is responsible for the terrain generation. Then you can add additional biomes and choose other cool stuff.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/createworld4.png)
+![](/doc/wiki-images/createworld4.png)
 
 Note: Some settings need huge cpu consumption so it can be laggy for most players.
 
@@ -152,45 +152,45 @@ There are a number of different map generators. It is possible to choose between
 
 Generates landscapes based on 3D Perlin noise and is notable for its unique and somewhat strange terrain shape and occasional floating islands. The biomes have to defined by mods first, otherwise it will be a stone-only landscape.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_v5.jpg)
+![](/doc/wiki-images/400px-Mapgen_v5.jpg)
 
 **v6**
 
 Generated entirely using 2D Perlin noise and has somewhat more “realistic” terrain than v5. The weirdness of v5 is gone. This map generator has predefined biomes: Grasslands/forest, jungle, desert, taiga, tundra and gravel. The biomes can't be modified by mods. Because of the nature of v6, the biomes are much simpler than in the other map generators, and a couple of blocks found in the other map generators can't be found in v6 maps (for example: Silver Sand, Acacia Tree, Orange Coral)
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_v6.jpg)
+![](/doc/wiki-images/400px-Mapgen_v6.jpg)
 
 **v7**
 
 Some innovations over v7, uses 2D and 3D Perlin noise. It is the default selection since Minetest 0.4.15. This map generator is notable for many simple broad and deep “rivers” (or “ridges”) at Ocean level, but they can be disabled. Like in v5, the biome have to be defined by mods first
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_v7.jpg)
+![](/doc/wiki-images/400px-Mapgen_v7.jpg)
 
 **valleys**
 
 Generates a landscape featuring many hills, mountains and valleys. The valleys often contain rivers with River Water. The rivers very different than in v7, since they are not at ocean level and actually flow downhill
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_valleys.jpg)
+![](/doc/wiki-images/400px-Mapgen_valleys.jpg)
 
 **flat**
 
 This generates an (almost) entirely flat world with some biomes like in v7. Caves can still appear underground (if not disabled) and the map generator can be configured to add occasional hills and lakes.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_flat.jpg)
+![](/doc/wiki-images/400px-Mapgen_flat.jpg)
 
 **fractal**
 
 Generates a map based on a fractal. It creates by far the weirdest terrain shapes, but its results are mostly predictable. 
 It is possible to choose one of many fractals which are based on the Mandelbrot and Julia set, which is chosen in the advanced settings menu (technical setting name “mgfractal_fractal”).
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_fractals_fractal_1.jpg)
+![](/doc/wiki-images/400px-Mapgen_fractals_fractal_1.jpg)
 
 **singlenode**
 
 By default, this produces a world with only air everywhere. To be precise, it produces only one type of block, air by default. 
 It is useful for mapgen mods which define their own map generation: first, air is generated, then the mod applies its own functions which generates the terrain.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_singlenode.jpg)
+![](/doc/wiki-images/400px-Mapgen_singlenode.jpg)
 
 **carpathian**
 
@@ -205,7 +205,7 @@ Features:
   * Fjords - particularly where the larger mountains meet the sea. Rare.
   * Really big mountains - where two or even three mountain noise meet, spectacular and unpredictable peaks form.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/400px-Mapgen_Carpathian.jpg)
+![](/doc/wiki-images/400px-Mapgen_Carpathian.jpg)
 
 ## Biomes
 
@@ -219,80 +219,80 @@ Biomes in these map generators are defined by optional settings in Stonecraft li
 
 Grassland has large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers, Grass and bushes may appear naturally in this area. The underground is made of stone.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_plains_v7.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_plains_v7.jpg)
 
 **Coniferous forest**
 
 Coniferous forests grow in colder areas and are filled with pine trees. Pine tree forests can also be covered with snow in cold regions.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Pine_forest.jpg)
+![](/doc/wiki-images/350px-Pine_forest.jpg)
 
 **Deciduous forest**
 
 Deciduous forests are one of the most common biomes in Stonecraft and form in temperate zones. Trees, apple trees and aspen trees grow here naturally. Generally forests can spawn lakes, ponds, and rivers inside of it. Deciduous forests usually surround plains.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Deciduous_forest_v7.jpg)
+![](/doc/wiki-images/350px-Deciduous_forest_v7.jpg)
 
 **Rainforest**
 
 Rainforests (or jungles) are made of large jungle trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. On fallen jungle tree logs, brown mushrooms may appear rarely. Jungles near oceans form a swamp with waterlilies.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_jungle_v7.jpg)
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_jungle_swamp.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_jungle_v7.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_jungle_swamp.jpg)
 
 **Savanna**
 
 The savanna is a dry land which is not a desert, it is populated with acacia trees and dry grass. Flat water bordering to savannahs is likely to have waterlilies and papyri.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Savannah.jpg)
+![](/doc/wiki-images/350px-Savannah.jpg)
 
 **Desert**
 
 Deserts contain large amounts of desert sand and desert stone. Cacti and dry shrubs also spawn here naturally on desert sand. Cacti can form in two different shapes. Deserts form in hot and dry areas.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_desert.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_desert.jpg)
 
 **Sandstone desert**
 
 Sandstone deserts are large barren areas covered by sand with sandstone below. They form in temperate and dry climates.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_sandstone_desert.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_sandstone_desert.jpg)
 
 **Cold desert**
 
 Cold deserts are large barren areas covered by large amounts of silver sand on top of stone. They form in cold and dry areas.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_cold_desert.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_cold_desert.jpg)
 
 **Snowy grassland**
 
 The snowy grassland biome usually borders grasslands and is completely covered by a thin layer snow on top of dirt with snow. A few snow-covered bushes can be found here.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Snow_biome.jpg)
+![](/doc/wiki-images/350px-Snow_biome.jpg)
 
 **Taiga**
 
 Taigas are cold snow-covered biomes with rich vegetation with snow and dirt with snow as surface. They are populated with snow-covered pine trees. In pine tree forests, mushrooms may appear rarely on fallen pine tree logs.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_taiga.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_taiga.jpg)
 
 **Tundra**
 
 Tundras are barren biomes in very cold climates with no vegetation and a single layer of snow blocks on top of stone. They are usually found between taigas, snowy grass lands and glaciers. This is one of the few biomes where snow blocks (rather than just snow) generates.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_tundra.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_tundra.jpg)
 
 **Glacier**
 
 Glaciers form only in the coldest regions and are made of large amounts of ice, covered by a thick layer of snow blocks without any vegetation. Glacier biomes can be either mountain-like as in the screenshot or very flat. Glacier biomes generally border ice sheet biomes near oceans.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Glacier.jpg)
+![](/doc/wiki-images/350px-Glacier.jpg)
 
 **Ice sheet**
 
 Ice sheets form only in te coldest regions on top of oceans and generally border glacier biomes. Ice sheets are very flat and consist of a single layer of snow blocks with up to 10 layers of ice beneath, “floating” above water in deep oceans.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Ice_sheet_v6.jpg)
+![](/doc/wiki-images/350px-Ice_sheet_v6.jpg)
 
 ### v6
 
@@ -302,49 +302,49 @@ The v6 map generator has a predefined set of biomes which can't be changed by mo
 
 Plains are a quite flat biome. Large amounts of Dirt nodes and Dirt with Grass blocks, on which flowers and Grass may appear naturally (since 0.4.7). There are no bushes. The underground is made of stone.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Large_plains.png)
+![](/doc/wiki-images/350px-Large_plains.png)
 
 **Forest**
 
 Forests are one of the most common biomes in v6 and form in temperate zones. Trees and apple trees grow here naturally, but no aspen trees. Forests usually surround plains. There are no fallen tree logs either.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_0_4_9.jpg)
+![](/doc/wiki-images/350px-Mapgen_v6_0_4_9.jpg)
 
 **Desert**
 
 Deserts contain large amounts of desert sand and desert stone and often form large cliffs or canyons. Cacti and dry shrubs also spawn here naturally in clusters on desert sand. Deserts spawn underground rivers and lakes which can be over 200 blocks deep. In v6, cacti only form in a “column” shape of up to 4 blocks high.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Desert_at_sunset_0.4.7.png)
+![](/doc/wiki-images/350px-Desert_at_sunset_0.4.7.png)
 
 **Jungle**
 
 Jungles contains large trees which grow thickly packed together. Jungle Grass and Jungle Trees bearing Jungle Leaves spawn here naturally. Jungles in v6 very similar to the jungles in the other map generators, but there are no fallen tree logs, mushrooms or swamps.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Jungle_v6.jpg)
+![](/doc/wiki-images/350px-Jungle_v6.jpg)
 
 **Taiga**
 
 The surface is covered with snow blocks on top of dirt with snow. Snow-covered pine tree forests are common in this biome.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_taiga.jpg)
+![](/doc/wiki-images/350px-Mapgen_v6_taiga.jpg)
 
 **Tundra**
 
 Tundras are large open fields with thin layers of snow and are populated by dry shrubs. There are two variations of this biome.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_dirt_with_snow.jpg)
+![](/doc/wiki-images/350px-Mapgen_v6_dirt_with_snow.jpg)
 
 **Ice sheet**
 
 Ice sheets are two layers of ice on top of ocean water. They generate bordering directly to taigas and tundras.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Minetest_Game_ice_sheet.jpg)
+![](/doc/wiki-images/350px-Minetest_Game_ice_sheet.jpg)
 
 **Gravel**
 
 Very rarely, unusually large areas of gravel can appear on the surface. These areas consist of nothing but gravel.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_gravel_biome.png)
+![](/doc/wiki-images/350px-Mapgen_v6_gravel_biome.png)
 
 ### Technical biomes
 
@@ -353,37 +353,37 @@ Very rarely, unusually large areas of gravel can appear on the surface. These ar
 Beaches are made out of sand and form at at height of Y=2 and below, which is near the sea level by default. Beaches often extend deep into the ocean, which can easily turn a large part of the ocean floor into sand. The sand replaces the floor of other biomes. Depending on the terrain shape, beaches can be short or very long and wide (as seen in the screenshot). Clay can be found in the sand and form in small to medium-sized blobs underwater.
 Beaches are generated based on height and noise; they technically form independent of the water of oceans. This effect can be noted if the water level (with the setting water_level) has been reduced.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_beach.jpg)
+![](/doc/wiki-images/350px-Mapgen_v6_beach.jpg)
 
 **Ocean**
 
 This biome is just a large body of water that can be up to 250 blocks deep. Oceans are commonly referred to as lakes, but are called oceans because they can be so huge, sometimes even 200-350 blocks across. The natural ocean floor is dirt, but sand is also common because of the beach biomes.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mapgen_v6_ocean.jpg)
+![](/doc/wiki-images/350px-Mapgen_v6_ocean.jpg)
 
 **Island**
 
 Not classifiable as a biome, but still frequent enough to be classified as a technical biome, islands occur many times in oceans. These could even be referred to as a sub-biome, being a product of another biome. Islands usually raise out of the ground 3-10 blocks, but can get as large as 40-80 blocks tall.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Island_0.4.7.jpg)
+![](/doc/wiki-images/350px-Island_0.4.7.jpg)
 
 **Mountain**
 
 Mountains are the most treacherous to scale. Trees and apple trees spawn here naturally. It is quite easy to be killed in a mountain biome if you don't pay attention to where you are going.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Mountain.png)
+![](/doc/wiki-images/350px-Mountain.png)
 
 **Plateau**
 
 A giant structure, plateaus are very common around mountain biomes as well as deserts. Plateaus can even float above ground and generate miniature biomes on top of it.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Plateau_0.4.7_alternative.png)
+![](/doc/wiki-images/350px-Plateau_0.4.7_alternative.png)
 
 **Water caves**
 
 Water caves are caves that only occur at sea level, which turn into a huge underground river or lake. These caves can lead thousands of blocks down and are extremely easily to get lost in.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/350px-Water_cave_0.4.7_alternative.png)
+![](/doc/wiki-images/350px-Water_cave_0.4.7_alternative.png)
 
 ## Underground realms
 
@@ -395,7 +395,7 @@ There are three big underground realms:
 
 Here is an overview where the realms are located in the depth:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Underground_Realms.png)
+![](/doc/wiki-images/Underground_Realms.png)
 
 No worry, you don't have to dig to Nether or Morlendor, there are special portals for them.
 
@@ -450,7 +450,7 @@ By using, you can:
   * make fire with Flint and Steel,
   * eat food, such as Apples or Bread.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/inventory.png)
+![](/doc/wiki-images/inventory.png)
 
 ### Taking
 
@@ -488,19 +488,19 @@ You can automatically transfer an item stack to/from the player inventory to/fro
 
 If you want to change the default skin, you can do this in your inventory. Just click on the "Skin"-button below.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/skins1.png)
+![](/doc/wiki-images/skins1.png)
 
 You see your current skin. Now click on "Change".
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/skins2.png)
+![](/doc/wiki-images/skins2.png)
 
 Choose your desired skin.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/skins3.png)
+![](/doc/wiki-images/skins3.png)
 
 Congratulations! Press 'F7' to switch in third person mode to see your new skin!
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/skins4.png)
+![](/doc/wiki-images/skins4.png)
 
 # Crafting
 
@@ -510,7 +510,7 @@ To be able to craft anything at all, you need a crafting grid. A crafting grid c
 
 Crafting grids generally work like inventories. So a crafting grid found in your inventory menu can be used/abused as an extension of the player inventory.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/craftingslot.png)
+![](/doc/wiki-images/craftingslot.png)
 
 ## Shaped and shapeless recipes
 
@@ -528,17 +528,17 @@ Most crafting recipes are _shaped recipes_. If not noted otherwise, it is assume
 
 | Item | Ingredients | Grid |
 | ------------- | ------------- | ------------- |
-| Bronze Ingot | Steel Ingot + Copper ingot | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shapeless1.jpg) |
-| Bronze Ingot | Steel Ingot + Copper ingot | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shapeless2.jpg) |
-| Bronze Ingot | Steel Ingot + Copper ingot | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shapeless3.jpg) |
+| Bronze Ingot | Steel Ingot + Copper ingot | ![](/doc/wiki-images/shapeless1.jpg) |
+| Bronze Ingot | Steel Ingot + Copper ingot | ![](/doc/wiki-images/shapeless2.jpg) |
+| Bronze Ingot | Steel Ingot + Copper ingot | ![](/doc/wiki-images/shapeless3.jpg) |
 
 ### Shaped recipes
 
 | Item | Ingredients | Grid |
 | ------------- | ------------- | ------------- |
-| Paper | Papyrus | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shaped1.jpg) |
-| Paper | Papyrus | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shaped2.jpg) |
-| Paper | Papyrus | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/shaped3.jpg) |
+| Paper | Papyrus | ![](/doc/wiki-images/shaped1.jpg) |
+| Paper | Papyrus | ![](/doc/wiki-images/shaped2.jpg) |
+| Paper | Papyrus | ![](/doc/wiki-images/shaped3.jpg) |
 
 
 ## Smelting
@@ -547,15 +547,15 @@ Most crafting recipes are _shaped recipes_. If not noted otherwise, it is assume
 
 |  | Block | Burning time in seconds | Items smelted for fuel |
 | ------------- | ------------- | ------------- | ------------- |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Coal_block.png) | Coal Block | 370 | 123 1/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Bucket_lava.png) | Lava Bucket | 60 | 20 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Coal.png) | Coal Lump | 40 | 13 1/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Jungle_Tree.png) | Jungle Tree | 38 | 12 2/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Acacia_Tree.png) | Acacia Tree | 34 | 11 1/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Tree.png) | Tree | 30 | 10 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Pine_Tree.png) | Pine Tree | 26 | 8 2/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Aspen_Tree.png) | Aspen Tree | 22 | 7 1/3 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Cactus.png) | Cactus | 15 | 5 |
+| ![](/doc/wiki-images/48px-Coal_block.png) | Coal Block | 370 | 123 1/3 |
+| ![](/doc/wiki-images/48px-Bucket_lava.png) | Lava Bucket | 60 | 20 |
+| ![](/doc/wiki-images/48px-Coal.png) | Coal Lump | 40 | 13 1/3 |
+| ![](/doc/wiki-images/48px-Jungle_Tree.png) | Jungle Tree | 38 | 12 2/3 |
+| ![](/doc/wiki-images/48px-Acacia_Tree.png) | Acacia Tree | 34 | 11 1/3 |
+| ![](/doc/wiki-images/48px-Tree.png) | Tree | 30 | 10 |
+| ![](/doc/wiki-images/48px-Pine_Tree.png) | Pine Tree | 26 | 8 2/3 |
+| ![](/doc/wiki-images/48px-Aspen_Tree.png) | Aspen Tree | 22 | 7 1/3 |
+| ![](/doc/wiki-images/48px-Cactus.png) | Cactus | 15 | 5 |
 
 And many more…
 
@@ -563,19 +563,19 @@ And many more…
 
 |  | Input |  | Output | Smelting time | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Flour.png) | Flour | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Bread.png) | Bread | 15s | Can be eaten to restore health. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Cobblestone.png) | Cobblestone | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Stone.png) | Stone | 3s | Used as decoration. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Mossy_Cobblestone.png) | Mossy Cobblestone | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Stone.png) | Stone | 3s | Used as decoration. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Desert_Cobblestone.png) | Desert Cobblestone | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Desert_stone.png) | Desert Stone | 3s | Used as decoration. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Clay_Lump.png) | Clay Lump | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Clay_Brick.png) | Clay Brick | 3s | Used to craft bricks. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Copper_lump.png) | Copper Lump | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Copper_Ingot.png) | Copper Ingot | 3s | Can be combined with a steel ingot to make a bronze ingot. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Gold_lump.png) | Gold Lump | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Gold_ingot.png) | Gold Ingot | 3s | Used for crafting Gold Block and Skeleton Key. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Skeleton_Key.png) | Skeleton Key | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Gold_ingot.png) | Gold Ingot | 5s | Used for crafting Gold Block and Skeleton Key. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Iron_lump.png) | Iron Lump | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Steel_Ingot.png) | Steel Ingot | 3s | Used for crafting several items. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Steel_bottle.png) | Heavy Steel Bottle | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Steel_Ingot.png) | Steel Ingot | 3s | Used for crafting several items. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Group_sand.png) | Sand/Desert sand | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Pile_of_Glass_Fragments.png) | Pile of Glass Fragments | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Obsidian_shard.png) | Obsidian Shard | ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/48px-Obsidian_glass.png) | Obsidian Glass | 3s | Used as decoration or a building material. |
+| ![](/doc/wiki-images/48px-Flour.png) | Flour | ![](/doc/wiki-images/48px-Bread.png) | Bread | 15s | Can be eaten to restore health. |
+| ![](/doc/wiki-images/48px-Cobblestone.png) | Cobblestone | ![](/doc/wiki-images/48px-Stone.png) | Stone | 3s | Used as decoration. |
+| ![](/doc/wiki-images/48px-Mossy_Cobblestone.png) | Mossy Cobblestone | ![](/doc/wiki-images/48px-Stone.png) | Stone | 3s | Used as decoration. |
+| ![](/doc/wiki-images/48px-Desert_Cobblestone.png) | Desert Cobblestone | ![](/doc/wiki-images/48px-Desert_stone.png) | Desert Stone | 3s | Used as decoration. |
+| ![](/doc/wiki-images/48px-Clay_Lump.png) | Clay Lump | ![](/doc/wiki-images/48px-Clay_Brick.png) | Clay Brick | 3s | Used to craft bricks. |
+| ![](/doc/wiki-images/48px-Copper_lump.png) | Copper Lump | ![](/doc/wiki-images/48px-Copper_Ingot.png) | Copper Ingot | 3s | Can be combined with a steel ingot to make a bronze ingot. |
+| ![](/doc/wiki-images/48px-Gold_lump.png) | Gold Lump | ![](/doc/wiki-images/48px-Gold_ingot.png) | Gold Ingot | 3s | Used for crafting Gold Block and Skeleton Key. |
+| ![](/doc/wiki-images/Skeleton_Key.png) | Skeleton Key | ![](/doc/wiki-images/48px-Gold_ingot.png) | Gold Ingot | 5s | Used for crafting Gold Block and Skeleton Key. |
+| ![](/doc/wiki-images/48px-Iron_lump.png) | Iron Lump | ![](/doc/wiki-images/48px-Steel_Ingot.png) | Steel Ingot | 3s | Used for crafting several items. |
+| ![](/doc/wiki-images/48px-Steel_bottle.png) | Heavy Steel Bottle | ![](/doc/wiki-images/48px-Steel_Ingot.png) | Steel Ingot | 3s | Used for crafting several items. |
+| ![](/doc/wiki-images/48px-Group_sand.png) | Sand/Desert sand | ![](/doc/wiki-images/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
+| ![](/doc/wiki-images/48px-Pile_of_Glass_Fragments.png) | Pile of Glass Fragments | ![](/doc/wiki-images/48px-Glass.png) | Glass | 3s | Used as decoration or a building material. |
+| ![](/doc/wiki-images/48px-Obsidian_shard.png) | Obsidian Shard | ![](/doc/wiki-images/48px-Obsidian_glass.png) | Obsidian Glass | 3s | Used as decoration or a building material. |
 
 And many more…
 
@@ -587,11 +587,11 @@ A few simple creatures in Stonecraft, not all are bad.
 
 | Mob | Description | Health/Armor/Damage | Drops |
 | ------------- | ------------- | ------------- | ------------- |
-| Zombie<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/90px-CME_Zombie.png) | Zombies can spawn at every time of day in the world as long there is not too much light. So you will find some in caves, dark forests and of cause a lot at night. If they notice you they will attack. Zombies have 20 HP (like players) and drop sometimes rotten flesh on death. On day Zombies die because of the sunlight. | 20![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Rotten flesh |
-| Ghost<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/118px-CME_Ghost.png) | Ghosts only spawn at night-time and they don't spawn underground. They are flying in the world and attack you aswell if they notice you. Ghosts have 15 HP and don't drop any items atm (might be changed in future).They can't harm you in your house. If it becomes day Ghosts will take damage by the sunlight, so they will die after a while. | 15![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | - |
-| Sheep<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/111px-CME_Sheep.png) | Sheep spawn only at day-time and are friendly mobs. They remain around 5 minutes in the world unless they are tamed with 5 wheat (rightclick). There are four different wool colors: white, grey, brown and black. If there is grass (dirt with grass) they eat the grass and make new wool that way. Sheep have 8 HP and drop 1-2 wool when punched or sheared with shears. They need to eat grass until they can give wool again. | 8![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | 1-2 wool |
-| Chicken<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-CME_Chicken.png) | Chicken are friendly and spawn only at day-time too. They drop randomly eggs and remain 5 minutes. Currently you can't tame or breed them. They drop chicken meat and feather(s) on death. Eggs can be thrown to spawn (rarely) new chicken, or cooked in furnace to gain fried eggs, which are eatable. | -![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Chicken meat<br>Feather(s) |
-| Oerrki<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/62px-CME_Oerki1.png) | Oerrki spawn only at night on stone or dirt like blocks. They attack players and make more damage than Zombies or Ghosts. Daylight can't harm them. | -![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | - |
+| Zombie<br>![](/doc/wiki-images/90px-CME_Zombie.png) | Zombies can spawn at every time of day in the world as long there is not too much light. So you will find some in caves, dark forests and of cause a lot at night. If they notice you they will attack. Zombies have 20 HP (like players) and drop sometimes rotten flesh on death. On day Zombies die because of the sunlight. | 20![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/-![](/doc/wiki-images/16px-Heart.png) | Rotten flesh |
+| Ghost<br>![](/doc/wiki-images/118px-CME_Ghost.png) | Ghosts only spawn at night-time and they don't spawn underground. They are flying in the world and attack you aswell if they notice you. Ghosts have 15 HP and don't drop any items atm (might be changed in future).They can't harm you in your house. If it becomes day Ghosts will take damage by the sunlight, so they will die after a while. | 15![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/-![](/doc/wiki-images/16px-Heart.png) | - |
+| Sheep<br>![](/doc/wiki-images/111px-CME_Sheep.png) | Sheep spawn only at day-time and are friendly mobs. They remain around 5 minutes in the world unless they are tamed with 5 wheat (rightclick). There are four different wool colors: white, grey, brown and black. If there is grass (dirt with grass) they eat the grass and make new wool that way. Sheep have 8 HP and drop 1-2 wool when punched or sheared with shears. They need to eat grass until they can give wool again. | 8![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/-![](/doc/wiki-images/16px-Heart.png) | 1-2 wool |
+| Chicken<br>![](/doc/wiki-images/120px-CME_Chicken.png) | Chicken are friendly and spawn only at day-time too. They drop randomly eggs and remain 5 minutes. Currently you can't tame or breed them. They drop chicken meat and feather(s) on death. Eggs can be thrown to spawn (rarely) new chicken, or cooked in furnace to gain fried eggs, which are eatable. | -![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/-![](/doc/wiki-images/16px-Heart.png) | Chicken meat<br>Feather(s) |
+| Oerrki<br>![](/doc/wiki-images/62px-CME_Oerki1.png) | Oerrki spawn only at night on stone or dirt like blocks. They attack players and make more damage than Zombies or Ghosts. Daylight can't harm them. | -![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/-![](/doc/wiki-images/16px-Heart.png) | - |
 
 ## Not So Simple Mobs
 
@@ -601,44 +601,44 @@ They all drop life energies. With life energies you can craft tools and special 
 
 | Mob | Description | Health/Armor/Damage | Drops |
 | ------------- | ------------- | ------------- | ------------- |
-| Black Widow<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_black_widow.png) | A black widow is a hostile medium sized spider with a big abdomen. They attack with small but powerful chelicerae. | 10![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Spider Leg<br>Web |
-| Stone Bloco<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_Stone_bloco.png) | A Bloco is a hostile mob made of stone with a little head, short arms and legs. Bloco Is a little clumsy in walking and he chases his enemies rolling like a ball, a cubic ball obviously!<br><br>He is a true Rolling Stones fan. | 7 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Stone |
-| Crab<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_crab.png) | Crab is a hostile mob that lives on the beach and they don't float in water, they prefer walking on the sand pinching their enemies with their powerful chelas. Crabs have two possible colors of their carapace, red and light orange. | 17![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Surimi<br>Crab Chela |
-| Crocodile<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/108px-Nssm_crocodile.png) | A Crocodile is a hostile mob. | 10![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/1![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Crocodile Tail |
-| Daddy Long Legs<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_daddy_long_legs.png) | A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs! | 9 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Spider Leg |
-| Dolidrosaurus<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/98px-Nssm_dolidrosaurus.png) | A Dolidrosaurus is an aquatic reptile hostile mob with a long tail and a fin at the end. They're fully adapted to living in water and they have two others fins on the side which allow them to swim faster and more precisely. Dolidrosaurus derives from greek, Dolicolos means long, Hydor water and Sauros lizard. Dolidrosauruses have five possible variations of their skin: Dark green, green, light green, blue-green and blue-pink. | 13![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy |
-| Duck<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
-| Echidna<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/68px-Nssm_echidna.png) | An Echidna is a beautiful human hostile mob. It's skin is pale, sick-green and they have black hair. They're half naked but you probably won't care, the one who looses himself in thoose evil, but beautiful, eyes is dead. When you are to close she will slash you with her tail. She emits poison to blocks nearby which does not go away, it causes half heart of damage each game tick and you can drown in it like you would in water. | 45![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Snake Scute |
-| Enderduck<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/69px-Nssm_enderduck.png) | An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night. | 10![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak |
-| Felucco<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Felucco_nssm.png) | The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: "fel" stands for "felino", feline, because of its similarity with leopards. "Ucc" stands for "mucca", cow, because of his peculiar horns and "o" is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear. | 16![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn |
-| Giant Sandworm<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/74px-Nssm_Giant_sandworm.png) | A Giant Sandworm is a huge hostile mob that likes to stay in one place and damages players when they get within a 7 block range. | 65![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Worm Flesh<br>Black Sand |
-| Icelamander<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_icelamander.png) | The Icelamander is the boss of ice biomes. Nearly nothing could defeat this dangerous mob. Taller than a normal Sam, the Icelamanders have even more frightening jaws than Snow Biters! They have a long tail that helps them to keep the balance on their two legs. The Icelamanders are so cold that they frost everything while walking, not only water! Their frosting power is so strong that they can freeze you in an ice column even from a great distance! Not the simple default ice, but the Coldest Ice, so cold that can freeze the souls of the unlucky creatues trapped in it.<br><br>Icelamander eats their with their horrible fangs that can damage really bad their preys. You have now certainly understood that Icelamanders are really really dangerous. | 230![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/6![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/6![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
-| Icesnake<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/111px-Nssm_icesnake.png) | An Icesnake is an amphibian that live in ice plains and mountains. Long ago its body has been adapted to cold biomes using ice and cold in order to preserve the water content in cells. In fact the heat produced by the frosting of ice in the environment allows the Icesnake and the others ice amphibians as Snow Biters, Icelamanders and Icelizards to keep in the liquid form their body fluids.<br><br>Icesnakes aren't very big or evil but they attack enemies with their fangs very rapidly. | 13 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
-| Kraken<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/65px-Nssm_kraken.png) | A Kraken is the king of the sea hostile gigantic octopus mob with long tentacles. There attack with tentacles is devastating but there dimensions doesn't allow them to go fast. Females are red-rose as Octpuses, on the other side the males are dark green. Kraken can produce ink in the water which make seeing in water even more difficult. | 75![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Tentacle<br>Tentacle Curly |
-| Larva<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/108px-Nssm_larva.png) | A Larva is a hostile mob. It is the first stadium of Mantis and Mantis Beasts development. Their body is white and the head is brown. After around half a minute they become Mantis or Mantis Beasts! So be careful and slay all of them before it is too late. | 5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy |
-| Lava Titan<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/90px-Nssm_lava_titan.png) | A Lava Titan is a hostile mob that turns nearby blocks into lava and has two attack styles.<br>- Lava titan hits the ground with his fist, kneels and summons lava blocks diagonaly around players.<br>- Lava titan marches straight toward you rushing through blocks and destroying every block he touches. | 40![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/6![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/3 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Lava Bucket<br>Lava Titan Eye |
-| Manticore<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/84px-Nssm_manticore.png) | A Manticore is a strong, fast hostile mob. It attacks either with projectiles from a far or with the scorpion sting on it's tail when you're too near.<br><br>Appearence<br>With face like a man's, a skin red as cinnabar, and is as large as a lion. It has three rows of teeth, ears and light-blue eyes like those of a man; its tail is like that of a land scorpion, containing a sting more than a cubit long at the end. It has other stings on each side of its tail. | 12 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Manticore Spine |
-| Mantis<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/80px-Nssm_mantis.png) | A Mantis is a tall and humanlike hostile mob that has two possible colors and attacks with two powerful kung fu moves with its 4 arms! It walks on two legs looking for fresh meat: you! | 7 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Mantis Claw |
-| Mantis Beast<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_mantis_beast.png) | A Mantis Beast is a hostile mob that is Very similar to their relatives that walk on only two legs, Mantis Beasts are faster thanks to their 6 claws used in running and their position is more "beastly"! | 10![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Mantis Claw |
-| Masticone<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_masticone.png) | A Masticone is a hostile mob that alone isn't a real danger, but when you kill one of them two others come to venge their friend. Kill as many as you can then run as fast as you can! | 7 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Masticone Fang<br>Masticone Skull<br>Fragments |
-| Mese Dragon<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/95px-Nssm_messe_dragon.png) | A Mese Dragon is a massive hostile boss mob with midas touch that turns nearby blocks into mese blocks and has meele and firebreath attack. Mese dragon is not damaged by sunlight, water or lava. | 166 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/8![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Energy Globe<br>Rainbow Staff |
-| Night Master<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_moonherontrio.png) | A Night Master is a hostile mob that is a special kind of Moonheron that has three heads. | 15![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Heron Leg<br>Night Feather |
-| Octopus<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/106px-Nssm_octopus.png) | An octopus is a hostile mob that is weaker brother of Kraken, they're not able to produce ink and they are all red-rose. | 11![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Tentacle |
-| Phoenix<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Nssm_phoenix.png) | A Phoenix is a hostile mob made of fire and energy. Nobody, unless the sun, is brighter than this beatiful bird in the sky. | 30![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Sun Feather<br>Phoenix Tear<br>Phoenix Nuggets |
-| Pumpking<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/98px-Nssm_pumpking.png) | A Pumpking is a hostile mob king of the pumbooms it is tall creepy creature with a humanlike black thin bodies covered with the blood of their victims, their head is very similar to a Pumpboom and their body to Signosigno. On their death they have a little explosive surprise for the unlucky warrior able enough to defeat them... | 50![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Cursed Pumpkin Seed |
-| Scrausics<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Scrausics_nssm.png) | A scrausics is a hostile mob. | 15![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Raw Scrausics Wing |
-| Snowbiter<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Snowbiter_nssm.png) | A Snow Biter is a hostile mob. | 15![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Frosted Amphibian Heart<br>Amphibian Ribs<br>Little Ice Tooth |
-| Spiderduck<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Spiderduck_nssm.png) | Spiderducks have evolved from Enderducks to become more similar to the spiders. They have a dark skin and 8 legs, but the body is the one of a duck.<br><br>Even if they are not bosses they are extremely dangerous! In fact if you don't know what to expect from a spiderduck you can easily fall in its web and become a tasteful snack! Spiderducks spawn only at night and because of their dark color they are able to easily blend with the environment. If a spiderduck sees you it starts shooting at you web projectiles. When they hit the target a sticky web covers the soil trapping the victims. And if you have been trapped then expect the spiderduck to come at you and to eat you! | 24-35![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/6![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Duck legs<br>Life Energy<br>Web<br>Duck beak |
-| Stone Eater<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Stone_Eater_nssm.png) | A Stone Eater is a hostile mob that is imune to any sword weapon. When under attack he bites back while eating stone that is around. | 14![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/6![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Stoneater Mandible<br>Stone |
-| Swimming Duck<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Swiming_Duck_nssm.png) | A Swimming Duck is a hostile mob. | 12 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak<br>Duck Feather |
-| Tarantula<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Tarantula_nssm.png) | A Tarantula is a hostile mob that can either bite or slow down your movement trapping you inside a cocon. After killing it Tarantula Propower appears. | 25![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Super Silk Gland |
-| Mordain<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Mordain_nssm.png) | A Mordain is a hostile mob that likes teleporting. | 16![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Slothful Soul Fragment |
-| Morde<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morde_nssm.png) | A Morde is a hostile mob that has an ability to heal himself. | 23 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Proud Soul Fragment |
-| Morgre<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morgre_nssm.png) | A Morgre is a hostile mob that likes to explode. | 17![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Greedy Soul Fragment |
-| Morgut<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morgut_nssm.png) | Dont let it get to close to you or else it will steal your precious food. You can get your food back by slaying Morgut.<br><br>With the Gluttonous soul fragment it is possible to craft a strong weapon Sword of Gluttony and Food Bomb | 18![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/3![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Gluttonous soul fragment |
-| Morlu<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morlu_nssm.png) | Dont let it get to close to you or else it will steal your precious equipped armor. You can get your armor back by slaying Morlu.<br><br>With the Lustful Soul Fragment it is possible to craft strong Morlu armor and Cage Bomb | 28![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
-| Morvy<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morvy_nssm.png) | A Morvy is a hostile mob that likes summoning. | 19 1/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/2![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Envious Soul Fragment |
-| Morwa<br>![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/120px-Morwa_nssm.png) | A Morwa is a hostile mob that can either range you from afar or smash you when your close enough. | 28![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png)/5![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Armor.png)/4![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
+| Black Widow<br>![](/doc/wiki-images/120px-Nssm_black_widow.png) | A black widow is a hostile medium sized spider with a big abdomen. They attack with small but powerful chelicerae. | 10![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Spider Leg<br>Web |
+| Stone Bloco<br>![](/doc/wiki-images/120px-Nssm_Stone_bloco.png) | A Bloco is a hostile mob made of stone with a little head, short arms and legs. Bloco Is a little clumsy in walking and he chases his enemies rolling like a ball, a cubic ball obviously!<br><br>He is a true Rolling Stones fan. | 7 1/2![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/1![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Stone |
+| Crab<br>![](/doc/wiki-images/120px-Nssm_crab.png) | Crab is a hostile mob that lives on the beach and they don't float in water, they prefer walking on the sand pinching their enemies with their powerful chelas. Crabs have two possible colors of their carapace, red and light orange. | 17![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Surimi<br>Crab Chela |
+| Crocodile<br>![](/doc/wiki-images/108px-Nssm_crocodile.png) | A Crocodile is a hostile mob. | 10![](/doc/wiki-images/16px-Heart.png)/1![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Crocodile Tail |
+| Daddy Long Legs<br>![](/doc/wiki-images/120px-Nssm_daddy_long_legs.png) | A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs! | 9 1/2![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Spider Leg |
+| Dolidrosaurus<br>![](/doc/wiki-images/98px-Nssm_dolidrosaurus.png) | A Dolidrosaurus is an aquatic reptile hostile mob with a long tail and a fin at the end. They're fully adapted to living in water and they have two others fins on the side which allow them to swim faster and more precisely. Dolidrosaurus derives from greek, Dolicolos means long, Hydor water and Sauros lizard. Dolidrosauruses have five possible variations of their skin: Dark green, green, light green, blue-green and blue-pink. | 13![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy |
+| Duck<br>![](/doc/wiki-images/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1/2![](/doc/wiki-images/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
+| Echidna<br>![](/doc/wiki-images/68px-Nssm_echidna.png) | An Echidna is a beautiful human hostile mob. It's skin is pale, sick-green and they have black hair. They're half naked but you probably won't care, the one who looses himself in thoose evil, but beautiful, eyes is dead. When you are to close she will slash you with her tail. She emits poison to blocks nearby which does not go away, it causes half heart of damage each game tick and you can drown in it like you would in water. | 45![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/5![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Snake Scute |
+| Enderduck<br>![](/doc/wiki-images/69px-Nssm_enderduck.png) | An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night. | 10![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak |
+| Felucco<br>![](/doc/wiki-images/120px-Felucco_nssm.png) | The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: "fel" stands for "felino", feline, because of its similarity with leopards. "Ucc" stands for "mucca", cow, because of his peculiar horns and "o" is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear. | 16![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/2 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn |
+| Giant Sandworm<br>![](/doc/wiki-images/74px-Nssm_Giant_sandworm.png) | A Giant Sandworm is a huge hostile mob that likes to stay in one place and damages players when they get within a 7 block range. | 65![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Worm Flesh<br>Black Sand |
+| Icelamander<br>![](/doc/wiki-images/120px-Nssm_icelamander.png) | The Icelamander is the boss of ice biomes. Nearly nothing could defeat this dangerous mob. Taller than a normal Sam, the Icelamanders have even more frightening jaws than Snow Biters! They have a long tail that helps them to keep the balance on their two legs. The Icelamanders are so cold that they frost everything while walking, not only water! Their frosting power is so strong that they can freeze you in an ice column even from a great distance! Not the simple default ice, but the Coldest Ice, so cold that can freeze the souls of the unlucky creatues trapped in it.<br><br>Icelamander eats their with their horrible fangs that can damage really bad their preys. You have now certainly understood that Icelamanders are really really dangerous. | 230![](/doc/wiki-images/16px-Heart.png)/6![](/doc/wiki-images/Armor.png)/6![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
+| Icesnake<br>![](/doc/wiki-images/111px-Nssm_icesnake.png) | An Icesnake is an amphibian that live in ice plains and mountains. Long ago its body has been adapted to cold biomes using ice and cold in order to preserve the water content in cells. In fact the heat produced by the frosting of ice in the environment allows the Icesnake and the others ice amphibians as Snow Biters, Icelamanders and Icelizards to keep in the liquid form their body fluids.<br><br>Icesnakes aren't very big or evil but they attack enemies with their fangs very rapidly. | 13 1/2![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Ice Tooth<br>Little Ice Tooth<br>Frosted Amphibian Heart<br>Amphibian Ribs |
+| Kraken<br>![](/doc/wiki-images/65px-Nssm_kraken.png) | A Kraken is the king of the sea hostile gigantic octopus mob with long tentacles. There attack with tentacles is devastating but there dimensions doesn't allow them to go fast. Females are red-rose as Octpuses, on the other side the males are dark green. Kraken can produce ink in the water which make seeing in water even more difficult. | 75![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Tentacle<br>Tentacle Curly |
+| Larva<br>![](/doc/wiki-images/108px-Nssm_larva.png) | A Larva is a hostile mob. It is the first stadium of Mantis and Mantis Beasts development. Their body is white and the head is brown. After around half a minute they become Mantis or Mantis Beasts! So be careful and slay all of them before it is too late. | 5![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy |
+| Lava Titan<br>![](/doc/wiki-images/90px-Nssm_lava_titan.png) | A Lava Titan is a hostile mob that turns nearby blocks into lava and has two attack styles.<br>- Lava titan hits the ground with his fist, kneels and summons lava blocks diagonaly around players.<br>- Lava titan marches straight toward you rushing through blocks and destroying every block he touches. | 40![](/doc/wiki-images/16px-Heart.png)/6![](/doc/wiki-images/Armor.png)/3 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Lava Bucket<br>Lava Titan Eye |
+| Manticore<br>![](/doc/wiki-images/84px-Nssm_manticore.png) | A Manticore is a strong, fast hostile mob. It attacks either with projectiles from a far or with the scorpion sting on it's tail when you're too near.<br><br>Appearence<br>With face like a man's, a skin red as cinnabar, and is as large as a lion. It has three rows of teeth, ears and light-blue eyes like those of a man; its tail is like that of a land scorpion, containing a sting more than a cubit long at the end. It has other stings on each side of its tail. | 12 1/2![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Manticore Spine |
+| Mantis<br>![](/doc/wiki-images/80px-Nssm_mantis.png) | A Mantis is a tall and humanlike hostile mob that has two possible colors and attacks with two powerful kung fu moves with its 4 arms! It walks on two legs looking for fresh meat: you! | 7 1/2![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Mantis Claw |
+| Mantis Beast<br>![](/doc/wiki-images/120px-Nssm_mantis_beast.png) | A Mantis Beast is a hostile mob that is Very similar to their relatives that walk on only two legs, Mantis Beasts are faster thanks to their 6 claws used in running and their position is more "beastly"! | 10![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Mantis Claw |
+| Masticone<br>![](/doc/wiki-images/120px-Nssm_masticone.png) | A Masticone is a hostile mob that alone isn't a real danger, but when you kill one of them two others come to venge their friend. Kill as many as you can then run as fast as you can! | 7 1/2![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/2 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Masticone Fang<br>Masticone Skull<br>Fragments |
+| Mese Dragon<br>![](/doc/wiki-images/95px-Nssm_messe_dragon.png) | A Mese Dragon is a massive hostile boss mob with midas touch that turns nearby blocks into mese blocks and has meele and firebreath attack. Mese dragon is not damaged by sunlight, water or lava. | 166 1/2![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/8![](/doc/wiki-images/16px-Heart.png) | Energy Globe<br>Rainbow Staff |
+| Night Master<br>![](/doc/wiki-images/120px-Nssm_moonherontrio.png) | A Night Master is a hostile mob that is a special kind of Moonheron that has three heads. | 15![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Heron Leg<br>Night Feather |
+| Octopus<br>![](/doc/wiki-images/106px-Nssm_octopus.png) | An octopus is a hostile mob that is weaker brother of Kraken, they're not able to produce ink and they are all red-rose. | 11![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Tentacle |
+| Phoenix<br>![](/doc/wiki-images/120px-Nssm_phoenix.png) | A Phoenix is a hostile mob made of fire and energy. Nobody, unless the sun, is brighter than this beatiful bird in the sky. | 30![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/1![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Sun Feather<br>Phoenix Tear<br>Phoenix Nuggets |
+| Pumpking<br>![](/doc/wiki-images/98px-Nssm_pumpking.png) | A Pumpking is a hostile mob king of the pumbooms it is tall creepy creature with a humanlike black thin bodies covered with the blood of their victims, their head is very similar to a Pumpboom and their body to Signosigno. On their death they have a little explosive surprise for the unlucky warrior able enough to defeat them... | 50![](/doc/wiki-images/16px-Heart.png)/5![](/doc/wiki-images/Armor.png)/4 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Cursed Pumpkin Seed |
+| Scrausics<br>![](/doc/wiki-images/120px-Scrausics_nssm.png) | A scrausics is a hostile mob. | 15![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Raw Scrausics Wing |
+| Snowbiter<br>![](/doc/wiki-images/120px-Snowbiter_nssm.png) | A Snow Biter is a hostile mob. | 15![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Frosted Amphibian Heart<br>Amphibian Ribs<br>Little Ice Tooth |
+| Spiderduck<br>![](/doc/wiki-images/120px-Spiderduck_nssm.png) | Spiderducks have evolved from Enderducks to become more similar to the spiders. They have a dark skin and 8 legs, but the body is the one of a duck.<br><br>Even if they are not bosses they are extremely dangerous! In fact if you don't know what to expect from a spiderduck you can easily fall in its web and become a tasteful snack! Spiderducks spawn only at night and because of their dark color they are able to easily blend with the environment. If a spiderduck sees you it starts shooting at you web projectiles. When they hit the target a sticky web covers the soil trapping the victims. And if you have been trapped then expect the spiderduck to come at you and to eat you! | 24-35![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/6![](/doc/wiki-images/16px-Heart.png) | Duck legs<br>Life Energy<br>Web<br>Duck beak |
+| Stone Eater<br>![](/doc/wiki-images/120px-Stone_Eater_nssm.png) | A Stone Eater is a hostile mob that is imune to any sword weapon. When under attack he bites back while eating stone that is around. | 14![](/doc/wiki-images/16px-Heart.png)/6![](/doc/wiki-images/Armor.png)/2 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Stoneater Mandible<br>Stone |
+| Swimming Duck<br>![](/doc/wiki-images/120px-Swiming_Duck_nssm.png) | A Swimming Duck is a hostile mob. | 12 1/2![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak<br>Duck Feather |
+| Tarantula<br>![](/doc/wiki-images/120px-Tarantula_nssm.png) | A Tarantula is a hostile mob that can either bite or slow down your movement trapping you inside a cocon. After killing it Tarantula Propower appears. | 25![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Super Silk Gland |
+| Mordain<br>![](/doc/wiki-images/120px-Mordain_nssm.png) | A Mordain is a hostile mob that likes teleporting. | 16![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/3![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Slothful Soul Fragment |
+| Morde<br>![](/doc/wiki-images/120px-Morde_nssm.png) | A Morde is a hostile mob that has an ability to heal himself. | 23 1/2![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/3![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Proud Soul Fragment |
+| Morgre<br>![](/doc/wiki-images/120px-Morgre_nssm.png) | A Morgre is a hostile mob that likes to explode. | 17![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Greedy Soul Fragment |
+| Morgut<br>![](/doc/wiki-images/120px-Morgut_nssm.png) | Dont let it get to close to you or else it will steal your precious food. You can get your food back by slaying Morgut.<br><br>With the Gluttonous soul fragment it is possible to craft a strong weapon Sword of Gluttony and Food Bomb | 18![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Gluttonous soul fragment |
+| Morlu<br>![](/doc/wiki-images/120px-Morlu_nssm.png) | Dont let it get to close to you or else it will steal your precious equipped armor. You can get your armor back by slaying Morlu.<br><br>With the Lustful Soul Fragment it is possible to craft strong Morlu armor and Cage Bomb | 28![](/doc/wiki-images/16px-Heart.png)/5![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
+| Morvy<br>![](/doc/wiki-images/120px-Morvy_nssm.png) | A Morvy is a hostile mob that likes summoning. | 19 1/2![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Envious Soul Fragment |
+| Morwa<br>![](/doc/wiki-images/120px-Morwa_nssm.png) | A Morwa is a hostile mob that can either range you from afar or smash you when your close enough. | 28![](/doc/wiki-images/16px-Heart.png)/5![](/doc/wiki-images/Armor.png)/4![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Wrathful Soul Fragment |
 
 # Farming
 
@@ -646,29 +646,29 @@ Farmable blocks will spawn either new blocks or yield new items, when mined. All
 
 | Block | Grows on | Needs light? | Maximum profit | Theorical growth speed (evolution) | Expected growth speed (full) | Number of growth stages |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Cotton.png) Strings and 3 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 x 7 = 1120 seconds ~ 19 minutes | 8 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Wheat.png) Wheat (items) and 2 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 x 7 = 1260 seconds = 21 minutes | 8 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Jungle_Tree.png) Jungle Trees and many ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Tree.png) Trees, many ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Leaves.png) Leaves and some ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Pine_Tree.png) Pine Trees and many ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
-| ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
+| ![](/doc/wiki-images/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](/doc/wiki-images/32px-Cotton.png) Strings and 3 ![](/doc/wiki-images/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 x 7 = 1120 seconds ~ 19 minutes | 8 |
+| ![](/doc/wiki-images/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](/doc/wiki-images/32px-Wheat.png) Wheat (items) and 2 ![](/doc/wiki-images/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 x 7 = 1260 seconds = 21 minutes | 8 |
+| ![](/doc/wiki-images/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](/doc/wiki-images/32px-Jungle_Tree.png) Jungle Trees and many ![](/doc/wiki-images/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](/doc/wiki-images/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](/doc/wiki-images/32px-Tree.png) Trees, many ![](/doc/wiki-images/32px-Leaves.png) Leaves and some ![](/doc/wiki-images/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](/doc/wiki-images/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](/doc/wiki-images/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](/doc/wiki-images/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](/doc/wiki-images/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](/doc/wiki-images/32px-Pine_Tree.png) Pine Trees and many ![](/doc/wiki-images/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
+| ![](/doc/wiki-images/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](/doc/wiki-images/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
+| ![](/doc/wiki-images/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](/doc/wiki-images/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
 | Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
-| Group:flora | Desert Sand | No | 1 ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
+| Group:flora | Desert Sand | No | 1 ![](/doc/wiki-images/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
 
 # Technic
 
 Become an engineer in Stonecraft! From simple water-wheel ore proccessing centers, to massive nuclear-powered force-field networks!
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Technic_Screenshot.png)
+![](/doc/wiki-images/Technic_Screenshot.png)
 
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mv_alloy_furnace_front.png) [Machines](#machines)
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mv_compressor_front.png) [Consumers](#consumers)
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_hv_generator_front.png) [Generators](#generators)
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mithril_chest_front.png) [Chests](#chests)
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_uranium_ingot.png) [Resources](#resources)
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_laser_mk3.png) [Tools](#tools)
+* ![](/doc/wiki-images/technic_mv_alloy_furnace_front.png) [Machines](#machines)
+* ![](/doc/wiki-images/technic_mv_compressor_front.png) [Consumers](#consumers)
+* ![](/doc/wiki-images/technic_hv_generator_front.png) [Generators](#generators)
+* ![](/doc/wiki-images/technic_mithril_chest_front.png) [Chests](#chests)
+* ![](/doc/wiki-images/technic_uranium_ingot.png) [Resources](#resources)
+* ![](/doc/wiki-images/technic_mining_laser_mk3.png) [Tools](#tools)
 
 ## Machines
 
@@ -685,13 +685,13 @@ Circuits are also grouped into 3 different categories based on how much power th
 ### Getting started
 The first step to working with the more advanced machines are to get a basic electrical circuit set up for converting coal into power for other machines. This will rely on the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/LV_Fuel_Fired_Generator_Crafting.png)
+![](/doc/wiki-images/LV_Fuel_Fired_Generator_Crafting.png)
 1x LV Fuel Fired Generator
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Switching_station_crafting.png)
+![](/doc/wiki-images/Switching_station_crafting.png)
 1x Switching station
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/LV_cable_Crafting.png)
+![](/doc/wiki-images/LV_cable_Crafting.png)
 2x LV Cable
 
 The generator and switching station should be placed side-by-side with the wire underneath connecting both of them. Once this is done, additional consumers can be added to the network. A grinder or extractor are both good choices to expand the capabilities of the coal-fired smelter and coal-fired alloy furnace that you already have.
@@ -730,58 +730,58 @@ Technic extends the base chest from `technic_game` with 5 additional chests, eac
 
 There are all types of chests from worst to best:
 
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_iron_chest_front.png) Iron chest, 9x10 slots
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_copper_chest_front.png) Copper chest, 10x10 slots
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_silver_chest_front.png) Silver chest, 11x10 slots. Can also be named.
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_gold_chest_front.png) Gold chest, 12x10 slots. Can be named and given a unique color.
-* ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mithril_chest_front.png) Mithril chest, 13x10 slots. **Note:** The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.
+* ![](/doc/wiki-images/technic_iron_chest_front.png) Iron chest, 9x10 slots
+* ![](/doc/wiki-images/technic_copper_chest_front.png) Copper chest, 10x10 slots
+* ![](/doc/wiki-images/technic_silver_chest_front.png) Silver chest, 11x10 slots. Can also be named.
+* ![](/doc/wiki-images/technic_gold_chest_front.png) Gold chest, 12x10 slots. Can be named and given a unique color.
+* ![](/doc/wiki-images/technic_mithril_chest_front.png) Mithril chest, 13x10 slots. **Note:** The mithril chest is not implemented yet, but when implemented will allow for connecting chests around the world to a shared network.
  
 ## Resources
 
 Technic provides additional resources for building these machines.
 
-### Latex ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_raw_latex.png)
+### Latex ![](/doc/wiki-images/technic_raw_latex.png)
 Latex is used for manufacturing rubber, which is heavily used for the medium- and high-voltage components within Technic. Latex can be harvested directly from rubber trees (look for the pale green/seafoam leaves) using the tree tap like any other tool. Rubber trees regenerate their latex supplies after about a day.
 
 ## Tools
 
 Tools in Technic fall into two categories: manual and electric. Both sets of tools are unstackable in the inventory. They have limited durability that is reduced during use (they disappear after they hit 0 durability). Manual tools can be regenerated by using the Tool Workshop, so that valuable tools, such as mese or diamond tools can be preserved. Electric tools require charging in Battery Boxes (of any voltage) and will not be destroyed when they reach 0 charge. Higher levels of electric tools are more powerful and contain more charge so they work longer.
 
-### Chainsaw ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_chainsaw.png)
+### Chainsaw ![](/doc/wiki-images/technic_chainsaw.png)
 This electric tool speeds up harvesting of wood by allowing the harvesting of an entire tree in a single click. Just click on any part of a tree, and the wood and leaves of that tree at that point and above will be cut and dropped on the ground as blocks. It has enough charge to cut down about 5 trees before running out of power.
 
 **Note:** If you can't find the drops from using the chainsaw, dig around as they can be buried under neighbouring terrain blocks.
 
-### Flashlight ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_flashlight.png)
+### Flashlight ![](/doc/wiki-images/technic_flashlight.png)
 This electric tool illumates the area in front of the player. While it is electric, and so requires charging, to use it one only needs to equip it. Punching with this tool does nothing.
 
-### Lava can ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_lava_can.png)
+### Lava can ![](/doc/wiki-images/technic_lava_can.png)
 The lava can works similarly to the bucket tool and the water can, but instead of carrying water, it can carry lava source blocks (the ones that aren't animated), up to 8 at a time. To use, simply equip and click on lava source blocks (they will highlight in black). Then clicking anywhere where there isn't a lava source block will place them again.
 
 **Warning:** Be careful where you place these source blocks! Since you're placing lava source blocks, lava will flow out of them and may trap or burn you depending on where you are.
 
-### Mining drill ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_drill.png) ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_drill_mk2.png) ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_drill_mk3.png)
+### Mining drill ![](/doc/wiki-images/technic_mining_drill.png) ![](/doc/wiki-images/technic_mining_drill_mk2.png) ![](/doc/wiki-images/technic_mining_drill_mk3.png)
 This electric tool operates similarly to a pickaxe, though every block takes exactly one click to drill out. While the Mining Laser allows for faster collection of bulk minerals, it's cutting path can sometimes be undesirable, and the mining drill is useful in these instances.
 
 The higher levels of the mining drill allow for drilling more blocks at once, substantially reducing mining time. At mark-2, the mining drill can drill 3 blocks at once, either 3-deep, 3-wide, or 3-tall. At mark-3, the mining drill can drill 9-blocks at once in a 3x3 layout around the block selected. Switching between these modes can be done by shift-clicking.
 
 **Advice:** Since these tools require substantially more diamonds than the mining laser, and yet drills slower, it is suggested that a mining laser be built first.
 
-### Mining laser ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_laser_mk1.png) ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_laser_mk2.png) ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_mining_laser_mk3.png)
+### Mining laser ![](/doc/wiki-images/technic_mining_laser_mk1.png) ![](/doc/wiki-images/technic_mining_laser_mk2.png) ![](/doc/wiki-images/technic_mining_laser_mk3.png)
 This electric tool is a substantial upgrade above the pickaxe that you start mining with. The laser works by drilling directly forward 7 blocks making a path that's roughly 1-block in diameter. The laser is electric, requiring charging in a battery box (any voltage). As soon as an LV electrical system is set up, this is a great next step.
 
-### Sonic screwdriver ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_sonic_screwdriver.png)
+### Sonic screwdriver ![](/doc/wiki-images/technic_sonic_screwdriver.png)
 This electric tool is used for rotating nodes, much like the default Screwdriver tool, but loses charge instead of durability. This is useful for any nodes which have a "front" direction, like stairs, machines, furniture, etc. Nodes are rotated around the Y-axes (vertical).
 
-### Tree tap ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_tree_tap.png)
+### Tree tap ![](/doc/wiki-images/technic_tree_tap.png)
 This manual tool allows for harvesting latex from rubber trees. Extracting latex can be done by hitting rubber trees with it yields for 1 latex. The rubber tree will regenerate its latex supply over the course of a day.
 
-### Water can ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_water_can.png)
+### Water can ![](/doc/wiki-images/technic_water_can.png)
 The water can works similarly to the normal bucket tool, but it can hold 16 `water_source` (the water blocks that don't look like they're flowing) blocks instead of 1. To use, simply equip the water can and click on water source blocks (they will highlight in black). Then clicking anywhere where there isn't a `water_source` block with the water can equipped will place them.
 
 **Warning:** Be careful where you place these source blocks! Since you're placing water source blocks, water will flow out of them and may trap or drown you depending on where you are.
 
-### Wrench ![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/technic_wrench.png)
+### Wrench ![](/doc/wiki-images/technic_wrench.png)
 The manual tool allows for moving blocks which contain an inventory, like chests. A shift-right-click on a machine/chest will immediately add it to the inventory.
 
 ## Digilines
@@ -956,7 +956,7 @@ It is a little under half as good as the thermal generator.
 
 Pipeworks is used for crafting and usage of pipes and tubes. In addition to providing pipes for transporting liquids and tubes for transporting items, it also contains a number of devices for working with them. Here's what it looks like:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Pipeworks.png)
+![](/doc/wiki-images/Pipeworks.png)
 
 Mesecons is recommended as well for the best possible experience.
 
@@ -964,7 +964,7 @@ Crafting recipes noted here apply only for plain Pipeworks. If Technic is instal
 
 ### Fluid transport
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/FluidTransport.png)
+![](/doc/wiki-images/FluidTransport.png)
 
 #### Pipes
 
@@ -978,17 +978,17 @@ Pipes "light up" when they contain liquid.
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftPipe.png)
+![](/doc/wiki-images/CraftPipe.png)
 
 #### Straight-only pipes
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/StraightPipes.png)
+![](/doc/wiki-images/StraightPipes.png)
 
 In some cases, you may need to run several pipes in parallel, in a confined space.  If you tried to use normal pipes for this purpose, they'd just all connect to one another, which you likely didn't want.  To deal with this, use straight-only pipes.  Aside from only connecting at their ends, their main distinguishing mark is the gray line running the length of the pipe (i.e. a "straight" line).
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftStraightPipe.png)
+![](/doc/wiki-images/CraftStraightPipe.png)
 
 #### Spigots
 
@@ -998,7 +998,7 @@ Spigots only connect from one side.
 
 Connecting a spigot to a pipe carrying water makes water flow out of the bottom of the spigot.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftSpigot.png)
+![](/doc/wiki-images/CraftSpigot.png)
 
 #### Pumps
 
@@ -1008,7 +1008,7 @@ Pumps can be connected to pipes from above. Pipes do not connect to pumps from t
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftPump.png)
+![](/doc/wiki-images/CraftPump.png)
 
 #### Valves
 
@@ -1016,7 +1016,7 @@ Valves control fluid flow. When active, valves allow liquids to flow through the
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftValve.png)
+![](/doc/wiki-images/CraftValve.png)
 
 #### Storage Tanks
 
@@ -1027,7 +1027,7 @@ Storage tanks can be connected to pipes from above or below. Pipes do not connec
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftStorageTank.png)
+![](/doc/wiki-images/CraftStorageTank.png)
 
 #### Gratings
 
@@ -1035,7 +1035,7 @@ Gratings are decorative items that appear similar to fine metal grids used as ba
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftGrating.png)
+![](/doc/wiki-images/CraftGrating.png)
 
 #### Sealed/Airtight Pipe Entries
 
@@ -1045,7 +1045,7 @@ Sealed/airtight pipe entries can be connected to pipes from the sides, the top, 
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftPipeEntry.png)
+![](/doc/wiki-images/CraftPipeEntry.png)
 
 #### Flow Sensors
 
@@ -1053,29 +1053,29 @@ Flow sensors output a Mesecons signal when liquid is present in it, and otherwis
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftFlowSensor.png)
+![](/doc/wiki-images/CraftFlowSensor.png)
 
 ### Item Transport
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/ItemTransport.png)
+![](/doc/wiki-images/ItemTransport.png)
 
 #### Base materials/items
 
 The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of this mod.  First, craft some leaves (anything in the "leaves" group) to get oil:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/craft-oil.png)
+![](/doc/wiki-images/craft-oil.png)
 
 Then cook that into paraffin:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/oil-to-paraffin.png)
+![](/doc/wiki-images/oil-to-paraffin.png)
 
 Finally, cook the paraffin into plastic:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/paraffin-to-plastic.png)
+![](/doc/wiki-images/paraffin-to-plastic.png)
 
 A couple of objects in this mod require one or more gears.  Craft those with steel ingots and stone, like so:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftGear.png)
+![](/doc/wiki-images/CraftGear.png)
 
 #### Tubes
 
@@ -1085,7 +1085,7 @@ Breaking a tube carrying items simply drops the items onto the ground.
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftTube.png)
+![](/doc/wiki-images/CraftTube.png)
 
 #### Chests
 
@@ -1103,7 +1103,7 @@ Locked chests from the default game connect to tubes and recieve items as ordina
 
 Ordinary furnaces found in the default game connect to tubes from every side except the front.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Furnaces.png)
+![](/doc/wiki-images/Furnaces.png)
 
 Fuel items can be added to furnaces from the bottom, and items to be smelted can be added from the back. Smelted items can be removed from them using filters/injectors.
 
@@ -1121,7 +1121,7 @@ Filters/injectors cannot be dug if they contain any items in their inventory.
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftFilter.png)
+![](/doc/wiki-images/CraftFilter.png)
 
 #### Mese Filters/Injectors
 
@@ -1135,19 +1135,19 @@ Mese filters/injectors cannot be dug if they contain any items in their inventor
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftMeseFilter.png)
+![](/doc/wiki-images/CraftMeseFilter.png)
 
 #### Mese Sorting Tubes
 
 Mese sorting tubes are special tubes that can be used to sort items or force them to move in a certain direction at junctions.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/SortingTube.png)
+![](/doc/wiki-images/SortingTube.png)
 
 When placed, each direction the tube has a connection to has a distinct color.
 
 Right clicking the tube brings up a form similar to the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/MeseSortingTubeForm.png)
+![](/doc/wiki-images/MeseSortingTubeForm.png)
 
 Each row is associated with the color on the left side.
 
@@ -1163,23 +1163,23 @@ When you place an item in these slots, you're placing ghosts only.  That is, onl
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftMeseTube1.png)
+![](/doc/wiki-images/CraftMeseTube1.png)
 
 Or alternatively:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftMeseTube2.png)
+![](/doc/wiki-images/CraftMeseTube2.png)
 
 #### Detector Tubes
 
 Detector tubes are special tubes that output a Mesecons signal when an item passes through them.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/DetectorTube.png)
+![](/doc/wiki-images/DetectorTube.png)
 
 The tubes turn off again when the item leaves.
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftDetectorTube.png)
+![](/doc/wiki-images/CraftDetectorTube.png)
 
 #### Lua controlled Tubes
 
@@ -1201,23 +1201,23 @@ You can craft lua controlled tubes with a luacontroller and a sorting tube.
 
 Accelerator tubes are special tubes that transport items significantly faster than normal tubes. They appear similar to normal tubes, except with a greenish-blue tint.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/AcceleratorTube.png)
+![](/doc/wiki-images/AcceleratorTube.png)
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftAcceleratorTube.png)
+![](/doc/wiki-images/CraftAcceleratorTube.png)
 
 #### Teleporter Tubes
 
 Teleporter tubes are special tubes that move items to other teleporter tubes, regardless of the distance separating them.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/TeleporterTube.png)
+![](/doc/wiki-images/TeleporterTube.png)
 
 Putting items into the tube via tube-related devices causes them to be teleported.
 
 Right clicking a teleporter tube brings up a form allowing entry of a channel string, similar to the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/TeleporterTubeForm.png)
+![](/doc/wiki-images/TeleporterTubeForm.png)
 
 Only teleporter tubes that have the same channel will be linked together and allow items to pass through.
 
@@ -1231,17 +1231,17 @@ If an item enters a teleporter tube, and there are multiple possible teleporter 
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftTeleporterTube.png)
+![](/doc/wiki-images/CraftTeleporterTube.png)
 
 #### Autocrafters
 
 Autocrafters are devices that can automatically follow craft recipes to make new items.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Autocrafter.png)
+![](/doc/wiki-images/Autocrafter.png)
 
 Right clicking an autocrafter brings up a form similar to the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/AutocrafterForm.png)
+![](/doc/wiki-images/AutocrafterForm.png)
 
 The slots in the top left of the form represent a crafting grid, where items can be arranged in the pattern of a craft recipe. Like the Mese sorting tube, items placed in these slots are ghosts, i.e. copies of what you placed.  Removing an item simply deletes it.
 
@@ -1259,7 +1259,7 @@ When sufficient materials are present in the autocrafter's inventory to craft ac
 
 Here's how you build it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftAutocrafter.png)
+![](/doc/wiki-images/CraftAutocrafter.png)
 
 #### Deployers
 
@@ -1267,11 +1267,11 @@ Deployers are devices that place blocks as a player would if one were standing a
 
 Deployers act only when activated via a Mesecons signal.  On receipt of a signal, they place the next item in their inventory, and if there's something in the way of the deployer's output, that object gets pushed aside first.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/Deployer.png)
+![](/doc/wiki-images/Deployer.png)
 
 Right clicking a deployer brings up a form similar to the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/DeployerForm.png)
+![](/doc/wiki-images/DeployerForm.png)
 
 The slots in the top of the form are the deployer's inventory, storing materials that are placed when the deployer activates. They are taken in order from left to right, top to bottom. New items can be added here using tube-related devices.
 
@@ -1281,7 +1281,7 @@ Upon activation, a deployer places a node from its inventory into the space dire
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftDeployer.png)
+![](/doc/wiki-images/CraftDeployer.png)
 
 #### Node Breakers
 
@@ -1289,19 +1289,19 @@ Node breakers are devices that dig blocks as a player would if one were standing
 
 Node breakers act only when activated via a Mesecons signal.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/NodeBreaker.png)
+![](/doc/wiki-images/NodeBreaker.png)
 
 Upon activation, a node breaker digs the node in the space directly adjacent to its front side if and only if the node is non-liquid, diggable, and not air or unloaded. The front side is the face with the "mouth" with thin interleaved lines resembling a shredder.
 
 When you right-click on it, you get a form similar to the following:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/NodeBreaker-form.png)
+![](/doc/wiki-images/NodeBreaker-form.png)
 
 The single slot at the top is for you to add in a custom digging tool.  By default, the nodebreaker digs "by hand", but you could for example put a pick, shovel, tree tap, or whatever else you want here as long as it's a viable tool.
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftNodeBreaker.png)
+![](/doc/wiki-images/CraftNodeBreaker.png)
 
 Note: in the past, one used a mese pick to construct a nodebreaker, which it also used as its default tool.  This is no longer the case.  Old nodebreakers that had nothing in the tool slot will automatically be populated with a mese pick.
 
@@ -1311,11 +1311,11 @@ Sand tubes are special tubes that vacuum up free items around them. When an item
 
 Sand tubes have an effective radius of 2 meters (nodes). Outside of this sphere, items are unaffected.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/SandTube.png)
+![](/doc/wiki-images/SandTube.png)
 
 Here's how you craft it:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftSandTube.png)
+![](/doc/wiki-images/CraftSandTube.png)
 
 #### Mese Sand Vacuum Tubes
 
@@ -1325,15 +1325,15 @@ To change the range of a mese sand tube, change the distance specified in the fo
 
 The number entered here can be anywhere from 0 (the default) to 8; it represents a sort of cubic radius from the tube, thus the default is to only pick up items within the tube's 1x1x1 node, but, if one entered "5", the tube would pick up items in an 11x11x11 cube.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/MeseSandTubeForm.png)
+![](/doc/wiki-images/MeseSandTubeForm.png)
 
 Crafts are similar to the mese sorting tube:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftMeseSandTube1.png)
+![](/doc/wiki-images/CraftMeseSandTube1.png)
 
 ...or using mese crystal fragments and a regular sand tube:
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/CraftMeseSandTube2.png)
+![](/doc/wiki-images/CraftMeseSandTube2.png)
 
 # Chat
 
@@ -1407,11 +1407,11 @@ PM from MrCerealGuy: I want to show you my hidden chest.
 
 To protect your area from griefing by other player, choose the first corner on the ground of your area you want to protect. Then open the console with F10 and set the marker with **/area_pos1**.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/areapos1.jpg)
+![](/doc/wiki-images/areapos1.jpg)
 
 Now select the second corner in opposite direction of the first corner above the ground and set the marker with the command **/area_pos2**.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/areapos2.jpg)
+![](/doc/wiki-images/areapos2.jpg)
 
 Now it's time to protect your area with **/protect &lt;description&gt;**, eg. /protect "My Home".
 
@@ -1423,23 +1423,23 @@ Example:
 
 If you find an interesting location, then you can place a receiver pad.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/teleporter1.jpg)
+![](/doc/wiki-images/teleporter1.jpg)
 
 Do a right-click on the pad. You have enter a name and a optional description for your receiver pad. For servers you can make your receiver pad public for other players.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/teleporter2.jpg)
+![](/doc/wiki-images/teleporter2.jpg)
 
 Now your receiver pad is placed. At home you can place a teleporter pad.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/teleporter3.jpg)
+![](/doc/wiki-images/teleporter3.jpg)
 
 Do a right-click on the pad and select your receiver pad.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/teleporter4.jpg)
+![](/doc/wiki-images/teleporter4.jpg)
 
 Now you have linked the teleporter with the receiver pad.
 
-![](https://raw.githubusercontent.com/wiki/MrCerealGuy/Stonecraft/images/teleporter5.jpg)
+![](/doc/wiki-images/teleporter5.jpg)
 
 ## Special Controls
 
