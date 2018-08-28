@@ -1,13 +1,12 @@
---[[
-
-2017-05-10 added intllib support
-
---]]
-
-
--- Load support for intllib.
+-- support for i18n
+armor_i18n = { }
 local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+armor_i18n.gettext, armor_i18n.ngettext = dofile(MP.."/intllib.lua")
+-- escaping formspec
+armor_i18n.fgettext = function(...) return minetest.formspec_escape(armor_i18n.gettext(...)) end
+-- local functions
+local S = armor_i18n.gettext
+local F = armor_i18n.fgettext
 
 local modname = minetest.get_current_modname()
 local modpath = minetest.get_modpath(modname)
@@ -15,14 +14,6 @@ local worldpath = minetest.get_worldpath()
 local last_punch_time = {}
 local pending_players = {}
 local timer = 0
-
--- support for i18n
-armor_i18n = { }
-armor_i18n.gettext, armor_i18n.ngettext = dofile(modpath.."/intllib.lua")
-
--- local functions
-local S = armor_i18n.gettext
-local F = minetest.formspec_escape
 
 dofile(modpath.."/api.lua")
 
