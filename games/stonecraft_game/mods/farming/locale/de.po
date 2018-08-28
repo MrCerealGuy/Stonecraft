@@ -41,6 +41,10 @@ msgstr "Blaubeeren"
 msgid "Blueberry Muffin"
 msgstr "Blaubeermuffin"
 
+#: blueberry.lua
+msgid "Blueberry Pie"
+msgstr "Blaubeerkuchen"
+
 #: carrot.lua
 msgid "Carrot"
 msgstr "Möhre"
@@ -48,6 +52,14 @@ msgstr "Möhre"
 #: carrot.lua
 msgid "Golden Carrot"
 msgstr "Goldene Möhre"
+
+#: chili.lua
+msgid "Chili Pepper"
+msgstr "Chili-Pfeffer"
+
+#: chili.lua
+msgid "Bowl of Chili"
+msgstr "Schüssel mit Chili"
 
 #: cocoa.lua
 msgid "Cocoa Beans"
@@ -64,6 +76,10 @@ msgstr "Tafel Zartbitterschokolade"
 #: coffee.lua
 msgid "Coffee Beans"
 msgstr "Kaffeebohnen"
+
+#: coffee.lua
+msgid "Cup of Coffee"
+msgstr "Tasse Kaffee"
 
 #: coffee.lua
 msgid "Drinking Cup (empty)"
@@ -86,6 +102,10 @@ msgid "Corn on the Cob"
 msgstr "Maiskolben"
 
 #: corn.lua
+msgid "Cornstarch"
+msgstr "Maisstärke"
+
+#: corn.lua
 msgid "Bottle of Ethanol"
 msgstr "Flasche Ethanol"
 
@@ -97,21 +117,61 @@ msgstr "Baumwollsamen"
 msgid "Cotton"
 msgstr "Baumwolle"
 
+#: cotton.lua
+msgid "String"
+msgstr "Schnur"
+
 #: cucumber.lua
 msgid "Cucumber"
 msgstr "Gurke"
 
-#: donut.lua
+#: food.lua, donut.lua
 msgid "Donut"
 msgstr "Donut"
 
-#: donut.lua
+#: food.lua, donut.lua
 msgid "Chocolate Donut"
-msgstr "Schokodonut"
+msgstr "Schoko Donut"
 
-#: donut.lua
+#: food.lua, donut.lua
 msgid "Apple Donut"
-msgstr "Apfeldonut"
+msgstr "Apfel Donut"
+
+#: food.lua
+msgid "Sugar"
+msgstr "Zucker"
+
+#: food.lua
+msgid "Salt"
+msgstr "Salz"
+
+#: food.lua
+msgid "Rose Water"
+msgstr "Rosenwasser"
+
+#: food.lua
+msgid "Turkish Delight"
+msgstr "Türkisches Entzücken"
+
+#: food.lua
+msgid "Garlic Bread"
+msgstr "Knoblauchbrot"
+
+#: food.lua
+msgid "Porridge"
+msgstr "Haferbrei"
+
+#: garlic.lua
+msgid "Garlic clove"
+msgstr "Knoblauchzehe"
+
+#: garlic.lua
+msgid "Garlic"
+msgstr "Knoblauch"
+
+#: garlic.lua
+msgid "Garlic Braid"
+msgstr "Knoblauchzopf"
 
 #: grapes.lua
 msgid "Grapes"
@@ -136,6 +196,10 @@ msgstr "Flasche mit Hanföl"
 #: hemp.lua
 msgid "Hemp Fibre"
 msgstr "Hanffaser"
+
+#: hemp.lua
+msgid "Hemp Block"
+msgstr "Hanfblock"
 
 #: hemp.lua
 msgid "Hemp Rope"
@@ -181,9 +245,61 @@ msgstr "Melonenscheibe"
 msgid "Melon"
 msgstr "Melone"
 
+#: onion.lua
+msgid "Onion"
+msgstr "Zwiebel"
+
 #: potato.lua
 msgid "Potato"
 msgstr "Kartoffel"
+
+#: potato.lua
+msgid "Baked Potato"
+msgstr "Gebackene Kartoffel"
+
+#: potato.lua
+msgid "Cucumber and Potato Salad"
+msgstr "Gurken- und Kartoffelsalat"
+
+#: peas.lua
+msgid "Pea Pod"
+msgstr "Erbsenschote"
+
+#: peas.lua
+msgid "Peas"
+msgstr "Erbsen"
+
+#: peas.lua
+msgid "Pea Soup"
+msgstr "Erbsensuppe"
+
+#: pepper.lua
+msgid "Peppercorn"
+msgstr "Pfefferkorn"
+
+#: pepper.lua
+msgid "Pepper"
+msgstr "Pfeffer"
+
+#: pepper.lua
+msgid "Ground Pepper"
+msgstr "Gemahlener Pfeffer"
+
+#: pineapple.lua
+msgid "Pineapple Top"
+msgstr "Ananas-Spitze"
+
+#: pineapple.lua
+msgid "Pineapple"
+msgstr "Ananas"
+
+#: pineapple.lua
+msgid "Pineapple Ring"
+msgstr "Ananas-Ring"
+
+#: pineapple.lua
+msgid "Pineapple Juice"
+msgstr "Ananassaft"
 
 #: potato.lua
 msgid "Baked Potato"
@@ -260,3 +376,60 @@ msgstr "Mehl"
 #: wheat.lua
 msgid "Bread"
 msgstr "Brot"
+
+#: wheat.lua
+msgid "Sliced Bread"
+msgstr "Geschnittenes Brot"
+
+#: wheat.lua
+msgid "Toast"
+msgstr "Toast"
+
+#: wheat.lua
+msgid "Toast Sandwich"
+msgstr "Toast Sandwich"
+
+#: utensils.lua
+msgid "Wooden Bowl"
+msgstr "Holzschüssel"
+
+#: utensils.lua
+msgid "Saucepan"
+msgstr "Stieltopf"
+
+#: utensils.lua
+msgid "Cooking Pot"
+msgstr "Kochtopf"
+
+#: utensils.lua
+msgid "Baking Tray"
+msgstr "Backblech"
+
+#: utensils.lua
+msgid "Skillet"
+msgstr "Bratpfanne"
+
+#: utensils.lua
+msgid "Mortar and Pestle"
+msgstr "Mörser und Stößel"
+
+#: utensils.lua
+msgid "Cutting Board"
+msgstr "Schneidbrett"
+
+#: utensils.lua
+msgid "Juicer"
+msgstr "Entsafter"
+
+#: utensils.lua
+msgid "Glass Mixing Bowl"
+msgstr "Glasrührschüssel"
+
+#: beetroot.lua
+msgid "Beetroot"
+msgstr "Rote Beete"
+
+#: beetroot.lua
+msgid "Beetroot Soup"
+msgstr "Rote Beete Suppe"
+

@@ -20,7 +20,7 @@ minetest.register_craft({
 --= Salt
 
 minetest.register_node("farming:salt", {
-	description = ("Salt"),
+	description = S("Salt"),
 	inventory_image = "farming_salt.png",
 	wield_image = "farming_salt.png",
 	drawtype = "plantlike",
@@ -47,7 +47,7 @@ minetest.register_craft({
 --= Rose Water
 
 minetest.register_node("farming:rose_water", {
-	description = ("Rose Water"),
+	description = S("Rose Water"),
 	inventory_image = "farming_rose_water.png",
 	wield_image = "farming_rose_water.png",
 	drawtype = "plantlike",

@@ -33,7 +33,7 @@ minetest.register_craft({
 
 -- ground pepper
 minetest.register_node("farming:pepper_ground", {
-	description = ("Ground Pepper"),
+	description = S("Ground Pepper"),
 	inventory_image = "crops_pepper_ground.png",
 	wield_image = "crops_pepper_ground.png",
 	drawtype = "plantlike",
