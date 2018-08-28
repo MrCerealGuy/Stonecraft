@@ -5,6 +5,7 @@
 #
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
+# clone wiki repo
 if [ -d stonecraft-wiki ]; then
 	cd stonecraft-wiki && git pull
 else
@@ -18,13 +19,13 @@ cp ../../doc/Manual.md ./Home.md
 # copy images
 rsync -r --info=progress2 ../../doc/wiki-images/* ./images/
 
-# adjust url paths
-sed -i 's/https:\/\/raw.githubusercontent.com\/wiki\/MrCerealGuy\/Stonecraft\/images/\/images/g' ./Home.md
+# adjust image url paths
+sed -i 's/\/doc\/wiki-images/\/images/g' ./Home.md
 sed -i 's/!\[](/\[\[/g' ./Home.md
 sed -i 's/\.png)/\.png]]/g' ./Home.md
 sed -i 's/\.jpg)/\.jpg]]/g' ./Home.md
 
-# upload wiki
+# upload wiki content
 git add -f Home.md
 git add -f images/
 
