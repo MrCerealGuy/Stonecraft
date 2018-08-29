@@ -38,6 +38,10 @@ msgid "Full Wooden Tile"
 msgstr "Vollholzfliese"
 
 #: nodes.lua
+msgid "Offset Wooden Tile"
+msgstr "Holzfliese mit Versatz"
+
+#: nodes.lua
 msgid "Upwards Wooden Tile"
 msgstr "Holzfliese"
 
