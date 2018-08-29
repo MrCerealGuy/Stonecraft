@@ -1,0 +1,317 @@
+
+Lucky Block API
+===============
+
+This guide will show you how to add schematic files and lucky blocks from
+within your own mods.  Please make sure that lucky_block appears in the
+depends.txt file of your mod so everything work properly.
+
+
+Function Usage
+==============
+
+
+Purge Block List
+----------------
+
+lucky_block:purge_block_list()
+
+This command is used to clear all of the blocks in the lucky block list so that
+you can add your own.
+
+
+Add Lucky Blocks to list
+------------------------
+
+lucky_block:add_blocks({ block definitions here })
+
+This command is used to add new blocks to the lucky block list.
+
+e.g.
+
+lucky_block:add_blocks({
+	{"nod", "default:dirt", 0},
+	{"dro", {"default:dirt"}, 5},
+})
+
+
+Purge Chest Items
+-----------------
+
+lucky_block:purge_chest_items()
+
+This command is used to purge all items in the default chest list so that you
+can add your own.
+
+
+Add Items to Default Chest
+--------------------------
+
+lucky_block:add_chest_items({ add new default chest items here })
+
+This command lets you add new items to the default chest when it appears
+inside a lucky block.
+
+e.g.
+
+lucky_block:add_chest_items({
+	{name = "default:apple", max = 3},
+	{name = "default:steel_ingot", max = 2},
+	{name = "default:pick_steel", max = 1}
+})
+
+
+Add Schematics to List
+----------------------
+
+lucky_block:add_schematics({ add new schematic definitions here })
+
+This command lets you add schematic files and arrays to the list so they can
+be added to the lucky block list.
+
+e.g. check for Ethereal mod then get the path and add two of the tree's to the
+schematic list and finally to the lucky block list:
+
+if minetest.get_modpath("ethereal") then
+	local path = minetest.get_modpath("ethereal") .. "/schematics/"
+
+	lucky_block:add_schematics({
+		-- name on list, schematic, offset placement
+		{"appletree", ethereal.appletree, {x = 1, y = 0, z = 1}},
+		{"bananatree", ethereal.bananatree, {x = 3, y = 0, z = 3}},
+	}
+
+	lucky_block:add_blocks({
+		{"sch", "appletree", 0, false},
+		{"sch", "bananatree", 0, false},
+	})
+end
+
+
+Lucky Block Commands
+====================
+
+Using the lucky_block:add_blocks() command gives you access to many features
+from within this mod, these are listed below using this general format:
+
+lucky_block:add_blocks({
+	{"command", command options},
+	..etc
+})
+
+
+Place Node
+----------
+
+This command will place a node in place of the lucky block or at the players
+standing position.
+
+{"nod", "node name", position, chest items}
+
+e.g.
+
+Place a dirt block where lucky block was
+
+	{"nod", "default:dirt", 0}
+
+Place a chest containing random items from default chest items list
+
+	{"nod", "default:chest", 0}
+
+Place chest as above only add up to 5x roses as well
+
+	{"nod", "default:chest", 0, { {name = "flowers:rose, max = 4} }}
+
+Place fire at player position
+
+	{"nod", "fire:basic_flame", 1}
+
+
+Drop Item(s)
+------------
+
+This command will throw a single or multiple items out of a lucky block,
+random colours can be used also.
+
+{"dro", {"item names"}, how many to drop, use random colours}
+
+e.g.
+
+Drop 5x torches
+	{"dro", {"default:torch"}, 5}
+
+Drop 10x randomly coloured wool (colour name added to end of item string)
+	{"dro", {"wool:"}, 10, true}
+
+Drop 1x random tool from list
+	{"dro", {"default:pick_mese", "default:shovel_steel", "default:axe_diamond"}, 1}
+
+
+Place Schematic
+---------------
+
+This command lets you place a pre-added schematic file or definition in place
+of the lucky block or at the player position.
+
+{"sch", "schematic name", position, force placement}
+
+e.g.
+
+Place lucky platform at player position and force placement
+	{"sch", "platform", 1, true}
+
+Place apple tree where lucky block use to be
+	{"sch", "appletree", 0, false}
+
+
+Spawn Entity or Mob
+-------------------
+
+This command allows you to place a monster, animal or other entity.
+
+{"spw", "entity name", how many to spawn, tamed, owned, range, nametag}
+
+e.g.
+
+Spawn 2x Dirt Monsters over a radius of 10 blocks
+	{"spw", "mobs:dirt_monster", 2, nil, nil, 10}
+
+Spawn 5x randomly coloured sheep (random colour only works with Mobs Redo sheep)
+	{"spw", "mobs:sheep", 5}
+
+Spawn a single NPC who is tamed and owned by player and called "Bob"
+	{"spw", "mobs:npc", 1, true, true, 1, "Bob"}
+
+
+Falling Blocks
+--------------
+
+This command allows for a tower of blocks or blocks falling within a set area.
+
+{"fal", {"node list"}, position, spread, range}
+
+e.g.
+
+Drop 2x sand and 1x gold block spread over a range of 5 blocks
+
+	{"fal", {"default:sand", "default:sand", "default:goldblock"}, 0, true, 5}
+
+Drop 3x obsidian onto player as a tower
+	{"fal", {"default:obsidian", "default:obsidian", "default:obsidian"}, 1}
+
+
+Troll Block
+-----------
+
+This command is similar to the place node command only it allows for a sound to
+be played on placement, then after two seconds the block will disappear or
+can explode causing damage to nearby players.
+
+{"tro", "node name", "sound", explode}
+
+e.g.
+
+Add diamond block then after 2 seconds remove with explosion
+
+	{"tro", "default:diamondblock", nil, true}
+
+Add gold block with wood sound, then after 2 seconds remove with pop
+
+	{"tro", "default:goldblock", "default_wood_footstep", nil}
+
+
+Random Teleport
+---------------
+
+This command will teleport the player opening the lucky block a random number
+of blocks away using a preset range.
+
+{"tel", horizontal range, vertical range}
+
+e.g.
+
+Teleport player to random position 10 blocks left/right and 5 blocks up/under
+
+	{"tel", 10, 5}
+
+
+Explosion
+---------
+
+Now we start adding the bad lucky blocks that cause damage to the player by
+adding explosions.
+
+{"exp", radius}
+
+e.g.
+
+Cause explosion with damage radius of 4.
+
+{"exp", 4}
+
+
+Lightning Strike
+----------------
+
+This is one of my favourite commands, lightning strikes the player and hurts
+everyone else nearby, can also place fire at strike position.
+
+{"lig", "fire node"}
+
+e.g.
+
+Strike player and place temporary fire
+
+	{"lig", "fire:basic_flame"}
+
+Strike player and place permanent flame
+
+	{"lig", "fire:permanent_flame"}
+
+
+Floor Placement
+---------------
+
+This feature places random blocks from the list provided to make a floor under
+the lucky block with a pause after each block.
+
+{"flo", width, {node_list}, offset},
+
+e.g.
+
+Place a three wide obsidian and gold block floor with offset of 1 to centre on
+lucky block
+
+	{"flo", 3, {"default:goldblock", "default:obsidian"}, 1}
+
+Have a woolen floor at 5 width with offset of 2 to keep it centred
+
+	{"flo", 5, {"wool:red", "wool:blue", "wool:white", "wool:orange"}, 2}
+
+Custom Function
+---------------
+
+This allows mod makers to use there own functions when opening lucky blocks and
+passes the block position and player opening it.
+
+{"cus", myfunction}
+
+e.g.
+
+Punch player and deal 5 damage points (function first then line to add l.block)
+
+local function punchy(pos, player)
+	player:punch(player, 1.0, {
+		full_punch_interval = 1.0,
+		damage_groups = {fleshy = 5}
+	}, nil)
+end
+
+	{"cus", punchy}
+
+
+Final Words
+===========
+
+I hope this guide helps you add lucky blocks from within your own mods and for
+more examples please check out the blocks.lua and schems.lua files.
