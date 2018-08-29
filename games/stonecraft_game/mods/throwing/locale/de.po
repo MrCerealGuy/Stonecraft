@@ -30,8 +30,16 @@ msgid "Fire Arrow"
 msgstr "Feuerpfeil"
 
 #: fireworks_arrows.lua
-msgid "fireworks arrow"
-msgstr "feuerwerkspfeil"
+msgid "Blue"
+msgstr "Blauer"
+
+#: fireworks_arrows.lua
+msgid "Red"
+msgstr "Roter"
+
+#: fireworks_arrows.lua
+msgid "@1 fireworks arrow"
+msgstr "@1 Feuerwerkspfeil"
 
 #: shell_arrow.lua
 msgid "Shell arrow"

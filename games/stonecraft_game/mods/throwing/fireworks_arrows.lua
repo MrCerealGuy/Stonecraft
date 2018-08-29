@@ -11,7 +11,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 local function throwing_register_fireworks(color, desc)
 	minetest.register_craftitem("throwing:arrow_fireworks_" .. color, {
-		description = desc..S("fireworks arrow"),
+		description = S("@1 fireworks arrow", desc),
 		inventory_image = "throwing_arrow_fireworks_" .. color .. ".png",
 	})
 	
@@ -158,11 +158,11 @@ end
 --~ Arrows
 
 if not DISABLE_FIREWORKS_BLUE_ARROW then
-	throwing_register_fireworks('blue', 'Blue')
+	throwing_register_fireworks('blue', S('Blue'))
 end
 
 if not DISABLE_FIREWORKS_RED_ARROW then
-	throwing_register_fireworks('red', 'Red')
+	throwing_register_fireworks('red', S('Red'))
 end
 
 --~ Nodes
