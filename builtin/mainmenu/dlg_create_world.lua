@@ -374,13 +374,6 @@ local function create_world_buttonhandler(this, fields)
 			["enable_mobs_npc"]					= true,
 			["enable_mobs_redo"]				= true
 		},
---[[
-		["enable_mobs_animal_horse"]			=
-		{
-			["enable_mobs_animal_horse"]		= true,
-			["enable_mobs_redo"]				= true
-		},
---]]
 		["enable_forests"]						=
 		{
 			["enable_forests"]	 				= true,
@@ -465,7 +458,6 @@ local function create_world_buttonhandler(this, fields)
 			if setting and setting.type == "bool" then
 				local current_value = get_current_value(setting)
 				core.settings:set_bool(setting.name, not core.is_yes(current_value))
-				core.settings:write()
 				return true
 			else
 				list_enter = true
@@ -495,13 +487,16 @@ local function create_world_buttonhandler(this, fields)
 		local worlduid
 		local gameindex = core.get_textlist_index("games")
 
+		-- save changed world settings
+		core.settings:write()
+
 		if gameindex ~= nil then
 			if worldname == "" then
 				local random_number = math.random(10000, 99999)
 				local random_world_name = "Unnamed" .. random_number
 				worldname = random_world_name
 			end
-			
+
 			local message = nil
 
 			core.settings:set("fixed_map_seed", fields["te_seed"])
@@ -524,20 +519,20 @@ local function create_world_buttonhandler(this, fields)
 				menudata.worldlist:refresh()
 				worlduid = menudata.worldlist:raw_index_by_uid(worldname)
 				core.settings:set("mainmenu_last_selected_world", worlduid)
-				
+
 				local world = menudata.worldlist.m_raw_list[worlduid]
-				
+
 				if world then
 					local filename = world.path .. DIR_DELIM .. "world.mt"
 					local world_conf = Settings(filename)
-									
+
 					-- loop all world options, copy entries to world.mt
 					local current_level = 0
 					for _, entry in ipairs(worldoptions) do
 
 						local name
 						name = entry.name
-						
+
 						if entry.type ~= "category" then
 							if entry.type == "bool" then
 								local value = get_current_value(entry)
@@ -554,23 +549,23 @@ local function create_world_buttonhandler(this, fields)
 							if core.settings:get(name) ~= nil then
 								world_conf:set(name, core.settings:get(name))
 							end
-							
-							-- loop all world options, look up for world option dependencies						
+
+							-- loop all world options, look up for world option dependencies
 							for k,v in pairs(world_options_dependencies) do
 								if k == name and core.settings:get(name) == "true" then
-									for k2,v2 in pairs(v) do										
+									for k2,v2 in pairs(v) do
 										-- copy world option dependency to world.mt
 										world_conf:set(k2, tostring(v2))
-									end 
+									end
 								end
 							end
 						end
 					end
-					
+
 					if not world_conf:write() then
 						gamedata.errormessage = fgettext("Failed to write world config file")
 					end
-					
+
 				else
 					gamedata.errormessage = fgettext("Invalid world uid")
 				end
@@ -578,9 +573,11 @@ local function create_world_buttonhandler(this, fields)
 		else
 			gamedata.errormessage = fgettext("No game selected")
 		end
-		
+
+		-- save changed world settings
+		core.settings:write()
 		this:delete()
-		
+
 		return true
 	end
 
