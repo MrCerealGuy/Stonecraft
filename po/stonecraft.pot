@@ -106,6 +106,22 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
+
+#: src/gui/guiConfirmRegistration.cpp
+msgid ""
+"You are about to join the server at %1$s with the "
+"name \"%2$s\" for the first time. If you proceed, a "
+"new account using your credentials will be created "
+"on this server.\n"
+"Please retype your password and click Register and "
+"Join to confirm account creation or click Cancel to "
+"abort."
+msgstr ""
+
+#: src/gui/guiConfirmRegistration.cpp
+msgid "Register and Join"
+msgstr ""
+
 #: builtin/mainmenu/dlg_config_world.lua
 msgid "Disable MP"
 msgstr ""
