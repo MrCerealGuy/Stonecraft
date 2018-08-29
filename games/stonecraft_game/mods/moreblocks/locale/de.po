@@ -38,16 +38,16 @@ msgid "Upwards Wooden Tile"
 msgstr "Holzfliese"
 
 #: nodes.lua
-msgid "Downwards Wooden Tile"
-msgstr "Holzfliese"
+msgid "Downwards Wooden Tile (Deprecated)"
+msgstr "Holzfliese (veraltet)"
 
 #: nodes.lua
-msgid "Leftwards Wooden Tile"
-msgstr "Holzfliese links"
+msgid "Leftwards Wooden Tile (Deprecated)"
+msgstr "Holzfliese links (veraltet)"
 
 #: nodes.lua
-msgid "Rightwards Wooden Tile"
-msgstr "Holzfliese rechts"
+msgid "Rightwards Wooden Tile (Deprecated)"
+msgstr "Holzfliese rechts (veraltet)"
 
 #: nodes.lua
 msgid "Circle Stone Bricks"
@@ -74,12 +74,16 @@ msgid "Split Stone Tile"
 msgstr "Geteilte Steinfliese"
 
 #: nodes.lua
-msgid "Checkered Stone Tile"
-msgstr "Geprüfte Steinfliese"
+msgid "Checker Stone Tile"
+msgstr "Steinfliese (Schachmuster)"
 
 #: nodes.lua
 msgid "Tar"
 msgstr "Teer"
+
+#: nodes.lua
+msgid "Compressed Dirt"
+msgstr "Gepresste Erde"
 
 #: nodes.lua
 msgid "Compressed Cobblestone"
@@ -107,11 +111,11 @@ msgstr "Kaktusziegel"
 
 #: nodes.lua
 msgid "Cactus Checker"
-msgstr "Kaktusprüfer"
+msgstr "Kaktusblock (Schachmuster)"
 
 #: nodes.lua
-msgid "Empty Bookshelf"
-msgstr "Leeres Bücherregal"
+msgid "Empty Shelf"
+msgstr "Leeres Regal"
 
 #: nodes.lua
 msgid "Coal Stone"
@@ -123,19 +127,35 @@ msgstr "Eisenstein"
 
 #: nodes.lua
 msgid "Coal Checker"
-msgstr "Kohleprüfer"
+msgstr "Kohleblock (Schachmuster)"
 
 #: nodes.lua
 msgid "Iron Checker"
-msgstr "Eisenprüfer"
+msgstr "Eisenblock (Schachmuster)"
 
 #: nodes.lua
 msgid "Trap Stone"
-msgstr "Steinfalltür"
+msgstr "Steinfalle"
+
+#: nodes.lua
+msgid "Trap Desert Stone"
+msgstr "Wüstensteinfalle"
 
 #: nodes.lua
 msgid "Trap Glass"
-msgstr "Glasfalltür"
+msgstr "Glasfalle"
+
+#: nodes.lua
+msgid "Trap Obsidian Glass"
+msgstr "Obsidianglasfalle"
+
+#: nodes.lua
+msgid "Trap Obsidian"
+msgstr "Obsidianfalle"
+
+#: nodes.lua
+msgid "Trap Sandstone"
+msgstr "Sandsteinfalle"
 
 #: nodes.lua
 msgid "Jungle Wood Fence"
@@ -143,11 +163,23 @@ msgstr "Tropenholzzaun"
 
 #: nodes.lua
 msgid "All-faces Tree"
-msgstr "Baumscheibenstamm"
+msgstr "Baum (alle Flächen)"
 
 #: nodes.lua
 msgid "All-faces Jungle Tree"
-msgstr "Tropenbaumscheibenstamm"
+msgstr "Tropenbaum (alle Flächen)"
+
+#: nodes.lua
+msgid "All-faces Pine Tree"
+msgstr "Kiefer (alle Flächen)"
+
+#: nodes.lua
+msgid "All-faces Acacia Tree"
+msgstr "Akazienbaum (alle Flächen)"
+
+#: nodes.lua
+msgid "All-faces Aspen Tree"
+msgstr "Espenbaum (alle Flächen)"
 
 #: nodes.lua
 msgid "Glow Glass"
@@ -155,7 +187,7 @@ msgstr "Leuchtglas"
 
 #: nodes.lua
 msgid "Trap Glow Glass"
-msgstr "Leuchtglasfalltür"
+msgstr "Leuchtglasfalle"
 
 #: nodes.lua
 msgid "Super Glow Glass"
@@ -163,11 +195,15 @@ msgstr "Super-Leuchtglas"
 
 #: nodes.lua
 msgid "Trap Super Glow Glass"
-msgstr "Super-Leuchtglasfalltür"
+msgstr "Super-Leuchtglasfalle"
 
 #: nodes.lua
 msgid "Rope"
 msgstr "Seil"
+
+#: nodes.lua
+msgid "Copper Patina Block"
+msgstr "Patina-Kupferblock"
 
 #: nodes.lua
 msgid "Sweeper"
