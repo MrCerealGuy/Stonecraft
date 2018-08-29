@@ -10,6 +10,10 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 function aff_thermometer(pos, node)
+	if not abm_allowed.yes then
+		return
+	end
+
 	local temperature = math.floor(get_instant_temperature(pos))
 	node.name = "forest:_thermometer_"..temperature
 	minetest.set_node(pos, node)
