@@ -330,7 +330,7 @@ local TRuNKS = {
 for i in pairs(TRuNKS) do
 	local	MoD =			TRuNKS[i][1]
 	local	TRuNK =			TRuNKS[i][2]
-	if minetest.get_modpath(MoD) ~= nil then
+	if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD)then
 
 		local node = minetest.registered_nodes[MoD..":"..TRuNK]
 		if node then

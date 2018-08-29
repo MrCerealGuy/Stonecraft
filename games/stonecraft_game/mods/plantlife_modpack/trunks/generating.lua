@@ -268,13 +268,13 @@ abstract_trunks.place_trunk = function(pos)
 			if chance == NR then
 				local trunk_type = math.random(1,3)
 				if trunk_type == 1 then
-					if minetest.get_modpath(MoD) ~= nil then
+					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
 						minetest.set_node(right_here, {name=MoD..":"..TRuNK})
 					else
 						minetest.set_node(right_here, {name="default:tree"})
 					end
 				elseif trunk_type == 2 and Horizontal_Trunks == true then
-					if minetest.get_modpath(MoD) ~= nil then
+					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
 						if minetest.registered_nodes[node_north.name].buildable_to then
 							minetest.set_node(north, {name=MoD..":"..TRuNK, param2=4})
 						end
@@ -306,7 +306,7 @@ abstract_trunks.place_trunk = function(pos)
 						end
 					end
 				elseif trunk_type == 3 and Horizontal_Trunks == true then
-					if minetest.get_modpath(MoD) ~= nil then
+					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
 						if minetest.registered_nodes[node_west.name].buildable_to then
 							minetest.set_node(west, {name=MoD..":"..TRuNK, param2=12})
 						end
@@ -515,7 +515,7 @@ abstract_trunks.grow_roots = function(pos)
 	for i in pairs(TRuNKS) do
 		local	MoD =			TRuNKS[i][1]
 		local	TRuNK =			TRuNKS[i][2]
-		if minetest.get_modpath(MoD) ~= nil
+		if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD)
 		and node_here.name == MoD..":"..TRuNK
 		and string.find(node_below.name, "dirt")
 		and node_here.param2 == 0 then
