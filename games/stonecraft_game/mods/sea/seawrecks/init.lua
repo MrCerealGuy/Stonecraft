@@ -47,7 +47,9 @@ minetest.register_node("seawrecks:woodshipchest", {
 		meta:set_string("formspec",
 			"size[8,9]"..
 			"list[current_name;main;0,0;8,4;]"..
-			"list[current_player;main;0,5;8,4;]")
+			"list[current_player;main;0,5;8,4;]" ..
+			"listring[current_name;main]" ..
+			"listring[current_player;main]")
 		meta:set_string("infotext", "Woodship chest")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
@@ -56,7 +58,9 @@ meta:from_table({
 	main = {[1] = "default:tree 99", [2] = "default:jungletree 99", [3] = "default:wood 99", [4] = "default:junglewood 99", [5] = "default:sapling 99", [6] = "default:junglesapling 99", [7] = "default:grass_1 99", [8] = "default:junglegrass 99", [32] = ""}
 	},
 	fields = {
-	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]",
+	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]" ..
+			"listring[context;main]" ..
+			"listring[current_player;main]",
 	infotext = "Normal chest"
 	}
 })
@@ -95,7 +99,9 @@ minetest.register_node("seawrecks:ubootchest", {
 		meta:set_string("formspec",
 			"size[8,9]"..
 			"list[current_name;main;0,0;8,4;]"..
-			"list[current_player;main;0,5;8,4;]")
+			"list[current_player;main;0,5;8,4;]" ..
+			"listring[current_name;main]" ..
+			"listring[current_player;main]")
 		meta:set_string("infotext", "U-boot chest")
 		local inv = meta:get_inventory()
 		inv:set_size("main", 8*4)
@@ -104,7 +110,9 @@ meta:from_table({
 	main = {[1] = "default:gold_ingot 99", [2] = "default:mese_crystal 99", [3] = "default:diamond 99", [32] = ""}
 	},
 	fields = {
-	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]",
+	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]" ..
+			"listring[context;main]" ..
+			"listring[current_player;main]",
 	infotext = S("Normal chest")
 	}
 })
@@ -154,12 +162,12 @@ minetest.register_ore({
 	y_min     = -31000,
 })
 
-local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, chunk_size, ore_per_chunk, height_min, height_max)
-	if maxp.y < height_min or minp.y > height_max then
+local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, chunk_size, ore_per_chunk, y_min, y_max)
+	if maxp.y < y_min or minp.y > y_max then
 		return
 	end
-	local y_min = math.max(minp.y, height_min)
-	local y_max = math.min(maxp.y, height_max)
+	local y_min = math.max(minp.y, y_min)
+	local y_max = math.min(maxp.y, y_max)
 	if chunk_size >= y_max - y_min + 1 then
 		return
 	end
@@ -169,7 +177,7 @@ local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, 
 	local inverse_chance = math.floor(chunk_size*chunk_size*chunk_size / ore_per_chunk)
 	for i=1,num_chunks do
 		local y0 = pr:next(y_min, y_max-chunk_size+1)
-		if y0 >= height_min and y0 <= height_max then
+		if y0 >= y_min and y0 <= y_max then
 			local x0 = pr:next(minp.x, maxp.x-chunk_size+1)
 			local z0 = pr:next(minp.z, maxp.z-chunk_size+1)
 			local p0 = {x=x0, y=y0, z=z0}
