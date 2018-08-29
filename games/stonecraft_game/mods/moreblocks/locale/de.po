@@ -26,6 +26,10 @@ msgid "Wooden Tile"
 msgstr "Holzfliese"
 
 #: nodes.lua
+msgid "Wooden Tile (Deprecated)"
+msgstr "Holzfliese (veraltet)"
+
+#: nodes.lua
 msgid "Centered Wooden Tile"
 msgstr "Zentrierte Holzfliese"
 
