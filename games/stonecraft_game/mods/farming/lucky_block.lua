@@ -1,7 +1,7 @@
 
 -- add lucky blocks
 
-if minetest.get_modpath("lucky_block") then
+if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
 
 	lucky_block:add_blocks({
 		{"dro", {"farming:corn"}, 5},

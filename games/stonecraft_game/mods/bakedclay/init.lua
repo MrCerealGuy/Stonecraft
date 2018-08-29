@@ -260,7 +260,7 @@ minetest.register_decoration({
 
 -- add lucky blocks
 
-if minetest.get_modpath("lucky_block") then
+if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
 local p = "bakedclay:"
 lucky_block:add_blocks({
 	{"dro", {"bakedclay:"}, 10, true},

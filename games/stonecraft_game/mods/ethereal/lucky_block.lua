@@ -1,7 +1,7 @@
 
 -- add lucky blocks
 
-if minetest.get_modpath("lucky_block") then
+if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
 
 local epath = minetest.get_modpath("ethereal") .. "/schematics/"
 
