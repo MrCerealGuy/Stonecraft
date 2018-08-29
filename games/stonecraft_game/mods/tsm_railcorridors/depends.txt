@@ -1,5 +1,0 @@
-default
-tnt
-farming
-treasurer?
-torches?
