@@ -5,7 +5,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Andreas Zahnleiter" />
-  <meta name="date" content="2018-08-25" />
+  <meta name="date" content="2018-08-29" />
   <title>Stonecraft Wiki</title>
   <style type="text/css">code{white-space: pre;}</style>
   <style type="text/css">
@@ -50,7 +50,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="header">
 <h1 class="title">Stonecraft Wiki</h1>
 <h2 class="author">Andreas Zahnleiter</h2>
-<h3 class="date">August 25, 2018</h3>
+<h3 class="date">August 29, 2018</h3>
 </div>
 <h1 id="welcome-to-stonecraft">Welcome to Stonecraft</h1>
 <p>Copyright © 2016-2018 Andreas &quot;MrCerealGuy&quot; Zahnleiter <script type="text/javascript">
@@ -68,6 +68,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><a href="#first-steps">First steps</a>
 <ol style="list-style-type: decimal">
 <li><a href="#creating-a-world">Creating a world</a></li>
+<li><a href="#installing-additional-content">Installing additional content</a></li>
 <li><a href="#map-generator">Map generator</a></li>
 <li><a href="#biomes">Biomes</a></li>
 <li><a href="#underground-realms">Underground realms</a></li>
@@ -102,7 +103,11 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <li><a href="#simple-mobs">Simple Mobs</a></li>
 <li><a href="#not-so-simple-mobs">Not So Simple Mobs</a></li>
 </ol></li>
-<li><a href="#farming">Farming</a></li>
+<li><a href="#farming">Farming</a>
+<ol style="list-style-type: decimal">
+<li><a href="#saplings">Saplings</a></li>
+<li><a href="#plants-food-and-utensils">Plants, Food and Utensils</a></li>
+</ol></li>
 <li><a href="#technic">Technic</a>
 <ol style="list-style-type: decimal">
 <li><a href="#machines">Machines</a>
@@ -241,6 +246,24 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 
 </div>
 <p>Note: Some settings need huge cpu consumption so it can be laggy for most players.</p>
+<h2 id="installing-additional-content">Installing additional content</h2>
+<p>In Stonecraft you can download and install addititonal content like mods or texture packs developed from the Stonecraft/Minetest community.</p>
+<div class="figure">
+<img src="wiki-images/600px-Mainmenu-Content.png" />
+
+</div>
+<p>In the screenshot below I've installed the mod 'advtrains'. You can rename or uninstall the package if you want.</p>
+<div class="figure">
+<img src="wiki-images/600px-Mainmenu-Installed-Packages.png" />
+
+</div>
+<p>To enable 'advtrains' you have to select your world, then click the button 'Configure'.</p>
+<div class="figure">
+<img src="wiki-images/600px-Mainmenu-Enable-Package.png" />
+
+</div>
+<p>Now you can enable 'advtrains' either by double-clicking on it in the list below or by clicking on 'Enable MP'.</p>
+<p>Important: On the left side you can see the dependencies for this mod, in this case there are no one. Otherwise you have to ensure that your created world has got the required world options activated like 'Technic', 'Mesecons', 'Pipeworks' and so on.</p>
 <h2 id="map-generator">Map generator</h2>
 <p>There are a number of different map generators. It is possible to choose between them when creating a map. Some mods may change them radically, also all map generators allow for a lot of configuration in the advanced settings menu.</p>
 <p><strong>v5</strong></p>
@@ -471,7 +494,7 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <ul>
 <li>Caverealms</li>
 <li>Nether</li>
-<li>Morlendor (Not So Simple Mobs must be enabled)</li>
+<li>Morlendor (<a href="#not-so-simple-mobs">Not So Simple Mobs</a> must be enabled)</li>
 </ul>
 <p>Here is an overview where the realms are located in the depth:</p>
 <div class="figure">
@@ -480,11 +503,32 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </div>
 <p>No worry, you don't have to dig to Nether or Morlendor, there are special portals for them.</p>
 <h3 id="caverealms">Caverealms</h3>
-<p>Coming soon!</p>
+<p>Caverealms are huge underground caverns that extend for hundreds of blocks. Within these caverns lie stalagmites of glowing crystals, small glowing gems littering the floor, and variable terrain. . Not to mention plentiful lava and even water springs. Caves spawn between y = -700 and -15.000, and can be quite extensive.</p>
+<div class="figure">
+<img src="wiki-images/600px-caverealms.png" />
+
+</div>
 <h3 id="nether">Nether</h3>
-<p>Coming soon!</p>
+<p>You can go into the nether by either digging deep down or build a obsidian portal as seen in the screenshots below. To activate the portal, rightclick it with a mese crystal fragment. When you go into the portal it will teleport you directly into the nether. A new portal is generated at your spawning point, and it will bring you back to your first portal (Note: the genration of the portal in the nether might take some time (up to 4 seconds)). If one of the portals get destroyed (i.e. an obisidan block gets dug) the connection is destroyed. New portals that are build in the nether will bring you near the surface again.</p>
+<p>Rare materials like glowstone, nethersand and netherbricks can be found in the nether. Netherbricks only appear in nether dungeons, and are not craftable.</p>
+<div class="figure">
+<img src="wiki-images/600px-nether_portal.png" />
+
+</div>
+<div class="figure">
+<img src="wiki-images/600px-nether_portal_2.png" />
+
+</div>
+<div class="figure">
+<img src="wiki-images/600px-nether.png" />
+
+</div>
 <h3 id="morlendor">Morlendor</h3>
-<p>Coming soon!</p>
+<p>The Morlendor dimension can be reached by a Morlendor portal. The Morlendor dimension spawns only if you have activated <a href="#not-so-simple-mobs">Not So Simple Mobs</a> in the world settings.</p>
+<div class="figure">
+<img src="wiki-images/600px-Morlendor.png" />
+
+</div>
 <h2 id="basic-controls">Basic Controls</h2>
 <p>Most of these can be changed in the &quot;Change Keys&quot; menu. The default and most important controls are:</p>
 <table style="width:39%;">
@@ -1197,6 +1241,11 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </table>
 <h1 id="farming">Farming</h1>
 <p>Farmable blocks will spawn either new blocks or yield new items, when mined. All farmable blocks have to be on top of another certain kind of block to grow. Some farmable blocks also need light. The “Maximum profit” column shows the maximum possible outcome a single block will yield, including itself. Please notice: Light level 13 on a farmable crop cannot be achieved at night!</p>
+<div class="figure">
+<img src="wiki-images/Farming_redo.jpg" />
+
+</div>
+<h2 id="saplings">Saplings</h2>
 <table style="width:100%;">
 <colgroup>
 <col width="14%" />
@@ -1219,24 +1268,6 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left"><img src="wiki-images/32px-Cotton_8.png" /> Cotton (plant)</td>
-<td align="left">Wet Soil, Wet Desert Sand Soil</td>
-<td align="left">Yes, 13 or higher</td>
-<td align="left">3 <img src="wiki-images/32px-Cotton.png" /> Strings and 3 <img src="wiki-images/32px-Cotton_Seed.png" /> Cotton Seeds</td>
-<td align="left">1/2 chance to grow every 80 seconds = about 160 seconds per stage</td>
-<td align="left">160 x 7 = 1120 seconds ~ 19 minutes</td>
-<td align="left">8</td>
-</tr>
-<tr class="even">
-<td align="left"><img src="wiki-images/32px-Wheat_8.png" /> Wheat (plant)</td>
-<td align="left">Wet Soil</td>
-<td align="left">Yes, 13 or higher</td>
-<td align="left">2 <img src="wiki-images/32px-Wheat.png" /> Wheat (items) and 2 <img src="wiki-images/32px-Wheat_Seed.png" />Wheat Seeds</td>
-<td align="left">1/2 chance to grow every 90 seconds = about 180 seconds per stage</td>
-<td align="left">180 x 7 = 1260 seconds = 21 minutes</td>
-<td align="left">8</td>
-</tr>
 <tr class="odd">
 <td align="left"><img src="wiki-images/32px-Jungle_Sapling.png" /> Jungle Sapling</td>
 <td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
@@ -1308,6 +1339,243 @@ document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\
 <td align="left">1/25 chance every 50 seconds</td>
 <td align="left">50 x 25 = 1250 seconds ~ 21 minutes</td>
 <td align="left">1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plants-food-and-utensils">Plants, Food and Utensils</h2>
+<p><strong>Plants and their Products</strong></p>
+<ul>
+<li>Barley; Barley Seed</li>
+<li>Green Beans; Bean Pole (place on soil before planting beans)</li>
+<li>Beetroot; Beetroot Soup</li>
+<li>Blueberries; Blueberry Muffin, Blueberry Pie</li>
+<li>Carrot; Golden Carrot</li>
+<li>Chili; Chili Pepper, Bowl of Chili</li>
+<li>Cocoa; Cocoa Beans, Cookie, Bar of Dark Chocolate</li>
+<li>Coffee; Coffee Beans, Drinking Cup (empty), Cold Cup of Coffee, Hot Cup of Coffee</li>
+<li>Corn; Corn on the Cob, Bottle of Ethanol</li>
+<li>Cotton; Cotton Seed</li>
+<li>Cucumber</li>
+<li>Donut; Chocolate Donut, Apple Donut</li>
+<li>Garlic; Garlic clove, Garlic Braid</li>
+<li>Grapes; Trellis (place on soil before planting grapes)</li>
+<li>Hemp; Hemp Seed, Hemp Leaf, Bottle of Hemp Oil, Hemp Fibre, Hemp Rope</li>
+<li>Melon; Melon Slice</li>
+<li>Onion</li>
+<li>Peas; Pea Pod, Pea Soup</li>
+<li>Pepper; Peppercorn, Ground Pepper</li>
+<li>Pinapple; Pineapple Top, Pineapple Ring, Pineapple Juice</li>
+<li>Potato; Baked Potato, Potato Salad</li>
+<li>Pumpkin; Pumpkin Slice, Jack 'O Lantern, Pumpkin Bread, Pumpkin Dough</li>
+<li>Raspberries; Raspberry Smoothie</li>
+<li>Rhubarb, Rhubarb Pie</li>
+<li>Sugar (from Papyrus), Salt (from cooking water)</li>
+<li>Tomato</li>
+<li>Wheat; Wheat Seed, Straw, Flour, Bread</li>
+</ul>
+<p><strong>Utensils</strong></p>
+<ul>
+<li>Wooden Bowl</li>
+<li>Sauce Pan</li>
+<li>Cooking Pot</li>
+<li>Backing Tray</li>
+<li>Skillet</li>
+<li>Mortar and Pestle</li>
+<li>Cutting Board</li>
+<li>Juicer</li>
+<li>Glass mixing Bowl</li>
+</ul>
+<p><strong>Other</strong></p>
+<ul>
+<li>overides to Soil, Wet Soil, Grass</li>
+<li>Hoes; Wooden Hoe, Stone Hoe, Steel Hoe, Bronze Hoe, Mese Hoe, Diamond Hoe</li>
+<li>Seed</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Plant</th>
+<th align="left">Name</th>
+<th align="left">Stages</th>
+<th align="left">Item</th>
+<th align="left">Itemstring</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_barley_7_(farming_redo).png" /></td>
+<td align="left">Barley</td>
+<td align="left">7</td>
+<td align="left"><img src="wiki-images/40px-Farming_barley.png" /></td>
+<td align="left">farming:barley</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_beanpole_5_(farming_redo).png" /></td>
+<td align="left">Beans (green)</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Farming_beans_(farming_redo).png" /></td>
+<td align="left">farming:beans</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_beetroot_5_(farming_redo).png" /></td>
+<td align="left">Beetroot</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Farming_beetroot_(farming_redo).png" /></td>
+<td align="left">farming:beetroot</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_blueberry_4_(farming_redo).png" /></td>
+<td align="left">Blueberries</td>
+<td align="left">4</td>
+<td align="left"><img src="wiki-images/40px-Farming_blueberries_(farming_redo).png" /></td>
+<td align="left">farming:blueberry</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_carrot_8_(farming_redo).png" /></td>
+<td align="left">Carrot</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_carrot_(farming_redo).png" /></td>
+<td align="left">farming:carrot</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_chili_8_(farming_redo).png" /></td>
+<td align="left">Chili</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_chili_pepper_(farming_redo).png" /></td>
+<td align="left">farming:chili</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_cocoa_4_(farming_redo).png" /></td>
+<td align="left">Cocoa</td>
+<td align="left">4</td>
+<td align="left"><img src="wiki-images/40px-Farming_cocoa_beans_(farming_redo).png" /></td>
+<td align="left">farming:cocoa</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_coffee_5_(farming_redo).png" /></td>
+<td align="left">Coffee</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Farming_coffee_beans_(farming_redo).png" /></td>
+<td align="left">farming:coffee</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_corn_8_(farming_redo).png" /></td>
+<td align="left">Corn</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_corn_(farming_redo).png" /></td>
+<td align="left">farming:corn</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_cotton_8_(farming_redo).png" /></td>
+<td align="left">Cotton</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_cotton_(farming_redo).png" /></td>
+<td align="left">farming:cotton</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_cucumber_4_(farming_redo).png" /></td>
+<td align="left">Cucumber</td>
+<td align="left">4</td>
+<td align="left"><img src="wiki-images/40px-Farming_cucumber_(farming_redo)r.png" /></td>
+<td align="left">farming:cucumber</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Crops_garlic_plant_5_(farming_redo).png" /></td>
+<td align="left">Garlic</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Crops_garlic_(farming_redo).png" /></td>
+<td align="left">farming:garlic</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_grapes_8_(farming_redo).png" /></td>
+<td align="left">Grapes</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_grapes_(farming_redo).png" /></td>
+<td align="left">farming:grapes</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_hemp_8_(farming_redo).png" /></td>
+<td align="left">Hemp</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_hemp_leaf_(farming_redo).png" /></td>
+<td align="left">farming:hemp</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_melon_top_(farming_redo).png" /></td>
+<td align="left">Melon</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_melon_slice_(farming_redo).png" /></td>
+<td align="left">farming:melon</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Crops_onion_plant_5_(farming_redo).png" /></td>
+<td align="left">Onion</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Crops_onion_(farming_redo).png" /></td>
+<td align="left">farming:onion</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Crops_pepper_plant_5_(farming_redo).png" /></td>
+<td align="left">Pepper</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Crops_pepper_(farming_redo).png" /></td>
+<td align="left">farming:pepper</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_pineapple_8_(farming_redo).png" /></td>
+<td align="left">Pineapple</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_pineapple_(farming_redo).png" /></td>
+<td align="left">farming:pineapple</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_potato_4_(farming_redo).png" /></td>
+<td align="left">Potato</td>
+<td align="left">4</td>
+<td align="left"><img src="wiki-images/40px-Farming_potato_(farming_redo).png" /></td>
+<td align="left">farming:potato</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_pea_5_(farming_redo).png" /></td>
+<td align="left">Peas</td>
+<td align="left">5</td>
+<td align="left"><img src="wiki-images/40px-Farming_pea_peas_(farming_redo).png" /></td>
+<td align="left">farming:peas</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_pumpkin_8_(farming_redo).png" /></td>
+<td align="left">Pumpkin</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_pumpkin_top_(farming_redo).png" /></td>
+<td align="left">farming:pumpkin</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_raspberry_4_(farming_redo).png" /></td>
+<td align="left">Raspberries</td>
+<td align="left">4</td>
+<td align="left"><img src="wiki-images/40px-Farming_raspberries_(farming_redo).png" /></td>
+<td align="left">farming:raspberry</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_rhubarb_3_(farming_redo).png" /></td>
+<td align="left">Rhubarb</td>
+<td align="left">3</td>
+<td align="left"><img src="wiki-images/40px-Farming_rhubarb_(farming_redo).png" /></td>
+<td align="left">farming:rhubarb</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="wiki-images/40px-Farming_tomato_(farming_redo).png" /></td>
+<td align="left">Tomato</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_tomato_8_(farming_redo).png" /></td>
+<td align="left">farming:tomato</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="wiki-images/40px-Farming_wheat_8_(farming_redo).png" /></td>
+<td align="left">Wheat</td>
+<td align="left">8</td>
+<td align="left"><img src="wiki-images/40px-Farming_wheat_(farming_redo).png" /></td>
+<td align="left">farming:wheat</td>
 </tr>
 </tbody>
 </table>

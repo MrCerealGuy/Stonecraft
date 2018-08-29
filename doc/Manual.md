@@ -1,6 +1,6 @@
 % Stonecraft Wiki
 % Andreas Zahnleiter
-% August 25, 2018
+% August 29, 2018
 
 # Welcome to Stonecraft
 
@@ -18,11 +18,12 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 
 1. [First steps](#first-steps)
 	1. [Creating a world](#creating-a-world)
-	2. [Map generator](#map-generator)
-	3. [Biomes](#biomes)
-	4. [Underground realms](#underground-realms)
-	5. [Basic Controls](#basic-controls)
-	6. [Using blocks/items](#using-blocksitems)
+	2. [Installing additional content](#installing-additional-content)
+	3. [Map generator](#map-generator)
+	4. [Biomes](#biomes)
+	5. [Underground realms](#underground-realms)
+	6. [Basic Controls](#basic-controls)
+	7. [Using blocks/items](#using-blocksitems)
 		1. [Taking](#taking)
 		2. [Dropping](#dropping)
 		3. [Exchanging](#exchanging)
@@ -42,6 +43,8 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 	1. [Simple Mobs](#simple-mobs)
 	2. [Not So Simple Mobs](#not-so-simple-mobs)
 4. [Farming](#farming)
+	1. [Saplings](#saplings)
+	2. [Plants, Food and Utensils](#plants-food-and-utensils)
 5. [Technic](#technic)
 	1. [Machines](#machines)
 		1. [Machine details](#machine-details)
@@ -143,6 +146,24 @@ First, before you can play, you have to create a world. In the world creation di
 ![](/doc/wiki-images/createworld4.png)
 
 Note: Some settings need huge cpu consumption so it can be laggy for most players.
+
+## Installing additional content
+
+In Stonecraft you can download and install addititonal content like mods or texture packs developed from the Stonecraft/Minetest community.
+
+![](/doc/wiki-images/600px-Mainmenu-Content.png)
+
+In the screenshot below I've installed the mod 'advtrains'. You can rename or uninstall the package if you want.
+
+![](/doc/wiki-images/600px-Mainmenu-Installed-Packages.png)
+
+To enable 'advtrains' you have to select your world, then click the button 'Configure'.
+
+![](/doc/wiki-images/600px-Mainmenu-Enable-Package.png)
+
+Now you can enable 'advtrains' either by double-clicking on it in the list below or by clicking on 'Enable MP'.
+
+Important: On the left side you can see the dependencies for this mod, in this case there are no one. Otherwise you have to ensure that your created world has got the required world options activated like 'Technic', 'Mesecons', 'Pipeworks' and so on.
 
 ## Map generator
 
@@ -391,7 +412,7 @@ There are three big underground realms:
 
   * Caverealms
   * Nether
-  * Morlendor (Not So Simple Mobs must be enabled)
+  * Morlendor ([Not So Simple Mobs](#not-so-simple-mobs) must be enabled)
 
 Here is an overview where the realms are located in the depth:
 
@@ -401,15 +422,29 @@ No worry, you don't have to dig to Nether or Morlendor, there are special portal
 
 ### Caverealms
 
-Coming soon!
+Caverealms are huge underground caverns that extend for hundreds of blocks. Within these caverns lie stalagmites of glowing crystals, small glowing gems littering the floor, and variable terrain. . Not to mention plentiful lava and even water springs. Caves spawn between y = -700 and -15.000, and can be quite extensive.
+
+![](/doc/wiki-images/600px-caverealms.png)
 
 ### Nether
 
-Coming soon!
+You can go into the nether by either digging deep down or build a obsidian portal as seen in the screenshots below. To activate the portal, rightclick it with a mese crystal fragment.
+When you go into the portal it will teleport you directly into the nether. A new portal is generated at your spawning point, and it will bring you back to your first portal (Note: the genration of the portal in the nether might take some time (up to 4 seconds)).
+If one of the portals get destroyed (i.e. an obisidan block gets dug) the connection is destroyed. New portals that are build in the nether will bring you near the surface again.
+
+Rare materials like glowstone, nethersand and netherbricks can be found in the nether. Netherbricks only appear in nether dungeons, and are not craftable.
+
+![](/doc/wiki-images/600px-nether_portal.png)
+
+![](/doc/wiki-images/600px-nether_portal_2.png)
+
+![](/doc/wiki-images/600px-nether.png)
 
 ### Morlendor
 
-Coming soon!
+The Morlendor dimension can be reached by a Morlendor portal. The Morlendor dimension spawns only if you have activated [Not So Simple Mobs](#not-so-simple-mobs) in the world settings.
+
+![](/doc/wiki-images/600px-Morlendor.png)
 
 ## Basic Controls
 
@@ -644,10 +679,12 @@ They all drop life energies. With life energies you can craft tools and special 
 
 Farmable blocks will spawn either new blocks or yield new items, when mined. All farmable blocks have to be on top of another certain kind of block to grow. Some farmable blocks also need light. The “Maximum profit” column shows the maximum possible outcome a single block will yield, including itself. Please notice: Light level 13 on a farmable crop cannot be achieved at night!
 
+![](/doc/wiki-images/Farming_redo.jpg)
+
+## Saplings
+
 | Block | Grows on | Needs light? | Maximum profit | Theorical growth speed (evolution) | Expected growth speed (full) | Number of growth stages |
 | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| ![](/doc/wiki-images/32px-Cotton_8.png) Cotton (plant) | Wet Soil, Wet Desert Sand Soil | Yes, 13 or higher | 3 ![](/doc/wiki-images/32px-Cotton.png) Strings and 3 ![](/doc/wiki-images/32px-Cotton_Seed.png) Cotton Seeds | 1/2 chance to grow every 80 seconds = about 160 seconds per stage | 160 x 7 = 1120 seconds ~ 19 minutes | 8 |
-| ![](/doc/wiki-images/32px-Wheat_8.png) Wheat (plant) | Wet Soil | Yes, 13 or higher | 2 ![](/doc/wiki-images/32px-Wheat.png) Wheat (items) and 2 ![](/doc/wiki-images/32px-Wheat_Seed.png)Wheat Seeds | 1/2 chance to grow every 90 seconds = about 180 seconds per stage | 180 x 7 = 1260 seconds = 21 minutes | 8 |
 | ![](/doc/wiki-images/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](/doc/wiki-images/32px-Jungle_Tree.png) Jungle Trees and many ![](/doc/wiki-images/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
 | ![](/doc/wiki-images/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](/doc/wiki-images/32px-Tree.png) Trees, many ![](/doc/wiki-images/32px-Leaves.png) Leaves and some ![](/doc/wiki-images/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
 | ![](/doc/wiki-images/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](/doc/wiki-images/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](/doc/wiki-images/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
@@ -656,6 +693,84 @@ Farmable blocks will spawn either new blocks or yield new items, when mined. All
 | ![](/doc/wiki-images/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](/doc/wiki-images/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
 | Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
 | Group:flora | Desert Sand | No | 1 ![](/doc/wiki-images/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
+
+## Plants, Food and Utensils
+
+**Plants and their Products**
+
+  * Barley; Barley Seed
+  * Green Beans; Bean Pole (place on soil before planting beans)
+  * Beetroot; Beetroot Soup
+  * Blueberries; Blueberry Muffin, Blueberry Pie
+  * Carrot; Golden Carrot
+  * Chili; Chili Pepper, Bowl of Chili
+  * Cocoa; Cocoa Beans, Cookie, Bar of Dark Chocolate
+  * Coffee; Coffee Beans, Drinking Cup (empty), Cold Cup of Coffee, Hot Cup of Coffee
+  * Corn; Corn on the Cob, Bottle of Ethanol
+  * Cotton; Cotton Seed
+  * Cucumber
+  * Donut; Chocolate Donut, Apple Donut
+  * Garlic; Garlic clove, Garlic Braid
+  * Grapes; Trellis (place on soil before planting grapes)
+  * Hemp; Hemp Seed, Hemp Leaf, Bottle of Hemp Oil, Hemp Fibre, Hemp Rope
+  * Melon; Melon Slice
+  * Onion
+  * Peas; Pea Pod, Pea Soup
+  * Pepper; Peppercorn, Ground Pepper
+  * Pinapple; Pineapple Top, Pineapple Ring, Pineapple Juice
+  * Potato; Baked Potato, Potato Salad
+  * Pumpkin; Pumpkin Slice, Jack 'O Lantern, Pumpkin Bread, Pumpkin Dough
+  * Raspberries; Raspberry Smoothie
+  * Rhubarb, Rhubarb Pie
+  * Sugar (from Papyrus), Salt (from cooking water)
+  * Tomato
+  * Wheat; Wheat Seed, Straw, Flour, Bread
+
+**Utensils**
+
+  * Wooden Bowl
+  * Sauce Pan
+  * Cooking Pot
+  * Backing Tray
+  * Skillet
+  * Mortar and Pestle
+  * Cutting Board
+  * Juicer
+  * Glass mixing Bowl
+
+**Other**
+
+  * overides to Soil, Wet Soil, Grass
+  * Hoes; Wooden Hoe, Stone Hoe, Steel Hoe, Bronze Hoe, Mese Hoe, Diamond Hoe
+  * Seed
+
+| Plant | Name | Stages | Item | Itemstring |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| ![](/doc/wiki-images/40px-Farming_barley_7_(farming_redo).png) | Barley | 7 | ![](/doc/wiki-images/40px-Farming_barley.png) | farming:barley |
+| ![](/doc/wiki-images/40px-Farming_beanpole_5_(farming_redo).png) | Beans (green) | 5 | ![](/doc/wiki-images/40px-Farming_beans_(farming_redo).png) | farming:beans |
+| ![](/doc/wiki-images/40px-Farming_beetroot_5_(farming_redo).png) | Beetroot | 5 | ![](/doc/wiki-images/40px-Farming_beetroot_(farming_redo).png) | farming:beetroot |
+| ![](/doc/wiki-images/40px-Farming_blueberry_4_(farming_redo).png) | Blueberries | 4 | ![](/doc/wiki-images/40px-Farming_blueberries_(farming_redo).png) | farming:blueberry |
+| ![](/doc/wiki-images/40px-Farming_carrot_8_(farming_redo).png) | Carrot | 8 | ![](/doc/wiki-images/40px-Farming_carrot_(farming_redo).png) | farming:carrot |
+| ![](/doc/wiki-images/40px-Farming_chili_8_(farming_redo).png) | Chili | 8 | ![](/doc/wiki-images/40px-Farming_chili_pepper_(farming_redo).png) | farming:chili |
+| ![](/doc/wiki-images/40px-Farming_cocoa_4_(farming_redo).png) | Cocoa | 4 | ![](/doc/wiki-images/40px-Farming_cocoa_beans_(farming_redo).png) | farming:cocoa |
+| ![](/doc/wiki-images/40px-Farming_coffee_5_(farming_redo).png) | Coffee | 5 | ![](/doc/wiki-images/40px-Farming_coffee_beans_(farming_redo).png) | farming:coffee |
+| ![](/doc/wiki-images/40px-Farming_corn_8_(farming_redo).png) | Corn | 8 | ![](/doc/wiki-images/40px-Farming_corn_(farming_redo).png) | farming:corn |
+| ![](/doc/wiki-images/40px-Farming_cotton_8_(farming_redo).png) | Cotton | 8 | ![](/doc/wiki-images/40px-Farming_cotton_(farming_redo).png) | farming:cotton |
+| ![](/doc/wiki-images/40px-Farming_cucumber_4_(farming_redo).png) | Cucumber | 4 | ![](/doc/wiki-images/40px-Farming_cucumber_(farming_redo)r.png) | farming:cucumber |
+| ![](/doc/wiki-images/40px-Crops_garlic_plant_5_(farming_redo).png) | Garlic | 5 | ![](/doc/wiki-images/40px-Crops_garlic_(farming_redo).png) | farming:garlic |
+| ![](/doc/wiki-images/40px-Farming_grapes_8_(farming_redo).png) | Grapes | 8 | ![](/doc/wiki-images/40px-Farming_grapes_(farming_redo).png) | farming:grapes |
+| ![](/doc/wiki-images/40px-Farming_hemp_8_(farming_redo).png) | Hemp | 8 | ![](/doc/wiki-images/40px-Farming_hemp_leaf_(farming_redo).png) | farming:hemp |
+| ![](/doc/wiki-images/40px-Farming_melon_top_(farming_redo).png) | Melon | 8 | ![](/doc/wiki-images/40px-Farming_melon_slice_(farming_redo).png) | farming:melon |
+| ![](/doc/wiki-images/40px-Crops_onion_plant_5_(farming_redo).png) | Onion | 5 | ![](/doc/wiki-images/40px-Crops_onion_(farming_redo).png) | farming:onion |
+| ![](/doc/wiki-images/40px-Crops_pepper_plant_5_(farming_redo).png) | Pepper | 5 | ![](/doc/wiki-images/40px-Crops_pepper_(farming_redo).png) | farming:pepper |
+| ![](/doc/wiki-images/40px-Farming_pineapple_8_(farming_redo).png) | Pineapple | 8 | ![](/doc/wiki-images/40px-Farming_pineapple_(farming_redo).png) | farming:pineapple |
+| ![](/doc/wiki-images/40px-Farming_potato_4_(farming_redo).png) | Potato | 4 | ![](/doc/wiki-images/40px-Farming_potato_(farming_redo).png) | farming:potato |
+| ![](/doc/wiki-images/40px-Farming_pea_5_(farming_redo).png) | Peas | 5 | ![](/doc/wiki-images/40px-Farming_pea_peas_(farming_redo).png) | farming:peas |
+| ![](/doc/wiki-images/40px-Farming_pumpkin_8_(farming_redo).png) | Pumpkin | 8 | ![](/doc/wiki-images/40px-Farming_pumpkin_top_(farming_redo).png) | farming:pumpkin |
+| ![](/doc/wiki-images/40px-Farming_raspberry_4_(farming_redo).png) | Raspberries | 4 | ![](/doc/wiki-images/40px-Farming_raspberries_(farming_redo).png) | farming:raspberry |
+| ![](/doc/wiki-images/40px-Farming_rhubarb_3_(farming_redo).png) | Rhubarb | 3 | ![](/doc/wiki-images/40px-Farming_rhubarb_(farming_redo).png) | farming:rhubarb |
+| ![](/doc/wiki-images/40px-Farming_tomato_(farming_redo).png) | Tomato | 8 | ![](/doc/wiki-images/40px-Farming_tomato_8_(farming_redo).png) | farming:tomato |
+| ![](/doc/wiki-images/40px-Farming_wheat_8_(farming_redo).png) | Wheat | 8 | ![](/doc/wiki-images/40px-Farming_wheat_(farming_redo).png) | farming:wheat |
 
 # Technic
 
