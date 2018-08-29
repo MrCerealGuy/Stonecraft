@@ -1,0 +1,50 @@
+# German translation for locky_block mod
+# Copyright (C) 2018 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2018.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-29 16:45+0200\n"
+"PO-Revision-Date: 2018-08-29 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Stop hitting yourself!"
+msgstr "Hör auf, dich selbst zu schlagen!"
+
+#: init.lua
+msgid "Dry shrub takeover!"
+msgstr "Trockener Strauch Übernahme!"
+
+#: init.lua
+msgid "Random teleport!"
+msgstr "Zufallsteleportation!"
+
+#: init.lua
+msgid "Lucky Block"
+msgstr "Glücksblock"
+
+#: init.lua
+msgid "Super Lucky Block (use pick)"
+msgstr "Super Glücksblock (benutze Spitzhacke)"
+
+#: init.lua
+msgid "[MOD] Lucky Blocks loaded (@1 in total)"
+msgstr ""
+
+#: blocks.lua
+msgid "Super Mega Magenta Ultra Screwdriver 2500\n(left-click to rotate face, right-click to rotates axis)"
+msgstr "Super Mega Magenta Ultra Schraubendreher 2500\n(linksklick=um aktuelle Achse drehen, rechtsklick=Achse ändern)"
+
+#: blocks.lua
+msgid "Void Mirror (Place to see through solid walls during daytime)"
+msgstr "Leerer Spiegel (Platzieren um tagsüber feste Wände zu durchschauen)"

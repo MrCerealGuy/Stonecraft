@@ -172,7 +172,7 @@ if minetest.get_modpath("farming") then
 end
 
 -- Home Decor mod
-if minetest.get_modpath("homedecor") then
+if minetest.get_modpath("homedecor") and not core.skip_mod("homedecor") then
 	lucky_block:add_blocks({
 		{"nod", "homedecor:toilet", 0},
 		{"nod", "homedecor:table", 0},
@@ -222,7 +222,7 @@ end
 
 -- Carts mod
 if minetest.get_modpath("carts")
-or minetest.get_modpath("boost_cart") then
+or (minetest.get_modpath("boost_cart") and not core.skip_mod("boost_cart")) then
 	lucky_block:add_blocks({
 		{"dro", {"carts:cart"}},
 		{"dro", {"default:rail"}, 10},

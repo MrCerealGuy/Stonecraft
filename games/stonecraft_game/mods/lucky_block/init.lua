@@ -1,3 +1,12 @@
+--[[
+
+2018-08-29 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+
+if core.skip_mod("lucky_block") then return end
 
 lucky_block = {}
 lucky_schems = {}
