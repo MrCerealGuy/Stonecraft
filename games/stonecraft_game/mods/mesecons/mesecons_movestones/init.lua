@@ -166,7 +166,7 @@ mesecon.register_movestone("mesecons_movestones:sticky_movestone_vertical", {
 		"jeija_sticky_movestone.png^[transformR90",
 	},
 	groups = {cracky = 3},
-    description = ("Vertical Sticky Movestone"),
+    description = S("Vertical Sticky Movestone"),
 	sounds = default.node_sound_stone_defaults(),
 }, true, true)
 
