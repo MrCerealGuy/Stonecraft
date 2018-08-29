@@ -34,8 +34,8 @@ msgid "Lucky Block"
 msgstr "Glücksblock"
 
 #: init.lua
-msgid "Super Lucky Block (use pick)"
-msgstr "Super Glücksblock (benutze Spitzhacke)"
+msgid "Super Lucky Block"
+msgstr "Super Glücksblock"
 
 #: init.lua
 msgid "[MOD] Lucky Blocks loaded (@1 in total)"

@@ -673,7 +673,7 @@ minetest.register_craft({
 
 -- super lucky block
 minetest.register_node('lucky_block:super_lucky_block', {
-	description = S("Super Lucky Block (use pick)"),
+	description = S("Super Lucky Block"),
 	tiles = {{
 		name="lucky_block_super_animated.png",
 		animation = {
@@ -693,7 +693,7 @@ minetest.register_node('lucky_block:super_lucky_block', {
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Super Lucky Block")
+		meta:set_string("infotext", S("Super Lucky Block"))
 	end,
 
 	on_dig = function(pos)
