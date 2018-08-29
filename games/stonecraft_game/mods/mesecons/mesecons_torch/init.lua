@@ -96,7 +96,7 @@ minetest.register_node("mesecons_torch:mesecon_torch_on", {
 	selection_box = torch_selectionbox,
 	groups = {dig_immediate=3},
 	light_source = minetest.LIGHT_MAX-5,
-	description="Mesecon Torch",
+	description=S("Mesecon Torch"),
 	sounds = default.node_sound_defaults(),
 	mesecons = {receptor = {
 		state = mesecon.state.on,
