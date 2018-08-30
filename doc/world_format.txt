@@ -116,6 +116,7 @@ Example content (added indentation and - explanations):
   enable_spawners_ores = false
   enable_mobs_npc = false
   enable_nssm = false
+  enable_nssb = false
   mobs_animal_horse = false
   mobs_animal_bee = false
   mobs_animal_bunny = false
@@ -196,6 +197,7 @@ Example content (added indentation and - explanations):
   enable_ethereal = false
   enable_swamps = false
   enable_snow = false
+  enable_moresnow = false
   enable_caverealms = false
   enable_subterrane = false
   enable_nether = false
@@ -235,19 +237,29 @@ Example content (added indentation and - explanations):
   enable_lucky_block = false
   enable_homedecor_technic = false
   enable_mesecons = false
+  enable_digilines = false
   enable_pipeworks = false
   enable_itemdrop = false
   enable_moretrees = false
   enable_forests = false
+  enable_redtrees = false
   enable_seaplants = false
   enable_woodsoils_vines = false
+  enable_woodsoils = false
+  enable_vines = false
   enable_giantmushrooms = false
   enable_erosion = false
   giantmushrooms_always_generate = false
   giantmushrooms_smooth = false
   enable_villages = false
+  enable_mob_world_interaction = false
+  enable_mobf_trader = false
   enable_mines = false
+  enable_carts = false
+  enable_boost_carts = false
+  enable_railcorridors = false
   enable_pyramids = false
+  enable_spawners = false
   villages_enable_protection = false
   villages_first_village_type = medieval
 
