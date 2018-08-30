@@ -1548,7 +1548,7 @@ In the pictures below, the black boxes denote where the wire conducts. Other loc
 
 The normal wire conducts in the four cardinal directions, North-East-South-West, but not diagonally. Looking from the side, it conducts to nodes on the same level, or the level above and below it. However, it does not conduct directly above or below:
 
-![](/doc/wiki-images//Mesecons_NormalWire.png)
+![](/doc/wiki-images/Mesecons_NormalWire.png)
 
 The insulated wire, in contrast, conducts only at the ends. The direction is determined by the direction you are facing when you place the wire.
 
