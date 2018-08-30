@@ -57,7 +57,7 @@
 [Mobs and animals]
 
 enable_mobs_animals (Animals) bool false
-enable_mobs_monster (Monster) bool false
+enable_mobs_monster (Simple Mobs) bool false
 enable_mobs_npc (NPC) bool false
 enable_nssm (Not So Simple Mobs) bool false
 
@@ -76,7 +76,7 @@ mobs_animal_rat (Rat) bool true
 mobs_animal_sheep (Sheep) bool true
 mobs_animal_warthog (Warthog) bool true
 
-[*Advanced settings (Monster)]
+[*Advanced settings (Simple Mobs)]
 
 # Monster CME modpack
 mobs_monster_ghost (Ghost) bool true

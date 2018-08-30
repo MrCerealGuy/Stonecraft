@@ -285,8 +285,8 @@ msgid "Animals"
 msgstr "Tiere"
 
 #: builtin/worldoptions.txt
-msgid "Monster"
-msgstr "Monster"
+msgid "Simple Mobs"
+msgstr "Einfache Mobs"
 
 #: builtin/worldoptions.txt
 msgid "NPC"
@@ -337,8 +337,8 @@ msgid "Warthog"
 msgstr "Warzenschwein"
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Monster)"
-msgstr "Erw. Einstellungen (Monster)"
+msgid "Advanced settings (Simple Mobs)"
+msgstr "Erw. Einstellungen (Einfache Mobs)"
 
 #: builtin/worldoptions.txt
 msgid "Ghost"

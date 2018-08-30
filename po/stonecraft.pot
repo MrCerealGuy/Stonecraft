@@ -281,7 +281,7 @@ msgid "Animals"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Monster"
+msgid "Simple Mobs"
 msgstr ""
 
 #: builtin/worldoptions.txt
@@ -333,7 +333,7 @@ msgid "Warthog"
 msgstr ""
 
 #: builtin/worldoptions.txt
-msgid "Advanced settings (Monster)"
+msgid "Advanced settings (Simple Mobs)"
 msgstr ""
 
 #: builtin/worldoptions.txt
