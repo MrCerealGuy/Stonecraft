@@ -1,6 +1,6 @@
 % Stonecraft Wiki
 % Andreas Zahnleiter
-% August 29, 2018
+% August 30, 2018
 
 # Welcome to Stonecraft
 
@@ -22,7 +22,12 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 	3. [Map generator](#map-generator)
 	4. [Biomes](#biomes)
 	5. [Underground realms](#underground-realms)
+		1. [Caverealms](#caverealms)
+		2. [Nether](#nether)
+		3. [Morlendor](#morlendor)
+		4. [Railway corridors](#railway-corridors)
 	6. [Basic Controls](#basic-controls)
+		1. [Boat](#boat)
 	7. [Using blocks/items](#using-blocksitems)
 		1. [Taking](#taking)
 		2. [Dropping](#dropping)
@@ -109,9 +114,15 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 		14. [Node Breakers](#node-breakers)
 		15. [Sand Vacuum Tubes](#sand-vacuum-tubes)
 		16. [Mese Sand Vacuum Tubes](#mese-sand-vacuum-tubes)
-7. [Chat](#chat)
+7. [Mesecons](#mesecons)
+	1. [Mesecons Basic](#mesecons-basic)
+		1. [Wires](#wires)
+		2. [Receptors](#receptors)
+		3. [Effectors](#effectors)
+		4. [Putting it all together](#putting-it-all-together)
+8. [Chat](#chat)
 	1. [Sending messages](#sending-messages)
-8. [Experienced players](#experienced-players)
+9. [Experienced players](#experienced-players)
 	1. [Area protection](#area-protection)
 	2. [Teleporters](#teleporters)
 	3. [Special Controls](#special-controls)
@@ -123,18 +134,20 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 		1. [Built-in privileges](#built-in-privileges)
 		2. [Privileges from mods](#privileges-from-mods)
 		3. [Server configuration](#server-configuration)
-	6. [WorldEdit Chat Commands](#worldedit-chat-commands)
+	6. [WorldEdit](#worldedit)
+		1. [WorldEdit Basics](#worldedit-basics)
+		2. [WorldEdit Chat Commands](#worldedit-chat-commands)
 	7. [Create and import a schematic file (.mts) with WorldEdit](#create-and-import-a-schematic-file-mts-with-worldedit)
-9. [Setting up a server](#setting-up-a-server)
+10. [Setting up a server](#setting-up-a-server)
 	1. [Running a dedicated server](#running-a-dedicated-server)
 		1. [Linux](#linux)
 		2. [Windows](#windows)
-10. [Modding Stonecraft](#modding-stonecraft)
+11. [Modding Stonecraft](#modding-stonecraft)
 	1. [Installing mods](#installing-mods)
 	2. [Installing texture packs](#installing-texture-packs)
 		1. [Server texture pack](#server-texture-pack)
 	3. [Profiling mods](#profiling-mods)
-11. [Troubleshooting](#troubleshooting)
+12. [Troubleshooting](#troubleshooting)
 	1. [Multiplayer/Network issues](#multiplayernetwork-issues)
 
 # First steps
@@ -446,6 +459,14 @@ The Morlendor dimension can be reached by a Morlendor portal. The Morlendor dime
 
 ![](/doc/wiki-images/600px-Morlendor.png)
 
+### Railway corridors
+
+Simple underground railway corridors with a few treasure chests. Cobwebs are added if the [Simple Mobs](#simple-mobs) world option is activated.
+
+Use the advanced settings to finetune the railway corridors.
+
+![](/doc/wiki-images/Railwaycorridors.png)
+
 ## Basic Controls
 
 Most of these can be changed in the "Change Keys" menu. The default and most important controls are:
@@ -468,6 +489,23 @@ Most of these can be changed in the "Change Keys" menu. The default and most imp
 |**Shift + F9**| Change minimap orientation|
 |**F12**| Take screenshot|
 |**Esc**| Pause menu/abort/exit (pauses only singleplayer game)|
+
+### Boat
+
+A boat is a wooden vehicle which floats on any water and can be used to travel on the surface of any water. Travelling by boat is slightly faster than walking.
+
+**Usage**
+
+To set the boat up, place it on top of water. After is has been placed, use (right-click) it to enter it. You are now on the boat. On the boat, the movement controls are slightly different than usual:
+
+  * **Forwards key**: Increase speed
+  * **Backwards key**: Decrease speed (you can have negative speed, meaning you can go backwards)
+  * **Left key**: Turn boat counter-clockwise
+  * **Right key**: Turn boat clockwise
+  * To leave the boat, simply use it again.
+
+![](/doc/wiki-images/600px-Riding_a_boat.jpg)
+
 
 ## Using blocks/items
 
@@ -683,16 +721,42 @@ Farmable blocks will spawn either new blocks or yield new items, when mined. All
 
 ## Saplings
 
-| Block | Grows on | Needs light? | Maximum profit | Theorical growth speed (evolution) | Expected growth speed (full) | Number of growth stages |
-| ------------- | ------------- | ------------- | ------------- | ------------- | ------------- | ------------- |
-| ![](/doc/wiki-images/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | About 20 ![](/doc/wiki-images/32px-Jungle_Tree.png) Jungle Trees and many ![](/doc/wiki-images/32px-Jungle_Leaves.png) Jungle Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](/doc/wiki-images/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 5 ![](/doc/wiki-images/32px-Tree.png) Trees, many ![](/doc/wiki-images/32px-Leaves.png) Leaves and some ![](/doc/wiki-images/32px-Apple.png) Apples | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](/doc/wiki-images/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | 13 ![](/doc/wiki-images/32px-Acacia_Tree.png) Acacia Trees and ca. 75 ![](/doc/wiki-images/32px-Acacia_Leaves.png) Acacia Leaves | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](/doc/wiki-images/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | Some ![](/doc/wiki-images/32px-Pine_Tree.png) Pine Trees and many ![](/doc/wiki-images/32px-Pine_Needles.png) Pine Needles | 1/50 chance every 10 seconds | 10 x 50 = 500 seconds ~ 8 minutes | 2 |
-| ![](/doc/wiki-images/32px-Cactus.png) Cactus | Any kind of sand | No | 4 ![](/doc/wiki-images/32px-Cactus.png) Cacti | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
-| ![](/doc/wiki-images/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | 4 ![](/doc/wiki-images/32px-Papyrus.png) Papyri | 1/20 chance every 50 seconds | 50 x 20 = 1000 seconds ~ 17 minutes | 4 |
-| Group:flora | Dirt with Grass | Yes, 13 or higher | 4 flora blocks of the same kind | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
-| Group:flora | Desert Sand | No | 1 ![](/doc/wiki-images/32px-Dry_Shrub.png) Dry Shrub | 1/25 chance every 50 seconds | 50 x 25 = 1250 seconds ~ 21 minutes | 1 |
+Saplings are a group of blocks which grow into trees. They are dropped by leaf-type blocks with a chance of 1 in 20 for each leaf block. The sapling drop “replaces” the leaf block drop—you do not get the leaf block if you get a sapling.
+
+All saplings can be can be placed on any block.
+
+**Growth**
+
+Saplings will, provided they are under sunlight and are on placed on any dirt or another block that supports growth, will grow into trees after a while. They instantly go from sapling to full tree, there are no intermediate growth stages.
+
+Specifically, all saplings only grow on the following blocks:
+
+  * Dirt
+  * Dirt with Grass
+  * Dirt with Grass and Footsteps
+  * Dirt with Rainforest Litter
+  * Dirt with Dry Grass
+  * Soil
+  * Wet Soil
+  * Desert Sand (!)
+  * Desert Sand Soil
+  * Wet Desert Sand Soil
+
+**Types**
+
+There are different saplings, each sapling grows into a different tree.
+
+| Block | Grows on | Needs light? | Drops | Stages |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+| ![](/doc/wiki-images/32px-Sapling.png) Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | ![](/doc/wiki-images/32px-Tree.png) Trees, ![](/doc/wiki-images/32px-Leaves.png) Leaves and ![](/doc/wiki-images/32px-Apple.png) Apples | 2 |
+| ![](/doc/wiki-images/32px-Jungle_Sapling.png) Jungle Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | ![](/doc/wiki-images/32px-Jungle_Tree.png) Jungle Trees and ![](/doc/wiki-images/32px-Jungle_Leaves.png) Jungle Leaves | 2 |
+| ![](/doc/wiki-images/32px-Acacia_Tree_Sapling.png) Acacia Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | ![](/doc/wiki-images/32px-Acacia_Tree.png) Acacia Trees and ![](/doc/wiki-images/32px-Acacia_Leaves.png) Acacia Leaves | 2 |
+| ![](/doc/wiki-images/32px-Pine_Sapling.png) Pine Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | ![](/doc/wiki-images/32px-Pine_Tree.png) Pine Trees and ![](/doc/wiki-images/32px-Pine_Needles.png) Pine Needles | 2 |
+| ![](/doc/wiki-images/32px-Aspen_Tree_Sapling.png) Aspen Sapling | Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil | No | ![](/doc/wiki-images/32px-Aspen_Tree.png) Aspen Trees and ![](/doc/wiki-images/32px-Aspen_Leaves.png) Aspen Leaves | 2 |
+| ![](/doc/wiki-images/32px-Cactus.png) Cactus | Any kind of sand | No | ![](/doc/wiki-images/32px-Cactus.png) Cacti | 4 |
+| ![](/doc/wiki-images/32px-Papyrus.png) Papyrus | Dirt, Dirt with Grass. (Water must be to 3 blocks away) | No | ![](/doc/wiki-images/32px-Papyrus.png) Papyri | 4 |
+| Group:flora | Dirt with Grass | Yes, 13 or higher | Flora blocks of the same kind | 1 |
+| Group:flora | Desert Sand | No | ![](/doc/wiki-images/32px-Dry_Shrub.png) Dry Shrub | 1 |
 
 ## Plants, Food and Utensils
 
@@ -815,7 +879,7 @@ The generator and switching station should be placed side-by-side with the wire 
 
 Consumer is a machine which consume energy to do something. 
 
-This is the list of all consumers avaible in technic mod:
+This is the list of all consumers avaible in technic:
 
 * Alloy furnace
 * MV Alloy furnace
@@ -829,7 +893,7 @@ This is the list of all consumers avaible in technic mod:
 
 ## Generators
 
-This is list of all generators available in technic mod:
+This is list of all generators available in technic:
 
 * Coal generator 
 * [Geothermal EU generator](#geothermal-eu-generator) 
@@ -1176,7 +1240,7 @@ Here's how you craft it:
 
 #### Base materials/items
 
-The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of this mod.  First, craft some leaves (anything in the "leaves" group) to get oil:
+The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of pipeworks.  First, craft some leaves (anything in the "leaves" group) to get oil:
 
 ![](/doc/wiki-images/craft-oil.png)
 
@@ -1188,7 +1252,7 @@ Finally, cook the paraffin into plastic:
 
 ![](/doc/wiki-images/paraffin-to-plastic.png)
 
-A couple of objects in this mod require one or more gears.  Craft those with steel ingots and stone, like so:
+A couple of objects in pipeworks require one or more gears. Craft those with steel ingots and stone, like so:
 
 ![](/doc/wiki-images/CraftGear.png)
 
@@ -1449,6 +1513,128 @@ Crafts are similar to the mese sorting tube:
 ...or using mese crystal fragments and a regular sand tube:
 
 ![](/doc/wiki-images/CraftMeseSandTube2.png)
+
+# Mesecons
+
+## Mesecons Basic
+
+So far we've already looked at a couple of machines, but not at Mesecons itself. That won't do! This is a usage guide for new Mesecon users, including those without Redstone experience.
+
+![](/doc/wiki-images/Mesecons_Basics.png)
+
+Let's look at exactly what Mesecons can do, and how you can use it.
+
+Mesecons is a digital circuitry construction kit that allows players to create circuits that can do nearly anything.
+
+Mesecons resembles real life circuitry in that you have wires that carry information around and various things that affect or are affected by them, but the basic similarities end there.
+
+There are three basic types of things in Mesecons: wires, receptors, and effectors. We'll look at each one in detail below, but for now we'll go through a summary.
+
+Wires conduct signals around, while receptors do the actual creating of those signals. Effectors do things based on those signals. Some things can act as both receptors and effectors, which is useful for doing things like modifying signals.
+
+###	Wires
+
+These are Mesecon wires:
+
+![](/doc/wiki-images/Mesecons_Wires.png)
+
+Left to right: normal wire, insulated wire, T-junction wire, corner wire, vertical wire, MESE block. Rear wires are on, front wires are off.
+
+There are a lot of different wires that have distinct uses, but all of them perform essentially the same task. First of all, Mesecon wire has two states: on and off. The on state is generally brighter or more saturated in color than the off state. Wires are off when you place them down, but they can be turned on by being conducted to.
+
+A Mesecon wire that is on (the wire is in the on state) will cause other wires and effectors adjacent to it to turn on as well, a process known as conduction. Which adjacent ones that turn on are determined by the specific type of wire.
+
+In the pictures below, the black boxes denote where the wire conducts. Other locations are completely unaffected by whether it is on or off.
+
+The normal wire conducts in the four cardinal directions, North-East-South-West, but not diagonally. Looking from the side, it conducts to nodes on the same level, or the level above and below it. However, it does not conduct directly above or below:
+
+![](/doc/wiki-images//Mesecons_NormalWire.png)
+
+The insulated wire, in contrast, conducts only at the ends. The direction is determined by the direction you are facing when you place the wire.
+
+![](/doc/wiki-images/Mesecons_InsulatedWire.png)
+
+The T-junction wire gets its name from the shape it forms and conducts in. The direction is determined by the direction you are facing when you place the wire.
+
+![](/doc/wiki-images/Mesecons_TJunctionWire.png)
+
+The corner wire conducts only at its ends as well, but they are perpendicular to each other. The direction is determined by the direction you are facing when you place the wire.
+
+![](/doc/wiki-images/Mesecons_CornerWire.png)
+
+The vertical wire has caps on each end that conduct only in the cardinal directions on the same vertical level as well as directly above or below. The thin parts without caps only conduct directly above or below. Vertical wires can be stacked on top of each other, and only the top and bottom ones will be capped.
+
+![](/doc/wiki-images/Mesecons_VerticalWire.png)
+
+The MESE block is extended by Mesecons to conduct in the cardinal directions as well as directly above and below.
+
+![](/doc/wiki-images/Mesecons_MESEBlock.png)
+
+Two wires will only conduct between each other if they are adjacent and both conduct to the location of the other:
+
+![](/doc/wiki-images/Mesecons_Rules.png)
+
+###	Receptors
+
+Wires are nice and all, but how do we turn them on if the only way to make one come on is to have something that is already on beside it? That's where receptors come in. Receptors are, in short, things that are not wires, but can also be on and off. Receptors can do things like turning on and off depending on whether there is light, when a player interacts with them, or a lot of things, really. There are far too many types of receptors to describe here, but we'll cover the most important ones.
+
+Power plants are simply always on - they will power anything in the same positions as normal Mesecon wire. Blinky plants behave similarly, but turn on and off every few seconds:
+
+![](/doc/wiki-images/Mesecons_Plants.png)
+
+Switches, buttons, and levers are all player controlled - punching switches and levers toggles them between on and off, while buttons turn on when punched and then turn off again after a little while. Switches conduct to the same positions as normal wire, while buttons and levers only conduct to the back or to the node behind the one to the back:
+
+![](/doc/wiki-images/Mesecons_Switches.png)
+
+Pressure plates come in wood and stone varieties, which differ mainly in appearance. They turn on when someone or something stands on them - this includes players, mobs, and items. Special rules mean that in addition to conducting to the same locations as normal wire, they also conduct to the node below the node directly below themselves:
+
+![](/doc/wiki-images/Mesecons_PressurePlates.png)
+
+###	Effectors
+
+Now that we have a way to create and carry signals, it's time to do something with them. Effectors are made specifically for this purpose. Effectors can do things like giving off light, moving nodes around, playing music, or even running chat commands. There are far too many types of effectors to describe here, but we'll cover the most important ones.
+
+Meselamps and lightstone light up when they have an on signal and don't give off any light otherwise. Meselamps are brighter than lightstones, while lightstones are available in many different colors:
+
+![](/doc/wiki-images/Mesecons_Lighting.png)
+
+Pistons can push a column of nodes and entities by one block, and the sticky piston can also pull the closest one. Entities on top of a stack being pushed horizontally are also moved. Movestones (not shown) do something similar, but can push nodes along a "rail" made of conductive materials:
+
+![](/doc/wiki-images/Mesecons_Pistons.png)
+
+Noteblocks play a certain note when they receive an on signal. The instrument used to play the note is determined by the node it's placed on top of, while the pitch (how high the note is) is changed by punching it. Placing one on wood planks causes it to make a litecrash sound, tree trunks cause a crash sound, chests cause a snare sound, stone causes a kick sound, glass causes a hihat sound, and anything else causes a piano sound:
+
+![](/doc/wiki-images/Mesecons_Noteblocks.png)
+
+Command blocks execute a chat command when they receive an on signal. However, they are not obtainable in survival mode without cheats due to the potential for abuse. Command blocks can only be changed by their owners (the player that placed it) and show a dialog when right clicked, which allows the target, command, and parameters to be set. Certain special commands are also available - more details can be found by using the "/help" chat command:
+
+![](/doc/wiki-images/Mesecons_CommandBlocks.png)
+
+###	Putting it all together
+
+Now that we know how to create, transmit, and cause actions with Mesecon signals, we can look at the area where Mesecons really shines: manipulating signals with digital logic.
+
+Let's say we want to have street lamps that come on only at night. A basic street lamp looks something like the following:
+
+![](/doc/wiki-images/Mesecons_Streetlamp1.png)
+
+At the moment, it's not giving off light. Let's give the lightstone an on signal:
+
+![](/doc/wiki-images/Mesecons_Streetlamp2.png)
+
+Now it's always on. But what about coming on only at night? Let's power it using a solar panel:
+
+![](/doc/wiki-images/Mesecons_Streetlamp3.png)
+
+Just a small problem remains - it only turns on in the day! That's about as useful as a solar powered flashlight. What we need to do is take the opposite of the solar panel's signal.
+
+This is where digital logic comes in. In digital logic, the operation of taking the opposite of a signal is called a "logical NOT". It just so happens that Mesecons has a few devices that can do this operation, as well as many more. In our case, a Mesecon torch does the job very nicely:
+
+![](/doc/wiki-images/Mesecons_StreetlampFinal.png)
+
+The Mesecon torch simply takes the signal on the other side of the node it's attached to, and changes its state so that it's the opposite. That means that when the solar panel is on, the torch is off, and when the solar panel is off, the torch is on. In our case, we use this to detect the absence of light by taking the opposite of the solar panel's light detection.
+
+There are tons of different ways you can manipulate signals like this. In fact, manipulate them enough and there's nothing you can't build - see the Tic-Tac-Toe and Node Detector articles on this site for inspiration. Logic gates can be used just like they are in real life to build many of the electronics we use every day. For the most complex manipulations, there are even Luacontrollers that can be programmed in-game to do just about anything.
 
 # Chat
 
@@ -1757,9 +1943,133 @@ Privileges are stored in the _auth.txt_ file. The format of every line in that f
 
 The _auth.txt_ file is written periodically and at shutdown, so you should edit it only when the server is not running.
 
-## WorldEdit Chat Commands
+## WorldEdit
 
-For more information, see the [README](README.md).
+WorldEdit is an in-game world editor. Use it to repair griefing, or just create awesome buildings in seconds.
+
+![](/doc/wiki-images/600px-WorldEdit.png)
+
+### WorldEdit Basics
+
+This is a step-by-step tutorial outlining the basic usage of WorldEdit.
+
+**Overview**
+
+WorldEdit has a "region", which is simply a cuboid area defined by two markers, both of which the player can move around. Every player can have their own region with their own two markers.
+
+WorldEdit GUI buttons and chat commands generally work inside the region selected, or around the first marker.
+
+If you are using the chat commands, follow the steps under **Chat Commands**. If you are using the WorldEdit GUI, follow the steps under **WorldEdit GUI**.
+
+#### Step 1: Selecting a region
+
+
+It is very simple to select a region using the item "WorldEdit Wand Tool". By left-clicking on an existing stone, you can set the first mark, which is then visible as a number "1" on the block. The second mark is set by right-clicking on an existing block. The block then belongs to the marked area, the numbers on the blocks mark the corners of the rectangular area.
+
+Here are two examples:
+
+Left or right-click sets two marks, in which case the area with the sandstones is marked.
+
+![](/doc/wiki-images/600px-MinetestWE1.png)
+
+The marked area is always made visible with a check pattern. In the first example you can not see it, because it is in the ground.
+
+![](/doc/wiki-images/600px-MinetestWE2.png)
+
+
+**Chat Commands**
+
+In the chat prompt, enter `//p set`. In the chat, you are prompted to punch two nodes to set the positions of the two markers.
+
+Punch a nearby node. Be careful of breakable ones such as torches. A black cube reading "1" will appear around the node. This is the marker for WorldEdit position 1.
+
+Walk away from the node you just punched. Now, punch another node. A black cube reading "2" will appear around the node. This is the marker for WorldEdit position 2.
+
+**WorldEdit GUI**
+
+Open the main WorldEdit GUI from your inventory screen. The icon looks like a globe with a red dot in the center.
+
+Press the "Get/Set Positions" button. On the new screen, press the "Set Position 1" button. The inventory screen should close.
+
+Punch a nearby node. Be careful of breakable ones such as torches. A black cube reading "1" will appear around the node. This is the marker for WorldEdit position 1.
+
+Walk away from the node you just punched. Open your inventory again. It should be on the same page as it was before.
+
+Press the "Set Position 2" button. The inventory screen should close.
+
+Now, punch another node. A black cube reading "2" will appear around the node. This is the marker for WorldEdit position 2.
+
+#### Step 2: Region commands
+
+**Chat Commands**
+
+In the chat prompt, enter `//set mese`. In the chat, you will see a message showing the number of nodes set after a small delay.
+
+Look at the place between the two markers: it is now filled with MESE blocks!
+
+The `//set <node>` command fills the region with whatever node you want. It is a region-oriented command, which means it works inside the WorldEdit region only.
+
+Now, try a few different variations, such as `//set torch`, `//set cobble`, and `//set water`.
+
+**WorldEdit GUI**
+
+Open the main WorldEdit GUI from your inventory screen.
+
+Press the "Set Nodes" button. You should see a new screen with various options for setting nodes.
+
+Enter "mese" in the "Name" field. Press Search if you would like to see what the node you just entered looks like.
+
+Press the "Set Nodes" button on this screen. In the chat, you will see a message showing the number of nodes set after a small delay.
+
+Look at the place between the two markers: it is now filled with MESE blocks!
+
+The "Set Nodes" function fills the region with whatever node you want. It is a region-oriented command, which means it works inside the WorldEdit region only.
+
+Now, try a few different variations on the node name, such as "torch", "cobble", and "water".
+
+#### Step 3: Position commands
+
+**Chat Commands**
+
+In the chat prompt, enter `//hollowdome 30 glass`. In the chat, you will see a message showing the number of nodes set after a small delay.
+
+Look around marker 1: it is now surrounded by a hollow glass dome!
+
+The `//hollowdome <radius> <node>` command creates a hollow dome centered around marker 1, made of any node you want. It is a position-oriented command, which means it works around marker 1 and can go outside the WorldEdit region.
+
+**WorldEdit GUI**
+
+Open the main WorldEdit GUI from your inventory screen.
+
+Press the "Sphere/Dome" button. You should see a new screen with various options for making spheres or domes.
+
+Enter "glass" in the "Name" field. Press Search if you would like to see what the node you just entered looks like.
+
+Enter "30" in the "Radius" field.
+
+Press the "Hollow Dome" button on this screen. In the chat, you will see a message showing the number of nodes added after a small delay.
+
+Look around marker 1: it is now surrounded by a hollow glass dome!
+
+The "Hollow Dome" function creates a hollow dome centered around marker 1, made of any node you want. It is a position-oriented command, which means it works around marker 1 and can go outside the WorldEdit region.
+
+#### Step 4: Other commands
+
+**Chat Commands**
+
+There are many more commands than what is shown here. See the [WorldEdit Chat Commands](#worldedit-chat-commands) for a detailed list of them, along with descriptions and examples for every single one.
+
+If you're in-game and forgot how a command works, just use the `/help <command name>` command, without the first forward slash. For example, to see some information about the `//set <node>` command mentioned earlier, simply use `/help /set`.
+
+A very useful command to check out is the `//save <schematic>` command, which can save everything inside the WorldEdit region to a file, stored on the computer hosting the server (the player's computer, in single player mode). You can then later use `//load <schematic>` to load the data in a file into a world, even another world on another computer.
+
+**WorldEdit GUI**
+
+This only scratches the surface of what WorldEdit is capable of. Most of the functions in the WorldEdit GUI correspond to chat commands, and so the [WorldEdit Chat Commands](#worldedit-chat-commands) may be useful if you get stuck.
+
+It is helpful to explore the various buttons in the interface and check out what they do. Learning the chat command interface is also useful if you use WorldEdit intensively - an experienced chat command user can usually work faster than an experienced WorldEdit GUI user.
+
+### WorldEdit Chat Commands
 
 Many commands also have shorter names that can be typed faster. For example, if we wanted to use `//move ? 5`, we could instead type `//m ? 5`. All shortened names are listed below:
 
@@ -2228,7 +2538,6 @@ or vertically in the y axis `[v]`.
 Assigns the given `<command>` to the currently held brush item, it will be ran with the first pointed solid node (as determined via raycast) as
 WorldEdit position 1 when using that specific brush item.
 Passing `none` instead clears the command assigned to the currently held brush item.
-Note that this functionality requires the `worldedit_brush` mod enabled.
 
     //brush cube 8 8 8 Cobblestone
     //brush spr 12 glass
