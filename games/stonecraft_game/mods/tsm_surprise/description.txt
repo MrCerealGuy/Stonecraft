@@ -1,0 +1,1 @@
+Randomly spawns surprise blocks closely about ground level. When mined, those blocks drop random low-grade treasures.
