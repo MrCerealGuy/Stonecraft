@@ -241,6 +241,10 @@ msgid "Surprise blocks"
 msgstr ""
 
 #: builtin/mainmenu/dlg_create_world.lua
+msgid "Lucky blocks"
+msgstr ""
+
+#: builtin/mainmenu/dlg_create_world.lua
 msgid "Mines"
 msgstr ""
 

@@ -225,6 +225,7 @@ Example content (added indentation and - explanations):
   swamp_biome_always_generate = false
   swamp_biome_smooth = true
   swamp_biome_swampwater = true
+  enable_surprise = false
   enable_lucky_block = false
   enable_homedecor_technic = false
   enable_mesecons = false
