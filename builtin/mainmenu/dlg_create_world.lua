@@ -442,7 +442,12 @@ local function create_world_buttonhandler(this, fields)
 
 		["enable_surprise"]						=
 		{
-			["enable_treasurer"]				= true
+			["enable_treasurer"]				= true,
+			["enable_trm_default"]				= true,
+			["enable_trm_farming"]				= true,
+			["enable_trm_screwdriver"]			= true,
+			["enable_trm_tnt"]					= true,
+			["enable_trm_vessels"]				= true
 		}
 	}
 
