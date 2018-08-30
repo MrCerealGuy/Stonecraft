@@ -250,7 +250,7 @@ end
 -- Random chest items
 -- Zufälliger Kisteninhalt
 local function rci()
-	if(minetest.get_modpath("treasurer") ~= nil) then
+	if(minetest.get_modpath("treasurer") ~= nil and not core.skip_mod("treasurer")) then
 		local treasures
 		if pr:next(0,100) < 3 then
 			treasures = treasurer.select_random_treasures(1,2,4)

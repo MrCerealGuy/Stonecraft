@@ -436,9 +436,14 @@ local function create_world_buttonhandler(this, fields)
 			["enable_mines"]	 				= true,
 			["enable_carts"]					= true,
 			["enable_boost_carts"]				= true,
-			["enable_railcorridors"]			= true
-		}
+			["enable_railcorridors"]			= true,
+			["enable_treasurer"]				= true
+		},
 
+		["enable_surprise"]						=
+		{
+			["enable_treasurer"]				= true
+		}
 	}
 
 	-- handle Stonecraft selected world options

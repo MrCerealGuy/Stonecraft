@@ -29,7 +29,7 @@ if minetest.get_modpath("carts") then
 	table.insert(tsm_railcorridors.carts, "carts:cart")
 end
 
-if minetest.get_modpath("mobs_monster") then
+if minetest.get_modpath("mobs_monster") and not core.skip_mod("mobs_monster") then
 	tsm_railcorridors.nodes.cobweb = "mobs:cobweb"
 
 	-- This is for subgames to add their spawner node. No spawner is added by default

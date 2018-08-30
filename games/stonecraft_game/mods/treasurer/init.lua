@@ -16,6 +16,16 @@
 	part 1: Initialization
 ]=]
 
+
+--[[
+
+2018-08-30 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("treasurer") then return end
+
 -- This creates the main table; all functions of this mod are stored in this table
 treasurer = {}
 
