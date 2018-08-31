@@ -60,8 +60,8 @@ local rubber_tree_planks = moretrees and "moretrees:rubber_tree_planks"
 local default_extract = dye and "dye:brown 2"
 
 local grinding_recipes = {
-	{"Common Tree", S("Common Tree"),	"group:tree",	 			"group:wood",		default_extract },
-	{"Rubber Tree", S("Rubber Tree"),	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
+	{"Common Tree",	"group:tree",	 			"group:wood",		default_extract },
+	{"Rubber Tree",	"moretrees:rubber_tree_trunk",  	rubber_tree_planks, 	"technic:raw_latex"}
 }
 
 for _, data in pairs(grinding_recipes) do
@@ -70,5 +70,5 @@ end
 
 if moretrees and dye then
 	-- https://en.wikipedia.org/wiki/Catechu ancient brown dye from the wood of acacia trees
-	register_tree_grinding("Acacia", S("Acacia"), "moretrees:acacia_trunk", "moretrees:acacia_planks", default_extract, "dye:brown 8")
+	register_tree_grinding("Acacia", "moretrees:acacia_trunk", "moretrees:acacia_planks", "dye:brown 8")
 end
