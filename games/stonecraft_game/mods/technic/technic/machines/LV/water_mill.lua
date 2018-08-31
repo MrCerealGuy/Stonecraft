@@ -1,6 +1,6 @@
 -- A water mill produces LV EUs by exploiting flowing water across it
--- It is a LV EU supplyer and fairly low yield (max 120EUs)
--- It is a little under half as good as the thermal generator.
+-- It is a LV EU supplyer and fairly low yield (max 180EUs)
+-- It is a little over half as good as the thermal generator.
 
 --[[
 
@@ -8,12 +8,11 @@
 
 --]]
 
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-
+local cable_entry = "^technic_cable_connection_overlay.png"
 
 minetest.register_alias("water_mill", "technic:water_mill")
 
@@ -28,19 +27,19 @@ minetest.register_craft({
 
 local function check_node_around_mill(pos)
 	local node = minetest.get_node(pos)
-	if node.name == "default:water_flowing" or
-	   node.name == "default:water_source" then
-		return true
+	if node.name == "default:water_flowing"
+	  or node.name == "default:river_water_flowing" then
+		return node.param2 -- returns approx. water flow, if any
 	end
 	return false
 end
 
 local run = function(pos, node)
 	local meta             = minetest.get_meta(pos)
-	local water_nodes      = 0
-	local lava_nodes       = 0
+	local water_flow       = 0
 	local production_level = 0
 	local eu_supply        = 0
+	local max_output       = 4 * 45 -- keeping it around 180, little more than previous 150 :)
 
 	local positions = {
 		{x=pos.x+1, y=pos.y, z=pos.z},
@@ -52,16 +51,14 @@ local run = function(pos, node)
 	for _, p in pairs(positions) do
 		local check = check_node_around_mill(p)
 		if check then
-			water_nodes = water_nodes + 1
+			water_flow = water_flow + check
 		end
 	end
 
-	production_level = 25 * water_nodes
-	eu_supply = 30 * water_nodes
+	eu_supply = math.min(4 * water_flow, max_output)
+	production_level = math.floor(100 * eu_supply / max_output)
 
-	if production_level > 0 then
-		meta:set_int("LV_EU_supply", eu_supply)
-	end
+	meta:set_int("LV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
 		S("Hydro @1 Generator", "LV").." ("..production_level.."%)")
@@ -79,9 +76,14 @@ end
 
 minetest.register_node("technic:water_mill", {
 	description = S("Hydro @1 Generator", "LV"),
-	tiles = {"technic_water_mill_top.png",  "technic_machine_bottom.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png",
-	         "technic_water_mill_side.png", "technic_water_mill_side.png"},
+	tiles = {
+		"technic_water_mill_top.png",
+		"technic_machine_bottom.png"..cable_entry,
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png",
+		"technic_water_mill_side.png"
+	},
 	paramtype2 = "facedir",
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
 		technic_machine=1, technic_lv=1},
