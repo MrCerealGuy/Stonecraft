@@ -14,25 +14,25 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 local dyes = {
-	{"white",      S("White"),      "basecolor_white"},
-	{"grey",       S("Grey"),       "basecolor_grey"},
-	{"black",      S("Black"),      "basecolor_black"},
-	{"red",        S("Red"),        "basecolor_red"},
-	{"yellow",     S("Yellow"),     "basecolor_yellow"},
-	{"green",      S("Green"),      "basecolor_green"},
-	{"cyan",       S("Cyan"),       "basecolor_cyan"},
-	{"blue",       S("Blue"),       "basecolor_blue"},
-	{"magenta",    S("Magenta"),    "basecolor_magenta"},
-	{"orange",     S("Orange"),     "excolor_orange"},
-	{"violet",     S("Violet"),     "excolor_violet"},
-	{"brown",      S("Brown"),      "unicolor_dark_orange"},
-	{"pink",       S("Pink"),       "unicolor_light_red"},
-	{"dark_grey",  S("Dark Grey"),  "unicolor_darkgrey"},
-	{"dark_green", S("Dark Green"), "unicolor_dark_green"},
+	{"white",      S("White")},
+	{"grey",       S("Grey")},
+	{"black",      S("Black")},
+	{"red",        S("Red")},
+	{"yellow",     S("Yellow")},
+	{"green",      S("Green")},
+	{"cyan",       S("Cyan")},
+	{"blue",       S("Blue")},
+	{"magenta",    S("Magenta")},
+	{"orange",     S("Orange")},
+	{"violet",     S("Violet")},
+	{"brown",      S("Brown")},
+	{"pink",       S("Pink")},
+	{"dark_grey",  S("Dark Grey")},
+	{"dark_green", S("Dark Green")},
 }
 
 for i = 1, #dyes do
-	local name, desc, craft_color_group = unpack(dyes[i])
+	local name, desc = unpack(dyes[i])
 
 	minetest.register_node("wool:" .. name, {
 		description = desc .. S(" Wool"),
@@ -46,13 +46,11 @@ for i = 1, #dyes do
 	minetest.register_craft{
 		type = "shapeless",
 		output = "wool:" .. name,
-		recipe = {"group:dye," .. craft_color_group, "group:wool"},
+		recipe = {"group:dye,color_" .. name, "group:wool"},
 	}
 end
 
-
--- legacy
-
+-- Legacy
 -- Backwards compatibility with jordach's 16-color wool mod
 minetest.register_alias("wool:dark_blue", "wool:blue")
 minetest.register_alias("wool:gold", "wool:yellow")
