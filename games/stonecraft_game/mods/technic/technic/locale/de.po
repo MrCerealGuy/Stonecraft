@@ -139,7 +139,7 @@ msgstr "Schaltanlage"
 
 #: machines/switching_station.lua
 msgid "@1 (Slave)"
-msgstr ""
+msgstr "@1 (Folgegerät)"
 
 #: machines/switching_station.lua
 msgid "@1 Has No Network"
@@ -253,7 +253,7 @@ msgstr "Bohren nicht gestartet"
 
 #: machines/HV/quarry.lua
 msgid "Purging cache"
-msgstr ""
+msgstr "Lager wird gelöscht"
 
 #: machines/HV/quarry.lua
 msgid "Digging @1 m @2 machine"
@@ -273,7 +273,7 @@ msgstr "Neustart"
 
 #: machines/HV/quarry.lua
 msgid "@1 purging cache"
-msgstr ""
+msgstr "@1 Lager wird gelöscht"
 
 #: machines/HV/quarry.lua
 msgid "@1 Finished"
@@ -281,7 +281,7 @@ msgstr "@1 ist fertig"
 
 #: machines/HV/quarry.lua
 msgid "Manually taking/removing from cache by hand is not possible. If you can't wait, restart or disable the quarry to start automatic purge."
-msgstr ""
+msgstr "Manuelles Entnehmen/Entfernen vom Lager per Hand ist nicht möglich. Falls du nicht warten kannst, starte die Steinbruchmaschine neu oder deaktiviere sie um die automatische Reinigung zu starten."
 
 #: machines/LV/cnc.lua
 msgid "Choose Milling Program:"
@@ -349,7 +349,7 @@ msgstr "Halbes aufrechtes Element"
 
 #: machines/LV/cnc_api.lua
 msgid "Oblate spheroid"
-msgstr ""
+msgstr "Abgeflachter Sphäroid"
 
 #: machines/LV/cnc_api.lua
 msgid "Horizontal Cylinder"
@@ -413,7 +413,7 @@ msgstr "Holz:"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Stone"
-msgstr "Stein:"
+msgstr "Stein"
 
 #: machines/LV/cnc_nodes.lua
 msgid "Cobble"
@@ -485,7 +485,7 @@ msgstr "@1 Wassermühle"
 
 #: machines/MV/lighting.lua
 msgid "someone"
-msgstr ""
+msgstr "irgendeiner"
 
 #: machines/MV/lighting.lua
 msgid "Sorry, @1 owns that spot."
@@ -558,7 +558,7 @@ msgstr "Verschlossen"
 
 #: machines/other/anchor.lua
 msgid "Keeping @1/@2 map blocks loaded"
-msgstr ""
+msgstr "Behalte @1/@2 Kartenblöcke geladen"
 
 #: machines/other/coal_alloy_furnace.lua
 msgid "Fuel-Fired Alloy Furnace"
@@ -796,7 +796,7 @@ msgstr "Sägemehl"
 
 #: machines/register/grindings.lua
 msgid "@1 Grinding"
-msgstr "@1 Zerkleinerung"
+msgstr "@1 (zerkleinert)"
 
 #: machines/register/grindings.lua
 msgid "Common Tree"
@@ -848,7 +848,7 @@ msgstr "3 Blöcke hoch."
 
 #: tools/mining_drill.lua
 msgid "3x3 nodes."
-msgstr "3x3 Bloecke."
+msgstr "3x3 Blöcke."
 
 #: tools/mining_drill.lua
 msgid "Use while sneaking to change Mining Drill Mk@1 modes."
@@ -905,4 +905,3 @@ msgstr "Fließendes Corium"
 #: radiation.lua
 msgid "Corium Bucket"
 msgstr "Corium-Eimer"
-
