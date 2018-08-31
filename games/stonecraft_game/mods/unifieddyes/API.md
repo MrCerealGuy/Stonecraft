@@ -6,23 +6,20 @@ In your node definition, you must include a few things to interface with Unified
 
 ```lua
 minetest.register_node("mymod:colored_node", {
-   description = "My custom colored node",
-   tiles = { "mymod_custom_colored_node.png" },
-   paramtype = "light",
-   paramtype2 = "color",
-   palette = "unifieddyes_palette_extended.png",
-   place_param2 = 240,
-   groups = {snappy = 1, cracky = 2, ud_param2_colorable = 1}
-   on_construct = unifieddyes.on_construct,
-   after_place_node = unifieddyes.recolor_on_place,
-   after_dig_node = unifieddyes.after_dig_node,
+	description = "My custom colored node",
+	tiles = { "mymod_custom_colored_node.png" },
+	paramtype = "light",
+	paramtype2 = "color",
+	palette = "unifieddyes_palette_extended.png",
+	groups = {snappy = 1, cracky = 2, ud_param2_colorable = 1}
+	on_construct = unifieddyes.on_construct,
 })
 ```
 
 `paramtype2` must be one of:
-- "color" this is an 89-color or 256-color node
-- "colorwallmounted" this is a 32-color node using "wallmounted" mode
-- "colorfacedir" this node uses one of the "split" 89-color palettes.
+- "color": this is an 89-color or 256-color node
+- "colorwallmounted": this is a 32-color node using "wallmounted" mode
+- "colorfacedir": this node uses one of the "split" 89-color palettes.
 
 `palette` must be set to match the `paramtype2` setting, and must be one of:
 - "unifieddyes_palette.png"
@@ -30,17 +27,11 @@ minetest.register_node("mymod:colored_node", {
 - "unifieddyes_palette_colorwallmounted.png"
 - or one of the "split" hues palettes (see below).
 
-`place_param2` generally is only needed for the 256-color palette, and should usually be set to 240 (which corresponds to white).
-`groups` If your node can be colored by punching it with dye, its groups entry must contain the key ud_param2_colorable = 1, among whatever else you'd normally put there. If the node is software-controlled, as might be the case for some mesecons-digilines aware node, then this group key should be omitted.
-`on_construct` see below.
-`after_place_node` see below.
-`after_dig_node` see below.
+`groups`: If your node can be colored by punching it with dye, its groups entry must contain the key ud_param2_colorable = 1, among whatever else you'd normally put there. If the node is software-controlled, as might be the case for some mesecons-digilines aware node, then this group key should be omitted.
+
+`on_construct`: see below.
 
 #### Function calls
-
-**`unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)`**
-
-Call this within your node's `after_place_node` callback to allow Unified Dyes to automatically color the node using the dye you last used on that kind of node The feature will remain active until the dye runs out, or the user places a different kind of colorable node, or the user cancels the feature.
 
 **`unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)`
 `unifieddyes.fix_rotation_nsew(pos, placer, itemstack, pointed_thing)`**
@@ -63,15 +54,16 @@ Again, another obvious one, returns whether or not the pointed node is `buildabl
 
 Accepts an item name, and returns the corresponding hue, saturation, and value (in that order), as strings.
 
-If the item name is a color (not greyscale), then hue will be the basic hue for that color, saturation will be empty string for high saturation or `_s50` for low, and value will be `dark_`, `medium_`, `light_`, or an empty string if it's full color.
+If the item name is a color (not greyscale), then `hue` will be the basic hue for that color, saturation will be empty string for high saturation or "_s50" for low, and value will be "dark_", "medium_", "light_", or an empty string if it's full color.
 
-If the item name is greyscale, then hue will contain `white`, `light_grey`, `grey`, `dark_grey`, or `black`, saturation will (ironically) be an empty string, and value will be `light_`, `dark_`, or empty string if it's medium grey.
+If the item name is greyscale, then `hue` will contain "white", "light_grey", "grey", "dark_grey", or "black", saturation will (ironically) be an empty string, and value will be "light_", "dark_", or empty string to correspond with the contents of `hue`.
 
 For example:
-"mymod:mynode_red" would return ("red", "", "")
-"mymod:mynode_light_blue" would return ("blue", "", "light_")
-"mymod:mynode_dark_yellow_s50" would return ("yellow", "_s50", "dark_")
-"mymod:mynode_dark_grey" would return ("dark_grey", "", "dark_")
+
+* "mymod:mynode_red" would return ("red", "", "")
+* "mymod:mynode_light_blue" would return ("blue", "", "light_")
+* "mymod:mynode_dark_yellow_s50" would return ("yellow", "_s50", "dark_")
+* "mymod:mynode_dark_grey" would return ("dark_grey", "", "dark_")
 
 **`unifieddyes.getpaletteidx(color, palette_type)`**
 
@@ -83,15 +75,7 @@ When given a `color` string (in the form of "dye:foo" or "unifieddyes:foo") and 
 
 **`unifieddyes.on_construct(pos)`**
 
-This function, called in your node definition's on_construct, just sets the `palette = "ext"` metadata key for the node after it's been placed. This can then be read in an LBM to determine if this node needs to be converted from the old 89-color palette to the extended 256-color palette. Although it is good practice to call this for any node that uses the 256-color palette, it isn't strictly necessary as long as the node has never used the 89-color palette and won't be subjected to an LBM that changes its color.
-
-**`unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)`**
-
-This function handles returning dyes to the user when a node is dug. All colorized nodes need to call this in `after_dig_node`.
-
-**`unifieddyes.on_use(itemstack, player, pointed_thing)`**
-
-This function is used internally by Unfiied Dyes to actually make a dye able to colorize a node when you wield and punch with it. Unified Dyes redefines the minetest_game default dye items to call this function.
+This function, called in your node definition's on_construct, just sets the `palette = "ext"` metadata key for the node after it's been placed. This can then be read in an LBM to determine if this node needs to be converted from the old 89-color palette to the extended 256-color palette. Although it is good practice to call this for any node that uses the 256-color palette, it isn't actually necessary as long as the node has never used the 89-color palette, and won't be subjected to an LBM that changes its color.
 
 #### Tables
 
@@ -103,6 +87,70 @@ In addition to the above API calls, Unified Dyes provides several useful tables
 
 `unifieddyes.base_color_crafts` contains a condensed list of crafting recipes for all 24 basic hues, plus black and white, most of which have multiple alternative recipes. Each line contains the name of the color, up to five dye itemstrings (with `nil` in each unused space), and the yield for that craft. 
 
-`unifieddyes.shade_crafts` contains recipes for each of the 10 shades a hue can take on, used with one or two portions of the dye corresponding to that hue. Each line contains the shade name with trailing "_", the saturation name (either `_s50` or empty string), up to three dye itemstrings, and the yield for that craft.
+`unifieddyes.shade_crafts` contains recipes for each of the 10 shades a hue can take on, used with one or two portions of the dye corresponding to that hue. Each line contains the shade name with trailing "_", the saturation name (either "_s50" or empty string), up to three dye item strings, and the yield for that craft.
 
 `unifieddyes.greymixes` contains the recipes for the 14 shades of grey. Each line contains the grey shade number from 1-14, up to four dye item names, and the yield for that craft.
+
+#### Converting an old mod
+
+If your mod used the old paradigm where you craft a neutral-colored item, place it, and punch with dye to color it, and you wish to convert it to colored itemstacks, take the following actions for each node:
+
+* Remove these keys:
+
+```lua
+	after_dig_node = unifieddyes.after_dig_node,
+	place_param2 = 240,
+	after_place_node = unifieddyes.recolor_on_place,
+```
+
+* Add a call to the create-all-recipes helper.  Here's an example:
+
+```lua
+	unifieddyes.register_color_craft({
+		output = "mymod:colored_node 6",
+		palette = "extended",
+		neutral_node = "mymod:my_base_node_material",
+		recipe = {
+			{ "NEUTRAL_NODE", "MAIN_DYE",     "NEUTRAL_NODE" },
+			{ "MAIN_DYE",     "NEUTRAL_NODE", "MAIN_DYE"     }, 
+			{ "NEUTRAL_NODE", "MAIN_DYE",     "NEUTRAL_NODE" }
+		}
+	})
+```
+
+`output` is a standard item string as in the normal `minetest.register_craft()` call.
+
+`palette` specifies the palette type to iterate through ("extended" and "wallmounted" are obvious, and if not specified, it'll use the 89 color palette).
+
+`type` can be "shapeless" or unspecified/`nil`, and works the same as in the normal call.
+
+`neutral_node` should specify the name of whatever item or node serves as the base, neutrally-colored material in your recipe.  This really only applies if your node is just made from one item (or more than one of the same item), plus one or more dyes.  If your node is just made from a collection of item and no one item is really the neutral material, or anyway if you don't need this substitution, you must set it to an empty string.
+
+`recipe` is the same as in the normal call, except that Unified Dyes will replace all instances of the string "NEUTRAL_NODE" with the item specified in the preceding `neutral_node` field.  Every instance of "MAIN_DYE" will be replaced with a portion of dye, as Unified Dyes' recipe helper works through its color lists (i.e. this field will become whatever dye is needed for each recipe).
+
+If your mod never has never used Unified Dyes at all, in short, do the following:
+
+* Remove all of your various colored node definitions, keeping only the one for the white version of your node, or delete them all, and keep whatever node you consider to be "neutral colored".
+
+* Delete all of the colored texture files too, except keep the brightest, highest-contrast, most detailed one - whichever color that happens to be.  Most likely, red or green will be the best one.
+
+* Convert that last texture to grayscale, enhance its contrast as much as you can without distorting it, and rename it to something more neutral.
+
+* Add the `on_construct` and `palette` keys to your neutral node definition, for example:
+
+	`palette = "unifieddyes_palette_extended.png",`
+	`on_construct = unifieddyes.on_construct,`
+
+* Adjust your node's groups to specify that the node can be colored.  Example (note the last item):
+
+	`groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2,flammable=3, ud_param2_colorable = 1},`
+
+* Remove all crafting recipes for all colored versions of that node, keeping only the one that makes the "neutral" one.
+
+* Add the above recipes helper call (which replaces those delted recipes)
+
+If your colored node is based on someone else's neutral node, for example if you made a mod that creates multiple colors of minetest_game's default clay, you may find it best to create a single "stand-in" node that's identical to the neutral node, but named for your mod, hidden from the creative inventory, and has a properly-prepared grayscale texture image in addition to the above keys.  Use the neutral node and the custom hidden node as in the above craft helper call.  Then use minetest.override_item() to add the on_construct and palette keys and the ud_param2_colorable group to that "someone else's" node.
+
+* You will need to write a run-only-once LBM to convert your old statically-colored nodes to use hardware coloring.  See above for functions that will help reduce the work required for this part.
+
+If your mod has no colorable items, and you wish to expand it accordingly, follow the above "never used" section, skipping the "remove/delete this and that" items, and of course omitting the LBM.
