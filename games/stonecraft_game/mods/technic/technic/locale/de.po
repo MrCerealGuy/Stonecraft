@@ -540,6 +540,10 @@ msgstr "@1 ist falsch plaziert"
 msgid "@1 (@2 EU)"
 msgstr "@1 (@2 EU)"
 
+#: machines/MV/hydro_turbine.lua
+msgid "Hydro @1 Generator"
+msgstr "@1 Wassermühle"
+
 #: machines/other/anchor.lua
 msgid "Administrative World Anchor"
 msgstr "Administrativer Weltanker"

@@ -1,7 +1,15 @@
+--[[
+
+2018-08-24 MrCerealGuy: added intllib support
+
+--]]
+
 -- A Hydro Turbine produces MV EUs by exploiting flowing water across it
 -- It is a MV EU supplyer and fairly high yield (max 1800EUs)
 
-local S = technic.getter
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -51,7 +59,7 @@ local run = function(pos, node)
 	meta:set_int("MV_EU_supply", eu_supply)
 
 	meta:set_string("infotext",
-	S("Hydro %s Generator"):format("MV").." ("..production_level.."%)")
+	S("Hydro @1 Generator", "MV").." ("..production_level.."%)")
 	if production_level > 0 and
 		minetest.get_node(pos).name == "technic:hydro_turbine" then
 		technic.swap_node(pos, "technic:hydro_turbine_active")
@@ -64,7 +72,7 @@ local run = function(pos, node)
 end
 
 minetest.register_node("technic:hydro_turbine", {
-	description = S("Hydro %s Generator"):format("MV"),
+	description = S("Hydro @1 Generator", "MV"),
 	tiles = {
 		"technic_hydro_turbine_top.png",
 		"technic_machine_bottom.png"..cable_entry,
@@ -80,14 +88,14 @@ minetest.register_node("technic:hydro_turbine", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("Hydro %s Generator"):format("MV"))
+		meta:set_string("infotext", S("Hydro @1 Generator", "MV"))
 		meta:set_int("MV_EU_supply", 0)
 	end,
 	technic_run = run,
 })
 
 minetest.register_node("technic:hydro_turbine_active", {
-	description = S("Hydro %s Generator"):format("MV"),
+	description = S("Hydro @1 Generator", "MV"),
 	tiles = {"technic_hydro_turbine_top_active.png", "technic_machine_bottom.png",
 			"technic_hydro_turbine_side.png", "technic_hydro_turbine_side.png",
 			"technic_hydro_turbine_side.png", "technic_hydro_turbine_side.png"},

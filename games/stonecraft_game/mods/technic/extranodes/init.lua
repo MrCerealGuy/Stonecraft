@@ -17,7 +17,7 @@ if core.skip_mod("technic") then return end
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-if minetest.get_modpath("moreblocks") then
+if minetest.get_modpath("moreblocks") and not core.skip_mod("moreblocks") then
 
 	-- register stairsplus/circular_saw nodes
 	-- we skip blast resistant concrete and uranium intentionally
