@@ -1,6 +1,6 @@
 % Stonecraft Wiki
 % Andreas Zahnleiter
-% August 30, 2018
+% September 1, 2018
 
 # Welcome to Stonecraft
 
@@ -85,7 +85,7 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 		2. [Grinding, extracting, and compressing](#grinding-extracting-and-compressing)
 		3. [Centrifuging](#centrifuging)
 	6. [Radioactivity](#radioactivity)
-	7. [Electrical power](#electrical power)
+	7. [Electrical power](#electrical-power)
 	8. [Chests](#chests)
 	9. [Tools](#tools)
 		1. [Chainsaw](#chainsaw)
@@ -704,7 +704,7 @@ They all drop life energies. With life energies you can craft tools and special 
 | Crocodile<br>![](/doc/wiki-images/108px-Nssm_crocodile.png) | A Crocodile is a hostile mob. | 10![](/doc/wiki-images/16px-Heart.png)/1![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Crocodile Tail |
 | Daddy Long Legs<br>![](/doc/wiki-images/120px-Nssm_daddy_long_legs.png) | A Daddy Long Legs is a spiderlike hostile mob with a small body and obviously, long legs! | 9 1/2![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Spider Leg |
 | Dolidrosaurus<br>![](/doc/wiki-images/98px-Nssm_dolidrosaurus.png) | A Dolidrosaurus is an aquatic reptile hostile mob with a long tail and a fin at the end. They're fully adapted to living in water and they have two others fins on the side which allow them to swim faster and more precisely. Dolidrosaurus derives from greek, Dolicolos means long, Hydor water and Sauros lizard. Dolidrosauruses have five possible variations of their skin: Dark green, green, light green, blue-green and blue-pink. | 13![](/doc/wiki-images/16px-Heart.png)/2![](/doc/wiki-images/Armor.png)/2![](/doc/wiki-images/16px-Heart.png) | Life Energy |
-| Duck<br>![](/doc/wiki-images/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Minetest cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1/2![](/doc/wiki-images/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
+| Duck<br>![](/doc/wiki-images/61px-Nssm_duck.png) | A Duck is cute but evil hostile mob. Walks around the plains with nothing better to do than pecking the players foot. It Is quite small and can survive Stonecraft cruel world only with the help of her big brothers and sisters that attack the bad players who wants to eat their delicious duck legs. | 5![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1/2![](/doc/wiki-images/16px-Heart.png)| Life Energy<br>Duck Legs<br>Duck Beak |
 | Echidna<br>![](/doc/wiki-images/68px-Nssm_echidna.png) | An Echidna is a beautiful human hostile mob. It's skin is pale, sick-green and they have black hair. They're half naked but you probably won't care, the one who looses himself in thoose evil, but beautiful, eyes is dead. When you are to close she will slash you with her tail. She emits poison to blocks nearby which does not go away, it causes half heart of damage each game tick and you can drown in it like you would in water. | 45![](/doc/wiki-images/16px-Heart.png)/4![](/doc/wiki-images/Armor.png)/5![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Snake Scute |
 | Enderduck<br>![](/doc/wiki-images/69px-Nssm_enderduck.png) | An Enderduck is tall and very dark hostile mob that spawns at night and hunts poor miners chasing them with high speed and brilliant eyes that allow them to see in the darker night. | 10![](/doc/wiki-images/16px-Heart.png)/-![](/doc/wiki-images/Armor.png)/1 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Duck Legs<br>Duck Beak |
 | Felucco<br>![](/doc/wiki-images/120px-Felucco_nssm.png) | The Felucco is one of the most fierce carnivores of nssm. It is very fast and attacks anyone with its mighty horns. His name derives form italian: "fel" stands for "felino", feline, because of its similarity with leopards. "Ucc" stands for "mucca", cow, because of his peculiar horns and "o" is the desinence for male in italian.<br><br>With the fur it is possible to craft a strong armor, but not so durable. Felucco steaks are very nutritious after been cooked. Felucco horns are good raw materials to craft weapons and tools, it is possible to craft a hoe, a knife and a spear. | 16![](/doc/wiki-images/16px-Heart.png)/3![](/doc/wiki-images/Armor.png)/2 1/2![](/doc/wiki-images/16px-Heart.png) | Life Energy<br>Felucco Fur<br>Felucco Steak<br>Felucco Horn |
@@ -906,7 +906,7 @@ The generator and switching station should be placed side-by-side with the wire 
 
 Consumer is a machine which consume energy to do something.
 
-This is the list of all consumers avaible in technic:
+This is the list of all consumers avaible in Technic:
 
 * Alloy furnace
 * MV Alloy furnace
@@ -920,7 +920,7 @@ This is the list of all consumers avaible in technic:
 
 ### Generators
 
-This is list of all generators available in technic:
+This is list of all generators available in Technic:
 
 * Coal generator 
 * [Geothermal EU generator](#geothermal-eu-generator) 
@@ -946,7 +946,7 @@ A tube upgrade consists of a control logic unit item. The effect of a tube upgra
 
 ### Tubes with powered machines
 
-Generally, powered machines of MV and HV tiers can work with pneumatic tubes, and those of lower tiers cannot. (As an exception, the fuel-fired furnace from the basic Minetest game can accept inputs through tubes, but can't output into tubes.)
+Generally, powered machines of MV and HV tiers can work with pneumatic tubes, and those of lower tiers cannot. (As an exception, the fuel-fired furnace from the basic Stonecraft game can accept inputs through tubes, but can't output into tubes.)
 
 If a machine can accept inputs through tubes at all, then this is a capability of the basic machine, not requiring any upgrade. Most item-processing machines take only one kind of input, and in that case they will accept that input from any direction. This doesn't match how tubes visually connect to the machines: generally tubes will visually connect to any face except the front, but an item passing through a tube in front of the machine will actually be accepted into the machine.
 
@@ -977,13 +977,13 @@ The MV machines can work with pneumatic tubes. They accept inputs via tubes from
 
 The MV machines can be given a tube upgrade to make them automatically eject output items into pneumatic tubes. The items are always ejected through a side, though which side it is depends on the machine's orientation, due to a bug. Output items are always ejected singly. For some machines, such as the grinder, the ejection rate with a single tube upgrade doesn't keep up with the rate at which items can be processed. A second tube upgrade increases the ejection rate.
 
-The LV and fuel-fired machines do not work with pneumatic tubes, except that the fuel-fired furnace (actually part of the basic Minetest game) can accept inputs from tubes. Items arriving through the bottom of the furnace go into the fuel slot, and items arriving from all other directions go into the input slot.
+The LV and fuel-fired machines do not work with pneumatic tubes, except that the fuel-fired furnace (actually part of the basic Stonecraft game) can accept inputs from tubes. Items arriving through the bottom of the furnace go into the fuel slot, and items arriving from all other directions go into the input slot.
 
 ### Music player
 
-The music player is an LV powered machine that plays audio recordings. It offers a selection of up to nine tracks. The technic modpack doesn't include specific music tracks for this purpose; they have to be installed separately.
+The music player is an LV powered machine that plays audio recordings. It offers a selection of up to nine tracks. Technic doesn't include specific music tracks for this purpose; they have to be installed separately.
 
-The music player gives the impression that the music is being played in the Minetest world. The music only plays as long as the music player is in place and is receiving electrical power, and the choice of music is controlled by interaction with the machine. The sound also appears to emanate specifically from the music player: the ability to hear it depends on the player's distance from the music player. However, the game engine doesn't currently support any other positional cues for sound, such as attenuation, panning, or HRTF. The impression of the sound being located in the Minetest world is also compromised by the subjective nature of track choice: the specific music that is played to a player depends on what media the player has installed.
+The music player gives the impression that the music is being played in the Stonecraft world. The music only plays as long as the music player is in place and is receiving electrical power, and the choice of music is controlled by interaction with the machine. The sound also appears to emanate specifically from the music player: the ability to hear it depends on the player's distance from the music player. However, the game engine doesn't currently support any other positional cues for sound, such as attenuation, panning, or HRTF. The impression of the sound being located in the Stonecraft world is also compromised by the subjective nature of track choice: the specific music that is played to a player depends on what media the player has installed.
 
 ### CNC machine
 
@@ -999,7 +999,7 @@ The mechanical wear that the tool workshop repairs is always indicated in invent
 
 The tool workshop has upgrade slots. Energy upgrades reduce its power consumption.
 
-It can work with pneumatic tubes. Tools to be repaired are accepted via tubes from any direction. With a tube upgrade, the tool workshop will also eject fully-repaired tools via one side, the choice of side depending on the machine's orientation, as for processing machines. It is safe to put into the tool workshop a tool that is already fully repaired: assuming the presence of a tube upgrade, the tool will be quickly ejected. Furthermore, any item of unrepairable type will also be ejected as if fully repaired. (Due to a historical limitation of the basic Minetest game, it is impossible for the tool workshop to distinguish between a fully-repaired tool and any item type that never displays a wear bar.)
+It can work with pneumatic tubes. Tools to be repaired are accepted via tubes from any direction. With a tube upgrade, the tool workshop will also eject fully-repaired tools via one side, the choice of side depending on the machine's orientation, as for processing machines. It is safe to put into the tool workshop a tool that is already fully repaired: assuming the presence of a tube upgrade, the tool will be quickly ejected. Furthermore, any item of unrepairable type will also be ejected as if fully repaired.
 
 ### Quarry
 
@@ -1013,7 +1013,7 @@ If the quarry encounters something that cannot be dug, such as a liquid, a locke
 
 The quarry consumes 10 kEU per block dug, which is quite a lot of energy. With most of what is dug being mere stone, it is usually not economically favorable to power a quarry from anything other than solar power. In particular, one cannot expect to power a quarry by burning the coal that it digs up.
 
-Given sufficient power, the quarry digs at a rate of one block per second. This is rather tedious to wait for. Unfortunately, leaving the quarry unattended normally means that the Minetest server won't keep the machine running: it needs a player nearby. This can be resolved by using a world anchor. The digging is still quite slow, and independently of whether a world anchor is used the digging can be speeded up by placing multiple quarry machines with overlapping digging areas. Four can be placed to dig identical areas, one on each side of the square cross section.
+Given sufficient power, the quarry digs at a rate of one block per second. This is rather tedious to wait for. Unfortunately, leaving the quarry unattended normally means that the Stonecraft server won't keep the machine running: it needs a player nearby. This can be resolved by using a world anchor. The digging is still quite slow, and independently of whether a world anchor is used the digging can be speeded up by placing multiple quarry machines with overlapping digging areas. Four can be placed to dig identical areas, one on each side of the square cross section.
 
 ### Forcefield emitter
 
@@ -1064,54 +1064,54 @@ Technic provides additional resources for building these machines.
 
 ### Ore
 
-The technic mod makes extensive use of not just the default ores but also some that are added by mods. You will need to mine for all the ore types in the course of the game. Each ore type is found at a specific range of elevations, and while the ranges mostly overlap, some have non-overlapping ranges, so you will ultimately need to mine at more than one elevation to find all the ores. Also, because one of the best elevations to mine at is very deep, you will be unable to mine there early in the game.
+Technic makes extensive use of not just the default ores but also some that are added by mods. You will need to mine for all the ore types in the course of the game. Each ore type is found at a specific range of elevations, and while the ranges mostly overlap, some have non-overlapping ranges, so you will ultimately need to mine at more than one elevation to find all the ores. Also, because one of the best elevations to mine at is very deep, you will be unable to mine there early in the game.
 
 Elevation is measured in meters, relative to a reference plane that is not quite sea level. (The standard sea level is at an elevation of about +1.4.) Positive elevations are above the reference plane and negative elevations below. Because elevations are always described this way round, greater numbers when higher, we avoid the word "depth".
 
-The ores that matter in technic are coal, iron, copper, tin, zinc, chromium, uranium, silver, gold, mithril, mese, and diamond.
+The ores that matter in Technic are coal, iron, copper, tin, zinc, chromium, uranium, silver, gold, mithril, mese, and diamond.
 
-Coal is part of the basic Minetest game. It is found from elevation +64 downwards, so is available right on the surface at the start of the game, but it is far less abundant above elevation 0 than below. It is initially used as a fuel, driving important machines in the early part of the game. It becomes less important as a fuel once most of your machines are electrically powered, but burning fuel remains a way to generate electrical power. Coal is also used, usually in dust form, as an ingredient in alloying recipes, wherever elemental carbon is required.
+Coal is found from elevation +64 downwards, so is available right on the surface at the start of the game, but it is far less abundant above elevation 0 than below. It is initially used as a fuel, driving important machines in the early part of the game. It becomes less important as a fuel once most of your machines are electrically powered, but burning fuel remains a way to generate electrical power. Coal is also used, usually in dust form, as an ingredient in alloying recipes, wherever elemental carbon is required.
 
-Iron is part of the basic Minetest game. It is found from elevation +2 downwards, and its abundance increases in stages as one descends, reaching its maximum from elevation -64 downwards. It is a common metal, used frequently as a structural component. In technic, unlike the basic game, iron is used in multiple forms, mainly alloys based on iron and including carbon (coal).
+Iron is found from elevation +2 downwards, and its abundance increases in stages as one descends, reaching its maximum from elevation -64 downwards. It is a common metal, used frequently as a structural component. In Technic, unlike the basic game, iron is used in multiple forms, mainly alloys based on iron and including carbon (coal).
 
-Copper is part of the basic Minetest game (having migrated there from moreores). It is found from elevation -16 downwards, but is more abundant from elevation -64 downwards. It is a common metal, used either on its own for its electrical conductivity, or as the base component of alloys. Although common, it is very heavily used, and most of the time it will be the material that most limits your activity.
+Copper is found from elevation -16 downwards, but is more abundant from elevation -64 downwards. It is a common metal, used either on its own for its electrical conductivity, or as the base component of alloys. Although common, it is very heavily used, and most of the time it will be the material that most limits your activity.
 
-Tin is part of the basic Minetest game (having migrated there from moreores). It is found from elevation +8 downwards, with no elevation-dependent variations in abundance beyond that point.
+Tin is found from elevation +8 downwards, with no elevation-dependent variations in abundance beyond that point.
 It is a common metal. Its main use in pure form is as a component of electrical batteries. Apart from that its main purpose is as the secondary ingredient in bronze (the base being copper), but bronze is itself little used. Its abundance is well in excess of its usage, so you will usually have a surplus of it.
 
-Zinc is supplied by technic. It is found from elevation +2 downwards, with no elevation-dependent variations in abundance beyond that point. It is a common metal. Its main use is as the secondary ingredient in brass (the base being copper), but brass is itself little used. Its abundance is well in excess of its usage, so you will usually have a surplus of it.
+Zinc is supplied by Technic. It is found from elevation +2 downwards, with no elevation-dependent variations in abundance beyond that point. It is a common metal. Its main use is as the secondary ingredient in brass (the base being copper), but brass is itself little used. Its abundance is well in excess of its usage, so you will usually have a surplus of it.
 
-Chromium is supplied by technic. It is found from elevation -100 downwards, with no elevation-dependent variations in abundance beyond that point. It is a moderately common metal. Its main use is as the secondary ingredient in stainless steel (the base being iron).
+Chromium is supplied by Technic. It is found from elevation -100 downwards, with no elevation-dependent variations in abundance beyond that point. It is a moderately common metal. Its main use is as the secondary ingredient in stainless steel (the base being iron).
 
-Uranium is supplied by technic. It is found only from elevation -80 down to -300; using it therefore requires one to mine above elevation -300 even though deeper mining is otherwise more productive. It is a moderately common metal, useful only for reasons related to radioactivity: it forms the fuel for nuclear reactors, and is also one of the best radiation shielding materials available. It is not difficult to find enough uranium ore to satisfy these uses. Beware that the ore is slightly radioactive: it will slightly harm you if you stand as close as possible to it. It is safe when more than a meter away or when mined.
+Uranium is supplied by Technic. It is found only from elevation -80 down to -300; using it therefore requires one to mine above elevation -300 even though deeper mining is otherwise more productive. It is a moderately common metal, useful only for reasons related to radioactivity: it forms the fuel for nuclear reactors, and is also one of the best radiation shielding materials available. It is not difficult to find enough uranium ore to satisfy these uses. Beware that the ore is slightly radioactive: it will slightly harm you if you stand as close as possible to it. It is safe when more than a meter away or when mined.
 
-Silver is supplied by the moreores mod. It is found from elevation -2 downwards, with no elevation-dependent variations in abundance beyond that point. It is a semi-precious metal. It is little used, being most notably used in electrical items due to its conductivity, being the best conductor of all the pure elements.
+Silver is found from elevation -2 downwards, with no elevation-dependent variations in abundance beyond that point. It is a semi-precious metal. It is little used, being most notably used in electrical items due to its conductivity, being the best conductor of all the pure elements.
 
-Gold is part of the basic Minetest game (having migrated there from moreores). It is found from elevation -64 downwards, but is more abundant from elevation -256 downwards. It is a precious metal. It is little used, being most notably used in electrical items due to its combination of good conductivity (third best of all the pure elements) and corrosion resistance.
+Gold is found from elevation -64 downwards, but is more abundant from elevation -256 downwards. It is a precious metal. It is little used, being most notably used in electrical items due to its combination of good conductivity (third best of all the pure elements) and corrosion resistance.
 
-Mithril is supplied by the moreores mod. It is found from elevation -512 downwards, the deepest ceiling of any minable substance, with no elevation-dependent variations in abundance beyond that point. It is a rare precious metal, and unlike all the other metals described here it is entirely fictional, being derived from J. R. R. Tolkien's Middle-Earth setting. It is little used.
+Mithril is found from elevation -512 downwards, the deepest ceiling of any minable substance, with no elevation-dependent variations in abundance beyond that point. It is a rare precious metal, and unlike all the other metals described here it is entirely fictional, being derived from J. R. R. Tolkien's Middle-Earth setting. It is little used.
 
-Mese is part of the basic Minetest game. It is found from elevation -64 downwards. The ore is more abundant from elevation -256 downwards, and from elevation -1024 downwards there are also occasional blocks of solid mese (each yielding as much mese as nine blocks of ore). It is a precious gemstone, and unlike diamond it is entirely fictional. It is used in many recipes, though mainly not in large quantities, wherever some magical quality needs to be imparted.
+Mese is found from elevation -64 downwards. The ore is more abundant from elevation -256 downwards, and from elevation -1024 downwards there are also occasional blocks of solid mese (each yielding as much mese as nine blocks of ore). It is a precious gemstone, and unlike diamond it is entirely fictional. It is used in many recipes, though mainly not in large quantities, wherever some magical quality needs to be imparted.
 
-Diamond is part of the basic Minetest game (having migrated there from technic). It is found from elevation -128 downwards, but is more abundant from elevation -256 downwards. It is a precious gemstone. It is used moderately, mainly for reasons connected to its extreme hardness.
+Diamond is found from elevation -128 downwards, but is more abundant from elevation -256 downwards. It is a precious gemstone. It is used moderately, mainly for reasons connected to its extreme hardness.
 
 ### Rock
 
-In addition to the ores, there are multiple kinds of rock that need to be mined in their own right, rather than for minerals. The rock types that matter in technic are standard stone, desert stone, marble, and granite.
+In addition to the ores, there are multiple kinds of rock that need to be mined in their own right, rather than for minerals. The rock types that matter in Technic are standard stone, desert stone, marble, and granite.
 
-Standard stone is part of the basic Minetest game. It is extremely common. As in the basic game, when dug it yields cobblestone, which can be cooked to turn it back into standard stone. Cobblestone is used in recipes only for some relatively primitive machines. Standard stone is used in a couple of machine recipes. These rock types gain additional significance with technic because the grinder can be used to turn them into dirt and sand. This, especially when combined with an automated cobblestone generator, can be an easier way to acquire sand than collecting it where it occurs naturally.
+Standard stone is extremely common. As in the basic game, when dug it yields cobblestone, which can be cooked to turn it back into standard stone. Cobblestone is used in recipes only for some relatively primitive machines. Standard stone is used in a couple of machine recipes. These rock types gain additional significance with Technic because the grinder can be used to turn them into dirt and sand. This, especially when combined with an automated cobblestone generator, can be an easier way to acquire sand than collecting it where it occurs naturally.
 
-Desert stone is part of the basic Minetest game. It is found specifically in desert biomes, and only from elevation +2 upwards. Although it is easily accessible, therefore, its quantity is ultimately quite limited. It is used in a few recipes.
+Desert stone is found specifically in desert biomes, and only from elevation +2 upwards. Although it is easily accessible, therefore, its quantity is ultimately quite limited. It is used in a few recipes.
 
-Marble is supplied by technic. It is found in dense clusters from elevation -50 downwards. It has mainly decorative use, but also appears in one machine recipe.
+Marble is supplied by Technic. It is found in dense clusters from elevation -50 downwards. It has mainly decorative use, but also appears in one machine recipe.
 
-Granite is supplied by technic. It is found in dense clusters from elevation -150 downwards. It is much harder to dig than standard stone, so impedes mining when it is encountered. It has mainly decorative use, but also appears in a couple of machine recipes.
+Granite is supplied by Technic. It is found in dense clusters from elevation -150 downwards. It is much harder to dig than standard stone, so impedes mining when it is encountered. It has mainly decorative use, but also appears in a couple of machine recipes.
 
 ### Rubber
 
-Rubber is a biologically-derived material that has industrial uses due to its electrical resistivity and its impermeability. In technic, it is used in a few recipes, and it must be acquired by tapping rubber trees.
+Rubber is a biologically-derived material that has industrial uses due to its electrical resistivity and its impermeability. In Technic, it is used in a few recipes, and it must be acquired by tapping rubber trees.
 
-If you have the moretrees mod installed, the rubber trees you need are those defined by that mod. If not, technic supplies a copy of the moretrees rubber tree.
+If you have 'More trees' enabled, the rubber trees you need are those defined by that mod. If not, Technic supplies a copy of the 'More trees' rubber tree.
 
 Extracting rubber requires a specific tool, a tree tap. Using the tree tap (by left-clicking) on a rubber tree trunk block extracts a lump of raw latex from the trunk. Each trunk block can be repeatedly tapped for latex, at intervals of several minutes; its appearance changes to show whether it is currently ripe for tapping. Each tree has several trunk blocks, so several latex lumps can be extracted from a tree in one visit.
 
@@ -1119,13 +1119,13 @@ Raw latex isn't used directly. It must be vulcanized to produce finished rubber.
 
 ### Metal
 
-Many of the substances important in technic are metals, and there is a common pattern in how metals are handled. Generally, each metal can exist in five forms: ore, lump, dust, ingot, and block. With a couple of tricky exceptions in mods outside technic, metals are only used in dust, ingot, and block forms. Metals can be readily converted between these three forms, but can't be converted from them back to ore or lump forms.
+Many of the substances important in Technic are metals, and there is a common pattern in how metals are handled. Generally, each metal can exist in five forms: ore, lump, dust, ingot, and block. With a couple of tricky exceptions in mods outside Technic, metals are only used in dust, ingot, and block forms. Metals can be readily converted between these three forms, but can't be converted from them back to ore or lump forms.
 
-As in the basic Minetest game, a "lump" of metal is acquired directly by digging ore, and will then be processed into some other form for use. A lump is thus more akin to ore than to refined metal. (In real life, metal ore rarely yields lumps ("nuggets") of pure metal directly. More often the desired metal is chemically bound into the rock as an oxide or some other compound, and the ore must be chemically processed to yield pure metal.)
+As in the basic Stonecraft game, a "lump" of metal is acquired directly by digging ore, and will then be processed into some other form for use. A lump is thus more akin to ore than to refined metal. (In real life, metal ore rarely yields lumps ("nuggets") of pure metal directly. More often the desired metal is chemically bound into the rock as an oxide or some other compound, and the ore must be chemically processed to yield pure metal.)
 
 Not all metals occur directly as ore. Generally, elemental metals (those consisting of a single chemical element) occur as ore, and alloys (those consisting of a mixture of multiple elements) do not. In fact, if the fictional mithril is taken to be elemental, this pattern is currently followed perfectly. (It is not clear in the Middle-Earth setting whether mithril is elemental or an alloy.) This might change in the future: in real life some alloys do occur as ore, and some elemental metals rarely occur naturally outside such alloys. Metals that do not occur as ore also lack the "lump" form.
 
-The basic Minetest game offers a single way to refine metals: cook a lump in a furnace to produce an ingot. With technic this refinement method still exists, but is rarely used outside the early part of the game, because technic offers a more efficient method once some machines have been built. The grinder, available only in electrically-powered forms, can grind a metal lump into two piles of metal dust. Each dust pile can then be cooked into an ingot, yielding two ingots from one lump. This doubling of material value means that you should only cook a lump directly when you have no choice, mainly early in the game when you haven't yet built a grinder.
+The basic Stonecraft game offers a single way to refine metals: cook a lump in a furnace to produce an ingot. With Technic this refinement method still exists, but is rarely used outside the early part of the game, because Technic offers a more efficient method once some machines have been built. The grinder, available only in electrically-powered forms, can grind a metal lump into two piles of metal dust. Each dust pile can then be cooked into an ingot, yielding two ingots from one lump. This doubling of material value means that you should only cook a lump directly when you have no choice, mainly early in the game when you haven't yet built a grinder.
 
 An ingot can also be ground back to (one pile of) dust. Thus it is always possible to convert metal between ingot and dust forms, at the expense of some energy consumption. Nine ingots of a metal can be crafted into a block, which can be used for building. The block can also be crafted back to nine ingots. Thus it is possible to freely convert metal between ingot and block forms, which is convenient to store the metal compactly. Every metal has dust, ingot, and block forms.
 
@@ -1135,7 +1135,7 @@ Alloying recipes in which a metal is the base ingredient, to produce a metal all
 
 Iron forms several important alloys. In real-life history, iron was the second metal to be used as the base component of deliberately-constructed alloys (the first was copper), and it was the first metal whose working required processes of any metallurgical sophistication. The game mechanics around iron broadly imitate the historical progression of processes around it, rather than the less-varied modern processes.
 
-The two-component alloying system of iron with carbon is of huge importance, both in the game and in real life. The basic Minetest game doesn't distinguish between these pure iron and these alloys at all, but technic introduces a distinction based on the carbon content, and renames some items of the basic game accordingly.
+The two-component alloying system of iron with carbon is of huge importance, both in the game and in real life. The basic Stonecraft game doesn't distinguish between these pure iron and these alloys at all, but Technic introduces a distinction based on the carbon content, and renames some items of the basic game accordingly.
 
 The iron/carbon spectrum is represented in the game by three metal substances: wrought iron, carbon steel, and cast iron. Wrought iron has low carbon content (less than 0.25%), resists shattering, and is easily welded, but is relatively soft and susceptible to rusting. In real-life history it was used for rails, gates, chains, wire, pipes, fasteners, and other purposes. Cast iron has high carbon content (2.1% to 4%), is especially hard, and resists corrosion, but is relatively brittle, and difficult to work. Historically it was used to build large structures such as bridges, and for cannons, cookware, and engine cylinders. Carbon steel has medium carbon content (0.25% to 2.1%), and intermediate properties: moderately hard and also tough, somewhat resistant to corrosion. In real life it is now used for most of the purposes previously satisfied by wrought iron and many of those of cast iron, but has historically been especially important for its use in swords, armor, skyscrapers, large bridges, and machines.
 
@@ -1161,13 +1161,13 @@ When uranium is to be used to fuel a nuclear reactor, it is not sufficient to me
 
 The main isotopes of interest are U-235 and U-238. U-235 is good at sustaining a nuclear chain reaction, because when a U-235 nucleus is bombarded with a neutron it will usually fission (split) into fragments. It is therefore described as "fissile". U-238, on the other hand, is not fissile: if bombarded with a neutron it will usually capture it, becoming U-239, which is very unstable and quickly decays into semi-stable (and fissile) plutonium-239.
 
-Inconveniently, the fissile U-235 makes up only about 0.7% of natural uranium, almost all of the other 99.3% being U-238. Natural uranium therefore doesn't make a great nuclear fuel. (In real life there are a small number of reactor types that can use it, but technic doesn't have such a reactor.) Better nuclear fuel needs to contain a higher proportion of U-235.
+Inconveniently, the fissile U-235 makes up only about 0.7% of natural uranium, almost all of the other 99.3% being U-238. Natural uranium therefore doesn't make a great nuclear fuel. (In real life there are a small number of reactor types that can use it, but Technic doesn't have such a reactor.) Better nuclear fuel needs to contain a higher proportion of U-235.
 
 Achieving a higher U-235 content isn't as simple as separating the U-235 from the U-238 and just using the required amount of U-235. Because U-235 and U-238 are both uranium, and therefore chemically identical, they cannot be chemically separated, in the way that different elements are separated from each other when refining metal. They do differ in atomic mass, so they can be separated by centrifuging, but because their atomic masses are very close, centrifuging doesn't separate them very well. They cannot be separated completely, but it is possible to produce uranium that has the isotopes mixed in different proportions. Uranium with a significantly larger fissile U-235 fraction than natural uranium is called "enriched", and that with a significantly lower fissile fraction is called "depleted".
 
 A single pass through a centrifuge produces two output streams, one with a fractionally higher fissile proportion than the input, and one with a fractionally lower fissile proportion. To alter the fissile proportion by a significant amount, these output streams must be centrifuged again, repeatedly. The usual arrangement is a "cascade", a linear arrangement of many centrifuges. Each centrifuge takes as input uranium with some specific fissile proportion, and passes its two output streams to the two adjacent centrifuges. Natural uranium is input somewhere in the middle of the cascade, and the two ends of the cascade produce properly enriched and depleted uranium.
 
-Fuel for technic's nuclear reactor consists of enriched uranium of which 3.5% is fissile. (This is a typical value for a real-life light water reactor, a common type for power generation.) To enrich uranium in the game, it must first be in dust form: the centrifuge will not operate on ingots. (In real life uranium enrichment is done with the uranium in the form of a gas.) It is best to grind uranium lumps directly to dust, rather than cook them to ingots first, because this yields twice as much metal dust. When uranium is in refined form (dust, ingot, or block), the name of the inventory item indicates its fissile proportion. Uranium of any available fissile proportion can be put through all the usual processes for metal.
+Fuel for Technic's nuclear reactor consists of enriched uranium of which 3.5% is fissile. (This is a typical value for a real-life light water reactor, a common type for power generation.) To enrich uranium in the game, it must first be in dust form: the centrifuge will not operate on ingots. (In real life uranium enrichment is done with the uranium in the form of a gas.) It is best to grind uranium lumps directly to dust, rather than cook them to ingots first, because this yields twice as much metal dust. When uranium is in refined form (dust, ingot, or block), the name of the inventory item indicates its fissile proportion. Uranium of any available fissile proportion can be put through all the usual processes for metal.
 
 A single centrifuge operation takes two uranium dust piles, and produces as output one dust pile with a fissile proportion 0.1% higher and one with a fissile proportion 0.1% lower. Uranium can be enriched up to the 3.5% required for nuclear fuel, and depleted down to 0.0%. Thus a cascade covering the full range of fissile fractions requires 34 cascade stages. (In real life, enriching to 3.5% uses thousands of cascade stages. Also, centrifuging is less effective when the input isotope ratio is more skewed, so the steps in fissile proportion are smaller for relatively depleted uranium. Zero fissile content is only asymptotically approachable, and natural uranium relatively cheap, so uranium is normally only depleted to around 0.3%. On the other hand, much higher enrichment than 3.5% isn't much more difficult than enriching that far.)
 
@@ -1189,7 +1189,7 @@ Another possible approach to uranium enrichment is to have no fixed assignment o
 
 ### Concrete
 
-Concrete is a synthetic building material. The technic modpack implements it in the game.
+Concrete is a synthetic building material. Technic implements it in the game.
 
 Two forms of concrete are available as building blocks: ordinary "concrete" and more advanced "blast-resistant concrete". Despite its name, the latter has no special resistance to explosions or to any other means of destruction.
 
@@ -1203,7 +1203,7 @@ Latex is used for manufacturing rubber, which is heavily used for the medium- an
 
 ### Alloying
 
-In technic, alloying is a way of combining items to create other items, distinct from standard crafting. Alloying always uses inputs of exactly two distinct types, and produces a single output. Like cooking, which takes a single input, it is performed using a powered machine, known generically as an "alloy furnace". An alloy furnace always has two input slots, and it doesn't matter which way round the two ingredients are placed in the slots. Many alloying recipes require one or both slots to contain a stack of more than one of the ingredient item: the quantity required of each ingredient is part of the recipe.
+In Technic, alloying is a way of combining items to create other items, distinct from standard crafting. Alloying always uses inputs of exactly two distinct types, and produces a single output. Like cooking, which takes a single input, it is performed using a powered machine, known generically as an "alloy furnace". An alloy furnace always has two input slots, and it doesn't matter which way round the two ingredients are placed in the slots. Many alloying recipes require one or both slots to contain a stack of more than one of the ingredient item: the quantity required of each ingredient is part of the recipe.
 
 As with the furnaces used for cooking, there are multiple kinds of alloy furnace, powered in different ways. The most-used alloy furnaces are electrically powered. There is also an alloy furnace that is powered by directly burning fuel, just like the basic cooking furnace. Building almost any electrical machine, including the electrically-powered alloy furnaces, requires a machine casing component, one ingredient of which is brass, an alloy. It is therefore necessary to use the fuel-fired alloy furnace in the early part of the game, on the way to building electrical machinery.
 
@@ -1211,13 +1211,13 @@ Alloying recipes are mainly concerned with metals. These recipes combine a base 
 
 ### Grinding, extracting, and compressing
 
-Grinding, extracting, and compressing are three distinct, but very similar, ways of converting one item into another. They are all quite similar to the cooking found in the basic Minetest game. Each uses an input consisting of a single item type, and produces a single output. They are all performed using powered machines, respectively known generically as a "grinder", "extractor", and "compressor". Some compressing recipes require the input to be a stack of more than one of the input item: the quantity required is part of the recipe. Grinding and extracting recipes never require such a stacked input.
+Grinding, extracting, and compressing are three distinct, but very similar, ways of converting one item into another. They are all quite similar to the cooking found in the basic Stonecraft game. Each uses an input consisting of a single item type, and produces a single output. They are all performed using powered machines, respectively known generically as a "grinder", "extractor", and "compressor". Some compressing recipes require the input to be a stack of more than one of the input item: the quantity required is part of the recipe. Grinding and extracting recipes never require such a stacked input.
 
 There are multiple kinds of grinder, extractor, and compressor. Unlike cooking furnaces and alloy furnaces, there are none that directly burn fuel; they are all electrically powered.
 
-Grinding recipes always produce some kind of dust, loosely speaking, as output. The most important grinding recipes are concerned with metals: every metal lump or ingot can be ground into metal dust. Coal can also be ground into dust, and burning the dust as fuel produces much more energy than burning the original coal lump. There are a few other grinding recipes that make block types from the basic Minetest game more interconvertible: standard stone can be ground to standard sand, desert stone to desert sand, cobblestone to gravel, and gravel to dirt.
+Grinding recipes always produce some kind of dust, loosely speaking, as output. The most important grinding recipes are concerned with metals: every metal lump or ingot can be ground into metal dust. Coal can also be ground into dust, and burning the dust as fuel produces much more energy than burning the original coal lump. There are a few other grinding recipes that make block types from the basic Stonecraft game more interconvertible: standard stone can be ground to standard sand, desert stone to desert sand, cobblestone to gravel, and gravel to dirt.
 
-Extracting is a miscellaneous category, used for a small group of processes that just don't fit nicely anywhere else. (Its name is notably vaguer than those of the other kinds of processing.) It is used for recipes that produce dye, mainly from flowers. (However, for those recipes using flowers, the basic Minetest game provides parallel crafting recipes that are easier to use and produce more dye, and those recipes are not suppressed by technic.) Its main use is to generate rubber from raw latex, which it does three times as efficiently as merely cooking the latex. Extracting was also formerly used for uranium enrichment for use as nuclear fuel, but this use has been superseded by a new enrichment system using the centrifuge.
+Extracting is a miscellaneous category, used for a small group of processes that just don't fit nicely anywhere else. (Its name is notably vaguer than those of the other kinds of processing.) It is used for recipes that produce dye, mainly from flowers. (However, for those recipes using flowers, the basic Stonecraft game provides parallel crafting recipes that are easier to use and produce more dye, and those recipes are not suppressed by Technic.) Its main use is to generate rubber from raw latex, which it does three times as efficiently as merely cooking the latex. Extracting was also formerly used for uranium enrichment for use as nuclear fuel, but this use has been superseded by a new enrichment system using the centrifuge.
 
 Compressing recipes are mainly used to produce a few relatively advanced artificial item types, such as the copper and carbon plates used in advanced machine recipes. There are also a couple of compressing recipes making natural block types more interconvertible.
 
@@ -1237,9 +1237,9 @@ A secondary use of centrifuging is to separate the components of metal alloys. T
 
 Technic adds radioactivity to the game, as a hazard that can harm player characters. Certain substances in the game are radioactive, and when placed as blocks in the game world will damage nearby players. Conversely, some substances attenuate radiation, and so can be used for shielding. The radioactivity system is based on reality, but is not an attempt at serious simulation: like the rest of the game, it has many simplifications and deliberate deviations from reality in the name of game balance.
 
-In real life radiological hazards can be roughly divided into three categories based on the time scale over which they act: prompt radiation damage (such as radiation burns) that takes effect immediately; radiation poisoning that becomes visible in hours and lasts weeks; and cumulative effects such as increased cancer risk that operate over decades. The game's version of radioactivity causes only prompt damage, not any delayed effects. Damage comes in the abstracted form of removing the player's hit points, and is immediately visible to the player. As with all other kinds of damage in the game, the player can restore the hit points by eating food items. High-nutrition foods, such as the pie baskets supplied by the bushes_classic mod, are a useful tool in dealing with radiological hazards.
+In real life radiological hazards can be roughly divided into three categories based on the time scale over which they act: prompt radiation damage (such as radiation burns) that takes effect immediately; radiation poisoning that becomes visible in hours and lasts weeks; and cumulative effects such as increased cancer risk that operate over decades. The game's version of radioactivity causes only prompt damage, not any delayed effects. Damage comes in the abstracted form of removing the player's hit points, and is immediately visible to the player. As with all other kinds of damage in the game, the player can restore the hit points by eating food items. High-nutrition foods, such as the pie baskets supplied, are a useful tool in dealing with radiological hazards.
 
-Only a small range of items in the game are radioactive. From the technic mod, the only radioactive items are uranium ore, refined uranium blocks, nuclear reactor cores (when operating), and the materials released when a nuclear reactor melts down. Other mods can plug into the technic system to make their own block types radioactive. Radioactive items are harmless when held in inventories. They only cause radiation damage when placed as blocks in the game world.
+Only a small range of items in the game are radioactive. From Technic, the only radioactive items are uranium ore, refined uranium blocks, nuclear reactor cores (when operating), and the materials released when a nuclear reactor melts down. Other mods can plug into the Technic system to make their own block types radioactive. Radioactive items are harmless when held in inventories. They only cause radiation damage when placed as blocks in the game world.
 
 The rate at which damage is caused by a radioactive block depends on the distance between the source and the player. Distance matters because the damaging radiation is emitted equally in all directions by the source, so with distance it spreads out, so less of it will strike a target of any specific size. The amount of radiation absorbed by a target thus varies in proportion to the inverse square of the distance from the source. The game imitates this aspect of real-life radioactivity, but with some simplifications. While in real life the inverse square law is only really valid for sources and targets that are small relative to the distance between them, in the game it is applied even when the source and target are large and close together. Specifically, the distance is measured from the center of the radioactive block to the abdomen of the player character. For extremely close encounters, such as where the player swims in a radioactive liquid, there is an enforced lower limit on the effective distance.
 
@@ -1259,7 +1259,7 @@ When constructing permanent radiation shielding, it is necessary to pay attentio
 
 ## Electrical power
 
-Most machines in technic are electrically powered. To operate them it is necessary to construct an electrical power network. The network links together power generators and power-consuming machines, connecting them using power cables.
+Most machines in Technic are electrically powered. To operate them it is necessary to construct an electrical power network. The network links together power generators and power-consuming machines, connecting them using power cables.
 
 There are three tiers of electrical networking: low voltage (LV), medium voltage (MV), and high voltage (HV). Each network must operate at a single voltage, and most electrical items are specific to a single voltage. Generally, the machines of higher tiers are more powerful, but consume more energy and are more expensive to build, than machines of lower tiers. It is normal to build networks of all three tiers, in ascending order as one progresses through the game, but it is not strictly necessary to do this. Building HV equipment requires some parts that can only be manufactured using electrical machines, either LV or MV, so it is not possible to build an HV network first, but it is possible to skip either LV or MV on the way to HV.
 
@@ -1291,7 +1291,7 @@ The mithril chest is currently an exception to the upgrading system. It has only
 
 The size of the largest chests is dictated by the maximum size of interaction form that the game engine can successfully display. If in the future the engine becomes capable of handling larger forms, by scaling them to fit the screen, the sequence of chest sizes will likely be revised.
 
-As with the chest of the basic Minetest game, each chest type comes in both locked and unlocked flavors. All of the chests work with the pneumatic tubes of the pipeworks mod.
+As with the chest of the basic Stonecraft game, each chest type comes in both locked and unlocked flavors. All of the chests work with the pneumatic tubes of 'Pipeworks'.
 
 ## Tools
 
