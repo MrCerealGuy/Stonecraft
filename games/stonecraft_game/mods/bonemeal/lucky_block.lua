@@ -19,6 +19,11 @@ if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
 		{"dro", {"bonemeal:bonemeal"}, 10},
 		{"dro", {"bonemeal:fertiliser"}, 10},
 		{"cus", growy},
+		{"nod", "default:chest", 0, {
+			{name = "bonemeal:mulch", max = 20},
+			{name = "bonemeal:bonemeal", max = 15},
+			{name = "bonemeal:fertiliser", max = 10},
+		}},
 	})
 
 end

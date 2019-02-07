@@ -202,11 +202,8 @@ local function check_crops(pos, nodename, strength)
 			particle_effect(pos)
 
 			return
-
 		end
-
 	end
-
 end
 
 
@@ -400,13 +397,12 @@ function bonemeal:on_use(pos, strength, node)
 
 		default.grow_papyrus(pos, node)
 		particle_effect(pos)
-
 		return
+
 	elseif node.name == "default:cactus" then
 
 		default.grow_cactus(pos, node)
 		particle_effect(pos)
-
 		return
 	end
 
@@ -423,8 +419,8 @@ function bonemeal:on_use(pos, strength, node)
 	end
 
 	-- check for tree growth if pointing at sapling
-	if minetest.get_item_group(node.name, "sapling") > 0
-	and math.random(1, (5 - strength)) == 1 then
+--	if minetest.get_item_group(node.name, "sapling") > 0
+	if math.random(1, (5 - strength)) == 1 then
 		check_sapling(pos, node.name)
 		return
 	end

@@ -31,4 +31,4 @@ Changelog:
 - 0.9 - Added support for farming redo's pea and beetroot crops, checks for place_param
 - 1.0 - add_deco() now adds to existing item list while set_deco() replaces item list (thanks h-v-smacker)
 
-Lucky Blocks: 5
+Lucky Blocks: 6

@@ -36,6 +36,9 @@ if farming and farming.mod and farming.mod == "redo" then
 		{"farming:pineapple_", 8},
 		{"farming:pea_", 5},
 		{"farming:beetroot_", 5},
+		{"farming:rye_", 8},
+		{"farming:oat_", 8},
+		{"farming:rice_", 8},
 	})
 end
 
@@ -118,5 +121,22 @@ elseif minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic")
 
 	bonemeal:add_sapling({
 		{"moretrees:rubber_tree_sapling", technic.rubber_tree_model, "soil"},
+	})
+end
+
+
+if minetest.get_modpath("caverealms") then
+
+	local fil = minetest.get_modpath("caverealms") .. "/schematics/shroom.mts"
+	local add_shroom = function(pos)
+
+		minetest.swap_node(pos, {name = "air"})
+
+		minetest.place_schematic(
+			{x = pos.x - 5, y = pos.y, z = pos.z - 5}, fil, 0, nil, false)
+	end
+
+	bonemeal:add_sapling({
+		{"caverealms:mushroom_sapling", add_shroom, "soil"},
 	})
 end
