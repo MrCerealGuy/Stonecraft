@@ -160,6 +160,12 @@ Doors API
 
 The doors mod allows modders to register custom doors and trapdoors.
 
+`doors.registered_doors[name] = Door definition` 
+ * Table of registered doors, indexed by door name 
+
+`doors.registered_trapdoors[name] = Trapdoor definition` 
+ * Table of registered trap doors, indexed by trap door name 
+
 `doors.register_door(name, def)`
 
  * Registers new door
@@ -195,6 +201,13 @@ The doors mod allows modders to register custom doors and trapdoors.
     has the permissions needed to open this door. If omitted then no
     permission checks are performed.
 
+`doors.door_toggle(pos, node, clicker)`
+
+ * Toggle door open or shut
+ * `pos` Position of the door
+ * `node` Node definition
+ * `clicker` Player definition for the player that clicked on the door
+ 
 ### Door definition
 
 	description = "Door description",
@@ -206,6 +219,8 @@ The doors mod allows modders to register custom doors and trapdoors.
 	sound_open = sound play for open door, -- optional
 	sound_close = sound play for close door, -- optional
 	protected = false, -- If true, only placer can open the door (locked for others)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing) 
+	-- optional function containing the on_rightclick callback, defaults to a doors.door_toggle-wrapper
 
 ### Trapdoor definition
 
@@ -218,6 +233,10 @@ The doors mod allows modders to register custom doors and trapdoors.
 	sound_open = sound play for open door, -- optional
 	sound_close = sound play for close door, -- optional
 	protected = false, -- If true, only placer can open the door (locked for others)
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing) 
+	-- function containing the on_rightclick callback
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing) 
+	-- function containing the on_rightclick callback
 
 ### Fence gate definition
 
@@ -227,6 +246,8 @@ The doors mod allows modders to register custom doors and trapdoors.
 	material = "default:wood",
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
 	sounds = default.node_sound_wood_defaults(), -- optional
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing) 
+	-- function containing the on_rightclick callback
 
 
 Dungeon Loot API
@@ -569,6 +590,7 @@ sfinv API by its author: https://rubenwardy.com/minetest_modding_book/en/chapter
 **Pages**
 
 * sfinv.set_page(player, pagename) - changes the page
+* sfinv.get_page(player) - get the current page name. Will never return nil
 * sfinv.get_homepage_name(player) - get the page name of the first page to show to a player
 * sfinv.register_page(name, def) - register a page, see section below
 * sfinv.override_page(name, def) - overrides fields of an page registered with register_page.
@@ -672,31 +694,55 @@ Stairs API
 The stairs API lets you register stairs and slabs and ensures that they are registered the same way as those
 delivered with Minetest Game, to keep them compatible with other mods.
 
-`stairs.register_stair(subname, recipeitem, groups, images, description, sounds)`
+`stairs.register_stair(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
 
- * Registers a stair.
+ * Registers a stair
  * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_subname"
  * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble", may be `nil`
- * `groups`: see [Known damage and digging time defining groups]
- * `images`: see [Tile definition]
- * `description`: used for the description field in the stair's definition
- * `sounds`: see [#Default sounds]
+ * `groups`: See [Known damage and digging time defining groups]
+ * `images`: See [Tile definition]
+ * `description`: Used for the description field in the stair's definition
+ * `sounds`: See [#Default sounds]
+ * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
 
-`stairs.register_slab(subname, recipeitem, groups, images, description, sounds)`
+`stairs.register_slab(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
 
- * Registers a slabs
- * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_subname"
+ * Registers a slab
+ * `subname`: Basically the material name (e.g. cobble) used for the slab name. Nodename pattern: "stairs:slab_subname"
  * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble"
- * `groups`: see [Known damage and digging time defining groups]
- * `images`: see [Tile definition]
- * `description`: used for the description field in the stair's definition
- * `sounds`: see [#Default sounds]
+ * `groups`: See [Known damage and digging time defining groups]
+ * `images`: See [Tile definition]
+ * `description`: Used for the description field in the slab's definition
+ * `sounds`: See [#Default sounds]
+ * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
 
-`stairs.register_stair_and_slab(subname, recipeitem, groups, images, desc_stair, desc_slab, sounds)`
+`stairs.register_stair_inner(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
 
- * A wrapper for stairs.register_stair and stairs.register_slab
+ * Registers an inner corner stair
+ * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_inner_subname"
+ * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble", may be `nil`
+ * `groups`: See [Known damage and digging time defining groups]
+ * `images`: See [Tile definition]
+ * `description`: Used for the description field in the stair's definition
+ * `sounds`: See [#Default sounds]
+ * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
+
+`stairs.register_stair_outer(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
+
+ * Registers an outer corner stair
+ * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_outer_subname"
+ * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble", may be `nil`
+ * `groups`: See [Known damage and digging time defining groups]
+ * `images`: See [Tile definition]
+ * `description`: Used for the description field in the stair's definition
+ * `sounds`: See [#Default sounds]
+ * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
+
+`stairs.register_stair_and_slab(subname, recipeitem, groups, images, desc_stair, desc_slab, sounds, worldaligntex)`
+
+ * A wrapper for stairs.register_stair, stairs.register_slab, stairs.register_stair_inner, stairs.register_stair_outer
  * Uses almost the same arguments as stairs.register_stair
- * `desc_stair`: Description for stair node
+ * `desc_stair`: Description for stair nodes. For corner stairs 'Inner' or 'Outer' will be prefixed
  * `desc_slab`: Description for slab node
 
 
@@ -903,9 +949,12 @@ Trees
 
  * `default.grow_acacia_bush(pos)`
   * Grows an acaia bush at pos
-  
+
  * `default.grow_pine_bush(pos)`
   * Grows a pine bush at pos
+
+ * `default.grow_blueberry_bush(pos)`
+  * Grows a blueberry bush at pos
 
 
 Carts

@@ -358,6 +358,10 @@ msgid "Cactus"
 msgstr "Kaktus"
 
 #: nodes.lua
+msgid "Large Cactus Seedling"
+msgstr "Großer Kaktussämling"
+
+#: nodes.lua
 msgid "Papyrus"
 msgstr "Papyrus"
 
@@ -398,6 +402,18 @@ msgid "Bush Sapling"
 msgstr "Buschsetzling"
 
 #: nodes.lua
+msgid "Blueberry Bush Leaves with Berries"
+msgstr "Blaubeeren-Buschblätter mit Beeren"
+
+#: nodes.lua
+msgid "Blueberry Bush Leaves"
+msgstr "Blaubeeren-Buschblätter"
+
+#: nodes.lua
+msgid "Blueberry Bush Sapling"
+msgstr "Blaubeeren-Buschsetzling"
+
+#: nodes.lua
 msgid "Acacia Bush Stem"
 msgstr "Akazienbuschstamm"
 
@@ -424,6 +440,18 @@ msgstr "Kiefernbuschsetzling"
 #: nodes.lua
 msgid "Kelp"
 msgstr "Seetang"
+
+#: nodes.lua
+msgid "Green Coral"
+msgstr "Grüne Koralle"
+
+#: nodes.lua
+msgid "Pink Coral"
+msgstr "Pinke Koralle"
+
+#: nodes.lua
+msgid "Cyan Coral"
+msgstr "Cyanfarbene Koralle"
 
 #: nodes.lua
 msgid "Brown Coral"

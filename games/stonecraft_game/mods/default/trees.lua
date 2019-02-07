@@ -81,6 +81,10 @@ function default.grow_sapling(pos)
 		minetest.log("action", "A bush sapling grows into a bush at "..
 			minetest.pos_to_string(pos))
 		default.grow_bush(pos)
+	elseif node.name == "default:blueberry_bush_sapling" then
+		minetest.log("action", "A blueberry bush sapling grows into a bush at "..
+			minetest.pos_to_string(pos))
+		default.grow_blueberry_bush(pos)
 	elseif node.name == "default:acacia_bush_sapling" then
 		minetest.log("action", "An acacia bush sapling grows into a bush at "..
 			minetest.pos_to_string(pos))
@@ -387,7 +391,7 @@ end
 function default.grow_new_apple_tree(pos)
 	local path = minetest.get_modpath("default") ..
 		"/schematics/apple_tree_from_sapling.mts"
-	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
+	minetest.place_schematic({x = pos.x - 3, y = pos.y - 1, z = pos.z - 3},
 		path, "random", nil, false)
 end
 
@@ -476,6 +480,15 @@ function default.grow_bush(pos)
 		path, "0", nil, false)
 end
 
+-- Blueberry bush
+
+function default.grow_blueberry_bush(pos)
+	local path = minetest.get_modpath("default") ..
+		"/schematics/blueberry_bush.mts"
+	minetest.place_schematic({x = pos.x - 1, y = pos.y, z = pos.z - 1},
+		path, "0", nil, false)
+end
+
 
 -- Acacia bush
 
@@ -494,6 +507,16 @@ function default.grow_pine_bush(pos)
 		"/schematics/pine_bush.mts"
 	minetest.place_schematic({x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
 		path, "0", nil, false)
+end
+
+
+-- Large cactus
+
+function default.grow_large_cactus(pos)
+	local path = minetest.get_modpath("default") ..
+		"/schematics/large_cactus.mts"
+	minetest.place_schematic({x = pos.x - 2, y = pos.y - 1, z = pos.z - 2},
+		path, "random", nil, false)
 end
 
 
@@ -537,7 +560,9 @@ function default.sapling_on_place(itemstack, placer, pointed_thing,
 			interval) then
 		minetest.record_protection_violation(pos, player_name)
 		-- Print extra information to explain
-		minetest.chat_send_player(player_name, "Tree will intersect protection")
+		minetest.chat_send_player(player_name,
+			itemstack:get_definition().description .. " will intersect protection " ..
+			"on growth")
 		return itemstack
 	end
 

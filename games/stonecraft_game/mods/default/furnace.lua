@@ -16,9 +16,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 function default.get_furnace_active_formspec(fuel_percent, item_percent)
 	return "size[8,8.5]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
@@ -39,9 +36,6 @@ end
 
 function default.get_furnace_inactive_formspec()
 	return "size[8,8.5]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png]"..
@@ -226,11 +220,11 @@ local function furnace_node_timer(pos, elapsed)
 	end
 
 	local fuel_state = S("Empty")
-	local active = S("inactive ")
+	local active = S("inactive")
 	local result = false
 
 	if fuel_totaltime ~= 0 then
-		active = S("active ")
+		active = S("active")
 		local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
 		fuel_state = fuel_percent .. "%"
 		formspec = default.get_furnace_active_formspec(fuel_percent, item_percent)
@@ -247,7 +241,8 @@ local function furnace_node_timer(pos, elapsed)
 		minetest.get_node_timer(pos):stop()
 	end
 
-	local infotext = S("Furnace ") .. active .. S("(Item: ") .. item_state .. S("; Fuel: ") .. fuel_state .. ")"
+	local infotext = S("Furnace ") .. active .. "\n" .. S("(Item: ") .. item_state ..
+		S("; Fuel: ") .. fuel_state .. ")"
 
 	--
 	-- Set meta values

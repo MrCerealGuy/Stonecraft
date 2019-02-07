@@ -14,9 +14,6 @@ function default.chest.get_chest_formspec(pos)
 	local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	local formspec =
 		"size[8,9]" ..
-		default.gui_bg ..
-		default.gui_bg_img ..
-		default.gui_slots ..
 		"list[nodemeta:" .. spos .. ";main;0,0.3;8,4;]" ..
 		"list[current_player;main;0,4.85;8,1;]" ..
 		"list[current_player;main;0,6.08;8,3;8]" ..
@@ -156,6 +153,10 @@ function default.chest.register_chest(name, d)
 			local secret = minetest.get_meta(pos):get_string("key_lock_secret")
 			local itemstack = player:get_wielded_item()
 			local key_meta = itemstack:get_meta()
+
+			if itemstack:get_metadata() == "" then
+				return
+			end
 
 			if key_meta:get_string("secret") == "" then
 				key_meta:set_string("secret", minetest.parse_json(itemstack:get_metadata()).secret)

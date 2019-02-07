@@ -48,7 +48,6 @@ Calinou (CC BY-SA 3.0):
   default_brick.png
   default_papyrus.png
   default_mineral_copper.png
-  default_glass_detail.png
 
 PilzAdam (CC BY-SA 3.0):
   default_jungleleaves.png
@@ -117,6 +116,7 @@ paramat (CC BY-SA 3.0):
   default_emergent_jungle_sapling.png
   default_permafrost.png -- Derived from a texture by Neuromancer (CC BY-SA 3.0)
   default_stones.png -- Derived from a texture by sofar (CC0 1.0)
+  default_stones_side.png -- Derived from a texture by sofar (CC0 1.0)
   default_moss.png
   default_moss_side.png
   default_fence_rail_acacia_wood
@@ -230,7 +230,23 @@ Mossmanikin (CC BY-SA 3.0):
   default_fern_*.png
 
 random-geek (CC BY-SA 3.0):
+  default_blueberries.png
+  default_blueberry_overlay.png
+  default_blueberry_bush_leaves.png, derived from default_bush_leaves (by paramat)
+  default_blueberry_bush_sapling.png
   default_dirt.png -- Derived from a texture by Neuromancer (CC BY-SA 3.0)
+
+Krock (CC0 1.0):
+  default_glass.png
+  default_glass_detail.png
+
+Topywo (CC BY-SA 3.0)
+  default_coral_cyan.png
+  default_coral_green.png
+  default_coral_pink.png
+
+Extex101 (CC BY-SA 3.0)
+  default_large_cactus_seedling.png
 
 
 Sounds
@@ -359,3 +375,6 @@ sofar (CC BY-SA 3.0):
 
 TumeniNodes (CC BY-SA 3.0):
   pine_bush.mts
+
+random-geek (CC BY-SA 3.0):
+  blueberry_bush.mts

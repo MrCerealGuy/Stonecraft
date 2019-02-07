@@ -122,9 +122,9 @@ minetest.register_tool("fireflies:bug_net", {
 minetest.register_craft( {
 	output = "fireflies:bug_net",
 	recipe = {
-		{"farming:string", "farming:string", ""},
-		{"farming:string", "farming:string", ""},
-		{"default:stick", "", ""}
+		{"farming:string", "farming:string"},
+		{"farming:string", "farming:string"},
+		{"default:stick", ""}
 	}
 })
 
@@ -182,9 +182,8 @@ minetest.register_node("fireflies:firefly_bottle", {
 minetest.register_craft( {
 	output = "fireflies:firefly_bottle",
 	recipe = {
-		{"", "", ""},
-		{"", "fireflies:firefly", ""},
-		{"", "vessels:glass_bottle", ""}
+		{"fireflies:firefly"},
+		{"vessels:glass_bottle"}
 	}
 })
 
