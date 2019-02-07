@@ -215,630 +215,6 @@ msgid "Create"
 msgstr "Erstellen"
 
 #: builtin/mainmenu/dlg_create_world.lua
-msgid "World options: (some options can cause lag issues.)"
-msgstr "Welteinstellungen: (einige Optionen können Performance-Einbrüche verursachen.)"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Erosion and sloped blocks"
-msgstr "Erosion und schräge Blöcke"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "More trees"
-msgstr "Mehr Bäume"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "More forests and red trees"
-msgstr "Mehr Wälder und rote Bäume"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Villages and buildings"
-msgstr "Dörfer und Gebäude"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Ethereal biomes"
-msgstr "Ethereal Biome"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Cave realms"
-msgstr "Höhlenbiome"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Technic and pipeworks"
-msgstr "Technik und Rohrbau"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Mesecons - electronic stuff"
-msgstr "Mesecons - Elektronik"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Not So Simple Mobs"
-msgstr "Nicht so einfache Mobs"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Pyramids"
-msgstr "Pyramiden"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Giant mushrooms"
-msgstr "Riesenpilze"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Sea plants"
-msgstr "Meerespflanzen"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Swamps biome"
-msgstr "Sumpfbiom"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Snow biome"
-msgstr "Schneebiom"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Wood soils and vines"
-msgstr "Waldböden und Weine"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Home decorations"
-msgstr "Heimdekorationen"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Surprise blocks"
-msgstr "Überraschungsblöcke"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Lucky blocks"
-msgstr "Glücksblöcke"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Mines"
-msgstr "Minen"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Mobs and animals"
-msgstr "Mobs und Tiere"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Biomes"
-msgstr "Biome"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Stuff"
-msgstr "Verschiedenes"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Technic"
-msgstr "Technik"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Nature"
-msgstr "Natur"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Structures"
-msgstr "Bauwerke"
-
-#: builtin/mainmenu/dlg_create_world.lua
-msgid "Auto pick up items"
-msgstr "Gegenst. automatisch aufheben"
-
-#: builtin/worldoptions.txt
-msgid "Animals"
-msgstr "Tiere"
-
-#: builtin/worldoptions.txt
-msgid "Simple Mobs"
-msgstr "Einfache Mobs"
-
-#: builtin/worldoptions.txt
-msgid "NPC"
-msgstr "NPC"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Animals)"
-msgstr "Erw. Einstellungen (Tiere)"
-
-#: builtin/worldoptions.txt
-msgid "Horse"
-msgstr "Pferd"
-
-#: builtin/worldoptions.txt
-msgid "Bee"
-msgstr "Biene"
-
-#: builtin/worldoptions.txt
-msgid "Bunny"
-msgstr "Häschen"
-
-#: builtin/worldoptions.txt
-msgid "Chicken"
-msgstr "Huhn"
-
-#: builtin/worldoptions.txt
-msgid "Cow"
-msgstr "Kuh"
-
-#: builtin/worldoptions.txt
-msgid "Kitten"
-msgstr "Kätzchen"
-
-#: builtin/worldoptions.txt
-msgid "Penguin"
-msgstr "Pinguin"
-
-#: builtin/worldoptions.txt
-msgid "Rat"
-msgstr "Ratte"
-
-#: builtin/worldoptions.txt
-msgid "Sheep"
-msgstr "Schaf"
-
-#: builtin/worldoptions.txt
-msgid "Warthog"
-msgstr "Warzenschwein"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Simple Mobs)"
-msgstr "Erw. Einstellungen (Einfache Mobs)"
-
-#: builtin/worldoptions.txt
-msgid "Ghost"
-msgstr "Geist"
-
-#: builtin/worldoptions.txt
-msgid "Zombie"
-msgstr "Zombie"
-
-#: builtin/worldoptions.txt
-msgid "Oerrki"
-msgstr "Oerrki"
-
-#: builtin/worldoptions.txt
-msgid "Dirt monster"
-msgstr "Erdmonster"
-
-#: builtin/worldoptions.txt
-msgid "Dungeon master"
-msgstr "Kerkermeister"
-
-#: builtin/worldoptions.txt
-msgid "Lava flan"
-msgstr "Lavaflan"
-
-#: builtin/worldoptions.txt
-msgid "Mese monster"
-msgstr "Mesemonster"
-
-#: builtin/worldoptions.txt
-msgid "Sand monster"
-msgstr "Sandmonster"
-
-#: builtin/worldoptions.txt
-msgid "Spider"
-msgstr "Spinne"
-
-#: builtin/worldoptions.txt
-msgid "Stone monster"
-msgstr "Steinmonster"
-
-#: builtin/worldoptions.txt
-msgid "Tree monster"
-msgstr "Baummonster"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (NPC)"
-msgstr "Erw. Einstellungen (NPC)"
-
-#: builtin/worldoptions.txt
-msgid "Igor"
-msgstr "Igor"
-
-#: builtin/worldoptions.txt
-msgid "Trader"
-msgstr "Händler"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Not So Simple Mobs)"
-msgstr "Erw. Einstellungen (Nicht so einfache Mobs)"
-
-#: builtin/worldoptions.txt
-msgid "Ant queen"
-msgstr "Ameisenkönigin"
-
-#: builtin/worldoptions.txt
-msgid "Ant soldier"
-msgstr "Ameisensoldat"
-
-#: builtin/worldoptions.txt
-msgid "Ant worker"
-msgstr "Ameisenarbeiter"
-
-#: builtin/worldoptions.txt
-msgid "Black Widow"
-msgstr "Schwarze Witwe"
-
-#: builtin/worldoptions.txt
-msgid "Bloco"
-msgstr "Bloco"
-
-#: builtin/worldoptions.txt
-msgid "Crab"
-msgstr "Krabbe"
-
-#: builtin/worldoptions.txt
-msgid "Crocodile"
-msgstr "Krokodil"
-
-#: builtin/worldoptions.txt
-msgid "Daddy long legs"
-msgstr "Vati's lange Beine"
-
-#: builtin/worldoptions.txt
-msgid "Dolidrosaurus"
-msgstr "Dolidrosaurus"
-
-#: builtin/worldoptions.txt
-msgid "Duck"
-msgstr "Ente"
-
-#: builtin/worldoptions.txt
-msgid "Duckking"
-msgstr "Entenkönig"
-
-#: builtin/worldoptions.txt
-msgid "Echidna"
-msgstr "Echidna"
-
-#: builtin/worldoptions.txt
-msgid "Enderduck"
-msgstr "Enderente"
-
-#: builtin/worldoptions.txt
-msgid "Flying duck"
-msgstr "Fliegende Ente"
-
-#: builtin/worldoptions.txt
-msgid "Felucco"
-msgstr "Felucco"
-
-#: builtin/worldoptions.txt
-msgid "Giant sandworm"
-msgstr "Riesensandwurm"
-
-#: builtin/worldoptions.txt
-msgid "Icelamander"
-msgstr "Icelamander"
-
-#: builtin/worldoptions.txt
-msgid "Icesnake"
-msgstr "Eisschlange"
-
-#: builtin/worldoptions.txt
-msgid "Kraken"
-msgstr "Krake"
-
-#: builtin/worldoptions.txt
-msgid "Larva"
-msgstr "Larve"
-
-#: builtin/worldoptions.txt
-msgid "Lava titan"
-msgstr "Lavatitan"
-
-#: builtin/worldoptions.txt
-msgid "Manticore"
-msgstr "Manticore"
-
-#: builtin/worldoptions.txt
-msgid "Mantis beast"
-msgstr "Mantisbestie"
-
-#: builtin/worldoptions.txt
-msgid "Mantis"
-msgstr "Mantis"
-
-#: builtin/worldoptions.txt
-msgid "Masticone"
-msgstr "Masticone"
-
-#: builtin/worldoptions.txt
-msgid "Moonheron"
-msgstr "Mondreiher"
-
-#: builtin/worldoptions.txt
-msgid "Mordain"
-msgstr "Mordain"
-
-#: builtin/worldoptions.txt
-msgid "Morgre"
-msgstr "Morgre"
-
-#: builtin/worldoptions.txt
-msgid "Morde"
-msgstr "Morde"
-
-#: builtin/worldoptions.txt
-msgid "Morgut"
-msgstr "Morgut"
-
-#: builtin/worldoptions.txt
-msgid "Morlu"
-msgstr "Morlu"
-
-#: builtin/worldoptions.txt
-msgid "Morvalar"
-msgstr "Morvalar"
-
-#: builtin/worldoptions.txt
-msgid "Morvy"
-msgstr "Morvy"
-
-#: builtin/worldoptions.txt
-msgid "Morwa"
-msgstr "Morwa"
-
-#: builtin/worldoptions.txt
-msgid "Night master"
-msgstr "Nachtmeister"
-
-#: builtin/worldoptions.txt
-msgid "Octopus"
-msgstr "Tintenfisch"
-
-#: builtin/worldoptions.txt
-msgid "Phoenix"
-msgstr "Phoenix"
-
-#: builtin/worldoptions.txt
-msgid "Pumpboom"
-msgstr "Kübrisknall"
-
-#: builtin/worldoptions.txt
-msgid "Pumpking"
-msgstr "Kübriskönig"
-
-#: builtin/worldoptions.txt
-msgid "Sandworm"
-msgstr "Sandwurm"
-
-#: builtin/worldoptions.txt
-msgid "Scrausics"
-msgstr "Scrausics"
-
-#: builtin/worldoptions.txt
-msgid "Sand bloco"
-msgstr "Sandbloco"
-
-#: builtin/worldoptions.txt
-msgid "Signosigno"
-msgstr "Signosigno"
-
-#: builtin/worldoptions.txt
-msgid "Snow biter"
-msgstr "Schneebeißer"
-
-#: builtin/worldoptions.txt
-msgid "Spiderduck"
-msgstr "Spinnenente"
-
-#: builtin/worldoptions.txt
-msgid "Stone eater"
-msgstr "Steinbeißer"
-
-#: builtin/worldoptions.txt
-msgid "Swimming duck"
-msgstr "Schwimmende Ente"
-
-#: builtin/worldoptions.txt
-msgid "Tarantula"
-msgstr "Tarantel"
-
-#: builtin/worldoptions.txt
-msgid "Uloboros"
-msgstr "Uloboros"
-
-#: builtin/worldoptions.txt
-msgid "Werewolf"
-msgstr "Werwolf"
-
-#: builtin/worldoptions.txt
-msgid "White werewolf"
-msgstr "Weißer Werwolf"
-
-#: builtin/worldoptions.txt
-msgid "Mese dragon"
-msgstr "Mesedrachen"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Ethereal biomes)"
-msgstr "Erw. Einstellungen (Ethereal Biome)"
-
-#: builtin/worldoptions.txt
-msgid "Glacier"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "Bamboo"
-msgstr "Bambus"
-
-#: builtin/worldoptions.txt
-msgid "Mesa"
-msgstr "Mesa"
-
-#: builtin/worldoptions.txt
-msgid "Alpine"
-msgstr "Alpin"
-
-#: builtin/worldoptions.txt
-msgid "Healing"
-msgstr "Heilung"
-
-#: builtin/worldoptions.txt
-msgid "Snowy"
-msgstr "Verschneit"
-
-#: builtin/worldoptions.txt
-msgid "Frost"
-msgstr "Frostig"
-
-#: builtin/worldoptions.txt
-msgid "Grassy"
-msgstr "Grasbewachsen"
-
-#: builtin/worldoptions.txt
-msgid "Caves"
-msgstr "Höhlen"
-
-#: builtin/worldoptions.txt
-msgid "Rayness"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "Grassytwo"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "Prairie"
-msgstr "Prärie"
-
-#: builtin/worldoptions.txt
-msgid "Jumble"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "Junglee"
-msgstr ""
-
-#: builtin/worldoptions.txt
-msgid "Desert"
-msgstr "Wüste"
-
-#: builtin/worldoptions.txt
-msgid "Grove"
-msgstr "Hain"
-
-#: builtin/worldoptions.txt
-msgid "Mushroom"
-msgstr "Pilz"
-
-#: builtin/worldoptions.txt
-msgid "Sandstone"
-msgstr "Sandstein"
-
-#: builtin/worldoptions.txt
-msgid "Quicksand"
-msgstr "Treibsand"
-
-#: builtin/worldoptions.txt
-msgid "Plains"
-msgstr "Flachland"
-
-#: builtin/worldoptions.txt
-msgid "Savannah"
-msgstr "Savanne"
-
-#: builtin/worldoptions.txt
-msgid "Fiery"
-msgstr "Feuer"
-
-#: builtin/worldoptions.txt
-msgid "Sandclay"
-msgstr "Sand und Lehm"
-
-#: builtin/worldoptions.txt
-msgid "Sealife"
-msgstr "Meeresleben"
-
-#: builtin/worldoptions.txt
-msgid "Reefs"
-msgstr "Riffe"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Swamp biome)"
-msgstr "Erw. Einstellungen (Sumpfbiom)"
-
-#: builtin/worldoptions.txt
-msgid "Generate swamps everywhere"
-msgstr "Überall Sümpfe generieren"
-
-#: builtin/worldoptions.txt
-msgid "Enables smooth transition of biomes"
-msgstr "Sanfter Biomübergang"
-
-#: builtin/worldoptions.txt
-msgid "Rarity in %"
-msgstr "Rarität in %"
-
-#: builtin/worldoptions.txt
-msgid "Enables swampwater"
-msgstr "Sumpfwasser"
-
-#: builtin/worldoptions.txt
-msgid "Enables falling snow"
-msgstr "Herabfallender Schnee"
-
-#: builtin/worldoptions.txt
-msgid "Disable this to remove christmas saplings from being found"
-msgstr "Weihnachtssetzlinge können gefunden werden"
-
-#: builtin/worldoptions.txt
-msgid "The gravity of thrown snowballs"
-msgstr "Schwerkraft geworfener Schneebälle"
-
-#: builtin/worldoptions.txt
-msgid "Reduces the amount of resources and fps used by snowfall"
-msgstr "Reduziert die Menge an Ressourcen und FPS verursacht durch Schnellfall"
-
-#: builtin/worldoptions.txt
-msgid "Mapgen rarity in %"
-msgstr "Mapgen Rarität in  %"
-
-#: builtin/worldoptions.txt
-msgid "How fast players throw snowballs"
-msgstr "Wurfgeschwindigkeit von Schneebällen"
-
-#: builtin/worldoptions.txt
-msgid "Disable this to stop snow from being smoothed"
-msgstr "Glänzender Schnee"
-
-#: builtin/worldoptions.txt
-msgid "Size of the generated…, has an effect to the rarity, too"
-msgstr "Größe der generierten..., hat ebenso einen Effekt auf die Rarität"
-
-#: builtin/worldoptions.txt
-msgid "The minumum height a snow biome will generate - mgv7"
-msgstr "Minimale Höhe eines Schneebioms - mgv7"
-
-#: builtin/worldoptions.txt
-msgid "Enables smooth transition of biomes - mgv6"
-msgstr "Sanfter Biomübergang - mgv6"
-
-#: builtin/worldoptions.txt
-msgid "Disable this to prevent sleds from being riden"
-msgstr "Schlittenfahrt"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Giant mushrooms)"
-msgstr "Erw. Einstellungen (Riesenpilze)"
-
-#: builtin/worldoptions.txt
-msgid "Generate giant mushroom biomes everywhere"
-msgstr "Überall Riesenpilzbiome generieren"
-
-#: builtin/worldoptions.txt
-msgid "Advanced settings (Villages and buildings)"
-msgstr "Erw. Einstellungen (Dörfer und Gebäude)"
-
-#: builtin/worldoptions.txt
-msgid "Players cannot modify spawned villages without buying the house"
-msgstr "Spieler müssen Häuser kaufen bevor sie verändert werden können"
-
-#: builtin/worldoptions.txt
-msgid "The first village - the one the player spawns in"
-msgstr "Das erste Dorf in dem der Spieler startet"
-
-#: builtin/mainmenu/dlg_create_world.lua
 msgid "Download a game, such as stonecraft_game, from mrcerealguy.github.io/stonecraft"
 msgstr "Andere Spiele (wie stonecraft_game) können von mrcerealguy.github.io/stonecraft heruntergeladen werden"
 
@@ -909,10 +285,6 @@ msgid "Rename Modpack:"
 msgstr "Modpack umbenennen:"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "\"$1\" is not a valid flag."
-msgstr "„$1“ ist kein gültiger Bitschalter."
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "(No description of setting given)"
 msgstr "(Keine Beschreibung vorhanden)"
 
@@ -949,26 +321,8 @@ msgid "Enabled"
 msgstr "Aktiviert"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Format is 3 numbers separated by commas and inside brackets."
-msgstr ""
-"Das Format besteht aus 3 mit Komma getrennten Zahlen, die sich\n"
-"in Klammern befinden."
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Format:"
 msgstr ""
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Games"
-msgstr "Spiele"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua builtin/mainmenu/tab_mods.lua
-msgid "Mods"
-msgstr "Mods"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Please enter a comma seperated list of flags."
-msgstr "Bitte geben Sie eine mit Kommata getrennte Liste von Flags an."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Please enter a valid integer."
@@ -979,16 +333,8 @@ msgid "Please enter a valid number."
 msgstr "Bitte geben Sie eine gültige Zahl ein."
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
-msgid "Possible values are: "
-msgstr "Mögliche Werte sind: "
-
-#: builtin/mainmenu/dlg_settings_advanced.lua
 msgid "Restore Default"
 msgstr "Standardwert"
-
-#: builtin/mainmenu/dlg_settings_advanced.lua builtin/mainmenu/tab_online.lua
-msgid "Search"
-msgstr "Suchen"
 
 #: builtin/mainmenu/dlg_settings_advanced.lua
 #, fuzzy
@@ -8369,3 +7715,627 @@ msgstr "cURL-Zeitüberschreitung"
 
 #~ msgid "Disable MP"
 #~ msgstr "MP deaktivieren"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "World options: (some options can cause lag issues.)"
+msgstr "Welteinstellungen: (einige Optionen können Performance-Einbrüche verursachen.)"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Erosion and sloped blocks"
+msgstr "Erosion und schräge Blöcke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "More trees"
+msgstr "Mehr Bäume"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "More forests and red trees"
+msgstr "Mehr Wälder und rote Bäume"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Villages and buildings"
+msgstr "Dörfer und Gebäude"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Ethereal biomes"
+msgstr "Ethereal Biome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Cave realms"
+msgstr "Höhlenbiome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Technic and pipeworks"
+msgstr "Technik und Rohrbau"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Mesecons - electronic stuff"
+msgstr "Mesecons - Elektronik"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Not So Simple Mobs"
+msgstr "Nicht so einfache Mobs"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Pyramids"
+msgstr "Pyramiden"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Giant mushrooms"
+msgstr "Riesenpilze"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Sea plants"
+msgstr "Meerespflanzen"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Swamps biome"
+msgstr "Sumpfbiom"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Snow biome"
+msgstr "Schneebiom"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Wood soils and vines"
+msgstr "Waldböden und Weine"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Home decorations"
+msgstr "Heimdekorationen"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Surprise blocks"
+msgstr "Überraschungsblöcke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Lucky blocks"
+msgstr "Glücksblöcke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Mines"
+msgstr "Minen"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Mobs and animals"
+msgstr "Mobs und Tiere"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Biomes"
+msgstr "Biome"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Stuff"
+msgstr "Verschiedenes"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Technic"
+msgstr "Technik"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Nature"
+msgstr "Natur"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Structures"
+msgstr "Bauwerke"
+
+#: builtin/mainmenu/dlg_create_world.lua
+msgid "Auto pick up items"
+msgstr "Gegenst. automatisch aufheben"
+
+#: builtin/worldoptions.txt
+msgid "Animals"
+msgstr "Tiere"
+
+#: builtin/worldoptions.txt
+msgid "Simple Mobs"
+msgstr "Einfache Mobs"
+
+#: builtin/worldoptions.txt
+msgid "NPC"
+msgstr "NPC"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Animals)"
+msgstr "Erw. Einstellungen (Tiere)"
+
+#: builtin/worldoptions.txt
+msgid "Horse"
+msgstr "Pferd"
+
+#: builtin/worldoptions.txt
+msgid "Bee"
+msgstr "Biene"
+
+#: builtin/worldoptions.txt
+msgid "Bunny"
+msgstr "Häschen"
+
+#: builtin/worldoptions.txt
+msgid "Chicken"
+msgstr "Huhn"
+
+#: builtin/worldoptions.txt
+msgid "Cow"
+msgstr "Kuh"
+
+#: builtin/worldoptions.txt
+msgid "Kitten"
+msgstr "Kätzchen"
+
+#: builtin/worldoptions.txt
+msgid "Penguin"
+msgstr "Pinguin"
+
+#: builtin/worldoptions.txt
+msgid "Rat"
+msgstr "Ratte"
+
+#: builtin/worldoptions.txt
+msgid "Sheep"
+msgstr "Schaf"
+
+#: builtin/worldoptions.txt
+msgid "Warthog"
+msgstr "Warzenschwein"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Simple Mobs)"
+msgstr "Erw. Einstellungen (Einfache Mobs)"
+
+#: builtin/worldoptions.txt
+msgid "Ghost"
+msgstr "Geist"
+
+#: builtin/worldoptions.txt
+msgid "Zombie"
+msgstr "Zombie"
+
+#: builtin/worldoptions.txt
+msgid "Oerrki"
+msgstr "Oerrki"
+
+#: builtin/worldoptions.txt
+msgid "Dirt monster"
+msgstr "Erdmonster"
+
+#: builtin/worldoptions.txt
+msgid "Dungeon master"
+msgstr "Kerkermeister"
+
+#: builtin/worldoptions.txt
+msgid "Lava flan"
+msgstr "Lavaflan"
+
+#: builtin/worldoptions.txt
+msgid "Mese monster"
+msgstr "Mesemonster"
+
+#: builtin/worldoptions.txt
+msgid "Sand monster"
+msgstr "Sandmonster"
+
+#: builtin/worldoptions.txt
+msgid "Spider"
+msgstr "Spinne"
+
+#: builtin/worldoptions.txt
+msgid "Stone monster"
+msgstr "Steinmonster"
+
+#: builtin/worldoptions.txt
+msgid "Tree monster"
+msgstr "Baummonster"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (NPC)"
+msgstr "Erw. Einstellungen (NPC)"
+
+#: builtin/worldoptions.txt
+msgid "Igor"
+msgstr "Igor"
+
+#: builtin/worldoptions.txt
+msgid "Trader"
+msgstr "Händler"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Not So Simple Mobs)"
+msgstr "Erw. Einstellungen (Nicht so einfache Mobs)"
+
+#: builtin/worldoptions.txt
+msgid "Ant queen"
+msgstr "Ameisenkönigin"
+
+#: builtin/worldoptions.txt
+msgid "Ant soldier"
+msgstr "Ameisensoldat"
+
+#: builtin/worldoptions.txt
+msgid "Ant worker"
+msgstr "Ameisenarbeiter"
+
+#: builtin/worldoptions.txt
+msgid "Black Widow"
+msgstr "Schwarze Witwe"
+
+#: builtin/worldoptions.txt
+msgid "Bloco"
+msgstr "Bloco"
+
+#: builtin/worldoptions.txt
+msgid "Crab"
+msgstr "Krabbe"
+
+#: builtin/worldoptions.txt
+msgid "Crocodile"
+msgstr "Krokodil"
+
+#: builtin/worldoptions.txt
+msgid "Daddy long legs"
+msgstr "Vati's lange Beine"
+
+#: builtin/worldoptions.txt
+msgid "Dolidrosaurus"
+msgstr "Dolidrosaurus"
+
+#: builtin/worldoptions.txt
+msgid "Duck"
+msgstr "Ente"
+
+#: builtin/worldoptions.txt
+msgid "Duckking"
+msgstr "Entenkönig"
+
+#: builtin/worldoptions.txt
+msgid "Echidna"
+msgstr "Echidna"
+
+#: builtin/worldoptions.txt
+msgid "Enderduck"
+msgstr "Enderente"
+
+#: builtin/worldoptions.txt
+msgid "Flying duck"
+msgstr "Fliegende Ente"
+
+#: builtin/worldoptions.txt
+msgid "Felucco"
+msgstr "Felucco"
+
+#: builtin/worldoptions.txt
+msgid "Giant sandworm"
+msgstr "Riesensandwurm"
+
+#: builtin/worldoptions.txt
+msgid "Icelamander"
+msgstr "Icelamander"
+
+#: builtin/worldoptions.txt
+msgid "Icesnake"
+msgstr "Eisschlange"
+
+#: builtin/worldoptions.txt
+msgid "Kraken"
+msgstr "Krake"
+
+#: builtin/worldoptions.txt
+msgid "Larva"
+msgstr "Larve"
+
+#: builtin/worldoptions.txt
+msgid "Lava titan"
+msgstr "Lavatitan"
+
+#: builtin/worldoptions.txt
+msgid "Manticore"
+msgstr "Manticore"
+
+#: builtin/worldoptions.txt
+msgid "Mantis beast"
+msgstr "Mantisbestie"
+
+#: builtin/worldoptions.txt
+msgid "Mantis"
+msgstr "Mantis"
+
+#: builtin/worldoptions.txt
+msgid "Masticone"
+msgstr "Masticone"
+
+#: builtin/worldoptions.txt
+msgid "Moonheron"
+msgstr "Mondreiher"
+
+#: builtin/worldoptions.txt
+msgid "Mordain"
+msgstr "Mordain"
+
+#: builtin/worldoptions.txt
+msgid "Morgre"
+msgstr "Morgre"
+
+#: builtin/worldoptions.txt
+msgid "Morde"
+msgstr "Morde"
+
+#: builtin/worldoptions.txt
+msgid "Morgut"
+msgstr "Morgut"
+
+#: builtin/worldoptions.txt
+msgid "Morlu"
+msgstr "Morlu"
+
+#: builtin/worldoptions.txt
+msgid "Morvalar"
+msgstr "Morvalar"
+
+#: builtin/worldoptions.txt
+msgid "Morvy"
+msgstr "Morvy"
+
+#: builtin/worldoptions.txt
+msgid "Morwa"
+msgstr "Morwa"
+
+#: builtin/worldoptions.txt
+msgid "Night master"
+msgstr "Nachtmeister"
+
+#: builtin/worldoptions.txt
+msgid "Octopus"
+msgstr "Tintenfisch"
+
+#: builtin/worldoptions.txt
+msgid "Phoenix"
+msgstr "Phoenix"
+
+#: builtin/worldoptions.txt
+msgid "Pumpboom"
+msgstr "Kübrisknall"
+
+#: builtin/worldoptions.txt
+msgid "Pumpking"
+msgstr "Kübriskönig"
+
+#: builtin/worldoptions.txt
+msgid "Sandworm"
+msgstr "Sandwurm"
+
+#: builtin/worldoptions.txt
+msgid "Scrausics"
+msgstr "Scrausics"
+
+#: builtin/worldoptions.txt
+msgid "Sand bloco"
+msgstr "Sandbloco"
+
+#: builtin/worldoptions.txt
+msgid "Signosigno"
+msgstr "Signosigno"
+
+#: builtin/worldoptions.txt
+msgid "Snow biter"
+msgstr "Schneebeißer"
+
+#: builtin/worldoptions.txt
+msgid "Spiderduck"
+msgstr "Spinnenente"
+
+#: builtin/worldoptions.txt
+msgid "Stone eater"
+msgstr "Steinbeißer"
+
+#: builtin/worldoptions.txt
+msgid "Swimming duck"
+msgstr "Schwimmende Ente"
+
+#: builtin/worldoptions.txt
+msgid "Tarantula"
+msgstr "Tarantel"
+
+#: builtin/worldoptions.txt
+msgid "Uloboros"
+msgstr "Uloboros"
+
+#: builtin/worldoptions.txt
+msgid "Werewolf"
+msgstr "Werwolf"
+
+#: builtin/worldoptions.txt
+msgid "White werewolf"
+msgstr "Weißer Werwolf"
+
+#: builtin/worldoptions.txt
+msgid "Mese dragon"
+msgstr "Mesedrachen"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Ethereal biomes)"
+msgstr "Erw. Einstellungen (Ethereal Biome)"
+
+#: builtin/worldoptions.txt
+msgid "Glacier"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Bamboo"
+msgstr "Bambus"
+
+#: builtin/worldoptions.txt
+msgid "Mesa"
+msgstr "Mesa"
+
+#: builtin/worldoptions.txt
+msgid "Alpine"
+msgstr "Alpin"
+
+#: builtin/worldoptions.txt
+msgid "Healing"
+msgstr "Heilung"
+
+#: builtin/worldoptions.txt
+msgid "Snowy"
+msgstr "Verschneit"
+
+#: builtin/worldoptions.txt
+msgid "Frost"
+msgstr "Frostig"
+
+#: builtin/worldoptions.txt
+msgid "Grassy"
+msgstr "Grasbewachsen"
+
+#: builtin/worldoptions.txt
+msgid "Caves"
+msgstr "Höhlen"
+
+#: builtin/worldoptions.txt
+msgid "Rayness"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Grassytwo"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Prairie"
+msgstr "Prärie"
+
+#: builtin/worldoptions.txt
+msgid "Jumble"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Junglee"
+msgstr ""
+
+#: builtin/worldoptions.txt
+msgid "Desert"
+msgstr "Wüste"
+
+#: builtin/worldoptions.txt
+msgid "Grove"
+msgstr "Hain"
+
+#: builtin/worldoptions.txt
+msgid "Mushroom"
+msgstr "Pilz"
+
+#: builtin/worldoptions.txt
+msgid "Sandstone"
+msgstr "Sandstein"
+
+#: builtin/worldoptions.txt
+msgid "Quicksand"
+msgstr "Treibsand"
+
+#: builtin/worldoptions.txt
+msgid "Plains"
+msgstr "Flachland"
+
+#: builtin/worldoptions.txt
+msgid "Savannah"
+msgstr "Savanne"
+
+#: builtin/worldoptions.txt
+msgid "Fiery"
+msgstr "Feuer"
+
+#: builtin/worldoptions.txt
+msgid "Sandclay"
+msgstr "Sand und Lehm"
+
+#: builtin/worldoptions.txt
+msgid "Sealife"
+msgstr "Meeresleben"
+
+#: builtin/worldoptions.txt
+msgid "Reefs"
+msgstr "Riffe"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Swamp biome)"
+msgstr "Erw. Einstellungen (Sumpfbiom)"
+
+#: builtin/worldoptions.txt
+msgid "Generate swamps everywhere"
+msgstr "Überall Sümpfe generieren"
+
+#: builtin/worldoptions.txt
+msgid "Enables smooth transition of biomes"
+msgstr "Sanfter Biomübergang"
+
+#: builtin/worldoptions.txt
+msgid "Rarity in %"
+msgstr "Rarität in %"
+
+#: builtin/worldoptions.txt
+msgid "Enables swampwater"
+msgstr "Sumpfwasser"
+
+#: builtin/worldoptions.txt
+msgid "Enables falling snow"
+msgstr "Herabfallender Schnee"
+
+#: builtin/worldoptions.txt
+msgid "Disable this to remove christmas saplings from being found"
+msgstr "Weihnachtssetzlinge können gefunden werden"
+
+#: builtin/worldoptions.txt
+msgid "The gravity of thrown snowballs"
+msgstr "Schwerkraft geworfener Schneebälle"
+
+#: builtin/worldoptions.txt
+msgid "Reduces the amount of resources and fps used by snowfall"
+msgstr "Reduziert die Menge an Ressourcen und FPS verursacht durch Schnellfall"
+
+#: builtin/worldoptions.txt
+msgid "Mapgen rarity in %"
+msgstr "Mapgen Rarität in  %"
+
+#: builtin/worldoptions.txt
+msgid "How fast players throw snowballs"
+msgstr "Wurfgeschwindigkeit von Schneebällen"
+
+#: builtin/worldoptions.txt
+msgid "Disable this to stop snow from being smoothed"
+msgstr "Glänzender Schnee"
+
+#: builtin/worldoptions.txt
+msgid "Size of the generated…, has an effect to the rarity, too"
+msgstr "Größe der generierten..., hat ebenso einen Effekt auf die Rarität"
+
+#: builtin/worldoptions.txt
+msgid "The minumum height a snow biome will generate - mgv7"
+msgstr "Minimale Höhe eines Schneebioms - mgv7"
+
+#: builtin/worldoptions.txt
+msgid "Enables smooth transition of biomes - mgv6"
+msgstr "Sanfter Biomübergang - mgv6"
+
+#: builtin/worldoptions.txt
+msgid "Disable this to prevent sleds from being riden"
+msgstr "Schlittenfahrt"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Giant mushrooms)"
+msgstr "Erw. Einstellungen (Riesenpilze)"
+
+#: builtin/worldoptions.txt
+msgid "Generate giant mushroom biomes everywhere"
+msgstr "Überall Riesenpilzbiome generieren"
+
+#: builtin/worldoptions.txt
+msgid "Advanced settings (Villages and buildings)"
+msgstr "Erw. Einstellungen (Dörfer und Gebäude)"
+
+#: builtin/worldoptions.txt
+msgid "Players cannot modify spawned villages without buying the house"
+msgstr "Spieler müssen Häuser kaufen bevor sie verändert werden können"
+
+#: builtin/worldoptions.txt
+msgid "The first village - the one the player spawns in"
+msgstr "Das erste Dorf in dem der Spieler startet"
