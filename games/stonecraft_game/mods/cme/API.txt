@@ -4,6 +4,14 @@ Creatures MOB-Engine API
 creatures.register_mob(#Creature definition)
  -registers a mob at MOB-Engine; returns true when sucessfull
 
+creatures.register_alias(old_mob, new_mob) -- returns true if sucessfull
+ -registers an alias for other mob, e.g. from other mods or removed ones.
+	existent entities (MOBs), Spawners and Spawn Eggs are converted;
+	returns true when sucessfull
+    ^ old_mob: name as string, e.g. "creatures:oerrki"
+    ^ new_mob: name as string, e.g. "creatures:oerkki"
+    ^ example: creatures.register_alias("creatures:oerrki", "creatures:oerkki")
+
 creatures.rnd(chance_table)
  -returns a weighted random table element; chance_sum of table must be 1
     ^ example: creatures.rnd({elem1 = {chance = 0.7}, {elem2 = {chance = 0.3}})

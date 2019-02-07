@@ -53,6 +53,18 @@ local function translate_def(def)
       --if name == "attack" then new_def.modes[name].chance = 0 end
     end
   end
+
+  -- Check if the modes have correct sum
+  local mode_chance_sum = creatures.sumChances(new_def.modes)
+  if mode_chance_sum > 1 then
+    throw_warning("Chance of modes too high for MOB: " .. def.name ..
+        ". Mode chances will be incorrect.")
+  elseif mode_chance_sum < 1 then
+    throw_warning("Chance of modes too low for MOB: " .. def.name ..
+        ". Filling up to correct mode chances.")
+    new_def.modes["_empty"] = {chance = 1 - mode_chance_sum, duration = 0}
+  end
+
   -- insert special mode "_run" which is used when in panic
   if def.stats.can_panic then
     if def.modes.walk then

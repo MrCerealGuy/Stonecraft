@@ -25,17 +25,25 @@ nullVec = {x = 0, y = 0, z = 0}
 DEGTORAD = math.pi / 180.0
 
 -- common functions
-function creatures.rnd(table, errval)
+function creatures.sumChances(tab)
+	local psum = 0
+	for s,w in pairs(tab) do
+		psum = psum + ((tonumber(w) or w.chance or 0))
+	end
+	return psum
+end
+
+function creatures.rnd(tab, errval)
 	if not errval then
 		errval = false
 	end
 
 	local res = 1000000000
 	local rn = math.random(0, res - 1)
-  local retval = nil
+	local retval = nil
 
 	local psum = 0
-	for s,w in pairs(table) do
+	for s,w in pairs(tab) do
 		psum = psum + ((tonumber(w) or w.chance or 0) * res)
 		if psum > rn then
 			retval = s
@@ -48,6 +56,10 @@ end
 
 function throw_error(msg)
   core.log("error", "#Creatures: ERROR: " .. msg)
+end
+
+function throw_warning(msg)
+  core.log("warning", "#Creatures: WARNING: " .. msg)
 end
 
 function creatures.compare_pos(pos1, pos2)
@@ -64,8 +76,8 @@ function creatures.findTarget(search_obj, pos, radius, search_type, ignore_mob, 
 	local player_near = false
 	local mobs = {}
 	for  _,obj in ipairs(core.get_objects_inside_radius(pos, radius)) do
-    if obj ~= search_obj then
-      if xray or core.line_of_sight(pos, obj:getpos()) == true then
+		if obj ~= search_obj then
+			if xray or core.line_of_sight(pos, obj:getpos()) == true then
 				local is_player = obj:is_player()
 				if is_player then
 					player_near = true
@@ -73,33 +85,33 @@ function creatures.findTarget(search_obj, pos, radius, search_type, ignore_mob, 
 						return {}, true
 					end
 				end
-        local entity = obj:get_luaentity()
-        local isItem = (entity and entity.name == "__builtin:item") or false
-        local ignore = (entity and entity.mob_name == ignore_mob and search_type ~= "mates") or false
+				local entity = obj:get_luaentity()
+				local isItem = (entity and entity.name == "__builtin:item") or false
+				local ignore = (entity and entity.mob_name == ignore_mob and search_type ~= "mates") or false
 
-        if search_type == "all" then
-          if not isItem and not ignore then
-            table.insert(mobs, obj)
-          end
-        elseif search_type == "hostile" then
-          if not ignore and (entity and entity.hostile == true) or is_player then
-          table.insert(mobs, obj)
-          end
-        elseif search_type == "nonhostile" then
-          if entity and not entity.hostile and not isItem and not ignore then
-            table.insert(mobs, obj)
-          end
-        elseif search_type == "player" then
-          if is_player then
-            table.insert(mobs, obj)
-          end
-        elseif search_type == "mate" then
-          if not isItem and (entity and entity.mob_name == ignore_mob) then
-            table.insert(mobs, obj)
-          end
-        end
-      end
-    end --for
+				if search_type == "all" then
+					if not isItem and not ignore then
+						table.insert(mobs, obj)
+					end
+				elseif search_type == "hostile" then
+					if not ignore and (entity and entity.hostile == true) or is_player then
+						table.insert(mobs, obj)
+					end
+				elseif search_type == "nonhostile" then
+					if entity and not entity.hostile and not isItem and not ignore then
+						table.insert(mobs, obj)
+					end
+				elseif search_type == "player" then
+					if is_player then
+						table.insert(mobs, obj)
+					end
+				elseif search_type == "mate" then
+					if not isItem and (entity and entity.mob_name == ignore_mob) then
+						table.insert(mobs, obj)
+					end
+				end
+			end
+		end --for
 	end
 
 	return mobs,player_near

@@ -68,7 +68,7 @@ local def = {
   model = {
     mesh = "creatures_zombie.b3d",
     textures = {"creatures_zombie.png"},
-    collisionbox = {-0.25, -0.01, -0.3, 0.25, 1.75, 0.3},
+    collisionbox = {-0.25, -0.01, -0.25, 0.25, 1.65, 0.25},
     rotation = -90.0,
     animations = {
       idle = {start = 0, stop = 80, speed = 15},
