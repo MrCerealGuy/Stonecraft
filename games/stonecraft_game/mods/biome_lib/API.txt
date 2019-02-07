@@ -72,6 +72,7 @@ biome = {
 	---- most likely want to use at least some of these to limit how and
 	---- where your objects are spawned.
 
+	label = string,		-- set this to identify the ABM for Minetest's profiler
 	avoid_nodes = {table},	-- same meaning as savoid, above
 	avoid_radius = num,	-- same as sradius
 	seed_diff = num,	-- The Perlin seed difference value passed to the
@@ -238,7 +239,7 @@ biome = {
 	---- Everything else is optional, but you'll definitely want to use
 	---- some of these other fields to limit where and under what
 	---- conditions the objects are spawned.
-	
+
 	below_nodes = {table}, -- List of nodes that must be below the target
 						-- node.  Useful in snow biomes to keep objects from
 						-- spawning in snow that's on the wrong surface for
@@ -342,14 +343,18 @@ into something else over time.  This function has no return value, and accepts
 a biome definition table as the only parameter.  These are defined like so:
 
 options = {
-	grow_plant = "string", -- Name of the node to be grown into something
-						-- else.  This value is passed to the ABM as the
-						-- "nodenames" parameter, so it is the plants
-						-- themselves that are the ABM trigger, rather than
+	label = string,		-- set this to identify the ABM for Minetest's
+						-- profiler.  If not set, biome_lib will set it to 
+						-- "biome_lib grow_plants(): " appended with the node
+						-- in grow_plant (or the first item if it's a table)
+	grow_plant = "string" or {table}, -- Name(s) of the node(s) to be grown
+						-- into something else.  This value is passed to the
+						-- ABM as the "nodenames" parameter, so the plants
+						-- themselves are the ABM trigger, rather than
 						-- the ground they spawned on.  A plant will only grow
-						-- if the node above it is air.  Can also be a table,
-						-- but note that all nodes referenced therein will be
-						-- grown into the same object.
+						-- if the node above it is air.  If you use a table,
+						-- note that all nodes referenced therein will be
+						-- grown into the same final object.
 	grow_delay = num,	-- Passed as the ABM "interval" parameter, as with
 						-- spawning.
 	grow_chance = num,	-- Passed as the ABM "chance" parameter.

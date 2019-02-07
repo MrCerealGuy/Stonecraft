@@ -17,8 +17,6 @@ It is primarily intended for mapgen v6, but it should work fine when used with m
 **Recommends**: [Plantlife Modpack](https://github.com/minetest-mods/plantlife_modpack), 
 [More Trees](https://github.com/minetest-mods/moretrees)
 
-**License**: WTFPL
-
 **API**: This mod supplies a small number of very powerful functions. They are, briefly:
 
 * biome_lib:register_generate_plant()
