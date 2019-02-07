@@ -1,0 +1,90 @@
+
+Ambience Lite API
+=================
+
+This short guide will show you how to add sound sets into ambience mod for the
+api to use and play sounds accordingly.  Please note that the order they are
+added will affect sound checks, so high priority sets first.
+
+
+Function Usage
+==============
+
+
+Adding Sound Set
+----------------
+
+ambience.add_set(set_name, def)
+  'set_name' contains the name of the sound set to add
+  'def' contains the following:
+     'frequency' how often the sound set is played (1 to 1000) higher is more
+     'nodes' contains a table of nodes needed for checks
+     'sound_check(def)' function to check if sounds can be played, def contains:
+        'player' player userdata
+        'pos' position of player
+        'tod' time of day
+        'totals' totals for each node e.g. def.totals["default:sand"]
+        'positions' position data for every node found
+        'head_node' name of node at player head level
+        'feet_node' nameof node at player foot level
+
+This will let you add a set or sounds with the frequency it's used and check
+function for it to play.
+
+e.g.
+
+ambience.add_set("windy", {
+	frequency = 500,
+	nodes = {"default:sand"},
+	sounds = {
+		{name = "wind", length = 9, gain = 0.3},
+		{name = "desertwind", length = 8, gain = 0.3},
+	},
+	sound_check = function(def)
+		local number = totals["default:sand"] or 0 -- yep, can also be nil
+		if number > 20 then
+			return "windy", 0.2 -- return set to play and optional gain volume
+		end
+	end,
+})
+
+
+Getting Sound Set
+-----------------
+
+ambience.get_set(set_name)
+
+This returns a table containing all of the set information like example above.
+
+e.g.
+
+local myset = ambience.get_set("windy") -- returns everything inside {} above.
+
+
+Deleting Sound Set
+------------------
+
+ambience.del_set(set_name)
+
+This will remove a sound set from the list.
+
+e.g.
+
+ambience.del_set("windy")
+
+
+Additional Commands
+===================
+
+Two volume commands have been added to set sound and music volume:
+
+/svol (0.1 to 1.0)
+/mvol (0.1 to 1.0) -- 0 can be used to stop music from playing when it begins
+
+
+Music
+=====
+
+Music can be stored in the sounds folder either on server or locally and so long
+as it is named 'ambience_music.1', 'ambience_music.2' etc. then it will select
+a song randomly at midnight and play player.
