@@ -197,7 +197,7 @@ function core.get_node_drops(node, toolname)
 		return {nodename}
 	elseif type(drop) == "string" then
 		-- itemstring drop
-		return {drop}
+		return drop ~= "" and {drop} or {}
 	elseif drop.items == nil then
 		-- drop = {} to disable default drop
 		return {}
@@ -468,6 +468,11 @@ function core.do_item_eat(hp_change, replace_with_item, itemstack, user, pointed
 	end
 	if itemstack:take_item() ~= nil then
 		user:set_hp(user:get_hp() + hp_change)
+
+		local def = itemstack:get_definition()
+		if def and def.sound and def.sound.eat then
+			minetest.sound_play(def.sound.eat, { pos = user:get_pos(), max_hear_distance = 16 })
+		end
 
 		if replace_with_item then
 			if itemstack:is_empty() then

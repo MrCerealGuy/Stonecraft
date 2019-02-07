@@ -21,31 +21,55 @@ function get_mods(path,retval,modpack)
 
 	for _, name in ipairs(mods) do
 		if name:sub(1, 1) ~= "." then
-			local prefix = path .. DIR_DELIM .. name .. DIR_DELIM
-			local toadd = {}
+			local prefix = path .. DIR_DELIM .. name
+			local toadd = {
+				dir_name = name,
+				parent_dir = path,
+			}
 			retval[#retval + 1] = toadd
 
-			local mod_conf = Settings(prefix .. "mod.conf"):to_table()
-			if mod_conf.name then
-				name = mod_conf.name
+			-- Get config file
+			local mod_conf
+			local modpack_conf = io.open(prefix .. DIR_DELIM .. "modpack.conf")
+			if modpack_conf then
+				toadd.is_modpack = true
+				modpack_conf:close()
+
+				mod_conf = Settings(prefix .. DIR_DELIM .. "modpack.conf"):to_table()
+				if mod_conf.name then
+					name = mod_conf.name
+					toadd.is_name_explicit = true
+				end
+			else
+				mod_conf = Settings(prefix .. DIR_DELIM .. "mod.conf"):to_table()
+				if mod_conf.name then
+					name = mod_conf.name
+					toadd.is_name_explicit = true
+				end
 			end
 
+			-- Read from config
 			toadd.name = name
 			toadd.author = mod_conf.author
 			toadd.release = tonumber(mod_conf.release or "0")
 			toadd.path = prefix
 			toadd.type = "mod"
 
-			if modpack ~= nil and modpack ~= "" then
+			-- Check modpack.txt
+			--  Note: modpack.conf is already checked above
+			local modpackfile = io.open(prefix .. DIR_DELIM .. "modpack.txt")
+			if modpackfile then
+				modpackfile:close()
+				toadd.is_modpack = true
+			end
+
+			-- Deal with modpack contents
+			if modpack and modpack ~= "" then
 				toadd.modpack = modpack
-			else
-				local modpackfile = io.open(prefix .. "modpack.txt")
-				if modpackfile then
-					modpackfile:close()
-					toadd.type = "modpack"
-					toadd.is_modpack = true
-					get_mods(prefix, retval, name)
-				end
+			elseif toadd.is_modpack then
+				toadd.type = "modpack"
+				toadd.is_modpack = true
+				get_mods(prefix, retval, name)
 			end
 		end
 	end
@@ -112,6 +136,12 @@ function pkgmgr.get_folder_type(path)
 	if testfile ~= nil then
 		testfile:close()
 		return { type = "mod", path = path }
+	end
+
+	testfile = io.open(path .. DIR_DELIM .. "modpack.conf","r")
+	if testfile ~= nil then
+		testfile:close()
+		return { type = "modpack", path = path }
 	end
 
 	testfile = io.open(path .. DIR_DELIM .. "modpack.txt","r")
@@ -366,7 +396,10 @@ function pkgmgr.get_worldconfig(worldpath)
 		if key == "gameid" then
 			worldconfig.id = value
 		elseif key:sub(0, 9) == "load_mod_" then
-			worldconfig.global_mods[key] = core.is_yes(value)
+			-- Compatibility: Check against "nil" which was erroneously used
+			-- as value for fresh configured worlds
+			worldconfig.global_mods[key] = value ~= "false" and value ~= "nil"
+				and value
 		else
 			worldconfig[key] = value
 		end
@@ -422,7 +455,7 @@ function pkgmgr.install_dir(type, path, basename, targetpath)
 		else
 			local clean_path = nil
 			if basename ~= nil then
-				clean_path = "mp_" .. basename
+				clean_path = basename
 			end
 			if not clean_path then
 				clean_path = get_last_folder(cleanup_path(basefolder.path))
@@ -431,7 +464,7 @@ function pkgmgr.install_dir(type, path, basename, targetpath)
 				targetpath = core.get_modpath() .. DIR_DELIM .. clean_path
 			else
 				return nil,
-					fgettext("Install Mod: unable to find suitable foldername for modpack $1",
+					fgettext("Install Mod: Unable to find suitable folder name for modpack $1",
 					modfilename)
 			end
 		end
@@ -457,7 +490,7 @@ function pkgmgr.install_dir(type, path, basename, targetpath)
 			if targetfolder ~= nil and pkgmgr.isValidModname(targetfolder) then
 				targetpath = core.get_modpath() .. DIR_DELIM .. targetfolder
 			else
-				return nil, fgettext("Install Mod: unable to find real modname for: $1", modfilename)
+				return nil, fgettext("Install Mod: Unable to find real mod name for: $1", modfilename)
 			end
 		end
 
@@ -480,7 +513,11 @@ function pkgmgr.install_dir(type, path, basename, targetpath)
 			fgettext("Failed to install $1 to $2", basename, targetpath)
 	end
 
-	pkgmgr.refresh_globals()
+	if basefolder.type == "game" then
+		pkgmgr.update_gamelist()
+	else
+		pkgmgr.refresh_globals()
+	end
 
 	return targetpath, nil
 end
@@ -493,7 +530,7 @@ function pkgmgr.install(type, modfilename, basename, dest)
 	if path == nil then
 		return nil,
 			fgettext("Install: file: \"$1\"", archive_info.name) .. "\n" ..
-			fgettext("Install: unsupported filetype \"$1\" or broken archive",
+			fgettext("Install: Unsupported file type \"$1\" or broken archive",
 				archive_info.type)
 	end
 
@@ -532,7 +569,8 @@ function pkgmgr.preparemodlist(data)
 		retval[#retval + 1] = {
 			type = "game",
 			is_game_content = true,
-			name = fgettext("Subgame Mods")
+			name = fgettext("$1 mods", gamespec.name),
+			path = gamespec.path
 		}
 	end
 
@@ -565,7 +603,7 @@ function pkgmgr.preparemodlist(data)
 				end
 			end
 			if element ~= nil then
-				element.enabled = core.is_yes(value)
+				element.enabled = value ~= "false" and value ~= "nil" and value
 			else
 				core.log("info", "Mod: " .. key .. " " .. dump(value) .. " but not found")
 			end

@@ -32,11 +32,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "guiMainMenu.h"
 #include "sound.h"
 #include "client/sound_openal.h"
-#include "clouds.h"
+#include "client/clouds.h"
 #include "httpfetch.h"
 #include "log.h"
-#include "fontengine.h"
-#include "guiscalingfilter.h"
+#include "client/fontengine.h"
+#include "client/guiscalingfilter.h"
 #include "irrlicht_changes/static_text.h"
 
 #ifdef __ANDROID__
@@ -70,22 +70,30 @@ MenuTextureSource::~MenuTextureSource()
 /******************************************************************************/
 video::ITexture *MenuTextureSource::getTexture(const std::string &name, u32 *id)
 {
-	if(id)
+	if (id)
 		*id = 0;
-	if(name.empty())
+
+	if (name.empty())
 		return NULL;
+
 	m_to_delete.insert(name);
 
 #ifdef __ANDROID__
-	video::IImage *image = m_driver->createImageFromFile(name.c_str());
-	if (image) {
-		image = Align2Npot2(image, m_driver);
-		video::ITexture* retval = m_driver->addTexture(name.c_str(), image);
-		image->drop();
+	video::ITexture *retval = m_driver->findTexture(name.c_str());
+	if (retval)
 		return retval;
-	}
-#endif
+
+	video::IImage *image = m_driver->createImageFromFile(name.c_str());
+	if (!image)
+		return NULL;
+
+	image = Align2Npot2(image, m_driver);
+	retval = m_driver->addTexture(name.c_str(), image);
+	image->drop();
+	return retval;
+#else
 	return m_driver->getTexture(name.c_str());
+#endif
 }
 
 /******************************************************************************/
@@ -315,7 +323,7 @@ void GUIEngine::cloudInit()
 {
 	m_cloud.clouds = new Clouds(m_smgr, -1, rand());
 	m_cloud.clouds->setHeight(100.0f);
-	m_cloud.clouds->update(v3f(0, 0, 0), video::SColor(255,200,200,255));
+	m_cloud.clouds->update(v3f(0, 0, 0), video::SColor(255,240,240,255));
 
 	m_cloud.camera = m_smgr->addCameraSceneNode(0,
 				v3f(0,0,0), v3f(0, 60, 100));
@@ -522,7 +530,6 @@ bool GUIEngine::downloadFile(const std::string &url, const std::string &target)
 {
 #if USE_CURL
 	std::ofstream target_file(target.c_str(), std::ios::out | std::ios::binary);
-
 	if (!target_file.good()) {
 		return false;
 	}
@@ -535,6 +542,8 @@ bool GUIEngine::downloadFile(const std::string &url, const std::string &target)
 	httpfetch_sync(fetch_request, fetch_result);
 
 	if (!fetch_result.succeeded) {
+		target_file.close();
+		fs::DeleteSingleFileOrEmptyDirectory(target);
 		return false;
 	}
 	target_file << fetch_result.data;

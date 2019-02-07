@@ -27,7 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <vector>
 
 #include "client/tile.h"
-#include "game.h"
+#include "client/game.h"
 
 using namespace irr;
 using namespace irr::core;
@@ -81,7 +81,7 @@ typedef enum {
 #define BUTTON_REPEAT_DELAY 0.2f
 
 #define SETTINGS_BAR_Y_OFFSET 5
-#define RARE_CONTROLS_BAR_Y_OFFSET 4
+#define RARE_CONTROLS_BAR_Y_OFFSET 5
 
 extern const char **touchgui_button_imagenames;
 extern const char **touchgui_joystick_imagenames;

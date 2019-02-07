@@ -20,10 +20,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "l_client.h"
 #include "chatmessage.h"
-#include "client.h"
+#include "client/client.h"
 #include "client/clientevent.h"
 #include "client/sound.h"
-#include "clientenvironment.h"
+#include "client/clientenvironment.h"
 #include "common/c_content.h"
 #include "common/c_converter.h"
 #include "cpp_api/s_base.h"
@@ -116,6 +116,13 @@ int ModApiClient::l_clear_out_chat_queue(lua_State *L)
 // get_player_names()
 int ModApiClient::l_get_player_names(lua_State *L)
 {
+	// clang-format off
+	if (getClient(L)->checkCSMRestrictionFlag(
+			CSMRestrictionFlags::CSM_RF_READ_PLAYERINFO)) {
+		return 0;
+	}
+	// clang-format on
+
 	const std::list<std::string> &plist = getClient(L)->getConnectedPlayerNames();
 	lua_createtable(L, plist.size(), 0);
 	int newTable = lua_gettop(L);

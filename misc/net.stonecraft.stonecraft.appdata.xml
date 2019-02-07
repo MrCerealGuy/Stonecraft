@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application>
-	<id type="desktop">stonecraft.desktop</id>
+<component type="desktop-application">
+	<id>net.stonecraft.stonecraft.desktop</id>
 	<metadata_license>CC0-1.0</metadata_license>
 	<project_license>LGPL-2.1+ and CC-BY-SA-3.0 and MIT and Apache-2.0</project_license>
 	<name>Stonecraft</name>
@@ -31,10 +31,26 @@
 		</ul>
 	</description>
 	<screenshots>
-		<screenshot type="default" width="1770" height="1080">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20160410_162735.png</screenshot>
-		<screenshot width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161128_141100.png</screenshot>
-		<screenshot width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161129_115518.png</screenshot>
+		<screenshot type="default">
+			<image width="1770" height="1080">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20160410_162735.png</image>
+		</screenshot>
+		<screenshot>
+			<image width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161128_141100.png</image>
+		</screenshot>
+		<screenshot>
+			<image width="898" height="505">http://mrcerealguy.github.io/stonecraft/gfx/gallery/screenshot_20161129_115518.png</image>
+		</screenshot>
 	</screenshots>
+	<keywords>
+		<keyword>sandbox</keyword>
+		<keyword>world</keyword>
+		<keyword>mining</keyword>
+		<keyword>multiplayer</keyword>
+	</keywords>
 	<url type="homepage">http://mrcerealguy.github.io/stonecraft</url>
-	<updatecontact>mrcerealguy@gmx.de</updatecontact>
-</application>
+	<provides>
+		<binary>stonecraft</binary>
+	</provides>
+	<translation type="gettext">stonecraft</translation>
+	<update_contact>mrcerealguy@gmx.de</update_contact>
+</component>

@@ -43,6 +43,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("meshgen_block_cache_size", "20");
 	settings->setDefault("enable_vbo", "true");
 	settings->setDefault("free_move", "false");
+	settings->setDefault("pitch_move", "false");
 	settings->setDefault("fast_move", "false");
 	settings->setDefault("noclip", "false");
 	settings->setDefault("screenshot_path", ".");
@@ -59,6 +60,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("enable_client_modding", "false");
 	settings->setDefault("max_out_chat_queue_size", "20");
 	settings->setDefault("pause_on_lost_focus", "false");
+	settings->setDefault("enable_register_confirmation", "true");
 
 	// Keymap
 	settings->setDefault("remote_port", "30000");
@@ -80,6 +82,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_console", "KEY_F10");
 	settings->setDefault("keymap_rangeselect", "KEY_KEY_R");
 	settings->setDefault("keymap_freemove", "KEY_KEY_K");
+	settings->setDefault("keymap_pitchmove", "KEY_KEY_L");
 	settings->setDefault("keymap_fastmove", "KEY_KEY_J");
 	settings->setDefault("keymap_noclip", "KEY_KEY_H");
 	settings->setDefault("keymap_hotbar_next", "KEY_KEY_N");
@@ -125,6 +128,15 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_slot21", "");
 	settings->setDefault("keymap_slot22", "");
 	settings->setDefault("keymap_slot23", "");
+	settings->setDefault("keymap_slot24", "");
+	settings->setDefault("keymap_slot25", "");
+	settings->setDefault("keymap_slot26", "");
+	settings->setDefault("keymap_slot27", "");
+	settings->setDefault("keymap_slot28", "");
+	settings->setDefault("keymap_slot29", "");
+	settings->setDefault("keymap_slot30", "");
+	settings->setDefault("keymap_slot31", "");
+	settings->setDefault("keymap_slot32", "");
 
 	// Some (temporary) keys for debugging
 	settings->setDefault("keymap_quicktune_prev", "KEY_HOME");
@@ -182,7 +194,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("cinematic_camera_smoothing", "0.7");
 	settings->setDefault("enable_clouds", "true");
 	settings->setDefault("view_bobbing_amount", "1.0");
-	settings->setDefault("fall_bobbing_amount", "0.0");
+	settings->setDefault("fall_bobbing_amount", "0.03");
 	settings->setDefault("enable_3d_clouds", "true");
 	settings->setDefault("cloud_radius", "12");
 	settings->setDefault("menu_clouds", "true");
@@ -253,6 +265,11 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("aux1_descends", "false");
 	settings->setDefault("doubletap_jump", "false");
 	settings->setDefault("always_fly_fast", "true");
+#ifdef __ANDROID__
+	settings->setDefault("autojump", "true");
+#else
+	settings->setDefault("autojump", "false");
+#endif
 	settings->setDefault("continuous_forward", "false");
 	settings->setDefault("enable_joysticks", "false");
 	settings->setDefault("joystick_id", "0");
@@ -261,10 +278,8 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("joystick_frustum_sensitivity", "170");
 
 	// Main menu
-	settings->setDefault("main_menu_style", "auto");
+	settings->setDefault("main_menu_style", "full");
 	settings->setDefault("main_menu_path", "");
-	settings->setDefault("main_menu_mod_mgr", "1");
-	settings->setDefault("main_menu_game_mgr", "0");
 	settings->setDefault("serverlist_file", "favoriteservers.txt");
 
 #if USE_FREETYPE
@@ -291,6 +306,11 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("font_size", font_size_str);
 	settings->setDefault("mono_font_size", font_size_str);
 	settings->setDefault("contentdb_url", "https://content.minetest.net");
+#ifdef __ANDROID__
+	settings->setDefault("contentdb_flag_blacklist", "nonfree, android_default");
+#else
+	settings->setDefault("contentdb_flag_blacklist", "nonfree, desktop_default");
+#endif
 
 
 	// Server
@@ -337,7 +357,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("max_block_send_distance", "9");
 	settings->setDefault("block_send_optimize_distance", "4");
 	settings->setDefault("server_side_occlusion_culling", "true");
-	settings->setDefault("csm_restriction_flags", "30");
+	settings->setDefault("csm_restriction_flags", "62");
 	settings->setDefault("csm_restriction_noderange", "0");
 	settings->setDefault("max_clearobjects_extra_loaded_blocks", "4096");
 	settings->setDefault("time_speed", "72");
@@ -405,6 +425,13 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("high_precision_fpu", "true");
 	settings->setDefault("enable_console", "false");
 
+	// Altered settings for macOS
+#if defined(__MACH__) && defined(__APPLE__)
+	settings->setDefault("keymap_sneak", "KEY_SHIFT");
+	settings->setDefault("fps_max", "0");
+#endif
+
+	// Altered settings for Android
 #ifdef __ANDROID__
 	settings->setDefault("screen_w", "0");
 	settings->setDefault("screen_h", "0");
@@ -426,24 +453,31 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("pause_fps_max", "10");
 	settings->setDefault("max_objects_per_block", "20");
 	settings->setDefault("sqlite_synchronous", "1");
-	settings->setDefault("gui_scaling", "1.1");
 	settings->setDefault("server_map_save_interval", "15");
 	settings->setDefault("client_mapblock_limit", "1000");
 	settings->setDefault("active_block_range", "2");
 	settings->setDefault("chunksize", "5");
-
 	settings->setDefault("viewing_range", "50");
-	settings->setDefault("inventory_image_hack", "false");
+	settings->setDefault("curl_verify_cert","false");
 
-	// Check for a device with a small screen
+	// Apply settings according to screen size
 	float x_inches = ((double) porting::getDisplaySize().X /
 			(160 * porting::getDisplayDensity()));
-	if (x_inches  < 3.5) {
+
+	if (x_inches < 3.7f) {
 		settings->setDefault("hud_scaling", "0.6");
-	} else if (x_inches < 4.5) {
+		settings->setDefault("font_size", "14");
+		settings->setDefault("mono_font_size", "14");
+	} else if (x_inches < 4.5f) {
 		settings->setDefault("hud_scaling", "0.7");
+		settings->setDefault("font_size", "14");
+		settings->setDefault("mono_font_size", "14");
+	} else if (x_inches < 6.0f) {
+		settings->setDefault("hud_scaling", "0.85");
+		settings->setDefault("font_size", "14");
+		settings->setDefault("mono_font_size", "14");
 	}
-	settings->setDefault("curl_verify_cert","false");
+	// Tablets >= 6.0 use non-Android defaults for these settings
 #else
 	settings->setDefault("screen_dpi", "72");
 #endif

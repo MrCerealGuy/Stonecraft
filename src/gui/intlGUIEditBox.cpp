@@ -32,8 +32,6 @@
 #include <util/numeric.h>
 #include "intlGUIEditBox.h"
 
-#if defined(_IRR_COMPILE_WITH_GUI_) && IRRLICHT_VERSION_MAJOR == 1 && IRRLICHT_VERSION_MINOR < 9 || defined(__ANDROID__)
-
 #include "IGUISkin.h"
 #include "IGUIEnvironment.h"
 #include "IGUIFont.h"
@@ -182,7 +180,6 @@ void intlGUIEditBox::enableOverrideColor(bool enable)
 
 bool intlGUIEditBox::isOverrideColorEnabled() const
 {
-	_IRR_IMPLEMENT_MANAGED_MARSHALLING_BUGFIX;
 	return OverrideColorEnabled;
 }
 
@@ -208,7 +205,6 @@ void intlGUIEditBox::updateAbsolutePosition()
 //! Checks if word wrap is enabled
 bool intlGUIEditBox::isWordWrapEnabled() const
 {
-	_IRR_IMPLEMENT_MANAGED_MARSHALLING_BUGFIX;
 	return WordWrap;
 }
 
@@ -223,7 +219,6 @@ void intlGUIEditBox::setMultiLine(bool enable)
 //! Checks if multi line editing is enabled
 bool intlGUIEditBox::isMultiLineEnabled() const
 {
-	_IRR_IMPLEMENT_MANAGED_MARSHALLING_BUGFIX;
 	return MultiLine;
 }
 
@@ -243,7 +238,6 @@ void intlGUIEditBox::setPasswordBox(bool passwordBox, wchar_t passwordChar)
 
 bool intlGUIEditBox::isPasswordBox() const
 {
-	_IRR_IMPLEMENT_MANAGED_MARSHALLING_BUGFIX;
 	return PasswordBox;
 }
 
@@ -276,7 +270,7 @@ bool intlGUIEditBox::OnEvent(const SEvent& event)
 			break;
 		case EET_KEY_INPUT_EVENT:
         {
-#if (defined(__linux__) || defined(__FreeBSD__))
+#if (defined(__linux__) || defined(__FreeBSD__)) || defined(__DragonFly__)
             // ################################################################
 			// ValkaTR:
             // This part is the difference from the original intlGUIEditBox
@@ -980,7 +974,6 @@ void intlGUIEditBox::setAutoScroll(bool enable)
 //! \return true if automatic scrolling is enabled, false if not
 bool intlGUIEditBox::isAutoScrollEnabled() const
 {
-	_IRR_IMPLEMENT_MANAGED_MARSHALLING_BUGFIX;
 	return AutoScroll;
 }
 
@@ -1482,6 +1475,8 @@ void intlGUIEditBox::createVScrollBar()
 		}
 	}
 
+	RelativeRect.LowerRightCorner.X -= m_scrollbar_width + 4;
+
 	irr::core::rect<s32> scrollbarrect = FrameRect;
 	scrollbarrect.UpperLeftCorner.X += FrameRect.getWidth() - m_scrollbar_width;
 	m_vscrollbar = Environment->addScrollBar(false, scrollbarrect, getParent(), getID());
@@ -1594,5 +1589,3 @@ void intlGUIEditBox::deserializeAttributes(io::IAttributes* in, io::SAttributeRe
 
 } // end namespace gui
 } // end namespace irr
-
-#endif // _IRR_COMPILE_WITH_GUI_

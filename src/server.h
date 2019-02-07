@@ -229,7 +229,7 @@ public:
 	void spawnParticle(const std::string &playername,
 		v3f pos, v3f velocity, v3f acceleration,
 		float expirationtime, float size,
-		bool collisiondetection, bool collision_removal,
+		bool collisiondetection, bool collision_removal, bool object_collision,
 		bool vertical, const std::string &texture,
 		const struct TileAnimationParams &animation, u8 glow);
 
@@ -239,7 +239,7 @@ public:
 		v3f minacc, v3f maxacc,
 		float minexptime, float maxexptime,
 		float minsize, float maxsize,
-		bool collisiondetection, bool collision_removal,
+		bool collisiondetection, bool collision_removal, bool object_collision,
 		ServerActiveObject *attached,
 		bool vertical, const std::string &texture,
 		const std::string &playername, const struct TileAnimationParams &animation,
@@ -248,7 +248,9 @@ public:
 	void deleteParticleSpawner(const std::string &playername, u32 id);
 
 	// Creates or resets inventory
-	Inventory* createDetachedInventory(const std::string &name, const std::string &player="");
+	Inventory *createDetachedInventory(const std::string &name,
+			const std::string &player = "");
+	bool removeDetachedInventory(const std::string &name);
 
 	// Envlock and conlock should be locked when using scriptapi
 	ServerScripting *getScriptIface(){ return m_script; }
@@ -416,11 +418,14 @@ private:
 		far_d_nodes are ignored and their peer_ids are added to far_players
 	*/
 	// Envlock and conlock should be locked when calling these
-	void sendRemoveNode(v3s16 p, u16 ignore_id=0,
-			std::vector<u16> *far_players=NULL, float far_d_nodes=100);
-	void sendAddNode(v3s16 p, MapNode n, u16 ignore_id=0,
-			std::vector<u16> *far_players=NULL, float far_d_nodes=100,
-			bool remove_metadata=true);
+	void sendRemoveNode(v3s16 p, std::unordered_set<u16> *far_players = nullptr,
+			float far_d_nodes = 100);
+	void sendAddNode(v3s16 p, MapNode n,
+			std::unordered_set<u16> *far_players = nullptr,
+			float far_d_nodes = 100, bool remove_metadata = true);
+
+	void sendMetadataChanged(const std::list<v3s16> &meta_updates,
+			float far_d_nodes = 100);
 
 	// Environment and Connection must be locked when called
 	void SendBlockNoLock(session_t peer_id, MapBlock *block, u8 ver, u16 net_proto_version);
@@ -444,7 +449,7 @@ private:
 		v3f minacc, v3f maxacc,
 		float minexptime, float maxexptime,
 		float minsize, float maxsize,
-		bool collisiondetection, bool collision_removal,
+		bool collisiondetection, bool collision_removal, bool object_collision,
 		u16 attached_id,
 		bool vertical, const std::string &texture, u32 id,
 		const struct TileAnimationParams &animation, u8 glow);
@@ -455,7 +460,7 @@ private:
 	void SendSpawnParticle(session_t peer_id, u16 protocol_version,
 		v3f pos, v3f velocity, v3f acceleration,
 		float expirationtime, float size,
-		bool collisiondetection, bool collision_removal,
+		bool collisiondetection, bool collision_removal, bool object_collision,
 		bool vertical, const std::string &texture,
 		const struct TileAnimationParams &animation, u8 glow);
 

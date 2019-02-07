@@ -1,5 +1,6 @@
 set (UNITTEST_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/test.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/test_authdatabase.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_activeobject.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_areastore.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_ban.cpp
@@ -20,6 +21,7 @@ set (UNITTEST_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/test_random.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_schematic.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_serialization.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/test_serveractiveobjectmgr.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_server_shutdown_state.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_settings.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_socket.cpp
@@ -32,6 +34,7 @@ set (UNITTEST_SRCS
 	PARENT_SCOPE)
 
 set (UNITTEST_CLIENT_SRCS
+	${CMAKE_CURRENT_SOURCE_DIR}/test_clientactiveobjectmgr.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_eventmanager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_gameui.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_keycode.cpp

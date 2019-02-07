@@ -25,11 +25,11 @@
 
 --]]
 
-local store = {}
+local store = { packages = {}, packages_full = {} }
 local package_dialog = {}
 
 -- Screenshot
-local screenshot_dir = os.tempfolder()
+local screenshot_dir = core.get_cache_path() .. DIR_DELIM .. "cdb"
 assert(core.create_dir(screenshot_dir))
 local screenshot_downloading = {}
 local screenshot_downloaded = {}
@@ -44,15 +44,15 @@ local filter_type = 1
 local filter_types_titles = {
 	--fgettext("All packages"),
 	--fgettext("Games"),
-	fgettext("Texture packs"),
 	fgettext("Mods"),
+	fgettext("Texture packs"),
 }
 
 local filter_types_type = {
 	--nil,
 	--"game",
-	"txp",
 	"mod",
+	"txp",
 }
 
 -- MERGEINFO: added by MrCerealGuy
@@ -90,13 +90,20 @@ local function start_install(calling_dialog, package)
 			if not path then
 				gamedata.errormessage = msg
 			else
+				core.log("action", "Installed package to " .. path)
+
 				local conf_path
 				local name_is_title = false
 				if result.package.type == "mod" then
-					conf_path = path .. DIR_DELIM .. "mod.conf"
-				--elseif result.package.type == "game" then
-				--	conf_path = path .. DIR_DELIM .. "game.conf"
-				--	name_is_title = true
+					local actual_type = pkgmgr.get_folder_type(path)
+					if actual_type.type == "modpack" then
+						conf_path = path .. DIR_DELIM .. "modpack.conf"
+					else
+						conf_path = path .. DIR_DELIM .. "mod.conf"
+					end
+				elseif result.package.type == "game" then
+					conf_path = path .. DIR_DELIM .. "game.conf"
+					name_is_title = true
 				elseif result.package.type == "txp" then
 					conf_path = path .. DIR_DELIM .. "texture_pack.conf"
 				end
@@ -196,6 +203,11 @@ local function get_screenshot(package)
 		local ele = ui.childlist.store
 		if ele and not ele.hidden then
 			core.update_formspec(ele:formspec())
+		else
+			ele = ui.childlist.package_view
+			if ele and not ele.hidden then
+				core.update_formspec(ele:formspec())
+			end
 		end
 	end
 	if core.handle_async(download_screenshot,
@@ -218,12 +230,12 @@ function package_dialog.get_formspec()
 
 	local formspec = {
 		"size[9,4;true]",
-		"label[2.5,0.2;", core.formspec_escape(package.title), "]",
-		"textarea[3.6,1;6,3;;;", core.formspec_escape(package.short_description), "]",
-		"button[0,0;2,1;back;", fgettext("< Back"), "]",
-
-		-- image
-		"image[0.2,1;3.5,3;", core.formspec_escape(get_screenshot(package)), "]",
+		"image[0,1;4.5,3;", core.formspec_escape(get_screenshot(package)), ']',
+		"label[3.8,1;",
+		minetest.colorize(mt_color_green, core.formspec_escape(package.title)), "\n",
+		minetest.colorize('#BFBFBF', "by " .. core.formspec_escape(package.author)), "]",
+		"textarea[4,2;5.3,2;;;", core.formspec_escape(package.short_description), "]",
+		"button[0,0;2,1;back;", fgettext("Back"), "]",
 	}
 
 	if not package.path then
@@ -231,10 +243,11 @@ function package_dialog.get_formspec()
 		formspec[#formspec + 1] = fgettext("Install")
 		formspec[#formspec + 1] = "]"
 	elseif package.installed_release < package.release then
+		-- The install_ action also handles updating
 		formspec[#formspec + 1] = "button[7,0;2,1;install;"
 		formspec[#formspec + 1] = fgettext("Update")
 		formspec[#formspec + 1] = "]"
-		formspec[#formspec + 1] = "button[7,1;2,1;uninstall;"
+		formspec[#formspec + 1] = "button[5,0;2,1;uninstall;"
 		formspec[#formspec + 1] = fgettext("Uninstall")
 		formspec[#formspec + 1] = "]"
 	else
@@ -242,8 +255,6 @@ function package_dialog.get_formspec()
 		formspec[#formspec + 1] = fgettext("Uninstall")
 		formspec[#formspec + 1] = "]"
 	end
-
-	-- TODO: screenshots
 
 	return table.concat(formspec, "")
 end
@@ -279,42 +290,83 @@ function package_dialog.create(package)
 end
 
 function store.load()
-	store.packages_full = core.get_package_list()
-	store.packages = store.packages_full
-	store.loaded = true
+	local tmpdir = os.tempfolder()
+	local target = tmpdir .. DIR_DELIM .. "packages.json"
+
+	assert(core.create_dir(tmpdir))
+
+	local base_url     = core.settings:get("contentdb_url")
+	local show_nonfree = core.settings:get_bool("show_nonfree_packages")
+	local url = base_url ..
+		"/api/packages/?type=mod&type=game&type=txp&protocol_version=" ..
+		core.get_max_supp_proto()
+
+	for _, item in pairs(core.settings:get("contentdb_flag_blacklist"):split(",")) do
+		item = item:trim()
+		if item ~= "" then
+			url = url .. "&hide=" .. item
+		end
+	end
+
+	core.download_file(url, target)
+
+	local file = io.open(target, "r")
+	if file then
+		store.packages_full = core.parse_json(file:read("*all")) or {}
+		file:close()
+
+		for _, package in pairs(store.packages_full) do
+			package.url = base_url .. "/packages/" ..
+				package.author .. "/" .. package.name ..
+				"/releases/" .. package.release .. "/download/"
+
+			package.id = package.author .. "/" .. package.name
+		end
+
+		store.packages = store.packages_full
+		store.loaded = true
+	end
+
+	core.delete_dir(tmpdir)
 end
 
 function store.update_paths()
 	local mod_hash = {}
 	pkgmgr.refresh_globals()
 	for _, mod in pairs(pkgmgr.global_mods:get_list()) do
-		mod_hash[mod.name] = mod
+		if mod.author then
+			mod_hash[mod.author .. "/" .. mod.name] = mod
+		end
 	end
 
 	local game_hash = {}
 	pkgmgr.update_gamelist()
 	for _, game in pairs(pkgmgr.games) do
-		game_hash[game.id] = game
+		if game.author then
+			game_hash[game.author .. "/" .. game.id] = game
+		end
 	end
 
 	local txp_hash = {}
 	for _, txp in pairs(pkgmgr.get_texture_packs()) do
-		txp_hash[txp.name] = txp
+		if txp.author then
+			txp_hash[txp.author .. "/" .. txp.name] = txp
+		end
 	end
 
 	for _, package in pairs(store.packages_full) do
 		local content
 		if package.type == "mod" then
-			content = mod_hash[package.name]
-		--elseif package.type == "game" then
-		--	content = game_hash[package.name]
+			content = mod_hash[package.id]
+		elseif package.type == "game" then
+			content = game_hash[package.id]
 		elseif package.type == "txp" then
-			content = txp_hash[package.name]
+			content = txp_hash[package.id]
 		end
 
-		if content and content.author == package.author then
+		if content then
 			package.path = content.path
-			package.installed_release = content.release
+			package.installed_release = content.release or 0
 		else
 			package.path = nil
 		end
@@ -322,6 +374,11 @@ function store.update_paths()
 end
 
 function store.filter_packages(query)
+	if query == "" and filter_type == 1 then
+		store.packages = store.packages_full
+		return
+	end
+
 	local keywords = {}
 	for word in query:lower():gmatch("%S+") do
 		table.insert(keywords, word)
@@ -365,8 +422,6 @@ function store.filter_packages(query)
 end
 
 function store.get_formspec()
-	assert(store.loaded)
-
 	store.update_paths()
 
 	local pages = math.ceil(#store.packages / num_per_page)
@@ -374,26 +429,59 @@ function store.get_formspec()
 		cur_page = 1
 	end
 
-	local formspec = {
-		"size[12,6.5;true]",
-		"field[0.3,0.1;10.2,1;search_string;;", core.formspec_escape(search_string), "]",
-		"field_close_on_enter[search_string;false]",
-		"button[10.2,-0.2;2,1;search;", fgettext("Search"), "]",
-		"dropdown[0,1;2.4;type;",
-		table.concat(filter_types_titles, ","),
-		";",
-		filter_type,
-		"]",
-		-- "textlist[0,1;2.4,5.6;a;",
-		-- table.concat(taglist, ","),
-		-- "]"
-	}
+	local formspec
+	if #store.packages_full > 0 then
+		formspec = {
+			"size[12,7;true]",
+			"position[0.5,0.55]",
+			"field[0.2,0.1;7.8,1;search_string;;",
+			core.formspec_escape(search_string), "]",
+			"field_close_on_enter[search_string;false]",
+			"button[7.7,-0.2;2,1;search;",
+			fgettext("Search"), "]",
+			"dropdown[9.7,-0.1;2.4;type;",
+			table.concat(filter_types_titles, ","),
+			";", filter_type, "]",
+			-- "textlist[0,1;2.4,5.6;a;",
+			-- table.concat(taglist, ","), "]",
+
+			-- Page nav buttons
+			"container[0,",
+			num_per_page + 1.5, "]",
+			"button[-0.1,0;3,1;back;",
+			fgettext("Back to Main Menu"), "]",
+			"button[7.1,0;1,1;pstart;<<]",
+			"button[8.1,0;1,1;pback;<]",
+			"label[9.2,0.2;",
+			tonumber(cur_page), " / ",
+			tonumber(pages), "]",
+			"button[10.1,0;1,1;pnext;>]",
+			"button[11.1,0;1,1;pend;>>]",
+			"container_end[]",
+		}
+
+		if #store.packages == 0 then
+			formspec[#formspec + 1] = "label[4,3;"
+			formspec[#formspec + 1] = fgettext("No results")
+			formspec[#formspec + 1] = "]"
+		end
+	else
+		formspec = {
+			"size[12,7;true]",
+			"position[0.5,0.55]",
+			"label[4,3;", fgettext("No packages could be retrieved"), "]",
+			"button[-0.1,",
+			num_per_page + 1.5,
+			";3,1;back;",
+			fgettext("Back to Main Menu"), "]",
+		}
+	end
 
 	local start_idx = (cur_page - 1) * num_per_page + 1
 	for i=start_idx, math.min(#store.packages, start_idx+num_per_page-1) do
 		local package = store.packages[i]
-		formspec[#formspec + 1] = "container[3,"
-		formspec[#formspec + 1] = i - start_idx + 1
+		formspec[#formspec + 1] = "container[0.5,"
+		formspec[#formspec + 1] = (i - start_idx) * 1.1 + 1
 		formspec[#formspec + 1] = "]"
 
 		-- image
@@ -403,62 +491,53 @@ function store.get_formspec()
 
 		-- title
 		formspec[#formspec + 1] = "label[1,-0.1;"
-		formspec[#formspec + 1] = core.formspec_escape(package.title ..
-				" by " .. package.author)
+		formspec[#formspec + 1] = core.formspec_escape(
+				minetest.colorize(mt_color_green, package.title) ..
+				minetest.colorize("#BFBFBF", " by " .. package.author))
 		formspec[#formspec + 1] = "]"
 
 		-- description
-		--formspec[#formspec + 1] = "textarea[1.25,0.3;5,1;;;"
-		--formspec[#formspec + 1] = core.formspec_escape(package.short_description)
-		--formspec[#formspec + 1] = "]"
+		if package.path and package.installed_release < package.release then
+			formspec[#formspec + 1] = "textarea[1.25,0.3;7.5,1;;;"
+		else
+			formspec[#formspec + 1] = "textarea[1.25,0.3;9,1;;;"
+		end
+		formspec[#formspec + 1] = core.formspec_escape(package.short_description)
+		formspec[#formspec + 1] = "]"
 
 		-- buttons
 		if not package.path then
-			formspec[#formspec + 1] = "button[6,0;1.5,1;install_"
+			formspec[#formspec + 1] = "button[9.9,0;1.5,1;install_"
 			formspec[#formspec + 1] = tostring(i)
 			formspec[#formspec + 1] = ";"
 			formspec[#formspec + 1] = fgettext("Install")
 			formspec[#formspec + 1] = "]"
-		elseif package.installed_release < package.release then
-			formspec[#formspec + 1] = "button[6,0;1.5,1;install_"
-			formspec[#formspec + 1] = tostring(i)
-			formspec[#formspec + 1] = ";"
-			formspec[#formspec + 1] = fgettext("Update")
-			formspec[#formspec + 1] = "]"
 		else
-			formspec[#formspec + 1] = "button[6,0;1.5,1;uninstall_"
+			if package.installed_release < package.release then
+				-- The install_ action also handles updating
+				formspec[#formspec + 1] = "button[8.4,0;1.5,1;install_"
+				formspec[#formspec + 1] = tostring(i)
+				formspec[#formspec + 1] = ";"
+				formspec[#formspec + 1] = fgettext("Update")
+				formspec[#formspec + 1] = "]"
+			end
+
+			formspec[#formspec + 1] = "button[9.9,0;1.5,1;uninstall_"
 			formspec[#formspec + 1] = tostring(i)
 			formspec[#formspec + 1] = ";"
 			formspec[#formspec + 1] = fgettext("Uninstall")
 			formspec[#formspec + 1] = "]"
 		end
-		formspec[#formspec + 1] = "button[7.5,0;1.5,1;view_"
-		formspec[#formspec + 1] = tostring(i)
-		formspec[#formspec + 1] = ";"
-		formspec[#formspec + 1] = fgettext("View")
-		formspec[#formspec + 1] = "]"
+
+		--formspec[#formspec + 1] = "button[9.9,0;1.5,1;view_"
+		--formspec[#formspec + 1] = tostring(i)
+		--formspec[#formspec + 1] = ";"
+		--formspec[#formspec + 1] = fgettext("View")
+		--formspec[#formspec + 1] = "]"
 
 		formspec[#formspec + 1] = "container_end[]"
 	end
 
-	formspec[#formspec + 1] = "container[0,"
-	formspec[#formspec + 1] = num_per_page + 1
-	formspec[#formspec + 1] = "]"
-	formspec[#formspec + 1] = "button[2.6,0;3,1;back;"
-	formspec[#formspec + 1] = fgettext("Back to Main Menu")
-	formspec[#formspec + 1] = "]"
-	formspec[#formspec + 1] = "button[7,0;1,1;pstart;<<]"
-	formspec[#formspec + 1] = "button[8,0;1,1;pback;<]"
-	formspec[#formspec + 1] = "label[9.2,0.2;"
-	formspec[#formspec + 1] = tonumber(cur_page)
-	formspec[#formspec + 1] = " / "
-	formspec[#formspec + 1] = tonumber(pages)
-	formspec[#formspec + 1] = "]"
-	formspec[#formspec + 1] = "button[10,0;1,1;pnext;>]"
-	formspec[#formspec + 1] = "button[11,0;1,1;pend;>>]"
-	formspec[#formspec + 1] = "container_end[]"
-
-	formspec[#formspec + 1] = "]"
 	return table.concat(formspec, "")
 end
 
@@ -550,7 +629,7 @@ function store.handle_submit(this, fields, tabname, tabdata)
 end
 
 function create_store_dlg(type)
-	if not store.loaded then
+	if not store.loaded or #store.packages_full == 0 then
 		store.load()
 	end
 

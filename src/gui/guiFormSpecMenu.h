@@ -372,13 +372,17 @@ protected:
 	{
 			return padding + offset + AbsoluteRect.UpperLeftCorner;
 	}
+	std::wstring getLabelByID(s32 id);
+	std::string getNameByID(s32 id);
+	v2s32 getElementBasePos(bool absolute,
+			const std::vector<std::string> *v_pos);
 
 	v2s32 padding;
-	v2s32 spacing;
+	v2f32 spacing;
 	v2s32 imgsize;
 	v2s32 offset;
-	v2s32 pos_offset;
-	std::stack<v2s32> container_stack;
+	v2f32 pos_offset;
+	std::stack<v2f32> container_stack;
 
 	InventoryManager *m_invmgr;
 	ISimpleTextureSource *m_tsrc;
@@ -400,6 +404,7 @@ protected:
 	std::vector<std::pair<FieldSpec,GUITable*> > m_tables;
 	std::vector<std::pair<FieldSpec,gui::IGUICheckBox*> > m_checkboxes;
 	std::map<std::string, TooltipSpec> m_tooltips;
+	std::vector<std::pair<irr::core::rect<s32>, TooltipSpec>> m_tooltip_rects;
 	std::vector<std::pair<FieldSpec,gui::IGUIScrollBar*> > m_scrollbars;
 	std::vector<std::pair<FieldSpec, std::vector<std::string> > > m_dropdowns;
 
@@ -408,8 +413,6 @@ protected:
 	bool m_selected_dragging = false;
 	ItemStack m_selected_swap;
 
-	v2s32 m_pointer;
-	v2s32 m_old_pointer;  // Mouse position after previous mouse event
 	gui::IGUIStaticText *m_tooltip_element = nullptr;
 
 	u64 m_tooltip_show_delay;
@@ -531,13 +534,6 @@ private:
 
 	int m_btn_height;
 	gui::IGUIFont *m_font = nullptr;
-
-	std::wstring getLabelByID(s32 id);
-	std::string getNameByID(s32 id);
-#ifdef __ANDROID__
-	v2s32 m_down_pos;
-	std::string m_JavaDialogFieldName;
-#endif
 
 	/* If true, remap a double-click (or double-tap) action to ESC. This is so
 	 * that, for example, Android users can double-tap to close a formspec.

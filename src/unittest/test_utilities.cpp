@@ -31,6 +31,7 @@ public:
 	void runTests(IGameDef *gamedef);
 
 	void testAngleWrapAround();
+	void testWrapDegrees_0_360_v3f();
 	void testLowercase();
 	void testTrim();
 	void testIsYes();
@@ -51,6 +52,7 @@ public:
 	void testIsNumber();
 	void testIsPowerOfTwo();
 	void testMyround();
+	void testStringJoin();
 };
 
 static TestUtilities g_test_instance;
@@ -58,6 +60,7 @@ static TestUtilities g_test_instance;
 void TestUtilities::runTests(IGameDef *gamedef)
 {
 	TEST(testAngleWrapAround);
+	TEST(testWrapDegrees_0_360_v3f);
 	TEST(testLowercase);
 	TEST(testTrim);
 	TEST(testIsYes);
@@ -78,6 +81,7 @@ void TestUtilities::runTests(IGameDef *gamedef)
 	TEST(testIsNumber);
 	TEST(testIsPowerOfTwo);
 	TEST(testMyround);
+	TEST(testStringJoin);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,30 +108,71 @@ inline float ref_WrapDegrees_0_360(float f)
 }
 
 
-void TestUtilities::testAngleWrapAround()
+void TestUtilities::testAngleWrapAround() {
+    UASSERT(fabs(modulo360f(100.0) - 100.0) < 0.001);
+    UASSERT(fabs(modulo360f(720.5) - 0.5) < 0.001);
+    UASSERT(fabs(modulo360f(-0.5) - (-0.5)) < 0.001);
+    UASSERT(fabs(modulo360f(-365.5) - (-5.5)) < 0.001);
+
+    for (float f = -720; f <= -360; f += 0.25) {
+        UASSERT(std::fabs(modulo360f(f) - modulo360f(f + 360)) < 0.001);
+    }
+
+    for (float f = -1440; f <= 1440; f += 0.25) {
+        UASSERT(std::fabs(modulo360f(f) - fmodf(f, 360)) < 0.001);
+        UASSERT(std::fabs(wrapDegrees_180(f) - ref_WrapDegrees180(f)) < 0.001);
+        UASSERT(std::fabs(wrapDegrees_0_360(f) - ref_WrapDegrees_0_360(f)) < 0.001);
+        UASSERT(wrapDegrees_0_360(
+                std::fabs(wrapDegrees_180(f) - wrapDegrees_0_360(f))) < 0.001);
+    }
+
+}
+
+void TestUtilities::testWrapDegrees_0_360_v3f()
 {
-	UASSERT(fabs(modulo360f(100.0) - 100.0) < 0.001);
-	UASSERT(fabs(modulo360f(720.5) - 0.5) < 0.001);
-	UASSERT(fabs(modulo360f(-0.5) - (-0.5)) < 0.001);
-	UASSERT(fabs(modulo360f(-365.5) - (-5.5)) < 0.001);
+    // only x test with little step
+	for (float x = -720.f; x <= 720; x += 0.05) {
+        v3f r = wrapDegrees_0_360_v3f(v3f(x, 0, 0));
+        UASSERT(r.X >= 0.0f && r.X < 360.0f)
+        UASSERT(r.Y == 0.0f)
+        UASSERT(r.Z == 0.0f)
+    }
 
-	for (float f = -720; f <= -360; f += 0.25) {
-		UASSERT(std::fabs(modulo360f(f) - modulo360f(f + 360)) < 0.001);
+    // only y test with little step
+    for (float y = -720.f; y <= 720; y += 0.05) {
+        v3f r = wrapDegrees_0_360_v3f(v3f(0, y, 0));
+        UASSERT(r.X == 0.0f)
+        UASSERT(r.Y >= 0.0f && r.Y < 360.0f)
+        UASSERT(r.Z == 0.0f)
+    }
+
+    // only z test with little step
+    for (float z = -720.f; z <= 720; z += 0.05) {
+        v3f r = wrapDegrees_0_360_v3f(v3f(0, 0, z));
+        UASSERT(r.X == 0.0f)
+        UASSERT(r.Y == 0.0f)
+        UASSERT(r.Z >= 0.0f && r.Z < 360.0f)
 	}
 
-	for (float f = -1440; f <= 1440; f += 0.25) {
-		UASSERT(std::fabs(modulo360f(f) - fmodf(f, 360)) < 0.001);
-		UASSERT(std::fabs(wrapDegrees_180(f) - ref_WrapDegrees180(f)) < 0.001);
-		UASSERT(std::fabs(wrapDegrees_0_360(f) - ref_WrapDegrees_0_360(f)) < 0.001);
-		UASSERT(wrapDegrees_0_360(
-			std::fabs(wrapDegrees_180(f) - wrapDegrees_0_360(f))) < 0.001);
-	}
+    // test the whole coordinate translation
+    for (float x = -720.f; x <= 720; x += 2.5) {
+        for (float y = -720.f; y <= 720; y += 2.5) {
+            for (float z = -720.f; z <= 720; z += 2.5) {
+                v3f r = wrapDegrees_0_360_v3f(v3f(x, y, z));
+                UASSERT(r.X >= 0.0f && r.X < 360.0f)
+                UASSERT(r.Y >= 0.0f && r.Y < 360.0f)
+                UASSERT(r.Z >= 0.0f && r.Z < 360.0f)
+            }
+        }
+    }
 }
 
 
 void TestUtilities::testLowercase()
 {
 	UASSERT(lowercase("Foo bAR") == "foo bar");
+	UASSERT(lowercase("eeeeeeaaaaaaaaaaaààààà") == "eeeeeeaaaaaaaaaaaààààà");
+	UASSERT(lowercase("MINETEST-powa") == "minetest-powa");
 }
 
 
@@ -326,5 +371,26 @@ void TestUtilities::testMyround()
 	UASSERT(myround(1.2f) == 1);
 	UASSERT(myround(-3.1f) == -3);
 	UASSERT(myround(-6.5f) == -7);
+}
+
+void TestUtilities::testStringJoin()
+{
+	std::vector<std::string> input;
+	UASSERT(str_join(input, ",") == "");
+
+	input.emplace_back("one");
+	UASSERT(str_join(input, ",") == "one");
+
+	input.emplace_back("two");
+	UASSERT(str_join(input, ",") == "one,two");
+
+	input.emplace_back("three");
+	UASSERT(str_join(input, ",") == "one,two,three");
+
+	input[1] = "";
+	UASSERT(str_join(input, ",") == "one,,three");
+
+	input[1] = "two";
+	UASSERT(str_join(input, " and ") == "one and two and three");
 }
 

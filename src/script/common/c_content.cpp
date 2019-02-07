@@ -218,8 +218,18 @@ void read_object_properties(lua_State *L, int index,
 	getstringfield(L, -1, "mesh", prop->mesh);
 
 	lua_getfield(L, -1, "visual_size");
-	if(lua_istable(L, -1))
-		prop->visual_size = read_v2f(L, -1);
+	if (lua_istable(L, -1)) {
+		// Backwards compatibility: Also accept { x = ?, y = ? }
+		v2f scale_xy = read_v2f(L, -1);
+
+		f32 scale_z = scale_xy.X;
+		lua_getfield(L, -1, "z");
+		if (lua_isnumber(L, -1))
+			scale_z = lua_tonumber(L, -1);
+		lua_pop(L, 1);
+
+		prop->visual_size = v3f(scale_xy.X, scale_xy.Y, scale_z);
+	}
 	lua_pop(L, 1);
 
 	lua_getfield(L, -1, "textures");
@@ -331,14 +341,14 @@ void push_object_properties(lua_State *L, ObjectProperties *prop)
 	lua_setfield(L, -2, "visual");
 	lua_pushlstring(L, prop->mesh.c_str(), prop->mesh.size());
 	lua_setfield(L, -2, "mesh");
-	push_v2f(L, prop->visual_size);
+	push_v3f(L, prop->visual_size);
 	lua_setfield(L, -2, "visual_size");
 
 	lua_newtable(L);
 	u16 i = 1;
 	for (const std::string &texture : prop->textures) {
 		lua_pushlstring(L, texture.c_str(), texture.size());
-		lua_rawseti(L, -2, i);
+		lua_rawseti(L, -2, i++);
 	}
 	lua_setfield(L, -2, "textures");
 
@@ -346,7 +356,7 @@ void push_object_properties(lua_State *L, ObjectProperties *prop)
 	i = 1;
 	for (const video::SColor &color : prop->colors) {
 		push_ARGB8(L, color);
-		lua_rawseti(L, -2, i);
+		lua_rawseti(L, -2, i++);
 	}
 	lua_setfield(L, -2, "colors");
 
@@ -828,7 +838,7 @@ void push_content_features(lua_State *L, const ContentFeatures &c)
 	u16 i = 1;
 	for (const std::string &it : c.connects_to) {
 		lua_pushlstring(L, it.c_str(), it.size());
-		lua_rawseti(L, -2, i);
+		lua_rawseti(L, -2, i++);
 	}
 	lua_setfield(L, -2, "connects_to");
 
@@ -951,7 +961,7 @@ void push_box(lua_State *L, const std::vector<aabb3f> &box)
 	u8 i = 1;
 	for (const aabb3f &it : box) {
 		push_aabb3f(L, it);
-		lua_rawseti(L, -2, i);
+		lua_rawseti(L, -2, i++);
 	}
 }
 
@@ -1757,7 +1767,8 @@ void read_json_value(lua_State *L, Json::Value &root, int index, u8 recursion)
 	lua_pop(L, 1); // Pop value
 }
 
-void push_pointed_thing(lua_State *L, const PointedThing &pointed, bool csm)
+void push_pointed_thing(lua_State *L, const PointedThing &pointed, bool csm,
+	bool hitpoint)
 {
 	lua_newtable(L);
 	if (pointed.type == POINTEDTHING_NODE) {
@@ -1781,6 +1792,14 @@ void push_pointed_thing(lua_State *L, const PointedThing &pointed, bool csm)
 	} else {
 		lua_pushstring(L, "nothing");
 		lua_setfield(L, -2, "type");
+	}
+	if (hitpoint && (pointed.type != POINTEDTHING_NOTHING)) {
+		push_v3f(L, pointed.intersection_point / BS); // convert to node coords
+		lua_setfield(L, -2, "intersection_point");
+		push_v3s16(L, pointed.intersection_normal);
+		lua_setfield(L, -2, "intersection_normal");
+		lua_pushinteger(L, pointed.box_id + 1); // change to Lua array index
+		lua_setfield(L, -2, "box_id");
 	}
 }
 

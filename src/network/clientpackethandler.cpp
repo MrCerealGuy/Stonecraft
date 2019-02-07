@@ -17,15 +17,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-#include "client.h"
+#include "client/client.h"
 
 #include "util/base64.h"
 #include "chatmessage.h"
-#include "clientmedia.h"
+#include "client/clientmedia.h"
 #include "log.h"
 #include "map.h"
 #include "mapsector.h"
-#include "minimap.h"
+#include "client/minimap.h"
 #include "modchannels.h"
 #include "nodedef.h"
 #include "serialization.h"
@@ -98,7 +98,8 @@ void Client::handleCommand_Hello(NetworkPacket* pkt)
 	// Authenticate using that method, or abort if there wasn't any method found
 	if (chosen_auth_mechanism != AUTH_MECHANISM_NONE) {
 		if (chosen_auth_mechanism == AUTH_MECHANISM_FIRST_SRP
-				&& !m_simple_singleplayer_mode) {
+				&& !m_simple_singleplayer_mode
+				&& g_settings->getBool("enable_register_confirmation")) {
 			promptConfirmRegistration(chosen_auth_mechanism);
 		} else {
 			startAuth(chosen_auth_mechanism);
@@ -243,6 +244,33 @@ void Client::handleCommand_AddNode(NetworkPacket* pkt)
 
 	addNode(p, n, remove_metadata);
 }
+
+void Client::handleCommand_NodemetaChanged(NetworkPacket *pkt)
+{
+	if (pkt->getSize() < 1)
+		return;
+
+	std::istringstream is(pkt->readLongString(), std::ios::binary);
+	std::stringstream sstr;
+	decompressZlib(is, sstr);
+
+	NodeMetadataList meta_updates_list(false);
+	meta_updates_list.deSerialize(sstr, m_itemdef, true);
+
+	Map &map = m_env.getMap();
+	for (NodeMetadataMap::const_iterator i = meta_updates_list.begin();
+			i != meta_updates_list.end(); ++i) {
+		v3s16 pos = i->first;
+
+		if (map.isValidPosition(pos) &&
+				map.setNodeMetadata(pos, i->second))
+			continue; // Prevent from deleting metadata
+
+		// Meta couldn't be set, unused metadata
+		delete i->second;
+	}
+}
+
 void Client::handleCommand_BlockData(NetworkPacket* pkt)
 {
 	// Ignore too small packet
@@ -384,12 +412,12 @@ void Client::handleCommand_ChatMessage(NetworkPacket *pkt)
 	chatMessage->type = (ChatMessageType) message_type;
 
 	// @TODO send this to CSM using ChatMessage object
-	if (!moddingEnabled() || !m_script->on_receiving_message(
+	if (moddingEnabled() && m_script->on_receiving_message(
 			wide_to_utf8(chatMessage->message))) {
-		pushToChatQueue(chatMessage);
-	} else {
-		// Message was consumed by CSM and should not handled by client, destroying
+		// Message was consumed by CSM and should not be handled by client
 		delete chatMessage;
+	} else {
+		pushToChatQueue(chatMessage);
 	}
 }
 
@@ -843,21 +871,32 @@ void Client::handleCommand_InventoryFormSpec(NetworkPacket* pkt)
 
 void Client::handleCommand_DetachedInventory(NetworkPacket* pkt)
 {
-	std::string datastring(pkt->getString(0), pkt->getSize());
-	std::istringstream is(datastring, std::ios_base::binary);
-
-	std::string name = deSerializeString(is);
+	std::string name;
+	bool keep_inv = true;
+	*pkt >> name >> keep_inv;
 
 	infostream << "Client: Detached inventory update: \"" << name
-			<< "\"" << std::endl;
+		<< "\", mode=" << (keep_inv ? "update" : "remove") << std::endl;
 
-	Inventory *inv = NULL;
-	if (m_detached_inventories.count(name) > 0)
-		inv = m_detached_inventories[name];
-	else {
+	const auto &inv_it = m_detached_inventories.find(name);
+	if (!keep_inv) {
+		if (inv_it != m_detached_inventories.end()) {
+			delete inv_it->second;
+			m_detached_inventories.erase(inv_it);
+		}
+		return;
+	}
+	Inventory *inv = nullptr;
+	if (inv_it == m_detached_inventories.end()) {
 		inv = new Inventory(m_itemdef);
 		m_detached_inventories[name] = inv;
+	} else {
+		inv = inv_it->second;
 	}
+
+	std::string contents;
+	*pkt >> contents;
+	std::istringstream is(contents, std::ios::binary);
 	inv->deSerialize(is);
 }
 
@@ -882,23 +921,26 @@ void Client::handleCommand_SpawnParticle(NetworkPacket* pkt)
 	std::string datastring(pkt->getString(0), pkt->getSize());
 	std::istringstream is(datastring, std::ios_base::binary);
 
-	v3f pos                 = readV3F1000(is);
-	v3f vel                 = readV3F1000(is);
-	v3f acc                 = readV3F1000(is);
-	float expirationtime    = readF1000(is);
-	float size              = readF1000(is);
+	v3f pos                 = readV3F32(is);
+	v3f vel                 = readV3F32(is);
+	v3f acc                 = readV3F32(is);
+	float expirationtime    = readF32(is);
+	float size              = readF32(is);
 	bool collisiondetection = readU8(is);
 	std::string texture     = deSerializeLongString(is);
-	bool vertical           = false;
-	bool collision_removal  = false;
+
+	bool vertical          = false;
+	bool collision_removal = false;
 	TileAnimationParams animation;
-	animation.type = TAT_NONE;
-	u8 glow = 0;
+	animation.type         = TAT_NONE;
+	u8 glow                = 0;
+	bool object_collision  = false;
 	try {
 		vertical = readU8(is);
 		collision_removal = readU8(is);
 		animation.deSerialize(is, m_proto_ver);
 		glow = readU8(is);
+		object_collision = readU8(is);
 	} catch (...) {}
 
 	ClientEvent *event = new ClientEvent();
@@ -910,6 +952,7 @@ void Client::handleCommand_SpawnParticle(NetworkPacket* pkt)
 	event->spawn_particle.size               = size;
 	event->spawn_particle.collisiondetection = collisiondetection;
 	event->spawn_particle.collision_removal  = collision_removal;
+	event->spawn_particle.object_collision   = object_collision;
 	event->spawn_particle.vertical           = vertical;
 	event->spawn_particle.texture            = new std::string(texture);
 	event->spawn_particle.animation          = animation;
@@ -943,12 +986,13 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 
 	*pkt >> server_id;
 
-	bool vertical = false;
+	bool vertical          = false;
 	bool collision_removal = false;
+	u16 attached_id        = 0;
 	TileAnimationParams animation;
-	animation.type = TAT_NONE;
-	u8 glow = 0;
-	u16 attached_id = 0;
+	animation.type         = TAT_NONE;
+	u8 glow                = 0;
+	bool object_collision  = false;
 	try {
 		*pkt >> vertical;
 		*pkt >> collision_removal;
@@ -959,6 +1003,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 		std::istringstream is(datastring, std::ios_base::binary);
 		animation.deSerialize(is, m_proto_ver);
 		glow = readU8(is);
+		object_collision = readU8(is);
 	} catch (...) {}
 
 	u32 client_id = m_particle_manager.getSpawnerId();
@@ -980,6 +1025,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 	event->add_particlespawner.maxsize            = maxsize;
 	event->add_particlespawner.collisiondetection = collisiondetection;
 	event->add_particlespawner.collision_removal  = collision_removal;
+	event->add_particlespawner.object_collision   = object_collision;
 	event->add_particlespawner.attached_id        = attached_id;
 	event->add_particlespawner.vertical           = vertical;
 	event->add_particlespawner.texture            = new std::string(texture);

@@ -236,7 +236,6 @@ Server::Server(
 
 Server::~Server()
 {
-	infostream << "Server destructing" << std::endl;
 
 	// Send shutdown message
 	SendChatMessage(PEER_ID_INEXISTENT, ChatMessage(CHATMESSAGE_TYPE_ANNOUNCE,
@@ -258,9 +257,12 @@ Server::~Server()
 		if (kick_msg.empty()) {
 			kick_msg = g_settings->get("kick_msg_shutdown");
 		}
+		m_env->saveLoadedPlayers(true);
 		m_env->kickAllPlayers(SERVER_ACCESSDENIED_SHUTDOWN,
 			kick_msg, reconnect);
 	}
+
+	actionstream << "Server: Shutting down" << std::endl;
 
 	// Do this before stopping the server in case mapgen callbacks need to access
 	// server-controlled resources (like ModStorages). Also do them before
@@ -860,6 +862,8 @@ void Server::AsyncRunStep(bool initial_step)
 		// We'll log the amount of each
 		Profiler prof;
 
+		std::list<v3s16> node_meta_updates;
+
 		while (!m_unsent_map_edit_queue.empty()) {
 			MapEditEvent* event = m_unsent_map_edit_queue.front();
 			m_unsent_map_edit_queue.pop();
@@ -867,26 +871,37 @@ void Server::AsyncRunStep(bool initial_step)
 			// Players far away from the change are stored here.
 			// Instead of sending the changes, MapBlocks are set not sent
 			// for them.
-			std::vector<u16> far_players;
+			std::unordered_set<u16> far_players;
 
 			switch (event->type) {
 			case MEET_ADDNODE:
 			case MEET_SWAPNODE:
 				prof.add("MEET_ADDNODE", 1);
-				sendAddNode(event->p, event->n, event->already_known_by_peer,
-						&far_players, disable_single_change_sending ? 5 : 30,
+				sendAddNode(event->p, event->n, &far_players,
+						disable_single_change_sending ? 5 : 30,
 						event->type == MEET_ADDNODE);
 				break;
 			case MEET_REMOVENODE:
 				prof.add("MEET_REMOVENODE", 1);
-				sendRemoveNode(event->p, event->already_known_by_peer,
-						&far_players, disable_single_change_sending ? 5 : 30);
+				sendRemoveNode(event->p, &far_players,
+						disable_single_change_sending ? 5 : 30);
 				break;
-			case MEET_BLOCK_NODE_METADATA_CHANGED:
-				infostream << "Server: MEET_BLOCK_NODE_METADATA_CHANGED" << std::endl;
-						prof.add("MEET_BLOCK_NODE_METADATA_CHANGED", 1);
-						m_clients.markBlockposAsNotSent(event->p);
+			case MEET_BLOCK_NODE_METADATA_CHANGED: {
+				verbosestream << "Server: MEET_BLOCK_NODE_METADATA_CHANGED" << std::endl;
+				prof.add("MEET_BLOCK_NODE_METADATA_CHANGED", 1);
+				if (!event->is_private_change) {
+					// Don't send the change yet. Collect them to eliminate dupes.
+					node_meta_updates.remove(event->p);
+					node_meta_updates.push_back(event->p);
+				}
+
+				if (MapBlock *block = m_env->getMap().getBlockNoCreateNoEx(
+						getNodeBlockPos(event->p))) {
+					block->raiseModified(MOD_STATE_WRITE_NEEDED,
+						MOD_REASON_REPORT_META_CHANGE);
+				}
 				break;
+			}
 			case MEET_OTHER:
 				infostream << "Server: MEET_OTHER" << std::endl;
 				prof.add("MEET_OTHER", 1);
@@ -930,6 +945,9 @@ void Server::AsyncRunStep(bool initial_step)
 			prof.print(verbosestream);
 		}
 
+		// Send all metadata updates
+		if (node_meta_updates.size())
+			sendMetadataChanged(node_meta_updates);
 	}
 
 	/*
@@ -979,7 +997,7 @@ void Server::AsyncRunStep(bool initial_step)
 
 void Server::Receive()
 {
-	session_t peer_id;
+	session_t peer_id = 0;
 	try {
 		NetworkPacket pkt;
 		m_con->Receive(&pkt);
@@ -1223,6 +1241,7 @@ Inventory* Server::getInventory(const InventoryLocation &loc)
 	}
 	return NULL;
 }
+
 void Server::setInventoryModified(const InventoryLocation &loc, bool playerSend)
 {
 	switch(loc.type){
@@ -1247,13 +1266,10 @@ void Server::setInventoryModified(const InventoryLocation &loc, bool playerSend)
 		break;
 	case InventoryLocation::NODEMETA:
 	{
-		v3s16 blockpos = getNodeBlockPos(loc.p);
-
-		MapBlock *block = m_env->getMap().getBlockNoCreateNoEx(blockpos);
-		if (block)
-			block->raiseModified(MOD_STATE_WRITE_NEEDED);
-
-		m_clients.markBlockposAsNotSent(blockpos);
+		MapEditEvent event;
+		event.type = MEET_BLOCK_NODE_METADATA_CHANGED;
+		event.p = loc.p;
+		m_env->getMap().dispatchEvent(&event);
 	}
 		break;
 	case InventoryLocation::DETACHED:
@@ -1562,7 +1578,11 @@ void Server::SendShowFormspecMessage(session_t peer_id, const std::string &forms
 	NetworkPacket pkt(TOCLIENT_SHOW_FORMSPEC, 0 , peer_id);
 	if (formspec.empty()){
 		//the client should close the formspec
-		m_formspec_state_data.erase(peer_id);
+		//but make sure there wasn't another one open in meantime
+		const auto it = m_formspec_state_data.find(peer_id);
+		if (it != m_formspec_state_data.end() && it->second == formname) {
+			m_formspec_state_data.erase(peer_id);
+		}
 		pkt.putLongString("");
 	} else {
 		m_formspec_state_data[peer_id] = formname;
@@ -1577,7 +1597,7 @@ void Server::SendShowFormspecMessage(session_t peer_id, const std::string &forms
 void Server::SendSpawnParticle(session_t peer_id, u16 protocol_version,
 				v3f pos, v3f velocity, v3f acceleration,
 				float expirationtime, float size, bool collisiondetection,
-				bool collision_removal,
+				bool collision_removal, bool object_collision,
 				bool vertical, const std::string &texture,
 				const struct TileAnimationParams &animation, u8 glow)
 {
@@ -1602,8 +1622,8 @@ void Server::SendSpawnParticle(session_t peer_id, u16 protocol_version,
 
 			SendSpawnParticle(client_id, player->protocol_version,
 					pos, velocity, acceleration,
-					expirationtime, size, collisiondetection,
-					collision_removal, vertical, texture, animation, glow);
+					expirationtime, size, collisiondetection, collision_removal,
+					object_collision, vertical, texture, animation, glow);
 		}
 		return;
 	}
@@ -1620,6 +1640,7 @@ void Server::SendSpawnParticle(session_t peer_id, u16 protocol_version,
 	animation.serialize(os, protocol_version);
 	pkt.putRawString(os.str());
 	pkt << glow;
+	pkt << object_collision;
 
 	Send(&pkt);
 }
@@ -1629,7 +1650,7 @@ void Server::SendAddParticleSpawner(session_t peer_id, u16 protocol_version,
 	u16 amount, float spawntime, v3f minpos, v3f maxpos,
 	v3f minvel, v3f maxvel, v3f minacc, v3f maxacc, float minexptime, float maxexptime,
 	float minsize, float maxsize, bool collisiondetection, bool collision_removal,
-	u16 attached_id, bool vertical, const std::string &texture, u32 id,
+	bool object_collision, u16 attached_id, bool vertical, const std::string &texture, u32 id,
 	const struct TileAnimationParams &animation, u8 glow)
 {
 	if (peer_id == PEER_ID_INEXISTENT) {
@@ -1643,7 +1664,8 @@ void Server::SendAddParticleSpawner(session_t peer_id, u16 protocol_version,
 					amount, spawntime, minpos, maxpos,
 					minvel, maxvel, minacc, maxacc, minexptime, maxexptime,
 					minsize, maxsize, collisiondetection, collision_removal,
-					attached_id, vertical, texture, id, animation, glow);
+					object_collision, attached_id, vertical, texture, id,
+					animation, glow);
 		}
 		return;
 	}
@@ -1664,6 +1686,7 @@ void Server::SendAddParticleSpawner(session_t peer_id, u16 protocol_version,
 	animation.serialize(os, protocol_version);
 	pkt.putRawString(os.str());
 	pkt << glow;
+	pkt << object_collision;
 
 	Send(&pkt);
 }
@@ -1831,14 +1854,14 @@ void Server::SendMovePlayer(session_t peer_id)
 	assert(sao);
 
 	NetworkPacket pkt(TOCLIENT_MOVE_PLAYER, sizeof(v3f) + sizeof(f32) * 2, peer_id);
-	pkt << sao->getBasePosition() << sao->getPitch() << sao->getYaw();
+	pkt << sao->getBasePosition() << sao->getLookPitch() << sao->getRotation().Y;
 
 	{
 		v3f pos = sao->getBasePosition();
 		verbosestream << "Server: Sending TOCLIENT_MOVE_PLAYER"
 				<< " pos=(" << pos.X << "," << pos.Y << "," << pos.Z << ")"
-				<< " pitch=" << sao->getPitch()
-				<< " yaw=" << sao->getYaw()
+				<< " pitch=" << sao->getLookPitch()
+				<< " yaw=" << sao->getRotation().Y
 				<< std::endl;
 	}
 
@@ -2078,76 +2101,132 @@ void Server::fadeSound(s32 handle, float step, float gain)
 	}
 }
 
-void Server::sendRemoveNode(v3s16 p, u16 ignore_id,
-	std::vector<u16> *far_players, float far_d_nodes)
+void Server::sendRemoveNode(v3s16 p, std::unordered_set<u16> *far_players,
+		float far_d_nodes)
 {
-	float maxd = far_d_nodes*BS;
+	float maxd = far_d_nodes * BS;
 	v3f p_f = intToFloat(p, BS);
+	v3s16 block_pos = getNodeBlockPos(p);
 
 	NetworkPacket pkt(TOCLIENT_REMOVENODE, 6);
 	pkt << p;
 
 	std::vector<session_t> clients = m_clients.getClientIDs();
-	for (session_t client_id : clients) {
-		if (far_players) {
-			// Get player
-			if (RemotePlayer *player = m_env->getPlayer(client_id)) {
-				PlayerSAO *sao = player->getPlayerSAO();
-				if (!sao)
-					continue;
+	m_clients.lock();
 
-				// If player is far away, only set modified blocks not sent
-				v3f player_pos = sao->getBasePosition();
-				if (player_pos.getDistanceFrom(p_f) > maxd) {
-					far_players->push_back(client_id);
-					continue;
-				}
-			}
+	for (session_t client_id : clients) {
+		RemoteClient *client = m_clients.lockedGetClientNoEx(client_id);
+		if (!client)
+			continue;
+
+		RemotePlayer *player = m_env->getPlayer(client_id);
+		PlayerSAO *sao = player ? player->getPlayerSAO() : nullptr;
+
+		// If player is far away, only set modified blocks not sent
+		if (!client->isBlockSent(block_pos) || (sao &&
+				sao->getBasePosition().getDistanceFrom(p_f) > maxd)) {
+			if (far_players)
+				far_players->emplace(client_id);
+			else
+				client->SetBlockNotSent(block_pos);
+			continue;
 		}
 
 		// Send as reliable
 		m_clients.send(client_id, 0, &pkt, true);
 	}
+
+	m_clients.unlock();
 }
 
-void Server::sendAddNode(v3s16 p, MapNode n, u16 ignore_id,
-		std::vector<u16> *far_players, float far_d_nodes,
-		bool remove_metadata)
+void Server::sendAddNode(v3s16 p, MapNode n, std::unordered_set<u16> *far_players,
+		float far_d_nodes, bool remove_metadata)
 {
-	float maxd = far_d_nodes*BS;
+	float maxd = far_d_nodes * BS;
 	v3f p_f = intToFloat(p, BS);
+	v3s16 block_pos = getNodeBlockPos(p);
+
+	NetworkPacket pkt(TOCLIENT_ADDNODE, 6 + 2 + 1 + 1 + 1);
+	pkt << p << n.param0 << n.param1 << n.param2
+			<< (u8) (remove_metadata ? 0 : 1);
 
 	std::vector<session_t> clients = m_clients.getClientIDs();
-	for (const session_t client_id : clients) {
-		if (far_players) {
-			// Get player
-			if (RemotePlayer *player = m_env->getPlayer(client_id)) {
-				PlayerSAO *sao = player->getPlayerSAO();
-				if (!sao)
-					continue;
+	m_clients.lock();
 
-				// If player is far away, only set modified blocks not sent
-				v3f player_pos = sao->getBasePosition();
-				if(player_pos.getDistanceFrom(p_f) > maxd) {
-					far_players->push_back(client_id);
-					continue;
-				}
-			}
-		}
+	for (session_t client_id : clients) {
+		RemoteClient *client = m_clients.lockedGetClientNoEx(client_id);
+		if (!client)
+			continue;
 
-		NetworkPacket pkt(TOCLIENT_ADDNODE, 6 + 2 + 1 + 1 + 1);
-		m_clients.lock();
-		RemoteClient* client = m_clients.lockedGetClientNoEx(client_id);
-		if (client) {
-			pkt << p << n.param0 << n.param1 << n.param2
-					<< (u8) (remove_metadata ? 0 : 1);
+		RemotePlayer *player = m_env->getPlayer(client_id);
+		PlayerSAO *sao = player ? player->getPlayerSAO() : nullptr;
+
+		// If player is far away, only set modified blocks not sent
+		if (!client->isBlockSent(block_pos) || (sao &&
+				sao->getBasePosition().getDistanceFrom(p_f) > maxd)) {
+			if (far_players)
+				far_players->emplace(client_id);
+			else
+				client->SetBlockNotSent(block_pos);
+			continue;
 		}
-		m_clients.unlock();
 
 		// Send as reliable
-		if (pkt.getSize() > 0)
-			m_clients.send(client_id, 0, &pkt, true);
+		m_clients.send(client_id, 0, &pkt, true);
 	}
+
+	m_clients.unlock();
+}
+
+void Server::sendMetadataChanged(const std::list<v3s16> &meta_updates, float far_d_nodes)
+{
+	float maxd = far_d_nodes * BS;
+	NodeMetadataList meta_updates_list(false);
+	std::vector<session_t> clients = m_clients.getClientIDs();
+
+	m_clients.lock();
+
+	for (session_t i : clients) {
+		RemoteClient *client = m_clients.lockedGetClientNoEx(i);
+		if (!client)
+			continue;
+
+		ServerActiveObject *player = m_env->getActiveObject(i);
+		v3f player_pos = player ? player->getBasePosition() : v3f();
+
+		for (const v3s16 &pos : meta_updates) {
+			NodeMetadata *meta = m_env->getMap().getNodeMetadata(pos);
+
+			if (!meta)
+				continue;
+
+			v3s16 block_pos = getNodeBlockPos(pos);
+			if (!client->isBlockSent(block_pos) || (player &&
+					player_pos.getDistanceFrom(intToFloat(pos, BS)) > maxd)) {
+				client->SetBlockNotSent(block_pos);
+				continue;
+			}
+
+			// Add the change to send list
+			meta_updates_list.set(pos, meta);
+		}
+		if (meta_updates_list.size() == 0)
+			continue;
+
+		// Send the meta changes
+		std::ostringstream os(std::ios::binary);
+		meta_updates_list.serialize(os, client->net_proto_version, false, true);
+		std::ostringstream oss(std::ios::binary);
+		compressZlib(os.str(), oss);
+
+		NetworkPacket pkt(TOCLIENT_NODEMETA_CHANGED, 0);
+		pkt.putLongString(oss.str());
+		m_clients.send(i, 0, &pkt, true);
+
+		meta_updates_list.clear();
+	}
+
+	m_clients.unlock();
 }
 
 void Server::SendBlockNoLock(session_t peer_id, MapBlock *block, u8 ver,
@@ -2469,33 +2548,41 @@ void Server::sendRequestedMedia(session_t peer_id,
 
 void Server::sendDetachedInventory(const std::string &name, session_t peer_id)
 {
-	if(m_detached_inventories.count(name) == 0) {
-		errorstream<<FUNCTION_NAME<<": \""<<name<<"\" not found"<<std::endl;
-		return;
+	const auto &inv_it = m_detached_inventories.find(name);
+	const auto &player_it = m_detached_inventories_player.find(name);
+
+	if (player_it == m_detached_inventories_player.end() ||
+			player_it->second.empty()) {
+		// OK. Send to everyone
+	} else {
+		RemotePlayer *p = m_env->getPlayer(player_it->second.c_str());
+		if (!p)
+			return; // Player is offline
+
+		if (peer_id != PEER_ID_INEXISTENT && peer_id != p->getPeerId())
+			return; // Caller requested send to a different player, so don't send.
+
+		peer_id = p->getPeerId();
 	}
-	Inventory *inv = m_detached_inventories[name];
-	std::ostringstream os(std::ios_base::binary);
-
-	os << serializeString(name);
-	inv->serialize(os);
-
-	// Make data buffer
-	std::string s = os.str();
 
 	NetworkPacket pkt(TOCLIENT_DETACHED_INVENTORY, 0, peer_id);
-	pkt.putRawString(s.c_str(), s.size());
+	pkt << name;
 
-	const std::string &check = m_detached_inventories_player[name];
-	if (peer_id == PEER_ID_INEXISTENT) {
-		if (check.empty())
-			return m_clients.sendToAll(&pkt);
-		RemotePlayer *p = m_env->getPlayer(check.c_str());
-		if (p)
-			m_clients.send(p->getPeerId(), 0, &pkt, true);
+	if (inv_it == m_detached_inventories.end()) {
+		pkt << false; // Remove inventory
 	} else {
-		if (check.empty() || getPlayerName(peer_id) == check)
-			Send(&pkt);
+		pkt << true; // Update inventory
+
+		// Serialization & NetworkPacket isn't a love story
+		std::ostringstream os(std::ios_base::binary);
+		inv_it->second->serialize(os);
+		pkt << os.str();
 	}
+
+	if (peer_id == PEER_ID_INEXISTENT)
+		m_clients.sendToAll(&pkt);
+	else
+		Send(&pkt);
 }
 
 void Server::sendDetachedInventories(session_t peer_id)
@@ -2656,9 +2743,10 @@ void Server::DeleteClient(session_t peer_id, ClientDeletionReason reason)
 			playersao->clearParentAttachment();
 
 			// inform connected clients
+			const std::string &player_name = player->getName();
 			NetworkPacket notice(TOCLIENT_UPDATE_PLAYER_LIST, 0, PEER_ID_INEXISTENT);
 			// (u16) 1 + std::string represents a vector serialization representation
-			notice << (u8) PLAYER_LIST_REMOVE  << (u16) 1 << std::string(playersao->getPlayer()->getName());
+			notice << (u8) PLAYER_LIST_REMOVE  << (u16) 1 << player_name;
 			m_clients.sendToAll(&notice);
 			// run scripts
 			m_script->on_leaveplayer(playersao, reason == CDR_TIMEOUT);
@@ -2879,38 +2967,44 @@ PlayerSAO *Server::getPlayerSAO(session_t peer_id)
 std::wstring Server::getStatusString()
 {
 	std::wostringstream os(std::ios_base::binary);
-	os<<L"# Server: ";
+	os << L"# Server: ";
 	// Version
-	os<<L"version="<<narrow_to_wide(g_version_string);
+	os << L"version=" << narrow_to_wide(g_version_string);
 	// Uptime
-	os<<L", uptime="<<m_uptime.get();
+	os << L", uptime=" << m_uptime.get();
 	// Max lag estimate
-	os<<L", max_lag="<<m_env->getMaxLagEstimate();
+	os << L", max_lag=" << (m_env ? m_env->getMaxLagEstimate() : 0);
+
 	// Information about clients
 	bool first = true;
-	os<<L", clients={";
-	std::vector<session_t> clients = m_clients.getClientIDs();
-	for (session_t client_id : clients) {
-		// Get player
-		RemotePlayer *player = m_env->getPlayer(client_id);
-		// Get name of player
-		std::wstring name = L"unknown";
-		if (player)
-			name = narrow_to_wide(player->getName());
-		// Add name to information string
-		if(!first)
-			os << L", ";
-		else
-			first = false;
-		os << name;
+	os << L", clients={";
+	if (m_env) {
+		std::vector<session_t> clients = m_clients.getClientIDs();
+		for (session_t client_id : clients) {
+			RemotePlayer *player = m_env->getPlayer(client_id);
+
+			// Get name of player
+			std::wstring name = L"unknown";
+			if (player)
+				name = narrow_to_wide(player->getName());
+
+			// Add name to information string
+			if (!first)
+				os << L", ";
+			else
+				first = false;
+
+			os << name;
+		}
 	}
 	os << L"}";
 
-	if (!((ServerMap*)(&m_env->getMap()))->isSavingEnabled())
-		os<<std::endl<<L"# Server: "<<" WARNING: Map saving is disabled.";
+	if (m_env && !((ServerMap*)(&m_env->getMap()))->isSavingEnabled())
+		os << std::endl << L"# Server: " << " WARNING: Map saving is disabled.";
 
 	if (!g_settings->get("motd").empty())
-		os<<std::endl<<L"# Server: "<<narrow_to_wide(g_settings->get("motd"));
+		os << std::endl << L"# Server: " << narrow_to_wide(g_settings->get("motd"));
+
 	return os.str();
 }
 
@@ -3159,7 +3253,7 @@ void Server::notifyPlayers(const std::wstring &msg)
 void Server::spawnParticle(const std::string &playername, v3f pos,
 	v3f velocity, v3f acceleration,
 	float expirationtime, float size, bool
-	collisiondetection, bool collision_removal,
+	collisiondetection, bool collision_removal, bool object_collision,
 	bool vertical, const std::string &texture,
 	const struct TileAnimationParams &animation, u8 glow)
 {
@@ -3178,14 +3272,14 @@ void Server::spawnParticle(const std::string &playername, v3f pos,
 	}
 
 	SendSpawnParticle(peer_id, proto_ver, pos, velocity, acceleration,
-			expirationtime, size, collisiondetection,
-			collision_removal, vertical, texture, animation, glow);
+			expirationtime, size, collisiondetection, collision_removal,
+			object_collision, vertical, texture, animation, glow);
 }
 
 u32 Server::addParticleSpawner(u16 amount, float spawntime,
 	v3f minpos, v3f maxpos, v3f minvel, v3f maxvel, v3f minacc, v3f maxacc,
 	float minexptime, float maxexptime, float minsize, float maxsize,
-	bool collisiondetection, bool collision_removal,
+	bool collisiondetection, bool collision_removal, bool object_collision,
 	ServerActiveObject *attached, bool vertical, const std::string &texture,
 	const std::string &playername, const struct TileAnimationParams &animation,
 	u8 glow)
@@ -3214,8 +3308,8 @@ u32 Server::addParticleSpawner(u16 amount, float spawntime,
 
 	SendAddParticleSpawner(peer_id, proto_ver, amount, spawntime,
 		minpos, maxpos, minvel, maxvel, minacc, maxacc,
-		minexptime, maxexptime, minsize, maxsize,
-		collisiondetection, collision_removal, attached_id, vertical,
+		minexptime, maxexptime, minsize, maxsize, collisiondetection,
+		collision_removal, object_collision, attached_id, vertical,
 		texture, id, animation, glow);
 
 	return id;
@@ -3254,6 +3348,30 @@ Inventory* Server::createDetachedInventory(const std::string &name, const std::s
 	//TODO find a better way to do this
 	sendDetachedInventory(name,PEER_ID_INEXISTENT);
 	return inv;
+}
+
+bool Server::removeDetachedInventory(const std::string &name)
+{
+	const auto &inv_it = m_detached_inventories.find(name);
+	if (inv_it == m_detached_inventories.end())
+		return false;
+
+	delete inv_it->second;
+	m_detached_inventories.erase(inv_it);
+
+	const auto &player_it = m_detached_inventories_player.find(name);
+	if (player_it != m_detached_inventories_player.end()) {
+		RemotePlayer *player = m_env->getPlayer(player_it->second.c_str());
+
+		if (player && player->getPeerId() != PEER_ID_INEXISTENT)
+			sendDetachedInventory(name, player->getPeerId());
+
+		m_detached_inventories_player.erase(player_it);
+	} else {
+		// Notify all players about the change
+		sendDetachedInventory(name, PEER_ID_INEXISTENT);
+	}
+	return true;
 }
 
 // actions: time-reversed list

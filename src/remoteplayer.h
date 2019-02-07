@@ -139,6 +139,8 @@ public:
 
 	void setPeerId(session_t peer_id) { m_peer_id = peer_id; }
 
+	void onSuccessfulSave();
+
 private:
 	/*
 		serialize() writes a bunch of text that can contain

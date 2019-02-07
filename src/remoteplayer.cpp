@@ -79,8 +79,6 @@ void RemotePlayer::serializeExtraAttributes(std::string &output)
 	}
 
 	output = fastWriteJson(json_root);
-
-	m_sao->getMeta().setModified(false);
 }
 
 
@@ -110,10 +108,10 @@ void RemotePlayer::deSerialize(std::istream &is, const std::string &playername,
 		} catch (SettingNotFoundException &e) {}
 
 		try {
-			sao->setPitch(args.getFloat("pitch"));
+			sao->setLookPitch(args.getFloat("pitch"));
 		} catch (SettingNotFoundException &e) {}
 		try {
-			sao->setYaw(args.getFloat("yaw"));
+			sao->setPlayerYaw(args.getFloat("yaw"));
 		} catch (SettingNotFoundException &e) {}
 
 		try {
@@ -139,7 +137,12 @@ void RemotePlayer::deSerialize(std::istream &is, const std::string &playername,
 		} catch (SettingNotFoundException &e) {}
 	}
 
-	inventory.deSerialize(is);
+	try {
+		inventory.deSerialize(is);
+	} catch (SerializationError &e) {
+		errorstream << "Failed to deserialize player inventory. player_name="
+			<< name << " " << e.what() << std::endl;
+	}
 
 	if (!inventory.getList("craftpreview") && inventory.getList("craftresult")) {
 		// Convert players without craftpreview
@@ -167,8 +170,8 @@ void RemotePlayer::serialize(std::ostream &os)
 	assert(m_sao);
 	args.setS32("hp", m_sao->getHP());
 	args.setV3F("position", m_sao->getBasePosition());
-	args.setFloat("pitch", m_sao->getPitch());
-	args.setFloat("yaw", m_sao->getYaw());
+	args.setFloat("pitch", m_sao->getLookPitch());
+	args.setFloat("yaw", m_sao->getRotation().Y);
 	args.setS32("breath", m_sao->getBreath());
 
 	std::string extended_attrs;
@@ -219,4 +222,11 @@ const RemotePlayerChatResult RemotePlayer::canSendChatMessage()
 
 	m_chat_message_allowance -= 1.0f;
 	return RPLAYER_CHATRESULT_OK;
+}
+
+void RemotePlayer::onSuccessfulSave()
+{
+	setModified(false);
+	if (m_sao)
+		m_sao->getMeta().setModified(false);
 }
