@@ -399,10 +399,10 @@ minetest.register_craft({
 	output = "ethereal:quicksand2",
 	recipe = {
 		{"group:sand", "group:sand", "group:sand"},
-		{"group:sand", "group:water_bucket", "group:sand"},
+		{"group:sand", "bucket:bucket_water", "group:sand"},
 		{"group:sand", "group:sand", "group:sand"},
 	},
 	replacements = {
-		{"group:water_bucket", "bucket:bucket_empty"}
+		{"bucket:bucket_water", "bucket:bucket_empty"}
 	}
 })

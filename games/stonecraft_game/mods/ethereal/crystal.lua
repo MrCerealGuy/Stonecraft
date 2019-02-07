@@ -40,20 +40,67 @@ minetest.register_craftitem("ethereal:crystal_ingot", {
 	wield_image = "crystal_ingot.png",
 })
 
-minetest.register_craft({
-	output = "ethereal:crystal_ingot",
-	recipe = {
-		{"default:mese_crystal", "ethereal:crystal_spike"},
-		{"ethereal:crystal_spike", "default:mese_crystal"},
-	}
-})
+if minetest.get_modpath("builtin_item") then
+
+	minetest.override_item("ethereal:crystal_spike", {
+
+		dropped_step = function(self, pos, dtime)
+
+			self.ctimer = (self.ctimer or 0) + dtime
+			if self.ctimer < 5.0 then return end
+			self.ctimer = 0
+
+			if self.node_inside
+			and self.node_inside.name ~= "default:water_source" then
+				return
+			end
+
+			local objs = core.get_objects_inside_radius(pos, 0.8)
+
+			if not objs or #objs ~= 2 then return end
+
+			local crystal, mese, ent = nil, nil, nil
+
+			for k, obj in pairs(objs) do
+
+				ent = obj:get_luaentity()
+
+				if ent and ent.name == "__builtin:item" then
+
+					if ent.itemstring == "default:mese_crystal 2"
+					and not mese then
+
+						mese = obj
+
+					elseif ent.itemstring == "ethereal:crystal_spike 2"
+					and not crystal then
+
+						crystal = obj
+					end
+				end
+			end
+
+			if mese and crystal then
+
+				mese:remove()
+				crystal:remove()
+
+				core.add_item(pos, "ethereal:crystal_ingot")
+
+				return false
+			end
+		end
+	})
+end
 
 minetest.register_craft({
+	type = "shapeless",
 	output = "ethereal:crystal_ingot",
 	recipe = {
-		{"ethereal:crystal_spike", "default:mese_crystal"},
-		{"default:mese_crystal", "ethereal:crystal_spike"},
-	}
+		"default:mese_crystal", "ethereal:crystal_spike",
+		"ethereal:crystal_spike", "default:mese_crystal", "bucket:bucket_water"
+	},
+	replacements = { {"bucket:bucket_water", "bucket:bucket_empty"} }
 })
 
 -- Crystal Block

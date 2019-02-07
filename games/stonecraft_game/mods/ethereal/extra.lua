@@ -35,6 +35,31 @@ minetest.register_node("ethereal:bamboo_floor", {
 minetest.register_craft({
 	output = "ethereal:bamboo_floor 2",
 	recipe = {
+		{"ethereal:bamboo", "ethereal:bamboo"},
+		{"ethereal:bamboo", "ethereal:bamboo"},
+	}
+})
+
+minetest.register_craft({
+	output = "ethereal:bamboo_block",
+	recipe = {
+		{"ethereal:bamboo_floor"},
+		{"ethereal:bamboo_floor"},
+	}
+})
+
+-- Bamboo Block
+minetest.register_node("ethereal:bamboo_block", {
+	description = S("Bamboo Block"),
+	tiles = { "bamboo_floor.png" },
+	paramtype = "light",
+	groups = {snappy = 3, choppy = 3 , flammable = 2, wood = 1},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "ethereal:bamboo_block",
+	recipe = {
 		{"ethereal:bamboo", "ethereal:bamboo", "ethereal:bamboo"},
 		{"ethereal:bamboo", "ethereal:bamboo", "ethereal:bamboo"},
 		{"ethereal:bamboo", "ethereal:bamboo", "ethereal:bamboo"},
@@ -145,13 +170,17 @@ minetest.register_craftitem("ethereal:bowl", {
 	groups = {food_bowl = 1, flammable = 2},
 })
 
-minetest.register_craft({
-	output = "ethereal:bowl 4",
-	recipe = {
-		{"group:wood", "", "group:wood"},
-		{"", "group:wood", ""},
-	}
-})
+-- use farming redo's recipe if found
+if not minetest.registered_items["farming:bowl"] then
+
+	minetest.register_craft({
+		output = "ethereal:bowl 4",
+		recipe = {
+			{"group:wood", "", "group:wood"},
+			{"", "group:wood", ""},
+		}
+	})
+end
 
 -- stone Ladder
 minetest.register_node("ethereal:stone_ladder", {
@@ -212,9 +241,9 @@ minetest.register_node("ethereal:paper_wall", {
 minetest.register_craft({
 	output = "ethereal:paper_wall",
 	recipe = {
-		{"default:stick", "default:paper", "default:stick"},
-		{"default:stick", "default:paper", "default:stick"},
-		{"default:stick", "default:paper", "default:stick"},
+		{"group:stick", "default:paper", "group:stick"},
+		{"group:stick", "default:paper", "group:stick"},
+		{"group:stick", "default:paper", "group:stick"},
 	}
 })
 
@@ -238,7 +267,6 @@ minetest.register_craft({
 minetest.register_craftitem("ethereal:charcoal_lump", {
 	description = S("Lump of Charcoal"),
 	inventory_image = "charcoal_lump.png",
-	wield_image = "charcoal_lump.png",
 })
 
 minetest.register_craft({

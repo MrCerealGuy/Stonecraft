@@ -1,60 +1,59 @@
 
--- birch tree
-
-local ai = {name = "air", param1 = 000}
-local tr = {name = "ethereal:birch_trunk", param1 = 255}
-local lp = {name = "ethereal:birch_leaves", param1 = 255}
-local lr = {name = "ethereal:birch_leaves", param1 = 150}
+local _ = {name = "air", param1 = 0}
+local T = {name = "ethereal:birch_trunk", param1 = 255}
+local L = {name = "ethereal:birch_leaves", param1 = 255}
+local l = {name = "ethereal:birch_leaves", param1 = 150}
 
 ethereal.birchtree = {
 
 	size = {x = 5, y = 7, z = 5},
 
+	yslice_prob = {
+		{ypos = 0, prob = 127},
+		{ypos = 3, prob = 127},
+	},
+
 	data = {
 
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		lr, lp, lp, lp, lr,
-		lr, lp, lp, lp, lr,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	l,L,L,L,l,
+	l,L,L,L,l,
+	_,_,_,_,_,
+	_,_,_,_,_,
 
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		lp, lp, lp, lp, lp,
-		lp, lp, lp, lp, lp,
-		ai, lr, lp, lr, ai,
-		ai, ai, lp, ai, ai,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	L,L,L,L,L,
+	L,L,L,L,L,
+	_,l,L,l,_,
+	_,_,L,_,_,
 
-		ai, ai, tr, ai, ai,
-		ai, ai, tr, ai, ai,
-		ai, ai, tr, ai, ai,
-		lp, lp, tr, lp, lp,
-		lp, lp, tr, lp, lp,
-		ai, lp, tr, lp, ai,
-		ai, lp, lp, lp, ai,
+	_,_,T,_,_,
+	_,_,T,_,_,
+	_,_,T,_,_,
+	L,L,T,L,L,
+	L,L,T,L,L,
+	_,L,T,L,_,
+	_,L,L,L,_,
 
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		lp, lp, lp, lp, lp,
-		lp, lp, lp, lp, lp,
-		ai, lr, lp, lr, ai,
-		ai, ai, lp, ai, ai,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	L,L,L,L,L,
+	L,L,L,L,L,
+	_,l,L,l,_,
+	_,_,L,_,_,
 
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
-		lr, lp, lp, lp, lr,
-		lr, lp, lp, lp, lr,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	_,_,_,_,_,
+	l,L,L,L,l,
+	l,L,L,L,l,
+	_,_,_,_,_,
+	_,_,_,_,_,
 
-	},
-
-	yslice_prob = {
-		{ypos = 1, prob = 127}
-	},
+	}
 }

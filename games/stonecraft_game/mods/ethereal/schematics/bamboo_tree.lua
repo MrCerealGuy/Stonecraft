@@ -1,79 +1,79 @@
 
--- bamboo stalk with leaves
-
-local ai = {name = "air", param1 = 000}
-local bt = {name = "ethereal:bamboo", param1 = 255}
-local lp = {name = "ethereal:bamboo_leaves", param1 = 255}
-local lr = {name = "ethereal:bamboo_leaves", param1 = 100}
+local _ = {name = "air", param1 = 000}
+local B = {name = "ethereal:bamboo", param1 = 255}
+local L = {name = "ethereal:bamboo_leaves", param1 = 255}
+local l = {name = "ethereal:bamboo_leaves", param1 = 100}
 
 ethereal.bambootree = {
 
 	size = {x = 3, y = 18, z = 3},
 
+	yslice_prob = {
+		{ypos = 0, prob = 127},
+		{ypos = 1, prob = 127},
+		{ypos = 2, prob = 127},
+	},
+
 	data = {
 
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		lr, lp, lr,
-		ai, lp, ai,
-		ai, ai, ai,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	l,L,l,
+	_,L,_,
+	_,_,_,
 
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		ai, bt, ai,
-		lr, lp, lr,
-		ai, lp, ai,
-		ai, lr, ai,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	_,B,_,
+	l,L,l,
+	_,L,_,
+	_,l,_,
 
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		ai, ai, ai,
-		lr, lp, lr,
-		ai, lp, ai,
-		ai, ai, ai,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	_,_,_,
+	l,L,l,
+	_,L,_,
+	_,_,_,
 
-	},
-
-	yslice_prob = {
-		{ypos = 3, prob = 127},
-	},
+	}
 }
 
 if ethereal.papyruswalk == true then

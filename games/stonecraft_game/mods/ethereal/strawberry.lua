@@ -17,7 +17,7 @@ minetest.register_craftitem("ethereal:strawberry", {
 	description = S("Strawberry"),
 	inventory_image = "strawberry.png",
 	wield_image = "strawberry.png",
-	groups = {food_strawberry = 1, flammable = 2},
+	groups = {food_strawberry = 1, food_berry = 1, flammable = 2},
 	on_place = function(itemstack, placer, pointed_thing)
 		return farming.place_seed(itemstack, placer, pointed_thing, "ethereal:strawberry_1")
 	end,
@@ -39,7 +39,7 @@ local crop_def = {
 		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
 	},
 	groups = {
-		snappy = 3, flammable  =2, plant = 1, attached_node = 1,
+		snappy = 3, flammable = 2, plant = 1, attached_node = 1,
 		not_in_creative_inventory = 1, growing = 1
 	},
 	sounds = default.node_sound_leaves_defaults(),

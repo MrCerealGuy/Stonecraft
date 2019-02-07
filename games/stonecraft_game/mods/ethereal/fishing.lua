@@ -67,9 +67,9 @@ minetest.register_craftitem("ethereal:fishing_rod", {
 minetest.register_craft({
 	output = "ethereal:fishing_rod",
 	recipe = {
-			{"","","default:stick"},
-			{"", "default:stick", "farming:string"},
-			{"default:stick", "", "farming:string"},
+			{"","","group:stick"},
+			{"", "group:stick", "farming:string"},
+			{"group:stick", "", "farming:string"},
 		}
 })
 
@@ -105,8 +105,9 @@ minetest.register_craftitem("ethereal:fishing_rod_baited", {
 		if pointed_thing.type ~= "node" then
 			return
 		end
-		
-		local node = minetest.get_node(pointed_thing.under).name
+
+		local pos = pointed_thing.under
+		local node = minetest.get_node(pos).name
 
 		if (node == "default:water_source"
 		or node == "default:river_water_source")
@@ -118,6 +119,29 @@ minetest.register_craftitem("ethereal:fishing_rod_baited", {
 			if inv:room_for_item("main", {name = type}) then
 
 				inv:add_item("main", {name = type})
+
+				minetest.sound_play("default_water_footstep", {pos = pos})
+
+				pos.y = pos.y + 0.5
+
+				minetest.add_particlespawner({
+					amount = 5,
+					time = .3,
+					minpos = pos,
+					maxpos = pos,
+					minvel = {x = 2, y = .5, z = 2},
+					maxvel = {x = 2, y = .5, z = 2},
+					minacc = {x = 1, y = .1, z = 1},
+					maxacc = {x = 1, y = .1, z = 1},
+					minexptime = .3,
+					maxexptime = .5,
+					minsize = .5,
+					maxsize = 1,
+					collisiondetection = false,
+					vertical = false,
+					texture = "bubble.png",
+					playername = "singleplayer"
+				})
 
 				return ItemStack("ethereal:fishing_rod")
 			else

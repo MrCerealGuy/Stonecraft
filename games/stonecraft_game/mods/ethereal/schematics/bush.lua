@@ -1,39 +1,38 @@
 
--- bush
-
-local ai = {name = "air", param1 = 000}
-local bp = {name = "ethereal:bush", param1 = 255}
-local br = {name = "ethereal:bush", param1 = 100}
+local _ = {name = "air", param1 = 0}
+local B = {name = "ethereal:bush", param1 = 255}
+local b = {name = "ethereal:bush", param1 = 100}
 
 ethereal.bush = {
 
 	size = {x = 5, y = 3, z = 5},
 
+	yslice_prob = {
+		{ypos = 0, prob = 127},
+		{ypos = 2, prob = 127},
+	},
+
 	data = {
 
-		br, bp, bp, bp, br,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
+	b,B,B,B,b,
+	_,_,_,_,_,
+	_,_,_,_,_,
 
-		bp, bp, bp, bp, bp,
-		ai, br, bp, br, ai,
-		ai, ai, ai, ai, ai,
+	B,B,B,B,B,
+	_,b,B,b,_,
+	_,_,_,_,_,
 
-		bp, bp, bp, bp, bp,
-		ai, bp, bp, bp, ai,
-		ai, ai, br, ai, ai,
+	B,B,B,B,B,
+	_,B,B,B,_,
+	_,_,b,_,_,
 
-		bp, bp, bp, bp, bp,
-		ai, br, bp, br, ai,
-		ai, ai, ai, ai, ai,
+	B,B,B,B,B,
+	_,b,B,b,_,
+	_,_,_,_,_,
 
-		br, bp, bp, bp, br,
-		ai, ai, ai, ai, ai,
-		ai, ai, ai, ai, ai,
+	b,B,B,B,b,
+	_,_,_,_,_,
+	_,_,_,_,_,
 
-	},
-
-	yslice_prob = {
-		{ypos = 1, prob = 127},
-	},
+	}
 }
