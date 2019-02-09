@@ -165,9 +165,9 @@ if pipeworks.enable_mese_tube then
 	minetest.register_craft( {
 		output = "pipeworks:mese_tube_000000 2",
 		recipe = {
-			{ "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
+			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" },
 			{ "", "default:mese_crystal", "" },
-			{ "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
+			{ "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" }
 		},
 	})
 

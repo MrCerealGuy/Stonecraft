@@ -35,6 +35,7 @@ minetest.register_node("pipeworks:steel_block_embedded_tube", {
 	},
 	after_place_node = pipeworks.after_place,
 	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate,
 })
 
 minetest.register_craft( {
@@ -82,6 +83,7 @@ minetest.register_node("pipeworks:steel_pane_embedded_tube", {
 	},
 	after_place_node = pipeworks.after_place,
 	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate,
 })
 
 minetest.register_craft( {

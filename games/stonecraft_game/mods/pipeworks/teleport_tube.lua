@@ -253,9 +253,9 @@ pipeworks.register_tube("pipeworks:teleport_tube", {
 minetest.register_craft( {
 	output = "pipeworks:teleport_tube_1 2",
 	recipe = {
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
+	        { "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" },
 	        { "default:desert_stone", "default:mese", "default:desert_stone" },
-	        { "homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
+	        { "basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" }
 	},
 })
 

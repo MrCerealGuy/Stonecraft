@@ -146,7 +146,8 @@ override_protected = {
 		input_inventory = "main",
 		connect_sides = {left = 1, right = 1, back = 1, bottom = 1, top = 1}
 	},
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate
 }
 override = {
 	tiles = {
@@ -190,7 +191,8 @@ override = {
 		connect_sides = {left = 1, right = 1, back = 1, bottom = 1, top = 1}
 	},
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate
 }
 --[[local override_common = {
 

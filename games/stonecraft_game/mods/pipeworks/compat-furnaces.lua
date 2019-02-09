@@ -365,7 +365,8 @@ minetest.register_node(":default:furnace", {
 		meta:set_string("formspec", formspec)
 	end,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate
 })
 
 minetest.register_node(":default:furnace_active", {
@@ -438,6 +439,7 @@ minetest.register_node(":default:furnace_active", {
 		meta:set_string("formspec", formspec)
 	end,
 	after_place_node = pipeworks.after_place,
-	after_dig_node = pipeworks.after_dig
+	after_dig_node = pipeworks.after_dig,
+	on_rotate = pipeworks.on_rotate
 })
 

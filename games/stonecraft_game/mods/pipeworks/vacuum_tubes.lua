@@ -23,9 +23,9 @@ if pipeworks.enable_sand_tube then
 	minetest.register_craft( {
 		output = "pipeworks:sand_tube_1 2",
 		recipe = {
-			{"homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting"},
+			{"basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet"},
 			{"group:sand",                 "group:sand",                 "group:sand"},
-			{"homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting"}
+			{"basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet"}
 		},
 	})
 
@@ -74,9 +74,9 @@ if pipeworks.enable_mese_sand_tube then
 	minetest.register_craft( {
 		output = "pipeworks:mese_sand_tube_1 2",
 		recipe = {
-			{"homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" },
+			{"basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" },
 			{"group:sand",                 "default:mese_crystal",       "group:sand" },
-			{"homedecor:plastic_sheeting", "homedecor:plastic_sheeting", "homedecor:plastic_sheeting" }
+			{"basic_materials:plastic_sheet", "basic_materials:plastic_sheet", "basic_materials:plastic_sheet" }
 		},
 	})
 

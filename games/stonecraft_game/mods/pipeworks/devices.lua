@@ -749,21 +749,3 @@ new_flow_logic_register.directional_horizonal_rotate(nodename_sp_loaded, true)
 minetest.register_alias("pipeworks:valve_off_loaded", "pipeworks:valve_off_empty")
 minetest.register_alias("pipeworks:entry_panel", "pipeworks:entry_panel_empty")
 
-minetest.register_lbm({
-	name = "pipeworks:rotate_valves_flowsensors",
-	label = "Flip pipeworks valves and flow sensors around X/Z",
-	run_at_every_load = false,
-	nodenames = {
-		"pipeworks:flow_sensor_empty",
-		"pipeworks:flow_sensor_loaded",
-		"pipeworks:valve_off_empty",
-		"pipeworks:valve_on_empty",
-		"pipeworks:valve_off_loaded",
-	},
-	action = function(pos, node)
-		local dir = minetest.facedir_to_dir(node.param2)
-		local newdir = { x=dir.z, y=dir.y, z=dir.x }
-		local newfdir = minetest.dir_to_facedir(newdir)
-		minetest.swap_node(pos, { name = node.name, param2 = newfdir })
-	end
-})

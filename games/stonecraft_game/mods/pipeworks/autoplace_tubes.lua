@@ -111,6 +111,22 @@ function pipeworks.after_dig(pos)
 	pipeworks.scan_for_tube_objects(pos)
 end
 
+-- Screwdriver calls this function before rotating a node.
+-- However, connections must be updated *after* the node is rotated
+-- So, this function does the rotation itself and returns `true`.
+-- (Note: screwdriver already checks for protected areas.)
+
+-- This should only be used for tubes that don't autoconnect.
+-- (For example, one-way tubes.)
+-- Autoconnecting tubes will just revert back to their original state
+-- when they are updated.
+function pipeworks.on_rotate(pos, node, user, mode, new_param2)
+	node.param2 = new_param2
+	minetest.set_node(pos, node)
+	pipeworks.scan_for_tube_objects(pos)
+	return true
+end
+
 if minetest.get_modpath("mesecons_mvps") then
 	mesecon.register_on_mvps_move(function(moved_nodes)
 		for _, n in ipairs(moved_nodes) do

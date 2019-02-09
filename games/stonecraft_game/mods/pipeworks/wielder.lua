@@ -248,6 +248,7 @@ local function register_wielder(data)
 				end
 				pipeworks.scan_for_tube_objects(pos)
 			end,
+			on_rotate = pipeworks.on_rotate,
 			on_punch = data.fixup_node,
 			allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 				if not pipeworks.may_configure(pos, player) then return 0 end
