@@ -65,8 +65,6 @@ end
 
 -- tests if the node can be pushed into, e.g. air, water, grass
 local function node_replaceable(name)
-	if name == "ignore" then return true end
-
 	if minetest.registered_nodes[name] then
 		return minetest.registered_nodes[name].buildable_to or false
 	end
@@ -269,6 +267,10 @@ function mesecon.mvps_move_objects(pos, dir, nodestack, movefactor)
 		end
 	end
 end
+
+-- Never push into unloaded blocks. Don’t try to pull from them, either.
+-- TODO: load blocks instead, as with wires.
+mesecon.register_mvps_stopper("ignore")
 
 mesecon.register_mvps_stopper("doors:door_steel_b_1")
 mesecon.register_mvps_stopper("doors:door_steel_t_1")

@@ -281,31 +281,44 @@ local function remove_functions(x)
 	return x
 end
 
--- itbl: Flat table of functions to run after sandbox cleanup, used to prevent various security hazards
-local function get_interrupt(pos, itbl, send_warning)
-	-- iid = interrupt id
-	local function interrupt(time, iid)
-		-- NOTE: This runs within string metatable sandbox, so don't *rely* on anything of the form (""):y
-		-- Hence the values get moved out. Should take less time than original, so totally compatible
-		if type(time) ~= "number" then return end
-		table.insert(itbl, function ()
-			-- Outside string metatable sandbox, can safely run this now
-			local luac_id = minetest.get_meta(pos):get_int("luac_id")
-			-- Check if IID is dodgy, so you can't use interrupts to store an infinite amount of data.
-			-- Note that this is safe from alter-after-free because this code gets run after the sandbox has ended.
-			-- This runs outside of the timer and *shouldn't* harm perf. unless dodgy data is being sent in the first place
-			iid = remove_functions(iid)
-			local msg_ser = minetest.serialize(iid)
-			if #msg_ser <= mesecon.setting("luacontroller_interruptid_maxlen", 256) then
-				mesecon.queue:add_action(pos, "lc_interrupt", {luac_id, iid}, time, iid, 1)
-			else
-				send_warning("An interrupt ID was too large!")
-			end
+-- The setting affects API so is not intended to be changeable at runtime
+local get_interrupt
+if mesecon.setting("luacontroller_lightweight_interrupts", false) then
+	-- use node timer
+	get_interrupt = function(pos, itbl, send_warning)
+		return (function(time, iid)
+			if type(time) ~= "number" then error("Delay must be a number") end
+			if iid ~= nil then send_warning("Interrupt IDs are disabled on this server") end
+			table.insert(itbl, function() minetest.get_node_timer(pos):start(time) end)
 		end)
 	end
-	return interrupt
+else
+	-- use global action queue
+	-- itbl: Flat table of functions to run after sandbox cleanup, used to prevent various security hazards
+	get_interrupt = function(pos, itbl, send_warning)
+		-- iid = interrupt id
+		local function interrupt(time, iid)
+			-- NOTE: This runs within string metatable sandbox, so don't *rely* on anything of the form (""):y
+			-- Hence the values get moved out. Should take less time than original, so totally compatible
+			if type(time) ~= "number" then error("Delay must be a number") end
+			table.insert(itbl, function ()
+				-- Outside string metatable sandbox, can safely run this now
+				local luac_id = minetest.get_meta(pos):get_int("luac_id")
+				-- Check if IID is dodgy, so you can't use interrupts to store an infinite amount of data.
+				-- Note that this is safe from alter-after-free because this code gets run after the sandbox has ended.
+				-- This runs outside of the timer and *shouldn't* harm perf. unless dodgy data is being sent in the first place
+				iid = remove_functions(iid)
+				local msg_ser = minetest.serialize(iid)
+				if #msg_ser <= mesecon.setting("luacontroller_interruptid_maxlen", 256) then
+					mesecon.queue:add_action(pos, "lc_interrupt", {luac_id, iid}, time, iid, 1)
+				else
+					send_warning("An interrupt ID was too large!")
+				end
+			end)
+		end
+		return interrupt
+	end
 end
-
 
 -- Given a message object passed to digiline_send, clean it up into a form
 -- which is safe to transmit over the network and compute its "cost" (a very
@@ -428,7 +441,6 @@ local function get_digiline_send(pos, itbl, send_warning)
 		return true
 	end
 end
-
 
 local safe_globals = {
 	-- Don't add pcall/xpcall unless willing to deal with the consequences (unless very careful, incredibly likely to allow killing server indirectly)
@@ -567,6 +579,7 @@ local function save_memory(pos, meta, mem)
 
 	if (#memstring <= memsize_max) then
 		meta:set_string("lc_memory", memstring)
+		meta:mark_as_private("lc_memory")
 	else
 		print("Error: Luacontroller memory overflow. "..memsize_max.." bytes available, "
 				..#memstring.." required. Controller overheats.")
@@ -630,14 +643,16 @@ end
 
 local function reset_formspec(meta, code, errmsg)
 	meta:set_string("code", code)
+	meta:mark_as_private("code")
 	code = minetest.formspec_escape(code or "")
 	errmsg = minetest.formspec_escape(tostring(errmsg or ""))
-	meta:set_string("formspec", "size[12,10]"..
-		"background[-0.2,-0.25;12.4,10.75;jeija_luac_background.png]"..
-		"textarea[0.2,0.2;12.2,9.5;code;;"..code.."]"..
-		"image_button[4.75,8.75;2.5,1;jeija_luac_runbutton.png;program;]"..
-		"image_button_exit[11.72,-0.25;0.425,0.4;jeija_close_window.png;exit;]"..
-		"label[0.1,9;"..errmsg.."]")
+	meta:set_string("formspec", "size[12,10]"
+		.."background[-0.2,-0.25;12.4,10.75;jeija_luac_background.png]"
+		.."label[0.1,8.3;"..errmsg.."]"
+		.."textarea[0.2,0.2;12.2,9.5;code;;"..code.."]"
+		.."image_button[4.75,8.75;2.5,1;jeija_luac_runbutton.png;program;]"
+		.."image_button_exit[11.72,-0.25;0.425,0.4;jeija_close_window.png;exit;]"
+		)
 end
 
 local function reset_meta(pos, code, errmsg)
@@ -661,6 +676,14 @@ end
 
 local function reset(pos)
 	set_port_states(pos, {a=false, b=false, c=false, d=false})
+end
+
+local function node_timer(pos)
+	if minetest.registered_nodes[minetest.get_node(pos).name].is_burnt then
+		return false
+	end
+	run(pos, {type="interrupt"})
+	return false
 end
 
 -----------------------
@@ -835,6 +858,7 @@ for d = 0, 1 do
 			mesecon.receptor_off(pos, output_rules)
 		end,
 		is_luacontroller = true,
+		on_timer = node_timer,
 		on_blast = mesecon.on_blastnode,
 	})
 end

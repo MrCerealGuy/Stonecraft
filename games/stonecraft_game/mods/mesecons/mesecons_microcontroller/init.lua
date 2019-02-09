@@ -586,6 +586,7 @@ yc.command_parsecondition = function(cond, L, eeprom)
 		if cond:sub(i+1, i+1) == nil then break end
 		if s == "&" then
 			if a==nil then return nil end
+			if b==nil then return nil end
 			local buf = ((a==1) and (b==1))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
@@ -595,6 +596,7 @@ yc.command_parsecondition = function(cond, L, eeprom)
 		end
 		if s == "|" then
 			if a==nil then return nil end
+			if b==nil then return nil end
 			local buf = ((a == 1) or (b == 1))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
@@ -604,6 +606,7 @@ yc.command_parsecondition = function(cond, L, eeprom)
 		end
 		if s == "~" then
 			if a==nil then return nil end
+			if b==nil then return nil end
 			local buf = (((a == 1) or (b == 1)) and not((a==1) and (b==1)))
 			if buf == true  then buf = "1" end
 			if buf == false then buf = "0" end
