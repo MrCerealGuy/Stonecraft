@@ -13,7 +13,9 @@ This mod works by adding your new plant to the {growing=1} group and numbering t
 
 ### Changelog:
 
-- 1.38 - Pumpkin grows into block, use chopping board to cut into slices, same with melon block, cocoa pods are no longer walkable
+- 1.40 - Added Mithril Scythe to quick harvest and replant crops on right-click.
+- 1.39 - Added Rice, Rye and Oats thanks to Ademants Grains mod.  Added Jaffa Cake and multigrain bread.
+- 1.38 - Pumpkin grows into block, use chopping board to cut into 4x slices, same with melon block, 2x2 slices makes a block, cocoa pods are no longer walkable
 - 1.37 - Added custom 'growth_check(pos, nodename) function for crop nodes to use (check cocoa.lua for example)
 - 1.36 - Added Beetroot, Beetroot Soup (6x beetroot, 1x bowl), fix register_plant() issue, add new recipes
 - 1.35 - Deprecated bronze/mese/diamond hoe's, added hoe bomb and deprecated hoe's as lucky block prizes
@@ -59,4 +61,4 @@ This mod works by adding your new plant to the {growing=1} group and numbering t
 - 0.1 - Fixed growing bug
 - 0.0 - Initial release
 
-### Lucky Blocks: 30
+### Lucky Blocks: 39

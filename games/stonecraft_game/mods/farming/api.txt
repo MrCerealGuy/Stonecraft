@@ -11,6 +11,11 @@ The farming API allows you to easily register plants and hoes.
 
 `farming.registered_plants[name] = definition`
  * Table of registered plants, indexed by plant name
+    'crop' holds name of growing crop node minus _step-number at end
+    'seed' has name of seed required to plant crop
+    'minlight' min light level needed to grow
+    'maxlight' max light level needed to grow
+    'steps' number of steps crop has in growth cycle
 
 ### Hoe Definition
 
@@ -51,3 +56,9 @@ growth_check = function(pos, node_name)
 	end
 	return true -- condition not met, skip next growth stage until next check
 end,
+
+### Scythe items that will not drop
+
+This is a function to add items to a list that scythes will not drop, e.g. farming:trellis or farming:beanpole.
+
+farming.add_to_scythe_not_drops(item_name)

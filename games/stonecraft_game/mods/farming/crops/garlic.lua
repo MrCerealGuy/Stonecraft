@@ -27,7 +27,7 @@ minetest.register_craftitem("farming:garlic", {
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "farming:garlic_clove 9",
+	output = "farming:garlic_clove 8",
 	recipe = { "farming:garlic" }
 })
 
@@ -35,7 +35,7 @@ minetest.register_craft({
 	output = "farming:garlic",
 	recipe = {
 		{"farming:garlic_clove", "farming:garlic_clove", "farming:garlic_clove"},
-		{"farming:garlic_clove", "farming:garlic_clove", "farming:garlic_clove"},
+		{"farming:garlic_clove", "", "farming:garlic_clove"},
 		{"farming:garlic_clove", "farming:garlic_clove", "farming:garlic_clove"}
 	}
 })
@@ -126,3 +126,12 @@ crop_def.drop = {
 	}
 }
 minetest.register_node("farming:garlic_5", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:garlic"] = {
+	crop = "farming:garlic",
+	seed = "farming:garlic_clove",
+	minlight = 13,
+	maxlight = 15,
+	steps = 5
+}

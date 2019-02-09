@@ -66,3 +66,12 @@ crop_def.drop = {
 	}
 }
 minetest.register_node("farming:onion_5", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:onion"] = {
+	crop = "farming:onion",
+	seed = "farming:onion",
+	minlight = 13,
+	maxlight = 15,
+	steps = 5
+}

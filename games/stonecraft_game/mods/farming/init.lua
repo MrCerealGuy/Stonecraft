@@ -5,13 +5,15 @@
 	auto-refill by crabman77
 ]]
 
-farming = {}
-farming.mod = "redo"
-farming.version = "20180617"
-farming.path = minetest.get_modpath("farming")
-farming.select = {
-	type = "fixed",
-	fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+farming = {
+	mod = "redo",
+	version = "20190111",
+	path = minetest.get_modpath("farming"),
+	select = {
+		type = "fixed",
+		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
+	},
+	registered_plants = {}
 }
 
 
@@ -455,6 +457,7 @@ function farming.place_seed(itemstack, placer, pointed_thing, plantname)
 		minetest.set_node(pt.above, {name = plantname, param2 = p2})
 
 --minetest.get_node_timer(pt.above):start(1)
+--farming.handle_growth(pt.above)--, node)
 
 		minetest.sound_play("default_place_node", {pos = pt.above, gain = 1.0})
 
@@ -581,6 +584,15 @@ farming.register_plant = function(name, def)
 		})
 	end
 
+-- add to farming.registered_plants
+farming.registered_plants[mname .. ":" .. pname] = {
+	crop = mname .. ":" .. pname,
+	seed = mname .. ":seed_" .. pname,
+	steps = def.steps,
+	minlight = def.minlight,
+	maxlight = def.maxlight
+}
+--print(dump(farming.registered_plants[mname .. ":" .. pname]))
 	-- Return info
 	return {seed = mname .. ":seed_" .. pname, harvest = mname .. ":" .. pname}
 end
@@ -610,6 +622,7 @@ farming.pepper = true
 farming.pineapple = true
 farming.peas = true
 farming.beetroot = true
+farming.grains = true
 farming.rarety = 0.002 -- 0.006
 
 
@@ -618,16 +631,14 @@ local input = io.open(farming.path.."/farming.conf", "r")
 if input then
 	dofile(farming.path .. "/farming.conf")
 	input:close()
-	input = nil
 end
 
 -- load new world-specific settings if found inside world folder
 local worldpath = minetest.get_worldpath()
-local input = io.open(worldpath.."/farming.conf", "r")
+input = io.open(worldpath.."/farming.conf", "r")
 if input then
 	dofile(worldpath .. "/farming.conf")
 	input:close()
-	input = nil
 end
 
 
@@ -674,6 +685,7 @@ ddoo("pineapple.lua", farming.pineapple)
 ddoo("peas.lua", farming.peas)
 ddoo("beetroot.lua", farming.beetroot)
 ddoo("chili.lua", farming.chili)
+ddoo("ryeoatrice.lua", farming.grains)
 
 dofile(farming.path.."/food.lua")
 dofile(farming.path.."/mapgen.lua")

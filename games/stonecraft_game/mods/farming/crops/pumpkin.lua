@@ -19,15 +19,14 @@ minetest.register_craftitem("farming:pumpkin_slice", {
 minetest.register_craft({
 	output = "farming:pumpkin",
 	recipe = {
-		{"farming:pumpkin_slice", "farming:pumpkin_slice", "farming:pumpkin_slice"},
-		{"farming:pumpkin_slice", "farming:pumpkin_slice", "farming:pumpkin_slice"},
-		{"farming:pumpkin_slice", "farming:pumpkin_slice", "farming:pumpkin_slice"},
+		{"farming:pumpkin_slice", "farming:pumpkin_slice"},
+		{"farming:pumpkin_slice", "farming:pumpkin_slice"},
 	}
 })
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "farming:pumpkin_slice 9",
+	output = "farming:pumpkin_slice 4",
 	recipe = {"farming:pumpkin", "farming:cutting_board"},
 	replacements = {{"farming:cutting_board", "farming:cutting_board"}},
 })
@@ -203,12 +202,16 @@ minetest.register_node("farming:pumpkin_8", {
 		food_pumpkin = 1, choppy = 1, oddly_breakable_by_hand = 1,
 		flammable = 2, plant = 1
 	},
---	drop = {
---		items = {
---			{items = {'farming:pumpkin_slice 9'}, rarity = 1},
---		}
---	},
 	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_alias("farming:pumpkin", "farming:pumpkin_8")
+
+-- add to registered_plants
+farming.registered_plants["farming:pumpkin"] = {
+	crop = "farming:pumpkin",
+	seed = "farming:pumpkin_slice",
+	minlight = 13,
+	maxlight = 15,
+	steps = 8
+}

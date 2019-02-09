@@ -42,6 +42,7 @@ minetest.register_craft({
 		"group:food_flour", "group:food_sugar",
 		"group:food_blueberries", "group:food_baking_tray"
 	},
+	replacements = {{"group:food_baking_tray", "farming:baking_tray"}}
 })
 
 -- blueberry definition
@@ -83,3 +84,12 @@ crop_def.drop = {
 	}
 }
 minetest.register_node("farming:blueberry_4", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:blueberries"] = {
+	crop = "farming:blueberry",
+	seed = "farming:blueberries",
+	minlight = 13,
+	maxlight = 15,
+	steps = 4
+}

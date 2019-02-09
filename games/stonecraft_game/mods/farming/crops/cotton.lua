@@ -142,6 +142,15 @@ crop_def.drop = {
 }
 minetest.register_node("farming:cotton_8", table.copy(crop_def))
 
+-- add to registered_plants
+farming.registered_plants["farming:cotton"] = {
+	crop = "farming:cotton",
+	seed = "farming:seed_cotton",
+	minlight = 13,
+	maxlight = 15,
+	steps = 8
+}
+
 --[[ Cotton (example, is already registered in cotton.lua)
 farming.register_plant("farming:cotton", {
 	description = "Cotton seed",

@@ -165,6 +165,15 @@ crop_def.drop = {
 }
 minetest.register_node("farming:cocoa_4", table.copy(crop_def))
 
+-- add to registered_plants
+farming.registered_plants["farming:cocoa_beans"] = {
+	crop = "farming:cocoa",
+	seed = "farming:cocoa_beans",
+	minlight = 13,
+	maxlight = 15,
+	steps = 4
+}
+
 -- add random cocoa pods to jungle tree's
 minetest.register_on_generated(function(minp, maxp)
 

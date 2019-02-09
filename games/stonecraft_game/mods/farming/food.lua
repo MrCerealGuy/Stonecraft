@@ -185,4 +185,36 @@ minetest.after(0, function()
 		},
 		replacements = {{fluid_return, "bucket:bucket_empty"}}
 	})
+
+	minetest.register_craft({
+		type = "shapeless",
+		output = "farming:porridge",
+		recipe = {
+			"group:food_oats", "group:food_oats", "group:food_oats",
+			"group:food_oats", "group:food_bowl", fluid
+		},
+		replacements = {{fluid_return, "bucket:bucket_empty"}}
+	})
 end)
+
+--= Jaffa Cake
+
+minetest.register_craftitem("farming:jaffa_cake", {
+	description = S("Jaffa Cake"),
+	inventory_image = "farming_jaffa_cake.png",
+	on_use = minetest.item_eat(6),
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "farming:jaffa_cake",
+	recipe = {
+		"farming:baking_tray", "group:food_egg", "group:food_sugar",
+		"group:food_flour", "group:food_cocoa", "group:food_orange",
+		"group:food_milk"
+	},
+	replacements = {
+		{"farming:baking_tray", "farming:baking_tray"},
+		{"mobs:bucket_milk", "bucket:bucket_empty"}
+	}
+})

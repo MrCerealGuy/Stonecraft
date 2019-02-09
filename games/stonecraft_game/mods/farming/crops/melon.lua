@@ -15,15 +15,14 @@ minetest.register_craftitem("farming:melon_slice", {
 minetest.register_craft({
 	output = "farming:melon_8",
 	recipe = {
-		{"farming:melon_slice", "farming:melon_slice", "farming:melon_slice"},
-		{"farming:melon_slice", "farming:melon_slice", "farming:melon_slice"},
-		{"farming:melon_slice", "farming:melon_slice", "farming:melon_slice"},
+		{"farming:melon_slice", "farming:melon_slice"},
+		{"farming:melon_slice", "farming:melon_slice"},
 	}
 })
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "farming:melon_slice 9",
+	output = "farming:melon_slice 4",
 	recipe = {"farming:melon_8", "farming:cutting_board"},
 	replacements = {{"farming:cutting_board", "farming:cutting_board"}},
 })
@@ -85,3 +84,12 @@ crop_def.groups = {
 --crop_def.drop = "farming:melon_slice 9"
 crop_def.drop = "farming:melon_8"
 minetest.register_node("farming:melon_8", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:melon"] = {
+	crop = "farming:melon",
+	seed = "farming:melon_slice",
+	minlight = 13,
+	maxlight = 15,
+	steps = 8
+}

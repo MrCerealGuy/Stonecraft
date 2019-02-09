@@ -186,7 +186,7 @@ local crop_def = {
 	selection_box = farming.select,
 	groups = {
 		snappy = 3, flammable = 3, not_in_creative_inventory = 1,
-		attached_node = 1, growing = 1
+		attached_node = 1, growing = 1, plant = 1
 	},
 	sounds = default.node_sound_leaves_defaults()
 }
@@ -230,6 +230,15 @@ crop_def.drop = {
 	}
 }
 minetest.register_node("farming:grapes_8", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:grapes"] = {
+	crop = "farming:grapes",
+	seed = "farming:grapes",
+	minlight = 13,
+	maxlight = 15,
+	steps = 8
+}
 
 -- wild grape vine (this is what you find on the map)
 minetest.register_node("farming:grapebush", {

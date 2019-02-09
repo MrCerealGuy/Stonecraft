@@ -103,3 +103,20 @@ crop_def.drop = {
 	}
 }
 minetest.register_node("farming:barley_7", table.copy(crop_def))
+
+-- add to registered_plants
+farming.registered_plants["farming:barley"] = {
+	crop = "farming:barley",
+	seed = "farming:seed_barley",
+	minlight = 13,
+	maxlight = 15,
+	steps = 7
+}
+
+-- Fuel
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "farming:barley",
+	burntime = 1,
+})
