@@ -17,7 +17,7 @@ We would like to thank:
  - Double_P, Ponzi_Duro, Andrey01 and Taikedz for the beta testing;
  - Taikedz for his support and for hosting a server dedicated to nssm (Not So Simple Server: https://forum.minetest.net/viewtopic.php?f=10&t=15435&hilit=nsss);
 
-License for the code: LGPL
+License for the code: LGPLv3
 License for all the models, textures and sound: CC BY-SA 4.0
 
 The mod makes the game really hard, please read the wiki before playing: http://wiki.minetest.net/Mods/Not_So_Simple_Mobs (which will be updated as soon as possible) or the old guide for the 2.4 version.
