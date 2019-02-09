@@ -1,6 +1,12 @@
 
 local S = mobs.intllib
 
+local get_velocity = function(self)
+
+	local v = self.object:get_velocity()
+
+	return (v.x * v.x + v.z * v.z) ^ 0.5
+end
 
 -- Spider by AspireMint (CC-BY-SA 3.0 license)
 
@@ -94,6 +100,57 @@ mobs:register_mob("mobs_monster:spider", {
 
 		return true -- run only once, false/nil runs every activation
 	end,
+	-- custom function to make spiders climb vertical facings
+	do_custom = function(self, dtime)
+
+		-- quarter second timer
+		self.spider_timer = (self.spider_timer or 0) + dtime
+		if self.spider_timer < 0.25 then
+			return
+		end
+		self.spider_timer = 0
+
+		-- need to be stopped to go onwards
+		if get_velocity(self) > 0.2 then
+			self.disable_falling = false
+			return
+		end
+
+		local pos = self.object:get_pos()
+		local yaw = self.object:get_yaw()
+
+		pos.y = pos.y + self.collisionbox[2] - 0.2
+
+		local dir_x = -math.sin(yaw) * (self.collisionbox[4] + 0.5)
+		local dir_z = math.cos(yaw) * (self.collisionbox[4] + 0.5)
+		local nod = minetest.get_node_or_nil({
+			x = pos.x + dir_x,
+			y = pos.y + 0.5,
+			z = pos.z + dir_z
+		})
+
+		-- get current velocity
+		local v = self.object:get_velocity()
+
+		-- can only climb solid facings
+		if not nod or not minetest.registered_nodes[nod.name]
+		or not minetest.registered_nodes[nod.name].walkable then
+			self.disable_falling = nil
+			v.y = 0
+			self.object:set_velocity(v)
+			return
+		end
+
+--print ("----", nod.name, self.disable_falling, dtime)
+
+		-- turn off falling if attached to facing
+		self.disable_falling = true
+
+		-- move up facing
+		v.y = self.jump_height
+		mobs:set_animation(self, "jump")
+		self.object:set_velocity(v)
+	end
 })
 
 
@@ -149,7 +206,7 @@ minetest.register_node(":mobs:cobweb", {
 	liquid_range = 0,
 	walkable = false,
 	groups = {snappy = 1, disable_jump = 1},
-	drop = "farming:cotton",
+	drop = "farming:string",
 	sounds = default.node_sound_leaves_defaults(),
 })
 

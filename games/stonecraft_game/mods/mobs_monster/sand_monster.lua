@@ -90,6 +90,21 @@ mobs:register_mob("mobs_monster:sand_monster", {
 		pos.y = pos.y + 0.25
 		effect(pos, 30, "mobs_sand_particles.png", 0.1, 2, 3, 5)
 	end,
+--[[
+	on_rightclick = function(self, clicker)
+
+		local tool = clicker:get_wielded_item()
+		local name = clicker:get_player_name()
+
+		if tool:get_name() == "default:sand" then
+
+			self.owner = name
+			self.type = "npc"
+
+			mobs:force_capture(self, clicker)
+		end
+	end,
+]]
 })
 
 
