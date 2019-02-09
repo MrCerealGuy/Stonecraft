@@ -84,10 +84,13 @@ mobs:register_mob("mobs_npc:igor", {
 			end
 
 			local pos = self.object:get_pos()
+
 			pos.y = pos.y + 0.5
 
+			local drops = self.igor_drops or mobs.igor_drops
+
 			minetest.add_item(pos, {
-				name = mobs.igor_drops[math.random(1, #mobs.igor_drops)]
+				name = drops[math.random(1, #drops)]
 			})
 
 			minetest.chat_send_player(name, S("NPC dropped you an item for gold!"))
