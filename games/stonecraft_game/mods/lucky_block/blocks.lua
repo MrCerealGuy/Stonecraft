@@ -1,7 +1,7 @@
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S, NS = dofile(MP .. "/intllib.lua")
 
 
 -- Default tree schematics
@@ -21,9 +21,12 @@ lucky_block:add_schematics({
 
 -- Default blocks
 lucky_block:add_blocks({
+	{"lig"},
+	{"fal", {"default:wood", "default:gravel", "default:sand",
+		"default:desert_sand", "default:stone", "default:dirt",
+		"default:goldblock"}, 0},
 	{"sch", "watertrap", 1, true},
 	{"tel"},
-	{"dro", {"wool:"}, 10, true},
 	{"dro", {"default:apple"}, 10},
 	{"sch", "appletree", 0, false},
 	{"dro", {"default:snow"}, 10},
@@ -31,7 +34,7 @@ lucky_block:add_blocks({
 		{name = "bucket:bucket_water", max = 1},
 		{name = "default:wood", max = 3},
 		{name = "default:pick_diamond", max = 1},
-		{name = "default:coal_lump", max = 3}}},
+		{name = "default:coal_lump", max = 3} } },
 	{"sch", "sandtrap", 1, true},
 	{"sch", "defpinetree", 0, false},
 	{"sch", "lavatrap", 1, true},
@@ -43,11 +46,20 @@ lucky_block:add_blocks({
 	{"nod", "default:diamondblock", 0},
 	{"nod", "default:steelblock", 0},
 	{"nod", "default:dirt", 0},
+	{"nod", "default:chest", 0, {
+		{name = "default:dirt", max = 15},
+		{name = "default:dirt_with_dry_grass", max = 15},
+		{name = "default:dirt_with_rainforest_litter", max = 15},
+		{name = "default:dirt_with_grass", max = 15},
+		{name = "default:dirt_with_snow", max = 15},
+	}},
 	{"dro", {"dye:"}, 10, true},
 	{"dro", {"default:sword_steel"}},
 	{"sch", "jungletree", 0, false},
+	{"sch", "sandtrap", 1, true, {{"default:sand", "default:silver_sand"}} },
 	{"dro", {"default:pick_steel"}},
 	{"dro", {"default:shovel_steel"}},
+	{"exp"},
 	{"dro", {"default:coal_lump"}, 3},
 	{"sch", "defaultbush", 0, false},
 	{"tro", "default:mese", "tnt_blast", true},
@@ -55,12 +67,22 @@ lucky_block:add_blocks({
 	{"dro", {"default:axe_steel"}},
 	{"dro", {"default:sword_bronze"}},
 	{"exp", 3},
+	{"nod", "default:chest", 0, {
+		{name = "default:acacia_sapling", max = 10},
+		{name = "default:aspen_sapling", max = 10},
+		{name = "default:pine_sapling", max = 10},
+		{name = "default:sapling", max = 10},
+		{name = "default:junglesapling", max = 10},
+		{name = "default:acacia_bush_sapling", max = 5},
+		{name = "default:bush_sapling", max = 5},
+	}},
 	{"sch", "platform", 1, true},
 	{"nod", "default:wood", 0},
 	{"dro", {"default:pick_bronze"}},
 	{"sch", "aspentree", 0, false},
 	{"dro", {"default:shovel_bronze"}},
 	{"nod", "default:gravel", 0},
+	{"sch", "sandtrap", 1, true, {{"default:sand", "default:gravel"}} },
 	{"sch", "largecactus", 0, false},
 	{"dro", {"default:axe_bronze"}},
 	{"dro", {"default:bookshelf", "default:book", "default:paper"}, 5},
@@ -70,28 +92,181 @@ lucky_block:add_blocks({
 	{"dro", {"default:fence_junglewood"}, 10},
 	{"dro", {"default:fence_pine_wood"}, 10},
 	{"sch", "obsidiantrap", 1, true},
+	{"sch", "sandtrap", 1, true, {{"default:sand", "default:desert_sand"}} },
+	{"nod", "default:chest", 0, {
+		{name = "default:acacia_wood", max = 10},
+		{name = "default:aspen_wood", max = 10},
+		{name = "default:pine_wood", max = 10},
+		{name = "default:wood", max = 10},
+		{name = "default:junglewood", max = 10},
+	}},
+	{"nod", "default:chest", 0, {
+		{name = "default:acacia_tree", max = 10},
+		{name = "default:aspen_tree", max = 10},
+		{name = "default:pine_tree", max = 10},
+		{name = "default:tree", max = 10},
+		{name = "default:jungletree", max = 10},
+	}},
+	{"dro", {"default:coral_brown"}, 5},
+	{"dro", {"default:coral_orange"}, 5},
+	{"dro", {"default:coral_skeleton"}, 5},
+	{"sch", "corals", 0, true},
+	{"dro", {"default:mese_post_light"}, 5},
+	{"dro", {"default:fence_wood"}, 5},
+	{"nod", "default:mese_post_light"},
+	{"dro", {"default:silver_sand"}, 20},
+	{"dro", {"default:sand"}, 20},
+	{"dro", {"default:desert_sand"}, 20},
+	{"dro", {"default:gravel"}, 15},
+	{"nod", "default:chest", 0, {
+		{name = "default:silver_sand", max = 20},
+		{name = "default:silver_sandstone", max = 20},
+		{name = "default:desert_sand", max = 20},
+		{name = "default:silver_sandstone", max = 20},
+		{name = "default:sand", max = 20},
+		{name = "default:sandstone", max = 20},
+		{name = "default:gravel", max = 20},
+	}},
+	{"dro", {"default:obsidian"}, 14},
 })
 
--- default coral blocks
-if minetest.registered_nodes["default:coral_brown"] then
+local green = minetest.get_color_escape_sequence("#1eff00")
+
+-- custom function (punches player with 5 damage)
+local function punchy(pos, player)
+
+	player:punch(player, 1.0, {
+		full_punch_interval = 1.0,
+		damage_groups = {fleshy = 5}
+	}, nil)
+
+	minetest.sound_play("player_damage", {pos = pos, gain = 1.0})
+
+	minetest.chat_send_player(player:get_player_name(),
+		green .. S("Stop hitting yourself!"))
+end
+
+-- custom function (pint sized player) and potion with recipe
+local function pint(pos, player)
+
+	player:set_properties({visual_size = {x = 0.5, y = 0.5}})
+
+	minetest.chat_send_player(player:get_player_name(),
+		green .. S("Pint Sized Player!"))
+
+	minetest.sound_play("default_place_node", {pos = pos, gain = 1.0})
+
+	minetest.after (180, function(player, pos) -- 3 minutes
+
+		if player and player:is_player() then
+
+			player:set_properties({visual_size = {x = 1.0, y = 1.0}})
+
+			minetest.sound_play("default_place_node", {pos = pos, gain = 1.0})
+		end
+	end, player)
+end
+
+minetest.register_craftitem("lucky_block:pint_sized_potion", {
+	description = S("Pint Sized Potion (DRINK ME)"),
+	inventory_image = "lucky_pint_sized_potion.png",
+	on_use = function(itemstack, user, pointed_thing)
+
+		itemstack:take_item()
+
+		local pos = user:get_pos()
+		local inv = user:get_inventory()
+		local item = "vessels:glass_bottle"
+
+		if inv:room_for_item("main", {name = item}) then
+			inv:add_item("main", item)
+		else
+			minetest.add_item(pos, {name = item})
+		end
+
+		pint(pos, user)
+
+		return itemstack
+	end,
+	groups = {vessel = 1},
+})
+
+minetest.register_craft({
+	output = "lucky_block:pint_sized_potion",
+	recipe = {
+		{"default:bush_sapling", "flowers:tulip", "default:acacia_bush_sapling"},
+		{"dye:blue", "default:apple", "dye:cyan"},
+		{"", "vessels:glass_bottle", ""},
+	}
+})
+
+-- custom function (drop player inventory and replace with dry shrubs)
+local function bushy(pos, player)
+
+	local player_inv = player:get_inventory()
+
+	pos = player:get_pos() or pos
+
+	for i = 1, player_inv:get_size("main") do
+
+		local obj = minetest.add_item(pos, player_inv:get_stack("main", i))
+
+		if obj then
+
+			obj:setvelocity({
+				x = math.random(-10, 10) / 9,
+				y = 5,
+				z = math.random(-10, 10) / 9,
+			})
+		end
+
+		player_inv:set_stack("main", i, "default:dry_shrub")
+	end
+
+	minetest.chat_send_player(player:get_player_name(),
+		green .. S("Dry shrub takeover!"))
+end
+
+lucky_block:add_blocks({
+	{"cus", pint},
+	{"cus", bushy},
+	{"cus", punchy},
+	{"dro", {"lucky_block:pint_sized_potion"}, 1},
+})
+
+-- wool mod
+if minetest.get_modpath("wool") then
 	lucky_block:add_blocks({
-		{"dro", {"default:coral_brown"}, 5},
-		{"dro", {"default:coral_orange"}, 5},
-		{"dro", {"default:coral_skeleton"}, 5},
-		{"sch", "corals", 0, true},
+		{"sch", "sandtrap", 1, true, {{"default:sand", "wool:red"}} },
+		{"dro", {"wool:"}, 10, true},
+		{"sch", "sandtrap", 1, true, {{"default:sand", "wool:green"}} },
+		{"dro", {"wool:white"}, 10},
 	})
 end
 
--- default mese post light or sands
-if minetest.registered_nodes["default:mese_post_light"] then
+-- extra doors mod
+if minetest.get_modpath("extra_doors") then
 	lucky_block:add_blocks({
-		{"dro", {"default:mese_post_light"}, 5},
-		{"dro", {"default:fence_wood"}, 5},
-		{"nod", "default:mese_post_light"},
-		{"dro", {"default:silver_sand"}, 20},
-		{"dro", {"default:sand"}, 20},
-		{"dro", {"default:desert_sand"}, 20},
-		{"dro", {"default:gravel"}, 15},
+		{"dro", {"default:steel_rod"}, 10},
+		{"dro", {"extra_doors:door_woodpanel1"}, 1},
+		{"dro", {"extra_doors:door_woodglass1"}, 1},
+		{"dro", {"extra_doors:door_woodglass2"}, 1},
+		{"dro", {"extra_doors:door_door_japanese"}, 1},
+		{"dro", {"extra_doors:door_door_french"}, 1},
+		{"dro", {"extra_doors:door_door_cottage1"}, 1},
+		{"dro", {"extra_doors:door_door_cottage2"}, 1},
+		{"dro", {"extra_doors:door_door_barn1"}, 1},
+		{"lig"},
+		{"dro", {"extra_doors:door_door_barn2"}, 1},
+		{"dro", {"extra_doors:door_door_castle1"}, 1},
+		{"dro", {"extra_doors:door_door_castle2"}, 1},
+		{"dro", {"extra_doors:door_door_mansion1"}, 1},
+		{"dro", {"extra_doors:door_door_mansion2"}, 1},
+		{"dro", {"extra_doors:door_door_dungeon1"}, 1},
+		{"dro", {"extra_doors:door_door_dungeon2"}, 1},
+		{"dro", {"extra_doors:door_door_steelpanel1"}, 1},
+		{"dro", {"extra_doors:door_door_steelglass1"}, 1},
+		{"dro", {"extra_doors:door_door_steelglass2"}, 1},
 	})
 end
 
@@ -103,6 +278,17 @@ if minetest.get_modpath("flowers") then
 		{"dro", {"flowers:mushroom_brown"}, 5},
 		{"dro", {"flowers:rose", "flowers:tulip", "flowers:dandelion_yellow",
 				"flowers:geranium", "flowers:viola", "flowers:dandelion_white"}, 12},
+		{"nod", "default:chest", 0, {
+			{name = "flowers:geranium", max = 15},
+			{name = "flowers:viola", max = 15},
+			{name = "flowers:dandelion_white", max = 15},
+			{name = "flowers:dandelion_yellow", max = 15},
+			{name = "flowers:tulip", max = 15},
+			{name = "flowers:rose", max = 15},
+			{name = "flowers:mushroom_brown", max = 10},
+			{name = "flowers:mushroom_red", max = 10},
+			{name = "flowers:waterlily", max = 10},
+		}},
 	})
 end
 
@@ -167,8 +353,9 @@ if minetest.get_modpath("farming") then
 		{"dro", {"farming:bread"}, 5},
 		{"sch", "instafarm", 0, true},
 		{"nod", "default:water_source", 1},
+		{"nod", "farming:straw", 0},
+		{"dro", {"farming:straw"}, 8},
 	})
-
 end
 
 -- Home Decor mod
@@ -282,12 +469,24 @@ lucky_block:add_blocks({
 })
 end
 
+-- Caverealms
+if minetest.get_modpath("caverealms") and not core.skip_mod("caverealms")) then
+lucky_block:add_blocks({
+	{"sch", "sandtrap", 1, true, {{"default:sand", "caverealms:coal_dust"}} },
+	{"sch", "obsidiantrap", 1, true, {{"default:obsidian", "caverealms:glow_obsidian_brick_2"}} },
+	{"flo", 5, {"caverealms:stone_with_moss"}, 2},
+	{"flo", 5, {"caverealms:stone_with_lichen"}, 2},
+	{"flo", 5, {"caverealms:stone_with_algae"}, 2},
+})
+end
+
 -- TNT mod
 if minetest.get_modpath("tnt") then
 local p = "tnt:tnt_burning"
 lucky_block:add_blocks({
-	{"dro", {"tnt:gunpowder"}, 5, true},
+	{"dro", {"tnt:gunpowder"}, 5},
 	{"fal", {p, p, p, p, p}, 1, true, 4},
+	{"nod", "tnt:tnt_burning", 0},
 })
 end
 
@@ -309,6 +508,16 @@ lucky_block:add_blocks({
 	{"dro", {"moreores:hoe_silver"}},
 	{"dro", {"moreores:hoe_mithril"}},
 	{"lig"},
+	{"nod", "default:chest", 0, {
+		{name = "moreores:silver_lump", max = 10},
+		{name = "moreores:mithril_lump", max = 10},
+		{name = "default:copper_lump", max = 10},
+		{name = "default:gold_lump", max = 10},
+		{name = "default:iron_lump", max = 10},
+		{name = "default:tin_lump", max = 10},
+		{name = "default:coal_lump", max = 10},
+		{name = "default:clay_lump", max = 10},
+	}},
 })
 
 if minetest.get_modpath("3d_armor") then
@@ -353,13 +562,9 @@ lucky_block:add_schematics({
 
 lucky_block:add_blocks({
 	{"dro", {p.."wood_tile"}, 10},
-	{"dro", {p.."wood_tile_flipped"}, 10},
 	{"dro", {p.."wood_tile_center"}, 10},
 	{"dro", {p.."wood_tile_full"}, 10},
-	{"dro", {p.."wood_tile_up"}, 10},
-	{"dro", {p.."wood_tile_down"}, 10},
-	{"dro", {p.."wood_tile_left"}, 10},
-	{"dro", {p.."wood_tile_right"}, 10},
+	{"dro", {p.."wood_tile_offset"}, 10},
 	{"dro", {p.."circle_stone_bricks"}, 20},
 	{"dro", {p.."grey_bricks"}, 20},
 	{"dro", {p.."stone_tile"}, 10},
@@ -379,12 +584,21 @@ lucky_block:add_blocks({
 	{"dro", {p.."iron_checker"}, 10},
 	{"dro", {p.."iron_stone_bricks"}, 10},
 	{"dro", {p.."iron_glass"}, 10},
+	{"dro", {p.."trap_obsidian"}, 10},
+	{"dro", {p.."trap_sandstone"}, 10},
+	{"dro", {p.."trap_desert_stone"}, 10},
 	{"dro", {p.."trap_stone"}, 10},
 	{"dro", {p.."trap_glass"}, 10},
 	{"dro", {p.."trap_glow_glass"}, 10},
+	{"dro", {p.."trap_obsidian_glass"}, 10},
+	{"lig"},
 	{"sch", "trapstonetrap", 0, true},
 	{"dro", {p.."all_faces_tree"}, 10},
 	{"dro", {p.."all_faces_jungle_tree"}, 10},
+	{"dro", {p.."all_faces_pine_tree"}, 10},
+	{"dro", {p.."all_faces_acacia_tree"}, 10},
+	{"dro", {p.."all_faces_aspen_tree"}, 10},
+	{"flo", 3, {p.."all_faces_acacia_tree"}, 1},
 	{"dro", {p.."plankstone"}, 10},
 	{"fal", {p.."all_faces_tree", p.."all_faces_tree", p.."all_faces_tree", p.."all_faces_tree", p.."all_faces_tree"}, 0},
 	{"dro", {p.."glow_glass"}, 10},
@@ -402,7 +616,13 @@ end
 
 -- Bags mod
 if minetest.get_modpath("bags") then
+minetest.register_craftitem(":bags:spar", {
+	description = "Spar Bag",
+	inventory_image = "bags_spar.png",
+	groups = {bagslots = 2, flammable = 2},
+})
 lucky_block:add_blocks({
+	{"dro", {"bags:spar"}},
 	{"dro", {"bags:small"}},
 	{"dro", {"bags:medium"}},
 	{"dro", {"bags:large"}},
@@ -410,15 +630,34 @@ lucky_block:add_blocks({
 })
 end
 
--- Bonemeal mod
-if minetest.get_modpath("bonemeal") then
+-- Additional Wishing Well Styles
 lucky_block:add_blocks({
-	{"dro", {"bonemeal:mulch"}, 10},
-	{"dro", {"bonemeal:bonemeal"}, 10},
-	{"dro", {"bonemeal:fertiliser"}, 10},
-	{"dro", {"default:dirt"}, 20},
+	{"sch", "wishingwell", 0, true},
+	{"sch", "wishingwell", 0, true, {
+		{"default:stonebrick", "default:silver_sandstone_brick"},
+		{"stairs:slab_stonebrick", "stairs:slab_silver_sandstone_brick"},
+		{"default:fence_wood", "default:fence_aspen_wood"},
+		{"default:steelblock", "default:tinblock"},
+	} },
+	{"sch", "wishingwell", 0, true, {
+		{"default:stonebrick", "default:sandstonebrick"},
+		{"stairs:slab_stonebrick", "stairs:slab_sandstonebrick"},
+		{"default:fence_wood", "default:fence_junglewood"},
+		{"default:steelblock", "default:goldblock"},
+	} },
+	{"sch", "wishingwell", 0, true, {
+		{"default:stonebrick", "default:desert_stonebrick"},
+		{"stairs:slab_stonebrick", "stairs:slab_desert_stonebrick"},
+		{"default:fence_wood", "default:fence_acacia_wood"},
+		{"default:steelblock", "default:copperblock"},
+	} },
+	{"sch", "wishingwell", 0, true, {
+		{"default:stonebrick", "default:desert_sandstone_brick"},
+		{"stairs:slab_stonebrick", "stairs:slab_desert_sandstone_brick"},
+		{"default:fence_wood", "default:fence_pine_wood"},
+		{"default:steelblock", "default:bronzeblock"},
+	} },
 })
-end
 
 -- Special items
 minetest.register_node("lucky_block:void_mirror", {

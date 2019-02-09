@@ -34,7 +34,7 @@ msgid "Lucky Block"
 msgstr "Glücksblock"
 
 #: init.lua
-msgid "Super Lucky Block"
+msgid "Super Lucky Block (use pick)"
 msgstr "Super Glücksblock"
 
 #: init.lua

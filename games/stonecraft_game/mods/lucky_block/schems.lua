@@ -170,7 +170,9 @@ minetest.register_node("lucky_block:well_block", {
 	description = "Well Block",
 	tiles = {"default_glass.png"},
 	light_source = 5,
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = 1, unbreakable = 1},
+	on_blast = function() end,
+	drop = {},
 })
 
 local path = minetest.get_modpath("lucky_block") .. "/schematics/"
@@ -178,6 +180,49 @@ local path = minetest.get_modpath("lucky_block") .. "/schematics/"
 lucky_block:add_schematics({
 	{"wishingwell", path .. "lb_wishing_well.mts", {x = 1, y = 1, z = 1}},
 })
+
+-- Global list containing well blocks that can be dropped
+lucky_block.wellblocks = {
+	{"default:ice", 7},
+	{"default:bronzeblock", 5},
+	{"default:coalblock", 5},
+	{"default:sand", 7},
+	{"default:goldblock", 5},
+	{"default:cactus", 7},
+	{"default:cobble", 7},
+	{"default:brick", 8},
+	{"default:desert_sand", 7},
+	{"default:obsidian", 7},
+	{"default:diamondblock", 4},
+	{"default:dirt", 7},
+	{"default:clay", 7},
+	{"default:copperblock", 5},
+	{"default:mese", 5},
+	{"default:silver_sand", 7},
+	{"default:snowblock", 7},
+	{"default:mossycobble", 7},
+	{"default:lava_source", 5},
+}
+
+local add_wblock = function(name, number)
+	local total = #lucky_block.wellblocks
+	lucky_block.wellblocks[total + 1] = {name, number}
+end
+
+-- Add additional well blocks
+if minetest.get_modpath("tnt") then
+	add_wblock("tnt:tnt_burning", 8)
+	add_wblock("tnt:tnt_burning", 4)
+	add_wblock("tnt:tnt_burning", 8)
+end
+
+if minetest.get_modpath("ethereal") then
+	add_wblock("ethereal:crystal_block", 5)
+end
+
+if minetest.get_modpath("bones") then
+	add_wblock("bones:bones", 5)
+end
 
 minetest.register_abm({
 
@@ -201,58 +246,23 @@ minetest.register_abm({
 					max_hear_distance = 10
 				})
 
-				local blocks = {
-					{"default:ice", 7},
-					{"default:bronzeblock", 5},
-					{"default:coalblock", 5},
-					{"default:sand", 7},
-					{"default:goldblock", 5},
-					{"default:cactus", 7},
-					{"default:cobble", 7},
-					{"default:brick", 8},
-					{"default:desert_sand", 7},
-					{"default:obsidian", 7},
-					{"default:diamondblock", 4},
-					{"default:dirt", 7},
-					{"default:clay", 7},
-					{"default:copperblock", 5},
-					{"default:mese", 5},
-					{"default:silver_sand", 7},
-					{"default:snowblock", 7},
-					{"default:mossycobble", 7},
-				}
-				local tot = #blocks
+				local b_no = math.random(#lucky_block.wellblocks)
+				local item = lucky_block.wellblocks[b_no][1]
 
-				if minetest.registered_nodes["tnt:tnt_burning"] then
-					tot = tot + 1
-					blocks[tot] = {"tnt:tnt_burning", 8}
-					tot = tot + 1
-					blocks[tot] = {"tnt:tnt_burning", 4}
-					tot = tot + 1
-					blocks[tot] = {"tnt:tnt_burning", 8}
-				end
+				for n = 1, lucky_block.wellblocks[b_no][2] do
 
-				if minetest.registered_nodes["ethereal:crystal_block"] then
-					tot = tot + 1
-					blocks[tot] = {"ethereal:crystal_block", 5}
-				end
+					local nod = minetest.registered_nodes[item]
 
-				if minetest.registered_nodes["bones:bones"] then
-					tot = tot + 1
-					blocks[tot] = {"bones:bones", 5}
-				end
+					if nod then
 
-				local b_no = math.random(#blocks)
+						local obj = minetest.add_entity({
+							x = pos.x + math.random(-7, 7),
+							y = pos.y + 7,
+							z = pos.z + math.random(-7, 7)
+						}, "__builtin:falling_node")
 
-				for n = 1, blocks[b_no][2] do
-
-					local xx = math.random(-7, 7)
-					local zz = math.random(-7, 7)
-					local p2 = {x = pos.x + xx, y = pos.y + 7, z = pos.z + zz}
-					local nod = minetest.registered_nodes[blocks[b_no][1]]
-					local obj = minetest.add_entity(p2, "__builtin:falling_node")
-
-					obj:get_luaentity():set_node(nod)
+						obj:get_luaentity():set_node(nod)
+					end
 				end
 
 				break

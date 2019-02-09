@@ -21,5 +21,8 @@ Changelog:
 - 0.6 - Use TNT mod for explosions and if not active do entity damage only
 - 0.7 - Added new floor feature and moreblocks support
 - 0.8 - Added wishing well with random block drops
+- 0.9 - Tweak item drops, add replacements to schematics, tidy wishing well code
+- 1.0 - Added ability for custom lucky blocks to use their own block list
+- 1.1 - Spawning mobs can now select randomly from a table or single string
 
-Lucky Blocks: 211 (depending on mods enabled)
+Lucky Blocks: 259 (depending on mods enabled)

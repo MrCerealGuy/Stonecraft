@@ -88,6 +88,38 @@ if minetest.get_modpath("ethereal") then
 end
 
 
+Open Lucky Block
+----------------
+
+lucky_block:open(pos, digger, blocks_list)
+
+This is the function called when the default lucky block has been dug, it will
+use the default blocks list or use a custom one when supplied so that modders
+can add their own lucky block sets.
+
+e.g.
+
+local my_blocks = {
+	{"nod", "default:wood"},
+	{"dro", {"default:tree", "default:jungletree"}, 5},
+	{"exp"},
+}
+
+minetest.register_node('mymod:my_lucky_block', {
+	description = "My Lucky Block",
+	tiles = {"mymod_lucky_block.png"},
+	paramtype = "light",
+	groups = {oddly_breakable_by_hand = 3},
+	drop = {},
+	sounds = default.node_sound_wood_defaults(),
+
+	on_dig = function(pos, node, digger)
+		minetest.remove_node(pos) -- remove lucky block
+		lucky_block:open(pos, digger, my_blocks) -- use custom blocks list
+	end,
+})
+
+
 Lucky Block Commands
 ====================
 
@@ -137,7 +169,7 @@ random colours can be used also.
 
 e.g.
 
-Drop 5x torches
+Drop 5x torches as itemstack
 	{"dro", {"default:torch"}, 5}
 
 Drop 10x randomly coloured wool (colour name added to end of item string)
@@ -153,7 +185,7 @@ Place Schematic
 This command lets you place a pre-added schematic file or definition in place
 of the lucky block or at the player position.
 
-{"sch", "schematic name", position, force placement}
+{"sch", "schematic name", position, force placement, replacements}
 
 e.g.
 
@@ -163,18 +195,21 @@ Place lucky platform at player position and force placement
 Place apple tree where lucky block use to be
 	{"sch", "appletree", 0, false}
 
+Place apple tree where lucky block use to be and change wood into stone
+	{"sch", "appletree", 0, false, {{"default:wood", "default:stone"}} }
+
 
 Spawn Entity or Mob
 -------------------
 
 This command allows you to place a monster, animal or other entity.
 
-{"spw", "entity name", how many to spawn, tamed, owned, range, nametag}
+{"spw", {"entity name"}, how many to spawn, tamed, owned, range, nametag}
 
 e.g.
 
-Spawn 2x Dirt Monsters over a radius of 10 blocks
-	{"spw", "mobs:dirt_monster", 2, nil, nil, 10}
+Spawn 2x Dirt or Stone Monsters over a radius of 10 blocks
+	{"spw", {"mobs:dirt_monster", "mobs:stone_monster"}, 2, nil, nil, 10}
 
 Spawn 5x randomly coloured sheep (random colour only works with Mobs Redo sheep)
 	{"spw", "mobs:sheep", 5}
@@ -287,6 +322,7 @@ lucky block
 Have a woolen floor at 5 width with offset of 2 to keep it centred
 
 	{"flo", 5, {"wool:red", "wool:blue", "wool:white", "wool:orange"}, 2}
+
 
 Custom Function
 ---------------
