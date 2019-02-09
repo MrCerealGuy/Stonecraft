@@ -7,14 +7,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.2.0] - 2018-11-24
+
 ### Added
 
+- Stairs+ nodes for `basic_materials`'s concrete, cement and brass blocks.
 - Listring add for circular saw.
-- Stairs+: New API function:
- `stairsplus:register_custom_subset(subset, modname, subname, recipeitem, fields)`
+- **Stairs+:** New API function
+  `stairsplus:register_custom_subset(subset, modname, subname, recipeitem, fields)`.
 
 ### Fixed
 
+- The papyrus crafting recipe override is now properly applied over the
+  `default` mod's recipe.
+- Centered wooden tiles are now craftable.
 - Wool Stairs+ nodes can no longer be used in crafting.
 - The circular saw can no longer replace items from the player's inventory
   when it is full.
@@ -52,5 +58,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Initial versioned release.
 
-[Unreleased]: https://github.com/minetest-mods/moreblocks/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/minetest-mods/moreblocks/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/minetest-mods/moreblocks/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/minetest-mods/moreblocks/compare/v1.0.0...v1.1.0
