@@ -83,6 +83,7 @@ mobs:register_mob("mob_horse:horse", {
 		if self.driver then
 			minetest.add_item(pos, "mobs:saddle")
 			mobs.detach(self.driver, {x = 1, y = 0, z = 1})
+self.saddle = nil
 		end
 
 		-- drop any horseshoes added
@@ -126,15 +127,22 @@ mobs:register_mob("mob_horse:horse", {
 					minetest.add_item(clicker:get_pos(), "mobs:saddle")
 				end
 
+self.saddle = nil
+
 			-- attach player to horse
-			elseif not self.driver
-			and clicker:get_wielded_item():get_name() == "mobs:saddle" then
+			elseif (not self.driver
+			and clicker:get_wielded_item():get_name() == "mobs:saddle")
+			or self.saddle then
 
 				self.object:set_properties({stepheight = 1.1})
 				mobs.attach(self, clicker)
 
 				-- take saddle from inventory
-				inv:remove_item("main", "mobs:saddle")
+				if not self.saddle then
+					inv:remove_item("main", "mobs:saddle")
+				end
+
+self.saddle = true
 			end
 		end
 
