@@ -1,7 +1,6 @@
 
 local S = mobs.intllib
 
-
 local all_colours = {
 	{"black",      S("Black"),      "#000000b0"},
 	{"blue",       S("Blue"),       "#015dbb70"},
@@ -26,7 +25,8 @@ local all_colours = {
 for _, col in ipairs(all_colours) do
 
 	mobs:register_mob("mobs_animal:sheep_"..col[1], {
-stepheight = 0.6,
+		stay_near = {"farming:straw", 10},
+		stepheight = 0.6,
 		type = "animal",
 		passive = true,
 		hp_min = 8,
@@ -49,6 +49,7 @@ stepheight = 0.6,
 		runaway = true,
 		jump = true,
 		jump_height = 6,
+		pushable = true,
 		drops = {
 			{name = "mobs:mutton_raw", chance = 1, min = 1, max = 2},
 			{name = "wool:"..col[1], chance = 1, min = 1, max = 1},
@@ -64,25 +65,39 @@ stepheight = 0.6,
 			walk_start = 81,
 			walk_end = 100,
 		},
-		follow = {"farming:wheat", "default:grass_5"},
+		follow = {"farming:wheat", "default:grass_1"},
 		view_range = 8,
 		replace_rate = 10,
-		replace_what = {"default:grass_3", "default:grass_4", "default:grass_5", "farming:wheat_8"},
-		replace_with = "air",
-		replace_offset = -1,
+		replace_what = {
+			{"group:grass", "air", -1},
+			{"default:dirt_with_grass", "default:dirt", -2}
+		},
 		fear_height = 3,
---[[
 		on_replace = function(self, pos, oldnode, newnode)
-			print ("---- replaced") ; return false -- false to keep node, true to replace
+
+			self.food = (self.food or 0) + 1
+
+			-- if sheep replaces 8x grass then it regrows wool
+			if self.food >= 8 then
+
+				self.food = 0
+				self.gotten = false
+
+				self.object:set_properties({
+					textures = {"mobs_sheep_base.png^(mobs_sheep_wool.png^[colorize:" .. col[3] .. ")"},
+					mesh = "mobs_sheep.b3d",
+				})
+			end
 		end,
-]]
 		on_rightclick = function(self, clicker)
 
 			--are we feeding?
 			if mobs:feed_tame(self, clicker, 8, true, true) then
 
-				--if full grow fuzz
-				if self.gotten == false then
+				--if fed 7x grass or wheat then sheep regrows wool
+				if self.food and self.food > 6 then
+
+					self.gotten = false
 
 					self.object:set_properties({
 						textures = {"mobs_sheep_base.png^(mobs_sheep_wool.png^[colorize:" .. col[3] .. ")"},

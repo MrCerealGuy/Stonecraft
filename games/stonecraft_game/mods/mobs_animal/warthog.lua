@@ -5,7 +5,7 @@ local S = mobs.intllib
 -- Warthog by KrupnoPavel
 
 mobs:register_mob("mobs_animal:pumba", {
-stepheight = 0.6,
+	stepheight = 0.6,
 	type = "animal",
 	passive = false,
 	attack_type = "dogfight",
@@ -32,6 +32,7 @@ stepheight = 0.6,
 	run_velocity = 3,
 	jump = true,
 	jump_height = 6,
+	pushable = true,
 	follow = {"default:apple", "farming:potato"},
 	view_range = 10,
 	drops = {

@@ -37,6 +37,18 @@ msgstr ""
 msgid "Bunny"
 msgstr ""
 
+#: bunny.lua
+msgid "Raw Rabbit"
+msgstr ""
+
+#: bunny.lua
+msgid "Cooked Rabbit"
+msgstr ""
+
+#: bunny.lua
+msgid "Rabbit Hide"
+msgstr ""
+
 #: chicken.lua
 msgid "Chicken"
 msgstr ""
@@ -163,6 +175,14 @@ msgstr ""
 
 #: sheep.lua
 msgid "@1 Sheep"
+msgstr ""
+
+#: sheep.lua
+msgid "Raw Mutton"
+msgstr ""
+
+#: sheep.lua
+msgid "Cooked Mutton"
 msgstr ""
 
 #: warthog.lua
