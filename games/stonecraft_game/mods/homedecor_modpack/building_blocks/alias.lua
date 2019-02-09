@@ -19,6 +19,10 @@ if minetest.get_modpath("moreblocks") then
 	minetest.unregister_item("moreblocks:tar")
 	minetest.register_alias("moreblocks:tar", "building_blocks:Tar")
 	stairsplus:register_alias_all("moreblocks", "tar", "building_blocks", "Tar")
+
+	if minetest.get_modpath("gloopblocks") then
+		minetest.register_alias("building_blocks:gravel_spread", "gloopblocks:slab_gravel_1")
+	end
 end
 
 minetest.register_alias("adobe", "building_blocks:Adobe")

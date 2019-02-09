@@ -4,6 +4,8 @@ local S = homedecor_i18n.gettext
 
 local function N_(x) return x end
 
+local m_rules = mesecon and mesecon.rules and mesecon.rules.pplate
+
 -- doors
 
 local function isSolid(pos, adjust)
@@ -140,11 +142,6 @@ local door_model_list = {
 		usealpha = true
 	},
 
-	{	name = "glass",
-		description = N_("Glass Office Door (@1 opening)"),
-		mesh = "homedecor_door_plain.obj"
-	},
-
 	{	name = "wood_glass_oak",
 		description = N_("Glass and Wood, Oak-colored (@1 opening)"),
 		mesh = "homedecor_door_wood_glass.obj",
@@ -264,6 +261,7 @@ for i, side in ipairs(sides) do
 			drop = "homedecor:door_"..doorname.."_left",
 		    mesecons = {
 		        effector = {
+					rules = m_rules,
 		            action_on = function(pos,node)
 		                local isClosed = getClosed(pos)
 		                if isClosed then
@@ -405,6 +403,7 @@ for i, g in ipairs(gate_list) do
 		end,
         mesecons = {
             effector = {
+				rules = m_rules,
                 action_on = function(pos,node) homedecor.flip_gate(pos,node,nil,gate, "closed") end
             }
         }
@@ -433,6 +432,7 @@ for i, g in ipairs(gate_list) do
         return itemstack
 	end
     def.mesecons.effector = {
+		rules = m_rules,
         action_off = function(pos,node) homedecor.flip_gate(pos,node,nil,gate, "open") end
     }
 
@@ -657,3 +657,6 @@ minetest.register_alias("homedecor:jpn_door_bottom", "homedecor:door_japanese_cl
 
 minetest.register_alias("homedecor:jpn_door_top_open", "air")
 minetest.register_alias("homedecor:jpn_door_bottom_open", "homedecor:door_japanese_open")
+
+minetest.register_alias("homedecor:door_glass_right", "doors:door_glass_b")
+minetest.register_alias("homedecor:door_glass_left", "doors:door_glass_a")

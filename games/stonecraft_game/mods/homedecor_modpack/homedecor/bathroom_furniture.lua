@@ -12,12 +12,9 @@ minetest.register_node("homedecor:bathroom_tiles_dark", {
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
-	place_param2 = 240,
 	groups = {cracky=3, ud_param2_colorable = 1},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = unifieddyes.on_construct,
-	after_place_node = unifieddyes.recolor_on_place,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 minetest.register_node("homedecor:bathroom_tiles_medium", {
@@ -31,12 +28,9 @@ minetest.register_node("homedecor:bathroom_tiles_medium", {
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
-	place_param2 = 240,
 	groups = {cracky=3, ud_param2_colorable = 1},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = unifieddyes.on_construct,
-	after_place_node = unifieddyes.recolor_on_place,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 minetest.register_node("homedecor:bathroom_tiles_light", {
@@ -50,12 +44,9 @@ minetest.register_node("homedecor:bathroom_tiles_light", {
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
-	place_param2 = 240,
 	groups = {cracky=3, ud_param2_colorable = 1},
 	sounds = default.node_sound_stone_defaults(),
 	on_construct = unifieddyes.on_construct,
-	after_place_node = unifieddyes.recolor_on_place,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 local tr_cbox = {
@@ -171,23 +162,5 @@ minetest.register_lbm({
 		local meta = minetest.get_meta(pos)
 		meta:set_string("dye", "unifieddyes:"..color)
 		meta:set_string("palette", "ext")
-	end
-})
-
-minetest.register_lbm({
-	name = "homedecor:recolor_bathroom_tiles",
-	label = "Convert bathroom tiles to use UD extended palette",
-	run_at_every_load = false,
-	nodenames = {
-		"homedecor:bathroom_tiles_light",
-		"homedecor:bathroom_tiles_medium",
-		"homedecor:bathroom_tiles_dark",
-	},
-	action = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		if meta:get_string("palette") ~= "ext" then
-			minetest.swap_node(pos, { name = node.name, param2 = unifieddyes.convert_classic_palette[node.param2] })
-			meta:set_string("palette", "ext")
-		end
 	end
 })

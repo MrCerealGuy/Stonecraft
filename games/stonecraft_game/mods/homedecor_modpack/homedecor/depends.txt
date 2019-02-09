@@ -1,7 +1,9 @@
 default
+basic_materials
 unifieddyes
 homedecor_i18n
 creative
+currency?
 building_blocks?
 signs_lib?
 moreblocks?
@@ -13,3 +15,5 @@ beds?
 flowers?
 3d_armor?
 skinsdb?
+mesecons?
+darkage?

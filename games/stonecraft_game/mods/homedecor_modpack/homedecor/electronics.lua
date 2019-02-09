@@ -141,17 +141,3 @@ homedecor.register("telephone", {
 	walkable = false,
 	sounds = default.node_sound_wood_defaults(),
 })
-
-minetest.register_abm({
-	nodenames = "homedecor:telephone",
-	label = "sfx",
-	interval = 30,
-	chance = 15,
-	action = function(pos, node)
-		minetest.sound_play("homedecor_telephone_ringing", {
-			pos = pos,
-			gain = 1.0,
-			max_hear_distance = 5
-		})
-	end
-})

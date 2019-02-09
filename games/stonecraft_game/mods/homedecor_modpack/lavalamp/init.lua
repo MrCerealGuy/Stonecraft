@@ -36,7 +36,6 @@ minetest.register_node("lavalamp:lavalamp", {
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
-	place_param2 = 240,
 	sunlight_propagates = true,
 	walkable = false,
 	light_source = 14,
@@ -47,8 +46,6 @@ minetest.register_node("lavalamp:lavalamp", {
 	groups = {snappy=2,cracky=3,oddly_breakable_by_hand=3, ud_param2_colorable = 1},
 	sounds = default.node_sound_glass_defaults(),
 	on_construct = unifieddyes.on_construct,
-	after_place_node = unifieddyes.recolor_on_place,
-	after_dig_node = unifieddyes.after_dig_node,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		node.name = "lavalamp:lavalamp_off"
 		minetest.swap_node(pos, node)
@@ -67,7 +64,6 @@ minetest.register_node("lavalamp:lavalamp_off", {
 	paramtype = "light",
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
-	place_param2 = 240,
 	sunlight_propagates = true,
 	walkable = false,
 	selection_box = {
@@ -78,13 +74,16 @@ minetest.register_node("lavalamp:lavalamp_off", {
 	sounds = default.node_sound_glass_defaults(),
 	drop = "lavalamp:lavalamp",
 	on_construct = unifieddyes.on_construct,
-	after_place_node = unifieddyes.recolor_on_place,
-	after_dig_node = unifieddyes.after_dig_node,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		node.name = "lavalamp:lavalamp"
 		minetest.swap_node(pos, node)
 		return itemstack
 	end,
+	drop = {
+		items = {
+			{items = {"lavalamp:lavalamp"}, inherit_color = true },
+		}
+	}
 })
 
 minetest.register_craft({
@@ -93,6 +92,17 @@ minetest.register_craft({
 		{"", "wool:white", "", },
 		{"", "bucket:bucket_water", "", },
 		{"", "wool:black", "", }
+	}
+})
+
+unifieddyes.register_color_craft({
+	output = "lavalamp:lavalamp",
+	palette = "extended",
+	type = "shapeless",
+	neutral_node = "lavalamp:lavalamp",
+	recipe = {
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
 	}
 })
 
@@ -142,22 +152,5 @@ minetest.register_lbm({
 		local meta = minetest.get_meta(pos)
 		meta:set_string("dye", "unifieddyes:"..color)
 
-	end
-})
-
-minetest.register_lbm({
-	name = "lavalamp:recolor",
-	label = "Convert 89-color lamps to use UD extended palette",
-	run_at_every_load = false,
-	nodenames = {
-		"lavalamp:lavalamp",
-		"lavalamp:lavalamp_off"
-	},
-	action = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		if meta:get_string("palette") ~= "ext" then
-			minetest.swap_node(pos, { name = node.name, param2 = unifieddyes.convert_classic_palette[node.param2] })
-			meta:set_string("palette", "ext")
-		end
 	end
 })

@@ -26,7 +26,6 @@ minetest.register_node("lrfurn:longsofa", {
 	on_rotate = screwdriver.disallow,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		lrfurn.fix_sofa_rotation_nsew(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 		local playername = placer:get_player_name()
 		if minetest.is_protected(pos, placer:get_player_name()) then return true end
 
@@ -42,7 +41,6 @@ minetest.register_node("lrfurn:longsofa", {
 		end
 		return itemstack
 	end,
-	after_dig_node = unifieddyes.after_dig_node,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		if not clicker:is_player() then
 			return itemstack
@@ -69,6 +67,17 @@ minetest.register_craft({
 		{"wool:white", "wool:white", "wool:white", },
 		{"moreblocks:slab_wood", "moreblocks:slab_wood", "moreblocks:slab_wood", },
 		{"group:stick", "group:stick", "group:stick", }
+	}
+})
+
+unifieddyes.register_color_craft({
+	output = "lrfurn:longsofa",
+	palette = "wallmounted",
+	type = "shapeless",
+	neutral_node = "lrfurn:longsofa",
+	recipe = {
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
 	}
 })
 

@@ -56,7 +56,7 @@ furnacedef = {
 	^ Stuff here is copied verbatim into both active and inactive nodedefs
 	^ Useful for overriding drawtype, etc.
 }
---]]
+]]
 
 local function make_tiles(tiles, fmt, active)
 	if not fmt then return tiles end

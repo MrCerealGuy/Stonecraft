@@ -131,26 +131,30 @@ minetest.register_node("building_blocks:brobble_spread", {
 	is_ground_content = true,
 	groups = {crumbly=3},
 })
-minetest.register_node("building_blocks:gravel_spread", {
-	drawtype = "raillike",
-	description = S("Gravel Spread"),
-	tiles = {"default_gravel.png"},
-	inventory_image = "building_blocks_gravel_spread_inv.png",
-	paramtype = "light",
-	walkable = false,
-	selection_box = {
-		type = "fixed",
-                -- but how to specify the dimensions for curved and sideways rails?
-                fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
-	},
-	sunlight_propagates = true,
-	is_ground_content = true,
-	groups = {crumbly=2},
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_gravel_footstep", gain=0.5},
-		dug = {name="default_gravel_footstep", gain=1.0},
-	}),
-})
+
+if not minetest.get_modpath("moreblocks") or not minetest.get_modpath("gloopblocks") then
+	minetest.register_node("building_blocks:gravel_spread", {
+		drawtype = "raillike",
+		description = S("Gravel Spread"),
+		tiles = {"default_gravel.png"},
+		inventory_image = "building_blocks_gravel_spread_inv.png",
+		paramtype = "light",
+		walkable = false,
+		selection_box = {
+			type = "fixed",
+					-- but how to specify the dimensions for curved and sideways rails?
+					fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
+		},
+		sunlight_propagates = true,
+		is_ground_content = true,
+		groups = {crumbly=2},
+		sounds = default.node_sound_dirt_defaults({
+			footstep = {name="default_gravel_footstep", gain=0.5},
+			dug = {name="default_gravel_footstep", gain=1.0},
+		}),
+	})
+end
+
 minetest.register_node("building_blocks:Tarmac_spread", {
 	drawtype = "raillike",
 	description = S("Tarmac Spread"),

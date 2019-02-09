@@ -211,22 +211,21 @@ function homedecor.bed_expansion(pos, placer, itemstack, pointed_thing, trybunks
 	local rightnode = minetest.get_node(rightpos)
 
 	local inv = placer:get_inventory()
-	local lastdye = unifieddyes.last_used_dye[placer_name]
 
 	if leftnode.name == "homedecor:bed_regular" then
 		local newname = string.gsub(thisnode.name, "_regular", "_kingsize")
-		local meta = minetest.get_meta(leftpos)
+		local meta = minetest.get_meta(pos)
+		local leftmeta = minetest.get_meta(leftpos)
+
 		minetest.set_node(pos, {name = "air"})
-		minetest.set_node(leftpos, { name = newname, param2 = param2})
-		meta:set_string("dye", lastdye)
-		inv:add_item("main", lastdye)
+		minetest.swap_node(leftpos, { name = newname, param2 = param2})
 	elseif rightnode.name == "homedecor:bed_regular" then
 		local newname = string.gsub(thisnode.name, "_regular", "_kingsize")
-		local meta = minetest.get_meta(rightpos)
+		local meta = minetest.get_meta(pos)
+		local rightmeta = minetest.get_meta(rightpos)
+
 		minetest.set_node(rightpos, {name = "air"})
-		minetest.set_node(pos, { name = newname, param2 = param2})
-		meta:set_string("dye", lastdye)
-		inv:add_item("main", lastdye)
+		minetest.swap_node(pos, { name = newname, param2 = param2})
 	end
 
 	local toppos = {x=pos.x, y=pos.y+1.0, z=pos.z}
@@ -235,14 +234,7 @@ function homedecor.bed_expansion(pos, placer, itemstack, pointed_thing, trybunks
 	if trybunks and is_buildable_to(placer_name, toppos, topposfwd) then
 		local newname = string.gsub(thisnode.name, "_regular", "_extended")
 		local newparam2 = param2 % 8
-		if inv:contains_item("main", lastdye) then
-			minetest.set_node(toppos, { name = thisnode.name, param2 = param2})
-			if lastdye then inv:remove_item("main", lastdye.." 1") end
-		else
-			minetest.set_node(toppos, { name = thisnode.name, param2 = newparam2})
-			minetest.chat_send_player(placer_name, "Ran out of "..lastdye..", using neutral color.")
-			unifieddyes.last_used_dye[placer_name] = nil
-		end
+		minetest.swap_node(toppos, { name = thisnode.name, param2 = param2})
 		minetest.swap_node(pos, { name = newname, param2 = param2})
 		itemstack:take_item()
 	end
@@ -265,6 +257,8 @@ function homedecor.place_banister(itemstack, placer, pointed_thing)
 	if not pos then return itemstack end
 
 	local fdir = minetest.dir_to_facedir(placer:get_look_dir())
+	local meta = itemstack:get_meta()
+	local pindex = meta:get_int("palette_index")
 
 	local abovepos  = { x=pos.x, y=pos.y+1, z=pos.z }
 	local abovenode = minetest.get_node(abovepos)
@@ -379,7 +373,7 @@ function homedecor.place_banister(itemstack, placer, pointed_thing)
 		end
 	end
 
-	minetest.set_node(pos, {name = new_place_name, param2 = fdir})
+	minetest.set_node(pos, {name = new_place_name, param2 = fdir+pindex})
 	itemstack:take_item()
 	return itemstack
 end

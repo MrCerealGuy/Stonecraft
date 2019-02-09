@@ -112,10 +112,8 @@ minetest.register_node("homedecor:curtain_closed", {
 	paramtype2 = "colorwallmounted",
 	palette = "unifieddyes_palette_colorwallmounted.png",
 	selection_box = { type = "wallmounted" },
-	after_dig_node = unifieddyes.after_dig_node,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		local topnode = minetest.get_node({x=pos.x, y=pos.y+1.0, z=pos.z})
@@ -141,10 +139,8 @@ minetest.register_node("homedecor:curtain_open", {
 	paramtype2 = "colorwallmounted",
 	palette = "unifieddyes_palette_colorwallmounted.png",
 	selection_box = { type = "wallmounted" },
-	after_dig_node = unifieddyes.after_dig_node,
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		local topnode = minetest.get_node({x=pos.x, y=pos.y+1.0, z=pos.z})

@@ -46,9 +46,7 @@ minetest.register_node("homedecor:glowlight_half", {
 	sounds = default.node_sound_glass_defaults(),
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 minetest.register_node("homedecor:glowlight_quarter", {
@@ -86,9 +84,7 @@ minetest.register_node("homedecor:glowlight_quarter", {
 	sounds = default.node_sound_glass_defaults(),
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 minetest.register_node("homedecor:glowlight_small_cube", {
@@ -126,9 +122,7 @@ minetest.register_node("homedecor:glowlight_small_cube", {
 	sounds = default.node_sound_glass_defaults(),
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
-	after_dig_node = unifieddyes.after_dig_node
 })
 
 homedecor.register("plasma_lamp", {
@@ -366,13 +360,20 @@ homedecor.register("ceiling_lantern", {
 	walkable = false
 })
 
-homedecor.register("lattice_lantern_large", {
-	description = S("Lattice lantern (large)"),
-	tiles = { 'homedecor_lattice_lantern_large.png' },
-	groups = { snappy = 3 },
-	light_source = default.LIGHT_MAX,
-	sounds = default.node_sound_glass_defaults(),
-})
+local sm_light = default.LIGHT_MAX-2
+
+if minetest.get_modpath("darkage") then
+	minetest.register_alias("homedecor:lattice_lantern_large", "darkage:lamp")
+	sm_light = default.LIGHT_MAX-5
+else
+	homedecor.register("lattice_lantern_large", {
+		description = S("Lattice lantern (large)"),
+		tiles = { 'homedecor_lattice_lantern_large.png' },
+		groups = { snappy = 3 },
+		light_source = default.LIGHT_MAX,
+		sounds = default.node_sound_glass_defaults(),
+	})
+end
 
 homedecor.register("lattice_lantern_small", {
 	description = S("Lattice lantern (small)"),
@@ -390,7 +391,7 @@ homedecor.register("lattice_lantern_small", {
 		fixed = { -0.25, -0.5, -0.25, 0.25, 0, 0.25 }
 	},
 	groups = { snappy = 3 },
-	light_source = default.LIGHT_MAX-1,
+	light_source = sm_light,
 	sounds = default.node_sound_glass_defaults(),
 	on_place = minetest.rotate_node
 })
@@ -449,7 +450,6 @@ local function reg_lamp(suffix, nxt, light, brightness)
 		paramtype = "light",
 		paramtype2 = "color",
 		palette = "unifieddyes_palette_extended.png",
-		place_param2 = 240,
 		walkable = false,
 		light_source = light,
 		selection_box = tlamp_cbox,
@@ -457,14 +457,17 @@ local function reg_lamp(suffix, nxt, light, brightness)
 		groups = {cracky=2,oddly_breakable_by_hand=1, ud_param2_colorable = 1,
 			not_in_creative_inventory=((light ~= nil) and 1) or nil,
 		},
-		drop = "homedecor:table_lamp_off",
 		on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 			node.name = "homedecor:table_lamp_"..repl[suffix]
 			minetest.set_node(pos, node)
 		end,
 		on_construct = unifieddyes.on_construct,
-		after_place_node = unifieddyes.recolor_on_place,
-		after_dig_node = unifieddyes.after_dig_node
+		drop = {
+			items = {
+				{items = {"homedecor:table_lamp_off"}, inherit_color = true },
+			}
+		}
+
 	})
 
 	homedecor.register("standing_lamp_"..suffix, {
@@ -480,7 +483,6 @@ local function reg_lamp(suffix, nxt, light, brightness)
 		paramtype = "light",
 		paramtype2 = "color",
 		palette = "unifieddyes_palette_extended.png",
-		place_param2 = 240,
 		walkable = false,
 		light_source = light,
 		groups = {cracky=2,oddly_breakable_by_hand=1, ud_param2_colorable = 1,
@@ -494,9 +496,12 @@ local function reg_lamp(suffix, nxt, light, brightness)
 			minetest.set_node(pos, node)
 		end,
 		on_construct = unifieddyes.on_construct,
-		after_place_node = unifieddyes.recolor_on_place,
-		after_dig_node = unifieddyes.after_dig_node,
-		expand = { top="air" },
+		--expand = { top="air" },
+		drop = {
+			items = {
+				{items = {"homedecor:standing_lamp_off"}, inherit_color = true },
+			}
+		}
 	})
 
 	-- for old maps that had the original 3dforniture mod
@@ -535,9 +540,7 @@ homedecor.register("desk_lamp", {
 	groups = {snappy=3, ud_param2_colorable = 1},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		unifieddyes.fix_rotation_nsew(pos, placer, itemstack, pointed_thing)
-		unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 	end,
-	after_dig_node = unifieddyes.after_dig_node,
 	on_rotate = unifieddyes.fix_after_screwdriver_nsew
 })
 
@@ -740,27 +743,140 @@ minetest.register_lbm({
 	end
 })
 
-minetest.register_lbm({
-	name = "homedecor:recolor_lighting",
-	label = "Convert some kinds of lights to use UD extended palette",
-	run_at_every_load = false,
-	nodenames = {
-		"homedecor:table_lamp_off",
-		"homedecor:table_lamp_low",
-		"homedecor:table_lamp_med",
-		"homedecor:table_lamp_hi",
-		"homedecor:table_lamp_max",
-		"homedecor:standing_lamp_off",
-		"homedecor:standing_lamp_low",
-		"homedecor:standing_lamp_med",
-		"homedecor:standing_lamp_hi",
-		"homedecor:standing_lamp_max",
-	},
-	action = function(pos, node)
-		local meta = minetest.get_meta(pos)
-		if meta:get_string("palette") ~= "ext" then
-			minetest.swap_node(pos, { name = node.name, param2 = unifieddyes.convert_classic_palette[node.param2] })
-			meta:set_string("palette", "ext")
-		end
-	end
+local chains_sbox = {
+	type = "fixed",
+	fixed = { -0.1, -0.5, -0.1, 0.1, 0.5, 0.1 }
+}
+
+local topchains_sbox = {
+	type = "fixed",
+	fixed = {
+		{ -0.25, 0.35, -0.25, 0.25, 0.5, 0.25 },
+		{ -0.1, -0.5, -0.1, 0.1, 0.4, 0.1 }
+	}
+}
+
+minetest.register_node("homedecor:chain_steel_top", {
+	description = S("Hanging chain (ceiling mount, steel)"),
+	drawtype = "mesh",
+	mesh = "homedecor_chains_top.obj",
+	tiles = {"basic_materials_chain_steel.png"},
+	walkable = false,
+	climbable = true,
+	sunlight_propagates = true,
+	paramtype = "light",
+	inventory_image = "basic_materials_chain_steel_inv.png",
+	groups = {cracky=3},
+	selection_box = topchains_sbox,
 })
+
+minetest.register_node("homedecor:chain_brass_top", {
+	description = S("Hanging chain (ceiling mount, brass)"),
+	drawtype = "mesh",
+	mesh = "homedecor_chains_top.obj",
+	tiles = {"basic_materials_chain_brass.png"},
+	walkable = false,
+	climbable = true,
+	sunlight_propagates = true,
+	paramtype = "light",
+	inventory_image = "basic_materials_chain_brass_inv.png",
+	groups = {cracky=3},
+	selection_box = topchains_sbox,
+})
+
+minetest.register_node("homedecor:chandelier_steel", {
+	description = S("Chandelier (steel)"),
+	paramtype = "light",
+	light_source = 12,
+	walkable = false,
+	climbable = true,
+	sunlight_propagates = true,
+	tiles = {
+		"basic_materials_chain_steel.png",
+		"homedecor_candle_flat.png",
+		{
+			name="homedecor_candle_flame.png",
+			animation={
+				type="vertical_frames",
+				aspect_w=16,
+				aspect_h=16,
+				length=3.0
+			}
+		}
+	},
+	drawtype = "mesh",
+	mesh = "homedecor_chandelier.obj",
+	groups = {cracky=3},
+	sounds =  default.node_sound_stone_defaults(),
+})
+
+minetest.register_node("homedecor:chandelier_brass", {
+	description = S("Chandelier (brass)"),
+	paramtype = "light",
+	light_source = 12,
+	walkable = false,
+	climbable = true,
+	sunlight_propagates = true,
+	tiles = {
+		"basic_materials_chain_brass.png",
+		"homedecor_candle_flat.png",
+		{
+			name="homedecor_candle_flame.png",
+			animation={
+				type="vertical_frames",
+				aspect_w=16,
+				aspect_h=16,
+				length=3.0
+			}
+		}
+	},
+	drawtype = "mesh",
+	mesh = "homedecor_chandelier.obj",
+	groups = {cracky=3},
+	sounds =  default.node_sound_stone_defaults(),
+})
+
+-- crafts
+
+minetest.register_craft({
+	output = 'homedecor:chain_steel_top',
+	recipe = {
+		{'default:steel_ingot'},
+		{'basic_materials:chainlink_steel'},
+	},
+})
+
+minetest.register_craft({
+	output = 'homedecor:chandelier_steel',
+	recipe = {
+		{'', 'basic_materials:chainlink_steel', ''},
+		{'default:torch', 'basic_materials:chainlink_steel', 'default:torch'},
+		{'default:steel_ingot', 'default:steel_ingot', 'default:steel_ingot'},
+	}
+})
+
+-- brass versions
+
+minetest.register_craft({
+	output = 'homedecor:chain_brass_top',
+	recipe = {
+		{'basic_materials:brass_ingot'},
+		{'basic_materials:chainlink_brass'},
+	},
+})
+
+minetest.register_craft({
+	output = 'homedecor:chandelier_brass',
+	recipe = {
+		{'', 'basic_materials:chainlink_brass', ''},
+		{'default:torch', 'basic_materials:chainlink_brass', 'default:torch'},
+		{'basic_materials:brass_ingot', 'basic_materials:brass_ingot', 'basic_materials:brass_ingot'},
+	}
+})
+
+minetest.register_alias("chains:chain_top",        "homedecor:chain_steel_top")
+minetest.register_alias("chains:chain_top_brass",  "homedecor:chain_brass_top")
+
+minetest.register_alias("chains:chandelier_steel", "homedecor:chandelier_steel")
+minetest.register_alias("chains:chandelier_brass", "homedecor:chandelier_brass")
+

@@ -68,10 +68,11 @@ end
 
 function lrfurn.fix_sofa_rotation_nsew(pos, placer, itemstack, pointed_thing)
 	local node = minetest.get_node(pos)
+	local colorbits = node.param2 - (node.param2 % 8)
 	local yaw = placer:get_look_yaw()
 	local dir = minetest.yaw_to_dir(yaw-1.5)
 	local fdir = minetest.dir_to_wallmounted(dir)
-	minetest.swap_node(pos, { name = node.name, param2 = fdir })
+	minetest.swap_node(pos, { name = node.name, param2 = fdir+colorbits })
 end
 
 dofile(minetest.get_modpath("lrfurn").."/longsofas.lua")

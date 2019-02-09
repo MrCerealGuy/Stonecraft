@@ -27,7 +27,7 @@ if skinsdb_mod_path then
 			skin_obj:set_texture("homedecor_clothes_"..skin_name..".png")
 			skin_obj:set_meta("name", "Wardrobe "..skin_name)
 			skin_obj:set_meta("author", 'Calinou and Jordach')
-			skin_obj:set_meta("license", 'WTFPL')
+			skin_obj:set_meta("license", 'CC-by-SA-4.0')
 			local file = io.open(homedecor.modpath.."/textures/homedecor_clothes_"..skin_name..".png", "r")
 			skin_obj:set_meta("format", skins.get_skin_format(file))
 			file:close()
@@ -45,17 +45,16 @@ function homedecor.get_player_skin(player)
 end
 
 function homedecor.set_player_skin(player, skin, save)
-	skin = skin or default_skin
 	if skinsdb_mod_path then
-		skins.set_player_skin(player, skin)
+		skins.set_player_skin(player, skin or skins.default)
 	elseif armor_mod_path then -- if 3D_armor's installed, let it set the skin
-		armor.textures[player:get_player_name()].skin = skin
+		armor.textures[player:get_player_name()].skin = skin or default_skin
 		armor:update_player_visuals(player)
 	else
-		set_player_textures(player, { skin })
+		set_player_textures(player, { skin or default_skin})
 	end
 
-	if save then
+	if save and not skinsdb_mod_path then
 		if skin == default_skin then
 			skin = "default"
 			player:set_attribute("homedecor:player_skin", "")
@@ -133,13 +132,15 @@ homedecor.register("wardrobe", {
 minetest.register_alias("homedecor:wardrobe_bottom", "homedecor:wardrobe")
 minetest.register_alias("homedecor:wardrobe_top", "air")
 
-minetest.register_on_joinplayer(function(player)
-	local skin = player:get_attribute("homedecor:player_skin")
+if not skinsdb_mod_path then -- If not managed by skinsdb
+	minetest.register_on_joinplayer(function(player)
+		local skin = player:get_attribute("homedecor:player_skin")
 
-	if skin and skin ~= "" then
-		-- setting player skin on connect has no effect, so delay skin change
-		minetest.after(1, function(player, skin)
-			homedecor.set_player_skin(player, skin)
-		end, player, skin)
-	end
-end)
+		if skin and skin ~= "" then
+			-- setting player skin on connect has no effect, so delay skin change
+			minetest.after(1, function(player, skin)
+				homedecor.set_player_skin(player, skin)
+			end, player, skin)
+		end
+	end)
+end

@@ -12,5 +12,3 @@ the mod may occasionally refuse to place it (or it just appears for a moment).
 Just move over a bit, so that your target position is more directly in front
 of you.
 
-Code, textures and model are WTFPL.
-

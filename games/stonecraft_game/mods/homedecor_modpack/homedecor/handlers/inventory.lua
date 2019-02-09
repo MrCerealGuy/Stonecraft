@@ -182,7 +182,7 @@ function homedecor.handle_inventory(name, def, original_def)
 		minetest.register_craft({
 			type = "shapeless",
 			output = "homedecor:" .. locked_name,
-			recipe = { "homedecor:" .. name, "default:steel_ingot" }
+			recipe = { "homedecor:" .. name, "basic_materials:padlock" }
 		})
 	end
 

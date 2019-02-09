@@ -1,4 +1,5 @@
 default
 homedecor_i18n
 moreblocks?
+gloopblocks?
 stairs?

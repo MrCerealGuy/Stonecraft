@@ -49,6 +49,15 @@ minetest.register_node("lrfurn:coffeetable", {
 
 minetest.register_craft({
 	output = "lrfurn:coffeetable",
+	type = "shapeless",
+	recipe = {
+		"lrfurn:endtable",
+		"lrfurn:endtable"
+	}
+})
+
+minetest.register_craft({
+	output = "lrfurn:coffeetable",
 	recipe = {
 		{"", "", "", },
 		{"stairs:slab_wood", "stairs:slab_wood", "stairs:slab_wood", },

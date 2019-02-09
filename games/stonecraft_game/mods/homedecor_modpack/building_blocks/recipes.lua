@@ -60,12 +60,16 @@ minetest.register_craft({
 		{"default:glass", "default:glass"},
 	}
 })
-minetest.register_craft({
-	output = 'building_blocks:gravel_spread 4',
-	recipe = {
-		{"default:gravel", "default:gravel", "default:gravel"},
-	}
-})
+
+if not minetest.get_modpath("moreblocks") or not minetest.get_modpath("gloopblocks") then
+	minetest.register_craft({
+		output = 'building_blocks:gravel_spread 4',
+		recipe = {
+			{"default:gravel", "default:gravel", "default:gravel"},
+		}
+	})
+end
+
 minetest.register_craft({
 	output = 'building_blocks:hardwood 2',
 	recipe = {

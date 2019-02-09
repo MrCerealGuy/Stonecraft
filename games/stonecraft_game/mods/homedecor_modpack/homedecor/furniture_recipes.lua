@@ -2,7 +2,7 @@
 minetest.register_craft({
 	output = "homedecor:table",
 	recipe = {
-		{ "group:wood","group:wood", "group:wood" },
+		{ "default:wood","default:wood", "default:wood" },
 		{ "group:stick", "", "group:stick" },
 	},
 })
@@ -70,6 +70,17 @@ minetest.register_craft({
 	},
 })
 
+unifieddyes.register_color_craft({
+	output = "homedecor:armchair",
+	palette = "wallmounted",
+	type = "shapeless",
+	neutral_node = "homedecor:armchair",
+	recipe = {
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
+	}
+})
+
 minetest.register_craft({
 	type = "shapeless",
 	output = "homedecor:kitchen_chair_padded",
@@ -77,6 +88,17 @@ minetest.register_craft({
 		"homedecor:kitchen_chair_wood",
 		"wool:white",
 	},
+})
+
+unifieddyes.register_color_craft({
+	output = "homedecor:kitchen_chair_padded",
+	palette = "wallmounted",
+	type = "shapeless",
+	neutral_node = "homedecor:kitchen_chair_padded",
+	recipe = {
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
+	}
 })
 
 minetest.register_craft({
@@ -104,6 +126,17 @@ minetest.register_craft({
 		{"group:stick"},
 		{"group:stick"},
 	},
+})
+
+unifieddyes.register_color_craft({
+	output = "homedecor:standing_lamp_off",
+	palette = "extended",
+	type = "shapeless",
+	neutral_node = "homedecor:standing_lamp_off",
+	recipe = {
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
+	}
 })
 
 minetest.register_craft({
@@ -148,13 +181,15 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	output = "homedecor:standing_lamp_off",
+unifieddyes.register_color_craft({
+	output = "homedecor:table_lamp_off",
+	palette = "extended",
+	type = "shapeless",
+	neutral_node = "homedecor:table_lamp_off",
 	recipe = {
-		{ "homedecor:table_lamp_off"},
-		{ "group:stick"},
-		{ "group:stick"},
-	},
+		"NEUTRAL_NODE",
+		"MAIN_DYE"
+	}
 })
 
 minetest.register_craft({
@@ -170,6 +205,7 @@ minetest.register_craft({
 	output = "homedecor:sink",
 	recipe = {
 		{ "group:marble","bucket:bucket_empty", "group:marble" },
+		{ "", "group:marble", "" }
 	},
 })
 
@@ -190,7 +226,7 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "homedecor:shower_tray",
 	recipe = {
-		{ "group:marble","bucket:bucket_water", "group:marble" },
+		{ "group:marble","bucket:bucket_empty", "group:marble" },
 	},
 })
 

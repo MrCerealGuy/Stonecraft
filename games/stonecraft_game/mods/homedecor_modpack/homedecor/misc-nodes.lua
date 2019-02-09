@@ -483,23 +483,19 @@ for _, side in ipairs({"diagonal_left", "diagonal_right", "horizontal"}) do
 		local name, matdesc, tile1, tile2 = unpack(mat)
 		local nodename = "banister_"..name.."_"..side
 
-		local groups = { snappy = 3, not_in_creative_inventory = 1 }
 		local cbox = {
 			type = "fixed",
 			fixed = { -9/16, -3/16, 5/16, 9/16, 24/16, 8/16 }
 		}
 
 		if side == "horizontal" then
-			groups = { snappy = 3 }
 			cbox = {
 				type = "fixed",
 				fixed = { -8/16, -8/16, 5/16, 8/16, 8/16, 8/16 }
 			}
-		else
-			minetest.register_alias(string.gsub("homedecor:"..nodename, "diagonal_", ""), "homedecor:"..nodename)
 		end
 
-		homedecor.register(nodename, {
+		local def = {
 			description = S("Banister for Stairs (@1, @2)", matdesc, sidedesc),
 			mesh = "homedecor_banister_"..side..".obj",
 			tiles = {
@@ -507,12 +503,37 @@ for _, side in ipairs({"diagonal_left", "diagonal_right", "horizontal"}) do
 				tile2,
 			},
 			inventory_image = "homedecor_banister_"..name.."_inv.png",
-			groups = groups,
 			selection_box = cbox,
 			collision_box = cbox,
+			groups = { snappy = 3},
 			on_place = homedecor.place_banister,
 			drop = "homedecor:banister_"..name.."_horizontal",
-		})
+		}
+
+		if side ~= "horizontal" then
+			def.groups.not_in_creative_inventory = 1 
+		end
+
+		if name == "wood" then
+			def.palette = "unifieddyes_palette_greys.png"
+			def.airbrush_replacement_node = "homedecor:banister_wood_"..side.."_grey"
+			def.groups.ud_param2_colorable = 1
+			def.paramtype2 = "colorfacedir"
+		end
+		homedecor.register(nodename, def)
+
+		if name == "wood" then
+			local nn = "homedecor:"..nodename
+			local def2 = table.copy(minetest.registered_items[nn])
+			def2.tiles = {
+				homedecor.white_wood,
+				homedecor.white_wood
+			}
+			def2.inventory_image = "homedecor_banister_wood_colored_inv.png"
+			def2.groups.not_in_creative_inventory = 1 
+
+			unifieddyes.generate_split_palette_nodes(nn, def2, "homedecor:banister_"..name.."_horizontal")
+		end
 	end
 end
 

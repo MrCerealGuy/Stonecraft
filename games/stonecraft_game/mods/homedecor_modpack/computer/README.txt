@@ -33,10 +33,6 @@ computer:admiral128
 
 There's also a `computer:computer' alias to `computer:babytower'.
 
-License:
-Sourcecode: WTFPL (see below)
-Graphics: WTFPL (see below)
-
 Thanks to all the people in the forums and the #minetest IRC channel for
  their support and suggestions; in no particular order:
   OldCoder, Josh, tonyka, VanessaE, davidpace, Jordach, and all the other
@@ -45,17 +41,3 @@ Thanks to all the people in the forums and the #minetest IRC channel for
 
 See also:
 http://minetest.net/
-
-         DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-                    Version 2, December 2004
-
- Copyright (C) 2012 Diego Martínez <lkaezadl3@gmail.com>
-
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO. 
