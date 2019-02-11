@@ -75,7 +75,6 @@ end
 function spawners_ores.create(def)
 
 	local ore_name = def.ore_name or nil
-	local ore_desc = def.desc or nil
 	local size = def.size or {x = 0.33, y = 0.33}
 	local offset = def.offset or 0
 
@@ -121,7 +120,7 @@ function spawners_ores.create(def)
 
 	-- node spawner active
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner_active", {
-		--description = ore_name..S(" spawner active"),
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = ore_desc..S(" spawner active"),
 		paramtype = "light",
 		light_source = 4,
@@ -165,7 +164,7 @@ function spawners_ores.create(def)
 
 	-- node spawner waiting - no stone around or no fuel
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner_waiting", {
-		--description = ore_name..S(" spawner waiting"),
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = ore_desc..S(" spawner waiting"),
 		paramtype = "light",
 		light_source = 2,
@@ -218,7 +217,7 @@ function spawners_ores.create(def)
 
 	-- node spawner inactive (default)
 	minetest.register_node("spawners_ores:"..ore_name.."_spawner", {
-		--description = ore_name..S(" spawner"),
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = ore_desc..S(" spawner"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",

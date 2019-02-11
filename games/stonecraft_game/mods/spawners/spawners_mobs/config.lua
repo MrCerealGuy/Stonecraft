@@ -1,7 +1,7 @@
 --[[
 
 2018-08-27 MrCerealGuy: added intllib support
-
+			disabled creatures
 --]]
 
 
@@ -29,6 +29,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- [*] -> MANDATORY - has to be filled in!
 
 -- mods what should be enabled and loded, remove/add the one you want to load
+-- MERGEINFO: MrCerealGuy: disabled creatures
 ENABLED_MODS = {"mobs"}--, "creatures"}
 
 -- mobs properties - setup all you mobs here
@@ -66,7 +67,7 @@ MOBS_PROPS = {
 			dummy_mesh = "mobs_chicken.x",
 			dummy_texture = {"mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png", "mobs_chicken.png"},
 			night_only = false,
-			sound_custom = ""
+			sound_custom = "mobs_chicken"
 		},
 		{
 			name = "pumba",
@@ -105,11 +106,12 @@ MOBS_PROPS = {
 			egg_name_custom = "",
 			dummy_size = {x = 2, y = 2},
 			dummy_offset = -0.2,
-			dummy_mesh = "mobs_spider.b3d",
-			dummy_texture = {"mobs_spider_orange.png"},
+			dummy_mesh = "mobs_spider.x",
+			dummy_texture = {"mobs_spider.png"},
 			night_only = true,
 			sound_custom = "",
-			env = true
+			env = true,
+			sound_custom = "mobs_spider_neutral"
 		},
 		{
 			name = "stone_monster",
@@ -120,7 +122,7 @@ MOBS_PROPS = {
 			dummy_mesh = "mobs_stone_monster.b3d",
 			dummy_texture = {"mobs_stone_monster.png"},
 			night_only = true,
-			sound_custom = "mobs_stonemonster"
+			sound_custom = "mobs_stonemonster_neutral"
 		},
 		{
 			name = "oerkki",
@@ -142,7 +144,7 @@ MOBS_PROPS = {
 			dummy_mesh = "mobs_tree_monster.b3d",
 			dummy_texture = {"mobs_tree_monster.png"},
 			night_only = true,
-			sound_custom = "mobs_treemonster"
+			sound_custom = "mobs_treemonster_neutral"
 		}
 	},
 
@@ -200,9 +202,9 @@ MOBS_PROPS = {
 	}
 }
 
--- 
+--
 -- check for 3rd party dependencies
--- 
+--
 
 -- include mummy mobs redo addon (spawner)
 if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
@@ -220,7 +222,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 			dummy_mesh = "spawners_mobs_mummy.b3d",
 			dummy_texture = {"spawners_mobs_mummy.png"},
 			night_only = true,
-			sound_custom = "spawners_mobs_mummy"
+			sound_custom = "spawners_mobs_mummy_neutral"
 		},
 		{
 			name = "bunny_evil",
@@ -242,7 +244,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 			dummy_mesh = "spawners_mobs_character.b3d",
 			dummy_texture = {"spawners_mobs_uruk_hai.png", "spawners_mobs_trans.png","spawners_mobs_galvornsword.png", "spawners_mobs_trans.png"},
 			night_only = true,
-			sound_custom = "spawners_mobs_barbarian_yell2",
+			sound_custom = "spawners_mobs_uruk_hai_neutral",
 			env = true
 		},
 		{
@@ -254,7 +256,7 @@ if minetest.get_modpath("mobs") ~=  nil and not core.skip_mod("mobs_redo") then
 			dummy_mesh = "spawners_mobs_balrog.b3d",
 			dummy_texture = {"spawners_mobs_balrog.png"},
 			night_only = "disable",
-			sound_custom = "spawners_mobs_howl",
+			sound_custom = "spawners_mobs_balrog_neutral",
 			env = true,
 			boss = true
 		}

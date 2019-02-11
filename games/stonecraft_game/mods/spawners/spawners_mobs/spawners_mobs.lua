@@ -11,18 +11,19 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- 
 -- CREATE ALL SPAWNERS NODES
--- 
+--
 function spawners_mobs.create(mob_table, idx)
 	local mob_name = mob_table.name
+	-- MERGEINFO: MrCerealGuy: added mob_desc
 	local mob_desc = mob_table.desc
 	local mod_prefix = mob_table.mod_prefix
 	local size = mob_table.dummy_size
 	local mesh = mob_table.dummy_mesh
 	local texture = mob_table.dummy_texture
 
-	-- 
+	--
 	-- DUMMY INSIDE THE SPAWNER
-	-- 
+	--
 	minetest.register_entity("spawners_mobs:dummy_"..mod_prefix.."_"..mob_name, {
 		hp_max = 1,
 		visual = "mesh",
@@ -42,11 +43,11 @@ function spawners_mobs.create(mob_table, idx)
 		end
 	})
 
-	-- 
+	--
 	-- DEFAULT SPAWNER
-	-- 
+	--
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner", {
-		--description = mod_prefix.."_"..mob_name.." spawner",
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = mob_desc..S(" spawner"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
@@ -86,11 +87,11 @@ function spawners_mobs.create(mob_table, idx)
 		end
 	})
 
-	-- 
+	--
 	-- WAITING SPAWNER
-	-- 
+	--
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner_waiting", {
-		--description = mod_prefix.."_"..mob_name.." spawner waiting",
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = mob_desc..S(" spawner waiting"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
@@ -117,11 +118,11 @@ function spawners_mobs.create(mob_table, idx)
 		on_timer = spawners_mobs.on_timer
 	})
 
-	-- 
+	--
 	-- RUSTY SPAWNER
-	-- 
+	--
 	minetest.register_node("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner_rusty", {
-		--description = mod_prefix.."_"..mob_name.." spawner rusty",
+		-- MERGEINFO: MrCerealGuy: changed description
 		description = mob_desc..S(" spawner rusty"),
 		paramtype = "light",
 		paramtype2 = "glasslikeliquidlevel",
@@ -135,9 +136,9 @@ function spawners_mobs.create(mob_table, idx)
 		drop = "spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner"
 	})
 
-	-- 
+	--
 	-- replacement LBM for pre-nodetimer spawners
-	-- 
+	--
 	minetest.register_lbm({
 		name = "spawners_mobs:start_nodetimer_"..mod_prefix.."_"..mob_name.."_spawner",
 		nodenames = "spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner",
@@ -146,15 +147,15 @@ function spawners_mobs.create(mob_table, idx)
 		end,
 	})
 
-	-- 
+	--
 	-- COMPATIBILITY
-	-- 
+	--
 	minetest.register_alias("spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner_active", "spawners_mobs:"..mod_prefix.."_"..mob_name.."_spawner")
 end
 
--- 
+--
 -- INIT 'CREATE' FOR ALL SPAWNERS
--- 
+--
 for i, mob_table in ipairs(spawners_mobs.mob_tables) do
 	spawners_mobs.create(mob_table, i)
 end
