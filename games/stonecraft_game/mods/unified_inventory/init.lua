@@ -35,6 +35,7 @@ unified_inventory = {
 	default = "craft",
 
 	-- intllib
+	-- MERGEINFO: MrCerealGuy: use instead intllib
 	--gettext = S,
 
 	-- "Lite" mode
