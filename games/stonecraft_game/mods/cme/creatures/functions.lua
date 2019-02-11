@@ -19,13 +19,6 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
-
-2016-05-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	fixed on_punch, knockback
-
---]]
-
 
 -- Localizations
 local rnd = math.random
