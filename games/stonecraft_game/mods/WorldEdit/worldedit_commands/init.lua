@@ -108,7 +108,7 @@ end
 
 minetest.register_chatcommand("/about", {
 	params = "",
-	description = "Get information about the mod",
+	description = "Get information about the WorldEdit mod",
 	func = function(name, param)
 		worldedit.player_notify(name, "WorldEdit " .. worldedit.version_string .. " is available on this server. Type /help to get a list of commands, or get more information at https://github.com/Uberi/Minetest-WorldEdit/")
 	end,
@@ -425,15 +425,22 @@ minetest.register_chatcommand("/param2", {
 })
 
 minetest.register_chatcommand("/mix", {
-	params = "<node1> ...",
+	params = "<node1> [<weighting1>] [<node2> [<weighting2>]] ...",
 	description = "Fill the current WorldEdit region with a random mix of <node1>, ...",
 	privs = {worldedit=true},
 	func = safe_region(function(name, param)
 		local nodes = {}
 		for nodename in param:gmatch("[^%s]+") do
-			local node = get_node(name, nodename)
-			if not node then return end
-			nodes[#nodes + 1] = node
+			if tonumber(nodename) ~= nil and #nodes > 0 then
+				local last_node = nodes[#nodes]
+				for i = 1, tonumber(nodename) do
+					nodes[#nodes + 1] = last_node
+				end
+			else
+				local node = get_node(name, nodename)
+				if not node then return end
+				nodes[#nodes + 1] = node
+			end
 		end
 
 		local pos1, pos2 = worldedit.pos1[name], worldedit.pos2[name]
@@ -898,9 +905,12 @@ minetest.register_chatcommand("/stretch", {
 		stretchx, stretchy, stretchz = tonumber(stretchx), tonumber(stretchy), tonumber(stretchz)
 		if stretchx == 0 or stretchy == 0 or stretchz == 0 then
 			worldedit.player_notify(name, "invalid scaling factors: " .. param)
+			return nil
 		end
 		local count = check_region(name, param)
-		if count then return tonumber(stretchx) * tonumber(stretchy) * tonumber(stretchz) * count end
+		if count then
+			return stretchx * stretchy * stretchz * count
+		end
 		return nil
 	end),
 })

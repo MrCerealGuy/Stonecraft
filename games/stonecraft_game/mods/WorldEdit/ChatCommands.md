@@ -121,14 +121,16 @@ Set the current WorldEdit region to `<node>`.
 
 Set the param2 value of all nodes in the current WorldEdit region to `<param2>`.
 
-### `//mix <node1> ...`
+### `//mix <node1> [<count1>] <node2> [<count2>]...`
 
-Fill the current WorldEdit region with a random mix of `<node1>`, `...`.
+Fill the current WorldEdit region with a random mix of `<node1>`, `<node2>`, `...`. Weightings can be optionally specified via a number after a node name.
 
     //mix air
     //mix cactus stone glass sandstone
     //mix Bronze
     //mix default:cobble air
+    //mix stone 3 dirt 2
+    //mix cobblestone 8 stoneblock 2 stonebrick
 
 ### `//replace <search node> <replace node>`
 
@@ -287,9 +289,9 @@ Stack the current WorldEdit region `<count>` times by offset `<x>`, `<y>`, `<z>`
 
 Scale the current WorldEdit positions and region by a factor of `<stretchx>`, `<stretchy>`, `<stretchz>` along the X, Y, and Z axes, repectively, with position 1 as the origin.
 
-    //scale 2 2 2
-    //scale 1 2 1
-    //scale 10 20 1
+    //stretch 2 2 2
+    //stretch 1 2 1
+    //stretch 10 20 1
 
 ### `//transpose x/y/z/? x/y/z/?`
 
