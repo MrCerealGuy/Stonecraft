@@ -16,7 +16,7 @@ local cable_entry = "^technic_cable_connection_overlay.png"
 minetest.register_craft({
 	recipe = {
 		{"technic:carbon_plate",       "pipeworks:filter",       "technic:composite_plate"},
-		{"technic:motor",              "technic:machine_casing", "technic:diamond_drill_head"},
+		{"basic_materials:motor",              "technic:machine_casing", "technic:diamond_drill_head"},
 		{"technic:carbon_steel_block", "technic:hv_cable",       "technic:carbon_steel_block"}},
 	output = "technic:quarry",
 })
@@ -121,6 +121,11 @@ local function quarry_run(pos, node)
 
 	if meta:get_int("enabled") and meta:get_int("HV_EU_input") >= quarry_demand and meta:get_int("purge_on") == 0 then
 		local pdir = minetest.facedir_to_dir(node.param2)
+		if pdir.y ~= 0 then
+			-- faces up or down, not valid, otherwise depth-check would run endless and hang up the server
+			return
+		end
+
 		local qdir = pdir.x == 1 and vector.new(0,0,-1) or
 			(pdir.z == -1 and vector.new(-1,0,0) or
 			(pdir.x == -1 and vector.new(0,0,1) or
@@ -155,15 +160,9 @@ local function quarry_run(pos, node)
 				dignode = technic.get_or_load_node(digpos) or minetest.get_node(digpos)
 				local dignodedef = minetest.registered_nodes[dignode.name] or {diggable=false}
 				-- doors mod among other thing does NOT like a nil digger...
-				local fakedigger = {
-					get_player_name = function()
-						return "!technic_quarry_fake_digger"
-					end,
-					is_player = function() return false end,
-					get_wielded_item = function()
-						return ItemStack("air")
-					end,
-				}
+				local fakedigger = pipeworks.create_fake_player({
+					name = owner
+				})
 				if not dignodedef.diggable or (dignodedef.can_dig and not dignodedef.can_dig(digpos, fakedigger)) then
 					can_dig = false
 				end

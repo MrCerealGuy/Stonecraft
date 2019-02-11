@@ -30,12 +30,12 @@ local recipes = {
 	{"technic:carbon_steel_dust 3",   "technic:chromium_dust",      "technic:stainless_steel_dust 4"},
 	{"technic:carbon_steel_ingot 3",  "technic:chromium_ingot",     "technic:stainless_steel_ingot 4"},
 	{"technic:copper_dust 2",         "technic:zinc_dust",          "technic:brass_dust 3"},
-	{"default:copper_ingot 2",        "technic:zinc_ingot",         "technic:brass_ingot 3"},
+	{"default:copper_ingot 2",        "technic:zinc_ingot",         "basic_materials:brass_ingot 3"},
 	{"default:sand 2",                "technic:coal_dust 2",        "technic:silicon_wafer"},
 	{"technic:silicon_wafer",         "technic:gold_dust",          "technic:doped_silicon_wafer"},
 	-- from https://en.wikipedia.org/wiki/Carbon_black
 	-- The highest volume use of carbon black is as a reinforcing filler in rubber products, especially tires.
-	-- "[Compounding a] pure gum vulcanizate … with 50% of its weight of carbon black improves its tensile strength and wear resistance …" 
+	-- "[Compounding a] pure gum vulcanizate … with 50% of its weight of carbon black improves its tensile strength and wear resistance …"
 	{"technic:raw_latex 4",           "technic:coal_dust 2",        "technic:rubber 6", 2},
 }
 

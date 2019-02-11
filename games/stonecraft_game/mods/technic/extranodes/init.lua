@@ -44,7 +44,7 @@ if minetest.get_modpath("moreblocks") and not core.skip_mod("moreblocks") then
 	stairsplus:register_all("technic", "concrete", "technic:concrete", {
 		description=S("Concrete"),
 		groups={cracky=3, not_in_creative_inventory=1},
-		tiles={"technic_concrete_block.png"},
+		tiles={"basic_materials_concrete_block.png"},
 	})
 
 	stairsplus:register_all("technic", "zinc_block", "technic:zinc_block", {
@@ -69,12 +69,6 @@ if minetest.get_modpath("moreblocks") and not core.skip_mod("moreblocks") then
 		description=S("Stainless Steel Block"),
 		groups={cracky=1, not_in_creative_inventory=1},
 		tiles={"technic_stainless_steel_block.png"},
-	})
-
-	stairsplus:register_all("technic", "brass_block", "technic:brass_block", {
-		description=S("Brass Block"),
-		groups={cracky=1, not_in_creative_inventory=1},
-		tiles={"technic_brass_block.png"},
 	})
 
 	function register_technic_stairs_alias(modname, origname, newmod, newname)
@@ -107,7 +101,7 @@ if minetest.get_modpath("moreblocks") and not core.skip_mod("moreblocks") then
 		minetest.register_alias(modname .. ":panel_" .. origname .. "_vertical", newmod..":panel_" .. newname .. "_vertical")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_bottom", newmod..":micro_" .. newname .. "_bottom")
 		minetest.register_alias(modname .. ":micro_" .. origname .. "_top", newmod..":micro_" .. newname .. "_top")
-	end 
+	end
 
 	register_technic_stairs_alias("stairsplus", "concrete", "technic", "concrete")
 	register_technic_stairs_alias("stairsplus", "marble", "technic", "marble")
@@ -160,6 +154,36 @@ local iclipfence_def = {
 	sounds = default.node_sound_stone_defaults(),
 }
 
+local sclip_tex = {
+	"technic_insulator_clip.png",
+	{ name = "strut.png^steel_strut_overlay.png", color = "white" },
+	{ name = "strut.png", color = "white" }
+}
+
+local streetsmod = minetest.get_modpath("streets") or minetest.get_modpath ("steelsupport")
+-- cheapie's fork breaks it into several individual mods, with differernt names for the same content.
+
+if streetsmod then
+	sclip_tex = {
+		"technic_insulator_clip.png",
+		{ name = "streets_support.png^technic_steel_strut_overlay.png", color = "white" },
+		{ name = "streets_support.png", color = "white" }
+	}
+end
+
+local sclip_def = {
+	description = S("Steel strut with insulator/cable clip"),
+	drawtype = "mesh",
+	mesh = "technic_steel_strut_with_insulator_clip.obj",
+	tiles = sclip_tex,
+	paramtype = "light",
+	paramtype2 = "wallmounted",
+	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
+	groups = { choppy=1, cracky=1 },
+	backface_culling = false
+}
+
 if minetest.get_modpath("unifieddyes") then
 	iclip_def.paramtype2 = "colorwallmounted"
 	iclip_def.palette = "unifieddyes_palette_colorwallmounted.png"
@@ -172,6 +196,13 @@ if minetest.get_modpath("unifieddyes") then
 	iclipfence_def.palette = "unifieddyes_palette_extended.png"
 	iclipfence_def.on_construct = unifieddyes.on_construct
 	iclipfence_def.groups = {fence=1, choppy=1, snappy=1, oddly_breakable_by_hand=1, ud_param2_colorable = 1}
+
+	sclip_def.paramtype2 = "colorwallmounted"
+	sclip_def.palette = "unifieddyes_palette_colorwallmounted.png"
+	sclip_def.after_place_node = function(pos, placer, itemstack, pointed_thing)
+		unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)
+	end
+	sclip_def.groups = {choppy=1, cracky=1, ud_param2_colorable = 1}
 end
 
 minetest.register_node(":technic:insulator_clip", iclip_def)
@@ -194,6 +225,39 @@ minetest.register_craft({
 		{ "technic:raw_latex", "default:fence_wood", "technic:raw_latex"},
 	}
 })
+
+local steelmod = minetest.get_modpath("steel")
+
+if streetsmod or steelmod then
+	minetest.register_node(":technic:steel_strut_with_insulator_clip", sclip_def)
+
+	if steelmod then
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost"},
+				{"steel:strut_mount"}
+			}
+		})
+
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost", ""                    },
+				{"steel:strut",                      "default:steel_ingot" },
+			}
+		})
+
+	elseif streetsmod then
+		minetest.register_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{"technic:insulator_clip_fencepost", ""                   },
+				{"streets:steel_support",           "default:steel_ingot" },
+			}
+		})
+	end
+end
 
 if minetest.get_modpath("unifieddyes") then
 
@@ -219,4 +283,38 @@ if minetest.get_modpath("unifieddyes") then
 		}
 	})
 
+	unifieddyes.register_color_craft({
+		output = "technic:steel_strut_with_insulator_clip",
+		palette = "wallmounted",
+		type = "shapeless",
+		neutral_node = "",
+		recipe = {
+			"technic:steel_strut_with_insulator_clip",
+			"MAIN_DYE"
+		}
+	})
+
+	if steelmod then
+		unifieddyes.register_color_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			palette = "wallmounted",
+			neutral_node = "",
+			recipe = {
+				{ "technic:insulator_clip_fencepost", "MAIN_DYE" },
+				{ "steel:strut_mount",                ""         },
+			}
+		})
+	end
+
+	if streetsmod then
+		unifieddyes.register_color_craft({
+			output = "technic:steel_strut_with_insulator_clip",
+			palette = "wallmounted",
+			neutral_node = "technic:steel_strut_with_insulator_clip",
+			recipe = {
+				{ "technic:insulator_clip_fencepost", "MAIN_DYE"            },
+				{ "streets:steel_support",            "default:steel_ingot" },
+			}
+		})
+	end
 end

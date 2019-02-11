@@ -102,7 +102,7 @@ minetest.register_tool("technic:prospector", {
 			"label[0,7.5;Accuracy:]"..
 			"label[0,8;98%]")
 		return
-	end, 
+	end,
 })
 
 minetest.register_on_player_receive_fields(function(user, formname, fields)
@@ -126,12 +126,12 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	user:set_wielded_item(toolstack)
 	return true
 end)
- 
+
 minetest.register_craft({
 	output = "technic:prospector",
 	recipe = {
 		{"moreores:pick_silver", "moreores:mithril_block", "pipeworks:teleport_tube_1"},
-		{"technic:brass_ingot", "technic:control_logic_unit", "technic:brass_ingot"},
+		{"basic_materials:brass_ingot", "technic:control_logic_unit", "basic_materials:brass_ingot"},
 		{"", "technic:blue_energy_crystal", ""},
 	}
 })

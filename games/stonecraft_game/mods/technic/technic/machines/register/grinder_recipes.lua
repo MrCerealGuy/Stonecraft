@@ -32,17 +32,31 @@ local recipes = {
 	{"technic:sulfur_lump",        "technic:sulfur_dust 2"},
 	{"default:stone",              "technic:stone_dust"},
 	{"default:sand",               "technic:stone_dust"},
-	
+
 	-- Other
-	{"default:cobble",          "default:gravel"},
-	{"default:gravel",          "default:sand"},
-	{"default:sandstone",       "default:sand 2"}, -- reverse recipe can be found in the compressor
+	{"default:cobble",           "default:gravel"},
+	{"default:gravel",           "default:sand"},
+	{"default:sandstone",        "default:sand 2"}, -- reverse recipe can be found in the compressor
+	{"default:desert_sandstone", "default:desert_sand 2"}, -- reverse recipe can be found in the compressor
+	{"default:silver_sandstone", "default:silver_sand 2"}, -- reverse recipe can be found in the compressor
+
+	{"default:ice",              "default:snowblock"},
 }
 
 -- defuse the sandstone -> 4 sand recipe to avoid infinite sand bugs (also consult the inverse compressor recipe)
 minetest.clear_craft({
 	recipe = {
-		{'default:sandstone'}
+		{"default:sandstone"}
+	},
+})
+minetest.clear_craft({
+	recipe = {
+		{"default:desert_sandstone"}
+	},
+})
+minetest.clear_craft({
+	recipe = {
+		{"default:silver_sandstone"}
 	},
 })
 
@@ -90,7 +104,7 @@ local function register_dust(name, ingot)
 end
 
 -- Sorted alphibeticaly
-register_dust("Brass",           "technic:brass_ingot")
+register_dust("Brass",           "basic_materials:brass_ingot")
 register_dust("Bronze",          "default:bronze_ingot")
 register_dust("Carbon Steel",    "technic:carbon_steel_ingot")
 register_dust("Cast Iron",       "technic:cast_iron_ingot")

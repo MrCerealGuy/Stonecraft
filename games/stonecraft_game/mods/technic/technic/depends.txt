@@ -1,6 +1,7 @@
 default
 pipeworks
 technic_worldgen
+basic_materials
 bucket?
 screwdriver?
 mesecons?
@@ -10,3 +11,4 @@ digiline_remote?
 intllib?
 unified_inventory?
 vector_extras?
+dye?

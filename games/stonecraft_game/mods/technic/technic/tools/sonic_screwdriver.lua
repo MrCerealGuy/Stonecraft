@@ -95,7 +95,7 @@ minetest.register_tool("technic:sonic_screwdriver", {
 		return itemstack
 	end,
 })
- 
+
 minetest.register_craft({
 	output = "technic:sonic_screwdriver",
 	recipe = {

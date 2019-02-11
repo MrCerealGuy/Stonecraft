@@ -20,8 +20,8 @@ local S, NS = dofile(MP.."/intllib.lua")
 minetest.register_craft({
 	output = "technic:laser_mk1",
 	recipe = {
-		{"default:diamond", "technic:brass_ingot",        "default:obsidian_glass"},
-		{"",                "technic:brass_ingot",        "technic:red_energy_crystal"},
+		{"default:diamond", "basic_materials:brass_ingot",        "default:obsidian_glass"},
+		{"",                "basic_materials:brass_ingot",        "technic:red_energy_crystal"},
 		{"",                "",                           "default:copper_ingot"},
 	}
 })
