@@ -255,7 +255,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		if not in_biome then
 			if alpine
 			and test
-			and test > smooth_rarity_min then
+			and test > (smooth and smooth_rarity_min or nosmooth_rarity) then
 				-- remove trees near alpine
 				local ground_y
 				if vm:get_data_from_heap(data, area:index(x, maxp.y, z)) == c.air then
@@ -345,7 +345,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						vm:set_data_from_heap(data, area:index(x, ground_y+1, z), c.dry_shrub)
 					else
 						if snowy
-						or test > smooth_rarity_max then
+						or test > (smooth and smooth_rarity_max or
+								nosmooth_rarity) then
 							-- more, deeper snow
 							vm:set_data_from_heap(data, node, c.snow_block)
 						else

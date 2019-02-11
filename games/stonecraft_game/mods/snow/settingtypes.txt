@@ -19,7 +19,7 @@ snow_debug (Debug Mode) bool false
 #Disable this to remove christmas saplings from being found.
 snow_christmas_content (Enable Christmas Content) bool true
 
-#Enables debug output. Currently it only prints mgv6 info.
+#Enables smooth biome transitions.
 snow_smooth_biomes (Smooth Biome Transitions) bool true
 
 #The minumum height a snow biome will generate (mgv7)
@@ -28,7 +28,8 @@ snow_min_height (Minumum Height for Snow Biomes) int 3
 #Disable this to stop snow from being smoothed.
 snow_smooth_snow (Multiple Snow Levels) bool true
 
-#mapgen rarity in %.
+#mapgen rarity in %. Note that this and mapgen_size do not work right because
+#sinus instead of Gauss curve is used as estimation.
 snow_mapgen_rarity (Snow Biome Rarity %) float 18
 
 #size of the generated… (has an effect to the rarity, too)
