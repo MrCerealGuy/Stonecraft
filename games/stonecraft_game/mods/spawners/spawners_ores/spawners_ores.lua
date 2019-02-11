@@ -75,6 +75,8 @@ end
 function spawners_ores.create(def)
 
 	local ore_name = def.ore_name or nil
+	-- MERGEINFO: MrCerealGuy: added ore_desc
+	local ore_desc = def.desc or nil
 	local size = def.size or {x = 0.33, y = 0.33}
 	local offset = def.offset or 0
 
