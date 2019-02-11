@@ -470,7 +470,7 @@ lucky_block:add_blocks({
 end
 
 -- Caverealms
-if minetest.get_modpath("caverealms") and not core.skip_mod("caverealms")) then
+if minetest.get_modpath("caverealms") and not core.skip_mod("caverealms") then
 lucky_block:add_blocks({
 	{"sch", "sandtrap", 1, true, {{"default:sand", "caverealms:coal_dust"}} },
 	{"sch", "obsidiantrap", 1, true, {{"default:obsidian", "caverealms:glow_obsidian_brick_2"}} },
