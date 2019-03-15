@@ -1091,6 +1091,11 @@
 #    type: int
 # max_out_chat_queue_size = 20
 
+#    Enable register confirmation when connecting to server.
+#    If disabled, new account will be registered automatically.
+#    type: bool
+# enable_register_confirmation = true
+
 ## Advanced
 
 #    Timeout for client to remove unused map data from memory.
@@ -1459,9 +1464,10 @@
 #    type: bool
 # server_side_occlusion_culling = true
 
-#    Restricts the access of certain client-side functions on servers
-#    Combine these byteflags below to restrict client-side features:
-#    LOAD_CLIENT_MODS: 1 (disable client mods loading)
+#    Restricts the access of certain client-side functions on servers.
+#    Combine the byteflags below to restrict client-side features, or set to 0
+#    for no restrictions:
+#    LOAD_CLIENT_MODS: 1 (disable loading client-provided mods)
 #    CHAT_MESSAGES: 2 (disable send_chat_message call client-side)
 #    READ_ITEMDEFS: 4 (disable get_item_def call client-side)
 #    READ_NODEDEFS: 8 (disable get_node_def call client-side)
@@ -1605,9 +1611,8 @@
 #    -   Full:  Multiple singleplayer worlds, game choice, texture pack chooser, etc.
 #    -   Simple: One singleplayer world, no game or texture pack choosers. May be
 #    necessary for smaller screens.
-#    -   Auto: Simple on Android, full on everything else.
-#    type: enum values: auto, full, simple
-# main_menu_style = auto
+#    type: enum values: full, simple
+# main_menu_style = full
 
 #    Replaces the default main menu with a custom one.
 #    type: string
@@ -1625,7 +1630,7 @@
 #    Name of map generator to be used when creating a new world.
 #    Creating a world in the main menu will override this.
 #    Current stable mapgens:
-#    v5, v6, v7 (except floatlands), flat, singlenode.
+#    v5, v6, v7 (except floatlands), singlenode.
 #    'stable' means the terrain shape in an existing world will not be changed
 #    in the future. Note that biomes are defined by games and may still change.
 #    type: enum values: v5, v6, v7, valleys, carpathian, fractal, flat, singlenode
@@ -1648,8 +1653,6 @@
 #    Global map generation attributes.
 #    In Mapgen v6 the 'decorations' flag controls all decorations except trees
 #    and junglegrass, in all other mapgens this flag controls all decorations.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: caves, dungeons, light, decorations, biomes, nocaves, nodungeons, nolight, nodecorations, nobiomes
 # mg_flags = caves,dungeons,light,decorations,biomes
 
@@ -1714,8 +1717,6 @@
 ## Mapgen V5
 
 #    Map generation attributes specific to Mapgen v5.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: caverns, nocaverns
 # mgv5_spflags = caverns
 
@@ -1851,8 +1852,6 @@
 #    The 'snowbiomes' flag enables the new 5 biome system.
 #    When the new biome system is enabled jungles are automatically enabled and
 #    the 'jungles' flag is ignored.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: jungles, biomeblend, mudflow, snowbiomes, flat, trees, nojungles, nobiomeblend, nomudflow, nosnowbiomes, noflat, notrees
 # mgv6_spflags = jungles,biomeblend,mudflow,snowbiomes,trees
 
@@ -2022,8 +2021,6 @@
 
 #    Map generation attributes specific to Mapgen v7.
 #    'ridges' enables the rivers.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: mountains, ridges, floatlands, caverns, nomountains, noridges, nofloatlands, nocaverns
 # mgv7_spflags = mountains,ridges,nofloatlands,caverns
 
@@ -2274,8 +2271,6 @@
 ## Mapgen Carpathian
 
 #    Map generation attributes specific to Mapgen Carpathian.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: caverns, nocaverns
 # mgcarpathian_spflags = caverns
 
@@ -2516,8 +2511,6 @@
 
 #    Map generation attributes specific to Mapgen flat.
 #    Occasional lakes and hills can be added to the flat world.
-#    Flags that are not enabled are not modified from the default.
-#    Flags starting with 'no' are used to explicitly disable them.
 #    type: flags possible values: lakes, hills, nolakes, nohills
 # mgflat_spflags = nolakes,nohills
 
@@ -3001,18 +2994,35 @@
 # emergequeue_limit_generate = 64
 
 #    Number of emerge threads to use.
-#    Make this field blank or 0, or increase this number to use multiple threads.
-#    On multiprocessor systems, this will improve mapgen speed greatly at the cost
-#    of slightly buggy caves.
+#    WARNING: Currently there are multiple bugs that may cause crashes when
+#    'num_emerge_threads' is larger than 1. Until this warning is removed it is
+#    strongly recommended this value is set to the default '1'.
+#    Empty or 0 value:
+#    -    Automatic selection. The number of emerge threads will be
+#    -    'number of processors - 2', with a lower limit of 1.
+#    Any other value:
+#    -    Specifies the number of emerge threads, with a lower limit of 1.
+#    WARNING: Increasing the number of emerge threads increases engine mapgen
+#    speed, but this may harm game performance by interfering with other
+#    processes, especially in singleplayer and/or when running Lua code in
+#    'on_generated'. For many users the optimum setting may be '1'.
 #    type: int
-# num_emerge_threads = 0
+# num_emerge_threads = 1
 
 #
-# Content Store
+# Online Content Repository
 #
 
-#    Show packages in the content store that do not qualify as 'free software'
+#    The URL for the content repository
+#    type: string
+# contentdb_url = https://content.minetest.net
+
+#    Comma-separated list of flags to hide in the content repository.
+#    "nonfree" can be used to hide packages which do not qualify as 'free software',
 #    as defined by the Free Software Foundation.
-#    type: bool
-# show_nonfree_packages = false
+#    You can also specify content ratings.
+#    These flags are independent from Minetest versions,
+#    so see a full list at https://content.minetest.net/help/content_flags/
+#    type: string
+# contentdb_flag_blacklist = nonfree, desktop_default
 

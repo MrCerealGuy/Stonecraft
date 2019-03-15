@@ -1559,7 +1559,7 @@ void Server::SendChatMessage(session_t peer_id, const ChatMessage &message)
 	NetworkPacket pkt(TOCLIENT_CHAT_MESSAGE, 0, peer_id);
 	u8 version = 1;
 	u8 type = message.type;
-	pkt << version << type << std::wstring(L"") << message.message << message.timestamp;
+	pkt << version << type << std::wstring(L"") << message.message << (u64)message.timestamp;
 
 	if (peer_id != PEER_ID_INEXISTENT) {
 		RemotePlayer *player = m_env->getPlayer(peer_id);
@@ -1833,7 +1833,7 @@ void Server::SendPlayerHP(session_t peer_id)
 	m_script->player_event(playersao,"health_changed");
 
 	// Send to other clients
-	std::string str = gob_cmd_punched(playersao->readDamage(), playersao->getHP());
+	std::string str = gob_cmd_punched(playersao->getHP());
 	ActiveObjectMessage aom(playersao->getId(), true, str);
 	playersao->m_messages_out.push(aom);
 }
@@ -2576,7 +2576,10 @@ void Server::sendDetachedInventory(const std::string &name, session_t peer_id)
 		// Serialization & NetworkPacket isn't a love story
 		std::ostringstream os(std::ios_base::binary);
 		inv_it->second->serialize(os);
-		pkt << os.str();
+
+		std::string os_str = os.str();
+		pkt << static_cast<u16>(os_str.size()); // HACK: to keep compatibility with 5.0.0 clients
+		pkt.putRawString(os_str);
 	}
 
 	if (peer_id == PEER_ID_INEXISTENT)

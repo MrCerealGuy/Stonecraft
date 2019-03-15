@@ -243,7 +243,7 @@ public:
 	void clearOutChatQueue();
 	void sendChangePassword(const std::string &oldpassword,
 		const std::string &newpassword);
-	void sendDamage(u8 damage);
+	void sendDamage(u16 damage);
 	void sendRespawn();
 	void sendReady();
 
@@ -342,7 +342,7 @@ public:
 	bool mediaReceived()
 	{ return !m_media_downloader; }
 
-	u8 getProtoVersion()
+	u16 getProtoVersion()
 	{ return m_proto_ver; }
 
 	bool connectedToServer();
@@ -504,7 +504,7 @@ private:
 	// and aren't accurate. We simply just don't know, because
 	// the server didn't send the version back then.
 	// If 0, server init hasn't been received yet.
-	u8 m_proto_ver = 0;
+	u16 m_proto_ver = 0;
 
 	u16 m_playeritem = 0;
 	bool m_inventory_updated = false;
@@ -565,9 +565,6 @@ private:
 	// And relations to objects
 	std::unordered_map<int, u16> m_sounds_to_objects;
 
-	// CSM/client IDs to SSM/server IDs Mapping
-	// Map server particle spawner IDs to client IDs
-	std::unordered_map<u32, u32> m_particles_server_to_client;
 	// Map server hud ids to client hud ids
 	std::unordered_map<u32, u32> m_hud_server_to_client;
 

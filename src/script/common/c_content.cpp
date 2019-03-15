@@ -191,7 +191,7 @@ void read_object_properties(lua_State *L, int index,
 
 	int hp_max = 0;
 	if (getintfield(L, -1, "hp_max", hp_max))
-		prop->hp_max = (s16)rangelim(hp_max, 0, S16_MAX);
+		prop->hp_max = (u16)rangelim(hp_max, 0, U16_MAX);
 
 	getintfield(L, -1, "breath_max", prop->breath_max);
 	getboolfield(L, -1, "physical", prop->physical);
@@ -1093,7 +1093,7 @@ MapNode readnode(lua_State *L, int index, const NodeDefManager *ndef)
 	lua_getfield(L, index, "name");
 	if (!lua_isstring(L, -1))
 		throw LuaError("Node name is not set or is not a string!");
-	const char *name = lua_tostring(L, -1);
+	std::string name = lua_tostring(L, -1);
 	lua_pop(L, 1);
 
 	u8 param1 = 0;
@@ -1108,7 +1108,11 @@ MapNode readnode(lua_State *L, int index, const NodeDefManager *ndef)
 		param2 = lua_tonumber(L, -1);
 	lua_pop(L, 1);
 
-	return {ndef, name, param1, param2};
+	content_t id = CONTENT_IGNORE;
+	if (!ndef->getId(name, id))
+		throw LuaError("\"" + name + "\" is not a registered node!");
+
+	return {id, param1, param2};
 }
 
 /******************************************************************************/

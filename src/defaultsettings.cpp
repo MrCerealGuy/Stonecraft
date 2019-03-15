@@ -380,7 +380,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("emergequeue_limit_total", "512");
 	settings->setDefault("emergequeue_limit_diskonly", "64");
 	settings->setDefault("emergequeue_limit_generate", "64");
-	settings->setDefault("num_emerge_threads", "");
+	settings->setDefault("num_emerge_threads", "1");
 	settings->setDefault("secure.enable_security", "false");
 	settings->setDefault("secure.trusted_mods", "");
 	settings->setDefault("secure.http_mods", "");

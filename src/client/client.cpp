@@ -437,7 +437,7 @@ void Client::step(float dtime)
 		ClientEnvEvent envEvent = m_env.getClientEnvEvent();
 
 		if (envEvent.type == CEE_PLAYER_DAMAGE) {
-			u8 damage = envEvent.player_damage.amount;
+			u16 damage = envEvent.player_damage.amount;
 
 			if (envEvent.player_damage.send_to_server)
 				sendDamage(damage);
@@ -459,7 +459,7 @@ void Client::step(float dtime)
 		counter = 0.0;
 		// connectedAndInitialized() is true, peer exists.
 		float avg_rtt = getRTT();
-		infostream << "Client: average rtt: " << avg_rtt << std::endl;
+		infostream << "Client: avg_rtt=" << avg_rtt << std::endl;
 	}
 
 	/*
@@ -1213,9 +1213,9 @@ void Client::sendChangePassword(const std::string &oldpassword,
 }
 
 
-void Client::sendDamage(u8 damage)
+void Client::sendDamage(u16 damage)
 {
-	NetworkPacket pkt(TOSERVER_DAMAGE, sizeof(u8));
+	NetworkPacket pkt(TOSERVER_DAMAGE, sizeof(u16));
 	pkt << damage;
 	Send(&pkt);
 }
@@ -1515,17 +1515,6 @@ void Client::typeChatMessage(const std::wstring &message)
 
 	// Send to others
 	sendChatMessage(message);
-
-	// Show locally
-	if (message[0] != L'/') {
-		// compatibility code
-		if (m_proto_ver < 29) {
-			LocalPlayer *player = m_env.getLocalPlayer();
-			assert(player);
-			std::wstring name = narrow_to_wide(player->getName());
-			pushToChatQueue(new ChatMessage(CHATMESSAGE_TYPE_NORMAL, message, name));
-		}
-	}
 }
 
 void Client::addUpdateMeshTask(v3s16 p, bool ack_to_server, bool urgent)
@@ -1727,17 +1716,9 @@ void Client::afterContentReceived()
 	delete[] text;
 }
 
-// returns the Round Trip Time
-// if the RTT did not become updated within 2 seconds, e.g. before timing out,
-// it returns the expired time instead
 float Client::getRTT()
 {
-	float avg_rtt = m_con->getPeerStat(PEER_ID_SERVER, con::AVG_RTT);
-	float time_from_last_rtt =
-		m_con->getPeerStat(PEER_ID_SERVER, con::TIMEOUT_COUNTER);
-	if (avg_rtt + 2.0f > time_from_last_rtt)
-		return avg_rtt;
-	return time_from_last_rtt;
+	return m_con->getPeerStat(PEER_ID_SERVER,con::AVG_RTT);
 }
 
 float Client::getCurRate()

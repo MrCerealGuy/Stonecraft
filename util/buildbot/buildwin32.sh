@@ -21,12 +21,12 @@ toolchain_file=$dir/toolchain_mingw.cmake
 irrlicht_version=1.8.4
 ogg_version=1.3.2
 vorbis_version=1.3.5
-curl_version=7.54.0
+curl_version=7.64.0
 gettext_version=0.19.8.1
-freetype_version=2.8
-sqlite3_version=3.19.2
+freetype_version=2.9.1
+sqlite3_version=3.27.2
 luajit_version=2.1.0-beta3
-leveldb_version=1.19
+leveldb_version=1.20
 zlib_version=1.2.11
 
 
@@ -102,7 +102,6 @@ cmake .. \
 	-DCURL_INCLUDE_DIR=$libdir/curl-$curl_version/include \
 	-DCURL_LIBRARY=$libdir/curl-$curl_version/lib/libcurl.dll.a \
 	\
-	-DCUSTOM_GETTEXT_PATH=$libdir/gettext-$gettext_version \
 	-DGETTEXT_MSGFMT=`which msgfmt` \
 	-DGETTEXT_DLL=$libdir/gettext-$gettext_version/bin/libintl-8.dll \
 	-DGETTEXT_ICONV_DLL=$libdir/gettext-$gettext_version/bin/libiconv-2.dll \
@@ -122,7 +121,7 @@ cmake .. \
 	-DLEVELDB_LIBRARY=$libdir/libleveldb-$leveldb_version/lib/libleveldb.dll.a \
 	-DLEVELDB_DLL=$libdir/libleveldb-$leveldb_version/bin/libleveldb.dll
 
-make package -j2
+make -j2
 
 [ "x$NO_PACKAGE" = "x" ] && make package
 

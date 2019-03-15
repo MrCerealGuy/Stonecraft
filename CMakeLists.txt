@@ -16,9 +16,9 @@ set(CLANG_MINIMUM_VERSION "3.4")
 
 # Also remember to set PROTOCOL_VERSION in network/networkprotocol.h when releasing
 set(VERSION_MAJOR 1)
-set(VERSION_MINOR 3)
+set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
-set(VERSION_EXTRA "alpha" CACHE STRING "Stuff to append to version string")
+set(VERSION_EXTRA "" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
 set(DEVELOPMENT_BUILD FALSE)
@@ -164,7 +164,8 @@ if(RUN_IN_PLACE)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")
 endif()
 
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/games" DESTINATION "${SHAREDIR}" PATTERN ".git*" EXCLUDE)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/games/stonecraft_game" DESTINATION "${SHAREDIR}/games/" 
+	COMPONENT "SUBGAME_STONECRAFT_GAME" OPTIONAL PATTERN ".git*" EXCLUDE )
 
 if(BUILD_CLIENT)
 	install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/client/shaders" DESTINATION "${SHAREDIR}/client")
@@ -275,6 +276,16 @@ include(CPackComponent)
 cpack_add_component(Docs
 	DISPLAY_NAME "Documentation"
 	DESCRIPTION "Documentation about Stonecraft and Stonecraft modding"
+)
+
+cpack_add_component(SUBGAME_STONECRAFT_GAME
+	DISPLAY_NAME "Stonecraft Game"
+	DESCRIPTION "The official subgame for the Stonecraft engine, that can easily extended by mods."
+	GROUP "Subgames"
+)
+
+cpack_add_component_group(Subgames
+	DESCRIPTION "Games for the Stonecraft engine."
 )
 
 if(WIN32)

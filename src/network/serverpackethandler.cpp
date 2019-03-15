@@ -776,7 +776,7 @@ void Server::handleCommand_ChatMessage(NetworkPacket* pkt)
 
 void Server::handleCommand_Damage(NetworkPacket* pkt)
 {
-	u8 damage;
+	u16 damage;
 
 	*pkt >> damage;
 
@@ -812,7 +812,7 @@ void Server::handleCommand_Damage(NetworkPacket* pkt)
 				<< std::endl;
 
 		PlayerHPChangeReason reason(PlayerHPChangeReason::FALL);
-		playersao->setHP(playersao->getHP() - damage, reason);
+		playersao->setHP((s32)playersao->getHP() - (s32)damage, reason);
 		SendPlayerHPOrDie(playersao, reason);
 	}
 }
@@ -952,7 +952,7 @@ void Server::handleCommand_Respawn(NetworkPacket* pkt)
 	// the previous addition has been successfully removed
 }
 
-bool Server::checkInteractDistance(RemotePlayer *player, const f32 d, const std::string what)
+bool Server::checkInteractDistance(RemotePlayer *player, const f32 d, const std::string &what)
 {
 	PlayerSAO *playersao = player->getPlayerSAO();
 	const InventoryList *hlist = playersao->getInventory()->getList("hand");
@@ -1169,8 +1169,8 @@ void Server::handleCommand_Interact(NetworkPacket* pkt)
 			float time_from_last_punch =
 				playersao->resetTimeFromLastPunch();
 
-			s16 src_original_hp = pointed_object->getHP();
-			s16 dst_origin_hp = playersao->getHP();
+			u16 src_original_hp = pointed_object->getHP();
+			u16 dst_origin_hp = playersao->getHP();
 
 			pointed_object->punch(dir, &toolcap, playersao,
 					time_from_last_punch);

@@ -761,7 +761,7 @@ int ModApiMainMenu::l_extract_zip(lua_State *L)
 
 		io::IFileSystem *fs = RenderingEngine::get_filesystem();
 
-		if (!fs->addFileArchive(zipfile,true,false,io::EFAT_ZIP)) {
+		if (!fs->addFileArchive(zipfile, false, false, io::EFAT_ZIP)) {
 			lua_pushboolean(L,false);
 			return 1;
 		}
@@ -865,6 +865,16 @@ bool ModApiMainMenu::mayModifyPath(const std::string &path)
 		return true;
 
 	return false;
+}
+
+
+/******************************************************************************/
+int ModApiMainMenu::l_may_modify_path(lua_State *L)
+{
+	const char *target = luaL_checkstring(L, 1);
+	std::string absolute_destination = fs::RemoveRelativePathComponents(target);
+	lua_pushboolean(L, ModApiMainMenu::mayModifyPath(absolute_destination));
+	return 1;
 }
 
 /******************************************************************************/
@@ -1057,6 +1067,7 @@ void ModApiMainMenu::Initialize(lua_State *L, int top)
 	API_FCT(delete_dir);
 	API_FCT(copy_dir);
 	API_FCT(extract_zip);
+	API_FCT(may_modify_path);
 	API_FCT(get_mainmenu_path);
 	API_FCT(show_path_select_dialog);
 	API_FCT(download_file);
@@ -1086,6 +1097,7 @@ void ModApiMainMenu::InitializeAsync(lua_State *L, int top)
 	API_FCT(delete_dir);
 	API_FCT(copy_dir);
 	//API_FCT(extract_zip); //TODO remove dependency to GuiEngine
+	API_FCT(may_modify_path);
 	API_FCT(download_file);
 	//API_FCT(gettext); (gettext lib isn't threadsafe)
 }

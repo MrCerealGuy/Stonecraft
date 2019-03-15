@@ -26,43 +26,46 @@ https://goo.gl/forms/1MwRnBDntHntkuHg2
 
 ## Default Controls
 
-```
-Move mouse: Look around
-W, A, S, D: Move
-Space: Jump/move up
-Strg: Sneak/move down
-Q: Drop itemstack
-Shift + Q: Drop single item
-Left mouse button: Dig/punch/take item
-Right mouse button: Place/use
-Shift + right mouse button: Build (without using)
-I: Inventory menu
-Mouse wheel: Select item
-0-9: Select item
-Z: Zoom
-T: Chat
-/: Command
-Esc: Pause menu/abort/exit (pauses only singleplayer game)
-R: Enable/disable full range view
-+: Increase view range
--: Decrease view range
-K: Enable/disable fly mode (needs fly privilege)
-J: Enable/disable fast mode (needs fast privilege)
-H: Enable/disable noclip mode (needs noclip privilege)
-F1: Hide/show HUD
-F2: Hide/show chat
-F3: Disable/enable fog
-F4: Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)
-F5: Cycle through debug info screens
-F6: Cycle through profiler info screens
-F7: Cycle through camera modes
-F8: Toggle cinematic mode
-F9: Cycle through minimap modes
-Shift + F9: Change minimap orientation
-F10: Show/hide console
-F12: Take screenshot
-P: Write stack traces into debug.txt
-```
+All controls are re-bindable using settings.
+Some can be changed in the key config dialog in the settings tab.
+
+| Button                        | Action                                                         |
+|-------------------------------|----------------------------------------------------------------|
+| Move mouse                    | Look around                                                    |
+| W, A, S, D                    | Move                                                           |
+| Space                         | Jump/move up                                                   |
+| Ctrl                          | Sneak/move down                                                |
+| Q                             | Drop itemstack                                                 |
+| Shift + Q                     | Drop single item                                               |
+| Left mouse button             | Dig/punch/take item                                            |
+| Right mouse button            | Place/use                                                      |
+| Shift + right mouse button    | Build (without using)                                          |
+| I                             | Inventory menu                                                 |
+| Mouse wheel                   | Select item                                                    |
+| 0-9                           | Select item                                                    |
+| Z                             | Zoom (needs zoom privilege)                                    |
+| T                             | Chat                                                           |
+| /                             | Command                                                        |
+| Esc                           | Pause menu/abort/exit (pauses only singleplayer game)          |
+| R                             | Enable/disable full range view                                 |
+| +                             | Increase view range                                            |
+| -                             | Decrease view range                                            |
+| K                             | Enable/disable fly mode (needs fly privilege)                  |
+| L                             | Enable/disable pitch move mode                                 |
+| J                             | Enable/disable fast mode (needs fast privilege)                |
+| H                             | Enable/disable noclip mode (needs noclip privilege)            |
+| E                             | Move fast in fast mode                                         |
+| F1                            | Hide/show HUD                                                  |
+| F2                            | Hide/show chat                                                 |
+| F3                            | Disable/enable fog                                             |
+| F4                            | Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)  |
+| F5                            | Cycle through debug information screens                        |
+| F6                            | Cycle through profiler info screens                            |
+| F7                            | Cycle through camera modes                                     |
+| F9                            | Cycle through minimap modes                                    |
+| Shift + F9                    | Change minimap orientation                                     |
+| F10                           | Show/hide console                                              |
+| F12                           | Take screenshot                                                |
 
 Most controls are settable in the configuration file, see the section below.
 
@@ -99,19 +102,19 @@ Use --help
 ```
 
 
-# Building GNU/Linux 
+# Building GNU/Linux
 
 ## Dependencies
 
-| Dependency | Version | Commentary |
-|------------|---------|------------|
-| GCC        | 4.9+    | Can be replaced with Clang 3.4+ |
-| CMake      | 2.6+    |            |
-| Irrlicht   | 1.7.3+  |            |
-| SQLite3    | 3.0+    |            |
-| LuaJIT     | 2.0+    | Bundled Lua 5.1 is used if not present |
-| GMP        | 5.0.0+  | Bundled mini-GMP is used if not present |
-| JsonCPP    | 1.0.0+  | Bundled JsonCPP is used if not present |
+| Dependency | Version      | Commentary                              |
+|------------|--------------|-----------------------------------------|
+| GCC        | 4.9+         | Can be replaced with Clang 3.4+         |
+| CMake      | 2.6+         |                                         |
+| Irrlicht   | 1.8.4+       |                                         |
+| SQLite3    | 3.27.2+      |                                         |
+| LuaJIT     | 2.1.0-beta3+ | Bundled Lua 5.1 is used if not present  |
+| GMP        | 5.0.0+       | Bundled mini-GMP is used if not present |
+| JsonCPP    | 1.0.0+       | Bundled JsonCPP is used if not present  |
 
 **Install dependencies for Debian/Ubuntu**
 ```
@@ -127,7 +130,7 @@ $ cd stonecraft
 Build a version that **runs directly** from the stonecraft directory:
 ```
 $ cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=1 -DENABLE_REDIS=1 -DRUN_IN_PLACE=1
-$ make -j$(grep -c processor /proc/cpuinfo) 
+$ make -j$(grep -c processor /proc/cpuinfo)
 ```
 or run the build script
 ```
@@ -183,7 +186,7 @@ General options and their default values:
     VERSION_EXTRA=             - Text to append to version (e.g. VERSION_EXTRA=foobar -> Minetest 0.4.9-foobar)
 
 Library specific options:
-    
+
     BZIP2_INCLUDE_DIR               - Linux only; directory where bzlib.h is located
     BZIP2_LIBRARY                   - Linux only; path to libbz2.a/libbz2.so
     CURL_DLL                        - Only if building with cURL on Windows; path to libcurl.dll
@@ -393,7 +396,7 @@ See README.txt in each mod/textures directory for information about other author
 # License of Stonecraft source code
 
 Stonecraft
-Copyright (C) 2016-2018 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
+Copyright (C) 2016-2019 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

@@ -97,9 +97,10 @@ void Client::handleCommand_Hello(NetworkPacket* pkt)
 
 	// Authenticate using that method, or abort if there wasn't any method found
 	if (chosen_auth_mechanism != AUTH_MECHANISM_NONE) {
-		if (chosen_auth_mechanism == AUTH_MECHANISM_FIRST_SRP
-				&& !m_simple_singleplayer_mode
-				&& g_settings->getBool("enable_register_confirmation")) {
+		if (chosen_auth_mechanism == AUTH_MECHANISM_FIRST_SRP &&
+				!m_simple_singleplayer_mode &&
+				!getServerAddress().isLocalhost() &&
+				g_settings->getBool("enable_register_confirmation")) {
 			promptConfirmRegistration(chosen_auth_mechanism);
 		} else {
 			startAuth(chosen_auth_mechanism);
@@ -407,7 +408,9 @@ void Client::handleCommand_ChatMessage(NetworkPacket *pkt)
 		return;
 	}
 
-	*pkt >> chatMessage->sender >> chatMessage->message >> chatMessage->timestamp;
+	u64 timestamp;
+	*pkt >> chatMessage->sender >> chatMessage->message >> timestamp;
+	chatMessage->timestamp = static_cast<std::time_t>(timestamp);
 
 	chatMessage->type = (ChatMessageType) message_type;
 
@@ -894,8 +897,10 @@ void Client::handleCommand_DetachedInventory(NetworkPacket* pkt)
 		inv = inv_it->second;
 	}
 
-	std::string contents;
-	*pkt >> contents;
+	u16 ignore;
+	*pkt >> ignore; // this used to be the length of the following string, ignore it
+
+	std::string contents = pkt->getRemainingString();
 	std::istringstream is(contents, std::ios::binary);
 	inv->deSerialize(is);
 }
@@ -1006,10 +1011,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 		object_collision = readU8(is);
 	} catch (...) {}
 
-	u32 client_id = m_particle_manager.getSpawnerId();
-	m_particles_server_to_client[server_id] = client_id;
-
-	ClientEvent *event = new ClientEvent();
+	auto event = new ClientEvent();
 	event->type                                   = CE_ADD_PARTICLESPAWNER;
 	event->add_particlespawner.amount             = amount;
 	event->add_particlespawner.spawntime          = spawntime;
@@ -1029,7 +1031,7 @@ void Client::handleCommand_AddParticleSpawner(NetworkPacket* pkt)
 	event->add_particlespawner.attached_id        = attached_id;
 	event->add_particlespawner.vertical           = vertical;
 	event->add_particlespawner.texture            = new std::string(texture);
-	event->add_particlespawner.id                 = client_id;
+	event->add_particlespawner.id                 = server_id;
 	event->add_particlespawner.animation          = animation;
 	event->add_particlespawner.glow               = glow;
 
@@ -1042,16 +1044,9 @@ void Client::handleCommand_DeleteParticleSpawner(NetworkPacket* pkt)
 	u32 server_id;
 	*pkt >> server_id;
 
-	u32 client_id;
-	auto i = m_particles_server_to_client.find(server_id);
-	if (i != m_particles_server_to_client.end())
-		client_id = i->second;
-	else
-		return;
-
 	ClientEvent *event = new ClientEvent();
 	event->type = CE_DELETE_PARTICLESPAWNER;
-	event->delete_particlespawner.id = client_id;
+	event->delete_particlespawner.id = server_id;
 
 	m_client_event_queue.push(event);
 }
