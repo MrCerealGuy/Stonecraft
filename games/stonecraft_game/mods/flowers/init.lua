@@ -57,7 +57,6 @@ local function add_simple_flower(name, desc, box, f_groups)
 		paramtype = "light",
 		walkable = false,
 		buildable_to = true,
-		stack_max = 99,
 		groups = f_groups,
 		sounds = default.node_sound_leaves_defaults(),
 		selection_box = {
@@ -237,8 +236,10 @@ minetest.register_node("flowers:mushroom_brown", {
 -- Mushroom spread and death
 
 function flowers.mushroom_spread(pos, node)
-	if minetest.get_node_light(pos, nil) == 15 then
-		minetest.remove_node(pos)
+	if minetest.get_node_light(pos, 0.5) > 3 then
+		if minetest.get_node_light(pos, nil) == 15 then
+			minetest.remove_node(pos)
+		end
 		return
 	end
 	local positions = minetest.find_nodes_in_area_under_air(
@@ -250,8 +251,7 @@ function flowers.mushroom_spread(pos, node)
 	end
 	local pos2 = positions[math.random(#positions)]
 	pos2.y = pos2.y + 1
-	if minetest.get_node_light(pos, 0.5) <= 3 and
-			minetest.get_node_light(pos2, 0.5) <= 3 then
+	if minetest.get_node_light(pos2, 0.5) <= 3 then
 		minetest.set_node(pos2, {name = node.name})
 	end
 end

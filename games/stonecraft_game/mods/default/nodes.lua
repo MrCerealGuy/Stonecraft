@@ -1939,6 +1939,10 @@ minetest.register_node("default:sand_with_kelp", {
 	},
 	node_dig_prediction = "default:sand",
 	node_placement_prediction = "",
+	sounds = default.node_sound_sand_defaults({
+		dig = {name = "default_dig_snappy", gain = 0.2},
+		dug = {name = "default_grass_footstep", gain = 0.25},
+	}),
 
 	on_place = function(itemstack, placer, pointed_thing)
 		-- Call on_rightclick if the pointed node defines it
@@ -2010,6 +2014,11 @@ minetest.register_node("default:coral_green", {
 	},
 	node_dig_prediction = "default:coral_skeleton",
 	node_placement_prediction = "",
+	sounds = default.node_sound_stone_defaults({
+		dig = {name = "default_dig_snappy", gain = 0.2},
+		dug = {name = "default_grass_footstep", gain = 0.25},
+	}),
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.type ~= "node" or not placer then
 			return itemstack
@@ -2038,6 +2047,7 @@ minetest.register_node("default:coral_green", {
 
 		return itemstack
 	end,
+
 	after_destruct  = function(pos, oldnode)
 		minetest.set_node(pos, {name = "default:coral_skeleton"})
 	end,
@@ -2061,6 +2071,11 @@ minetest.register_node("default:coral_pink", {
 	},
 	node_dig_prediction = "default:coral_skeleton",
 	node_placement_prediction = "",
+	sounds = default.node_sound_stone_defaults({
+		dig = {name = "default_dig_snappy", gain = 0.2},
+		dug = {name = "default_grass_footstep", gain = 0.25},
+	}),
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.type ~= "node" or not placer then
 			return itemstack
@@ -2089,6 +2104,7 @@ minetest.register_node("default:coral_pink", {
 
 		return itemstack
 	end,
+
 	after_destruct  = function(pos, oldnode)
 		minetest.set_node(pos, {name = "default:coral_skeleton"})
 	end,
@@ -2112,6 +2128,11 @@ minetest.register_node("default:coral_cyan", {
 	},
 	node_dig_prediction = "default:coral_skeleton",
 	node_placement_prediction = "",
+	sounds = default.node_sound_stone_defaults({
+		dig = {name = "default_dig_snappy", gain = 0.2},
+		dug = {name = "default_grass_footstep", gain = 0.25},
+	}),
+
 	on_place = function(itemstack, placer, pointed_thing)
 		if pointed_thing.type ~= "node" or not placer then
 			return itemstack
@@ -2140,6 +2161,7 @@ minetest.register_node("default:coral_cyan", {
 
 		return itemstack
 	end,
+
 	after_destruct  = function(pos, oldnode)
 		minetest.set_node(pos, {name = "default:coral_skeleton"})
 	end,
@@ -2176,6 +2198,7 @@ minetest.register_node("default:coral_skeleton", {
 minetest.register_node("default:water_source", {
 	description = S("Water Source"),
 	drawtype = "liquid",
+	waving = 3,
 	tiles = {
 		{
 			name = "default_water_source_animated.png",
@@ -2219,6 +2242,7 @@ minetest.register_node("default:water_source", {
 minetest.register_node("default:water_flowing", {
 	description = S("Flowing Water"),
 	drawtype = "flowingliquid",
+	waving = 3,
 	tiles = {"default_water.png"},
 	special_tiles = {
 		{
@@ -2585,12 +2609,19 @@ local function register_sign(material, desc, def)
 				minetest.record_protection_violation(pos, player_name)
 				return
 			end
-			local meta = minetest.get_meta(pos)
-			if not fields.text then return end
+			local text = fields.text
+			if not text then
+				return
+			end
+			if string.len(text) > 512 then
+				minetest.chat_send_player(player_name, "Text too long")
+				return
+			end
 			minetest.log("action", (player_name or "") .. " wrote \"" ..
-				fields.text .. "\" to sign at " .. minetest.pos_to_string(pos))
-			meta:set_string("text", fields.text)
-			meta:set_string("infotext", '"' .. fields.text .. '"')
+				text .. "\" to sign at " .. minetest.pos_to_string(pos))
+			local meta = minetest.get_meta(pos)
+			meta:set_string("text", text)
+			meta:set_string("infotext", '"' .. text .. '"')
 		end,
 	})
 end
