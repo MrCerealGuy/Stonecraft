@@ -1,7 +1,7 @@
 ---
 # Github repository is cloned every day on Gitlab.com
-# https://gitlab.com/minetest/minetest
-# Pipelines URL: https://gitlab.com/minetest/minetest/pipelines
+# https://gitlab.com/MrCerealGuy/Stonecraft
+# Pipelines URL: https://gitlab.com/MrCerealGuy/Stonecraft/pipelines
 
 stages:
   - build
@@ -9,16 +9,15 @@ stages:
   - deploy
 
 variables:
-  MINETEST_GAME_REPO: "https://github.com/minetest/minetest_game.git"
   CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
 
 .build_template: &build_definition
   stage: build
   script:
     - mkdir cmakebuild
-    - mkdir -p artifact/minetest/usr/
+    - mkdir -p artifact/stonecraft/usr/
     - cd cmakebuild
-    - cmake -DCMAKE_INSTALL_PREFIX=../artifact/minetest/usr/ -DCMAKE_BUILD_TYPE=Release -DRUN_IN_PLACE=FALSE -DENABLE_GETTEXT=TRUE -DBUILD_SERVER=TRUE ..
+    - cmake -DCMAKE_INSTALL_PREFIX=../artifact/stonecraft/usr/ -DCMAKE_BUILD_TYPE=Release -DRUN_IN_PLACE=TRUE -DENABLE_GETTEXT=TRUE -DBUILD_SERVER=TRUE ..
     - make -j2
     - make install
   artifacts:
@@ -32,15 +31,14 @@ variables:
   before_script:
     - apt-get update -y
     - apt-get install -y git
-    - mkdir -p build/deb/minetest/DEBIAN/
-    - cp misc/debpkg-control build/deb/minetest/DEBIAN/control
-    - cp -Rp artifact/minetest/usr build/deb/minetest/
+    - mkdir -p build/deb/stonecraft/DEBIAN/
+    - cp misc/debpkg-control build/deb/stonecraft/DEBIAN/control
+    - cp -Rp artifact/stonecraft/usr build/deb/stonecraft/
   script:
-    - git clone $MINETEST_GAME_REPO build/deb/minetest/usr/share/minetest/games/minetest
-    - rm -Rf build/deb/minetest/usr/share/minetest/games/minetest/.git
-    - sed -i 's/DATEPLACEHOLDER/'$(date +%y.%m.%d)'/g' build/deb/minetest/DEBIAN/control
-    - sed -i 's/LEVELDB_PLACEHOLDER/'$LEVELDB_PKG'/g' build/deb/minetest/DEBIAN/control
-    - cd build/deb/ && dpkg-deb -b minetest/ && mv minetest.deb ../../
+    - rm -Rf build/deb/stonecraft/usr/share/stonecraft/games/stonecraft/.git
+    - sed -i 's/DATEPLACEHOLDER/'$(date +%y.%m.%d)'/g' build/deb/stonecraft/DEBIAN/control
+    - sed -i 's/LEVELDB_PLACEHOLDER/'$LEVELDB_PKG'/g' build/deb/stonecraft/DEBIAN/control
+    - cd build/deb/ && dpkg-deb -b stonecraft/ && mv stonecraft.deb ../../
   artifacts:
     when: on_success
     expire_in: 90 day
@@ -260,19 +258,19 @@ build:fedora-24:
   <<: *generic_win_template
   stage: package
   script:
-    - cd build/minetest/_build
+    - cd build/stonecraft/_build
     - make package
     - cd ../../../
-    - mkdir minetest-win-${WIN_ARCH}
-    - unzip build/minetest/_build/minetest-*-win*.zip -d minetest-win-${WIN_ARCH}
-    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libgcc*.dll minetest-win-${WIN_ARCH}/minetest-*-win*/bin
-    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libstdc++*.dll minetest-win-${WIN_ARCH}/minetest-*-win*/bin
-    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libwinpthread*.dll minetest-win-${WIN_ARCH}/minetest-*-win*/bin
+    - mkdir stonecraft-win-${WIN_ARCH}
+    - unzip build/stonecraft/_build/stonecraft-*-win*.zip -d stonecraft-win-${WIN_ARCH}
+    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libgcc*.dll stonecraft-win-${WIN_ARCH}/stonecraft-*-win*/bin
+    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libstdc++*.dll stonecraft-win-${WIN_ARCH}/stonecraft-*-win*/bin
+    - cp /usr/${WIN_ARCH}-w64-mingw32/bin/libwinpthread*.dll stonecraft-win-${WIN_ARCH}/stonecraft-*-win*/bin
   artifacts:
     when: on_success
     expire_in: 90 day
     paths:
-      - minetest-win-*/*
+      - stonecraft-win-*/*
 
 build:win32:
   <<: *build_win_template
