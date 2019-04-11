@@ -61,26 +61,26 @@ function unified_inventory.get_formspec(player, page)
 	unified_inventory.current_page[player_name] = page
 	local pagedef = unified_inventory.pages[page]
 
+	if not pagedef then
+		return "" -- Invalid page name
+	end
+
 	local formspec = {
 		"size[14,10]",
+		pagedef.formspec_prepend and "" or "no_prepend[]",
 		"background[-0.19,-0.25;14.4,10.75;ui_form_bg.png]" -- Background
 	}
-	local n = 3
+	local n = 4
 
 	if draw_lite_mode then
 		formspec[1] = "size[11,7.7]"
-		formspec[2] = "background[-0.19,-0.2;11.4,8.4;ui_form_bg.png]"
+		formspec[3] = "background[-0.19,-0.2;11.4,8.4;ui_form_bg.png]"
 	end
 
 	if unified_inventory.is_creative(player_name)
 	and page == "craft" then
 		formspec[n] = "background[0,"..(ui_peruser.formspec_y + 2)..";1,1;ui_single_slot.png]"
 		n = n+1
-	end
-
-	-- Current page
-	if not unified_inventory.pages[page] then
-		return "" -- Invalid page name
 	end
 
 	local perplayer_formspec = unified_inventory.get_per_player_formspec(player_name)

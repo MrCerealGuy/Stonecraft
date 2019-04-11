@@ -50,24 +50,24 @@ abstract_woodsoils.place_soil = function(pos)
 			local node_3b = minetest.get_node(radius_3b)
 			-- Dirt with Leaves 1
 			if minetest.get_item_group(minetest.get_node(radius_1a).name, "soil") > 0 then
-				minetest.set_node(radius_1a, {name="woodsoils:dirt_with_leaves_1"})
+				minetest.swap_node(radius_1a, {name="woodsoils:dirt_with_leaves_1"})
 			end
 			if minetest.get_item_group(minetest.get_node(radius_1b).name, "soil") > 0 then
-				minetest.set_node(radius_1b, {name="woodsoils:dirt_with_leaves_1"})
+				minetest.swap_node(radius_1b, {name="woodsoils:dirt_with_leaves_1"})
 			end
 			-- Grass with Leaves 2
 			if string.find(node_2a.name, "dirt_with_grass") then
-				minetest.set_node(radius_2a, {name="woodsoils:grass_with_leaves_2"})
+				minetest.swap_node(radius_2a, {name="woodsoils:grass_with_leaves_2"})
 			end
 			if string.find(node_2b.name, "dirt_with_grass") then
-				minetest.set_node(radius_2b, {name="woodsoils:grass_with_leaves_2"})
+				minetest.swap_node(radius_2b, {name="woodsoils:grass_with_leaves_2"})
 			end
 			-- Grass with Leaves 1
 			if string.find(node_3a.name, "dirt_with_grass") then
-				minetest.set_node(radius_3a, {name="woodsoils:grass_with_leaves_1"})
+				minetest.swap_node(radius_3a, {name="woodsoils:grass_with_leaves_1"})
 			end
 			if string.find(node_3b.name, "dirt_with_grass") then
-				minetest.set_node(radius_3b, {name="woodsoils:grass_with_leaves_1"})
+				minetest.swap_node(radius_3b, {name="woodsoils:grass_with_leaves_1"})
 			end
 		end
 	end
@@ -147,7 +147,7 @@ minetest.register_abm({
 			end
 			if height < 4 then
 				if minetest.get_node(pos).name == "air" then
-					minetest.set_node(pos, {name="default:papyrus"})
+					minetest.swap_node(pos, {name="default:papyrus"})
 				end
 			end
 		end

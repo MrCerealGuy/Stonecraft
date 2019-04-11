@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+### Added
+
+- Polish translation.
+
+## [1.3.0] - 2019-03-23
+
+### Changed
+
+- Stairs+ are now displayed in the creative inventory by default.
+- Localization files now use the gettext `.po` format.
+- Updated intllib support to avoid using deprecated functions.
+
+### Fixed
+
+- Node rotation now works correctly when placing Stairs+ nodes.
+- Stairs+ glasslike nodes' textures are now easier to see.
+
 ## [1.2.0] - 2018-11-24
 
 ### Added
@@ -27,12 +44,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- New craft for:
+- New crafting recipes for:
   - Stone Tile
   - Circle Stone Bricks
 - Stairs+:
-  - Move definitions to `stairsplus.defs` table in a separate file
-  - Move recipe definitions to `stairsplus.register_recipes` function in a separate file
+  - Moved definitions to `stairsplus.defs` table into a separate file.
+  - Moved recipe definitions to `stairsplus.register_recipes` function
+    into a separate file.
 
 ## [1.1.0] - 2017-10-04
 
@@ -52,12 +70,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
   - Straw
   - Tin Block
   - Wool (all colors)
-- Other mods can now get a list of all the defined Stairs+ shapes
+- Other mods can now get a list of all the defined Stairs+ shapes.
 
 ## 1.0.0 - 2017-02-19
 
 - Initial versioned release.
 
-[Unreleased]: https://github.com/minetest-mods/moreblocks/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/minetest-mods/moreblocks/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/minetest-mods/moreblocks/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/minetest-mods/moreblocks/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/minetest-mods/moreblocks/compare/v1.0.0...v1.1.0

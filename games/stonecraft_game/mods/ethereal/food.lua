@@ -10,11 +10,6 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
--- fix apples hanging in sky when no tree around
-minetest.override_item("default:apple", {
-	drop = "default:apple",
-})
-
 -- Banana (Heals one heart when eaten)
 minetest.register_node("ethereal:banana", {
 	description = S("Banana"),

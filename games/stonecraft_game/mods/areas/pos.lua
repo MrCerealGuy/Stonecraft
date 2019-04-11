@@ -11,6 +11,16 @@ areas.set_pos = {}
 areas.pos1 = {}
 areas.pos2 = {}
 
+local LIMIT = 30992 -- this is due to MAPBLOCK_SIZE=16!
+
+local function posLimit(pos)
+	return {
+		x = math.max(math.min(pos.x, LIMIT), -LIMIT),
+		y = math.max(math.min(pos.y, LIMIT), -LIMIT),
+		z = math.max(math.min(pos.z, LIMIT), -LIMIT)
+	}
+end
+
 minetest.register_chatcommand("select_area", {
 	params = "<ID>",
 	description = "Select a area by id.",
@@ -35,7 +45,7 @@ minetest.register_chatcommand("area_pos1", {
 		.." location or the one specified",
 	privs = {},
 	func = function(name, param)
-		local pos = nil
+		local pos
 		local found, _, x, y, z = param:find(
 				"^(-?%d+)[, ](-?%d+)[, ](-?%d+)$")
 		if found then
@@ -50,7 +60,7 @@ minetest.register_chatcommand("area_pos1", {
 		else
 			return false, "Invalid usage, see /help area_pos1."
 		end
-		pos = vector.round(pos)
+		pos = posLimit(vector.round(pos))
 		areas:setPos1(name, pos)
 		return true, "Area position 1 set to "
 				..minetest.pos_to_string(pos)
@@ -62,7 +72,7 @@ minetest.register_chatcommand("area_pos2", {
 	description = "Set area protection region position 2 to your"
 		.." location or the one specified",
 	func = function(name, param)
-		local pos = nil
+		local pos
 		local found, _, x, y, z = param:find(
 				"^(-?%d+)[, ](-?%d+)[, ](-?%d+)$")
 		if found then
@@ -77,7 +87,7 @@ minetest.register_chatcommand("area_pos2", {
 		else
 			return false, "Invalid usage, see /help area_pos2."
 		end
-		pos = vector.round(pos)
+		pos = posLimit(vector.round(pos))
 		areas:setPos2(name, pos)
 		return true, "Area position 2 set to "
 				..minetest.pos_to_string(pos)
@@ -130,12 +140,12 @@ function areas:getPos(playerName)
 end
 
 function areas:setPos1(playerName, pos)
-	areas.pos1[playerName] = pos
+	areas.pos1[playerName] = posLimit(pos)
 	areas.markPos1(playerName)
 end
 
 function areas:setPos2(playerName, pos)
-	areas.pos2[playerName] = pos
+	areas.pos2[playerName] = posLimit(pos)
 	areas.markPos2(playerName)
 end
 

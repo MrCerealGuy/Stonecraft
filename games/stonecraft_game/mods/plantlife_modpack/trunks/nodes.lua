@@ -44,7 +44,7 @@ for i in pairs(NoDe) do
 			local pt = pointed_thing
 			local direction = minetest.dir_to_facedir(placer:get_look_dir())
 			if minetest.get_node(pt.above).name=="air" then
-				minetest.set_node(pt.above, {name="trunks:twig_"..math.random(1,4), param2=direction})
+				minetest.swap_node(pt.above, {name="trunks:twig_"..math.random(1,4), param2=direction})
 				if not minetest.setting_getbool("creative_mode") then
 					itemstack:take_item()
 				end
@@ -230,7 +230,7 @@ if Auto_Roof_Corner == true then
 			and ((node_north.name == roof and node_north.param2 == 3)
 			or (node_north.name == corner and node_north.param2 == 3))
 			then
-				minetest.set_node(pos, {name=corner, param2=0})
+				minetest.swap_node(pos, {name=corner, param2=0})
 			end
 
 			if ((node_north.name == roof and node_north.param2 == 1)
@@ -238,7 +238,7 @@ if Auto_Roof_Corner == true then
 			and ((node_east.name == roof and node_east.param2 == 0)
 			or (node_east.name == corner and node_east.param2 == 0))
 			then
-				minetest.set_node(pos, {name=corner, param2=1})
+				minetest.swap_node(pos, {name=corner, param2=1})
 			end
 
 			if ((node_east.name == roof and node_east.param2 == 2)
@@ -246,7 +246,7 @@ if Auto_Roof_Corner == true then
 			and ((node_south.name == roof and node_south.param2 == 1)
 			or (node_south.name == corner and node_south.param2 == 1))
 			then
-				minetest.set_node(pos, {name=corner, param2=2})
+				minetest.swap_node(pos, {name=corner, param2=2})
 			end
 
 			if ((node_south.name == roof and node_south.param2 == 3)
@@ -254,7 +254,7 @@ if Auto_Roof_Corner == true then
 			and ((node_west.name == roof and node_west.param2 == 2)
 			or (node_west.name == corner and node_west.param2 == 2))
 			then
-				minetest.set_node(pos, {name=corner, param2=3})
+				minetest.swap_node(pos, {name=corner, param2=3})
 			end
 		-- corner 2
 			if ((node_west.name == roof and node_west.param2 == 2)
@@ -262,7 +262,7 @@ if Auto_Roof_Corner == true then
 			and ((node_north.name == roof and node_north.param2 == 1)
 			or (node_north.name == corner_2 and node_north.param2 == 3))
 			then
-				minetest.set_node(pos, {name=corner_2, param2=0})
+				minetest.swap_node(pos, {name=corner_2, param2=0})
 			end
 
 			if ((node_north.name == roof and node_north.param2 == 3)
@@ -270,7 +270,7 @@ if Auto_Roof_Corner == true then
 			and ((node_east.name == roof and node_east.param2 == 2)
 			or (node_east.name == corner_2 and node_east.param2 == 0))
 			then
-				minetest.set_node(pos, {name=corner_2, param2=1})
+				minetest.swap_node(pos, {name=corner_2, param2=1})
 			end
 
 			if ((node_east.name == roof and node_east.param2 == 0)
@@ -278,7 +278,7 @@ if Auto_Roof_Corner == true then
 			and ((node_south.name == roof and node_south.param2 == 3)
 			or (node_south.name == corner_2 and node_south.param2 == 1))
 			then
-				minetest.set_node(pos, {name=corner_2, param2=2})
+				minetest.swap_node(pos, {name=corner_2, param2=2})
 			end
 
 			if ((node_south.name == roof and node_south.param2 == 1)
@@ -286,7 +286,7 @@ if Auto_Roof_Corner == true then
 			and ((node_west.name == roof and node_west.param2 == 0)
 			or (node_west.name == corner_2 and node_west.param2 == 2))
 			then
-				minetest.set_node(pos, {name=corner_2, param2=3})
+				minetest.swap_node(pos, {name=corner_2, param2=3})
 			end
 
 		end,

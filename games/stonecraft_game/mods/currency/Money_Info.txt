@@ -1,33 +1,36 @@
-Mine-Geld
+Minegeld
 ---------
 
 They have no recipe.
-A good starting amount is about 250Mg on a server
 
-You currently get a basic income of 1 Minegeld per day, 
-so long as you dig at least one node in that day 
-and have an empty inventory slot for the money to go in.
+In general, one Mg equals one US dollar, as of Sept. 2018.
 
-Lump Conversion
+A good starting amount is about 250 Mg on a server
 
-Coal Lump ~1Mg
-Iron Lump ~4Mg
-Copper Lump ~4Mg
-Gold Lump ~5Mg
-Mese Crystal ~40Mg
-Diamond ~50Mg
+You currently get a basic income of 10 Minegeld per day, so long as you dig at
+least one node in that day and have an empty inventory slot for the money to
+go in.
+
+Lump Conversion suggestions:
+
+Coal Lump          1 Mg
+Iron Lump          4 Mg
+Copper Lump        4 Mg
+Gold Lump          5 Mg
+Mese Crystal      40 Mg
+Diamond           50 Mg
 
 Ingot Conversion
 
-Steel Ingot ~5Mg
-Copper Ingot ~5Mg
-Gold Ingot ~6Mg
+Steel Ingot        5 Mg
+Copper Ingot       5 Mg
+Gold Ingot         6 Mg
 
 Block Conversion
 
-Coal Block ~9Mg
-Steel Block ~45Mg
-Copper Block ~45Mg
-Gold Block ~54Mg
-Mese Block ~360Mg
-Diamond Block ~450Mg
+Coal Block         9 Mg
+Steel Block       45 Mg
+Copper Block      45 Mg
+Gold Block        54 Mg
+Mese Block       360 Mg
+Diamond Block    450 Mg

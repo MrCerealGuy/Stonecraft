@@ -33,7 +33,7 @@ minetest.register_node("currency:safe", {
 	paramtype = "light",
 	paramtype2 = "facedir",
 	tiles = {"safe_side.png",
-	        "safe_side.png",
+			"safe_side.png",
 			"safe_side.png",
 			"safe_side.png",
 			"safe_side.png",
@@ -66,7 +66,7 @@ minetest.register_node("currency:safe", {
 		end
 		return count
 	end,
-    allow_metadata_inventory_put = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		if not has_safe_privilege(meta, player) then
 			minetest.log("action", S("@1 tried to access a safe belonging to @2 at @3",
@@ -75,7 +75,7 @@ minetest.register_node("currency:safe", {
 		end
 		return stack:get_count()
 	end,
-    allow_metadata_inventory_take = function(pos, listname, index, stack, player)
+	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		if not has_safe_privilege(meta, player) then
 			minetest.log("action", S("@1 tried to access a safe belonging to @2 at @3",
@@ -87,10 +87,10 @@ minetest.register_node("currency:safe", {
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		minetest.log("action", S("@1 moves stuff in safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
 	end,
-    on_metadata_inventory_put = function(pos, listname, index, stack, player)
+	on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		minetest.log("action", S("@1 moves stuff to safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
 	end,
-    on_metadata_inventory_take = function(pos, listname, index, stack, player)
+	on_metadata_inventory_take = function(pos, listname, index, stack, player)
 		minetest.log("action", S("@1 takes stuff from safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
 	end,
 	on_rightclick = function(pos, node, clicker)

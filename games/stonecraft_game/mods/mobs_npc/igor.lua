@@ -70,7 +70,7 @@ mobs:register_mob("mobs_npc:igor", {
 		-- feed to heal npc
 		if mobs:feed_tame(self, clicker, 8, false, true) then return end
 		if mobs:protect(self, clicker) then return end
-		if mobs:capture_mob(self, clicker, 0, 5, 80, false, nil) then return end
+		if mobs:capture_mob(self, clicker, nil, 5, 80, false, nil) then return end
 
 		local item = clicker:get_wielded_item()
 		local name = clicker:get_player_name()

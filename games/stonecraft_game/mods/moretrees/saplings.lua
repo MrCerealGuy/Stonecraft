@@ -16,13 +16,15 @@ for i in ipairs(moretrees.treelist) do
 			grow_function = moretrees[tree_model],
 		})
 
-		biome_lib:grow_plants({
-			grow_delay = 2,
-			grow_chance = 30,
-			grow_plant = "moretrees:"..treename.."_sapling_ongen",
-			grow_nodes = moretrees[tree_biome].surface,
-			grow_function = moretrees[tree_model],
-		})
+		if moretrees.spawn_saplings then
+			biome_lib:grow_plants({
+				grow_delay = 2,
+				grow_chance = 30,
+				grow_plant = "moretrees:"..treename.."_sapling_ongen",
+				grow_nodes = moretrees[tree_biome].surface,
+				grow_function = moretrees[tree_model],
+			})
+		end
 
 	end
 end
@@ -35,26 +37,11 @@ biome_lib:grow_plants({
 	grow_function = "moretrees.grow_birch"
 })
 
-biome_lib:grow_plants({
-	grow_delay = 2,
-	grow_chance = 30,
-	grow_plant = "moretrees:birch_sapling_ongen",
-	grow_nodes = moretrees.birch_biome.surface,
-	grow_function = "moretrees.grow_birch"
-})
 
 biome_lib:grow_plants({
 	grow_delay = moretrees.sapling_interval,
 	grow_chance = moretrees.sapling_chance,
 	grow_plant = "moretrees:spruce_sapling",
-	grow_nodes = moretrees.spruce_biome.surface,
-	grow_function = "moretrees.grow_spruce"
-})
-
-biome_lib:grow_plants({
-	grow_delay = 2,
-	grow_chance = 30,
-	grow_plant = "moretrees:spruce_sapling_ongen",
 	grow_nodes = moretrees.spruce_biome.surface,
 	grow_function = "moretrees.grow_spruce"
 })
@@ -68,14 +55,6 @@ biome_lib:grow_plants({
 })
 
 biome_lib:grow_plants({
-	grow_delay = 2,
-	grow_chance = 30,
-	grow_plant = "moretrees:fir_sapling_ongen",
-	grow_nodes = moretrees.fir_biome.surface,
-	grow_function = "moretrees.grow_fir"
-})
-
-biome_lib:grow_plants({
 	grow_delay = moretrees.sapling_interval,
 	grow_chance = moretrees.sapling_chance,
 	grow_plant = "default:junglesapling",
@@ -83,11 +62,37 @@ biome_lib:grow_plants({
 	grow_function = "moretrees.grow_jungletree"
 })
 
-biome_lib:grow_plants({
-	grow_delay = 2,
-	grow_chance = 30,
-	grow_plant = "moretrees:jungletree_sapling_ongen",
-	grow_nodes = moretrees.jungletree_biome.surface,
-	grow_function = "moretrees.grow_jungletree"
-})
+if moretrees.spawn_saplings then
+	biome_lib:grow_plants({
+		grow_delay = 2,
+		grow_chance = 30,
+		grow_plant = "moretrees:jungletree_sapling_ongen",
+		grow_nodes = moretrees.jungletree_biome.surface,
+		grow_function = "moretrees.grow_jungletree"
+	})
 
+	biome_lib:grow_plants({
+		grow_delay = 2,
+		grow_chance = 30,
+		grow_plant = "moretrees:fir_sapling_ongen",
+		grow_nodes = moretrees.fir_biome.surface,
+		grow_function = "moretrees.grow_fir"
+	})
+
+
+	biome_lib:grow_plants({
+		grow_delay = 2,
+		grow_chance = 30,
+		grow_plant = "moretrees:spruce_sapling_ongen",
+		grow_nodes = moretrees.spruce_biome.surface,
+		grow_function = "moretrees.grow_spruce"
+	})
+
+	biome_lib:grow_plants({
+		grow_delay = 2,
+		grow_chance = 30,
+		grow_plant = "moretrees:birch_sapling_ongen",
+		grow_nodes = moretrees.birch_biome.surface,
+		grow_function = "moretrees.grow_birch"
+	})
+end

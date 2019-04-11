@@ -1,7 +1,7 @@
 --[[
 More Blocks: configuration handling
 
-Copyright (c) 2011-2018 Hugo Locurcio and contributors.
+Copyright © 2011-2019 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -26,4 +26,4 @@ local function setting(settingtype, name, default)
 end
 
 -- Show stairs/slabs/panels/microblocks in creative inventory (true or false):
-setting("bool", "stairsplus_in_creative_inventory", false)
+setting("bool", "stairsplus_in_creative_inventory", true)

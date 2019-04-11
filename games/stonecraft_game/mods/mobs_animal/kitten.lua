@@ -39,7 +39,7 @@ reach = 1,
 	drops = {
 		{name = "farming:string", chance = 1, min = 0, max = 1},
 	},
-	water_damage = 1,
+	water_damage = 0,
 	lava_damage = 5,
 	fear_height = 3,
 	animation = {

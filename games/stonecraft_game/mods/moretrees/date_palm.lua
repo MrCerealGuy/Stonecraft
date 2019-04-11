@@ -10,7 +10,6 @@
 -- (e.g. eaten by birds, ...), and a small fraction will drop as items.
 
 -- © 2016, Rogier <rogier777@gmail.com>
--- License: WTFPL
 
 --[[
 
@@ -59,7 +58,7 @@ ftrunk.after_destruct = function(pos, oldnode)
 	for _,datespos in pairs(dates) do
 		-- minetest.dig_node(datespos) does not cause nearby dates to be dropped :-( ...
 		local items = minetest.get_node_drops(minetest.get_node(datespos).name)
-		minetest.remove_node(datespos)
+		minetest.swap_node(datespos, biome_lib.air)
 		for _, itemname in pairs(items) do
 			minetest.add_item(datespos, itemname)
 		end
@@ -106,9 +105,9 @@ local date_regrow_abm_spec = {
 			local datenode = minetest.get_node(datepos)
 			if datenode.name == "air" then
 				if node.name == "moretrees:date_palm_ffruit_trunk" then
-					minetest.set_node(datepos, {name="moretrees:dates_f0"})
+					minetest.swap_node(datepos, {name="moretrees:dates_f0"})
 				else
-					minetest.set_node(datepos, {name="moretrees:dates_m0"})
+					minetest.swap_node(datepos, {name="moretrees:dates_m0"})
 				end
 			end
 		end
@@ -144,9 +143,9 @@ minetest.register_abm({
 		for _,genpos in pairs(dates1) do
 			if math.random(100) <= 20 then
 				if type == "m" then
-					minetest.set_node(genpos, {name = "moretrees:dates_n"})
+					minetest.swap_node(genpos, {name = "moretrees:dates_n"})
 				else
-					minetest.set_node(genpos, {name = "moretrees:dates_f4"})
+					minetest.swap_node(genpos, {name = "moretrees:dates_f4"})
 				end
 			end
 		end
@@ -154,9 +153,9 @@ minetest.register_abm({
 		for _,genpos in pairs(dates2) do
 			if math.random(100) <= 5 then
 				if type == "m" then
-					minetest.set_node(genpos, {name = "moretrees:dates_n"})
+					minetest.swap_node(genpos, {name = "moretrees:dates_n"})
 				else
-					minetest.set_node(genpos, {name = "moretrees:dates_f4"})
+					minetest.swap_node(genpos, {name = "moretrees:dates_f4"})
 				end
 			end
 		end
@@ -556,7 +555,7 @@ local dates_growfn = function(pos, elapsed)
 		elseif string.find(node.name, "moretrees:dates_m") then
 			minetest.swap_node(pos, {name="moretrees:dates_n"})
 		else
-			minetest.remove_node(pos)
+			minetest.swap_node(pos, biome_lib.air)
 		end
 		return
 	elseif node.name == "moretrees:dates_f0" and math.random(100) <= 100 * dates_regrow_prob then
@@ -596,7 +595,7 @@ local dates_growfn = function(pos, elapsed)
 	elseif string.match(node.name, "n$") then
 		-- Remove stems.
 		if math.random(stems_drop_ichance) == 1 then
-			minetest.remove_node(pos)
+			minetest.swap_node(pos, biome_lib.air)
 			return "stemdrop"
 		end
 		action = "nostemdrop"

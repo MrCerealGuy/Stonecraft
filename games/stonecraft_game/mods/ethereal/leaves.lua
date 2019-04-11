@@ -287,6 +287,51 @@ minetest.register_node("ethereal:bamboo_leaves", {
 	after_place_node = default.after_place_leaves,
 })
 
+-- sakura leaves
+minetest.register_node("ethereal:sakura_leaves", {
+	description = S("Sakura Leaves"),
+	drawtype = leaftype,
+	visual_scale = 1.4,
+	tiles = {"ethereal_sakura_leaves.png"},
+	inventory_image = "ethereal_sakura_leaves.png",
+	wield_image = "ethereal_sakura_leaves.png",
+	paramtype = "light",
+	walkable = ethereal.leafwalk,
+	waving = 1,
+	groups = {snappy = 3, leafdecay = 3, leaves = 1, flammable = 2},
+	drop = {
+		max_items = 1,
+		items = {
+			{items = {"ethereal:sakura_sapling"}, rarity = 30},
+			{items = {"ethereal:sakura_leaves"}}
+		}
+	},
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = default.after_place_leaves,
+})
+
+minetest.register_node("ethereal:sakura_leaves2", {
+	description = S("Sakura Leaves"),
+	drawtype = leaftype,
+	visual_scale = 1.4,
+	tiles = {"ethereal_sakura_leaves2.png"},
+	inventory_image = "ethereal_sakura_leaves2.png",
+	wield_image = "ethereal_sakura_leaves2.png",
+	paramtype = "light",
+	walkable = ethereal.leafwalk,
+	waving = 1,
+	groups = {snappy = 3, leafdecay = 3, leaves = 1, flammable = 2},
+	drop = {
+		max_items = 1,
+		items = {
+			{items = {"ethereal:sakura_sapling"}, rarity = 30},
+			{items = {"ethereal:sakura_leaves2"}}
+		}
+	},
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = default.after_place_leaves,
+})
+
 -- mushroom tops
 minetest.register_node("ethereal:mushroom", {
 	description = S("Mushroom Cap"),
@@ -458,6 +503,12 @@ default.register_leafdecay({
 	trunks = {"ethereal:bamboo"},
 	leaves = {"ethereal:bamboo_leaves"},
 	radius = 2
+})
+
+default.register_leafdecay({
+	trunks = {"ethereal:sakura_trunk"},
+	leaves = {"ethereal:sakura_leaves", "ethereal:sakura_leaves2"},
+	radius = 3
 })
 
 end

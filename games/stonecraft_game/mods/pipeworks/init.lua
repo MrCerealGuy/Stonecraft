@@ -144,15 +144,17 @@ dofile(pipeworks.modpath..logicdir.."flowable_node_registry_install.lua")
 if pipeworks.enable_pipes then dofile(pipeworks.modpath.."/pipes.lua") end
 if pipeworks.enable_teleport_tube then dofile(pipeworks.modpath.."/teleport_tube.lua") end
 if pipeworks.enable_pipe_devices then dofile(pipeworks.modpath.."/devices.lua") end
-
 if pipeworks.enable_redefines then
 	dofile(pipeworks.modpath.."/compat-chests.lua")
 	dofile(pipeworks.modpath.."/compat-furnaces.lua")
 end
 if pipeworks.enable_autocrafter then dofile(pipeworks.modpath.."/autocrafter.lua") end
-if pipeworks.enable_lua_tube then dofile(pipeworks.modpath.."/lua_tube.lua") end
+if pipeworks.enable_lua_tube and
+		(minetest.get_modpath("mesecons") and not core.skip_mod("mesecons") 
+			or minetest.get_modpath("digilines") and not core.skip_mod("digilines")) then
+	dofile(pipeworks.modpath.."/lua_tube.lua")
+end
 
 minetest.register_alias("pipeworks:pipe", "pipeworks:pipe_110000_empty")
 
 print("Pipeworks loaded!")
-

@@ -117,17 +117,17 @@ abstract_youngtrees.grow_youngtree_node = function(pos, height)
 	if minetest.get_node(right_here).name == "air"  -- instead of check_air = true,
 	or minetest.get_node(right_here).name == "default:junglegrass" then
 		if height == 1 then
-				minetest.set_node(right_here, {name="youngtrees:youngtree_top"})
+				minetest.swap_node(right_here, {name="youngtrees:youngtree_top"})
 		end
 		if height == 2 then
-				minetest.set_node(right_here, {name="youngtrees:youngtree_bottom"})
-				minetest.set_node(above_right_here, {name="youngtrees:youngtree_top"})
+				minetest.swap_node(right_here, {name="youngtrees:youngtree_bottom"})
+				minetest.swap_node(above_right_here, {name="youngtrees:youngtree_top"})
 		end
 		if height == 3 then
 				local two_above_right_here = {x=pos.x, y=pos.y+3, z=pos.z}
-				minetest.set_node(right_here, {name="youngtrees:youngtree_bottom"})
-				minetest.set_node(above_right_here, {name="youngtrees:youngtree_middle"})
-				minetest.set_node(two_above_right_here, {name="youngtrees:youngtree_top"})
+				minetest.swap_node(right_here, {name="youngtrees:youngtree_bottom"})
+				minetest.swap_node(above_right_here, {name="youngtrees:youngtree_middle"})
+				minetest.swap_node(two_above_right_here, {name="youngtrees:youngtree_top"})
 		end
 	end
 end

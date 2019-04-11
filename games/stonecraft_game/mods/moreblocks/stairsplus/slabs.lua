@@ -1,7 +1,7 @@
 --[[
 More Blocks: slab definitions
 
-Copyright (c) 2011-2018 Hugo Locurcio and contributors.
+Copyright © 2011-2019 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -18,7 +18,8 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- Node will be called <modname>:slab_<subname>
 
-function register_slab(modname, subname, recipeitem, groups, images, description, drop, light)
+-- luacheck: no unused
+local function register_slab(modname, subname, recipeitem, groups, images, description, drop, light)
 	stairsplus:register_slab(modname, subname, recipeitem, {
 		groups = groups,
 		tiles = images,
@@ -45,7 +46,6 @@ end
 
 function stairsplus:register_slab(modname, subname, recipeitem, fields)
 	local defs = table.copy(stairsplus.defs["slab"])
-	local desc_base = S("%s Slab"):format(fields.description)
 	for alternate, shape in pairs(defs) do
 		stairsplus.register_single("slab", alternate, shape, modname, subname, recipeitem, fields)
 	end

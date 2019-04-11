@@ -122,7 +122,7 @@ end
 -- when they are updated.
 function pipeworks.on_rotate(pos, node, user, mode, new_param2)
 	node.param2 = new_param2
-	minetest.set_node(pos, node)
+	minetest.swap_node(pos, node)
 	pipeworks.scan_for_tube_objects(pos)
 	return true
 end

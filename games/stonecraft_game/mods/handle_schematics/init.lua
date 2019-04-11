@@ -11,6 +11,26 @@ if( not( minetest.get_modpath( 'unified_inventory' ))) then
 end
 
 
+-- the one from default is not available in MCL2 and not fixed enough yet
+handle_schematics.can_interact_with_node = function(player, pos)
+	if player then
+		if minetest.check_player_privs(player, "protection_bypass") then
+			return true
+		end
+	else
+		return false
+	end
+
+	local meta = minetest.get_meta(pos)
+	local owner = meta:get_string("owner")
+
+	if owner and owner ~= "" and owner == player:get_player_name() then
+		return true
+	end
+	return false
+end
+
+
 handle_schematics.modpath = minetest.get_modpath( "handle_schematics");
 
 -- realtest handles some things diffrently without beeing easy to identify
@@ -101,7 +121,7 @@ dofile(handle_schematics.modpath.."/backup_landscape.lua")
 dofile(handle_schematics.modpath.."/build_chest.lua")
 -- makes the replacements from replacements_group.* available to the build chest
 dofile(handle_schematics.modpath.."/build_chest_handle_replacements.lua");
--- creates 2d previews of the schematic from left/right/back/front/top
+-- creates 2d previews of the schematic from left/right/back/front/top/floor
 dofile(handle_schematics.modpath.."/build_chest_preview_image.lua");
 -- reads a file and adds the files listed there as menu entries
 dofile(handle_schematics.modpath.."/build_chest_add_schems_from_file.lua");

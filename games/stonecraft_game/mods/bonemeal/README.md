@@ -30,5 +30,7 @@ Changelog:
 - 0.8 - Added support for farming redo's new garlic, pepper and onion crops
 - 0.9 - Added support for farming redo's pea and beetroot crops, checks for place_param
 - 1.0 - add_deco() now adds to existing item list while set_deco() replaces item list (thanks h-v-smacker)
+- 1.1 - Added {can_bonemeal=1} group for special nodes
+- 1.2 - Added support for minetest 5.0 cactus seedling, blueberry bush sapling and emergent jungle tree saplings, additional flowers and pine bush sapling.
 
 Lucky Blocks: 6

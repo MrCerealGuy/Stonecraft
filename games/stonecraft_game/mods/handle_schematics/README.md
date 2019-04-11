@@ -30,5 +30,11 @@ be read from the <WORLDNAME>/ folder. You can ignore this option for now.
 
 Author:  Sokomine
 License: GPLv3.0
-Last update: 27.12.2016
+Media:   CC BY-SA 3.0
+Last update: 24.03.2019
 
+Textures:
+grundriss.png Background texture: default_wood.png by BlockMen (CC BY-SA 3.0);
+              Foreground texture: Created by building a floor plan and using this mod (Sokomine);
+              Composition of images: NathanS
+handle_schematics_support.png Sokomine

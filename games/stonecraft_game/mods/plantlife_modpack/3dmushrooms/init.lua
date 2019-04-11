@@ -1,7 +1,4 @@
-
 -- 3D Mushroom mod by VanessaE
---
--- License:  WTFPL for everything.
 
 mushroom = {}
 

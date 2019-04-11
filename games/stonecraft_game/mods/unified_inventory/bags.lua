@@ -12,18 +12,19 @@ local F = minetest.formspec_escape
 unified_inventory.register_page("bags", {
 	get_formspec = function(player)
 		local player_name = player:get_player_name()
-		local formspec = "background[0.06,0.99;7.92,7.52;ui_bags_main_form.png]"
-		formspec = formspec.."label[0,0;"..F(S("Bags")).."]"
-		formspec = formspec.."button[0,2;2,0.5;bag1;"..F(S("Bag @1", 1)).."]"
-		formspec = formspec.."button[2,2;2,0.5;bag2;"..F(S("Bag @1", 2)).."]"
-		formspec = formspec.."button[4,2;2,0.5;bag3;"..F(S("Bag @1", 3)).."]"
-		formspec = formspec.."button[6,2;2,0.5;bag4;"..F(S("Bag @1", 4)).."]"
-		formspec = formspec.."listcolors[#00000000;#00000000]"
-		formspec = formspec.."list[detached:"..F(player_name).."_bags;bag1;0.5,1;1,1;]"
-		formspec = formspec.."list[detached:"..F(player_name).."_bags;bag2;2.5,1;1,1;]"
-		formspec = formspec.."list[detached:"..F(player_name).."_bags;bag3;4.5,1;1,1;]"
-		formspec = formspec.."list[detached:"..F(player_name).."_bags;bag4;6.5,1;1,1;]"
-		return {formspec=formspec}
+		return { formspec = table.concat({
+			"background[0.06,0.99;7.92,7.52;ui_bags_main_form.png]",
+			"label[0,0;" .. F(S("Bags")) .. "]",
+			"button[0,2;2,0.5;bag1;" .. F(S("Bag @1", 1)) .. "]",
+			"button[2,2;2,0.5;bag2;" .. F(S("Bag @1", 2)) .. "]",
+			"button[4,2;2,0.5;bag3;" .. F(S("Bag @1", 3)) .. "]",
+			"button[6,2;2,0.5;bag4;" .. F(S("Bag @1", 4)) .. "]",
+			"listcolors[#00000000;#00000000]",
+			"list[detached:" .. F(player_name) .. "_bags;bag1;0.5,1;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag2;2.5,1;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag3;4.5,1;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag4;6.5,1;1,1;]"
+		}) }
 	end,
 })
 
@@ -41,37 +42,39 @@ local function get_player_bag_stack(player, i)
 	}):get_stack("bag" .. i, 1)
 end
 
-for i = 1, 4 do
-	local bi = i
-	unified_inventory.register_page("bag"..bi, {
+for bag_i = 1, 4 do
+	unified_inventory.register_page("bag" .. bag_i, {
 		get_formspec = function(player)
-			local stack = get_player_bag_stack(player, bi)
+			local stack = get_player_bag_stack(player, bag_i)
 			local image = stack:get_definition().inventory_image
-			local formspec = ("image[7,0;1,1;"..image.."]"
-					.."label[0,0;"..F(S("Bag @1", bi)).."]"
-					.."listcolors[#00000000;#00000000]"
-					.."list[current_player;bag"..bi.."contents;0,1;8,3;]"
-					.."listring[current_name;bag"..bi.."contents]"
-					.."listring[current_player;main]")
+			local fs = {
+				"image[7,0;1,1;" .. image .. "]",
+				"label[0,0;" .. F(S("Bag @1", bag_i)) .. "]",
+				"listcolors[#00000000;#00000000]",
+				"list[current_player;bag" .. bag_i .. "contents;0,1;8,3;]",
+				"listring[current_name;bag" .. bag_i .. "contents]",
+				"listring[current_player;main]"
+			}
 			local slots = stack:get_definition().groups.bagslots
 			if slots == 8 then
-				formspec = formspec.."background[0.06,0.99;7.92,7.52;ui_bags_sm_form.png]"
+					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_sm_form.png]"
 			elseif slots == 16 then
-				formspec = formspec.."background[0.06,0.99;7.92,7.52;ui_bags_med_form.png]"
+					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_med_form.png]"
 			elseif slots == 24 then
-				formspec = formspec.."background[0.06,0.99;7.92,7.52;ui_bags_lg_form.png]"
+					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_lg_form.png]"
 			end
 			local player_name = player:get_player_name() -- For if statement.
-			if unified_inventory.trash_enabled or unified_inventory.is_creative(player_name) or minetest.get_player_privs(player_name).give then
-				formspec = (formspec.."background[6.06,0;0.92,0.92;ui_bags_trash.png]"
-						.."list[detached:trash;main;6,0.1;1,1;]")
+			if unified_inventory.trash_enabled
+					or unified_inventory.is_creative(player_name)
+					or minetest.get_player_privs(player_name).give then
+				fs[#fs + 1] = "background[6.06,0;0.92,0.92;ui_bags_trash.png]"
+						.. "list[detached:trash;main;6,0.1;1,1;]"
 			end
 			local inv = player:get_inventory()
 			for i = 1, 4 do
 				local def = get_player_bag_stack(player, i):get_definition()
-				local button
 				if def.groups.bagslots then
-					local list_name = "bag"..i.."contents"
+					local list_name = "bag" .. i .. "contents"
 					local size = inv:get_size(list_name)
 					local used = 0
 					for si = 1, size do
@@ -81,14 +84,12 @@ for i = 1, 4 do
 						end
 					end
 					local img = def.inventory_image
-					local label = F(S("Bag @1", i)).."\n"..used.."/"..size
-					button = "image_button["..(i+1)..",0;1,1;"..img..";bag"..i..";"..label.."]"
-				else
-					button = ""
+					local label = F(S("Bag @1", i)) .. "\n" .. used .. "/" .. size
+					fs[#fs + 1] = string.format("image_button[%i,0;1,1;%s;bag%i;%s]",
+							i + 1, img, i, label)
 				end
-				formspec = formspec..button
 			end
-			return {formspec=formspec}
+			return { formspec = table.concat(fs) }
 		end,
 	})
 end
@@ -98,12 +99,12 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		return
 	end
 	for i = 1, 4 do
-		if fields["bag"..i] then
+		if fields["bag" .. i] then
 			local stack = get_player_bag_stack(player, i)
 			if not stack:get_definition().groups.bagslots then
 				return
 			end
-			unified_inventory.set_inventory_formspec(player, "bag"..i)
+			unified_inventory.set_inventory_formspec(player, "bag" .. i)
 			return
 		end
 	end
@@ -113,7 +114,7 @@ local function save_bags_metadata(player, bags_inv)
 	local is_empty = true
 	local bags = {}
 	for i = 1, 4 do
-		local bag = "bag"..i
+		local bag = "bag" .. i
 		if not bags_inv:is_empty(bag) then
 			-- Stack limit is 1, otherwise use stack:to_string()
 			bags[i] = bags_inv:get_stack(bag, 1):get_name()
@@ -136,7 +137,7 @@ local function load_bags_metadata(player, bags_inv)
 	if not bags_meta then
 		-- Backwards compatiblity
 		for i = 1, 4 do
-			local bag = "bag"..i
+			local bag = "bag" .. i
 			if not player_inv:is_empty(bag) then
 				-- Stack limit is 1, otherwise use stack:to_string()
 				bags[i] = player_inv:get_stack(bag, 1):get_name()
@@ -146,7 +147,7 @@ local function load_bags_metadata(player, bags_inv)
 	end
 	-- Fill detached slots
 	for i = 1, 4 do
-		local bag = "bag"..i
+		local bag = "bag" .. i
 		bags_inv:set_size(bag, 1)
 		bags_inv:set_stack(bag, 1, bags[i] or "")
 	end
@@ -158,7 +159,7 @@ local function load_bags_metadata(player, bags_inv)
 
 	-- Clean up deprecated garbage after saving
 	for i = 1, 4 do
-		local bag = "bag"..i
+		local bag = "bag" .. i
 		player_inv:set_size(bag, 0)
 	end
 end
@@ -166,9 +167,9 @@ end
 minetest.register_on_joinplayer(function(player)
 	local player_inv = player:get_inventory()
 	local player_name = player:get_player_name()
-	local bags_inv = minetest.create_detached_inventory(player_name.."_bags",{
+	local bags_inv = minetest.create_detached_inventory(player_name .. "_bags",{
 		on_put = function(inv, listname, index, stack, player)
-			player:get_inventory():set_size(listname.."contents",
+			player:get_inventory():set_size(listname .. "contents",
 					stack:get_definition().groups.bagslots)
 			save_bags_metadata(player, inv)
 		end,
@@ -178,14 +179,14 @@ minetest.register_on_joinplayer(function(player)
 				return 0
 			end
 			local player_inv = player:get_inventory()
-			local old_slots = player_inv:get_size(listname.."contents")
+			local old_slots = player_inv:get_size(listname .. "contents")
 
 			if new_slots >= old_slots then
 				return 1
 			end
 
 			-- using a smaller bag, make sure it fits
-			local old_list = player_inv:get_list(listname.."contents")
+			local old_list = player_inv:get_list(listname .. "contents")
 			local new_list = {}
 			local slots_used = 0
 			local use_new_list = false
@@ -199,7 +200,7 @@ minetest.register_on_joinplayer(function(player)
 			end
 			if new_slots >= slots_used then
 				if use_new_list then
-					player_inv:set_list(listname.."contents", new_list)
+					player_inv:set_list(listname .. "contents", new_list)
 				end
 				return 1
 			end
@@ -207,13 +208,13 @@ minetest.register_on_joinplayer(function(player)
 			return 0
 		end,
 		allow_take = function(inv, listname, index, stack, player)
-			if player:get_inventory():is_empty(listname.."contents") then
+			if player:get_inventory():is_empty(listname .. "contents") then
 				return stack:get_count()
 			end
 			return 0
 		end,
 		on_take = function(inv, listname, index, stack, player)
-			player:get_inventory():set_size(listname.."contents", 0)
+			player:get_inventory():set_size(listname .. "contents", 0)
 			save_bags_metadata(player, inv)
 		end,
 		allow_move = function()

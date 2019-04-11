@@ -28,3 +28,22 @@ loot.register_loot({
 		max_size = 10,
 	},
 })
+
+
+loot.register_loot({
+	weights = { generic = 50 },
+	payload = {
+		stack = ItemStack("currency:minegeld_50"),
+		min_size = 1,
+		max_size = 10,
+	},
+})
+
+loot.register_loot({
+	weights = { generic = 50 },
+	payload = {
+		stack = ItemStack("currency:minegeld_100"),
+		min_size = 1,
+		max_size = 10,
+	},
+})

@@ -33,15 +33,15 @@ end
 minetest.register_node("cottages:straw_mat", {
         description = S("layer of straw"),
         drawtype = 'nodebox',
-        tiles = { 'cottages_darkage_straw.png' }, -- done by VanessaE
-        wield_image = 'cottages_darkage_straw.png',
-        inventory_image = 'cottages_darkage_straw.png',
+        tiles = { cottages.straw_texture }, -- done by VanessaE
+        wield_image = cottages.straw_texture,
+        inventory_image = cottages.straw_texture,
         sunlight_propagates = true,
         paramtype = 'light',
         paramtype2 = "facedir",
         walkable = false,
-        groups = { snappy = 3 },
-        sounds = default.node_sound_leaves_defaults,
+	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 },
+	sounds = cottages.sounds.leaves,
 	node_box = {
 		type = "fixed",
 		fixed = {
@@ -66,8 +66,8 @@ minetest.register_node("cottages:straw_bale", {
 	description = S("straw bale"),
 	tiles = {"cottages_darkage_straw_bale.png"},
 	paramtype = "light",
-	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 },
+	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	node_box = {
 		type = "fixed",
@@ -85,21 +85,26 @@ minetest.register_node("cottages:straw_bale", {
 })
 
 -- just straw
-minetest.register_node("cottages:straw", {
+if( not(minetest.registered_nodes["farming:straw"])) then
+   minetest.register_node("cottages:straw", {
 	drawtype = "normal",
 	description = S("straw"),
-	tiles = {"cottages_darkage_straw.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	tiles = {cottages.straw_texture},
+	groups = { hay = 3, snappy = 2, oddly_breakable_by_hand = 2, flammable=3 },
+	sounds = cottages.sounds.leaves,
         -- the bale is slightly smaller than a full node
 	is_ground_content = false,
-})
+   })
+else
+	minetest.register_alias("cottages:straw", "farming:straw")
+end
 
 
 local cottages_formspec_treshing_floor = 
                                "size[8,8]"..
 				"image[1.5,0;1,1;"..cottages.texture_stick.."]"..
 				"image[0,1;1,1;farming_wheat.png]"..
+				"button_exit[6.8,0.0;1.5,0.5;public;"..S("Public?").."]"..
                                 "list[current_name;harvest;1,1;2,1;]"..
                                 "list[current_name;straw;5,0;2,2;]"..
                                 "list[current_name;seeds;5,2;2,2;]"..
@@ -118,7 +123,8 @@ minetest.register_node("cottages:threshing_floor", {
 	tiles = {"cottages_junglewood.png^farming_wheat.png","cottages_junglewood.png","cottages_junglewood.png^"..cottages.texture_stick},
 	paramtype  = "light",
         paramtype2 = "facedir",
-	groups = {cracky=2},
+	-- can be digged with axe and pick
+	groups = {cracky=2, choppy=2},
 	is_ground_content = false,
 	node_box = {
 		type = "fixed",
@@ -146,6 +152,7 @@ minetest.register_node("cottages:threshing_floor", {
                	inv:set_size("straw", 4);
                	inv:set_size("seeds", 4);
                 meta:set_string("formspec", cottages_formspec_treshing_floor );
+		meta:set_string("public", "public")
        	end,
 
 	after_place_node = function(pos, placer)
@@ -156,6 +163,10 @@ minetest.register_node("cottages:threshing_floor", {
 				cottages_formspec_treshing_floor..
 				"label[2.5,-0.5;"..S("Owner: @1", meta:get_string("owner") or "").."]" );
         end,
+
+	on_receive_fields = function(pos, formname, fields, sender)
+		cottages.switch_public(pos, formname, fields, sender, 'threshing floor')
+	end,
 
         can_dig = function(pos,player)
 
@@ -176,7 +187,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return count;
@@ -191,7 +202,7 @@ minetest.register_node("cottages:threshing_floor", {
 			return 0;
 		end
 
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return stack:get_count()
@@ -199,7 +210,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return stack:get_count()
@@ -252,7 +263,7 @@ minetest.register_node("cottages:threshing_floor", {
 		end
 
 		local overlay1 = "^farming_wheat.png";
-		local overlay2 = "^cottages_darkage_straw.png";
+		local overlay2 = "^"..cottages.straw_texture;
 		local overlay3 = "^"..cottages.texture_wheat_seed;
 
 		-- this can be enlarged by a multiplicator if desired
@@ -357,6 +368,7 @@ minetest.register_node("cottages:threshing_floor", {
 
 local cottages_handmill_formspec = "size[8,8]"..
 				"image[0,1;1,1;"..cottages.texture_wheat_seed.."]"..
+				"button_exit[6.0,0.0;1.5,0.5;public;"..S("Public?").."]"..
                                 "list[current_name;seeds;1,1;1,1;]"..
                                 "list[current_name;flour;5,1;2,2;]"..
 					"label[0,0.5;"..S("Wheat seeds:").."]"..
@@ -394,6 +406,7 @@ minetest.register_node("cottages:handmill", {
                	inv:set_size("seeds", 1);
                	inv:set_size("flour", 4);
                 meta:set_string("formspec", cottages_handmill_formspec );
+		meta:set_string("public", "public")
        	end,
 
 	after_place_node = function(pos, placer)
@@ -404,6 +417,10 @@ minetest.register_node("cottages:handmill", {
 				cottages_handmill_formspec..
 				"label[2.5,-0.5;"..S("Owner: @1",meta:get_string('owner') or "").."]" );
         end,
+
+	on_receive_fields = function(pos, formname, fields, sender)
+		cottages.switch_public(pos, formname, fields, sender, 'mill, powered by punching')
+	end,
 
         can_dig = function(pos,player)
 
@@ -423,7 +440,7 @@ minetest.register_node("cottages:handmill", {
 
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return count;
@@ -437,7 +454,7 @@ minetest.register_node("cottages:handmill", {
 			return 0;
 		end
 
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return stack:get_count()
@@ -445,7 +462,7 @@ minetest.register_node("cottages:handmill", {
 
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
-		if( not( cottages_can_use( meta, player ))) then
+		if( not( cottages.player_can_use( meta, player ))) then
                         return 0
 		end
 		return stack:get_count()

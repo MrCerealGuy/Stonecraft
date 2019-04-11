@@ -1,7 +1,7 @@
 --[[
 More Blocks: stair definitions
 
-Copyright (c) 2011-2018 Hugo Locurcio and contributors.
+Copyright © 2011-2019 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
@@ -18,7 +18,8 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 -- Node will be called <modname>:stair_<subname>
 
-function register_stair(modname, subname, recipeitem, groups, images, description, drop, light)
+-- luacheck: no unused
+local function register_stair(modname, subname, recipeitem, groups, images, description, drop, light)
 	stairsplus:register_stair(modname, subname, recipeitem, {
 		groups = groups,
 		tiles = images,

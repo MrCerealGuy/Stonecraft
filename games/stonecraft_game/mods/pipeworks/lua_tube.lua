@@ -344,8 +344,11 @@ local safe_globals = {
 }
 
 local function create_environment(pos, mem, event)
-	-- Gather variables for the environment
+	-- Make sure the tube hasn't broken.
 	local vports = minetest.registered_nodes[minetest.get_node(pos).name].virtual_portstates
+	if not vports then return {} end
+
+	-- Gather variables for the environment
 	local vports_copy = {}
 	for k, v in pairs(vports) do vports_copy[k] = v end
 	local rports = get_real_port_states(pos)

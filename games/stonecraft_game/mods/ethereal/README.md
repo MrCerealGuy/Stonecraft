@@ -6,9 +6,17 @@ Ethereal Mapgen mod for Minetest (works on all except v6)
 - https://forum.minetest.net/viewtopic.php?f=11&t=14638
 
 ## Lucky Blocks
-41
+42
 
 ## Changelog
+
+### 1.26
+
+ - Added Sakura biome, pink sakura trees and saplings
+ - 1 in 10 chance of sakura sapling growing into white sakura
+ - Bamboo grows in higher elevation while sakura grows in lower
+ - Added sakura wood, stairs, fence, gate and door
+ - Added 5.0 checks to add new biomes and decoration
 
 ### 1.25
 

@@ -42,7 +42,7 @@ minetest.register_craft({
 -- mobs who wish to use this function have to provide the required item in itemstack
 handle_schematics.place_node_using_support_setup = function(pos, clicker, itemstack )
 	-- TODO: does can_interact_with_node work with mobs?
-	if not( default.can_interact_with_node(clicker, pos)) then
+	if not( handle_schematics.can_interact_with_node(clicker, pos)) then
 		return itemstack;
 	end
 
@@ -144,7 +144,7 @@ end
 
 -- right-clicking a dig_here-indicator ought to dig the next node below it that needs digging and place appropriate scaffolding
 handle_schematics.dig_node_using_dig_here_indicator = function(pos, clicker, itemstack )
-	if not( default.can_interact_with_node(clicker, pos)) then
+	if not( handle_schematics.can_interact_with_node(clicker, pos)) then
 		return itemstack;
 	end
 

@@ -37,11 +37,15 @@ end
 local saplings = {
 	{"default:sapling", default.grow_new_apple_tree, "soil"},
 	{"default:junglesapling", default.grow_new_jungle_tree, "soil"},
+	{"default:emergent_jungle_sapling", default.grow_new_emergent_jungle_tree, "soil"},
 	{"default:acacia_sapling", default.grow_new_acacia_tree, "soil"},
 	{"default:aspen_sapling", default.grow_new_aspen_tree, "soil"},
 	{"default:pine_sapling", pine_grow, "soil"},
 	{"default:bush_sapling", default.grow_bush, "soil"},
 	{"default:acacia_bush_sapling", default.grow_acacia_bush, "soil"},
+	{"default:large_cactus_seedling", default.grow_large_cactus, "sand"},
+	{"default:blueberry_bush_sapling", default.grow_blueberry_bush, "soil"},
+	{"default:pine_bush_sapling", default.grow_pine_bush, "soil"},
 }
 
 -- helper tables ( "" denotes a blank item )
@@ -60,13 +64,19 @@ local flowers = {
 	"flowers:rose", "flowers:tulip", "flowers:viola", ""
 }
 
+-- 5.0 flower check
+if minetest.registered_nodes["flowers:tulip_black"] then
+	flowers[#flowers + 1] = "flowers:tulip_black"
+	flowers[#flowers + 1] = "flowers:chrysanthemum_green"
+end
+
 -- add additional bakedclay flowers if enabled
 if minetest.get_modpath("bakedclay") then
-	flowers[7] = "bakedclay:delphinium"
-	flowers[8] = "bakedclay:thistle"
-	flowers[9] = "bakedclay:lazarus"
-	flowers[10] = "bakedclay:mannagrass"
-	flowers[11] = ""
+	flowers[#flowers + 1] = "bakedclay:delphinium"
+	flowers[#flowers + 1] = "bakedclay:thistle"
+	flowers[#flowers + 1] = "bakedclay:lazarus"
+	flowers[#flowers + 1] = "bakedclay:mannagrass"
+	flowers[#flowers + 1] = ""
 end
 
 -- default biomes deco
@@ -213,12 +223,23 @@ local function check_soil(pos, nodename, strength)
 	-- set radius according to strength
 	local side = strength - 1
 	local tall = math.max(strength - 2, 0)
+	local floor
+	local groups = minetest.registered_items[nodename]
+		and minetest.registered_items[nodename].groups or {}
+
+	-- only place decoration on one type of surface
+	if groups.soil then
+		floor = {"group:soil"}
+	elseif groups.sand then
+		floor = {"group:sand"}
+	else
+		floor = {nodename}
+	end
 
 	-- get area of land with free space above
 	local dirt = minetest.find_nodes_in_area_under_air(
 		{x = pos.x - side, y = pos.y - tall, z = pos.z - side},
-		{x = pos.x + side, y = pos.y + tall, z = pos.z + side},
-		{"group:soil", "group:sand"})
+		{x = pos.x + side, y = pos.y + tall, z = pos.z + side}, floor)
 
 	-- set default grass and decoration
 	local grass = green_grass
@@ -408,7 +429,8 @@ function bonemeal:on_use(pos, strength, node)
 
 	-- grow grass and flowers
 	if minetest.get_item_group(node.name, "soil") > 0
-	or minetest.get_item_group(node.name, "sand") > 0 then
+	or minetest.get_item_group(node.name, "sand") > 0
+	or minetest.get_item_group(node.name, "can_bonemeal") > 0 then
 		check_soil(pos, node.name, strength)
 		return
 	end

@@ -35,9 +35,12 @@ mobs:register_mob("mobs_monster:lava_flan", {
 	drops = {
 		{name = "mobs:lava_orb", chance = 15, min = 1, max = 1},
 	},
-	water_damage = 5,
+	water_damage = 8,
 	lava_damage = 0,
 	light_damage = 0,
+	immune_to = {
+		{"mobs:pick_lava", -2}, -- lava pick heals 2 health
+	},
 	animation = {
 		speed_normal = 15,
 		speed_run = 15,

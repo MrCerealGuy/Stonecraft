@@ -36,4 +36,6 @@ mob_world_interaction.initialize_door_types();
 -- default:snow may often pose a considerable obstacle. It is a lot easier (and not at all
 -- unrealistic) if the mob can walk through it. Snow is soft after all
 -- -> allow mobs to walk through snow (not snowblocks; just normal snow)
-minetest.override_item("default:snow", {walkable=false});
+if( minetest.registered_nodes["default:snow"]) then
+	minetest.override_item("default:snow", {walkable=false});
+end

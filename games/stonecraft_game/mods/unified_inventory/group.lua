@@ -4,19 +4,21 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 function unified_inventory.canonical_item_spec_matcher(spec)
 	local specname = ItemStack(spec):get_name()
-	if specname:sub(1, 6) == "group:" then
-		local group_names = specname:sub(7):split(",")
+	if specname:sub(1, 6) ~= "group:" then
 		return function (itemname)
-			local itemdef = minetest.registered_items[itemname]
-			for _, group_name in ipairs(group_names) do
-				if (itemdef.groups[group_name] or 0) == 0 then
-					return false
-				end
-			end
-			return true
+			return itemname == specname
 		end
-	else
-		return function (itemname) return itemname == specname end
+	end
+
+	local group_names = specname:sub(7):split(",")
+	return function (itemname)
+		local itemdef = minetest.registered_items[itemname]
+		for _, group_name in ipairs(group_names) do
+			if (itemdef.groups[group_name] or 0) == 0 then
+				return false
+			end
+		end
+		return true
 	end
 end
 
@@ -27,23 +29,11 @@ end
 
 function unified_inventory.extract_groupnames(groupname)
 	local specname = ItemStack(groupname):get_name()
-	if specname:sub(1, 6) == "group:" then
-		local group_names = specname:sub(7):split(",")
-		if #group_names == 1 then
-			return group_names[1], 1
-		end
-		local s = ""
-		for g=1,#group_names do
-			if g > 1 then
-				-- List connector
-				s = s .. S(" and ")
-			end
-			s = s .. group_names[g]
-		end
-		return s, #group_names
-	else
+	if specname:sub(1, 6) ~= "group:" then
 		return nil, 0
 	end
+	local group_names = specname:sub(7):split(",")
+	return table.concat(group_names, S(" and ")), #group_names
 end
 
 unified_inventory.registered_group_items = {

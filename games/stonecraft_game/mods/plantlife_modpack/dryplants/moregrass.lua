@@ -3,7 +3,6 @@
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
 
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
@@ -13,7 +12,7 @@ abstract_dryplants.grow_grass = function(pos)
 	local grass_size = math.random(1,5)
 	if minetest.get_node(right_here).name == "air"  -- instead of check_air = true,
 	or minetest.get_node(right_here).name == "default:junglegrass" then
-		minetest.set_node(right_here, {name="default:grass_"..grass_size})
+		minetest.swap_node(right_here, {name="default:grass_"..grass_size})
 	end
 end
 

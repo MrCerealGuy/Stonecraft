@@ -38,7 +38,7 @@ ftrunk.after_destruct = function(pos, oldnode)
 		-- minetest.dig_node(coconutpos) does not cause nearby coconuts to be dropped :-( ...
 		--minetest.dig_node(coconutpos)
 		local items = minetest.get_node_drops(minetest.get_node(coconutpos).name)
-		minetest.remove_node(coconutpos)
+		minetest.swap_node(coconutpos, biome_lib.air)
 		for _, itemname in pairs(items) do
 			minetest.add_item(coconutpos, itemname)
 		end
@@ -70,7 +70,7 @@ local coconut_regrow_abm_spec = {
 			local coconutpos = {x=pos.x+dx, y=pos.y, z=pos.z+dz}
 			local coconutnode = minetest.get_node(coconutpos)
 			if coconutnode.name == "air" then
-				minetest.set_node(coconutpos, {name="moretrees:coconut_0"})
+				minetest.swap_node(coconutpos, {name="moretrees:coconut_0"})
 			end
 		end
 	end
@@ -103,7 +103,7 @@ minetest.register_abm({
 		local gen
 		local count = 0
 		for _,gen in pairs(genlist) do
-			minetest.set_node(gen.pos, {name = "moretrees:coconut_3"})
+			minetest.swap_node(gen.pos, {name = "moretrees:coconut_3"})
 			count = count + 1
 			if count == 4 then
 				break
@@ -133,7 +133,7 @@ local coconut_growfn = function(pos, elapsed)
 					minetest.add_item(pos, itemname)
 				end
 			end
-			minetest.remove_node(pos)
+			minetest.swap_node(pos, biome_lib.air)
 		end
 	else
 		-- Grow coconuts to the next stage
@@ -262,7 +262,7 @@ if moretrees.coconuts_convert_existing_palms then
 				minetest.swap_node(tpos, {name = "moretrees:palm_fruit_trunk"})
 				coconuts = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y, z=tpos.z+1}, "moretrees:coconut")
 				for _, coconutpos in pairs(coconuts) do
-					minetest.set_node(coconutpos, {name = "moretrees:coconut_3"})
+					minetest.swap_node(coconutpos, {name = "moretrees:coconut_3"})
 				end
 			end
 		end,

@@ -81,9 +81,20 @@ homedecor.register("toilet_paper", {
 
 --Sink
 
-local sink_cbox = {
+local sink_sbox = {
 	type = "fixed",
 	fixed = { -5/16, -8/16, 1/16, 5/16, 8/16, 8/16 }
+}
+
+local sink_cbox = {
+	type = "fixed",
+	fixed = {
+		{ -5/16,  5/16, 1/16, -4/16, 8/16, 8/16 },
+		{  5/16,  5/16, 1/16,  4/16, 8/16, 8/16 },
+		{ -5/16,  5/16, 1/16,  5/16, 8/16, 2/16 },
+		{ -5/16,  5/16, 6/16,  5/16, 8/16, 8/16 },
+		{ -4/16, -8/16, 1/16,  4/16, 5/16, 6/16 }
+	}
 }
 
 homedecor.register("sink", {
@@ -95,19 +106,10 @@ homedecor.register("sink", {
 		"default_water.png"
 	},
 	inventory_image="homedecor_bathroom_sink_inv.png",
-	selection_box = sink_cbox,
+	selection_box = sink_sbox,
+	collision_box = sink_cbox,
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -5/16,  5/16, 1/16, -4/16, 8/16, 8/16 },
-			{  5/16,  5/16, 1/16,  4/16, 8/16, 8/16 },
-			{ -5/16,  5/16, 1/16,  5/16, 8/16, 2/16 },
-			{ -5/16,  5/16, 6/16,  5/16, 8/16, 8/16 },
-			{ -4/16, -8/16, 1/16,  4/16, 5/16, 6/16 }
-		}
-	},
 	on_destruct = function(pos)
 		homedecor.stop_particle_spawner({x=pos.x, y=pos.y+1, z=pos.z})
 	end
@@ -127,7 +129,8 @@ local function taps_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 			velocity_x  = { min = -0.1, max = 0.1 },
 			velocity_y  = -0.3,
 			velocity_z  = { min = -0.1, max = 0 },
-			spread      = 0
+			spread      = 0,
+			die_on_collision = true,
 		}
 		homedecor.start_particle_spawner(pos, node, particledef, "homedecor_faucet")
 	end

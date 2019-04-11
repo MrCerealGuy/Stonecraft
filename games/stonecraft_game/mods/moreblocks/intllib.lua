@@ -1,4 +1,3 @@
-
 -- Fallback functions for when `intllib` is not installed.
 -- Code released under Unlicense <http://unlicense.org>.
 

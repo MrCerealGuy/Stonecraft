@@ -3,14 +3,13 @@
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
 
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
 
 abstract_dryplants.grow_grass_variation = function(pos)
 	local right_here = {x=pos.x, y=pos.y, z=pos.z}
-	minetest.set_node(right_here, {name="dryplants:grass_short"})
+	minetest.swap_node(right_here, {name="dryplants:grass_short"})
 end
 
 biome_lib:register_generate_plant({

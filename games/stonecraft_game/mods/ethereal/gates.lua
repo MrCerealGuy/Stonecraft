@@ -75,6 +75,13 @@ doors.register_fencegate("ethereal:fencegate_birch", {
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2}
 })
 
+doors.register_fencegate("ethereal:fencegate_sakura", {
+	description = S("Sakura Wood Fence Gate"),
+	texture = "ethereal_sakura_wood.png",
+	material = "ethereal:sakura_wood",
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2}
+})
+
 -- add compatibility for ethereal's to default wooden gates
 minetest.register_alias("ethereal:fencegate_wood_open", "doors:gate_wood_open")
 minetest.register_alias("ethereal:fencegate_wood_closed", "doors:gate_wood_closed")
@@ -87,3 +94,23 @@ minetest.register_alias("ethereal:fencegate_junglewood_closed", "doors:gate_jung
 
 minetest.register_alias("ethereal:fencegate_pine_open", "doors:gate_pine_wood_open")
 minetest.register_alias("ethereal:fencegate_pine_closed", "doors:gate_pine_wood_closed")
+
+-- sakura door
+doors.register_door("ethereal:sakura_door", {
+		tiles = {
+			{name = "ethereal_sakura_door.png", backface_culling = true}
+		},
+		description = S("Sakura Wood Door"),
+		inventory_image = "ethereal_sakura_door_inv.png",
+		groups = {
+			snappy = 1, choppy = 2, oddly_breakable_by_hand = 2,
+			flammable = 2
+		},
+		sound_open = "doors_glass_door_open",
+		sound_close = "doors_glass_door_close",
+		recipe = {
+			{"group:stick",  "default:paper"},
+			{"default:paper",  "group:stick"},
+			{"ethereal:sakura_wood", "ethereal:sakura_wood"}
+		}
+})

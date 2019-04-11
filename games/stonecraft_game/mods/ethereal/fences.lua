@@ -81,3 +81,11 @@ default.register_fence("ethereal:fence_birch", {
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
 	sounds = default.node_sound_wood_defaults()
 })
+
+default.register_fence("ethereal:fence_sakura", {
+	description = S("Sakura Fence"),
+	texture = "ethereal_sakura_wood.png",
+	material = "ethereal:sakura_wood",
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	sounds = default.node_sound_wood_defaults()
+})

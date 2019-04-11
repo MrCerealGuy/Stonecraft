@@ -54,7 +54,7 @@ for _, col in ipairs(all_colours) do
 			{name = "mobs:mutton_raw", chance = 1, min = 1, max = 2},
 			{name = "wool:"..col[1], chance = 1, min = 1, max = 1},
 		},
-		water_damage = 1,
+		water_damage = 0,
 		lava_damage = 5,
 		light_damage = 0,
 		animation = {

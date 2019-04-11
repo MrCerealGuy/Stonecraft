@@ -214,8 +214,8 @@ handle_schematics.update_formspec_save_building = function( formspec, meta, play
 	   and end_pos_mark.z==pos.z ) then
 
 		return formspec..
-			"label[2,3.0;This chest marks the end position of your building. Please put another]"..
-			"label[2,3.3;build chest in front of your building and save it with that chest.]"..
+			"label[2,3.0;This construction sign marks the end position of your building. Please put]"..
+			"label[2,3.3;another construction sign in front of your building and save it with that sign.]"..
 			"button[5,8.0;3,0.5;back;Back]";
 	end
 		
@@ -265,8 +265,8 @@ handle_schematics.update_formspec_save_building = function( formspec, meta, play
 				-- note: in mg_villages, yoff has to be 0 in order to include the ground floor as well;
 				-- "1" means the building without floor; here, "1" means a floating building
 				"label[2,3.8;The hight offset sets how deep your building will be burried in the ground. Examples:]"..
-					"label[2.5,4.1;A value of -4 will include a cellar which extends 4 nodes below this build chest.]"..
-					"label[2.5,4.4;A value of -1 will include the floor below the chest, but no cellar.]"..
+					"label[2.5,4.1;A value of -4 will include a cellar which extends 4 nodes below this construction sign.]"..
+					"label[2.5,4.4;A value of -1 will include the floor below the sign, but no cellar.]"..
 					"label[2.5,4.7;A positive value will make your building float in the air.]"..
 				"label[2,5.15;Add height offset:]"..
 					"field[6,5.5;1,0.5;save_as_yoff;;0]"..
@@ -289,7 +289,7 @@ handle_schematics.update_formspec_save_building = function( formspec, meta, play
 				"button[6,8.0;3,0.5;save_as;Save building now]";
 		 else
 			return formspec..
-				"label[3,3;You have selected another build chest as start position.]"..
+				"label[3,3;You have selected another construction sign as start position.]"..
 				"button[5,8.0;3,0.5;back;Back]"..
 				"button[5,5.0;3,0.5;abort_set_start_pos;Reset start position]";
 		end
@@ -304,15 +304,15 @@ handle_schematics.update_formspec_save_building = function( formspec, meta, play
 	end
 
 	return formspec..
-		"label[2.5,2.2;First, let us assume that you are facing the front of this build chest.]"..
+		"label[2.5,2.2;First, let us assume that you are facing the front of this construction sign.]"..
 
 		"label[2,3.1;Are you looking at the BACKSIDE of your building, and does said backside stretch]"..
 		"label[2,3.4;to the right and in front of you? Then click on the button below:]"..
 		"button[4,4;5,0.5;set_end_pos;Set this position as new end position]"..
 
-		"label[2,5.2;Have you set the end position with another build chest using the method above]"..
-		"label[2,5.5;in the meantime? And are you now looking at the FRONT of your building, which]"..
-		"label[2,5.8;streches in front of you and to the right? Then click on Proceed:]"..
+		"label[2,5.2;Have you set the end position with another construction sign using the method]"..
+		"label[2,5.5;above in the meantime? And are you now looking at the FRONT of your building,]"..
+		"label[2,5.8;which streches in front of you and to the right? Then click on Proceed:]"..
 		"button[5,6.4;3,0.5;set_start_pos;Proceed with saving]"..
 
 		"label[4,7.4;If this confuses you, you can also abort the process.]"..
@@ -653,9 +653,14 @@ build_chest.on_receive_fields = function(pos, formname, fields, player)
 	if( owner and owner ~= '' and owner ~= pname 
 	    and minetest.is_protected( pos, pname )) then
 		minetest.chat_send_player( pname,
-			"Sorry. This build chest belongs to "..tostring( owner ).." and only "..
+			"Sorry. This construction sign belongs to "..tostring( owner ).." and only "..
 			"accepts input from its owner or other players who can build here.");
 		return;
+	end
+	-- no owner? then the player becomes the new owner
+	if( not( owner ) or owner=="") then
+		owner = pname
+		meta:set_string("owner", pname )
 	end
 
 	local building_name = meta:get_string('building_name' );
@@ -803,7 +808,7 @@ mirror = nil;
 			     or (node.param2 == 1 and end_pos.param2 ~= 3)
 			     or (node.param2 == 2 and end_pos.param2 ~= 0)
 			     or (node.param2 == 3 and end_pos.param2 ~= 1)) then
-				error_msg = "One build chest needs to point to the front of your building, and "..
+				error_msg = "One construction sign needs to point to the front of your building, and "..
 					"the other one to the backside. This does not seem to be the case.";
 
 			elseif( (node.param2 == 2 and ( pos.x < end_pos.x or pos.z < end_pos.z )) -- x and z need to get larger
@@ -811,7 +816,7 @@ mirror = nil;
 			     or (node.param2 == 0 and ( pos.x > end_pos.x or pos.z > end_pos.z )) -- x and z need to get smaller
 			     or (node.param2 == 1 and ( pos.x > end_pos.x or pos.z < end_pos.z )) -- x gets smaller, z gets larger
 				) then
-				error_msg = "The end position does not fit to the orientation of this build chest.";
+				error_msg = "The end position does not fit to the orientation of this construction sign.";
 
 			-- the chest takes up one node as well
 			elseif( math.abs(pos.x-end_pos.x)<1) then
@@ -933,14 +938,26 @@ end
 
 
 
-minetest.register_node("handle_schematics:build", { --TODO
-	description = S("Building-Spawner"),
-	tiles = {"default_chest_side.png", "default_chest_top.png", "default_chest_side.png",
-		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
+minetest.register_node("handle_schematics:build", {
+	description = S("Construction Sign"),
+	tiles = {"default_wood.png^[transformR90", "default_wood.png^[transformR90",
+		 "default_wood.png^[transformR90", "default_wood.png^[transformR90",
+		 "default_wood.png^[transformR90", "default_wood.png^grundriss.png^[transformR90"},
+
+	drawtype = "nodebox",
+        node_box = {
+                type = "fixed",
+                fixed = {
+                        {-0.5, -0.5+3/16, 0.5-3/16, 0.5, 0.5, 0.5-1/16},
+                        {-0.5+1/16, -0.5,      0.5-1/16, -0.5+3/16, 0.5, 0.5     },
+                        { 0.5-3/16, -0.5,      0.5-1/16,  0.5-1/16, 0.5, 0.5     },
+                },
+        },
+        sunlight_propagates = true,
+
 --        drawtype = 'signlike',
 --        paramtype = "light",
 --        paramtype2 = "wallmounted",
---        sunlight_propagates = true,
 --        walkable = false,
 --        selection_box = {
 --                type = "wallmounted",
@@ -1019,7 +1036,16 @@ minetest.register_node("handle_schematics:build", { --TODO
         on_metadata_inventory_put = function(pos, listname, index, stack, player)
             return build_chest.on_metadata_inventory_put( pos, listname, index, stack, player );
         end,
+
+        -- make resistant against TNT etc.
+        on_blast = function(pos, intensity)
+        end,
 })
+
+-- stores metadata and really ought not to be pushed around
+if( minetest.get_modpath("mesecon") and not core.skip_mod("mesecons") and mesecon) then
+	mesecon.register_mvps_stopper("handle_schematics:build")
+end
 
 
 -- a player clicked on something in a formspec he was shown

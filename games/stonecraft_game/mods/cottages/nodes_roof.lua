@@ -44,7 +44,8 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 	})
 
    -- a better roof than the normal stairs; this one is for usage directly on top of walls (it has the form of a stair)
-   minetest.register_node("cottages:roof_connector_"..name, {
+   if( name~="straw" or not(minetest.registered_nodes["stairs:stair_straw"]) or not(cottages.use_farming_straw_stairs)) then
+	minetest.register_node("cottages:roof_connector_"..name, {
 		description = S("Roof connector "..name),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -68,9 +69,13 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 		},
 		is_ground_content = false,
 	})
+   else
+	minetest.register_alias("cottages:roof_connector_straw", "stairs:stair_straw")
+   end
 
    -- this one is the slab version of the above roof
-   minetest.register_node("cottages:roof_flat_"..name, {
+   if( name~="straw" or not(minetest.registered_nodes["stairs:slab_straw"]) or not(cottages.use_farming_straw_stairs)) then
+	minetest.register_node("cottages:roof_flat_"..name, {
 		description = S("Roof (flat) "..name),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -93,6 +98,9 @@ cottages.register_roof = function( name, tiles, basic_material, homedecor_altern
 		},
 		is_ground_content = false,
 	})
+   else
+	minetest.register_alias("cottages:roof_flat_straw", "stairs:slab_straw")
+   end
 
 
    if( not( homedecor_alternative )
@@ -155,9 +163,9 @@ end -- of cottages.register_roof( name, tiles, basic_material )
 -- add the diffrent roof types
 ---------------------------------------------------------------------------------------
 cottages.register_roof( 'straw',
-		{"cottages_darkage_straw.png","cottages_darkage_straw.png",
-		"cottages_darkage_straw.png","cottages_darkage_straw.png",
-		"cottages_darkage_straw.png","cottages_darkage_straw.png"},
+		{cottages.straw_texture, cottages.straw_texture,
+		 cottages.straw_texture, cottages.straw_texture,
+		 cottages.straw_texture, cottages.straw_texture},
 		'cottages:straw_mat', nil );
 cottages.register_roof( 'reet',
 		{"cottages_reet.png","cottages_reet.png",
@@ -199,7 +207,7 @@ minetest.register_node("cottages:slate_vertical", {
         tiles = {"cottages_slate.png",cottages.texture_roof_sides,"cottages_slate.png","cottages_slate.png",cottages.texture_roof_sides,"cottages_slate.png"},
         paramtype2 = "facedir",
         groups = {cracky=2, stone=1},
-        sounds = default.node_sound_stone_defaults,
+        sounds = cottages.sounds.stone,
 	is_ground_content = false,
 })
 
@@ -216,8 +224,8 @@ minetest.register_craft({
 minetest.register_node("cottages:reet", {
         description = S("Reet for thatching"),
         tiles = {"cottages_reet.png"},
-	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
-	sounds = default.node_sound_wood_defaults,
+	groups = {hay = 3, snappy=3,choppy=3,oddly_breakable_by_hand=3,flammable=3},
+        sounds = cottages.sounds.leaves,
 	is_ground_content = false,
 })
 

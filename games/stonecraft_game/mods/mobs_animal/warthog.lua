@@ -38,7 +38,7 @@ mobs:register_mob("mobs_animal:pumba", {
 	drops = {
 		{name = "mobs:pork_raw", chance = 1, min = 1, max = 3},
 	},
-	water_damage = 1,
+	water_damage = 0,
 	lava_damage = 5,
 	light_damage = 0,
 	fear_height = 2,

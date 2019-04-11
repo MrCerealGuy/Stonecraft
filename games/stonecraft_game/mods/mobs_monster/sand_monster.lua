@@ -78,6 +78,14 @@ mobs:register_mob("mobs_monster:sand_monster", {
 		punch_start = 74,
 		punch_end = 105,
 	},
+	immune_to = {
+		{"default:shovel_wood", 3}, -- shovels deal more damage to sand monster
+		{"default:shovel_stone", 3},
+		{"default:shovel_bronze", 4},
+		{"default:shovel_steel", 4},
+		{"default:shovel_mese", 5},
+		{"default:shovel_diamond", 7},
+	},
 --[[
 	custom_attack = function(self, p)
 		local pos = self.object:get_pos()

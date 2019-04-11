@@ -13,14 +13,14 @@ This mod works by adding your new plant to the {growing=1} group and numbering t
 
 ### Changelog:
 
-- 1.40 - Added Mithril Scythe to quick harvest and replant crops on right-click.
+- 1.40 - Added Mithril Scythe to quick harvest and replant crops on right-click.  Added Hoe's for MoreOres with Toolrank support.
 - 1.39 - Added Rice, Rye and Oats thanks to Ademants Grains mod.  Added Jaffa Cake and multigrain bread.
 - 1.38 - Pumpkin grows into block, use chopping board to cut into 4x slices, same with melon block, 2x2 slices makes a block, cocoa pods are no longer walkable
 - 1.37 - Added custom 'growth_check(pos, nodename) function for crop nodes to use (check cocoa.lua for example)
 - 1.36 - Added Beetroot, Beetroot Soup (6x beetroot, 1x bowl), fix register_plant() issue, add new recipes
 - 1.35 - Deprecated bronze/mese/diamond hoe's, added hoe bomb and deprecated hoe's as lucky block prizes
 - 1.34 - Added scarecrow Base (5x sticks in a cross shape)
-- 1.33 - Added cooking utensils (wooden bowl, saucepan, cooking pot, baking tray, skillet, cutting board, mortar & pestle, juicer, glass mixing bowl) for easier food crafts. 
+- 1.33 - Added cooking utensils (wooden bowl, saucepan, cooking pot, baking tray, skillet, cutting board, mortar & pestle, juicer, glass mixing bowl) for easier food crafts.
 - 1.32 - Added Pea plant (textures by Andrey01) - also added Wooden Bowl and Pea Soup crafts
 - 1.31 - Added Pineapple which can be found growing in savannah areas (place pineapple in crafting to obtain 5x rings to eat and a top for re-planting), also Salt which is made from cooking a bucket of water, added food groups so it's more compatible with Ruben's food mods.
 - 1.30 - Added Garlic, Pepper and Onions thanks to Grizzly Adam for sharing textures

@@ -13,6 +13,7 @@ minetest.register_node("mymod:colored_node", {
 	palette = "unifieddyes_palette_extended.png",
 	groups = {snappy = 1, cracky = 2, ud_param2_colorable = 1}
 	on_construct = unifieddyes.on_construct,
+	airbrush_replacement_node = "mymod:my_other_colored_node"
 })
 ```
 
@@ -27,9 +28,13 @@ minetest.register_node("mymod:colored_node", {
 - "unifieddyes_palette_colorwallmounted.png"
 - or one of the "split" hues palettes (see below).
 
-`groups`: If your node can be colored by punching it with dye, its groups entry must contain the key ud_param2_colorable = 1, among whatever else you'd normally put there. If the node is software-controlled, as might be the case for some mesecons-digilines aware node, then this group key should be omitted.
+`groups`: If your node can be colored by using the airbrush, its groups entry must contain the key ud_param2_colorable = 1, among whatever else you'd normally put there. If the node is software-controlled, as might be the case for some mesecons-digilines aware node, then this group key should be omitted.
+
+If your node if of the kind where you need the split palette, but you need to put the *full color name* into the node name, as opposed to just the hue, then add the keys `ud_color_start` and `ud_color_end` and set them to the positions of the first and last characters of the color name (where 1 is the first character of the mod name at the start of the node name, i.e. "mymod:foo_bar_orange_baz" would have the start set to 15 and the end at 20).
 
 `on_construct`: see below.
+
+`airbrush_replacement_node`:  The node to swap in when the airbrush is used on this node.  For example, you could `minetest.override_item()` on some default node to add this field, pointing to a colorable node of your own, so that when the default node is painted, it's replaced with yours in the new color.
 
 #### Function calls
 
@@ -42,10 +47,6 @@ These two are used to re-orient `wallmounted` nodes after placing. The former al
 
 This serves the same purpose as the `fix_rotation_nsew`, but is used to restrict the node's rotation after it's been hit with the screwdriver.
 
-**`unifieddyes.select_node(pointed_thing)`**
-
-Just what it says on the tin. :-) This function returns a position and node definition of whatever is being pointed at. 
-
 **`unifieddyes.is_buildable_to(placer_name, ...)`**
 
 Again, another obvious one, returns whether or not the pointed node is `buildable_to` (can be overwritten by another node).
@@ -54,7 +55,7 @@ Again, another obvious one, returns whether or not the pointed node is `buildabl
 
 Accepts an item name, and returns the corresponding hue, saturation, and value (in that order), as strings.
 
-If the item name is a color (not greyscale), then `hue` will be the basic hue for that color, saturation will be empty string for high saturation or "_s50" for low, and value will be "dark_", "medium_", "light_", or an empty string if it's full color.
+If the item name is a color (not greyscale), then `hue` will be the basic hue for that color, saturation will be empty string for high saturation or "\_s50" for low, and value will be "dark_", "medium_", "light_", or an empty string if it's full color.
 
 If the item name is greyscale, then `hue` will contain "white", "light_grey", "grey", "dark_grey", or "black", saturation will (ironically) be an empty string, and value will be "light_", "dark_", or empty string to correspond with the contents of `hue`.
 
@@ -68,42 +69,30 @@ For example:
 **`unifieddyes.getpaletteidx(color, palette_type)`**
 
 When given a `color` string (in the form of "dye:foo" or "unifieddyes:foo") and `palette_type` (either a boolean or string), this function returns the numerical index into that palette, and the hue name as a string.
-    `false` or `nil`: the 89-color palette
-    `true`: 89 color "split" palette mode, for nodes that need full `facedir` support. In this case, the hue field would match whichever of the 13 "split" palettes the node is using, and the index will be 1-7, representing the shade within that palette. See my coloredwoods mod for more information on how this mode is used.
-    `wallmounted`: the 32-color palette, for nodes using `colorwallmounted` mode.
-    `extended`: the 256-color "extended" palette
+* `false` or `nil`: the 89-color palette
+* `true`: 89 color "split" palette mode, for nodes that need full `facedir` support. In this case, the returned hue will be the color of whichever of the 13 "split" palettes the node is using, and the index will be 1-7, representing the shade within that palette. See my coloredwoods mod for more information on how this mode is used.  If the node is black, white, or grey, the hue will be set to 0. 
+* `wallmounted`: the 32-color palette, for nodes using `colorwallmounted` mode.
+* `extended`: the 256-color "extended" palette
+
+**`unifieddyes.color_to_name(param2, def)`**
+
+This function will attempt to return the name of the color indicated by `param2`.  `palette` tells the function which palette filename was used with that param2 value.  The returned value should be suitable as a dye item name when prefixed with "dye:".
+
+**`unifieddyes.on_airbrush(itemstack, player, pointed_thing)`**
+
+This is called when a node is punched while wielding the airbrush.
+
+**`unifieddyes.show_airbrush_form(player)`**
+
+This one does just what it sounds like - it shows the color selector formspec.
 
 **`unifieddyes.on_construct(pos)`**
 
-This function, called in your node definition's on_construct, just sets the `palette = "ext"` metadata key for the node after it's been placed. This can then be read in an LBM to determine if this node needs to be converted from the old 89-color palette to the extended 256-color palette. Although it is good practice to call this for any node that uses the 256-color palette, it isn't actually necessary as long as the node has never used the 89-color palette, and won't be subjected to an LBM that changes its color.
+This function, usually called from your node definition's `on_construct`, just sets the `palette = "ext"` metadata key for the node after it's been placed. This can then be read in an LBM to determine if this node needs to be converted from the old 89-color palette to the extended 256-color palette. Although it is good practice to call this for any node that uses the 256-color palette, it isn't actually necessary as long as the node has never used the 89-color palette, and won't be subjected to an LBM that changes its color.
 
-#### Tables
+**`unifieddyes.register_color_craft(recipe)`**
 
-In addition to the above API calls, Unified Dyes provides several useful tables
-
-`unifieddyes.HUES` contains a list of the 12 hues used by the 89-color palette.
-
-`unifieddyes.HUES_EXTENDED` contains a list of the 24 hues in the 256-color palette. Each line contains the color name and its RGB value expressed as three numbers (rather than the usual `#RRGGBB` string).
-
-`unifieddyes.base_color_crafts` contains a condensed list of crafting recipes for all 24 basic hues, plus black and white, most of which have multiple alternative recipes. Each line contains the name of the color, up to five dye itemstrings (with `nil` in each unused space), and the yield for that craft. 
-
-`unifieddyes.shade_crafts` contains recipes for each of the 10 shades a hue can take on, used with one or two portions of the dye corresponding to that hue. Each line contains the shade name with trailing "_", the saturation name (either "_s50" or empty string), up to three dye item strings, and the yield for that craft.
-
-`unifieddyes.greymixes` contains the recipes for the 14 shades of grey. Each line contains the grey shade number from 1-14, up to four dye item names, and the yield for that craft.
-
-#### Converting an old mod
-
-If your mod used the old paradigm where you craft a neutral-colored item, place it, and punch with dye to color it, and you wish to convert it to colored itemstacks, take the following actions for each node:
-
-* Remove these keys:
-
-```lua
-	after_dig_node = unifieddyes.after_dig_node,
-	place_param2 = 240,
-	after_place_node = unifieddyes.recolor_on_place,
-```
-
-* Add a call to the create-all-recipes helper.  Here's an example:
+This will loop through all of Unified Dyes' color lists, generating one recipe for every color in the palette given in the call.  Example usage:
 
 ```lua
 	unifieddyes.register_color_craft({
@@ -124,17 +113,59 @@ If your mod used the old paradigm where you craft a neutral-colored item, place 
 
 `type` can be "shapeless" or unspecified/`nil`, and works the same as in the normal call.
 
-`neutral_node` should specify the name of whatever item or node serves as the base, neutrally-colored material in your recipe.  This really only applies if your node is just made from one item (or more than one of the same item), plus one or more dyes.  If your node is just made from a collection of item and no one item is really the neutral material, or anyway if you don't need this substitution, you must set it to an empty string.
+`neutral_node` should specify the name of whatever item or node serves as the base, neutrally-colored material in your recipe.  This really only applies if your node is just made from one item (or more than one of the same item), plus one or more dyes.  If your node is just made from a collection of assorted items and no one item is really the neutral material, or anyway if you don't need this substitution, you must set it to an empty string.
 
 `recipe` is the same as in the normal call, except that Unified Dyes will replace all instances of the string "NEUTRAL_NODE" with the item specified in the preceding `neutral_node` field.  Every instance of "MAIN_DYE" will be replaced with a portion of dye, as Unified Dyes' recipe helper works through its color lists (i.e. this field will become whatever dye is needed for each recipe).
 
-If your mod never has never used Unified Dyes at all, in short, do the following:
+`output_prefix` and `output_suffix`, if specified (must use both if at all), will cause the recipe registration to set to the output item to `output_prefix` + (hue) + `output_suffix` + `output`.  Used for mods that use the split 89-color palette.  `hue` will thus be one of the 12 hues, or "grey", as defined by the split palettes.  In this situation, you can set `output` to your recipe yield (with a leading space) if needed.  For example, if the prefix is "foo:bar", the suffix is "baz", and the output is set to " 3", then the craft helper will generate output item strings of the form "foo:bar_COLOR_baz 3", for each color in the table.
+
+**`unifieddyes.make_colored_itemstack(itemstack, palette, color)`**
+
+Makes a colored itemstack out of the given `itemstack` and `color` (as a dye, e.g. "dye:dark_red_s50"), setting the correct index per the `palette` field, which works as described above for `unifieddyes.getpaletteidx()`.  Said itemstack is returned as a string suitable for use as the output field of a craft recipe, equal in size to the itemstack passed into the function (e.g. if you give it "mymod:colored_node 7", it'll return a stack of 7 colored items).
+
+**`unifieddyes.generate_split_palette_nodes(name, def, drop)`**
+
+Does just what it sounds like - it registers all the nodes that are needed for a given base node (`def`) to be able to use the split palette, each named according to `name`, with the palette hue appended.  If a custom drop is needed, it can be passed along (only a string is allowed here, specifying a single item).  
+
+
+#### Tables
+
+In addition to the above API calls, Unified Dyes provides several useful tables
+
+`unifieddyes.HUES` contains a list of the 12 hues used by the 89-color palette.
+
+`unifieddyes.HUES_EXTENDED` contains a list of the 24 hues in the 256-color palette. Each line contains the color name and its RGB value expressed as three numbers (rather than the usual `#RRGGBB` string).
+
+`unifieddyes.base_color_crafts` contains a condensed list of crafting recipes for all 24 basic hues, plus black and white, most of which have multiple alternative recipes. Each line contains the name of the color, up to five dye itemstrings (with `nil` in each unused space), and the yield for that craft. 
+
+`unifieddyes.shade_crafts` contains recipes for each of the 10 shades a hue can take on, used with one or two portions of the dye corresponding to that hue. Each line contains the shade name with trailing "_", the saturation name (either "_s50" or empty string), up to three dye item strings, and the yield for that craft.
+
+`unifieddyes.greymixes` contains the recipes for the 14 shades of grey. Each line contains the grey shade number from 1-14, up to four dye item names, and the yield for that craft.
+
+#### Converting an old mod
+
+If your mod used the old paradigm where you craft a neutral-colored item, place it, and punch with dye to color it, and you wish to convert it to colored itemstacks, take the following actions for each node:
+
+* Remove these keys from your node definition:
+
+```lua
+	place_param2 = 240,
+	after_dig_node = unifieddyes.after_dig_node,
+	after_place_node = unifieddyes.recolor_on_place,
+	ud_replacement_node = "mod:some_node"
+```
+
+* Add the `airbrush_replacement_node` key to the node definition, if needed.
+
+* Add a call to `unifieddyes.register_color_craft(recipe)`, the create-all-the-recipes helper described above (of course, you don't have to register any recipes if you don't want to, or you can roll your own, your choice).
+
+**If your mod never has never used Unified Dyes at all**
 
 * Remove all of your various colored node definitions, keeping only the one for the white version of your node, or delete them all, and keep whatever node you consider to be "neutral colored".
 
 * Delete all of the colored texture files too, except keep the brightest, highest-contrast, most detailed one - whichever color that happens to be.  Most likely, red or green will be the best one.
 
-* Convert that last texture to grayscale, enhance its contrast as much as you can without distorting it, and rename it to something more neutral.
+* Convert that remaining texture to grayscale, enhance its contrast as much as you can without distorting it, and rename it and the node it'll be used to something neutral-sounding.
 
 * Add the `on_construct` and `palette` keys to your neutral node definition, for example:
 
@@ -149,8 +180,10 @@ If your mod never has never used Unified Dyes at all, in short, do the following
 
 * Add the above recipes helper call (which replaces those delted recipes)
 
-If your colored node is based on someone else's neutral node, for example if you made a mod that creates multiple colors of minetest_game's default clay, you may find it best to create a single "stand-in" node that's identical to the neutral node, but named for your mod, hidden from the creative inventory, and has a properly-prepared grayscale texture image in addition to the above keys.  Use the neutral node and the custom hidden node as in the above craft helper call.  Then use minetest.override_item() to add the on_construct and palette keys and the ud_param2_colorable group to that "someone else's" node.
+* If your colored node is based on someone else's neutral node, for example if you made a mod that creates multiple colors of minetest_game's default clay, you may find it best to create a single "stand-in" node that's identical to the neutral node, but named for your mod, hidden from the creative inventory, and which has a properly-prepared grayscale texture image in addition to the above keys.  Use `minetest.override_item()` to add the `on_construct`, `palette`, and `airbrush_replacement_node` keys, and the `ud_param2_colorable` group, to that "someone else's" node.  Then use that node and your custom, hidden node in the craft helper call.
 
 * You will need to write a run-only-once LBM to convert your old statically-colored nodes to use hardware coloring.  See above for functions that will help reduce the work required for this part.
 
-If your mod has no colorable items, and you wish to expand it accordingly, follow the above "never used" section, skipping the "remove/delete this and that" items, and of course omitting the LBM.
+**If your mod has no colorable items**
+
+If you wish to expand your mod to support color, just follow the above "never used" section, skipping the "remove/delete this and that" items, and of course omitting the LBM.

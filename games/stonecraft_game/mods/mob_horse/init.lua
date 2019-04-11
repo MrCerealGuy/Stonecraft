@@ -11,6 +11,13 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_horse") == "false" then return end
 
+-- 0.4.17 or 5.0 check
+local y_off = 20
+if minetest.registered_nodes["default:permafrost"] then
+	y_off = 10
+end
+
+
 -- rideable horse
 
 mobs:register_mob("mob_horse:horse", {
@@ -61,7 +68,7 @@ mobs:register_mob("mob_horse:horse", {
 			self.max_speed_reverse = 2
 			self.accel = 6
 			self.terrain_type = 3
-			self.driver_attach_at = {x = 0, y = 20, z = -2}
+			self.driver_attach_at = {x = 0, y = y_off, z = -2}
 			self.driver_eye_offset = {x = 0, y = 3, z = 0}
 		end
 
@@ -162,7 +169,7 @@ mobs:spawn({
 	day_toggle = true,
 })
 
-mobs:register_egg("mob_horse:horse", "Horse", "wool_brown.png", 1)
+mobs:register_egg("mob_horse:horse", S("Horse"), "wool_brown.png", 1)
 
 
 -- horseshoe helper function
@@ -185,14 +192,14 @@ local apply_shoes = function(name, itemstack, obj, shoes, speed, jump, reverse)
 		ent.accel = speed
 		ent.shoed = shoes
 
-		minetest.chat_send_player(name, "Horse shoes fitted -"
-				.. " speed: " .. speed
-				.. " , jump height: " .. jump
-				.. " , stop speed: " .. reverse)
+		minetest.chat_send_player(name, S("Horse shoes fitted -")
+				.. S(" speed: ") .. speed
+				.. S(" , jump height: ") .. jump
+				.. S(" , stop speed: ") .. reverse)
 
 		itemstack:take_item() ; return itemstack
 	else
-		minetest.chat_send_player(name, "Horse shoes only work on horses!")
+		minetest.chat_send_player(name, S("Horse shoes only work on horses!"))
 	end
 end
 

@@ -47,7 +47,7 @@ plantlife_bushes.after_dig_node = function(pos, oldnode, oldmetadata, digger)
 	elseif groupcaps.snappy then
 
 		-- plant a new bush without fruits
-		minetest.set_node(pos, {type = "node", name = "bushes:fruitless_bush"})
+		minetest.swap_node(pos, {type = "node", name = "bushes:fruitless_bush"})
 		local meta = minetest.get_meta(pos)
 		meta:set_string('bush_type', bush_name)
 
@@ -114,7 +114,7 @@ plantlife_bushes.after_place_node = function(pos, placer, itemstack)
 		return
 	end
 
-	minetest.set_node(pos, {name = "bushes:fruitless_bush"})
+	minetest.swap_node(pos, {name = "bushes:fruitless_bush"})
 	local meta = minetest.get_meta(pos)
 	meta:set_string("bush_type", name_parts[1])
 end
@@ -137,7 +137,7 @@ minetest.register_abm({
 			local is_soil = minetest.get_item_group(dirt.name, "soil") or minetest.get_item_group(dirt.name, "potting_soil")
 
 			if is_soil and (dirt.name == "farming:soil_wet" or math.random(1,3) == 1) then
-				minetest.set_node( pos, {name = "bushes:" .. bush_name .. "_bush"})
+				minetest.swap_node( pos, {name = "bushes:" .. bush_name .. "_bush"})
 			end
 		end
 	end

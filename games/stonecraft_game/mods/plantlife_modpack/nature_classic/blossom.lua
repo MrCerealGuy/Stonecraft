@@ -9,7 +9,7 @@ local function spawn_apple_under(pos)
 		z = pos.z,
 	}
     if minetest.get_node(below).name == "air" then
-		minetest.set_node(below, { name = "default:apple" })
+		minetest.swap_node(below, { name = "default:apple" })
     end
 end
 

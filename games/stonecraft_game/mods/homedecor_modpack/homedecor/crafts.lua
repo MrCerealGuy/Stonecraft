@@ -1541,7 +1541,7 @@ minetest.register_craft( {
     recipe = {
 		{ "default:steel_ingot", "default:steel_ingot", "basic_materials:ic" },
 		{ "default:steel_ingot", "bucket:bucket_water", "default:steel_ingot" },
-		{ "default:steel_ingot", "technic:motor", "default:steel_ingot" }
+		{ "default:steel_ingot", "basic_materials:motor", "default:steel_ingot" }
     },
 })
 
@@ -1558,7 +1558,7 @@ minetest.register_craft( {
     output = "homedecor:dryer",
     recipe = {
 		{ "default:steel_ingot", "default:steel_ingot", "basic_materials:ic" },
-		{ "default:steel_ingot", "bucket:bucket_empty", "technic:motor" },
+		{ "default:steel_ingot", "bucket:bucket_empty", "basic_materials:motor" },
 		{ "default:steel_ingot", "basic_materials:heating_element", "default:steel_ingot" }
     },
 })
@@ -1587,7 +1587,7 @@ minetest.register_craft( {
     output = "homedecor:dishwasher",
     recipe = {
 		{ "basic_materials:ic", "homedecor:fence_chainlink", "default:steel_ingot",  },
-		{ "default:steel_ingot", "homedecor:shower_head", "technic:motor" },
+		{ "default:steel_ingot", "homedecor:shower_head", "basic_materials:motor" },
 		{ "default:steel_ingot", "basic_materials:heating_element", "bucket:bucket_water" }
     },
 })
@@ -1888,8 +1888,8 @@ minetest.register_craft({
     output = "homedecor:air_conditioner",
     recipe = {
 		{ "default:steel_ingot", "building_blocks:grate", "default:steel_ingot" },
-		{ "default:steel_ingot", "technic:motor", "default:steel_ingot" },
-		{ "default:steel_ingot", "technic:motor", "default:steel_ingot" },
+		{ "default:steel_ingot", "basic_materials:motor", "default:steel_ingot" },
+		{ "default:steel_ingot", "basic_materials:motor", "default:steel_ingot" },
     },
 })
 
@@ -1905,7 +1905,7 @@ minetest.register_craft({
 minetest.register_craft({
     output = "homedecor:ceiling_fan",
     recipe = {
-		{ "technic:motor" },
+		{ "basic_materials:motor" },
 		{ "homedecor:fan_blades" },
 		{ "homedecor:glowlight_small_cube" }
 	}
@@ -1989,7 +1989,7 @@ minetest.register_craft({
     output = "homedecor:dvd_player 2",
     recipe = {
 		{ "", "basic_materials:plastic_sheet", "" },
-		{ "default:obsidian_glass", "technic:motor", "technic:motor" },
+		{ "default:obsidian_glass", "basic_materials:motor", "basic_materials:motor" },
 		{ "default:mese_crystal_fragment", "basic_materials:ic", "basic_materials:energy_crystal_simple" },
     },
 })

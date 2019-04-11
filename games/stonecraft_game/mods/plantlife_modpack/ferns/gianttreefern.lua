@@ -2,7 +2,6 @@
 -- Ferns - Giant Tree Fern 0.1.1
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		4seasons, default
 -- Supports:				vines
@@ -69,11 +68,11 @@ abstract_ferns.grow_giant_tree_fern = function(pos)
 			brk = true
 			break
 		end
-		minetest.set_node({x = pos.x, y = pos.y + i, z = pos.z}, {name="ferns:fern_trunk_big"})
+		minetest.swap_node({x = pos.x, y = pos.y + i, z = pos.z}, {name="ferns:fern_trunk_big"})
 	end
 	if not brk then
-		minetest.set_node({x = pos.x, y = pos.y + size-2, z = pos.z}, {name="ferns:fern_trunk_big_top"})
-		minetest.set_node({x = pos.x, y = pos.y + size-1, z = pos.z}, {name="ferns:tree_fern_leaves_giant"})
+		minetest.swap_node({x = pos.x, y = pos.y + size-2, z = pos.z}, {name="ferns:fern_trunk_big_top"})
+		minetest.swap_node({x = pos.x, y = pos.y + size-1, z = pos.z}, {name="ferns:tree_fern_leaves_giant"})
 
 		-- all the checking for air below is to prevent some ugly bugs (incomplete trunks of neighbouring trees), it's a bit slower, but worth the result
 
@@ -86,7 +85,7 @@ abstract_ferns.grow_giant_tree_fern = function(pos)
 			-- add leaves so long as the destination nodes are air
 			for j = 1, 3 do
 				if minetest.get_node(positions[j]).name == "air" then
-					minetest.set_node(positions[j], {name="ferns:tree_fern_leave_big"})
+					minetest.swap_node(positions[j], {name="ferns:tree_fern_leave_big"})
 				else
 					endpos = j
 					break
@@ -94,7 +93,7 @@ abstract_ferns.grow_giant_tree_fern = function(pos)
 			end
 			-- add the terminating leaf if required and possible
 			if endpos == 4 and minetest.get_node(positions[endpos]).name == "air" then
-				minetest.set_node(positions[endpos], {name="ferns:tree_fern_leave_big_end", param2=rot})
+				minetest.swap_node(positions[endpos], {name="ferns:tree_fern_leave_big_end", param2=rot})
 			end
 		end
 	end

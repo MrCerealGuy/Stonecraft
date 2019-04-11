@@ -51,6 +51,14 @@ mobs:register_mob("mobs_monster:stone_monster", {
 		punch_start = 40,
 		punch_end = 63,
 	},
+	immune_to = {
+		{"default:pick_wood", 0}, -- wooden pick doesnt hurt stone monster
+		{"default:pick_stone", 4}, -- picks deal more damage to stone monster
+		{"default:pick_bronze", 5},
+		{"default:pick_steel", 5},
+		{"default:pick_mese", 6},
+		{"default:pick_diamond", 7},
+	},
 })
 
 

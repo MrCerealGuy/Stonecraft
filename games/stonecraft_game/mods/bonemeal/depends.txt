@@ -5,3 +5,4 @@ ethereal?
 moretrees?
 technic_worldgen?
 lucky_block?
+flowers?

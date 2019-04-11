@@ -32,9 +32,9 @@ mob_world_interaction.sleep_on_bed = function( entity, pos )
 		t_pos.x = t_pos.x + 0.5; 
 	end
 	-- rotate the npc in the right direction
-	entity.object:setyaw( math.rad( yaw ));
+	entity.object:set_yaw( math.rad( yaw ));
 	-- move the entity on the furniture; the entity has already been rotated accordingly
-	entity.object:setpos( {x=t_pos.x, y=t_pos.y+1.1,z=t_pos.z} );
+	entity.object:set_pos( {x=t_pos.x, y=t_pos.y+1.1,z=t_pos.z} );
 
 	-- wield nothing
 -- TODO: that is too specific...add more general function here

@@ -4,7 +4,6 @@
 -- by Mossmanikin
 -- textures & ideas partly by Neuromancer
 
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default, trees
 -----------------------------------------------------------------------------------------------
@@ -34,18 +33,18 @@ abstract_dryplants.grow_reedmace = function(pos)
 	if minetest.get_node(pos_01).name == "air"  -- bug fix
 	or minetest.get_node(pos_01).name == "dryplants:reedmace_sapling" then
 		if minetest.get_node(pos_02).name ~= "air" then
-			minetest.set_node(pos_01, {name="dryplants:reedmace_top"})
+			minetest.swap_node(pos_01, {name="dryplants:reedmace_top"})
 		elseif minetest.get_node(pos_03).name ~= "air" then
-			minetest.set_node(pos_01, {name="dryplants:reedmace_height_2"})
+			minetest.swap_node(pos_01, {name="dryplants:reedmace_height_2"})
 		elseif size == 1 then
-			minetest.set_node(pos_01, {name="dryplants:reedmace_top"})
+			minetest.swap_node(pos_01, {name="dryplants:reedmace_top"})
 		elseif size == 2 then
-			minetest.set_node(pos_01, {name="dryplants:reedmace_height_2"})
+			minetest.swap_node(pos_01, {name="dryplants:reedmace_height_2"})
 		elseif size == 3 then
 			if spikes == 1 then
-				minetest.set_node(pos_01, {name="dryplants:reedmace_height_3_spikes"})
+				minetest.swap_node(pos_01, {name="dryplants:reedmace_height_3_spikes"})
 			else
-				minetest.set_node(pos_01, {name="dryplants:reedmace_height_3"})
+				minetest.swap_node(pos_01, {name="dryplants:reedmace_height_3"})
 			end
 		end
 	end
@@ -61,18 +60,18 @@ abstract_dryplants.grow_reedmace_water = function(pos)
 	minetest.add_entity(pos_01, "dryplants:reedmace_water_entity")
 	if minetest.get_node(pos_02).name == "air" then -- bug fix
 		if minetest.get_node(pos_03).name ~= "air" then
-			minetest.set_node(pos_02, {name="dryplants:reedmace_top"})
+			minetest.swap_node(pos_02, {name="dryplants:reedmace_top"})
 		elseif minetest.get_node(pos_04).name ~= "air" then
-			minetest.set_node(pos_02, {name="dryplants:reedmace_height_2"})
+			minetest.swap_node(pos_02, {name="dryplants:reedmace_height_2"})
 		elseif size == 1 then
-			minetest.set_node(pos_02, {name="dryplants:reedmace_top"})
+			minetest.swap_node(pos_02, {name="dryplants:reedmace_top"})
 		elseif size == 2 then
-			minetest.set_node(pos_02, {name="dryplants:reedmace_height_2"})
+			minetest.swap_node(pos_02, {name="dryplants:reedmace_height_2"})
 		elseif size == 3 then
 			if spikes == 1 then
-				minetest.set_node(pos_02, {name="dryplants:reedmace_height_3_spikes"})
+				minetest.swap_node(pos_02, {name="dryplants:reedmace_height_3_spikes"})
 			else
-				minetest.set_node(pos_02, {name="dryplants:reedmace_height_3"})
+				minetest.swap_node(pos_02, {name="dryplants:reedmace_height_3"})
 			end
 		end
 	end
@@ -290,7 +289,7 @@ minetest.register_abm({
 			if minetest.get_node({x = pos.x, y = pos.y + 1, z = pos.z}).name == "air" then
 				abstract_dryplants.grow_reedmace_water({x = pos.x, y = pos.y - 1, z = pos.z})
 			end
-			minetest.set_node({x=pos.x, y=pos.y, z=pos.z}, {name="default:water_source"})
+			minetest.swap_node({x=pos.x, y=pos.y, z=pos.z}, {name="default:water_source"})
 		else
 			abstract_dryplants.grow_reedmace({x = pos.x, y = pos.y - 1, z = pos.z})
 		end

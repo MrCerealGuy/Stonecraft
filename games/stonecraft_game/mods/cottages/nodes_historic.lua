@@ -36,7 +36,6 @@ minetest.register_node("cottages:wagon_wheel", {
         },
         groups = {choppy=2,dig_immediate=2,attached_node=1},
         legacy_wallmounted = true,
-        sounds = default.node_sound_defaults,
 	is_ground_content = false,
 })
 
@@ -47,7 +46,7 @@ minetest.register_node("cottages:loam", {
         tiles = {"cottages_loam.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
         groups = {crumbly=3},
-        sounds = default.node_sound_dirt_defaults,
+	sounds = cottages.sounds.dirt,
 	is_ground_content = false,
 })
 
@@ -59,7 +58,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_loam.png"},
 		S("Loam Stairs"),
 		S("Loam Slab"),
-		default.node_sound_dirt_defaults)
+		cottages.sounds.dirt)
 
    if( minetest.registered_nodes["default:clay"]) then
       stairs.register_stair_and_slab("clay", "default:clay",
@@ -67,7 +66,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_clay.png"},
 		S("Clay Stairs"),
 		S("Clay Slab"),
-		default.node_sound_dirt_defaults)
+		cottages.sounds.dirt)
    end
 end
 
@@ -76,10 +75,10 @@ end
 -- right now, this block mostly serves as a placeholder
 minetest.register_node("cottages:straw_ground", {
         description = S("straw ground for animals"),
-        tiles = {"cottages_darkage_straw.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
+        tiles = {cottages.straw_texture,"cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png","cottages_loam.png"},
 	groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
         groups = {crumbly=3},
-        sounds = default.node_sound_dirt_defaults,
+        sounds = cottages.sounds.leaves,
 	is_ground_content = false,
 })
 
@@ -188,12 +187,16 @@ minetest.register_node("cottages:wool_tent", {
 })
 
 -- a fallback for cases in which there is no wool
-minetest.register_node("cottages:wool", {
-		description = S("Wool"),
+if( not( minetest.registered_nodes["wool:white"])) then
+	minetest.register_node("cottages:wool", {
+		description = "Wool",
 		tiles = {"cottages_wool.png"},
 		is_ground_content = false,
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=3,flammable=3,wool=1},
-})
+	})
+else
+	minetest.register_alias("cottages:wool", "wool:white")
+end
 
 
 ---------------------------------------------------------------------------------------

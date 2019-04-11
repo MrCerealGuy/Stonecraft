@@ -23,8 +23,55 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- * flat: each node is a full node; junction, t-junction and corner are included
 -- * nodebox: like flat - except that each node has a nodebox that fits to that road node
 -- * mesh: like nodebox - except that it uses a nice roundish model
-if( not( cottages_feldweg_mode )) then
+local cottages_feldweg_mode = minetest.settings:get("cottages_feldweg_mode")
+if(     cottages_feldweg_mode ~= "mesh"
+    and cottages_feldweg_mode ~= "flat"
+    and cottages_feldweg_mode ~= "nodebox"
+    and cottages_feldweg_mode ~= "flat") then
 	cottages_feldweg_mode = "mesh";
+    -- add the setting to the minetest.conf so that the player can set it there
+    minetest.settings:set("cottages_feldweg_mode", "mesh")
+end
+
+local function register_recipes(include_end)
+	
+	minetest.register_craft({
+		output = "cottages:feldweg_crossing 5",
+		recipe = {
+			{"", "cottages:feldweg", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"},
+			{"", "cottages:feldweg", "" },
+		},
+	})
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_t_junction 5",
+		recipe = {
+			{"", "cottages:feldweg", "" },
+			{"", "cottages:feldweg", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			
+		},
+	})										
+	             
+	minetest.register_craft({
+		output = "cottages:feldweg_curve 5",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "", ""},
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+		},
+	})									                                       
+	               
+	if include_end then
+		minetest.register_craft({
+			output = "cottages:feldweg_end 5",
+			recipe = {
+				{"cottages:feldweg", "", "cottages:feldweg" },
+				{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+			},
+		})	
+	end
 end
 
 --- a nice dirt road for small villages or paths to fields
@@ -36,7 +83,7 @@ if( cottages_feldweg_mode == "simple" or cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 end
@@ -55,7 +102,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 
@@ -66,7 +113,7 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
 
@@ -77,10 +124,11 @@ if( cottages_feldweg_mode == "flat" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 	})
-
+	                                          
+	register_recipes(false)
 --
 -- cube-style nodebox version
 --
@@ -92,7 +140,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		roups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
@@ -124,7 +172,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -170,7 +218,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -214,7 +262,7 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 
 		drawtype = "nodebox",
@@ -251,6 +299,8 @@ elseif( cottages_feldweg_mode == "nodebox" ) then
 		},
 	})
 
+	register_recipes(false)                               
+	                                          
 
 --
 -- the mesh version (rounded); provided and created by VanessaE
@@ -264,7 +314,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -282,7 +332,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png",
 			"default_grass.png","cottages_feldweg_surface.png",
@@ -292,13 +342,15 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg-crossing.obj",
 	})
 
+
+	                                          
 	minetest.register_node("cottages:feldweg_t_junction", {
 		description = S("Dirt road t junction"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png", "default_dirt.png",
 			"default_grass.png","cottages_feldweg_surface.png",
@@ -307,6 +359,8 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		drawtype = "mesh",
 		mesh = "feldweg-T-junction.obj",
 	})
+	                                          
+
 
 	minetest.register_node("cottages:feldweg_curve", {
 		description = S("Dirt road curve"),
@@ -314,7 +368,7 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"default_dirt.png^default_grass_side.png","default_grass.png",
 			"default_dirt.png^default_grass_side.png","cottages_feldweg_surface.png",
@@ -324,13 +378,15 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg-curve.obj",
 	})
 
+
+							
 	minetest.register_node("cottages:feldweg_end", {
 		description = S("Dirt road end"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -340,6 +396,11 @@ elseif( cottages_feldweg_mode == "mesh" ) then
 		drawtype = "mesh",
 		mesh = "feldweg_end.obj",
 	})
+	   
+	                                          
+	register_recipes(true)
+ 
+	                                          
 end
 
 
@@ -350,7 +411,7 @@ if( minetest.get_modpath("stairs") and stairs and stairs.register_stair_and_slab
 		{"cottages_feldweg.png","default_dirt.png", "default_grass.png","default_grass.png","cottages_feldweg.png","cottages_feldweg.png"},
 		S("Dirt Road Stairs"),
 		S("Dirt Road, half height"),
-		default.node_sound_dirt_defaults)
+		cottages.sounds.dirt)
 end
 
 if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
@@ -379,7 +440,7 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -393,13 +454,15 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		selection_box = box_slope,
 	})
 
+                                 
+	                                          
 	minetest.register_node("cottages:feldweg_slope_long", {
 		description = S("Dirt road slope long"),
 		paramtype2 = "facedir",
 		groups = {snappy=2,choppy=2,oddly_breakable_by_hand=2},
 		legacy_facedir_simple = true,
 		groups = {crumbly=3},
-		sounds = default.node_sound_dirt_defaults,
+		sounds = cottages.sounds.dirt,
 		is_ground_content = false,
 		tiles = {"cottages_feldweg_end.png","default_dirt.png^default_grass_side.png",
 			"default_dirt.png", "default_grass.png",
@@ -410,5 +473,22 @@ if( cottages_feldweg_mode == "nodebox" or cottages_feldweg_mode == "mesh" ) then
 		mesh = "feldweg_slope_long.obj",
                 collision_box = box_slope_long,
 		selection_box = box_slope_long,
+	})
+	        
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_slope 3",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "cottages:feldweg", ""}
+		},
+	})	     
+	                                          
+	minetest.register_craft({
+		output = "cottages:feldweg_slope_long 4",
+		recipe = {
+			{"cottages:feldweg", "", "" },
+			{"cottages:feldweg", "cottages:feldweg", "cottages:feldweg"}
+		},
 	})
 end

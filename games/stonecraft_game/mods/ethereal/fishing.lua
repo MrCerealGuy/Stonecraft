@@ -57,11 +57,28 @@ minetest.register_craftitem("ethereal:worm", {
 	wield_image = "worm.png",
 })
 
+-- Used when right-clicking with fishing rod to check for worm and bait rod
+local rod_use = function(itemstack, placer, pointed_thing)
+
+	local inv = placer:get_inventory()
+
+	if inv:contains_item("main", "ethereal:worm") then
+
+		inv:remove_item("main", "ethereal:worm")
+
+		return ItemStack("ethereal:fishing_rod_baited")
+	end
+end
+
 -- Fishing Rod
 minetest.register_craftitem("ethereal:fishing_rod", {
 	description = S("Fishing Rod"),
 	inventory_image = "fishing_rod.png",
 	wield_image = "fishing_rod.png",
+	stack_max = 1,
+
+	on_place = rod_use,
+	on_secondary_use = rod_use
 })
 
 minetest.register_craft({

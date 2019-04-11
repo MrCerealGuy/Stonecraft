@@ -65,6 +65,8 @@ ethereal = {
 	swamp     = 1, -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
 	sealife   = 1, -- Enable coral and seaweed
 	reefs     = 1, -- Enable new 0.4.15 coral reefs in default
+	sakura    = 1, -- Enable sakura biome with trees
+	tundra    = 1, -- Enable tuntra biome with permafrost
 }
 
 local path = minetest.get_modpath("ethereal")
@@ -104,6 +106,7 @@ if core.get_mod_setting("ethereal_biomes_sandclay")		~= "false" then ethereal.sa
 if core.get_mod_setting("ethereal_biomes_swamp")		~= "false" then ethereal.swamp	 	= 1 else ethereal.swamp 	= 0 end -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
 if core.get_mod_setting("ethereal_biomes_sealife")		~= "false" then ethereal.sealife	= 1 else ethereal.sealife 	= 0 end -- Enable coral and seaweed
 if core.get_mod_setting("ethereal_biomes_reefs")		~= "false" then ethereal.reefs	 	= 1 else ethereal.reefs 	= 0 end -- Enable new coral reefs in default
+if core.get_mod_setting("ethereal_biomes_sakura")		~= "false" then ethereal.sakura		= 1 else ethereal.sakura	= 0 end -- Enable sakura biomes with trees
 
 -- Falling node function
 ethereal.check_falling = minetest.check_for_falling or nodeupdate

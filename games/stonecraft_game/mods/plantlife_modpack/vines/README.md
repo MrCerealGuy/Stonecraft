@@ -1,9 +1,11 @@
-# Vines
+# Vines Mod by Bas80 (Edited by TenPlus1)
+
+### License: MIT for code, CC for textures
 
 ## Features
 - Rope block for spawning rope that slowly drops into the deep.
 - Vines are climbable and slowly grow downward.
-- Shears that allow the collecting of vines.
+- Shears that allow the faster collecting of vines.
 - Spawns vines on jungletree leaves.
 - Roots on the bottom of dirt and dirt with grass nodes.
 - Spawns vines on trees located in swampy area.
@@ -48,9 +50,3 @@ table.
 |average_length|int|   The average length of vines|
 
 For biome definitions please see the [plants_lib API documentation](https://github.com/VanessaE/plantlife_modpack/blob/master/API.txt)
-
-## Notice
-Vines use after_destruct on registered leave nodes to remove vines from which
-the leaves are removed. This is done by using the override function.
-Malfunctions may occur if other mods override the after_destruct of these nodes
-also.

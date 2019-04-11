@@ -37,7 +37,7 @@ abstract_trunks.place_twig = function(pos)
 	local node_n_w		= minetest.get_node(north_west)
 --	small twigs
 	if twig_size <= 16 then
-		minetest.set_node(right_here, {name="trunks:twig_"..math.random(1,4), param2=math.random(0,3)})
+		minetest.swap_node(right_here, {name="trunks:twig_"..math.random(1,4), param2=math.random(0,3)})
 	end
 --	big twigs
 	if Big_Twigs == true then
@@ -47,13 +47,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x+1,y=pos.y,z=pos.z}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_5"})
+				minetest.swap_node(right_here, {name="trunks:twig_5"})
 			end
 			if minetest.registered_nodes[node_n_e.name].buildable_to then
-				minetest.set_node(north_east, {name="trunks:twig_7"})
+				minetest.swap_node(north_east, {name="trunks:twig_7"})
 			end
 			if minetest.registered_nodes[node_east.name].buildable_to then
-				minetest.set_node(east,		  {name="trunks:twig_8"})
+				minetest.swap_node(east,		  {name="trunks:twig_8"})
 			end
 		end
 	elseif twig_size == 18 then
@@ -61,13 +61,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y,z=pos.z-1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_5", param2=1})
+				minetest.swap_node(right_here, {name="trunks:twig_5", param2=1})
 			end
 			if minetest.registered_nodes[node_s_e.name].buildable_to then
-				minetest.set_node(south_east, {name="trunks:twig_7", param2=1})
+				minetest.swap_node(south_east, {name="trunks:twig_7", param2=1})
 			end
 			if minetest.registered_nodes[node_south.name].buildable_to then
-				minetest.set_node(south,	  {name="trunks:twig_8", param2=1})
+				minetest.swap_node(south,	  {name="trunks:twig_8", param2=1})
 			end
 		end
 	elseif twig_size == 19 then
@@ -75,13 +75,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x-1,y=pos.y,z=pos.z}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_5", param2=2})
+				minetest.swap_node(right_here, {name="trunks:twig_5", param2=2})
 			end
 			if minetest.registered_nodes[node_s_w.name].buildable_to then
-				minetest.set_node(south_west, {name="trunks:twig_7", param2=2})
+				minetest.swap_node(south_west, {name="trunks:twig_7", param2=2})
 			end
 			if minetest.registered_nodes[node_west.name].buildable_to then
-				minetest.set_node(west,		  {name="trunks:twig_8", param2=2})
+				minetest.swap_node(west,		  {name="trunks:twig_8", param2=2})
 			end
 		end
 	elseif twig_size == 20 then
@@ -89,13 +89,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x,y=pos.y,z=pos.z+1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_5", param2=3})
+				minetest.swap_node(right_here, {name="trunks:twig_5", param2=3})
 			end
 			if minetest.registered_nodes[node_n_w.name].buildable_to then
-				minetest.set_node(north_west, {name="trunks:twig_7", param2=3})
+				minetest.swap_node(north_west, {name="trunks:twig_7", param2=3})
 			end
 			if minetest.registered_nodes[node_north.name].buildable_to then
-				minetest.set_node(north,	  {name="trunks:twig_8", param2=3})
+				minetest.swap_node(north,	  {name="trunks:twig_8", param2=3})
 			end
 		end
 --	big twig 2
@@ -104,13 +104,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x+1,y=pos.y,z=pos.z+1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_9"})
+				minetest.swap_node(right_here, {name="trunks:twig_9"})
 			end
 			if minetest.registered_nodes[node_north.name].buildable_to then
-				minetest.set_node(north,	  {name="trunks:twig_10"})
+				minetest.swap_node(north,	  {name="trunks:twig_10"})
 			end
 			if minetest.registered_nodes[node_n_e.name].buildable_to then
-				minetest.set_node(north_east, {name="trunks:twig_11"})
+				minetest.swap_node(north_east, {name="trunks:twig_11"})
 			end
 		end
 	elseif twig_size == 22 then
@@ -118,13 +118,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x+1,y=pos.y,z=pos.z-1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_9", param2=1})
+				minetest.swap_node(right_here, {name="trunks:twig_9", param2=1})
 			end
 			if minetest.registered_nodes[node_east.name].buildable_to then
-				minetest.set_node(east,		  {name="trunks:twig_10", param2=1})
+				minetest.swap_node(east,		  {name="trunks:twig_10", param2=1})
 			end
 			if minetest.registered_nodes[node_s_e.name].buildable_to then
-				minetest.set_node(south_east, {name="trunks:twig_11", param2=1})
+				minetest.swap_node(south_east, {name="trunks:twig_11", param2=1})
 			end
 		end
 	elseif twig_size == 23 then
@@ -132,13 +132,13 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x-1,y=pos.y,z=pos.z-1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_9", param2=2})
+				minetest.swap_node(right_here, {name="trunks:twig_9", param2=2})
 			end
 			if minetest.registered_nodes[node_south.name].buildable_to then
-				minetest.set_node(south,	  {name="trunks:twig_10", param2=2})
+				minetest.swap_node(south,	  {name="trunks:twig_10", param2=2})
 			end
 			if minetest.registered_nodes[node_s_w.name].buildable_to then
-				minetest.set_node(south_west, {name="trunks:twig_11", param2=2})
+				minetest.swap_node(south_west, {name="trunks:twig_11", param2=2})
 			end
 		end
 	elseif twig_size == 24 then
@@ -146,17 +146,17 @@ abstract_trunks.place_twig = function(pos)
 			or minetest.registered_nodes[minetest.get_node({x=pos.x-1,y=pos.y,z=pos.z+1}).name].buildable_to) then
 
 			if minetest.registered_nodes[node_here.name].buildable_to then
-				minetest.set_node(right_here, {name="trunks:twig_9", param2=3})
+				minetest.swap_node(right_here, {name="trunks:twig_9", param2=3})
 			end
 			if minetest.registered_nodes[node_west.name].buildable_to then
-				minetest.set_node(west,		  {name="trunks:twig_10", param2=3})
+				minetest.swap_node(west,		  {name="trunks:twig_10", param2=3})
 			end
 			if minetest.registered_nodes[node_n_w.name].buildable_to then
-				minetest.set_node(north_west, {name="trunks:twig_11", param2=3})
+				minetest.swap_node(north_west, {name="trunks:twig_11", param2=3})
 			end
 		end
 	elseif twig_size <= 25 then
-		minetest.set_node(right_here, {name="trunks:twig_"..math.random(12,13), param2=math.random(0,3)})
+		minetest.swap_node(right_here, {name="trunks:twig_"..math.random(12,13), param2=math.random(0,3)})
 	end
 	end
 end
@@ -269,70 +269,70 @@ abstract_trunks.place_trunk = function(pos)
 				local trunk_type = math.random(1,3)
 				if trunk_type == 1 then
 					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
-						minetest.set_node(right_here, {name=MoD..":"..TRuNK})
+						minetest.swap_node(right_here, {name=MoD..":"..TRuNK})
 					else
-						minetest.set_node(right_here, {name="default:tree"})
+						minetest.swap_node(right_here, {name="default:tree"})
 					end
 				elseif trunk_type == 2 and Horizontal_Trunks == true then
 					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
 						if minetest.registered_nodes[node_north.name].buildable_to then
-							minetest.set_node(north, {name=MoD..":"..TRuNK, param2=4})
+							minetest.swap_node(north, {name=MoD..":"..TRuNK, param2=4})
 						end
 
 						if length >= 4 and minetest.registered_nodes[node_north2.name].buildable_to then
-							minetest.set_node(north2, {name=MoD..":"..TRuNK, param2=4})
+							minetest.swap_node(north2, {name=MoD..":"..TRuNK, param2=4})
 						end
 
-						minetest.set_node(right_here, {name=MoD..":"..TRuNK, param2=4})
+						minetest.swap_node(right_here, {name=MoD..":"..TRuNK, param2=4})
 						if minetest.registered_nodes[node_south.name].buildable_to then
-							minetest.set_node(south, {name=MoD..":"..TRuNK, param2=4})
+							minetest.swap_node(south, {name=MoD..":"..TRuNK, param2=4})
 						end
 						if length == 5 and minetest.registered_nodes[node_south2.name].buildable_to then
-							minetest.set_node(south2, {name=MoD..":"..TRuNK, param2=4})
+							minetest.swap_node(south2, {name=MoD..":"..TRuNK, param2=4})
 						end
 					else
 						if minetest.registered_nodes[node_north.name].buildable_to then
-							minetest.set_node(north, {name="default:tree", param2=4})
+							minetest.swap_node(north, {name="default:tree", param2=4})
 						end
 						if length >= 4 and minetest.registered_nodes[node_north2.name].buildable_to then
-							minetest.set_node(north2, {name="default:tree", param2=4})
+							minetest.swap_node(north2, {name="default:tree", param2=4})
 						end
-						minetest.set_node(right_here, {name="default:tree", param2=4})
+						minetest.swap_node(right_here, {name="default:tree", param2=4})
 						if minetest.registered_nodes[node_south.name].buildable_to then
-							minetest.set_node(south, {name="default:tree", param2=4})
+							minetest.swap_node(south, {name="default:tree", param2=4})
 						end
 						if length == 5 and minetest.registered_nodes[node_south2.name].buildable_to then
-							minetest.set_node(south2, {name="default:tree", param2=4})
+							minetest.swap_node(south2, {name="default:tree", param2=4})
 						end
 					end
 				elseif trunk_type == 3 and Horizontal_Trunks == true then
 					if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD) then
 						if minetest.registered_nodes[node_west.name].buildable_to then
-							minetest.set_node(west, {name=MoD..":"..TRuNK, param2=12})
+							minetest.swap_node(west, {name=MoD..":"..TRuNK, param2=12})
 						end
 						if length >= 4 and minetest.registered_nodes[node_west2.name].buildable_to then
-							minetest.set_node(west2, {name=MoD..":"..TRuNK, param2=12})
+							minetest.swap_node(west2, {name=MoD..":"..TRuNK, param2=12})
 						end
-						minetest.set_node(right_here, {name=MoD..":"..TRuNK, param2=12})
+						minetest.swap_node(right_here, {name=MoD..":"..TRuNK, param2=12})
 						if minetest.registered_nodes[node_east.name].buildable_to then
-							minetest.set_node(east, {name=MoD..":"..TRuNK, param2=12})
+							minetest.swap_node(east, {name=MoD..":"..TRuNK, param2=12})
 						end
 						if length == 5 and minetest.registered_nodes[node_east2.name].buildable_to then
-							minetest.set_node(east2, {name=MoD..":"..TRuNK, param2=12})
+							minetest.swap_node(east2, {name=MoD..":"..TRuNK, param2=12})
 						end
 					else
 						if minetest.registered_nodes[node_west.name].buildable_to then
-							minetest.set_node(west, {name="default:tree", param2=12})
+							minetest.swap_node(west, {name="default:tree", param2=12})
 						end
 						if length >= 4 and minetest.registered_nodes[node_west2.name].buildable_to then
-							minetest.set_node(west2, {name="default:tree", param2=12})
+							minetest.swap_node(west2, {name="default:tree", param2=12})
 						end
-						minetest.set_node(right_here, {name="default:tree", param2=12})
+						minetest.swap_node(right_here, {name="default:tree", param2=12})
 						if minetest.registered_nodes[node_east.name].buildable_to then
-							minetest.set_node(east, {name="default:tree", param2=12})
+							minetest.swap_node(east, {name="default:tree", param2=12})
 						end
 						if length == 5 and minetest.registered_nodes[node_east2.name].buildable_to then
-							minetest.set_node(east2, {name="default:tree", param2=12})
+							minetest.swap_node(east2, {name="default:tree", param2=12})
 						end
 					end
 				end
@@ -367,9 +367,9 @@ abstract_trunks.grow_moss_on_ground = function(pos)
 	local moss_type = math.random(1,21)
 
 	if moss_type == 1 then
-		minetest.set_node(on_ground, {name="trunks:moss_fungus", param2=math.random(0,3)})
+		minetest.swap_node(on_ground, {name="trunks:moss_fungus", param2=math.random(0,3)})
 	else
-		minetest.set_node(on_ground, {name="trunks:moss", param2=math.random(0,3)})
+		minetest.swap_node(on_ground, {name="trunks:moss", param2=math.random(0,3)})
 	end
 
 end
@@ -418,41 +418,41 @@ abstract_trunks.grow_moss_on_trunk = function(pos)
 		local moss_type = math.random(1,41)
 		if minetest.registered_nodes[node_here.name].buildable_to then -- instead of check_air = true,
 			if moss_type == 1 then
-				minetest.set_node(on_ground, {name="trunks:moss_fungus", param2=math.random(0,3) --[[1]]})
+				minetest.swap_node(on_ground, {name="trunks:moss_fungus", param2=math.random(0,3) --[[1]]})
 			elseif moss_type < 22 then
-				minetest.set_node(on_ground, {name="trunks:moss", param2=math.random(0,3) --[[1]]})
+				minetest.swap_node(on_ground, {name="trunks:moss", param2=math.random(0,3) --[[1]]})
 			end
 		end
 		local moss_type = math.random(1,31) -- cliche of more moss at north
 		if minetest.registered_nodes[node_north.name].buildable_to then -- instead of check_air = true,
 			if moss_type == 1 then
-				minetest.set_node(at_side_n, {name="trunks:moss_fungus", param2=math.random(4,7)}) -- 5,4,6,7
+				minetest.swap_node(at_side_n, {name="trunks:moss_fungus", param2=math.random(4,7)}) -- 5,4,6,7
 			elseif moss_type < 22 then
-				minetest.set_node(at_side_n, {name="trunks:moss", param2=math.random(4,7)})
+				minetest.swap_node(at_side_n, {name="trunks:moss", param2=math.random(4,7)})
 			end
 		end
 		local moss_type = math.random(1,41)
 		if minetest.registered_nodes[node_east.name].buildable_to then -- instead of check_air = true,
 			if moss_type == 1 then
-				minetest.set_node(at_side_e, {name="trunks:moss_fungus", param2=math.random(12,15)})
+				minetest.swap_node(at_side_e, {name="trunks:moss_fungus", param2=math.random(12,15)})
 			elseif moss_type < 22 then
-				minetest.set_node(at_side_e, {name="trunks:moss", param2=math.random(12,15)})
+				minetest.swap_node(at_side_e, {name="trunks:moss", param2=math.random(12,15)})
 			end
 		end
 		local moss_type = math.random(1,41)
 		if minetest.registered_nodes[node_south.name].buildable_to then -- instead of check_air = true,
 			if moss_type == 1 then
-				minetest.set_node(at_side_s, {name="trunks:moss_fungus", param2=math.random(8,11)})
+				minetest.swap_node(at_side_s, {name="trunks:moss_fungus", param2=math.random(8,11)})
 			elseif moss_type < 22 then
-				minetest.set_node(at_side_s, {name="trunks:moss", param2=math.random(8,11)})
+				minetest.swap_node(at_side_s, {name="trunks:moss", param2=math.random(8,11)})
 			end
 		end
 		local moss_type = math.random(1,41)
 		if minetest.registered_nodes[node_west.name].buildable_to then -- instead of check_air = true,
 			if moss_type == 1 then
-				minetest.set_node(at_side_w, {name="trunks:moss_fungus", param2=math.random(16,19)})
+				minetest.swap_node(at_side_w, {name="trunks:moss_fungus", param2=math.random(16,19)})
 			elseif moss_type < 22 then
-				minetest.set_node(at_side_w, {name="trunks:moss", param2=math.random(16,19)})
+				minetest.swap_node(at_side_w, {name="trunks:moss", param2=math.random(16,19)})
 			end
 		end
 	--end
@@ -520,16 +520,16 @@ abstract_trunks.grow_roots = function(pos)
 		and string.find(node_below.name, "dirt")
 		and node_here.param2 == 0 then
 			if minetest.registered_nodes[node_north.name].buildable_to then
-				minetest.set_node(north, {name="trunks:"..TRuNK.."root", param2=2})
+				minetest.swap_node(north, {name="trunks:"..TRuNK.."root", param2=2})
 			end
 			if minetest.registered_nodes[node_east.name].buildable_to then
-				minetest.set_node(east, {name="trunks:"..TRuNK.."root", param2=3})
+				minetest.swap_node(east, {name="trunks:"..TRuNK.."root", param2=3})
 			end
 			if minetest.registered_nodes[node_south.name].buildable_to then
-				minetest.set_node(south, {name="trunks:"..TRuNK.."root", param2=0})
+				minetest.swap_node(south, {name="trunks:"..TRuNK.."root", param2=0})
 			end
 			if minetest.registered_nodes[node_west.name].buildable_to then
-				minetest.set_node(west, {name="trunks:"..TRuNK.."root", param2=1})
+				minetest.swap_node(west, {name="trunks:"..TRuNK.."root", param2=1})
 			end
 		end
 	end

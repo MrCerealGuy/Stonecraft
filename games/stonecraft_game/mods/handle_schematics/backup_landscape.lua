@@ -20,7 +20,7 @@ handle_schematics.backup_landscape = function(meta, start_pos, end_pos, player_n
 	local owner = meta:get_string("owner");
 	if( owner and owner ~= "" and owner ~= player_name and player_name and player_name ~= "") then
 		minetest.chat_send_player( player_name,
-			"Only the owner, namely "..minetest.tostring( owner )..
+			"Only the owner, namely "..tostring( owner )..
 			", is allowed to create a backup of this landscape here.");
 			return;
 	end
@@ -74,7 +74,7 @@ handle_schematics.restore_landscape = function( meta, player_name, force_place, 
 	if( owner and owner ~= "" and owner ~= player_name and player_name and player_name ~= ""
 	   and not( minetest.check_player_privs(player_name, {protection_bypass=true}))) then
 		minetest.chat_send_player( player_name,
-			"Only the owner, namely "..minetest.tostring( owner )..
+			"Only the owner, namely "..tostring( owner )..
 			", or players with the protection_bypass privilege are allowed to restore the backup.");
 			return;
 	end

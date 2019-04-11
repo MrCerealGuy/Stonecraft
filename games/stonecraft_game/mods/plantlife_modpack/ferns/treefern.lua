@@ -2,7 +2,6 @@
 -- Ferns - Tree Fern 0.1.1
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default	, trees
 -----------------------------------------------------------------------------------------------
@@ -35,11 +34,11 @@ abstract_ferns.grow_tree_fern = function(pos)
 			brk = true
 			break
 		end
-		minetest.set_node({x = pos.x, y = pos.y + i, z = pos.z}, { name = "ferns:fern_trunk" })
+		minetest.swap_node({x = pos.x, y = pos.y + i, z = pos.z}, { name = "ferns:fern_trunk" })
 		i = i + 1
 	end
 	if not brk then
-		minetest.set_node({x = pos.x, y = pos.y + i - 1, z = pos.z}, { name = crown })
+		minetest.swap_node({x = pos.x, y = pos.y + i - 1, z = pos.z}, { name = crown })
 	end
 end
 

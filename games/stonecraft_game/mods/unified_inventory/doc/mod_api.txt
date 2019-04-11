@@ -1,0 +1,95 @@
+unified_inventory API
+=====================
+
+This file provides information about the API of unified_inventory.
+
+
+Misc functions
+--------------
+Grouped by use-case, afterwards sorted alphabetically.
+
+* `unified_inventory.is_creative(name)`
+	* Checks whether creative is enabled or the player has `creative`
+
+
+Pages
+-----
+
+Register a new page: The callback inside this function is called on user input.
+
+	unified_inventory.register_page("pagename", {
+		get_formspec = function(player)
+			-- ^ `player` is an `ObjectRef`
+			-- Compute the formspec string here
+			return {
+				formspec = "button[2,2;2,1;mybutton;Press me]",
+				-- ^ Final form of the formspec to display
+				draw_inventory = false,   -- default `true`
+				-- ^ Optional. Hides the player's `main` inventory list
+				draw_item_list = false,   -- default `true`
+				-- ^ Optional. Hides the item list on the right side
+				formspec_prepend = false, -- default `false`
+				-- ^ Optional. When `false`: Disables the formspec prepend
+			}
+		end,
+	})
+
+
+Buttons
+-------
+
+Register a new button for the bottom row:
+
+	unified_inventory.register_button("skins", {
+		type = "image",
+		image = "skins_skin_button.png",
+		tooltip = "Skins",
+		hide_lite = true
+		-- ^ Button is hidden when following two conditions are met:
+		--   Configuration line `unified_inventory_lite = true`
+		--   Player does not have the privilege `ui_full`
+	})
+
+
+
+Crafting
+--------
+
+The code blocks below document each possible parameter using exemplary values.
+
+Provide information to display custom craft types:
+
+	unified_inventory.register_craft_type("mytype", {
+		-- ^ Unique identifier for `register_craft`
+		description = "Sample Craft",
+		-- ^ Text shown below the crafting arrow
+		icon = "dummy.png",
+		-- ^ Image shown above the crafting arrow
+		width = 3,
+		height = 3,
+		-- ^ Maximal input dimensions of the recipes
+		dynamic_display_size = function(craft)
+			-- ^ `craft` is the definition from `register_craft`
+			return {
+				width = 2,
+				height = 3
+			}
+		end,
+		-- ^ Optional callback to change the displayed recipe size
+		uses_crafting_grid = true,
+	})
+
+Register a non-standard craft recipe:
+
+	unified_inventory.register_craft({
+		output = "default:foobar",
+		type = "mytype",
+		-- ^ Standard craft type or custom (see `register_craft_type`)
+		items = {
+			{ "default:foo" },
+			{ "default:bar" }
+		},
+		width = 3,
+		-- ^ Same as `minetest.register_recipe`
+	})
+

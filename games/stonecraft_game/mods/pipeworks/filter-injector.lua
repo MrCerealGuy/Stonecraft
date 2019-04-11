@@ -204,6 +204,8 @@ local function punch_filter(data, filtpos, filtnode, msg)
 		["technic:mv_grinder"] = "dst",
 		["technic:mv_grinder_active"] = "dst",
 		["technic:tool_workshop"] = "src",
+		["technic:mv_freezer"] = "dst",
+		["technic:mv_freezer_active"] = "dst"
 	}
 
 	-- make sure there's something appropriate to inject the item into

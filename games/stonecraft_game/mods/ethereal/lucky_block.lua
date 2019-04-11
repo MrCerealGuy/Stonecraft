@@ -55,6 +55,18 @@ lucky_block:add_blocks({
 	{"exp", 4},
 	{"dro", {"ethereal:crystal_gilly_staff"}},
 	{"dro", {"ethereal:light_staff"}},
+    {"nod", "default:chest", 0, {
+		{name = "ethereal:birch_sapling", max = 10},
+		{name = "ethereal:palm_sapling", max = 10},
+		{name = "ethereal:orange_tree_sapling", max = 10},
+		{name = "ethereal:redwood_sapling", max = 10},
+		{name = "ethereal:bamboo_sprout", max = 10},
+		{name = "ethereal:banana_tree_sapling", max = 10},
+		{name = "ethereal:mushroom_sapling", max = 10},
+        {name = "ethereal:frost_tree_sapling", max = 10},
+        {name = "ethereal:sakura_sapling", max = 10},
+        {name = "ethereal:willow_sapling", max = 10},
+	}},
 })
 
 if minetest.get_modpath("3d_armor") then

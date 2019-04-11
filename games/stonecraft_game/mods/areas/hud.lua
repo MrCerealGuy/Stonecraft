@@ -7,11 +7,23 @@
 --]]
 
 areas.hud = {}
+areas.hud.refresh = 0
 
 minetest.register_globalstep(function(dtime)
+
+	areas.hud.refresh = areas.hud.refresh + dtime
+	if areas.hud.refresh > areas.config["tick"] then
+		areas.hud.refresh = 0
+	else
+		return
+	end
+
 	for _, player in pairs(minetest.get_connected_players()) do
 		local name = player:get_player_name()
 		local pos = vector.round(player:getpos())
+		pos = vector.apply(pos, function(p)
+			return math.max(math.min(p, 2147483), -2147483)
+		end)
 		local areaStrings = {}
 
 		for id, area in pairs(areas:getAreasAtPos(pos)) do

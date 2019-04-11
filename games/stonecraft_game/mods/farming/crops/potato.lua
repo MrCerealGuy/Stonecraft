@@ -14,7 +14,16 @@ minetest.register_craftitem("farming:potato", {
 	on_place = function(itemstack, placer, pointed_thing)
 		return farming.place_seed(itemstack, placer, pointed_thing, "farming:potato_1")
 	end,
-	on_use = minetest.item_eat(1),
+--	on_use = minetest.item_eat(1),
+	on_use = function(itemstack, user, pointed_thing)
+		if user then
+			if math.random(1, 3) == 1 then
+				return minetest.do_item_eat(-1, nil, itemstack, user, pointed_thing)
+			else
+				return minetest.do_item_eat(1, nil, itemstack, user, pointed_thing)
+			end
+		end
+	end,
 })
 
 -- baked potato

@@ -6,7 +6,6 @@ local mname		= "dryplants"
 -- by Mossmanikin
 -- textures & ideas partly by Neuromancer
 
--- License (everything):	WTFPL
 -- Contains code from:		default, farming
 -- Looked at code from:		darkage, sickle, stairs
 -- Dependencies:			default, farming, biome_lib
@@ -86,7 +85,7 @@ local function sickle_on_use(itemstack, user, pointed_thing, uses)
 		-- check if flora but no flower
 		if minetest.get_item_group(under.name, "flora") == 1 and minetest.get_item_group(under.name, "flower") == 0 then
 			-- turn the node into cut grass, wear out item and play sound
-			minetest.set_node(pt.under, {name="dryplants:grass"})
+			minetest.swap_node(pt.under, {name="dryplants:grass"})
 		else -- otherwise dig the node
 			if not minetest.node_dig(pt.under, under, user) then
 				return
@@ -102,8 +101,8 @@ local function sickle_on_use(itemstack, user, pointed_thing, uses)
 		if minetest.is_protected(above_pos, user:get_player_name()) or above.name ~= "air" then
 			return
 		end
-		minetest.set_node(pt.under, {name="dryplants:grass_short"})
-		minetest.set_node(above_pos, {name="dryplants:grass"})
+		minetest.swap_node(pt.under, {name="dryplants:grass_short"})
+		minetest.swap_node(above_pos, {name="dryplants:grass"})
 		minetest.sound_play("default_dig_crumbly", {
 			pos = pt.under,
 			gain = 0.5,
@@ -152,7 +151,7 @@ minetest.register_abm({
    			return
 		end
 
-		minetest.set_node(pos, {name="dryplants:hay"})
+		minetest.swap_node(pos, {name="dryplants:hay"})
 	end,
 })
 
@@ -204,7 +203,7 @@ minetest.register_abm({
 		-- Only become dirt with grass if no cut grass or hay lies on top
 		local above = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 		if above.name ~= "dryplants:grass" and above.name ~= "dryplants:hay" then
-			minetest.set_node(pos, {name="default:dirt_with_grass"})
+			minetest.swap_node(pos, {name="default:dirt_with_grass"})
 		end
 	end,
 })

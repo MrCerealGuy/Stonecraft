@@ -221,3 +221,105 @@ minetest.register_craft({
 	recipe = "mobs:fence_top",
 	burntime = 2,
 })
+
+-- this tool spawns same mob and adds owner, protected, nametag info
+-- then removes original entity, this is used for fixing any issues.
+
+local tex_obj
+
+minetest.register_tool(":mobs:mob_reset_stick", {
+	description = "Mob Reset Stick",
+	inventory_image = "default_stick.png^[colorize:#ff000050",
+	stack_max = 1,
+	groups = {not_in_creative_inventory = 1},
+
+	on_use = function(itemstack, user, pointed_thing)
+
+		if pointed_thing.type ~= "object" then
+			return
+		end
+
+		local obj = pointed_thing.ref
+
+		local control = user:get_player_control()
+		local sneak = control and control.sneak
+
+		if obj and not sneak then
+
+			local self = obj:get_luaentity()
+			local obj2 = minetest.add_entity(obj:get_pos(), self.name)
+
+			if obj2 then
+
+				local ent2 = obj2:get_luaentity()
+
+				ent2.protected = self.protected
+				ent2.owner = self.owner
+				ent2.nametag = self.nametag
+				ent2.gotten = self.gotten
+				ent2.tamed = self.tamed
+				ent2.health = self.health
+				ent2.order = self.order
+
+				if self.child then
+					obj2:set_velocity({x = 0, y = self.jump_height, z = 0})
+				end
+
+				obj2:set_properties({nametag = self.nametag})
+
+				obj:remove()
+			end
+		end
+
+		if obj and sneak then
+
+			tex_obj = obj
+
+			local name = user:get_player_name()
+			local tex = ""
+
+			minetest.show_formspec(name, "mobs_texture", "size[8,4]"
+			.. "field[0.5,1;7.5,0;name;"
+			.. minetest.formspec_escape(S("Enter texture:")) .. ";" .. tex .. "]"
+			.. "button_exit[2.5,3.5;3,1;mob_texture_change;"
+			.. minetest.formspec_escape(S("Change")) .. "]")
+		end
+	end,
+})
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+
+	-- right-clicked with nametag and name entered?
+	if formname == "mobs_texture"
+	and fields.name
+	and fields.name ~= "" then
+
+		local name = player:get_player_name()
+
+		if not tex_obj then
+			return
+		end
+
+		-- make sure nametag is being used to name mob
+		local item = player:get_wielded_item()
+
+		if item:get_name() ~= "mobs:mob_reset_stick" then
+			return
+		end
+
+		-- limit name entered to 64 characters long
+		if string.len(fields.name) > 64 then
+			fields.name = string.sub(fields.name, 1, 64)
+		end
+
+		-- update texture
+		local self = tex_obj:get_luaentity()
+
+		self.base_texture = {fields.name}
+
+		tex_obj:set_properties({textures = {fields.name}})
+
+		-- reset external variable
+		tex_obj = nil
+	end
+end)

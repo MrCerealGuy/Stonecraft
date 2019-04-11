@@ -89,7 +89,7 @@ build_chest.preview_image_create_one_view = function( data, side )
 end
 
 -- internal function
-build_chest.preview_image_create_view_from_top = function( data )
+build_chest.preview_image_create_view_from_top = function( data, y_top )
 	-- no view from top if the image is too big
 	if( data.size.z * data.size.y > 2500 ) then
 		return nil;
@@ -100,8 +100,8 @@ build_chest.preview_image_create_view_from_top = function( data )
 		preview[ z ] = {};
 		for x = 1, data.size.x do
 			local found = nil;
-			local y = data.size.y;
-			while( not( found ) and y > 1) do
+			local y = y_top;
+			while( not( found ) and y > 0) do
 				local node = data.scm_data_cache[y][x][z];
 				if( node and node[1]
 				   and data.nodenames[ node[1] ]
@@ -132,7 +132,7 @@ build_chest.preview_image_formspec = function( building_name, replacements, side
 		return "";
 	end
 
-	local side_names = {"front","right","back","left","top"};
+	local side_names = {"front","right","back","left","top","floor"};
 	local side = 1;
 	for i,v in ipairs( side_names ) do
 		if( side_name and side_name==v ) then
@@ -141,7 +141,7 @@ build_chest.preview_image_formspec = function( building_name, replacements, side
 	end
 
 	local formspec = "";
-	for i=1,5 do
+	for i=1,#side_names do
 		if( i ~= side ) then
 			formspec = formspec.."button["..tostring(3.3+1.2*(i-1))..
 				",2.2;1,0.5;preview;"..side_names[i].."]";
@@ -176,7 +176,7 @@ build_chest.preview_image_formspec = function( building_name, replacements, side
 	local scale = 0.5;
 
 	local tile_nr = 6; -- view that works best with roofs and the like
-	if( side ~= 5 ) then
+	if( side ~= 5 and side ~= 6) then
 		local scale_y = 6.0/data.size.y;
 		local scale_z = 10.0/data.size.z;
 		if( scale_y > scale_z) then
@@ -238,7 +238,9 @@ build_chest.preview_image_create_views = function( res, orients )
 		end
 	end
 	-- ...and add a preview image from top
-	preview[5] = build_chest.preview_image_create_view_from_top( res );
+	preview[5] = build_chest.preview_image_create_view_from_top( res, res.size.y );
+	-- add the floor plan (the node at ground level and the node one above ground level are of intrest)
+	preview[6] = build_chest.preview_image_create_view_from_top( res,  math.min(2-res.yoff, res.size.y));
 	return preview;
 end
 

@@ -71,6 +71,7 @@ function homedecor.start_particle_spawner(pos, node, particledef, soundname)
 			amount = 60,
 			time = 0,
 			collisiondetection = true,
+			collision_removal = particledef.die_on_collision,
 			minpos = {x=pos.x - minx, y=pos.y + outlety, z=pos.z - minz},
 			maxpos = {x=pos.x - maxx, y=pos.y + outlety, z=pos.z - maxz},
 			minvel = {x = minvelx, y = velocityy, z = minvelz},

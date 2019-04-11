@@ -38,7 +38,7 @@ stepheight = 0.6,
 	drops = {
 		{name = "mobs:meat_raw", chance = 1, min = 1, max = 2},
 	},
-	water_damage = 1,
+	water_damage = 0,
 	lava_damage = 5,
 	light_damage = 0,
 	fear_height = 6,

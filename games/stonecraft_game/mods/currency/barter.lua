@@ -93,13 +93,13 @@ barter.chest.exchange = function(meta)
 end
 
 minetest.register_node("currency:barter", {
-        drawtype = "nodebox",
+		drawtype = "nodebox",
 	description = S("Barter Table"),
 	paramtype = "light",
 	paramtype2 = "facedir",
 	tiles = {"barter_top.png",
-	                "barter_base.png",
-	                "barter_side.png"},
+					"barter_base.png",
+					"barter_side.png"},
 	inventory_image = "barter_top.png",
 	node_box = {
 		type = "fixed",

@@ -115,10 +115,10 @@ for i in ipairs(lilies_list) do
 					elseif waterlily == 8 then
 						nodename = "flowers:waterlily_s4"
 					end
-					minetest.set_node(place_pos, {name = nodename, param2 = math.random(0,3) })
+					minetest.swap_node(place_pos, {name = nodename, param2 = math.random(0,3) })
 				else
 					local fdir = minetest.dir_to_facedir(placer:get_look_dir())
-					minetest.set_node(place_pos, {name = "flowers:waterlily", param2 = fdir})
+					minetest.swap_node(place_pos, {name = "flowers:waterlily", param2 = fdir})
 				end
 
 				if not biome_lib.expect_infinite_stacks then
@@ -207,10 +207,10 @@ for i in ipairs(algae_list) do
 					elseif seaweed == 4 then
 						nodename = "flowers:seaweed_4"
 					end
-					minetest.set_node(place_pos, {name = nodename, param2 = math.random(0,3) })
+					minetest.swap_node(place_pos, {name = nodename, param2 = math.random(0,3) })
 				else
 					local fdir = minetest.dir_to_facedir(placer:get_look_dir())
-					minetest.set_node(place_pos, {name = "flowers:seaweed", param2 = fdir})
+					minetest.swap_node(place_pos, {name = "flowers:seaweed", param2 = fdir})
 				end
 
 				if not biome_lib.expect_infinite_stacks then
@@ -294,7 +294,7 @@ flowers_plus.grow_waterlily = function(pos)
 		end
 
 		if chance == num then
-			minetest.set_node(right_here, {name="flowers:waterlily"..ext, param2=math.random(0,3)})
+			minetest.swap_node(right_here, {name="flowers:waterlily"..ext, param2=math.random(0,3)})
 		end
 	end
 end
@@ -318,7 +318,7 @@ biome_lib:register_generate_plant({
 
 flowers_plus.grow_seaweed = function(pos)
 	local right_here = {x=pos.x, y=pos.y+1, z=pos.z}
-	minetest.set_node(right_here, {name="along_shore:seaweed_"..math.random(1,4), param2=math.random(1,3)})
+	minetest.swap_node(right_here, {name="along_shore:seaweed_"..math.random(1,4), param2=math.random(1,3)})
 end
 
 biome_lib:register_generate_plant({

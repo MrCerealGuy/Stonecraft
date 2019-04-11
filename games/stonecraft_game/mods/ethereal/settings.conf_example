@@ -39,3 +39,4 @@ ethereal.sandclay  = 1 -- Sand areas with clay underneath
 ethereal.swamp     = 1 -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
 ethereal.sealife   = 1 -- Enable coral and seaweed
 ethereal.reefs     = 1 -- Enable new coral reefs in default
+ethereal.sakura    = 1 -- Enable sakura biomes with trees

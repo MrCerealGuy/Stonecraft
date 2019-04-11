@@ -1,5 +1,5 @@
-#Probability (0.0 to 1.0) for every newly generated chunk to get rail corridors.
-tsm_railcorridors_probability_railcaves_in_chunk (Rail corridor probability) float 0.33333 0.0 1.0
+#Probability (0.0 to 1.0) for every newly generated mapchunk to get rail corridors.
+tsm_railcorridors_probability_railcaves_in_mapchunk (Rail corridor probability) float 0.33333 0.0 1.0
 
 #Minimum rail corridor path length (excludes forks).
 tsm_railcorridors_way_min (Minimum rail corridor length) int 4 1
@@ -23,6 +23,8 @@ tsm_railcorridors_probability_chest (Chest probability) float 0.05 0.0 1.0
 #Probability (0.0 to 1.0) for every part of a rail corridor to include a cart.
 #Note: The rail may still be subject to rail damage, so the probability
 #of finding a cart in rail corridors with high rail damage will be lower.
+#NOTE: Due to a bug in Minetest <https://github.com/minetest/minetest/issues/4759>
+#carts often fail to spawn even if they should.
 tsm_railcorridors_probability_cart (Cart probability) float 0.05 0.0 1.0
 
 #If enabled, cobwebs may be placed in some corridors.
@@ -33,10 +35,10 @@ tsm_railcorridors_place_cobwebs (Cobwebs) bool true
 tsm_railcorridors_probability_damage (Damaged railway probability) float 0.55 0.0 1.0
 
 #Minimum height in which rail corridors are created.
-tsm_railcorridors_height_min (Minimum height) int -31000 -31000 31000
+tsm_railcorridors_height_min (Minimum height) int -30900
 
 #Maximum height in which rail corridors are created.
-tsm_railcorridors_height_max (Maximum height) int -30 -31000 31000
+tsm_railcorridors_height_max (Maximum height) int -30
 
 #If enabled, rail corridors continue to generate through obstacles such
 #as other rail corridors (without destroying them, mostly). This may lead

@@ -4,7 +4,6 @@
 -- by Mossmanikin
 -- textures & ideas partly by Neuromancer
 
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default
 -----------------------------------------------------------------------------------------------
@@ -18,9 +17,9 @@ abstract_dryplants.grow_juncus = function(pos)
 	if minetest.get_node(right_here).name == "air"  -- instead of check_air = true,
 	or minetest.get_node(right_here).name == "default:junglegrass" then
 		if juncus_type == 2 then
-			minetest.set_node(right_here, {name="dryplants:juncus_02"})
+			minetest.swap_node(right_here, {name="dryplants:juncus_02"})
 		else
-			minetest.set_node(right_here, {name="dryplants:juncus"})
+			minetest.swap_node(right_here, {name="dryplants:juncus"})
 		end
 	end
 end
@@ -57,9 +56,9 @@ minetest.register_node("dryplants:juncus", {
 		local juncus_type = math.random(2,3)
 		local right_here = {x=pos.x, y=pos.y+1, z=pos.z}
 		if juncus_type == 2 then
-			minetest.set_node(right_here, {name="dryplants:juncus_02"})
+			minetest.swap_node(right_here, {name="dryplants:juncus_02"})
 		else
-			minetest.set_node(right_here, {name="dryplants:juncus"})
+			minetest.swap_node(right_here, {name="dryplants:juncus"})
 		end
 		if not minetest.setting_getbool("creative_mode") then
 			itemstack:take_item()

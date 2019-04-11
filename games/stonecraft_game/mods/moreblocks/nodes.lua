@@ -1,7 +1,7 @@
 --[[
 More Blocks: node definitions
 
-Copyright (c) 2011-2018 Hugo Locurcio and contributors.
+Copyright © 2011-2019 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 
 2017-05-18 MrCerealGuy: added intllib support
@@ -41,6 +41,7 @@ local function wood_tile_replace(itemstack, placer, pointed_thing)
 	return itemstack
 end
 
+local deprecated = (" (%s)"):format(S('Deprecated'))
 local nodes = {
 	["wood_tile"] = {
 		description = S("Wooden Tile"),
@@ -57,7 +58,7 @@ local nodes = {
 		sounds = sound_wood,
 	},
 	["wood_tile_flipped"] = {
-		description = S("Wooden Tile (Deprecated)"),
+		description = S("Wooden Tile") .. deprecated,
 		tiles = {"default_wood.png^moreblocks_wood_tile.png^[transformR90",
 		"default_wood.png^moreblocks_wood_tile.png^[transformR90",
 		"default_wood.png^moreblocks_wood_tile.png^[transformR90",
@@ -92,19 +93,19 @@ local nodes = {
 		no_stairs = true,
 	},
 	["wood_tile_down"] = {
-		description = S("Downwards Wooden Tile (Deprecated)"),
+		description = S("Downwards Wooden Tile") .. deprecated,
 		tiles = {"default_wood.png^[transformR180^moreblocks_wood_tile_offset.png^[transformR180"},
 		no_stairs = true,
 		on_place = wood_tile_replace
 	},
 	["wood_tile_left"] = {
-		description = S("Leftwards Wooden Tile (Deprecated)"),
+		description = S("Leftwards Wooden Tile") .. deprecated,
 		tiles = {"default_wood.png^[transformR270^moreblocks_wood_tile_offset.png^[transformR270"},
 		no_stairs = true,
 		on_place = wood_tile_replace
 	},
 	["wood_tile_right"] = {
-		description = S("Rightwards Wooden Tile (Deprecated)"),
+		description = S("Rightwards Wooden Tile") .. deprecated,
 		tiles = {"default_wood.png^[transformR90^moreblocks_wood_tile_offset.png^[transformR90"},
 		no_stairs = true,
 		on_place = wood_tile_replace
@@ -464,6 +465,21 @@ for name, def in pairs(nodes) do
 	def.tiles = def.tiles or {"moreblocks_" ..name.. ".png"}
 	minetest.register_node("moreblocks:" ..name, def)
 	minetest.register_alias(name, "moreblocks:" ..name)
+
+	def_copy = table.copy(def)
+
+	-- Use the primary tile for all sides of cut glasslike nodes.
+	-- This makes them easier to see
+	if
+		#def_copy.tiles > 1 and
+		def_copy.drawtype and
+		def_copy.drawtype == "glasslike_framed" or
+		def_copy.drawtype == "glasslike_framed_optional"
+	then
+		def.tiles = {def_copy.tiles[1]}
+	end
+
+
 	if not def.no_stairs then
 		local groups = {}
 		for k, v in pairs(def.groups) do groups[k] = v end

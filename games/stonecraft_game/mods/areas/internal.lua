@@ -3,6 +3,18 @@ function areas:player_exists(name)
 	return minetest.get_auth_handler().get_auth(name) ~= nil
 end
 
+local safe_file_write = minetest.safe_file_write
+if safe_file_write == nil then
+	function safe_file_write(path, content)
+		local file, err = io.open(path, "w")
+		if err then
+			return err
+		end
+		file:write(content)
+		file:close()
+	end
+end
+
 -- Save the areas table to a file
 function areas:save()
 	local datastr = minetest.serialize(self.areas)
@@ -10,12 +22,7 @@ function areas:save()
 		minetest.log("error", "[areas] Failed to serialize area data!")
 		return
 	end
-	local file, err = io.open(self.config.filename, "w")
-	if err then
-		return err
-	end
-	file:write(datastr)
-	file:close()
+	return safe_file_write(self.config.filename, datastr)
 end
 
 -- Load the areas table from the save file
@@ -86,6 +93,11 @@ function areas:add(owner, name, pos1, pos2, parent)
 		owner = owner,
 		parent = parent
 	}
+
+	for i=1, #areas.registered_on_adds do
+		areas.registered_on_adds[i](id, self.areas[id])
+	end
+
 	-- Add to AreaStore
 	if self.store then
 		local sid = self.store:insert_area(pos1, pos2, tostring(id))
@@ -118,6 +130,10 @@ function areas:remove(id, recurse)
 		end
 	end
 
+	for i=1, #areas.registered_on_removes do
+		areas.registered_on_removes[i](id)
+	end
+
 	-- Remove main entry
 	self.areas[id] = nil
 
@@ -132,6 +148,11 @@ end
 function areas:move(id, area, pos1, pos2)
 	area.pos1 = pos1
 	area.pos2 = pos2
+
+
+	for i=1, #areas.registered_on_moves do
+		areas.registered_on_moves[i](id, area, pos1, pos2)
+	end
 
 	if self.store then
 		self.store:remove_area(areas.store_ids[id])
@@ -282,4 +303,3 @@ function areas:isAreaOwner(id, name)
 	end
 	return false
 end
-

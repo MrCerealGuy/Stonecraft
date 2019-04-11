@@ -2,7 +2,6 @@
 -- Dry Plants - Recipes 0.1.0 -- Short Grass -> Dirt
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything):	WTFPL
 -- Looked at code from:		darkage, default, farming, sickle, stairs
 -- Dependencies:			default, farming
 -- Supports:				flint, stoneage, sumpf

@@ -2,7 +2,6 @@
 -- Ferns - Fern 0.1.0
 -----------------------------------------------------------------------------------------------
 -- by Mossmanikin
--- License (everything):	WTFPL
 -- Contains code from:		biome_lib
 -- Looked at code from:		default, flowers, painting, trees
 -- Dependencies:			biome_lib

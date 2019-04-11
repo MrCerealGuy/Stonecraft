@@ -1,7 +1,5 @@
 -- Bushes classic mod originally by unknown
 -- now maintained by VanessaE
---
--- License:  WTFPL
 
 bushes_classic = {}
 

@@ -44,7 +44,11 @@ functions needed for the mob to work properly which contains the following:
    'fly'           when true allows your mob to fly around instead of walking.
    'fly_in'        holds the node name that the mob flies (or swims) around
                    in e.g. "air" or "default:water_source".
+   'stay_near'     when set allows mobs the chance to stay around certain nodes.
+      'nodes'      string or table of nodes to stay nearby e.g. "farming:straw"
+      'chance'     chance of searching for above node(s), default is 10.
    'runaway'       if true causes animals to turn and run away when hit.
+   'pushable'      when true mobs can be pushed by player or other mobs.
    'view_range'    how many nodes in distance the mob can see a player.
    'damage'        how many health points the mob does to a player or another
                    mob when melee attacking.
@@ -57,9 +61,11 @@ functions needed for the mob to work properly which contains the following:
    'water_damage'  holds the damage per second infliced to mobs when standing in
                    water.
    'lava_damage'   holds the damage per second inflicted to mobs when standing
-                   in lava or fire.
-   'light_damage'  holds the damage per second inflicted to mobs when it's too
-                   bright (above 13 light).
+                   in lava or fire or an ignition source.
+   'light_damage'  holds the damage per second inflicted to mobs when light
+                   level is between the min and max values below
+   'light_damage_min' minimum light value when mob is affected (default: 14)
+   'light_damage_max' maximum light value when mob is affected (default: 15)
    'suffocation'   when true causes mobs to suffocate inside solid blocks.
    'floats'        when set to 1 mob will float in water, 0 has them sink.
    'follow'        mobs follow player when holding any of the items which appear
@@ -71,6 +77,7 @@ functions needed for the mob to work properly which contains the following:
    'docile_by_day'       when true has mobs wandering around during daylight
                          hours and only attacking player at night or when
                          provoked.
+   'attack_chance'       0 to 100 chance the mob will attack (default is 5).
    'attack_monsters'     when true mob will attack monsters.
    'attack_animals'      when true mob will attack animals.
    'attack_npcs'         when true mob will attack npcs within range.
@@ -122,7 +129,8 @@ functions needed for the mob to work properly which contains the following:
    'pathfinding'         set to 1 for mobs to use pathfinder feature to locate
                          player, set to 2 so they can build/break also (only
                          works with dogfight attack and when 'mobs_griefing'
-                         in minetest.conf is not false).
+                         in minetest.conf is not false). Adding {unbreakable=1}
+                         to node groups stops them being broken by mobs.
    'immune_to'           is a table that holds specific damage when being hit by
                          certain items e.g.
       {"default:sword_wood",  0} -- causes no damage.
@@ -146,8 +154,9 @@ functions needed for the mob to work properly which contains the following:
    'drops'     table of items that are dropped when mob is killed, fields are:
       'name'   name of item to drop.
       'chance' chance of drop, 1 for always, 2 for 1-in-2 chance etc.
-      'min'    minimum number of items dropped.
+      'min'    minimum number of items dropped, set to 0 for rare drops.
       'max'    maximum number of items dropped.
+   Note: If weapon has {fire=1} damage group set then cooked items will drop.
 
    'visual'            holds the look of the mob you wish to create:
       'cube'           looks like a normal node
@@ -239,7 +248,7 @@ eating.
        If false is returned, the mob will not replace the node.
 
        By default, replacing sets self.gotten to true and resets the object
-       properties.
+       properties. (DEPRECATED, use on_replace to make changes).
 
 
 Custom Definition Functions
@@ -393,6 +402,8 @@ This function registers a arrow for mobs with the attack type shoot.
        'rotate'       integer value in degrees to rotate arrow
        'on_step'      is a custom function when arrow is active, nil for
                       default.
+       'on_punch'     is a custom function when arrow is punched, nil by default
+       'collisionbox' is hitbox table for arrow, {0,0,0,0,0,0} by default.
 
 
 Spawn Eggs
@@ -446,6 +457,11 @@ replace with another item entirely.
    'force_take'   take mob by force, even if tamed (true or false)
    'replacewith'  once captured replace mob with this item instead (overrides
                   new mob eggs with saved information)
+
+mobs:force_capture(self, clicker)
+
+Same as above but does no checks, it simply captures any and all mobs and places
+inside a spawn egg containing all of the mob information.
 
 
 Feeding and Taming/Breeding

@@ -71,6 +71,10 @@ replacements_group['mineclone2'].setup_global_replacements = function()
 	replacements_group['mineclone2'].replace_one( 'default:gravel', 'mcl_core:grass_path');
 	replacements_group['mineclone2'].replace_one( 'default:dirt_with_coniferous_litter', 'mcl_core:podzol');
 	replacements_group['mineclone2'].replace_one( 'default:dirt_with_rainforest_litter', 'mcl_core:coarse_dirt');
+	replacements_group['mineclone2'].replace_one( 'default:dirt_with_grass_footsteps','mcl_core:dirt_with_grass');
+	replacements_group['mineclone2'].replace_one( 'default:permafrost', 'mcl_core:dirt_with_grass');
+	replacements_group['mineclone2'].replace_one( 'default:permafrost_with_moss', 'mcl_core:dirt_with_grass');
+	replacements_group['mineclone2'].replace_one( 'default:permafrost_with_stones', 'mcl_core:dirt_with_grass');
 	-- TODO
 	replacements_group['mineclone2'].replace_one( 'default:fence_wood', 'mcl_fences:fence');
 	replacements_group['mineclone2'].replace_one( 'doors:gate_wood_closed', 'mcl_fences:fence_gate');

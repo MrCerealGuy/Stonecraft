@@ -1,9 +1,10 @@
 -- Bushes Mod by Mossmanikin, Evergreen, & Neuromancer
--- The initial code for this was taken from Mossmanikin's Grasses Mod, then heavilly modified by Neuromancer for this mod.
+-- The initial code for this was taken from Mossmanikin's Grasses Mod,
+-- then heavilly modified by Neuromancer for this mod.
 -- Mossmanikin also greatly helped with providing samples for coding.
--- bush leaf textures are cc-by-sa 3.0.  from VannessaE's moretrees mod.  (Leaf texture created by RealBadAngel or VanessaE)
+-- bush leaf textures are from VannessaE's moretrees mod.
+-- (Leaf texture created by RealBadAngel or VanessaE)
 -- Branch textures created by Neuromancer.
--- Licence for Code and Non-Bush leaf code is WTFPL.
 
 -- support for i18n
 local S = plantlife_i18n.gettext
@@ -183,14 +184,14 @@ abstract_bushes.grow_bush_node = function(pos,dir, leaf_type)
 
 	if minetest.get_node(right_here).name == "air"  -- instead of check_air = true,
 	or minetest.get_node(right_here).name == "default:junglegrass" then
-		minetest.set_node(right_here, {name="bushes:bushbranches"..bush_branch_type , param2=dir})
+		minetest.swap_node(right_here, {name="bushes:bushbranches"..bush_branch_type , param2=dir})
 						--minetest.chat_send_all("leaf_type: (" .. leaf_type .. ")")
-		minetest.set_node(above_right_here, {name="bushes:BushLeaves"..leaf_type})
+		minetest.swap_node(above_right_here, {name="bushes:BushLeaves"..leaf_type})
 		local chance_of_high_leaves = math.random(1,10)
 		if chance_of_high_leaves> 5 then
 			local two_above_right_here = {x=pos.x, y=pos.y+3, z=pos.z}
 							--minetest.chat_send_all("leaf_type: (" .. leaf_type .. ")")
-			minetest.set_node(two_above_right_here, {name="bushes:BushLeaves"..leaf_type})
+			minetest.swap_node(two_above_right_here, {name="bushes:BushLeaves"..leaf_type})
 		end
 	end
 end
@@ -229,12 +230,12 @@ abstract_bushes.grow_youngtree_node2 = function(pos, height)
 		if height == 4 then
 				local two_above_right_here_south = {x=pos.x, y=pos.y+3, z=pos.z-1}
 				local three_above_right_here_south = {x=pos.x, y=pos.y+4, z=pos.z-1}
-				minetest.set_node(right_here, {name="bushes:youngtree2_bottom"})
-				minetest.set_node(above_right_here, {name="bushes:youngtree2_bottom"})
-				minetest.set_node(two_above_right_here, {name="bushes:bushbranches2"  , param2=2})
-				minetest.set_node(two_above_right_here_south, {name="bushes:bushbranches2"  , param2=0})
-				minetest.set_node(three_above_right_here, {name="bushes:BushLeaves1" })
-				minetest.set_node(three_above_right_here_south, {name="bushes:BushLeaves1" })
+				minetest.swap_node(right_here, {name="bushes:youngtree2_bottom"})
+				minetest.swap_node(above_right_here, {name="bushes:youngtree2_bottom"})
+				minetest.swap_node(two_above_right_here, {name="bushes:bushbranches2"  , param2=2})
+				minetest.swap_node(two_above_right_here_south, {name="bushes:bushbranches2"  , param2=0})
+				minetest.swap_node(three_above_right_here, {name="bushes:BushLeaves1" })
+				minetest.swap_node(three_above_right_here_south, {name="bushes:BushLeaves1" })
 		end
 
 	end
