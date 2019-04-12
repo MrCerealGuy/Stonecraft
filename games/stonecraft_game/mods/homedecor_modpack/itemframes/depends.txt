@@ -1,3 +1,0 @@
-default
-homedecor_i18n
-mesecons_mvps?

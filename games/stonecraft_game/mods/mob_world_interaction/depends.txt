@@ -1,5 +1,0 @@
-default
-stairs?
-doors?
-cottages?
-gates_long?

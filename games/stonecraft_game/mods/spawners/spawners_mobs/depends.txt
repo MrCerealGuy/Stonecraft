@@ -1,8 +1,0 @@
-default
-x_default
-xpanes?
-fire?
-mobs?
-creatures?
-bones?
-intllib?

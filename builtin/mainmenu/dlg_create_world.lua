@@ -363,10 +363,7 @@ local function create_world_buttonhandler(this, fields)
 		{
 			["enable_cme"]						= true,
 			["enable_mobs_monster"]				= true,
-			["enable_mobs_redo"]				= true,
-			["enable_spawners_env"]				= true,
-			["enable_spawners_mobs"]			= true,
-			["enable_spawners_ores"]			= true
+			["enable_mobs_redo"]				= true
 		},
 
 		["enable_mobs_npc"]						=
@@ -384,14 +381,6 @@ local function create_world_buttonhandler(this, fields)
 		{
 			["enable_caverealms"]	 			= true,
 			["enable_subterrane"]	 			= true
-		},
-
-		["enable_villages"]						=
-		{
-			["enable_villages"]	 				= true,
-			["enable_mobf_trader"] 				= true,
-			--["enable_moresnow"]	 			= true,
-			["enable_mob_world_interaction"] 	= true
 		},
 
 		["enable_technic"]						=

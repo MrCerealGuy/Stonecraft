@@ -232,18 +232,11 @@ enable_mesecons (Mesecons - electronic stuff) bool false
 
 [Structures]
 
-enable_villages (Villages and buildings) bool false
 enable_mines (Mines) bool false
 enable_pyramids (Pyramids) bool false
 
-[*Advanced settings (Villages and buildings)]
-
-villages_enable_protection (Players cannot modify spawned villages without buying the house) bool true
-villages_first_village_type (The first village - the one the player spawns in) enum medieval medieval,nore,taoki,charachoal,lumberjack,claytrader,logcabin,grasshut,tent
-
 [Stuff]
 
-enable_homedecor (Home decorations) bool false
 enable_surprise (Surprise blocks) bool false
 enable_lucky_block (Lucky blocks) bool false
 enable_itemdrop (Auto pick up items) bool false

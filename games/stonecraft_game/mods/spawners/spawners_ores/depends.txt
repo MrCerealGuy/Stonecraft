@@ -1,4 +1,0 @@
-default
-xpanes?
-fire?
-intllib?
