@@ -82,7 +82,7 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_console", "KEY_F10");
 	settings->setDefault("keymap_rangeselect", "KEY_KEY_R");
 	settings->setDefault("keymap_freemove", "KEY_KEY_K");
-	settings->setDefault("keymap_pitchmove", "KEY_KEY_L");
+	settings->setDefault("keymap_pitchmove", "KEY_KEY_P");
 	settings->setDefault("keymap_fastmove", "KEY_KEY_J");
 	settings->setDefault("keymap_noclip", "KEY_KEY_H");
 	settings->setDefault("keymap_hotbar_next", "KEY_KEY_N");
@@ -456,8 +456,8 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("server_map_save_interval", "15");
 	settings->setDefault("client_mapblock_limit", "1000");
 	settings->setDefault("active_block_range", "2");
-	settings->setDefault("chunksize", "5");
 	settings->setDefault("viewing_range", "50");
+	settings->setDefault("leaves_style", "simple");
 	settings->setDefault("curl_verify_cert","false");
 
 	// Apply settings according to screen size

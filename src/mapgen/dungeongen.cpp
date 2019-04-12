@@ -100,8 +100,11 @@ void DungeonGen::generate(MMVManip *vm, u32 bseed, v3s16 nmin, v3s16 nmax)
 
 	if (dp.only_in_ground) {
 		// Set all air and liquid drawtypes to be untouchable to make dungeons
-		// open to air and liquids. Optionally set ignore to be untouchable to
-		// prevent projecting dungeons.
+		// open to air and liquids.
+		// Optionally set ignore to be untouchable to prevent projecting dungeons.
+		// Like randomwalk caves, preserve nodes that have 'is_ground_content = false',
+		// to avoid dungeons that generate out beyond the edge of a mapchunk destroying
+		// nodes added by mods in 'register_on_generated()'.
 		for (s16 z = nmin.Z; z <= nmax.Z; z++) {
 			for (s16 y = nmin.Y; y <= nmax.Y; y++) {
 				u32 i = vm->m_area.index(nmin.X, y, z);
@@ -109,7 +112,8 @@ void DungeonGen::generate(MMVManip *vm, u32 bseed, v3s16 nmin, v3s16 nmax)
 					content_t c = vm->m_data[i].getContent();
 					NodeDrawType dtype = ndef->get(c).drawtype;
 					if (dtype == NDT_AIRLIKE || dtype == NDT_LIQUID ||
-							(preserve_ignore && c == CONTENT_IGNORE))
+							(preserve_ignore && c == CONTENT_IGNORE) ||
+							!ndef->get(c).is_ground_content)
 						vm->m_flags[i] |= VMANIP_FLAG_DUNGEON_PRESERVE;
 					i++;
 				}
@@ -490,7 +494,7 @@ void DungeonGen::makeCorridor(v3s16 doorplace, v3s16 doordir,
 		if (partcount >= partlength) {
 			partcount = 0;
 
-			dir = random_turn(random, dir);
+			random_turn(random, dir);
 
 			partlength = random.range(1, length);
 
@@ -651,20 +655,19 @@ v3s16 turn_xz(v3s16 olddir, int t)
 }
 
 
-v3s16 random_turn(PseudoRandom &random, v3s16 olddir)
+void random_turn(PseudoRandom &random, v3s16 &dir)
 {
 	int turn = random.range(0, 2);
-	v3s16 dir;
-	if (turn == 0)
-		// Go straight
-		dir = olddir;
-	else if (turn == 1)
+	if (turn == 0) {
+		// Go straight: nothing to do
+		return;
+	} else if (turn == 1) {
 		// Turn right
-		dir = turn_xz(olddir, 0);
-	else
+		dir = turn_xz(dir, 0);
+	} else {
 		// Turn left
-		dir = turn_xz(olddir, 1);
-	return dir;
+		dir = turn_xz(dir, 1);
+	}
 }
 
 

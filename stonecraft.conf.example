@@ -204,7 +204,7 @@
 #    Key for toggling pitch move mode.
 #    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
 #    type: key
-# keymap_pitchmove = KEY_KEY_L
+# keymap_pitchmove = KEY_KEY_P
 
 #    Key for toggling fast mode.
 #    See http://irrlicht.sourceforge.net/docu/namespaceirr.html#a54da2a0e231901735e3da1b0edf72eb3
@@ -1291,7 +1291,7 @@
 # ask_reconnect_on_crash = false
 
 #    From how far clients know about objects, stated in mapblocks (16 nodes).
-#    
+#
 #    Setting this larger than active_block_range will also cause the server
 #    to maintain active objects up to this distance in the direction the
 #    player is looking. (This can avoid mobs suddenly disappearing from view)
@@ -1804,7 +1804,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -1817,7 +1817,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    3D noise defining giant caverns.
@@ -2213,7 +2213,7 @@
 #    octaves     = 5,
 #    persistence = 0.63,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    3D noise defining structure of river canyon walls.
@@ -2226,7 +2226,7 @@
 #    octaves     = 4,
 #    persistence = 0.75,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    3D noise defining giant caverns.
@@ -2239,7 +2239,7 @@
 #    octaves     = 5,
 #    persistence = 0.63,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    First of two 3D noises that together define tunnels.
@@ -2252,7 +2252,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -2265,7 +2265,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 ## Mapgen Carpathian
@@ -2465,7 +2465,7 @@
 #    octaves     = 5,
 #    persistence = 0.55,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    First of two 3D noises that together define tunnels.
@@ -2478,7 +2478,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -2491,7 +2491,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    3D noise defining giant caverns.
@@ -2596,7 +2596,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -2609,7 +2609,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 ## Mapgen Fractal
@@ -2759,7 +2759,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -2772,7 +2772,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 ## Mapgen Valleys
@@ -2844,7 +2844,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Second of two 3D noises that together define tunnels.
@@ -2857,7 +2857,7 @@
 #    octaves     = 3,
 #    persistence = 0.5,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    The depth of dirt or other biome filler node.
@@ -2935,7 +2935,7 @@
 #    octaves     = 6,
 #    persistence = 0.8,
 #    lacunarity  = 2.0,
-#    flags       = 
+#    flags       =
 # }
 
 #    Amplifies the valleys.
@@ -2997,7 +2997,7 @@
 #    WARNING: Currently there are multiple bugs that may cause crashes when
 #    'num_emerge_threads' is larger than 1. Until this warning is removed it is
 #    strongly recommended this value is set to the default '1'.
-#    Empty or 0 value:
+#    Value 0:
 #    -    Automatic selection. The number of emerge threads will be
 #    -    'number of processors - 2', with a lower limit of 1.
 #    Any other value:
