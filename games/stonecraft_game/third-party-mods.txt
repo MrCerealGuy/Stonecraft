@@ -21,8 +21,6 @@ farming						https://notabug.org/TenPlus1/Farming.git
 fence_registration			https://github.com/HybridDog/fence_registration.git
 forest						https://github.com/Gael-de-Sailly/Forest.git
 habitat						https://github.com/bas080/habitat.git
-handle_schematics			https://github.com/Sokomine/handle_schematics.git
-homedecor_modpack			https://gitlab.com/VanessaE/homedecor_modpack.git
 hud							https://github.com/BlockMen/hud.git
 hunger						https://github.com/BlockMen/hunger.git
 intllib						https://github.com/minetest-mods/intllib.git
@@ -30,15 +28,12 @@ luacmd						https://github.com/prestidigitator/minetest-mod-luacmd.git
 lucky_block					https://notabug.org/TenPlus1/lucky_block
 mapgen_helper				https://github.com/minetest-mods/mapgen_helper.git
 mesecons					https://github.com/minetest-mods/mesecons.git
-mg_villages					https://github.com/Sokomine/mg_villages.git
 minetest-u_skinsdb			https://github.com/dmonty2/minetest-u_skinsdb.git
-mobf_trader					https://github.com/Sokomine/mobf_trader.git
 mob_horse					https://notabug.org/TenPlus1/mob_horse.git
 mobs_animal					https://notabug.org/TenPlus1/mobs_animal.git
 mobs_monster				https://notabug.org/TenPlus1/mobs_monster.git
 mobs_npc					https://notabug.org/TenPlus1/mobs_npc.git
 mobs_redo					https://notabug.org/TenPlus1/mobs_redo.git
-mob_world_interaction		https://github.com/Sokomine/mob_world_interaction.git
 moreblocks					https://github.com/minetest-mods/moreblocks.git
 moresnow					https://github.com/Sokomine/moresnow.git
 moretrees					https://gitlab.com/VanessaE/moretrees.git
@@ -51,7 +46,6 @@ pyramids					https://github.com/BlockMen/pyramids.git
 riesenpilz					https://github.com/HybridDog/riesenpilz.git
 sea							https://bitbucket.org/minetest_gamers/minetest-mod-sea.git
 snow						https://github.com/Splizard/minetest-mod-snow.git
-spawners					https://bitbucket.org/minetest_gamers/spawners.git
 steel						https://gitlab.com/VanessaE/steel.git
 subterrane					https://github.com/minetest-mods/subterrane.git
 sumpf						https://github.com/HybridDog/sumpf.git
