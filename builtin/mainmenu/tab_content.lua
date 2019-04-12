@@ -143,8 +143,6 @@ local function get_formspec(tabview, name, tabdata)
 		if selected_pkg.type == "game" and selected_pkg.name == "Stonecraft" then
 			-- do nothing
 		else
-
-			
 			retval = retval .. "textarea[5.85,2.2;6.35,2.9;;" ..
 				fgettext("Information:") .. ";" .. desc .. "]"
 
@@ -152,6 +150,7 @@ local function get_formspec(tabview, name, tabdata)
 				retval = retval ..
 					"button[5.5,4.65;3.25,1;btn_mod_mgr_delete_mod;" ..
 					fgettext("Uninstall Package") .. "]"
+			end
 		end
 	end
 	return retval

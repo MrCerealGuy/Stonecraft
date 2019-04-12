@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/MrCerealGuy/Stonecraft.svg?branch=master)](https://travis-ci.org/MrCerealGuy/Stonecraft)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-An InfiniMiner/Minecraft inspired game powered by Minetest 5.0.0-dev
+An InfiniMiner/Minecraft inspired game powered by Minetest 5.1.0-dev
 
 Copyright (c) 2016-2019 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 

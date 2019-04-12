@@ -271,23 +271,6 @@ set(CPACK_PACKAGE_VERSION_PATCH ${VERSION_PATCH})
 set(CPACK_PACKAGE_VENDOR "MrCerealGuy")
 set(CPACK_PACKAGE_CONTACT "Andreas Zahnleiter <mrcerealguy@gmx.de>")
 
-include(CPackComponent)
-
-cpack_add_component(Docs
-	DISPLAY_NAME "Documentation"
-	DESCRIPTION "Documentation about Stonecraft and Stonecraft modding"
-)
-
-cpack_add_component(SUBGAME_STONECRAFT_GAME
-	DISPLAY_NAME "Stonecraft Game"
-	DESCRIPTION "The official subgame for the Stonecraft engine, that can easily extended by mods."
-	GROUP "Subgames"
-)
-
-cpack_add_component_group(Subgames
-	DESCRIPTION "Games for the Stonecraft engine."
-)
-
 if(WIN32)
 	# Include all dynamically linked runtime libaries such as MSVCRxxx.dll
 	include(InstallRequiredSystemLibraries)

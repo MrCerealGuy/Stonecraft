@@ -306,6 +306,8 @@ function store.load()
 		store.packages_full = core.parse_json(file:read("*all")) or {}
 		file:close()
 
+		store.packages = {}
+
 		for _, package in pairs(store.packages_full) do
 			package.url = base_url .. "/packages/" ..
 				package.author .. "/" .. package.name ..
@@ -317,9 +319,19 @@ function store.load()
 			else
 				package.id = package.author .. "/" .. package.name
 			end
+
+			-- MERGEINFO: MrCerealGuy: Set 'exclude' flag for all packages installed in Stonecraft
+			package.exclude = "false"
+
+			for _, package_exclude in pairs(store.package_exclusions) do
+				if package_exclude.name == package.name and package_exclude.author == package.author then
+					package.exclude = "true"
+				end
+			end
 		end
 
 		store.packages = store.packages_full
+
 		store.loaded = true
 	end
 
@@ -370,11 +382,6 @@ function store.update_paths()
 end
 
 function store.filter_packages(query)
-	if query == "" and filter_type == 1 then
-		store.packages = store.packages_full
-		return
-	end
-
 	local keywords = {}
 	for word in query:lower():gmatch("%S+") do
 		table.insert(keywords, word)
@@ -395,26 +402,16 @@ function store.filter_packages(query)
 		return false
 	end
 
-	local exclude = false
 	store.packages = {}
 	for _, package in pairs(store.packages_full) do
 		if (query == "" or matches_keywords(package, keywords)) and
 			-- MERGEINFO: MrCerealGuy: removed filter_type == 1 (All packages)
 			(package.type == filter_types_type[filter_type]) then
-			
-			-- Apply contentstore exclusions table
-			exclude = false
 
-			for _, package_exclude in pairs(store.package_exclusions) do
-				if package_exclude.url == package.url then
-					exclude = true
-				end
-			end
-
-			if not exclude then store.packages[#store.packages + 1] = package end
+			-- MERGEINFO: MrCerealGuy: Filter all packages installed in Stonecraft
+			if package.exclude == "false" then store.packages[#store.packages + 1] = package end
 		end
 	end
-
 end
 
 function store.get_formspec(dlgdata)
@@ -476,62 +473,67 @@ function store.get_formspec(dlgdata)
 	local start_idx = (cur_page - 1) * num_per_page + 1
 	for i=start_idx, math.min(#store.packages, start_idx+num_per_page-1) do
 		local package = store.packages[i]
-		formspec[#formspec + 1] = "container[0.5,"
-		formspec[#formspec + 1] = (i - start_idx) * 1.1 + 1
-		formspec[#formspec + 1] = "]"
 
-		-- image
-		formspec[#formspec + 1] = "image[-0.4,0;1.5,1;"
-		formspec[#formspec + 1] = core.formspec_escape(get_screenshot(package))
-		formspec[#formspec + 1] = "]"
+		--if package.exclude == "false" then
 
-		-- title
-		formspec[#formspec + 1] = "label[1,-0.1;"
-		formspec[#formspec + 1] = core.formspec_escape(
-				minetest.colorize(mt_color_green, package.title) ..
-				minetest.colorize("#BFBFBF", " by " .. package.author))
-		formspec[#formspec + 1] = "]"
-
-		-- description
-		if package.path and package.installed_release < package.release then
-			formspec[#formspec + 1] = "textarea[1.25,0.3;7.5,1;;;"
-		else
-			formspec[#formspec + 1] = "textarea[1.25,0.3;9,1;;;"
-		end
-		formspec[#formspec + 1] = core.formspec_escape(package.short_description)
-		formspec[#formspec + 1] = "]"
-
-		-- buttons
-		if not package.path then
-			formspec[#formspec + 1] = "button[9.9,0;1.5,1;install_"
-			formspec[#formspec + 1] = tostring(i)
-			formspec[#formspec + 1] = ";"
-			formspec[#formspec + 1] = fgettext("Install")
+			formspec[#formspec + 1] = "container[0.5,"
+			formspec[#formspec + 1] = (i - start_idx) * 1.1 + 1
 			formspec[#formspec + 1] = "]"
-		else
-			if package.installed_release < package.release then
-				-- The install_ action also handles updating
-				formspec[#formspec + 1] = "button[8.4,0;1.5,1;install_"
+
+			-- image
+			formspec[#formspec + 1] = "image[-0.4,0;1.5,1;"
+			formspec[#formspec + 1] = core.formspec_escape(get_screenshot(package))
+			formspec[#formspec + 1] = "]"
+
+			-- title
+			formspec[#formspec + 1] = "label[1,-0.1;"
+			formspec[#formspec + 1] = core.formspec_escape(
+					minetest.colorize(mt_color_green, package.title) ..
+					minetest.colorize("#BFBFBF", " by " .. package.author))
+			formspec[#formspec + 1] = "]"
+
+			-- description
+			if package.path and package.installed_release < package.release then
+				formspec[#formspec + 1] = "textarea[1.25,0.3;7.5,1;;;"
+			else
+				formspec[#formspec + 1] = "textarea[1.25,0.3;9,1;;;"
+			end
+			formspec[#formspec + 1] = core.formspec_escape(package.short_description)
+			formspec[#formspec + 1] = "]"
+
+			-- buttons
+			if not package.path then
+				formspec[#formspec + 1] = "button[9.9,0;1.5,1;install_"
 				formspec[#formspec + 1] = tostring(i)
 				formspec[#formspec + 1] = ";"
-				formspec[#formspec + 1] = fgettext("Update")
+				formspec[#formspec + 1] = fgettext("Install")
+				formspec[#formspec + 1] = "]"
+			else
+				if package.installed_release < package.release then
+					-- The install_ action also handles updating
+					formspec[#formspec + 1] = "button[8.4,0;1.5,1;install_"
+					formspec[#formspec + 1] = tostring(i)
+					formspec[#formspec + 1] = ";"
+					formspec[#formspec + 1] = fgettext("Update")
+					formspec[#formspec + 1] = "]"
+				end
+
+				formspec[#formspec + 1] = "button[9.9,0;1.5,1;uninstall_"
+				formspec[#formspec + 1] = tostring(i)
+				formspec[#formspec + 1] = ";"
+				formspec[#formspec + 1] = fgettext("Uninstall")
 				formspec[#formspec + 1] = "]"
 			end
 
-			formspec[#formspec + 1] = "button[9.9,0;1.5,1;uninstall_"
-			formspec[#formspec + 1] = tostring(i)
-			formspec[#formspec + 1] = ";"
-			formspec[#formspec + 1] = fgettext("Uninstall")
-			formspec[#formspec + 1] = "]"
-		end
+			--formspec[#formspec + 1] = "button[9.9,0;1.5,1;view_"
+			--formspec[#formspec + 1] = tostring(i)
+			--formspec[#formspec + 1] = ";"
+			--formspec[#formspec + 1] = fgettext("View")
+			--formspec[#formspec + 1] = "]"
 
-		--formspec[#formspec + 1] = "button[9.9,0;1.5,1;view_"
-		--formspec[#formspec + 1] = tostring(i)
-		--formspec[#formspec + 1] = ";"
-		--formspec[#formspec + 1] = fgettext("View")
-		--formspec[#formspec + 1] = "]"
+			formspec[#formspec + 1] = "container_end[]"
 
-		formspec[#formspec + 1] = "container_end[]"
+		--end
 	end
 
 	return table.concat(formspec, "")
