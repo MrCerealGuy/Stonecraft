@@ -1,4 +1,4 @@
-local package_exclusions = 
+local package_exclusions =
 {
 	{ ["name"] = "3d_armor",["author"] = "stu"},
 	{ ["name"] = "ambience",["author"] = "TenPlus1"},
@@ -14,6 +14,7 @@ local package_exclusions =
 	{ ["name"] = "currency",["author"] = "VanessaE"},
 	{ ["name"] = "digilines",["author"] = "Jeija"},
 	{ ["name"] = "ethereal",["author"] = "TenPlus1"},
+	{ ["name"] = "farming", ["author"] = "TenPlus1"},
 	{ ["name"] = "intllib",["author"] = "kaeza"},
 	{ ["name"] = "lucky_block",["author"] = "TenPlus1"},
 	{ ["name"] = "mesecons",["author"] = "Jeija"},
