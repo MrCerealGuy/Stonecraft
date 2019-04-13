@@ -80,6 +80,7 @@ mobs_animal_warthog (Warthog) bool true
 
 # Monster CME modpack
 mobs_monster_ghost (Ghost) bool true
+mobs_monster_oerkki (Oerkki) bool true
 mobs_monster_zombie (Zombie) bool true
 
 # Monster

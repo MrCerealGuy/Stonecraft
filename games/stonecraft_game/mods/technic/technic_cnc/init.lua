@@ -1,3 +1,12 @@
+--[[
+
+2019-04-13 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+--]]
+
+if core.skip_mod("technic") then return end
+
 local modpath = minetest.get_modpath("technic_cnc")
 
 technic_cnc = {}
