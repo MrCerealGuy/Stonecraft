@@ -29,7 +29,7 @@
 
 --]]
 
-if core.skip_mod("cme") or core.get_mod_setting("mobs_animal_chicken") == "false" then return end
+if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_chicken") == "false" then return end
 
 -- Egg
 dofile(core.get_modpath("chicken") .. "/egg.lua")

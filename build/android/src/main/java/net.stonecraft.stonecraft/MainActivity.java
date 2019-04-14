@@ -1,4 +1,4 @@
-package net.minetest.minetest;
+package net.stonecraft.stonecraft;
 
 import android.Manifest;
 import android.app.Activity;

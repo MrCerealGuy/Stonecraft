@@ -63,32 +63,40 @@ enable_nssm (Not So Simple Mobs) bool false
 
 [*Advanced settings (Animals)]
 
-# Animals
+# Animal mob_horse mod
 mobs_animal_horse (Horse) bool true
+
+# Animals mobs_animal mod
 mobs_animal_bee (Bee) bool true
 mobs_animal_bunny (Bunny) bool true
-mobs_animal_chicken (Chicken) bool true
 mobs_animal_cow (Cow) bool true
 mobs_animal_kitten (Kitten) bool true
 mobs_animal_penguin (Penguin) bool true
 mobs_animal_panda (Panda) bool true
 mobs_animal_rat (Rat) bool true
-mobs_animal_sheep (Sheep) bool true
 mobs_animal_warthog (Warthog) bool true
+
+# Animals CME modpack and mobs_animal mod
+mobs_animal_chicken (Chicken) bool true
+mobs_animal_sheep (Sheep) bool true
+
+# Minetest mod
+mobs_animal_fireflies (Fireflies) bool true
 
 [*Advanced settings (Simple Mobs)]
 
 # Monster CME modpack
 mobs_monster_ghost (Ghost) bool true
-mobs_monster_oerkki (Oerkki) bool true
 mobs_monster_zombie (Zombie) bool true
 
-# Monster
+# Monster CME modpack and mobs_monster mod
+mobs_monster_oerkki (Oerkki) bool true
+
+# Monster mobs_monster mod
 mobs_monster_dirt_monster (Dirt monster) bool true
 mobs_monster_dungeon_master (Dungeon master) bool true
 mobs_monster_lava_flan (Lava flan) bool true
 mobs_monster_mese_monster (Mese monster) bool true
-mobs_monster_oerkki (Oerkki) bool true
 mobs_monster_sand_monster (Sand monster) bool true
 mobs_monster_spider (Spider) bool true
 mobs_monster_stone_monster (Stone monster) bool true

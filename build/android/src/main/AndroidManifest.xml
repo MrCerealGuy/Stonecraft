@@ -44,15 +44,15 @@
 			</intent-filter>
 			<meta-data
 				android:name="android.app.lib_name"
-				android:value="minetest" />
+				android:value="stonecraft" />
 		</activity>
 		<activity
-			android:name=".MinetestTextEntry"
+			android:name=".StonecraftTextEntry"
 			android:configChanges="keyboardHidden|orientation|screenSize"
 			android:theme="@style/Theme.Dialog"
 			android:windowSoftInputMode="stateAlwaysHidden"/>
 		<activity
-			android:name=".MinetestAssetCopy"
+			android:name=".StonecraftAssetCopy"
 			android:screenOrientation="sensorLandscape"
 			android:theme="@style/AppTheme"/>
 	</application>

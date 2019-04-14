@@ -355,6 +355,7 @@ local function create_world_buttonhandler(this, fields)
 	local world_options_dependencies = {
 		["enable_mobs_animals"]					=
 		{
+			["enable_cme"]						= true,
 			["enable_mobs_animals"]				= true,
 			["enable_mobs_redo"]				= true
 		},

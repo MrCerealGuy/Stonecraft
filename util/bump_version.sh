@@ -64,7 +64,7 @@ back_to_devel() {
 	git commit -m "Continue with $NEXT_VERSION-dev"
 }
 ##################################
-# Switch to top minetest directory
+# Switch to top stonecraft directory
 ##################################
 
 cd ${0%/*}/..
@@ -87,7 +87,7 @@ ANDROID_VERSION_CODE=$(grep -E 'versionCode [0-9]+$' build/android/build.gradle 
 
 RELEASE_VERSION="$VERSION_MAJOR.$VERSION_MINOR.$VERSION_PATCH"
 
-echo "Current Minetest version: $RELEASE_VERSION"
+echo "Current Stonecraft version: $RELEASE_VERSION"
 echo "Current Android version code: $ANDROID_VERSION_CODE"
 
 NEW_ANDROID_VERSION_CODE=$(expr $ANDROID_VERSION_CODE + 1)

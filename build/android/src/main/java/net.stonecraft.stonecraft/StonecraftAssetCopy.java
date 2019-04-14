@@ -22,7 +22,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class MinetestAssetCopy extends Activity {
+public class StonecraftAssetCopy extends Activity {
 	ProgressBar m_ProgressBar;
 	TextView m_Filename;
 	copyAssetTask m_AssetCopy;
@@ -38,8 +38,8 @@ public class MinetestAssetCopy extends Activity {
 		m_ProgressBar.invalidate();
 
 		/* check if there's already a copy in progress and reuse in case it is*/
-		MinetestAssetCopy prevActivity =
-				(MinetestAssetCopy) getLastNonConfigurationInstance();
+		StonecraftAssetCopy prevActivity =
+				(StonecraftAssetCopy) getLastNonConfigurationInstance();
 		if (prevActivity != null) {
 			m_AssetCopy = prevActivity.m_AssetCopy;
 		} else {
@@ -121,7 +121,7 @@ public class MinetestAssetCopy extends Activity {
 				File[] todel = TempFolder.listFiles();
 
 				for (int i = 0; i < todel.length; i++) {
-					Log.v("MinetestAssetCopy", "deleting: " + todel[i].getAbsolutePath());
+					Log.v("StonecraftAssetCopy", "deleting: " + todel[i].getAbsolutePath());
 					todel[i].delete();
 				}
 			}
@@ -131,7 +131,7 @@ public class MinetestAssetCopy extends Activity {
 				OutputStream dst = new FileOutputStream(baseDir + "Stonecraft/.nomedia");
 				dst.close();
 			} catch (IOException e) {
-				Log.e("MinetestAssetCopy", "Failed to create .nomedia file");
+				Log.e("StonecraftAssetCopy", "Failed to create .nomedia file");
 				e.printStackTrace();
 			}
 
@@ -168,7 +168,7 @@ public class MinetestAssetCopy extends Activity {
 					try {
 						src = getAssets().open(filename);
 					} catch (IOException e) {
-						Log.e("MinetestAssetCopy", "Copying file: " + filename + " FAILED (not in assets)");
+						Log.e("StonecraftAssetCopy", "Copying file: " + filename + " FAILED (not in assets)");
 						e.printStackTrace();
 						continue;
 					}
@@ -203,7 +203,7 @@ public class MinetestAssetCopy extends Activity {
 						try {
 							dst = new FileOutputStream(baseDir + "/" + filename);
 						} catch (IOException e) {
-							Log.e("MinetestAssetCopy", "Copying file: " + baseDir +
+							Log.e("StonecraftAssetCopy", "Copying file: " + baseDir +
 									"/" + filename + " FAILED (couldn't open output file)");
 							e.printStackTrace();
 							src.close();
@@ -218,16 +218,16 @@ public class MinetestAssetCopy extends Activity {
 						}
 
 						dst.close();
-						Log.v("MinetestAssetCopy", "Copied file: " +
+						Log.v("StonecraftAssetCopy", "Copied file: " +
 								m_tocopy.get(i) + " (" + total_filesize +
 								" bytes)");
 					} else if (len < 0) {
-						Log.e("MinetestAssetCopy", "Copying file: " +
+						Log.e("StonecraftAssetCopy", "Copying file: " +
 								m_tocopy.get(i) + " failed, size < 0");
 					}
 					src.close();
 				} catch (IOException e) {
-					Log.e("MinetestAssetCopy", "Copying file: " +
+					Log.e("StonecraftAssetCopy", "Copying file: " +
 							m_tocopy.get(i) + " failed");
 					e.printStackTrace();
 				}
@@ -275,10 +275,10 @@ public class MinetestAssetCopy extends Activity {
 					File current_folder = new File(FlashPath);
 					if (!current_folder.exists()) {
 						if (!current_folder.mkdirs()) {
-							Log.e("MinetestAssetCopy", "\t failed create folder: " +
+							Log.e("StonecraftAssetCopy", "\t failed create folder: " +
 									FlashPath);
 						} else {
-							Log.v("MinetestAssetCopy", "\t created folder: " +
+							Log.v("StonecraftAssetCopy", "\t created folder: " +
 									FlashPath);
 						}
 					}
@@ -302,7 +302,7 @@ public class MinetestAssetCopy extends Activity {
 					} catch (IOException e) {
 						refresh = true;
 						m_asset_size_unknown.add(current_path);
-						Log.e("MinetestAssetCopy", "Failed to open asset file \"" +
+						Log.e("StonecraftAssetCopy", "Failed to open asset file \"" +
 								FlashPath + "\" for size check");
 					}
 
@@ -335,7 +335,7 @@ public class MinetestAssetCopy extends Activity {
 				}
 				is.close();
 			} catch (IOException e1) {
-				Log.e("MinetestAssetCopy", "Error on processing index.txt");
+				Log.e("StonecraftAssetCopy", "Error on processing index.txt");
 				e1.printStackTrace();
 			}
 		}
@@ -357,7 +357,7 @@ public class MinetestAssetCopy extends Activity {
 				}
 				is.close();
 			} catch (IOException e1) {
-				Log.e("MinetestAssetCopy", "Error on processing filelist.txt");
+				Log.e("StonecraftAssetCopy", "Error on processing filelist.txt");
 				e1.printStackTrace();
 			}
 		}

@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.widget.EditText;
 
-public class MinetestTextEntry extends Activity {
+public class StonecraftTextEntry extends Activity {
 	private final int MultiLineTextInput = 1;
 	private final int SingleLineTextInput = 2;
 	private final int SingleLinePasswordInput = 3;

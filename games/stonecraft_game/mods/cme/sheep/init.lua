@@ -29,7 +29,7 @@
 
 --]]
 
-if core.skip_mod("cme") or core.get_mod_setting("mobs_animal_sheep") == "false" then return end
+if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_sheep") == "false" then return end
 
 -- shears
 core.register_tool(":creatures:shears", {

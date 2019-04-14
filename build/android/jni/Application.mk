@@ -1,7 +1,7 @@
 APP_PLATFORM := ${APP_PLATFORM}
 APP_ABI := ${TARGET_ABI}
 APP_STL := c++_shared
-APP_MODULES := minetest
+APP_MODULES := stonecraft
 ifndef NDEBUG
 APP_OPTIM := debug
 endif

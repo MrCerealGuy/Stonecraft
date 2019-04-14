@@ -291,7 +291,7 @@ if(WIN32)
 		set(CPACK_PACKAGE_EXECUTABLES ${PROJECT_NAME} "${PROJECT_NAME_CAPITALIZED}")
 		set(CPACK_CREATE_DESKTOP_LINKS ${PROJECT_NAME})
 
-		set(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/misc/minetest-icon.ico")
+		set(CPACK_WIX_PRODUCT_ICON "${CMAKE_CURRENT_SOURCE_DIR}/misc/stonecraft-icon.ico")
 		# Supported languages can be found at 
 		# http://wixtoolset.org/documentation/manual/v3/wixui/wixui_localization.html
 		#set(CPACK_WIX_CULTURES "ar-SA,bg-BG,ca-ES,hr-HR,cs-CZ,da-DK,nl-NL,en-US,et-EE,fi-FI,fr-FR,de-DE")

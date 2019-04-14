@@ -29,7 +29,7 @@
 
 --]]
 
-if core.skip_mod("cme") or core.get_mod_setting("mobs_monster_oerkki") == "false" then return end
+if core.skip_mod("mobs_monster") or core.get_mod_setting("mobs_monster_oerkki") == "false" then return end
 
 local def = {
   name = "creatures:oerkki",
