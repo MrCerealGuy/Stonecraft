@@ -17,7 +17,7 @@ variables:
     - mkdir cmakebuild
     - mkdir -p artifact/stonecraft/usr/
     - cd cmakebuild
-    - cmake -DCMAKE_INSTALL_PREFIX=../artifact/stonecraft/usr/ -DCMAKE_BUILD_TYPE=Release -DRUN_IN_PLACE=TRUE -DENABLE_GETTEXT=TRUE -DBUILD_SERVER=TRUE ..
+    - cmake -DCMAKE_INSTALL_PREFIX=../artifact/stonecraft/usr/ -DCMAKE_BUILD_TYPE=Release -DBUILD_CLIENT=TRUE -DENABLE_GETTEXT=TRUE -DENABLE_FREETYPE=TRUE -DENABLE_LEVELDB=FALSE -DENABLE_REDIS=FALSE -DRUN_IN_PLACE=TRUE ..
     - make -j2
     - make install
   artifacts:
@@ -308,15 +308,15 @@ package:win64:
     WIN_ARCH: "x86_64"
     TOOLCHAIN_OUTPUT: "util/buildbot/toolchain_mingw64.cmake"
 
-package:docker:
-  stage: package
-  image: docker:stable
-  services:
-    - docker:dind
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
-  script:
-    - docker build . -t ${CONTAINER_IMAGE}/server:$CI_COMMIT_SHA -t ${CONTAINER_IMAGE}/server:$CI_COMMIT_REF_NAME -t ${CONTAINER_IMAGE}/server:latest
-    - docker push ${CONTAINER_IMAGE}/server:$CI_COMMIT_SHA
-    - docker push ${CONTAINER_IMAGE}/server:$CI_COMMIT_REF_NAME
-    - docker push ${CONTAINER_IMAGE}/server:latest
+#package:docker:
+#  stage: package
+#  image: docker:stable
+#  services:
+#    - docker:dind
+#  before_script:
+#    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN registry.gitlab.com
+#  script:
+#    - docker build . -t ${CONTAINER_IMAGE}/server:$CI_COMMIT_SHA -t ${CONTAINER_IMAGE}/server:$CI_COMMIT_REF_NAME -t ${CONTAINER_IMAGE}/server:latest
+#    - docker push ${CONTAINER_IMAGE}/server:$CI_COMMIT_SHA
+#    - docker push ${CONTAINER_IMAGE}/server:$CI_COMMIT_REF_NAME
+#    - docker push ${CONTAINER_IMAGE}/server:latest
