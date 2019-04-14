@@ -1,13 +1,13 @@
 Section: games
 Priority: extra
 Standards-Version: 3.6.2
-Package: minetest-staging
-Version: 0.4.15-DATEPLACEHOLDER
+Package: stonecraft-staging
+Version: 1.3.0-DATEPLACEHOLDER
 Depends: libc6, libcurl3-gnutls, libfreetype6, libirrlicht1.8, LEVELDB_PLACEHOLDER, liblua5.1-0, libluajit-5.1-2, libopenal1, libstdc++6, libvorbisfile3, libx11-6, zlib1g
-Maintainer: Loic Blot <loic.blot@unix-experience.fr>
-Homepage: http://minetest.net/
-Vcs-Git: https://github.com/minetest/minetest.git
-Vcs-Browser: https://github.com/minetest/minetest.git
+Maintainer: Andreas Zahnleiter <mrcerealguy@gmx.de>
+Homepage: http://mrcerealguy.github.io/stonecraft
+Vcs-Git: https://github.com/MrCerealGuy/Stonecraft.git
+Vcs-Browser: https://github.com/MrCerealGuy/Stonecraft.git
 Architecture: amd64
 Build-Depends:
  cmake,
@@ -29,8 +29,8 @@ Build-Depends:
  libx11-dev,
  zlib1g-dev
 Description: Multiplayer infinite-world block sandbox (server)
- Minetest is a minecraft-inspired game written from scratch and licensed
- under the LGPL (version 2.1 or later). It supports both survival and creative
+ Stonecraft is a InfiniMiner/Minecraft-inspired game based on Minetest and licensed
+ under the GPL-3.0 or läter. It supports both survival and creative
  modes along with multiplayer support, dynamic lighting, and an "infinite" map
  generator.
-Conflicts: minetestc55, minetest, minetest-server, minetest-data
+Conflicts: stonecraft, stonecraft-server, stonecraft-data

@@ -2,7 +2,7 @@
 <component type="desktop-application">
 	<id>net.stonecraft.stonecraft.desktop</id>
 	<metadata_license>CC0-1.0</metadata_license>
-	<project_license>LGPL-2.1+ and CC-BY-SA-3.0 and MIT and Apache-2.0</project_license>
+	<project_license>GPL-3.0+ and CC-BY-SA-3.0 and MIT and Apache-2.0</project_license>
 	<name>Stonecraft</name>
 	<summary>Multiplayer infinite-world block adventure game game</summary>
 	<description>
