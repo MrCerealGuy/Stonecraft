@@ -2,8 +2,15 @@
 
 2018-03-21 MrCerealGuy: added intllib support
 
+2019-04-14 modified by MrCerealGuy <mrcerealguy@gmx.de>
+	exit if mod is deactivated
+
+2019-04-14 modified by MrCerealGuy <mrcerealguy@gmx.de>
+  added advanced mod control
+
 --]]
 
+if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_firelies") == "false" then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())

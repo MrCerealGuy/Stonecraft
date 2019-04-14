@@ -8007,6 +8007,10 @@ msgid "Warthog"
 msgstr "Warzenschwein"
 
 #: builtin/worldoptions.txt
+msgid "Fireflies"
+msgstr "Leuchtkäfer"
+
+#: builtin/worldoptions.txt
 msgid "Advanced settings (Simple Mobs)"
 msgstr "Erw. Einstellungen (Einfache Mobs)"
 
