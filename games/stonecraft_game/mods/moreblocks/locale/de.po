@@ -267,35 +267,31 @@ msgstr "Tut mir leid, @1 gehört diese Stelle."
 
 #: stairsplus/common.lua
 msgid "@1 Microblock"
-msgstr "mikroblock"
+msgstr "@1mikroblock"
 
 #: stairsplus/common.lua
 msgid "@1 Panel"
-msgstr "nscheibe"
+msgstr "@1scheibe"
 
 #: stairsplus/common.lua
 msgid "@1 Slab"
-msgstr "stufe"
+msgstr "@1stufe"
 
 #: stairsplus/common.lua
 msgid "@1 Slope"
-msgstr "schräge"
+msgstr "@1schräge"
 
 #: stairsplus/common.lua
 msgid "@1 Stairs"
-msgstr "treppe"
+msgstr "@1treppe"
 
 #: stairsplus/common.lua
-msgid "Two"
-msgstr "Zwei"
+msgid " Two Sides"
+msgstr " Zwei Seiten"
 
 #: stairsplus/common.lua
-msgid "Three"
-msgstr "Drei"
-
-#: stairsplus/common.lua
-msgid "Sides"
-msgstr "Seiten"
+msgid " Three Sides"
+msgstr " Drei Seiten"
 
 #: stairsplus/registrations.lua
 msgid "Concrete"

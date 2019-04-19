@@ -17,15 +17,15 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 
 local descriptions = {
-	["micro"] = S("@1 Microblock"),
-	["slab"] = S("@1 Slab"),
-	["slope"] = S("@1 Slope"),
-	["panel"] = S("@1 Panel"),
-	["stair"] = S("@1 Stairs"),
+	["micro"] = "@1 Microblock",
+	["slab"] = "@1 Slab",
+	["slope"] = "@1 Slope",
+	["panel"] = "@1 Panel",
+	["stair"] = "@1 Stairs",
 }
 
 stairsplus.register_single = function(category, alternate, info, modname, subname, recipeitem, fields)
-	local desc_base = descriptions[category]:format(fields.description)
+	local desc_base = S(descriptions[category], fields.description)
 	local def = {}
 
 	if category ~= "slab" then
@@ -59,7 +59,7 @@ stairsplus.register_single = function(category, alternate, info, modname, subnam
 				type = "fixed",
 				fixed = info,
 			}
-			def.description = desc_base .. alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return S(a:upper()) .. S(b) end)
+			def.description = desc_base .. S(alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return a:upper() .. b end))
 		end
 	else
 		def.description = desc_base
