@@ -265,6 +265,10 @@ msgstr "Deftiger Eintopf"
 msgid "Bucket of Cactus Pulp"
 msgstr "Eimer Kaktusmark"
 
+#: food.lua
+msgid "Firethorn Jelly"
+msgstr "Feuerdornmarmelade"
+
 #: gates.lua
 msgid "Scorched Wood Fence Gate"
 msgstr "Verbranntes Holzzauntor"
@@ -368,6 +372,10 @@ msgstr "Pilzsuppe"
 #: onion.lua
 msgid "Wild Onion"
 msgstr "Wilde Zwiebel"
+
+#: plantlife.lua
+msgid "Firethorn Shrub"
+msgstr "Feuerdornbusch"
 
 #: plantlife.lua
 msgid "Fire Flower"

@@ -17,11 +17,11 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 
 local descriptions = {
-	["micro"] = S("%s Microblock"),
-	["slab"] = S("%s Slab"),
-	["slope"] = S("%s Slope"),
-	["panel"] = S("%s Panel"),
-	["stair"] = S("%s Stairs"),
+	["micro"] = S("@1 Microblock"),
+	["slab"] = S("@1 Slab"),
+	["slope"] = S("@1 Slope"),
+	["panel"] = S("@1 Panel"),
+	["stair"] = S("@1 Stairs"),
 }
 
 stairsplus.register_single = function(category, alternate, info, modname, subname, recipeitem, fields)
@@ -59,7 +59,7 @@ stairsplus.register_single = function(category, alternate, info, modname, subnam
 				type = "fixed",
 				fixed = info,
 			}
-			def.description = desc_base .. alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return a:upper() .. b end)
+			def.description = desc_base .. alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return S(a:upper()) .. S(b) end)
 		end
 	else
 		def.description = desc_base

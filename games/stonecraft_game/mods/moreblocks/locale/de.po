@@ -265,22 +265,46 @@ msgstr "jemand"
 msgid "Sorry, @1 owns that spot."
 msgstr "Tut mir leid, @1 gehört diese Stelle."
 
-#: microblocks.lua
-msgid " Microblock"
+#: stairsplus/common.lua
+msgid "@1 Microblock"
 msgstr "mikroblock"
 
-#: panels.lua
-msgid " Panel"
+#: stairsplus/common.lua
+msgid "@1 Panel"
 msgstr "nscheibe"
 
-#: slabs.lua
-msgid " Slab"
+#: stairsplus/common.lua
+msgid "@1 Slab"
 msgstr "stufe"
 
-#: slopes.lua
-msgid " Slope"
-msgstr "gefälle"
+#: stairsplus/common.lua
+msgid "@1 Slope"
+msgstr "schräge"
 
-#: stairs.lua
-msgid " Stairs"
+#: stairsplus/common.lua
+msgid "@1 Stairs"
 msgstr "treppe"
+
+#: stairsplus/common.lua
+msgid "Two"
+msgstr "Zwei"
+
+#: stairsplus/common.lua
+msgid "Three"
+msgstr "Drei"
+
+#: stairsplus/common.lua
+msgid "Sides"
+msgstr "Seiten"
+
+#: stairsplus/registrations.lua
+msgid "Concrete"
+msgstr "Beton"
+
+#: stairsplus/registrations.lua
+msgid "Cement"
+msgstr "Zement"
+
+#: stairsplus/registrations.lua
+msgid "Brass Block"
+msgstr "Messingblock"
