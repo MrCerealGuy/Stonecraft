@@ -140,7 +140,6 @@ Example content (added indentation and - explanations):
   enable_mobs_animals = false   - the following content is game-specific, the user can change it in the world options
   enable_cme = false
   enable_mobs_monster = false
-  enable_mobs_redo = false
   enable_spawners_env = false
   enable_spawners_mobs = false
   enable_spawners_ores = false
@@ -158,6 +157,7 @@ Example content (added indentation and - explanations):
   mobs_animal_rat = false
   mobs_animal_sheep = false
   mobs_animal_warthog = false
+  mobs_animal_fireflies
   mobs_monster_ghost = false
   mobs_monster_zombie = false
   mobs_monster_dirt_monster = false
@@ -265,13 +265,12 @@ Example content (added indentation and - explanations):
   enable_trm_tnt = false
   enable_trm_vessels = false
   enable_lucky_block = false
-  enable_homedecor_technic = false
+  enable_technic = false
   enable_mesecons = false
   enable_digilines = false
   enable_pipeworks = false
   enable_itemdrop = false
   enable_moretrees = false
-  enable_forests = false
   enable_redtrees = false
   enable_seaplants = false
   enable_woodsoils_vines = false
@@ -281,17 +280,10 @@ Example content (added indentation and - explanations):
   enable_erosion = false
   giantmushrooms_always_generate = false
   giantmushrooms_smooth = false
-  enable_villages = false
-  enable_mob_world_interaction = false
-  enable_mobf_trader = false
   enable_mines = false
   enable_carts = false
   enable_boost_carts = false
-  enable_railcorridors = false
   enable_pyramids = false
-  enable_spawners = false
-  villages_enable_protection = false
-  villages_first_village_type = medieval
 
 Player File Format
 ===================

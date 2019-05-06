@@ -206,24 +206,9 @@ swamp_biome_always_generate (Generate swamps everywhere) bool false
 swamp_biome_smooth (Enables smooth transition of biomes) bool true
 swamp_biome_swampwater (Enables swampwater) bool true
 
-#[*Advanced settings (Snow biome)]
-
-#snow_biome_snowfall (Enables falling snow) bool true
-#snow_biome_christmas_content (Disable this to remove christmas saplings from being found) bool true
-#snow_biome_snowball_gravity (The gravity of thrown snowballs) float 0.91743119266055
-#snow_biome_lighter_snowfall (Reduces the amount of resources and fps used by snowfall) bool false
-#snow_biome_mapgen_rarity (Mapgen rarity in %) int 18
-#snow_biome_snowball_velocity (How fast players throw snowballs) int 19
-#snow_biome_smooth_snow (Disable this to stop snow from being smoothed) bool true
-#snow_biome_mapgen_size (Size of the generated…, has an effect to the rarity, too) int 210
-#snow_biome_min_height (The minumum height a snow biome will generate - mgv7) int 3
-#snow_biome_smooth_biomes (Enables smooth transition of biomes - mgv6) bool true
-#snow_biome_sleds bool (Disable this to prevent sleds from being riden) true
-
 [Nature]
 
 enable_moretrees (More trees) bool false
-enable_forests (More forests and red trees) bool false
 enable_seaplants (Sea plants) bool false
 enable_woodsoils_vines (Wood soils and vines) bool false
 enable_giantmushrooms (Giant mushrooms) bool false

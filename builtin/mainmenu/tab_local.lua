@@ -16,8 +16,8 @@
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-local enable_gamebar = false --MERGEINFO: MrCerealGuy: disable gamebar
-local current_game, singleplayer_refresh_gamebar
+local enable_gamebar = PLATFORM ~= "Android"
+local current_game--, singleplayer_refresh_gamebar
 if enable_gamebar then
 	function current_game()
 		local last_game_id = core.settings:get("menu_last_game")
@@ -25,7 +25,7 @@ if enable_gamebar then
 
 		return game
 	end
-
+--[[
 	function singleplayer_refresh_gamebar()
 
 		local old_bar = ui.find_by_name("game_button_bar")
@@ -87,7 +87,7 @@ if enable_gamebar then
 			end
 			btnbar:add_button(btn_name, text, image, tooltip)
 		end
-	end
+	end--]]
 else
 	function current_game()
 		return nil
@@ -303,8 +303,8 @@ if enable_gamebar then
 				mm_texture.update("singleplayer",game)
 			end
 
-			singleplayer_refresh_gamebar()
-			ui.find_by_name("game_button_bar"):show()
+			--singleplayer_refresh_gamebar()
+			--ui.find_by_name("game_button_bar"):show()
 		else
 			menudata.worldlist:set_filtercriteria(nil)
 			local gamebar = ui.find_by_name("game_button_bar")
