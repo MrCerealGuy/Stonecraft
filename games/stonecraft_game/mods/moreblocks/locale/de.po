@@ -175,19 +175,19 @@ msgstr "Baum (alle Flächen)"
 
 #: nodes.lua
 msgid "All-faces Jungle Tree"
-msgstr "Tropenbaum (alle Flächen)"
+msgstr "Tropenbaum"
 
 #: nodes.lua
 msgid "All-faces Pine Tree"
-msgstr "Kiefer (alle Flächen)"
+msgstr "Kiefer"
 
 #: nodes.lua
 msgid "All-faces Acacia Tree"
-msgstr "Akazienbaum (alle Flächen)"
+msgstr "Akazienbaum"
 
 #: nodes.lua
 msgid "All-faces Aspen Tree"
-msgstr "Espenbaum (alle Flächen)"
+msgstr "Espenbaum"
 
 #: nodes.lua
 msgid "Glow Glass"
@@ -292,6 +292,14 @@ msgstr " Zwei Seiten"
 #: stairsplus/common.lua
 msgid " Three Sides"
 msgstr " Drei Seiten"
+
+#: stairsplus/common.lua
+msgid " Two Sides U"
+msgstr " Zwei Seiten U"
+
+#: stairsplus/common.lua
+msgid " Three Sides U"
+msgstr " Drei Seiten U"
 
 #: stairsplus/registrations.lua
 msgid "Concrete"

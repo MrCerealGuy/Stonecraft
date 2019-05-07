@@ -1,0 +1,42 @@
+# German translation for chicken mod
+# Copyright (C) 2019 MrCerealGuy
+# This file is distributed under the same license as the Stonecraft package.
+# Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>, 2019.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-10 16:45+0200\n"
+"PO-Revision-Date: 2017-05-10 16:45+0200\n"
+"Last-Translator: Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: init.lua
+msgid "Raw Chicken Flesh"
+msgstr "Rohes Hähnchenfleisch"
+
+#: init.lua
+msgid "Chicken Meat"
+msgstr "Geflügelfleisch"
+
+#: init.lua
+msgid "Feather"
+msgstr "Feder"
+
+#: init.lua
+msgid "Chicken Spawn-Egg"
+msgstr "Huhn Spawn-Ei"
+
+#: egg.lua
+msgid "Egg"
+msgstr "Ei"
+
+#: egg.lua
+msgid "Fried Egg"
+msgstr "Spiegelei"

@@ -39,24 +39,56 @@ msgid "Barter Table"
 msgstr "Tausch Tisch"
 
 #: craftitems.lua
-msgid "1 MineGeld Note"
+msgid "1 Minegeld Note"
 msgstr "1 Minegeld Banknote"
 
 #: craftitems.lua
-msgid "5 MineGeld Note"
+msgid "5 Minegeld Note"
 msgstr "5 Minegeld Banknote"
 
 #: craftitems.lua
-msgid "10 MineGeld Note"
+msgid "10 Minegeld Note"
 msgstr "10 Minegeld Banknote"
 
 #: craftitems.lua
-msgid "50 MineGeld Note"
+msgid "50 Minegeld Note"
 msgstr "50 Minegeld Banknote"
 
 #: craftitems.lua
 msgid "Bundle of random Minegeld notes"
 msgstr "Bündel von verschiedenen Minegeld Banknoten"
+
+#: craftitems.lua
+msgid "5 Minegeld cent coin"
+msgstr "5 Minegeld Centmünze"
+
+#: craftitems.lua
+msgid "10 Minegeld cent coin"
+msgstr "10 Minegeld Centmünze"
+
+#: craftitems.lua
+msgid "25 Minegeld cent coin"
+msgstr "25 Minegeld Centmünze"
+
+#: craftitems.lua
+msgid "1 Minegeld Note"
+msgstr "1 Minegeld Banknote"
+
+#: craftitems.lua
+msgid "5 Minegeld Note"
+msgstr "5 Minegeld Banknote"
+
+#: craftitems.lua
+msgid "10 Minegeld Note"
+msgstr "10 Minegeld Banknote"
+
+#: craftitems.lua
+msgid "50 Minegeld Note"
+msgstr "50 Minegeld Banknote"
+
+#: craftitems.lua
+msgid "100 Minegeld Note"
+msgstr "100 Minegeld Banknote"
 
 #: income.lua
 msgid "basic income for @1"

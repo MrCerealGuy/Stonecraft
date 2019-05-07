@@ -75,7 +75,7 @@ msgstr "Dunkelgrün"
 
 #: init.lua
 msgid " Baked Clay"
-msgstr " gebrannter Ton"
+msgstr " gebrannte(r) Ton"
 
 #: init.lua
 msgid " Baked Clay Stair"

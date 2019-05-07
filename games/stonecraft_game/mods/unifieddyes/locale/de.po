@@ -282,5 +282,9 @@ msgid "Red-violet Dye (low saturation)"
 msgstr "Rotvioletter Farbstoff (geringe Sättigung)"
 
 #: init.lua
+msgid "Dye Airbrush"
+msgstr "Farbspritzpistole"
+
+#: init.lua
 msgid "[UnifiedDyes] Loaded!"
 msgstr ""

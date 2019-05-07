@@ -502,6 +502,10 @@ msgid "Seaweed"
 msgstr "Seetang"
 
 #: sealife.lua
+msgid "Agar Powder"
+msgstr "Agar Pulver"
+
+#: sealife.lua
 msgid "Blue Coral"
 msgstr "Blaue Koralle"
 

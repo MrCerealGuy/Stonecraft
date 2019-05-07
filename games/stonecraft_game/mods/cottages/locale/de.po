@@ -444,3 +444,23 @@ msgstr "Ofenrohr"
 #: nodes_furniture.lua
 msgid "Washing place"
 msgstr "Waschplätze"
+
+#: nodes_hay.lua
+msgid "Some hay"
+msgstr "Etwas Heu"
+
+#: nodes_hay.lua
+msgid "Hay"
+msgstr "Heu"
+
+#: nodes_hay.lua
+msgid "Hay bale"
+msgstr "Heuballen"
+
+#: nodes_pitchfork.lua
+msgid "Pitchfork (dig dirt with grass to get hay)"
+msgstr "Mistgabel (Erde mit Gras graben um Heu zu erhalten)"
+
+#: nodes_pitchfork.lua
+msgid "Pitchfork (for hay and straw)"
+msgstr "Mistgabel (für Heu und Stroh)"

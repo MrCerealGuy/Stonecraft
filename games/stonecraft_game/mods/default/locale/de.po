@@ -769,6 +769,10 @@ msgstr "Obsidianscherbe"
 msgid "Flint"
 msgstr "Feuerstein"
 
+#: craftitems.lua
+msgid "Blueberries"
+msgstr "Blaubeeren"
+
 #: torch.lua
 msgid "Torch"
 msgstr "Fackel"
