@@ -38,7 +38,6 @@ local package_exclusions =
 	{ ["name"] = "unified_inventory",["author"] = "RealBadAngel"},
 	{ ["name"] = "worldedit",["author"] = "sfan5"},
 	{ ["name"] = "xconnected",["author"] = "Sokomine"},
-	{ ["name"] = "xdecor",["author"] = "jp"},
 }
 
 return package_exclusions
