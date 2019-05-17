@@ -25,6 +25,10 @@ msgstr "Truhe"
 msgid "Locked Chest"
 msgstr "Verschlossene Truhe"
 
+#: chests.lua
+msgid "Locked Chest (owned by "
+msgstr "Verschlossene Truhe (gehört "
+
 #: nodes.lua
 msgid "Stone"
 msgstr "Stein"

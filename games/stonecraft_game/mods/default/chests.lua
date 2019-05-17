@@ -94,7 +94,7 @@ function default.chest.register_chest(name, d)
 	if def.protected then
 		def.on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", "Locked Chest")
+			meta:set_string("infotext", S("Locked Chest"))
 			meta:set_string("owner", "")
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8*4)
@@ -102,7 +102,7 @@ function default.chest.register_chest(name, d)
 		def.after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
-			meta:set_string("infotext", "Locked Chest (owned by " ..
+			meta:set_string("infotext", S("Locked Chest (owned by ") ..
 					meta:get_string("owner") .. ")")
 		end
 		def.can_dig = function(pos,player)
@@ -196,7 +196,7 @@ function default.chest.register_chest(name, d)
 	else
 		def.on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", "Chest")
+			meta:set_string("infotext", S("Chest"))
 			local inv = meta:get_inventory()
 			inv:set_size("main", 8*4)
 		end
