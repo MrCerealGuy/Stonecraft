@@ -39,11 +39,23 @@ minetest.register_node(":default:torch", {
 	},
 	sounds = default.node_sound_wood_defaults(),
 	on_place = function(itemstack, placer, pointed_thing)
-		local above = pointed_thing.above
+		if pointed_thing.type ~= "node" then
+			-- no interaction possible with entities, for now.
+			return itemstack
+		end
+
 		local under = pointed_thing.under
+		local node = minetest.get_node(under)
+		local def = minetest.registered_nodes[node.name]
+		if def and def.on_rightclick then
+			return def.on_rightclick(under, node, placer, itemstack,
+				pointed_thing) or itemstack, false
+		end
+
+		local above = pointed_thing.above
 		local wdir = minetest.dir_to_wallmounted({x = under.x - above.x, y = under.y - above.y, z = under.z - above.z})
 		local fakestack = itemstack
-		local retval = false
+		local retval
 		if wdir <= 1 then
 			retval = fakestack:set_name("default:torch")
 		else
@@ -52,7 +64,8 @@ minetest.register_node(":default:torch", {
 		if not retval then
 			return itemstack
 		end
-		itemstack, retval = minetest.item_place(fakestack, placer, pointed_thing, wdir)
+
+		itemstack = minetest.item_place(fakestack, placer, pointed_thing, wdir)
 		itemstack:set_name("default:torch")
 
 		return itemstack
@@ -184,6 +197,12 @@ minetest.register_on_leaveplayer(function(player)
 		torchlight[name] = nil
 	end
 	playerlist[name] = nil
+end)
+
+minetest.register_on_shutdown(function()
+	for i, _ in pairs(torchlight) do
+		remove_torchlight(torchlight[i])
+	end
 end)
 
 local function update_torchlight(dtime)
