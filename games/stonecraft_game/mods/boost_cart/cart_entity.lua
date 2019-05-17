@@ -11,17 +11,17 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 local HAVE_MESECONS_ENABLED = minetest.global_exists("mesecon")
 
-function boost_cart:on_rail_step(pos)
+function boost_cart:on_rail_step(entity, pos, distance)
 	-- Play rail sound
-	if self.sound_counter <= 0 then
+	if entity.sound_counter <= 0 then
 		minetest.sound_play("cart_rail", {
 			pos = pos,
 			max_hear_distance = 40,
 			gain = 0.5
 		})
-		self.sound_counter = math.random(4, 15)
+		entity.sound_counter = math.random(4, 15)
 	end
-	self.sound_counter = self.sound_counter - 1
+	entity.sound_counter = entity.sound_counter - distance
 
 	if HAVE_MESECONS_ENABLED then
 		boost_cart:signal_detector_rail(pos)
@@ -29,12 +29,14 @@ function boost_cart:on_rail_step(pos)
 end
 
 local cart_entity = {
-	physical = false,
-	collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
-	visual = "mesh",
-	mesh = "cart.x",
-	visual_size = {x=1, y=1},
-	textures = {"cart.png"},
+	initial_properties = {
+		physical = false,
+		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+		visual = "mesh",
+		mesh = "cart.x",
+		visual_size = {x=1, y=1},
+		textures = {"cart.png"},
+	},
 
 	driver = nil,
 	punched = false, -- used to re-send velocity and position
@@ -49,8 +51,8 @@ local cart_entity = {
 
 -- Model and textures
 if boost_cart.mtg_compat then
-	cart_entity.mesh = "carts_cart.b3d"
-	cart_entity.textures = {"carts_cart.png"}
+	cart_entity.initial_properties.mesh = "carts_cart.b3d"
+	cart_entity.initial_properties.textures = {"carts_cart.png"}
 end
 
 function cart_entity:on_rightclick(clicker)
@@ -64,6 +66,12 @@ function cart_entity:on_rightclick(clicker)
 	elseif not self.driver then
 		self.driver = player_name
 		boost_cart:manage_attachment(clicker, self.object)
+
+		if default.player_set_animation then
+			-- player_api(/default) does not update the animation
+			-- when the player is attached, reset to default animation
+			default.player_set_animation(clicker, "stand")
+		end
 	end
 end
 
@@ -75,25 +83,37 @@ function cart_entity:on_activate(staticdata, dtime_s)
 		return
 	end
 	local data = minetest.deserialize(staticdata)
-	if not data or type(data) ~= "table" then
+	if type(data) ~= "table" then
 		return
 	end
 	self.railtype = data.railtype
-	if data.old_dir then
-		self.old_dir = data.old_dir
+	self.old_dir = data.old_dir or self.old_dir
+	self.old_pos = data.old_pos or self.old_pos
+	-- Correct the position when the cart drives further after the last 'step()'
+	if self.old_pos and boost_cart:is_rail(self.old_pos, self.railtype) then
+		self.object:set_pos(self.old_pos)
 	end
 end
 
 function cart_entity:get_staticdata()
 	return minetest.serialize({
 		railtype = self.railtype,
-		old_dir = self.old_dir
+		old_dir = self.old_dir,
+		old_pos = self.old_pos
 	})
 end
 
+-- 0.5.x and later: When the driver leaves
+function cart_entity:on_detach_child(child)
+	if child and child:get_player_name() == self.driver then
+		self.driver = nil
+	end
+end
+
 function cart_entity:on_punch(puncher, time_from_last_punch, tool_capabilities, direction)
-	local pos = self.object:getpos()
-	if not self.railtype then
+	local pos = self.object:get_pos()
+	local vel = self.object:get_velocity()
+	if not self.railtype or vector.equals(vel, {x=0, y=0, z=0}) then
 		local node = minetest.get_node(pos).name
 		self.railtype = minetest.get_item_group(node, "connect_to_raillike")
 	end
@@ -112,7 +132,7 @@ function cart_entity:on_punch(puncher, time_from_last_punch, tool_capabilities, 
 		-- Pick up cart: Drop all attachments
 		if self.driver then
 			if self.old_pos then
-				self.object:setpos(self.old_pos)
+				self.object:set_pos(self.old_pos)
 			end
 			local player = minetest.get_player_by_name(self.driver)
 			boost_cart:manage_attachment(player, nil)
@@ -132,7 +152,7 @@ function cart_entity:on_punch(puncher, time_from_last_punch, tool_capabilities, 
 		return
 	end
 
-	local vel = self.object:getvelocity()
+	-- Driver punches to accelerate the cart
 	if puncher:get_player_name() == self.driver then
 		if math.abs(vel.x + vel.z) > boost_cart.punch_speed_max then
 			return
@@ -158,20 +178,23 @@ function cart_entity:on_punch(puncher, time_from_last_punch, tool_capabilities, 
 	self.punched = true
 end
 
+local v3_len = vector.length
 function cart_entity:on_step(dtime)
-	local vel = self.object:getvelocity()
+	local vel = self.object:get_velocity()
 	if self.punched then
 		vel = vector.add(vel, self.velocity)
-		self.object:setvelocity(vel)
+		self.object:set_velocity(vel)
 		self.old_dir.y = 0
 	elseif vector.equals(vel, {x=0, y=0, z=0}) then
 		return
 	end
 
-	local pos = self.object:getpos()
+	local pos = self.object:get_pos()
+	local cart_dir = boost_cart:velocity_to_dir(vel)
+	local same_dir = vector.equals(cart_dir, self.old_dir)
 	local update = {}
 
-	if self.old_pos and not self.punched then
+	if self.old_pos and not self.punched and same_dir then
 		local flo_pos = vector.round(pos)
 		local flo_old = vector.round(self.old_pos)
 		if vector.equals(flo_pos, flo_old) then
@@ -181,6 +204,7 @@ function cart_entity:on_step(dtime)
 	end
 
 	local ctrl, player
+	local distance = 1
 
 	-- Get player controls
 	if self.driver then
@@ -190,36 +214,54 @@ function cart_entity:on_step(dtime)
 		end
 	end
 
-	if self.old_pos then
-		-- Detection for "skipping" nodes
-		local found_path = boost_cart:pathfinder(
-			pos, self.old_pos, self.old_dir, ctrl, self.old_switch, self.railtype
+	local stop_wiggle = false
+	if self.old_pos and same_dir then
+		-- Detection for "skipping" nodes (perhaps use average dtime?)
+		-- It's sophisticated enough to take the acceleration in account
+		local acc = self.object:get_acceleration()
+		distance = dtime * (v3_len(vel) + 0.5 * dtime * v3_len(acc))
+
+		local new_pos, new_dir = boost_cart:pathfinder(
+			pos, self.old_pos, self.old_dir, distance, ctrl,
+			self.old_switch, self.railtype
 		)
 
-		if not found_path then
-			-- No rail found: reset back to the expected position
-			pos = vector.new(self.old_pos)
+		if new_pos then
+			-- No rail found: set to the expected position
+			pos = new_pos
 			update.pos = true
+			cart_dir = new_dir
 		end
+	elseif self.old_pos and self.old_dir.y ~= 1 and not self.punched then
+		-- Stop wiggle
+		stop_wiggle = true
 	end
 
-	local cart_dir = boost_cart:velocity_to_dir(vel)
-
 	-- dir:         New moving direction of the cart
-	-- switch_keys: Currently pressed L/R key, used to ignore the key on the next rail node
+	-- switch_keys: Currently pressed L(1) or R(2) key,
+	--              used to ignore the key on the next rail node
 	local dir, switch_keys = boost_cart:get_rail_direction(
 		pos, cart_dir, ctrl, self.old_switch, self.railtype
 	)
+	local dir_changed = not vector.equals(dir, self.old_dir)
 
-	local new_acc = {x=0, y=0, z=0}
-	if vector.equals(dir, {x=0, y=0, z=0}) then
+	local acc = 0
+	if stop_wiggle or vector.equals(dir, {x=0, y=0, z=0}) then
 		vel = {x=0, y=0, z=0}
-		pos = vector.round(pos)
+		local pos_r = vector.round(pos)
+		if not boost_cart:is_rail(pos_r, self.railtype)
+				and self.old_pos then
+			pos = self.old_pos
+		elseif not stop_wiggle then
+			pos = pos_r
+		else
+			pos.y = math.floor(pos.y + 0.5)
+		end
 		update.pos = true
 		update.vel = true
 	else
 		-- Direction change detected
-		if not vector.equals(dir, self.old_dir) then
+		if dir_changed then
 			vel = vector.multiply(dir, math.abs(vel.x + vel.z))
 			update.vel = true
 			if dir.y ~= self.old_dir.y then
@@ -238,17 +280,16 @@ function cart_entity:on_step(dtime)
 		end
 
 		-- Calculate current cart acceleration
-		local acc = nil
+		acc = nil
 
 		local acc_meta = minetest.get_meta(pos):get_string("cart_acceleration")
-		if acc_meta == "halt" then
+		if acc_meta == "halt" and not self.punched then
 			-- Stop rail
 			vel = {x=0, y=0, z=0}
 			acc = false
 			pos = vector.round(pos)
 			update.pos = true
 			update.vel = true
-			mod_found = true
 		end
 		if acc == nil then
 			-- Meta speed modifier
@@ -266,57 +307,46 @@ function cart_entity:on_step(dtime)
 				acc = railparam.acceleration
 			end
 		end
-		if acc == nil then
+		if acc ~= false then
 			-- Handbrake
 			if ctrl and ctrl.down then
-				acc = -2
-			else
+				acc = (acc or 0) - 2
+			elseif acc == nil then
 				acc = -0.4
 			end
 		end
 
-		-- Slow down or speed up, depending on Y direction
 		if acc then
-			acc = acc + dir.y * -2.5
+			-- Slow down or speed up, depending on Y direction
+			acc = acc + dir.y * -2.1
 		else
 			acc = 0
 		end
-
-		if self.old_dir.y ~= 1 and not self.punched then
-			-- Stop the cart swing between two rail parts (handbrake)
-			if vector.equals(vector.multiply(self.old_dir, -1), dir) then
-				vel = {x=0, y=0, z=0}
-				acc = 0
-				if self.old_pos then
-					pos = vector.new(self.old_pos)
-					update.pos = true
-				end
-				dir = vector.new(self.old_dir)
-				update.vel = true
-			end
-		end
-
-		new_acc = vector.multiply(dir, acc)
-	end
-	boost_cart.on_rail_step(self, vector.round(pos))
-
-	-- Limits
-	local max_vel = boost_cart.speed_max
-	for _,v in pairs({"x","y","z"}) do
-		if math.abs(vel[v]) > max_vel then
-			vel[v] = boost_cart:get_sign(vel[v]) * max_vel
-			new_acc[v] = 0
-			update.vel = true
-		end
 	end
 
-	self.object:setacceleration(new_acc)
-	self.old_pos = pos
-	if not vector.equals(dir, {x=0, y=0, z=0}) then
+	-- Limit cart speed
+	local vel_len = vector.length(vel)
+	if vel_len > boost_cart.speed_max then
+		vel = vector.multiply(vel, boost_cart.speed_max / vel_len)
+		update.vel = true
+	end
+	if vel_len >= boost_cart.speed_max and acc > 0 then
+		acc = 0
+	end
+
+	self.object:set_acceleration(vector.multiply(dir, acc))
+
+	self.old_pos = vector.round(pos)
+	local old_y_dir = self.old_dir.y
+	if not vector.equals(dir, {x=0, y=0, z=0}) and not stop_wiggle then
 		self.old_dir = dir
+	else
+		-- Cart stopped, set the animation to 0
+		self.old_dir.y = 0
 	end
 	self.old_switch = switch_keys
 
+	boost_cart:on_rail_step(self, self.old_pos, distance)
 
 	if self.punched then
 		-- Collect dropped items
@@ -337,16 +367,18 @@ function cart_entity:on_step(dtime)
 	if not (update.vel or update.pos) then
 		return
 	end
+	-- Re-use "dir", localize self.old_dir
+	dir = self.old_dir
 
 	local yaw = 0
-	if self.old_dir.x < 0 then
+	if dir.x < 0 then
 		yaw = 0.5
-	elseif self.old_dir.x > 0 then
+	elseif dir.x > 0 then
 		yaw = 1.5
-	elseif self.old_dir.z < 0 then
+	elseif dir.z < 0 then
 		yaw = 1
 	end
-	self.object:setyaw(yaw * math.pi)
+	self.object:set_yaw(yaw * math.pi)
 
 	local anim = {x=0, y=0}
 	if dir.y == -1 then
@@ -356,9 +388,36 @@ function cart_entity:on_step(dtime)
 	end
 	self.object:set_animation(anim, 1, 0)
 
-	self.object:setvelocity(vel)
+	-- Change player model rotation, depending on the Y direction
+	if player and dir.y ~= old_y_dir then
+		local feet = {x=0, y=0, z=0}
+		local eye = {x=0, y=-4, z=0}
+		feet.y = boost_cart.old_player_model and 6 or -4
+		if dir.y ~= 0 then
+			-- TODO: Find a better way to calculate this
+			if boost_cart.old_player_model then
+				feet.y = feet.y + 2
+				feet.z = -dir.y * 6
+			else
+				feet.y = feet.y + 4
+				feet.z = -dir.y * 2
+			end
+			eye.z = -dir.y * 8
+		end
+		player:set_attach(self.object, "", feet,
+			{x=dir.y * -30, y=0, z=0})
+		player:set_eye_offset(eye, eye)
+	end
+
+	if update.vel then
+		self.object:set_velocity(vel)
+	end
 	if update.pos then
-		self.object:setpos(pos)
+		if dir_changed then
+			self.object:set_pos(pos)
+		else
+			self.object:move_to(pos)
+		end
 	end
 end
 
@@ -386,7 +445,7 @@ if not boost_cart.mtg_compat then
 				return
 			end
 
-			if not minetest.setting_getbool("creative_mode") then
+			if not minetest.settings:get_bool("creative_mode") then
 				itemstack:take_item()
 			end
 			return itemstack

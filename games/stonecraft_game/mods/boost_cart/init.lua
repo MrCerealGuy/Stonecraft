@@ -10,21 +10,32 @@ if core.skip_mod("boost_cart") then return end
 boost_cart = {}
 boost_cart.modpath = minetest.get_modpath("boost_cart")
 
--- Maximal speed of the cart in m/s
-boost_cart.speed_max = 10
--- Set to -1 to disable punching the cart from inside
-boost_cart.punch_speed_max = 7
 
-
-if not boost_cart.modpath then
-	error("\nWrong mod directory name! Please change it to 'boost_cart'.\n" ..
-			"See also: http://dev.minetest.net/Installing_Mods")
+if not minetest.settings then
+	error("[boost_cart] Your Minetest version is no longer supported."
+		.. " (Version <= 0.4.15)")
 end
+
+local function getNum(setting)
+	return tonumber(minetest.settings:get(setting))
+end
+
+-- Maximal speed of the cart in m/s
+boost_cart.speed_max = getNum("boost_cart.speed_max") or 10
+-- Set to -1 to disable punching the cart from inside
+boost_cart.punch_speed_max = getNum("boost_cart.punch_speed_max") or 7
+-- Maximal distance for the path correction (for dtime peaks)
+boost_cart.path_distance_max = 3
+
 
 -- Support for non-default games
 if not default.player_attached then
 	default.player_attached = {}
 end
+
+minetest.after(0, function()
+	boost_cart.old_player_model = not minetest.global_exists("player_api")
+end)
 
 dofile(boost_cart.modpath.."/functions.lua")
 dofile(boost_cart.modpath.."/rails.lua")

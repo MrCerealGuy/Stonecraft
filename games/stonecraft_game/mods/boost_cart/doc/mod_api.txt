@@ -1,0 +1,71 @@
+boost_cart API
+==============
+
+This file provides information about the API of boost_cart for the use in
+mods. The API might change slightly when the development goes on, so avoid
+using internal tables or functions which are not documented here.
+
+
+Types
+-----
+
+* `SwitchIgnore` -> `number/nil`
+	* Specifies which player control was pressed. This value is used to prefer
+	  straight rails instead of preferring left and right rail checks.
+		* `1`: Ignore left rail
+		* `2`: Ignore right rail
+		* `nil`: Ignore no rail
+
+
+Entity movement
+---------------
+These functions are grouped so that they make sense and then sorted alphabetically.
+
+* `boost_cart:manage_attachment(player, obj)`
+	* Attaches or detaches the player to/from an object, depending on what is
+	  supplied to `obj`.
+	* `player`: `ObjectRef` of the player
+	* `obj`: `ObjectRef` (to attach) or `nil` (to detach)
+* `boost_cart:get_sign(n)` -> `number`
+	* Returns the sign for the given number. Values: `-1`, `0`, `1`
+	* `n`: any `number`
+* `boost_cart:velocity_to_dir(vel)` -> `vector`
+	* Returns the cart direction depending on `vel`. Each coordinate can have
+	  one of the `get_sign()` return values.
+	* `vel`: velocity as `vector`
+* `boost_cart:boost_rail(pos, amount)`
+	* Sets the rail acceleration for the given position to `amount` and punches
+	  carts which are at the given position.
+	* `pos`: `vector`, rail position
+	* `amount`: `number`, negative to brake, positive to boost
+* `boost_cart:get_rail_direction(pos, dir, ctrl, old_switch, railtype)`
+	-> `vector, SwitchIgnore`
+	* Returns the direction to where the next rail is, and which player control that
+	  should be ignored in the next call.
+	* `pos`: `vector`, position of the cart
+	* `dir`: `vector`, movement direction of the cart (see `velocity_to_dir()`)
+	* `ctrl`: Player controls table or `nil` (no player)
+	* `old_switch`: `SwitchIgnore`
+	* `railtype`: (optional) `number`, gets passed indirectly to `is_rail()`
+
+
+Rail helper functions
+---------------------
+* `boost_cart:get_rail_groups(groups)` -> `table`
+	* Returns a group table with preset values for a common rail node
+	* `groups`: (optional) `table`, additional groups append (or overwrite)
+	* Hint: To register an incompatible rail type, set the group
+	  `connect_to_raillike` to the value returned by
+	  `minetest.raillike_group(new_rail_type)`
+* `boost_cart:is_rail(pos, [railtype])` -> `boolean`
+	* Returns whether the node at `pos` is a rail. When `railtype` is specified,
+	  `true` is only returned when the node is in the same rail group.
+	* `pos`: `vector` of the node to check
+	* `railtype`: (optional) `number`, rail group number
+* `boost_cart:register_rail(name, def)`
+	* Registers a new rail with preset node definition defaults as fallback
+	* `name`: `string`, node name of the new rail
+	* `def`: Node definition table, containing at least the following keys:
+		* `description`
+		* `groups`
+		* `tiles`

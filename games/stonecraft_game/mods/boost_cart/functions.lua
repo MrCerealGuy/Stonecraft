@@ -18,24 +18,32 @@ function boost_cart:manage_attachment(player, obj)
 	default.player_attached[player_name] = status
 
 	if status then
-		player:set_attach(obj, "", {x=0, y=6, z=0}, {x=0, y=0, z=0})
+		local y_pos = self.old_player_model and 6 or -4
+		if player:get_properties().visual == "upright_sprite" then
+			y_pos = -4
+		end
+		player:set_attach(obj, "", {x=0, y=y_pos, z=0}, {x=0, y=0, z=0})
 		player:set_eye_offset({x=0, y=-4, z=0},{x=0, y=-4, z=0})
 	else
 		player:set_detach()
 		player:set_eye_offset({x=0, y=0, z=0},{x=0, y=0, z=0})
+		-- HACK in effect! Force updating the attachment rotation
+		player:set_properties({})
 	end
 end
 
 function boost_cart:velocity_to_dir(v)
 	if math.abs(v.x) > math.abs(v.z) then
-		return {x=boost_cart:get_sign(v.x), y=boost_cart:get_sign(v.y), z=0}
+		return {x=self:get_sign(v.x), y=self:get_sign(v.y), z=0}
 	else
-		return {x=0, y=boost_cart:get_sign(v.y), z=boost_cart:get_sign(v.z)}
+		return {x=0, y=self:get_sign(v.y), z=self:get_sign(v.z)}
 	end
 end
 
+local get_node = minetest.get_node
+local get_item_group = minetest.get_item_group
 function boost_cart:is_rail(pos, railtype)
-	local node = minetest.get_node(pos).name
+	local node = get_node(pos).name
 	if node == "ignore" then
 		local vm = minetest.get_voxel_manip()
 		local emin, emax = vm:read_from_map(pos, pos)
@@ -47,13 +55,13 @@ function boost_cart:is_rail(pos, railtype)
 		local vi = area:indexp(pos)
 		node = minetest.get_name_from_content_id(vm:get_data_from_heap(data, vi))
 	end
-	if minetest.get_item_group(node, "rail") == 0 then
+	if get_item_group(node, "rail") == 0 then
 		return false
 	end
 	if not railtype then
 		return true
 	end
-	return minetest.get_item_group(node, "connect_to_raillike") == railtype
+	return get_item_group(node, "connect_to_raillike") == railtype
 end
 
 function boost_cart:check_front_up_down(pos, dir_, check_up, railtype)
@@ -63,21 +71,21 @@ function boost_cart:check_front_up_down(pos, dir_, check_up, railtype)
 	-- Front
 	dir.y = 0
 	cur = vector.add(pos, dir)
-	if boost_cart:is_rail(cur, railtype) then
+	if self:is_rail(cur, railtype) then
 		return dir
 	end
 	-- Up
 	if check_up then
 		dir.y = 1
 		cur = vector.add(pos, dir)
-		if boost_cart:is_rail(cur, railtype) then
+		if self:is_rail(cur, railtype) then
 			return dir
 		end
 	end
 	-- Down
 	dir.y = -1
 	cur = vector.add(pos, dir)
-	if boost_cart:is_rail(cur, railtype) then
+	if self:is_rail(cur, railtype) then
 		return dir
 	end
 	return nil
@@ -99,6 +107,16 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 		right.z = -dir.x
 	end
 
+	local straight_priority = ctrl and dir.y ~= 0
+
+	-- Normal, to disallow rail switching up- & downhill
+	if straight_priority then
+		cur = self:check_front_up_down(pos, dir, true, railtype)
+		if cur then
+			return cur
+		end
+	end
+
 	if ctrl then
 		if old_switch == 1 then
 			left_check = false
@@ -106,14 +124,14 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 			right_check = false
 		end
 		if ctrl.left and left_check then
-			cur = boost_cart:check_front_up_down(pos, left, false, railtype)
+			cur = self:check_front_up_down(pos, left, false, railtype)
 			if cur then
 				return cur, 1
 			end
 			left_check = false
 		end
 		if ctrl.right and right_check then
-			cur = boost_cart:check_front_up_down(pos, right, false, railtype)
+			cur = self:check_front_up_down(pos, right, false, railtype)
 			if cur then
 				return cur, 2
 			end
@@ -122,14 +140,16 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 	end
 
 	-- Normal
-	cur = boost_cart:check_front_up_down(pos, dir, true, railtype)
-	if cur then
-		return cur
+	if not straight_priority then
+		cur = self:check_front_up_down(pos, dir, true, railtype)
+		if cur then
+			return cur
+		end
 	end
 
 	-- Left, if not already checked
 	if left_check then
-		cur = boost_cart:check_front_up_down(pos, left, false, railtype)
+		cur = self:check_front_up_down(pos, left, false, railtype)
 		if cur then
 			return cur
 		end
@@ -137,7 +157,7 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 
 	-- Right, if not already checked
 	if right_check then
-		cur = boost_cart:check_front_up_down(pos, right, false, railtype)
+		cur = self:check_front_up_down(pos, right, false, railtype)
 		if cur then
 			return cur
 		end
@@ -145,7 +165,7 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 
 	-- Backwards
 	if not old_switch then
-		cur = boost_cart:check_front_up_down(pos, {
+		cur = self:check_front_up_down(pos, {
 				x = -dir.x,
 				y = dir.y,
 				z = -dir.z
@@ -158,27 +178,37 @@ function boost_cart:get_rail_direction(pos_, dir, ctrl, old_switch, railtype)
 	return {x=0, y=0, z=0}
 end
 
-function boost_cart:pathfinder(pos_, old_pos, old_dir, ctrl, pf_switch, railtype)
+function boost_cart:pathfinder(pos_, old_pos, old_dir, distance, ctrl,
+		pf_switch, railtype)
+
 	local pos = vector.round(pos_)
+	if vector.equals(old_pos, pos) then
+		return
+	end
+
 	local pf_pos = vector.round(old_pos)
 	local pf_dir = vector.new(old_dir)
+	distance = math.min(boost_cart.path_distance_max,
+		math.floor(distance + 1))
 
-	for i = 1, 3 do
-		if vector.equals(pf_pos, pos) then
-			-- Success! Cart moved on correctly
-			return true
-		end
+	for i = 1, distance do
+		pf_dir, pf_switch = self:get_rail_direction(
+			pf_pos, pf_dir, ctrl, pf_switch or 0, railtype)
 
-		pf_dir, pf_switch = boost_cart:get_rail_direction(pf_pos, pf_dir, ctrl, pf_switch, railtype)
 		if vector.equals(pf_dir, {x=0, y=0, z=0}) then
 			-- No way forwards
-			return false
+			return pf_pos, pf_dir
 		end
 
 		pf_pos = vector.add(pf_pos, pf_dir)
+
+		if vector.equals(pf_pos, pos) then
+			-- Success! Cart moved on correctly
+			return
+		end
 	end
-	-- Cart not found
-	return false
+	-- Not found. Put cart to predicted position
+	return pf_pos, pf_dir
 end
 
 function boost_cart:boost_rail(pos, amount)
@@ -192,8 +222,11 @@ function boost_cart:boost_rail(pos, amount)
 	end
 end
 
-function boost_cart:register_rail(name, def)
-	local def_default = {
+function boost_cart:register_rail(name, def_overwrite)
+	local sound_func = default.node_sound_metal_defaults
+		or default.node_sound_defaults
+
+	local def = {
 		drawtype = "raillike",
 		paramtype = "light",
 		sunlight_propagates = true,
@@ -202,9 +235,10 @@ function boost_cart:register_rail(name, def)
 		selection_box = {
 			type = "fixed",
 			fixed = {-1/2, -1/2, -1/2, 1/2, -1/2+1/16, 1/2},
-		}
+		},
+		sounds = sound_func()
 	}
-	for k, v in pairs(def_default) do
+	for k, v in pairs(def_overwrite) do
 		def[k] = v
 	end
 	if not def.inventory_image then
@@ -217,7 +251,15 @@ end
 
 function boost_cart:get_rail_groups(additional_groups)
 	-- Get the default rail groups and add more when a table is given
-	local groups = {dig_immediate = 2, attached_node = 1, rail = 1, connect_to_raillike = 1}
+	local groups = {
+		dig_immediate = 2,
+		attached_node = 1,
+		rail = 1,
+		connect_to_raillike = 1
+	}
+	if minetest.raillike_group then
+		groups.connect_to_raillike = minetest.raillike_group("rail")
+	end
 	if type(additional_groups) == "table" then
 		for k, v in pairs(additional_groups) do
 			groups[k] = v
