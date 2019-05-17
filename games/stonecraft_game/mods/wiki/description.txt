@@ -1,0 +1,1 @@
+This mod provides a "Wiki" block. You can create and edit wiki pages with it.
