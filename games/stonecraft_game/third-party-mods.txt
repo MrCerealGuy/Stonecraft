@@ -53,7 +53,7 @@ subterrane					https://github.com/minetest-mods/subterrane.git
 sumpf						https://github.com/HybridDog/sumpf.git
 technic						https://github.com/minetest-mods/technic.git
 teleporter					https://bitbucket.org/kingarthursteam/teleporter
-torches						https://github.com/BlockMen/torches
+torches						https://github.com/minetest-mods/torches
 treasurer					https://forum.minetest.net/viewtopic.php?id=7292
 trm_default					https://forum.minetest.net/viewtopic.php?pid=113052
 trm_farming					https://forum.minetest.net/viewtopic.php?pid=113052
