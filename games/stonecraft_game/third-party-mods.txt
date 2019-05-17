@@ -7,6 +7,7 @@ basic_materials				https://gitlab.com/VanessaE/basic_materials.git
 bedrock						https://github.com/Calinou/bedrock.git
 biome_lib					https://gitlab.com/VanessaE/biome_lib.git
 bonemeal					https://notabug.org/TenPlus1/bonemeal.git
+boost_cart					https://github.com/SmallJoker/boost_cart
 caverealms					https://github.com/FaceDeer/minetest-caverealms.git
 cme							https://github.com/BlockMen/cme.git
 cottages					https://github.com/Sokomine/cottages.git
@@ -19,7 +20,6 @@ erosion						https://github.com/Chiu-ChunLing/Minetest-erosion.git
 ethereal					https://notabug.org/TenPlus1/ethereal.git
 farming						https://notabug.org/TenPlus1/Farming.git
 fence_registration			https://github.com/HybridDog/fence_registration.git
-forest						https://github.com/Gael-de-Sailly/Forest.git
 habitat						https://github.com/bas080/habitat.git
 hud							https://github.com/BlockMen/hud.git
 hunger						https://github.com/BlockMen/hunger.git
@@ -35,6 +35,7 @@ mobs_monster				https://notabug.org/TenPlus1/mobs_monster.git
 mobs_npc					https://notabug.org/TenPlus1/mobs_npc.git
 mobs_redo					https://notabug.org/TenPlus1/mobs_redo.git
 moreblocks					https://github.com/minetest-mods/moreblocks.git
+moreores					https://github.com/minetest-mods/moreores
 moresnow					https://github.com/Sokomine/moresnow.git
 moretrees					https://gitlab.com/VanessaE/moretrees.git
 nether						https://github.com/PilzAdam/nether.git
@@ -43,6 +44,7 @@ nssm						https://notabug.org/TenPlus1/nssm.git
 pipeworks					https://gitlab.com/VanessaE/pipeworks.git
 plantlife_modpack			https://gitlab.com/VanessaE/plantlife_modpack.git
 pyramids					https://github.com/BlockMen/pyramids.git
+redtrees					https://forum.minetest.net/viewtopic.php?f=11&t=13102
 riesenpilz					https://github.com/HybridDog/riesenpilz.git
 sea							https://bitbucket.org/minetest_gamers/minetest-mod-sea.git
 snow						https://github.com/Splizard/minetest-mod-snow.git
@@ -51,9 +53,18 @@ subterrane					https://github.com/minetest-mods/subterrane.git
 sumpf						https://github.com/HybridDog/sumpf.git
 technic						https://github.com/minetest-mods/technic.git
 teleporter					https://bitbucket.org/kingarthursteam/teleporter
+torches						https://github.com/BlockMen/torches
+treasurer					https://forum.minetest.net/viewtopic.php?id=7292
+trm_default					https://forum.minetest.net/viewtopic.php?pid=113052
+trm_farming					https://forum.minetest.net/viewtopic.php?pid=113052
+trm_screwdriver				https://forum.minetest.net/viewtopic.php?pid=113052
+trm_tnt						https://forum.minetest.net/viewtopic.php?pid=113052
+trm_vessels					https://forum.minetest.net/viewtopic.php?pid=113052
 tsm_railcorridors			https://repo.or.cz/RailCorridors/tsm_railcorridors.git
+tsm_surprise				https://repo.or.cz/minetest_tsm_surprise.git
 unifieddyes					https://gitlab.com/VanessaE/unifieddyes.git
 unified_inventory			https://github.com/minetest-mods/unified_inventory.git
 vector_extras				https://github.com/HybridDog/vector_extras.git
+wiki						https://github.com/minetest-mods/wiki.git
 WorldEdit					https://github.com/Uberi/Minetest-WorldEdit.git
 xconnected					https://github.com/Sokomine/xconnected.git
