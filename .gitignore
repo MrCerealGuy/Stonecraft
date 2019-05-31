@@ -100,6 +100,7 @@ cmake_config.h
 cmake_config_githash.h
 CMakeDoxy*
 compile_commands.json
+*.tar.gz
 
 ## Android build files
 build/android/src/main/assets
