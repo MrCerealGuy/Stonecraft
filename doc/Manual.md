@@ -1,10 +1,10 @@
 % Stonecraft Wiki
 % Andreas Zahnleiter
-% September 2, 2018
+% May 31, 2019
 
 # Welcome to Stonecraft
 
-Copyright © 2016-2018 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
+Copyright © 2016-2019 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
 
 Stonecraft is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine. It will be kept lightweight enough to run on fairly old hardware.
 
@@ -179,8 +179,6 @@ Stonecraft is open-source and free, released under the GNU General Public Licens
 	2. [Installing texture packs](#installing-texture-packs)
 		1. [Server texture pack](#server-texture-pack)
 	3. [Profiling mods](#profiling-mods)
-12. [Troubleshooting](#troubleshooting)
-	1. [Multiplayer/Network issues](#multiplayernetwork-issues)
 
 # First steps
 
@@ -3198,14 +3196,6 @@ Here you see the usage of the profiler command:
 ```
 
 Available save formats: txt, csv, lua, json, json_pretty
-
-# Troubleshooting
-
-## Multiplayer/Network issues
-
-Q: There are some online servers that can only run protocol 24 - 32.
-
-A: Please download stonecraft-1.2.4a-XXXX-old-net-proto.zip from https://mrcerealguy.itch.io/stonecraft and extract the binary in _&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/_ folder. Start stonecraft-1.2.4a[.exe] and connect to your desired server.
 
 [![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png)](http://creativecommons.org/licenses/by-nc-sa/4.0/)  
 This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-nc-sa/4.0/).
