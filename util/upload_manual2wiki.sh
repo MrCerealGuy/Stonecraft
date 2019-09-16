@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-# Upload doc/Manual.md and doc/wiki-images to my Stonecraft Wiki repository
+# Upload doc/github-wiki to my Stonecraft Wiki repository
 # https://github.com/MrCerealGuy/Stonecraft/wiki
 #
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
@@ -13,20 +13,20 @@ else
 	cd stonecraft-wiki
 fi
 
-# copy Manual.md
-cp ../../doc/Manual.md ./Home.md
+# copy markdown files
+cp ../../doc/github-wiki/*.md ./
 
 # copy images
-rsync -r --info=progress2 ../../doc/wiki-images/* ./images/
+rsync -r --info=progress2 ../../doc/github-wiki/images/* ./images/
 
 # adjust image url paths
-sed -i 's/\/doc\/wiki-images/\/images/g' ./Home.md
+sed -i 's/\/doc\/github-wiki\/images/\/images/g' ./Home.md
 sed -i 's/!\[](/\[\[/g' ./Home.md
 sed -i 's/\.png)/\.png]]/g' ./Home.md
 sed -i 's/\.jpg)/\.jpg]]/g' ./Home.md
 
 # upload wiki content
-git add -f Home.md
+git add -f *.md
 git add -f images/
 
 # make commit and upload files to wiki repo
