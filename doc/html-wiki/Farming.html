@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<ol style="list-style-type: decimal">
+<li><a href="#farming">Farming</a>
+<ol style="list-style-type: decimal">
+<li><a href="#saplings">Saplings</a></li>
+<li><a href="#plants-food-and-utensils">Plants, Food and Utensils</a></li>
+</ol></li>
+</ol>
+<h1 id="farming">Farming</h1>
+<p>Farmable blocks will spawn either new blocks or yield new items, when mined. All farmable blocks have to be on top of another certain kind of block to grow. Some farmable blocks also need light. The “Maximum profit” column shows the maximum possible outcome a single block will yield, including itself. Please notice: Light level 13 on a farmable crop cannot be achieved at night!</p>
+<div class="figure">
+<img src="../github-wiki/images/Farming_redo.jpg" />
+
+</div>
+<h2 id="saplings">Saplings</h2>
+<p>Saplings are a group of blocks which grow into trees. They are dropped by leaf-type blocks with a chance of 1 in 20 for each leaf block. The sapling drop “replaces” the leaf block drop—you do not get the leaf block if you get a sapling.</p>
+<p>All saplings can be can be placed on any block.</p>
+<p><strong>Growth</strong></p>
+<p>Saplings will, provided they are under sunlight and are on placed on any dirt or another block that supports growth, will grow into trees after a while. They instantly go from sapling to full tree, there are no intermediate growth stages.</p>
+<p>Specifically, all saplings only grow on the following blocks:</p>
+<ul>
+<li>Dirt</li>
+<li>Dirt with Grass</li>
+<li>Dirt with Grass and Footsteps</li>
+<li>Dirt with Rainforest Litter</li>
+<li>Dirt with Dry Grass</li>
+<li>Soil</li>
+<li>Wet Soil</li>
+<li>Desert Sand (!)</li>
+<li>Desert Sand Soil</li>
+<li>Wet Desert Sand Soil</li>
+</ul>
+<p><strong>Types</strong></p>
+<p>There are different saplings, each sapling grows into a different tree.</p>
+<table style="width:97%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Block</th>
+<th align="left">Grows on</th>
+<th align="left">Needs light?</th>
+<th align="left">Drops</th>
+<th align="left">Stages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/32px-Sapling.png" /> Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Tree.png" /> Trees, <img src="../github-wiki/images/32px-Leaves.png" /> Leaves and <img src="../github-wiki/images/32px-Apple.png" /> Apples</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/32px-Jungle_Sapling.png" /> Jungle Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Jungle_Tree.png" /> Jungle Trees and <img src="../github-wiki/images/32px-Jungle_Leaves.png" /> Jungle Leaves</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/32px-Acacia_Tree_Sapling.png" /> Acacia Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Acacia_Tree.png" /> Acacia Trees and <img src="../github-wiki/images/32px-Acacia_Leaves.png" /> Acacia Leaves</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/32px-Pine_Sapling.png" /> Pine Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Pine_Tree.png" /> Pine Trees and <img src="../github-wiki/images/32px-Pine_Needles.png" /> Pine Needles</td>
+<td align="left">2</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/32px-Aspen_Tree_Sapling.png" /> Aspen Sapling</td>
+<td align="left">Dirt, Dirt with Grass, Dirt with Grass and Footsteps, Dirt with Dry Grass, Dirt with Snow, Soil, Wet Soil, Desert Sand Soil, Wet Desert Sand Soil</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Aspen_Tree.png" /> Aspen Trees and <img src="../github-wiki/images/32px-Aspen_Leaves.png" /> Aspen Leaves</td>
+<td align="left">2</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/32px-Cactus.png" /> Cactus</td>
+<td align="left">Any kind of sand</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Cactus.png" /> Cacti</td>
+<td align="left">4</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/32px-Papyrus.png" /> Papyrus</td>
+<td align="left">Dirt, Dirt with Grass. (Water must be to 3 blocks away)</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Papyrus.png" /> Papyri</td>
+<td align="left">4</td>
+</tr>
+<tr class="even">
+<td align="left">Group:flora</td>
+<td align="left">Dirt with Grass</td>
+<td align="left">Yes, 13 or higher</td>
+<td align="left">Flora blocks of the same kind</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">Group:flora</td>
+<td align="left">Desert Sand</td>
+<td align="left">No</td>
+<td align="left"><img src="../github-wiki/images/32px-Dry_Shrub.png" /> Dry Shrub</td>
+<td align="left">1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="plants-food-and-utensils">Plants, Food and Utensils</h2>
+<p><strong>Plants and their Products</strong></p>
+<ul>
+<li>Barley; Barley Seed</li>
+<li>Green Beans; Bean Pole (place on soil before planting beans)</li>
+<li>Beetroot; Beetroot Soup</li>
+<li>Blueberries; Blueberry Muffin, Blueberry Pie</li>
+<li>Carrot; Golden Carrot</li>
+<li>Chili; Chili Pepper, Bowl of Chili</li>
+<li>Cocoa; Cocoa Beans, Cookie, Bar of Dark Chocolate</li>
+<li>Coffee; Coffee Beans, Drinking Cup (empty), Cold Cup of Coffee, Hot Cup of Coffee</li>
+<li>Corn; Corn on the Cob, Bottle of Ethanol</li>
+<li>Cotton; Cotton Seed</li>
+<li>Cucumber</li>
+<li>Donut; Chocolate Donut, Apple Donut</li>
+<li>Garlic; Garlic clove, Garlic Braid</li>
+<li>Grapes; Trellis (place on soil before planting grapes)</li>
+<li>Hemp; Hemp Seed, Hemp Leaf, Bottle of Hemp Oil, Hemp Fibre, Hemp Rope</li>
+<li>Melon; Melon Slice</li>
+<li>Onion</li>
+<li>Peas; Pea Pod, Pea Soup</li>
+<li>Pepper; Peppercorn, Ground Pepper</li>
+<li>Pinapple; Pineapple Top, Pineapple Ring, Pineapple Juice</li>
+<li>Potato; Baked Potato, Potato Salad</li>
+<li>Pumpkin; Pumpkin Slice, Jack 'O Lantern, Pumpkin Bread, Pumpkin Dough</li>
+<li>Raspberries; Raspberry Smoothie</li>
+<li>Rhubarb, Rhubarb Pie</li>
+<li>Sugar (from Papyrus), Salt (from cooking water)</li>
+<li>Tomato</li>
+<li>Wheat; Wheat Seed, Straw, Flour, Bread</li>
+</ul>
+<p><strong>Utensils</strong></p>
+<ul>
+<li>Wooden Bowl</li>
+<li>Sauce Pan</li>
+<li>Cooking Pot</li>
+<li>Backing Tray</li>
+<li>Skillet</li>
+<li>Mortar and Pestle</li>
+<li>Cutting Board</li>
+<li>Juicer</li>
+<li>Glass mixing Bowl</li>
+</ul>
+<p><strong>Other</strong></p>
+<ul>
+<li>overides to Soil, Wet Soil, Grass</li>
+<li>Hoes; Wooden Hoe, Stone Hoe, Steel Hoe, Bronze Hoe, Mese Hoe, Diamond Hoe</li>
+<li>Seed</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Plant</th>
+<th align="left">Name</th>
+<th align="left">Stages</th>
+<th align="left">Item</th>
+<th align="left">Itemstring</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_barley_7_(farming_redo).png" /></td>
+<td align="left">Barley</td>
+<td align="left">7</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_barley.png" /></td>
+<td align="left">farming:barley</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_beanpole_5_(farming_redo).png" /></td>
+<td align="left">Beans (green)</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_beans_(farming_redo).png" /></td>
+<td align="left">farming:beans</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_beetroot_5_(farming_redo).png" /></td>
+<td align="left">Beetroot</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_beetroot_(farming_redo).png" /></td>
+<td align="left">farming:beetroot</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_blueberry_4_(farming_redo).png" /></td>
+<td align="left">Blueberries</td>
+<td align="left">4</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_blueberries_(farming_redo).png" /></td>
+<td align="left">farming:blueberry</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_carrot_8_(farming_redo).png" /></td>
+<td align="left">Carrot</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_carrot_(farming_redo).png" /></td>
+<td align="left">farming:carrot</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_chili_8_(farming_redo).png" /></td>
+<td align="left">Chili</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_chili_pepper_(farming_redo).png" /></td>
+<td align="left">farming:chili</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_cocoa_4_(farming_redo).png" /></td>
+<td align="left">Cocoa</td>
+<td align="left">4</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_cocoa_beans_(farming_redo).png" /></td>
+<td align="left">farming:cocoa</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_coffee_5_(farming_redo).png" /></td>
+<td align="left">Coffee</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_coffee_beans_(farming_redo).png" /></td>
+<td align="left">farming:coffee</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_corn_8_(farming_redo).png" /></td>
+<td align="left">Corn</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_corn_(farming_redo).png" /></td>
+<td align="left">farming:corn</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_cotton_8_(farming_redo).png" /></td>
+<td align="left">Cotton</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_cotton_(farming_redo).png" /></td>
+<td align="left">farming:cotton</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_cucumber_4_(farming_redo).png" /></td>
+<td align="left">Cucumber</td>
+<td align="left">4</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_cucumber_(farming_redo)r.png" /></td>
+<td align="left">farming:cucumber</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Crops_garlic_plant_5_(farming_redo).png" /></td>
+<td align="left">Garlic</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Crops_garlic_(farming_redo).png" /></td>
+<td align="left">farming:garlic</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_grapes_8_(farming_redo).png" /></td>
+<td align="left">Grapes</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_grapes_(farming_redo).png" /></td>
+<td align="left">farming:grapes</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_hemp_8_(farming_redo).png" /></td>
+<td align="left">Hemp</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_hemp_leaf_(farming_redo).png" /></td>
+<td align="left">farming:hemp</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_melon_top_(farming_redo).png" /></td>
+<td align="left">Melon</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_melon_slice_(farming_redo).png" /></td>
+<td align="left">farming:melon</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Crops_onion_plant_5_(farming_redo).png" /></td>
+<td align="left">Onion</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Crops_onion_(farming_redo).png" /></td>
+<td align="left">farming:onion</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Crops_pepper_plant_5_(farming_redo).png" /></td>
+<td align="left">Pepper</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Crops_pepper_(farming_redo).png" /></td>
+<td align="left">farming:pepper</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_pineapple_8_(farming_redo).png" /></td>
+<td align="left">Pineapple</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_pineapple_(farming_redo).png" /></td>
+<td align="left">farming:pineapple</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_potato_4_(farming_redo).png" /></td>
+<td align="left">Potato</td>
+<td align="left">4</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_potato_(farming_redo).png" /></td>
+<td align="left">farming:potato</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_pea_5_(farming_redo).png" /></td>
+<td align="left">Peas</td>
+<td align="left">5</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_pea_peas_(farming_redo).png" /></td>
+<td align="left">farming:peas</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_pumpkin_8_(farming_redo).png" /></td>
+<td align="left">Pumpkin</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_pumpkin_top_(farming_redo).png" /></td>
+<td align="left">farming:pumpkin</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_raspberry_4_(farming_redo).png" /></td>
+<td align="left">Raspberries</td>
+<td align="left">4</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_raspberries_(farming_redo).png" /></td>
+<td align="left">farming:raspberry</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_rhubarb_3_(farming_redo).png" /></td>
+<td align="left">Rhubarb</td>
+<td align="left">3</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_rhubarb_(farming_redo).png" /></td>
+<td align="left">farming:rhubarb</td>
+</tr>
+<tr class="even">
+<td align="left"><img src="../github-wiki/images/40px-Farming_tomato_(farming_redo).png" /></td>
+<td align="left">Tomato</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_tomato_8_(farming_redo).png" /></td>
+<td align="left">farming:tomato</td>
+</tr>
+<tr class="odd">
+<td align="left"><img src="../github-wiki/images/40px-Farming_wheat_8_(farming_redo).png" /></td>
+<td align="left">Wheat</td>
+<td align="left">8</td>
+<td align="left"><img src="../github-wiki/images/40px-Farming_wheat_(farming_redo).png" /></td>
+<td align="left">farming:wheat</td>
+</tr>
+</tbody>
+</table>
+</body>
+</html>

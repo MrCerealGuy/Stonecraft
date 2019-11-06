@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+  </style>
+</head>
+<body>
+<ol style="list-style-type: decimal">
+<li><a href="#pipeworks">Pipeworks</a>
+<ol style="list-style-type: decimal">
+<li><a href="#description">Description</a></li>
+<li><a href="#fluid-transport">Fluid Transport</a>
+<ol style="list-style-type: decimal">
+<li><a href="#pipes">Pipes</a></li>
+<li><a href="#straight-only-pipes">Straight-only pipes</a></li>
+<li><a href="#spigots">Spigots</a></li>
+<li><a href="#pumps">Pumps</a></li>
+<li><a href="#valves">Valves</a></li>
+<li><a href="#storage-tanks">Storage Tanks</a></li>
+<li><a href="#gratings">Gratings</a></li>
+<li><a href="#sealedairtight-pipe-entries">Sealed/Airtight Pipe Entries</a></li>
+<li><a href="#flow-sensors">Flow Sensors</a></li>
+</ol></li>
+<li><a href="#item-transport">Item Transport</a>
+<ol style="list-style-type: decimal">
+<li><a href="#base-materialsitems">Base materials/items</a></li>
+<li><a href="#tubes">Tubes</a></li>
+<li><a href="#chests">Chests</a></li>
+<li><a href="#furnaces">Furnaces</a></li>
+<li><a href="#filtersinjectors">Filters/Injectors</a></li>
+<li><a href="#mese-filtersinjectors">Mese Filters/Injectors</a></li>
+<li><a href="#mese-sorting-tubes">Mese Sorting Tubes</a></li>
+<li><a href="#detector-tubes">Detector Tubes</a></li>
+<li><a href="#lua-controlled-tubes">Lua controlled Tubes</a></li>
+<li><a href="#accelerator-tubes">Accelerator Tubes</a></li>
+<li><a href="#teleporter-tubes">Teleporter Tubes</a></li>
+<li><a href="#autocrafters">Autocrafters</a></li>
+<li><a href="#deployers">Deployers</a></li>
+<li><a href="#node-breakers">Node Breakers</a></li>
+<li><a href="#sand-vacuum-tubes">Sand Vacuum Tubes</a></li>
+<li><a href="#mese-sand-vacuum-tubes">Mese Sand Vacuum Tubes</a></li>
+</ol></li>
+</ol></li>
+</ol>
+<h1 id="pipeworks">Pipeworks</h1>
+<h2 id="description">Description</h2>
+<p>Pipeworks is used for crafting and usage of pipes and tubes. In addition to providing pipes for transporting liquids and tubes for transporting items, it also contains a number of devices for working with them. Here's what it looks like:</p>
+<div class="figure">
+<img src="../github-wiki/images/Pipeworks.png" />
+
+</div>
+<p>Mesecons is recommended as well for the best possible experience.</p>
+<p>Crafting recipes noted here apply only for plain Pipeworks. If Technic is installed (yes it is in Stonecraft), Pipeworks items use alternate recipes. See the Technic documentation for more details.</p>
+<h3 id="fluid-transport">Fluid transport</h3>
+<div class="figure">
+<img src="../github-wiki/images/FluidTransport.png" />
+
+</div>
+<h4 id="pipes">Pipes</h4>
+<p>Pipes are round, flanged devices that can transport liquids around - by default, only water. They automatically connect to other pipes and devices that are pipe-compatible, such as valves, flow sensors, pumps and spigots.</p>
+<p>Pipes transport liquids at a speed of one meter (node) per second - a run of 30 pipes will take 30 seconds to transport liquid from one end to another.</p>
+<p>Digging a pipe carrying liquid drops the empty pipe - the liquid inside is lost.</p>
+<p>Pipes &quot;light up&quot; when they contain liquid.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftPipe.png" />
+
+</div>
+<h4 id="straight-only-pipes">Straight-only pipes</h4>
+<div class="figure">
+<img src="../github-wiki/images/StraightPipes.png" />
+
+</div>
+<p>In some cases, you may need to run several pipes in parallel, in a confined space. If you tried to use normal pipes for this purpose, they'd just all connect to one another, which you likely didn't want. To deal with this, use straight-only pipes. Aside from only connecting at their ends, their main distinguishing mark is the gray line running the length of the pipe (i.e. a &quot;straight&quot; line).</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftStraightPipe.png" />
+
+</div>
+<h4 id="spigots">Spigots</h4>
+<p>Spigots output the liquid input via pipe into the world.</p>
+<p>Spigots only connect from one side.</p>
+<p>Connecting a spigot to a pipe carrying water makes water flow out of the bottom of the spigot.</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftSpigot.png" />
+
+</div>
+<h4 id="pumps">Pumps</h4>
+<p>Pumps can be placed inside or over a water source. They are toggled on and off with a right-click, or you can directly control them via Mesecons.</p>
+<p>Pumps can be connected to pipes from above. Pipes do not connect to pumps from the side or bottom.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftPump.png" />
+
+</div>
+<h4 id="valves">Valves</h4>
+<p>Valves control fluid flow. When active, valves allow liquids to flow through them. Otherwise, liquids cannot flow through them. They are toggled on and off with a right-click, or can be directly controlled using Mesecons.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftValve.png" />
+
+</div>
+<h4 id="storage-tanks">Storage Tanks</h4>
+<p>Note: currently not working (does not store any liquid). Storage tanks store liquid in a compact way. Placing multiple storage tanks on top of each other forms one large tank with the same capacity as all the single tanks added together.</p>
+<p>Storage tanks can be connected to pipes from above or below. Pipes do not connect to storage tanks from the side.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftStorageTank.png" />
+
+</div>
+<h4 id="gratings">Gratings</h4>
+<p>Gratings are decorative items that appear similar to fine metal grids used as barriers.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftGrating.png" />
+
+</div>
+<h4 id="sealedairtight-pipe-entries">Sealed/Airtight Pipe Entries</h4>
+<p>Sealed/airtight pipe entries act as pipes do, except they fill a full block and therefore are generally used for aesthetic purposes, such as running piping through walls.</p>
+<p>Sealed/airtight pipe entries can be connected to pipes from the sides, the top, or the bottom.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftPipeEntry.png" />
+
+</div>
+<h4 id="flow-sensors">Flow Sensors</h4>
+<p>Flow sensors output a Mesecons signal when liquid is present in it, and otherwise does not. They can be used to determine when liquid has reached a particular point.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftFlowSensor.png" />
+
+</div>
+<h3 id="item-transport">Item Transport</h3>
+<div class="figure">
+<img src="../github-wiki/images/ItemTransport.png" />
+
+</div>
+<h4 id="base-materialsitems">Base materials/items</h4>
+<p>The various tubes seen below are made from plastic sheeting, which is a three-step process to make and is an essential part of pipeworks. First, craft some leaves (anything in the &quot;leaves&quot; group) to get oil:</p>
+<div class="figure">
+<img src="../github-wiki/images/craft-oil.png" />
+
+</div>
+<p>Then cook that into paraffin:</p>
+<div class="figure">
+<img src="../github-wiki/images/oil-to-paraffin.png" />
+
+</div>
+<p>Finally, cook the paraffin into plastic:</p>
+<div class="figure">
+<img src="../github-wiki/images/paraffin-to-plastic.png" />
+
+</div>
+<p>A couple of objects in pipeworks require one or more gears. Craft those with steel ingots and stone, like so:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftGear.png" />
+
+</div>
+<h4 id="tubes">Tubes</h4>
+<p>Tubes are boxy, transparent devices that can transport items around. They can automatically connect to other tubes and devices that are tube-compatible, such as chests and injectors. Certain devices may connect to tubes only from certain sides.</p>
+<p>Breaking a tube carrying items simply drops the items onto the ground.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftTube.png" />
+
+</div>
+<h4 id="chests">Chests</h4>
+<p>Ordinary chests found in the default game connect to tubes from every side except the front.</p>
+<p>Items can be added to chests using tube-related devices, or removed from them using filters/injectors.</p>
+<p>Attempting to add items to a full chest results in the item being dropped onto the ground.</p>
+<p>Locked Chests</p>
+<p>Locked chests from the default game connect to tubes and recieve items as ordinary chests do, but items cannot be removed from locked chests with filters/injectors.</p>
+<h4 id="furnaces">Furnaces</h4>
+<p>Ordinary furnaces found in the default game connect to tubes from every side except the front.</p>
+<div class="figure">
+<img src="../github-wiki/images/Furnaces.png" />
+
+</div>
+<p>Fuel items can be added to furnaces from the bottom, and items to be smelted can be added from the back. Smelted items can be removed from them using filters/injectors.</p>
+<p>Attempting to add items to a full furnace results in the item being dropped onto the ground.</p>
+<h4 id="filtersinjectors">Filters/Injectors</h4>
+<p>Filters/injectors take items from the node behind them and sends them out in front. They only connect to tubes from the front.</p>
+<p>Filters/injectors act only when punched, or when activated via a Mesecons signal.</p>
+<p>Right clicking a filter/injector brings up an inventory. If items are added to the inventory, only items matching them will be taken from the node behind it when activated. Items that match the first slot on the filter/injector's inventory are always chosen before items in the second slot, which are always chosen before the third slot, etc.</p>
+<p>Filters/injectors cannot be dug if they contain any items in their inventory.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftFilter.png" />
+
+</div>
+<h4 id="mese-filtersinjectors">Mese Filters/Injectors</h4>
+<p>Mese filters/injectors take entire stacks of items from the node behind them and sends them out in front all at once.</p>
+<p>Mese filters/injectors act only when punched, or when activated via a Mesecons signal.</p>
+<p>Right clicking a mese filter/injector brings up an inventory. If items are added to the inventory, only stacks of items matching them will be taken from the node behind it when activated. Stacks of items that match the first slot on the mese filter/injector's inventory are always chosen before stacks of items in the second slot, which are always chosen before the third slot, etc.</p>
+<p>Mese filters/injectors cannot be dug if they contain any items in their inventory.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftMeseFilter.png" />
+
+</div>
+<h4 id="mese-sorting-tubes">Mese Sorting Tubes</h4>
+<p>Mese sorting tubes are special tubes that can be used to sort items or force them to move in a certain direction at junctions.</p>
+<div class="figure">
+<img src="../github-wiki/images/SortingTube.png" />
+
+</div>
+<p>When placed, each direction the tube has a connection to has a distinct color.</p>
+<p>Right clicking the tube brings up a form similar to the following:</p>
+<div class="figure">
+<img src="../github-wiki/images/MeseSortingTubeForm.png" />
+
+</div>
+<p>Each row is associated with the color on the left side.</p>
+<p>The far right contains an on/off switch for each row.</p>
+<p>When &quot;on&quot;, only items that match those in the row associated with the color are allowed to move in that direction. If there are no items in the row, all items are allowed.</p>
+<p>When &quot;off&quot;, no items will exit through that direction.</p>
+<p>If the tube needs to route items directly into a node with an inventory (such as a chest) and that inventory is full, the sorting tube will try one of its other &quot;on&quot; (e.g. enabled) outputs, at that point routing the item as if the sorting tube were just a normal, ordinary tube. Note that the direction the item cam from may be the first option the item takes. If that happens, turn that direction &quot;off&quot;. If all connected and otherwise-suitable outputs are &quot;off&quot; and the tube can't route the item, it pops out onto the ground.</p>
+<p>When you place an item in these slots, you're placing ghosts only. That is, only a copy of your item is placed and your inventory remains unchanged. When you remove an item from these slots, it's simply deleted.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftMeseTube1.png" />
+
+</div>
+<p>Or alternatively:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftMeseTube2.png" />
+
+</div>
+<h4 id="detector-tubes">Detector Tubes</h4>
+<p>Detector tubes are special tubes that output a Mesecons signal when an item passes through them.</p>
+<div class="figure">
+<img src="../github-wiki/images/DetectorTube.png" />
+
+</div>
+<p>The tubes turn off again when the item leaves.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftDetectorTube.png" />
+
+</div>
+<h4 id="lua-controlled-tubes">Lua controlled Tubes</h4>
+<p>The lua controlled tube can be programmed like a lua controller.<br />
+But instead of A, B, C and D, it has the ports blue, red, yellow, green, black and white.<br />
+Also there's an additional event that is called when an item comes through the tube. Return in this event the port, the item shall exit (eg. <code>return &quot;blue&quot;</code>). If a wrong value or nothing is returned, the item will go back to where it came from. The <code>event</code> table looks like this:</p>
+<div class="sourceCode"><pre class="sourceCode lua"><code class="sourceCode lua"><span class="ot">{</span>
+    <span class="fu">type</span> <span class="ot">=</span> <span class="st">&quot;item&quot;</span><span class="ot">,</span>
+    pin <span class="ot">=</span> <span class="ot">{</span>name <span class="ot">=</span> <span class="ot">&lt;</span>src dir<span class="ot">&gt;},</span>
+    itemstring <span class="ot">=</span> <span class="ot">&lt;</span>itemstring<span class="ot">&gt;,</span>
+    item <span class="ot">=</span> <span class="ot">&lt;</span>itemstack made to table<span class="ot">&gt;,</span>
+    velocity <span class="ot">=</span> <span class="ot">&lt;</span>velocity of the tubed item<span class="ot">&gt;,</span>
+<span class="ot">}</span></code></pre></div>
+<p>You can craft lua controlled tubes with a luacontroller and a sorting tube.</p>
+<h4 id="accelerator-tubes">Accelerator Tubes</h4>
+<p>Accelerator tubes are special tubes that transport items significantly faster than normal tubes. They appear similar to normal tubes, except with a greenish-blue tint.</p>
+<div class="figure">
+<img src="../github-wiki/images/AcceleratorTube.png" />
+
+</div>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftAcceleratorTube.png" />
+
+</div>
+<h4 id="teleporter-tubes">Teleporter Tubes</h4>
+<p>Teleporter tubes are special tubes that move items to other teleporter tubes, regardless of the distance separating them.</p>
+<div class="figure">
+<img src="../github-wiki/images/TeleporterTube.png" />
+
+</div>
+<p>Putting items into the tube via tube-related devices causes them to be teleported.</p>
+<p>Right clicking a teleporter tube brings up a form allowing entry of a channel string, similar to the following:</p>
+<div class="figure">
+<img src="../github-wiki/images/TeleporterTubeForm.png" />
+
+</div>
+<p>Only teleporter tubes that have the same channel will be linked together and allow items to pass through.</p>
+<p>The switch on the right enables or disables the tube's receiving capability. When &quot;on&quot;, the tube can receive items. Otherwise, items can only be teleported out of the tube, but not into it.</p>
+<p>Teleporter tubes with channel names beginning with the name of a player, followed by a colon, are settable only by the specified player. This is useful for making private teleporter tube channels.</p>
+<p>Teleporter tubes with channel names beginning with the name of a player, followed by a semicolon, are usable only by the specified player, or by other players if the tube is not &quot;On&quot; (unable to receive items). This allows for mail-like systems where items can be sent into private dropboxes, but can't be taken out except by the recipient.</p>
+<p>If an item enters a teleporter tube, and there are multiple possible teleporter tubes that it can go to, a target is chosen at random from the possibilities.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftTeleporterTube.png" />
+
+</div>
+<h4 id="autocrafters">Autocrafters</h4>
+<p>Autocrafters are devices that can automatically follow craft recipes to make new items.</p>
+<div class="figure">
+<img src="../github-wiki/images/Autocrafter.png" />
+
+</div>
+<p>Right clicking an autocrafter brings up a form similar to the following:</p>
+<div class="figure">
+<img src="../github-wiki/images/AutocrafterForm.png" />
+
+</div>
+<p>The slots in the top left of the form represent a crafting grid, where items can be arranged in the pattern of a craft recipe. Like the Mese sorting tube, items placed in these slots are ghosts, i.e. copies of what you placed. Removing an item simply deletes it.</p>
+<p>In the middle is a single slot that shows the result of the proposed recipe, same as in your Inventory display. You can also directly place an item here and the autocrafter will make a guess and fill its recipe slots with the items that should be used to make that item. Removing the item from this slot deletes it and clears the recipe grid.</p>
+<p>Below that is a switch to enable/disable the autocrafter. Default is disabled.</p>
+<p>The slots in the top right of the form are the output from the crafting operations. That is, items that have been crafted can be found here. These can also be retrieved from the device using filters/injectors.</p>
+<p>The slots in the middle of the form, below the craft recipe and result slots, are the autocrafter's internal inventory. Items added by the user or fed in by tubes are stored here temporarily until the autocrafter can use them.</p>
+<p>The slots at the bottom of the form are the player's inventory, as usual.</p>
+<p>When sufficient materials are present in the autocrafter's inventory to craft according to its recipe, the device automatically starts crafting them until it runs out of materials.</p>
+<p>Here's how you build it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftAutocrafter.png" />
+
+</div>
+<h4 id="deployers">Deployers</h4>
+<p>Deployers are devices that place blocks as a player would if one were standing at the exact location of the deployer. They connect to tubes only from the back side.</p>
+<p>Deployers act only when activated via a Mesecons signal. On receipt of a signal, they place the next item in their inventory, and if there's something in the way of the deployer's output, that object gets pushed aside first.</p>
+<div class="figure">
+<img src="../github-wiki/images/Deployer.png" />
+
+</div>
+<p>Right clicking a deployer brings up a form similar to the following:</p>
+<div class="figure">
+<img src="../github-wiki/images/DeployerForm.png" />
+
+</div>
+<p>The slots in the top of the form are the deployer's inventory, storing materials that are placed when the deployer activates. They are taken in order from left to right, top to bottom. New items can be added here using tube-related devices.</p>
+<p>The slots at the bottom of the form are the player's inventory.</p>
+<p>Upon activation, a deployer places a node from its inventory into the space directly adjacent to its front side if and only if the space is air. The front side is the face that is fully orange.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftDeployer.png" />
+
+</div>
+<h4 id="node-breakers">Node Breakers</h4>
+<p>Node breakers are devices that dig blocks as a player would if one were standing at the exact location of the node breaker and dug the target node. They connect to tubes only from the back side.</p>
+<p>Node breakers act only when activated via a Mesecons signal.</p>
+<div class="figure">
+<img src="../github-wiki/images/NodeBreaker.png" />
+
+</div>
+<p>Upon activation, a node breaker digs the node in the space directly adjacent to its front side if and only if the node is non-liquid, diggable, and not air or unloaded. The front side is the face with the &quot;mouth&quot; with thin interleaved lines resembling a shredder.</p>
+<p>When you right-click on it, you get a form similar to the following:</p>
+<div class="figure">
+<img src="../github-wiki/images/NodeBreaker-form.png" />
+
+</div>
+<p>The single slot at the top is for you to add in a custom digging tool. By default, the nodebreaker digs &quot;by hand&quot;, but you could for example put a pick, shovel, tree tap, or whatever else you want here as long as it's a viable tool.</p>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftNodeBreaker.png" />
+
+</div>
+<p>Note: in the past, one used a mese pick to construct a nodebreaker, which it also used as its default tool. This is no longer the case. Old nodebreakers that had nothing in the tool slot will automatically be populated with a mese pick.</p>
+<h4 id="sand-vacuum-tubes">Sand Vacuum Tubes</h4>
+<p>Sand tubes are special tubes that vacuum up free items around them. When an item drops near the sand tube, it is sucked up and sent along the tube.</p>
+<p>Sand tubes have an effective radius of 2 meters (nodes). Outside of this sphere, items are unaffected.</p>
+<div class="figure">
+<img src="../github-wiki/images/SandTube.png" />
+
+</div>
+<p>Here's how you craft it:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftSandTube.png" />
+
+</div>
+<h4 id="mese-sand-vacuum-tubes">Mese Sand Vacuum Tubes</h4>
+<p>Mese sand tubes pick up items like sand tubes, but they do so in a customizable cubic region rather than a fixed spherical one.</p>
+<p>To change the range of a mese sand tube, change the distance specified in the form.</p>
+<p>The number entered here can be anywhere from 0 (the default) to 8; it represents a sort of cubic radius from the tube, thus the default is to only pick up items within the tube's 1x1x1 node, but, if one entered &quot;5&quot;, the tube would pick up items in an 11x11x11 cube.</p>
+<div class="figure">
+<img src="../github-wiki/images/MeseSandTubeForm.png" />
+
+</div>
+<p>Crafts are similar to the mese sorting tube:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftMeseSandTube1.png" />
+
+</div>
+<p>...or using mese crystal fragments and a regular sand tube:</p>
+<div class="figure">
+<img src="../github-wiki/images/CraftMeseSandTube2.png" />
+
+</div>
+</body>
+</html>

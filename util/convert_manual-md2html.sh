@@ -1,5 +1,22 @@
 #!/bin/bash -e
 
-pandoc ../doc/Manual.md -f markdown -t html -s -o ../doc/Manual.html
+FILES="
+Chat
+Crafting
+Experienced-players
+Farming
+First-steps
+Home
+Mesecons
+Mobs
+Modding-Stonecraft
+Pipeworks
+Setting-up-a-server
+Technic
+"
 
-sed -i 's/\/doc\/wiki-images/wiki-images/g' ../doc/Manual.html
+for f in $FILES
+do
+	pandoc ../doc/github-wiki/$f.md -f markdown -t html -s -o ../doc/html-wiki/$f.html
+	sed -i 's/\/doc\/github-wiki\/images/..\/github-wiki\/images/g' ../doc/html-wiki/$f.html
+done

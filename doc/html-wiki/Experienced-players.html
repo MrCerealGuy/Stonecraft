@@ -1,0 +1,760 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<ol style="list-style-type: decimal">
+<li><a href="#experienced-players">Experienced players</a>
+<ol style="list-style-type: decimal">
+<li><a href="#area-protection">Area protection</a></li>
+<li><a href="#teleporters">Teleporters</a></li>
+<li><a href="#special-controls">Special Controls</a></li>
+<li><a href="#server-commands">Server commands</a>
+<ol style="list-style-type: decimal">
+<li><a href="#issuing-a-command">Issuing a commands</a></li>
+<li><a href="#general-syntax">General syntax</a></li>
+<li><a href="#command-reference-of-built-in-commands">Command reference of built-in commands</a></li>
+</ol></li>
+<li><a href="#privileges">Privileges</a>
+<ol style="list-style-type: decimal">
+<li><a href="#built-in-privileges">Built-in privileges</a></li>
+<li><a href="#privileges-from-mods">Privileges from mods</a></li>
+<li><a href="#server-configuration">Server configuration</a></li>
+</ol></li>
+<li><a href="#worldedit">WorldEdit</a>
+<ol style="list-style-type: decimal">
+<li><a href="#worldedit-basics">WorldEdit Basics</a></li>
+<li><a href="#worldedit-chat-commands">WorldEdit Chat Commands</a></li>
+</ol></li>
+<li><a href="#create-and-import-a-schematic-file-mts-with-worldedit">Create and import a schematic file (.mts) with WorldEdit</a></li>
+</ol></li>
+</ol>
+<h1 id="experienced-players">Experienced players</h1>
+<h2 id="area-protection">Area protection</h2>
+<p>To protect your area from griefing by other player, choose the first corner on the ground of your area you want to protect. Then open the console with F10 and set the marker with <strong>/area_pos1</strong>.</p>
+<div class="figure">
+<img src="../github-wiki/images/areapos1.jpg" />
+
+</div>
+<p>Now select the second corner in opposite direction of the first corner above the ground and set the marker with the command <strong>/area_pos2</strong>.</p>
+<div class="figure">
+<img src="../github-wiki/images/areapos2.jpg" />
+
+</div>
+<p>Now it's time to protect your area with <strong>/protect &lt;description&gt;</strong>, eg. /protect &quot;My Home&quot;.</p>
+<h2 id="teleporters">Teleporters</h2>
+<p>A teleporter pad teleports players, or items to the linked receiver pad. A teleporter must be linked to a receiver first, before you can use it. One teleporter pad can only be linked to one receiver pad, you have to unlink it first, before using a new receiver. A receiver pad can accessed by many teleporter pads.</p>
+<p>Example:</p>
+<p>If you find an interesting location, then you can place a receiver pad.</p>
+<div class="figure">
+<img src="../github-wiki/images/teleporter1.jpg" />
+
+</div>
+<p>Do a right-click on the pad. You have enter a name and a optional description for your receiver pad. For servers you can make your receiver pad public for other players.</p>
+<div class="figure">
+<img src="../github-wiki/images/teleporter2.jpg" />
+
+</div>
+<p>Now your receiver pad is placed. At home you can place a teleporter pad.</p>
+<div class="figure">
+<img src="../github-wiki/images/teleporter3.jpg" />
+
+</div>
+<p>Do a right-click on the pad and select your receiver pad.</p>
+<div class="figure">
+<img src="../github-wiki/images/teleporter4.jpg" />
+
+</div>
+<p>Now you have linked the teleporter with the receiver pad.</p>
+<div class="figure">
+<img src="../github-wiki/images/teleporter5.jpg" />
+
+</div>
+<h2 id="special-controls">Special Controls</h2>
+<p>You don't need these controls to play, but in special situations these controls can be useful.</p>
+<table style="width:39%;">
+<colgroup>
+<col width="19%" />
+<col width="19%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Control</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><strong>Z</strong></td>
+<td align="left">Zoom</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>/</strong></td>
+<td align="left">Command</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>R</strong></td>
+<td align="left">Enable/disable full range view</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>+</strong></td>
+<td align="left">Increase view range</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>-</strong></td>
+<td align="left">Decrease view range</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>K</strong></td>
+<td align="left">Enable/disable fly mode (needs fly privilege)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>J</strong></td>
+<td align="left">Enable/disable fast mode (needs fast privilege)</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>H</strong></td>
+<td align="left">Enable/disable noclip mode (needs noclip privilege)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F1</strong></td>
+<td align="left">Hide/show HUD</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F2</strong></td>
+<td align="left">Hide/show chat</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F3</strong></td>
+<td align="left">Disable/enable fog</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F4</strong></td>
+<td align="left">Disable/enable camera update (Mapblocks are not updated anymore when disabled, disabled in release builds)</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F5</strong></td>
+<td align="left">Cycle through debug info screens</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F6</strong></td>
+<td align="left">Cycle through profiler info screens</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F7</strong></td>
+<td align="left">Cycle through camera modes</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>F8</strong></td>
+<td align="left">Toggle cinematic mode</td>
+</tr>
+<tr class="odd">
+<td align="left"><strong>F10</strong></td>
+<td align="left">Show/hide console</td>
+</tr>
+<tr class="even">
+<td align="left"><strong>P</strong></td>
+<td align="left">Write stack traces into debug.txt</td>
+</tr>
+</tbody>
+</table>
+<h2 id="server-commands">Server commands</h2>
+<p>Server commands are special commands to the server that can be entered by any player via the chat to cause the server to do something. There are a few commands which can be issued by everyone, but some commands only work if you have certain privileges granted on the server. Use <em>&quot;/privs&quot;</em> to see your own privileges. If not noted otherwise, the commands in this article are assumed to require no privileges.</p>
+<h3 id="issuing-a-command">Issuing a command</h3>
+<p>To issue a command, simply type it like a chat message or use the console. Alternatively, you can just press the &quot;/&quot; key (only in default controls) which simply opens a chat window where the &quot;/&quot; has already been typed for you and then type the command right away. The command itself will not appear in the chat. Since every command starts with &quot;/&quot;, this means that ordinary chat messages can't start with &quot;/&quot;; they will be interpreted as a command instead, even if such a command does not exist. You can tell whether or not a command was successful by the server's response. If you see something <em>&quot;-!- Invalid command: /blargh&quot;</em> in the chat, you probably misspelled something. The most commands will cause the server to write you something else on the chat log for you, if successful.</p>
+<h3 id="general-syntax">General syntax</h3>
+<p>All commands start with &quot;/&quot;. After that, one word follows which is itself followed by some or none arguments. You&quot;ll find the exact syntax in the command reference. In the following command reference, text enclosed in &lt;&gt; is a placeholder for an actual value. Anything written in [] can be omitted.</p>
+<h3 id="command-reference-of-built-in-commands">Command reference of built-in commands</h3>
+<p><strong>Quick documentation</strong></p>
+<p>Show short documentation of server commands and privileges; it will appear in the chat log, too. In case the help is too long, you can open the console with F10 to view everything again.</p>
+<ul>
+<li><strong>/help</strong> - Shows a list of the available commands - depending on your privileges - on the server</li>
+<li><strong>/help &lt;command&gt;</strong> - Shows short description about the given command. You can view the help of a command even if you do not have the privilege to issue it</li>
+<li><strong>/help all</strong> - Lists the available commands - depending on your privileges - on the server and a short description and syntax reference to each one</li>
+<li><strong>/help privs</strong> - Lists all privileges on the server that could possibly be granted to players and shows a short description about each of them</li>
+</ul>
+<p><strong>Player-related</strong> <strong>Informational</strong></p>
+<ul>
+<li><strong>/privs [&lt;player&gt;]</strong> - List of privileges granted to &lt;player&gt;, if not specified, your own privileges</li>
+<li><strong>/last-login [&lt;player&gt;]</strong> - Show the date and time when &lt;player&gt; has logged in the last time into this server (UTC time zone, ISO 8601 format). If not specified, shows your own last login time</li>
+</ul>
+<p><strong>Chat</strong></p>
+<p>These commands require the &quot;shout&quot; privilege to work.</p>
+<ul>
+<li><strong>/msg &lt;player&gt; &lt;message&gt;</strong> - Send a private message &lt;message&gt; to &lt;player&gt;</li>
+<li><strong>/me &lt;action&gt;</strong> - Makes a text in the format &quot;* &lt;your name&gt; &lt;action&gt;&quot; appear in the chat log. E.g. &quot;/me eats pizza.&quot; leads to &quot;* Alfred eats pizza.&quot; (if your name is &quot;Alfred&quot;)</li>
+</ul>
+<p><strong>Items</strong></p>
+<p>For the /give and /giveme commands, a negative count will count down from 65536. This means for example that giving -1 of an itemstring will give 65535 items of that itemstring, which is also the hard size limit of a stack.</p>
+<ul>
+<li><strong>/giveme &lt;itemstring&gt; [&lt;count&gt;]</strong> - Give certain item &lt;count&gt; times (default: 1) to yourself. For a list of items to use this with, see the Itemstrings page. Requires the &quot;give&quot; privilege</li>
+<li><strong>/give &lt;player&gt; &lt;itemstring&gt; [&lt;count&gt;]</strong> - Give certain item &lt;count&gt; times (default: 1) to the player. Requires the &quot;give&quot; privilege</li>
+<li><strong>/pulverize</strong> - Destroys the wielded item. Can be used by any player</li>
+</ul>
+<p><strong>Teleportation</strong></p>
+<p>Teleportation is the immediate displacement of any player to a given position. All of the following commands require the &quot;teleport&quot; privilege</p>
+<ul>
+<li><strong>/teleport &lt;x&gt;,&lt;y&gt;,&lt;z&gt;</strong> - Teleports yourself to given coordinates</li>
+<li><strong>/teleport &lt;target_player&gt;</strong> - Teleports yourself to the player with the name &lt;target_player&gt;</li>
+<li><strong>/teleport &lt;player&gt; &lt;x&gt;,&lt;y&gt;,&lt;z&gt;</strong> - Teleports &lt;player&gt; to given coordinates. Also requires the &quot;bring&quot; privilege</li>
+<li><strong>/teleport &lt;player1&gt; &lt;player2&gt;</strong> - Teleports &lt;player1&gt; to &lt;player2&gt;. Also requires the &quot;bring&quot; privilege</li>
+</ul>
+<p><strong>Moderation</strong></p>
+<p><strong>Password manipulation</strong></p>
+<p>These commands allow to set and reset the passwords of any player and require the &quot;password&quot; privilege to work.</p>
+<ul>
+<li><strong>/setpassword &lt;player&gt; &lt;password&gt;</strong> - Sets password of &lt;player&gt; to &lt;password&gt;</li>
+<li><strong>/clearpassword &lt;player&gt;</strong> - Makes password of &lt;player&gt; empty</li>
+</ul>
+<p><strong>Privilege manipulation</strong></p>
+<p>All these commands require you to have the &quot;privs&quot; (to manipulate all privileges) or &quot;basic_privs&quot; (to manipulate &quot;interact&quot; and &quot;shout&quot; privileges) privilege.</p>
+<ul>
+<li><strong>/grant &lt;player&gt; &lt;privilege&gt;</strong> - Gives the &lt;privilege&gt; to &lt;player&gt;</li>
+<li><strong>/grant &lt;player&gt; all</strong> - Give all available privileges to &lt;player&gt;</li>
+<li><strong>/grantme &lt;privilege&gt;</strong> - Give &lt;privilege&gt; to yourself</li>
+<li><strong>/grantme all</strong> - Gives all privilege to yourself</li>
+<li><strong>/revoke &lt;player&gt; &lt;privilege&gt;</strong> - Takes away a &lt;privilege&gt; from &lt;player&gt;</li>
+<li><strong>/revoke &lt;player&gt; all</strong> - Takes away as many privileges as possible from &lt;player&gt;</li>
+</ul>
+<p><strong>Excluding players from server</strong></p>
+<p>These commands allow the user to kick, ban and unban players. Kicking a player means to remove a connected player from the server. This requires the &quot;kick&quot; privilege. Banning a player prevents him/her to connect to the server again. The player does not need to be connected at this time. Unbanning means to remove a ban from a player, allowing him/her to connect to the server again. The ban and unban commands require the &quot;ban&quot; privilege.</p>
+<ul>
+<li><strong>/kick &lt;player name&gt; [&lt;reason&gt;]</strong> - Kicks the player with the name &lt;player name&gt;. Optionally a &lt;reason&gt; can be provided in text-form. This text is also shown to the kicked player.</li>
+<li><strong>/ban</strong> - show list of banned players</li>
+<li><strong>/ban &lt;player name&gt;</strong> - Ban IP of player</li>
+<li><strong>/unban &lt;player name&gt;</strong> - Remove ban of player with the specified name</li>
+<li><strong>/unban &lt;IP address&gt;</strong> - Remove ban of player with the specified IP address</li>
+</ul>
+<p><strong>Server-related</strong> <strong>Informational</strong></p>
+<p>Request some information from the server; the answer from the server will also be written into the chatlog.</p>
+<ul>
+<li><strong>/admin</strong> - Player name of the administrator / server operator of the server you're connected to.</li>
+<li><strong>/status</strong> - Server's Stonecraft version, time the server is running in seconds (called &quot;uptime&quot;), list of connected * players and the message of the day (if it exists).</li>
+<li><strong>/mods</strong> - List of mods installed on the server.</li>
+<li><strong>/days</strong> - Current game day (counting starts at 0)</li>
+<li><strong>/time</strong> - Current game time (24h clock)</li>
+</ul>
+<p><strong>World manipulation</strong></p>
+<ul>
+<li><strong>/time &lt;hours&gt;:&lt;minutes&gt;</strong> - Sets the time of day in the 24-hour format (0:00-23:59). Requires the &quot;settime&quot; privilege</li>
+<li><strong>/time &lt;time_of_day&gt;</strong> - Sets the time of day (tod) (number between 0 and 24000). 0 tod and 24000 tod are midnight, 12000 tod is noon, 18600 tod is sunset, 4750 tod is sunrise. (time of day = hour * 1000). Requires the &quot;settime&quot; privilege</li>
+<li><strong>/set -n time_speed &lt;speed&gt;</strong> - Sets the speed of day/night cycle where &lt;speed&gt; is the time speed (read as &quot;&lt;speed&gt; times faster than in real life&quot;). 72 is the default, which means a day-night cycle lasts 20 minutes by default. Requires the &quot;server&quot; privilege</li>
+<li><strong>/spawnentity &lt;entity&gt; [&lt;X&gt;,&lt;Y&gt;,&lt;Z&gt;]</strong> - Spawns an entity of type &lt;entity&gt; (see List of entity names) near your position or at the X,Y,Z coordinates, if specified. Requires &quot;give&quot; and &quot;interact&quot; privileges</li>
+</ul>
+<p><strong>Server maintenance</strong></p>
+<p>All of these commands require the &quot;server&quot; privilege.</p>
+<ul>
+<li><strong>/shutdown</strong> - Shuts down the server</li>
+<li><strong>/set &lt;variable&gt;</strong> - Shows the value of the given server &lt;variable&gt;</li>
+<li><strong>/set &lt;variable&gt; &lt;new value&gt;</strong> - Sets the existing server &lt;variable&gt; to the given &lt;new value&gt;</li>
+<li><strong>/set -n &lt;variable&gt; &lt;initial value&gt;</strong> - Creates a new server variable named &lt;variable&gt; and sets it to &lt;initial value&gt;</li>
+<li><strong>/clearobjects [full|quick]</strong> - Clears all objects/entities (removes all dropped items, mobs and possibly more). Note this may crash the server or slow it down to a crawl for 10 to more than 60 seconds</li>
+<li><strong>/auth_reload</strong> - Reloads auth.txt, which is the authentication data, containing privileges and Base64-scrambled passwords</li>
+<li><strong>/deleteblocks here [&lt;radius&gt;]</strong> - Removes the MapBlock the player is in, from the database. As this triggers mapgen, this might start mechanisms like mud reflow or cavegen which very likely affect mapblocks outside the specified range. 113 blocks are a safe-distance for a server with no interfering mods. &lt;radius&gt; is an optional argument to specify the range in which MapBlocks are deleted</li>
+<li><strong>/deleteblocks &lt;pos1&gt; &lt;pos2&gt;</strong> - Removes the MapBlock containing blocks inside the area from pos1 to pos2 from the database. May crash for larger areas. Warnings from above apply</li>
+</ul>
+<p><strong>Rollback</strong></p>
+<p>Allows to use Rollback. Requires the &quot;rollback&quot; privilege.</p>
+<ul>
+<li><strong>/rollback_check [&lt;range&gt;] [&lt;seconds&gt;]</strong> - Checks who has last touched a node or near it, max. &lt;seconds&gt; ago (default &lt;range&gt;=0, default &lt;seconds&gt;=86400, which equals 24 hours in real time).</li>
+<li><strong>/rollback &lt;player name&gt; [&lt;seconds&gt;]</strong> - Reverts actions of a player; default for &lt;seconds&gt; is 60</li>
+<li><strong>/rollback :&lt;actor name&gt; [&lt;seconds&gt;]</strong> - Reverts actions of an actor (not a player); default for &lt;seconds&gt; is 60</li>
+</ul>
+<h2 id="privileges">Privileges</h2>
+<p>Every player has a set of privileges, which differ from server to server. Roughly spoken, one's privileges determine what one is able to do and what not. Each privilege has a name (the meaning is described below). Privileges can be granted and revoked from other players by any player who has the privilege called <em>&quot;privs&quot;</em>. On a multiplayer server with a default configuration, new players start with the privileges called &quot;interact, shout&quot; and &quot;zoom&quot;. To view one's own privileges, one can issue the server command <em>&quot;/privs&quot;</em>.</p>
+<h3 id="built-in-privileges">Built-in privileges</h3>
+<p>gameplay-related:</p>
+<ul>
+<li><strong>interact</strong> - build, mine or use blocks</li>
+<li><strong>give</strong> - can use the /give and /giveme commands</li>
+<li><strong>zoom</strong> - can zoom (Z key by default)</li>
+<li><strong>teleport</strong> - can use the /teleport command to teleport oneself to certain coordinates or to another player</li>
+<li><strong>bring</strong> - in combination with teleport, can use the /teleport command to teleport any player to certain coordinates or to yet another player</li>
+<li><strong>fast</strong> - allows the player to activate fast mode</li>
+<li><strong>fly</strong> - allows the player to activate fly mode</li>
+<li><strong>noclip</strong> - allows the player to activate &quot;noclip&quot; mode, which allows them to fly through walls</li>
+</ul>
+<p>chat-related:</p>
+<ul>
+<li><strong>shout</strong> - can chat with other people</li>
+</ul>
+<p>world-manipulation-related:</p>
+<ul>
+<li><strong>settime</strong> - can set time of day using /time</li>
+</ul>
+<p>moderation-related:</p>
+<ul>
+<li><strong>privs</strong> - can set any privileges of players using /grant and /revoke</li>
+<li><strong>basic_privs</strong> - can set &quot;interact&quot; and &quot;shout&quot; privileges using /grant and /revoke</li>
+<li><strong>kick</strong> - can kick players with /kick</li>
+<li><strong>ban</strong> - can ban/unban IPs and names using /ban and /unban</li>
+<li><strong>rollback</strong> - can use the rollback functionality</li>
+<li><strong>protection_bypass</strong> - can bypass protection of blocks (e.g. can open locked chests or steel doors of everyone)</li>
+</ul>
+<p>administration-related:</p>
+<ul>
+<li><strong>server</strong> - can do server maintenance stuff such as /shutdown, /clearobjects, /set, …</li>
+<li><strong>debug</strong> - can access advanced debug features and informations, such as the wirewrame in the debug screens (F5)</li>
+</ul>
+<h3 id="privileges-from-mods">Privileges from mods</h3>
+<p>Mods may make additional privileges available on the server. Issue the server command <em>/help privs</em> to receive a full list (and short descriptions) of all possible privileges on the server.</p>
+<h3 id="server-configuration">Server configuration</h3>
+<p>Using the server's configuration files, a lot of privilege-related stuff can be manipulated.</p>
+<p>There is an option in the configuration file for setting the default privileges for new players. <em>default_privs = interact, shout, zoom</em></p>
+<p>The player having the name in the <em>&quot;name&quot; field</em> of the configuration has all the privileges. Privileges are stored in the <em>auth.txt</em> file. The format of every line in that file is <em>name:hashed_password:privs</em>. A real example: <em>mrcerealguy:CcCUjNUDVJxmXmTHj+7WKHvA9Ds:interact,shout,zoom</em></p>
+<p>The <em>auth.txt</em> file is written periodically and at shutdown, so you should edit it only when the server is not running.</p>
+<h2 id="worldedit">WorldEdit</h2>
+<p>WorldEdit is an in-game world editor. Use it to repair griefing, or just create awesome buildings in seconds.</p>
+<div class="figure">
+<img src="../github-wiki/images/600px-WorldEdit.png" />
+
+</div>
+<h3 id="worldedit-basics">WorldEdit Basics</h3>
+<p>This is a step-by-step tutorial outlining the basic usage of WorldEdit.</p>
+<p><strong>Overview</strong></p>
+<p>WorldEdit has a &quot;region&quot;, which is simply a cuboid area defined by two markers, both of which the player can move around. Every player can have their own region with their own two markers.</p>
+<p>WorldEdit GUI buttons and chat commands generally work inside the region selected, or around the first marker.</p>
+<p>If you are using the chat commands, follow the steps under <strong>Chat Commands</strong>. If you are using the WorldEdit GUI, follow the steps under <strong>WorldEdit GUI</strong>.</p>
+<h4 id="step-1-selecting-a-region">Step 1: Selecting a region</h4>
+<p>It is very simple to select a region using the item &quot;WorldEdit Wand Tool&quot;. By left-clicking on an existing stone, you can set the first mark, which is then visible as a number &quot;1&quot; on the block. The second mark is set by right-clicking on an existing block. The block then belongs to the marked area, the numbers on the blocks mark the corners of the rectangular area.</p>
+<p>Here are two examples:</p>
+<p>Left or right-click sets two marks, in which case the area with the sandstones is marked.</p>
+<div class="figure">
+<img src="../github-wiki/images/600px-MinetestWE1.png" />
+
+</div>
+<p>The marked area is always made visible with a check pattern. In the first example you can not see it, because it is in the ground.</p>
+<div class="figure">
+<img src="../github-wiki/images/600px-MinetestWE2.png" />
+
+</div>
+<p><strong>Chat Commands</strong></p>
+<p>In the chat prompt, enter <code>//p set</code>. In the chat, you are prompted to punch two nodes to set the positions of the two markers.</p>
+<p>Punch a nearby node. Be careful of breakable ones such as torches. A black cube reading &quot;1&quot; will appear around the node. This is the marker for WorldEdit position 1.</p>
+<p>Walk away from the node you just punched. Now, punch another node. A black cube reading &quot;2&quot; will appear around the node. This is the marker for WorldEdit position 2.</p>
+<p><strong>WorldEdit GUI</strong></p>
+<p>Open the main WorldEdit GUI from your inventory screen. The icon looks like a globe with a red dot in the center.</p>
+<p>Press the &quot;Get/Set Positions&quot; button. On the new screen, press the &quot;Set Position 1&quot; button. The inventory screen should close.</p>
+<p>Punch a nearby node. Be careful of breakable ones such as torches. A black cube reading &quot;1&quot; will appear around the node. This is the marker for WorldEdit position 1.</p>
+<p>Walk away from the node you just punched. Open your inventory again. It should be on the same page as it was before.</p>
+<p>Press the &quot;Set Position 2&quot; button. The inventory screen should close.</p>
+<p>Now, punch another node. A black cube reading &quot;2&quot; will appear around the node. This is the marker for WorldEdit position 2.</p>
+<h4 id="step-2-region-commands">Step 2: Region commands</h4>
+<p><strong>Chat Commands</strong></p>
+<p>In the chat prompt, enter <code>//set mese</code>. In the chat, you will see a message showing the number of nodes set after a small delay.</p>
+<p>Look at the place between the two markers: it is now filled with MESE blocks!</p>
+<p>The <code>//set &lt;node&gt;</code> command fills the region with whatever node you want. It is a region-oriented command, which means it works inside the WorldEdit region only.</p>
+<p>Now, try a few different variations, such as <code>//set torch</code>, <code>//set cobble</code>, and <code>//set water</code>.</p>
+<p><strong>WorldEdit GUI</strong></p>
+<p>Open the main WorldEdit GUI from your inventory screen.</p>
+<p>Press the &quot;Set Nodes&quot; button. You should see a new screen with various options for setting nodes.</p>
+<p>Enter &quot;mese&quot; in the &quot;Name&quot; field. Press Search if you would like to see what the node you just entered looks like.</p>
+<p>Press the &quot;Set Nodes&quot; button on this screen. In the chat, you will see a message showing the number of nodes set after a small delay.</p>
+<p>Look at the place between the two markers: it is now filled with MESE blocks!</p>
+<p>The &quot;Set Nodes&quot; function fills the region with whatever node you want. It is a region-oriented command, which means it works inside the WorldEdit region only.</p>
+<p>Now, try a few different variations on the node name, such as &quot;torch&quot;, &quot;cobble&quot;, and &quot;water&quot;.</p>
+<h4 id="step-3-position-commands">Step 3: Position commands</h4>
+<p><strong>Chat Commands</strong></p>
+<p>In the chat prompt, enter <code>//hollowdome 30 glass</code>. In the chat, you will see a message showing the number of nodes set after a small delay.</p>
+<p>Look around marker 1: it is now surrounded by a hollow glass dome!</p>
+<p>The <code>//hollowdome &lt;radius&gt; &lt;node&gt;</code> command creates a hollow dome centered around marker 1, made of any node you want. It is a position-oriented command, which means it works around marker 1 and can go outside the WorldEdit region.</p>
+<p><strong>WorldEdit GUI</strong></p>
+<p>Open the main WorldEdit GUI from your inventory screen.</p>
+<p>Press the &quot;Sphere/Dome&quot; button. You should see a new screen with various options for making spheres or domes.</p>
+<p>Enter &quot;glass&quot; in the &quot;Name&quot; field. Press Search if you would like to see what the node you just entered looks like.</p>
+<p>Enter &quot;30&quot; in the &quot;Radius&quot; field.</p>
+<p>Press the &quot;Hollow Dome&quot; button on this screen. In the chat, you will see a message showing the number of nodes added after a small delay.</p>
+<p>Look around marker 1: it is now surrounded by a hollow glass dome!</p>
+<p>The &quot;Hollow Dome&quot; function creates a hollow dome centered around marker 1, made of any node you want. It is a position-oriented command, which means it works around marker 1 and can go outside the WorldEdit region.</p>
+<h4 id="step-4-other-commands">Step 4: Other commands</h4>
+<p><strong>Chat Commands</strong></p>
+<p>There are many more commands than what is shown here. See the <a href="#worldedit-chat-commands">WorldEdit Chat Commands</a> for a detailed list of them, along with descriptions and examples for every single one.</p>
+<p>If you're in-game and forgot how a command works, just use the <code>/help &lt;command name&gt;</code> command, without the first forward slash. For example, to see some information about the <code>//set &lt;node&gt;</code> command mentioned earlier, simply use <code>/help /set</code>.</p>
+<p>A very useful command to check out is the <code>//save &lt;schematic&gt;</code> command, which can save everything inside the WorldEdit region to a file, stored on the computer hosting the server (the player's computer, in single player mode). You can then later use <code>//load &lt;schematic&gt;</code> to load the data in a file into a world, even another world on another computer.</p>
+<p><strong>WorldEdit GUI</strong></p>
+<p>This only scratches the surface of what WorldEdit is capable of. Most of the functions in the WorldEdit GUI correspond to chat commands, and so the <a href="#worldedit-chat-commands">WorldEdit Chat Commands</a> may be useful if you get stuck.</p>
+<p>It is helpful to explore the various buttons in the interface and check out what they do. Learning the chat command interface is also useful if you use WorldEdit intensively - an experienced chat command user can usually work faster than an experienced WorldEdit GUI user.</p>
+<h3 id="worldedit-chat-commands">WorldEdit Chat Commands</h3>
+<p>Many commands also have shorter names that can be typed faster. For example, if we wanted to use <code>//move ? 5</code>, we could instead type <code>//m ? 5</code>. All shortened names are listed below:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Short Name</th>
+<th align="left">Original Name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>//i</code></td>
+<td align="left"><code>//inspect</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//rst</code></td>
+<td align="left"><code>//reset</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//mk</code></td>
+<td align="left"><code>//mark</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//umk</code></td>
+<td align="left"><code>//unmark</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//1</code></td>
+<td align="left"><code>//pos1</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//2</code></td>
+<td align="left"><code>//pos2</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//fp</code></td>
+<td align="left"><code>//fixedpos</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//v</code></td>
+<td align="left"><code>//volume</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//s</code></td>
+<td align="left"><code>//set</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//r</code></td>
+<td align="left"><code>//replace</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//ri</code></td>
+<td align="left"><code>//replaceinverse</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//hcube</code></td>
+<td align="left"><code>//hollowcube</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hspr</code></td>
+<td align="left"><code>//hollowsphere</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//spr</code></td>
+<td align="left"><code>//sphere</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hdo</code></td>
+<td align="left"><code>//hollowdome</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//do</code></td>
+<td align="left"><code>//dome</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hcyl</code></td>
+<td align="left"><code>//hollowcylinder</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//cyl</code></td>
+<td align="left"><code>//cylinder</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>//hpyr</code></td>
+<td align="left"><code>//hollowpyramid</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>//pyr</code></td>
+<td align="left"><code>//pyramid</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="about"><code>//about</code></h3>
+<p>Get information about the mod.</p>
+<pre><code>//about</code></pre>
+<h3 id="inspect-onoff10truefalseyesnoenabledisableblank"><code>//inspect on/off/1/0/true/false/yes/no/enable/disable/&lt;blank&gt;</code></h3>
+<p>Enable or disable node inspection.</p>
+<pre><code>//inspect on
+//inspect off
+//inspect 1
+//inspect 0
+//inspect true
+//inspect false
+//inspect yes
+//inspect no
+//inspect enable
+//inspect disable
+//inspect</code></pre>
+<h3 id="reset"><code>//reset</code></h3>
+<p>Reset the region so that it is empty.</p>
+<pre><code>//reset</code></pre>
+<h3 id="mark"><code>//mark</code></h3>
+<p>Show markers at the region positions.</p>
+<pre><code>//mark</code></pre>
+<h3 id="unmark"><code>//unmark</code></h3>
+<p>Hide markers if currently shown.</p>
+<pre><code>//unmark</code></pre>
+<h3 id="pos1"><code>//pos1</code></h3>
+<p>Set WorldEdit region position 1 to the player's location.</p>
+<pre><code>//pos1</code></pre>
+<h3 id="pos2"><code>//pos2</code></h3>
+<p>Set WorldEdit region position 2 to the player's location.</p>
+<pre><code>//pos2</code></pre>
+<h3 id="p-setset1set2get"><code>//p set/set1/set2/get</code></h3>
+<p>Set WorldEdit region, WorldEdit position 1, or WorldEdit position 2 by punching nodes, or display the current WorldEdit region.</p>
+<pre><code>//p set
+//p set1
+//p set2
+//p get</code></pre>
+<h3 id="fixedpos-set1-x-y-z"><code>//fixedpos set1 x y z</code></h3>
+<p>Set a WorldEdit region position to the position at (<code>&lt;x&gt;</code>, <code>&lt;y&gt;</code>, <code>&lt;z&gt;</code>).</p>
+<pre><code>//fixedpos set1 0  0 0
+//fixedpos set1 -30 5 28
+//fixedpos set2 1004 -200 432</code></pre>
+<h3 id="volume"><code>//volume</code></h3>
+<p>Display the volume of the current WorldEdit region.</p>
+<pre><code>//volume</code></pre>
+<h3 id="deleteblocks"><code>//deleteblocks</code></h3>
+<p>Delete the MapBlocks (16x16x16 units) that contain the selected region. This means that mapgen will be invoked for that area. As only whole MapBlocks get removed, the deleted area is usually larger than the selected one. Also, mapgen can trigger mechanisms like mud reflow or cavegen, which affects nodes (up to 112 nodes away) outside the MapBlock, so dont use this near buildings. Note that active entities are not part of a MapBlock and do not get deleted.</p>
+<pre><code>//deleteblocks</code></pre>
+<h3 id="set-node"><code>//set &lt;node&gt;</code></h3>
+<p>Set the current WorldEdit region to <code>&lt;node&gt;</code>.</p>
+<pre><code>//set air
+//set cactus
+//set Blue Lightstone
+//set dirt with grass</code></pre>
+<h3 id="param2-param2"><code>//param2 &lt;param2&gt;</code></h3>
+<p>Set the param2 value of all nodes in the current WorldEdit region to <code>&lt;param2&gt;</code>.</p>
+<h3 id="mix-node1-..."><code>//mix &lt;node1&gt; ...</code></h3>
+<p>Fill the current WorldEdit region with a random mix of <code>&lt;node1&gt;</code>, <code>...</code>.</p>
+<pre><code>//mix air
+//mix cactus stone glass sandstone
+//mix Bronze
+//mix default:cobble air</code></pre>
+<h3 id="replace-search-node-replace-node"><code>//replace &lt;search node&gt; &lt;replace node&gt;</code></h3>
+<p>Replace all instances of <code>&lt;search node&gt;</code> with <code>&lt;replace node&gt;</code> in the current WorldEdit region.</p>
+<pre><code>//replace Cobblestone air
+//replace lightstone_blue glass
+//replace dirt Bronze Block
+//replace mesecons:wire_00000000_off flowers:flower_tulip</code></pre>
+<h3 id="replaceinverse-search-node-replace-node"><code>//replaceinverse &lt;search node&gt; &lt;replace node&gt;</code></h3>
+<p>Replace all nodes other than <code>&lt;search node&gt;</code> with <code>&lt;replace node&gt;</code> in the current WorldEdit region.</p>
+<pre><code>//replaceinverse Cobblestone air
+//replaceinverse flowers:flower_waterlily glass
+//replaceinverse dirt Bronze Block
+//replaceinverse mesecons:wire_00000000_off flowers:flower_tulip</code></pre>
+<h3 id="hollowcube-width-height-length-node"><code>//hollowcube &lt;width&gt; &lt;height&gt; &lt;length&gt; &lt;node&gt;</code></h3>
+<p>Adds a hollow cube with its ground level centered at WorldEdit position 1 with dimensions <code>&lt;width&gt;</code> x <code>&lt;height&gt;</code> x <code>&lt;length&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowcube 6 5 6 Diamond Block</code></pre>
+<h3 id="cube-width-height-length-node"><code>//cube &lt;width&gt; &lt;height&gt; &lt;length&gt; &lt;node&gt;</code></h3>
+<p>Adds a cube with its ground level centered at WorldEdit position 1 with dimensions <code>&lt;width&gt;</code> x <code>&lt;height&gt;</code> x <code>&lt;length&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//cube 6 5 6 Diamond Block
+//cube 7 2 1 default:cobble</code></pre>
+<h3 id="hollowsphere-radius-node"><code>//hollowsphere &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add hollow sphere centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowsphere 5 Diamond Block
+//hollowsphere 12 glass
+//hollowsphere 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="sphere-radius-node"><code>//sphere &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add sphere centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//sphere 5 Diamond Block
+//sphere 12 glass
+//sphere 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="hollowdome-radius-node"><code>//hollowdome &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add hollow dome centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowdome 5 Diamond Block
+//hollowdome -12 glass
+//hollowdome 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="dome-radius-node"><code>//dome &lt;radius&gt; &lt;node&gt;</code></h3>
+<p>Add dome centered at WorldEdit position 1 with radius <code>&lt;radius&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//dome 5 Diamond Block
+//dome -12 glass
+//dome 17 mesecons:wire_00000000_off</code></pre>
+<h3 id="hollowcylinder-xyz-length-radius1-radius2-node"><code>//hollowcylinder x/y/z/? &lt;length&gt; &lt;radius1&gt; [radius2] &lt;node&gt;</code></h3>
+<p>Add hollow cylinder at WorldEdit position 1 along the x/y/z/? axis with length <code>&lt;length&gt;</code>, base radius <code>&lt;radius1&gt;</code> (and top radius <code>[radius2]</code>), composed of <code>&lt;node&gt;</code>.</p>
+<p>Despite its name this command allows you to create cones (<code>radius2</code> = 0) as well as any shapes inbetween (0 &lt; <code>radius2</code> &lt; <code>radius1</code>). Swapping <code>radius1</code> and <code>radius2</code> will create the same object but upside-down.</p>
+<pre><code>//hollowcylinder x +5 8 Bronze Block
+//hollowcylinder y 28 10 glass
+//hollowcylinder z -12 3 mesecons:wire_00000000_off
+//hollowcylinder ? 2 4 default:stone
+
+//hollowcylinder y 10 10 0 walls:cobble
+//hollowcylinder x 6 0 5 Dirt
+//hollowcylinder z 20 10 20 default:desert_stone</code></pre>
+<h3 id="cylinder-xyz-length-radius1-radius2-node"><code>//cylinder x/y/z/? &lt;length&gt; &lt;radius1&gt; [radius2] &lt;node&gt;</code></h3>
+<p>Add cylinder at WorldEdit position 1 along the x/y/z/? axis with length <code>&lt;length&gt;</code>, base radius <code>&lt;radius1&gt;</code> (and top radius <code>[radius2]</code>), composed of <code>&lt;node&gt;</code>. Can also create shapes other than cylinders, e.g. cones (see documentation above).</p>
+<pre><code>//cylinder x +5 8 Bronze Block
+//cylinder y 28 10 glass
+//cylinder z -12 3 mesecons:wire_00000000_off
+//cylinder ? 2 4 default:stone
+
+//cylinder y 10 10 0 walls:cobble
+//cylinder x 6 0 5 Dirt
+//cylinder z 20 10 20 default:desert_stone</code></pre>
+<h3 id="hollowpyramid-xyz-height-node"><code>//hollowpyramid x/y/z? &lt;height&gt; &lt;node&gt;</code></h3>
+<p>Add hollow pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height <code>&lt;height&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//hollowpyramid x 8 Diamond Block
+//hollowpyramid y -5 glass
+//hollowpyramid z 2 mesecons:wire_00000000_off
+//hollowpyramid ? 12 mesecons:wire_00000000_off</code></pre>
+<h3 id="pyramid-xyz-height-node"><code>//pyramid x/y/z? &lt;height&gt; &lt;node&gt;</code></h3>
+<p>Add pyramid centered at WorldEdit position 1 along the x/y/z/? axis with height <code>&lt;height&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//pyramid x 8 Diamond Block
+//pyramid y -5 glass
+//pyramid z 2 mesecons:wire_00000000_off
+//pyramid ? 12 mesecons:wire_00000000_off</code></pre>
+<h3 id="spiral-length-height-spacer-node"><code>//spiral &lt;length&gt; &lt;height&gt; &lt;spacer&gt; &lt;node&gt;</code></h3>
+<p>Add spiral centered at WorldEdit position 1 with side length <code>&lt;length&gt;</code>, height <code>&lt;height&gt;</code>, space between walls <code>&lt;spacer&gt;</code>, composed of <code>&lt;node&gt;</code>.</p>
+<pre><code>//spiral 20 5 3 Diamond Block
+//spiral 5 2 1 glass
+//spiral 7 1 5 mesecons:wire_00000000_off</code></pre>
+<h3 id="copy-xyz-amount"><code>//copy x/y/z/? &lt;amount&gt;</code></h3>
+<p>Copy the current WorldEdit region along the x/y/z/? axis by <code>&lt;amount&gt;</code> nodes.</p>
+<pre><code>//copy x 15
+//copy y -7
+//copy z +4
+//copy ? 8</code></pre>
+<h3 id="move-xyz-amount"><code>//move x/y/z/? &lt;amount&gt;</code></h3>
+<p>Move the current WorldEdit positions and region along the x/y/z/? axis by <code>&lt;amount&gt;</code> nodes.</p>
+<pre><code>//move x 15
+//move y -7
+//move z +4
+//move ? -1</code></pre>
+<h3 id="stack-xyz-count"><code>//stack x/y/z/? &lt;count&gt;</code></h3>
+<p>Stack the current WorldEdit region along the x/y/z/? axis <code>&lt;count&gt;</code> times.</p>
+<pre><code>//stack x 3
+//stack y -1
+//stack z +5
+//stack ? 12</code></pre>
+<h3 id="stack2-count-x-y-z"><code>//stack2 &lt;count&gt; &lt;x&gt; &lt;y&gt; &lt;z&gt;</code></h3>
+<p>Stack the current WorldEdit region <code>&lt;count&gt;</code> times by offset <code>&lt;x&gt;</code>, <code>&lt;y&gt;</code>, <code>&lt;z&gt;</code>.</p>
+<pre><code>//stack2 5 3 8 2
+//stack2 1 -1 -1 -1</code></pre>
+<h3 id="stretch-stretchx-stretchy-stretchz"><code>//stretch &lt;stretchx&gt; &lt;stretchy&gt; &lt;stretchz&gt;</code></h3>
+<p>Scale the current WorldEdit positions and region by a factor of <code>&lt;stretchx&gt;</code>, <code>&lt;stretchy&gt;</code>, <code>&lt;stretchz&gt;</code> along the X, Y, and Z axes, repectively, with position 1 as the origin.</p>
+<pre><code>//scale 2 2 2
+//scale 1 2 1
+//scale 10 20 1</code></pre>
+<h3 id="transpose-xyz-xyz"><code>//transpose x/y/z/? x/y/z/?</code></h3>
+<p>Transpose the current WorldEdit positions and region along the x/y/z/? and x/y/z/? axes.</p>
+<pre><code>//transpose x y
+//transpose x z
+//transpose y z
+//transpose ? y</code></pre>
+<h3 id="flip-xyz"><code>//flip x/y/z/?</code></h3>
+<p>Flip the current WorldEdit region along the x/y/z/? axis.</p>
+<pre><code>//flip x
+//flip y
+//flip z
+//flip ?</code></pre>
+<h3 id="rotate-xyz-angle"><code>//rotate x/y/z/? &lt;angle&gt;</code></h3>
+<p>Rotate the current WorldEdit positions and region along the x/y/z/? axis by angle <code>&lt;angle&gt;</code> (90 degree increment).</p>
+<pre><code>//rotate x 90
+//rotate y 180
+//rotate z 270
+//rotate ? -90</code></pre>
+<h3 id="orient-angle"><code>//orient &lt;angle&gt;</code></h3>
+<p>Rotate oriented nodes in the current WorldEdit region around the Y axis by angle <code>&lt;angle&gt;</code> (90 degree increment)</p>
+<pre><code>//orient 90
+//orient 180
+//orient 270
+//orient -90</code></pre>
+<h3 id="fixlight"><code>//fixlight</code></h3>
+<p>Fixes the lighting in the current WorldEdit region.</p>
+<pre><code>//fixlight</code></pre>
+<h3 id="drain"><code>//drain</code></h3>
+<p>Removes any fluid node within the current WorldEdit region.</p>
+<pre><code>//drain</code></pre>
+<h3 id="hide"><code>//hide</code></h3>
+<p>Hide all nodes in the current WorldEdit region non-destructively.</p>
+<pre><code>//hide</code></pre>
+<h3 id="suppress-node"><code>//suppress &lt;node&gt;</code></h3>
+<p>Suppress all <node> in the current WorldEdit region non-destructively.</p>
+<pre><code>//suppress Diamond Block
+//suppress glass
+//suppress mesecons:wire_00000000_off</code></pre>
+<h3 id="highlight-node"><code>//highlight &lt;node&gt;</code></h3>
+<p>Highlight <node> in the current WorldEdit region by hiding everything else non-destructively.</p>
+<pre><code>//highlight Diamond Block
+//highlight glass
+//highlight mesecons:wire_00000000_off</code></pre>
+<h3 id="restore"><code>//restore</code></h3>
+<p>Restores nodes hidden with WorldEdit in the current WorldEdit region.</p>
+<pre><code>//restore</code></pre>
+<h3 id="save-file"><code>//save &lt;file&gt;</code></h3>
+<p>Save the current WorldEdit region to &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot;.</p>
+<pre><code>//save some random filename
+//save huge_base</code></pre>
+<h3 id="allocate-file"><code>//allocate &lt;file&gt;</code></h3>
+<p>Set the region defined by nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot; as the current WorldEdit region.</p>
+<pre><code>//allocate some random filename
+//allocate huge_base</code></pre>
+<h3 id="load-file"><code>//load &lt;file&gt;</code></h3>
+<p>Load nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.we&quot; with position 1 of the current WorldEdit region as the origin.</p>
+<pre><code>//load some random filename
+//load huge_base</code></pre>
+<h3 id="lua-code"><code>//lua &lt;code&gt;</code></h3>
+<p>Executes <code>&lt;code&gt;</code> as a Lua chunk in the global namespace.</p>
+<pre><code>//lua worldedit.pos1[&quot;singleplayer&quot;] = {x=0, y=0, z=0}
+//lua worldedit.rotate(worldedit.pos1[&quot;singleplayer&quot;], worldedit.pos2[&quot;singleplayer&quot;], &quot;y&quot;, 90)</code></pre>
+<h3 id="luatransform-code"><code>//luatransform &lt;code&gt;</code></h3>
+<p>Executes <code>&lt;code&gt;</code> as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region.</p>
+<pre><code>//luatransform minetest.add_node(pos, {name=&quot;default:stone&quot;})
+//luatransform if minetest.get_node(pos).name == &quot;air&quot; then minetest.add_node(pos, {name=&quot;default:water_source&quot;})</code></pre>
+<h3 id="mtschemcreate-file"><code>//mtschemcreate &lt;file&gt;</code></h3>
+<p>Save the current WorldEdit region using the Minetest Schematic format to &quot;(world folder)/schems/<code>&lt;file&gt;</code>.mts&quot;.</p>
+<pre><code>//mtschemcreate some random filename
+//mtschemcreate huge_base</code></pre>
+<h3 id="mtschemplace-file"><code>//mtschemplace &lt;file&gt;</code></h3>
+<p>Load nodes from &quot;(world folder)/schems/<code>&lt;file&gt;</code>.mts&quot; with position 1 of the current WorldEdit region as the origin.</p>
+<pre><code>//mtschemplace some random filename
+//mtschemplace huge_base</code></pre>
+<h3 id="mtschemprob-startfinishget"><code>//mtschemprob start/finish/get</code></h3>
+<p>After using <code>//mtschemprob start</code> all nodes punched will bring up a text field where a probablity can be entered. This mode can be left with <code>//mtschemprob finish</code>. <code>//mtschemprob get</code> will display the probabilities saved for the nodes.</p>
+<pre><code>//mtschemprob get</code></pre>
+<h3 id="clearobjects"><code>//clearobjects</code></h3>
+<p>Clears all objects within the WorldEdit region.</p>
+<pre><code>//clearobjects</code></pre>
+<h3 id="shift-xyzupdownleftrightfrontback--amount"><code>//shift x/y/z/?/up/down/left/right/front/back [+|-]&lt;amount&gt;</code></h3>
+<p>Shifts the selection area by <code>[+|-]&lt;amount&gt;</code> without touching its contents. The shifting axis can be absolute (<code>x/y/z</code>) or relative (<code>up/down/left/right/front/back</code>).</p>
+<pre><code>//shift left 5</code></pre>
+<h3 id="expand--xyzupdownleftrightfrontback-amount-reverse-amount"><code>//expand [+|-]x/y/z/?/up/down/left/right/front/back &lt;amount&gt; [reverse-amount]</code></h3>
+<p>Expands the selection by <code>&lt;amount&gt;</code> in the selected absolute or relative axis. If specified, the selection can be expanded in the opposite direction over the same axis by <code>[reverse-amount]</code>.</p>
+<pre><code>//expand right 7 5</code></pre>
+<h3 id="contract--xyzupdownleftrightfrontback-amount-reverse-amount"><code>//contract [+|-]x/y/z/?/up/down/left/right/front/back &lt;amount&gt; [reverse-amount]</code></h3>
+<p>Contracts the selection by <code>&lt;amount&gt;</code> in the selected absolute or relative axis. If specified, the selection can be contracted in the opposite direction over the same axis by <code>[reverse-amount]</code>.</p>
+<pre><code>//expand right 7 5</code></pre>
+<h3 id="outset-hv-amount"><code>//outset [hv] &lt;amount&gt;</code></h3>
+<p>Expands the selection in all directions by <code>&lt;amount&gt;</code>. If specified, the selection can be expanded horizontally in the x and z axes <code>[h]</code> or vertically in the y axis <code>[v]</code>.</p>
+<pre><code>//outset v 5</code></pre>
+<h3 id="inset-hv-amount"><code>//inset [hv] &lt;amount&gt;</code></h3>
+<p>Contracts the selection in all directions by <code>&lt;amount&gt;</code>. If specified, the selection can be contracted horizontally in the x and z axes <code>[h]</code> or vertically in the y axis <code>[v]</code>.</p>
+<pre><code>//outset v 5</code></pre>
+<h3 id="brush-nonecommand-parameters"><code>//brush none/&lt;command&gt; [parameters]</code></h3>
+<p>Assigns the given <code>&lt;command&gt;</code> to the currently held brush item, it will be ran with the first pointed solid node (as determined via raycast) as WorldEdit position 1 when using that specific brush item. Passing <code>none</code> instead clears the command assigned to the currently held brush item.</p>
+<pre><code>//brush cube 8 8 8 Cobblestone
+//brush spr 12 glass
+//brush none</code></pre>
+<h2 id="create-and-import-a-schematic-file-.mts-with-worldedit">Create and import a schematic file (.mts) with WorldEdit</h2>
+<p>How to create a schematic file:</p>
+<ol style="list-style-type: decimal">
+<li>Enter in your world (with WorldEdit enabled).</li>
+<li>Grant yourself all privileges : <strong>/grant singleplayer all</strong>.</li>
+<li>Press F5 to display the coordinates.</li>
+<li>Select the area to export with : <strong>//pos1</strong> and <strong>//pos2</strong>.</li>
+<li>Create your schematic file with : <strong>//mtschemcreate &lt;name of your schematic file&gt;</strong>. Without extension .mts.</li>
+</ol>
+<p>Your schematic will appears into the <strong>worlds/&lt;my_world&gt;/schems</strong> folder.</p>
+<p>How to import a schematic file:</p>
+<ol style="list-style-type: decimal">
+<li>Enter in your world (with WorldEdit enabled).</li>
+<li>Grant yourself all privileges : <strong>/grant singleplayer all</strong>.</li>
+<li>Move a schematic file into the <strong>worlds/&lt;my_world&gt;/schems</strong> folder.</li>
+<li>Press F5 to display the coordinates.</li>
+<li>Select a position with : <strong>//pos1</strong></li>
+<li>Import your schematic file from the chosen position with : <strong>//mtschemplace &lt;name of your schematic file&gt;</strong>. Without extension .mts.</li>
+</ol>
+</body>
+</html>

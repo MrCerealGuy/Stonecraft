@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+</head>
+<body>
+<ol style="list-style-type: decimal">
+<li><a href="#modding-stonecraft">Modding Stonecraft</a>
+<ol style="list-style-type: decimal">
+<li><a href="#installing-mods">Installing mods</a></li>
+<li><a href="#installing-texture-packs">Installing texture packs</a>
+<ol style="list-style-type: decimal">
+<li><a href="#server-texture-pack">Server texture pack</a></li>
+</ol></li>
+<li><a href="#profiling-mods">Profiling mods</a></li>
+</ol></li>
+</ol>
+<h1 id="modding-stonecraft">Modding Stonecraft</h1>
+<p>If you wish to make your own mod for Stonecraft, I recommend to learn how the engine works and to become familiar with the Lua API. The following links can be useful:</p>
+<ol style="list-style-type: decimal">
+<li><p>Learn the structure of the <strong>Minetest engine</strong> http://dev.minetest.net/Main_Page</p></li>
+<li><p>Learn the <strong>Lua programming language</strong> https://www.lua.org/pil/contents.html</p></li>
+<li><p>Learn the <strong>Lua Mod API</strong> http://rubenwardy.com/minetest_modding_book/</p></li>
+</ol>
+<h2 id="installing-mods">Installing mods</h2>
+<p>You can get mods from the <a href="http://www.minetest.net/customize/">Minetest community</a>, I can give no warranties that they work with Stonecraft. The mods are installed globally and enabled per world.</p>
+<p>The common place to install them is <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/mods/</em>. After extracting the mod there you need to enable it for your world. This can either be done in the GUI by clicking on &quot;Configure&quot; in the world selection, or by adding</p>
+<pre><code>load_mod_&lt;modname&gt; = true</code></pre>
+<p>in the <em>world.mt</em> file in the world directory.</p>
+<p>Note that newly installed mods are disabled for all worlds by default, so you explicitly need to enable them.</p>
+<p>If you want to use a mod only in a specified world, then you have to extract your mod in <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/worlds/&lt;YOUR-WORLD&gt;/worldmods/</em>.</p>
+<h2 id="installing-texture-packs">Installing texture packs</h2>
+<p>You will find a folder called <em>textures</em> in your Stonecraft base folder. Place the texture pack there. Start Stonecraft and select a new style in the <em>textures tab</em>.</p>
+<h3 id="server-texture-pack">Server texture pack</h3>
+<p>If you create a server and want that the texture pack works not only for you, change the texture pack name to <em>server</em>.</p>
+<h2 id="profiling-mods">Profiling mods</h2>
+<p>To activate the profiler simple add to stonecraft.conf following line:</p>
+<pre><code>profiler.load = true</code></pre>
+<p>Start a game and make sure you have server privileges. Open the console and type</p>
+<pre><code>/profiler print</code></pre>
+<p>to get the current statistics.</p>
+<p>Here you see the usage of the profiler command:</p>
+<pre><code>/profiler print [filter] | dump [filter] | save [format [filter]] | reset</code></pre>
+<p>Available save formats: txt, csv, lua, json, json_pretty</p>
+</body>
+</html>

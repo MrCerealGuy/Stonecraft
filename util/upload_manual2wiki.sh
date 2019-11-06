@@ -20,10 +20,10 @@ cp ../../doc/github-wiki/*.md ./
 rsync -r --info=progress2 ../../doc/github-wiki/images/* ./images/
 
 # adjust image url paths
-sed -i 's/\/doc\/github-wiki\/images/\/images/g' ./Home.md
-sed -i 's/!\[](/\[\[/g' ./Home.md
-sed -i 's/\.png)/\.png]]/g' ./Home.md
-sed -i 's/\.jpg)/\.jpg]]/g' ./Home.md
+sed -i 's/\/doc\/github-wiki\/images/\/images/g' ./*.md
+sed -i 's/!\[](/\[\[/g' ./*.md
+sed -i 's/\.png)/\.png]]/g' ./*.md
+sed -i 's/\.jpg)/\.jpg]]/g' ./*.md
 
 # upload wiki content
 git add -f *.md
