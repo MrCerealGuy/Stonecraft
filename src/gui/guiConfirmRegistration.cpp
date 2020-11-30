@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "guiConfirmRegistration.h"
 #include "client/client.h"
+#include "guiButton.h"
 #include <IGUICheckBox.h>
 #include <IGUIButton.h>
 #include <IGUIStaticText.h>
@@ -32,16 +33,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // Continuing from guiPasswordChange.cpp
 const int ID_confirmPassword = 262;
 const int ID_confirm = 263;
-const int ID_message = 264;
+const int ID_intotext = 264;
 const int ID_cancel = 265;
+const int ID_message = 266;
 
 GUIConfirmRegistration::GUIConfirmRegistration(gui::IGUIEnvironment *env,
 		gui::IGUIElement *parent, s32 id, IMenuManager *menumgr, Client *client,
 		const std::string &playername, const std::string &password,
-		bool *aborted) :
+		bool *aborted, ISimpleTextureSource *tsrc) :
 		GUIModalMenu(env, parent, id, menumgr),
 		m_client(client), m_playername(playername), m_password(password),
-		m_aborted(aborted)
+		m_aborted(aborted), m_tsrc(tsrc)
 {
 #ifdef __ANDROID__
 	m_touchscreen_visible = false;
@@ -62,6 +64,7 @@ void GUIConfirmRegistration::removeChildren()
 	for (gui::IGUIElement *i : children_copy)
 		i->remove();
 }
+
 void GUIConfirmRegistration::regenerateGui(v2u32 screensize)
 {
 	acceptInput();
@@ -70,7 +73,11 @@ void GUIConfirmRegistration::regenerateGui(v2u32 screensize)
 	/*
 		Calculate new sizes and positions
 	*/
+#ifdef __ANDROID__
+	const float s = m_gui_scale * porting::getDisplayDensity() / 2;
+#else
 	const float s = m_gui_scale;
+#endif
 	DesiredRect = core::rect<s32>(
 		screensize.X / 2 - 600 * s / 2,
 		screensize.Y / 2 - 360 * s / 2,
@@ -104,7 +111,7 @@ void GUIConfirmRegistration::regenerateGui(v2u32 screensize)
 
 		wchar_t *info_text_buf_wide = utf8_to_wide_c(info_text_buf);
 		gui::IGUIEditBox *e = new gui::intlGUIEditBox(info_text_buf_wide, true,
-				Environment, this, ID_message, rect2, false, true);
+				Environment, this, ID_intotext, rect2, false, true);
 		delete[] info_text_buf_wide;
 		e->drop();
 		e->setMultiLine(true);
@@ -112,33 +119,34 @@ void GUIConfirmRegistration::regenerateGui(v2u32 screensize)
 		e->setTextAlignment(gui::EGUIA_UPPERLEFT, gui::EGUIA_CENTER);
 	}
 
-	ypos += 210 * s;
+	ypos += 200 * s;
 	{
 		core::rect<s32> rect2(0, 0, 540 * s, 30 * s);
 		rect2 += topleft_client + v2s32(30 * s, ypos);
 		gui::IGUIEditBox *e = Environment->addEditBox(m_pass_confirm.c_str(),
 				rect2, true, this, ID_confirmPassword);
 		e->setPasswordBox(true);
+		Environment->setFocus(e);
 	}
 
-	ypos += 60 * s;
+	ypos += 50 * s;
 	{
 		core::rect<s32> rect2(0, 0, 230 * s, 35 * s);
 		rect2 = rect2 + v2s32(size.X / 2 - 220 * s, ypos);
 		text = wgettext("Register and Join");
-		Environment->addButton(rect2, this, ID_confirm, text);
+		GUIButton::addButton(Environment, rect2, m_tsrc, this, ID_confirm, text);
 		delete[] text;
 	}
 	{
 		core::rect<s32> rect2(0, 0, 120 * s, 35 * s);
 		rect2 = rect2 + v2s32(size.X / 2 + 70 * s, ypos);
 		text = wgettext("Cancel");
-		Environment->addButton(rect2, this, ID_cancel, text);
+		GUIButton::addButton(Environment, rect2, m_tsrc, this, ID_cancel, text);
 		delete[] text;
 	}
 	{
-		core::rect<s32> rect2(0, 0, 200 * s, 20 * s);
-		rect2 += topleft_client + v2s32(30 * s, ypos - 40 * s);
+		core::rect<s32> rect2(0, 0, 500 * s, 40 * s);
+		rect2 += topleft_client + v2s32(30 * s, ypos + 40 * s);
 		text = wgettext("Passwords do not match!");
 		IGUIElement *e = Environment->addStaticText(
 				text, rect2, false, true, this, ID_message);
@@ -218,8 +226,7 @@ bool GUIConfirmRegistration::OnEvent(const SEvent &event)
 
 	if (event.GUIEvent.EventType == gui::EGET_ELEMENT_FOCUS_LOST && isVisible()) {
 		if (!canTakeFocus(event.GUIEvent.Element)) {
-			dstream << "GUIConfirmRegistration: Not allowing focus "
-				   "change."
+			infostream << "GUIConfirmRegistration: Not allowing focus change."
 				<< std::endl;
 			// Returning true disables focus change
 			return true;
@@ -254,12 +261,19 @@ bool GUIConfirmRegistration::getAndroidUIInput()
 	if (!hasAndroidUIInput() || m_jni_field_name != "password")
 		return false;
 
-	std::string text = porting::getInputDialogValue();
-	gui::IGUIElement *e = getElementFromId(ID_confirmPassword);
-	if (e)
-		e->setText(utf8_to_wide(text).c_str());
+	// still waiting
+	if (porting::getInputDialogState() == -1)
+		return true;
 
 	m_jni_field_name.clear();
+
+	gui::IGUIElement *e = getElementFromId(ID_confirmPassword);
+
+	if (!e || e->getType() != irr::gui::EGUIET_EDIT_BOX)
+		return false;
+
+	std::string text = porting::getInputDialogValue();
+	e->setText(utf8_to_wide(text).c_str());
 	return false;
 }
 #endif

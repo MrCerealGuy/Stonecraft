@@ -30,6 +30,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class Camera;
 class Client;
 struct Nametag;
+struct MinimapMarker;
 
 /*
 	SmoothTranslator
@@ -84,6 +85,7 @@ private:
 	scene::IBillboardSceneNode *m_spritenode = nullptr;
 	scene::IDummyTransformationSceneNode *m_matrixnode = nullptr;
 	Nametag *m_nametag = nullptr;
+	MinimapMarker *m_marker = nullptr;
 	v3f m_position = v3f(0.0f, 10.0f * BS, 0);
 	v3f m_velocity;
 	v3f m_acceleration;
@@ -102,10 +104,15 @@ private:
 	bool m_animation_loop = true;
 	// stores position and rotation for each bone name
 	std::unordered_map<std::string, core::vector2d<v3f>> m_bone_position;
+
+	int m_attachment_parent_id = 0;
+	std::unordered_set<int> m_attachment_child_ids;
 	std::string m_attachment_bone = "";
 	v3f m_attachment_position;
 	v3f m_attachment_rotation;
 	bool m_attached_to_local = false;
+	bool m_force_visible = false;
+
 	int m_anim_frame = 0;
 	int m_anim_num_frames = 1;
 	float m_anim_framelength = 0.2f;
@@ -121,8 +128,12 @@ private:
 	u8 m_last_light = 255;
 	bool m_is_visible = false;
 	s8 m_glow = 0;
+	// Material
+	video::E_MATERIAL_TYPE m_material_type;
+	// Settings
+	bool m_enable_shaders = false;
 
-	std::vector<u16> m_children;
+	bool visualExpiryRequired(const ObjectProperties &newprops) const;
 
 public:
 	GenericCAO(Client *client, ClientEnvironment *env);
@@ -152,18 +163,20 @@ public:
 
 	virtual bool getSelectionBox(aabb3f *toset) const;
 
-	v3f getPosition();
+	const v3f getPosition() const;
 
-	inline const v3f &getRotation()
+	void setPosition(const v3f &pos)
 	{
-		return m_rotation;
+		pos_translator.val_current = pos;
 	}
+
+	inline const v3f &getRotation() const { return m_rotation; }
 
 	const bool isImmortal();
 
-	scene::ISceneNode *getSceneNode();
+	scene::ISceneNode *getSceneNode() const;
 
-	scene::IAnimatedMeshSceneNode *getAnimatedMeshSceneNode();
+	scene::IAnimatedMeshSceneNode *getAnimatedMeshSceneNode() const;
 
 	// m_matrixnode controls the position and rotation of the child node
 	// for all scene nodes, as a workaround for an Irrlicht problem with
@@ -176,6 +189,13 @@ public:
 	{
 		assert(m_matrixnode);
 		return m_matrixnode->getRelativeTransformationMatrix();
+	}
+
+	inline const core::matrix4 *getAbsolutePosRotMatrix() const
+	{
+		if (!m_matrixnode)
+			return nullptr;
+		return &m_matrixnode->getAbsoluteTransformation();
 	}
 
 	inline f32 getStepHeight() const
@@ -199,10 +219,18 @@ public:
 	}
 
 	void setChildrenVisible(bool toset);
-
+	void setAttachment(int parent_id, const std::string &bone, v3f position,
+			v3f rotation, bool force_visible);
+	void getAttachment(int *parent_id, std::string *bone, v3f *position,
+			v3f *rotation, bool *force_visible) const;
+	void clearChildAttachments();
+	void clearParentAttachment();
+	void addAttachmentChild(int child_id);
+	void removeAttachmentChild(int child_id);
 	ClientActiveObject *getParent() const;
-
-	void setAttachments();
+	const std::unordered_set<int> &getAttachmentChildIds() const
+	{ return m_attachment_child_ids; }
+	void updateAttachments();
 
 	void removeFromScene(bool permanent);
 
@@ -213,11 +241,18 @@ public:
 		m_visuals_expired = true;
 	}
 
-	void updateLight(u8 light_at_pos);
+	void updateLight(u32 day_night_ratio);
 
-	void updateLightNoCheck(u8 light_at_pos);
+	void setNodeLight(u8 light);
 
-	v3s16 getLightPosition();
+	/* Get light position(s).
+	 * returns number of positions written into pos[], which must have space
+	 * for at least 3 vectors. */
+	u16 getLightPosition(v3s16 *pos);
+
+	void updateNametag();
+
+	void updateMarker();
 
 	void updateNodePos();
 
@@ -225,8 +260,8 @@ public:
 
 	void updateTexturePos();
 
-	// std::string copy is mandatory as mod can be a class member and there is a swap
-	// on those class members... do NOT pass by reference
+	// ffs this HAS TO BE a string copy! See #5739 if you think otherwise
+	// Reason: updateTextures(m_previous_texture_modifier);
 	void updateTextures(std::string mod);
 
 	void updateAnimation();
@@ -234,8 +269,6 @@ public:
 	void updateAnimationSpeed();
 
 	void updateBonePosition();
-
-	void updateAttachments();
 
 	void processMessage(const std::string &data);
 
@@ -248,4 +281,6 @@ public:
 	{
 		return m_prop.infotext;
 	}
+
+	void updateMeshCulling();
 };

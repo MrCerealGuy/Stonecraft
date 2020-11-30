@@ -97,7 +97,7 @@ struct InventoryLocation
 	std::string dump() const;
 	void serialize(std::ostream &os) const;
 	void deSerialize(std::istream &is);
-	void deSerialize(std::string s);
+	void deSerialize(const std::string &s);
 };
 
 struct InventoryAction;
@@ -111,7 +111,7 @@ public:
 	// Get an inventory (server and client)
 	virtual Inventory* getInventory(const InventoryLocation &loc){return NULL;}
     // Set modified (will be saved and sent over network; only on server)
-	virtual void setInventoryModified(const InventoryLocation &loc, bool playerSend = true){}
+	virtual void setInventoryModified(const InventoryLocation &loc) {}
     // Send inventory action to server (only on client)
 	virtual void inventoryAction(InventoryAction *a){}
 };
@@ -183,6 +183,18 @@ struct IMoveAction : public InventoryAction, public MoveAction
 	void apply(InventoryManager *mgr, ServerActiveObject *player, IGameDef *gamedef);
 
 	void clientApply(InventoryManager *mgr, IGameDef *gamedef);
+
+	void swapDirections();
+
+	void onPutAndOnTake(const ItemStack &src_item, ServerActiveObject *player) const;
+
+	void onMove(int count, ServerActiveObject *player) const;
+
+	int allowPut(const ItemStack &dst_item, ServerActiveObject *player) const;
+
+	int allowTake(const ItemStack &src_item, ServerActiveObject *player) const;
+
+	int allowMove(int try_take_count, ServerActiveObject *player) const;
 };
 
 struct IDropAction : public InventoryAction, public MoveAction

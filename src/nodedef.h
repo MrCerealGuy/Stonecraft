@@ -33,6 +33,7 @@ class Client;
 #include "itemgroup.h"
 #include "sound.h" // SimpleSoundSpec
 #include "constants.h" // BS
+#include "texture_override.h" // TextureOverride
 #include "tileanimation.h"
 
 // PROTOCOL_VERSION >= 37
@@ -157,7 +158,6 @@ public:
 	int node_texture_size;
 	bool opaque_water;
 	bool connected_glass;
-	bool use_normal_texture;
 	bool enable_mesh_cache;
 	bool enable_minimap;
 
@@ -260,6 +260,11 @@ struct TileDef
 		NodeDrawType drawtype);
 };
 
+// Defines the number of special tiles per nodedef
+//
+// NOTE: When changing this value, the enum entries of OverrideTarget and
+//       parser in TextureOverrideSource must be updated so that all special
+//       tiles can be overridden.
 #define CF_SPECIAL_COUNT 6
 
 struct ContentFeatures
@@ -325,8 +330,10 @@ struct ContentFeatures
 	std::vector<content_t> connects_to_ids;
 	// Post effect color, drawn when the camera is inside the node.
 	video::SColor post_effect_color;
-	// Flowing liquid or snow, value = default level
+	// Flowing liquid or leveled nodebox, value = default level
 	u8 leveled;
+	// Maximum value for leveled nodes
+	u8 leveled_max;
 
 	// --- LIGHTING-RELATED ---
 
@@ -365,8 +372,10 @@ struct ContentFeatures
 	enum LiquidType liquid_type;
 	// If the content is liquid, this is the flowing version of the liquid.
 	std::string liquid_alternative_flowing;
+	content_t liquid_alternative_flowing_id;
 	// If the content is liquid, this is the source version of the liquid.
 	std::string liquid_alternative_source;
+	content_t liquid_alternative_source_id;
 	// Viscosity for fluid flow, ranging from 1 to 7, with
 	// 1 giving almost instantaneous propagation and 7 being
 	// the slowest possible
@@ -404,10 +413,11 @@ struct ContentFeatures
 	*/
 
 	ContentFeatures();
-	~ContentFeatures() = default;
+	~ContentFeatures();
 	void reset();
 	void serialize(std::ostream &os, u16 protocol_version) const;
 	void deSerialize(std::istream &is);
+
 	/*!
 	 * Since vertex alpha is no longer supported, this method
 	 * adds opacity directly to the texture pixels.
@@ -417,15 +427,42 @@ struct ContentFeatures
 	 */
 	void correctAlpha(TileDef *tiles, int length);
 
+#ifndef SERVER
+	/*
+	 * Checks if any tile texture has any transparent pixels.
+	 * Prints a warning and returns true if that is the case, false otherwise.
+	 * This is supposed to be used for use_texture_alpha backwards compatibility.
+	 */
+	bool textureAlphaCheck(ITextureSource *tsrc, const TileDef *tiles,
+		int length);
+#endif
+	
+
 	/*
 		Some handy methods
 	*/
+	bool needsBackfaceCulling() const
+	{
+		switch (drawtype) {
+		case NDT_TORCHLIKE:
+		case NDT_SIGNLIKE:
+		case NDT_FIRELIKE:
+		case NDT_RAILLIKE:
+		case NDT_PLANTLIKE:
+		case NDT_PLANTLIKE_ROOTED:
+		case NDT_MESH:
+			return false;
+		default:
+			return true;
+		}
+	}
+
 	bool isLiquid() const{
 		return (liquid_type != LIQUID_NONE);
 	}
 	bool sameLiquid(const ContentFeatures &f) const{
 		if(!isLiquid() || !f.isLiquid()) return false;
-		return (liquid_alternative_flowing == f.liquid_alternative_flowing);
+		return (liquid_alternative_flowing_id == f.liquid_alternative_flowing_id);
 	}
 
 	int getGroup(const std::string &group) const
@@ -583,15 +620,12 @@ public:
 	void updateAliases(IItemDefManager *idef);
 
 	/*!
-	 * Reads the used texture pack's override.txt, and replaces the textures
-	 * of registered nodes with the ones specified there.
+	 * Replaces the textures of registered nodes with the ones specified in
+	 * the texturepack's override.txt file
 	 *
-	 * Format of the input file: in each line
-	 * `node_name top|bottom|right|left|front|back|all|*|sides texture_name.png`
-	 *
-	 * @param override_filepath path to 'texturepack/override.txt'
+	 * @param overrides the texture overrides
 	 */
-	void applyTextureOverrides(const std::string &override_filepath);
+	void applyTextureOverrides(const std::vector<TextureOverride> &overrides);
 
 	/*!
 	 * Only the client uses this. Loads textures and shaders required for
@@ -641,10 +675,11 @@ public:
 	void resetNodeResolveState();
 
 	/*!
-	 * Resolves the IDs to which connecting nodes connect from names.
+	 * Resolves (caches the IDs) cross-references between nodes,
+	 * like liquid alternatives.
 	 * Must be called after node registration has finished!
 	 */
-	void mapNodeboxConnections();
+	void resolveCrossrefs();
 
 private:
 	/*!
@@ -667,6 +702,14 @@ private:
 	 * @param name a node name
 	 */
 	void addNameIdMapping(content_t i, std::string name);
+
+	/*!
+	 * Removes a content ID from all groups.
+	 * Erases content IDs from vectors in \ref m_group_to_items and
+	 * removes empty vectors.
+	 * @param id Content ID
+	 */
+	void eraseIdFromGroups(content_t id);
 
 	/*!
 	 * Recalculates m_selection_box_int_union based on
@@ -732,6 +775,9 @@ public:
 	NodeResolver();
 	virtual ~NodeResolver();
 	virtual void resolveNodeNames() = 0;
+
+	// required because this class is used as mixin for ObjDef
+	void cloneTo(NodeResolver *res) const;
 
 	bool getIdFromNrBacklog(content_t *result_out,
 		const std::string &node_alt, content_t c_fallback,

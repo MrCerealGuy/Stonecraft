@@ -26,6 +26,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <iostream>
 
 #include "irrlichttypes_extrabloated.h"
+#include "guiScrollBar.h"
 
 class ISimpleTextureSource;
 
@@ -122,6 +123,12 @@ public:
 	// Autoscroll to make the selected row fully visible
 	void setSelected(s32 index);
 
+	//! Sets another skin independent font. If this is set to zero, the button uses the font of the skin.
+	virtual void setOverrideFont(gui::IGUIFont *font = nullptr);
+
+	//! Gets the override font (if any)
+	virtual gui::IGUIFont *getOverrideFont() const;
+
 	/* Get selection, scroll position and opened (sub)trees */
 	DynamicData getDynamicData() const;
 
@@ -198,7 +205,7 @@ protected:
 	video::SColor m_highlight_text = video::SColor(255, 255, 255, 255);
 	s32 m_rowheight = 1;
 	gui::IGUIFont *m_font = nullptr;
-	gui::IGUIScrollBar *m_scrollbar = nullptr;
+	GUIScrollBar *m_scrollbar = nullptr;
 
 	// Allocated strings and images
 	std::vector<core::stringw> m_strings;

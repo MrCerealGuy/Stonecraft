@@ -1,8 +1,8 @@
 /*
 Minetest
-Copyright (C) 2010-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2013-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2018 paramat
+Copyright (C) 2010-2020 celeron55, Perttu Ahola <celeron55@gmail.com>
+Copyright (C) 2015-2020 paramat
+Copyright (C) 2013-2016 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -30,15 +30,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define MAPGEN_DEFAULT_NAME "v7"
 
 /////////////////// Mapgen flags
-#define MG_TREES       0x01  // Deprecated. Moved into mgv6 flags
+#define MG_TREES       0x01  // Obsolete. Moved into mgv6 flags
 #define MG_CAVES       0x02
 #define MG_DUNGEONS    0x04
-#define MG_FLAT        0x08  // Deprecated. Moved into mgv6 flags
+#define MG_FLAT        0x08  // Obsolete. Moved into mgv6 flags
 #define MG_LIGHT       0x10
 #define MG_DECORATIONS 0x20
 #define MG_BIOMES      0x40
+#define MG_ORES        0x80
 
-typedef u8 biome_t;  // copy from mg_biome.h to avoid an unnecessary include
+typedef u16 biome_t;  // copy from mg_biome.h to avoid an unnecessary include
 
 class Settings;
 class MMVManip;
@@ -51,6 +52,7 @@ class Biome;
 class BiomeGen;
 struct BiomeParams;
 class BiomeManager;
+class EmergeParams;
 class EmergeManager;
 class MapBlock;
 class VoxelManipulator;
@@ -86,11 +88,9 @@ struct GenNotifyEvent {
 
 class GenerateNotifier {
 public:
+	// Use only for temporary Mapgen objects with no map generation!
 	GenerateNotifier() = default;
-	GenerateNotifier(u32 notify_on, std::set<u32> *notify_on_deco_ids);
-
-	void setNotifyOn(u32 notify_on);
-	void setNotifyOnDecoIds(std::set<u32> *notify_on_deco_ids);
+	GenerateNotifier(u32 notify_on, const std::set<u32> *notify_on_deco_ids);
 
 	bool addEvent(GenNotifyType type, v3s16 pos, u32 id=0);
 	void getEvents(std::map<std::string, std::vector<v3s16> > &event_map);
@@ -98,19 +98,20 @@ public:
 
 private:
 	u32 m_notify_on = 0;
-	std::set<u32> *m_notify_on_deco_ids;
+	const std::set<u32> *m_notify_on_deco_ids = nullptr;
 	std::list<GenNotifyEvent> m_notify_events;
 };
 
+// Order must match the order of 'static MapgenDesc g_reg_mapgens[]' in mapgen.cpp
 enum MapgenType {
-	MAPGEN_V5,
-	MAPGEN_V6,
 	MAPGEN_V7,
+	MAPGEN_VALLEYS,
+	MAPGEN_CARPATHIAN,
+	MAPGEN_V5,
 	MAPGEN_FLAT,
 	MAPGEN_FRACTAL,
-	MAPGEN_VALLEYS,
 	MAPGEN_SINGLENODE,
-	MAPGEN_CARPATHIAN,
+	MAPGEN_V6,
 	MAPGEN_INVALID,
 };
 
@@ -123,7 +124,9 @@ struct MapgenParams {
 	u64 seed = 0;
 	s16 water_level = 1;
 	s16 mapgen_limit = MAX_MAP_GENERATION_LIMIT;
-	u32 flags = MG_CAVES | MG_LIGHT | MG_DECORATIONS | MG_BIOMES;
+	// Flags set in readParams
+	u32 flags = 0;
+	u32 spflags = 0;
 
 	BiomeParams *bparams = nullptr;
 
@@ -132,6 +135,8 @@ struct MapgenParams {
 
 	virtual void readParams(const Settings *settings);
 	virtual void writeParams(Settings *settings) const;
+	// Default settings for g_settings such as flags
+	virtual void setDefaultSettings(Settings *settings) {};
 
 	s32 getSpawnRangeMax();
 
@@ -171,7 +176,7 @@ public:
 	GenerateNotifier gennotify;
 
 	Mapgen() = default;
-	Mapgen(int mapgenid, MapgenParams *params, EmergeManager *emerge);
+	Mapgen(int mapgenid, MapgenParams *params, EmergeParams *emerge);
 	virtual ~Mapgen() = default;
 	DISABLE_CLASS_COPY(Mapgen);
 
@@ -179,7 +184,6 @@ public:
 
 	static u32 getBlockSeed(v3s16 p, s32 seed);
 	static u32 getBlockSeed2(v3s16 p, s32 seed);
-	s16 findGroundLevelFull(v2s16 p2d);
 	s16 findGroundLevel(v2s16 p2d, s16 ymin, s16 ymax);
 	s16 findLiquidSurface(v2s16 p2d, s16 ymin, s16 ymax);
 	void updateHeightmap(v3s16 nmin, v3s16 nmax);
@@ -189,11 +193,12 @@ public:
 	void updateLiquid(UniqueQueue<v3s16> *trans_liquid, v3s16 nmin, v3s16 nmax);
 
 	void setLighting(u8 light, v3s16 nmin, v3s16 nmax);
-	void lightSpread(VoxelArea &a, v3s16 p, u8 light);
+	void lightSpread(VoxelArea &a, std::queue<std::pair<v3s16, u8>> &queue,
+		const v3s16 &p, u8 light);
 	void calcLighting(v3s16 nmin, v3s16 nmax, v3s16 full_nmin, v3s16 full_nmax,
 		bool propagate_shadow = true);
 	void propagateSunlight(v3s16 nmin, v3s16 nmax, bool propagate_shadow);
-	void spreadLight(v3s16 nmin, v3s16 nmax);
+	void spreadLight(const v3s16 &nmin, const v3s16 &nmax);
 
 	virtual void makeChunk(BlockMakeData *data) {}
 	virtual int getGroundLevelAtPoint(v2s16 p) { return 0; }
@@ -209,9 +214,10 @@ public:
 	static MapgenType getMapgenType(const std::string &mgname);
 	static const char *getMapgenName(MapgenType mgtype);
 	static Mapgen *createMapgen(MapgenType mgtype, MapgenParams *params,
-		EmergeManager *emerge);
+		EmergeParams *emerge);
 	static MapgenParams *createMapgenParams(MapgenType mgtype);
 	static void getMapgenNames(std::vector<const char *> *mgnames, bool include_hidden);
+	static void setDefaultSettings(Settings *settings);
 
 private:
 	// isLiquidHorizontallyFlowable() is a helper function for updateLiquid()
@@ -236,18 +242,18 @@ private:
 */
 class MapgenBasic : public Mapgen {
 public:
-	MapgenBasic(int mapgenid, MapgenParams *params, EmergeManager *emerge);
+	MapgenBasic(int mapgenid, MapgenParams *params, EmergeParams *emerge);
 	virtual ~MapgenBasic();
 
 	virtual void generateBiomes();
 	virtual void dustTopNodes();
 	virtual void generateCavesNoiseIntersection(s16 max_stone_y);
-	virtual void generateCavesRandomWalk(s16 max_stone_y, s16 large_cave_depth);
+	virtual void generateCavesRandomWalk(s16 max_stone_y, s16 large_cave_ymax);
 	virtual bool generateCavernsNoise(s16 max_stone_y);
 	virtual void generateDungeons(s16 max_stone_y);
 
 protected:
-	EmergeManager *m_emerge;
+	EmergeParams *m_emerge;
 	BiomeManager *m_bmgr;
 
 	Noise *noise_filler_depth;
@@ -257,21 +263,11 @@ protected:
 	v3s16 full_node_min;
 	v3s16 full_node_max;
 
-	// Content required for generateBiomes
 	content_t c_stone;
-	content_t c_desert_stone;
-	content_t c_sandstone;
 	content_t c_water_source;
 	content_t c_river_water_source;
 	content_t c_lava_source;
-
-	// Content required for generateDungeons
 	content_t c_cobble;
-	content_t c_stair_cobble;
-	content_t c_mossycobble;
-	content_t c_stair_desert_stone;
-	content_t c_sandstonebrick;
-	content_t c_stair_sandstone_block;
 
 	int ystride;
 	int zstride;
@@ -283,9 +279,17 @@ protected:
 	NoiseParams np_cave1;
 	NoiseParams np_cave2;
 	NoiseParams np_cavern;
+	NoiseParams np_dungeons;
 	float cave_width;
 	float cavern_limit;
 	float cavern_taper;
 	float cavern_threshold;
-	int lava_depth;
+	int small_cave_num_min;
+	int small_cave_num_max;
+	int large_cave_num_min;
+	int large_cave_num_max;
+	float large_cave_flooded;
+	s16 large_cave_depth;
+	s16 dungeon_ymin;
+	s16 dungeon_ymax;
 };

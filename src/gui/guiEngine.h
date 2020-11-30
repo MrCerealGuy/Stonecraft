@@ -23,29 +23,28 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 /* Includes                                                                   */
 /******************************************************************************/
 #include "irrlichttypes.h"
-#include "modalMenu.h"
 #include "guiFormSpecMenu.h"
 #include "client/sound.h"
 #include "client/tile.h"
 #include "util/enriched_string.h"
 
 /******************************************************************************/
-/* Typedefs and macros                                                        */
+/* Structs and macros                                                         */
 /******************************************************************************/
 /** texture layer ids */
-typedef enum {
+enum texture_layer {
 	TEX_LAYER_BACKGROUND = 0,
 	TEX_LAYER_OVERLAY,
 	TEX_LAYER_HEADER,
 	TEX_LAYER_FOOTER,
 	TEX_LAYER_MAX
-} texture_layer;
+};
 
-typedef struct {
+struct image_definition {
 	video::ITexture *texture = nullptr;
 	bool             tile;
 	unsigned int     minsize;
-} image_definition;
+};
 
 /******************************************************************************/
 /* forward declarations                                                       */
@@ -221,6 +220,8 @@ private:
 	/** script basefolder */
 	std::string              m_scriptdir = "";
 
+	void setFormspecPrepend(const std::string &fs);
+
 	/**
 	 * draw background layer
 	 * @param driver to use for drawing
@@ -247,7 +248,7 @@ private:
 	 * @param layer draw layer to specify texture
 	 * @param texturepath full path of texture to load
 	 */
-	bool setTexture(texture_layer layer, std::string texturepath,
+	bool setTexture(texture_layer layer, const std::string &texturepath,
 			bool tile_image, unsigned int minsize);
 
 	/**
@@ -276,7 +277,7 @@ private:
 	/** do preprocessing for cloud subsystem */
 	void cloudPreProcess();
 	/** do postprocessing for cloud subsystem */
-	void cloudPostProcess();
+	void cloudPostProcess(u32 frametime_min, IrrlichtDevice *device);
 
 	/** internam data required for drawing clouds */
 	struct clouddata {
@@ -296,7 +297,7 @@ private:
 	clouddata   m_cloud;
 
 	/** start playing a sound and return handle */
-	s32 playSound(SimpleSoundSpec spec, bool looped);
+	s32 playSound(const SimpleSoundSpec &spec, bool looped);
 	/** stop playing a sound started with playSound() */
 	void stopSound(s32 handle);
 

@@ -1,7 +1,7 @@
 /*
 Minetest
-Copyright (C) 2010-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2018 paramat
+Copyright (C) 2015-2020 paramat
+Copyright (C) 2010-2016 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by
@@ -21,6 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #define VMANIP_FLAG_CAVE VOXELFLAG_CHECKED1
+
+typedef u16 biome_t;  // copy from mg_biome.h to avoid an unnecessary include
 
 class GenerateNotifier;
 
@@ -44,7 +46,7 @@ public:
 		NoiseParams *np_cave2, s32 seed, float cave_width);
 	~CavesNoiseIntersection();
 
-	void generateCaves(MMVManip *vm, v3s16 nmin, v3s16 nmax, u8 *biomemap);
+	void generateCaves(MMVManip *vm, v3s16 nmin, v3s16 nmax, biome_t *biomemap);
 
 private:
 	const NodeDefManager *m_ndef;
@@ -116,13 +118,13 @@ public:
 	s16 *heightmap;
 	BiomeGen *bmgn;
 
-	// configurable parameters
 	s32 seed;
 	int water_level;
-	int lava_depth;
+	float large_cave_flooded;
+	// TODO 'np_caveliquids' is deprecated and should eventually be removed.
+	// Cave liquids are now defined and located using biome definitions.
 	NoiseParams *np_caveliquids;
 
-	// intermediate state variables
 	u16 ystride;
 
 	s16 min_tunnel_diameter;
@@ -133,6 +135,7 @@ public:
 	bool large_cave;
 	bool large_cave_is_flat;
 	bool flooded;
+	bool use_biome_liquid;
 
 	v3s16 node_min;
 	v3s16 node_max;
@@ -150,6 +153,7 @@ public:
 
 	content_t c_water_source;
 	content_t c_lava_source;
+	content_t c_biome_liquid;
 
 	// ndef is a mandatory parameter.
 	// If gennotify is NULL, generation events are not logged.
@@ -157,7 +161,7 @@ public:
 	CavesRandomWalk(const NodeDefManager *ndef, GenerateNotifier *gennotify =
 		NULL, s32 seed = 0, int water_level = 1, content_t water_source =
 		CONTENT_IGNORE, content_t lava_source = CONTENT_IGNORE,
-		int lava_depth = -256, BiomeGen *biomegen = NULL);
+		float large_cave_flooded = 0.5f, BiomeGen *biomegen = NULL);
 
 	// vm and ps are mandatory parameters.
 	// If heightmap is NULL, the surface level at all points is assumed to

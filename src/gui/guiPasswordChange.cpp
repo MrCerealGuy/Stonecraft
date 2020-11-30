@@ -18,6 +18,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 #include "guiPasswordChange.h"
 #include "client/client.h"
+#include "guiButton.h"
 #include <IGUICheckBox.h>
 #include <IGUIEditBox.h>
 #include <IGUIButton.h>
@@ -37,10 +38,12 @@ const int ID_cancel = 261;
 GUIPasswordChange::GUIPasswordChange(gui::IGUIEnvironment* env,
 		gui::IGUIElement* parent, s32 id,
 		IMenuManager *menumgr,
-		Client* client
+		Client* client,
+		ISimpleTextureSource *tsrc
 ):
 	GUIModalMenu(env, parent, id, menumgr),
-	m_client(client)
+	m_client(client),
+	m_tsrc(tsrc)
 {
 }
 
@@ -76,7 +79,11 @@ void GUIPasswordChange::regenerateGui(v2u32 screensize)
 	/*
 		Calculate new sizes and positions
 	*/
+#ifdef __ANDROID__
+	const float s = m_gui_scale * porting::getDisplayDensity() / 2;
+#else
 	const float s = m_gui_scale;
+#endif
 	DesiredRect = core::rect<s32>(
 		screensize.X / 2 - 580 * s / 2,
 		screensize.Y / 2 - 300 * s / 2,
@@ -145,14 +152,14 @@ void GUIPasswordChange::regenerateGui(v2u32 screensize)
 		core::rect<s32> rect(0, 0, 100 * s, 30 * s);
 		rect = rect + v2s32(size.X / 4 + 56 * s, ypos);
 		text = wgettext("Change");
-		Environment->addButton(rect, this, ID_change, text);
+		GUIButton::addButton(Environment, rect, m_tsrc, this, ID_change, text);
 		delete[] text;
 	}
 	{
 		core::rect<s32> rect(0, 0, 100 * s, 30 * s);
 		rect = rect + v2s32(size.X / 4 + 185 * s, ypos);
 		text = wgettext("Cancel");
-		Environment->addButton(rect, this, ID_cancel, text);
+		GUIButton::addButton(Environment, rect, m_tsrc, this, ID_cancel, text);
 		delete[] text;
 	}
 
@@ -233,7 +240,7 @@ bool GUIPasswordChange::OnEvent(const SEvent &event)
 		if (event.GUIEvent.EventType == gui::EGET_ELEMENT_FOCUS_LOST &&
 				isVisible()) {
 			if (!canTakeFocus(event.GUIEvent.Element)) {
-				dstream << "GUIPasswordChange: Not allowing focus change."
+				infostream << "GUIPasswordChange: Not allowing focus change."
 					<< std::endl;
 				// Returning true disables focus change
 				return true;
@@ -286,6 +293,10 @@ bool GUIPasswordChange::getAndroidUIInput()
 	if (!hasAndroidUIInput())
 		return false;
 
+	// still waiting
+	if (porting::getInputDialogState() == -1)
+		return true;
+
 	gui::IGUIElement *e = nullptr;
 	if (m_jni_field_name == "old_password")
 		e = getElementFromId(ID_oldPassword);
@@ -293,12 +304,13 @@ bool GUIPasswordChange::getAndroidUIInput()
 		e = getElementFromId(ID_newPassword1);
 	else if (m_jni_field_name == "new_password_2")
 		e = getElementFromId(ID_newPassword2);
-
-	if (e) {
-		std::string text = porting::getInputDialogValue();
-		e->setText(utf8_to_wide(text).c_str());
-	}
 	m_jni_field_name.clear();
+
+	if (!e || e->getType() != irr::gui::EGUIET_EDIT_BOX)
+		return false;
+
+	std::string text = porting::getInputDialogValue();
+	e->setText(utf8_to_wide(text).c_str());
 	return false;
 }
 #endif

@@ -25,7 +25,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <cstring>
 #include <IGUISkin.h>
 #include <IGUIFont.h>
-#include <IGUIScrollBar.h>
 #include "client/renderingengine.h"
 #include "debug.h"
 #include "log.h"
@@ -57,17 +56,17 @@ GUITable::GUITable(gui::IGUIEnvironment *env,
 	m_font = skin->getFont();
 	if (m_font) {
 		m_font->grab();
-		m_rowheight = m_font->getDimension(L"A").Height + 4;
+		m_rowheight = m_font->getDimension(L"Ay").Height + 4;
 		m_rowheight = MYMAX(m_rowheight, 1);
 	}
 
 	const s32 s = skin->getSize(gui::EGDS_SCROLLBAR_SIZE);
-	m_scrollbar = Environment->addScrollBar(false,
+	m_scrollbar = new GUIScrollBar(Environment, this, -1,
 			core::rect<s32>(RelativeRect.getWidth() - s,
 					0,
 					RelativeRect.getWidth(),
 					RelativeRect.getHeight()),
-			this, -1);
+			false, true);
 	m_scrollbar->setSubElement(true);
 	m_scrollbar->setTabStop(false);
 	m_scrollbar->setAlignment(gui::EGUIA_LOWERRIGHT, gui::EGUIA_LOWERRIGHT,
@@ -99,7 +98,8 @@ GUITable::~GUITable()
 	if (m_font)
 		m_font->drop();
 
-	m_scrollbar->remove();
+	if (m_scrollbar)
+		m_scrollbar->drop();
 }
 
 GUITable::Option GUITable::splitOption(const std::string &str)
@@ -584,6 +584,31 @@ void GUITable::setSelected(s32 index)
 	if (m_selected != old_selected || selection_invisible) {
 		autoScroll();
 	}
+}
+
+void GUITable::setOverrideFont(IGUIFont *font)
+{
+	if (m_font == font)
+		return;
+
+	if (font == nullptr)
+		font = Environment->getSkin()->getFont();
+
+	if (m_font)
+		m_font->drop();
+
+	m_font = font;
+	m_font->grab();
+
+	m_rowheight = m_font->getDimension(L"Ay").Height + 4;
+	m_rowheight = MYMAX(m_rowheight, 1);
+
+	updateScrollBar();
+}
+
+IGUIFont *GUITable::getOverrideFont() const
+{
+	return m_font;
 }
 
 GUITable::DynamicData GUITable::getDynamicData() const
@@ -1075,6 +1100,7 @@ void GUITable::updateScrollBar()
 	m_scrollbar->setMax(scrollmax);
 	m_scrollbar->setSmallStep(m_rowheight);
 	m_scrollbar->setLargeStep(2 * m_rowheight);
+	m_scrollbar->setPageSize(totalheight);
 }
 
 void GUITable::sendTableEvent(s32 column, bool doubleclick)

@@ -38,10 +38,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <map>
 #include <set>
 
-#ifdef __ANDROID__
-#include <GLES/gl.h>
-#endif
-
 /*
 	ItemDefinition
 */
@@ -66,6 +62,7 @@ ItemDefinition& ItemDefinition::operator=(const ItemDefinition &def)
 	type = def.type;
 	name = def.name;
 	description = def.description;
+	short_description = def.short_description;
 	inventory_image = def.inventory_image;
 	inventory_overlay = def.inventory_overlay;
 	wield_image = def.wield_image;
@@ -106,6 +103,7 @@ void ItemDefinition::reset()
 	type = ITEM_NONE;
 	name = "";
 	description = "";
+	short_description = "";
 	inventory_image = "";
 	inventory_overlay = "";
 	wield_image = "";
@@ -132,10 +130,10 @@ void ItemDefinition::serialize(std::ostream &os, u16 protocol_version) const
 	u8 version = 6;
 	writeU8(os, version);
 	writeU8(os, type);
-	os << serializeString(name);
-	os << serializeString(description);
-	os << serializeString(inventory_image);
-	os << serializeString(wield_image);
+	os << serializeString16(name);
+	os << serializeString16(description);
+	os << serializeString16(inventory_image);
+	os << serializeString16(wield_image);
 	writeV3F32(os, wield_scale);
 	writeS16(os, stack_max);
 	writeU8(os, usable);
@@ -147,25 +145,27 @@ void ItemDefinition::serialize(std::ostream &os, u16 protocol_version) const
 		tool_capabilities->serialize(tmp_os, protocol_version);
 		tool_capabilities_s = tmp_os.str();
 	}
-	os << serializeString(tool_capabilities_s);
+	os << serializeString16(tool_capabilities_s);
 
 	writeU16(os, groups.size());
 	for (const auto &group : groups) {
-		os << serializeString(group.first);
+		os << serializeString16(group.first);
 		writeS16(os, group.second);
 	}
 
-	os << serializeString(node_placement_prediction);
+	os << serializeString16(node_placement_prediction);
 
 	// Version from ContentFeatures::serialize to keep in sync
 	sound_place.serialize(os, CONTENTFEATURES_VERSION);
 	sound_place_failed.serialize(os, CONTENTFEATURES_VERSION);
 
 	writeF32(os, range);
-	os << serializeString(palette_image);
+	os << serializeString16(palette_image);
 	writeARGB8(os, color);
-	os << serializeString(inventory_overlay);
-	os << serializeString(wield_overlay);
+	os << serializeString16(inventory_overlay);
+	os << serializeString16(wield_overlay);
+
+	os << serializeString16(short_description);
 }
 
 void ItemDefinition::deSerialize(std::istream &is)
@@ -179,16 +179,16 @@ void ItemDefinition::deSerialize(std::istream &is)
 		throw SerializationError("unsupported ItemDefinition version");
 
 	type = (enum ItemType)readU8(is);
-	name = deSerializeString(is);
-	description = deSerializeString(is);
-	inventory_image = deSerializeString(is);
-	wield_image = deSerializeString(is);
+	name = deSerializeString16(is);
+	description = deSerializeString16(is);
+	inventory_image = deSerializeString16(is);
+	wield_image = deSerializeString16(is);
 	wield_scale = readV3F32(is);
 	stack_max = readS16(is);
 	usable = readU8(is);
 	liquids_pointable = readU8(is);
 
-	std::string tool_capabilities_s = deSerializeString(is);
+	std::string tool_capabilities_s = deSerializeString16(is);
 	if (!tool_capabilities_s.empty()) {
 		std::istringstream tmp_is(tool_capabilities_s, std::ios::binary);
 		tool_capabilities = new ToolCapabilities;
@@ -198,27 +198,28 @@ void ItemDefinition::deSerialize(std::istream &is)
 	groups.clear();
 	u32 groups_size = readU16(is);
 	for(u32 i=0; i<groups_size; i++){
-		std::string name = deSerializeString(is);
+		std::string name = deSerializeString16(is);
 		int value = readS16(is);
 		groups[name] = value;
 	}
 
-	node_placement_prediction = deSerializeString(is);
+	node_placement_prediction = deSerializeString16(is);
 
 	// Version from ContentFeatures::serialize to keep in sync
 	sound_place.deSerialize(is, CONTENTFEATURES_VERSION);
 	sound_place_failed.deSerialize(is, CONTENTFEATURES_VERSION);
 
 	range = readF32(is);
-	palette_image = deSerializeString(is);
+	palette_image = deSerializeString16(is);
 	color = readARGB8(is);
-	inventory_overlay = deSerializeString(is);
-	wield_overlay = deSerializeString(is);
+	inventory_overlay = deSerializeString16(is);
+	wield_overlay = deSerializeString16(is);
 
 	// If you add anything here, insert it primarily inside the try-catch
 	// block to not need to increase the version.
-	//try {
-	//} catch(SerializationError &e) {};
+	try {
+		short_description = deSerializeString16(is);
+	} catch(SerializationError &e) {};
 }
 
 
@@ -274,17 +275,16 @@ public:
 		// Convert name according to possible alias
 		std::string name = getAlias(name_);
 		// Get the definition
-		std::map<std::string, ItemDefinition*>::const_iterator i;
-		i = m_item_definitions.find(name);
-		if(i == m_item_definitions.end())
+		auto i = m_item_definitions.find(name);
+		if (i == m_item_definitions.cend())
 			i = m_item_definitions.find("unknown");
-		assert(i != m_item_definitions.end());
+		assert(i != m_item_definitions.cend());
 		return *(i->second);
 	}
 	virtual const std::string &getAlias(const std::string &name) const
 	{
-		StringMap::const_iterator it = m_aliases.find(name);
-		if (it != m_aliases.end())
+		auto it = m_aliases.find(name);
+		if (it != m_aliases.cend())
 			return it->second;
 		return name;
 	}
@@ -304,8 +304,7 @@ public:
 		// Convert name according to possible alias
 		std::string name = getAlias(name_);
 		// Get the definition
-		std::map<std::string, ItemDefinition*>::const_iterator i;
-		return m_item_definitions.find(name) != m_item_definitions.end();
+		return m_item_definitions.find(name) != m_item_definitions.cend();
 	}
 #ifndef SERVER
 public:
@@ -426,13 +425,30 @@ public:
 		return get(stack.name).color;
 	}
 #endif
+	void applyTextureOverrides(const std::vector<TextureOverride> &overrides)
+	{
+		infostream << "ItemDefManager::applyTextureOverrides(): Applying "
+			"overrides to textures" << std::endl;
+
+		for (const TextureOverride& texture_override : overrides) {
+			if (m_item_definitions.find(texture_override.id) == m_item_definitions.end()) {
+				continue; // Ignore unknown item
+			}
+
+			ItemDefinition* itemdef = m_item_definitions[texture_override.id];
+
+			if (texture_override.hasTarget(OverrideTarget::INVENTORY))
+				itemdef->inventory_image = texture_override.texture;
+
+			if (texture_override.hasTarget(OverrideTarget::WIELD))
+				itemdef->wield_image = texture_override.texture;
+		}
+	}
 	void clear()
 	{
-		for(std::map<std::string, ItemDefinition*>::const_iterator
-				i = m_item_definitions.begin();
-				i != m_item_definitions.end(); ++i)
+		for (auto &i : m_item_definitions)
 		{
-			delete i->second;
+			delete i.second;
 		}
 		m_item_definitions.clear();
 		m_aliases.clear();
@@ -467,7 +483,7 @@ public:
 	}
 	virtual void registerItem(const ItemDefinition &def)
 	{
-		verbosestream<<"ItemDefManager: registering \""<<def.name<<"\""<<std::endl;
+		TRACESTREAM(<< "ItemDefManager: registering " << def.name << std::endl);
 		// Ensure that the "" item (the hand) always has ToolCapabilities
 		if (def.name.empty())
 			FATAL_ERROR_IF(!def.tool_capabilities, "Hand does not have ToolCapabilities");
@@ -494,8 +510,8 @@ public:
 			const std::string &convert_to)
 	{
 		if (m_item_definitions.find(name) == m_item_definitions.end()) {
-			verbosestream<<"ItemDefManager: setting alias "<<name
-				<<" -> "<<convert_to<<std::endl;
+			TRACESTREAM(<< "ItemDefManager: setting alias " << name
+				<< " -> " << convert_to << std::endl);
 			m_aliases[name] = convert_to;
 		}
 	}
@@ -505,23 +521,19 @@ public:
 		u16 count = m_item_definitions.size();
 		writeU16(os, count);
 
-		for (std::map<std::string, ItemDefinition *>::const_iterator
-				it = m_item_definitions.begin();
-				it != m_item_definitions.end(); ++it) {
-			ItemDefinition *def = it->second;
+		for (const auto &it : m_item_definitions) {
+			ItemDefinition *def = it.second;
 			// Serialize ItemDefinition and write wrapped in a string
 			std::ostringstream tmp_os(std::ios::binary);
 			def->serialize(tmp_os, protocol_version);
-			os << serializeString(tmp_os.str());
+			os << serializeString16(tmp_os.str());
 		}
 
 		writeU16(os, m_aliases.size());
 
-		for (StringMap::const_iterator
-				it = m_aliases.begin();
-				it != m_aliases.end(); ++it) {
-			os << serializeString(it->first);
-			os << serializeString(it->second);
+		for (const auto &it : m_aliases) {
+			os << serializeString16(it.first);
+			os << serializeString16(it.second);
 		}
 	}
 	void deSerialize(std::istream &is)
@@ -536,7 +548,7 @@ public:
 		for(u16 i=0; i<count; i++)
 		{
 			// Deserialize a string and grab an ItemDefinition from it
-			std::istringstream tmp_is(deSerializeString(is), std::ios::binary);
+			std::istringstream tmp_is(deSerializeString16(is), std::ios::binary);
 			ItemDefinition def;
 			def.deSerialize(tmp_is);
 			// Register
@@ -545,8 +557,8 @@ public:
 		u16 num_aliases = readU16(is);
 		for(u16 i=0; i<num_aliases; i++)
 		{
-			std::string name = deSerializeString(is);
-			std::string convert_to = deSerializeString(is);
+			std::string name = deSerializeString16(is);
+			std::string convert_to = deSerializeString16(is);
 			registerAlias(name, convert_to);
 		}
 	}

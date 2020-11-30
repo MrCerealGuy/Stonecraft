@@ -21,35 +21,45 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include <utility>
 #include <stack>
+#include <unordered_set>
 
 #include "irrlichttypes_extrabloated.h"
 #include "inventorymanager.h"
 #include "modalMenu.h"
+#include "guiInventoryList.h"
+#include "guiScrollBar.h"
 #include "guiTable.h"
 #include "network/networkprotocol.h"
 #include "client/joystick_controller.h"
 #include "util/string.h"
 #include "util/enriched_string.h"
+#include "StyleSpec.h"
 
 class InventoryManager;
 class ISimpleTextureSource;
 class Client;
+class GUIScrollContainer;
+class ISoundManager;
 
-typedef enum {
+enum FormspecFieldType {
 	f_Button,
 	f_Table,
 	f_TabHeader,
 	f_CheckBox,
 	f_DropDown,
 	f_ScrollBar,
+	f_Box,
+	f_ItemImage,
+	f_HyperText,
+	f_AnimatedImage,
 	f_Unknown
-} FormspecFieldType;
+};
 
-typedef enum {
+enum FormspecQuitMode {
 	quit_mode_no,
 	quit_mode_accept,
 	quit_mode_cancel
-} FormspecQuitMode;
+};
 
 struct TextDest
 {
@@ -73,48 +83,6 @@ public:
 
 class GUIFormSpecMenu : public GUIModalMenu
 {
-	struct ItemSpec
-	{
-		ItemSpec() = default;
-
-		ItemSpec(const InventoryLocation &a_inventoryloc,
-				const std::string &a_listname,
-				s32 a_i) :
-			inventoryloc(a_inventoryloc),
-			listname(a_listname),
-			i(a_i)
-		{
-		}
-
-		bool isValid() const { return i != -1; }
-
-		InventoryLocation inventoryloc;
-		std::string listname;
-		s32 i = -1;
-	};
-
-	struct ListDrawSpec
-	{
-		ListDrawSpec() = default;
-
-		ListDrawSpec(const InventoryLocation &a_inventoryloc,
-				const std::string &a_listname,
-				v2s32 a_pos, v2s32 a_geom, s32 a_start_item_i):
-			inventoryloc(a_inventoryloc),
-			listname(a_listname),
-			pos(a_pos),
-			geom(a_geom),
-			start_item_i(a_start_item_i)
-		{
-		}
-
-		InventoryLocation inventoryloc;
-		std::string listname;
-		v2s32 pos;
-		v2s32 geom;
-		s32 start_item_i;
-	};
-
 	struct ListRingSpec
 	{
 		ListRingSpec() = default;
@@ -130,108 +98,37 @@ class GUIFormSpecMenu : public GUIModalMenu
 		std::string listname;
 	};
 
-	struct ImageDrawSpec
-	{
-		ImageDrawSpec():
-			parent_button(NULL),
-			clip(false)
-		{
-		}
-
-		ImageDrawSpec(const std::string &a_name,
-				const std::string &a_item_name,
-				gui::IGUIButton *a_parent_button,
-				const v2s32 &a_pos, const v2s32 &a_geom):
-			name(a_name),
-			item_name(a_item_name),
-			parent_button(a_parent_button),
-			pos(a_pos),
-			geom(a_geom),
-			scale(true),
-			clip(false)
-		{
-		}
-
-		ImageDrawSpec(const std::string &a_name,
-				const std::string &a_item_name,
-				const v2s32 &a_pos, const v2s32 &a_geom):
-			name(a_name),
-			item_name(a_item_name),
-			parent_button(NULL),
-			pos(a_pos),
-			geom(a_geom),
-			scale(true),
-			clip(false)
-		{
-		}
-
-		ImageDrawSpec(const std::string &a_name,
-				const v2s32 &a_pos, const v2s32 &a_geom, bool clip=false):
-			name(a_name),
-			parent_button(NULL),
-			pos(a_pos),
-			geom(a_geom),
-			scale(true),
-			clip(clip)
-		{
-		}
-
-		ImageDrawSpec(const std::string &a_name,
-				const v2s32 &a_pos):
-			name(a_name),
-			parent_button(NULL),
-			pos(a_pos),
-			scale(false),
-			clip(false)
-		{
-		}
-
-		std::string name;
-		std::string item_name;
-		gui::IGUIButton *parent_button;
-		v2s32 pos;
-		v2s32 geom;
-		bool scale;
-		bool clip;
-	};
-
 	struct FieldSpec
 	{
 		FieldSpec() = default;
 
 		FieldSpec(const std::string &name, const std::wstring &label,
-				const std::wstring &default_text, int id) :
+				const std::wstring &default_text, s32 id, int priority = 0,
+				gui::ECURSOR_ICON cursor_icon = ECI_NORMAL) :
 			fname(name),
 			flabel(label),
 			fdefault(unescape_enriched(translate_string(default_text))),
 			fid(id),
 			send(false),
 			ftype(f_Unknown),
-			is_exit(false)
+			is_exit(false),
+			priority(priority),
+			fcursor_icon(cursor_icon)
 		{
 		}
 
 		std::string fname;
 		std::wstring flabel;
 		std::wstring fdefault;
-		int fid;
+		s32 fid;
 		bool send;
 		FormspecFieldType ftype;
 		bool is_exit;
+		// Draw priority for formspec version < 3
+		int priority;
 		core::rect<s32> rect;
-	};
-
-	struct BoxDrawSpec
-	{
-		BoxDrawSpec(v2s32 a_pos, v2s32 a_geom, irr::video::SColor a_color):
-			pos(a_pos),
-			geom(a_geom),
-			color(a_color)
-		{
-		}
-		v2s32 pos;
-		v2s32 geom;
-		irr::video::SColor color;
+		gui::ECURSOR_ICON fcursor_icon;
+		std::string sound;
 	};
 
 	struct TooltipSpec
@@ -250,58 +147,36 @@ class GUIFormSpecMenu : public GUIModalMenu
 		irr::video::SColor color;
 	};
 
-	struct StaticTextSpec
-	{
-		StaticTextSpec():
-			parent_button(NULL)
-		{
-		}
-
-		StaticTextSpec(const std::wstring &a_text,
-				const core::rect<s32> &a_rect):
-			text(a_text),
-			rect(a_rect),
-			parent_button(NULL)
-		{
-		}
-
-		StaticTextSpec(const std::wstring &a_text,
-				const core::rect<s32> &a_rect,
-				gui::IGUIButton *a_parent_button):
-			text(a_text),
-			rect(a_rect),
-			parent_button(a_parent_button)
-		{
-		}
-
-		std::wstring text;
-		core::rect<s32> rect;
-		gui::IGUIButton *parent_button;
-	};
-
 public:
 	GUIFormSpecMenu(JoystickController *joystick,
 			gui::IGUIElement* parent, s32 id,
 			IMenuManager *menumgr,
 			Client *client,
 			ISimpleTextureSource *tsrc,
+			ISoundManager *sound_manager,
 			IFormSource* fs_src,
 			TextDest* txt_dst,
-			std::string formspecPrepend,
+			const std::string &formspecPrepend,
 			bool remap_dbl_click = true);
 
 	~GUIFormSpecMenu();
 
 	static void create(GUIFormSpecMenu *&cur_formspec, Client *client,
 		JoystickController *joystick, IFormSource *fs_src, TextDest *txt_dest,
-		const std::string &formspecPrepend);
+		const std::string &formspecPrepend, ISoundManager *sound_manager);
 
 	void setFormSpec(const std::string &formspec_string,
 			const InventoryLocation &current_inventory_location)
 	{
 		m_formspec_string = formspec_string;
 		m_current_inventory_location = current_inventory_location;
+		m_is_form_regenerated = false;
 		regenerateGui(m_screensize_old);
+	}
+
+	const InventoryLocation &getFormspecLocation()
+	{
+		return m_current_inventory_location;
 	}
 
 	void setFormspecPrepend(const std::string &formspecPrepend)
@@ -342,13 +217,37 @@ public:
 		m_focused_element = elementname;
 	}
 
+	Client *getClient() const
+	{
+		return m_client;
+	}
+
+	const GUIInventoryList::ItemSpec *getSelectedItem() const
+	{
+		return m_selected_item;
+	}
+
+	const u16 getSelectedAmount() const
+	{
+		return m_selected_amount;
+	}
+
+	bool doTooltipAppendItemname() const
+	{
+		return m_tooltip_append_itemname;
+	}
+
+	void addHoveredItemTooltip(const std::string &name)
+	{
+		m_hovered_item_tooltips.emplace_back(name);
+	}
+
 	/*
 		Remove and re-add (or reposition) stuff
 	*/
 	void regenerateGui(v2u32 screensize);
 
-	ItemSpec getItemAtPos(v2s32 p) const;
-	void drawList(const ListDrawSpec &s, int layer,	bool &item_hovered);
+	GUIInventoryList::ItemSpec getItemAtPos(v2s32 p) const;
 	void drawSelectedItem();
 	void drawMenu();
 	void updateSelectedItem();
@@ -374,8 +273,19 @@ protected:
 	}
 	std::wstring getLabelByID(s32 id);
 	std::string getNameByID(s32 id);
-	v2s32 getElementBasePos(bool absolute,
-			const std::vector<std::string> *v_pos);
+	const FieldSpec *getSpecByID(s32 id);
+	v2s32 getElementBasePos(const std::vector<std::string> *v_pos);
+	v2s32 getRealCoordinateBasePos(const std::vector<std::string> &v_pos);
+	v2s32 getRealCoordinateGeometry(const std::vector<std::string> &v_geom);
+
+	std::unordered_map<std::string, std::vector<StyleSpec>> theme_by_type;
+	std::unordered_map<std::string, std::vector<StyleSpec>> theme_by_name;
+	std::unordered_set<std::string> property_warned;
+
+	StyleSpec getDefaultStyleForElement(const std::string &type,
+			const std::string &name="", const std::string &parent_type="");
+	std::array<StyleSpec, StyleSpec::NUM_STATES> getStyleForElement(const std::string &type,
+			const std::string &name="", const std::string &parent_type="");
 
 	v2s32 padding;
 	v2f32 spacing;
@@ -386,29 +296,33 @@ protected:
 
 	InventoryManager *m_invmgr;
 	ISimpleTextureSource *m_tsrc;
+	ISoundManager *m_sound_manager;
 	Client *m_client;
 
 	std::string m_formspec_string;
 	std::string m_formspec_prepend;
 	InventoryLocation m_current_inventory_location;
 
-	std::vector<ListDrawSpec> m_inventorylists;
-	std::vector<ListRingSpec> m_inventory_rings;
-	std::vector<ImageDrawSpec> m_backgrounds;
-	std::vector<ImageDrawSpec> m_images;
-	std::vector<ImageDrawSpec> m_itemimages;
-	std::vector<BoxDrawSpec> m_boxes;
-	std::unordered_map<std::string, bool> field_close_on_enter;
-	std::vector<FieldSpec> m_fields;
-	std::vector<StaticTextSpec> m_static_texts;
-	std::vector<std::pair<FieldSpec,GUITable*> > m_tables;
-	std::vector<std::pair<FieldSpec,gui::IGUICheckBox*> > m_checkboxes;
-	std::map<std::string, TooltipSpec> m_tooltips;
-	std::vector<std::pair<irr::core::rect<s32>, TooltipSpec>> m_tooltip_rects;
-	std::vector<std::pair<FieldSpec,gui::IGUIScrollBar*> > m_scrollbars;
-	std::vector<std::pair<FieldSpec, std::vector<std::string> > > m_dropdowns;
+	// Default true because we can't control regeneration on resizing, but
+	// we can control cases when the formspec is shown intentionally.
+	bool m_is_form_regenerated = true;
 
-	ItemSpec *m_selected_item = nullptr;
+	std::vector<GUIInventoryList *> m_inventorylists;
+	std::vector<ListRingSpec> m_inventory_rings;
+	std::vector<gui::IGUIElement *> m_backgrounds;
+	std::unordered_map<std::string, bool> field_close_on_enter;
+	std::unordered_map<std::string, bool> m_dropdown_index_event;
+	std::vector<FieldSpec> m_fields;
+	std::vector<std::pair<FieldSpec, GUITable *>> m_tables;
+	std::vector<std::pair<FieldSpec, gui::IGUICheckBox *>> m_checkboxes;
+	std::map<std::string, TooltipSpec> m_tooltips;
+	std::vector<std::pair<gui::IGUIElement *, TooltipSpec>> m_tooltip_rects;
+	std::vector<std::pair<FieldSpec, GUIScrollBar *>> m_scrollbars;
+	std::vector<std::pair<FieldSpec, std::vector<std::string>>> m_dropdowns;
+	std::vector<gui::IGUIElement *> m_clickthrough_elements;
+	std::vector<std::pair<std::string, GUIScrollContainer *>> m_scroll_containers;
+
+	GUIInventoryList::ItemSpec *m_selected_item = nullptr;
 	u16 m_selected_amount = 0;
 	bool m_selected_dragging = false;
 	ItemStack m_selected_swap;
@@ -426,25 +340,26 @@ protected:
 	bool m_lock = false;
 	v2u32 m_lockscreensize;
 
+	bool m_bgnonfullscreen;
 	bool m_bgfullscreen;
-	bool m_slotborder;
 	video::SColor m_bgcolor;
 	video::SColor m_fullscreen_bgcolor;
-	video::SColor m_slotbg_n;
-	video::SColor m_slotbg_h;
-	video::SColor m_slotbordercolor;
 	video::SColor m_default_tooltip_bgcolor;
 	video::SColor m_default_tooltip_color;
 
 private:
 	IFormSource        *m_form_src;
 	TextDest           *m_text_dst;
-	u32                 m_formspec_version = 0;
+	std::string         m_last_formname;
+	u16                 m_formspec_version = 1;
 	std::string         m_focused_element = "";
 	JoystickController *m_joystick;
+	bool m_show_debug = false;
 
-	typedef struct {
+	struct parserData {
 		bool explicit_size;
+		bool real_coordinates;
+		u8 simple_field_count;
 		v2f invsize;
 		v2s32 size;
 		v2f32 offset;
@@ -452,32 +367,48 @@ private:
 		core::rect<s32> rect;
 		v2s32 basepos;
 		v2u32 screensize;
-		std::string focused_fieldname;
 		GUITable::TableOptions table_options;
 		GUITable::TableColumns table_columns;
+		gui::IGUIElement *current_parent = nullptr;
+
+		GUIInventoryList::Options inventorylist_options;
+
+		struct {
+			s32 max = 1000;
+			s32 min = 0;
+			s32 small_step = 10;
+			s32 large_step = 100;
+			s32 thumb_size = 1;
+			GUIScrollBar::ArrowVisibility arrow_visiblity = GUIScrollBar::DEFAULT;
+		} scrollbar_options;
+
 		// used to restore table selection/scroll/treeview state
 		std::unordered_map<std::string, GUITable::DynamicData> table_dyndata;
-	} parserData;
+	};
 
-	typedef struct {
+	struct fs_key_pending {
 		bool key_up;
 		bool key_down;
 		bool key_enter;
 		bool key_escape;
-	} fs_key_pendig;
+	};
 
-	fs_key_pendig current_keys_pending;
+	fs_key_pending current_keys_pending;
 	std::string current_field_enter_pending = "";
+	std::vector<std::string> m_hovered_item_tooltips;
 
 	void parseElement(parserData* data, const std::string &element);
 
 	void parseSize(parserData* data, const std::string &element);
 	void parseContainer(parserData* data, const std::string &element);
 	void parseContainerEnd(parserData* data);
+	void parseScrollContainer(parserData *data, const std::string &element);
+	void parseScrollContainerEnd(parserData *data);
 	void parseList(parserData* data, const std::string &element);
 	void parseListRing(parserData* data, const std::string &element);
 	void parseCheckbox(parserData* data, const std::string &element);
 	void parseImage(parserData* data, const std::string &element);
+	void parseAnimatedImage(parserData *data, const std::string &element);
 	void parseItemImage(parserData* data, const std::string &element);
 	void parseButton(parserData* data, const std::string &element,
 			const std::string &typ);
@@ -495,6 +426,7 @@ private:
 	void parseSimpleField(parserData* data,std::vector<std::string> &parts);
 	void parseTextArea(parserData* data,std::vector<std::string>& parts,
 			const std::string &type);
+	void parseHyperText(parserData *data, const std::string &element);
 	void parseLabel(parserData* data, const std::string &element);
 	void parseVertLabel(parserData* data, const std::string &element);
 	void parseImageButton(parserData* data, const std::string &element,
@@ -508,10 +440,14 @@ private:
 	bool parseVersionDirect(const std::string &data);
 	bool parseSizeDirect(parserData* data, const std::string &element);
 	void parseScrollBar(parserData* data, const std::string &element);
+	void parseScrollBarOptions(parserData *data, const std::string &element);
 	bool parsePositionDirect(parserData *data, const std::string &element);
 	void parsePosition(parserData *data, const std::string &element);
 	bool parseAnchorDirect(parserData *data, const std::string &element);
 	void parseAnchor(parserData *data, const std::string &element);
+	bool parseStyle(parserData *data, const std::string &element, bool style_type);
+	void parseSetFocus(const std::string &element);
+	void parseModel(parserData *data, const std::string &element);
 
 	void tryClose();
 
@@ -519,30 +455,14 @@ private:
 		const irr::video::SColor &bgcolor);
 
 	/**
-	 * check if event is part of a double click
-	 * @param event event to evaluate
-	 * @return true/false if a doubleclick was detected
+	 * In formspec version < 2 the elements were not ordered properly. Some element
+	 * types were drawn before others.
+	 * This function sorts the elements in the old order for backwards compatibility.
 	 */
-	bool DoubleClickDetection(const SEvent event);
-
-	struct clickpos
-	{
-		v2s32 pos;
-		s64 time;
-	};
-	clickpos m_doubleclickdetect[2];
+	void legacySortElements(core::list<IGUIElement *>::Iterator from);
 
 	int m_btn_height;
 	gui::IGUIFont *m_font = nullptr;
-
-	/* If true, remap a double-click (or double-tap) action to ESC. This is so
-	 * that, for example, Android users can double-tap to close a formspec.
-	*
-	 * This value can (currently) only be set by the class constructor
-	 * and the default value for the setting is true.
-	 */
-	bool m_remap_dbl_click;
-
 };
 
 class FormspecFormSource: public IFormSource
@@ -557,7 +477,7 @@ public:
 
 	void setForm(const std::string &formspec)
 	{
-		m_formspec = FORMSPEC_VERSION_STRING + formspec;
+		m_formspec = formspec;
 	}
 
 	const std::string &getForm() const

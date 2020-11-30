@@ -66,6 +66,15 @@ void NetworkPacket::putRawPacket(u8 *data, u32 datasize, session_t peer_id)
 	memcpy(m_data.data(), &data[2], m_datasize);
 }
 
+void NetworkPacket::clear()
+{
+	m_data.clear();
+	m_datasize = 0;
+	m_read_offset = 0;
+	m_command = 0;
+	m_peer_id = 0;
+}
+
 const char* NetworkPacket::getString(u32 from_offset)
 {
 	checkReadOffset(from_offset, 0);
@@ -212,13 +221,6 @@ NetworkPacket& NetworkPacket::operator>>(char& dst)
 
 	m_read_offset += 1;
 	return *this;
-}
-
-char NetworkPacket::getChar(u32 offset)
-{
-	checkReadOffset(offset, 1);
-
-	return readU8(&m_data[offset]);
 }
 
 NetworkPacket& NetworkPacket::operator<<(char src)

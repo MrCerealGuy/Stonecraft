@@ -74,10 +74,12 @@ GUIChatConsole::GUIChatConsole(
 		m_background_color.setBlue(clamp_u8(myround(console_color.Z)));
 	}
 
-	m_font = g_fontengine->getFont(FONT_SIZE_UNSPECIFIED, FM_Mono);
+	u16 chat_font_size = g_settings->getU16("chat_font_size");
+	m_font = g_fontengine->getFont(chat_font_size != 0 ?
+		chat_font_size : FONT_SIZE_UNSPECIFIED, FM_Mono);
 
 	if (!m_font) {
-		errorstream << "GUIChatConsole: Unable to load mono font ";
+		errorstream << "GUIChatConsole: Unable to load mono font" << std::endl;
 	} else {
 		core::dimension2d<u32> dim = m_font->getDimension(L"M");
 		m_fontsize = v2u32(dim.Width, dim.Height);
@@ -134,12 +136,7 @@ void GUIChatConsole::closeConsoleAtOnce()
 	recalculateConsolePosition();
 }
 
-f32 GUIChatConsole::getDesiredHeight() const
-{
-	return m_desired_height_fraction;
-}
-
-void GUIChatConsole::replaceAndAddToHistory(std::wstring line)
+void GUIChatConsole::replaceAndAddToHistory(const std::wstring &line)
 {
 	ChatPrompt& prompt = m_chat_backend->getPrompt();
 	prompt.addToHistory(prompt.getLine());
@@ -322,9 +319,9 @@ void GUIChatConsole::drawText()
 			core::rect<s32> destrect(
 				x, y, x + m_fontsize.X * fragment.text.size(), y + m_fontsize.Y);
 
-
-			#if USE_FREETYPE
-			// Draw colored text if FreeType is enabled
+#if USE_FREETYPE
+			if (m_font->getType() == irr::gui::EGFT_CUSTOM) {
+				// Draw colored text if FreeType is enabled
 				irr::gui::CGUITTFont *tmp = dynamic_cast<irr::gui::CGUITTFont *>(m_font);
 				tmp->draw(
 					fragment.text,
@@ -333,8 +330,10 @@ void GUIChatConsole::drawText()
 					false,
 					false,
 					&AbsoluteClippingRect);
-			#else
-			// Otherwise use standard text
+			} else 
+#endif
+			{
+				// Otherwise use standard text
 				m_font->draw(
 					fragment.text.c_str(),
 					destrect,
@@ -342,7 +341,7 @@ void GUIChatConsole::drawText()
 					false,
 					false,
 					&AbsoluteClippingRect);
-			#endif
+			}
 		}
 	}
 }
@@ -541,7 +540,7 @@ bool GUIChatConsole::OnEvent(const SEvent& event)
 			if (prompt.getCursorLength() <= 0)
 				return true;
 			std::wstring wselected = prompt.getSelection();
-			std::string selected(wselected.begin(), wselected.end());
+			std::string selected = wide_to_utf8(wselected);
 			Environment->getOSOperator()->copyToClipboard(selected.c_str());
 			return true;
 		}
@@ -571,7 +570,7 @@ bool GUIChatConsole::OnEvent(const SEvent& event)
 			if (prompt.getCursorLength() <= 0)
 				return true;
 			std::wstring wselected = prompt.getSelection();
-			std::string selected(wselected.begin(), wselected.end());
+			std::string selected = wide_to_utf8(wselected);
 			Environment->getOSOperator()->copyToClipboard(selected.c_str());
 			prompt.cursorOperation(
 				ChatPrompt::CURSOROP_DELETE,

@@ -39,9 +39,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "client/guiscalingfilter.h"
 #include "irrlicht_changes/static_text.h"
 
-#ifdef __ANDROID__
+#if ENABLE_GLES
 #include "client/tile.h"
-#include <GLES/gl.h>
 #endif
 
 
@@ -78,7 +77,7 @@ video::ITexture *MenuTextureSource::getTexture(const std::string &name, u32 *id)
 
 	m_to_delete.insert(name);
 
-#ifdef __ANDROID__
+#if ENABLE_GLES
 	video::ITexture *retval = m_driver->findTexture(name.c_str());
 	if (retval)
 		return retval;
@@ -145,10 +144,10 @@ GUIEngine::GUIEngine(JoystickController *joystick,
 	//create soundmanager
 	MenuMusicFetcher soundfetcher;
 #if USE_SOUND
-	if (g_settings->getBool("enable_sound"))
+	if (g_settings->getBool("enable_sound") && g_sound_manager_singleton.get())
 		m_sound_manager = createOpenALSoundManager(g_sound_manager_singleton.get(), &soundfetcher);
 #endif
-	if(!m_sound_manager)
+	if (!m_sound_manager)
 		m_sound_manager = &dummySoundManager;
 
 	//create topleft header
@@ -171,6 +170,7 @@ GUIEngine::GUIEngine(JoystickController *joystick,
 			m_menumanager,
 			NULL /* &client */,
 			m_texture_source,
+			m_sound_manager,
 			m_formspecgui,
 			m_buttonhandler,
 			"",
@@ -298,10 +298,14 @@ void GUIEngine::run()
 
 		driver->endScene();
 
+		IrrlichtDevice *device = RenderingEngine::get_raw_device();
+		u32 frametime_min = 1000 / (device->isWindowFocused()
+			? g_settings->getFloat("fps_max")
+			: g_settings->getFloat("fps_max_unfocused"));
 		if (m_clouds_enabled)
-			cloudPostProcess();
+			cloudPostProcess(frametime_min, device);
 		else
-			sleep_ms(25);
+			sleep_ms(frametime_min);
 
 		m_script->step();
 
@@ -368,9 +372,8 @@ void GUIEngine::cloudPreProcess()
 }
 
 /******************************************************************************/
-void GUIEngine::cloudPostProcess()
+void GUIEngine::cloudPostProcess(u32 frametime_min, IrrlichtDevice *device)
 {
-	float fps_max = g_settings->getFloat("pause_fps_max");
 	// Time of frame without fps limit
 	u32 busytime_u32;
 
@@ -381,14 +384,21 @@ void GUIEngine::cloudPostProcess()
 	else
 		busytime_u32 = 0;
 
-	// FPS limiter
-	u32 frametime_min = 1000./fps_max;
-
+	// FPS limit
 	if (busytime_u32 < frametime_min) {
 		u32 sleeptime = frametime_min - busytime_u32;
-		RenderingEngine::get_raw_device()->sleep(sleeptime);
+		device->sleep(sleeptime);
 	}
 }
+
+/******************************************************************************/
+void GUIEngine::setFormspecPrepend(const std::string &fs)
+{
+	if (m_menu) {
+		m_menu->setFormspecPrepend(fs);
+	}
+}
+
 
 /******************************************************************************/
 void GUIEngine::drawBackground(video::IVideoDriver *driver)
@@ -518,7 +528,7 @@ void GUIEngine::drawFooter(video::IVideoDriver *driver)
 }
 
 /******************************************************************************/
-bool GUIEngine::setTexture(texture_layer layer, std::string texturepath,
+bool GUIEngine::setTexture(texture_layer layer, const std::string &texturepath,
 		bool tile_image, unsigned int minsize)
 {
 	video::IVideoDriver *driver = RenderingEngine::get_video_driver();
@@ -593,7 +603,7 @@ void GUIEngine::updateTopLeftTextSize()
 }
 
 /******************************************************************************/
-s32 GUIEngine::playSound(SimpleSoundSpec spec, bool looped)
+s32 GUIEngine::playSound(const SimpleSoundSpec &spec, bool looped)
 {
 	s32 handle = m_sound_manager->playSound(spec, looped);
 	return handle;
@@ -611,4 +621,3 @@ unsigned int GUIEngine::queueAsync(const std::string &serialized_func,
 {
 	return m_script->queueAsync(serialized_func, serialized_params);
 }
-
