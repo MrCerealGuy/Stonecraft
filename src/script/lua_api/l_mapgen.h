@@ -21,6 +21,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "lua_api/l_base.h"
 
+typedef u16 biome_t;  // copy from mg_biome.h to avoid an unnecessary include
+
 class ModApiMapgen : public ModApiBase
 {
 private:
@@ -130,6 +132,9 @@ private:
 
 	// serialize_schematic(schematic, format, options={...})
 	static int l_serialize_schematic(lua_State *L);
+
+	// read_schematic(schematic, options={...})
+	static int l_read_schematic(lua_State *L);
 
 public:
 	static void Initialize(lua_State *L, int top);

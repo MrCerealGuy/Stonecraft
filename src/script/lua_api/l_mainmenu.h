@@ -104,6 +104,8 @@ private:
 
 	static int l_update_formspec(lua_State *L);
 
+	static int l_set_formspec_prepend(lua_State *L);
+
 	static int l_get_screen_info(lua_State *L);
 
 	//filesystem
@@ -142,6 +144,9 @@ private:
 	static int l_get_min_supp_proto(lua_State *L);
 
 	static int l_get_max_supp_proto(lua_State *L);
+
+	// other
+	static int l_open_url(lua_State *L);
 
 
 	// async

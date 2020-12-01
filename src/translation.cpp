@@ -20,14 +20,15 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "translation.h"
 #include "log.h"
 #include "util/string.h"
+#include <unordered_map>
 
-static Translations main_translations;
-Translations *g_translations = &main_translations;
 
-Translations::~Translations()
-{
-	clear();
-}
+#ifndef SERVER
+// Client translations
+Translations client_translations;
+Translations *g_client_translations = &client_translations;
+#endif
+
 
 void Translations::clear()
 {
@@ -149,6 +150,8 @@ void Translations::loadTranslation(const std::string &data)
 			            << wide_to_utf8(oword1) << "\"" << std::endl;
 		}
 
-		m_translations[textdomain + L"|" + oword1] = oword2;
+		std::wstring translation_index = textdomain + L"|";
+		translation_index.append(oword1);
+		m_translations[translation_index] = oword2;
 	}
 }

@@ -94,7 +94,7 @@ struct EnumString ScriptApiNode::es_NodeBoxType[] =
 	};
 
 bool ScriptApiNode::node_on_punch(v3s16 p, MapNode node,
-		ServerActiveObject *puncher, PointedThing pointed)
+		ServerActiveObject *puncher, const PointedThing &pointed)
 {
 	SCRIPTAPI_PRECHECKHEADER
 
@@ -246,7 +246,7 @@ void ScriptApiNode::node_on_receive_fields(v3s16 p,
 	const NodeDefManager *ndef = getServer()->ndef();
 
 	// If node doesn't exist, we don't know what callback to call
-	MapNode node = getEnv()->getMap().getNodeNoEx(p);
+	MapNode node = getEnv()->getMap().getNode(p);
 	if (node.getContent() == CONTENT_IGNORE)
 		return;
 
