@@ -146,11 +146,10 @@ local function get_formspec(tabview, name, tabdata)
 			retval = retval .. "textarea[5.85,2.2;6.35,2.9;;" ..
 				fgettext("Information:") .. ";" .. desc .. "]"
 
-			if core.may_modify_path(selected_pkg.path) then
-				retval = retval ..
-					"button[5.5,4.65;3.25,1;btn_mod_mgr_delete_mod;" ..
-					fgettext("Uninstall Package") .. "]"
-			end
+		if core.may_modify_path(selected_pkg.path) then
+			retval = retval ..
+				"button[5.5,4.65;3.25,1;btn_mod_mgr_delete_mod;" ..
+				fgettext("Uninstall Package") .. "]"
 		end
 	end
 	return retval
@@ -161,11 +160,6 @@ local function handle_buttons(tabview, fields, tabname, tabdata)
 	if fields["pkglist"] ~= nil then
 		local event = core.explode_table_event(fields["pkglist"])
 		tabdata.selected_pkg = event.row
-		return true
-	end
-
-	if fields["btn_mod_mgr_install_local"] ~= nil then
-		core.show_file_open_dialog("mod_mgt_open_dlg", fgettext("Select Package File:"))
 		return true
 	end
 
@@ -209,12 +203,6 @@ local function handle_buttons(tabview, fields, tabname, tabdata)
 	if fields.btn_mod_mgr_disable_txp then
 		core.settings:set("texture_path", "")
 		packages = nil
-		return true
-	end
-
-	if fields["mod_mgt_open_dlg_accepted"] and
-			fields["mod_mgt_open_dlg_accepted"] ~= "" then
-		pkgmgr.install_mod(fields["mod_mgt_open_dlg_accepted"],nil)
 		return true
 	end
 

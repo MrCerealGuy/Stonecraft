@@ -49,6 +49,7 @@ cd ..
 # --package-name
 potfile=po/stonecraft.pot
 xgettext --package-name=stonecraft \
+	--add-comments='~' \
 	--sort-by-file \
 	--add-location=file \
 	--keyword=N_ \

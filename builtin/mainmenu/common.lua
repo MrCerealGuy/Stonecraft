@@ -93,9 +93,9 @@ function render_serverlist_row(spec, is_favorite)
 		end
 	end
 
-	local details = ""
 	local grey_out = not is_server_protocol_compat(spec.proto_min, spec.proto_max)
 
+	local details
 	if is_favorite then
 		details = "1,"
 	else
@@ -118,11 +118,11 @@ function render_serverlist_row(spec, is_favorite)
 	end
 
 	if spec.clients and spec.clients_max then
-		local clients_color = ''
 		local clients_percent = 100 * spec.clients / spec.clients_max
 
 		-- Choose a color depending on how many clients are connected
 		-- (relatively to clients_max)
+		local clients_color
 		if     grey_out		      then clients_color = '#aaaaaa'
 		elseif spec.clients == 0      then clients_color = ''        -- 0 players: default/white
 		elseif clients_percent <= 60  then clients_color = '#a1e587' -- 0-60%: green
@@ -171,6 +171,7 @@ os.tempfolder = function()
 	local filetocheck = os.tmpname()
 	os.remove(filetocheck)
 
+	-- luacheck: ignore
 	-- https://blogs.msdn.microsoft.com/vcblog/2014/06/18/c-runtime-crt-features-fixes-and-breaking-changes-in-visual-studio-14-ctp1/
 	--   The C runtime (CRT) function called by os.tmpname is tmpnam.
 	--   Microsofts tmpnam implementation in older CRT / MSVC releases is defective.
@@ -301,18 +302,14 @@ function is_server_protocol_compat_or_error(server_proto_min, server_proto_max)
 				s_p_min)
 		end
 		if min_supp_proto ~= max_supp_proto then
-			client_prot_ver_info= fgettext_ne("We support protocol versions between version $1 and $2. ",
+			client_prot_ver_info= fgettext_ne("We support protocol versions between version $1 and $2.",
 				min_supp_proto, max_supp_proto)
 		else
-			client_prot_ver_info = fgettext_ne("We only support protocol version $1. ", min_supp_proto)
+			client_prot_ver_info = fgettext_ne("We only support protocol version $1.", min_supp_proto)
 		end
-
-		oldclient_download_info = fgettext_ne("Get further information from your Stonecraft PDF Manual or from wiki: https://github.com/MrCerealGuy/Stonecraft/wiki#multiplayernetwork-issues")
-
 		gamedata.errormessage = fgettext_ne("Protocol version mismatch. ")
 			.. server_prot_ver_info
 			.. client_prot_ver_info
-			.. oldclient_download_info
 		return false
 	end
 

@@ -12,6 +12,12 @@ core.features = {
 	no_chat_message_prediction = true,
 	object_use_texture_alpha = true,
 	object_independent_selectionbox = true,
+	httpfetch_binary_data = true,
+	formspec_version_element = true,
+	area_store_persistent_ids = true,
+	pathfinder_works = true,
+	object_step_has_moveresult = true,
+	direct_velocity_on_players = true,
 }
 
 function core.has_feature(arg)

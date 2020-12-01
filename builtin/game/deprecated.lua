@@ -20,7 +20,7 @@ function core.node_metadata_inventory_move_allow_all()
 end
 
 function core.add_to_creative_inventory(itemstring)
-	core.log("deprecated", "core.add_to_creative_inventory: This function is deprecated and does nothing.")
+	core.log("deprecated", "core.add_to_creative_inventory is obsolete and does nothing.")
 end
 
 --
@@ -70,3 +70,19 @@ core.setting_get = setting_proxy("get")
 core.setting_setbool = setting_proxy("set_bool")
 core.setting_getbool = setting_proxy("get_bool")
 core.setting_save = setting_proxy("write")
+
+--
+-- core.register_on_auth_fail
+--
+
+function core.register_on_auth_fail(func)
+	core.log("deprecated", "core.register_on_auth_fail " ..
+		"is obsolete and should be replaced by " ..
+		"core.register_on_authplayer instead.")
+
+	core.register_on_authplayer(function (player_name, ip, is_success)
+		if not is_success then
+			func(player_name, ip)
+		end
+	end)
+end
