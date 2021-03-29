@@ -145,6 +145,7 @@ local function get_formspec(tabview, name, tabdata)
 		else
 			retval = retval .. "textarea[5.85,2.2;6.35,2.9;;" ..
 				fgettext("Information:") .. ";" .. desc .. "]"
+		end
 
 		if core.may_modify_path(selected_pkg.path) then
 			retval = retval ..
