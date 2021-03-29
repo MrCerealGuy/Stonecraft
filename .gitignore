@@ -36,6 +36,7 @@ build/.cmake/
 *.diff
 # GNU Patch reject file
 *.rej
+/doc/html-wiki/*
 
 ## Non-static Stonecraft directories or symlinks to these
 /bin/

@@ -24,6 +24,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "config.h"
 #include "constants.h"
 #include "porting.h"
+#include "mapgen/mapgen.h" // Mapgen::setDefaultSettings
 #include "util/string.h"
 
 void set_default_settings(Settings *settings)
@@ -72,6 +73,8 @@ void set_default_settings(Settings *settings)
 	settings->setDefault("keymap_right", "KEY_KEY_D");
 	settings->setDefault("keymap_jump", "KEY_SPACE");
 	settings->setDefault("keymap_sneak", "KEY_LCONTROL");  // MERGEINFO: changed by MrCerealGuy
+	settings->setDefault("keymap_dig", "KEY_LBUTTON");
+	settings->setDefault("keymap_place", "KEY_RBUTTON");
 	settings->setDefault("keymap_drop", "KEY_KEY_Q");
 	settings->setDefault("keymap_zoom", "KEY_KEY_Z");
 	settings->setDefault("keymap_inventory", "KEY_KEY_I");

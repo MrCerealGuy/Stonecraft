@@ -10,6 +10,7 @@ set (UNITTEST_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/test_connection.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_filepath.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_inventory.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/test_irrptr.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_map_settings_manager.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_mapnode.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/test_modchannels.cpp
@@ -42,7 +43,7 @@ set (UNITTEST_CLIENT_SRCS
 	PARENT_SCOPE)
 
 set (TEST_WORLDDIR ${CMAKE_CURRENT_SOURCE_DIR}/test_world)
-set (TEST_SUBGAME_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../games/minimal)
+set (TEST_SUBGAME_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../../games/devtest)
 
 configure_file(
 	"${CMAKE_CURRENT_SOURCE_DIR}/test_config.h.in"

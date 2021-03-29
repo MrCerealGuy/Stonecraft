@@ -20,6 +20,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #pragma once
 
 #include "irrlichttypes_bloated.h"
+#include "irrString.h"
 #include <cstdlib>
 #include <string>
 #include <cstring>
@@ -29,6 +30,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <iomanip>
 #include <cctype>
 #include <unordered_map>
+
+class Translations;
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
@@ -649,6 +652,8 @@ std::vector<std::basic_string<T> > split(const std::basic_string<T> &s, T delim)
 	return tokens;
 }
 
+std::wstring translate_string(const std::wstring &s, Translations *translations);
+
 std::wstring translate_string(const std::wstring &s);
 
 inline std::wstring unescape_translate(const std::wstring &s) {
@@ -723,3 +728,29 @@ inline std::string str_join(const std::vector<std::string> &list,
 	}
 	return oss.str();
 }
+
+/**
+ * Create a UTF8 std::string from a irr::core::stringw.
+ */
+inline std::string stringw_to_utf8(const irr::core::stringw &input)
+{
+	std::wstring str(input.c_str());
+	return wide_to_utf8(str);
+}
+
+ /**
+  * Create a irr::core:stringw from a UTF8 std::string.
+  */
+inline irr::core::stringw utf8_to_stringw(const std::string &input)
+{
+	std::wstring str = utf8_to_wide(input);
+	return irr::core::stringw(str.c_str());
+}
+
+/**
+ * Sanitize the name of a new directory. This consists of two stages:
+ * 1. Check for 'reserved filenames' that can't be used on some filesystems
+ *    and prefix them
+ * 2. Remove 'unsafe' characters from the name by replacing them with '_'
+ */
+std::string sanitizeDirName(const std::string &str, const std::string &optional_prefix);

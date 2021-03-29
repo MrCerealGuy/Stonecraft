@@ -27,6 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "translation.h"
 
 #include <algorithm>
+#include <array>
 #include <sstream>
 #include <iomanip>
 #include <map>
@@ -79,6 +80,13 @@ bool convert(const char *to, const char *from, char *outbuf,
 	return true;
 }
 
+#ifdef __ANDROID__
+// Android need manual caring to support the full character set possible with wchar_t
+const char *DEFAULT_ENCODING = "UTF-32LE";
+#else
+const char *DEFAULT_ENCODING = "WCHAR_T";
+#endif
+
 std::wstring utf8_to_wide(const std::string &input)
 {
 	size_t inbuf_size = input.length() + 1;
@@ -90,7 +98,12 @@ std::wstring utf8_to_wide(const std::string &input)
 	char *outbuf = new char[outbuf_size];
 	memset(outbuf, 0, outbuf_size);
 
-	if (!convert("WCHAR_T", "UTF-8", outbuf, outbuf_size, inbuf, inbuf_size)) {
+#ifdef __ANDROID__
+	// Android need manual caring to support the full character set possible with wchar_t
+	SANITY_CHECK(sizeof(wchar_t) == 4);
+#endif
+
+	if (!convert(DEFAULT_ENCODING, "UTF-8", outbuf, outbuf_size, inbuf, inbuf_size)) {
 		infostream << "Couldn't convert UTF-8 string 0x" << hex_encode(input)
 			<< " into wstring" << std::endl;
 		delete[] inbuf;
@@ -105,13 +118,6 @@ std::wstring utf8_to_wide(const std::string &input)
 	return out;
 }
 
-#ifdef __ANDROID__
-// TODO: this is an ugly fix for wide_to_utf8 somehow not working on android
-std::string wide_to_utf8(const std::wstring &input)
-{
-	return wide_to_narrow(input);
-}
-#else
 std::string wide_to_utf8(const std::wstring &input)
 {
 	size_t inbuf_size = (input.length() + 1) * sizeof(wchar_t);
@@ -123,7 +129,7 @@ std::string wide_to_utf8(const std::wstring &input)
 	char *outbuf = new char[outbuf_size];
 	memset(outbuf, 0, outbuf_size);
 
-	if (!convert("UTF-8", "WCHAR_T", outbuf, outbuf_size, inbuf, inbuf_size)) {
+	if (!convert("UTF-8", DEFAULT_ENCODING, outbuf, outbuf_size, inbuf, inbuf_size)) {
 		infostream << "Couldn't convert wstring 0x" << hex_encode(inbuf, inbuf_size)
 			<< " into UTF-8 string" << std::endl;
 		delete[] inbuf;
@@ -138,7 +144,6 @@ std::string wide_to_utf8(const std::wstring &input)
 	return out;
 }
 
-#endif
 #else // _WIN32
 
 std::wstring utf8_to_wide(const std::string &input)
@@ -183,7 +188,7 @@ wchar_t *utf8_to_wide_c(const char *str)
 // The returned string is allocated using new
 wchar_t *narrow_to_wide_c(const char *str)
 {
-	wchar_t *nstr = NULL;
+	wchar_t *nstr = nullptr;
 #if defined(_WIN32)
 	int nResult = MultiByteToWideChar(CP_UTF8, 0, (LPCSTR) str, -1, 0, 0);
 	if (nResult == 0) {
@@ -204,66 +209,10 @@ wchar_t *narrow_to_wide_c(const char *str)
 	return nstr;
 }
 
-
-#ifdef __ANDROID__
-
-const wchar_t* wide_chars =
-	L" !\"#$%&'()*+,-./0123456789:;<=>?@"
-	L"ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`"
-	L"abcdefghijklmnopqrstuvwxyz{|}~";
-
-int wctomb(char *s, wchar_t wc)
-{
-	for (unsigned int j = 0; j < (sizeof(wide_chars)/sizeof(wchar_t));j++) {
-		if (wc == wide_chars[j]) {
-			*s = (char) (j+32);
-			return 1;
-		}
-		else if (wc == L'\n') {
-			*s = '\n';
-			return 1;
-		}
-	}
-	return -1;
-}
-
-int mbtowc(wchar_t *pwc, const char *s, size_t n)
-{
-	std::wstring intermediate = narrow_to_wide(s);
-
-	if (intermediate.length() > 0) {
-		*pwc = intermediate[0];
-		return 1;
-	}
-	else {
-		return -1;
-	}
-}
-
 std::wstring narrow_to_wide(const std::string &mbs) {
-	size_t wcl = mbs.size();
-
-	std::wstring retval = L"";
-
-	for (unsigned int i = 0; i < wcl; i++) {
-		if (((unsigned char) mbs[i] >31) &&
-		 ((unsigned char) mbs[i] < 127)) {
-
-			retval += wide_chars[(unsigned char) mbs[i] -32];
-		}
-		//handle newline
-		else if (mbs[i] == '\n') {
-			retval += L'\n';
-		}
-	}
-
-	return retval;
-}
-
-#else // not Android
-
-std::wstring narrow_to_wide(const std::string &mbs)
-{
+#ifdef __ANDROID__
+	return utf8_to_wide(mbs);
+#else
 	size_t wcl = mbs.size();
 	Buffer<wchar_t> wcs(wcl + 1);
 	size_t len = mbstowcs(*wcs, mbs.c_str(), wcl);
@@ -271,42 +220,15 @@ std::wstring narrow_to_wide(const std::string &mbs)
 		return L"<invalid multibyte string>";
 	wcs[len] = 0;
 	return *wcs;
-}
-
 #endif
-
-#ifdef __ANDROID__
-
-std::string wide_to_narrow(const std::wstring &wcs) {
-	size_t mbl = wcs.size()*4;
-
-	std::string retval = "";
-	for (unsigned int i = 0; i < wcs.size(); i++) {
-		wchar_t char1 = (wchar_t) wcs[i];
-
-		if (char1 == L'\n') {
-			retval += '\n';
-			continue;
-		}
-
-		for (unsigned int j = 0; j < wcslen(wide_chars);j++) {
-			wchar_t char2 = (wchar_t) wide_chars[j];
-
-			if (char1 == char2) {
-				char toadd = (j+32);
-				retval += toadd;
-				break;
-			}
-		}
-	}
-
-	return retval;
 }
 
-#else // not Android
 
 std::string wide_to_narrow(const std::wstring &wcs)
 {
+#ifdef __ANDROID__
+	return wide_to_utf8(wcs);
+#else
 	size_t mbl = wcs.size() * 4;
 	SharedBuffer<char> mbs(mbl+1);
 	size_t len = wcstombs(*mbs, wcs.c_str(), mbl);
@@ -315,9 +237,9 @@ std::string wide_to_narrow(const std::wstring &wcs)
 
 	mbs[len] = 0;
 	return *mbs;
+#endif
 }
 
-#endif
 
 std::string urlencode(const std::string &str)
 {
@@ -361,10 +283,10 @@ u32 readFlagString(std::string str, const FlagDesc *flagdesc, u32 *flagmask)
 	u32 mask = 0;
 	char *s = &str[0];
 	char *flagstr;
-	char *strpos = NULL;
+	char *strpos = nullptr;
 
 	while ((flagstr = strtok_r(s, ",", &strpos))) {
-		s = NULL;
+		s = nullptr;
 
 		while (*flagstr == ' ' || *flagstr == '\t')
 			flagstr++;
@@ -436,7 +358,7 @@ char *mystrtok_r(char *s, const char *sep, char **lasts)
 		s++;
 
 	if (!*s)
-		return NULL;
+		return nullptr;
 
 	t = s;
 	while (*t) {
@@ -772,10 +694,12 @@ void str_replace(std::string &str, char from, char to)
  * before filling it again.
  */
 
-void translate_all(const std::wstring &s, size_t &i, std::wstring &res);
+void translate_all(const std::wstring &s, size_t &i,
+		Translations *translations, std::wstring &res);
 
-void translate_string(const std::wstring &s, const std::wstring &textdomain,
-		size_t &i, std::wstring &res) {
+void translate_string(const std::wstring &s, Translations *translations,
+		const std::wstring &textdomain, size_t &i, std::wstring &res)
+{
 	std::wostringstream output;
 	std::vector<std::wstring> args;
 	int arg_number = 1;
@@ -829,7 +753,7 @@ void translate_string(const std::wstring &s, const std::wstring &textdomain,
 			if (arg_number >= 10) {
 				errorstream << "Ignoring too many arguments to translation" << std::endl;
 				std::wstring arg;
-				translate_all(s, i, arg);
+				translate_all(s, i, translations, arg);
 				args.push_back(arg);
 				continue;
 			}
@@ -837,7 +761,7 @@ void translate_string(const std::wstring &s, const std::wstring &textdomain,
 			output << arg_number;
 			++arg_number;
 			std::wstring arg;
-			translate_all(s, i, arg);
+			translate_all(s, i, translations, arg);
 			args.push_back(arg);
 		} else {
 			// This is an escape sequence *inside* the template string to translate itself.
@@ -846,8 +770,13 @@ void translate_string(const std::wstring &s, const std::wstring &textdomain,
 		}
 	}
 
+	std::wstring toutput;
 	// Translate the template.
-	std::wstring toutput = g_translations->getTranslation(textdomain, output.str());
+	if (translations != nullptr)
+		toutput = translations->getTranslation(
+				textdomain, output.str());
+	else
+		toutput = output.str();
 
 	// Put back the arguments in the translated template.
 	std::wostringstream result;
@@ -881,7 +810,9 @@ void translate_string(const std::wstring &s, const std::wstring &textdomain,
 	res = result.str();
 }
 
-void translate_all(const std::wstring &s, size_t &i, std::wstring &res) {
+void translate_all(const std::wstring &s, size_t &i,
+		Translations *translations, std::wstring &res)
+{
 	std::wostringstream output;
 	while (i < s.length()) {
 		// Not an escape sequence: just add the character.
@@ -930,7 +861,7 @@ void translate_all(const std::wstring &s, size_t &i, std::wstring &res) {
 			if (parts.size() > 1)
 				textdomain = parts[1];
 			std::wstring translated;
-			translate_string(s, textdomain, i, translated);
+			translate_string(s, translations, textdomain, i, translated);
 			output << translated;
 		} else {
 			// Another escape sequence, such as colors. Preserve it.
@@ -941,9 +872,88 @@ void translate_all(const std::wstring &s, size_t &i, std::wstring &res) {
 	res = output.str();
 }
 
-std::wstring translate_string(const std::wstring &s) {
+// Translate string server side
+std::wstring translate_string(const std::wstring &s, Translations *translations)
+{
 	size_t i = 0;
 	std::wstring res;
-	translate_all(s, i, res);
+	translate_all(s, i, translations, res);
 	return res;
+}
+
+// Translate string client side
+std::wstring translate_string(const std::wstring &s)
+{
+#ifdef SERVER
+	return translate_string(s, nullptr);
+#else
+	return translate_string(s, g_client_translations);
+#endif
+}
+
+static const std::array<std::wstring, 22> disallowed_dir_names = {
+	// Problematic filenames from here:
+	// https://docs.microsoft.com/en-us/windows/win32/fileio/naming-a-file#file-and-directory-names
+	L"CON",
+	L"PRN",
+	L"AUX",
+	L"NUL",
+	L"COM1",
+	L"COM2",
+	L"COM3",
+	L"COM4",
+	L"COM5",
+	L"COM6",
+	L"COM7",
+	L"COM8",
+	L"COM9",
+	L"LPT1",
+	L"LPT2",
+	L"LPT3",
+	L"LPT4",
+	L"LPT5",
+	L"LPT6",
+	L"LPT7",
+	L"LPT8",
+	L"LPT9",
+};
+
+/**
+ * List of characters that are blacklisted from created directories
+ */
+static const std::wstring disallowed_path_chars = L"<>:\"/\\|?*.";
+
+/**
+ * Sanitize the name of a new directory. This consists of two stages:
+ * 1. Check for 'reserved filenames' that can't be used on some filesystems
+ *	and add a prefix to them
+ * 2. Remove 'unsafe' characters from the name by replacing them with '_'
+ */
+std::string sanitizeDirName(const std::string &str, const std::string &optional_prefix)
+{
+	std::wstring safe_name = utf8_to_wide(str);
+
+	for (std::wstring disallowed_name : disallowed_dir_names) {
+		if (str_equal(safe_name, disallowed_name, true)) {
+			safe_name = utf8_to_wide(optional_prefix) + safe_name;
+			break;
+		}
+	}
+
+	for (unsigned long i = 0; i < safe_name.length(); i++) {
+		bool is_valid = true;
+
+		// Unlikely, but control characters should always be blacklisted
+		if (safe_name[i] < 32) {
+			is_valid = false;
+		} else if (safe_name[i] < 128) {
+			is_valid = disallowed_path_chars.find_first_of(safe_name[i])
+					== std::wstring::npos;
+		}
+
+		if (!is_valid)
+			safe_name[i] = '_';
+	}
+
+	return wide_to_utf8(safe_name);
 }

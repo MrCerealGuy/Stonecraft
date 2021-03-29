@@ -49,7 +49,7 @@ BEGIN
         VALUE "FileDescription", PROJECT_NAME_C
         VALUE "FileVersion", VERSION_STRING
         VALUE "InternalName", PROJECT_NAME
-        VALUE "LegalCopyright", "(c) 2016-2020 Andreas Zahnleiter"
+        VALUE "LegalCopyright", "(c) 2016-2021 Andreas Zahnleiter"
         VALUE "LegalTrademarks", """Stonecraft"" is the property of Andreas Zahnleiter, don't use it without permission!"
         VALUE "OriginalFilename", "stonecraft.exe"
         VALUE "PrivateBuild", VERSION_EXTRA
