@@ -934,7 +934,7 @@ void GenericCAO::updateNametag()
 	if (m_is_local_player) // No nametag for local player
 		return;
 
-	if (m_prop.nametag.empty()) {
+	if (m_prop.nametag.empty() || m_prop.nametag_color.getAlpha() == 0) {
 		// Delete nametag
 		if (m_nametag) {
 			m_client->getCamera()->removeNametag(m_nametag);
@@ -952,12 +952,14 @@ void GenericCAO::updateNametag()
 	if (!m_nametag) {
 		// Add nametag
 		m_nametag = m_client->getCamera()->addNametag(node,
-			m_prop.nametag, m_prop.nametag_color, pos);
+			m_prop.nametag, m_prop.nametag_color,
+			m_prop.nametag_bgcolor, pos);
 	} else {
 		// Update nametag
-		m_nametag->nametag_text = m_prop.nametag;
-		m_nametag->nametag_color = m_prop.nametag_color;
-		m_nametag->nametag_pos = pos;
+		m_nametag->text = m_prop.nametag;
+		m_nametag->textcolor = m_prop.nametag_color;
+		m_nametag->bgcolor = m_prop.nametag_bgcolor;
+		m_nametag->pos = pos;
 	}
 }
 
@@ -1165,7 +1167,7 @@ void GenericCAO::step(float dtime, ClientEnvironment *env)
 		}
 	}
 
-	if (!getParent() && std::fabs(m_prop.automatic_rotate) > 0.001) {
+	if (!getParent() && node && fabs(m_prop.automatic_rotate) > 0.001f) {
 		// This is the child node's rotation. It is only used for automatic_rotate.
 		v3f local_rot = node->getRotation();
 		local_rot.Y = modulo360f(local_rot.Y - dtime * core::RADTODEG *
@@ -1174,7 +1176,7 @@ void GenericCAO::step(float dtime, ClientEnvironment *env)
 	}
 
 	if (!getParent() && m_prop.automatic_face_movement_dir &&
-			(fabs(m_velocity.Z) > 0.001 || fabs(m_velocity.X) > 0.001)) {
+			(fabs(m_velocity.Z) > 0.001f || fabs(m_velocity.X) > 0.001f)) {
 		float target_yaw = atan2(m_velocity.Z, m_velocity.X) * 180 / M_PI
 				+ m_prop.automatic_face_movement_dir_offset;
 		float max_rotation_per_sec =

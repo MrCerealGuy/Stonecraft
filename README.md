@@ -3,9 +3,9 @@
 [![Build Status](https://travis-ci.org/MrCerealGuy/Stonecraft.svg?branch=master)](https://travis-ci.org/MrCerealGuy/Stonecraft)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-An InfiniMiner/Minecraft inspired game powered by Minetest 5.4.0-dev
+An InfiniMiner/Minecraft inspired game powered by Minetest 5.4.0
 
-Copyright (c) 2016-2020 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
+Copyright (c) 2016-2021 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
 
 ## Further documentation
@@ -110,8 +110,8 @@ Use --help
 |------------|--------------|-----------------------------------------|
 | GCC        | 4.9+         | Can be replaced with Clang 3.4+         |
 | CMake      | 2.6+         |                                         |
-| Irrlicht   | 1.8.4+       |                                         |
-| SQLite3    | 3.27.2+      |                                         |
+| Irrlicht   | 1.7.3+       |                                         |
+| SQLite3    | 3.0+         |                                         |
 | LuaJIT     | 2.1.0-beta3+ | Bundled Lua 5.1 is used if not present  |
 | GMP        | 5.0.0+       | Bundled mini-GMP is used if not present |
 | JsonCPP    | 1.0.0+       | Bundled JsonCPP is used if not present  |
@@ -145,15 +145,15 @@ $ <stonecraft-folder>/bin/stonecraft
 
 To build the **dedicated server** without the client, you have to run the script build_linux_server.sh.
 
-- Use `cmake . -LH` to see all CMake options and their current state
+- Use `cmake . -LH` to see all CMake options and their current state.
 - If you want to install it system-wide (or are making a distribution package),
-  you will want to use `-DRUN_IN_PLACE=FALSE`
-- You can build a bare server by specifying `-DBUILD_SERVER=TRUE`
-- You can disable the client build by specifying `-DBUILD_CLIENT=FALSE`
-- You can select between Release and Debug build by `-DCMAKE_BUILD_TYPE=<Debug or Release>`
-  - Debug build is slower, but gives much more useful output in a debugger
-- If you build a bare server, you don't need to have Irrlicht installed.
-  - In that case use `-DIRRLICHT_SOURCE_DIR=/the/irrlicht/source`
+  you will want to use `-DRUN_IN_PLACE=FALSE`.
+- You can build a bare server by specifying `-DBUILD_SERVER=TRUE`.
+- You can disable the client build by specifying `-DBUILD_CLIENT=FALSE`.
+- You can select between Release and Debug build by `-DCMAKE_BUILD_TYPE=<Debug or Release>`.
+  - Debug build is slower, but gives much more useful output in a debugger.
+- If you build a bare server you don't need to have Irrlicht installed.
+  - In that case use `-DIRRLICHT_SOURCE_DIR=/the/irrlicht/source`.
 
 ### CMake options
 
@@ -397,7 +397,7 @@ See README.txt in each mod/textures directory for information about other author
 # License of Stonecraft source code
 
 Stonecraft
-Copyright (C) 2016-2019 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
+Copyright (C) 2016-2021 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published by

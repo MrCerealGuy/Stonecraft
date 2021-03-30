@@ -51,12 +51,8 @@ public:
 
 	~CAOShaderConstantSetter() override = default;
 
-	void onSetConstants(video::IMaterialRendererServices *services,
-			bool is_highlevel) override
+	void onSetConstants(video::IMaterialRendererServices *services) override
 	{
-		if (!is_highlevel)
-			return;
-
 		// Ambient color
 		video::SColorf emissive_color(m_emissive_color);
 
@@ -336,13 +332,6 @@ GenericCAO* ClientEnvironment::getGenericCAO(u16 id)
 		return (GenericCAO*) obj;
 
 	return NULL;
-}
-
-bool isFreeClientActiveObjectId(const u16 id,
-	ClientActiveObjectMap &objects)
-{
-	return id != 0 && objects.find(id) == objects.end();
-
 }
 
 u16 ClientEnvironment::addActiveObject(ClientActiveObject *object)

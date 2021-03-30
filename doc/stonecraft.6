@@ -18,7 +18,8 @@ stonecraft, stonecraftserver \- Multiplayer infinite-world block sandbox
 .B Stonecraft
 is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine.
 .PP
-Stonecraft is free and open-source. It will be kept lightweight enough to run on fairly old hardware.
+The main design philosophy is to keep it technically simple, stable and
+portable. It will be kept lightweight enough to run on fairly old hardware.
 
 .SH COMMON OPTIONS
 .TP
@@ -103,12 +104,12 @@ Migrate from current map backend to another. Possible values are sqlite3,
 leveldb, redis, postgresql, and dummy.
 .TP
 .B \-\-migrate-auth <value>
-Migrate from current auth backend to another. Possible values are sqlite3 and
-files.
+Migrate from current auth backend to another. Possible values are sqlite3,
+leveldb, and files.
 .TP
 .B \-\-migrate-players <value>
 Migrate from current players backend to another. Possible values are sqlite3,
-postgresql, dummy, and files.
+leveldb, postgresql, dummy, and files.
 .TP
 .B \-\-terminal
 Display an interactive terminal over ncurses during execution.
