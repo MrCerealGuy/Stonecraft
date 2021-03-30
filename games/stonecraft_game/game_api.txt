@@ -93,15 +93,20 @@ For example,
 is used to show all tools. Name is used in the sfinv page name, title is the
 human readable title.
 
-`is_enabled_for` is used to check whether a player is in creative mode:
-
-    creative.is_enabled_for(name)
-
-Override this to allow per-player game modes.
+Creative provides `creative.is_enabled_for(name)`, which is identical in
+functionality to the engine's `minetest.creative_is_enabled(name)`.
+Its use is deprecated and it should also not be overriden.
 
 The contents of `creative.formspec_add` is appended to every creative inventory
 page. Mods can use it to add additional formspec elements onto the default
 creative inventory formspec to be drawn after each update.
+
+Group overrides can be used for any registered item, node or tool. Use one of
+the groups stated below to pick which category it will appear in.
+
+	node = 1      -- Appears in the Nodes category
+	tool = 1      -- Appears in the Tools category
+	craftitem = 1 -- Appears in the Items category
 
 
 Chests API
@@ -129,12 +134,12 @@ The chests API allows the creation of chests, which have their own inventories f
  * A table indexed by player name to keep track of who opened what chest.
  * Key: The name of the player.
  * Value: A table containing information about the chest the player is looking at.
-   e.g `{ pos = {1, 1, 1}, sound = null, swap = "chest" }`
+   e.g `{ pos = {1, 1, 1}, sound = null, swap = "default:chest" }`
 
 `default.chest.register_chest(name, def)`
 
  * Registers new chest
- * `name` Name for chest
+ * `name` Name for chest e.g. "default:chest"
  * `def`  See [#Chest Definition]
 
 ### Chest Definition
@@ -214,6 +219,8 @@ The doors mod allows modders to register custom doors and trapdoors.
 	inventory_image = "mod_door_inv.png",
 	groups = {choppy = 2},
 	tiles = {"mod_door.png"}, -- UV map.
+	-- The front and back of the door must be identical in appearence as they swap on
+	-- open/close.
 	recipe = craftrecipe,
 	sounds = default.node_sound_wood_defaults(), -- optional
 	sound_open = sound play for open door, -- optional
@@ -228,7 +235,12 @@ The doors mod allows modders to register custom doors and trapdoors.
 	inventory_image = "mod_trapdoor_inv.png",
 	groups = {choppy = 2},
 	tile_front = "doors_trapdoor.png", -- the texture for the front and back of the trapdoor
-	tile_side = "doors_trapdoor_side.png", -- the tiles of the four side parts of the trapdoor
+	tile_side = "doors_trapdoor_side.png",
+	-- The texture for the four sides of the trapdoor.
+	-- The texture should have the trapdoor side drawn twice, in the lowest and highest
+	-- 1/8ths of the texture, both upright. The area between is not used.
+	-- The lower 1/8th will be used for the closed trapdoor, the higher 1/8th will be used
+	-- for the open trapdoor.
 	sounds = default.node_sound_wood_defaults(), -- optional
 	sound_open = sound play for open door, -- optional
 	sound_close = sound play for close door, -- optional
@@ -269,7 +281,7 @@ The mod that places chests with loot in dungeons provides an API to register add
 	name = "item:name",
 	chance = 0.5,
 	-- ^ chance value from 0.0 to 1.0 that the item will appear in the chest when chosen
-	--   due to an extra step in the selection process, 0.5 does not(!) mean that
+	--   Due to an extra step in the selection process, 0.5 does not(!) mean that
 	--   on average every second chest will have this item
 	count = {1, 4},
 	-- ^ table with minimum and maximum amounts of this item
@@ -279,7 +291,8 @@ The mod that places chests with loot in dungeons provides an API to register add
 	--   optional, defaults to no height restrictions
 	types = {"desert"},
 	-- ^ table with types of dungeons this item can be found in
-	--   supported types: "normal" (the cobble/mossycobble one), "sandstone", "desert"
+	--   supported types: "normal" (the cobble/mossycobble one), "sandstone"
+	--   "desert" and "ice"
 	--   optional, defaults to no type restrictions
 
 
@@ -351,6 +364,8 @@ The farming API allows you to easily register plants and hoes.
 
 	{
 		description = "",                      -- Description of seed item
+		harvest_description = "",              -- Description of harvest item
+		                                       -- (optional, derived automatically if not provided)
 		inventory_image = "unknown_item.png",  -- Image to be used as seed's wield- and inventory image
 		steps = 8,                             -- How many steps the plant has to grow, until it can be harvested
 		-- ^ Always provide a plant texture for each step, format: modname_plantname_i.png (i = stepnumber)
@@ -411,57 +426,65 @@ Give Initial Stuff API
 ^ Adds items to the list of items to be given
 
 
-Players API
------------
+Player API
+----------
 
-The player API can register player models and update the player's appearence
+The player API can register player models and update the player's appearance.
 
 * `player_api.register_model(name, def)`
 	* Register a new model to be used by players
-	* name: model filename such as "character.x", "foo.b3d", etc.
-	* def: See [#Model definition]
-    * saved to player_api.registered_models
+	* `name`: model filename such as "character.x", "foo.b3d", etc.
+	* `def`: see [#Model definition]
+    * Saved to player_api.registered_models
 
-* `player_api.registered_player_models[name]`
-	 * Get a model's definition
-	 * see [#Model definition]
+* `player_api.registered_models[name]`
+	* Get a model's definition
+	* `name`: model filename
+	* See [#Model definition]
 
 * `player_api.set_model(player, model_name)`
 	* Change a player's model
 	* `player`: PlayerRef
 	* `model_name`: model registered with player_api.register_model()
 
-* `player_api.set_animation(player, anim_name [, speed])`
+* `player_api.set_animation(player, anim_name, speed)`
 	* Applies an animation to a player
-	* anim_name: name of the animation.
-	* speed: frames per second. If nil, default from the model is used
+	* `player`: PlayerRef
+	* `anim_name`: name of the animation
+	* `speed`: frames per second. If nil, the default from the model def is used
 
 * `player_api.set_textures(player, textures)`
 	* Sets player textures
 	* `player`: PlayerRef
-	* `textures`: array of textures, If `textures` is nil the default
-	  textures from the model def are used
+	* `textures`: array of textures. If nil, the default from the model def is used
 
 * `player_api.get_animation(player)`
-	* Returns a table containing fields `model`, `textures` and `animation`.
-	* Any of the fields of the returned table may be nil.
-	* player: PlayerRef
+	* Returns a table containing fields `model`, `textures` and `animation`
+	* Any of the fields of the returned table may be nil
+	* `player`: PlayerRef
+
+* `player_api.player_attached`
+	* A table that maps a player name to a boolean
+	* If the value for a given player is set to true, the default player animations
+	  (walking, digging, ...) will no longer be updated, and knockback from damage is
+	  prevented for that player
+	* Example of usage: A mod sets a player's value to true when attached to a vehicle
 
 ### Model Definition
 
 	{
-		animation_speed = 30,            -- Default animation speed, in FPS.
-		textures = {"character.png", },  -- Default array of textures.
-		visual_size = {x = 1, y = 1},    -- Used to scale the model.
+		animation_speed = 30,           -- Default animation speed, in FPS
+		textures = {"character.png", }, -- Default array of textures
+		visual_size = {x = 1, y = 1},   -- Used to scale the model
 		animations = {
 			-- <anim_name> = {x = <start_frame>, y = <end_frame>},
 			foo = {x = 0, y = 19},
 			bar = {x = 20, y = 39},
-		-- ...
+			-- ...
 		},
 		collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3}, -- In nodes from feet position
-		stepheight = 0.6, -- In nodes
-		eye_height = 1.47, -- In nodes above feet position
+		stepheight = 0.6,                                -- In nodes
+		eye_height = 1.47,                               -- In nodes above feet position
 	}
 
 
@@ -718,34 +741,42 @@ delivered with Minetest Game, to keep them compatible with other mods.
  * `sounds`: See [#Default sounds]
  * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
 
-`stairs.register_stair_inner(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
+`stairs.register_stair_inner(subname, recipeitem, groups, images, description, sounds, worldaligntex, full_description)`
 
  * Registers an inner corner stair
  * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_inner_subname"
  * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble", may be `nil`
  * `groups`: See [Known damage and digging time defining groups]
  * `images`: See [Tile definition]
- * `description`: Used for the description field in the stair's definition
+ * `description`: Used for the description field in the stair's definition with "Inner" prepended
  * `sounds`: See [#Default sounds]
  * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
+ * `full_description`: Overrides the description, bypassing string concatenation. This is useful for translation. (optional)
 
-`stairs.register_stair_outer(subname, recipeitem, groups, images, description, sounds, worldaligntex)`
+`stairs.register_stair_outer(subname, recipeitem, groups, images, description, sounds, worldaligntex, full_description)`
 
  * Registers an outer corner stair
  * `subname`: Basically the material name (e.g. cobble) used for the stair name. Nodename pattern: "stairs:stair_outer_subname"
  * `recipeitem`: Item used in the craft recipe, e.g. "default:cobble", may be `nil`
  * `groups`: See [Known damage and digging time defining groups]
  * `images`: See [Tile definition]
- * `description`: Used for the description field in the stair's definition
+ * `description`: Used for the description field in the stair's definition with "Outer" prepended
  * `sounds`: See [#Default sounds]
  * `worldaligntex`: A bool to set all textures world-aligned. Default false. See [Tile definition]
+ * `full_description`: Overrides the description, bypassing string concatenation. This is useful for translation. (optional)
 
-`stairs.register_stair_and_slab(subname, recipeitem, groups, images, desc_stair, desc_slab, sounds, worldaligntex)`
+```
+stairs.register_stair_and_slab(subname, recipeitem, groups, images, desc_stair, desc_slab,
+	sounds, worldaligntex, desc_stair_inner, desc_stair_outer)
+```
 
  * A wrapper for stairs.register_stair, stairs.register_slab, stairs.register_stair_inner, stairs.register_stair_outer
  * Uses almost the same arguments as stairs.register_stair
- * `desc_stair`: Description for stair nodes. For corner stairs 'Inner' or 'Outer' will be prefixed
+ * `desc_stair`: Description for stair nodes. For corner stairs 'Inner' or 'Outer' will be prefixed unless
+ 	`desc_stair_inner` or `desc_stair_outer` are specified, which are used instead.
  * `desc_slab`: Description for slab node
+ * `desc_stair_inner`: Description for inner stair node
+ * `desc_stair_outer`: Description for outer stair node
 
 
 Xpanes API
@@ -761,7 +792,11 @@ Creates panes that automatically connect to each other
 ### Pane definition
 
 	{
-		textures = {"texture for sides", (unused), "texture for top and bottom"}, -- More tiles aren't supported
+		textures = {
+			"texture for front and back",
+			(unused),
+			"texture for the 4 edges"
+		}, -- More tiles aren't supported
 		groups = {group = rating}, -- Uses the known node groups, see [Known damage and digging time defining groups]
 		sounds = SoundSpec,        -- See [#Default sounds]
 		recipe = {{"","","","","","","","",""}}, -- Recipe field only
@@ -1039,3 +1074,11 @@ for the wielded skeleton key.
 
 if `nil` is returned, it is assumed that the wielder did not have
 permissions to create a key for this node, and no key is created.
+
+`default.register_craft_metadata_copy(ingredient, result)`
+----------------------------------------------------------
+
+This function registers a shapeless recipe that takes `ingredient`
+and `result` as input and outputs `result`.
+
+The metadata of the input `result` is copied to the output `result`.

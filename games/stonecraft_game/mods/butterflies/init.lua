@@ -1,19 +1,13 @@
---[[
+-- butterflies/init.lua
 
-2018-08-24 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- Load support for MT game translation.
+local S = minetest.get_translator("butterflies")
 
 -- register butterflies
 local butter_list = {
-	{"white", S("White")},
-	{"red", S("Red")},
-	{"violet", S("Violet")}
+	{"white",  S("White Butterfly")},
+	{"red",    S("Red Butterfly")},
+	{"violet", S("Violet Butterfly")}
 }
 
 for i in ipairs (butter_list) do
@@ -21,7 +15,7 @@ for i in ipairs (butter_list) do
 	local desc = butter_list[i][2]
 
 	minetest.register_node("butterflies:butterfly_"..name, {
-		description = desc..S(" Butterfly"),
+		description = desc,
 		drawtype = "plantlike",
 		tiles = {{
 			name = "butterflies_butterfly_"..name.."_animated.png",
@@ -67,10 +61,9 @@ for i in ipairs (butter_list) do
 	})
 
 	minetest.register_node("butterflies:hidden_butterfly_"..name, {
-		description = S("Hidden ")..desc..(" Butterfly"),
 		drawtype = "airlike",
-		inventory_image = "insects_butterfly_"..name..".png",
-		wield_image =  "insects_butterfly_"..name..".png",
+		inventory_image = "butterflies_butterfly_"..name..".png^default_invisible_node_overlay.png",
+		wield_image =  "butterflies_butterfly_"..name..".png^default_invisible_node_overlay.png",
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
@@ -109,7 +102,7 @@ minetest.register_decoration({
 	place_offset_y = 2,
 	sidelen = 80,
 	fill_ratio = 0.005,
-	biomes = {"grassland", "deciduous_forest", "floatland_grassland"},
+	biomes = {"grassland", "deciduous_forest"},
 	y_max = 31000,
 	y_min = 1,
 	decoration = {

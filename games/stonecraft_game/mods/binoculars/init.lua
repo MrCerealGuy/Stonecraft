@@ -1,38 +1,23 @@
---[[
-
-2017-10-24 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- binoculars/init.lua
 
 -- Mod global namespace
 
 binoculars = {}
 
-
--- Detect creative mod
-local creative_mod = minetest.get_modpath("creative")
--- Cache creative mode setting as fallback if creative mod not present
-local creative_mode_cache = minetest.settings:get_bool("creative_mode")
+-- Load support for MT game translation.
+local S = minetest.get_translator("binoculars")
 
 
 -- Update player property
 -- Global to allow overriding
 
 function binoculars.update_player_property(player)
-	local creative_enabled =
-		(creative_mod and creative.is_enabled_for(player:get_player_name())) or
-		creative_mode_cache
 	local new_zoom_fov = 0
 
 	if player:get_inventory():contains_item(
 			"main", "binoculars:binoculars") then
 		new_zoom_fov = 10
-	elseif creative_enabled then
+	elseif minetest.is_creative_enabled(player:get_player_name()) then
 		new_zoom_fov = 15
 	end
 
@@ -65,7 +50,7 @@ minetest.after(4.7, cyclic_update)
 -- Binoculars item
 
 minetest.register_craftitem("binoculars:binoculars", {
-	description = S("Binoculars\nUse with 'Zoom' key"),
+	description = S("Binoculars") .. "\n" .. S("Use with 'Zoom' key"),
 	inventory_image = "binoculars_binoculars.png",
 	stack_max = 1,
 

@@ -1,21 +1,15 @@
+-- flowers/init.lua
+
 -- Minetest 0.4 mod: default
 -- See README.txt for licensing and other information.
 
 
---[[
-
-2017-05-13 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- Namespace for functions
 
 flowers = {}
+
+-- Load support for MT game translation.
+local S = minetest.get_translator("flowers")
 
 
 -- Map Generation
@@ -176,15 +170,11 @@ function flowers.flower_spread(pos, node)
 end
 
 minetest.register_abm({
-	label = S("Flower spread"),
+	label = "Flower spread",
 	nodenames = {"group:flora"},
 	interval = 13,
 	chance = 300,
 	action = function(...)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		flowers.flower_spread(...)
 	end,
 })
@@ -204,7 +194,7 @@ minetest.register_node("flowers:mushroom_red", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {snappy = 3, attached_node = 1, flammable = 1},
+	groups = {mushroom = 1, snappy = 3, attached_node = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_use = minetest.item_eat(-5),
 	selection_box = {
@@ -223,7 +213,7 @@ minetest.register_node("flowers:mushroom_brown", {
 	sunlight_propagates = true,
 	walkable = false,
 	buildable_to = true,
-	groups = {food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1},
+	groups = {mushroom = 1, food_mushroom = 1, snappy = 3, attached_node = 1, flammable = 1},
 	sounds = default.node_sound_leaves_defaults(),
 	on_use = minetest.item_eat(1),
 	selection_box = {
@@ -257,15 +247,11 @@ function flowers.mushroom_spread(pos, node)
 end
 
 minetest.register_abm({
-	label = S("Mushroom spread"),
+	label = "Mushroom spread",
 	nodenames = {"flowers:mushroom_brown", "flowers:mushroom_red"},
 	interval = 11,
 	chance = 150,
 	action = function(...)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		flowers.mushroom_spread(...)
 	end,
 })
@@ -285,7 +271,7 @@ minetest.register_alias("mushroom:red_natural", "flowers:mushroom_red")
 -- Waterlily
 --
 
-minetest.register_node("flowers:waterlily", {
+local waterlily_def = {
 	description = S("Waterlily"),
 	drawtype = "nodebox",
 	paramtype = "light",
@@ -293,6 +279,7 @@ minetest.register_node("flowers:waterlily", {
 	tiles = {"flowers_waterlily.png", "flowers_waterlily_bottom.png"},
 	inventory_image = "flowers_waterlily.png",
 	wield_image = "flowers_waterlily.png",
+	use_texture_alpha = "clip",
 	liquids_pointable = true,
 	walkable = false,
 	buildable_to = true,
@@ -313,7 +300,6 @@ minetest.register_node("flowers:waterlily", {
 		local pos = pointed_thing.above
 		local node = minetest.get_node(pointed_thing.under)
 		local def = minetest.registered_nodes[node.name]
-		local player_name = placer and placer:get_player_name() or ""
 
 		if def and def.on_rightclick then
 			return def.on_rightclick(pointed_thing.under, node, placer, itemstack,
@@ -322,19 +308,29 @@ minetest.register_node("flowers:waterlily", {
 
 		if def and def.liquidtype == "source" and
 				minetest.get_item_group(node.name, "water") > 0 then
+			local player_name = placer and placer:get_player_name() or ""
 			if not minetest.is_protected(pos, player_name) then
-				minetest.set_node(pos, {name = "flowers:waterlily",
+				minetest.set_node(pos, {name = "flowers:waterlily" ..
+					(def.waving == 3 and "_waving" or ""),
 					param2 = math.random(0, 3)})
-				if not (creative and creative.is_enabled_for
-						and creative.is_enabled_for(player_name)) then
+				if not minetest.is_creative_enabled(player_name) then
 					itemstack:take_item()
 				end
 			else
-				minetest.chat_send_player(player_name, S("Node is protected"))
+				minetest.chat_send_player(player_name, "Node is protected")
 				minetest.record_protection_violation(pos, player_name)
 			end
 		end
 
 		return itemstack
 	end
-})
+}
+
+local waterlily_waving_def = table.copy(waterlily_def)
+waterlily_waving_def.waving = 3
+waterlily_waving_def.drop = "flowers:waterlily"
+waterlily_waving_def.groups.not_in_creative_inventory = 1
+
+minetest.register_node("flowers:waterlily", waterlily_def)
+minetest.register_node("flowers:waterlily_waving", waterlily_waving_def)
+

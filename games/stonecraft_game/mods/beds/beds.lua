@@ -1,15 +1,9 @@
+-- beds/beds.lua
+
+-- support for MT game translation.
+local S = beds.get_translator
+
 -- Fancy shaped bed
-
---[[
-
-2017-05-13 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 beds.register_bed("beds:fancy_bed", {
 	description = S("Fancy Bed"),
@@ -85,10 +79,10 @@ beds.register_bed("beds:bed", {
 		}
 	},
 	nodebox = {
-		bottom = {-0.5, -0.5, -0.5, 0.5, 0.06, 0.5},
-		top = {-0.5, -0.5, -0.5, 0.5, 0.06, 0.5},
+		bottom = {-0.5, -0.5, -0.5, 0.5, 0.0625, 0.5},
+		top = {-0.5, -0.5, -0.5, 0.5, 0.0625, 0.5},
 	},
-	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.06, 1.5},
+	selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.0625, 1.5},
 	recipe = {
 		{"wool:white", "wool:white", "wool:white"},
 		{"group:wood", "group:wood", "group:wood"}

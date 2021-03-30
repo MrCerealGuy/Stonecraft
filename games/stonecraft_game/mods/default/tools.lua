@@ -1,20 +1,11 @@
 -- mods/default/tools.lua
 
---[[
-
-2017-05-13 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for MT game translation.
+local S = default.get_translator
 
 -- The hand
-minetest.register_item(":", {
-	type = "none",
-	wield_image = "wieldhand.png",
+-- Override the hand item registered in the engine in builtin/game/register.lua
+minetest.override_item("", {
 	wield_scale = {x=1,y=1,z=2.5},
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -43,8 +34,8 @@ minetest.register_tool("default:pick_wood", {
 		},
 		damage_groups = {fleshy=2},
 	},
-	groups = {flammable = 2},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1, flammable = 2}
 })
 
 minetest.register_tool("default:pick_stone", {
@@ -59,6 +50,7 @@ minetest.register_tool("default:pick_stone", {
 		damage_groups = {fleshy=3},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
 })
 
 minetest.register_tool("default:pick_bronze", {
@@ -73,6 +65,7 @@ minetest.register_tool("default:pick_bronze", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
 })
 
 minetest.register_tool("default:pick_steel", {
@@ -87,6 +80,7 @@ minetest.register_tool("default:pick_steel", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
 })
 
 minetest.register_tool("default:pick_mese", {
@@ -101,6 +95,7 @@ minetest.register_tool("default:pick_mese", {
 		damage_groups = {fleshy=5},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
 })
 
 minetest.register_tool("default:pick_diamond", {
@@ -115,6 +110,7 @@ minetest.register_tool("default:pick_diamond", {
 		damage_groups = {fleshy=5},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {pickaxe = 1}
 })
 
 --
@@ -133,8 +129,8 @@ minetest.register_tool("default:shovel_wood", {
 		},
 		damage_groups = {fleshy=2},
 	},
-	groups = {flammable = 2},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1, flammable = 2}
 })
 
 minetest.register_tool("default:shovel_stone", {
@@ -150,6 +146,7 @@ minetest.register_tool("default:shovel_stone", {
 		damage_groups = {fleshy=2},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
 })
 
 minetest.register_tool("default:shovel_bronze", {
@@ -165,6 +162,7 @@ minetest.register_tool("default:shovel_bronze", {
 		damage_groups = {fleshy=3},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
 })
 
 minetest.register_tool("default:shovel_steel", {
@@ -180,6 +178,7 @@ minetest.register_tool("default:shovel_steel", {
 		damage_groups = {fleshy=3},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
 })
 
 minetest.register_tool("default:shovel_mese", {
@@ -195,6 +194,7 @@ minetest.register_tool("default:shovel_mese", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
 })
 
 minetest.register_tool("default:shovel_diamond", {
@@ -210,6 +210,7 @@ minetest.register_tool("default:shovel_diamond", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {shovel = 1}
 })
 
 --
@@ -227,8 +228,8 @@ minetest.register_tool("default:axe_wood", {
 		},
 		damage_groups = {fleshy=2},
 	},
-	groups = {flammable = 2},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1, flammable = 2}
 })
 
 minetest.register_tool("default:axe_stone", {
@@ -243,6 +244,7 @@ minetest.register_tool("default:axe_stone", {
 		damage_groups = {fleshy=3},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
 })
 
 minetest.register_tool("default:axe_bronze", {
@@ -257,6 +259,7 @@ minetest.register_tool("default:axe_bronze", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
 })
 
 minetest.register_tool("default:axe_steel", {
@@ -271,6 +274,7 @@ minetest.register_tool("default:axe_steel", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
 })
 
 minetest.register_tool("default:axe_mese", {
@@ -285,6 +289,7 @@ minetest.register_tool("default:axe_mese", {
 		damage_groups = {fleshy=6},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
 })
 
 minetest.register_tool("default:axe_diamond", {
@@ -299,6 +304,7 @@ minetest.register_tool("default:axe_diamond", {
 		damage_groups = {fleshy=7},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {axe = 1}
 })
 
 --
@@ -316,8 +322,8 @@ minetest.register_tool("default:sword_wood", {
 		},
 		damage_groups = {fleshy=2},
 	},
-	groups = {flammable = 2},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1, flammable = 2}
 })
 
 minetest.register_tool("default:sword_stone", {
@@ -332,6 +338,7 @@ minetest.register_tool("default:sword_stone", {
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
 })
 
 minetest.register_tool("default:sword_bronze", {
@@ -346,6 +353,7 @@ minetest.register_tool("default:sword_bronze", {
 		damage_groups = {fleshy=6},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
 })
 
 minetest.register_tool("default:sword_steel", {
@@ -360,6 +368,7 @@ minetest.register_tool("default:sword_steel", {
 		damage_groups = {fleshy=6},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
 })
 
 minetest.register_tool("default:sword_mese", {
@@ -374,6 +383,7 @@ minetest.register_tool("default:sword_mese", {
 		damage_groups = {fleshy=7},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
 })
 
 minetest.register_tool("default:sword_diamond", {
@@ -388,7 +398,59 @@ minetest.register_tool("default:sword_diamond", {
 		damage_groups = {fleshy=8},
 	},
 	sound = {breaks = "default_tool_breaks"},
+	groups = {sword = 1}
 })
+
+--
+-- Register Craft Recipies
+--
+
+local craft_ingreds = {
+	wood = "group:wood",
+	stone = "group:stone",
+	steel = "default:steel_ingot",
+	bronze = "default:bronze_ingot",
+	mese = "default:mese_crystal",
+	diamond = "default:diamond"
+}
+
+for name, mat in pairs(craft_ingreds) do
+	minetest.register_craft({
+		output = "default:pick_".. name,
+		recipe = {
+			{mat, mat, mat},
+			{"", "group:stick", ""},
+			{"", "group:stick", ""}
+		}
+	})
+
+	minetest.register_craft({
+		output = "default:shovel_".. name,
+		recipe = {
+			{mat},
+			{"group:stick"},
+			{"group:stick"}
+		}
+	})
+
+	minetest.register_craft({
+		output = "default:axe_".. name,
+		recipe = {
+			{mat, mat},
+			{mat, "group:stick"},
+			{"", "group:stick"}
+		}
+	})
+
+	minetest.register_craft({
+		output = "default:sword_".. name,
+		recipe = {
+			{mat},
+			{mat},
+			{"group:stick"}
+		}
+	})
+end
 
 minetest.register_tool("default:key", {
 	description = S("Key"),
@@ -428,4 +490,28 @@ minetest.register_tool("default:key", {
 
 		return nil
 	end
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:pick_wood",
+	burntime = 6,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:shovel_wood",
+	burntime = 4,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:axe_wood",
+	burntime = 6,
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:sword_wood",
+	burntime = 5,
 })

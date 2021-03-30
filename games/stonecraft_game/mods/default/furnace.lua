@@ -1,25 +1,18 @@
+-- default/furnace.lua
+
+-- support for MT game translation.
+local S = default.get_translator
 
 --
 -- Formspecs
 --
-
---[[
-
-2017-05-20 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 function default.get_furnace_active_formspec(fuel_percent, item_percent)
 	return "size[8,8.5]"..
 		"list[context;src;2.75,0.5;1,1;]"..
 		"list[context;fuel;2.75,2.5;1,1;]"..
 		"image[2.75,1.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
-		(100-fuel_percent)..":default_furnace_fire_fg.png]"..
+		(fuel_percent)..":default_furnace_fire_fg.png]"..
 		"image[3.75,1.5;1,1;gui_furnace_arrow_bg.png^[lowpart:"..
 		(item_percent)..":gui_furnace_arrow_fg.png^[transformR270]"..
 		"list[context;dst;4.75,0.96;2,2;]"..
@@ -109,7 +102,7 @@ end
 
 local function furnace_node_timer(pos, elapsed)
 	--
-	-- Inizialize metadata
+	-- Initialize metadata
 	--
 	local meta = minetest.get_meta(pos)
 	local fuel_time = meta:get_float("fuel_time") or 0
@@ -118,6 +111,10 @@ local function furnace_node_timer(pos, elapsed)
 
 	local inv = meta:get_inventory()
 	local srclist, fuellist
+	local dst_full = false
+
+	local timer_elapsed = meta:get_int("timer_elapsed") or 0
+	meta:set_int("timer_elapsed", timer_elapsed + 1)
 
 	local cookable, cooked
 	local fuel
@@ -157,7 +154,12 @@ local function furnace_node_timer(pos, elapsed)
 						inv:set_stack("src", 1, aftercooked.items[1])
 						src_time = src_time - cooked.time
 						update = true
+					else
+						dst_full = true
 					end
+					-- Play cooling sound
+					minetest.sound_play("default_cool_lava",
+						{pos = pos, max_hear_distance = 16, gain = 0.1}, true)
 				else
 					-- Item could not be cooked: probably missing fuel
 					update = true
@@ -177,6 +179,16 @@ local function furnace_node_timer(pos, elapsed)
 				else
 					-- Take fuel from fuel list
 					inv:set_stack("fuel", 1, afterfuel.items[1])
+					-- Put replacements in dst list or drop them on the furnace.
+					local replacements = fuel.replacements
+					if replacements[1] then
+						local leftover = inv:add_item("dst", replacements[1])
+						if not leftover:is_empty() then
+							local above = vector.new(pos.x, pos.y + 1, pos.z)
+							local drop_pos = minetest.find_node_near(above, 1, {"air"}) or above
+							minetest.item_drop(replacements[1], nil, drop_pos)
+						end
+					end
 					update = true
 					fuel_totaltime = fuel.time + (fuel_totaltime - fuel_time)
 				end
@@ -194,7 +206,7 @@ local function furnace_node_timer(pos, elapsed)
 	if fuel and fuel_totaltime > fuel.time then
 		fuel_totaltime = fuel.time
 	end
-	if srclist[1]:is_empty() then
+	if srclist and srclist[1]:is_empty() then
 		src_time = 0
 	end
 
@@ -206,43 +218,56 @@ local function furnace_node_timer(pos, elapsed)
 	local item_percent = 0
 	if cookable then
 		item_percent = math.floor(src_time / cooked.time * 100)
-		if item_percent > 100 then
+		if dst_full then
 			item_state = S("100% (output full)")
 		else
-			item_state = item_percent .. "%"
+			item_state = S("@1%", item_percent)
 		end
 	else
-		if srclist[1]:is_empty() then
-			item_state = S("Empty")
-		else
+		if srclist and not srclist[1]:is_empty() then
 			item_state = S("Not cookable")
+		else
+			item_state = S("Empty")
 		end
 	end
 
 	local fuel_state = S("Empty")
-	local active = S("inactive")
+	local active = false
 	local result = false
 
 	if fuel_totaltime ~= 0 then
-		active = S("active")
-		local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
-		fuel_state = fuel_percent .. "%"
+		active = true
+		local fuel_percent = 100 - math.floor(fuel_time / fuel_totaltime * 100)
+		fuel_state = S("@1%", fuel_percent)
 		formspec = default.get_furnace_active_formspec(fuel_percent, item_percent)
 		swap_node(pos, "default:furnace_active")
 		-- make sure timer restarts automatically
 		result = true
+
+		-- Play sound every 5 seconds while the furnace is active
+		if timer_elapsed == 0 or (timer_elapsed+1) % 5 == 0 then
+			minetest.sound_play("default_furnace_active",
+				{pos = pos, max_hear_distance = 16, gain = 0.5}, true)
+		end
 	else
-		if not fuellist[1]:is_empty() then
-			fuel_state = "0%"
+		if fuellist and not fuellist[1]:is_empty() then
+			fuel_state = S("@1%", 0)
 		end
 		formspec = default.get_furnace_inactive_formspec()
 		swap_node(pos, "default:furnace")
 		-- stop timer on the inactive furnace
 		minetest.get_node_timer(pos):stop()
+		meta:set_int("timer_elapsed", 0)
 	end
 
-	local infotext = S("Furnace ") .. active .. "\n" .. S("(Item: ") .. item_state ..
-		S("; Fuel: ") .. fuel_state .. ")"
+
+	local infotext
+	if active then
+		infotext = S("Furnace active")
+	else
+		infotext = S("Furnace inactive")
+	end
+	infotext = infotext .. "\n" .. S("(Item: @1; Fuel: @2)", item_state, fuel_state)
 
 	--
 	-- Set meta values
@@ -279,11 +304,11 @@ minetest.register_node("default:furnace", {
 
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("formspec", default.get_furnace_inactive_formspec())
 		local inv = meta:get_inventory()
 		inv:set_size('src', 1)
 		inv:set_size('fuel', 1)
 		inv:set_size('dst', 4)
+		furnace_node_timer(pos, 0)
 	end,
 
 	on_metadata_inventory_move = function(pos)
@@ -291,6 +316,10 @@ minetest.register_node("default:furnace", {
 	end,
 	on_metadata_inventory_put = function(pos)
 		-- start timer function, it will sort out whether furnace can burn or not.
+		minetest.get_node_timer(pos):start(1.0)
+	end,
+	on_metadata_inventory_take = function(pos)
+		-- check whether the furnace is empty or not.
 		minetest.get_node_timer(pos):start(1.0)
 	end,
 	on_blast = function(pos)
@@ -339,4 +368,13 @@ minetest.register_node("default:furnace_active", {
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_move = allow_metadata_inventory_move,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
+})
+
+minetest.register_craft({
+	output = "default:furnace",
+	recipe = {
+		{"group:stone", "group:stone", "group:stone"},
+		{"group:stone", "", "group:stone"},
+		{"group:stone", "group:stone", "group:stone"},
+	}
 })

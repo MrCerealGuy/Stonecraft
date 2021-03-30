@@ -43,9 +43,9 @@ function carts:is_rail(pos, railtype)
 			MinEdge = emin,
 			MaxEdge = emax,
 		}
-		local data = vm:load_data_into_heap()
+		local data = vm:get_data()
 		local vi = area:indexp(pos)
-		node = minetest.get_name_from_content_id(vm:get_data_from_heap(data, vi))
+		node = minetest.get_name_from_content_id(data[vi])
 	end
 	if minetest.get_item_group(node, "rail") == 0 then
 		return false

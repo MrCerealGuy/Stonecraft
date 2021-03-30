@@ -1,5 +1,10 @@
+-- sethome/init.lua
 
 sethome = {}
+
+-- Load support for MT game translation.
+local S = minetest.get_translator("sethome")
+
 
 local homes_file = minetest.get_worldpath() .. "/homes"
 local homepos = {}
@@ -24,9 +29,13 @@ sethome.set = function(name, pos)
 	if not player or not pos then
 		return false
 	end
-	player:set_attribute("sethome:home", minetest.pos_to_string(pos))
+	local player_meta = player:get_meta()
+	player_meta:set_string("sethome:home", minetest.pos_to_string(pos))
 
 	-- remove `name` from the old storage file
+	if not homepos[name] then
+		return true
+	end
 	local data = {}
 	local output = io.open(homes_file, "w")
 	if output then
@@ -43,7 +52,8 @@ end
 
 sethome.get = function(name)
 	local player = minetest.get_player_by_name(name)
-	local pos = minetest.string_to_pos(player:get_attribute("sethome:home"))
+	local player_meta = player:get_meta()
+	local pos = minetest.string_to_pos(player_meta:get_string("sethome:home"))
 	if pos then
 		return pos
 	end
@@ -68,30 +78,30 @@ sethome.go = function(name)
 end
 
 minetest.register_privilege("home", {
-	description = "Can use /sethome and /home",
+	description = S("Can use /sethome and /home"),
 	give_to_singleplayer = false
 })
 
 minetest.register_chatcommand("home", {
-	description = "Teleport you to your home point",
+	description = S("Teleport you to your home point"),
 	privs = {home = true},
 	func = function(name)
 		if sethome.go(name) then
-			return true, "Teleported to home!"
+			return true, S("Teleported to home!")
 		end
-		return false, "Set a home using /sethome"
+		return false, S("Set a home using /sethome")
 	end,
 })
 
 minetest.register_chatcommand("sethome", {
-	description = "Set your home point",
+	description = S("Set your home point"),
 	privs = {home = true},
 	func = function(name)
 		name = name or "" -- fallback to blank name if nil
 		local player = minetest.get_player_by_name(name)
 		if player and sethome.set(name, player:get_pos()) then
-			return true, "Home set!"
+			return true, S("Home set!")
 		end
-		return false, "Player not found!"
+		return false, S("Player not found!")
 	end,
 })

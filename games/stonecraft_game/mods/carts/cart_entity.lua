@@ -1,13 +1,7 @@
---[[
+-- carts/cart_entity.lua
 
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for MT game translation.
+local S = carts.get_translator
 
 local cart_entity = {
 	initial_properties = {
@@ -73,6 +67,7 @@ end
 function cart_entity:on_detach_child(child)
 	if child and child:get_player_name() == self.driver then
 		self.driver = nil
+		carts:manage_attachment(child, nil)
 	end
 end
 
@@ -113,8 +108,7 @@ function cart_entity:on_punch(puncher, time_from_last_punch, tool_capabilities, 
 		end
 		-- Pick up cart
 		local inv = puncher:get_inventory()
-		if not (creative and creative.is_enabled_for
-				and creative.is_enabled_for(puncher:get_player_name()))
+		if not minetest.is_creative_enabled(puncher:get_player_name())
 				or not inv:contains_item("main", "carts:cart") then
 			local leftover = inv:add_item("main", "carts:cart")
 			-- If no room in inventory add a replacement cart to the world
@@ -333,11 +327,10 @@ local function rail_on_step(self, dtime)
 	if self.punched then
 		-- Collect dropped items
 		for _, obj_ in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-			if not obj_:is_player() and
-					obj_:get_luaentity() and
-					not obj_:get_luaentity().physical_state and
-					obj_:get_luaentity().name == "__builtin:item" then
-
+			local ent = obj_:get_luaentity()
+			-- Careful here: physical_state and disable_physics are item-internal APIs
+			if ent and ent.name == "__builtin:item" and ent.physical_state then
+				ent:disable_physics()
 				obj_:set_attach(self.object, "", {x=0, y=0, z=0}, {x=0, y=0, z=0})
 				self.attached_items[#self.attached_items + 1] = obj_
 			end
@@ -394,9 +387,9 @@ end
 minetest.register_entity("carts:cart", cart_entity)
 
 minetest.register_craftitem("carts:cart", {
-	description = S("Cart (Sneak+Click to pick up)"),
-	inventory_image = minetest.inventorycube("carts_cart_top.png", "carts_cart_side.png", "carts_cart_side.png"),
-	wield_image = "carts_cart_side.png",
+	description = S("Cart") .. "\n" .. S("(Sneak+Click to pick up)"),
+	inventory_image = minetest.inventorycube("carts_cart_top.png", "carts_cart_front.png", "carts_cart_side.png"),
+	wield_image = "carts_cart_front.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local under = pointed_thing.under
 		local node = minetest.get_node(under)
@@ -420,10 +413,9 @@ minetest.register_craftitem("carts:cart", {
 		end
 
 		minetest.sound_play({name = "default_place_node_metal", gain = 0.5},
-			{pos = pointed_thing.above})
+			{pos = pointed_thing.above}, true)
 
-		if not (creative and creative.is_enabled_for
-				and creative.is_enabled_for(placer:get_player_name())) then
+		if not minetest.is_creative_enabled(placer:get_player_name()) then
 			itemstack:take_item()
 		end
 		return itemstack

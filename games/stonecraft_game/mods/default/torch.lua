@@ -1,14 +1,7 @@
---[[
+-- default/torch.lua
 
-2017-05-20 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+-- support for MT game translation.
+local S = default.get_translator
 
 local function on_flood(pos, oldnode, newnode)
 	minetest.add_item(pos, ItemStack("default:torch 1"))
@@ -18,7 +11,8 @@ local function on_flood(pos, oldnode, newnode)
 			nodedef.groups.igniter and nodedef.groups.igniter > 0) then
 		minetest.sound_play(
 			"default_cool_lava",
-			{pos = pos, max_hear_distance = 16, gain = 0.1}
+			{pos = pos, max_hear_distance = 16, gain = 0.1},
+			true
 		)
 	end
 	-- Remove the torch node
@@ -35,6 +29,7 @@ minetest.register_node("default:torch", {
 		    name = "default_torch_on_floor_animated.png",
 		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 3.3}
 	}},
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -77,6 +72,7 @@ minetest.register_node("default:torch", {
 	end,
 	floodable = true,
 	on_flood = on_flood,
+	on_rotate = false
 })
 
 minetest.register_node("default:torch_wall", {
@@ -86,6 +82,7 @@ minetest.register_node("default:torch_wall", {
 		    name = "default_torch_on_floor_animated.png",
 		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 3.3}
 	}},
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -100,6 +97,7 @@ minetest.register_node("default:torch_wall", {
 	sounds = default.node_sound_wood_defaults(),
 	floodable = true,
 	on_flood = on_flood,
+	on_rotate = false
 })
 
 minetest.register_node("default:torch_ceiling", {
@@ -109,6 +107,7 @@ minetest.register_node("default:torch_ceiling", {
 		    name = "default_torch_on_floor_animated.png",
 		    animation = {type = "vertical_frames", aspect_w = 16, aspect_h = 16, length = 3.3}
 	}},
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	paramtype2 = "wallmounted",
 	sunlight_propagates = true,
@@ -123,6 +122,7 @@ minetest.register_node("default:torch_ceiling", {
 	sounds = default.node_sound_wood_defaults(),
 	floodable = true,
 	on_flood = on_flood,
+	on_rotate = false
 })
 
 minetest.register_lbm({
@@ -140,4 +140,18 @@ minetest.register_lbm({
 				param2 = node.param2})
 		end
 	end
+})
+
+minetest.register_craft({
+	output = "default:torch 4",
+	recipe = {
+		{"default:coal_lump"},
+		{"group:stick"},
+	}
+})
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "default:torch",
+	burntime = 4,
 })
