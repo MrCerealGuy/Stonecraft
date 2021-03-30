@@ -114,7 +114,7 @@ return {
 	cbf_formspec = function(tabview, name, tabdata)
 		local logofile = defaulttexturedir .. "logo.png"
 		local version = core.get_version()
-		return "image[0.5,1;" .. core.formspec_escape(logofile) .. "]" ..
+		local fs = "image[0.5,1;" .. core.formspec_escape(logofile) .. "]" ..
 			"label[0.5,3.2;" .. version.project .. " " .. version.string .. "]" ..
 			"tablecolumns[color;text]" ..
 			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
