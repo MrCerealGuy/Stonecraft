@@ -1,21 +1,23 @@
 if core.skip_mod("mobs_monster") then return end
 
-local path = minetest.get_modpath("mobs_monster")
+-- Load support for intllib.
+local path = minetest.get_modpath(minetest.get_current_modname()) .. "/"
 
--- Intllib
-local S
-if minetest.global_exists("intllib") then
-	if intllib.make_gettext_pair then
-		-- New method using gettext.
-		S = intllib.make_gettext_pair()
-	else
-		-- Old method using text files.
-		S = intllib.Getter()
-	end
-else
-	S = function(s) return s end
-end
+local S = minetest.get_translator and minetest.get_translator("mobs_monster") or
+		dofile(path .. "intllib.lua")
+
 mobs.intllib = S
+
+
+-- Check for custom mob spawn file
+local input = io.open(path .. "spawn.lua", "r")
+
+if input then
+	mobs.custom_spawn_monster = true
+	input:close()
+	input = nil
+end
+
 
 -- Monsters
 
@@ -29,6 +31,14 @@ if core.get_mod_setting("mobs_monster_lava_flan") 		~= "false" then dofile(path 
 if core.get_mod_setting("mobs_monster_mese_monster") 	~= "false" then dofile(path .. "/mese_monster.lua") 	end
 if core.get_mod_setting("mobs_monster_spider") 			~= "false" then dofile(path .. "/spider.lua") 		end -- AspireMint
 
-dofile(path .. "/lucky_block.lua")
+-- Load custom spawning
+if mobs.custom_spawn_monster then
+	dofile(path .. "spawn.lua")
+end
 
-print ("[MOD] Mobs Redo 'Monsters' loaded")
+
+-- Lucky Blocks
+dofile(path .. "lucky_block.lua")
+
+
+print (S("[MOD] Mobs Redo Monsters loaded"))

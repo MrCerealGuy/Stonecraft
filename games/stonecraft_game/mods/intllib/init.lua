@@ -1,10 +1,3 @@
---[[
-
-2018-08-15 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	return function intllib.get_detected_languages() after first detected language
-
---]]
-
 
 -- Old multi-load method compatibility
 if rawget(_G, "intllib") then return end
@@ -23,6 +16,7 @@ dofile(MP.."/lib.lua")
 local LANG = minetest.settings:get("language")
 if not (LANG and (LANG ~= "")) then LANG = os.getenv("LANG") end
 if not (LANG and (LANG ~= "")) then LANG = "en" end
+
 
 local INS_CHAR = intllib.INSERTION_CHAR
 local insertion_pattern = "("..INS_CHAR.."?)"..INS_CHAR.."(%(?)(%d+)(%)?)"
@@ -118,7 +112,6 @@ function intllib.get_detected_languages()
 	v = minetest.settings:get("language")
 	if v and v~="" then
 		addlang(v)
-		return langs
 	end
 
 	v = os.getenv("LANGUAGE")
@@ -126,13 +119,11 @@ function intllib.get_detected_languages()
 		for item in split(v, ":") do
 			langs[#langs+1] = item
 		end
-		return langs
 	end
 
 	v = os.getenv("LANG")
 	if v then
 		addlang(v)
-		return langs
 	end
 
 	langs[#langs+1] = "en"
@@ -210,7 +201,8 @@ function intllib.get_strings(modname, langcode)
 		local modpath = minetest.get_modpath(modname)
 		msgstr = { }
 		for _, l in ipairs(get_locales(langcode)) do
-			local t = intllib.load_strings(modpath.."/locale/"..l..".txt") or { }
+			local t = intllib.load_strings(modpath.."/locale/"..modname.."."..l..".tr")
+				or intllib.load_strings(modpath.."/locale/"..l..".txt") or { }
 			for k, v in pairs(t) do
 				msgstr[k] = msgstr[k] or v
 			end

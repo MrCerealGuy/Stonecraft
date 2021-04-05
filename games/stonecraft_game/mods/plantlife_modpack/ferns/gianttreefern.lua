@@ -10,14 +10,14 @@
 assert(abstract_ferns.config.enable_giant_treefern == true)
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("ferns")
 -- lot of code, lot to load
 
 abstract_ferns.grow_giant_tree_fern = function(pos)
-	local pos_01 = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if minetest.get_node(pos_01).name ~= "air"
-			and minetest.get_node(pos_01).name ~= "ferns:sapling_giant_tree_fern"
-			and minetest.get_node(pos_01).name ~= "default:junglegrass" then
+	local pos_aux = {x = pos.x, y = pos.y + 1, z = pos.z}
+	local name = minetest.get_node(pos_aux).name
+	if name ~= "air" and name ~= "ferns:sapling_giant_tree_fern"
+			and name ~= "default:junglegrass" then
 		return
 	end
 
@@ -64,7 +64,9 @@ abstract_ferns.grow_giant_tree_fern = function(pos)
 
 	local brk = false
 	for i = 1, size-3 do
-		if minetest.get_node({x = pos.x, y = pos.y + i, z = pos.z}).name ~= "air" then
+		pos_aux.y = pos.y + i
+		local name = minetest.get_node(pos_aux).name
+		if not (name == "air" or (i == 1 and name == "ferns:sapling_giant_tree_fern")) then
 			brk = true
 			break
 		end

@@ -7,7 +7,7 @@
 -- Branch textures created by Neuromancer.
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("bushes")
   abstract_bushes = {}
 
   minetest.register_node("bushes:youngtree2_bottom", {

@@ -50,7 +50,7 @@ minetest.register_node("digilines:lightsensor", {
 	groups = {dig_immediate=2},
 	selection_box = lsensor_selbox,
 	node_box = lsensor_nodebox,
-	digiline =
+	digilines =
 	{
 		receptor = {},
 		effector = {

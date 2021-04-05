@@ -5,8 +5,10 @@ mobs:register_mob("nssm:mordain", {
 	collisionbox = {-0.5, -0.3, -0.5, 0.5, 2.7, 0.5},
 	visual = "mesh",
 	mesh = "mordain.x",
-	textures = {{"mordain.png"}},
-	visual_size = {x=3.5, y=3.5},
+	textures = {
+		{"mordain.png"}
+	},
+	visual_size = {x = 3.5, y = 3.5},
 	makes_footstep_sound = false,
 	view_range = 30,
 	fear_height = 4,
@@ -19,26 +21,19 @@ mobs:register_mob("nssm:mordain", {
 	damage = 6,
 	jump = true,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 1,
-		max = 1,},
-		{name = "nssm:slothful_soul_fragment",
-		chance = 3,
-		min = 1,
-		max = 1,},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 1},
+		{name = "nssm:slothful_soul_fragment", chance = 3, min = 1, max = 1},
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 1,
-	group_attack=true,
-	attack_animals=true,
-	knock_back=1,
-	blood_texture="morparticle.png",
-	stepheight=1.1,
-	--light_damage = 2,
-	on_rightclick = nil,
+--	light_damage = 2,
+	group_attack = true,
+	attack_animals = true,
+	knock_back = 1,
+	blood_texture = "morparticle.png",
+	stepheight = 1.1,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 15,
@@ -52,17 +47,24 @@ mobs:register_mob("nssm:mordain", {
 		punch_start = 210,
 		punch_end = 225,
 	},
-	--pathfinding = 1,
+
 	custom_attack = function(self)
-		self.mordain_timer = (self.mordain_timer or os.time())
+
+		self.mordain_timer = self.mordain_timer or os.time()
+
 		if (os.time() - self.mordain_timer) > 1 then
+
 			self.mordain_timer = os.time()
+
 			local s = self.object:get_pos()
 			local p = self.attack:get_pos()
 
 			mobs:set_animation(self, "punch")
 
-			if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
+			if minetest.line_of_sight(
+				{x = p.x, y = p.y + 1.5, z = p.z},
+				{x = s.x, y = s.y + 1.5, z = s.z}) == true then
+
 				-- play attack sound
 				if self.sounds.attack then
 					minetest.sound_play(self.sounds.attack, {
@@ -70,52 +72,92 @@ mobs:register_mob("nssm:mordain", {
 						max_hear_distance = self.sounds.distance
 					})
 				end
+
 				-- punch player
-				self.attack:punch(self.object, 1.0,  {
-					full_punch_interval=1.0,
-					damage_groups = {fleshy=self.damage}
+				self.attack:punch(self.object, 1.0, {
+					full_punch_interval = 1.0,
+					damage_groups = {fleshy = self.damage}
 				}, nil)
 			end
 
 			minetest.after(1, function()
+
 				local ty = s.y
 				local flag = 0
 				local m = 3
 
-				local v = {x=(p.x-s.x)*m, y = ty, z = (p.z-s.z)*m}
-				local d = {x=s.x+v.x, y = ty, z = s.z+v.z}
+				local v = {
+					x = (p.x - s.x) * m,
+					y = ty,
+					z = (p.z - s.z) * m
+				}
 
-				d.y = ty
+				local d = {
+					x = s.x + v.x,
+					y = ty,
+					z = s.z + v.z
+				}
 
 				for j = -3,3 do
+
 					ty = d.y + j
-					local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
-					local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
+
+					local current = minetest.get_node({
+						x = d.x,
+						y = ty,
+						z = d.z}).name
+
+					local up = minetest.get_node({
+						x = d.x,
+						y = ty + 1,
+						z = d.z}).name
+
 					if up == "air" and current ~= "air" then
+
 						d.y = d.y + j+1.5
+
 						flag = 1
+
 						break
 					end
 				end
 
 				while flag ~= 1 do
-					d.x = p.x + math.random(-m,m)
-					d.z = p.z + math.random(-m,m)
+
+					d.x = p.x + math.random(-m, m)
+					d.z = p.z + math.random(-m, m)
 					d.y = p.y
+
 					local dist = dist_pos(d, p)
-					if dist>=2 then
+
+					if dist >= 2 then
+
 						for j = -3,3 do
+
 							ty = d.y + j
-							local current = minetest.get_node({x = d.x, y = ty, z = d.z}).name
-							local up = minetest.get_node({x = d.x, y = ty+1, z = d.z}).name
+
+							local current = minetest.get_node({
+								x = d.x,
+								y = ty,
+								z = d.z}).name
+
+							local up = minetest.get_node({
+								x = d.x,
+								y = ty + 1,
+								z = d.z}).name
+
 							if up == "air" and current ~= "air" then
+
 								d.y = d.y + j+1.5
+
 								flag = 1
+
 								break
 							end
 						end
 					end
 				end
+
 				self.object:set_pos(d)
 			end)
 		end

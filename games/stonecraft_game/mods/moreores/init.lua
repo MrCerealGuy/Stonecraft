@@ -3,7 +3,7 @@
 ** More Ores **
 By Calinou, with the help of Nore.
 
-Copyright © 2011-2019 Hugo Locurcio and contributors.
+Copyright © 2011-2020 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 =====================================================================
 --]]
@@ -29,6 +29,9 @@ dofile(modpath .. "/_config.txt")
 if minetest.get_modpath("mg") then
 	dofile(modpath .. "/mg.lua")
 end
+
+-- `frame` support
+local use_frame = minetest.get_modpath("frame")
 
 local default_stone_sounds = default.node_sound_stone_defaults()
 local default_metal_sounds = default.node_sound_metal_defaults()
@@ -96,6 +99,10 @@ local function add_ore(modname, description, mineral_name, oredef)
 			sounds = default_stone_sounds,
 			drop = lump_item,
 		})
+
+		if use_frame then
+			frame.register(modname .. ":mineral_" .. mineral_name)
+		end
 	end
 
 	if oredef.makes.block then
@@ -119,6 +126,9 @@ local function add_ore(modname, description, mineral_name, oredef)
 				}
 			})
 		end
+		if use_frame then
+			frame.register(block_item)
+		end
 	end
 
 	if oredef.makes.lump then
@@ -134,6 +144,9 @@ local function add_ore(modname, description, mineral_name, oredef)
 				recipe = lump_item,
 			})
 		end
+		if use_frame then
+			frame.register(lump_item)
+		end
 	end
 
 	if oredef.makes.ingot then
@@ -142,6 +155,9 @@ local function add_ore(modname, description, mineral_name, oredef)
 			inventory_image = img_base .. "_ingot.png",
 		})
 		minetest.register_alias(mineral_name .. "_ingot", ingot)
+		if use_frame then
+			frame.register(ingot)
+		end
 	end
 
 	if oredef.makes.chest then
@@ -223,7 +239,18 @@ local function add_ore(modname, description, mineral_name, oredef)
 			end
 		end
 
+		-- Toolranks support
+		if minetest.get_modpath("toolranks") then
+			minetest.override_item(fulltool_name, {
+				original_description = tdef.description,
+				description = toolranks.create_description(tdef.description, 0, 1),
+				after_use = toolranks.new_afteruse})
+		end
+
 		minetest.register_alias(tool_name .. tool_post, fulltool_name)
+		if use_frame then
+			frame.register(fulltool_name)
+		end
 	end
 end
 
@@ -336,45 +363,20 @@ else
 end
 
 -- Copper rail (unique node)
-minetest.register_node("moreores:copper_rail", {
-	description = S("Copper Rail"),
-	drawtype = "raillike",
-	tiles = {
-		"moreores_copper_rail.png",
-		"moreores_copper_rail_curved.png",
-		"moreores_copper_rail_t_junction.png",
-		"moreores_copper_rail_crossing.png",
-	},
-	inventory_image = "moreores_copper_rail.png",
-	wield_image = "moreores_copper_rail.png",
-	paramtype = "light",
-	sunlight_propagates = true,
-	walkable = false,
-	selection_box = {
-		type = "fixed",
-		fixed = {
-			-1/2,
-			-1/2,
-			-1/2,
-			1/2,
-			-1/2 + 1/16,
-			1/2,
+if minetest.get_modpath("carts") then
+	carts:register_rail("moreores:copper_rail", {
+		description = S("Copper Rail"),
+		tiles = {
+			"moreores_copper_rail.png",
+			"moreores_copper_rail_curved.png",
+			"moreores_copper_rail_t_junction.png",
+			"moreores_copper_rail_crossing.png",
 		},
-	},
-	sounds = default_metal_sounds,
-	groups = {bendy = 2, snappy = 1, dig_immediate = 2, rail = 1, connect_to_raillike = 1},
-	mesecons = {
-		effector = {
-			action_on = function(pos, node)
-				minetest.get_meta(pos):set_string("cart_acceleration", "0.5")
-			end,
-
-			action_off = function(pos, node)
-				minetest.get_meta(pos):set_string("cart_acceleration", "0")
-			end,
-		},
-	},
-})
+		inventory_image = "moreores_copper_rail.png",
+		wield_image = "moreores_copper_rail.png",
+		groups = carts:get_rail_groups(),
+	}, {})
+end
 
 minetest.register_craft({
 	output = "moreores:copper_rail 24",

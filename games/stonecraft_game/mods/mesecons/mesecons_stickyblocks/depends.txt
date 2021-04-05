@@ -1,3 +1,0 @@
-mesecons
-mesecons_mvps
-intllib?

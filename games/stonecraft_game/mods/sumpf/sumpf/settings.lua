@@ -17,9 +17,8 @@ local default_settings = {
 	wet_beaches = true,	--swampwater
 	hut_chance = 50,
 	spawn_plants = true,
-	info = true,
-	inform_all = false,	--minetest.is_singleplayer()
-	max_spam = 2,
+	log_to_chat = false,	--minetest.is_singleplayer()
+	log_level = 2,
 }
 
 for name,dv in pairs(default_settings) do

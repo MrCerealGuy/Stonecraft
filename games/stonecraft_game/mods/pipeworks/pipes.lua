@@ -21,11 +21,11 @@ local new_flow_logic_register = pipeworks.flowables.register
 local polys = ""
 if pipeworks.enable_lowpoly then polys = "_lowpoly" end
 
-local vti = {4, 3, 2, 1, 6, 5}
+--~ local vti = {4, 3, 2, 1, 6, 5}
 local cconnects = {{}, {1}, {1, 2}, {1, 3}, {1, 3, 5}, {1, 2, 3}, {1, 2, 3, 5}, {1, 2, 3, 4}, {1, 2, 3, 4, 5}, {1, 2, 3, 4, 5, 6}}
 for index, connects in ipairs(cconnects) do
 	local outsel = {}
-	
+
 	local jx = 0
 	local jy = 0
 	local jz = 0
@@ -40,23 +40,25 @@ for index, connects in ipairs(cconnects) do
 		table.insert(outsel, pipeworks.pipe_selectboxes[v])
 	end
 
+	--[[
 	if #connects == 1 then
 		local v = connects[1]
 		v = v-1 + 2*(v%2) -- Opposite side
 	end
-	
+	--]]
+
 	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1}
-	local pipedesc = S("Pipe segement @1... You hacker, you.", dump(connects))
+	local pipedesc = S("Pipe Segment").." "..dump(connects)
 
 	if #connects == 0 then
 		pgroups = {snappy = 3, tube = 1}
-		pipedesc = S("Pipe segment")
+		pipedesc = S("Pipe Segment")
 	end
-	
+
 	local outimg_e = { "pipeworks_pipe_plain.png" }
 	local outimg_l = { "pipeworks_pipe_plain.png" }
 
-	if index == 3 then 
+	if index == 3 then
 		outimg_e = { "pipeworks_pipe_3_empty.png" }
 		outimg_l = { "pipeworks_pipe_3_loaded.png" }
 	end
@@ -84,7 +86,7 @@ for index, connects in ipairs(cconnects) do
 			fixed = outsel
 		},
 		groups = pgroups,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = default.node_sound_metal_defaults(),
 		walkable = true,
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
@@ -93,9 +95,12 @@ for index, connects in ipairs(cconnects) do
 		after_dig_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
 		end,
-		on_rotate = false
+		on_rotate = false,
+		check_for_pole = pipeworks.check_for_vert_pipe,
+		check_for_horiz_pole = pipeworks.check_for_horiz_pipe,
+		pipenumber = index
 	})
-	
+
 	local pgroups = {snappy = 3, pipe = 1, not_in_creative_inventory = 1}
 
 	minetest.register_node("pipeworks:pipe_"..index.."_loaded", {
@@ -115,7 +120,7 @@ for index, connects in ipairs(cconnects) do
 			fixed = outsel
 		},
 		groups = pgroups,
-		sounds = default.node_sound_wood_defaults(),
+		sounds = default.node_sound_metal_defaults(),
 		walkable = true,
 		drop = "pipeworks:pipe_1_empty",
 		after_place_node = function(pos)
@@ -125,9 +130,12 @@ for index, connects in ipairs(cconnects) do
 		after_dig_node = function(pos)
 			pipeworks.scan_for_pipe_objects(pos)
 		end,
-		on_rotate = false
+		on_rotate = false,
+		check_for_pole = pipeworks.check_for_vert_pipe,
+		check_for_horiz_pole = pipeworks.check_for_horiz_pipe,
+		pipenumber = index
 	})
-	
+
 	local emptypipe = "pipeworks:pipe_"..index.."_empty"
 	local fullpipe = "pipeworks:pipe_"..index.."_loaded"
 	table.insert(pipes_empty_nodenames, emptypipe)
@@ -243,7 +251,7 @@ minetest.register_abm({
 	nodenames = {"pipeworks:spigot","pipeworks:spigot_pouring"},
 	interval = 1,
 	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider) 
+	action = function(pos, node, active_object_count, active_object_count_wider)
 		pipeworks.spigot_check(pos,node)
 	end
 })
@@ -252,7 +260,7 @@ minetest.register_abm({
 	nodenames = {"pipeworks:fountainhead","pipeworks:fountainhead_pouring"},
 	interval = 1,
 	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider) 
+	action = function(pos, node, active_object_count, active_object_count_wider)
 		pipeworks.fountainhead_check(pos,node)
 	end
 })

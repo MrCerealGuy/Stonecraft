@@ -86,10 +86,9 @@ function pipeworks.table_contains(tbl, element)
 end
 
 function pipeworks.table_extend(tbl, tbl2)
-	local index = #tbl + 1
-	for _, elt in ipairs(tbl2) do
-		tbl[index] = elt
-		index = index + 1
+	local oldlength = #tbl
+	for i = 1,#tbl2 do
+		tbl[oldlength + i] = tbl2[i]
 	end
 end
 
@@ -115,7 +114,7 @@ local fs_helpers = {}
 pipeworks.fs_helpers = fs_helpers
 function fs_helpers.on_receive_fields(pos, fields)
 	local meta = minetest.get_meta(pos)
-	for field, value in pairs(fields) do
+	for field in pairs(fields) do
 		if pipeworks.string_startswith(field, "fs_helpers_cycling:") then
 			local l = field:split(":")
 			local new_value = tonumber(l[2])
@@ -224,7 +223,7 @@ function pipeworks.create_fake_player(def, is_dynamic)
 				return self._inventory:set_stack(def.wield_list,
 					self._wield_index, item)
 			end
-			_wielded_item = ItemStack(item)
+			self._wielded_item = ItemStack(item)
 		end,
 		get_wielded_item = function(self, item)
 			if self._inventory and def.wield_list then
@@ -243,16 +242,17 @@ function pipeworks.create_fake_player(def, is_dynamic)
 		set_bone_position = delay(),
 		hud_change = delay(),
 	}
-	local _trash
 	-- Getter & setter functions
 	p.get_inventory_formspec, p.set_inventory_formspec
 		= get_set_wrap("formspec", is_dynamic)
 	p.get_breath, p.set_breath = get_set_wrap("breath", is_dynamic)
 	p.get_hp, p.set_hp = get_set_wrap("hp", is_dynamic)
 	p.get_pos, p.set_pos = get_set_wrap("pos", is_dynamic)
-	_trash, p.move_to = get_set_wrap("pos", is_dynamic)
 	p.get_wield_index, p.set_wield_index = get_set_wrap("wield_index", true)
 	p.get_properties, p.set_properties = get_set_wrap("properties", false)
+
+	-- For players, move_to and get_pos do the same
+	p.move_to = p.get_pos
 
 	-- Backwards compatibilty
 	p.getpos = p.get_pos

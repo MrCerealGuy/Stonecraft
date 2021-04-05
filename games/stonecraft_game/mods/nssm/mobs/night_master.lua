@@ -5,8 +5,10 @@ mobs:register_mob("nssm:night_master", {
 	collisionbox = {-0.65, -0.4, -0.65, 0.65, 0.4, 0.65},
 	visual = "mesh",
 	mesh = "moonherontrio.x",
-	textures = {{"moonherontrio.png"}},
-	visual_size = {x=18, y=18},
+	textures = {
+		{"moonherontrio.png"}
+	},
+	visual_size = {x = 18, y = 18},
 	view_range = 40,
 	rotate = 270,
 	lifetimer = 500,
@@ -26,9 +28,8 @@ mobs:register_mob("nssm:night_master", {
 	water_damage = 0,
 	lava_damage = 5,
 	light_damage = 0,
-	blood_texture="nssm_blood.png",
-	blood_amount=50,
-	on_rightclick = nil,
+	blood_texture = "nssm_blood.png",
+	blood_amount = 50,
 	fly = true,
 	attack_type = "dogfight",
 	animation = {
@@ -43,7 +44,9 @@ mobs:register_mob("nssm:night_master", {
 		punch_start = 130,
 		punch_end = 160,
 	},
+
 	on_die = function(self, pos)
+
 		minetest.add_particlespawner(
 			200, --amount
 			0.1, --time
@@ -60,7 +63,9 @@ mobs:register_mob("nssm:night_master", {
 			false, --collisiondetection
 			"tnt_smoke.png" --texture
 		)
+
 		self.object:remove()
+
 		minetest.add_entity(pos, "nssm:night_master_2")
 	end,
 })
@@ -72,12 +77,14 @@ mobs:register_mob("nssm:night_master_2", {
 	collisionbox = {-0.65, -0.4, -0.65, 0.65, 0.4, 0.65},
 	visual = "mesh",
 	mesh = "night_master_2.x",
-	textures = {{"moonherontrio.png"}},
-	visual_size = {x=18, y=18},
+	textures = {
+		{"moonherontrio.png"}
+	},
+	visual_size = {x = 18, y = 18},
 	view_range = 40,
 	rotate = 270,
 	lifetimer = 500,
-	floats=1,
+	floats = 1,
 	walk_velocity = 3,
 	run_velocity = 4,
 	fall_speed = 0,
@@ -93,7 +100,6 @@ mobs:register_mob("nssm:night_master_2", {
 	water_damage = 0,
 	lava_damage = 5,
 	light_damage = 0,
-	on_rightclick = nil,
 	fly = true,
 	attack_type = "dogfight",
 	animation = {
@@ -108,7 +114,9 @@ mobs:register_mob("nssm:night_master_2", {
 		punch_start = 130,
 		punch_end = 160,
 	},
+
 	on_die = function(self, pos)
+
 		minetest.add_particlespawner(
 			200, --amount
 			0.1, --time
@@ -125,7 +133,9 @@ mobs:register_mob("nssm:night_master_2", {
 			false, --collisiondetection
 			"tnt_smoke.png" --texture
 		)
+
 		self.object:remove()
+
 		minetest.add_entity(pos, "nssm:night_master_1")
 	end,
 })
@@ -137,8 +147,10 @@ mobs:register_mob("nssm:night_master_1", {
 	collisionbox = {-0.65, -0.4, -0.65, 0.65, 0.4, 0.65},
 	visual = "mesh",
 	mesh = "night_master_1.x",
-	textures = {{"moonherontrio.png"}},
-	visual_size = {x=18, y=18},
+	textures = {
+		{"moonherontrio.png"}
+	},
+	visual_size = {x = 18, y = 18},
 	view_range = 40,
 	rotate = 270,
 	lifetimer = 500,
@@ -154,25 +166,15 @@ mobs:register_mob("nssm:night_master_1", {
 	damage = 12,
 	jump = false,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 6,
-		max = 7,},
-		{name = "nssm:heron_leg",
-		chance = 1,
-		min = 1,
-		max = 1,},
-		{name = "nssm:night_feather",
-		chance = 1,
-		min = 1,
-		max = 1,},
+		{name = "nssm:life_energy", chance = 1, min = 6, max = 7},
+		{name = "nssm:heron_leg", chance = 1, min = 1, max = 1},
+		{name = "nssm:night_feather", chance = 1, min = 1, max = 1},
 	},
 	armor = 50,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 5,
 	light_damage = 0,
-	on_rightclick = nil,
 	fly = true,
 	attack_type = "dogfight",
 	animation = {

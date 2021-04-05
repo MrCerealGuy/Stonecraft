@@ -152,6 +152,38 @@ local obsidian_trap = {
 	},
 }
 
+local stb = {name = "default:steelblock", param1 = 255}
+local sbr = {name = "default:stonebrick", param1 = 255}
+local fwd = {name = "default:fence_wood", param1 = 255}
+local slb = {name = "stairs:slab_stonebrick", param1 = 255}
+local wbl = {name = "lucky_block:well_block", param1 = 255}
+local gla = {name = "default:glass", param1 = 255}
+
+local wishing_well = {
+
+	size = {x = 3, y = 5, z = 3},
+
+	data = {
+		stb,stb,stb,
+		sbr,sbr,sbr,
+		fwd,air,fwd,
+		fwd,air,fwd,
+		slb,slb,slb,
+
+		stb,wbl,stb,
+		sbr,wat,sbr,
+		air,air,air,
+		air,air,air,
+		slb,gla,slb,
+
+		stb,stb,stb,
+		sbr,sbr,sbr,
+		fwd,air,fwd,
+		fwd,air,fwd,
+		slb,slb,slb,
+	},
+}
+
 -- add schematics to list
 
 lucky_block:add_schematics({
@@ -162,6 +194,7 @@ lucky_block:add_schematics({
 	{"instafarm", insta_farm, {x = 2, y = 2, z = 1}},
 	{"firetrap", fire_trap, {x = 1, y = 0, z = 1}},
 	{"obsidiantrap", obsidian_trap, {x = 1, y = 0, z = 1}},
+	{"wishingwell", wishing_well, {x = 1, y = 1, z = 1}},
 })
 
 -- wishing well
@@ -175,11 +208,6 @@ minetest.register_node("lucky_block:well_block", {
 	drop = {},
 })
 
-local path = minetest.get_modpath("lucky_block") .. "/schematics/"
-
-lucky_block:add_schematics({
-	{"wishingwell", path .. "lb_wishing_well.mts", {x = 1, y = 1, z = 1}},
-})
 
 -- Global list containing well blocks that can be dropped
 lucky_block.wellblocks = {

@@ -112,7 +112,7 @@ end
 local function add_table(table, toadd)
 	local i = 1
 	while true do
-		o = table[i]
+		local o = table[i]
 		if o == toadd then return end
 		if o == nil then break end
 		i = i + 1
@@ -167,7 +167,7 @@ local function move_nodes_vect(poslist, vect, must_not_move, owner)
 	end
 
 	for _, obj in ipairs(objects) do
-		obj:setpos(vector.add(obj:getpos(), vect))
+		obj:set_pos(vector.add(obj:get_pos(), vect))
 	end
 
 	for _, n in ipairs(nodelist) do
@@ -273,8 +273,8 @@ for zp = 0, 1 do
 		sunlight_propagates = true,
 
 		frame_connect_all = function(nodename)
-			l2 = {}
-			l1 = {
+			local l2 = {}
+			local l1 = {
 				{ x = -1, y = 0, z = 0 }, { x = 1, y = 0, z = 0 },
 				{ x = 0, y = -1, z = 0 }, { x = 0, y = 1, z = 0 },
 				{ x = 0, y = 0, z = -1 }, { x = 0, y = 0, z = 1 }
@@ -288,7 +288,7 @@ for zp = 0, 1 do
 		end,
 
 		on_punch = function(pos, node, puncher)
-			local ppos = puncher:getpos()
+			local ppos = puncher:get_pos()
 			local pvect = puncher:get_look_dir()
 			local pface = get_face(pos, ppos, pvect)
 
@@ -323,7 +323,7 @@ for zp = 0, 1 do
 			local node = minetest.get_node(pos)
 			if node.name ~= "air" then
 				if is_supported_node(node.name) then
-					obj = minetest.add_entity(pos, "technic:frame_entity")
+					local obj = minetest.add_entity(pos, "technic:frame_entity")
 					obj:get_luaentity():set_node({ name = itemstack:get_name() })
 				end
 			else
@@ -361,8 +361,8 @@ for zp = 0, 1 do
 				end
 
 				-- Run script hook
-				local _, callback
-				for _, callback in ipairs(minetest.registered_on_placenodes) do
+				local callback = nil
+				for _, _ in ipairs(minetest.registered_on_placenodes) do
 					-- Copy pos and node because callback can modify them
 					local pos_copy = { x = pos.x, y = pos.y, z = pos.z }
 					local newnode_copy = { name = def.name, param1 = 0, param2 = 0 }
@@ -376,7 +376,7 @@ for zp = 0, 1 do
 					itemstack:take_item()
 				end
 
-				obj = minetest.add_entity(pos, "technic:frame_entity")
+				local obj = minetest.add_entity(pos, "technic:frame_entity")
 				obj:get_luaentity():set_node({ name = node.name })
 
 				return itemstack
@@ -426,7 +426,7 @@ minetest.register_entity("technic:frame_entity", {
 			item_texture = minetest.registered_items[itemname].inventory_image
 			item_type = minetest.registered_items[itemname].type
 		end
-		prop = {
+		local prop = {
 			is_visible = true,
 			textures = { node.name },
 		}
@@ -443,14 +443,14 @@ minetest.register_entity("technic:frame_entity", {
 	end,
 
 	dig = function(self)
-		minetest.handle_node_drops(self.object:getpos(), { ItemStack("technic:frame_111111") }, self.last_puncher)
-		local pos = vector.round(self.object:getpos())
+		minetest.handle_node_drops(self.object:get_pos(), { ItemStack("technic:frame_111111") }, self.last_puncher)
+		local pos = vector.round(self.object:get_pos())
 		frames_pos[pos_to_string(pos)] = nil
 		self.object:remove()
 	end,
 
 	on_punch = function(self, puncher, time_from_last_punch, tool_capabilities, dir)
-		local pos = self.object:getpos()
+		local pos = self.object:get_pos()
 		if self.damage_object == nil then
 			self.damage_object = minetest.add_entity(pos, "technic:damage_entity")
 			self.damage_object:get_luaentity().remaining_time = 0.25
@@ -462,7 +462,7 @@ minetest.register_entity("technic:frame_entity", {
 		end
 
 		self.last_puncher = puncher
-		local ppos = puncher:getpos()
+		local ppos = puncher:get_pos()
 		local pvect = puncher:get_look_dir()
 		local pface = get_face(pos, ppos, pvect)
 		if pface == nil then return end
@@ -480,8 +480,8 @@ minetest.register_entity("technic:frame_entity", {
 	end,
 
 	on_rightclick = function(self, clicker)
-		local pos = self.object:getpos()
-		local ppos = clicker:getpos()
+		local pos = self.object:get_pos()
+		local ppos = clicker:get_pos()
 		local pvect = clicker:get_look_dir()
 		local pface = get_face(pos, ppos, pvect)
 
@@ -559,7 +559,7 @@ mesecon.register_on_mvps_move(function(moved_nodes)
 				local entity = obj:get_luaentity()
 				if entity and (entity.name == "technic:frame_entity" or
 						entity.name == "technic:damage_entity") then
-					obj:setpos(t.pos)
+					obj:set_pos(t.pos)
 				end
 			end
 		end
@@ -601,7 +601,7 @@ local function connected(pos, c, adj)
 end
 
 local function get_connected_nodes(pos)
-	c = { pos }
+	local c = { pos }
 	local nodename = minetest.get_node(pos).name
 	if frames_pos[pos_to_string(pos)] then
 		nodename = frames_pos[pos_to_string(pos)]
@@ -707,7 +707,7 @@ local function swap_template(pos, new)
 	local saved_node = meta:get_string("saved_node")
 	meta:set_string("saved_node", "")
 	technic.swap_node(pos, new)
-	local meta = minetest.get_meta(pos)
+	meta = minetest.get_meta(pos)
 	meta:set_string("saved_node", saved_node)
 end
 
@@ -869,7 +869,7 @@ minetest.register_node("technic:template_disabled", {
 	on_destruct = template_on_destruct,
 	after_dig_node = template_drops,
 	on_punch = function(pos, node, puncher)
-	local meta = minetest.get_meta(pos)
+	local _ = minetest.get_meta(pos)
 		swap_template(pos, "technic:template_connector")
 	end
 })

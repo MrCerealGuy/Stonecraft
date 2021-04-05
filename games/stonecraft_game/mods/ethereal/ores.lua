@@ -53,32 +53,40 @@ local add_ore = function(a, b, c, d, e, f, g)
 	})
 end
 
--- Coal
 
+-- Coal
 add_ore("default:stone_with_coal", "default:desert_stone", 24*24*24, 27, 6, -31000, -16)
 
 -- Iron
-
 add_ore("default:stone_with_iron", "default:desert_stone", 9*9*9, 5, 3, -63, -16)
 add_ore("default:stone_with_iron", "default:desert_stone", 24*24*24, 27, 6, -31000, -64)
 
 --Mese
-
 add_ore("default:stone_with_mese", "default:desert_stone", 14*14*14, 5, 3, -31000, -256)
 
 -- Gold
-
 add_ore("default:stone_with_gold", "default:desert_stone", 15*15*15, 3, 2, -255, -64)
 add_ore("default:stone_with_gold", "default:desert_stone", 13*13*13, 5, 3, -31000, -256)
 
 -- Diamond
-
 add_ore("default:stone_with_diamond", "default:desert_stone", 17*17*17, 4, 3, -255, -128)
 add_ore("default:stone_with_diamond", "default:desert_stone", 15*15*15, 4, 3, -31000, -256)
 
 -- Copper
-
 add_ore("default:stone_with_copper", "default:desert_stone", 9*9*9, 5, 3, -31000, -64)
 
 -- Coral Sand
 add_ore("ethereal:sandy", "default:sand", 10*10*10, 24, 4, -100, -10)
+
+-- Etherium
+minetest.register_ore({
+	ore_type = "scatter",
+	ore = "ethereal:etherium_ore",
+	wherein = "default:desert_stone",
+	clust_scarcity = 10*10*10,
+	clust_num_ores = 1,
+	clust_size = 1,
+	y_min = 5,
+	y_max = 40,
+	biomes = {"caves"},
+})

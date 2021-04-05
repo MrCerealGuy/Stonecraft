@@ -10,19 +10,18 @@ function boost_cart:manage_attachment(player, obj)
 	if not player then
 		return
 	end
-	local status = obj ~= nil
-	local player_name = player:get_player_name()
-	if default.player_attached[player_name] == status then
+	local wants_attach = obj ~= nil
+	local attached = player:get_attach() ~= nil
+
+	if attached == wants_attach then
 		return
 	end
-	default.player_attached[player_name] = status
 
-	if status then
-		local y_pos = self.old_player_model and 6 or -4
-		if player:get_properties().visual == "upright_sprite" then
-			y_pos = -4
-		end
-		player:set_attach(obj, "", {x=0, y=y_pos, z=0}, {x=0, y=0, z=0})
+	local player_name = player:get_player_name()
+	boost_cart.player_attached[player_name] = wants_attach
+
+	if wants_attach then
+		player:set_attach(obj, "", {x=0, y=-4, z=0}, {x=0, y=0, z=0})
 		player:set_eye_offset({x=0, y=-4, z=0},{x=0, y=-4, z=0})
 	else
 		player:set_detach()

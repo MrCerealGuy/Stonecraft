@@ -10,8 +10,13 @@ If you got ideas or found bugs, please tell them to me.
 
 
 TODO:
-* find out fitting values for ruined and hut chance
-* add dried, rotten grass roofing nodes for the ruined hut
-* fix that http://imgh.us/screenshot_20160305_162901.png
-* use the mapgen decoration function instead of habitat to rarely spawn swamp grass
-* fix leaves scale
+* Test and find reasonable values for probabilities:
+	* Probability of hut spawning
+	* Probability of spawning a ruined instead of normal hut
+	* Perlin noise parameters (default values)
+* Make the perlin noise parameters (i.e. biome probabiltiy) configurable
+* Add dried, rotten grass roofing nodes for the ruined hut so that it differs
+	more from the normal hut
+* Use the mapgen decoration function instead of habitat to rarely spawn swamp
+	grass and birches
+* Sometimes the huts have visible gaps in the roofs; this should be fixed

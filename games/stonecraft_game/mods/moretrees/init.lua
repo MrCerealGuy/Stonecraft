@@ -12,8 +12,6 @@
 -- latter having been tweaked by RealBadAngel, most other axioms/rules written
 -- by RealBadAngel.
 --
--- License: WTFPL for all parts (code and textures, including those copied
--- from the the old jungletree and conifers mods).
 
 --[[
 
@@ -25,7 +23,46 @@
 
 if core.skip_mod("moretrees") then return end
 
+-- Load support for intllib.
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local S, NS = dofile(MP.."/intllib.lua")
+
 moretrees = {}
+
+minetest.override_item("default:sapling", {
+	description = "Sapling"
+})
+
+minetest.override_item("default:tree", {
+	description = "Tree"
+})
+
+minetest.override_item("default:wood", {
+	description = "Wooden Planks"
+})
+
+minetest.override_item("default:leaves", {
+	description = "Leaves"
+})
+
+minetest.override_item("default:fence_wood", {
+	description = "Wooden Fence"
+})
+
+minetest.override_item("default:fence_rail_wood", {
+	description = "Wooden Fence Rail"
+})
+
+if minetest.get_modpath("doors") then
+	minetest.override_item("doors:gate_wood_closed", {
+		description = "Wooden Fence Gate"
+	})
+
+	minetest.override_item("doors:gate_wood_open", {
+		description = "Wooden Fence Gate"
+	})
+end
+
 
 -- Read the default config file (and if necessary, copy it to the world folder).
 
@@ -39,20 +76,6 @@ if io.open(worldpath.."/moretrees_settings.txt","r") then
 	dofile(worldpath.."/moretrees_settings.txt")
 end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
--- clone node
-
-function moretrees.clone_node(name)
-	local node2 = {}
-	local node = minetest.registered_nodes[name]
-	for k,v in pairs(node) do
-		node2[k]=v
-	end
-	return node2
-end
 
 -- infinite stacks checking
 

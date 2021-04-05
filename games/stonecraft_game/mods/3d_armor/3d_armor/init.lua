@@ -1,3 +1,10 @@
+local modname = minetest.get_current_modname()
+local modpath = minetest.get_modpath(modname)
+local worldpath = minetest.get_worldpath()
+local last_punch_time = {}
+local pending_players = {}
+local timer = 0
+
 -- support for i18n
 armor_i18n = { }
 local MP = minetest.get_modpath(minetest.get_current_modname())
@@ -7,13 +14,6 @@ armor_i18n.fgettext = function(...) return minetest.formspec_escape(armor_i18n.g
 -- local functions
 local S = armor_i18n.gettext
 local F = armor_i18n.fgettext
-
-local modname = minetest.get_current_modname()
-local modpath = minetest.get_modpath(modname)
-local worldpath = minetest.get_worldpath()
-local last_punch_time = {}
-local pending_players = {}
-local timer = 0
 
 dofile(modpath.."/api.lua")
 
@@ -163,7 +163,7 @@ end
 
 local function init_player_armor(player)
 	local name = player:get_player_name()
-	local pos = player:getpos()
+	local pos = player:get_pos()
 	if not name or not pos then
 		return false
 	end
@@ -329,7 +329,7 @@ if armor.config.drop == true or armor.config.destroy == true then
 		end
 		armor:save_armor_inventory(player)
 		armor:set_player_armor(player)
-		local pos = player:getpos()
+		local pos = player:get_pos()
 		if pos and armor.config.destroy == false then
 			minetest.after(armor.config.bones_delay, function()
 				local meta = nil
@@ -430,7 +430,7 @@ if armor.config.water_protect == true or armor.config.fire_protect == true then
 		end
 		for _,player in pairs(minetest.get_connected_players()) do
 			local name = player:get_player_name()
-			local pos = player:getpos()
+			local pos = player:get_pos()
 			local hp = player:get_hp()
 			if not name or not pos or not hp then
 				return

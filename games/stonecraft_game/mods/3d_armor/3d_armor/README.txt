@@ -32,11 +32,11 @@ armor_material_mithril = true
 armor_material_crystal = true
 
 -- Increase this if you get initialization glitches when a player first joins.
-armor_init_delay = 1
+armor_init_delay = 2
 
 -- Number of initialization attempts.
 -- Use in conjunction with armor_init_delay if initialization problems persist.
-armor_init_times = 1
+armor_init_times = 10
 
 -- Increase this if armor is not getting into bones due to server lag.
 armor_bones_delay = 1
@@ -111,7 +111,7 @@ armor:register_armor("mod_name:speed_boots", {
 	damage_groups = {cracky=3, snappy=3, choppy=3, crumbly=3, level=1},
 	reciprocate_damage = true,
 	on_destroy = function(player, index, stack)
-		local pos = player:getpos()
+		local pos = player:get_pos()
 		if pos then
 			minetest.sound_play({
 				name = "mod_name_break_sound",

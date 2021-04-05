@@ -1,6 +1,5 @@
 local hudHandlers = {}
 
-
 areas.registered_on_adds = {}
 areas.registered_on_removes = {}
 areas.registered_on_moves = {}
@@ -17,12 +16,10 @@ function areas:registerOnMove(func)
 	table.insert(areas.registered_on_moves, func)
 end
 
-
 --- Adds a function as a HUD handler, it will be able to add items to the Areas HUD element.
 function areas:registerHudHandler(handler)
 	table.insert(hudHandlers, handler)
 end
-
 
 function areas:getExternalHudEntries(pos)
 	local areas = {}
@@ -94,9 +91,25 @@ function areas:canInteract(pos, name)
 	for _, area in pairs(self:getAreasAtPos(pos)) do
 		if area.owner == name or area.open then
 			return true
-		else
-			owned = true
+		elseif areas.factions_available and area.faction_open then
+			if (factions.version or 0) < 2 then
+				local faction_name = factions.get_player_faction(name)
+				if faction_name then
+					for _, fname in ipairs(area.faction_open or {}) do
+						if faction_name == fname then
+							return true
+						end
+					end
+				end
+			else
+				for _, fname in ipairs(area.faction_open or {}) do
+					if factions.player_is_in_faction(fname, name) then
+						return true
+					end
+				end
+			end
 		end
+		owned = true
 	end
 	return not owned
 end
@@ -114,7 +127,7 @@ end
 -- Note that this fails and returns false when the specified area is fully
 -- owned by the player, but with multiple protection zones, none of which
 -- cover the entire checked area.
--- @param name (optional) Player name.  If not specified checks for any intersecting areas.
+-- @param name (optional) Player name. If not specified checks for any intersecting areas.
 -- @param allow_open Whether open areas should be counted as if they didn't exist.
 -- @return Boolean indicating whether the player can interact in that area.
 -- @return Un-owned intersecting area ID, if found.

@@ -1,3 +1,0 @@
-default
-plantlife_i18n
-biome_lib

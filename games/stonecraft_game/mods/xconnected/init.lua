@@ -40,7 +40,7 @@ xconnected.register_wall( 'xconnected:wall_coal_block',         S('Coal Block'),
 
 -- xfences can also be emulated
 xconnected.register_fence('xconnected:fence',        			S('Wood'),				'default_wood.png',        'default:wood');
-xconnected.register_fence('xconnected:fence_pine',			S('Pine Wood'),				'default_pine_wood.png',   'default:pine_wood');
+xconnected.register_fence('xconnected:fence_pine',				S('Pine Wood'),				'default_pine_wood.png',   'default:pine_wood');
 xconnected.register_fence('xconnected:fence_jungle', 			S('Junglewood'),			'default_junglewood.png',  'default:junglewood');
 xconnected.register_fence('xconnected:fence_acacia', 			S('Acacia Wood'),			'default_acacia_wood.png', 'default:acacia_wood');
 xconnected.register_fence('xconnected:fence_aspen',  			S('Aspen Wood'),			'default_aspen_wood.png',  'default:aspen_wood');

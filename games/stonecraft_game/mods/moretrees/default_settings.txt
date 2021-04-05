@@ -25,12 +25,16 @@ moretrees.enable_beech			= false
 moretrees.spawn_saplings		= true
 
 -- Set this to true to allow defining stairs/slabs/etc.  If Moreblocks is
--- installed, this will use that mod's Stairs Plus component.  Otherwise, it 
+-- installed, this will use that mod's Stairs Plus component.  Otherwise, it
 -- will use the default stairs mod in minetest_game, if present
 
 moretrees.enable_stairs			= true
 
--- Set this to true if you want the plantlike drawtype for leaves, which 
+-- If this variable is set to true, register fences for moretrees wood
+
+moretrees.enable_fences         = false
+
+-- Set this to true if you want the plantlike drawtype for leaves, which
 -- improves some peoples' framerates without resorting to making leaf nodes opaque.
 -- Affects default leaves and default jungle leaves also.
 
@@ -122,8 +126,8 @@ moretrees.dates_item_drop_ichance	= 10 		-- inverse probability of ripe dates dr
 
 -- Sapling settings
 
-moretrees.sapling_interval		= 500
-moretrees.sapling_chance		= 20
+moretrees.sapling_interval		= 100
+moretrees.sapling_chance		= 5
 
 -- If this variable is set to true, drop leaves out as entities during leaf
 -- decay, rather than just disappearing them.

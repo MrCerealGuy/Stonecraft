@@ -1,2 +1,0 @@
-default
-plantlife_i18n

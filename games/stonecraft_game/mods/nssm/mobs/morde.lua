@@ -6,8 +6,10 @@ mobs:register_mob("nssm:morde", {
 	visual = "mesh",
 	rotate= 270,
 	mesh = "morde.x",
-	textures = {{"morde.png"}},
-	visual_size = {x=10, y=10},
+	textures = {
+		{"morde.png"}
+	},
+	visual_size = {x = 10, y = 10},
 	makes_footstep_sound = true,
 	view_range = 20,
 	walk_velocity = 0.5,
@@ -19,14 +21,8 @@ mobs:register_mob("nssm:morde", {
 		random = "morde",
 	},
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 2,
-		max = 4,},
-		{name = "nssm:proud_soul_fragment",
-		chance = 3,
-		min = 1,
-		max = 1,},
+		{name = "nssm:life_energy", chance = 1, min = 2, max = 4},
+		{name = "nssm:proud_soul_fragment", chance = 3, min = 1, max = 1},
 	},
 	armor = 60,
 	drawtype = "front",
@@ -35,12 +31,11 @@ mobs:register_mob("nssm:morde", {
 	floats = 1,
 	lava_damage = 0,
 	light_damage = 0,
-	group_attack=true,
-	attack_animals=true,
-	knock_back=1,
-	blood_texture="morparticle.png",
-	stepheight=1.1,
-	on_rightclick = nil,
+	group_attack = true,
+	attack_animals = true,
+	knock_back = 1,
+	blood_texture = "morparticle.png",
+	stepheight = 1.1,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 15,
@@ -54,9 +49,13 @@ mobs:register_mob("nssm:morde", {
 		punch_start = 130,
 		punch_end = 160,
 	},
+
 	custom_attack = function (self)
-		self.morde_timer = (self.morde_timer or os.time())
+
+		self.morde_timer = self.morde_timer or os.time()
+
 		if (os.time() - self.morde_timer) > 1 then
+
 			self.morde_timer = os.time()
 
 			local s = self.object:get_pos()
@@ -64,10 +63,14 @@ mobs:register_mob("nssm:morde", {
 
 			mobs:set_animation(self, "punch")
 
-			self.health = self.health + (self.damage*2)
+			self.health = self.health + (self.damage * 2)
+
 			local m = 3
 
-			if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
+			if minetest.line_of_sight(
+				{x = p.x, y = p.y + 1.5, z = p.z},
+				{x = s.x, y = s.y + 1.5, z = s.z}) == true then
+
 				-- play attack sound
 				if self.sounds.attack then
 					minetest.sound_play(self.sounds.attack, {
@@ -75,10 +78,11 @@ mobs:register_mob("nssm:morde", {
 						max_hear_distance = self.sounds.distance
 					})
 				end
+
 				-- punch player
-				self.attack:punch(self.object, 1.0,  {
-					full_punch_interval=1.0,
-					damage_groups = {fleshy=self.damage}
+				self.attack:punch(self.object, 1.0, {
+					full_punch_interval = 1.0,
+					damage_groups = {fleshy = self.damage}
 				}, nil)
 
 				minetest.add_particlespawner(
@@ -100,9 +104,13 @@ mobs:register_mob("nssm:morde", {
 			end
 		end
 	end,
+
 	on_die = function(self)
+
 		local pos = self.object:get_pos()
+
 		self.object:remove()
+
 		minetest.add_entity(pos, "nssm:mortick")
 	end,
 })
@@ -114,13 +122,16 @@ minetest.register_entity("nssm:mortick", {
 	armor = 100,
 	visual = "mesh",
 	mesh = "mortick.x",
-	visual_size = {x=3, y=3},
+	visual_size = {x = 3, y = 3},
 	--lifetime = 10,
 	damage = 1,
+
 	on_step = function(self, dtime)
+
 		self.mortick_timer = self.mortick_timer or os.time()
 		self.timer = self.timer or 0
-		self.timer = self.timer+dtime
+		self.timer = self.timer + dtime
+
 		local s = self.object:get_pos()
 		local s1 = {x=s.x, y = s.y-1, z = s.z}
 
@@ -129,9 +140,12 @@ minetest.register_entity("nssm:mortick", {
 			self.object:remove()
 		end
 		]]
+
 		--The mortick dies when he finds himself in the fire
 		local name = minetest.get_node(s1).name
-		if name == "fire:basic_flame" then
+
+		if name == "fire:basic_flame"
+		or name == "fire:permanent_flame" then
 			self.object:remove()
 		end
 
@@ -139,6 +153,7 @@ minetest.register_entity("nssm:mortick", {
 		self.attack = (self.attack or 0)
 
 		local objects = minetest.get_objects_inside_radius(s, 8)
+
 		for _,obj in ipairs(objects) do
 			if (obj:is_player()) then
 				self.attack = obj
@@ -147,23 +162,29 @@ minetest.register_entity("nssm:mortick", {
 
 		--If found a player follow him
 		if self.attack ~= 0 then
+
 			local p = self.attack:get_pos()
 			local yawp = self.attack:get_look_yaw()
 			local pi = math.pi
 
 			p.y = p.y + 1
-			p.x = p.x-math.cos(yawp)/2.5
-			p.z = p.z-math.sin(yawp)/2.5
+			p.x = p.x - math.cos(yawp) / 2.5
+			p.z = p.z - math.sin(yawp) / 2.5
+
 			local m = 10
-			local v = {x=-(s.x-p.x)*m, y=-(s.y-p.y)*m, z=-(s.z-p.z)*m}
-			local yaws = yawp +pi
+			local v = {
+				x = -(s.x - p.x) * m,
+				y = -(s.y - p.y) * m,
+				z = -(s.z - p.z) * m
+			}
+			local yaws = yawp + pi
 
 			--stay attached to players back:
 			self.object:set_velocity(v)
 			self.object:set_yaw(yaws)
 
 			--damage player every ten seconds:
-			if (self.timer>10) then
+			if (self.timer > 10) then
 				self.timer = 0
 				self.attack:set_hp(self.attack:get_hp() - self.damage)
 			end

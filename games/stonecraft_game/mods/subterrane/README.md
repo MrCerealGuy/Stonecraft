@@ -30,6 +30,7 @@ cave_layer_def is a table of the form:
 	columns = -- optional, a column_def table for producing truly enormous dripstone formations. See below for definition. Set to nil to disable columns.
 	double_frequency = -- when set to true, uses the absolute value of the cavern field to determine where to place caverns instead. This effectively doubles the number of large non-connected caverns.
 	on_decorate = -- optional, a function that is given a table of indices and a variety of other mapgen information so that it can place custom decorations on floors and ceilings. It is given the parameters (minp, maxp, seed, vm, cavern_data, area, data). See below for the cavern_data table's member definitions.
+	is_ground_content = -- optional, a function that takes a content_id and returns true if caverns should be carved through that node type. If not provided it defaults to a "is_ground_content" test.
 }
 ```
 

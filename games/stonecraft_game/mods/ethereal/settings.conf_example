@@ -11,8 +11,9 @@ ethereal.torchdrop = true -- torches drop when touching water
 ethereal.papyruswalk = true -- papyrus can be walked on
 ethereal.lilywalk = true -- waterlilies can be walked on
 ethereal.xcraft = true -- allow cheat crafts for cobble->gravel->dirt->sand, ice->snow, dry dirt->desert sand
+ethereal.flight = true -- enable flight potion
 
--- Set following to 1 to enable biome or 0 to disable
+-- Set following to 1 to enable biome or false to disable
 ethereal.glacier   = 1 -- Ice glaciers with snow
 ethereal.bamboo    = 1 -- Bamboo with sprouts
 ethereal.mesa      = 1 -- Mesa red and orange clay with giant redwood
@@ -33,10 +34,11 @@ ethereal.mushroom  = 1 -- Purple grass with giant mushrooms
 ethereal.sandstone = 1 -- Sandstone with smaller cactus
 ethereal.quicksand = 1 -- Quicksand banks
 ethereal.plains    = 1 -- Dry dirt with scorched trees
-ethereal.savannah  = 1 -- Dry yellow grass with acacia tree's
+ethereal.savanna   = 1 -- Dry yellow grass with acacia tree's
 ethereal.fiery     = 1 -- Red grass with lava craters
 ethereal.sandclay  = 1 -- Sand areas with clay underneath
 ethereal.swamp     = 1 -- Swamp areas with vines on tree's, mushrooms, lilly's and clay sand
 ethereal.sealife   = 1 -- Enable coral and seaweed
 ethereal.reefs     = 1 -- Enable new coral reefs in default
 ethereal.sakura    = 1 -- Enable sakura biomes with trees
+ethereal.mediterranean = 1 -- Enable Mediterranean biome

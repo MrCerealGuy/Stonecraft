@@ -1,5 +1,5 @@
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("flowers_plus")
 
 -- This file supplies a few additional plants and some related crafts
 -- for the plantlife modpack.  Last revision:  2013-04-24
@@ -478,4 +478,4 @@ minetest.register_alias("flowers:cotton", "farming:string")
 minetest.register_alias("flowers:cotton_wad", "farming:string")
 minetest.register_alias("sunflower:sunflower", "flowers:sunflower")
 
-print(S("[Flowers] Loaded."))
+print("[Flowers] Loaded.")

@@ -2,7 +2,7 @@
 local S = mobs.intllib
 
 
--- Warthog by KrupnoPavel
+-- Warthog originally by KrupnoPavel, B3D model by sirrobzeroone
 
 mobs:register_mob("mobs_animal:pumba", {
 	stepheight = 0.6,
@@ -19,7 +19,7 @@ mobs:register_mob("mobs_animal:pumba", {
 	armor = 200,
 	collisionbox = {-0.4, -0.01, -0.4, 0.4, 0.95, 0.4},
 	visual = "mesh",
-	mesh = "mobs_pumba.x",
+	mesh = "mobs_pumba.b3d",
 	textures = {
 		{"mobs_pumba.png"},
 	},
@@ -50,6 +50,12 @@ mobs:register_mob("mobs_animal:pumba", {
 		walk_end = 100,
 		punch_start = 70,
 		punch_end = 100,
+
+		die_start = 1, -- we dont have a specific death animation so we will
+		die_end = 2, --   re-use 2 standing frames at a speed of 1 fps and
+		die_speed = 1, -- have mob rotate when dying.
+		die_loop = false,
+		die_rotate = true,
 	},
 	on_rightclick = function(self, clicker)
 
@@ -63,15 +69,16 @@ local spawn_on = {"default:dirt_with_grass"}
 local spawn_by = {"group:grass"}
 
 if minetest.get_mapgen_setting("mg_name") ~= "v6" then
-	spawn_on = {"default:dirt_with_dry_grass"}
+	spawn_on = {"default:dirt_with_dry_grass", "default:dry_dirt_with_dry_grass"}
 	spawn_by = {"group:dry_grass"}
 end
 
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
+if minetest.get_modpath("ethereal") then
 	spawn_on = {"ethereal:mushroom_dirt"}
-	spawn_by = {"flowers:mushroom_brown", "flowers:mushroom_brown"}
+	spawn_by = {"flowers:mushroom_brown", "flowers:mushroom_red"}
 end
 
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:pumba",
 	nodes = spawn_on,
@@ -83,9 +90,9 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
-
-mobs:register_egg("mobs_animal:pumba", S("Warthog"), "wool_pink.png", 1)
+mobs:register_egg("mobs_animal:pumba", S("Warthog"), "mobs_pumba_inv.png")
 
 
 mobs:alias_mob("mobs:pumba", "mobs_animal:pumba") -- compatibility

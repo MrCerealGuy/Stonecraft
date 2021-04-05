@@ -64,7 +64,7 @@ end
 
 minetest.register_on_joinplayer(function(player)
 	local player_name = player:get_player_name()
-	local pos = player:getpos()
+	local pos = player:get_pos()
 	local rounded_pos = vector.round(pos)
 	rounded_pos.y = rounded_pos.y + 1
 	player_positions[player_name] = rounded_pos
@@ -86,7 +86,7 @@ minetest.register_globalstep(function(dtime)
 	for i, player in pairs(minetest.get_connected_players()) do
 		local player_name = player:get_player_name()
 		local flashlight_weared = check_for_flashlight(player)
-		local pos = player:getpos()
+		local pos = player:get_pos()
 		local rounded_pos = vector.round(pos)
 		rounded_pos.y = rounded_pos.y + 1
 		local old_pos = player_positions[player_name]
@@ -108,7 +108,7 @@ minetest.register_globalstep(function(dtime)
 			if node and node.name == "air" then
 				minetest.set_node(rounded_pos, {name="technic:light"})
 			end
-			local node = minetest.get_node_or_nil(old_pos)
+			node = minetest.get_node_or_nil(old_pos)
 			if node and node.name == "technic:light" then
 				minetest.remove_node(old_pos)
 			end
@@ -122,11 +122,11 @@ minetest.register_node("technic:light", {
 	drawtype = "glasslike",
 	tiles = {"technic_light.png"},
 	paramtype = "light",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory = 1},
 	drop = "",
 	walkable = false,
 	buildable_to = true,
 	sunlight_propagates = true,
-	light_source = LIGHT_MAX,
+	light_source = minetest.LIGHT_MAX,
 	pointable = false,
 })

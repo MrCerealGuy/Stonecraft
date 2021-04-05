@@ -3,7 +3,8 @@ local S = mobs.intllib
 
 
 -- custom particle effects
-local effect = function(pos, amount, texture, min_size, max_size, radius, gravity, glow)
+local effect = function(
+		pos, amount, texture, min_size, max_size, radius, gravity, glow)
 
 	radius = radius or 2
 	min_size = min_size or 0.5
@@ -48,6 +49,7 @@ mobs:register_mob("mobs_monster:sand_monster", {
 	mesh = "mobs_sand_monster.b3d",
 	textures = {
 		{"mobs_sand_monster.png"},
+		{"mobs_sand_monster2.png"},
 	},
 	blood_texture = "default_desert_sand.png",
 	makes_footstep_sound = true,
@@ -94,9 +96,9 @@ mobs:register_mob("mobs_monster:sand_monster", {
 ]]
 	on_die = function(self, pos)
 		pos.y = pos.y + 0.5
-		effect(pos, 30, "mobs_sand_particles.png", 0.1, 2, 3, 5)
+		mobs:effect(pos, 30, "mobs_sand_particles.png", .1, 2, 3, 5)
 		pos.y = pos.y + 0.25
-		effect(pos, 30, "mobs_sand_particles.png", 0.1, 2, 3, 5)
+		mobs:effect(pos, 30, "mobs_sand_particles.png", .1, 2, 3, 5)
 	end,
 --[[
 	on_rightclick = function(self, clicker)
@@ -115,7 +117,7 @@ mobs:register_mob("mobs_monster:sand_monster", {
 ]]
 })
 
-
+if not mobs.custom_spawn_monster then
 mobs:spawn({
 	name = "mobs_monster:sand_monster",
 	nodes = {"default:desert_sand"},
@@ -123,6 +125,7 @@ mobs:spawn({
 	active_object_count = 2,
 	min_height = 0,
 })
+end
 
 
 mobs:register_egg("mobs_monster:sand_monster", S("Sand Monster"), "default_desert_sand.png", 1)

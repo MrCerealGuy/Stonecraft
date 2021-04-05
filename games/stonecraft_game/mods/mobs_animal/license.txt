@@ -23,3 +23,7 @@ THE SOFTWARE.
 Chicken sounds from freesounds.org under CC0
 
 Mutton, Pork and Rabbit meat textures by Piezo_ under CC0
+
+Cow textures by sirrobzeroone under CC0
+
+mobs_panda_viking.png by Zlo under CC0

@@ -76,9 +76,6 @@ function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 
 	local count = 0
 
-	--- TODO: This could be shortened by checking `inverse` in the loop,
-	-- but that would have a speed penalty.  Is the penalty big enough
-	-- to matter?
 	if not inverse then
 		for i in area:iterp(pos1, pos2) do
 			if data[i] == search_id then
@@ -101,27 +98,47 @@ function worldedit.replace(pos1, pos2, search_node, replace_node, inverse)
 end
 
 
+local function deferred_execution(next_one, finished)
+	-- Allocate 100% of server step for execution (might lag a little)
+	local allocated_usecs =
+		tonumber(minetest.settings:get("dedicated_server_step")) * 1000000
+	local function f()
+		local deadline = minetest.get_us_time() + allocated_usecs
+		repeat
+			local is_done = next_one()
+			if is_done then
+				if finished then
+					finished()
+				end
+				return
+			end
+		until minetest.get_us_time() >= deadline
+		minetest.after(0, f)
+	end
+	f()
+end
+
 --- Duplicates a region `amount` times with offset vector `direction`.
--- Stacking is spread across server steps, one copy per step.
+-- Stacking is spread across server steps.
 -- @return The number of nodes stacked.
 function worldedit.stack2(pos1, pos2, direction, amount, finished)
+	-- Protect arguments from external changes during execution
+	pos1 = table.copy(pos1)
+	pos2 = table.copy(pos2)
+	direction = table.copy(direction)
+
 	local i = 0
 	local translated = {x=0, y=0, z=0}
-	local function next_one()
-		if i < amount then
-			i = i + 1
-			translated.x = translated.x + direction.x
-			translated.y = translated.y + direction.y
-			translated.z = translated.z + direction.z
-			worldedit.copy2(pos1, pos2, translated)
-			minetest.after(0, next_one)
-		else
-			if finished then
-				finished()
-			end
-		end
+	local function step()
+		translated.x = translated.x + direction.x
+		translated.y = translated.y + direction.y
+		translated.z = translated.z + direction.z
+		worldedit.copy2(pos1, pos2, translated)
+		i = i + 1
+		return i >= amount
 	end
-	next_one()
+	deferred_execution(step, finished)
+
 	return worldedit.volume(pos1, pos2) * amount
 end
 
@@ -135,89 +152,117 @@ end
 function worldedit.copy(pos1, pos2, axis, amount)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
-	worldedit.keep_loaded(pos1, pos2)
+	-- Decide if we need to copy stuff backwards (only applies to metadata)
+	local backwards = amount > 0 and amount < (pos2[axis] - pos1[axis] + 1)
 
-	local get_node, get_meta, set_node = minetest.get_node,
-			minetest.get_meta, minetest.set_node
-	-- Copy things backwards when negative to avoid corruption.
-	-- FIXME: Lots of code duplication here.
-	if amount < 0 then
-		local pos = {}
-		pos.x = pos1.x
-		while pos.x <= pos2.x do
-			pos.y = pos1.y
-			while pos.y <= pos2.y do
-				pos.z = pos1.z
-				while pos.z <= pos2.z do
-					local node = get_node(pos) -- Obtain current node
-					local meta = get_meta(pos):to_table() -- Get meta of current node
-					local value = pos[axis] -- Store current position
-					pos[axis] = value + amount -- Move along axis
-					set_node(pos, node) -- Copy node to new position
-					get_meta(pos):from_table(meta) -- Set metadata of new node
-					pos[axis] = value -- Restore old position
-					pos.z = pos.z + 1
-				end
-				pos.y = pos.y + 1
-			end
-			pos.x = pos.x + 1
-		end
-	else
-		local pos = {}
-		pos.x = pos2.x
-		while pos.x >= pos1.x do
-			pos.y = pos2.y
-			while pos.y >= pos1.y do
-				pos.z = pos2.z
-				while pos.z >= pos1.z do
-					local node = get_node(pos) -- Obtain current node
-					local meta = get_meta(pos):to_table() -- Get meta of current node
-					local value = pos[axis] -- Store current position
-					pos[axis] = value + amount -- Move along axis
-					set_node(pos, node) -- Copy node to new position
-					get_meta(pos):from_table(meta) -- Set metadata of new node
-					pos[axis] = value -- Restore old position
-					pos.z = pos.z - 1
-				end
-				pos.y = pos.y - 1
-			end
-			pos.x = pos.x - 1
-		end
-	end
-	return worldedit.volume(pos1, pos2)
+	local off = {x=0, y=0, z=0}
+	off[axis] = amount
+	return worldedit.copy2(pos1, pos2, off, backwards)
 end
 
 --- Copies a region by offset vector `off`.
 -- @param pos1
 -- @param pos2
 -- @param off
+-- @param meta_backwards (not officially part of API)
 -- @return The number of nodes copied.
-function worldedit.copy2(pos1, pos2, off)
+function worldedit.copy2(pos1, pos2, off, meta_backwards)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
-	worldedit.keep_loaded(pos1, pos2)
+	local src_manip, src_area = mh.init(pos1, pos2)
+	local src_stride = {x=1, y=src_area.ystride, z=src_area.zstride}
+	local src_offset = vector.subtract(pos1, src_area.MinEdge)
 
-	local get_node, get_meta, set_node = minetest.get_node,
-			minetest.get_meta, minetest.set_node
-	local pos = {}
-	pos.x = pos2.x
-	while pos.x >= pos1.x do
-		pos.y = pos2.y
-		while pos.y >= pos1.y do
-			pos.z = pos2.z
-			while pos.z >= pos1.z do
-				local node = get_node(pos) -- Obtain current node
-				local meta = get_meta(pos):to_table() -- Get meta of current node
-				local newpos = vector.add(pos, off) -- Calculate new position
-				set_node(newpos, node) -- Copy node to new position
-				get_meta(newpos):from_table(meta) -- Set metadata of new node
-				pos.z = pos.z - 1
+	local dpos1 = vector.add(pos1, off)
+	local dpos2 = vector.add(pos2, off)
+	local dim = vector.add(vector.subtract(pos2, pos1), 1)
+
+	local dst_manip, dst_area = mh.init(dpos1, dpos2)
+	local dst_stride = {x=1, y=dst_area.ystride, z=dst_area.zstride}
+	local dst_offset = vector.subtract(dpos1, dst_area.MinEdge)
+
+	local function do_copy(src_data, dst_data)
+		for z = 0, dim.z-1 do
+			local src_index_z = (src_offset.z + z) * src_stride.z + 1 -- +1 for 1-based indexing
+			local dst_index_z = (dst_offset.z + z) * dst_stride.z + 1
+			for y = 0, dim.y-1 do
+				local src_index_y = src_index_z + (src_offset.y + y) * src_stride.y
+				local dst_index_y = dst_index_z + (dst_offset.y + y) * dst_stride.y
+				-- Copy entire row at once
+				local src_index_x = src_index_y + src_offset.x
+				local dst_index_x = dst_index_y + dst_offset.x
+				for x = 0, dim.x-1 do
+					dst_data[dst_index_x + x] = src_data[src_index_x + x]
+				end
 			end
-			pos.y = pos.y - 1
 		end
-		pos.x = pos.x - 1
 	end
+
+	-- Copy node data
+	local src_data = src_manip:get_data()
+	local dst_data = dst_manip:get_data()
+	do_copy(src_data, dst_data)
+	dst_manip:set_data(dst_data)
+
+	-- Copy param1
+	src_manip:get_light_data(src_data)
+	dst_manip:get_light_data(dst_data)
+	do_copy(src_data, dst_data)
+	dst_manip:set_light_data(dst_data)
+
+	-- Copy param2
+	src_manip:get_param2_data(src_data)
+	dst_manip:get_param2_data(dst_data)
+	do_copy(src_data, dst_data)
+	dst_manip:set_param2_data(dst_data)
+
+	mh.finish(dst_manip)
+	src_data = nil
+	dst_data = nil
+
+	-- Copy metadata
+	local get_meta = minetest.get_meta
+	if meta_backwards then
+	for z = dim.z-1, 0, -1 do
+		for y = dim.y-1, 0, -1 do
+			for x = dim.x-1, 0, -1 do
+				local pos = {x=pos1.x+x, y=pos1.y+y, z=pos1.z+z}
+				local meta = get_meta(pos):to_table()
+				pos = vector.add(pos, off)
+				get_meta(pos):from_table(meta)
+			end
+		end
+	end
+	else
+	for z = 0, dim.z-1 do
+		for y = 0, dim.y-1 do
+			for x = 0, dim.x-1 do
+				local pos = {x=pos1.x+x, y=pos1.y+y, z=pos1.z+z}
+				local meta = get_meta(pos):to_table()
+				pos = vector.add(pos, off)
+				get_meta(pos):from_table(meta)
+			end
+		end
+	end
+	end
+
 	return worldedit.volume(pos1, pos2)
+end
+
+--- Deletes all node metadata in the region
+-- @param pos1
+-- @param pos2
+-- @return The number of nodes that had their meta deleted.
+function worldedit.delete_meta(pos1, pos2)
+	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
+
+	local meta_positions = minetest.find_nodes_with_meta(pos1, pos2)
+	local get_meta = minetest.get_meta
+	for _, pos in ipairs(meta_positions) do
+		get_meta(pos):from_table(nil)
+	end
+
+	return #meta_positions
 end
 
 --- Moves a region along `axis` by `amount` nodes.
@@ -225,91 +270,69 @@ end
 function worldedit.move(pos1, pos2, axis, amount)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 
-	worldedit.keep_loaded(pos1, pos2)
+	local dim = vector.add(vector.subtract(pos2, pos1), 1)
+	local overlap = math.abs(amount) < dim[axis]
+	-- Decide if we need to copy metadata backwards
+	local backwards = overlap and amount > 0
 
-	--- TODO: Move slice by slice using schematic method in the move axis
-	-- and transfer metadata in separate loop (and if the amount is
-	-- greater than the length in the axis, copy whole thing at a time and
-	-- erase original after, using schematic method).
-	local get_node, get_meta, set_node, remove_node = minetest.get_node,
-			minetest.get_meta, minetest.set_node, minetest.remove_node
-	-- Copy things backwards when negative to avoid corruption.
-	--- FIXME: Lots of code duplication here.
-	if amount < 0 then
-		local pos = {}
-		pos.x = pos1.x
-		while pos.x <= pos2.x do
-			pos.y = pos1.y
-			while pos.y <= pos2.y do
-				pos.z = pos1.z
-				while pos.z <= pos2.z do
-					local node = get_node(pos) -- Obtain current node
-					local meta = get_meta(pos):to_table() -- Get metadata of current node
-					remove_node(pos) -- Remove current node
-					local value = pos[axis] -- Store current position
-					pos[axis] = value + amount -- Move along axis
-					set_node(pos, node) -- Move node to new position
-					get_meta(pos):from_table(meta) -- Set metadata of new node
-					pos[axis] = value -- Restore old position
-					pos.z = pos.z + 1
-				end
-				pos.y = pos.y + 1
-			end
-			pos.x = pos.x + 1
+	local function nuke_area(my_off, my_dim)
+		if my_dim.x == 0 or my_dim.y == 0 or my_dim.z == 0 then
+			return
 		end
+		local my_pos1 = vector.add(pos1, my_off)
+		local my_pos2 = vector.subtract(vector.add(my_pos1, my_dim), 1)
+		worldedit.set(my_pos1, my_pos2, "air")
+		worldedit.delete_meta(my_pos1, my_pos2)
+	end
+
+	-- Copy stuff to new location
+	local off = {x=0, y=0, z=0}
+	off[axis] = amount
+	worldedit.copy2(pos1, pos2, off, backwards)
+	-- Nuke old area
+	if not overlap then
+		nuke_area({x=0, y=0, z=0}, dim)
 	else
-		local pos = {}
-		pos.x = pos2.x
-		while pos.x >= pos1.x do
-			pos.y = pos2.y
-			while pos.y >= pos1.y do
-				pos.z = pos2.z
-				while pos.z >= pos1.z do
-					local node = get_node(pos) -- Obtain current node
-					local meta = get_meta(pos):to_table() -- Get metadata of current node
-					remove_node(pos) -- Remove current node
-					local value = pos[axis] -- Store current position
-					pos[axis] = value + amount -- Move along axis
-					set_node(pos, node) -- Move node to new position
-					get_meta(pos):from_table(meta) -- Set metadata of new node
-					pos[axis] = value -- Restore old position
-					pos.z = pos.z - 1
-				end
-				pos.y = pos.y - 1
-			end
-			pos.x = pos.x - 1
+		-- Source and destination region are overlapping, which means we can't
+		-- blindly delete the [pos1, pos2] area
+		local leftover = vector.new(dim) -- size of the leftover slice
+		leftover[axis] = math.abs(amount)
+		if amount > 0 then
+			nuke_area({x=0, y=0, z=0}, leftover)
+		else
+			local top = {x=0, y=0, z=0} -- offset of the leftover slice from pos1
+			top[axis] = dim[axis] - math.abs(amount)
+			nuke_area(top, leftover)
 		end
 	end
+
 	return worldedit.volume(pos1, pos2)
 end
 
-
 --- Duplicates a region along `axis` `amount` times.
--- Stacking is spread across server steps, one copy per step.
+-- Stacking is spread across server steps.
 -- @param pos1
 -- @param pos2
 -- @param axis Axis direction, "x", "y", or "z".
 -- @param count
 -- @return The number of nodes stacked.
-function worldedit.stack(pos1, pos2, axis, count)
+function worldedit.stack(pos1, pos2, axis, count, finished)
 	local pos1, pos2 = worldedit.sort_pos(pos1, pos2)
 	local length = pos2[axis] - pos1[axis] + 1
 	if count < 0 then
 		count = -count
 		length = -length
 	end
-	local amount = 0
-	local copy = worldedit.copy
-	local i = 1
-	local function next_one()
-		if i <= count then
-			i = i + 1
-			amount = amount + length
-			copy(pos1, pos2, axis, amount)
-			minetest.after(0, next_one)
-		end
+
+	local i, distance = 0, 0
+	local function step()
+		distance = distance + length
+		worldedit.copy(pos1, pos2, axis, distance)
+		i = i + 1
+		return i >= count
 	end
-	next_one()
+	deferred_execution(step, finished)
+
 	return worldedit.volume(pos1, pos2) * count
 end
 
@@ -638,7 +661,7 @@ function worldedit.clear_objects(pos1, pos2)
 		-- Avoid players and WorldEdit entities
 		if not obj:is_player() and (not entity or
 				not entity.name:find("^worldedit:")) then
-			local pos = obj:getpos()
+			local pos = obj:get_pos()
 			if pos.x >= pos1x and pos.x <= pos2x and
 					pos.y >= pos1y and pos.y <= pos2y and
 					pos.z >= pos1z and pos.z <= pos2z then

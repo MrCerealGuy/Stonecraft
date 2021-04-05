@@ -33,7 +33,11 @@ end
 ftrunk.drop = "moretrees:palm_trunk"
 gftrunk.drop = "moretrees:palm_trunk"
 ftrunk.after_destruct = function(pos, oldnode)
-	local coconuts = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, {"group:moretrees_coconut"})
+	local coconuts = minetest.find_nodes_in_area(
+		{x=pos.x-1, y=pos.y, z=pos.z-1},
+		{x=pos.x+1, y=pos.y, z=pos.z+1},
+		{"group:moretrees_coconut"}
+	)
 	for _,coconutpos in pairs(coconuts) do
 		-- minetest.dig_node(coconutpos) does not cause nearby coconuts to be dropped :-( ...
 		--minetest.dig_node(coconutpos)
@@ -60,7 +64,11 @@ local coconut_regrow_abm_spec = {
 		   return
 		end
 
-		local coconuts = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "group:moretrees_coconut")
+		local coconuts = minetest.find_nodes_in_area(
+			{x=pos.x-1, y=pos.y, z=pos.z-1},
+			{x=pos.x+1, y=pos.y, z=pos.z+1},
+			"group:moretrees_coconut"
+		)
 		-- Expected growth interval increases exponentially with number of coconuts already hanging.
 		-- Also: if more coconuts are hanging, the chance of picking an empty spot decreases as well...
 		if math.random(2^#coconuts) <= 2 then
@@ -94,15 +102,18 @@ minetest.register_abm({
 		end
 
 		minetest.swap_node(pos, {name="moretrees:palm_fruit_trunk"})
-		local poslist = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "air")
+		local poslist = minetest.find_nodes_in_area(
+			{x=pos.x-1, y=pos.y, z=pos.z-1},
+			{x=pos.x+1, y=pos.y, z=pos.z+1},
+			"air"
+		)
 		local genlist = {}
 		for k,v in pairs(poslist) do
 			genlist[k] = {x = math.random(100), pos = v}
 		end
 		table.sort(genlist, function(a, b) return a.x < b.x; end)
-		local gen
 		local count = 0
-		for _,gen in pairs(genlist) do
+		for _, gen in pairs(genlist) do
 			minetest.swap_node(gen.pos, {name = "moretrees:coconut_3"})
 			count = count + 1
 			if count == 4 then
@@ -127,7 +138,8 @@ local coconut_growfn = function(pos, elapsed)
 		-- Drop coconuts (i.e. remove them), so that new coconuts can grow.
 		-- Coconuts will drop as items with a small chance
 		if math.random(coconut_drop_ichance) == 1 then
-			if moretrees.coconut_item_drop_ichance > 0 and math.random(moretrees.coconut_item_drop_ichance) == 1 then
+			if moretrees.coconut_item_drop_ichance > 0
+				and math.random(moretrees.coconut_item_drop_ichance) == 1 then
 				local items = minetest.get_node_drops(minetest.get_node(pos).name)
 				for _, itemname in pairs(items) do
 					minetest.add_item(pos, itemname)
@@ -212,55 +224,95 @@ if moretrees.coconuts_convert_existing_palms then
 			local leaves
 			local coconuts
 			-- One regular trunk must be adjacent to  the coconut
-			trunks = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "moretrees:palm_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=pos.x-1, y=pos.y, z=pos.z-1},
+				{x=pos.x+1, y=pos.y, z=pos.z+1},
+				"moretrees:palm_trunk"
+			)
 			if #trunks ~= 1 then
 				return
 			end
 			local tpos = trunks[1]
 			-- 1 or 2 other trunks must be one level below to the trunk being converted.
-			trunks = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y-1, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y-1, z=tpos.z+1}, "moretrees:palm_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y-1, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y-1, z=tpos.z+1},
+				"moretrees:palm_trunk"
+			)
 			if #trunks < 1 or #trunks > 2 then
 				return
 			end
 			-- 1 or 2 other trunks must be two levels below to the trunk being converted.
-			trunks = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y-2, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y-2, z=tpos.z+1}, "moretrees:palm_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y-2, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y-2, z=tpos.z+1},
+				"moretrees:palm_trunk"
+			)
 			if #trunks < 1 or #trunks > 2 then
 				return
 			end
 			-- 1 or 2 trunks must at the level of the trunk being converted.
-			cvtrunks = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y, z=tpos.z+1}, "moretrees:palm_trunk")
+			cvtrunks = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y, z=tpos.z+1},
+				"moretrees:palm_trunk"
+			)
 			if #cvtrunks < 1 or #cvtrunks > 2 then
 				return
 			end
 			-- No trunks may be one level above the trunk being converted.
-			trunks = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y+1, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y+1, z=tpos.z+1}, "moretrees:palm_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y+1, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y+1, z=tpos.z+1},
+				"moretrees:palm_trunk"
+			)
 			if #trunks ~= 0 then
 				return
 			end
 			-- Leaves must be one level above the trunk being converted.
-			leaves = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y+1, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y+1, z=tpos.z+1}, "moretrees:palm_leaves")
+			leaves = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y+1, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y+1, z=tpos.z+1},
+				"moretrees:palm_leaves"
+			)
 			if #leaves == 0 then
 				return
 			end
 			-- Leaves must be two levels above the trunk being converted.
-			leaves = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y+2, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y+2, z=tpos.z+1}, "moretrees:palm_leaves")
+			leaves = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y+2, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y+2, z=tpos.z+1},
+				"moretrees:palm_leaves"
+			)
 			if #leaves == 0 then
 				return
 			end
 			-- No cocos fruit trunk may already be adjacent to the coconut
-			trunks = minetest.find_nodes_in_area({x=pos.x-1, y=pos.y, z=pos.z-1}, {x=pos.x+1, y=pos.y, z=pos.z+1}, "moretrees:palm_fruit_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=pos.x-1, y=pos.y, z=pos.z-1},
+				{x=pos.x+1, y=pos.y, z=pos.z+1},
+				"moretrees:palm_fruit_trunk"
+			)
 			if #trunks ~= 0 then
 				return
 			end
 			-- No cocos fruit trunk may be adjacent to or below the trunk being converted.
-			trunks = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y-2, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y, z=tpos.z+1}, "moretrees:palm_fruit_trunk")
+			trunks = minetest.find_nodes_in_area(
+				{x=tpos.x-1, y=tpos.y-2, z=tpos.z-1},
+				{x=tpos.x+1, y=tpos.y, z=tpos.z+1},
+				"moretrees:palm_fruit_trunk"
+			)
 			if #trunks ~= 0 then
 				return
 			end
 			-- Convert trunk and all coconuts nearby. Maybe convert 2 trunks, just in case...
-			for _, tpos in pairs(cvtrunks) do
-				minetest.swap_node(tpos, {name = "moretrees:palm_fruit_trunk"})
-				coconuts = minetest.find_nodes_in_area({x=tpos.x-1, y=tpos.y, z=tpos.z-1}, {x=tpos.x+1, y=tpos.y, z=tpos.z+1}, "moretrees:coconut")
+			for _, tpos_1 in pairs(cvtrunks) do
+				minetest.swap_node(tpos_1, {name = "moretrees:palm_fruit_trunk"})
+				coconuts = minetest.find_nodes_in_area(
+					{x=tpos_1.x-1, y=tpos_1.y, z=tpos_1.z-1},
+					{x=tpos_1.x+1, y=tpos_1.y, z=tpos_1.z+1},
+					"moretrees:coconut"
+				)
 				for _, coconutpos in pairs(coconuts) do
 					minetest.swap_node(coconutpos, {name = "moretrees:coconut_3"})
 				end

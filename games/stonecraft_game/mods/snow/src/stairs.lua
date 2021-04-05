@@ -45,7 +45,11 @@ if minetest.get_modpath("moreblocks") and
 			ndef.groups.icemaker = nil
 			ndef.groups.cooks_into_ice = nil
 			ndef.after_place_node = nil
-
+			if string.find(name, "ice") then
+				ndef.use_texture_alpha = "blend"
+			else
+				ndef.use_texture_alpha = "opaque"
+			end
 			stairsplus:register_all(mod, name, nodename, ndef)
 
 			if was_in_stairs[name] then

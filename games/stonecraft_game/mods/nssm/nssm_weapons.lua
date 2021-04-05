@@ -235,12 +235,17 @@ local function default_on_step(
 		self.timer = 0
 		for _,obj in ipairs(objects) do
 			if obj:get_luaentity() then
-				if (obj:get_entity_name() ~= self.object:get_luaentity().name) and (obj:get_luaentity().name ~= "__builtin:item") then
+
+				if obj and obj:get_luaentity()
+				and obj:get_luaentity().name ~= self.object:get_luaentity().name
+				and obj:get_luaentity().name ~= "__builtin:item" then
+
+
 					if obj:is_player() then
 						obj:set_hp(obj:get_hp()-damage)
 					elseif obj:get_luaentity().health then
 						obj:get_luaentity().health = obj:get_luaentity().health - damage
-						--minetest.chat_send_all("Danneggiato: "..obj:get_entity_name().." Vita: "..obj:get_luaentity().health)
+--minetest.chat_send_all("Danneggiato: "..obj:get_luaentity_name().." Vita: "..obj:get_luaentity().health)
 --						check_for_death(obj:get_luaentity())
 					end
 				end
@@ -1157,7 +1162,7 @@ if minetest.get_modpath("nssb") and not core.skip_mod("nssb") then
 		}
 	})
 end
-	
+
 nssm_register_throwitem("water_column", S("Water Column Bomb"), {
 	hit_node = function(self,pos)
 		for dx = 0,0 do

@@ -113,6 +113,7 @@ if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	spawn_on = "ethereal:prairie_dirt"
 end
 
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:bunny",
 	nodes = {spawn_on},
@@ -124,6 +125,7 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
 
 mobs:register_egg("mobs_animal:bunny", S("Bunny"), "mobs_bunny_inv.png", 0)
@@ -159,7 +161,7 @@ minetest.register_craft({
 minetest.register_craftitem(":mobs:rabbit_hide", {
 	description = S("Rabbit Hide"),
 	inventory_image = "mobs_rabbit_hide.png",
-	groups = {flammable = 2},
+	groups = {flammable = 2, pelt = 1},
 })
 
 minetest.register_craft({

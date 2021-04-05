@@ -59,7 +59,7 @@ else
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
-		return stack:get_count()
+		return count
 	end
 
 	can_dig = function(pos, player)
@@ -72,7 +72,6 @@ else
 	end
 end
 
-local shape = {}
 local onesize_products = {
 	slope                    = 2,
 	slope_edge               = 1,

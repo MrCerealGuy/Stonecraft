@@ -152,7 +152,7 @@ minetest.register_ore({
 	y_max	 = -95,
 })
 
-for i=1,9 do
+for i = 1, 9 do
 
 minetest.register_ore({
 	ore_type	   = "scatter",
@@ -391,7 +391,7 @@ minetest.register_node("nssm:pumpbomb", {
 minetest.register_abm({
 	nodenames = {"nssm:mese_meteor"},
 	neighbors = {"air"},
-	interval = 1,
+	interval = 2, -- 1
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not abm_allowed.yes then
@@ -401,15 +401,12 @@ minetest.register_abm({
 		if minetest.is_protected(pos, "") then
 			return
 		end
-		--local under = {x=pos.x, y=pos.y-1, z=pos.z}
-		--local n = minetest.get_node(under).name
-		--if n~= "air" then
+
 		minetest.set_node({x=pos.x+1, y=pos.y, z=pos.z}, {name = "fire:basic_flame"})
 		minetest.set_node({x=pos.x-1, y=pos.y, z=pos.z}, {name = "fire:basic_flame"})
 		minetest.set_node({x=pos.x, y=pos.y, z=pos.z-1}, {name = "fire:basic_flame"})
 		minetest.set_node({x=pos.x, y=pos.y, z=pos.z+1}, {name = "fire:basic_flame"})
 		minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z}, {name = "fire:basic_flame"})
-
 	end
 })
 
@@ -514,7 +511,9 @@ minetest.register_tool('nssm:sun_sword', {
 		damage_groups = {fleshy=10},
 	},
 	minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
+
 		if puncher:get_wielded_item():get_name() == 'nssm:sun_sword' then
+
 			if node.name ~= "air" and not minetest.is_protected(pos, "") then
 				minetest.add_node(pointed_thing.above, {name = "fire:basic_flame"})
 			end
@@ -823,12 +822,17 @@ minetest.register_tool("nssm:axe_of_pride", {
 		damage_groups = {fleshy=16},
 	},
 	on_drop = function(itemstack, dropper, pos)
+
 		local objects = minetest.get_objects_inside_radius(pos, 10)
 		local flag = 0
 		local part = 0
+
 		for _,obj in ipairs(objects) do
+
 			part = 0
+
 			if flag == 0 then
+
 				local pname = dropper:get_player_name()
 				local player_inv = minetest.get_inventory({type='player', name = pname})
 
@@ -836,32 +840,45 @@ minetest.register_tool("nssm:axe_of_pride", {
 					--minetest.chat_send_all("Inventory empty")
 				else
 					local found = 0
+
 					for i = 1,32 do
+
 						local items = player_inv:get_stack('main', i)
 						local n = items:get_name()
+
 						if n == "nssm:energy_globe" then
 							found = i
 							break
 						end
 					end
+
 					if found == 0 then
-						minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
+
+		minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
+
 						return
 					else
 						if (obj:is_player()) then
+
 							--minetest.chat_send_all("Giocatore")
 							if (obj:get_player_name()~=dropper:get_player_name()) then
-								obj:set_hp(obj:get_hp()-10)
-								dropper:set_hp(dropper:get_hp()+10)
+
+								obj:set_hp(obj:get_hp() - 10)
+
+								dropper:set_hp(dropper:get_hp() + 10)
 								--flag = 1
 
 								local items = player_inv:get_stack('main', found)
+
 								items:take_item()
+
 								player_inv:set_stack('main', found, items)
+
 								part = 1
 							end
 					else
 							if (obj:get_luaentity().health) then
+
 								--minetest.chat_send_all("Entity")
 								obj:get_luaentity().health = obj:get_luaentity().health -10
 --								check_for_death(obj:get_luaentity())
@@ -870,12 +887,17 @@ minetest.register_tool("nssm:axe_of_pride", {
 								--flag = 1
 
 								local items = player_inv:get_stack('main', found)
+
 								items:take_item()
+
 								player_inv:set_stack('main', found, items)
+
 								part = 1
 							end
 						end
+
 						if part == 1 then
+
 							local s = dropper:get_pos()
 							local p = obj:get_pos()
 							local m = 2
@@ -918,34 +940,41 @@ minetest.register_tool("nssm:gratuitousness_battleaxe", {
 		damage_groups = {fleshy=18},
 	},
 	on_drop = function(itemstack, dropper, pos)
+
 		local objects = minetest.get_objects_inside_radius(pos, 10)
 		local flag = 0
 		local vec = dropper:get_look_dir()
 		local pos = dropper:get_pos()
 		--vec.y = 0
 
-		for i=1,10 do
+		for i = 1, 10 do
 			pos = vector.add(pos, vec)
 		end
 
 		local pname = dropper:get_player_name()
 		local player_inv = minetest.get_inventory({type='player', name = pname})
 		local found = 0
-		for i = 1,32 do
+
+		for i = 1, 32 do
 			local items = player_inv:get_stack('main', i)
 			local n = items:get_name()
+
 			if n == "nssm:energy_globe" then
 				found = i
 				break
 			end
 		end
+
 		if found == 0 then
 			minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
 			return
 		else
 			local items = player_inv:get_stack('main', found)
+
 			items:take_item()
+
 			player_inv:set_stack('main', found, items)
+
 			tnt.boom(pos, {damage_radius=5,radius=4,ignore_protection=false})
 		end
 	end,
@@ -965,11 +994,16 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 		damage_groups = {fleshy=14},
 	},
 	on_drop = function(itemstack, dropper, pos)
+
 		local objects = minetest.get_objects_inside_radius(pos, 10)
 		local flag = 0
+
 		for _,obj in ipairs(objects) do
+
 			local part = 0
+
 			if flag == 0 then
+
 				local pname = dropper:get_player_name()
 				local player_inv = minetest.get_inventory({type='player', name = pname})
 
@@ -977,23 +1011,32 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 					--minetest.chat_send_all("Inventory empty")
 				else
 					local found = 0
+
 					for i = 1,32 do
+
 						local items = player_inv:get_stack('main', i)
 						local n = items:get_name()
+
 						if n == "nssm:energy_globe" then
 							found = i
 							break
 						end
 					end
+
 					if found == 0 then
 						minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
 						return
 					else
 						local pos = obj:get_pos()
+
 						pos.y = pos.y + 15
+
 						if (obj:is_player()) then
+
 							if (obj:get_player_name()~=dropper:get_player_name()) then
+
 								part=1
+
 								obj:set_pos(pos)
 								--flag = 1
 
@@ -1009,13 +1052,19 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 								--flag = 1
 
 								local items = player_inv:get_stack('main', found)
+
 								items:take_item()
+
 								player_inv:set_stack('main', found, items)
 							end
 						end
+
 						if part==1 then
+
 							local s = pos
+
 							s.y = s.y - 15
+
 							minetest.add_particlespawner(
 								25, --amount
 								0.3, --time

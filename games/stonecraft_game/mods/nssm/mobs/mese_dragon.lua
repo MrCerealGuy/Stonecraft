@@ -12,8 +12,10 @@ mobs:register_mob("nssm:mese_dragon", {
 	collisionbox = {-1, 0, -1, 1, 5, 1},
 	visual = "mesh",
 	mesh = "mese_dragon.x",
-	textures = {{"mese_dragon.png"}},
-	visual_size = {x=12, y=12},
+	textures = {
+		{"mese_dragon.png"}
+	},
+	visual_size = {x = 12, y = 12},
 	makes_footstep_sound = true,
 	view_range = 45,
 	rotate = 270,
@@ -29,14 +31,8 @@ mobs:register_mob("nssm:mese_dragon", {
 	jump = true,
 	jump_height = 10,
 	drops = {
-		{name = "nssm:rainbow_staff",
-		chance = 1,
-		min = 1,
-		max = 1},
-		{name = "nssm:energy_globe",
-		chance = 1,
-		min = 99,
-		max = 99},
+		{name = "nssm:rainbow_staff", chance = 1, min = 1, max = 1},
+		{name = "nssm:energy_globe", chance = 1, min = 99, max = 99},
 	},
 	armor = 30,
 	drawtype = "front",
@@ -46,11 +42,11 @@ mobs:register_mob("nssm:mese_dragon", {
 	on_rightclick = nil,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
-	blood_texture="mese_blood.png",
-	blood_amount=30,
-	stepheight=3.1,
-	knock_back=0,
-	jump_height=12,
+	blood_texture = "mese_blood.png",
+	blood_amount = 30,
+	stepheight = 3.1,
+	knock_back = 0,
+	jump_height = 12,
 	dogshoot_count_max = 9,
 	arrow = "nssm:roar_of_the_dragon",
 	reach = 5,
@@ -72,25 +68,32 @@ mobs:register_mob("nssm:mese_dragon", {
 		dattack_start = 120,
 		dattack_end = 160,
 	},
+
 	do_custom = function(self)
-		midas_ability(self, "default:mese_block", self.run_velocity,2, 3)
+		midas_ability(self, "default:mese_block", self.run_velocity, 2, 3)
 	end,
 
 	custom_attack = function(self)
+
 		if self.timer > 1 then
+
 			self.timer = 0
-			self.attack_rip = self.attack_rip+1
+
+			self.attack_rip = (self.attack_rip or 0) + 1
 
 			local s = self.object:get_pos()
+
 			if minetest.is_protected(s, "") then
 				return
 			end
+
 			local p = self.attack:get_pos()
 
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
 
 			if minetest.line_of_sight(p, s) == true then
+
 				-- play attack sound
 				if self.sounds.attack then
 					minetest.sound_play(self.sounds.attack, {
@@ -98,20 +101,27 @@ mobs:register_mob("nssm:mese_dragon", {
 						max_hear_distance = self.sounds.distance
 					})
 				end
+
 				-- punch player
 				self.attack:punch(self.object, 1.0,  {
-					full_punch_interval=1.0,
-					damage_groups = {fleshy=self.damage}
+					full_punch_interval = 1.0,
+					damage_groups = {fleshy = self.damage}
 				}, nil)
 			end
-			if self.attack_rip>=8 then
-				self.attack_rip =0
+
+			if self.attack_rip >= 8 then
+
+				self.attack_rip = 0
+
 				mobs:set_animation("punch1")
-				for dx = -17,17 do
-					for dz= -17,17 do
-						local k = {x = s.x+dx, y=s.y+20, z=s.z+dz}
+
+				for dx = -17, 17 do
+					for dz = -17, 17 do
+
+						local k = {x = s.x + dx, y = s.y + 20, z = s.z + dz}
 						local n = minetest.get_node(k).name
-						if n=="air" and math.random(1,23)==1 then
+
+						if n == "air" and math.random(1, 23) == 1 then
 							minetest.set_node(k, {name="nssm:mese_meteor"})
 							minetest.check_for_falling(k)
 						end

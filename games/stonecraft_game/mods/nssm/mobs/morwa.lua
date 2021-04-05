@@ -5,8 +5,10 @@ mobs:register_mob("nssm:morwa", {
 	collisionbox = {-1, -0.1, -1, 1, 3, 1},
 	visual = "mesh",
 	mesh = "morwa.x",
-	textures = {{"morwa.png"}},
-	visual_size = {x=10, y=10},
+	textures = {
+		{"morwa.png"}
+	},
+	visual_size = {x = 10, y = 10},
 	makes_footstep_sound = true,
 	view_range = 25,
 	fear_height = 4,
@@ -18,28 +20,21 @@ mobs:register_mob("nssm:morwa", {
 	damage = 8,
 	jump = true,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 3,
-		max = 4,},
-		{name = "nssm:wrathful_soul_fragment",
-		chance = 3,
-		min = 1,
-		max = 1,},
+		{name = "nssm:life_energy", chance = 1, min = 3, max = 4},
+		{name = "nssm:wrathful_soul_fragment", chance = 3, min = 1, max = 1},
 	},
 	armor = 50,
 	drawtype = "front",
 	water_damage = 0,
-	reach =4,
+	reach = 4,
 	rotate = 270,
 	lava_damage = 0,
 	light_damage = 0,
-	group_attack=true,
-	attack_animals=true,
-	knock_back=1,
-	blood_texture="morparticle.png",
-	stepheight=1.1,
-	on_rightclick = nil,
+	group_attack = true,
+	attack_animals = true,
+	knock_back = 1,
+	blood_texture = "morparticle.png",
+	stepheight = 1.1,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
 	arrow = "nssm:morarrow",
@@ -59,13 +54,16 @@ mobs:register_mob("nssm:morwa", {
 		shoot_start =176,
 		shoot_end=226,
 	},
+
 	do_custom = function (self)
+
 		local pos = self.object:get_pos()
 		local light = minetest.get_node_light(pos)
+
 		--minetest.chat_send_all("Luce: "..light)
-		if (light < 8) then
+		if light < 8 then
 			self.object:remove()
-			minetest.set_node(pos, {name="nssm:morwa_statue"})
+			minetest.set_node(pos, {name = "nssm:morwa_statue"})
 		end
 	end,
 })

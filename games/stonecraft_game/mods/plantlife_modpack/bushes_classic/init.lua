@@ -4,7 +4,7 @@
 bushes_classic = {}
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("bushes_classic")
 
 bushes_classic.bushes = {
   "strawberry",
@@ -55,4 +55,4 @@ biome_lib:spawn_on_surfaces({
 
 minetest.register_alias("bushes:basket_pies", "bushes:basket_strawberry")
 
-print(S("[Bushes] Loaded."))
+print("[Bushes] Loaded.")

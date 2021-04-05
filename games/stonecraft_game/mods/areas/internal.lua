@@ -1,3 +1,4 @@
+local S = minetest.get_translator("areas")
 
 function areas:player_exists(name)
 	return minetest.get_auth_handler().get_auth(name) ~= nil
@@ -17,7 +18,7 @@ end
 
 -- Save the areas table to a file
 function areas:save()
-	local datastr = minetest.serialize(self.areas)
+	local datastr = minetest.write_json(self.areas)
 	if not datastr then
 		minetest.log("error", "[areas] Failed to serialize area data!")
 		return
@@ -32,9 +33,18 @@ function areas:load()
 		self.areas = self.areas or {}
 		return err
 	end
-	self.areas = minetest.deserialize(file:read("*a"))
+	local data = file:read("*a")
+	if data:sub(1, 1) == "[" then
+		self.areas, err = minetest.parse_json(data)
+	else
+		self.areas, err = minetest.deserialize(data)
+	end
 	if type(self.areas) ~= "table" then
 		self.areas = {}
+	end
+	if err and #data > 10 then
+		minetest.log("error", "[areas] Failed to load area data: " ..
+			tostring(err))
 	end
 	file:close()
 	self:populateStore()
@@ -47,7 +57,7 @@ end
 function areas:checkAreaStoreId(sid)
 	if not sid then
 		minetest.log("error", "AreaStore failed to find an ID for an "
-			.."area!  Falling back to iterative area checking.")
+			.."area! Falling back to iterative area checking.")
 		self.store = nil
 		self.store_ids = nil
 	end
@@ -149,7 +159,6 @@ function areas:move(id, area, pos1, pos2)
 	area.pos1 = pos1
 	area.pos2 = pos2
 
-
 	for i=1, #areas.registered_on_moves do
 		areas.registered_on_moves[i](id, area, pos1, pos2)
 	end
@@ -212,8 +221,8 @@ function areas:canPlayerAddArea(pos1, pos2, name)
 	-- and if the area is too big.
 	if not self.config.self_protection or
 			not privs[areas.config.self_protection_privilege] then
-		return false, "Self protection is disabled or you do not have"
-				.." the necessary privilege."
+		return false, S("Self protection is disabled or you do not have"
+				.." the necessary privilege.")
 	end
 
 	local max_size = privs.areas_high_limit and
@@ -223,7 +232,7 @@ function areas:canPlayerAddArea(pos1, pos2, name)
 			(pos2.x - pos1.x) > max_size.x or
 			(pos2.y - pos1.y) > max_size.y or
 			(pos2.z - pos1.z) > max_size.z then
-		return false, "Area is too big."
+		return false, S("Area is too big.")
 	end
 
 	-- Check number of areas the user has and make sure it not above the max
@@ -237,16 +246,16 @@ function areas:canPlayerAddArea(pos1, pos2, name)
 			self.config.self_protection_max_areas_high or
 			self.config.self_protection_max_areas
 	if count >= max_areas then
-		return false, "You have reached the maximum amount of"
-				.." areas that you are allowed to  protect."
+		return false, S("You have reached the maximum amount of"
+				.." areas that you are allowed to protect.")
 	end
 
 	-- Check intersecting areas
 	local can, id = self:canInteractInArea(pos1, pos2, name)
 	if not can then
 		local area = self.areas[id]
-		return false, ("The area intersects with %s [%u] (%s).")
-				:format(area.name, id, area.owner)
+		return false, S("The area intersects with @1 [@2] (@3).",
+				area.name, id, area.owner)
 	end
 
 	return true

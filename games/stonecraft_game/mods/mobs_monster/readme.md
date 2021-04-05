@@ -11,7 +11,7 @@ Dungeon Master
 
 Lava Flan
 
-- Cute as they may look lava flan wallow in their namesake (no, not flans) and get curious about players who wander by, forgetting that they can burn you and cause damage. They have a 1 in 5 chance of dropping lava orb when killed.
+- Cute as they may look lava flan wallow in their namesake (no, not flans) and get curious about players who wander by, forgetting that they can burn you and cause damage. They have a 1 in 5 chance of dropping lava orb when killed, but if they die in water then pray they dont solidify into an obsidian flan that shoots shards and destroys all around them.
 
 Mese Monster
 
@@ -27,7 +27,7 @@ Sand Monster
 
 Spiders
 
-- Snowy spiders are found on higher cold areas, Tarantula's in higher jungle, Cave spider below -20 and Mese spider near areas containing the ore and Crystal spiders only in Ethereal's crystal biomes.  Some are docile during the daytime and will drop string when killed.
+- Snowy spiders are found on higher cold areas, spitting Tarantula's in higher jungle, small Cave spider below -20 and Mese spider near areas containing the ore and Crystal spiders only in Ethereal's crystal biomes.  Some are docile during the daytime and will drop string when killed.
 
 Stone Monster
 
@@ -35,6 +35,10 @@ Stone Monster
 
 Tree Monster
 
-- Found atop tree's at night time they drop down and look for food in the form of players and animals. Can drop saplings and sometimes an apple or three.
+- Found atop tree's at night time they drop down and look for food in the form of players and animals. Can drop saplings and sometimes an apple or three depending on type.  Also note that green tree creepers exist and sometimes go boom.
+
+Land Guard
+
+- These huge monsters roam the land in cold, hot and temperate areas and don't like players wandering around their domain.
 
 Lucky Blocks: 11

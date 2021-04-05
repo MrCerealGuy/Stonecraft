@@ -9,7 +9,7 @@
 -----------------------------------------------------------------------------------------------
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("dryplants")
 
 abstract_dryplants.grow_juncus = function(pos)
 	local juncus_type = math.random(2,3)

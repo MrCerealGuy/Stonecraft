@@ -208,7 +208,7 @@ minetest.register_node("sumpf:dirtywater_flowing", {
 		{name="sumpf_water_flowing.png", backface_culling=false,	animation=ani},
 		{name="sumpf_water_flowing.png", backface_culling=true,	animation=ani}
 	},
-	alpha = WATER_ALPHA,
+	use_texture_alpha = "blend",
 	paramtype = "light",
 	walkable = false,
 	pointable = false,
@@ -218,7 +218,7 @@ minetest.register_node("sumpf:dirtywater_flowing", {
 	liquidtype = "flowing",
 	liquid_alternative_flowing = "sumpf:dirtywater_flowing",
 	liquid_alternative_source = "sumpf:dirtywater_source",
-	liquid_viscosity = WATER_VISC,
+	liquid_viscosity = 1,
 	post_effect_color = {a=64, r=70, g=90, b=120},
 	groups = {water=3, liquid=3, puts_out_fire=1, not_in_creative_inventory=1},
 })
@@ -232,7 +232,7 @@ minetest.register_node("sumpf:dirtywater_source", {
 		{name="sumpf_water_flowing.png", animation=ani}
 	},
 	special_tiles = {{name="sumpf_water_source.png", animation=ani, backface_culling=false},},
-	alpha = WATER_ALPHA,
+	use_texture_alpha = "blend",
 	paramtype = "light",
 	walkable = false,
 	pointable = false,
@@ -241,12 +241,12 @@ minetest.register_node("sumpf:dirtywater_source", {
 	liquidtype = "source",
 	liquid_alternative_flowing = "sumpf:dirtywater_flowing",
 	liquid_alternative_source = "sumpf:dirtywater_source",
-	liquid_viscosity = WATER_VISC,
+	liquid_viscosity = 1,
 	post_effect_color = {a=64, r=70, g=90, b=120},
 	groups = {water=3, liquid=3, puts_out_fire=1},
 })
 
-if bucket then
+if minetest.global_exists("bucket") then
 	bucket.register_liquid(
 		"sumpf:dirtywater_source",
 		"sumpf:dirtywater_flowing",

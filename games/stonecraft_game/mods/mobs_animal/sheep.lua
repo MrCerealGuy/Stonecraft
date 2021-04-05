@@ -64,8 +64,17 @@ for _, col in ipairs(all_colours) do
 			stand_end = 80,
 			walk_start = 81,
 			walk_end = 100,
+
+			die_start = 1, -- we dont have a specific death animation so we will
+			die_end = 2, --   re-use 2 standing frames at a speed of 1 fps and
+			die_speed = 1, -- have mob rotate when dying.
+			die_loop = false,
+			die_rotate = true,
 		},
-		follow = {"farming:wheat", "default:grass_1"},
+		follow = {
+			"farming:wheat", "default:grass_1", "farming:barley",
+			"farming:oat", "farming:rye"
+		},
 		view_range = 8,
 		replace_rate = 10,
 		replace_what = {
@@ -94,7 +103,7 @@ for _, col in ipairs(all_colours) do
 			--are we feeding?
 			if mobs:feed_tame(self, clicker, 8, true, true) then
 
-				--if fed 7x grass or wheat then sheep regrows wool
+				--if fed 7 times then sheep regrows wool
 				if self.food and self.food > 6 then
 
 					self.gotten = false
@@ -196,7 +205,7 @@ for _, col in ipairs(all_colours) do
 		end
 	})
 
-	mobs:register_egg("mobs_animal:sheep_"..col[1], S("@1 Sheep", col[2]), "wool_"..col[1]..".png", 1)
+mobs:register_egg("mobs_animal:sheep_"..col[1], S("@1 Sheep", col[2]), "wool_"..col[1]..".png^mobs_sheep_inv.png")
 
 	-- compatibility
 	mobs:alias_mob("mobs:sheep_" .. col[1], "mobs_animal:sheep_" .. col[1])
@@ -204,6 +213,7 @@ for _, col in ipairs(all_colours) do
 end
 
 
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:sheep_white",
 	nodes = {"default:dirt_with_grass", "ethereal:green_dirt"},
@@ -215,6 +225,7 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
 
 mobs:alias_mob("mobs:sheep", "mobs_animal:sheep_white") -- compatibility

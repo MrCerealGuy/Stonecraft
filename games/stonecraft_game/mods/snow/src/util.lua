@@ -29,6 +29,8 @@ snow = {
 
 -- functions for dynamically changing settings
 
+snow.register_on_configuring = function() end
+--[[
 local on_configurings,n = {},1
 function snow.register_on_configuring(func)
 	on_configurings[n] = func
@@ -61,3 +63,4 @@ local function value_from_string(v)
 	end
 	return v
 end
+--]]

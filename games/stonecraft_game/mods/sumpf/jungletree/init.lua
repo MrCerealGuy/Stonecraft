@@ -19,7 +19,7 @@ sumpf = rawget(_G, "sumpf") or {}
 
 local jungletree_seed = 112
 
-function jungletree_get_random(pos)
+local function jungletree_get_random(pos)
 	return PseudoRandom(math.abs(pos.x+pos.y*3+pos.z*5)+jungletree_seed)
 end
 
@@ -44,9 +44,6 @@ minetest.register_node("jungletree:sapling", {
 	end
 })
 
-local plantlike_leaves = not minetest.settings:get_bool"new_style_leaves"
-local rt2 = math.sqrt(2)
-local tex_sc = (1-(1/rt2))*100-4 --doesn't seem to work right
 local tab = {
 	description = S("jungle tree leaves"),
 	is_ground_content = false, -- because default:jungletree's is_ground_content
@@ -67,28 +64,21 @@ local tab = {
 	},
 	sounds = default.node_sound_leaves_defaults(),
 }
-if plantlike_leaves then
-	for color = 1, 3 do
-		local leaf_name = "jungletree:leaves_"..leaves[color]
-		tab.visual_scale = math.sqrt(rt2)
-		tab.drawtype = "plantlike"
-		tab.tiles = {"jungletree_leaves_" .. leaves[color] ..
-			".png^[lowpart:" .. tex_sc ..
-			":jungletree_invmat.png^[makealpha:255,126,126"}
-		tab.inventory_image = minetest.inventorycube("jungletree_leaves_" ..
-			leaves[color] .. ".png")
-		tab.drop.items[2].items[1] = leaf_name
-		minetest.register_node(leaf_name, table.copy(tab))
-	end
-else
-	for color = 1, 3 do
-		local leaf_name = "jungletree:leaves_"..leaves[color]
-		tab.visual_scale = math.sqrt(rt2)
-		tab.drawtype = "allfaces_optional"
-		tab.tiles = {"jungletree_leaves_"..leaves[color]..".png"}
-		tab.drop.items[2].items[1] = leaf_name
-		minetest.register_node(leaf_name, table.copy(tab))
-	end
+-- Remove a bit from the bottom of the plantlike leaves node to reduce
+-- Z-fighting when waving leaves are disabled.
+-- There is still a bit of overlap for some reason
+local tex_sc = (1.0 - (1.0 / math.sqrt(2.0))) * 100.0 - 4.0
+for color = 1, 3 do
+	local leaf_name = "jungletree:leaves_"..leaves[color]
+	tab.visual_scale = math.sqrt(2)
+	tab.drawtype = "plantlike"
+	tab.tiles = {"jungletree_leaves_" .. leaves[color] ..
+		".png^[lowpart:" .. tex_sc ..
+		":jungletree_invmat.png^[makealpha:255,126,126"}
+	tab.inventory_image = minetest.inventorycube("jungletree_leaves_" ..
+		leaves[color] .. ".png")
+	tab.drop.items[2].items[1] = leaf_name
+	minetest.register_node(leaf_name, table.copy(tab))
 end
 
 

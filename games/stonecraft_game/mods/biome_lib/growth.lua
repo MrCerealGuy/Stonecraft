@@ -2,6 +2,19 @@ local time_scale = ...
 
 -- The growing ABM
 
+function biome_lib.check_surface(name, nodes)
+	if not nodes then return true end
+	if type(nodes) == "string" then return nodes == name end
+	if nodes.set and nodes[name] then
+		return true
+	else
+		for _, n in ipairs(nodes) do
+			if name == n then return true end
+		end
+	end
+	return false
+end
+
 function biome_lib:grow_plants(opts)
 
 	local options = opts
@@ -44,21 +57,18 @@ function biome_lib:grow_plants(opts)
 			end
 			if (n_top.name == "air" or n_top.name == "default:snow")
 			  and (not options.need_wall or (options.need_wall and walldir)) then
-				-- corner case for changing short junglegrass
-				-- to dry shrub in desert
-				if n_bot.name == options.dry_early_node and options.grow_plant == "junglegrass:short" then
-					minetest.swap_node(pos, { name = "default:dry_shrub" })
-
-				elseif options.grow_vertically and walldir then
+				if options.grow_vertically and walldir then
 					if biome_lib:search_downward(pos, options.height_limit, options.ground_nodes) then
 						minetest.swap_node(p_top, { name = options.grow_plant, param2 = walldir})
 					end
 
-				elseif not options.grow_result and not options.grow_function then
-					minetest.swap_node(pos, biome_lib.air)
+				elseif biome_lib.check_surface(n_bot.name, options.grow_nodes) then
+					if not options.grow_result and not options.grow_function then
+						minetest.swap_node(pos, biome_lib.air)
 
-				else
-					biome_lib:replace_object(pos, options.grow_result, options.grow_function, options.facedir, options.seed_diff)
+					else
+						biome_lib:replace_object(pos, options.grow_result, options.grow_function, options.facedir, options.seed_diff)
+					end
 				end
 			end
 		end

@@ -71,6 +71,8 @@ register_sapling("ethereal:redwood", S("Redwood"), "redwood_sapling", 31)
 register_sapling("ethereal:orange_tree", S("Orange"), "orange_tree_sapling", 6)
 register_sapling("ethereal:birch", S("Birch"), "moretrees_birch_sapling", 7)
 register_sapling("ethereal:sakura", S("Sakura"), "ethereal_sakura_sapling", 10)
+register_sapling("ethereal:lemon_tree", S("Lemon"), "lemon_tree_sapling", 7)
+register_sapling("ethereal:olive_tree", S("Olive"), "olive_tree_sapling", 10)
 
 local add_tree = function (pos, ofx, ofy, ofz, schem, replace)
 	-- check for schematic
@@ -97,7 +99,13 @@ function ethereal.grow_big_tree(pos)
 end
 
 function ethereal.grow_banana_tree(pos)
-	add_tree(pos, 3, 0, 3, ethereal.bananatree)
+	if math.random(3) == 1
+	and minetest.find_node_near(pos, 1, {"farming:soil_wet"}) then
+		add_tree(pos, 3, 0, 3, ethereal.bananatree,
+			{{"ethereal:banana", "ethereal:banana_bunch"}})
+	else
+		add_tree(pos, 3, 0, 3, ethereal.bananatree)
+	end
 end
 
 function ethereal.grow_frost_tree(pos)
@@ -117,11 +125,15 @@ function ethereal.grow_willow_tree(pos)
 end
 
 function ethereal.grow_redwood_tree(pos)
-	add_tree(pos, 7, 0, 7, ethereal.redwood_tree)
+	if minetest.find_node_near(pos, 1, "ethereal:redwood_sapling") then
+		add_tree(pos, 7, 0, 7, ethereal.redwood_tree)
+	else
+		add_tree(pos, 4, 0, 4, ethereal.redwood_small_tree)
+	end
 end
 
 function ethereal.grow_orange_tree(pos)
-	add_tree(pos, 1, 0, 1, ethereal.orangetree)
+	add_tree(pos, 2, 0, 2, ethereal.orangetree)
 end
 
 function ethereal.grow_bamboo_tree(pos)
@@ -139,6 +151,14 @@ function ethereal.grow_sakura_tree(pos)
 	else
 		add_tree(pos, 4, 0, 3, ethereal.sakura_tree)
 	end
+end
+
+function ethereal.grow_lemon_tree(pos)
+	add_tree(pos, 2, 0, 2, ethereal.lemontree)
+end
+
+function ethereal.grow_olive_tree(pos)
+	add_tree(pos, 3, 0, 3, ethereal.olivetree)
 end
 
 -- check if sapling has enough height room to grow
@@ -218,11 +238,19 @@ local grow_sapling = function(pos, node)
 	elseif node.name == "ethereal:birch_sapling"
 	and under == "default:dirt_with_grass" then
 		ethereal.grow_birch_tree(pos)
+
 	elseif node.name == "ethereal:sakura_sapling"
 	and under == "ethereal:bamboo_dirt" then
 		ethereal.grow_sakura_tree(pos)
-	end
 
+	elseif node.name == "ethereal:olive_tree_sapling"
+	and under == "ethereal:grove_dirt" then
+		ethereal.grow_olive_tree(pos)
+
+	elseif node.name == "ethereal:lemon_tree_sapling"
+	and under == "ethereal:grove_dirt" then
+		ethereal.grow_lemon_tree(pos)
+	end
 end
 
 -- Grow saplings

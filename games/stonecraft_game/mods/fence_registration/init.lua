@@ -41,7 +41,7 @@ function minetest.register_fence(fencedata, extradef)
 		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
 	}--]]
 	if origdef.description then
-		def.description = S("@1 fence", origdef.description)
+		def.description = origdef.description.." fence"
 	end
 	local node_texture_side = fencedata.texture or def.tiles[2] or def.tiles[1]
 	if type(node_texture_side) ~= "string" then

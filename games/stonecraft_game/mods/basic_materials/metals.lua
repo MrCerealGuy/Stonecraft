@@ -77,14 +77,6 @@ local chains_sbox = {
 	fixed = { -0.1, -0.5, -0.1, 0.1, 0.5, 0.1 }
 }
 
-local topchains_sbox = {
-	type = "fixed",
-	fixed = {
-		{ -0.25, 0.35, -0.25, 0.25, 0.5, 0.25 },
-		{ -0.1, -0.5, -0.1, 0.1, 0.4, 0.1 }
-	}
-}
-
 minetest.register_node("basic_materials:chain_steel", {
 	description = "Chain (steel, hanging)",
 	drawtype = "mesh",
@@ -251,6 +243,18 @@ minetest.register_craft( {
 		"moreores:silver_ingot",
 	},
 })
+
+if not minetest.get_modpath("moreores") then
+    -- Without moreores, there still should be a way to create brass.
+    minetest.register_craft( {
+        output = "basic_materials:brass_ingot 9",
+        recipe = {
+	    {"default:copper_ingot", "default:tin_ingot", "default:copper_ingot"},
+	    {"default:gold_ingot", "default:copper_ingot", "default:gold_ingot"},
+	    {"default:copper_ingot", "default:tin_ingot", "default:copper_ingot"},
+        },
+    })
+end
 
 minetest.register_craft( {
 	type = "shapeless",

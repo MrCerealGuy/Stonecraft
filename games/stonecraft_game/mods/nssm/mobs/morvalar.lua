@@ -1,5 +1,5 @@
 local time_limit = 120
-posmorvalarblock = {x=827, y=-30094, z=-817}
+local posmorvalarblock = {x=827, y=-30094, z=-817}
 
 function respawn_block(self)
 	--start a timer if it doesn't exist
@@ -28,12 +28,14 @@ mobs:register_mob("nssm:morvalar", {
 	visual = "mesh",
 	--rotate= 270,
 	mesh = "morvalar.x",
-	textures = {{"morvalar.png"}},
-	visual_size = {x=5, y=5},
+	textures = {
+		{"morvalar.png"}
+	},
+	visual_size = {x = 5, y = 5},
 	makes_footstep_sound = true,
 	view_range = 50,
 	walk_velocity = 1.6,
-	reach =3,
+	reach = 3,
 	run_velocity = 3.2,
 	damage = 8,
 	runaway = true,
@@ -47,11 +49,10 @@ mobs:register_mob("nssm:morvalar", {
 	fear_height = 4,
 	floats = 1,
 	lava_damage = 0,
-	blood_texture="morparticle.png",
-	blood_amount=10,
-	knock_back=0,
+	blood_texture = "morparticle.png",
+	blood_amount = 10,
+	knock_back = 0,
 	light_damage = 0,
-	on_rightclick = nil,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 15,
@@ -71,22 +72,30 @@ mobs:register_mob("nssm:morvalar", {
 	end,
 
 	custom_attack = function (self)
+
 		self.curr_attack = (self.curr_attack or self.attack)
 		self.morvalar_timer = (self.morvalar_timer or os.time())
 
 		self.dir = (self.dir or 0)
+
 		if (os.time() - self.morvalar_timer) > 2 then
 
 			local s = self.object:get_pos()
 			local p = self.attack:get_pos()
+
 			mobs:set_animation(self, "punch")
+
 			local m = 1
 
 			if self.attack:is_player() then
+
 				if minetest.get_modpath("3d_armor") then
-					local pname, player_inv, armor_inv, ppos = armor:get_valid_player(self.attack, "[set_player_armor]")
-					local pname = self.attack:get_player_name()
-					local player_inv = minetest.get_inventory({type='player', name = pname})
+
+		local pname, player_inv, armor_inv, ppos = armor:get_valid_player(
+				self.attack, "[set_player_armor]")
+		local pname = self.attack:get_player_name()
+		local player_inv = minetest.get_inventory({type='player', name = pname})
+
 					if player_inv:is_empty('armor') then
 						-- punch player if he doesn't own an armor
 						self.attack:punch(self.object, 1.0, {
@@ -98,20 +107,25 @@ mobs:register_mob("nssm:morvalar", {
 						local armor_num = 0
 						local steal_pos
 
-						for i=1,6 do
+						for i = 1, 6 do
+
 							local armor_stack = player_inv:get_stack("armor", i)
 							local armor_item = armor_stack:get_name()
+
 							if armor_stack:get_count() > 0 then
 								armor_elements[armor_num]={name=armor_item, pos=i}
 								armor_num = armor_num + 1
 							end
 						end
+
 						if armor_num > 0 then
+
 							steal_pos = math.random(1,armor_num)
 							steal_pos = steal_pos-1
-							local cpos = string.find(armor_elements[steal_pos].name, ":")
-							local mod_name = string.sub(armor_elements[steal_pos].name, 0, cpos-1)
-							local nname = string.sub(armor_elements[steal_pos].name, cpos+1)
+
+				local cpos = string.find(armor_elements[steal_pos].name, ":")
+				local mod_name = string.sub(armor_elements[steal_pos].name, 0, cpos - 1)
+				local nname = string.sub(armor_elements[steal_pos].name, cpos + 1)
 
 							if mod_name == "3d_armor" then
 								nname = "3d_armor_inv_"..nname..".png"
@@ -140,17 +154,17 @@ mobs:register_mob("nssm:morvalar", {
 
 							minetest.after(1, function (self)
 
-								local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
-								armor_stack:take_item()
-								player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+	local armor_stack = player_inv:get_stack("armor", armor_elements[steal_pos].pos)
+	armor_stack:take_item()
+	player_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-								armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
-								armor_stack:take_item()
-								armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
+	armor_stack = armor_inv:get_stack("armor", armor_elements[steal_pos].pos)
+	armor_stack:take_item()
+	armor_inv:set_stack('armor', armor_elements[steal_pos].pos, armor_stack)
 
-								armor:set_player_armor(self.attack, self.attack)
-								armor:update_inventory(self.attack)
-							end,self)
+	armor:set_player_armor(self.attack, self.attack)
+	armor:update_inventory(self.attack)
+							end, self)
 						end
 					end
 				else
@@ -159,7 +173,10 @@ mobs:register_mob("nssm:morvalar", {
 
 					mobs:set_animation(self, "punch")
 
-					if minetest.line_of_sight({x = p.x, y = p.y +1.5, z = p.z}, {x = s.x, y = s.y +1.5, z = s.z}) == true then
+					if minetest.line_of_sight(
+						{x = p.x, y = p.y + 1.5, z = p.z},
+						{x = s.x, y = s.y +1.5, z = s.z}) == true then
+
 						-- play attack sound
 						if self.sounds.attack then
 							minetest.sound_play(self.sounds.attack, {
@@ -168,18 +185,22 @@ mobs:register_mob("nssm:morvalar", {
 							})
 						end
 						-- punch player
-						self.attack:punch(self.object, 1.0,  {
-							full_punch_interval=1.0,
-							damage_groups = {fleshy=self.damage}
+						self.attack:punch(self.object, 1.0, {
+							full_punch_interval = 1.0,
+							damage_groups = {fleshy = self.damage}
 						}, nil)
 					end
 				end
 			end
 		end
 	end,
+
 	on_die = function(self)
+
 		local pos = self.object:get_pos()
+
 		self.object:remove()
+
 		add_entity_and_particles("nssm:morvalar6", pos, "morparticle.png", 10)
 	end,
 })
@@ -192,8 +213,10 @@ mobs:register_mob("nssm:morvalar6", {
 	visual = "mesh",
 	--rotate= 270,
 	mesh = "morvalar.x",
-	textures = {{"morvalar.png"}},
-	visual_size = {x=5, y=5},
+	textures = {
+		{"morvalar.png"}
+	},
+	visual_size = {x = 5, y = 5},
 	makes_footstep_sound = true,
 	view_range = 50,
 	walk_velocity = 1.6,
@@ -212,10 +235,9 @@ mobs:register_mob("nssm:morvalar6", {
 	floats = 1,
 	lava_damage = 0,
 	light_damage = 0,
-	blood_texture="morparticle.png",
-	blood_amount=10,
-	knock_back=0,
-	on_rightclick = nil,
+	blood_texture = "morparticle.png",
+	blood_amount = 10,
+	knock_back = 0,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 15,
@@ -229,13 +251,17 @@ mobs:register_mob("nssm:morvalar6", {
 		punch_start = 132,
 		punch_end = 162,
 	},
+
 	do_custom = function(self)
 		respawn_block(self)
 	end,
+
 	custom_attack = function (self)
+
 		self.morvalar6_timer = (self.morvalar6_timer or os.time())
 
 		self.dir = (self.dir or 0)
+
 		if (os.time() - self.morvalar6_timer) > 1 then
 
 			local s = self.object:get_pos()
@@ -246,7 +272,9 @@ mobs:register_mob("nssm:morvalar6", {
 
 
 			minetest.after(1, function (self)
+
 				if self.attack:is_player() then
+
 					local pname = self.attack:get_player_name()
 					local player_inv = minetest.get_inventory({type='player', name = pname})
 
@@ -254,7 +282,8 @@ mobs:register_mob("nssm:morvalar6", {
 						--minetest.chat_send_all("Inventory empty")
 					else
 						local imhungry = 0
-						for i = 1,32 do
+
+						for i = 1, 32 do
 							--minetest.chat_send_all("Inventory is not empty")
 							local items = player_inv:get_stack('main', i)
 							local n = items:get_name()

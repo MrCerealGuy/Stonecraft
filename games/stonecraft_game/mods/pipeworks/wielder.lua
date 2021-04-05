@@ -14,10 +14,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 local assumed_eye_pos = vector.new(0, 1.5, 0)
 
-local function vector_copy(v)
-	return { x = v.x, y = v.y, z = v.z }
-end
-
 local function delay(x)
 	return (function() return x end)
 end
@@ -53,7 +49,7 @@ local can_tool_dig_node = function(nodename, toolcaps, toolname)
 		-- but a player holding one can - the game seems to fall back to the hand.
 		-- fall back to checking the hand's properties if the tool isn't the correct one.
 		local hand_caps = minetest.registered_items[""].tool_capabilities
-		diggable = minetest.get_dig_params(nodegroups, hand_caps)
+		diggable = minetest.get_dig_params(nodegroups, hand_caps).diggable
 	end
 	return diggable
 end
@@ -366,7 +362,7 @@ if pipeworks.enable_node_breaker then
 							{pos=pointed_thing.under, gain=sound.gain})
 					end
 					wieldstack = virtplayer:get_wielded_item()
-				else
+				--~ else
 					--pipeworks.logger(dname.."couldn't dig node!")
 				end
 			end
@@ -391,7 +387,7 @@ if pipeworks.enable_node_breaker then
 	minetest.register_craft({
 		output = "pipeworks:nodebreaker_off",
 		recipe = {
-			{ "pipeworks:gear", "pipeworks:gear",   "pipeworks:gear"    },
+			{ "basic_materials:gear_steel", "basic_materials:gear_steel",   "basic_materials:gear_steel"    },
 			{ "default:stone", "mesecons:piston",   "default:stone" },
 			{ "group:wood",    "mesecons:mesecon",  "group:wood" },
 		}

@@ -8,7 +8,7 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
---items
+-- items
 
 minetest.register_craftitem("basic_materials:oil_extract", {
 	description = "Oil extract",
@@ -51,7 +51,7 @@ minetest.register_node("basic_materials:concrete_block", {
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "basic_materials:oil_extract 3",
+	output = "basic_materials:oil_extract 2",
 	recipe = {
 		"group:leaves",
 		"group:leaves",

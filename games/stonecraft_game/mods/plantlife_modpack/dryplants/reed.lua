@@ -6,7 +6,7 @@
 -- Dependencies:			default
 -----------------------------------------------------------------------------------------------
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("dryplants")
 
 minetest.register_alias("stairs:stair_wetreed",				"dryplants:wetreed_roof")
 minetest.register_alias("stairs:slab_wetreed",				"dryplants:wetreed_slab")

@@ -24,6 +24,10 @@ farming.register_hoe = function(name, def)
 		def.max_uses = 30
 	end
 
+	-- add hoe group
+	def.groups = def.groups or {}
+	def.groups.hoe = 1
+
 	-- Register the tool
 	minetest.register_tool(name, {
 		description = def.description,
@@ -32,7 +36,7 @@ farming.register_hoe = function(name, def)
 			return farming.hoe_on_use(itemstack, user, pointed_thing, def.max_uses)
 		end,
 		groups = def.groups,
-		sound = {breaks = "default_tool_breaks"},
+		sound = {breaks = "default_tool_breaks"}
 	})
 
 	-- Register its recipe
@@ -59,8 +63,9 @@ function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 
 	local pt = pointed_thing
 
-	-- check if pointing at a node
-	if not pt or pt.type ~= "node" then
+	-- am I going to hoe the top of a dirt node?
+	if not pt or pt.type ~= "node"
+	or pt.above.y ~= pt.under.y + 1 then
 		return
 	end
 
@@ -91,12 +96,24 @@ function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 		return
 	end
 
+	-- check if (wet) soil defined
+	local ndef = minetest.registered_nodes[under.name]
+	if ndef.soil == nil or ndef.soil.wet == nil or ndef.soil.dry == nil then
+		return
+	end
+
+	if minetest.is_protected(pt.under, user:get_player_name()) then
+		minetest.record_protection_violation(pt.under, user:get_player_name())
+		return
+	end
+
 	-- turn the node into soil, wear out item and play sound
-	minetest.set_node(pt.under, {name = "farming:soil"})
+	minetest.set_node(pt.under, {name = ndef.soil.dry})
 
 	minetest.sound_play("default_dig_crumbly", {pos = pt.under, gain = 0.5})
 
-	local wear = 65535 / (uses -1)
+	local wdef = itemstack:get_definition()
+	local wear = 65535 / (uses - 1)
 
 	if farming.is_creative(user:get_player_name()) then
 		if tr then
@@ -110,6 +127,11 @@ function farming.hoe_on_use(itemstack, user, pointed_thing, uses)
 		itemstack = toolranks.new_afteruse(itemstack, user, under, {wear = wear})
 	else
 		itemstack:add_wear(wear)
+	end
+
+	if itemstack:get_count() == 0 and wdef.sound and wdef.sound.breaks then
+		minetest.sound_play(wdef.sound.breaks, {pos = pt.above,
+			gain = 0.5}, true)
 	end
 
 	return itemstack
@@ -127,7 +149,7 @@ farming.register_hoe(":farming:hoe_wood", {
 minetest.register_craft({
 	type = "fuel",
 	recipe = "farming:hoe_wood",
-	burntime = 5,
+	burntime = 5
 })
 
 farming.register_hoe(":farming:hoe_stone", {
@@ -148,7 +170,7 @@ farming.register_hoe(":farming:hoe_bronze", {
 	description = S("Bronze Hoe"),
 	inventory_image = "farming_tool_bronzehoe.png",
 	max_uses = 500,
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = 1}
 })
 
 farming.register_hoe(":farming:hoe_mese", {
@@ -162,7 +184,7 @@ farming.register_hoe(":farming:hoe_diamond", {
 	description = S("Diamond Hoe"),
 	inventory_image = "farming_tool_diamondhoe.png",
 	max_uses = 500,
-	groups = {not_in_creative_inventory = 1},
+	groups = {not_in_creative_inventory = 1}
 })
 
 -- Toolranks support
@@ -234,7 +256,7 @@ minetest.register_entity("farming:hoebomb_entity", {
 	visual = "sprite",
 	visual_size = {x = 1.0, y = 1.0},
 	textures = {"farming_hoe_bomb.png"},
-	collisionbox = {0,0,0,0,0,0},
+	collisionbox = {-0.1,-0.1,-0.1,0.1,0.1,0.1},
 	lastpos = {},
 	player = "",
 
@@ -304,14 +326,13 @@ local function throw_potion(itemstack, player)
 		z = dir.z * -3
 	})
 
-	obj:setyaw(player:get_look_yaw() + math.pi)
 	obj:get_luaentity().player = player
 end
 
 
 -- hoe bomb item
 minetest.register_craftitem("farming:hoe_bomb", {
-	description = S("Hoe Bomb (use or throw on grassy areas to hoe land"),
+	description = S("Hoe Bomb (use or throw on grassy areas to hoe land)"),
 	inventory_image = "farming_hoe_bomb.png",
 	groups = {flammable = 2, not_in_creative_inventory = 1},
 	on_use = function(itemstack, user, pointed_thing)
@@ -340,20 +361,11 @@ farming.add_to_scythe_not_drops = function(item)
 end
 
 minetest.register_tool("farming:scythe_mithril", {
-	description = S("Mithril Scythe (Right-click crop to harvest and replant)"),
+	description = S("Mithril Scythe (Right-click to harvest and replant crops)"),
 	inventory_image = "farming_scythe_mithril.png",
-	tool_capabilities = {
-		full_punch_interval = 0.8,
-		max_drop_level = 2,
-		groupcaps = {
-			fleshy = {times = {[2] = 0.65, [3] = 0.25}, uses = 150, maxlevel = 2},
-			snappy = {times = {[2] = 0.70, [3] = 0.25}, uses = 150, maxlevel = 2},
-		},
-		damage_groups = {fleshy = 8},
-	},
 	sound = {breaks = "default_tool_breaks"},
 
-	on_place = function(itemstack, placer, pointed_thing)
+	on_use = function(itemstack, placer, pointed_thing)
 
 		if pointed_thing.type ~= "node" then
 			return
@@ -425,7 +437,7 @@ minetest.register_tool("farming:scythe_mithril", {
 					obj:set_velocity({
 						x = math.random(-10, 10) / 9,
 						y = 3,
-						z = math.random(-10, 10) / 9,
+						z = math.random(-10, 10) / 9
 					})
 				end
 			end
@@ -469,30 +481,34 @@ if minetest.get_modpath("moreores") then
 			{"", "", "group:stick"}
 		}
 	})
-
+--[[
 	farming.register_hoe(":moreores:hoe_silver", {
 		description = S("%s Hoe"):format(S("Silver")),
 		inventory_image = "moreores_tool_silverhoe.png",
 		max_uses = 300,
-		material = "moreores:silver_ingot",
+		material = "moreores:silver_ingot"
 	})
 
 	farming.register_hoe(":moreores:hoe_mithril", {
 		description = S("%s Hoe"):format(S("Mithril")),
 		inventory_image = "moreores_tool_mithrilhoe.png",
 		max_uses = 1000,
-		material = "moreores:mithril_ingot",
+		material = "moreores:mithril_ingot"
 	})
 
 	-- Toolranks support
 	if tr then
 
+		local desc = S("%s Hoe"):format(S("Silver"))
+
 		minetest.override_item("moreores:hoe_silver", {
-			original_description = S("%s Hoe"):format(S("Silver")),
-			description = toolranks.create_description("Silver Hoe")})
+			original_description = desc,
+			description = toolranks.create_description(desc)})
+
+		desc = S("%s Hoe"):format(S("Mithril"))
 
 		minetest.override_item("moreores:hoe_mithril", {
-			original_description = S("%s Hoe"):format(S("Mithril")),
-			description = toolranks.create_description("Mithril Hoe")})
-	end
+			original_description = desc,
+			description = toolranks.create_description(desc)})
+	end]]
 end

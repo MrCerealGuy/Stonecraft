@@ -31,7 +31,7 @@ index 8189ffd..afd4644 100644
 @@ -225,9 +225,12 @@ moretrees.ct_rules_b1 = "[-FBf][+FBf]"
  moretrees.ct_rules_a2 = "FF[FF][&&-FBF][&&+FBF][&&---FBF][&&+++FBF]F/A"
  moretrees.ct_rules_b2 = "[-fB][+fB]"
- 
+
 +local jleaves = 1
  function moretrees.grow_jungletree(pos)
         local r1 = math.random(2)
@@ -40,11 +40,11 @@ index 8189ffd..afd4644 100644
 +       jleaves = jleaves % 2 + 1
         if r1 == 1 then
                 moretrees.jungletree_model.leaves2 = "moretrees:jungletree_leaves_red"
-        else 
+        else
 @@ -235,6 +238,7 @@ function moretrees.grow_jungletree(pos)
         end
         moretrees.jungletree_model.leaves2_chance = math.random(25, 75)
- 
+
 +       r2=3
         if r2 == 1 then
                 moretrees.jungletree_model.trunk_type = "single"
@@ -62,7 +62,7 @@ minetest.register_chatcommand("make-scene", {
 		minetest.place_node({x=780, y=30, z=-276}, {name="default:obsidian"})
 
 		for z = -360, -300 do
-			dy=2
+			local dy=2
 			for x = 630 + (-z - 360)/3, 660 + (-z - 300)/3 do
 				for y = 5, 22 do
 					minetest.place_node({x=x, y=y, z=z}, {name="default:desert_stone"})

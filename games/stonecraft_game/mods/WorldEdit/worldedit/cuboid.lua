@@ -98,21 +98,6 @@ worldedit.marker_move = function(name, marker, deltavector)
 	return true
 end
 
--- Updates the location ingame of the markers
-worldedit.marker_update = function(name, marker)
-	if marker == nil then
-		worldedit.mark_pos1(name)
-		worldedit.mark_pos2(name)
-	elseif marker == 1 then
-		worldedit.mark_pos1(name)
-	elseif marker == 2 then
-		worldedit.mark_pos2(name)
-	else
-		minetest.debug(
-			"worldedit: Invalid execution of function update_markers")
-	end
-end
-
 
 -- Returns two vectors with the directions for volumetric expansion
 worldedit.get_expansion_directions = function(mark1, mark2)
@@ -149,7 +134,7 @@ end
 
 -- Return the marker that is closest to the player
 worldedit.marker_get_closest_to_player = function(name)
-	local playerpos = minetest.get_player_by_name(name):getpos()
+	local playerpos = minetest.get_player_by_name(name):get_pos()
 	local dist1 = vector.distance(playerpos, worldedit.pos1[name])
 	local dist2 = vector.distance(playerpos, worldedit.pos2[name])
 	

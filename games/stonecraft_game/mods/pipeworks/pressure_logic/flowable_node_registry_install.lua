@@ -26,8 +26,8 @@ local insertbase = function(nodename)
 end
 
 local regwarning = function(kind, nodename)
-	local tail = ""
-	if pipeworks.toggles.pipe_mode ~= "pressure" then tail = " but pressure logic not enabled" end
+	--~ local tail = ""
+	--~ if pipeworks.toggles.pipe_mode ~= "pressure" then tail = " but pressure logic not enabled" end
 	--pipeworks.logger(kind.." flow logic registry requested for "..nodename..tail)
 end
 
@@ -106,7 +106,7 @@ register.directional_horizonal_rotate = function(nodename, doubleended)
 	end
 	local directionfn = function(node, direction)
 		local result = false
-		for index, endvec in ipairs(getends(node)) do
+		for _, endvec in ipairs(getends(node)) do
 			if vector.equals(direction, endvec) then result = true end
 		end
 		return result

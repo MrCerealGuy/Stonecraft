@@ -1,34 +1,35 @@
-#    Enables swamps mapgen
+#    Enable swamps mapgen
 sumpf.enable_mapgen (enable mapgen) bool true
 
-#    Generate swamps everywhere
+#    Generate swamps everywhere and not just in a few biomes
 sumpf.always_generate (always generate) bool false
 
-#    Enables smooth transition of biomes.
+#    Enable smooth transition of biomes
 sumpf.smooth (smooth transitions) bool true
 
-#    Disable for testing
+#    Generate plants; this is usually disabled only for testing
 sumpf.enable_plants (enable plants) bool true
 
-#    Enables swampwater - it might be a bit buggy with mapgen v6.
+#    Enable swampwater; it might be a bit buggy with mapgen v6
 sumpf.swampwater (swampwater) bool true
 
-#    adds swampwater near sea (different behaviour)
+#    Add swampwater near sea (different behaviour than on land)
 sumpf.wet_beaches (wet beaches) bool true
 
-#    chance of spawning a hut in a mapchunk, set to 0 to disable it
-sumpf.hut_chance (hut chance) float 50
+#    Chance of spawning a hut in a mapchunk, set to 0 to disable it.
+#    If enabled, a hut spawns with probability 1/k, where k is the value of this
+#    setting, i.e. 1 means always spawn a hut, 2 means every second time, etc.
+sumpf.hut_chance (hut chance) int 50
 
-#    habitat stuff
+#    Use the habitat mod to spawn some plants outside of swamp biomes
 sumpf.spawn_plants (spawn plants) bool true
 
-#    says some information.
-sumpf.info (inform) bool true
+#    If enabled, show log messages in the chat and not only in debug.txt
+sumpf.log_to_chat (inform everyone) bool false
 
-#    informs the players too
-sumpf.inform_all (inform everyone) bool false
-
-#    1:<a bit of information>
-#    2:<acceptable amount of information>
-#    3:<lots of text>
-sumpf.max_spam (max spam) int 2 1 3
+#    Specify how much text is printed for debugging purposes
+#    0: Disabled
+#    1: A bit of information
+#    2: Acceptable amount of information
+#    3: Lots of text
+sumpf.log_level (max spam) int 2 1 3

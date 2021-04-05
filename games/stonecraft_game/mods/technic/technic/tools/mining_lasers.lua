@@ -55,7 +55,7 @@ local function laser_node(pos, node, player)
 		})
 		return
 	end
-	minetest.node_dig(pos, node, player)
+	def.on_dig(pos, node, player)
 end
 
 local keep_node = {air = true}
@@ -68,7 +68,7 @@ local function can_keep_node(name)
 end
 
 local function laser_shoot(player, range, particle_texture, sound)
-	local player_pos = player:getpos()
+	local player_pos = player:get_pos()
 	local player_name = player:get_player_name()
 	local dir = player:get_look_dir()
 

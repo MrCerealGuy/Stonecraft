@@ -102,7 +102,13 @@ mobs:register_mob("mobs_npc:igor", {
 		if self.owner and self.owner == name then
 
 			if self.order == "follow" then
+
+				self.attack = nil
 				self.order = "stand"
+				self.state = "stand"
+				self:set_animation("stand")
+				self:set_velocity(0)
+
 				minetest.chat_send_player(name, S("NPC stands still."))
 			else
 				self.order = "follow"

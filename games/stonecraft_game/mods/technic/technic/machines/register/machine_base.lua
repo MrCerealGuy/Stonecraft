@@ -13,22 +13,26 @@ local S, NS = dofile(MP.."/intllib.lua")
 local fs_helpers = pipeworks.fs_helpers
 local tube_entry = "^pipeworks_tube_connection_metallic.png"
 
-local tube = {
-	insert_object = function(pos, node, stack, direction)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return inv:add_item("src", stack)
-	end,
-	can_insert = function(pos, node, stack, direction)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if meta:get_int("splitstacks") == 1 then
-			stack = stack:peek_item(1)
-		end
-		return inv:room_for_item("src", stack)
-	end,
-	connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
-}
+function technic.default_can_insert(pos, node, stack, direction)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	if meta:get_int("splitstacks") == 1 then
+		stack = stack:peek_item(1)
+	end
+	return inv:room_for_item("src", stack)
+end
+
+function technic.new_default_tube()
+	return {
+		insert_object = function(pos, node, stack, direction)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return inv:add_item("src", stack)
+		end,
+		can_insert = technic.default_can_insert,
+		connect_sides = {left = 1, right = 1, back = 1, top = 1, bottom = 1},
+	}
+end
 
 local connect_default = {"bottom", "back", "left", "right"}
 
@@ -43,6 +47,8 @@ function technic.register_base_machine(data)
 	local machine_desc = data.machine_desc
 	local tier = data.tier
 	local ltier = string.lower(tier)
+
+	data.modname = data.modname or minetest.get_current_modname()
 
 	local groups = {cracky = 2, technic_machine = 1, ["technic_"..ltier] = 1}
 	if data.tube then
@@ -73,13 +79,21 @@ function technic.register_base_machine(data)
 			"listring[current_player;main]"
 	end
 
+	local tube = technic.new_default_tube()
+	if data.can_insert then
+		tube.can_insert = data.can_insert
+	end
+	if data.insert_object then
+		tube.insert_object = data.insert_object
+	end
+
 	local run = function(pos, node)
 		local meta     = minetest.get_meta(pos)
 		local inv      = meta:get_inventory()
 		local eu_input = meta:get_int(tier.."_EU_input")
 
 		local machine_desc_tier = machine_desc:format(tier)
-		local machine_node      = "technic:"..ltier.."_"..machine_name
+		local machine_node      = data.modname..":"..ltier.."_"..machine_name
 		local machine_demand    = data.demand
 
 		-- Setup meta data if it does not exist.
@@ -153,15 +167,16 @@ function technic.register_base_machine(data)
 	if ltier == "lv" then
 		tentry = ""
 	end
-	minetest.register_node("technic:"..ltier.."_"..machine_name, {
+
+	minetest.register_node(data.modname..":"..ltier.."_"..machine_name, {
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_front.png"
+			data.modname.."_"..ltier.."_"..machine_name.."_top.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_front.png"
 		},
 		paramtype2 = "facedir",
 		groups = groups,
@@ -203,9 +218,10 @@ function technic.register_base_machine(data)
 		after_place_node = data.tube and pipeworks.after_place,
 		after_dig_node = technic.machine_after_dig_node,
 		on_receive_fields = function(pos, formname, fields, sender)
-			local node = minetest.get_node(pos)
+			if fields.quit then return end
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
+			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
 			local form_buttons = ""
 			if not string.find(node.name, ":lv_") then
@@ -223,18 +239,18 @@ function technic.register_base_machine(data)
 		end,
 	})
 
-	minetest.register_node("technic:"..ltier.."_"..machine_name.."_active",{
+	minetest.register_node(data.modname..":"..ltier.."_"..machine_name.."_active",{
 		description = machine_desc:format(tier),
 		tiles = {
-			"technic_"..ltier.."_"..machine_name.."_top.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_side.png"..tentry,
-			"technic_"..ltier.."_"..machine_name.."_front_active.png"
+			data.modname.."_"..ltier.."_"..machine_name.."_top.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_bottom.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_side.png"..tentry,
+			data.modname.."_"..ltier.."_"..machine_name.."_front_active.png"
 		},
 		paramtype2 = "facedir",
-		drop = "technic:"..ltier.."_"..machine_name,
+		drop = data.modname..":"..ltier.."_"..machine_name,
 		groups = active_groups,
 		connect_sides = data.connect_sides or connect_default,
 		legacy_facedir_simple = true,
@@ -245,11 +261,12 @@ function technic.register_base_machine(data)
 		allow_metadata_inventory_take = technic.machine_inventory_take,
 		allow_metadata_inventory_move = technic.machine_inventory_move,
 		technic_run = run,
-		technic_disabled_machine_name = "technic:"..ltier.."_"..machine_name,
+		technic_disabled_machine_name = data.modname..":"..ltier.."_"..machine_name,
 		on_receive_fields = function(pos, formname, fields, sender)
-			local node = minetest.get_node(pos)
+			if fields.quit then return end
 			if not pipeworks.may_configure(pos, sender) then return end
 			fs_helpers.on_receive_fields(pos, fields)
+			local node = minetest.get_node(pos)
 			local meta = minetest.get_meta(pos)
 			local form_buttons = ""
 			if not string.find(node.name, ":lv_") then
@@ -267,8 +284,8 @@ function technic.register_base_machine(data)
 		end,
 	})
 
-	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name,            technic.receiver)
-	technic.register_machine(tier, "technic:"..ltier.."_"..machine_name.."_active", technic.receiver)
+	technic.register_machine(tier, data.modname..":"..ltier.."_"..machine_name,            technic.receiver)
+	technic.register_machine(tier, data.modname..":"..ltier.."_"..machine_name.."_active", technic.receiver)
 
 end -- End registration
 

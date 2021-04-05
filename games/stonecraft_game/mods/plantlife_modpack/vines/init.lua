@@ -6,14 +6,14 @@ vines = {
 local enable_roots = minetest.settings:get_bool("vines_enable_roots")
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("vines")
 
 -- ITEMS
 
 minetest.register_craftitem("vines:vines", {
 	description = S("Vines"),
 	inventory_image = "vines_item.png",
-	group = {vines = 1, flammable = 2}
+	groups = {vines = 1, flammable = 2}
 })
 
 -- FUNCTIONS
@@ -410,4 +410,4 @@ vines.register_vine( 'willow',
 })
 
 
-print(S("[Vines] Loaded!"))
+print("[Vines] Loaded!")

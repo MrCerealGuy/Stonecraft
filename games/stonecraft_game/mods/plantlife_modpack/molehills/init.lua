@@ -11,7 +11,7 @@ abstract_molehills = {}
 dofile(minetest.get_modpath("molehills").."/molehills_settings.txt")
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("molehills")
 -----------------------------------------------------------------------------------------------
 -- NoDe
 -----------------------------------------------------------------------------------------------
@@ -76,5 +76,5 @@ biome_lib:register_generate_plant({
 )
 
 -----------------------------------------------------------------------------------------------
-print("[Mod] "..title.." ["..version.."] ["..mname.."]"..S("Loaded..."))
+print("[Mod] "..title.." ["..version.."] ["..mname.."]".."Loaded...")
 -----------------------------------------------------------------------------------------------

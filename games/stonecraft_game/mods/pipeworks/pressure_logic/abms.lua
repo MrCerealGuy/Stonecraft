@@ -29,7 +29,7 @@ end
 
 
 
-local formatvec = function(vec) local sep="," return "("..tostring(vec.x)..sep..tostring(vec.y)..sep..tostring(vec.z)..")" end
+--~ local formatvec = function(vec) local sep="," return "("..tostring(vec.x)..sep..tostring(vec.y)..sep..tostring(vec.z)..")" end
 
 
 
@@ -39,7 +39,7 @@ local formatvec = function(vec) local sep="," return "("..tostring(vec.x)..sep..
 local check_for_liquids_v2 = function(pos, limit)
 	local coords = make_coords_offsets(pos, false)
 	local total = 0
-	for index, tpos in ipairs(coords) do
+	for _, tpos in ipairs(coords) do
 		if total >= limit then break end
 		local name = minetest.get_node(tpos).name
 		if name == "default:water_source" then
@@ -69,11 +69,13 @@ end
 
 
 -- logging is unreliable when something is crashing...
+--[[
 local nilexplode = function(caller, label, value)
 	if value == nil then
 		error(caller..": "..label.." was nil")
 	end
 end
+--]]
 
 
 
@@ -151,7 +153,7 @@ local get_neighbour_positions = function(pos, node)
 
 	-- then, check each possible neighbour to see if they can be reached from this node.
 	local connections = {}
-	for index, offset in ipairs(candidates) do
+	for _, offset in ipairs(candidates) do
 		local npos = vector.add(pos, offset)
 		local neighbour = minetest.get_node(npos)
 		local nodename = neighbour.name
@@ -185,13 +187,12 @@ flowlogic.balance_pressure = function(pos, node, currentpressure)
 	-- local dname = "flowlogic.balance_pressure()@"..formatvec(pos).." "
 	-- check the pressure of all nearby flowable nodes, and average it out.
 
-	-- pressure handles to average over
-	local connections = {}
 	-- unconditionally include self in nodes to average over.
 	-- result of averaging will be returned as new pressure for main flow logic callback
 	local totalv = currentpressure
 	local totalc = 1
 
+	-- pressure handles to average over
 	local connections = get_neighbour_positions(pos, node)
 
 	-- for each neighbour, add neighbour's pressure to the total to balance out
@@ -287,7 +288,7 @@ flowlogic.run_output = function(pos, node, currentpressure, oldpressure, outputd
 	local upper = outputdef.upper
 	local lower = outputdef.lower
 	local result = currentpressure
-	local threshold = nil
+	local threshold
 	if finitemode then threshold = lower else threshold = upper end
 	if currentpressure > threshold then
 		local takenpressure = outputdef.outputfn(pos, node, currentpressure, finitemode)
@@ -316,7 +317,7 @@ flowlogic.run_transition = function(node, currentpressure)
 		local nodename_prev = simplesetdef[1].nodename
 		local result_nodename = node.name
 
-		for index, element in ipairs(simplesetdef) do
+		for _, element in ipairs(simplesetdef) do
 			-- find the highest element that is below the current pressure.
 			local threshold = element.threshold
 			if threshold > currentpressure then
@@ -338,7 +339,9 @@ flowlogic.run_transition = function(node, currentpressure)
 	end
 
 	if not found then
-		pipeworks.logger("flowlogic.run_transition() BUG no transition definitions found! nodename="..nodename.." currentpressure="..tostring(currentpressure))
+		pipeworks.logger("flowlogic.run_transition() BUG no transition " ..
+			"definitions found! node.name=" .. node.name ..
+			" currentpressure=" .. tostring(currentpressure))
 	end
 
 	return result

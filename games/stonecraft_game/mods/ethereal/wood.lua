@@ -297,3 +297,31 @@ minetest.register_craft({
 	recipe = "ethereal:bamboo",
 	burntime = 1,
 })
+
+-- olive trunk
+minetest.register_node("ethereal:olive_trunk", {
+	description = S("Olive Trunk"),
+	tiles = {
+		"olive_trunk_top.png",
+		"olive_trunk_top.png",
+		"olive_trunk.png"
+	},
+	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+	paramtype2 = "facedir",
+	on_place = minetest.rotate_node,
+})
+
+-- olive wood
+minetest.register_node("ethereal:olive_wood", {
+	description = S("Olive Wood"),
+	tiles = {"olive_wood.png"},
+	is_ground_content = false,
+	groups = {wood = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 3},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "ethereal:olive_wood 4",
+	recipe = {{"ethereal:olive_trunk"}}
+})

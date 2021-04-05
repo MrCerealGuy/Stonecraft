@@ -7,7 +7,7 @@ local mname		= "woodsoils" -- former "forestsoils"
 abstract_woodsoils = {}
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("woodsoils")
 
 dofile(minetest.get_modpath("woodsoils").."/nodes.lua")
 dofile(minetest.get_modpath("woodsoils").."/generating.lua")

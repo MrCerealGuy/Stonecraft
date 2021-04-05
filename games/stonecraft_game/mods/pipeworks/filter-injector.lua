@@ -11,14 +11,10 @@ local S, NS = dofile(MP.."/intllib.lua")
 
 local fs_helpers = pipeworks.fs_helpers
 
-local function delay(x)
-	return (function() return x end)
-end
-
 local function set_filter_infotext(data, meta)
 	local infotext = S("@1 Filter-Injector", data.wise_desc)
 	if meta:get_int("slotseq_mode") == 2 then
-		infotext = infotext .. " (slot #"..meta:get_int("slotseq_index").." next)"
+		infotext = infotext .. " "..S("(slot #@1 next)", meta:get_int("slotseq_index"))
 	end
 	meta:set_string("infotext", infotext)
 end
@@ -31,27 +27,27 @@ local function set_filter_formspec(data, meta)
 		formspec = "size[8,2.7]"..
 			"item_image[0,0;1,1;pipeworks:"..data.name.."]"..
 			"label[1,0;"..minetest.formspec_escape(itemname).."]"..
-			"field[0.3,1.5;8.0,1;channel;Channel;${channel}]"..
+			"field[0.3,1.5;8.0,1;channel;"..S("Channel")..";${channel}]"..
 			fs_helpers.cycling_button(meta, "button[0,2;4,1", "slotseq_mode",
 				{S("Sequence slots by Priority"),
 				 S("Sequence slots Randomly"),
 				 S("Sequence slots by Rotation")})..
 			fs_helpers.cycling_button(meta, "button[4,2;4,1", "exmatch_mode",
 				{S("Exact match - off"),
-				 S("Exact match - on ")})
+				 S("Exact match - on")})
 	else
 		local exmatch_button = ""
 		if data.stackwise then
 			exmatch_button =
 				fs_helpers.cycling_button(meta, "button[4,3.5;4,1", "exmatch_mode",
 					{S("Exact match - off"),
-					 S("Exact match - on ")})
+					 S("Exact match - on")})
 		end
 
 		formspec = "size[8,8.5]"..
 			"item_image[0,0;1,1;pipeworks:"..data.name.."]"..
 			"label[1,0;"..minetest.formspec_escape(itemname).."]"..
-			"label[0,1;Prefer item types:]"..
+			"label[0,1;"..S("Prefer item types:").."]"..
 			"list[context;main;0,1.5;8,2;]"..
 			fs_helpers.cycling_button(meta, "button[0,3.5;4,1", "slotseq_mode",
 				{S("Sequence slots by Priority"),
@@ -62,116 +58,6 @@ local function set_filter_formspec(data, meta)
 			"listring[]"
 	end
 	meta:set_string("formspec", formspec)
-end
-
--- todo SOON: this function has *way too many* parameters
-local function grabAndFire(data,slotseq_mode,exmatch_mode,filtmeta,frominv,frominvname,frompos,fromnode,filterfor,fromtube,fromdef,dir,fakePlayer,all,digiline)
-	local sposes = {}
-	if not frominvname or not frominv:get_list(frominvname) then return end
-	for spos,stack in ipairs(frominv:get_list(frominvname)) do
-		local matches
-		if filterfor == "" then
-			matches = stack:get_name() ~= ""
-		else
-			local fname = filterfor.name
-			local fgroup = filterfor.group
-			local fwear = filterfor.wear
-			local fmetadata = filterfor.metadata
-			matches = (not fname                                             -- If there's a name filter,
-			           or stack:get_name() == fname)                         --  it must match.
-
-			          and (not fgroup                                        -- If there's a group filter,
-			               or (type(fgroup) == "string"                      --  it must be a string
-			                   and minetest.get_item_group(                  --  and it must match.
-			                                stack:get_name(), fgroup) ~= 0))
-
-			          and (not fwear                                         -- If there's a wear filter:
-			               or (type(fwear) == "number"                       --  If it's a number,
-			                   and stack:get_wear() == fwear)                --   it must match.
-			               or (type(fwear) == "table"                        --  If it's a table:
-			                   and (not fwear[1]                             --   If there's a lower bound,
-			                        or (type(fwear[1]) == "number"           --    it must be a number
-			                            and fwear[1] <= stack:get_wear()))   --    and it must be <= the actual wear.
-			                   and (not fwear[2]                             --   If there's an upper bound
-			                        or (type(fwear[2]) == "number"           --    it must be a number
-			                            and stack:get_wear() < fwear[2]))))  --    and it must be > the actual wear.
-			                                                                 --  If the wear filter is of any other type, fail.
-			                                                                 --
-			          and (not fmetadata                                     -- If there's a matadata filter,
-			               or (type(fmetadata) == "string"                   --  it must be a string
-			                   and stack:get_metadata() == fmetadata))       --  and it must match.
-		end
-		if matches then table.insert(sposes, spos) end
-	end
-	if #sposes == 0 then return false end
-	if slotseq_mode == 1 then
-		for i = #sposes, 2, -1 do
-			local j = math.random(i)
-			local t = sposes[j]
-			sposes[j] = sposes[i]
-			sposes[i] = t
-		end
-	elseif slotseq_mode == 2 then
-		local headpos = filtmeta:get_int("slotseq_index")
-		table.sort(sposes, function (a, b)
-			if a >= headpos then
-				if b < headpos then return true end
-			else
-				if b >= headpos then return false end
-			end
-			return a < b
-		end)
-	end
-	for _, spos in ipairs(sposes) do
-			local stack = frominv:get_stack(frominvname, spos)
-			local doRemove = stack:get_count()
-			if fromtube.can_remove then
-				doRemove = fromtube.can_remove(frompos, fromnode, stack, dir, frominvname, spos)
-			elseif fromdef.allow_metadata_inventory_take then
-				doRemove = fromdef.allow_metadata_inventory_take(frompos, frominvname,spos, stack, fakePlayer)
-			end
-			-- stupid lack of continue statements grumble
-			if doRemove > 0 then
-				if slotseq_mode == 2 then
-					local nextpos = spos + 1
-					if nextpos > frominv:get_size(frominvname) then
-						nextpos = 1
-					end
-					filtmeta:set_int("slotseq_index", nextpos)
-					set_filter_infotext(data, filtmeta)
-				end
-				local item
-				local count
-				if all then
-					count = math.min(stack:get_count(), doRemove)
-					if filterfor.count and (filterfor.count > 1 or digiline) then
-						if exmatch_mode ~= 0 and filterfor.count > count then
-							return false -- not enough, fail
-						else
-							-- limit quantity to filter amount
-							count = math.min(filterfor.count, count)
-						end
-					end
-				else
-					count = 1
-				end
-				if fromtube.remove_items then
-					-- it could be the entire stack...
-					item = fromtube.remove_items(frompos, fromnode, stack, dir, count, frominvname, spos)
-				else
-					item = stack:take_item(count)
-					frominv:set_stack(frominvname, spos, stack)
-					if fromdef.on_metadata_inventory_take then
-						fromdef.on_metadata_inventory_take(frompos, frominvname, spos, item, fakePlayer)
-					end
-				end
-				local pos = vector.add(frompos, vector.multiply(dir, 1.4))
-				local start_pos = vector.add(frompos, dir)
-				local item1 = pipeworks.tube_inject_item(pos, start_pos, dir, item, fakePlayer:get_player_name())
-				return true-- only fire one item, please
-			end
-	end
-	return false
 end
 
 local function punch_filter(data, filtpos, filtnode, msg)
@@ -189,8 +75,6 @@ local function punch_filter(data, filtpos, filtnode, msg)
 	if not fromdef then return end
 	local fromtube = fromdef.tube
 	local input_special_cases = {
-		["technic:mv_furnace"] = "dst",
-		["technic:mv_furnace_active"] = "dst",
 		["technic:mv_electric_furnace"] = "dst",
 		["technic:mv_electric_furnace_active"] = "dst",
 		["technic:mv_alloy_furnace"] = "dst",
@@ -205,7 +89,13 @@ local function punch_filter(data, filtpos, filtnode, msg)
 		["technic:mv_grinder_active"] = "dst",
 		["technic:tool_workshop"] = "src",
 		["technic:mv_freezer"] = "dst",
-		["technic:mv_freezer_active"] = "dst"
+		["technic:mv_freezer_active"] = "dst",
+		["technic:hv_electric_furnace"] = "dst",
+		["technic:hv_electric_furnace_active"] = "dst",
+		["technic:hv_compressor"] = "dst",
+		["technic:hv_compressor_active"] = "dst",
+		["technic:hv_grinder"] = "dst",
+		["technic:hv_grinder_active"] = "dst"
 	}
 
 	-- make sure there's something appropriate to inject the item into
@@ -225,7 +115,7 @@ local function punch_filter(data, filtpos, filtnode, msg)
 	if not (fromtube and fromtube.input_inventory) then return end
 
 	local slotseq_mode
-	local exact_match
+	local exmatch_mode
 
 	local filters = {}
 	if data.digiline then
@@ -262,10 +152,10 @@ local function punch_filter(data, filtpos, filtnode, msg)
 
 			local exmatch = msg.exmatch
 			local t_exmatch = type(exmatch)
-			if t_exmatch == "number" and exmatch >= 0 and exmatch <= 1 then
-				exact_match = exmatch
+			if t_exmatch == "number" and (exmatch == 0 or exmatch == 1) then
+				exmatch_mode = exmatch
 			elseif t_exmatch == "boolean" then
-				exact_match = exmatch and 1 or 0
+				exmatch_mode = exmatch and 1 or 0
 			end
 
 			local slotseq_index = msg.slotseq_index
@@ -282,11 +172,11 @@ local function punch_filter(data, filtpos, filtnode, msg)
 				filtmeta:set_int("slotseq_mode", slotseq_mode)
 			end
 
-			if exact_match ~= nil then
-				filtmeta:set_int("exmatch_mode", exact_match)
+			if exmatch_mode ~= nil then
+				filtmeta:set_int("exmatch_mode", exmatch_mode)
 			end
 
-			if slotseq_mode ~= nil or exact_match ~= nil then
+			if slotseq_mode ~= nil or exmatch_mode ~= nil then
 				set_filter_formspec(data, filtmeta)
 			end
 
@@ -324,8 +214,8 @@ local function punch_filter(data, filtpos, filtnode, msg)
 		slotseq_mode = filtmeta:get_int("slotseq_mode")
 	end
 
-	if exact_match == nil then
-		exact_match = filtmeta:get_int("exmatch_mode")
+	if exmatch_mode == nil then
+		exmatch_mode = filtmeta:get_int("exmatch_mode")
 	end
 
 	local frominv
@@ -339,10 +229,121 @@ local function punch_filter(data, filtpos, filtnode, msg)
 		frominv = frommeta:get_inventory()
 	end
 	if fromtube.before_filter then fromtube.before_filter(frompos) end
+
+	local function grabAndFire(frominvname, filterfor)
+		local sposes = {}
+		if not frominvname or not frominv:get_list(frominvname) then return end
+		for spos,stack in ipairs(frominv:get_list(frominvname)) do
+			local matches
+			if filterfor == "" then
+				matches = stack:get_name() ~= ""
+			else
+				local fname = filterfor.name
+				local fgroup = filterfor.group
+				local fwear = filterfor.wear
+				local fmetadata = filterfor.metadata
+				matches = (not fname                                             -- If there's a name filter,
+				           or stack:get_name() == fname)                         --  it must match.
+
+				          and (not fgroup                                        -- If there's a group filter,
+				               or (type(fgroup) == "string"                      --  it must be a string
+				                   and minetest.get_item_group(                  --  and it must match.
+				                                stack:get_name(), fgroup) ~= 0))
+
+				          and (not fwear                                         -- If there's a wear filter:
+				               or (type(fwear) == "number"                       --  If it's a number,
+				                   and stack:get_wear() == fwear)                --   it must match.
+				               or (type(fwear) == "table"                        --  If it's a table:
+				                   and (not fwear[1]                             --   If there's a lower bound,
+				                        or (type(fwear[1]) == "number"           --    it must be a number
+				                            and fwear[1] <= stack:get_wear()))   --    and it must be <= the actual wear.
+				                   and (not fwear[2]                             --   If there's an upper bound
+				                        or (type(fwear[2]) == "number"           --    it must be a number
+				                            and stack:get_wear() < fwear[2]))))  --    and it must be > the actual wear.
+				                                                                 --  If the wear filter is of any other type, fail.
+
+				          and (not fmetadata                                     -- If there's a metadata filter,
+				               or (type(fmetadata) == "string"                   --  it must be a string
+				                   and stack:get_metadata() == fmetadata))       --  and it must match.
+			end
+			if matches then table.insert(sposes, spos) end
+		end
+		if #sposes == 0 then return false end
+		if slotseq_mode == 1 then
+			for i = #sposes, 2, -1 do
+				local j = math.random(i)
+				local t = sposes[j]
+				sposes[j] = sposes[i]
+				sposes[i] = t
+			end
+		elseif slotseq_mode == 2 then
+			local headpos = filtmeta:get_int("slotseq_index")
+			table.sort(sposes, function (a, b)
+				if a >= headpos then
+					if b < headpos then return true end
+				else
+					if b >= headpos then return false end
+				end
+				return a < b
+			end)
+		end
+		for _, spos in ipairs(sposes) do
+			local stack = frominv:get_stack(frominvname, spos)
+			local doRemove = stack:get_count()
+			if fromtube.can_remove then
+				doRemove = fromtube.can_remove(frompos, fromnode, stack, dir, frominvname, spos)
+			elseif fromdef.allow_metadata_inventory_take then
+				doRemove = fromdef.allow_metadata_inventory_take(frompos, frominvname,spos, stack, fakePlayer)
+			end
+			-- stupid lack of continue statements grumble
+			if doRemove > 0 then
+				if slotseq_mode == 2 then
+					local nextpos = spos + 1
+					if nextpos > frominv:get_size(frominvname) then
+						nextpos = 1
+					end
+					filtmeta:set_int("slotseq_index", nextpos)
+					set_filter_infotext(data, filtmeta)
+				end
+				local item
+				local count
+				if data.stackwise then
+					count = math.min(stack:get_count(), doRemove)
+					if filterfor.count and (filterfor.count > 1 or data.digiline) then
+						if exmatch_mode ~= 0 and filterfor.count > count then
+							return false -- not enough, fail
+						else
+							-- limit quantity to filter amount
+							count = math.min(filterfor.count, count)
+						end
+					end
+				else
+					count = 1
+				end
+				if fromtube.remove_items then
+					-- it could be the entire stack...
+					item = fromtube.remove_items(frompos, fromnode, stack, dir, count, frominvname, spos)
+				else
+					item = stack:take_item(count)
+					frominv:set_stack(frominvname, spos, stack)
+					if fromdef.on_metadata_inventory_take then
+						fromdef.on_metadata_inventory_take(frompos, frominvname, spos, item, fakePlayer)
+					end
+				end
+				local pos = vector.add(frompos, vector.multiply(dir, 1.4))
+				local start_pos = vector.add(frompos, dir)
+				pipeworks.tube_inject_item(pos, start_pos, dir, item,
+					fakePlayer:get_player_name())
+				return true -- only fire one item, please
+			end
+		end
+		return false
+	end
+
 	for _, frominvname in ipairs(type(fromtube.input_inventory) == "table" and fromtube.input_inventory or {fromtube.input_inventory}) do
 		local done = false
 		for _, filterfor in ipairs(filters) do
-			if grabAndFire(data, slotseq_mode, exact_match, filtmeta, frominv, frominvname, frompos, fromnode, filterfor, fromtube, fromdef, dir, fakePlayer, data.stackwise, data.digiline) then
+			if grabAndFire(frominvname, filterfor) then
 				done = true
 				break
 			end

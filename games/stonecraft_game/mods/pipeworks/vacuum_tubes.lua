@@ -55,7 +55,7 @@ if pipeworks.enable_mese_sand_tube then
 							"field[1.3,0.4;1,1;dist;radius;${dist}]"..
 							default.gui_bg..
 							default.gui_bg_img)
-					meta:set_string("infotext", "Adjustable Vacuuming Pneumatic Tube Segment")
+					meta:set_string("infotext", S("Adjustable Vacuuming Pneumatic Tube Segment"))
 				end,
 				on_receive_fields = function(pos,formname,fields,sender)
 					if not pipeworks.may_configure(pos, sender) then return end
@@ -65,7 +65,7 @@ if pipeworks.enable_mese_sand_tube then
 						dist = math.max(0, dist)
 						dist = math.min(8, dist)
 						meta:set_int("dist", dist)
-						meta:set_string("infotext", S("Adjustable Vacuuming Pneumatic Tube Segment (@1m)", dist))
+						meta:set_string("infotext", (S("Adjustable Vacuuming Pneumatic Tube Segment (@1m)", dist)))
 					end
 				end,
 			},

@@ -39,3 +39,16 @@ mapgen_helper.intersect_exists_xz = function(minpos1, maxpos1, minpos2, maxpos2)
 	return (minpos1.x <= maxpos2.x and maxpos1.x >= minpos2.x and
 		minpos1.z <= maxpos2.z and maxpos1.z >= minpos2.z)
 end
+
+-- Simply tests whether pos is within the bounding box defined by minpos and maxpos
+local intersect_exists = mapgen_helper.intersect_exists
+mapgen_helper.is_pos_within_box = function(pos, minpos, maxpos)
+	return intersect_exists(pos, pos, minpos, maxpos)
+end
+
+-- Tests whether box 1 is entirely contained within box 2
+mapgen_helper.is_box_within_box = function(minpos1, maxpos1, minpos2, maxpos2)
+	return (minpos1.x >= minpos2.x and maxpos1.x <= maxpos2.x and
+		minpos1.z >= minpos2.z and maxpos1.z <= maxpos2.z and
+		minpos1.y >= minpos2.y and maxpos1.y <= maxpos2.y)
+end

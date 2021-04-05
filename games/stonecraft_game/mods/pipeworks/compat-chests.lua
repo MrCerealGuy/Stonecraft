@@ -65,7 +65,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 				local node = minetest.get_node(pos)
 
 				open_chests[pn] = nil
-				for k, v in pairs(open_chests) do
+				for _, v in pairs(open_chests) do
 					if v.pos.x == pos.x and v.pos.y == pos.y and v.pos.z == pos.z then
 						return true
 					end
@@ -77,10 +77,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					pipeworks.after_place(pos)
 				end)
 				minetest.sound_play(sound, {gain = 0.3, pos = pos, max_hear_distance = 10})
-			end
-
-			-- Pipeworks Switch
-			if pipeworks.may_configure(pos, player) and not fields.quit then
+			elseif pipeworks.may_configure(pos, player) then
+				-- Pipeworks Switch
 				fs_helpers.on_receive_fields(pos, fields)
 				minetest.show_formspec(player:get_player_name(), "pipeworks:chest_formspec", get_chest_formspec(pos))
 			end
@@ -232,7 +230,7 @@ override.tiles = {
 }
 
 -- Add the extra groups
-for i,v in ipairs({override_protected, override, override_open, override_protected_open}) do
+for _,v in ipairs({override_protected, override, override_open, override_protected_open}) do
 	v.groups.tubedevice = 1
 	v.groups.tubedevice_receiver = 1
 end

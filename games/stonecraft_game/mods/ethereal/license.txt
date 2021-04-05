@@ -19,3 +19,42 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+Textures by Felfa (CC0)
+  olive*.png
+  lemon*.png
+
+Free textures from JMArtsDesign edited by myself:
+  ethereal_lemonade.png
+
+Free textures from Altairas on DeviantArt
+  ethereal_fish_chichlid.png
+  ethereal_fish_cooked.png
+
+Free textures from epicwannehz on DeviantArt
+  ethereal_fish_bluefin.png
+  ethereal_fish_blueram.png
+  ethereal_fish_catfish.png
+  ethereal_fish_clownfish.png
+  ethereal_fish_flathead.png
+  ethereal_fish_pike.png
+  ethereal_fish_plaice.png
+  ethereal_fish_pufferfish.png
+  ethereal_fish_redsnapper.png
+  ethereal_fish_salmon.png
+  ethereal_fish_trout.png
+  ethereal_fish_piranha.png
+  ethereal_fish_angler.png
+  ethereal_fish_jellyfish.png
+  ethereal_fish_seahorse.png
+
+Free textures from lisheng2121 (shutterstock)
+  ethereal_sushi_*.png
+
+Notice: Most texture authors are written inside code as comments, anything with no name
+I have more than likely created myself :)
+
+
+Royalty Free SFX from dreamstime.com:
+  ethereal_casting_rod.ogg

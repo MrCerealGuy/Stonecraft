@@ -25,7 +25,7 @@ local function inject_items (pos)
 				if stack then
 				local item0=stack:to_table()
 				if item0 then
-					item0["count"] = "1"
+					item0["count"] = 1
 					technic.tube_inject_item(pos, pos, vector.new(0, -1, 0), item0)
 					stack:take_item(1)
 					inv:set_stack("main", i, stack)
@@ -49,7 +49,7 @@ local function inject_items (pos)
 				end
 			end
 		end
-		
+
 end
 
 minetest.register_craft({
@@ -70,6 +70,9 @@ local function set_injector_formspec(meta)
 		(is_stack and
 			"button[0,1;2,1;mode_item;"..S("Stackwise").."]" or
 			"button[0,1;2,1;mode_stack;"..S("Itemwise").."]")..
+		(meta:get_int("public") == 1 and
+			"button[2,1;2,1;mode_private;"..S("Public").."]" or
+			"button[2,1;2,1;mode_public;"..S("Private").."]")..
 		"list[current_name;main;0,2;8,2;]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"listring[]"..
@@ -104,7 +107,7 @@ minetest.register_node("technic:injector", {
 			if meta:get_int("splitstacks") == 1 then
 				stack = stack:peek_item(1)
 			end
-			return meta:get_inventory():room_for_item("main", stack)
+			return inv:room_for_item("main", stack)
 		end,
 		insert_object = function(pos, node, stack, direction)
 			return minetest.get_meta(pos):get_inventory():add_item("main", stack)
@@ -126,9 +129,14 @@ minetest.register_node("technic:injector", {
 		return inv:is_empty("main")
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)
+		if minetest.is_protected(pos, sender:get_player_name()) then return end
+
 		local meta = minetest.get_meta(pos)
 		if fields.mode_item then meta:set_string("mode", "single items") end
 		if fields.mode_stack then meta:set_string("mode", "whole stacks") end
+
+		if fields.mode_private then meta:set_int("public", 0) end
+		if fields.mode_public then meta:set_int("public", 1) end
 
 		if fields["fs_helpers_cycling:0:splitstacks"]
 		  or fields["fs_helpers_cycling:1:splitstacks"] then

@@ -14,7 +14,8 @@ lucky_schems = {}
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP .. "/intllib.lua")
+local S = minetest.get_translator and minetest.get_translator("lucky_block") or
+		dofile(MP .. "/intllib.lua")
 
 
 -- default blocks
@@ -64,9 +65,10 @@ local all_colours = {
 local chest_stuff = {
 	{name = "default:apple", max = 3},
 	{name = "default:steel_ingot", max = 2},
-	{name = "default:gold_ingot", max = 2},
-	{name = "default:diamond", max = 1},
-	{name = "default:pick_steel", max = 1}
+	{name = "default:gold_ingot", max = 2, chance = 2},
+	{name = "default:diamond", max = 1, chance = 3},
+	{name = "default:pick_steel", max = 1, chance = 2},
+	{name = "default:mese_crystal_fragment", max = 3, chance = 3},
 }
 
 
@@ -184,10 +186,14 @@ local function fill_chest(pos, items)
 
 		if not inv:contains_item("main", stacks[s]) then
 
-			inv:set_stack("main", math.random(1, 32), {
-				name = stacks[s].name,
-				count = math.random(1, stacks[s].max)
-			})
+			if not stacks[s].chance
+			or math.random(1, stacks[s].chance) == 1 then
+
+				inv:set_stack("main", math.random(32), {
+					name = stacks[s].name,
+					count = math.random(stacks[s].max)
+				})
+			end
 		end
 	end
 end
@@ -299,7 +305,7 @@ local lb_spawn = function(pos, digger, def)
 
 			-- select between random or single entity
 			if type(def[2]) == "table" then
-				entity = def[2][math.random(1, #def[2])]
+				entity = def[2][math.random(#def[2])]
 			else
 				entity = def[2]
 			end
@@ -353,8 +359,8 @@ local lb_teleport = function(pos, digger, def)
 	local y_range = def[3] or 5
 
 	pos.x = pos.x + math.random(-xz_range, xz_range)
-	pos.x = pos.y + math.random(-y_range, y_range)
-	pos.x = pos.z + math.random(-xz_range, xz_range)
+	pos.y = pos.y + math.random(-y_range, y_range)
+	pos.z = pos.z + math.random(-xz_range, xz_range)
 
 	effect(pos, 25, "tnt_smoke.png", 8, 8, 1, -10, 0)
 
@@ -378,7 +384,7 @@ local lb_drop = function(pos, digger, def)
 
 		for i = 1, num do
 
-			local item = def[2][math.random(1, items)]
+			local item = def[2][math.random(items)]
 
 			if colours then
 				item = item .. all_colours[math.random(#all_colours)]
@@ -434,7 +440,10 @@ local lb_lightning = function(pos, digger, def)
 
 	pos = digger:get_pos()
 
-	if nod then
+	local bnod = minetest.get_node_or_nil(pos)
+	local bref = bnod and minetest.registered_items[bnod.name]
+
+	if bref and bref.buildable_to then
 		minetest.set_node(pos, {name = nod})
 	end
 
@@ -493,9 +502,12 @@ local lb_falling = function(pos, digger, def)
 
 			if n then
 
-				local obj = minetest.add_entity(pos2, "__builtin:falling_node")
+				local ent = minetest.add_entity(
+						pos2, "__builtin:falling_node"):get_luaentity()
 
-				obj:get_luaentity():set_node(n)
+				if ent then
+					ent:set_node(n)
+				end
 			end
 		end)
 	end
@@ -584,7 +596,7 @@ function lucky_block:open(pos, digger, blocks_list)
 	-- make sure it's really random
 	math.randomseed(minetest.get_timeofday() + pos.x + pos.z - os.time())
 
-	local luck = math.random(1, #blocks_list) ; -- luck = 1
+	local luck = math.random(#blocks_list) ; --luck = 1
 	local action = blocks_list[luck][1]
 
 --	print ("luck ["..luck.." of "..#blocks_list.."]", action)
@@ -650,7 +662,7 @@ end
 
 
 -- lucky block itself
-minetest.register_node('lucky_block:lucky_block', {
+minetest.register_node("lucky_block:lucky_block", {
 	description = S("Lucky Block"),
 	tiles = {{
 		name = "lucky_block_animated.png",
@@ -689,7 +701,7 @@ minetest.register_craft({
 
 
 -- super lucky block
-minetest.register_node('lucky_block:super_lucky_block', {
+minetest.register_node("lucky_block:super_lucky_block", {
 	description = S("Super Lucky Block (use pick)"),
 	tiles = {{
 		name = "lucky_block_super_animated.png",
@@ -717,7 +729,7 @@ minetest.register_node('lucky_block:super_lucky_block', {
 
 	on_dig = function(pos)
 
-		if math.random(1, 10) < 8 then
+		if math.random(10) < 8 then
 
 			minetest.set_node(pos, {name = "air"})
 
@@ -729,9 +741,9 @@ minetest.register_node('lucky_block:super_lucky_block', {
 				max_hear_distance = 10
 			})
 
-			if math.random(1, 5) == 1 then
+			if math.random(5) == 1 then
 				pos.y = pos.y + 0.5
-				minetest.add_item(pos, "default:goldblock " .. math.random(1, 5))
+				minetest.add_item(pos, "default:goldblock " .. math.random(5))
 			end
 
 		else

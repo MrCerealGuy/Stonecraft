@@ -1,6 +1,18 @@
 
 local S = mobs.intllib
 
+local stone_types = {
+
+	{	nodes = {"default:desert_stone"},
+		skins = {"mobs_stone_monster3.png"},
+		drops = {
+			{name = "default:desert_cobble", chance = 1, min = 0, max = 2},
+			{name = "default:iron_lump", chance = 5, min = 0, max = 2},
+			{name = "default:gold_lump", chance = 5, min = 0, max = 2}
+		}
+	}
+}
+
 
 -- Stone Monster by PilzAdam
 
@@ -34,7 +46,7 @@ mobs:register_mob("mobs_monster:stone_monster", {
 	drops = {
 		{name = "default:cobble", chance = 1, min = 0, max = 2},
 		{name = "default:coal_lump", chance = 3, min = 0, max = 2},
-		{name = "default:iron_lump", chance = 5, min = 0, max = 2},
+		{name = "default:iron_lump", chance = 5, min = 0, max = 2}
 	},
 	water_damage = 0,
 	lava_damage = 1,
@@ -59,9 +71,36 @@ mobs:register_mob("mobs_monster:stone_monster", {
 		{"default:pick_mese", 6},
 		{"default:pick_diamond", 7},
 	},
+
+	-- check surrounding nodes and spawn a specific spider
+	on_spawn = function(self)
+
+		local pos = self.object:get_pos() ; pos.y = pos.y - 1
+		local tmp
+
+		for n = 1, #stone_types do
+
+			tmp = stone_types[n]
+
+			if minetest.find_node_near(pos, 1, tmp.nodes) then
+
+				self.base_texture = tmp.skins
+				self.object:set_properties({textures = tmp.skins})
+
+				if tmp.drops then
+					self.drops = tmp.drops
+				end
+
+				return true
+			end
+		end
+
+		return true -- run only once, false/nil runs every activation
+	end
 })
 
 
+if not mobs.custom_spawn_monster then
 mobs:spawn({
 	name = "mobs_monster:stone_monster",
 	nodes = {"default:stone", "default:desert_stone", "default:sandstone"},
@@ -69,6 +108,7 @@ mobs:spawn({
 	chance = 7000,
 	max_height = 0,
 })
+end
 
 
 mobs:register_egg("mobs_monster:stone_monster", S("Stone Monster"), "default_stone.png", 1)

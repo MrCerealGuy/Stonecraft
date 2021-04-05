@@ -38,6 +38,47 @@ minetest.register_node("ethereal:banana", {
 	end,
 })
 
+-- Banana Bunch
+minetest.register_node("ethereal:banana_bunch", {
+	description = S("Banana Bunch"),
+	drawtype = "torchlike",
+	tiles = {"banana_bunch.png"},
+	inventory_image = "banana_bunch.png",
+	wield_image = "banana_bunch.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.31, -0.5, -0.31, 0.31, 0.5, 0.31}
+	},
+	groups = {
+		fleshy = 3, dig_immediate = 3, flammable = 2,
+		leafdecay = 1, leafdecay_drop = 1
+	},
+	drop = "ethereal:banana_bunch",
+	on_use = minetest.item_eat(6),
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = function(pos, placer)
+		if placer:is_player() then
+			minetest.set_node(pos, {name = "ethereal:banana_bunch", param2 = 1})
+		end
+	end,
+})
+
+-- Bunch to Single
+minetest.register_craft({
+	type = "shapeless",
+	output = "ethereal:banana 3",
+	recipe = {"ethereal:banana_bunch"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "ethereal:banana_bunch",
+	recipe = {"ethereal:banana", "ethereal:banana", "ethereal:banana"}
+})
+
 -- Banana Dough
 minetest.register_craftitem("ethereal:banana_dough", {
 	description = S("Banana Dough"),
@@ -203,6 +244,7 @@ minetest.register_craftitem("ethereal:bucket_cactus", {
 	inventory_image = "bucket_cactus.png",
 	wield_image = "bucket_cactus.png",
 	stack_max = 1,
+	groups = {vessel = 1, drink = 1},
 	on_use = minetest.item_eat(2, "bucket:bucket_empty"),
 })
 
@@ -239,3 +281,174 @@ minetest.register_craft({
 	},
 })
 end
+
+
+-- Lemon
+minetest.register_node("ethereal:lemon", {
+	description = S("Lemon"),
+	drawtype = "plantlike",
+	tiles = {"lemon.png"},
+	inventory_image = "lemon_fruit.png",
+	wield_image = "lemon_fruit.png",
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.27, -0.37, -0.27, 0.27, 0.44, 0.27}
+	},
+	groups = {
+		food_lemon = 1, fleshy = 3, dig_immediate = 3, flammable = 2,
+		leafdecay = 3, leafdecay_drop = 1
+	},
+	drop = "ethereal:lemon",
+	on_use = minetest.item_eat(3),
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = function(pos, placer)
+		if placer:is_player() then
+			minetest.set_node(pos, {name = "ethereal:lemon", param2 = 1})
+		end
+	end,
+})
+
+-- Candied Lemon
+minetest.register_craftitem("ethereal:candied_lemon", {
+	description = S("Candied Lemon"),
+	inventory_image = "ethereal_candied_lemon.png",
+	wield_image = "ethereal_candied_lemon.png",
+	groups = {food_candied_lemon = 1},
+	on_use = minetest.item_eat(5),
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "ethereal:candied_lemon",
+	recipe = {
+		"farming:baking_tray", "ethereal:lemon", "group:food_sugar"
+	},
+	replacements = {
+		{"farming:baking_tray", "farming:baking_tray"}
+	},
+})
+
+-- Lemonade
+minetest.register_node("ethereal:lemonade", {
+	description = S("Lemonade"),
+	drawtype = "plantlike",
+	tiles = {"ethereal_lemonade.png"},
+	inventory_image = "ethereal_lemonade.png",
+	wield_image = "ethereal_lemonade.png",
+	paramtype = "light",
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.25, -0.5, -0.25, 0.25, 0.25, 0.25}
+	},
+	groups = {vessel = 1, dig_immediate = 3, attached_node = 1, drink = 1},
+	on_use = minetest.item_eat(5, "vessels:drinking_glass"),
+	sounds = default.node_sound_glass_defaults()
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "ethereal:lemonade",
+	recipe = {
+		"ethereal:lemon", "group:food_sugar", "group:food_sugar",
+		"vessels:drinking_glass", "group:water_bucket"
+	},
+	replacements = {
+		{"group:water_bucket", "bucket:bucket_empty"},
+	},
+})
+
+-- Olive
+minetest.register_node("ethereal:olive", {
+	description = S("Olive"),
+	drawtype = "plantlike",
+	tiles = {"olive.png"},
+	inventory_image = "olive_fruit.png",
+	wield_image = "olive_fruit.png",
+	visual_scale = 0.2,
+	paramtype = "light",
+	sunlight_propagates = true,
+	walkable = false,
+	selection_box = {
+		type = "fixed",
+		fixed = {-0.1, -0.5, -0.1, 0.1, -0.3, 0.1}
+	},
+	groups = {
+		fleshy = 3, dig_immediate = 3, flammable = 2,
+		leafdecay = 3, leafdecay_drop = 1
+	},
+	drop = "ethereal:olive",
+	on_use = minetest.item_eat(1),
+	sounds = default.node_sound_leaves_defaults(),
+	after_place_node = function(pos, placer)
+		if placer:is_player() then
+			minetest.set_node(pos, {name = "ethereal:olive", param2 = 1})
+		end
+	end,
+})
+
+-- Olive Oil
+minetest.register_craftitem("ethereal:olive_oil", {
+	description = S("Olive Oil"),
+	inventory_image = "ethereal_olive_oil.png",
+	wield_image = "ethereal_olive_oil.png",
+	groups = {food_oil = 1, food_olive_oil = 1, vessel = 1},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "ethereal:olive_oil",
+	recipe = {
+		"farming:juicer", "vessels:glass_bottle",
+		"ethereal:olive", "ethereal:olive", "ethereal:olive",
+		"ethereal:olive", "ethereal:olive", "ethereal:olive"
+	},
+	replacements = {
+		{"farming:juicer", "farming:juicer"}
+	},
+})
+
+-- Kappa Maki (sushi with cucumber)
+minetest.register_craftitem("ethereal:sushi_kappamaki", {
+	description = S("Kappa Maki Sushi"),
+	inventory_image = "ethereal_sushi_kappa_maki.png",
+	on_use = minetest.item_eat(3),
+})
+
+minetest.register_craft({
+	output = "ethereal:sushi_kappamaki 2",
+	recipe = {
+		{"group:food_seaweed", "group:food_cucumber", "group:food_rice"}
+	}
+})
+
+-- Nigiri (sushi with raw fish)
+minetest.register_craftitem("ethereal:sushi_nigiri", {
+	description = S("Nigiri Sushi"),
+	inventory_image = "ethereal_sushi_nigiri.png",
+	on_use = minetest.item_eat(2),
+})
+
+minetest.register_craft({
+	output = "ethereal:sushi_nigiri 2",
+	recipe = {
+		{"group:food_rice", "group:food_fish_raw", ""}
+	}
+})
+
+-- Tamago (sushi with sweet egg)
+minetest.register_craftitem("ethereal:sushi_tamago", {
+	description = S("Tamago Sushi"),
+	inventory_image = "ethereal_sushi_tamago.png",
+	on_use = minetest.item_eat(2),
+})
+
+minetest.register_craft({
+	output = "ethereal:sushi_tamago 2",
+	recipe = {
+		{"group:food_seaweed", "group:food_egg", "group:food_rice"}
+	}
+})

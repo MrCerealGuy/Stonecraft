@@ -14,11 +14,11 @@ local np_default = {
 -- 2D noise for coldness
 
 local mg = snow.mapgen
-local scale = mg.perlin_scale
+local scale_coldness = mg.perlin_scale
 local np_cold = {
 	offset = 0,
 	scale = 1,
-	spread = {x=scale, y=scale, z=scale},
+	spread = {x=scale_coldness, y=scale_coldness, z=scale_coldness},
 	seed = 112,
 	octaves = 3,
 	persist = 0.5
@@ -186,7 +186,9 @@ local function get_perlins(sidelen)
 	}
 end
 
-local nbuf_default, nbuf_cold, nbuf_ice
+local nbuf_default = {}
+local nbuf_cold = {}
+local nbuf_ice = {}
 minetest.register_on_generated(function(minp, maxp, seed)
 	local t1 = os.clock()
 
@@ -229,7 +231,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local nodes_added
 
 	-- Loop through columns in chunk
-	local smooth = smooth and not snowy
+	local is_smooth = smooth and not snowy
 	local write_to_map = false
 	local ni = 1
 	for z = z0, z1 do
@@ -239,7 +241,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		if nvals_default[ni] < 0.35 then
 			nvals_cold = nvals_cold or perlin_objs.cold:get2dMap_flat({x=x0, y=z0}, nbuf_cold)
 			test = math.min(nvals_cold[ni], 1)
-			if smooth then
+			if is_smooth then
 				if test >= smooth_rarity_max
 				or (
 					test > smooth_rarity_min
@@ -255,7 +257,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		if not in_biome then
 			if alpine
 			and test
-			and test > (smooth and smooth_rarity_min or nosmooth_rarity) then
+			and test > (is_smooth and smooth_rarity_min or nosmooth_rarity) then
 				-- remove trees near alpine
 				local ground_y
 				if vm:get_data_from_heap(data, area:index(x, maxp.y, z)) == c.air then
@@ -516,8 +518,8 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					if h ~= 1 then
 						-- search for nearby snow
 						y = y+1
-						for i = -1,1,2 do
-							for _,cord in pairs({{x+i,z}, {x,z+i}}) do
+						for off = -1,1,2 do
+							for _,cord in pairs({{x+off,z}, {x,z+off}}) do
 								local nd = vm:get_data_from_heap(data, area:index(cord[1], y, cord[2]))
 								if nd == c.air
 								or is_plantlike(nd) then
@@ -577,7 +579,7 @@ local biome_strings = {
 	{"snowy", "plain", "alpine", "normal", "normal"},
 	{"cool", "icebergs", "icesheet", "icecave", "icehole"}
 }
-function biome_to_string(num,num2)
+function biome_to_string(num)
 	local biome = biome_strings[1][num] or "unknown "..num
 	return biome
 end

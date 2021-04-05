@@ -1,19 +1,11 @@
 --[[
 More Blocks: ownership handling
 
-Copyright © 2011-2019 Hugo Locurcio and contributors.
+Copyright © 2011-2020 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
---[[
-
-2018-08-21 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = moreblocks.S
 
 function moreblocks.node_is_owned(pos, placer)
 	local ownername = false

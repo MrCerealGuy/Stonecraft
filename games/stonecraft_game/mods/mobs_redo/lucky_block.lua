@@ -13,6 +13,6 @@ if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
 		{"dro", {"mobs:protector"}, 1},
 		{"dro", {"mobs:fence_wood"}, 10},
 		{"dro", {"mobs:fence_top"}, 12},
-		{"lig"},
+		{"lig"}
 	})
 end

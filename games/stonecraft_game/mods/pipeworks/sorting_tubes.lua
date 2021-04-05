@@ -119,7 +119,7 @@ if pipeworks.enable_mese_tube then
 						inv:set_size("line"..tostring(i), 6*1)
 					end
 					update_formspec(pos)
-					meta:set_string("infotext", "Sorting pneumatic tube")
+					meta:set_string("infotext", S("Sorting pneumatic tube"))
 				end,
 				on_punch = update_formspec,
 				on_receive_fields = function(pos, formname, fields, sender)

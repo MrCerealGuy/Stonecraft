@@ -12,8 +12,8 @@ minetest.register_node("mymod:colored_node", {
 	paramtype2 = "color",
 	palette = "unifieddyes_palette_extended.png",
 	groups = {snappy = 1, cracky = 2, ud_param2_colorable = 1}
-	on_construct = unifieddyes.on_construct,
-	airbrush_replacement_node = "mymod:my_other_colored_node"
+	airbrush_replacement_node = "mymod:my_other_colored_node",
+	on_dig = unifieddyes.on_dig
 })
 ```
 
@@ -32,11 +32,13 @@ minetest.register_node("mymod:colored_node", {
 
 If your node if of the kind where you need the split palette, but you need to put the *full color name* into the node name, as opposed to just the hue, then add the keys `ud_color_start` and `ud_color_end` and set them to the positions of the first and last characters of the color name (where 1 is the first character of the mod name at the start of the node name, i.e. "mymod:foo_bar_orange_baz" would have the start set to 15 and the end at 20).
 
-`on_construct`: see below.
-
 `airbrush_replacement_node`:  The node to swap in when the airbrush is used on this node.  For example, you could `minetest.override_item()` on some default node to add this field, pointing to a colorable node of your own, so that when the default node is painted, it's replaced with yours in the new color.
 
 #### Function calls
+
+**`unifieddyes.on_dig(pos, node, digger)`**
+
+Set in a node definition's `on_dig` callback, this makes sure that if the player digs a neutral node, i.e. a colorable node that was left uncolored/white after placing, they receive a version of that item that has been stripped of its itemstack color setting, so that it is identical to what would have been in their inventory when that node was originally placed.  This prevents the engine splitting stacks of that item due to technically-different but visually-identical itemstack coloring.  This function is only needed in the definition of colorable versions of a node, not any uncolored counterparts.  For example, if you have a mod that has a simple, wooden chair, and the mod turns it into one with a colored seat cushion when you airbrush or craft it with dye, then only that latter colored-seat version needs this function.
 
 **`unifieddyes.fix_rotation(pos, placer, itemstack, pointed_thing)`
 `unifieddyes.fix_rotation_nsew(pos, placer, itemstack, pointed_thing)`**
@@ -86,10 +88,6 @@ This is called when a node is punched while wielding the airbrush.
 
 This one does just what it sounds like - it shows the color selector formspec.
 
-**`unifieddyes.on_construct(pos)`**
-
-This function, usually called from your node definition's `on_construct`, just sets the `palette = "ext"` metadata key for the node after it's been placed. This can then be read in an LBM to determine if this node needs to be converted from the old 89-color palette to the extended 256-color palette. Although it is good practice to call this for any node that uses the 256-color palette, it isn't actually necessary as long as the node has never used the 89-color palette, and won't be subjected to an LBM that changes its color.
-
 **`unifieddyes.register_color_craft(recipe)`**
 
 This will loop through all of Unified Dyes' color lists, generating one recipe for every color in the palette given in the call.  Example usage:
@@ -127,7 +125,6 @@ Makes a colored itemstack out of the given `itemstack` and `color` (as a dye, e.
 
 Does just what it sounds like - it registers all the nodes that are needed for a given base node (`def`) to be able to use the split palette, each named according to `name`, with the palette hue appended.  If a custom drop is needed, it can be passed along (only a string is allowed here, specifying a single item).  
 
-
 #### Tables
 
 In addition to the above API calls, Unified Dyes provides several useful tables
@@ -151,8 +148,8 @@ If your mod used the old paradigm where you craft a neutral-colored item, place 
 ```lua
 	place_param2 = 240,
 	after_dig_node = unifieddyes.after_dig_node,
-	after_place_node = unifieddyes.recolor_on_place,
-	ud_replacement_node = "mod:some_node"
+	ud_replacement_node = "mod:some_node",
+	on_dig = unifieddyes.on_dig
 ```
 
 * Add the `airbrush_replacement_node` key to the node definition, if needed.
@@ -167,10 +164,9 @@ If your mod used the old paradigm where you craft a neutral-colored item, place 
 
 * Convert that remaining texture to grayscale, enhance its contrast as much as you can without distorting it, and rename it and the node it'll be used to something neutral-sounding.
 
-* Add the `on_construct` and `palette` keys to your neutral node definition, for example:
+* Add the `palette` key to your neutral node definition, for example:
 
 	`palette = "unifieddyes_palette_extended.png",`
-	`on_construct = unifieddyes.on_construct,`
 
 * Adjust your node's groups to specify that the node can be colored.  Example (note the last item):
 
@@ -180,7 +176,7 @@ If your mod used the old paradigm where you craft a neutral-colored item, place 
 
 * Add the above recipes helper call (which replaces those delted recipes)
 
-* If your colored node is based on someone else's neutral node, for example if you made a mod that creates multiple colors of minetest_game's default clay, you may find it best to create a single "stand-in" node that's identical to the neutral node, but named for your mod, hidden from the creative inventory, and which has a properly-prepared grayscale texture image in addition to the above keys.  Use `minetest.override_item()` to add the `on_construct`, `palette`, and `airbrush_replacement_node` keys, and the `ud_param2_colorable` group, to that "someone else's" node.  Then use that node and your custom, hidden node in the craft helper call.
+* If your colored node is based on someone else's neutral node, for example if you made a mod that creates multiple colors of minetest_game's default clay, you may find it best to create a single "stand-in" node that's identical to the neutral node, but named for your mod, hidden from the creative inventory, and which has a properly-prepared grayscale texture image in addition to the above keys.  Use `minetest.override_item()` to add the `palette` and `airbrush_replacement_node` keys, and the `ud_param2_colorable` group, to that "someone else's" node.  Then use that node and your custom, hidden node in the craft helper call.
 
 * You will need to write a run-only-once LBM to convert your old statically-colored nodes to use hardware coloring.  See above for functions that will help reduce the work required for this part.
 

@@ -1,25 +1,30 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Setting-up-a-server</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
 </head>
 <body>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#setting-up-a-server">Setting up a server</a>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#running-a-dedicated-server">Running a dedicated server</a>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#linux">Linux</a></li>
 <li><a href="#windows">Windows</a></li>
 </ol></li>
 </ol></li>
 </ol>
 <h1 id="setting-up-a-server">Setting up a server</h1>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Start your server on your desired port
 <ul>
 <li><strong>Note</strong>: It is recommended to leave the port at the default (30000)</li>
@@ -38,7 +43,7 @@
 <li>Make your server listed in the server list by setting the following settings in stonecraft.conf
 <ul>
 <li>server_announce = true - makes Stonecraft tell the server list about the server.</li>
-<li>server_name - set the value of this to your server's name.</li>
+<li>server_name - set the value of this to your server’s name.</li>
 <li>server_description - set the value of this to a longer description describing your server.</li>
 <li>server_address - if you have a domain name for your server, then set this to the domain name.</li>
 <li>server_url - if you have a website for your server, then set this to the website URL.</li>
@@ -48,12 +53,12 @@
 </ol>
 <h2 id="running-a-dedicated-server">Running a dedicated server</h2>
 <h3 id="linux">Linux</h3>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Open a terminal.</li>
 <li>Type in <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/bin/stonecraftserver</em> or just drop the stonecraftserver executable (located in <em>/Stonecraft/bin/</em>) into the terminal <strong>(PLEASE READ THE NOTES BELOW!)</strong>
 <ul>
-<li>If you want to specify a specific game ID, the game ID choices are located in <em>/Stonecraft/games/</em>. Add in <em>--gameid thegameid</em> to the end of the command.</li>
-<li>If you get the error &quot;Multiple worlds are available.&quot;, the world choices are located in <em>/Stonecraft/worlds/</em>. Add in <em>--worldname theWorld</em> to the end of the command.</li>
+<li>If you want to specify a specific game ID, the game ID choices are located in <em>/Stonecraft/games/</em>. Add in <em>–gameid thegameid</em> to the end of the command.</li>
+<li>If you get the error “Multiple worlds are available.”, the world choices are located in <em>/Stonecraft/worlds/</em>. Add in <em>–worldname theWorld</em> to the end of the command.</li>
 </ul></li>
 <li>If your server crashes, then look at the debug.txt in <em>/Stonecraft/bin/</em></li>
 <li>Enjoy running a Stonecraft server!</li>
@@ -87,16 +92,16 @@ done</code></pre>
 
 exit 0</code></pre>
 <h3 id="windows">Windows</h3>
-<ol style="list-style-type: decimal">
-<li>Open command prompt by going in the <em>/Stonecraft/bin/</em> folder, hold Shift, do a right click on <em>bin</em> and click &quot;Open command window here&quot;.</li>
-<li>Type this: <em>stonecraft.exe --server</em>.
+<ol type="1">
+<li>Open command prompt by going in the <em>/Stonecraft/bin/</em> folder, hold Shift, do a right click on <em>bin</em> and click “Open command window here”.</li>
+<li>Type this: <em>stonecraft.exe –server</em>.
 <ul>
-<li>If you get the error &quot;Multiple worlds are available.&quot;, use <em>stonecraft.exe --server --worldname world_name</em> instead, where world_name is the name of the world.</li>
+<li>If you get the error “Multiple worlds are available.”, use <em>stonecraft.exe –server –worldname world_name</em> instead, where world_name is the name of the world.</li>
 </ul></li>
 <li>If your server crashes, then look at the debug.txt in <em>/Stonecraft/bin/</em></li>
 <li>Enjoy running a Stonecraft server!</li>
 </ol>
-<p>If you don't like to start the crashed server, simply start the server out of a batch file which contains the following code:</p>
+<p>If you don’t like to start the crashed server, simply start the server out of a batch file which contains the following code:</p>
 <pre><code>@echo off
 :crash
 stonecraft.exe --server --worldname world_name

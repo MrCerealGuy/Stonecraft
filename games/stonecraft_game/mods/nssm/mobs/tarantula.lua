@@ -5,8 +5,10 @@ mobs:register_mob("nssm:tarantula", {
 	collisionbox = {-0.5, 0.00, -0.5, 0.5, 0.9, 0.5},
 	visual = "mesh",
 	mesh = "tarantula.x",
-	textures = {{"tarantula.png"}},
-	visual_size = {x=8, y=8},
+	textures = {
+		{"tarantula.png"}
+	},
+	visual_size = {x = 8, y = 8},
 	makes_footstep_sound = true,
 	view_range = 20,
 	lifetimer = 500,
@@ -20,21 +22,17 @@ mobs:register_mob("nssm:tarantula", {
 	damage = 8,
 	jump = true,
 	drops = {
-		{name = "nssm:super_silk_gland",
-		chance = 1,
-		min = 3,
-		max = 5,},
+		{name = "nssm:super_silk_gland", chance = 1, min = 3, max = 5},
 	},
 	armor = 60,
 	drawtype = "front",
 	water_damage = 1,
 	lava_damage = 7,
 	reach = 3,
-	knock_back=0,
-	blood_texture="nssm_blood_blue.png",
-	stepheight=1.1,
+	knock_back = 0,
+	blood_texture = "nssm_blood_blue.png",
+	stepheight = 1.1,
 	light_damage = 0,
-	on_rightclick = nil,
 	dogshoot_switch = true,
 	attack_type = "dogshoot",
 	arrow = "nssm:thickwebball",
@@ -54,8 +52,11 @@ mobs:register_mob("nssm:tarantula", {
 		shoot_start = 180,
 		shoot_end = 200,
 	},
+
 	on_die = function(self, pos)
+
 		self.object:remove()
+
 		minetest.add_particlespawner(
 			200, --amount
 			0.1, --time
@@ -72,6 +73,7 @@ mobs:register_mob("nssm:tarantula", {
 			false, --collisiondetection
 			"tnt_smoke.png" --texture
 		)
+
 		minetest.add_entity(pos, "nssm:tarantula_propower")
 	end,
 })
@@ -84,8 +86,10 @@ mobs:register_mob("nssm:tarantula_propower", {
 	collisionbox = {-0.5, 0.00, -0.5, 0.5, 1, 0.5},
 	visual = "mesh",
 	mesh = "tarantula_propower.x",
-	textures = {{"tarantula.png"}},
-	visual_size = {x=10, y=10},
+	textures = {
+		{"tarantula.png"}
+	},
+	visual_size = {x = 10, y = 10},
 	makes_footstep_sound = true,
 	view_range = 30,
 	lifetimer = 500,
@@ -98,37 +102,21 @@ mobs:register_mob("nssm:tarantula_propower", {
 	damage = 12,
 	jump = true,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 16,
-		max = 18,},
-		{name = "nssm:spider_leg",
-		chance = 1,
-		min = 1,
-		max = 8,},
-		{name = "nssm:tarantula_chelicerae",
-		chance = 1,
-		min = 1,
-		max = 1,},
-		{name = "nssm:silk_gland",
-		chance = 2,
-		min = 1,
-		max = 3,},
-		{name = "nssm:spider_meat",
-		chance = 2,
-		min = 1,
-		max = 2,},
+		{name = "nssm:life_energy", chance = 1, min = 16, max = 18},
+		{name = "nssm:spider_leg", chance = 1, min = 1, max = 8},
+		{name = "nssm:tarantula_chelicerae", chance = 1, min = 1, max = 1},
+		{name = "nssm:silk_gland", chance = 2, min = 1, max = 3},
+		{name = "nssm:spider_meat", chance = 2, min = 1, max = 2},
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 1,
 	lava_damage = 3,
 	reach = 4,
-	knock_back=0,
-	blood_texture="nssm_blood_blue.png",
-	stepheight=2.1,
+	knock_back = 0,
+	blood_texture = "nssm_blood_blue.png",
+	stepheight = 2.1,
 	light_damage = 0,
-	on_rightclick = nil,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 20,

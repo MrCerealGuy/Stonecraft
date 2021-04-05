@@ -1,20 +1,13 @@
-
---[[
-
-2018-08-24 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- this file is basically a modified copy of
 -- minetest_game/mods/default/furnaces.lua
 
+-- translation support
+local S = minetest.get_translator("pipeworks")
+local DS = minetest.get_translator("default")
+
 local fs_helpers = pipeworks.fs_helpers
 
-tube_entry = "^pipeworks_tube_connection_stony.png"
+local tube_entry = "^pipeworks_tube_connection_stony.png"
 
 local function active_formspec(fuel_percent, item_percent, pos, meta)
 	local formspec =
@@ -46,7 +39,7 @@ local function active_formspec(fuel_percent, item_percent, pos, meta)
 					pipeworks.button_off,
 					pipeworks.button_on
 				}
-			).."label[0.9,3.51;Allow splitting incoming material (not fuel) stacks from tubes]"
+			).."label[0.9,3.51;"..S("Allow splitting incoming material (not fuel) stacks from tubes").."]"
 	return formspec
 end
 
@@ -77,7 +70,7 @@ local function inactive_formspec(pos, meta)
 				pipeworks.button_off,
 				pipeworks.button_on
 			}
-		).."label[0.9,3.51;Allow splitting incoming material (not fuel) stacks from tubes]"
+		).."label[0.9,3.51;"..S("Allow splitting incoming material (not fuel) stacks from tubes").."]"
 	return formspec
 end
 
@@ -100,7 +93,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "fuel" then
 		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
 			if inv:is_empty("src") then
-				meta:set_string("infotext", "Furnace is empty")
+				meta:set_string("infotext", DS("Furnace is empty"))
 			end
 			return stack:get_count()
 		else
@@ -229,40 +222,40 @@ local function furnace_node_timer(pos, elapsed)
 	if cookable then
 		item_percent = math.floor(src_time / cooked.time * 100)
 		if item_percent > 100 then
-			item_state = "100% (output full)"
+			item_state = DS("100% (output full)")
 		else
-			item_state = item_percent .. "%"
+			item_state = DS("@1%", item_percent)
 		end
 	else
 		if srclist[1]:is_empty() then
-			item_state = "Empty"
+			item_state = DS("Empty")
 		else
-			item_state = "Not cookable"
+			item_state = DS("Not cookable")
 		end
 	end
 
-	local fuel_state = "Empty"
-	local active = "inactive "
+	local fuel_state = DS("Empty")
+	local active = DS("Furnace inactive")
 	local result = false
 
 	if fuel_totaltime ~= 0 then
-		active = "active "
+		active = DS("Furnace active")
 		local fuel_percent = math.floor(fuel_time / fuel_totaltime * 100)
-		fuel_state = fuel_percent .. "%"
+		fuel_state = DS("@1%", fuel_percent)
 		formspec = active_formspec(fuel_percent, item_percent, pos, meta)
 		swap_node(pos, "default:furnace_active")
 		-- make sure timer restarts automatically
 		result = true
 	else
 		if not fuellist[1]:is_empty() then
-			fuel_state = "0%"
+			fuel_state = DS("@1%", "0")
 		end
 		swap_node(pos, "default:furnace")
 		-- stop timer on the inactive furnace
 		minetest.get_node_timer(pos):stop()
 	end
 
-	local infotext = "Furnace " .. active .. "(Item: " .. item_state .. "; Fuel: " .. fuel_state .. ")"
+	local infotext = active.." "..DS("(Item: @1; Fuel: @2)", item_state, fuel_state)
 
 	--
 	-- Set meta values
@@ -281,7 +274,7 @@ end
 --
 
 minetest.register_node(":default:furnace", {
-	description = S("Furnace"),
+	description = DS("Furnace"),
 	tiles = {
 		"default_furnace_top.png"..tube_entry,
 		"default_furnace_bottom.png"..tube_entry,
@@ -370,7 +363,7 @@ minetest.register_node(":default:furnace", {
 })
 
 minetest.register_node(":default:furnace_active", {
-	description = S("Furnace"),
+	description = DS("Furnace"),
 	tiles = {
 		"default_furnace_top.png"..tube_entry,
 		"default_furnace_bottom.png"..tube_entry,

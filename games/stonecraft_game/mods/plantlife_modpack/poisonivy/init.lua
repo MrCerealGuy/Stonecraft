@@ -2,7 +2,7 @@
 -- Last revision:  2013-01-24
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("poisonivy")
 
 local SPAWN_DELAY = 1000
 local SPAWN_CHANCE = 200
@@ -101,4 +101,4 @@ biome_lib:grow_plants({
 	ground_nodes = {"default:dirt_with_grass"}
 })
 
-print(S("[Poison Ivy] Loaded."))
+print("[Poison Ivy] Loaded.")

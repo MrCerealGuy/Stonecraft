@@ -273,10 +273,13 @@ minetest.register_node("cottages:shelf", {
 
                 	local meta = minetest.get_meta(pos);
 
+			local spos = pos.x .. "," .. pos.y .. "," .. pos.z
 	                meta:set_string("formspec",
                                 "size[8,8]"..
                                 "list[current_name;main;0,0;8,3;]"..
-                                "list[current_player;main;0,4;8,4;]")
+                                "list[current_player;main;0,4;8,4;]"..
+				"listring[nodemeta:" .. spos .. ";main]" ..
+				"listring[current_player;main]")
                 	meta:set_string("infotext", S("Open storage shelf"))
                 	local inv = meta:get_inventory();
                 	inv:set_size("main", 24);

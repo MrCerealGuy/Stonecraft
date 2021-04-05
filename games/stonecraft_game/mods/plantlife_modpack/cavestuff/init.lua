@@ -5,7 +5,7 @@ local mname		= "cavestuff"
 -----------------------------------------------------------------------------------------------
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("cavestuff")
 
 dofile(minetest.get_modpath("cavestuff").."/nodes.lua")
 dofile(minetest.get_modpath("cavestuff").."/mapgen.lua")

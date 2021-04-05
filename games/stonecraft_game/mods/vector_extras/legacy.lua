@@ -1,5 +1,11 @@
 local funcs = vector_extras_functions
 
+function funcs.scalar(v1, v2)
+	minetest.log("deprecated", "[vector_extras] vector.scalar is " ..
+		"deprecated, use vector.dot instead.")
+	return vector.dot(v1, v2)
+end
+
 function funcs.get_data_from_pos(tab, z,y,x)
 	minetest.log("deprecated", "[vector_extras] get_data_from_pos is " ..
 		"deprecated, use the minetest pos hash function instead.")

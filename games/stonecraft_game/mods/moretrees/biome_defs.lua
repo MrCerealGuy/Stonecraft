@@ -177,6 +177,7 @@ moretrees.cedar_biome = {
 	avoid_nodes = moretrees.avoidnodes,
 	avoid_radius = 10,
 	seed_diff = 336,
+	min_elevation = 0,  --Added to solve an issue where cedar trees would sometimes spawn deep underground
 	near_nodes = {"default:water_source"},
 	near_nodes_size = 15,
 	near_nodes_count = 5,

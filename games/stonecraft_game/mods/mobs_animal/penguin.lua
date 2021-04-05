@@ -45,7 +45,10 @@ stepheight = 0.6,
 	},
 	fly_in = {"default:water_source", "default:water_flowing"},
 	floats = 0,
-	follow = {"ethereal:fish_raw", "mobs_fish:clownfish", "mobs_fish:tropical"},
+	follow = {
+		"group:food_fish_raw", "mobs_fish:clownfish", "mobs_fish:tropical",
+		"mobs_fish:clownfish_set", "mobs_fish:tropical_set", "xocean:fish_edible"
+	},
 	view_range = 5,
 
 	on_rightclick = function(self, clicker)
@@ -57,7 +60,7 @@ stepheight = 0.6,
 	end,
 })
 
-
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:penguin",
 	nodes = {"default:snowblock"},
@@ -68,6 +71,6 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
-
-mobs:register_egg("mobs_animal:penguin", S("Penguin"), "default_snow.png", 1)
+mobs:register_egg("mobs_animal:penguin", S("Penguin"), "mobs_penguin_inv.png")

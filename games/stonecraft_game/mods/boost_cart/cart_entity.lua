@@ -9,8 +9,6 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local HAVE_MESECONS_ENABLED = minetest.global_exists("mesecon")
-
 function boost_cart:on_rail_step(entity, pos, distance)
 	-- Play rail sound
 	if entity.sound_counter <= 0 then
@@ -23,7 +21,7 @@ function boost_cart:on_rail_step(entity, pos, distance)
 	end
 	entity.sound_counter = entity.sound_counter - distance
 
-	if HAVE_MESECONS_ENABLED then
+	if boost_cart.MESECONS then
 		boost_cart:signal_detector_rail(pos)
 	end
 end
@@ -50,7 +48,7 @@ local cart_entity = {
 }
 
 -- Model and textures
-if boost_cart.mtg_compat then
+if boost_cart.MTG_CARTS then
 	cart_entity.initial_properties.mesh = "carts_cart.b3d"
 	cart_entity.initial_properties.textures = {"carts_cart.png"}
 end
@@ -107,6 +105,7 @@ end
 function cart_entity:on_detach_child(child)
 	if child and child:get_player_name() == self.driver then
 		self.driver = nil
+		boost_cart:manage_attachment(child, nil)
 	end
 end
 
@@ -299,7 +298,7 @@ function cart_entity:on_step(dtime)
 				acc = speed_mod * 10
 			end
 		end
-		if acc == nil and boost_cart.mtg_compat then
+		if acc == nil and boost_cart.MTG_CARTS then
 			-- MTG Cart API adaption
 			local rail_node = minetest.get_node(vector.round(pos))
 			local railparam = carts.railparams[rail_node.name]
@@ -314,6 +313,12 @@ function cart_entity:on_step(dtime)
 			elseif acc == nil then
 				acc = -0.4
 			end
+		end
+		if ctrl and ctrl.sneak then
+			-- Descend when sneak is pressed
+			boost_cart:manage_attachment(player, nil)
+			player = nil
+			ctrl = nil
 		end
 
 		if acc then
@@ -351,10 +356,13 @@ function cart_entity:on_step(dtime)
 	if self.punched then
 		-- Collect dropped items
 		for _, obj_ in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-			if not obj_:is_player() and
-					obj_:get_luaentity() and
-					not obj_:get_luaentity().physical_state and
-					obj_:get_luaentity().name == "__builtin:item" then
+			local ent = obj_:get_luaentity()
+			-- Careful here: physical_state and disable_physics are item-internal APIs
+			if ent and ent.name == "__builtin:item" and ent.physical_state then
+				-- Check API to support 5.2.0 and older
+				if ent.disable_physics then
+					ent:disable_physics()
+				end
 
 				obj_:set_attach(self.object, "", {x=0, y=0, z=0}, {x=0, y=0, z=0})
 				self.attached_items[#self.attached_items + 1] = obj_
@@ -390,18 +398,14 @@ function cart_entity:on_step(dtime)
 
 	-- Change player model rotation, depending on the Y direction
 	if player and dir.y ~= old_y_dir then
-		local feet = {x=0, y=0, z=0}
+		local feet = {x=0, y=-4, z=0}
 		local eye = {x=0, y=-4, z=0}
-		feet.y = boost_cart.old_player_model and 6 or -4
+
 		if dir.y ~= 0 then
 			-- TODO: Find a better way to calculate this
-			if boost_cart.old_player_model then
-				feet.y = feet.y + 2
-				feet.z = -dir.y * 6
-			else
-				feet.y = feet.y + 4
-				feet.z = -dir.y * 2
-			end
+			feet.y = feet.y + 4
+			feet.z = -dir.y * 2
+
 			eye.z = -dir.y * 8
 		end
 		player:set_attach(self.object, "", feet,
@@ -424,7 +428,7 @@ end
 minetest.register_entity(":carts:cart", cart_entity)
 
 -- Register item to place the entity
-if not boost_cart.mtg_compat then
+if not boost_cart.MTG_CARTS then
 	minetest.register_craftitem(":carts:cart", {
 		description = S("Cart (Sneak+Click to pick up)"),
 		inventory_image = minetest.inventorycube(

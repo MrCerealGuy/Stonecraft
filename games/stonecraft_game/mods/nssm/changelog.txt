@@ -1,3 +1,8 @@
+v3.02 (26th Jul 2020):
+ - Tweaked and tidied code
+ - Fixed bugs and used latest mobs redo api functions
+ - Changed spawning to use new minetest 5.x dirt types
+
 v3.01 (8th Aug 2018):
  - Fixed missing functions so that nssm uses mobs redo's global functions;
  - Fixed performance issue thanks to Ihofhansl

@@ -17,5 +17,6 @@ Based on Immersive Sounds .36 mod by Neuromancer and optimized to run on servers
 - 1.2 - Added PlayerPlus compatibility, removed fire sounds, added volume changes
 - 1.3 - Added API for use with other mods, code rewrite
 - 1.4 - Re-ordered water sets to come before fire and lava, day/night sounds play when leaves around and above ground
+- 1.5 - Added 'flame_sound' and fire redo check, code tidy and tweak, added ephemeral flag for background sounds.
 
 Code license: MIT

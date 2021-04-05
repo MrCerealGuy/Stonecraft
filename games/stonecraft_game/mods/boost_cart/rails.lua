@@ -27,18 +27,21 @@ boost_cart:register_rail(":"..regular_rail_itemname, {
 })
 
 -- Moreores' copper rail
+local copperrail_registered = false
 if minetest.get_modpath("moreores") then
 	minetest.register_alias("carts:copperrail", "moreores:copper_rail")
 
-	if minetest.raillike_group then
+	local raildef = minetest.registered_nodes["moreores:copper_rail"]
+	if raildef and minetest.raillike_group then
 		-- Ensure that this rail uses the same connect_to_raillike
-		local new_groups = minetest.registered_nodes["moreores:copper_rail"].groups
-		new_groups.connect_to_raillike = minetest.raillike_group("rail")
+		raildef.groups.connect_to_raillike = minetest.raillike_group("rail")
 		minetest.override_item("moreores:copper_rail", {
-			groups = new_groups
+			groups = raildef.groups
 		})
+		copperrail_registered = true
 	end
-else
+end
+if not copperrail_registered then
 	boost_cart:register_rail(":carts:copperrail", {
 		description = S("Copper rail"),
 		tiles = {

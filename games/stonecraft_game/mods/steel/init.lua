@@ -373,6 +373,7 @@ if minetest.get_modpath("unifieddyes") then
 		groups = {cracky=1, level=2, ud_param2_colorable=1, not_in_creative_inventory=1},
 		on_construct = unifieddyes.on_construct,
 		sounds = default.node_sound_metal_defaults(),
+		on_dig = unifieddyes.on_dig,
 	})
 
 	minetest.override_item("default:steelblock", {
@@ -380,7 +381,7 @@ if minetest.get_modpath("unifieddyes") then
 		airbrush_replacement_node = "steel:steel_block",
 		groups = {cracky=1, level=2, ud_param2_colorable=1},
 	})
-
+	
 	unifieddyes.register_color_craft({
 		output = "steel:steel_block",
 		palette = "extended",

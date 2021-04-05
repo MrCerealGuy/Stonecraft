@@ -1,44 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Chat</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
 </head>
 <body>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#chat">Chat</a>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#sending-messages">Sending messages</a></li>
 </ol></li>
 </ol>
 <h1 id="chat">Chat</h1>
 <p>The in-game chat functionality allows players to communicate with each other with short text messages inside a server.</p>
 <h2 id="sending-messages">Sending messages</h2>
-<p>First of all, before you can chat anything at all, you require the &quot;shout&quot; privilege. Don't worry, most servers give you this privilege by default.</p>
+<p>First of all, before you can chat anything at all, you require the “shout” privilege. Don’t worry, most servers give you this privilege by default.</p>
 <p>You can chat either by opening the chat window or the console which can be opened with the keys T or F10, respectively (assuming you use the default key bindings). Use the chat window or the console to enter a chat message. There are two kinds of chat messages, public ones and private ones.</p>
 <p><strong>Public messages</strong></p>
 <p>A public message is a message which is visible to all connected players.</p>
 <p><strong>Ordinary public messages</strong></p>
-<p>Your chat message is a normal public message if it doesn't begin with a &quot;/&quot;. It appears like this in the chat log:</p>
+<p>Your chat message is a normal public message if it doesn’t begin with a “/”. It appears like this in the chat log:</p>
 <pre><code>&lt;player&gt; message</code></pre>
-<p>Example: If you enter &quot;Hello, how are you?&quot; as MrCerealGuy, then this will appear in the chat log:</p>
+<p>Example: If you enter “Hello, how are you?” as MrCerealGuy, then this will appear in the chat log:</p>
 <pre><code>&lt;MrCerealGuy&gt; Hello, how are you?</code></pre>
 <p><strong>/me messages</strong></p>
 <p>This function is more like a gimmick than anything else. A /me message is a special case of a public message. The only real difference from the ordinary one is its appearance in the chat log. A /me message can be entered with:</p>
 <pre><code>/me &lt;message&gt;</code></pre>
-<p>Replace &quot;&lt;message&gt;&quot; with the actual message. You will get a message in the chat log which looks like this:</p>
+<p>Replace “&lt;message&gt;” with the actual message. You will get a message in the chat log which looks like this:</p>
 <pre><code>* &lt;player&gt; &lt;message&gt;</code></pre>
-<p>Example: Assume you want to say that you think that Stonecraft is awesome, in the third person. If you enter &quot;/me thinks Stonecraft is awesome.&quot;, you get:</p>
+<p>Example: Assume you want to say that you think that Stonecraft is awesome, in the third person. If you enter “/me thinks Stonecraft is awesome.”, you get:</p>
 <pre><code>* MrCerealGuy thinks Stonecraft is awesome.</code></pre>
 <p><strong>Private messages</strong></p>
 <p>A private message is a chat message which appears only on the chat logs of the sender and a chosen receiver of the message.</p>
-<p>You can send a private message (PM) to someone by using the &quot;/msg&quot; server command. Say something in the form of:</p>
+<p>You can send a private message (PM) to someone by using the “/msg” server command. Say something in the form of:</p>
 <pre><code>/msg &lt;player&gt; &lt;message&gt;</code></pre>
-<p>Replace &quot;&lt;message&gt;&quot; by your actual message and &quot;&lt;player&gt;&quot; by the name of the player you want to send the message to. The message won't be publicly visible in the chatlog and only appears to you and the other player. Be aware that the messages are not encrypted, so do not transfer really sensitive information using the private message feature.</p>
-<p>Example: If your name is &quot;MrCerealGuy&quot; and you entered &quot;/msg MrFr33maN I want to show you my hidden chest.&quot;, then this will appear in the chat log of MrFr33maN:</p>
+<p>Replace “&lt;message&gt;” by your actual message and “&lt;player&gt;” by the name of the player you want to send the message to. The message won’t be publicly visible in the chatlog and only appears to you and the other player. Be aware that the messages are not encrypted, so do not transfer really sensitive information using the private message feature.</p>
+<p>Example: If your name is “MrCerealGuy” and you entered “/msg MrFr33maN I want to show you my hidden chest.”, then this will appear in the chat log of MrFr33maN:</p>
 <pre><code>PM from MrCerealGuy: I want to show you my hidden chest.</code></pre>
 </body>
 </html>

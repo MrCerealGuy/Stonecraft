@@ -13,6 +13,13 @@ This mod works by adding your new plant to the {growing=1} group and numbering t
 
 ### Changelog:
 
+- 1.46 - Added min/max default light settings, added lettuce and blackberries with food items (thanks OgelGames), added soya and vanilla (thanks Felfa), added tofu, added salt crystals (thanks gorlock)
+- 1.45 - Dirt and Hoes are more in line with default by using dry/wet/base, added cactus juice, added pasta, spaghetti, cabbage, korean bibimbap, code tidy
+options, onion soup added (thanks edcrypt), Added apple pie, added wild cotton to savanna
+- 1.44 - Added 'farming_stage_length' in mod settings for speed of crop growth, also thanks to TheDarkTiger for translation updates
+- 1.43 - Scythe works on use instead of right-click, added seed=1 groups to actual seeds and seed=2 group for plantable food items.
+- 1.42 - Soil needs water to be present within 3 blocks horizontally and 1 below to make wet soil, Jack 'o Lanterns now check protection, add chocolate block.
+- 1.41 - Each crop has it's own spawn rate (can be changed in farming.conf)
 - 1.40 - Added Mithril Scythe to quick harvest and replant crops on right-click.  Added Hoe's for MoreOres with Toolrank support.
 - 1.39 - Added Rice, Rye and Oats thanks to Ademants Grains mod.  Added Jaffa Cake and multigrain bread.
 - 1.38 - Pumpkin grows into block, use chopping board to cut into 4x slices, same with melon block, 2x2 slices makes a block, cocoa pods are no longer walkable

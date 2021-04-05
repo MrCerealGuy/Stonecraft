@@ -1,4 +1,0 @@
-default
-mesecons
-screwdriver?
-intllib?

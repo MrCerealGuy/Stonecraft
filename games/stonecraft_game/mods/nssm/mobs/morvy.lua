@@ -5,8 +5,10 @@ mobs:register_mob("nssm:morvy", {
 	collisionbox = {-0.3, -0.1, -0.3, 0.3, 2.3, 0.3},
 	visual = "mesh",
 	mesh = "morvy.x",
-	textures = {{"morvy.png"}},
-	visual_size = {x=6, y=6},
+	textures = {
+		{"morvy.png"}
+	},
+	visual_size = {x = 6, y = 6},
 	makes_footstep_sound = true,
 	view_range = 35,
 	fear_height = 5,
@@ -19,14 +21,8 @@ mobs:register_mob("nssm:morvy", {
 	},
 	jump = true,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 5,
-		max = 7,},
-		{name = "nssm:envious_soul_fragment",
-		chance = 3,
-		min = 1,
-		max = 1,},
+		{name = "nssm:life_energy", chance = 1, min = 5, max = 7},
+		{name = "nssm:envious_soul_fragment", chance = 3, min = 1, max = 1},
 	},
 	reach = 8,
 	armor = 60,
@@ -34,12 +30,11 @@ mobs:register_mob("nssm:morvy", {
 	water_damage = 0,
 	lava_damage = 0,
 	light_damage = 0,
-	group_attack=true,
-	attack_animals=true,
-	knock_back=1,
-	blood_texture="morparticle.png",
-	stepheight=1.1,
-	on_rightclick = nil,
+	group_attack = true,
+	attack_animals = true,
+	knock_back = 1,
+	blood_texture = "morparticle.png",
+	stepheight = 1.1,
 	attack_type = "dogfight",
 	animation = {
 		speed_normal = 20,
@@ -55,18 +50,24 @@ mobs:register_mob("nssm:morvy", {
 	},
 
 	custom_attack = function(self)
-		mobs:set_animation(self, "stand")
-		self.morvy_counter = (self.morvy_counter or 0) + 1
-		if self.morvy_counter == 4 then
-			mobs:set_animation(self, "punch")
-			self.morvy_counter = 0
-			local counter = 0
 
+		mobs:set_animation(self, "stand")
+
+		self.morvy_counter = (self.morvy_counter or 0) + 1
+
+		if self.morvy_counter == 4 then
+
+			mobs:set_animation(self, "punch")
+
+			self.morvy_counter = 0
+
+			local counter = 0
 			local s = self.object:get_pos()
 			local p = self.attack:get_pos()
 
 			p.y = p.y + 1.5
 			s.y = s.y + 1.5
+
 			if mobs:line_of_sight(self, p, s) == true then
 				--[[play attack sound
 				if self.sounds.attack then
@@ -75,20 +76,31 @@ mobs:register_mob("nssm:morvy", {
 					max_hear_distance = self.sounds.distance
 					})
 				end]]
-				local pos1 = {x=s.x+math.random(-0.5,0.5), y=s.y+0.2, z=s.z+math.random(-0.5,0.5)}
+
+				local pos1 = {
+					x = s.x + math.random(-0.5, 0.5),
+					y = s.y + 0.2,
+					z = s.z + math.random(-0.5, 0.5)
+				}
 
 				local objects = minetest.get_objects_inside_radius(s, 10)
+
 				for _,obj in ipairs(objects) do
-					if (obj:get_luaentity() and ((obj:get_luaentity().name == "nssm:morbat1") or (obj:get_luaentity().name == "nssm:morbat2") or (obj:get_luaentity().name == "nssm:morbat3"))) then
+
+					if (obj:get_luaentity()
+					and ((obj:get_luaentity().name == "nssm:morbat1")
+					or (obj:get_luaentity().name == "nssm:morbat2")
+					or (obj:get_luaentity().name == "nssm:morbat3"))) then
 						counter = counter + 1
 					end
 				end
 
-				if (minetest.get_node(pos1).name == "air")
-				and (counter < 5)
-				then
+				if minetest.get_node(pos1).name == "air"
+				and counter < 5 then
+
 					local bat
 					local which = math.random(1,3)
+
 					if which == 1 then
 						bat = "nssm:morbat1"
 					elseif which == 2 then
@@ -96,10 +108,13 @@ mobs:register_mob("nssm:morvy", {
 					elseif which == 3 then
 						bat = "nssm:morbat3"
 					end
+
 					if (bat=="nssm:morbat3") then
-						pos1.y=pos1.y+1.5
+						pos1.y = pos1.y + 1.5
 					end
+
 					minetest.add_entity(pos1, bat)
+
 					minetest.add_particlespawner(
 						20, --amount
 						0.1, --time
@@ -132,8 +147,10 @@ mobs:register_mob("nssm:morbat1", {
 	collisionbox = {-0.1, 0.2, -0.1, 0.1, 0.4, 0.1},
 	visual = "mesh",
 	mesh = "morbat.x",
-	textures = {{"morbat1.png"}},
-	visual_size = {x=2, y=2},
+	textures = {
+		{"morbat1.png"}
+	},
+	visual_size = {x = 2, y = 2},
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
@@ -147,10 +164,7 @@ mobs:register_mob("nssm:morbat1", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 1,
-		max = 2,},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 	},
 	armor = 80,
 	drawtype = "front",
@@ -158,7 +172,6 @@ mobs:register_mob("nssm:morbat1", {
 	lava_damage = 0,
 	light_damage = 0,
 	blood_texture="morparticle.png",
-	on_rightclick = nil,
 	fly = true,
 	attack_type = "dogfight",
 	animation = {
@@ -182,8 +195,10 @@ mobs:register_mob("nssm:morbat2", {
 	collisionbox = {-0.1, 0.2, -0.1, 0.1, 0.4, 0.1},
 	visual = "mesh",
 	mesh = "morbat.x",
-	textures = {{"morbat2.png"}},
-	visual_size = {x=2, y=2},
+	textures = {
+		{"morbat2.png"}
+	},
+	visual_size = {x = 2, y = 2},
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
@@ -197,10 +212,7 @@ mobs:register_mob("nssm:morbat2", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 1,
-		max = 2,},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 	},
 	armor = 100,
 	drawtype = "front",
@@ -208,7 +220,6 @@ mobs:register_mob("nssm:morbat2", {
 	lava_damage = 0,
 	light_damage = 0,
 	blood_texture="morparticle.png",
-	on_rightclick = nil,
 	fly = true,
 	attack_type = "explode",
 	explosion_radius = 3,
@@ -234,8 +245,10 @@ mobs:register_mob("nssm:morbat3", {
 	collisionbox = {-0.1, 0.2, -0.1, 0.1, 0.4, 0.1},
 	visual = "mesh",
 	mesh = "morbat.x",
-	textures = {{"morbat3.png"}},
-	visual_size = {x=2, y=2},
+	textures = {
+		{"morbat3.png"}
+	},
+	visual_size = {x = 2, y = 2},
 	view_range = 40,
 	walk_velocity = 0.5,
 	run_velocity = 3,
@@ -249,18 +262,14 @@ mobs:register_mob("nssm:morbat3", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy",
-		chance = 1,
-		min = 1,
-		max = 2,},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 	},
 	armor = 100,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
 	light_damage = 0,
-	blood_texture="morparticle.png",
-	on_rightclick = nil,
+	blood_texture = "morparticle.png",
 	fly = true,
 	attack_type = "shoot",
 	arrow = "nssm:morarrow",

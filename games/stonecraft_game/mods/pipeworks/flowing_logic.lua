@@ -60,8 +60,8 @@ pipeworks.check_for_inflows = function(pos,node)
 			end
 		end
 	end
-	if newnode then 
-		minetest.add_node(pos,{name=newnode, param2 = node.param2}) 
+	if newnode then
+		minetest.add_node(pos,{name=newnode, param2 = node.param2})
 		minetest.get_meta(pos):set_string("source",minetest.pos_to_string(source))
 	end
 end
@@ -75,15 +75,15 @@ pipeworks.check_sources = function(pos,node)
 		newnode = string.gsub(node.name,"loaded","empty")
 	end
 
-	if newnode then 
-		minetest.add_node(pos,{name=newnode, param2 = node.param2}) 
+	if newnode then
+		minetest.add_node(pos,{name=newnode, param2 = node.param2})
 		minetest.get_meta(pos):set_string("source","")
 	end
 end
 
 pipeworks.spigot_check = function(pos, node)
 	local belowname = minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z}).name
-	if belowname and (belowname == "air" or belowname == "default:water_flowing" or belowname == "default:water_source") then 
+	if belowname and (belowname == "air" or belowname == "default:water_flowing" or belowname == "default:water_source") then
 		local spigotname = minetest.get_node(pos).name
 		local fdir=node.param2 % 4
 		local check = {
@@ -113,7 +113,7 @@ end
 
 pipeworks.fountainhead_check = function(pos, node)
 	local abovename = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z}).name
-	if abovename and (abovename == "air" or abovename == "default:water_flowing" or abovename == "default:water_source") then 
+	if abovename and (abovename == "air" or abovename == "default:water_flowing" or abovename == "default:water_source") then
 		local fountainhead_name = minetest.get_node(pos).name
 		local near_node = minetest.get_node({x=pos.x,y=pos.y-1,z=pos.z})
 		if near_node and string.find(near_node.name, "_loaded") then

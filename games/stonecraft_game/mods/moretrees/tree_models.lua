@@ -49,7 +49,6 @@ moretrees.poplar_model={
 	rules_b="[[T]&&G++f++ff++ff++ff++f--]G",
 	rules_c="[[T]&&G++f++ff++ff++ff++f--G++[d]G[d]G++G[d]G[d]G[d]G++G[d]G[d]G[d]G++G[d]G[d]G[d]G++G[d]G]G",
 	rules_d="f",
-	trunk="air",
 	trunk="moretrees:poplar_trunk",
 	leaves="moretrees:poplar_leaves",
 	angle=45,

@@ -1,5 +1,5 @@
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("woodsoils")
 
 -- nodes
 
@@ -19,6 +19,11 @@ minetest.register_node("woodsoils:dirt_with_leaves_1", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
+	soil = {
+		base = "woodsoils:dirt_with_leaves_1",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
 
 minetest.register_node("woodsoils:dirt_with_leaves_2", {
@@ -37,6 +42,11 @@ minetest.register_node("woodsoils:dirt_with_leaves_2", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
+	soil = {
+		base = "woodsoils:dirt_with_leaves_2",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
 
 minetest.register_node("woodsoils:grass_with_leaves_1", {
@@ -55,6 +65,11 @@ minetest.register_node("woodsoils:grass_with_leaves_1", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
+	soil = {
+		base = "woodsoils:grass_with_leaves_1",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
 
 minetest.register_node("woodsoils:grass_with_leaves_2", {
@@ -73,6 +88,11 @@ minetest.register_node("woodsoils:grass_with_leaves_2", {
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name="default_grass_footstep", gain=0.4},
 	}),
+	soil = {
+		base = "woodsoils:grass_with_leaves_2",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
 
 -- For compatibility with older stuff

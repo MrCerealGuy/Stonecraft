@@ -70,7 +70,7 @@ local get_formspec = function(name, identifier)
 end
 
 --implement worldedit.show_page(name, page) in different ways depending on the available APIs
-if rawget(_G, "unified_inventory") then --unified inventory installed
+if minetest.global_exists("unified_inventory") then -- unified inventory installed
 	local old_func = worldedit.register_gui_function
 	worldedit.register_gui_function = function(identifier, options)
 		old_func(identifier, options)
@@ -80,6 +80,9 @@ if rawget(_G, "unified_inventory") then --unified inventory installed
 	unified_inventory.register_button("worldedit_gui", {
 		type = "image",
 		image = "inventory_plus_worldedit_gui.png",
+		condition = function(player)
+			return minetest.check_player_privs(player:get_player_name(), {worldedit=true})
+		end,
 	})
 
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
@@ -103,7 +106,7 @@ if rawget(_G, "unified_inventory") then --unified inventory installed
 			player:set_inventory_formspec(get_formspec(name, page))
 		end
 	end
-elseif rawget(_G, "inventory_plus") then --inventory++ installed
+elseif minetest.global_exists("inventory_plus") then -- inventory++ installed
 	minetest.register_on_joinplayer(function(player)
 		local can_worldedit = minetest.check_player_privs(player:get_player_name(), {worldedit=true})
 		if can_worldedit then
@@ -134,7 +137,7 @@ elseif rawget(_G, "inventory_plus") then --inventory++ installed
 			inventory_plus.set_inventory_formspec(player, get_formspec(name, page))
 		end
 	end
-elseif rawget(_G, "smart_inventory") then -- smart_inventory installed
+elseif minetest.global_exists("smart_inventory") then -- smart_inventory installed
 	-- redefinition: Update the code element on inventory page to show the we-page
 	function worldedit.show_page(name, page)
 		local state = smart_inventory.get_page_state("worldedit_gui", name)
@@ -183,7 +186,7 @@ elseif rawget(_G, "smart_inventory") then -- smart_inventory installed
 		smartfs_callback = smart_worldedit_gui_callback,
 		sequence = 99
 	})
-elseif rawget(_G, "sfinv") then --sfinv installed (part of minetest_game since 0.4.15)
+elseif minetest.global_exists("sfinv") then -- sfinv installed
 	assert(sfinv.enabled)
 	local orig_get = sfinv.pages["sfinv:crafting"].get
 	sfinv.override_page("sfinv:crafting", {
@@ -194,21 +197,13 @@ elseif rawget(_G, "sfinv") then --sfinv installed (part of minetest_game since 0
 		end
 	})
 
-	--compatibility with pre-0.4.16 sfinv
-	local set_page = sfinv.set_page or function(player, name)
-		--assumptions: src pg has no leave callback, dst pg has no enter callback
-		local ctx = {page=name}
-		sfinv.contexts[player:get_player_name()] = ctx
-		sfinv.set_player_inventory_formspec(player, ctx)
-	end
-
 	--show the form when the button is pressed and hide it when done
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
 		if fields.worldedit_gui then --main page
 			worldedit.show_page(player:get_player_name(), "worldedit_gui")
 			return true
 		elseif fields.worldedit_gui_exit then --return to original page
-			set_page(player, "sfinv:crafting")
+			sfinv.set_page(player, "sfinv:crafting")
 			return true
 		end
 		return false
@@ -222,11 +217,11 @@ elseif rawget(_G, "sfinv") then --sfinv installed (part of minetest_game since 0
 	end
 else
 	error(
-		"worldedit_gui requires a supported \"gui management\" mod to be installed\n"..
-		"To use the GUI you need to either\n"..
-		"* Use minetest_game (at least 0.4.15) or a subgame with compatible sfinv\n"..
-		"* Install Unified Inventory or Inventory++\n"..
-		"If you do not want to use worldedit_gui, disable it by editing world.mt or from the Main Menu"
+		"worldedit_gui requires a supported gui management mod to be installed.\n"..
+		"To use the it you need to either:\n"..
+		"* use minetest_game or another sfinv-compatible subgame\n"..
+		"* install Unified Inventory, Inventory++ or Smart Inventory\n"..
+		"If you don't want to use worldedit_gui, disable it by editing world.mt or from the main menu."
 	)
 end
 

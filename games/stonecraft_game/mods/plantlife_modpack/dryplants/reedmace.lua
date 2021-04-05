@@ -18,7 +18,7 @@
 -- The seed hairs were used by some Native American groups as tinder for starting fires
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("dryplants")
 
 -----------------------------------------------------------------------------------------------
 -- REEDMACE SHAPES

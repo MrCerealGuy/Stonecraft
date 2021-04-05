@@ -56,10 +56,14 @@ minetest.register_craft( {
 minetest.register_craft( {
     output = "basic_materials:motor 2",
     recipe = {
-		{ "default:mese_crystal_fragment", "homedecor:copper_wire", "homedecor:plastic_sheeting" },
-		{ "default:copper_ingot", "default:steel_ingot", "default:steel_ingot" },
-		{ "default:mese_crystal_fragment", "homedecor:copper_wire", "homedecor:plastic_sheeting" }
+		{ "default:mese_crystal_fragment", "basic_materials:copper_wire", "basic_materials:plastic_sheet" },
+		{ "default:copper_ingot",          "default:steel_ingot",         "default:steel_ingot" },
+		{ "default:mese_crystal_fragment", "basic_materials:copper_wire", "basic_materials:plastic_sheet" }
     },
+	replacements = {
+		{ "basic_materials:copper_wire", "basic_materials:empty_spool" },
+		{ "basic_materials:copper_wire", "basic_materials:empty_spool" },
+	}
 })
 
 minetest.register_craft( {

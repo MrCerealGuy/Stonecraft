@@ -25,7 +25,7 @@ end
 -- both optional w/ sensible defaults and fallback to normal allow_* function
 -- XXX: possibly change insert_object to insert_item
 
-local adjlist={{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=0,y=1,z=0},{x=0,y=-1,z=0},{x=1,y=0,z=0},{x=-1,y=0,z=0}}
+local default_adjlist={{x=0,y=0,z=1},{x=0,y=0,z=-1},{x=0,y=1,z=0},{x=0,y=-1,z=0},{x=1,y=0,z=0},{x=-1,y=0,z=0}}
 
 function pipeworks.notvel(tbl, vel)
 	local tbl2={}
@@ -42,7 +42,7 @@ minetest.register_globalstep(function(dtime)
 		return
 	end
 	tube_item_count = {}
-	for id, entity in pairs(luaentity.entities) do
+	for _, entity in pairs(luaentity.entities) do
 		if entity.name == "pipeworks:tubed_item" then
 			local h = minetest.hash_node_position(vector.round(entity._pos))
 			tube_item_count[h] = (tube_item_count[h] or 0) + 1
@@ -55,15 +55,22 @@ end)
 -- tube overload mechanism:
 -- when the tube's item count (tracked in the above tube_item_count table)
 -- exceeds the limit configured per tube, replace it with a broken one.
+
+function pipeworks.break_tube(pos)
+	local node = minetest.get_node(pos)
+	local meta = minetest.get_meta(pos)
+	meta:set_string("the_tube_was", minetest.serialize(node))
+	minetest.swap_node(pos, {name = "pipeworks:broken_tube_1"})
+	pipeworks.scan_for_tube_objects(pos)
+end
+
 local crunch_tube = function(pos, cnode, cmeta)
 	if enable_max_limit then
 		local h = minetest.hash_node_position(pos)
 		local itemcount = tube_item_count[h] or 0
 		if itemcount > max_tube_limit then
-			cmeta:set_string("the_tube_was", minetest.serialize(cnode))
-			print("[Pipeworks] Warning - a tube at "..minetest.pos_to_string(pos).." broke due to too many items ("..itemcount..")")
-			minetest.swap_node(pos, {name = "pipeworks:broken_tube_1"})
-			pipeworks.scan_for_tube_objects(pos)
+			pipeworks.logger("Warning - a tube at "..minetest.pos_to_string(pos).." broke due to too many items ("..itemcount..")")
+			pipeworks.break_tube(pos)
 		end
 	end
 end
@@ -80,6 +87,9 @@ local function go_next_compat(pos, cnode, cmeta, cycledir, vel, stack, owner)
 	if minetest.registered_nodes[cnode.name] and minetest.registered_nodes[cnode.name].tube and minetest.registered_nodes[cnode.name].tube.can_go then
 		can_go = minetest.registered_nodes[cnode.name].tube.can_go(pos, cnode, vel, stack)
 	else
+		local adjlist_string = minetest.get_meta(pos):get_string("adjlist")
+		local adjlist = minetest.deserialize(adjlist_string) or default_adjlist -- backward compat: if not found, use old behavior: all directions
+
 		can_go = pipeworks.notvel(adjlist, vel)
 	end
 	-- can_go() is expected to return an array-like table of candidate offsets.
@@ -191,6 +201,7 @@ minetest.register_entity("pipeworks:tubed_item", {
 
 	from_data = function(self, itemstring)
 		local stack = ItemStack(itemstring)
+		--[[
 		local itemtable = stack:to_table()
 		local itemname = nil
 		if itemtable then
@@ -202,6 +213,7 @@ minetest.register_entity("pipeworks:tubed_item", {
 			item_texture = minetest.registered_items[itemname].inventory_image
 			item_type = minetest.registered_items[itemname].type
 		end
+		--]]
 		self.object:set_properties({
 			is_visible = true,
 			textures = {stack:get_name()}
@@ -388,7 +400,7 @@ if minetest.get_modpath("mesecons_mvps") then
 		for _, n in ipairs(moved_nodes) do
 			moved[minetest.hash_node_position(n.oldpos)] = vector.subtract(n.pos, n.oldpos)
 		end
-		for id, entity in pairs(luaentity.entities) do
+		for _, entity in pairs(luaentity.entities) do
 			if entity.name == "pipeworks:tubed_item" then
 				local pos = entity:get_pos()
 				local rpos = vector.round(pos)

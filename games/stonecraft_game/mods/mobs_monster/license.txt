@@ -19,3 +19,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+mobs.fireball.png was originally made by Sapier and edited by Benrob:
+
+-- Animals Mod by Sapier
+--
+-- You may copy, use, modify or do nearly anything except removing this
+-- copyright notice.
+-- And of course you are NOT allow to pretend you have written it.
+--
+-- (c) Sapier
+-- Contact sapier a t gmx net

@@ -38,7 +38,7 @@ stepheight = 0.6,
 	lava_damage = 5,
 	light_damage = 0,
 	fall_damage = 0,
-	fall_speed = -8,
+	fall_speed = -4,
 	fear_height = 5,
 	animation = {
 		speed_normal = 15,
@@ -55,7 +55,10 @@ stepheight = 0.6,
 		run_end = 110,
 		run_speed = 24,
 	},
-	follow = {"farming:seed_wheat", "farming:seed_cotton"},
+	follow = {
+		"farming:seed_wheat", "farming:seed_cotton", "farming:seed_barley",
+		"farming:seed_oat", "farming:seed_rye"
+	},
 	view_range = 5,
 
 	on_rightclick = function(self, clicker)
@@ -78,7 +81,7 @@ stepheight = 0.6,
 			return
 		end
 
-		local pos = self.object:get_pos()
+		local pos = self.object:get_pos() ; if not pos then return end
 
 		minetest.add_item(pos, "mobs:egg")
 
@@ -91,15 +94,17 @@ stepheight = 0.6,
 })
 
 
-local spawn_on = "default:dirt_with_grass"
+local spawn_on = {"default:dirt_with_grass"}
 
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
-	spawn_on = "ethereal:bamboo_dirt"
+if minetest.get_modpath("ethereal") then
+	spawn_on = {"ethereal:bamboo_dirt", "ethereal:prairie_dirt"}
 end
 
+
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:chicken",
-	nodes = {spawn_on},
+	nodes = spawn_on,
 	neighbors = {"group:grass"},
 	min_light = 14,
 	interval = 60,
@@ -108,6 +113,7 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
 
 mobs:register_egg("mobs_animal:chicken", S("Chicken"), "mobs_chicken_inv.png", 0)
@@ -296,7 +302,7 @@ minetest.register_craft({
 minetest.register_craftitem(":mobs:chicken_feather", {
 	description = S("Feather"),
 	inventory_image = "mobs_chicken_feather.png",
-	groups = {flammable = 2},
+	groups = {flammable = 2, feather = 1},
 })
 
 minetest.register_craft({

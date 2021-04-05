@@ -2,7 +2,7 @@
 local S = mobs.intllib
 
 
--- Cow by Krupnovpavel (additional texture by JurajVajda)
+-- Cow by sirrobzeroone
 
 mobs:register_mob("mobs_animal:cow", {
 	type = "animal",
@@ -16,7 +16,7 @@ mobs:register_mob("mobs_animal:cow", {
 	armor = 200,
 	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1.2, 0.4},
 	visual = "mesh",
-	mesh = "mobs_cow.x",
+	mesh = "mobs_cow.b3d",
 	textures = {
 		{"mobs_cow.png"},
 		{"mobs_cow2.png"},
@@ -38,24 +38,37 @@ mobs:register_mob("mobs_animal:cow", {
 	lava_damage = 5,
 	light_damage = 0,
 	animation = {
-		speed_normal = 15,
-		speed_run = 15,
 		stand_start = 0,
 		stand_end = 30,
-		walk_start = 35,
-		walk_end = 65,
-		run_start = 105,
-		run_end = 135,
-		punch_start = 70,
-		punch_end = 100,
+		stand_speed = 20,
+		stand1_start = 35,
+		stand1_end = 75,
+		stand1_speed = 20,
+		walk_start = 85,
+		walk_end = 114,
+		walk_speed = 20,
+		run_start = 120,
+		run_end = 140,
+		run_speed = 30,
+		punch_start = 145,
+		punch_end = 160,
+		punch_speed = 20,
+		die_start = 165,
+		die_end = 185,
+		die_speed = 10,
+		die_loop = false,
 	},
-	follow = {"farming:wheat", "default:grass_1"},
+	follow = {
+		"farming:wheat", "default:grass_1", "farming:barley",
+		"farming:oat", "farming:rye"
+	},
 	view_range = 8,
 	replace_rate = 10,
 	replace_what = {
 		{"group:grass", "air", 0},
 		{"default:dirt_with_grass", "default:dirt", -1}
 	},
+--	stay_near = {{"farming:straw", "group:grass"}, 10},
 	fear_height = 2,
 	on_rightclick = function(self, clicker)
 
@@ -108,6 +121,7 @@ mobs:register_mob("mobs_animal:cow", {
 			return
 		end
 	end,
+
 	on_replace = function(self, pos, oldnode, newnode)
 
 		self.food = (self.food or 0) + 1
@@ -121,6 +135,7 @@ mobs:register_mob("mobs_animal:cow", {
 })
 
 
+if not mobs.custom_spawn_animal then
 mobs:spawn({
 	name = "mobs_animal:cow",
 	nodes = {"default:dirt_with_grass", "ethereal:green_dirt"},
@@ -132,9 +147,10 @@ mobs:spawn({
 	max_height = 200,
 	day_toggle = true,
 })
+end
 
 
-mobs:register_egg("mobs_animal:cow", S("Cow"), "default_grass.png", 1)
+mobs:register_egg("mobs_animal:cow", S("Cow"), "mobs_cow_inv.png")
 
 
 mobs:alias_mob("mobs:cow", "mobs_animal:cow") -- compatibility
@@ -145,25 +161,25 @@ minetest.register_craftitem(":mobs:bucket_milk", {
 	description = S("Bucket of Milk"),
 	inventory_image = "mobs_bucket_milk.png",
 	stack_max = 1,
-	on_use = minetest.item_eat(8, 'bucket:bucket_empty'),
-	groups = {food_milk = 1, flammable = 3},
+	on_use = minetest.item_eat(8, "bucket:bucket_empty"),
+	groups = {food_milk = 1, flammable = 3, drink = 1},
 })
 
 -- glass of milk
 minetest.register_craftitem(":mobs:glass_milk", {
 	description = S("Glass of Milk"),
 	inventory_image = "mobs_glass_milk.png",
-	on_use = minetest.item_eat(2, 'vessels:drinking_glass'),
-	groups = {food_milk_glass = 1, flammable = 3, vessel = 1},
+	on_use = minetest.item_eat(2, "vessels:drinking_glass"),
+	groups = {food_milk_glass = 1, flammable = 3, vessel = 1, drink = 1},
 })
 
 minetest.register_craft({
 	type = "shapeless",
 	output = "mobs:glass_milk 4",
 	recipe = {
-		'vessels:drinking_glass', 'vessels:drinking_glass',
-		'vessels:drinking_glass', 'vessels:drinking_glass',
-		'mobs:bucket_milk'
+		"vessels:drinking_glass", "vessels:drinking_glass",
+		"vessels:drinking_glass", "vessels:drinking_glass",
+		"mobs:bucket_milk"
 	},
 	replacements = { {"mobs:bucket_milk", "bucket:bucket_empty"} }
 })
@@ -172,11 +188,13 @@ minetest.register_craft({
 	type = "shapeless",
 	output = "mobs:bucket_milk",
 	recipe = {
-		'mobs:glass_milk', 'mobs:glass_milk',
-		'mobs:glass_milk', 'mobs:glass_milk',
-		'bucket:bucket_empty'
+		"group:food_milk_glass", "group:food_milk_glass",
+		"group:food_milk_glass", "group:food_milk_glass",
+		"bucket:bucket_empty"
 	},
-	replacements = { {"mobs:glass_milk", "vessels:drinking_glass 4"} }
+	replacements = {
+		{"group:food_milk_glass", "vessels:drinking_glass 4"},
+	}
 })
 
 
@@ -225,22 +243,22 @@ minetest.register_node(":mobs:cheeseblock", {
 	description = S("Cheese Block"),
 	tiles = {"mobs_cheeseblock.png"},
 	is_ground_content = false,
-	groups = {crumbly = 3},
+	groups = {oddly_breakable_by_hand = 3},
 	sounds = default.node_sound_dirt_defaults()
 })
 
 minetest.register_craft({
 	output = "mobs:cheeseblock",
 	recipe = {
-		{'mobs:cheese', 'mobs:cheese', 'mobs:cheese'},
-		{'mobs:cheese', 'mobs:cheese', 'mobs:cheese'},
-		{'mobs:cheese', 'mobs:cheese', 'mobs:cheese'},
+		{"group:food_cheese", "group:food_cheese", "group:food_cheese"},
+		{"group:food_cheese", "group:food_cheese", "group:food_cheese"},
+		{"group:food_cheese", "group:food_cheese", "group:food_cheese"},
 	}
 })
 
 minetest.register_craft({
 	output = "mobs:cheese 9",
 	recipe = {
-		{'mobs:cheeseblock'},
+		{"mobs:cheeseblock"},
 	}
 })

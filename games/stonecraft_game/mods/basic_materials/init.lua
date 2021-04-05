@@ -7,6 +7,7 @@
 local modpath = minetest.get_modpath("basic_materials")
 
 basic_materials = {}
+basic_materials.mod = { author = "Vanessa Dannenberg" }
 
 dofile(modpath.."/metals.lua")
 dofile(modpath.."/plastics.lua")

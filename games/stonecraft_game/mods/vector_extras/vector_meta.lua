@@ -94,15 +94,15 @@ function vector.meta.complete_node_table(pos, name) --neccesary because tab[1] w
 	if not tmp then
 		vector.meta.nodes[pos.x] = {}
 	end
-	local tmp = vector.meta.nodes[pos.x][pos.y]
+	tmp = vector.meta.nodes[pos.x][pos.y]
 	if not tmp then
 		vector.meta.nodes[pos.x][pos.y] = {}
 	end
-	local tmp = vector.meta.nodes[pos.x][pos.y][pos.z]
+	tmp = vector.meta.nodes[pos.x][pos.y][pos.z]
 	if not tmp then
 		vector.meta.nodes[pos.x][pos.y][pos.z] = {}
 	end
-	local tmp = vector.meta.nodes[pos.x][pos.y][pos.z][name]
+	tmp = vector.meta.nodes[pos.x][pos.y][pos.z][name]
 	if not tmp then
 		vector.meta.nodes[pos.x][pos.y][pos.z][name] = {}
 	end
@@ -117,12 +117,12 @@ function vector.meta.get_node(pos, name)
 	or table_empty(tmp) then
 		return false
 	end
-	local tmp = vector.meta.nodes[pos.x][pos.y]
+	tmp = vector.meta.nodes[pos.x][pos.y]
 	if not tmp
 	or table_empty(tmp) then
 		return false
 	end
-	local tmp = vector.meta.nodes[pos.x][pos.y][pos.z]
+	tmp = vector.meta.nodes[pos.x][pos.y][pos.z]
 	if not tmp
 	or table_empty(tmp) then
 		return false
@@ -133,7 +133,7 @@ function vector.meta.get_node(pos, name)
 		return true
 	end
 
-	local tmp = vector.meta.nodes[pos.x][pos.y][pos.z][name]
+	tmp = vector.meta.nodes[pos.x][pos.y][pos.z][name]
 	if not tmp
 	or table_empty(tmp) then
 		return false

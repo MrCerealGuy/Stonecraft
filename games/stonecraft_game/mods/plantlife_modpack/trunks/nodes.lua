@@ -1,6 +1,6 @@
 -- Code by Mossmanikin & Neuromancer
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("trunks")
 -----------------------------------------------------------------------------------------------
 -- TWiGS
 -----------------------------------------------------------------------------------------------

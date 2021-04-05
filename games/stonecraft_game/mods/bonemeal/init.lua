@@ -1,6 +1,10 @@
 
 bonemeal = {}
 
+local path = minetest.get_modpath("bonemeal")
+local min, max, random = math.min, math.max, math.random
+
+
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP .. "/intllib.lua")
@@ -8,7 +12,7 @@ local S, NS = dofile(MP .. "/intllib.lua")
 
 -- creative check
 local creative_mode_cache = minetest.settings:get_bool("creative_mode")
-function is_creative(name)
+function bonemeal.is_creative(name)
 	return creative_mode_cache or minetest.check_player_privs(name, {creative = true})
 end
 
@@ -16,7 +20,7 @@ end
 -- default crops
 local crops = {
 	{"farming:cotton_", 8, "farming:seed_cotton"},
-	{"farming:wheat_", 8, "farming:seed_wheat"},
+	{"farming:wheat_", 8, "farming:seed_wheat"}
 }
 
 
@@ -45,7 +49,7 @@ local saplings = {
 	{"default:acacia_bush_sapling", default.grow_acacia_bush, "soil"},
 	{"default:large_cactus_seedling", default.grow_large_cactus, "sand"},
 	{"default:blueberry_bush_sapling", default.grow_blueberry_bush, "soil"},
-	{"default:pine_bush_sapling", default.grow_pine_bush, "soil"},
+	{"default:pine_bush_sapling", default.grow_pine_bush, "soil"}
 }
 
 -- helper tables ( "" denotes a blank item )
@@ -59,25 +63,22 @@ local dry_grass = {
 	"default:dry_grass_5", "", ""
 }
 
-local flowers = {
-	"flowers:dandelion_white", "flowers:dandelion_yellow", "flowers:geranium",
-	"flowers:rose", "flowers:tulip", "flowers:viola", ""
-}
+-- loads mods then add all in-game flowers except waterlily
+local flowers = {}
 
--- 5.0 flower check
-if minetest.registered_nodes["flowers:tulip_black"] then
-	flowers[#flowers + 1] = "flowers:tulip_black"
-	flowers[#flowers + 1] = "flowers:chrysanthemum_green"
-end
+minetest.after(0.1, function()
 
--- add additional bakedclay flowers if enabled
-if minetest.get_modpath("bakedclay") then
-	flowers[#flowers + 1] = "bakedclay:delphinium"
-	flowers[#flowers + 1] = "bakedclay:thistle"
-	flowers[#flowers + 1] = "bakedclay:lazarus"
-	flowers[#flowers + 1] = "bakedclay:mannagrass"
-	flowers[#flowers + 1] = ""
-end
+	for node, def in pairs(minetest.registered_nodes) do
+
+		if def.groups
+		and def.groups.flower
+		and not node:find("waterlily")
+		and not node:find("xdecor:potted_") then
+			flowers[#flowers + 1] = node
+		end
+	end
+end)
+
 
 -- default biomes deco
 local deco = {
@@ -88,7 +89,9 @@ local deco = {
 }
 
 
------ local functions
+--
+-- local functions
+--
 
 
 -- particles
@@ -107,7 +110,7 @@ local function particle_effect(pos)
 		maxexptime = 1,
 		minsize = 1,
 		maxsize = 3,
-		texture = "bonemeal_particle.png",
+		texture = "bonemeal_particle.png"
 	})
 end
 
@@ -176,7 +179,7 @@ local function check_sapling(pos, nodename)
 			if can_grow then
 				particle_effect(pos)
 				grow_tree(pos, saplings[n][2])
-				return
+				return true
 			end
 		end
 	end
@@ -191,7 +194,7 @@ local function check_crops(pos, nodename, strength)
 	-- grow registered crops
 	for n = 1, #crops do
 
-		if string.find(nodename, crops[n][1])
+		if nodename:find(crops[n][1])
 		or nodename == crops[n][3] then
 
 			-- separate mod and node name
@@ -200,7 +203,7 @@ local function check_crops(pos, nodename, strength)
 
 			-- get stage number or set to 0 for seed
 			stage = tonumber( crop:split("_")[2] ) or 0
-			stage = math.min(stage + strength, crops[n][2])
+			stage = min(stage + strength, crops[n][2])
 
 			-- check for place_param setting
 			nod = crops[n][1] .. stage
@@ -211,7 +214,7 @@ local function check_crops(pos, nodename, strength)
 
 			particle_effect(pos)
 
-			return
+			return true
 		end
 	end
 end
@@ -222,7 +225,7 @@ local function check_soil(pos, nodename, strength)
 
 	-- set radius according to strength
 	local side = strength - 1
-	local tall = math.max(strength - 2, 0)
+	local tall = max(strength - 2, 0)
 	local floor
 	local groups = minetest.registered_items[nodename]
 		and minetest.registered_items[nodename].groups or {}
@@ -258,23 +261,38 @@ local function check_soil(pos, nodename, strength)
 	local pos2, nod, def
 
 	-- loop through soil
-	for _,n in pairs(dirt) do
+	for _, n in pairs(dirt) do
+
+		if random(5) == 5 then
+			if decor and #decor > 0 then
+				-- place random decoration (rare)
+				local dnum = #decor or 1
+				nod = decor[random(dnum)] or ""
+			end
+		else
+			if grass and #grass > 0 then
+				-- place random grass (common)
+				local dgra = #grass or 1
+				nod = #grass > 0 and grass[random(dgra)] or ""
+			end
+		end
 
 		pos2 = n
 
 		pos2.y = pos2.y + 1
 
-		if math.random(1, 5) == 5 then
-			-- place random decoration (rare)
-			nod = decor[math.random(1, #decor)] or ""
-		else
-			-- place random grass (common)
-			nod = #grass > 0 and grass[math.random(1, #grass)] or ""
-		end
-
 		if nod and nod ~= "" then
+
+			-- get crop param2 value
 			def = minetest.registered_nodes[nod]
-			def = def and def.place_param2 or 0
+			def = def and def.place_param2
+
+			-- if param2 not preset then get from existing node
+			if not def then
+				local node = minetest.get_node_or_nil(pos2)
+				def = node and node.param2 or 0
+			end
+
 			minetest.set_node(pos2, {name = nod, param2 = def})
 		end
 
@@ -293,7 +311,7 @@ end
 function bonemeal:add_sapling(list)
 
 	for n = 1, #list do
-		table.insert(saplings, list[n])
+		saplings[#saplings + 1] = list[n]
 	end
 end
 
@@ -304,7 +322,7 @@ end
 function bonemeal:add_crop(list)
 
 	for n = 1, #list do
-		table.insert(crops, list[n])
+		crops[#crops + 1] = list[n]
 	end
 end
 
@@ -324,11 +342,11 @@ function bonemeal:add_deco(list)
 			if list[l][1] == deco[n][1] then
 
 				-- adding grass types
-				for _,extra in ipairs(list[l][2]) do
+				for _, extra in pairs(list[l][2]) do
 
 					if extra ~= "" then
 
-						for __,entry in ipairs(deco[n][2]) do
+						for _, entry in pairs(deco[n][2]) do
 
 							if extra == entry then
 								extra = false
@@ -338,16 +356,16 @@ function bonemeal:add_deco(list)
 					end
 
 					if extra then
-						table.insert(deco[n][2], extra)
+						deco[n][2][#deco[n][2] + 1] = extra
 					end
 				end
 
 				-- adding decoration types
-				for _,extra in ipairs(list[l][3]) do
+				for _, extra in ipairs(list[l][3]) do
 
 					if extra ~= "" then
 
-						for __,entry in ipairs(deco[n][3]) do
+						for __, entry in pairs(deco[n][3]) do
 
 							if extra == entry then
 								extra = false
@@ -357,7 +375,7 @@ function bonemeal:add_deco(list)
 					end
 
 					if extra then
-						table.insert(deco[n][3], extra)
+						deco[n][3][#deco[n][3] + 1] = extra
 					end
 				end
 
@@ -367,7 +385,7 @@ function bonemeal:add_deco(list)
 		end
 
 		if list[l] then
-			table.insert(deco, list[l])
+			deco[#deco + 1] = list[l]
 		end
 	end
 end
@@ -391,7 +409,7 @@ function bonemeal:set_deco(list)
 		end
 
 		if list[l] then
-			table.insert(deco, list[l])
+			deco[#deco + 1] = list[l]
 		end
 	end
 end
@@ -410,21 +428,21 @@ function bonemeal:on_use(pos, strength, node)
 
 	-- make sure strength is between 1 and 4
 	strength = strength or 1
-	strength = math.max(strength, 1)
-	strength = math.min(strength, 4)
+	strength = max(strength, 1)
+	strength = min(strength, 4)
 
 	-- papyrus and cactus
 	if node.name == "default:papyrus" then
 
 		default.grow_papyrus(pos, node)
 		particle_effect(pos)
-		return
+		return true
 
 	elseif node.name == "default:cactus" then
 
 		default.grow_cactus(pos, node)
 		particle_effect(pos)
-		return
+		return true
 	end
 
 	-- grow grass and flowers
@@ -432,7 +450,7 @@ function bonemeal:on_use(pos, strength, node)
 	or minetest.get_item_group(node.name, "sand") > 0
 	or minetest.get_item_group(node.name, "can_bonemeal") > 0 then
 		check_soil(pos, node.name, strength)
-		return
+		return true
 	end
 
 	-- light check depending on strength (strength of 4 = no light needed)
@@ -441,18 +459,22 @@ function bonemeal:on_use(pos, strength, node)
 	end
 
 	-- check for tree growth if pointing at sapling
---	if minetest.get_item_group(node.name, "sapling") > 0
-	if math.random(1, (5 - strength)) == 1 then
+	if minetest.get_item_group(node.name, "sapling") > 0
+	and random(5 - strength) == 1 then
 		check_sapling(pos, node.name)
-		return
+		return true
 	end
 
 	-- check for crop growth
-	check_crops(pos, node.name, strength)
+	if check_crops(pos, node.name, strength) then
+		return true
+	end
 end
 
 
------ items
+--
+-- items
+--
 
 
 -- mulch (strength 1)
@@ -472,16 +494,17 @@ minetest.register_craftitem("bonemeal:mulch", {
 			return
 		end
 
-		-- take item if not in creative
-		if not is_creative(user:get_player_name()) then
-			itemstack:take_item()
+		-- call global on_use function with strength of 1
+		if bonemeal:on_use(pointed_thing.under, 1) then
+
+			-- take item if not in creative
+			if not bonemeal.is_creative(user:get_player_name()) then
+				itemstack:take_item()
+			end
 		end
 
-		-- call global on_use function with strength of 1
-		bonemeal:on_use(pointed_thing.under, 1)
-
 		return itemstack
-	end,
+	end
 })
 
 
@@ -502,16 +525,17 @@ minetest.register_craftitem("bonemeal:bonemeal", {
 			return
 		end
 
-		-- take item if not in creative
-		if not is_creative(user:get_player_name()) then
-			itemstack:take_item()
+		-- call global on_use function with strength of 2
+		if bonemeal:on_use(pointed_thing.under, 2) then
+
+			-- take item if not in creative
+			if not bonemeal.is_creative(user:get_player_name()) then
+				itemstack:take_item()
+			end
 		end
 
-		-- call global on_use function with strength of 2
-		bonemeal:on_use(pointed_thing.under, 2)
-
 		return itemstack
-	end,
+	end
 })
 
 
@@ -532,16 +556,17 @@ minetest.register_craftitem("bonemeal:fertiliser", {
 			return
 		end
 
-		-- take item if not in creative
-		if not is_creative(user:get_player_name()) then
-			itemstack:take_item()
+		-- call global on_use function with strength of 3
+		if bonemeal:on_use(pointed_thing.under, 3) then
+
+			-- take item if not in creative
+			if not bonemeal.is_creative(user:get_player_name()) then
+				itemstack:take_item()
+			end
 		end
 
-		-- call global on_use function with strength of 3
-		bonemeal:on_use(pointed_thing.under, 3)
-
 		return itemstack
-	end,
+	end
 })
 
 
@@ -549,50 +574,54 @@ minetest.register_craftitem("bonemeal:fertiliser", {
 minetest.register_craftitem("bonemeal:bone", {
 	description = S("Bone"),
 	inventory_image = "bonemeal_bone.png",
+	groups = {bone = 1}
 })
 
 -- gelatin powder
 minetest.register_craftitem("bonemeal:gelatin_powder", {
 	description = S("Gelatin Powder"),
 	inventory_image = "bonemeal_gelatin_powder.png",
-	groups = {food_gelatin = 1, flammable = 2},
+	groups = {food_gelatin = 1, flammable = 2}
 })
 
 
---- crafting recipes
+--
+-- crafting recipes
+--
+
 
 -- gelatin powder
 minetest.register_craft({
 	output = "bonemeal:gelatin_powder 4",
 	recipe = {
-		{"bonemeal:bone", "bonemeal:bone", "bonemeal:bone"},
+		{"group:bone", "group:bone", "group:bone"},
 		{"bucket:bucket_water", "bucket:bucket_water", "bucket:bucket_water"},
 		{"bucket:bucket_water", "default:torch", "bucket:bucket_water"},
 	},
 	replacements = {
 		{"bucket:bucket_water", "bucket:bucket_empty 5"},
-	},
+	}
 })
 
 -- bonemeal (from bone)
 minetest.register_craft({
 	type = "shapeless",
 	output = "bonemeal:bonemeal 2",
-	recipe = {"bonemeal:bone"},
+	recipe = {"group:bone"}
 })
 
 -- bonemeal (from player bones)
 minetest.register_craft({
 	type = "shapeless",
 	output = "bonemeal:bonemeal 4",
-	recipe = {"bones:bones"},
+	recipe = {"bones:bones"}
 })
 
 -- bonemeal (from coral skeleton)
 minetest.register_craft({
 	type = "shapeless",
 	output = "bonemeal:bonemeal 2",
-	recipe = {"default:coral_skeleton"},
+	recipe = {"default:coral_skeleton"}
 })
 
 -- mulch
@@ -603,14 +632,24 @@ minetest.register_craft({
 		"group:tree", "group:leaves", "group:leaves",
 		"group:leaves", "group:leaves", "group:leaves",
 		"group:leaves", "group:leaves", "group:leaves"
-	},
+	}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "bonemeal:mulch",
+	recipe = {
+		"group:seed", "group:seed", "group:seed",
+		"group:seed", "group:seed", "group:seed",
+		"group:seed", "group:seed", "group:seed"
+	}
 })
 
 -- fertiliser
 minetest.register_craft({
 	type = "shapeless",
 	output = "bonemeal:fertiliser 2",
-	recipe = {"bonemeal:bonemeal", "bonemeal:mulch"},
+	recipe = {"bonemeal:bonemeal", "bonemeal:mulch"}
 })
 
 
@@ -621,19 +660,17 @@ minetest.override_item("default:dirt", {
 		items = {
 			{
 				items = {"bonemeal:bone"},
-				rarity = 30,
+				rarity = 40
 			},
 			{
-				items = {"default:dirt"},
+				items = {"default:dirt"}
 			}
 		}
-	},
+	}
 })
 
 
 -- add support for other mods
-local path = minetest.get_modpath("bonemeal")
-
 dofile(path .. "/mods.lua")
 dofile(path .. "/lucky_block.lua")
 

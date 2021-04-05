@@ -1,19 +1,24 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <title></title>
-  <style type="text/css">code{white-space: pre;}</style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Modding-Stonecraft</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
 </head>
 <body>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#modding-stonecraft">Modding Stonecraft</a>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#installing-mods">Installing mods</a></li>
 <li><a href="#installing-texture-packs">Installing texture packs</a>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><a href="#server-texture-pack">Server texture pack</a></li>
 </ol></li>
 <li><a href="#profiling-mods">Profiling mods</a></li>
@@ -21,14 +26,14 @@
 </ol>
 <h1 id="modding-stonecraft">Modding Stonecraft</h1>
 <p>If you wish to make your own mod for Stonecraft, I recommend to learn how the engine works and to become familiar with the Lua API. The following links can be useful:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li><p>Learn the structure of the <strong>Minetest engine</strong> http://dev.minetest.net/Main_Page</p></li>
 <li><p>Learn the <strong>Lua programming language</strong> https://www.lua.org/pil/contents.html</p></li>
 <li><p>Learn the <strong>Lua Mod API</strong> http://rubenwardy.com/minetest_modding_book/</p></li>
 </ol>
 <h2 id="installing-mods">Installing mods</h2>
 <p>You can get mods from the <a href="http://www.minetest.net/customize/">Minetest community</a>, I can give no warranties that they work with Stonecraft. The mods are installed globally and enabled per world.</p>
-<p>The common place to install them is <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/mods/</em>. After extracting the mod there you need to enable it for your world. This can either be done in the GUI by clicking on &quot;Configure&quot; in the world selection, or by adding</p>
+<p>The common place to install them is <em>&lt;YOUR/STONECRAFT/DIRECTORY&gt;/mods/</em>. After extracting the mod there you need to enable it for your world. This can either be done in the GUI by clicking on “Configure” in the world selection, or by adding</p>
 <pre><code>load_mod_&lt;modname&gt; = true</code></pre>
 <p>in the <em>world.mt</em> file in the world directory.</p>
 <p>Note that newly installed mods are disabled for all worlds by default, so you explicitly need to enable them.</p>

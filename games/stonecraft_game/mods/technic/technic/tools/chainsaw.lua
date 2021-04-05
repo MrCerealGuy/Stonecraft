@@ -18,162 +18,234 @@ local chainsaw_charge_per_node = 12
 -- if this is disabled.
 local chainsaw_leaves = true
 
--- The default trees
-local timber_nodenames = {
-	["default:acacia_tree"] = true,
-	["default:aspen_tree"]  = true,
-	["default:jungletree"]  = true,
-	["default:papyrus"]     = true,
-	["default:cactus"]      = true,
-	["default:tree"]        = true,
-	["default:apple"]       = true,
-	["default:pine_tree"]    = true,
+-- First value is node name; second is whether the node is considered even if chainsaw_leaves is false.
+local nodes = {
+	-- The default trees
+	{"default:acacia_tree", true},
+	{"default:aspen_tree", true},
+	{"default:jungletree", true},
+	{"default:papyrus", true},
+	{"default:cactus", true},
+	{"default:tree", true},
+	{"default:apple", true},
+	{"default:pine_tree", true},
+	{"default:acacia_leaves", false},
+	{"default:aspen_leaves", false},
+	{"default:leaves", false},
+	{"default:jungleleaves", false},
+	{"default:pine_needles", false},
+
+	-- The default bushes
+	{"default:acacia_bush_stem", true},
+	{"default:bush_stem", true},
+	{"default:pine_bush_stem", true},
+	{"default:acacia_bush_leaves", false},
+	{"default:blueberry_bush_leaves", false},
+	{"default:blueberry_bush_leaves_with_berries", false},
+	{"default:bush_leaves", false},
+	{"default:pine_bush_needles", false},
+
+	-- Rubber trees from moretrees or technic_worldgen if moretrees isn't installed
+	{"moretrees:rubber_tree_trunk_empty", true},
+	{"moretrees:rubber_tree_trunk", true},
+	{"moretrees:rubber_tree_leaves", false},
+
+	-- Support moretrees (trunk)
+	{"moretrees:acacia_trunk", true},
+	{"moretrees:apple_tree_trunk", true},
+	{"moretrees:beech_trunk", true},
+	{"moretrees:birch_trunk", true},
+	{"moretrees:cedar_trunk", true},
+	{"moretrees:date_palm_ffruit_trunk", true},
+	{"moretrees:date_palm_fruit_trunk", true},
+	{"moretrees:date_palm_mfruit_trunk", true},
+	{"moretrees:date_palm_trunk", true},
+	{"moretrees:fir_trunk", true},
+	{"moretrees:jungletree_trunk", true},
+	{"moretrees:oak_trunk", true},
+	{"moretrees:palm_trunk", true},
+	{"moretrees:palm_fruit_trunk", true},
+	{"moretrees:palm_fruit_trunk_gen", true},
+	{"moretrees:pine_trunk", true},
+	{"moretrees:poplar_trunk", true},
+	{"moretrees:sequoia_trunk", true},
+	{"moretrees:spruce_trunk", true},
+	{"moretrees:willow_trunk", true},
+	-- Support moretrees (leaves)
+	{"moretrees:acacia_leaves", false},
+	{"moretrees:apple_tree_leaves", false},
+	{"moretrees:beech_leaves", false},
+	{"moretrees:birch_leaves", false},
+	{"moretrees:cedar_leaves", false},
+	{"moretrees:date_palm_leaves", false},
+	{"moretrees:fir_leaves", false},
+	{"moretrees:fir_leaves_bright", false},
+	{"moretrees:jungletree_leaves_green", false},
+	{"moretrees:jungletree_leaves_yellow", false},
+	{"moretrees:jungletree_leaves_red", false},
+	{"moretrees:oak_leaves", false},
+	{"moretrees:palm_leaves", false},
+	{"moretrees:poplar_leaves", false},
+	{"moretrees:pine_leaves", false},
+	{"moretrees:sequoia_leaves", false},
+	{"moretrees:spruce_leaves", false},
+	{"moretrees:willow_leaves", false},
+	-- Support moretrees (fruit)
+	{"moretrees:acorn", false},
+	{"moretrees:apple_blossoms", false},
+	{"moretrees:cedar_cone", false},
+	{"moretrees:coconut", false},
+	{"moretrees:coconut_0", false},
+	{"moretrees:coconut_1", false},
+	{"moretrees:coconut_2", false},
+	{"moretrees:coconut_3", false},
+	{"moretrees:dates_f0", false},
+	{"moretrees:dates_f1", false},
+	{"moretrees:dates_f2", false},
+	{"moretrees:dates_f3", false},
+	{"moretrees:dates_f4", false},
+	{"moretrees:dates_fn", false},
+	{"moretrees:dates_m0", false},
+	{"moretrees:dates_n", false},
+	{"moretrees:fir_cone", false},
+	{"moretrees:pine_cone", false},
+	{"moretrees:spruce_cone", false},
+
+	-- Support growing_trees
+	{"growing_trees:trunk", true},
+	{"growing_trees:medium_trunk", true},
+	{"growing_trees:big_trunk", true},
+	{"growing_trees:trunk_top", true},
+	{"growing_trees:trunk_sprout", true},
+	{"growing_trees:branch_sprout", true},
+	{"growing_trees:branch", true},
+	{"growing_trees:branch_xmzm", true},
+	{"growing_trees:branch_xpzm", true},
+	{"growing_trees:branch_xmzp", true},
+	{"growing_trees:branch_xpzp", true},
+	{"growing_trees:branch_zz", true},
+	{"growing_trees:branch_xx", true},
+	{"growing_trees:leaves", false},
+
+	-- Support cool_trees
+	{"bamboo:trunk", true},
+	{"bamboo:leaves", false},
+	{"birch:trunk", true},
+	{"birch:leaves", false},
+	{"cherrytree:trunk", true},
+	{"cherrytree:blossom_leaves", false},
+	{"cherrytree:leaves", false},
+	{"chestnuttree:trunk", true},
+	{"chestnuttree:leaves", false},
+	{"clementinetree:trunk", true},
+	{"clementinetree:leaves", false},
+	{"ebony:trunk", true},
+	{"ebony:creeper", false},
+	{"ebony:creeper_leaves", false},
+	{"ebony:leaves", false},
+	{"jacaranda:trunk", true},
+	{"jacaranda:blossom_leaves", false},
+	{"larch:trunk", true},
+	{"larch:leaves", false},
+	{"lemontree:trunk", true},
+	{"lemontree:leaves", false},
+	{"mahogany:trunk", true},
+	{"mahogany:leaves", false},
+	{"palm:trunk", true},
+	{"palm:leaves", false},
+
+	-- Support growing_cactus
+	{"growing_cactus:sprout", true},
+	{"growing_cactus:branch_sprout_vertical", true},
+	{"growing_cactus:branch_sprout_vertical_fixed", true},
+	{"growing_cactus:branch_sprout_xp", true},
+	{"growing_cactus:branch_sprout_xm", true},
+	{"growing_cactus:branch_sprout_zp", true},
+	{"growing_cactus:branch_sprout_zm", true},
+	{"growing_cactus:trunk", true},
+	{"growing_cactus:branch_trunk", true},
+	{"growing_cactus:branch", true},
+	{"growing_cactus:branch_xp", true},
+	{"growing_cactus:branch_xm", true},
+	{"growing_cactus:branch_zp", true},
+	{"growing_cactus:branch_zm", true},
+	{"growing_cactus:branch_zz", true},
+	{"growing_cactus:branch_xx", true},
+
+	-- Support farming_plus
+	{"farming_plus:banana_leaves", false},
+	{"farming_plus:banana", false},
+	{"farming_plus:cocoa_leaves", false},
+	{"farming_plus:cocoa", false},
+
+	-- Support nature
+	{"nature:blossom", false},
+
+	-- Support snow
+	{"snow:needles", false},
+	{"snow:needles_decorated", false},
+	{"snow:star", false},
+
+	-- Support vines (also generated by moretrees if available)
+	{"vines:vines", false},
+
+	{"trunks:moss", false},
+	{"trunks:moss_fungus", false},
+	{"trunks:treeroot", false},
+
+	-- Support ethereal
+	{"ethereal:bamboo", true},
+	{"ethereal:bamboo_leaves", false},
+	{"ethereal:banana_trunk", true},
+	{"ethereal:bananaleaves", false},
+	{"ethereal:banana", false},
+	{"ethereal:birch_trunk", true},
+	{"ethereal:birch_leaves", false},
+	{"ethereal:frost_tree", true},
+	{"ethereal:frost_leaves", false},
+	{"ethereal:mushroom_trunk", true},
+	{"ethereal:mushroom", false},
+	{"ethereal:mushroom_pore", true},
+	{"ethereal:orangeleaves", false},
+	{"ethereal:orange", false},
+	{"ethereal:palm_trunk", true},
+	{"ethereal:palmleaves", false},
+	{"ethereal:coconut", false},
+	{"ethereal:redwood_trunk", true},
+	{"ethereal:redwood_leaves", false},
+	{"ethereal:sakura_trunk", true},
+	{"ethereal:sakura_leaves", false},
+	{"ethereal:sakura_leaves2", false},
+	{"ethereal:scorched_tree", true},
+	{"ethereal:willow_trunk", true},
+	{"ethereal:willow_twig", false},
+	{"ethereal:yellow_trunk", true},
+	{"ethereal:yellowleaves", false},
+	{"ethereal:golden_apple", false},
 }
 
-if chainsaw_leaves then
-	timber_nodenames["default:acacia_leaves"] = true
-	timber_nodenames["default:aspen_leaves"] = true
-	timber_nodenames["default:leaves"] = true
-	timber_nodenames["default:jungleleaves"] = true
-	timber_nodenames["default:pine_needles"] = true
-end
-
--- technic_worldgen defines rubber trees if moretrees isn't installed
-if (minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic")) or
-		(minetest.get_modpath("moretrees") and not core.skip_mod("moretrees")) then
-	timber_nodenames["moretrees:rubber_tree_trunk_empty"] = true
-	timber_nodenames["moretrees:rubber_tree_trunk"]       = true
-	if chainsaw_leaves then
-		timber_nodenames["moretrees:rubber_tree_leaves"] = true
+local timber_nodenames = {}
+for _, node in pairs(nodes) do
+	if chainsaw_leaves or node[2] then
+		timber_nodenames[node[1]] = true
 	end
 end
 
--- Support moretrees if it is there
-if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
-	timber_nodenames["moretrees:acacia_trunk"]                = true
-	timber_nodenames["moretrees:apple_tree_trunk"]                 = true
-	timber_nodenames["moretrees:beech_trunk"]                      = true
-	timber_nodenames["moretrees:birch_trunk"]                      = true
-	timber_nodenames["moretrees:fir_trunk"]                        = true
-	timber_nodenames["moretrees:oak_trunk"]                        = true
-	timber_nodenames["moretrees:palm_trunk"]                       = true
-	timber_nodenames["moretrees:pine_trunk"]                       = true
-	timber_nodenames["moretrees:sequoia_trunk"]                    = true
-	timber_nodenames["moretrees:spruce_trunk"]                     = true
-	timber_nodenames["moretrees:willow_trunk"]                     = true
-	timber_nodenames["moretrees:jungletree_trunk"]                 = true
-	timber_nodenames["moretrees:poplar_trunk"]                     = true
-
-	if chainsaw_leaves then
-		timber_nodenames["moretrees:acacia_leaves"]            = true
-		timber_nodenames["moretrees:apple_tree_leaves"]        = true
-		timber_nodenames["moretrees:oak_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves"]               = true
-		timber_nodenames["moretrees:fir_leaves_bright"]        = true
-		timber_nodenames["moretrees:sequoia_leaves"]           = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:birch_leaves"]             = true
-		timber_nodenames["moretrees:palm_leaves"]              = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:spruce_leaves"]            = true
-		timber_nodenames["moretrees:pine_leaves"]              = true
-		timber_nodenames["moretrees:willow_leaves"]            = true
-		timber_nodenames["moretrees:jungletree_leaves_green"]  = true
-		timber_nodenames["moretrees:jungletree_leaves_yellow"] = true
-		timber_nodenames["moretrees:jungletree_leaves_red"]    = true
-		timber_nodenames["moretrees:acorn"]                    = true
-		timber_nodenames["moretrees:coconut"]                  = true
-		timber_nodenames["moretrees:spruce_cone"]              = true
-		timber_nodenames["moretrees:pine_cone"]                = true
-		timber_nodenames["moretrees:fir_cone"]                 = true
-		timber_nodenames["moretrees:apple_blossoms"]           = true
-		timber_nodenames["moretrees:poplar_leaves"]            = true
-	end
-end
-
--- Support growing_trees
-if minetest.get_modpath("growing_trees") then
-	timber_nodenames["growing_trees:trunk"]         = true
-	timber_nodenames["growing_trees:medium_trunk"]  = true
-	timber_nodenames["growing_trees:big_trunk"]     = true
-	timber_nodenames["growing_trees:trunk_top"]     = true
-	timber_nodenames["growing_trees:trunk_sprout"]  = true
-	timber_nodenames["growing_trees:branch_sprout"] = true
-	timber_nodenames["growing_trees:branch"]        = true
-	timber_nodenames["growing_trees:branch_xmzm"]   = true
-	timber_nodenames["growing_trees:branch_xpzm"]   = true
-	timber_nodenames["growing_trees:branch_xmzp"]   = true
-	timber_nodenames["growing_trees:branch_xpzp"]   = true
-	timber_nodenames["growing_trees:branch_zz"]     = true
-	timber_nodenames["growing_trees:branch_xx"]     = true
-
-	if chainsaw_leaves then
-		timber_nodenames["growing_trees:leaves"] = true
-	end
-end
-
--- Support growing_cactus
-if minetest.get_modpath("growing_cactus") then
-	timber_nodenames["growing_cactus:sprout"]                       = true
-	timber_nodenames["growing_cactus:branch_sprout_vertical"]       = true
-	timber_nodenames["growing_cactus:branch_sprout_vertical_fixed"] = true
-	timber_nodenames["growing_cactus:branch_sprout_xp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_xm"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zp"]             = true
-	timber_nodenames["growing_cactus:branch_sprout_zm"]             = true
-	timber_nodenames["growing_cactus:trunk"]                        = true
-	timber_nodenames["growing_cactus:branch_trunk"]                 = true
-	timber_nodenames["growing_cactus:branch"]                       = true
-	timber_nodenames["growing_cactus:branch_xp"]                    = true
-	timber_nodenames["growing_cactus:branch_xm"]                    = true
-	timber_nodenames["growing_cactus:branch_zp"]                    = true
-	timber_nodenames["growing_cactus:branch_zm"]                    = true
-	timber_nodenames["growing_cactus:branch_zz"]                    = true
-	timber_nodenames["growing_cactus:branch_xx"]                    = true
-end
-
--- Support farming_plus
-if minetest.get_modpath("farming_plus") then
-	if chainsaw_leaves then
-		timber_nodenames["farming_plus:banana_leaves"] = true
-		timber_nodenames["farming_plus:banana"]        = true
-		timber_nodenames["farming_plus:cocoa_leaves"]  = true
-		timber_nodenames["farming_plus:cocoa"]         = true
-	end
-end
-
--- Support nature
-if minetest.get_modpath("nature") then
-	if chainsaw_leaves then
-		timber_nodenames["nature:blossom"] = true
-	end
-end
-
--- Support snow
-if minetest.get_modpath("snow") and not core.skip_mod("snow") then
-	if chainsaw_leaves then
-		timber_nodenames["snow:needles"] = true
-		timber_nodenames["snow:needles_decorated"] = true
-		timber_nodenames["snow:star"] = true
-	end
-end
-
--- Support vines (also generated by moretrees if available)
-if minetest.get_modpath("vines") and not core.skip_mod("vines") then
-	if chainsaw_leaves then
-		timber_nodenames["vines:vines"] = true
-	end
-end
-
-if minetest.get_modpath("trunks") then
-	if chainsaw_leaves then
-		timber_nodenames["trunks:moss"] = true
-		timber_nodenames["trunks:moss_fungus"] = true
-		timber_nodenames["trunks:treeroot"] = true
-	end
-end
+local S = technic.getter
 
 technic.register_power_tool("technic:chainsaw", chainsaw_max_charge)
+
+-- This function checks if the specified node should be sawed
+local function check_if_node_sawed(pos)
+	local node_name = minetest.get_node(pos).name
+	if timber_nodenames[node_name]
+			or (chainsaw_leaves and minetest.get_item_group(node_name, "leaves") ~= 0)
+			or minetest.get_item_group(node_name, "tree") ~= 0 then
+		return true
+	end
+
+	return false
+end
 
 -- Table for saving what was sawed down
 local produced = {}
@@ -251,7 +323,7 @@ local function recursive_dig(pos, remaining_charge)
 	end
 	local node = minetest.get_node(pos)
 
-	if not timber_nodenames[node.name] then
+	if not check_if_node_sawed(pos) then
 		return remaining_charge
 	end
 
@@ -265,8 +337,10 @@ local function recursive_dig(pos, remaining_charge)
 		if remaining_charge < chainsaw_charge_per_node then
 			break
 		end
-		if timber_nodenames[minetest.get_node(npos).name] then
+		if check_if_node_sawed(npos) then
 			remaining_charge = recursive_dig(npos, remaining_charge)
+		else
+			minetest.check_for_falling(npos)
 		end
 	end
 	return remaining_charge

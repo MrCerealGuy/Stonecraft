@@ -32,6 +32,7 @@ local clay = {
 	{"dark_green", S("Dark Green")},
 }
 
+local techcnc_mod = minetest.get_modpath("technic_cnc")
 local stairs_mod = minetest.get_modpath("stairs")
 local stairsplus_mod = minetest.get_modpath("moreblocks")
 	and minetest.global_exists("stairsplus")
@@ -48,15 +49,16 @@ for _, clay in pairs(clay) do
 	})
 
 	-- craft from dye and any baked clay
-
-	minetest.register_craft({
-		output = "bakedclay:" .. clay[1] .. " 8",
-		recipe = {
-			{"group:bakedclay", "group:bakedclay", "group:bakedclay"},
-			{"group:bakedclay", "dye:" .. clay[1], "group:bakedclay"},
-			{"group:bakedclay", "group:bakedclay", "group:bakedclay"}
-		},
-	})
+	if clay[1] ~= "natural" then
+		minetest.register_craft({
+			output = "bakedclay:" .. clay[1] .. " 8",
+			recipe = {
+				{"group:bakedclay", "group:bakedclay", "group:bakedclay"},
+				{"group:bakedclay", "dye:" .. clay[1], "group:bakedclay"},
+				{"group:bakedclay", "group:bakedclay", "group:bakedclay"}
+			},
+		})
+	end
 
 	-- register stairsplus stairs if found
 	if stairsplus_mod then
@@ -91,13 +93,22 @@ for _, clay in pairs(clay) do
 			clay[2] .. S(" Baked Clay Slab"),
 			default.node_sound_stone_defaults())
 	end
+
+	-- register bakedclay for use in technic_cnc mod
+	if techcnc_mod and not core.skip_mod("technic") then
+
+		technic_cnc.register_all("bakedclay:" .. clay[1],
+		{cracky = 3, not_in_creative_inventory = 1},
+		{"baked_clay_" .. clay[1] .. ".png"},
+		clay[2] .. " Baked Clay")
+	end
 end
 
 -- cook clay block into white baked clay
 
 minetest.register_craft({
 	type = "cooking",
-	output = "bakedclay:white",
+	output = "bakedclay:natural",
 	recipe = "default:clay",
 })
 
@@ -109,11 +120,14 @@ minetest.register_craft( {
 	recipe = {"dye:black", "dye:black", "dye:white"}
 })
 
+-- only add light grey recipe if unifieddye mod isnt present (conflict)
+if not minetest.get_modpath("unifieddyes") then
 minetest.register_craft( {
 	type = "shapeless",
 	output = "dye:grey 3",
 	recipe = {"dye:black", "dye:white", "dye:white"}
 })
+end
 
 minetest.register_craft( {
 	type = "shapeless",
@@ -266,18 +280,75 @@ lucky_block:add_blocks({
 	{"dro", {"bakedclay:"}, 10, true},
 	{"fal", {p.."black", p.."blue", p.."brown", p.."cyan", p.."dark_green",
 		p.."dark_grey", p.."green", p.."grey", p.."magenta", p.."orange",
-		p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 0},
+		p.."pink", p.."red", p.."violet", p.."white", p.."yellow", p.."natural"}, 0},
 	{"fal", {p.."black", p.."blue", p.."brown", p.."cyan", p.."dark_green",
 		p.."dark_grey", p.."green", p.."grey", p.."magenta", p.."orange",
-		p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 0, true},
+		p.."pink", p.."red", p.."violet", p.."white", p.."yellow", p.."natural"}, 0, true},
 	{"dro", {p.."delphinium"}, 5},
 	{"dro", {p.."lazarus"}, 5},
 	{"dro", {p.."mannagrass"}, 5},
 	{"dro", {p.."thistle"}, 6},
-	{"flo", 5, {p.."black", p.."blue", p.."brown", p.."cyan", p.."dark_green",
-		p.."dark_grey", p.."green", p.."grey", p.."magenta", p.."orange",
-		p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 2},
+	{"flo", 5, {p.."natural", p.."black", p.."blue", p.."brown", p.."cyan",
+		p.."dark_green", p.."dark_grey", p.."green", p.."grey", p.."magenta",
+		p.."orange", p.."pink", p.."red", p.."violet", p.."white", p.."yellow"}, 2},
+	{"nod", "default:chest", 0, {
+		{name = p.."natural", max = 30},
+		{name = p.."black", max = 30},
+		{name = p.."blue", max = 30},
+		{name = p.."brown", max = 30},
+		{name = p.."cyan", max = 30},
+		{name = p.."dark_green", max = 30},
+		{name = p.."dark_grey", max = 30},
+		{name = p.."green", max = 30},
+		{name = p.."grey", max = 30},
+		{name = p.."magenta", max = 30},
+		{name = p.."orange", max = 30},
+		{name = p.."pink", max = 30},
+		{name = p.."red", max = 30},
+		{name = p.."violet", max = 30},
+		{name = p.."white", max = 30},
+		{name = p.."yellow", max = 30},
+	}},
 })
 end
 
-print (S("[MOD] Baked Clay loaded"))
+
+-- colored clay compatibility
+if minetest.settings:get_bool("colored_clay_compatibility") == true then
+
+local cc = {
+	{"black", "black"},
+	{"blue", "blue"},
+	{"bright", "natural"},
+	{"brown", "brown"},
+	{"cyan", "cyan"},
+	{"dark_green", "dark_green"},
+	{"dark_grey", "dark_grey"},
+	{"green", "green"},
+	{"grey", "grey"},
+	{"hardened", "natural"},
+	{"magenta", "magenta"},
+	{"orange", "orange"},
+	{"pink", "pink"},
+	{"red", "red"},
+	{"violet", "violet"},
+	{"white", "white"},
+	{"yellow", "yellow"}
+}
+
+for n = 1, #cc do
+
+	local nod1 = "colored_clay:" .. cc[n][1]
+	local nod2 = "bakedclay:" .. cc[n][2]
+
+	minetest.register_alias(nod1, nod2)
+
+	if stairsplus_mod then
+		stairsplus:register_alias_all("colored_clay", cc[n][1], "bakedclay", cc[n][2])
+	end
+end
+
+end
+
+
+print ("[MOD] Baked Clay loaded")

@@ -9,10 +9,11 @@ if core.skip_mod("mesecons") then return end
 
 local plg = {}
 plg.rules = {}
+-- per-player formspec positions
+plg.open_formspecs = {}
 
 local lcore = dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/logic.lua")
 dofile(minetest.get_modpath(minetest.get_current_modname()) .. "/tool.lua")(plg)
-
 
 plg.register_nodes = function(template)
 	-- each loop is for one of the 4 IO ports
@@ -102,16 +103,20 @@ plg.register_nodes({
 
 		meta:set_string("instr", lcore.serialize(is))
 		meta:set_int("valid", 0)
-		meta:set_string("formspec", plg.to_formspec_string(is))
 		meta:set_string("infotext", "FPGA")
 	end,
-	on_receive_fields = function(pos, formname, fields, sender)
-		if fields.program == nil then return end -- we only care when the user clicks "Program"
+	on_rightclick = function(pos, node, clicker)
+		if not minetest.is_player(clicker) then
+			return
+		end
 		local meta = minetest.get_meta(pos)
-		local is = plg.from_formspec_fields(fields)
+		local name = clicker:get_player_name()
+		-- Erase formspecs of old FPGAs
+		meta:set_string("formspec", "")
 
-		meta:set_string("instr", lcore.serialize(is))
-		plg.update_formspec(pos, is)
+		plg.open_formspecs[name] = pos
+		local is = lcore.deserialize(meta:get_string("instr"))
+		minetest.show_formspec(name, "mesecons:fpga", plg.to_formspec_string(is, nil))
 	end,
 	sounds = default.node_sound_stone_defaults(),
 	mesecons = {
@@ -125,6 +130,12 @@ plg.register_nodes({
 	},
 	after_dig_node = function(pos, node)
 		mesecon.receptor_off(pos, plg.rules[node.name])
+		for name, open_pos in pairs(plg.open_formspecs) do
+			if vector.equals(pos, open_pos) then
+				minetest.close_formspec(name, "mesecons:fpga")
+				plg.open_formspecs[name] = nil
+			end
+		end
 	end,
 	on_blast = mesecon.on_blastnode,
 	on_rotate = function(pos, node, user, mode)
@@ -162,13 +173,12 @@ plg.register_nodes({
 		end
 
 		meta:set_string("instr", lcore.serialize(instr))
-		plg.update_formspec(pos, instr)
+		plg.update_meta(pos, instr)
 		return true
 	end,
 })
 
-
-plg.to_formspec_string = function(is)
+plg.to_formspec_string = function(is, err)
 	local function dropdown_op(x, y, name, val)
 		local s = "dropdown[" .. tostring(x) .. "," .. tostring(y) .. ";"
 				.. "0.75,0.5;" .. name .. ";" -- the height seems to be ignored?
@@ -189,26 +199,20 @@ plg.to_formspec_string = function(is)
 		return s .. "]"
 	end
 	local function dropdown_action(x, y, name, val)
-		local s = "dropdown[" .. tostring(x) .. "," .. tostring(y) .. ";"
-				.. "1.125,0.5;" .. name .. ";" -- the height seems to be ignored?
-		s = s .. " , AND,  OR, NOT, XOR,NAND,   =,XNOR;"
-		if val == nil then
-			return s .. "0]" -- actually selects no field at all
+		local selected = 0
+		local titles = { " " }
+		for i, data in ipairs(lcore.get_operations()) do
+			titles[i + 1] = data.fs_name
+			if val == data.gate then
+				selected = i + 1
+			end
 		end
-		local mapping = {
-			["and"] = 1,
-			["or"] = 2,
-			["not"] = 3,
-			["xor"] = 4,
-			["nand"] = 5,
-			["buf"] = 6,
-			["xnor"] = 7,
-		}
-		return s .. tostring(1 + mapping[val]) .. "]"
+		return ("dropdown[%f,%f;1.125,0.5;%s;%s;%i]"):format(
+			x, y, name, table.concat(titles, ","), selected)
 	end
 	local s = "size[9,9]"..
 		"label[3.4,-0.15;FPGA gate configuration]"..
-		"button_exit[7,7.5;2,2.5;program;Program]"..
+		"button[7,7.5;2,2.5;program;Program]"..
 		"box[4.2,0.5;0.03,7;#ffffff]"..
 		"label[0.25,0.25;op. 1]"..
 		"label[1.0,0.25;gate type]"..
@@ -234,6 +238,12 @@ plg.to_formspec_string = function(is)
 			y = 1 - 0.25
 		end
 	end
+	if err then
+		local fmsg = minetest.colorize("#ff0000", minetest.formspec_escape(err.msg))
+		s = s .. plg.red_box_around(err.i) ..
+			"label[0.25,8.25;The gate configuration is erroneous in the marked area:]"..
+			"label[0.25,8.5;" .. fmsg .. "]"
+	end
 	return s
 end
 
@@ -248,20 +258,11 @@ plg.from_formspec_fields = function(fields)
 		end
 	end
 	local function read_action(s)
-		if s == nil or s == " " then
-			return nil
+		for i, data in ipairs(lcore.get_operations()) do
+			if data.fs_name == s then
+				return data.gate
+			end
 		end
-		local mapping = {
-			["AND"] = "and",
-			["OR"] = "or",
-			["NOT"] = "not",
-			["XOR"] = "xor",
-			["NAND"] = "nand",
-			["="] = "buf",
-			["XNOR"] = "xnor",
-		}
-		s = s:gsub("^%s*", "") -- remove leading spaces
-		return mapping[s]
 	end
 	local is = {}
 	for i = 1, 14 do
@@ -275,12 +276,11 @@ plg.from_formspec_fields = function(fields)
 	return is
 end
 
-plg.update_formspec = function(pos, is)
+plg.update_meta = function(pos, is)
 	if type(is) == "string" then -- serialized string
 		is = lcore.deserialize(is)
 	end
 	local meta = minetest.get_meta(pos)
-	local form = plg.to_formspec_string(is)
 
 	local err = lcore.validate(is)
 	if err == nil then
@@ -289,17 +289,20 @@ plg.update_formspec = function(pos, is)
 	else
 		meta:set_int("valid", 0)
 		meta:set_string("infotext", "FPGA")
-		local fmsg = minetest.colorize("#ff0000", minetest.formspec_escape(err.msg))
-		form = form .. plg.red_box_around(err.i) ..
-			"label[0.25,8.25;The gate configuration is erroneous in the marked area:]"..
-			"label[0.25,8.5;" .. fmsg .. "]"
 	end
-
-	meta:set_string("formspec", form)
 
 	-- reset ports and run programmed logic
 	plg.setports(pos, false, false, false, false)
 	plg.update(pos)
+
+	-- Refresh open formspecs
+	local form = plg.to_formspec_string(is, err)
+	for name, open_pos in pairs(plg.open_formspecs) do
+		if vector.equals(pos, open_pos) then
+			minetest.show_formspec(name, "mesecons:fpga", form)
+		end
+	end
+	return err
 end
 
 plg.red_box_around = function(i)
@@ -418,6 +421,38 @@ plg.setports = function(pos, A, B, C, D) -- sets states of OUTPUT
 	end
 end
 
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	local player_name = player:get_player_name()
+
+	if formname ~= "mesecons:fpga" or fields.quit then
+		plg.open_formspecs[player_name] = nil -- potential garbage
+		return
+	end
+	if not fields.program then
+		return -- we only care when the user clicks "Program"
+	end
+	local pos = plg.open_formspecs[player_name]
+	if minetest.is_protected(pos, player_name) then
+		minetest.record_protection_violation(pos, player_name)
+		return
+	end
+
+	local meta = minetest.get_meta(pos)
+	local is = plg.from_formspec_fields(fields)
+
+	meta:set_string("instr", lcore.serialize(is))
+	local err = plg.update_meta(pos, is)
+
+	if not err then
+		plg.open_formspecs[player_name] = nil
+		-- Close on success
+		minetest.close_formspec(player_name, "mesecons:fpga")
+	end
+end)
+
+minetest.register_on_leaveplayer(function(player)
+	plg.open_formspecs[player:get_player_name()] = nil
+end)
 
 minetest.register_craft({
 	output = "mesecons_fpga:fpga0000 2",

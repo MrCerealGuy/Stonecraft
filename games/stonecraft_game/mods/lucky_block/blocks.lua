@@ -13,11 +13,14 @@ lucky_block:add_schematics({
 	{"defpinetree", dpath .. "pine_tree_from_sapling.mts", {x = 2, y = 1, z = 2}},
 	{"acaciatree", dpath .. "acacia_tree_from_sapling.mts", {x = 4, y = 1, z = 4}},
 	{"aspentree", dpath .. "aspen_tree_from_sapling.mts", {x = 2, y = 1, z = 2}},
-	{"corals", dpath .. "corals.mts", {x = 2, y = 1, z = 2}},
+--	{"corals", dpath .. "corals.mts", {x = 2, y = 1, z = 2}},
 	{"largecactus", dpath .. "large_cactus.mts", {x = 2, y = 0, z = 0}},
 	{"defaultbush", dpath .. "bush.mts", {x = 1, y = 1, z = 1}},
 	{"acaciabush", dpath .. "acacia_bush.mts", {x = 1, y = 1, z = 1}},
+
+	{"corals", MP .. "/schematics/corals.mts", {x = 2, y = 1, z = 2}},
 })
+
 
 -- Default blocks
 lucky_block:add_blocks({
@@ -149,7 +152,12 @@ end
 -- custom function (pint sized player) and potion with recipe
 local function pint(pos, player)
 
-	player:set_properties({visual_size = {x = 0.5, y = 0.5}})
+	player:set_properties({
+		visual_size = {x = 0.5, y = 0.5},
+		collisionbox = {-0.15, 0.0, -0.15, 0.15, .85, 0.15},
+		eye_height = 0.73,
+		stepheight = 0.3
+	})
 
 	minetest.chat_send_player(player:get_player_name(),
 		green .. S("Pint Sized Player!"))
@@ -160,7 +168,12 @@ local function pint(pos, player)
 
 		if player and player:is_player() then
 
-			player:set_properties({visual_size = {x = 1.0, y = 1.0}})
+			player:set_properties({
+				visual_size = {x = 1.0, y = 1.0},
+				collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+				eye_height = 1.47,
+				stepheight = 0.6
+			})
 
 			minetest.sound_play("default_place_node", {pos = pos, gain = 1.0})
 		end
@@ -227,11 +240,101 @@ local function bushy(pos, player)
 		green .. S("Dry shrub takeover!"))
 end
 
+-- lightning staff
+minetest.register_tool("lucky_block:lightning_staff", {
+	description = S("Lightning Staff"),
+	inventory_image = "lucky_lightning_staff.png",
+	range = 10,
+	groups = {not_in_creative_inventory = 1},
+
+	on_use = function(itemstack, user, pointed_thing)
+
+		local pos = user:get_pos()
+		if pointed_thing.type == "object" then
+			pos = pointed_thing.ref:get_pos()
+		elseif pointed_thing.type == "node" then
+			pos = pointed_thing.above
+		end
+
+		local bnod = minetest.get_node_or_nil(pos)
+		local bref = bnod and minetest.registered_items[bnod.name]
+
+		if bref and bref.buildable_to == true then
+			local nod = "fire:basic_flame"
+			minetest.set_node(pos, {name = nod})
+		end
+
+		local radius = 4
+		local objs = minetest.get_objects_inside_radius(pos, radius)
+		local obj_pos, dist
+
+		-- add temp entity to cause damage
+		local tmp_ent = minetest.add_entity(pos, "lucky_block:temp")
+
+		for n = 1, #objs do
+
+			obj_pos = objs[n]:get_pos()
+
+			dist = vector.distance(pos, obj_pos)
+
+			if dist < 1 then dist = 1 end
+
+			local damage = math.floor((4 / dist) * radius)
+			local ent = objs[n]:get_luaentity()
+
+			-- if you blast yourself then delay hurt for bones mod if dead
+			if objs[n] == user then
+
+				minetest.after(0.1, function()
+					objs[n]:punch(tmp_ent, 1.0, {
+						full_punch_interval = 1.0,
+						damage_groups = {fleshy = damage, fire = 1},
+					}, pos)
+				end)
+			else
+				objs[n]:punch(tmp_ent, 1.0, {
+					full_punch_interval = 1.0,
+					damage_groups = {fleshy = damage, fire = 1},
+				}, pos)
+			end
+		end
+
+		minetest.add_particle({
+			pos = {x = pos.x, y = pos.y + 4, z = pos.z},
+			velocity = {x = 0, y = 0, z = 0},
+			acceleration = {x = 0, y = 0, z = 0},
+			expirationtime = 1.0,
+			collisiondetection = false,
+			texture = "lucky_lightning.png",
+			size = 100,
+			glow = 15,
+		})
+
+		minetest.sound_play("lightning", {
+			pos = pos,
+			gain = 1.0,
+			max_hear_distance = 25
+		})
+
+		itemstack:add_wear(65535 / 50) -- 50 uses
+
+		return itemstack
+	end,
+})
+
 lucky_block:add_blocks({
 	{"cus", pint},
 	{"cus", bushy},
 	{"cus", punchy},
 	{"dro", {"lucky_block:pint_sized_potion"}, 1},
+	{"nod", "default:chest", 0, {
+		{name = "default:stick", max = 10},
+		{name = "default:acacia_bush_stem", max = 10},
+		{name = "default:bush_stem", max = 10},
+		{name = "default:pine_bush_stem", max = 10},
+		{name = "default:grass_1", max = 10},
+		{name = "default:dry_grass_1", max = 10},
+		{name = "lucky_block:lightning_staff", max = 1, chance = 10}}},
 })
 
 -- wool mod

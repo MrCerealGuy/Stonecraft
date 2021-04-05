@@ -5,11 +5,11 @@ local S = farming.intllib
 minetest.register_craftitem("farming:beetroot", {
 	description = S("Beetroot"),
 	inventory_image = "farming_beetroot.png",
-	groups = {food_beetroot = 1, flammable = 2},
+	groups = {seed = 2, food_beetroot = 1, flammable = 2},
 	on_place = function(itemstack, placer, pointed_thing)
 		return farming.place_seed(itemstack, placer, pointed_thing, "farming:beetroot_1")
 	end,
-	on_use = minetest.item_eat(1),
+	on_use = minetest.item_eat(1)
 })
 
 -- beetroot soup
@@ -17,7 +17,7 @@ minetest.register_craftitem("farming:beetroot_soup", {
 	description = S("Beetroot Soup"),
 	inventory_image = "farming_beetroot_soup.png",
 	groups = {flammable = 2},
-	on_use = minetest.item_eat(6, "farming:bowl"),
+	on_use = minetest.item_eat(6, "farming:bowl")
 })
 
 minetest.register_craft({
@@ -34,15 +34,13 @@ minetest.register_craft({
 minetest.register_craft({
 	type = "shapeless",
 	output = "dye:red",
-	recipe = {"group:food_beetroot"},
+	recipe = {"group:food_beetroot"}
 })
 
-local crop_def = {
+local def = {
 	drawtype = "plantlike",
 	tiles = {"farming_beetroot_1.png"},
 	paramtype = "light",
---	paramtype2 = "meshoptions",
---	place_param2 = 3,
 	sunlight_propagates = true,
 	waving = 1,
 	walkable = false,
@@ -57,38 +55,38 @@ local crop_def = {
 }
 
 -- stage 1
-minetest.register_node("farming:beetroot_1", table.copy(crop_def))
+minetest.register_node("farming:beetroot_1", table.copy(def))
 
 -- stage 2
-crop_def.tiles = {"farming_beetroot_2.png"}
-minetest.register_node("farming:beetroot_2", table.copy(crop_def))
+def.tiles = {"farming_beetroot_2.png"}
+minetest.register_node("farming:beetroot_2", table.copy(def))
 
 -- stage 3
-crop_def.tiles = {"farming_beetroot_3.png"}
-minetest.register_node("farming:beetroot_3", table.copy(crop_def))
+def.tiles = {"farming_beetroot_3.png"}
+minetest.register_node("farming:beetroot_3", table.copy(def))
 
 -- stage 4
-crop_def.tiles = {"farming_beetroot_4.png"}
-minetest.register_node("farming:beetroot_4", table.copy(crop_def))
+def.tiles = {"farming_beetroot_4.png"}
+minetest.register_node("farming:beetroot_4", table.copy(def))
 
 -- stage 5
-crop_def.tiles = {"farming_beetroot_5.png"}
-crop_def.groups.growing = 0
-crop_def.drop = {
+def.tiles = {"farming_beetroot_5.png"}
+def.groups.growing = nil
+def.drop = {
 	max_items = 4, items = {
-		{items = {'farming:beetroot'}, rarity = 1},
-		{items = {'farming:beetroot'}, rarity = 2},
-		{items = {'farming:beetroot'}, rarity = 3},
-		{items = {'farming:beetroot'}, rarity = 4},
+		{items = {"farming:beetroot"}, rarity = 1},
+		{items = {"farming:beetroot"}, rarity = 2},
+		{items = {"farming:beetroot"}, rarity = 3},
+		{items = {"farming:beetroot"}, rarity = 4}
 	}
 }
-minetest.register_node("farming:beetroot_5", table.copy(crop_def))
+minetest.register_node("farming:beetroot_5", table.copy(def))
 
 -- add to registered_plants
 farming.registered_plants["farming:beetroot"] = {
 	crop = "farming:beetroot",
 	seed = "farming:beetroot",
-	minlight = 13,
-	maxlight = 15,
+	minlight = farming.min_light,
+	maxlight = farming.max_light,
 	steps = 5
 }

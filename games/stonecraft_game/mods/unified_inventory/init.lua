@@ -34,26 +34,109 @@ unified_inventory = {
 	-- Default inventory page
 	default = "craft",
 
-	-- intllib
-	-- MERGEINFO: MrCerealGuy: use instead intllib
-	--gettext = S,
-
 	-- "Lite" mode
 	lite_mode = minetest.settings:get_bool("unified_inventory_lite"),
 
 	-- Trash enabled
 	trash_enabled = (minetest.settings:get_bool("unified_inventory_trash") ~= false),
+	imgscale = 1.25,
+	list_img_offset = 0.13,
+	standard_background = "background9[0,0;1,1;ui_formbg_9_sliced.png;true;16]",
+	version = 2
+}
 
+local ui = unified_inventory
+
+-- These tables establish position and layout for the two UI styles.
+-- UI doesn't use formspec_[xy] anymore, but other mods may need them.
+
+ui.style_full = {
+	formspec_x = 1,
+	formspec_y = 1,
+	formw = 17.75,
+	formh = 12.25,
 	pagecols = 8,
 	pagerows = 10,
-	page_y = 0,
-	formspec_y = 1,
-	main_button_x = 0,
-	main_button_y = 9,
-	craft_result_x = 0.3,
-	craft_result_y = 0.5,
-	form_header_y = 0
+	page_x = 10.75,
+	page_y = 1.45,
+	craft_x = 2.8,
+	craft_y = 1.15,
+	craftresult_x = 7.8,
+	craft_arrow_x = 6.55,
+	craft_guide_x = 3.3,
+	craft_guide_y = 1.15,
+	craft_guide_arrow_x = 7.05,
+	craft_guide_result_x = 8.3,
+	craft_guide_resultstr_x = 0.3,
+	craft_guide_resultstr_y = 0.6,
+	give_btn_x = 0.25,
+	main_button_x = 0.4,
+	main_button_y = 11.0,
+	page_buttons_x = 11.60,
+	page_buttons_y = 10.15,
+	searchwidth = 3.4,
+	form_header_x = 0.4,
+	form_header_y = 0.4,
+	btn_spc = 0.85,
+	btn_size = 0.75,
+	std_inv_x = 0.3,
+	std_inv_y = 5.75,
 }
+
+ui.style_lite = {
+	formspec_x =  0.6,
+	formspec_y =  0.6,
+	formw = 14,
+	formh = 9.75,
+	pagecols = 4,
+	pagerows = 6,
+	page_x = 10.5,
+	page_y = 1.25,
+	craft_x = 2.6,
+	craft_y = 0.75,
+	craftresult_x = 5.75,
+	craft_arrow_x = 6.35,
+	craft_guide_x = 3.1,
+	craft_guide_y = 0.75,
+	craft_guide_arrow_x = 7.05,
+	craft_guide_result_x = 8.3,
+	craft_guide_resultstr_x = 0.15,
+	craft_guide_resultstr_y = 0.35,
+	give_btn_x = 0.15,
+	main_button_x = 10.5,
+	main_button_y = 7.9,
+	page_buttons_x = 10.5,
+	page_buttons_y = 6.3,
+	searchwidth = 1.6,
+	form_header_x =  0.2,
+	form_header_y =  0.2,
+	btn_spc = 0.8,
+	btn_size = 0.7,
+	std_inv_x = 0.1,
+	std_inv_y = 4.6,
+}
+
+dofile(modpath.."/api.lua")
+
+for _, style in ipairs({ui.style_full, ui.style_lite}) do
+	style.items_per_page =  style.pagecols * style.pagerows
+	style.standard_inv = string.format("list[current_player;main;%f,%f;8,4;]",
+							style.std_inv_x + ui.list_img_offset, style.std_inv_y + ui.list_img_offset)
+
+	style.standard_inv_bg = ui.make_inv_img_grid(style.std_inv_x, style.std_inv_y, 8, 1, true)..
+							ui.make_inv_img_grid(style.std_inv_x, style.std_inv_y + ui.imgscale, 8, 3)
+
+	style.craft_grid =	table.concat({
+							ui.make_inv_img_grid(style.craft_x, style.craft_y, 3, 3),
+							ui.single_slot(style.craft_x + ui.imgscale*4, style.craft_y), -- the craft result slot
+							string.format("image[%f,%f;%f,%f;ui_crafting_arrow.png]",
+							style.craft_arrow_x, style.craft_y, ui.imgscale, ui.imgscale),
+							string.format("list[current_player;craft;%f,%f;3,3;]",
+								style.craft_x + ui.list_img_offset, style.craft_y + ui.list_img_offset),
+							string.format("list[current_player;craftpreview;%f,%f;1,1;]",
+								style.craftresult_x + ui.list_img_offset, style.craft_y + ui.list_img_offset)
+						})
+end
 
 -- Disable default creative inventory
 local creative = rawget(_G, "creative") or rawget(_G, "creative_inventory")
@@ -70,9 +153,9 @@ if sfinv then
 end
 
 dofile(modpath.."/group.lua")
-dofile(modpath.."/api.lua")
 dofile(modpath.."/internal.lua")
 dofile(modpath.."/callbacks.lua")
+dofile(modpath.."/match_craft.lua")
 dofile(modpath.."/register.lua")
 
 if minetest.settings:get_bool("unified_inventory_bags") ~= false then

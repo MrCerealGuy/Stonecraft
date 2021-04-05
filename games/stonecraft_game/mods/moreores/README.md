@@ -18,9 +18,7 @@ git clone https://github.com/minetest-mods/moreores.git
 
 You can also
 [download a ZIP archive](https://github.com/minetest-mods/moreores/archive/master.zip)
-of More Ores. If you do so, you will need to extract the archive then rename
-the resulting folder from `moreores-master` to `moreores` – this is
-**absolutely** required, as the mod won't work otherwise.
+of More Ores.
 
 ### Enable the mod
 
@@ -60,13 +58,13 @@ on that line.
 
 ## Version compatibility
 
-More Ores is currently primarily tested with Minetest 0.4.17.
+More Ores is currently primarily tested with Minetest 5.1.0.
 It may or may not work with newer or older versions. Issues arising in older
-versions than 0.4.17 will generally not be fixed.
+versions than 5.0.0 will generally not be fixed.
 
 ## License
 
-Copyright © 2011-2019 Hugo Locurcio and contributors
+Copyright © 2011-2020 Hugo Locurcio and contributors
 
 - More Ores code is licensed under the zlib license, see
   [`LICENSE.md`](LICENSE.md) for details.

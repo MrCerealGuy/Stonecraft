@@ -1,34 +1,41 @@
--- Bags for Minetest
+--[[
+Bags for Minetest
 
--- Copyright (c) 2012 cornernote, Brett O'Donnell <cornernote@gmail.com>
--- License: GPLv3
+Copyright (c) 2012 cornernote, Brett O'Donnell <cornernote@gmail.com>
+License: GPLv3
+--]]
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
 local F = minetest.formspec_escape
+local ui = unified_inventory
 
-unified_inventory.register_page("bags", {
+ui.register_page("bags", {
 	get_formspec = function(player)
 		local player_name = player:get_player_name()
 		return { formspec = table.concat({
-			"background[0.06,0.99;7.92,7.52;ui_bags_main_form.png]",
-			"label[0,0;" .. F(S("Bags")) .. "]",
-			"button[0,2;2,0.5;bag1;" .. F(S("Bag @1", 1)) .. "]",
-			"button[2,2;2,0.5;bag2;" .. F(S("Bag @1", 2)) .. "]",
-			"button[4,2;2,0.5;bag3;" .. F(S("Bag @1", 3)) .. "]",
-			"button[6,2;2,0.5;bag4;" .. F(S("Bag @1", 4)) .. "]",
+			ui.style_full.standard_inv_bg,
+			ui.single_slot(0.925, 1.5),
+			ui.single_slot(3.425, 1.5),
+			ui.single_slot(5.925, 1.5),
+			ui.single_slot(8.425, 1.5),
+			"label["..ui.style_full.form_header_x..","..ui.style_full.form_header_y..";" .. F(S("Bags")) .. "]",
+			"button[0.6125,2.75;1.875,0.75;bag1;" .. F(S("Bag @1", 1)) .. "]",
+			"button[3.1125,2.75;1.875,0.75;bag2;" .. F(S("Bag @1", 2)) .. "]",
+			"button[5.6125,2.75;1.875,0.75;bag3;" .. F(S("Bag @1", 3)) .. "]",
+			"button[8.1125,2.75;1.875,0.75;bag4;" .. F(S("Bag @1", 4)) .. "]",
 			"listcolors[#00000000;#00000000]",
-			"list[detached:" .. F(player_name) .. "_bags;bag1;0.5,1;1,1;]",
-			"list[detached:" .. F(player_name) .. "_bags;bag2;2.5,1;1,1;]",
-			"list[detached:" .. F(player_name) .. "_bags;bag3;4.5,1;1,1;]",
-			"list[detached:" .. F(player_name) .. "_bags;bag4;6.5,1;1,1;]"
+			"list[detached:" .. F(player_name) .. "_bags;bag1;1.075,1.65;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag2;3.575,1.65;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag3;6.075,1.65;1,1;]",
+			"list[detached:" .. F(player_name) .. "_bags;bag4;8.575,1.65;1,1;]"
 		}) }
 	end,
 })
 
-unified_inventory.register_button("bags", {
+ui.register_button("bags", {
 	type = "image",
 	image = "ui_bags_icon.png",
 	tooltip = S("Bags"),
@@ -43,32 +50,31 @@ local function get_player_bag_stack(player, i)
 end
 
 for bag_i = 1, 4 do
-	unified_inventory.register_page("bag" .. bag_i, {
+	ui.register_page("bag" .. bag_i, {
 		get_formspec = function(player)
 			local stack = get_player_bag_stack(player, bag_i)
 			local image = stack:get_definition().inventory_image
-			local fs = {
-				"image[7,0;1,1;" .. image .. "]",
-				"label[0,0;" .. F(S("Bag @1", bag_i)) .. "]",
-				"listcolors[#00000000;#00000000]",
-				"list[current_player;bag" .. bag_i .. "contents;0,1;8,3;]",
-				"listring[current_name;bag" .. bag_i .. "contents]",
-				"listring[current_player;main]"
-			}
 			local slots = stack:get_definition().groups.bagslots
-			if slots == 8 then
-					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_sm_form.png]"
-			elseif slots == 16 then
-					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_med_form.png]"
-			elseif slots == 24 then
-					fs[#fs + 1] = "background[0.06,0.99;7.92,7.52;ui_bags_lg_form.png]"
-			end
+
+			local formspec = {
+				ui.style_full.standard_inv_bg,
+				ui.make_inv_img_grid(0.3, 1.5, 8, slots/8),
+				"image[9.2,0.4;1,1;" .. image .. "]",
+				"label[0.3,0.65;" .. F(S("Bag @1", bag_i)) .. "]",
+				"listcolors[#00000000;#00000000]",
+				"listring[current_player;main]",
+				string.format("list[current_player;bag%icontents;%f,%f;8,3;]",
+				    bag_i, 0.3 + ui.list_img_offset, 1.5 + ui.list_img_offset),
+				"listring[current_name;bag" .. bag_i .. "contents]",
+			}
+			local n = #formspec + 1
+
 			local player_name = player:get_player_name() -- For if statement.
-			if unified_inventory.trash_enabled
-					or unified_inventory.is_creative(player_name)
-					or minetest.get_player_privs(player_name).give then
-				fs[#fs + 1] = "background[6.06,0;0.92,0.92;ui_bags_trash.png]"
-						.. "list[detached:trash;main;6,0.1;1,1;]"
+			if ui.trash_enabled
+				or ui.is_creative(player_name)
+				or minetest.get_player_privs(player_name).give then
+					formspec[n] = ui.make_trash_slot(7.8, 0.25)
+					n = n + 1
 			end
 			local inv = player:get_inventory()
 			for i = 1, 4 do
@@ -85,11 +91,12 @@ for bag_i = 1, 4 do
 					end
 					local img = def.inventory_image
 					local label = F(S("Bag @1", i)) .. "\n" .. used .. "/" .. size
-					fs[#fs + 1] = string.format("image_button[%i,0;1,1;%s;bag%i;%s]",
-							i + 1, img, i, label)
+					formspec[n] = string.format("image_button[%f,0.4;1,1;%s;bag%i;%s]",
+							(i + 1.35)*1.25, img, i, label)
+					n = n + 1
 				end
 			end
-			return { formspec = table.concat(fs) }
+			return { formspec = table.concat(formspec) }
 		end,
 	})
 end
@@ -104,7 +111,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 			if not stack:get_definition().groups.bagslots then
 				return
 			end
-			unified_inventory.set_inventory_formspec(player, "bag" .. i)
+			ui.set_inventory_formspec(player, "bag" .. i)
 			return
 		end
 	end
@@ -121,17 +128,19 @@ local function save_bags_metadata(player, bags_inv)
 			is_empty = false
 		end
 	end
+	local meta = player:get_meta()
 	if is_empty then
-		player:set_attribute("unified_inventory:bags", nil)
+		meta:set_string("unified_inventory:bags", nil)
 	else
-		player:set_attribute("unified_inventory:bags",
+		meta:set_string("unified_inventory:bags",
 			minetest.serialize(bags))
 	end
 end
 
 local function load_bags_metadata(player, bags_inv)
 	local player_inv = player:get_inventory()
-	local bags_meta = player:get_attribute("unified_inventory:bags")
+	local meta = player:get_meta()
+	local bags_meta = meta:get("unified_inventory:bags")
 	local bags = bags_meta and minetest.deserialize(bags_meta) or {}
 	local dirty_meta = false
 	if not bags_meta then
@@ -165,7 +174,6 @@ local function load_bags_metadata(player, bags_inv)
 end
 
 minetest.register_on_joinplayer(function(player)
-	local player_inv = player:get_inventory()
 	local player_name = player:get_player_name()
 	local bags_inv = minetest.create_detached_inventory(player_name .. "_bags",{
 		on_put = function(inv, listname, index, stack, player)
@@ -249,7 +257,7 @@ if minetest.get_modpath("farming") ~= nil then
 	minetest.register_craft({
 		output = "unified_inventory:bag_small",
 		recipe = {
-			{"",           "farming:cotton", ""},
+			{"",           "farming:string", ""},
 			{"group:wool", "group:wool",     "group:wool"},
 			{"group:wool", "group:wool",     "group:wool"},
 		},
@@ -259,8 +267,8 @@ if minetest.get_modpath("farming") ~= nil then
 		output = "unified_inventory:bag_medium",
 		recipe = {
 			{"",               "",                            ""},
-			{"farming:cotton", "unified_inventory:bag_small", "farming:cotton"},
-			{"farming:cotton", "unified_inventory:bag_small", "farming:cotton"},
+			{"farming:string", "unified_inventory:bag_small", "farming:string"},
+			{"farming:string", "unified_inventory:bag_small", "farming:string"},
 		},
 	})
 
@@ -268,8 +276,8 @@ if minetest.get_modpath("farming") ~= nil then
 		output = "unified_inventory:bag_large",
 		recipe = {
 			{"",               "",                             ""},
-			{"farming:cotton", "unified_inventory:bag_medium", "farming:cotton"},
-			{"farming:cotton", "unified_inventory:bag_medium", "farming:cotton"},
+			{"farming:string", "unified_inventory:bag_medium", "farming:string"},
+			{"farming:string", "unified_inventory:bag_medium", "farming:string"},
 	    },
 	})
 end

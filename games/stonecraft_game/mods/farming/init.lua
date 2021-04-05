@@ -7,13 +7,15 @@
 
 farming = {
 	mod = "redo",
-	version = "20190111",
+	version = "20210311",
 	path = minetest.get_modpath("farming"),
 	select = {
 		type = "fixed",
 		fixed = {-0.5, -0.5, -0.5, 0.5, -5/16, 0.5}
 	},
-	registered_plants = {}
+	registered_plants = {},
+	min_light = 12,
+	max_light = 15
 }
 
 
@@ -27,7 +29,9 @@ end
 local statistics = dofile(farming.path .. "/statistics.lua")
 
 -- Intllib
-local S = dofile(farming.path .. "/intllib.lua")
+local S = minetest.get_translator and minetest.get_translator("farming") or
+		dofile(farming.path .. "/intllib.lua")
+
 farming.intllib = S
 
 
@@ -79,7 +83,8 @@ end
 
 
 -- Growth Logic
-local STAGE_LENGTH_AVG = 160.0
+local STAGE_LENGTH_AVG = tonumber(
+		minetest.settings:get("farming_stage_length")) or 200 -- 160
 local STAGE_LENGTH_DEV = STAGE_LENGTH_AVG / 6
 
 
@@ -269,7 +274,7 @@ end
 
 minetest.after(0, function()
 
-	for _, node_def in ipairs(minetest.registered_nodes) do
+	for _, node_def in pairs(minetest.registered_nodes) do
 		register_plant_node(node_def)
 	end
 end)
@@ -278,7 +283,7 @@ end)
 -- Just in case a growing type or added node is missed (also catches existing
 -- nodes added to map before timers were incorporated).
 minetest.register_abm({
-	nodenames = { "group:growing" },
+	nodenames = {"group:growing"},
 	interval = 300,
 	chance = 1,
 	catch_up = false,
@@ -314,7 +319,7 @@ function farming.plant_growth_timer(pos, elapsed, node_name)
 
 	-- otherwise check for wet soil beneath crop
 	else
-		local under = minetest.get_node({ x = pos.x, y = pos.y - 1, z = pos.z })
+		local under = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
 
 		if minetest.get_item_group(under.name, "soil") < 3 then
 			return true
@@ -322,16 +327,15 @@ function farming.plant_growth_timer(pos, elapsed, node_name)
 	end
 
 	local growth
-	local light_pos = {x = pos.x, y = pos.y, z = pos.z} --  was y + 1
+	local light_pos = {x = pos.x, y = pos.y, z = pos.z}
 	local lambda = elapsed / STAGE_LENGTH_AVG
 
 	if lambda < 0.1 then
 		return true
 	end
 
-	local MIN_LIGHT = minetest.registered_nodes[node_name].minlight or 13
-	local MAX_LIGHT = minetest.registered_nodes[node_name].maxlight or 15
-	--print ("---", MIN_LIGHT, MAX_LIGHT)
+	local MIN_LIGHT = minetest.registered_nodes[node_name].minlight or farming.min_light
+	local MAX_LIGHT = minetest.registered_nodes[node_name].maxlight or farming.max_light
 
 	if max_growth == 1 or lambda < 2.0 then
 
@@ -421,7 +425,7 @@ function farming.place_seed(itemstack, placer, pointed_thing, plantname)
 	-- am I right-clicking on something that has a custom on_place set?
 	-- thanks to Krock for helping with this issue :)
 	local def = minetest.registered_nodes[under.name]
-	if placer and def and def.on_rightclick then
+	if placer and itemstack and def and def.on_rightclick then
 		return def.on_rightclick(pt.under, under, placer, itemstack)
 	end
 
@@ -461,7 +465,8 @@ function farming.place_seed(itemstack, placer, pointed_thing, plantname)
 
 		minetest.sound_play("default_place_node", {pos = pt.above, gain = 1.0})
 
-		if placer and not farming.is_creative(placer:get_player_name()) then
+		if placer and itemstack
+		and not farming.is_creative(placer:get_player_name()) then
 
 			local name = itemstack:get_name()
 
@@ -497,7 +502,7 @@ farming.register_plant = function(name, def)
 	-- Check def
 	def.description = def.description or S("Seed")
 	def.inventory_image = def.inventory_image or "unknown_item.png"
-	def.minlight = def.minlight or 13
+	def.minlight = def.minlight or 12
 	def.maxlight = def.maxlight or 15
 
 	-- Register seed
@@ -580,7 +585,7 @@ farming.register_plant = function(name, def)
 			sounds = default.node_sound_leaves_defaults(),
 			minlight = def.minlight,
 			maxlight = def.maxlight,
-			next_plant = next_plant,
+			next_plant = next_plant
 		})
 	end
 
@@ -599,31 +604,39 @@ end
 
 
 -- default settings
-farming.carrot = true
-farming.potato = true
-farming.tomato = true
-farming.cucumber = true
-farming.corn = true
-farming.coffee = true
-farming.melon = true
-farming.pumpkin = true
+farming.carrot = 0.001
+farming.potato = 0.001
+farming.tomato = 0.001
+farming.cucumber = 0.001
+farming.corn = 0.001
+farming.coffee = 0.001
+farming.melon = 0.001
+farming.pumpkin = 0.001
 farming.cocoa = true
-farming.raspberry = true
-farming.blueberry = true
-farming.rhubarb = true
-farming.beans = true
-farming.grapes = true
+farming.raspberry = 0.001
+farming.blueberry = 0.001
+farming.rhubarb = 0.001
+farming.beans = 0.001
+farming.grapes = 0.001
 farming.barley = true
-farming.chili = true
-farming.hemp = true
-farming.garlic = true
-farming.onion = true
-farming.pepper = true
-farming.pineapple = true
-farming.peas = true
-farming.beetroot = true
+farming.chili = 0.003
+farming.hemp = 0.003
+farming.garlic = 0.001
+farming.onion = 0.001
+farming.pepper = 0.002
+farming.pineapple = 0.001
+farming.peas = 0.001
+farming.beetroot = 0.001
+farming.mint = 0.005
+farming.cabbage = 0.001
+farming.blackberry = 0.002
+farming.soy = 0.001
+farming.vanilla = 0.001
+farming.lettuce = 0.001
+farming.artichoke = 0.001
+farming.parsley = 0.002
 farming.grains = true
-farming.rarety = 0.002 -- 0.006
+farming.rarety = 0.002
 
 
 -- Load new global settings if found inside mod folder
@@ -686,8 +699,16 @@ ddoo("peas.lua", farming.peas)
 ddoo("beetroot.lua", farming.beetroot)
 ddoo("chili.lua", farming.chili)
 ddoo("ryeoatrice.lua", farming.grains)
+ddoo("mint.lua", farming.mint)
+ddoo("cabbage.lua", farming.cabbage)
+ddoo("blackberry.lua", farming.blackberry)
+ddoo("soy.lua", farming.soy)
+ddoo("vanilla.lua", farming.vanilla)
+ddoo("lettuce.lua", farming.lettuce)
+ddoo("artichoke.lua", farming.artichoke)
+ddoo("parsley.lua", farming.parsley)
 
-dofile(farming.path.."/food.lua")
-dofile(farming.path.."/mapgen.lua")
-dofile(farming.path.."/compatibility.lua") -- Farming Plus compatibility
-dofile(farming.path.."/lucky_block.lua")
+dofile(farming.path .. "/food.lua")
+dofile(farming.path .. "/mapgen.lua")
+dofile(farming.path .. "/compatibility.lua") -- Farming Plus compatibility
+dofile(farming.path .. "/lucky_block.lua")

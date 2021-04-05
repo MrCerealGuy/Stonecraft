@@ -136,13 +136,13 @@ end
 -- Generic function to add found connected nodes to the right classification array
 local check_node_subp = function(PR_nodes, RE_nodes, BA_nodes, SP_nodes, all_nodes, pos, machines, tier, sw_pos, from_below, network_id, queue)
 	technic.get_or_load_node(pos)
-	local meta = minetest.get_meta(pos)
 	local name = minetest.get_node(pos).name
 
 	if technic.is_tier_cable(name, tier) then
 		add_cable_node(all_nodes, pos,network_id, queue)
 	elseif machines[name] then
 		--dprint(name.." is a "..machines[name])
+		local meta = minetest.get_meta(pos)
 		meta:set_string(tier.."_network",minetest.pos_to_string(sw_pos))
 		if     machines[name] == technic.producer then
 			add_network_node(PR_nodes, pos, network_id)
@@ -244,6 +244,20 @@ minetest.register_chatcommand("powerctrl", {
 	end
 })
 
+-- Run all the nodes
+local function run_nodes(list, run_stage)
+	for _, pos in ipairs(list) do
+		technic.get_or_load_node(pos)
+		local node = minetest.get_node_or_nil(pos)
+		if node and node.name then
+			local nodedef = minetest.registered_nodes[node.name]
+			if nodedef and nodedef.technic_run then
+				nodedef.technic_run(pos, node, run_stage)
+			end
+		end
+	end
+end
+
 minetest.register_abm({
 	nodenames = {"technic:switching_station"},
 	label = "Switching Station", -- allows the mtt profiler to profile this abm individually
@@ -252,12 +266,8 @@ minetest.register_abm({
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if not technic.powerctrl_state then return end
 		local meta             = minetest.get_meta(pos)
-		local meta1            = nil
+		local meta1
 		local pos1             = {}
-		local PR_EU            = 0 -- EUs from PR nodes
-		local BA_PR_EU         = 0 -- EUs from BA nodes (discharching)
-		local BA_RE_EU         = 0 -- EUs to BA nodes (charging)
-		local RE_EU            = 0 -- EUs to RE nodes
 
 		local tier      = ""
 		local PR_nodes
@@ -296,21 +306,6 @@ minetest.register_abm({
 			minetest.forceload_free_block(pos)
 			minetest.forceload_free_block(pos1)
 			return
-		end
-
-		-- Run all the nodes
-		local function run_nodes(list, run_stage)
-			for _, pos2 in ipairs(list) do
-				technic.get_or_load_node(pos2)
-				local node2 = minetest.get_node(pos2)
-				local nodedef
-				if node2 and node2.name then
-					nodedef = minetest.registered_nodes[node2.name]
-				end
-				if nodedef and nodedef.technic_run then
-					nodedef.technic_run(pos2, node2, run_stage)
-				end
-			end
 		end
 
 		run_nodes(PR_nodes, technic.producer)
@@ -484,7 +479,6 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
 		for tier, machines in pairs(technic.machines) do
 			if machines[node.name] and switching_station_timeout_count(pos, tier) then
 				local nodedef = minetest.registered_nodes[node.name]
@@ -510,7 +504,6 @@ minetest.register_abm({
 	interval   = 1,
 	chance     = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		local meta = minetest.get_meta(pos)
 		local pos1 = {x=pos.x,y=pos.y-1,z=pos.z}
 		local tier = technic.get_cable_tier(minetest.get_node(pos1).name)
 		if not tier then return end

@@ -353,13 +353,13 @@ minetest.register_node("cottages:threshing_floor", {
 
 		minetest.after(2, function()
 			if( puncher ) then
-				puncher:hud_remove(hud1);
-				puncher:hud_remove(hud2);
-				puncher:hud_remove(hud3);
-				puncher:hud_remove(hud4);
-				puncher:hud_remove(hud5);
-				puncher:hud_remove(hud6);
-				puncher:hud_remove(hud0);
+				if(hud1) then puncher:hud_remove(hud1); end
+				if(hud2) then puncher:hud_remove(hud2); end
+				if(hud3) then puncher:hud_remove(hud3); end
+				if(hud4) then puncher:hud_remove(hud4); end
+				if(hud5) then puncher:hud_remove(hud5); end
+				if(hud6) then puncher:hud_remove(hud6); end
+				if(hud0) then puncher:hud_remove(hud0); end
 			end
 		end)
 	end,

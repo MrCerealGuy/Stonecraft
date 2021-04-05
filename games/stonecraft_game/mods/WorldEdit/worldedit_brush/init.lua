@@ -9,60 +9,13 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local modname = minetest.get_current_modname()
-
--- check compatibility
 if minetest.raycast == nil then
-	function log_unavailable_error()
-		minetest.log("error",
-			"[MOD] " .. modname .. " is not compatible with current game version, " ..
-			"you can disable it in the game settings!"
-		)
-		minetest.log("verbose",
-			"[MOD] " .. modname .. " requires a suitable version of 0.4.16-dev or higher, " ..
-			"that includes support for minetest.raycast() [since 7th July 2017]"
-		)
-	end
-
-	if minetest.is_singleplayer() then
-		-- delay message until player is connected
-		minetest.register_on_joinplayer(log_unavailable_error)
-	else
-		log_unavailable_error()
-	end
-
-	-- exit here / do not load this mod
-	return
+	error(
+		"worldedit_brush requires at least Minetest 5.0"
+	)
 end
 
 local BRUSH_MAX_DIST = 150
-local BRUSH_ALLOWED_COMMANDS = {
-	-- basically everything that only needs pos1
-	"cube",
-	"cylinder",
-	"dome",
-	"hollowcube",
-	"hollowcylinder",
-	"hollowdome",
-	"hollowpyramid",
-	"hollowsphere",
-	"load",
-	"pyramid",
-	"sphere",
-	"spiral",
-
-	"cyl",
-	"do",
-	"hcube",
-	"hcyl",
-	"hdo",
-	"hpyr",
-	"hspr",
-	"l",
-	"pyr",
-	"spr",
-	"spl",
-}
 local brush_on_use = function(itemstack, placer)
 	local meta = itemstack:get_meta()
 	local name = placer:get_player_name()
@@ -73,8 +26,10 @@ local brush_on_use = function(itemstack, placer)
 			"This brush is not bound, use //brush to bind a command to it.")
 		return false
 	end
-	local cmddef = minetest.registered_chatcommands["/" .. cmd]
+
+	local cmddef = worldedit.registered_commands[cmd]
 	if cmddef == nil then return false end -- shouldn't happen as //brush checks this
+
 	local has_privs, missing_privs = minetest.check_player_privs(name, cmddef.privs)
 	if not has_privs then
 		worldedit.player_notify(name,
@@ -82,7 +37,8 @@ local brush_on_use = function(itemstack, placer)
 		return false
 	end
 
-	local raybegin = vector.add(placer:get_pos(), {x=0, y=2, z=0}) -- player head
+	local raybegin = vector.add(placer:get_pos(),
+		{x=0, y=placer:get_properties().eye_height, z=0})
 	local rayend = vector.add(raybegin, vector.multiply(placer:get_look_dir(), BRUSH_MAX_DIST))
 	local ray = minetest.raycast(raybegin, rayend, false, true)
 	local pointed_thing = ray:next()
@@ -94,20 +50,23 @@ local brush_on_use = function(itemstack, placer)
 	assert(pointed_thing.type == "node")
 	worldedit.pos1[name] = pointed_thing.under
 	worldedit.pos2[name] = nil
-	worldedit.mark_region(name)
-	-- is this a horrible hack? oh yes.
-	worldedit._override_safe_regions = true
+	worldedit.marker_update(name)
+
+	-- this isn't really clean...
 	local player_notify_old = worldedit.player_notify
 	worldedit.player_notify = function(name, msg)
 		if string.match(msg, "^%d") then return end -- discard "1234 nodes added."
 		return player_notify_old(name, msg)
 	end
 
+	assert(cmddef.require_pos < 2)
+	local parsed = {cmddef.parse(meta:get_string("params"))}
+	if not table.remove(parsed, 1) then return false end -- shouldn't happen
+
 	minetest.log("action", string.format("%s uses WorldEdit brush (//%s) at %s",
 		name, cmd, minetest.pos_to_string(pointed_thing.under)))
-	cmddef.func(name, meta:get_string("params"))
+	cmddef.func(name, unpack(parsed))
 
-	worldedit._override_safe_regions = false
 	worldedit.player_notify = player_notify_old
 	return true
 end
@@ -123,21 +82,22 @@ minetest.register_tool(":worldedit:brush", {
 	end,
 })
 
-minetest.register_chatcommand("/brush", {
+worldedit.register_command("brush", {
 	privs = {worldedit=true},
 	params = "none/<cmd> [parameters]",
 	description = "Assign command to WorldEdit brush item",
-	func = function(name, param)
+	parse = function(param)
 		local found, _, cmd, params = param:find("^([^%s]+)%s+(.+)$")
 		if not found then
 			params = ""
 			found, _, cmd = param:find("^(.+)$")
 		end
 		if not found then
-			worldedit.player_notify(name, "Invalid usage.")
-			return
+			return false
 		end
-
+		return true, cmd, params
+	end,
+	func = function(name, cmd, params)
 		local itemstack = minetest.get_player_by_name(name):get_wielded_item()
 		if itemstack == nil or itemstack:get_name() ~= "worldedit:brush" then
 			worldedit.player_notify(name, "Not holding brush item.")
@@ -150,16 +110,20 @@ minetest.register_chatcommand("/brush", {
 			meta:from_table(nil)
 			worldedit.player_notify(name, "Brush assignment cleared.")
 		else
-			local cmddef
-			if table.indexof(BRUSH_ALLOWED_COMMANDS, cmd) ~= -1 then
-				cmddef = minetest.registered_chatcommands["/" .. cmd]
-			else
-				cmddef = nil
-			end
-			if cmddef == nil then
-				worldedit.player_notify(name, "Invalid command for brush use: //" .. cmd)
+			local cmddef = worldedit.registered_commands[cmd]
+			if cmddef == nil or cmddef.require_pos ~= 1 then
+				worldedit.player_notify(name, "//" .. cmd .. " cannot be used with brushes")
 				return
 			end
+
+			-- Try parsing command params so we can give the user feedback
+			local ok, err = cmddef.parse(params)
+			if not ok then
+				err = err or "invalid usage"
+				worldedit.player_notify(name, "Error with brush command: " .. err)
+				return
+			end
+
 			meta:set_string("command", cmd)
 			meta:set_string("params", params)
 			local fullcmd = "//" .. cmd .. " " .. params

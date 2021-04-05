@@ -11,9 +11,9 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
-local enable_legacy = minetest.setting_getbool("subterrane_enable_legacy_dripstone")
+local enable_legacy = minetest.settings:get_bool("subterrane_enable_legacy_dripstone", false)
 
-if enable_legacy == nil or enable_legacy == true then
+if enable_legacy then
 
 subterrane.register_stalagmite_nodes("subterrane:dry_stal", {
 	description = S("Dry Dripstone"),
@@ -28,7 +28,6 @@ minetest.register_node("subterrane:dry_flowstone", {
 	description = S("Dry Flowstone"),
 	tiles = {"default_stone.png^[brighten"},
 	groups = {cracky = 3, stone = 1},
-	is_ground_content = true,
 	drop = 'default:cobble',
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -48,7 +47,6 @@ minetest.register_node("subterrane:wet_flowstone", {
 	description = S("Wet Flowstone"),
 	tiles = {"default_stone.png^[brighten^subterrane_dripstone_streaks.png"},
 	groups = {cracky = 3, stone = 1, subterrane_wet_dripstone = 1},
-	is_ground_content = true,
 	drop = 'default:cobble',
 	sounds = default.node_sound_stone_defaults(),
 })
@@ -445,7 +443,7 @@ end
 local grid_size = mapgen_helper.block_size * 4
 
 function subterrane:vertically_consistent_randomp(pos)
-	local next_seed = math.random(1, 1000000000000)
+	local next_seed = math.floor(math.random() * 2^31)
 	math.randomseed(minetest.hash_node_position({x=pos.x, y=0, z=pos.z}))
 	local output = math.random()
 	math.randomseed(next_seed)

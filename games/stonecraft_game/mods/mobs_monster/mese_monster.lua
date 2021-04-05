@@ -56,6 +56,7 @@ mobs:register_mob("mobs_monster:mese_monster", {
 })
 
 
+if not mobs.custom_spawn_monster then
 mobs:spawn({
 	name = "mobs_monster:mese_monster",
 	nodes = {"default:stone"},
@@ -64,6 +65,7 @@ mobs:spawn({
 	active_object_count = 1,
 	max_height = -20,
 })
+end
 
 
 mobs:register_egg("mobs_monster:mese_monster", S("Mese Monster"), "default_mese_block.png", 1)

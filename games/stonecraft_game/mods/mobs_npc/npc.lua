@@ -61,6 +61,7 @@ mobs:register_mob("mobs_npc:npc", {
 		punch_start = 200,
 		punch_end = 219,
 	},
+
 	on_rightclick = function(self, clicker)
 
 		-- feed to heal npc
@@ -102,7 +103,12 @@ mobs:register_mob("mobs_npc:npc", {
 		if self.owner and self.owner == name then
 
 			if self.order == "follow" then
+
+				self.attack = nil
 				self.order = "stand"
+				self.state = "stand"
+				self:set_animation("stand")
+				self:set_velocity(0)
 
 				minetest.chat_send_player(name, S("NPC stands still."))
 			else
@@ -111,10 +117,10 @@ mobs:register_mob("mobs_npc:npc", {
 				minetest.chat_send_player(name, S("NPC will follow you."))
 			end
 		end
-
 	end,
 })
 
+if not mobs.custom_spawn_npc then
 mobs:spawn({
 	name = "mobs_npc:npc",
 	nodes = {"default:brick"},
@@ -125,6 +131,7 @@ mobs:spawn({
 	min_height = 0,
 	day_toggle = true,
 })
+end
 
 mobs:register_egg("mobs_npc:npc", S("Npc"), "default_brick.png", 1)
 

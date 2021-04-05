@@ -34,6 +34,7 @@ local get_buffer = function(name, sidelen, perlin_params)
 		perlin_params = buffer.perlin_params -- retrieve recorded parameters
 	end
 	
+	buffer.last_used = minetest.get_gametime()
 	return buffer, perlin_params
 end
 
@@ -96,3 +97,18 @@ mapgen_helper.index2di = function(minp, maxp, area, vi)
 		*(z - minp.z)
 		+ 1
 end
+
+-- If a noise buffer hasn't been used in 60 seconds, let garbage collection take it.
+local time_elapsed = 0
+minetest.register_globalstep(function(dtime)
+	time_elapsed = time_elapsed + dtime
+	if time_elapsed > 60 then
+		local current_time = minetest.get_gametime()
+		time_elapsed = 0
+		for _, buffer in pairs(perlin_buffers) do
+			if current_time - buffer.last_used > 60 then
+				buffer.nvals_perlin_buffer = nil
+			end
+		end
+	end
+end)

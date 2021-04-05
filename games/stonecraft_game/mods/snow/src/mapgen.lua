@@ -32,7 +32,6 @@ if not snow.disable_mapgen then
 		nosmooth_rarity = 1-rarity/50
 		perlin_scale = size*100/rarity
 		mg.perlin_scale = perlin_scale
-		local smooth_rarity_max, smooth_rarity_min, smooth_rarity_dif
 		if smooth then
 			local smooth_trans_size = 4 --snow.smooth_trans_size
 			mg.smooth_rarity_max = upper_rarity(nosmooth_rarity+smooth_trans_size*2/perlin_scale)
@@ -110,8 +109,8 @@ local xmas_tree = {
 --Makes pine tree
 function snow.make_pine(pos,snow,xmas)
 	local minetest = minetest
-	local try_node = function(pos, node)
-		local n = minetest.get_node(pos).name
+	local function try_node(p, node)
+		local n = minetest.get_node(p).name
 		if n == "air"
 		or n == "ignore" then
 			minetest.add_node(pos, node)
@@ -150,13 +149,12 @@ function snow.voxelmanip_pine(pos,a,data)
 	local c_snow = minetest.get_content_id("default:snow")
 	local c_pine_needles = minetest.get_content_id("snow:needles")
 	local c_pinetree = minetest.get_content_id("default:pinetree")
-	local c_air = minetest.get_content_id("air")
 
 	local perlin1 = minetest.get_perlin(112,3, 0.5, perlin_scale)
-	for z = -1,1 do
-		local z = pos.z + z
-		for x = -1,1 do
-			local x = pos.x + x
+	for off_z = -1,1 do
+		local z = pos.z + off_z
+		for off_x = -1,1 do
+			local x = pos.x + off_x
 
 			--Make tree.
 			for i = 1,2 do

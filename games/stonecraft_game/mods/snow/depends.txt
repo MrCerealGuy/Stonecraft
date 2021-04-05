@@ -1,5 +1,6 @@
 default
 flowers?
+stairs?
 moreblocks?
 skins?
 treecapitator?

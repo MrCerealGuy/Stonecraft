@@ -125,14 +125,14 @@ function snow_snowball_ENTITY.on_activate(self)
 		and vel.y ~= 0 then
 			return
 		end
-		minetest.after(0, function(obj)
-			if not obj then
+		minetest.after(0, function(object)
+			if not object then
 				return
 			end
-			local vel = obj:getvelocity()
-			if not vel
-			or vel.y == 0 then
-				obj:remove()
+			local vel_obj = object:getvelocity()
+			if not vel_obj
+			or vel_obj.y == 0 then
+				object:remove()
 			end
 		end, obj)
 	end, self.object)
@@ -225,7 +225,7 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 				minetest.sound_play("default_snow_footstep", {pos=pos, gain=gain})
 
 				-- spawn_falling_node
-				local obj = core.add_entity(pos, "__builtin:falling_node")
+				local obj = minetest.add_entity(pos, "__builtin:falling_node")
 				if obj then
 					obj:get_luaentity():set_node{name = "default:snow"}
 				else
@@ -276,11 +276,16 @@ minetest.register_node(":default:snow", {
 		dug = {name="default_snow_footstep", gain=0.75},
 	}),
 	on_construct = function(pos)
-		if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "default:dirt_with_grass" or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "default:dirt" then
+		if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name
+		== "default:dirt_with_grass"
+		or minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name == "default:dirt" then
 			minetest.set_node({x=pos.x, y=pos.y-1, z=pos.z}, {name="default:dirt_with_snow"})
 		end
 		-- Now, let's turn the snow pile into a snowblock. ~ LazyJ
-		if minetest.get_node({x=pos.x, y=pos.y-2, z=pos.z}).name == "default:snow" and -- Minus 2 because at the end of this, the layer that triggers the change to a snowblock is the second layer more than a full block, starting into a second block (-2) ~ LazyJ, 2014_04_11
+		if minetest.get_node({x=pos.x, y=pos.y-2, z=pos.z}).name == "default:snow"
+		and -- Minus 2 because at the end of this, the layer that triggers
+		--the change to a snowblock is the second layer more than a full block,
+		--starting into a second block (-2) ~ LazyJ, 2014_04_11
 			minetest.get_node({x=pos.x, y=pos.y, z=pos.z}).name == "default:snow" then
 			minetest.set_node({x=pos.x, y=pos.y-2, z=pos.z}, {name="default:snowblock"})
 		end

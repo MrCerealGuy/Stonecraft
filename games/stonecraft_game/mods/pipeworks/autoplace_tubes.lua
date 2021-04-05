@@ -53,26 +53,27 @@ local function tube_autoroute(pos)
 	}
 	-- xm = 1, xp = 2, ym = 3, yp = 4, zm = 5, zp = 6
 
-	local positions = {}
-	local nodes = {}
-	for i, adj in ipairs(adjustments) do
-		positions[i] = vector.add(pos, adj)
-		nodes[i] = minetest.get_node(positions[i])
-	end
+	local adjlist = {} -- this will be used in item_transport
 
-	for i, node in ipairs(nodes) do
+	for i, adj in ipairs(adjustments) do
+		local position = vector.add(pos, adj)
+		local node = minetest.get_node(position)
+
 		local idef = minetest.registered_nodes[node.name]
 		-- handle the tubes themselves
 		if is_tube(node.name) then
 			active[i] = 1
+			table.insert(adjlist, adj)
 		-- handle new style connectors
 		elseif idef and idef.tube and idef.tube.connect_sides then
-			local dir = adjustments[i]
-			if idef.tube.connect_sides[nodeside(node, vector.multiply(dir, -1))] then
+			if idef.tube.connect_sides[nodeside(node, vector.multiply(adj, -1))] then
 				active[i] = 1
+				table.insert(adjlist, adj)
 			end
 		end
 	end
+
+	minetest.get_meta(pos):set_string("adjlist", minetest.serialize(adjlist))
 
 	-- all sides checked, now figure which tube to use.
 
@@ -80,7 +81,7 @@ local function tube_autoroute(pos)
 	local basename = nodedef.basename
 	if nodedef.style == "old" then
 		local nsurround = ""
-		for i, n in ipairs(active) do
+		for _, n in ipairs(active) do
 			nsurround = nsurround..n
 		end
 		nctr.name = basename.."_"..nsurround

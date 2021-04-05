@@ -1,16 +1,11 @@
 --[[
 More Blocks: node definitions
 
-Copyright © 2011-2019 Hugo Locurcio and contributors.
+Copyright © 2011-2020 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
-
-2017-05-18 MrCerealGuy: added intllib support
-
 --]]
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = moreblocks.S
 
 local sound_dirt = default.node_sound_dirt_defaults()
 local sound_wood = default.node_sound_wood_defaults()
@@ -180,6 +175,12 @@ local nodes = {
 		is_ground_content = false,
 		sounds = sound_stone,
 	},
+	["desert_cobble_compressed"] = {
+		description = S("Compressed Desert Cobblestone"),
+		groups = {cracky = 1},
+		is_ground_content = false,
+		sounds = sound_stone,
+	},
 	["plankstone"] = {
 		description = S("Plankstone"),
 		paramtype2 = "facedir",
@@ -193,6 +194,7 @@ local nodes = {
 		description = S("Iron Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#DEDEDE", "default_glass_detail.png^[colorize:#DEDEDE"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -203,6 +205,7 @@ local nodes = {
 		description = S("Coal Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#828282", "default_glass_detail.png^[colorize:#828282"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -213,6 +216,7 @@ local nodes = {
 		description = S("Clean Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"moreblocks_clean_glass.png", "moreblocks_clean_glass_detail.png"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -312,6 +316,7 @@ local nodes = {
 		description = S("Trap Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^moreblocks_trap_box_glass.png", "default_glass_detail.png"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -324,6 +329,7 @@ local nodes = {
 		description = S("Trap Obsidian Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_obsidian_glass.png^moreblocks_trap_box_glass.png", "default_obsidian_glass_detail.png"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -341,6 +347,19 @@ local nodes = {
 		paramtype = "light",
 		is_ground_content = false,
 		sounds = sound_stone,
+		no_stairs = true,
+	},
+	["trap_clean_glass"] = {
+		description = S("Trap Clean Glass"),
+		drawtype = "glasslike_framed_optional",
+		tiles = {"moreblocks_clean_glass.png^moreblocks_trap_box_glass.png", "moreblocks_clean_glass_detail.png"},
+		use_texture_alpha = "clip",
+		paramtype = "light",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		walkable = false,
+		groups = {cracky = 3, oddly_breakable_by_hand = 3},
+		sounds = sound_glass,
 		no_stairs = true,
 	},
 	["trap_sandstone"] = {
@@ -393,6 +412,19 @@ local nodes = {
 		description = S("Glow Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#E9CD61", "default_glass_detail.png^[colorize:#E9CD61"},
+		use_texture_alpha = "clip",
+		paramtype = "light",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		light_source = 11,
+		groups = {cracky = 3, oddly_breakable_by_hand = 3},
+		sounds = sound_glass,
+	},
+	["clean_glow_glass"] = {
+		description = S("Clean Glow Glass"),
+		drawtype = "glasslike_framed_optional",
+		tiles = {"moreblocks_clean_glass.png^[colorize:#E9CD61", "moreblocks_clean_glass_detail.png^[colorize:#E9CD61"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -404,6 +436,21 @@ local nodes = {
 		description = S("Trap Glow Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#E9CD61^moreblocks_trap_box_glass.png", "default_glass_detail.png^[colorize:#E9CD61"},
+		use_texture_alpha = "clip",
+		paramtype = "light",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		light_source = 11,
+		walkable = false,
+		groups = {cracky = 3, oddly_breakable_by_hand = 3},
+		sounds = sound_glass,
+		no_stairs = true,
+	},
+	["trap_clean_glow_glass"] = {
+		description = S("Trap Clean Glow Glass"),
+		drawtype = "glasslike_framed_optional",
+		tiles = {"moreblocks_clean_glass.png^[colorize:#E9CD61^moreblocks_trap_box_glass.png", "moreblocks_clean_glass_detail.png^[colorize:#E9CD61"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -417,6 +464,19 @@ local nodes = {
 		description = S("Super Glow Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#FFFF78", "default_glass_detail.png^[colorize:#FFFF78"},
+		use_texture_alpha = "clip",
+		paramtype = "light",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		light_source = default.LIGHT_MAX,
+		groups = {cracky = 3, oddly_breakable_by_hand = 3},
+		sounds = sound_glass,
+	},
+	["clean_super_glow_glass"] = {
+		description = S("Clean Super Glow Glass"),
+		drawtype = "glasslike_framed_optional",
+		tiles = {"moreblocks_clean_glass.png^[colorize:#FFFF78", "moreblocks_clean_glass_detail.png^[colorize:#FFFF78"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,
@@ -428,6 +488,21 @@ local nodes = {
 		description = S("Trap Super Glow Glass"),
 		drawtype = "glasslike_framed_optional",
 		tiles = {"default_glass.png^[colorize:#FFFF78^moreblocks_trap_box_glass.png", "default_glass_detail.png^[colorize:#FFFF78"},
+		use_texture_alpha = "clip",
+		paramtype = "light",
+		sunlight_propagates = true,
+		is_ground_content = false,
+		light_source = default.LIGHT_MAX,
+		walkable = false,
+		groups = {cracky = 3, oddly_breakable_by_hand = 3},
+		sounds = sound_glass,
+		no_stairs = true,
+	},
+	["trap_clean_super_glow_glass"] = {
+		description = S("Trap Clean Super Glow Glass"),
+		drawtype = "glasslike_framed_optional",
+		tiles = {"moreblocks_clean_glass.png^[colorize:#FFFF78^moreblocks_trap_box_glass.png", "moreblocks_clean_glass_detail.png^[colorize:#FFFF78"},
+		use_texture_alpha = "clip",
 		paramtype = "light",
 		sunlight_propagates = true,
 		is_ground_content = false,

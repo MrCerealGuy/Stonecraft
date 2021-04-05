@@ -43,7 +43,7 @@ local stal_on_place = function(itemstack, placer, pointed_thing)
 
 	-- add the node and remove 1 item from the itemstack
 	minetest.add_node(pt.above, {name = itemstack:get_name(), param2 = new_param2})
-	if not minetest.setting_getbool("creative_mode") then
+	if not minetest.settings:get_bool("creative_mode", false) then
 		itemstack:take_item()
 	end
 	return itemstack
@@ -75,7 +75,6 @@ subterrane.register_stalagmite_nodes = function(base_name, base_node_def, drop_b
 	base_node_def.drawtype = "nodebox"
 	base_node_def.paramtype = "light"
 	base_node_def.paramtype2 = "facedir"
-	base_node_def.is_ground_content = true
 	base_node_def.node_box = {type = "fixed"}
 	
 	local def1 = deep_copy(base_node_def)

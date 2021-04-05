@@ -33,7 +33,7 @@ minetest.register_tool("technic:vacuum", {
 				gain = 0.4,
 			})
 		end
-		local pos = user:getpos()
+		local pos = user:get_pos()
 		local inv = user:get_inventory()
 		for _, object in ipairs(minetest.get_objects_inside_radius(pos, vacuum_range)) do
 			local luaentity = object:get_luaentity()
@@ -53,7 +53,7 @@ minetest.register_tool("technic:vacuum", {
 				end
 			end
 		end
-		
+
 		technic.set_RE_wear(itemstack, meta.charge, vacuum_max_charge)
 		itemstack:set_metadata(minetest.serialize(meta))
 		return itemstack

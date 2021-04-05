@@ -738,6 +738,7 @@ for name,i in pairs({
 			"riesenpilz_"..name.."_bottom.png",
 			"riesenpilz_"..name.."_side.png",
 		},
+		use_texture_alpha = "opaque",
 		inventory_image = "riesenpilz_"..name.."_side.png",
 		walkable = false,
 		buildable_to = true,
@@ -1128,6 +1129,11 @@ local function get_grow(name)
 	local is = {}
 	for i = 1,#minetest.registered_abms do
 		local ad = minetest.registered_abms[i]
+		if type(ad.nodenames) ~= "table" then
+			minetest.log("warning", "ABM nodenames is not a table: " ..
+				dump(ad))
+			return
+		end
 		if ad.chance > 1
 		and table.indexof(ad.nodenames, name) ~= -1 then
 			is[#is+1] = ad.action
@@ -1254,6 +1260,14 @@ end--]]
 if riesenpilz.enable_mapgen then
 	dofile(modpath.."mapgen.lua")
 end
+
+
+
+-- Legacy
+
+
+minetest.register_alias("riesenpilz:head_binge", "riesenpilz:head_beige")
+
 
 local time = math.floor(tonumber(os.clock()-load_time_start)*100+0.5)/100
 local msg = "[riesenpilz] loaded after ca. "..time

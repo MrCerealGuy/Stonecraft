@@ -54,9 +54,13 @@ local pane_box = {
 		{ -8/16, -8/16, -1/16, 8/16, 8/16, 1/16 } -- pane
 	}
 }
+
+local texture_alpha_mode = minetest.features.use_texture_alpha_string_modes
+	and "clip" or true
+
 minetest.register_node("pipeworks:steel_pane_embedded_tube", {
 	drawtype = "nodebox",
-	description = S("Airtight panel embedded tube "),
+	description = S("Airtight panel embedded tube"),
 	tiles = {
 		"pipeworks_pane_embedded_tube_sides.png^[transformR90",
 		"pipeworks_pane_embedded_tube_sides.png^[transformR90",
@@ -64,6 +68,7 @@ minetest.register_node("pipeworks:steel_pane_embedded_tube", {
 		"pipeworks_pane_embedded_tube_sides.png",
 		"pipeworks_pane_embedded_tube_ends.png", "pipeworks_pane_embedded_tube_ends.png",
 		},
+	use_texture_alpha = texture_alpha_mode,
 	node_box = pane_box,
 	selection_box = pane_box,
 	collision_box = pane_box,

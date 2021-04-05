@@ -1,6 +1,6 @@
-if sumpf.info then
+if sumpf.log_level > 0 then
 	function sumpf.inform(msg, spam, t)
-		if spam <= sumpf.max_spam then
+		if spam <= sumpf.log_level then
 			local info
 			if t then
 				info = "[sumpf] " .. msg .. (" after ca. %.3g s"):format(
@@ -9,7 +9,7 @@ if sumpf.info then
 				info = "[sumpf] "..msg
 			end
 			minetest.log("info", info)
-			if sumpf.inform_all then
+			if sumpf.log_to_chat then
 				minetest.chat_send_all(info)
 			end
 		end

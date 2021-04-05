@@ -57,7 +57,7 @@ e.g.
 lucky_block:add_chest_items({
 	{name = "default:apple", max = 3},
 	{name = "default:steel_ingot", max = 2},
-	{name = "default:pick_steel", max = 1}
+	{name = "default:pick_diamond", max = 1, chance = 5},
 })
 
 
@@ -150,9 +150,12 @@ Place a chest containing random items from default chest items list
 
 	{"nod", "default:chest", 0}
 
-Place chest as above only add up to 5x roses as well
+Place chest as above only add up to 5 roses and a 1/5 chance of mese also
 
-	{"nod", "default:chest", 0, { {name = "flowers:rose, max = 4} }}
+	{"nod", "default:chest", 0, {
+		{name = "flowers:rose", max = 5},
+		{name = "default:mese", max = 1, chance = 5},
+	}}
 
 Place fire at player position
 

@@ -33,7 +33,7 @@ stepheight = 0.6,
 	run_velocity = 1.5,
 	jump = false,
 	jump_height = 6,
-	follow = {"ethereal:bamboo"},
+	follow = {"ethereal:bamboo", "bamboo:trunk"},
 	view_range = 8,
 	drops = {
 		{name = "mobs:meat_raw", chance = 1, min = 1, max = 2},
@@ -68,7 +68,7 @@ stepheight = 0.6,
 	end,
 })
 
-if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
+if minetest.get_modpath("ethereal") and not mobs.custom_spawn_animal and not core.skip_mod("ethereal") then
 
 	mobs:spawn({
 		name = "mobs_animal:panda",
@@ -83,4 +83,4 @@ if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 	})
 end
 
-mobs:register_egg("mobs_animal:panda", S("Panda"), "wool_green.png", 1)
+mobs:register_egg("mobs_animal:panda", S("Panda"), "mobs_panda_inv.png")

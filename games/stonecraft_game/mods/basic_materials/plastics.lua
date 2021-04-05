@@ -17,6 +17,7 @@ minetest.register_craftitem("basic_materials:plastic_sheet", {
 
 minetest.register_craftitem("basic_materials:plastic_strip", {
 	description = "Plastic strips",
+	groups = { strip = 1 },
 	inventory_image = "basic_materials_plastic_strip.png",
 })
 

@@ -326,10 +326,10 @@ local function arrange_wall_ps_list(pos, wall_ps)
 	local dones = {}
 	local current = {pos.z,pos.x}
 	while current do
-		local y,x = unpack(current)
+		local yc,xc = unpack(current)
 		current = false
-		for y = y-1,y+1 do
-			for x = x-1,x+1 do
+		for y = yc-1, yc+1 do
+			for x = xc-1, xc+1 do
 				if get(wall_ps, y,x)
 				and not get(dones, y,x) then
 					set(dones, y,x, true)
@@ -355,8 +355,9 @@ local function make_walls(pos, ps, y, tab)
 	glass_count = -1
 end
 
-local function get_hut_node_ps(wall_ps, wall_ps_list, y)
-	local ps,ps_list, wall_ps,wall_ps_list = get_floor_ps(wall_ps, wall_ps_list)
+local function get_hut_node_ps(wall_ps_initial, wall_ps_list_initial, y)
+	local ps,ps_list, wall_ps,wall_ps_list = get_floor_ps(wall_ps_initial,
+		wall_ps_list_initial)
 	local node_ps = {{},{},{},{},{},{}}
 	if not ps
 	or #wall_ps_list < 2 then
@@ -400,11 +401,11 @@ local function get_perlin_field(rmin, rmax, nparams)
 
 	local pval_min, pval_max
 
-	local tab, n = {}, 1
+	local tab = {}
 	for z=-r,r do
-		local bare_dist = z*z
+		local bare_dist_z = z*z
 		for x=-r,r do
-			local bare_dist = bare_dist+x*x
+			local bare_dist = bare_dist_z + x*x
 			local add = bare_dist < bare_mindist
 			local pval, distdiv
 			if not add
@@ -422,8 +423,7 @@ local function get_perlin_field(rmin, rmax, nparams)
 			end
 
 			if add then
-				tab[n] = {z,x, pval, distdiv}
-				n = n+1
+				tab[#tab+1] = {z,x, pval, distdiv}
 			end
 			id = id+1
 		end

@@ -15,7 +15,7 @@
 assert(abstract_ferns.config.enable_lady_fern == true)
 
 -- support for i18n
-local S = plantlife_i18n.gettext
+local S = minetest.get_translator("ferns")
 
 -- Maintain backward compatibilty
 -- minetest-0.5: Begin

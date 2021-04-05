@@ -91,7 +91,23 @@ minetest.register_node("teleporter:teleporter_active", {
 
     on_receive_fields = teleporter.received_fields,
 	
-	can_dig = teleporter.can_access
+	can_dig = teleporter.can_access,
+	mesecons = {
+		effector = {
+			rules = {
+				{x = 1, y = 0, z = 0},
+				{x =-1, y = 0, z = 0},
+				{x = 0, y = 0, z = 1},
+				{x = 0, y = 0, z =-1}
+			},
+			action_on = function (pos, node)
+				teleporter.teleport(pos, 3)
+			end,
+			--action_off = lights.searchlight_off--function (pos, node)
+			--action_change = function (pos, node)
+		}
+	}
+
 })
 
 --RECEIVER

@@ -5,11 +5,11 @@ There are three different horse textures (white, brown, black) which will spawn 
 
 ---
 ### Taming
-Horses can be tamed with 10x wheat or apples which then allows the player to pick up the horse using a lasso and ride by right-clicking with a saddle.
+Horses can be tamed with 10x wheat, apple, barley, oats of corn which then allows the player to pick up the horse using a lasso and ride by right-clicking with a saddle.
 
 ---
 ### Horseshoes
-Horseshoes can be crafted using steel, bronze, mese and diamond (4x ingots - 2 down either side with 1x block top middle) and placed on a horse by punching with the item.  These can make horses run faster or jump higher depending on tier.
+Horseshoes can be crafted using steel, bronze, mese and diamond (4x ingots - 2 down either side with 1x block top middle) and placed on a horse by right clicking with the item.  These can make horses run faster or jump higher while riding depending on tier.
 
 ---
 ### Dead Horse

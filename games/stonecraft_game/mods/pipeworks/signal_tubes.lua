@@ -9,10 +9,21 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+-- the minetest.after() calls below can sometimes trigger after a tube
+-- breaks, at which point item_exit() is no longer valid, so we have to make
+-- sure that there even IS a callback to run, first.
+
+local function after_break(pos)
+	local name = minetest.get_node(pos).name
+	if minetest.registered_nodes[name].item_exit then
+		minetest.registered_nodes[name].item_exit(pos)
+	end
+end
+
 if pipeworks.enable_detector_tube then
 	local detector_tube_step = 5 * tonumber(minetest.settings:get("dedicated_server_step"))
 	pipeworks.register_tube("pipeworks:detector_tube_on", {
-			description = S("Detecting Pneumatic Tube Segment on (you hacker you)"),
+			description = S("Detecting Pneumatic Tube Segment on"),
 			inventory_image = "pipeworks_detector_tube_inv.png",
 			plain = { "pipeworks_detector_tube_plain.png" },
 			node_def = {
@@ -22,7 +33,7 @@ if pipeworks.enable_detector_tube then
 						 local nitems = meta:get_int("nitems")+1
 						 meta:set_int("nitems", nitems)
 						 local saved_pos = vector.new(pos)
-						 minetest.after(detector_tube_step, minetest.registered_nodes[name].item_exit, saved_pos)
+						 minetest.after(detector_tube_step, after_break, saved_pos)
 						 return pipeworks.notvel(pipeworks.meseadjlist,velocity)
 					end},
 				groups = {mesecon = 2, not_in_creative_inventory = 1},
@@ -46,7 +57,7 @@ if pipeworks.enable_detector_tube then
 					 meta:set_int("nitems", 1)
 					 local name = minetest.get_node(pos).name
 					 local saved_pos = vector.new(pos)
-					 minetest.after(detector_tube_step, minetest.registered_nodes[name].item_exit, saved_pos)
+					 minetest.after(detector_tube_step, after_break, pos)
 				end,
 			},
 	})
@@ -90,7 +101,7 @@ if digiline_enabled and pipeworks.enable_digiline_detector_tube then
 
 						local setchan = meta:get_string("channel")
 
-						digiline:receptor_send(pos, digiline.rules.default, setchan, stack:to_string())
+						digiline:receptor_send(pos, digiline.rules.default, setchan, stack:to_table())
 
 						return pipeworks.notvel(pipeworks.meseadjlist, velocity)
 					end},
@@ -98,9 +109,9 @@ if digiline_enabled and pipeworks.enable_digiline_detector_tube then
 					local meta = minetest.get_meta(pos)
 					meta:set_string("formspec",
 						"size[8.6,2.2]"..
-						"field[0.6,0.6;8,1;channel;Channel:;${channel}]"..
+						"field[0.6,0.6;8,1;channel;"..S("Channel")..";${channel}]"..
 						"image[0.3,1.3;1,1;pipeworks_digiline_detector_tube_inv.png]"..
-						"label[1.6,1.2;Digiline Detecting Tube]"
+						"label[1.6,1.2;"..S("Digiline Detecting Tube").."]"
 					)
 				end,
 				on_receive_fields = function(pos, formname, fields, sender)
@@ -147,7 +158,7 @@ if pipeworks.enable_conductor_tube then
 			},
 	})
 	pipeworks.register_tube("pipeworks:conductor_tube_on", {
-			description = S("Conducting Pneumatic Tube Segment on (you hacker you)"),
+			description = S("Conducting Pneumatic Tube Segment on"),
 			inventory_image = "pipeworks_conductor_tube_inv.png",
 			short = "pipeworks_conductor_tube_short.png",
 			plain = { "pipeworks_conductor_tube_on_plain.png" },
@@ -206,7 +217,7 @@ if digiline_enabled and pipeworks.enable_digiline_conductor_tube and
 		},
 	})
 	pipeworks.register_tube("pipeworks:mesecon_and_digiline_conductor_tube_on", {
-		description = S("Mesecon and Digiline Conducting Pneumatic Tube Segment on (you hacker you)"),
+		description = S("Mesecon and Digiline Conducting Pneumatic Tube Segment on"),
 		inventory_image = "pipeworks_conductor_tube_inv.png^pipeworks_digiline_conductor_tube_inv.png",
 		short = "pipeworks_conductor_tube_short.png^pipeworks_digiline_conductor_tube_short.png",
 		plain = {"pipeworks_conductor_tube_on_plain.png^pipeworks_digiline_conductor_tube_plain.png"},

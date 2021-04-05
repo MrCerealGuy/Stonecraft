@@ -5,7 +5,7 @@ if minetest.get_modpath("animalmaterials") and core.skip_mod("animalmaterials") 
 	minetest.register_craft({
 		type = "shapeless",
 		output = "bonemeal:bonemeal 2",
-		recipe = {"animalmaterials:bone"},
+		recipe = {"animalmaterials:bone"}
 	})
 end
 
@@ -32,13 +32,21 @@ if farming and farming.mod and farming.mod == "redo" then
 		{"farming:chili_", 8},
 		{"farming:garlic_", 5},
 		{"farming:onion_", 5},
-		{"farming:pepper_", 5},
+		{"farming:pepper_", 7},
 		{"farming:pineapple_", 8},
 		{"farming:pea_", 5},
 		{"farming:beetroot_", 5},
 		{"farming:rye_", 8},
 		{"farming:oat_", 8},
 		{"farming:rice_", 8},
+		{"farming:mint_", 4},
+		{"farming:cabbage_", 6},
+		{"farming:lettuce_", 5},
+		{"farming:blackberry_", 4},
+		{"farming:vanilla_", 8},
+		{"farming:soy_", 7},
+		{"farming:artichoke_", 5},
+		{"farming:parsley_", 3}
 	})
 end
 
@@ -47,7 +55,7 @@ if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 
 	bonemeal:add_crop({
 		{"ethereal:strawberry_", 8},
-		{"ethereal:onion_", 5},
+		{"ethereal:onion_", 5}
 	})
 
 	bonemeal:add_sapling({
@@ -64,6 +72,8 @@ if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 		{"ethereal:bamboo_sprout", ethereal.grow_bamboo_tree, "soil"},
 		{"ethereal:birch_sapling", ethereal.grow_birch_tree, "soil"},
 		{"ethereal:sakura_sapling", ethereal.grow_sakura_tree, "soil"},
+		{"ethereal:lemon_tree_sapling", ethereal.grow_lemon_tree, "soil"},
+		{"ethereal:olive_tree_sapling", ethereal.grow_olive_tree, "soil"}
 	})
 
 	local grass = {"default:grass_3", "default:grass_4", "default:grass_5", ""}
@@ -79,7 +89,7 @@ if minetest.get_modpath("ethereal") and not core.skip_mod("ethereal") then
 		{"ethereal:mushroom_dirt", {}, {"flowers:mushroom_red", "flowers:mushroom_brown", "", "", ""}},
 		{"ethereal:jungle_dirt", grass, {"default:junglegrass", "", "", ""}},
 		{"ethereal:grove_dirt", grass, {"ethereal:fern", "", "", ""}},
-		{"ethereal:bamboo_dirt", grass, {}},
+		{"ethereal:bamboo_dirt", grass, {}}
 	})
 end
 
@@ -115,18 +125,18 @@ if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
 		{"moretrees:poplar_sapling", moretrees.spawn_poplar_object, "soil"},
 		{"moretrees:willow_sapling", moretrees.spawn_willow_object, "soil"},
 		{"moretrees:rubber_tree_sapling", moretrees.spawn_rubber_tree_object, "soil"},
-		{"moretrees:fir_sapling", fir_grow, "soil"},
+		{"moretrees:fir_sapling", fir_grow, "soil"}
 	})
 
 elseif minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic") then
 
 	bonemeal:add_sapling({
-		{"moretrees:rubber_tree_sapling", technic.rubber_tree_model, "soil"},
+		{"moretrees:rubber_tree_sapling", technic.rubber_tree_model, "soil"}
 	})
 end
 
 
-if minetest.get_modpath("caverealms") then
+if minetest.get_modpath("caverealms") and not core.skip_mod("caverealms") then
 
 	local fil = minetest.get_modpath("caverealms") .. "/schematics/shroom.mts"
 	local add_shroom = function(pos)
@@ -138,6 +148,23 @@ if minetest.get_modpath("caverealms") then
 	end
 
 	bonemeal:add_sapling({
-		{"caverealms:mushroom_sapling", add_shroom, "soil"},
+		{"caverealms:mushroom_sapling", add_shroom, "soil"}
 	})
+end
+
+
+if minetest.get_modpath("dye") then
+
+	local bonemeal_dyes = {
+			bonemeal = "white", fertiliser = "green", mulch = "brown"}
+
+	for mat, dye in pairs(bonemeal_dyes) do
+
+		minetest.register_craft({
+			output = "dye:" .. dye .. " 4",
+			recipe = {
+				{"bonemeal:" .. mat}
+			},
+		})
+	end
 end

@@ -64,8 +64,6 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- Helper functions
 --
 
-vector.zero = vector.zero or {x=0, y=0, z=0}
-
 local function table_find(t, v)
 	for i = 1,#t do
 		if t[i] == v then
@@ -167,7 +165,7 @@ function sled:on_rightclick(player)
 	on_sled_click(self, player)
 end
 
-function sled:on_activate(staticdata, dtime_s)
+function sled:on_activate(staticdata)
 	self.object:set_armor_groups({immortal=1})
 	self.object:setacceleration({x=0, y=-10, z=0})
 	if staticdata then

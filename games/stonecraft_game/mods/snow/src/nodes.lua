@@ -79,10 +79,10 @@ end)
 
 
 
-	-- Christmas egg
-	if minetest.global_exists"skins" then
-		skins.add"character_snow_man"
-	end
+-- Christmas egg
+if minetest.global_exists("skins") then
+	skins.add("character_snow_man")
+end
 
 
 -- Decorated Pine Leaves
@@ -95,9 +95,11 @@ if snow.disable_deco_needle_ani then
 else
 	-- Animated, "blinking lights" version. ~ LazyJ
 	nodedef.inventory_image = minetest.inventorycube("snow_needles_decorated.png")
-	nodedef.tiles = {
-		{name="snow_needles_decorated_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=20.0}}
-	}
+	nodedef.tiles = {{
+		name="snow_needles_decorated_animated.png",
+		animation={type="vertical_frames", aspect_w=16, aspect_h=16,
+			length=20.0}
+	}}
 end
 nodedef.drop.items[#nodedef.drop.items] = {items = {'snow:needles_decorated'}}
 
@@ -142,9 +144,13 @@ nodedef = {
 	walkable = false,
 	-- Don't want the ornament breaking too easily because you have to punch it to turn it on and off. ~ LazyJ
 	groups = {cracky=1, crumbly=1, choppy=1, oddly_breakable_by_hand=1},
-	-- Breaking "glass" sound makes it sound like a real, broken, Xmas tree ornament (Sorry, Mom!).  ;)-  ~ LazyJ
-	sounds = default.node_sound_glass_defaults({dig = {name="default_glass_footstep", gain=0.2}}),
-	on_punch = function(pos, node) -- Added a "lit" star that can be punched on or off depending on your preference. ~ LazyJ
+	-- Breaking "glass" sound makes it sound like a real, broken, Xmas tree
+	-- ornament (Sorry, Mom!).  ;)-  ~ LazyJ
+	sounds = default.node_sound_glass_defaults(
+		{dig = {name="default_glass_footstep", gain=0.2}}),
+	-- Added a "lit" star that can be punched on or off depending on your
+	-- preference. ~ LazyJ
+	on_punch = function(pos, node)
 		node.name = "snow:star_lit"
 		minetest.set_node(pos, node)
 	end,
@@ -155,7 +161,7 @@ minetest.register_node("snow:star", table.copy(nodedef))
 
 -- Star (Lit Version) on Xmas Trees
 nodedef.description = S("@1 Lighted", nodedef.description)
-nodedef.light_source = LIGHT_MAX
+nodedef.light_source = minetest.LIGHT_MAX
 nodedef.tiles = {"snow_star_lit.png"}
 nodedef.drop = "snow:star"
 nodedef.groups.not_in_creative_inventory = 1
@@ -298,8 +304,7 @@ local function snow_onto_dirt(pos)
 	local node = minetest.get_node(pos)
 	if node.name == "default:dirt_with_grass"
 	or node.name == "default:dirt" then
-		node.name = "default:dirt_with_snow"
-		minetest.set_node(pos, node)
+		minetest.set_node(pos, {name = "default:dirt_with_snow"})
 	end
 end
 
@@ -319,14 +324,10 @@ nodedef = {
 	-- by player position. ~ LazyJ
 	 -- I made this a little harder to dig than snow blocks because
 	 -- I imagine snow brick as being much more dense and solid than fluffy snow. ~ LazyJ
-	groups = {cracky=2, crumbly=2, choppy=2, oddly_breakable_by_hand=2, melts=1, icemaker=1, cooks_into_ice=1},
+	groups = {cracky=2, crumbly=2, choppy=2, oddly_breakable_by_hand=2, melts=1,
+		icemaker=1, cooks_into_ice=1, cools_lava = 1, snowy = 1},
 	 --Let's use the new snow sounds instead of the old grass sounds. ~ LazyJ
-	sounds = default.node_sound_dirt_defaults({
-		footstep = {name="default_snow_footstep", gain=0.25},
-		dig = {name="default_dig_crumbly", gain=0.4},
-		dug = {name="default_snow_footstep", gain=0.75},
-		place = {name="default_place_node", gain=1.0}
-	}),
+	sounds = default.node_sound_snow_defaults(),
 	-- The "on_construct" part below, thinking in terms of layers,
 	-- dirt_with_snow could also double as dirt_with_frost which adds subtlety
 	-- to the winterscape. ~ LazyJ
@@ -336,17 +337,14 @@ nodedef = {
 -- Snow Brick
 minetest.register_node("snow:snow_brick", table.copy(nodedef))
 
-
 -- hard Ice Brick, original texture from LazyJ
 local ibdef = table.copy(nodedef)
 ibdef.description = S("Ice Brick")
 ibdef.tiles = {"snow_ice_brick.png"}
-ibdef.use_texture_alpha = true
+ibdef.use_texture_alpha = "blend"
 ibdef.drawtype = "glasslike"
-ibdef.groups = {cracky=1, crumbly=1, choppy=1, melts=1}
-ibdef.sounds = default.node_sound_glass_defaults({
-	dug = {name="default_hard_footstep", gain=1}
-})
+ibdef.groups = {cracky=1, crumbly=1, choppy=1, melts=1, cools_lava = 1, slippery = 3}
+ibdef.sounds = default.node_sound_ice_defaults()
 
 minetest.register_node("snow:ice_brick", ibdef)
 
@@ -358,42 +356,37 @@ nodedef.tiles = {"snow_snow_cobble.png"}
 
 minetest.register_node("snow:snow_cobble", nodedef)
 
-
-
 -- Override Default Nodes to Add Extra Functions
 
+local groups = minetest.registered_nodes["default:ice"].groups
+groups["melt"] = 1
 minetest.override_item("default:ice", {
-	use_texture_alpha = true,
-	param2 = 0, --param2 is reserved for how much ice will freezeover.
-	sunlight_propagates = true, -- necessary for dirt_with_grass/snow/just dirt ABMs
 	drawtype = "glasslike",
-	tiles = {"default_ice.png^[brighten"},
+	use_texture_alpha = "blend",
+	param2 = 0,  --param2 is reserved for how much ice will freezeover.
+	sunlight_propagates = true,  -- necessary for dirt_with_grass/snow/just dirt ABMs
+	tiles = {"snow_ice.png^[brighten"},
 	liquidtype = "none",
-	 -- I made this a lot harder to dig than snow blocks because ice is much more dense
-	 -- and solid than fluffy snow. ~ LazyJ
-	groups = {cracky=2, crumbly=1, choppy=1, --[[oddly_breakable_by_hand=1,]] melts=1},
+	groups = groups,
 	on_construct = snow_onto_dirt,
 	liquids_pointable = true,
 	--Make ice freeze over when placed by a maximum of 10 blocks.
 	after_place_node = function(pos)
 		minetest.set_node(pos, {name="default:ice", param2=math.random(0,10)})
-	end
+	end,
 })
 
-
+groups = minetest.registered_nodes["default:snowblock"].groups
+for g,v in pairs({melts=1, icemaker=1, cooks_into_ice=1, falling_node=1}) do
+	groups[g] = v
+end
 minetest.override_item("default:snowblock", {
-	-- LazyJ to make dirt below change to dirt_with_snow (see default, nodes.lua, dirt ABM)
 	liquidtype = "none",
 	paramtype = "light",
 	sunlight_propagates = true,
-	 -- Snow blocks should be easy to dig because they are just fluffy snow. ~ LazyJ
-	groups = {cracky=3, crumbly=3, choppy=3, oddly_breakable_by_hand=3, melts=1, icemaker=1, cooks_into_ice=1, falling_node=1},
-	--drop = "snow:snow_cobble",
-	on_construct = snow_onto_dirt
-		-- Thinking in terms of layers, dirt_with_snow could also double as
-		-- dirt_with_frost which adds subtlety to the winterscape. ~ LazyJ, 2014_04_04
+	on_construct = snow_onto_dirt,
+	groups = groups,
 })
-
 
 minetest.override_item("default:snow", {
 	drop = {

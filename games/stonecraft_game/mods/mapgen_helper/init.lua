@@ -14,6 +14,7 @@ dofile(MP.."/region_functions.lua")
 dofile(MP.."/lines.lua")
 dofile(MP.."/place_schematic.lua")
 dofile(MP.."/noise_manager.lua")
+dofile(MP.."/metrics.lua")
 
 
 local map_data = {}
@@ -68,12 +69,14 @@ mapgen_helper.buildable_to = function(c_node)
 	return buildable_to[c_node]
 end
 
-local is_ground_content
+local is_ground_content = nil
 mapgen_helper.is_ground_content = function(c_node) -- If false, the cave generator will not carve through this node
-	if is_ground_content then return is_ground_content[c_node] end
+	if is_ground_content ~= nil then
+		return is_ground_content[c_node]
+	end
 	is_ground_content = {}
 	for k, v in pairs(minetest.registered_nodes) do
-		if v.is_ground_content then
+		if v.is_ground_content == true then
 			is_ground_content[minetest.get_content_id(k)] = true
 		end
 	end

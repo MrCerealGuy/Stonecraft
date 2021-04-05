@@ -10,10 +10,26 @@
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
+-- Etherium Dust
+minetest.register_craftitem("ethereal:etherium_dust", {
+	description = S("Etherium Dust"),
+	inventory_image = "ethereal_etherium_dust.png",
+	wield_image = "ethereal_etherium_dust.png",
+})
+
+-- Ethereium Ore
+minetest.register_node("ethereal:etherium_ore", {
+	description = S("Etherium Ore"),
+	tiles = {"default_desert_stone.png^ethereal_etherium_ore.png"},
+	groups = {cracky = 3},
+	drop = "ethereal:etherium_dust",
+	sounds = default.node_sound_stone_defaults(),
+})
+
 -- Bamboo Flooring
 minetest.register_node("ethereal:bamboo_floor", {
 	description = S("Bamboo Floor"),
-	drawtype = 'nodebox',
+	drawtype = "nodebox",
 	tiles = { "bamboo_floor.png" },
 	wield_image = "bamboo_floor.png",
 	inventory_image = "bamboo_floor.png",
@@ -85,6 +101,7 @@ local cheat = {
 	{"default:dirt", "default:sand", 5},
 	{"default:ice", "default:snow", 20},
 	{"ethereal:dry_dirt", "default:desert_sand", 5},
+	{"default:stone", "default:silver_sandstone", 5}
 }
 
 for n = 1, #cheat do
@@ -103,11 +120,9 @@ end -- END if
 
 -- Paper (2x3 string = 4 paper)
 minetest.register_craft({
-	output = "default:paper 4",
+	output = "default:paper 2",
 	recipe = {
-		{"farming:string", "farming:string"},
-		{"farming:string", "farming:string"},
-		{"farming:string", "farming:string"},
+		{"farming:cotton", "farming:cotton", "farming:cotton"}
 	}
 })
 
@@ -157,7 +172,7 @@ minetest.register_node("ethereal:candle", {
 minetest.register_craft({
 	output = "ethereal:candle 2",
 	recipe = {
-		{"farming:cotton"},
+		{"farming:string"},
 		{"ethereal:palm_wax"},
 		{"ethereal:palm_wax"},
 	}
@@ -320,9 +335,10 @@ minetest.register_tool("ethereal:light_staff", {
 		end
 
 		local node = minetest.get_node(pos).name
+		local def = minetest.registered_nodes[node]
+		local stone = def and def.groups and def.groups.stone and def.groups.stone == 1
 
-		if node == "default:stone"
-		or node == "default:desert_stone" then
+		if stone then
 
 			minetest.swap_node(pos, {name = "ethereal:glostone"})
 

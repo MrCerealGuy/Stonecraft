@@ -1,14 +1,5 @@
 -- Code by Mossmanikin, Neuromancer, and others
 
-local function clone_node(name)
-	local node2 = {}
-	local node = minetest.registered_nodes[name]
-	for k,v in pairs(node) do
-		node2[k]=v
-	end
-	return node2
-end
-
 -----------------------------------------------------------------------------------------------
 -- TWiGS
 -----------------------------------------------------------------------------------------------
@@ -230,7 +221,7 @@ for i in pairs(TRuNKS) do
 	if minetest.get_modpath(MoD) ~= nil and not core.skip_mod(MoD)
 	and NR < 6 -- moretrees trunks allready have facedir
 	and minetest.registered_nodes[trunkname] then -- the node being called exists.
-			temptrunk = clone_node(trunkname)
+			temptrunk = table.copy(minetest.registered_nodes[trunkname])
 			temptrunk.paramtype2 = "facedir"
 			minetest.register_node(":"..trunkname, temptrunk)
 	end

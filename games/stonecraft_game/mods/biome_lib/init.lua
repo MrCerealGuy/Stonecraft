@@ -1,4 +1,4 @@
--- Biome library mod by Vanessa Ezekowitz
+-- Biome library mod by VanessaE
 --
 -- I got the temperature map idea from "hmmmm", values used for it came from
 -- Splizard's snow mod.
@@ -84,7 +84,7 @@ biome_lib.perlin_humidity = PerlinNoise(humidity_seeddiff, humidity_octaves, hum
 -- Local functions
 
 local function get_biome_data(pos, perlin_fertile)
-	local fertility = perlin_fertile:get2d({x=pos.x, y=pos.z})
+	local fertility = perlin_fertile:get_2d({x=pos.x, y=pos.z})
 
 	if type(minetest.get_biome_data) == "function" then
 		local data = minetest.get_biome_data(pos)
@@ -394,7 +394,7 @@ end
 -- a surface during the initial map read stage.
 
 function biome_lib:generate_block_with_air_checking()
-	if #biome_lib.blocklist_aircheck == 0 then
+	if not biome_lib.blocklist_aircheck[1] then
 		return
 	end
 
@@ -406,30 +406,13 @@ function biome_lib:generate_block_with_air_checking()
 
 	local blockhash =	minetest.hash_node_position(minp)
 
-	if not biome_lib.surface_nodes_aircheck.blockhash then
-
-		if type(minetest.find_nodes_in_area_under_air) == "function" then -- use newer API call
-			biome_lib.surface_nodes_aircheck.blockhash =
-				minetest.find_nodes_in_area_under_air(minp, maxp, biome_lib.surfaceslist_aircheck)
-		else
-			local search_area = minetest.find_nodes_in_area(minp, maxp, biome_lib.surfaceslist_aircheck)
-
-			-- search the generated block for air-bounded surfaces the slow way.
-
-			biome_lib.surface_nodes_aircheck.blockhash = {}
-
-			for i = 1, #search_area do
-			local pos = search_area[i]
-				local p_top = { x=pos.x, y=pos.y+1, z=pos.z }
-				if minetest.get_node(p_top).name == "air" then
-					biome_lib.surface_nodes_aircheck.blockhash[#biome_lib.surface_nodes_aircheck.blockhash + 1] = pos
-				end
-			end
-		end
+	if not biome_lib.surface_nodes_aircheck.blockhash then -- read it into the block cache
+		biome_lib.surface_nodes_aircheck.blockhash =
+			minetest.find_nodes_in_area_under_air(minp, maxp, biome_lib.surfaceslist_aircheck)
 		biome_lib.actioncount_aircheck.blockhash = 1
 
 	else
-		if biome_lib.actioncount_aircheck.blockhash <= #biome_lib.actionslist_aircheck then
+		if biome_lib.actionslist_aircheck[biome_lib.actioncount_aircheck.blockhash] then
 			-- [1] is biome, [2] is node/function/model
 			biome_lib:populate_surfaces(
 				biome_lib.actionslist_aircheck[biome_lib.actioncount_aircheck.blockhash][1],
@@ -437,10 +420,9 @@ function biome_lib:generate_block_with_air_checking()
 				biome_lib.surface_nodes_aircheck.blockhash, true)
 			biome_lib.actioncount_aircheck.blockhash = biome_lib.actioncount_aircheck.blockhash + 1
 		else
-			if biome_lib.surface_nodes_aircheck.blockhash then
-				table.remove(biome_lib.blocklist_aircheck, 1)
-				biome_lib.surface_nodes_aircheck.blockhash = nil
-			end
+			table.remove(biome_lib.blocklist_aircheck, 1)
+			biome_lib.surface_nodes_aircheck.blockhash = nil
+			biome_lib.actioncount_aircheck.blockhash = nil
 		end
 	end
 end
@@ -449,7 +431,7 @@ end
 -- checking for air during the initial map read stage.
 
 function biome_lib:generate_block_no_aircheck()
-	if #biome_lib.blocklist_no_aircheck == 0 then
+	if not biome_lib.blocklist_no_aircheck[1] then
 		return
 	end
 
@@ -459,25 +441,21 @@ function biome_lib:generate_block_no_aircheck()
 	local blockhash =	minetest.hash_node_position(minp)
 
 	if not biome_lib.surface_nodes_no_aircheck.blockhash then
-
-		-- directly read the block to be searched into the chunk cache
-
 		biome_lib.surface_nodes_no_aircheck.blockhash =
 			minetest.find_nodes_in_area(minp, maxp, biome_lib.surfaceslist_no_aircheck)
 		biome_lib.actioncount_no_aircheck.blockhash = 1
 
 	else
-		if biome_lib.actioncount_no_aircheck.blockhash <= #biome_lib.actionslist_no_aircheck then
+		if biome_lib.actionslist_no_aircheck[biome_lib.actioncount_no_aircheck.blockhash] then
 			biome_lib:populate_surfaces(
 				biome_lib.actionslist_no_aircheck[biome_lib.actioncount_no_aircheck.blockhash][1],
 				biome_lib.actionslist_no_aircheck[biome_lib.actioncount_no_aircheck.blockhash][2],
 				biome_lib.surface_nodes_no_aircheck.blockhash, false)
 			biome_lib.actioncount_no_aircheck.blockhash = biome_lib.actioncount_no_aircheck.blockhash + 1
 		else
-			if biome_lib.surface_nodes_no_aircheck.blockhash then
-				table.remove(biome_lib.blocklist_no_aircheck, 1)
-				biome_lib.surface_nodes_no_aircheck.blockhash = nil
-			end
+			table.remove(biome_lib.blocklist_no_aircheck, 1)
+			biome_lib.surface_nodes_no_aircheck.blockhash = nil
+			biome_lib.actioncount_no_aircheck.blockhash = nil
 		end
 	end
 end
