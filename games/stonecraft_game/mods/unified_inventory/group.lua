@@ -1,6 +1,4 @@
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = minetest.get_translator("unified_inventory")
 
 function unified_inventory.canonical_item_spec_matcher(spec)
 	local specname = ItemStack(spec):get_name()

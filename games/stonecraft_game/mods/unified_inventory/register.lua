@@ -1,7 +1,5 @@
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = minetest.get_translator("unified_inventory")
+local NS = function(s) return s end
 local F = minetest.formspec_escape
 local ui = unified_inventory
 
