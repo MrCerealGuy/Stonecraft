@@ -81,8 +81,10 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 CMakeCache.txt
+_CPack_Packages/
 CPackConfig.cmake
 CPackSourceConfig.cmake
+install_manifest.txt
 src/test_config.h
 src/cmake_config.h
 src/cmake_config_githash.h
@@ -107,3 +109,4 @@ CMakeDoxy*
 compile_commands.json
 *.apk
 *.zip
+*.tar.gz
