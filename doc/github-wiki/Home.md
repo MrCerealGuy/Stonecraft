@@ -1,10 +1,10 @@
 % Stonecraft Wiki
 % Andreas Zahnleiter
-% Sep 16, 2019
+% Apr 8, 2021
 
 # Welcome to Stonecraft
 
-Copyright © 2016-2019 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
+Copyright © 2016-2021 Andreas "MrCerealGuy" Zahnleiter [mrcerealguy@gmx.de](mailto:mrcerealguy@gmx.de)
 
 Stonecraft is an InfiniMiner/Minecraft inspired game started in 2016 based on the Minetest open-source voxel game engine. It will be kept lightweight enough to run on fairly old hardware.
 
