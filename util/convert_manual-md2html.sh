@@ -17,6 +17,6 @@ Technic
 
 for f in $FILES
 do
-	pandoc ../doc/github-wiki/$f.md -f markdown -t html -s -o ../doc/html-wiki/$f.html
+	pandoc ../doc/github-wiki/$f.md -f markdown -t html --metadata pagetitle="$f" -s -o ../doc/html-wiki/$f.html
 	sed -i 's/\/doc\/github-wiki\/images/..\/github-wiki\/images/g' ../doc/html-wiki/$f.html
 done
