@@ -18,15 +18,15 @@ toolchain_file=$dir/toolchain_mingw64.cmake
 irrlicht_version=1.8.4
 ogg_version=1.3.2
 vorbis_version=1.3.5
-curl_version=7.54.0
-gettext_version=0.19.8.1
-freetype_version=2.8
-sqlite3_version=3.19.2
+curl_version=7.65.3
+gettext_version=0.20.1
+freetype_version=2.10.1
+sqlite3_version=3.27.2
 #luajit_version=2.0.3	# LuaJIT disabled, see issue https://github.com/minetest/minetest/issues/2988
 luajit_version=2.1.0-beta3-gc64 # uses own build, see https://github.com/MrCerealGuy/LuaJIT-2.1.0-beta3-GC64
-#leveldb_version=1.19	# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
+#leveldb_version=1.22	# LEVELDB disabled, see issue https://github.com/minetest/minetest/issues/4665
 zlib_version=1.2.11
-mingw32_version=7.7.1
+mingw32_version=9.3-posix
 
 
 dialog --backtitle "Stonecraft Build" --title "Stonecraft Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
