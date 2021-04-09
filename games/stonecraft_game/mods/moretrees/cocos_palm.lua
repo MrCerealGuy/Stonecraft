@@ -1,16 +1,6 @@
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- © 2016, Rogier <rogier777@gmail.com>
+-- Translation support
+local S = minetest.get_translator("moretrees")
 
 -- Some constants
 

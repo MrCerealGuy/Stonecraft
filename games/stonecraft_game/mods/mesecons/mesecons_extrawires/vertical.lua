@@ -1,14 +1,3 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local vertical_box = {
 	type = "fixed",
 	fixed = {-1/16, -8/16, -1/16, 1/16, 8/16, 1/16}
@@ -88,7 +77,7 @@ end
 
 -- Vertical wire
 mesecon.register_node("mesecons_extrawires:vertical", {
-	description = S("Vertical Mesecon"),
+	description = "Vertical Mesecon",
 	drawtype = "nodebox",
 	walkable = false,
 	paramtype = "light",
@@ -121,7 +110,7 @@ mesecon.register_node("mesecons_extrawires:vertical", {
 
 -- Vertical wire top
 mesecon.register_node("mesecons_extrawires:vertical_top", {
-	description = S("Vertical Mesecon"),
+	description = "Vertical mesecon",
 	drawtype = "nodebox",
 	walkable = false,
 	paramtype = "light",
@@ -153,7 +142,7 @@ mesecon.register_node("mesecons_extrawires:vertical_top", {
 
 -- Vertical wire bottom
 mesecon.register_node("mesecons_extrawires:vertical_bottom", {
-	description = S("Vertical mesecon"),
+	description = "Vertical mesecon",
 	drawtype = "nodebox",
 	walkable = false,
 	paramtype = "light",

@@ -3,17 +3,11 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-15 MrCerealGuy: added intllib support
-
 2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
 --]]
 
 if core.skip_mod("swamps") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 sumpf = rawget(_G, "sumpf") or {}
 
@@ -29,7 +23,7 @@ end
 local leaves = {"green","yellow","red"}
 local spawn_jungletree
 minetest.register_node("jungletree:sapling", {
-	description = S("jungle tree sapling"),
+	description = "jungle tree sapling",
 	drawtype = "plantlike",
 	tiles = {"jungletree_sapling.png"},
 	inventory_image = "jungletree_sapling.png",
@@ -45,7 +39,7 @@ minetest.register_node("jungletree:sapling", {
 })
 
 local tab = {
-	description = S("jungle tree leaves"),
+	description = "jungle tree leaves",
 	is_ground_content = false, -- because default:jungletree's is_ground_content
 	waving = 1, --warum 1?
 	paramtype = "light",

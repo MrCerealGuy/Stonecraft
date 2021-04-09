@@ -1,14 +1,3 @@
---[[
-
-2018-08-29 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 if minetest.raycast == nil then
 	error(
 		"worldedit_brush requires at least Minetest 5.0"

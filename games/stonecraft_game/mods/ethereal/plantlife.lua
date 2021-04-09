@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 -- Firethorn (poisonous when eaten raw, must be crushed and washed in flowing water 1st)
 minetest.register_node("ethereal:firethorn", {
@@ -245,7 +236,7 @@ minetest.register_node("ethereal:crystalgrass", {
 local add_moss = function(typ, descr, texture, receipe_item)
 
 	minetest.register_node("ethereal:" .. typ .. "_moss", {
-		description = S("@1 Moss", descr),
+		description = S(descr .. " Moss"),
 		tiles = {texture},
 		groups = {crumbly = 3},
 		sounds = default.node_sound_dirt_defaults({
@@ -259,11 +250,11 @@ local add_moss = function(typ, descr, texture, receipe_item)
 	})
 end
 
-add_moss( "crystal", S("Crystal"), "ethereal_grass_crystal_top.png", "ethereal:frost_leaves")
-add_moss( "mushroom", S("Mushroom"), "ethereal_grass_mushroom_top.png", "ethereal:mushroom")
-add_moss( "fiery", S("Fiery"), "ethereal_grass_fiery_top.png", "ethereal:dry_shrub")
-add_moss( "gray", S("Gray"), "ethereal_grass_gray_top.png", "ethereal:snowygrass")
-add_moss( "green", S("Green"), "default_grass.png", "default:jungleleaves")
+add_moss( "crystal", "Crystal", "ethereal_grass_crystal_top.png", "ethereal:frost_leaves")
+add_moss( "mushroom", "Mushroom", "ethereal_grass_mushroom_top.png", "ethereal:mushroom")
+add_moss( "fiery", "Fiery", "ethereal_grass_fiery_top.png", "ethereal:dry_shrub")
+add_moss( "gray", "Gray", "ethereal_grass_gray_top.png", "ethereal:snowygrass")
+add_moss( "green", "Green", "default_grass.png", "default:jungleleaves")
 
 -- Illuminated Cave Shrooms (Red, Green and Blue)
 minetest.register_node("ethereal:illumishroom", {

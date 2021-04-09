@@ -3,8 +3,6 @@
 -- This mod supplies various steel pipes and plastic pneumatic tubes
 -- and devices that they can connect to.
 --
--- License: WTFPL
---
 
 --[[
 

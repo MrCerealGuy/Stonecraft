@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local lightstone_rules = {
 	{x=0,  y=0,  z=-1},
@@ -31,7 +25,7 @@ local lightstone_rules = {
 
 function mesecon.lightstone_add(name, base_item, texture_off, texture_on, desc)
 	if not desc then
-		desc = name .. S(" Lightstone")
+		desc = name .. " Lightstone"
 	end
 	minetest.register_node("mesecons_lightstone:lightstone_" .. name .. "_off", {
 		tiles = {texture_off},
@@ -74,15 +68,15 @@ function mesecon.lightstone_add(name, base_item, texture_off, texture_on, desc)
 end
 
 
-mesecon.lightstone_add("red", "dye:red", "jeija_lightstone_red_off.png", "jeija_lightstone_red_on.png", S("Red") .. S(" Lightstone"))
-mesecon.lightstone_add("green", "dye:green", "jeija_lightstone_green_off.png", "jeija_lightstone_green_on.png", S("Green") .. S(" Lightstone"))
-mesecon.lightstone_add("blue", "dye:blue", "jeija_lightstone_blue_off.png", "jeija_lightstone_blue_on.png", S("Blue") .. S(" Lightstone"))
-mesecon.lightstone_add("gray", "dye:grey", "jeija_lightstone_gray_off.png", "jeija_lightstone_gray_on.png", S("Grey") .. S(" Lightstone"))
-mesecon.lightstone_add("darkgray", "dye:dark_grey", "jeija_lightstone_darkgray_off.png", "jeija_lightstone_darkgray_on.png", S("Dark Grey") .. S(" Lightstone"))
-mesecon.lightstone_add("yellow", "dye:yellow", "jeija_lightstone_yellow_off.png", "jeija_lightstone_yellow_on.png", S("Yellow") .. S(" Lightstone"))
-mesecon.lightstone_add("orange", "dye:orange", "jeija_lightstone_orange_off.png", "jeija_lightstone_orange_on.png", S("Orange") .. S(" Lightstone"))
-mesecon.lightstone_add("white", "dye:white", "jeija_lightstone_white_off.png", "jeija_lightstone_white_on.png", S("White") .. S(" Lightstone"))
-mesecon.lightstone_add("pink", "dye:pink", "jeija_lightstone_pink_off.png", "jeija_lightstone_pink_on.png", S("Pink") .. S(" Lightstone"))
-mesecon.lightstone_add("magenta", "dye:magenta", "jeija_lightstone_magenta_off.png", "jeija_lightstone_magenta_on.png", S("Magenta") .. S(" Lightstone"))
-mesecon.lightstone_add("cyan", "dye:cyan", "jeija_lightstone_cyan_off.png", "jeija_lightstone_cyan_on.png", S("Cyan") .. S(" Lightstone"))
-mesecon.lightstone_add("violet", "dye:violet", "jeija_lightstone_violet_off.png", "jeija_lightstone_violet_on.png", S("Violet") .. S(" Lightstone"))
+mesecon.lightstone_add("red", "dye:red", "jeija_lightstone_red_off.png", "jeija_lightstone_red_on.png", "Red Lightstone")
+mesecon.lightstone_add("green", "dye:green", "jeija_lightstone_green_off.png", "jeija_lightstone_green_on.png", "Green Lightstone")
+mesecon.lightstone_add("blue", "dye:blue", "jeija_lightstone_blue_off.png", "jeija_lightstone_blue_on.png", "Blue Lightstone")
+mesecon.lightstone_add("gray", "dye:grey", "jeija_lightstone_gray_off.png", "jeija_lightstone_gray_on.png", "Grey Lightstone")
+mesecon.lightstone_add("darkgray", "dye:dark_grey", "jeija_lightstone_darkgray_off.png", "jeija_lightstone_darkgray_on.png", "Dark Grey Lightstone")
+mesecon.lightstone_add("yellow", "dye:yellow", "jeija_lightstone_yellow_off.png", "jeija_lightstone_yellow_on.png", "Yellow Lightstone")
+mesecon.lightstone_add("orange", "dye:orange", "jeija_lightstone_orange_off.png", "jeija_lightstone_orange_on.png", "Orange Lightstone")
+mesecon.lightstone_add("white", "dye:white", "jeija_lightstone_white_off.png", "jeija_lightstone_white_on.png", "White Lightstone")
+mesecon.lightstone_add("pink", "dye:pink", "jeija_lightstone_pink_off.png", "jeija_lightstone_pink_on.png", "Pink Lightstone")
+mesecon.lightstone_add("magenta", "dye:magenta", "jeija_lightstone_magenta_off.png", "jeija_lightstone_magenta_on.png", "Magenta Lightstone")
+mesecon.lightstone_add("cyan", "dye:cyan", "jeija_lightstone_cyan_off.png", "jeija_lightstone_cyan_on.png", "Cyan Lightstone")
+mesecon.lightstone_add("violet", "dye:violet", "jeija_lightstone_violet_off.png", "jeija_lightstone_violet_on.png", "Violet Lightstone")

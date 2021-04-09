@@ -15,17 +15,11 @@
 
 --[[
 
-2017-05-14 MrCerealGuy: added intllib support
-
 2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
 --]]
 
 if core.skip_mod("moretrees") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 moretrees = {}
 
@@ -340,4 +334,4 @@ function moretrees.grow_fir_snow(pos)
 	minetest.spawn_tree(pos,moretrees.fir_model)
 end
 
-print(S("[Moretrees] Loaded (2013-02-11)"))
+print("[Moretrees] Loaded (2013-02-11)")

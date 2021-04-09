@@ -1,32 +1,21 @@
---[[
-
-2018-01-25 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 --Armors
 local stats = {
-	wolf = {name=S("Werewolf"), armor=2.8, heal=0, use=800},
-	whitewolf = {name=S("White Werewolf"), armor=2.8, heal=0, use=800},
-	bloco = {name=S("Bloco"), armor=3.2, heal=0, use=500},
-	croco = {name=S("Crocodile"), armor=3, heal=0, use=450},
-	ant = {name=S("Ant"), armor=3, heal=0, use=400},
-	ice = {name=S("Ice Teeth"), armor=3.2, heal=0, use=410},
-	felucco = {name=S("Felucco"), armor=2.8, heal=0, use=800},
-	manticore = {name=S("Manticore"), armor=3.4, heal=0, use=440},
-	duck = {name=S("Duck"), armor=1.5, heal=0, use=1000},
-	black_duck = {name=S("Black Duck"), armor=1.5, heal=0, use=900},
-	mor = {name=S("Morlu"), armor=5.3, heal=0, use=30},
-	sky = {name=S("Sky"), armor=4.2, heal=0, use=100},
-	sandworm = {name=S("Sandworm"), armor=3.4, heal=0, use=400},
-	sandbloco = {name=S("Sand Bloco"), armor=3.2, heal=0, use=500},
-	web = {name=S("Cobweb String"), armor=2.4, heal=0, use=900},
-	denseweb = {name=S("Dense Cobweb String"), armor=3.5, heal=0, use=400},
+	wolf = {name="Werewolf", armor=2.8, heal=0, use=800},
+	whitewolf = {name="White Werewolf", armor=2.8, heal=0, use=800},
+	bloco = {name="Bloco", armor=3.2, heal=0, use=500},
+	croco = {name="Crocodile", armor=3, heal=0, use=450},
+	ant = {name="Ant", armor=3, heal=0, use=400},
+	ice = {name="Ice Teeth", armor=3.2, heal=0, use=410},
+	felucco = {name="Felucco", armor=2.8, heal=0, use=800},
+	manticore = {name="Manticore", armor=3.4, heal=0, use=440},
+	duck = {name="Duck", armor=1.5, heal=0, use=1000},
+	black_duck = {name="Black Duck", armor=1.5, heal=0, use=900},
+	mor = {name="Morlu", armor=5.3, heal=0, use=30},
+	sky = {name="Sky", armor=4.2, heal=0, use=100},
+	sandworm = {name="Sandworm", armor=3.4, heal=0, use=400},
+	sandbloco = {name="Sand Bloco", armor=3.2, heal=0, use=500},
+	web = {name="Cobweb String", armor=2.4, heal=0, use=900},
+	denseweb = {name="Dense Cobweb String", armor=3.5, heal=0, use=400},
 }
 
 local materials = {
@@ -51,28 +40,28 @@ local materials = {
 for k, v in pairs(stats) do
 
 	minetest.register_tool("nssm:helmet_"..k, {
-		description = v.name..S(" Helmet"),
+		description = v.name.." Helmet",
 		inventory_image ="inv_helmet_"..k..".png",
 		groups = {armor_head=math.floor(4*v.armor), armor_heal=v.heal, armor_use=v.use},
 		wear = 0,
 	})
 
 	minetest.register_tool("nssm:chestplate_"..k, {
-		description = v.name..S(" Chestplate"),
+		description = v.name.." Chestplate",
 		inventory_image ="inv_chestplate_"..k..".png",
 		groups = {armor_torso=math.floor(6*v.armor), armor_heal=v.heal, armor_use=v.use},
 		wear = 0,
 	})
 
 	minetest.register_tool("nssm:leggings_"..k, {
-		description = v.name..S(" Leggings"),
+		description = v.name.." Leggings",
 		inventory_image = "inv_leggings_"..k..".png",
 		groups = {armor_legs=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use},
 		wear = 0,
 	})
 
 	minetest.register_tool("nssm:boots_"..k, {
-		description = v.name..S(" Boots"),
+		description = v.name.." Boots",
 		inventory_image ="inv_boots_"..k..".png",
 		groups = {armor_feet=math.floor(3*v.armor), armor_heal=v.heal, armor_use=v.use},
 		wear = 0,
@@ -121,11 +110,11 @@ end
 if minetest.get_modpath("shields") then
 
 	local stats = {
-		crab = {name=S("Crab"), armor=4, heal=0, use=500},
-		ice ={name=S("Ice Teeth"), armor=3.5, heal=0, use=600},
-		mor ={name=S("Morlu"), armor=5, use=100},
-		masticone ={name=S("Masticone"), armor=4.5, use=300},
-		mantis ={name=S("Mantis"), armor=3, use=500},
+		crab = {name="Crab", armor=4, heal=0, use=500},
+		ice ={name="Ice Teeth", armor=3.5, heal=0, use=600},
+		mor ={name="Morlu", armor=5, use=100},
+		masticone ={name="Masticone", armor=4.5, use=300},
+		mantis ={name="Mantis", armor=3, use=500},
 	}
 
 	local materials = {
@@ -139,7 +128,7 @@ if minetest.get_modpath("shields") then
 	for k, v in pairs(stats) do
 
 		minetest.register_tool("nssm:shield_"..k, {
-			description = v.name..S(" Shield"),
+			description = v.name.." Shield",
 			inventory_image ="inv_shield_"..k..".png",
 			groups = {armor_head=math.floor(5*v.armor), armor_heal=v.heal, armor_use=v.use},
 			wear = 0,
@@ -160,10 +149,10 @@ end
 
 --Special objects (pumpking helmet, masticone helmet, crowned masticone helmet, crown,)
 local stats = {
-	pumpking = {name=S("Pumpking Head"), armor=4, heal=0, use=100},
-	masticone ={name=S("Masticone Head"), armor=4, heal=0, use=100},
-	crown ={name=S("Dukking Crown"), armor=2, heal=0, use=50},
-	masticone_crowned ={name=S("Masticone Crowned Head"), armor=6, heal=0, use=20},
+	pumpking = {name="Pumpking Head", armor=4, heal=0, use=100},
+	masticone ={name="Masticone Head", armor=4, heal=0, use=100},
+	crown ={name="Dukking Crown", armor=2, heal=0, use=50},
+	masticone_crowned ={name="Masticone Crowned Head", armor=6, heal=0, use=20},
 }
 
 for k, v in pairs(stats) do
@@ -176,7 +165,7 @@ for k, v in pairs(stats) do
 	})
 
 	minetest.register_tool("nssm:chestplate_snake", {
-	description = S("Snake Scute Chestplate"),
+	description = "Snake Scute Chestplate",
 	inventory_image ="inv_chestplate_snake.png",
 	groups = {armor_torso=40, armor_heal=0, armor_use=100},
 	wear = 0,

@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- REMOVESTONE
 
@@ -20,7 +14,7 @@ minetest.register_node("mesecons_random:removestone", {
 	is_ground_content = false,
 	inventory_image = minetest.inventorycube("jeija_removestone_inv.png"),
 	groups = {cracky=3},
-	description=S("Removestone"),
+	description="Removestone",
 	sounds = default.node_sound_stone_defaults(),
 	mesecons = {effector = {
 		action_on = function (pos, node)
@@ -44,7 +38,7 @@ minetest.register_craft({
 -- GHOSTSTONE
 
 minetest.register_node("mesecons_random:ghoststone", {
-	description=S("Ghoststone"),
+	description="Ghoststone",
 	tiles = {"jeija_ghoststone.png"},
 	is_ground_content = false,
 	inventory_image = minetest.inventorycube("jeija_ghoststone_inv.png"),

@@ -1,13 +1,3 @@
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 xconnected = {}
 
@@ -295,7 +285,7 @@ end
 
 
 -- emulate xpanes
-xconnected.register_pane = function( name, desc, tiles, craft_from, def )
+xconnected.register_pane = function( name, tiles, craft_from, def )
 	local node_box_data = xconnected.construct_node_box_data(
 		-- a half-pane
 		{{-1/32, -0.5, 0,     1/32, 0.5, 0.5}},
@@ -310,7 +300,7 @@ xconnected.register_pane = function( name, desc, tiles, craft_from, def )
 		{{-0.06, -0.5, -0.5,  0.06, 0.5, 0.5}});
 	if( not( def )) then
 		def = {
-			description = S("@1 Pane", desc),
+			description = name.." Pane",
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,
@@ -329,7 +319,7 @@ xconnected.register_pane = function( name, desc, tiles, craft_from, def )
 		);
 end
 
-xconnected.register_wall = function( name, desc, tiles, craft_from, def )
+xconnected.register_wall = function( name, tiles, craft_from, def )
 	local node_box_data = xconnected.construct_node_box_data(
 		-- one extension
 --		{{-3/16, -0.5,    0,  3/16,  5/16, 0.5}},
@@ -347,7 +337,7 @@ xconnected.register_wall = function( name, desc, tiles, craft_from, def )
 		{{-0.2, -0.5, -0.5,  0.2, 5/16, 0.5}});
 	if( not( def )) then
 		def = { 
-			description = S("@1 Wall", desc),
+			description = name.." Wall",
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,
@@ -365,7 +355,7 @@ end
 
 
 
-xconnected.register_fence = function( name, desc, tiles, craft_from, def )
+xconnected.register_fence = function( name, tiles, craft_from, def )
 	local node_box_data = xconnected.construct_node_box_data(
 		-- one extension
     		{{-0.06,  0.25, 0, 0.06, 0.4, 0.5},
@@ -383,7 +373,7 @@ xconnected.register_fence = function( name, desc, tiles, craft_from, def )
 		{{-0.2, -0.5, -0.2, 0.2, 0.5, 0.2}});
 	if( not( def )) then
 		def = { 
-			description = S("@1 Fence", desc),
+			description = name.." Wall",
 			textures = {tiles,tiles,tiles,tiles},
 			is_ground_content = false,
 			sunlight_propagates = true,

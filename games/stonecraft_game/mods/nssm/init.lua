@@ -94,4 +94,7 @@ if minetest.get_modpath("3d_armor") then
 	dofile(path.."/nssm_armor.lua")
 end
 
+--Spawn settings
+dofile(path.."/spawn.lua")
+
 print("[MOD] NSSM loaded")

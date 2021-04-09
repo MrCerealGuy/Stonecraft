@@ -7,17 +7,9 @@
 --   Once the receiver side is powered it will deliver power to the other side.
 --   Unused power is wasted just like any other producer!
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
 local digilines_path = minetest.get_modpath("digilines")
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -161,7 +153,7 @@ local run = function(pos, node, run_stage)
 			technic.EU_string(input), from,
 			technic.EU_string(input * remain), to))
 	else
-		meta:set_string("infotext", S("@1 Has Bad Cabling", machine_name))
+		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 		if to then
 			meta:set_int(to.."_EU_supply", 0)
 		end

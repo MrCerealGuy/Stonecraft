@@ -1,15 +1,3 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 minetest.register_node("mesecons:mesecon_off", {
 	drawtype = "raillike",
 	tiles = {"jeija_mesecon_off.png", "jeija_mesecon_curved_off.png", "jeija_mesecon_t_junction_off.png", "jeija_mesecon_crossing_off.png"},
@@ -23,7 +11,7 @@ minetest.register_node("mesecons:mesecon_off", {
 		fixed = {-0.5, -0.5, -0.5, 0.5, -0.45, 0.5},
 	},
 	groups = {dig_immediate=3, mesecon=1, mesecon_conductor_craftable=1},
-    	description=S("Mesecons"),
+    	description="Mesecons",
 	mesecons = {conductor={
 		state = mesecon.state.off,
 		onstate = "mesecons:mesecon_on"

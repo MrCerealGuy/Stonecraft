@@ -3,23 +3,17 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-15 MrCerealGuy: added intllib support
-
 2017-09-21 replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
 
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- NODES
 
 
 minetest.register_node("seaglass:seaglass", {
-	description = S("Standard seaglass on"),
+	description = "Standard seaglass on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass.png"),
@@ -33,7 +27,7 @@ minetest.register_node("seaglass:seaglass", {
 })
 
 minetest.register_node("seaglass:seaglass_yellow", {
-	description = S("Seaglass yellow on"),
+	description = "Seaglass yellow on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_yellow.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_yellow.png"),
@@ -47,7 +41,7 @@ minetest.register_node("seaglass:seaglass_yellow", {
 })
 
 minetest.register_node("seaglass:seaglass_red", {
-	description = S("Seaglass red on"),
+	description = "Seaglass red on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_red.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_red.png"),
@@ -61,7 +55,7 @@ minetest.register_node("seaglass:seaglass_red", {
 })
 
 minetest.register_node("seaglass:seaglass_blue", {
-	description = S("Seaglass blue on"),
+	description = "Seaglass blue on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_blue.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_blue.png"),
@@ -75,7 +69,7 @@ minetest.register_node("seaglass:seaglass_blue", {
 })
 
 minetest.register_node("seaglass:seaglass_white", {
-	description = S("Seaglass white on"),
+	description = "Seaglass white on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_white.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_white.png"),
@@ -89,7 +83,7 @@ minetest.register_node("seaglass:seaglass_white", {
 })
 
 minetest.register_node("seaglass:seaglass_black", {
-	description = S("Seaglass black on"),
+	description = "Seaglass black on",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_black.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_black.png"),
@@ -103,7 +97,7 @@ minetest.register_node("seaglass:seaglass_black", {
 })
 
 minetest.register_node("seaglass:seaglassoff", {
-	description = S("Standard seaglass off"),
+	description = "Standard seaglass off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass.png"),
@@ -115,7 +109,7 @@ minetest.register_node("seaglass:seaglassoff", {
 })
 
 minetest.register_node("seaglass:seaglassoff_yellow", {
-	description = S("Seaglass yellow off"),
+	description = "Seaglass yellow off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_yellow.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_yellow.png"),
@@ -127,7 +121,7 @@ minetest.register_node("seaglass:seaglassoff_yellow", {
 })
 
 minetest.register_node("seaglass:seaglassoff_red", {
-	description = S("Seaglass red off"),
+	description = "Seaglass red off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_red.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_red.png"),
@@ -139,7 +133,7 @@ minetest.register_node("seaglass:seaglassoff_red", {
 })
 
 minetest.register_node("seaglass:seaglassoff_blue", {
-	description = S("Seaglass blue off"),
+	description = "Seaglass blue off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_blue.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_blue.png"),
@@ -151,7 +145,7 @@ minetest.register_node("seaglass:seaglassoff_blue", {
 })
 
 minetest.register_node("seaglass:seaglassoff_white", {
-	description = S("Seaglass white off"),
+	description = "Seaglass white off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_white.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_white.png"),
@@ -163,7 +157,7 @@ minetest.register_node("seaglass:seaglassoff_white", {
 })
 
 minetest.register_node("seaglass:seaglassoff_black", {
-	description = S("Seaglass black off"),
+	description = "Seaglass black off",
 	drawtype = "glasslike",
 	tiles = {"seaglass_seaglass_black.png"},
 	inventory_image = minetest.inventorycube("seaglass_seaglass_black.png"),
@@ -181,85 +175,85 @@ minetest.register_node("seaglass:seaglassoff_black", {
 stairsshine.register_stair_and_slab("seaglass", "seaglass:seaglass",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, nocolor=1, shine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass.png"},
-		S("Seaglass stair on"),
-		S("Seaglass slab on"),
+		"Seaglass stair on",
+		"Seaglass slab on",
 		default.node_sound_glass_defaults())
 
 stairsshine.register_stair_and_slab("seaglass_yellow", "seaglass:seaglass_yellow",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_yellow=1, shine=1, yellowshine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass_yellow.png"},
-		S("Seaglass stair on yellow"),
-		S("Seaglass slab on yellow"),
+		"seaglass stair on yellow",
+		"seaglass slab on yellow",
 		default.node_sound_glass_defaults())
 
 stairsshine.register_stair_and_slab("seaglass_red", "seaglass:seaglass_red",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_red=1, shine=1, redshine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass_red.png"},
-		S("Seaglass stair on red"),
-		S("Seaglass slab on red"),
+		"Seaglass stair on red",
+		"Seaglass slab on red",
 		default.node_sound_glass_defaults())
 
 stairsshine.register_stair_and_slab("seaglass_blue", "seaglass:seaglass_blue",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_blue=1, shine=1, blueshine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass_blue.png"},
-		S("Seaglass stair on blue"),
-		S("Seaglass slab on blue"),
+		"Seaglass stair on blue",
+		"Seaglass slab on blue",
 		default.node_sound_glass_defaults())
 
 stairsshine.register_stair_and_slab("seaglass_white", "seaglass:seaglass_white",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_white=1, shine=1, whiteshine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass_white.png"},
-		S("Seaglass stair on white"),
-		S("Seaglass slab on white"),
+		"Seaglass stair on white",
+		"Seaglass slab on white",
 		default.node_sound_glass_defaults())
 
 stairsshine.register_stair_and_slab("seaglass_black", "seaglass:seaglass_black",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_black=1, shine=1, blackshine=1, not_in_creative_inventory=1},
 		{"seaglass_seaglass_black.png"},
-		S("Seaglass stair on black"),
-		S("Seaglass slab on black"),
+		"Seaglass stair on black ",
+		"Seaglass slab on black",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff", "seaglass:seaglassoff",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, nocolor=1, noshine=1},
 		{"seaglass_seaglass.png"},
-		S("Seaglass stair off"),
-		S("Seaglass slab off"),
+		"Seaglass stair off",
+		"Seaglass slab off",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_yellow", "seaglass:seaglassoff_yellow",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_yellow=1, noshine=1},
 		{"seaglass_seaglass_yellow.png"},
-		S("Seaglass stair off yellow"),
-		S("Seaglass slab off yellow"),
+		"seaglass stair off yellow",
+		"seaglass slab off yellow",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_red", "seaglass:seaglassoff_red",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_red=1, noshine=1},
 		{"seaglass_seaglass_red.png"},
-		S("Seaglass stair off red"),
-		S("Seaglass slab off red"),
+		"Seaglass stair off red",
+		"Seaglass slab off red",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_blue", "seaglass:seaglassoff_blue",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_blue=1, noshine=1},
 		{"seaglass_seaglass_blue.png"},
-		S("Seaglass stair off blue"),
-		S("Seaglass slab off blue"),
+		"Seaglass stair off blue",
+		"Seaglass slab off blue",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_white", "seaglass:seaglassoff_white",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_white=1, noshine=1},
 		{"seaglass_seaglass_white.png"},
-		S("Seaglass stair off white"),
-		S("Seaglass slab off white"),
+		"Seaglass stair off white",
+		"Seaglass slab off white",
 		default.node_sound_glass_defaults())
 
 stairs.register_stair_and_slab("seaglassoff_black", "seaglass:seaglassoff_black",
 		{snappy=2,cracky=3,oddly_breakable_by_hand=3, color_black=1, noshine=1},
 		{"seaglass_seaglass_black.png"},
-		S("Seaglass stair off black"),
-		S("Seaglass slab off black"),
+		"Seaglass stair off black ",
+		"Seaglass slab off black",
 		default.node_sound_glass_defaults())
 
 

@@ -1,6 +1,4 @@
--- internationalization boilerplate
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = minetest.get_translator("currency")
 
 function currency.get_safe_formspec(pos)
 	local spos = pos.x .. "," .. pos.y .. "," ..pos.z
@@ -64,8 +62,9 @@ minetest.register_node("currency:safe", {
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		local meta = minetest.get_meta(pos)
 		if not has_safe_privilege(meta, player) then
-			minetest.log("action", S("@1 tried to access a safe belonging to @2 at @3",
-				player:get_player_name(), meta:get_string("owner"),	minetest.pos_to_string(pos)))
+			minetest.log("action", player:get_player_name().." tried to access a safe belonging to "
+				..meta:get_string("owner").." at "
+				..minetest.pos_to_string(pos))
 			return 0
 		end
 		return count
@@ -73,8 +72,9 @@ minetest.register_node("currency:safe", {
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		if not has_safe_privilege(meta, player) then
-			minetest.log("action", S("@1 tried to access a safe belonging to @2 at @3",
-				player:get_player_name(), meta:get_string("owner"), minetest.pos_to_string(pos)))
+			minetest.log("action", player:get_player_name().." tried to access a safe belonging to "
+				..meta:get_string("owner").." at "
+				..minetest.pos_to_string(pos))
 			return 0
 		end
 		return stack:get_count()
@@ -82,20 +82,21 @@ minetest.register_node("currency:safe", {
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		local meta = minetest.get_meta(pos)
 		if not has_safe_privilege(meta, player) then
-			minetest.log("action", S("@1 tried to access a safe belonging to @2 at @3",
-				player:get_player_name(), meta:get_string("owner"), minetest.pos_to_string(pos)))
+			minetest.log("action", player:get_player_name().." tried to access a safe belonging to "
+				..meta:get_string("owner").." at "
+				..minetest.pos_to_string(pos))
 			return 0
 		end
 		return stack:get_count()
 	end,
 	on_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
-		minetest.log("action", S("@1 moves stuff in safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
+		minetest.log("action", player:get_player_name().." moves stuff in safe at "..minetest.pos_to_string(pos))
 	end,
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		minetest.log("action", S("@1 moves stuff to safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
+		minetest.log("action", player:get_player_name().." moves stuff to safe at "..minetest.pos_to_string(pos))
 	end,
 	on_metadata_inventory_take = function(pos, listname, index, stack, player)
-		minetest.log("action", S("@1 takes stuff from safe at @2", player:get_player_name(), minetest.pos_to_string(pos)))
+		minetest.log("action", player:get_player_name().." takes stuff from safe at "..minetest.pos_to_string(pos))
 	end,
 	on_rightclick = function(pos, node, clicker)
 		local meta = minetest.get_meta(pos)

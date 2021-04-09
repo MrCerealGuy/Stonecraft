@@ -3,8 +3,6 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-15 MrCerealGuy: added intllib support
-
 2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
 --]]
@@ -12,10 +10,6 @@
 if core.skip_mod("swamps") then return end
 
 local abm_allowed = true
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local load_time_start = minetest.get_us_time()
 
@@ -50,7 +44,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("sumpf:junglestone", {
-	description = S("swamp stone"),
+	description = "swamp stone",
 	tiles = {"sumpf_swampstone.png"},
 	groups = {cracky=3},
 	drop = "sumpf:cobble",
@@ -58,21 +52,21 @@ minetest.register_node("sumpf:junglestone", {
 })
 
 minetest.register_node("sumpf:cobble", {
-	description = S("swamp cobble stone"),
+	description = "swamp cobble stone",
 	tiles = {"sumpf_cobble.png"},
 	groups = {cracky=3},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("sumpf:junglestonebrick", {
-	description = S("swamp stone brick"),
+	description = "swamp stone brick",
 	tiles = {"sumpf_swampstone_brick.png"},
 	groups = {cracky=2, stone=1},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("sumpf:peat", {
-	description = S("peat"),
+	description = "peat",
 	tiles = {"sumpf_peat.png"},
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1},
 	sounds = default.node_sound_sand_defaults({
@@ -84,7 +78,7 @@ minetest.register_node("sumpf:peat", {
 })
 
 minetest.register_node("sumpf:kohle", {
-	description = S("coal ore"),
+	description = "coal ore",
 	tiles = {"sumpf_swampstone.png^default_mineral_coal.png"},
 	groups = {cracky=3},
 	drop = 'default:coal_lump',
@@ -92,7 +86,7 @@ minetest.register_node("sumpf:kohle", {
 })
 
 minetest.register_node("sumpf:eisen", {
-	description = S("iron ore"),
+	description = "iron ore",
 	tiles = {"sumpf_swampstone.png^default_mineral_iron.png"},
 	groups = {cracky=3},
 	drop = 'default:iron_lump',
@@ -100,7 +94,7 @@ minetest.register_node("sumpf:eisen", {
 })
 
 minetest.register_node("sumpf:sumpf", {
-	description = S("swamp"),
+	description = "swamp",
 	--~ tiles = {"sumpf.png"},
 	tiles = {{name="sumpf.png", align_style="world", scale=2}},
 	groups = {crumbly=3, soil=1},
@@ -121,7 +115,7 @@ minetest.register_node("sumpf:sumpf2", {
 })
 
 minetest.register_node("sumpf:roofing", {
-	description = S("swamp grass roofing"),
+	description = "swamp grass roofing",
 	tiles = {"sumpf_roofing.png"},
 	is_ground_content = false,
 	groups = {snappy = 3, flammable = 1, level = 2},
@@ -151,32 +145,32 @@ if rawget(_G, "stairs") then
 	stairs.register_stair_and_slab("swampstone", "sumpf:junglestone",
 		{cracky=3},
 		{"sumpf_swampstone.png"},
-		S("swamp stone stair"),
-		S("swamp stone slab"),
+		"swamp stone stair",
+		"swamp stone slab",
 		default.node_sound_stone_defaults()
 	)
 
 	stairs.register_stair_and_slab("swampcobble", "sumpf:cobble",
 		{cracky=3},
 		{"sumpf_cobble.png"},
-		S("swamp cobble stone stair"),
-		S("swamp cobble stone slab"),
+		"swamp cobble stone stair",
+		"swamp cobble stone slab",
 		default.node_sound_stone_defaults()
 	)
 
 	stairs.register_stair_and_slab("swampstonebrick", "sumpf:junglestonebrick",
 		{cracky=2, stone=1},
 		{"sumpf_swampstone_brick.png"},
-		S("swamp stone brick stair"),
-		S("swamp stone brick slab"),
+		"swamp stone brick stair",
+		"swamp stone brick slab",
 		default.node_sound_stone_defaults()
 	)
 
 	stairs.register_stair_and_slab("sumpf_roofing", "sumpf:roofing",
 		{snappy = 3, flammable = 1, level = 2},
 		{"sumpf_roofing.png"},
-		S("swamp grass roofing stair"),
-		S("swamp grass roofing slab"),
+		"swamp grass roofing stair",
+		"swamp grass roofing slab",
 		default.node_sound_leaves_defaults()
 	)
 end
@@ -186,7 +180,7 @@ end
 
 
 minetest.register_node("sumpf:gras", {
-	description = S("swamp grass"),
+	description = "swamp grass",
 	tiles = {"sumpfgrass.png"},
 	inventory_image = "sumpfgrass.png",
 	drawtype = "plantlike",
@@ -224,7 +218,7 @@ minetest.register_node("sumpf:dirtywater_flowing", {
 })
 
 minetest.register_node("sumpf:dirtywater_source", {
-	description = S("swampwater"),
+	description = "swampwater",
 	drawtype = "liquid",
 	tiles = {
 		{name="sumpf_water_source.png", animation=ani},
@@ -252,7 +246,7 @@ if minetest.global_exists("bucket") then
 		"sumpf:dirtywater_flowing",
 		"sumpf:bucket_dirtywater",
 		"bucket.png^sumpf_bucket_dirtywater.png",
-		S("swampwater bucket")
+		"swampwater bucket"
 	)
 end
 

@@ -8,20 +8,12 @@ Licensed under the zlib license. See LICENSE.md for more information.
 =====================================================================
 --]]
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 moreores = {}
 
 local modpath = minetest.get_modpath("moreores")
+
+local S = minetest.get_translator("moreores")
+moreores.S = S
 
 dofile(modpath .. "/_config.txt")
 
@@ -256,7 +248,7 @@ end
 
 local oredefs = {
 	silver = {
-		description = S("Silver"),
+		description = "Silver",
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = true},
 		oredef = {
 			clust_scarcity = moreores.silver_chunk_size ^ 3,
@@ -289,7 +281,7 @@ local oredefs = {
 		damage_groups = {fleshy = 6},
 	},
 	mithril = {
-		description = S("Mithril"),
+		description = "Mithril",
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = false},
 		oredef = {
 			clust_scarcity = moreores.mithril_chunk_size ^ 3,
@@ -338,7 +330,7 @@ if default_tin then
 	minetest.register_alias("moreores:tin_block", "default:tinblock")
 else
 	oredefs.tin = {
-		description = S("Tin"),
+		description = "Tin",
 		makes = {ore = true, block = true, lump = true, ingot = true, chest = false},
 		oredef = {
 			clust_scarcity = moreores.tin_chunk_size ^ 3,

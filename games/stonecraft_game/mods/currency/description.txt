@@ -1,1 +1,0 @@
-Provides shops, barter tables, safes, and multiple denominations of currency, called "Minegeld".

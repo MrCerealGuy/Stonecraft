@@ -1,13 +1,3 @@
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 --rainbow!
 
@@ -44,7 +34,7 @@ minetest.register_entity("nssm:rainbow", {
 })
 
 minetest.register_tool("nssm:rainbow_staff", {
-	description = S("Rainbow Staff"),
+	description = "Rainbow Staff",
 	inventory_image = "rainbow_staff.png",
 	on_use = function(itemstack, placer, pointed_thing)
 		local dir = placer:get_look_dir();

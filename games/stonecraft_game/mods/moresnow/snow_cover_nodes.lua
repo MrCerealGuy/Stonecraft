@@ -1,15 +1,4 @@
 
---[[
-
-2017-05-13 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- default:snow got higher in recent versions of mtg: it is now 4/16 high
 moresnow.snow_ground_height = 4/16;
 -- leaves are usually not that thick
@@ -20,7 +9,7 @@ moresnow.wool_ground_height = 2/16;
 -- the general node definition for all these snow tops (only name and nodebox vary)
 moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 	minetest.register_node( 'moresnow:snow_'..node_name, {
-		description = S("Snow"),
+		description = "Snow",
 		tiles = {"default_snow.png"},  
 		inventory_image = "default_snowball.png",
 		wield_image = "default_snowball.png",
@@ -49,7 +38,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 
 	if( moresnow.enable_autumnleaves ) then
 	   minetest.register_node( 'moresnow:autumnleaves_'..node_name, {
-		description = S("fallen leaves"),
+		description = "Fallen leaves",
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -75,7 +64,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 	if( wool_nodebox and moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
            for _,v in ipairs( moresnow.wool_dyes ) do
 		minetest.register_node( "moresnow:wool_"..v.."_"..node_name, {
-			description = S("layers of wool (@1)", v),
+			description = "Layers of wool ("..v..")",
 			tiles = {"wool_"..v..".png"},
 --			inventory_image = "moresnow_autumnleaves.png",
 --			wield_image = "moresnow_autumnleaves.png",
@@ -102,7 +91,7 @@ end
 -- define the leaves
 if( moresnow.enable_autumnleaves ) then
 	minetest.register_node( "moresnow:autumnleaves", {
-		description = S("fallen leaves"),
+		description = "Fallen leaves",
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -162,7 +151,7 @@ if( moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
         for _,v in ipairs( moresnow.wool_dyes ) do
                 table.insert( moresnow.nodetypes, 'wool_'..v );
 		minetest.register_node( "moresnow:wool_"..v, {
-			description = S("layers of wool (@1)", v),
+			description = "Layers of wool ("..v..")",
 			tiles = {"wool_"..v..".png"},
 			is_ground_content = true,
 			paramtype = "light",
@@ -325,7 +314,7 @@ end
 
 
 minetest.register_node( 'moresnow:autumnleaves_tree', {
-	description = S("autumn leaves"),
+	description = "Autumn leaves",
 	tiles = {"moresnow_autumnleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -337,7 +326,7 @@ minetest.register_node( 'moresnow:autumnleaves_tree', {
 })
 
 minetest.register_node( 'moresnow:winterleaves_tree', {
-	description = S("winter leaves"),
+	description = "Winter leaves",
 	tiles = {"moresnow_winterleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -349,7 +338,7 @@ minetest.register_node( 'moresnow:winterleaves_tree', {
 })
 
 minetest.register_node("moresnow:snow_soil", {
-	description = S("Snow on soil"),
+	description = "Snow on soil",
 	tiles = {"default_snow.png^farming_soil_wet.png"},
 	is_ground_content = true,
 	paramtype = "light",

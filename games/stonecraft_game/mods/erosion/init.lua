@@ -8,17 +8,11 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-20 MrCerealGuy: added intllib support
-
 2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
 --]]
 
 if core.skip_mod("erosion") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 if not rawget(_G,"stairsplus") then
 	minetest.log("info", "erosion: stairsplus not found")
@@ -46,31 +40,31 @@ local nntbl,eroding_lut,eroded_lut,eroding_nodes = {},{},{},{--mod defining slop
 local gen_nodes = {"stone","desert_stone","sandstone","ice"}
 local lntbl,erosion_materials = {},{--erosion products to define
 	sand = {
-		description = S("Sand"),
+		description = "Sand",
 		tiles = {"default_sand.png"},
 		groups = {sand = 1},
 		sounds = default.node_sound_sand_defaults(),
 	},
 	desert_sand = {
-		description = S("Desert Sand"),
+		description = "Desert Sand",
 		tiles = {"default_desert_sand.png"},
 		groups = {sand = 1},
 		sounds = default.node_sound_sand_defaults(),
 	},
 	gravel = {
-		description= S("Gravel"),
+		description= "Gravel",
 		groups = {},
 		tiles={"default_gravel.png"},
 		sounds = default.node_sound_gravel_defaults(),
 	},
 	dirt = {
-		description = S("Dirt"),
+		description = "Dirt",
 		tiles = {"default_dirt.png"},
 		groups = {},
 		sounds = default.node_sound_dirt_defaults(),
 	},
 	dirt_with_grass = {
-		description = S("Grass Turf"),
+		description = "Grass Turf",
 		tiles = {"default_grass.png", "default_dirt.png",
 			{name = "default_dirt.png^default_grass_side.png",
 				tileable_vertical = false}},
@@ -78,7 +72,7 @@ local lntbl,erosion_materials = {},{--erosion products to define
 		sounds = default.node_sound_dirt_defaults({footstep = {name = "default_grass_footstep", gain = 0.25},}),
 	},
 	dirt_with_dry_grass = {
-		description = S("Dry Turf"),
+		description = "Dry Turf",
 		tiles = {"default_dry_grass.png",
 			"default_dirt.png",
 			{name = "default_dirt.png^default_dry_grass_side.png",
@@ -88,7 +82,7 @@ local lntbl,erosion_materials = {},{--erosion products to define
 		sounds = default.node_sound_dirt_defaults({footstep = {name = "default_grass_footstep", gain = 0.4},}),
 	},
 	dirt_with_snow = {
-		description = S("Snow Turf"),
+		description = "Snow Turf",
 		tiles = {"default_snow.png", "default_dirt.png",
 			{name = "default_dirt.png^default_snow_side.png",
 				tileable_vertical = false}},
@@ -97,14 +91,14 @@ local lntbl,erosion_materials = {},{--erosion products to define
 		sounds = default.node_sound_dirt_defaults({footstep = {name = "default_snow_footstep", gain = 0.15},}),
 	},
 	clay = {
-		description = S("Clay"),
+		description = "Clay",
 		tiles = {"default_clay.png"},
 		groups = {},
 		drop = 'default:clay_lump 4',
 		sounds = default.node_sound_dirt_defaults(),
 	},
 	snowblock = {
-		description = S("Drifted Snow"),
+		description = "Drifted Snow",
 		tiles = {"default_snow.png"},
 		groups = {puts_out_fire = 1},
 		sounds = default.node_sound_dirt_defaults({footstep = {
@@ -214,7 +208,7 @@ for k,v in pairs(erosion_materials) do local drt = eroding_nodes[k][2] == "dirt"
 	v.groups.crumbly,v.groups.falling_node,v.groups.not_in_creative_inventory = 3,1,1
 	if not drt or k == "dirt" then
 		minetest.register_node("erosion:fall_"..k, {
-			description = v.description .. S(" (loose)"),
+			description = "Loose "..v.description,
 			tiles = v.tiles,
 			groups = v.groups,
 			sounds = v.sounds,
@@ -238,7 +232,7 @@ for k,v in pairs(erosion_materials) do local drt = eroding_nodes[k][2] == "dirt"
 	end
 end
 stairsplus:register_slope("moreblocks","ice","moreblocks:ice",{
-	description = S("Ice"),
+	description = "Ice",
 	tiles = {"default_ice.png"},
 	is_ground_content = false,
 	paramtype = "light",

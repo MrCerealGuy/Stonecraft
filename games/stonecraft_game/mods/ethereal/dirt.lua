@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 -- override default dirt (to stop caves cutting away dirt)
 minetest.override_item("default:dirt", {is_ground_content = ethereal.cavedirt})
@@ -42,7 +33,7 @@ for n = 1, #dirts do
 	local name = desc:lower()
 
 	minetest.register_node("ethereal:"..name.."_dirt", {
-		description = S("@1 Dirt", S(desc)),
+		description = S(desc.." Dirt"),
 		tiles = {
 			"ethereal_grass_"..name.."_top.png",
 			"default_dirt.png",

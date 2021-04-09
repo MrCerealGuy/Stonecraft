@@ -7,17 +7,6 @@ Licensed under the zlib license. See LICENSE.md for more information.
 =====================================================================
 --]]
 
---[[
-
-2017-05-21 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 minetest.register_ore({
 	ore_type = "scatter",
 	ore = "bedrock:bedrock",
@@ -43,7 +32,7 @@ minetest.register_ore({
 })
 
 minetest.register_node("bedrock:bedrock", {
-	description = S("Bedrock"),
+	description = "Bedrock",
 	tiles = {"bedrock_bedrock.png"},
 	drop = "",
 	-- Set `unbreakable` for Map Tools' admin pickaxe
@@ -52,7 +41,7 @@ minetest.register_node("bedrock:bedrock", {
 })
 
 minetest.register_node("bedrock:deepstone", {
-	description = S("Deepstone"),
+	description = "Deepstone",
 	tiles = {"bedrock_deepstone.png"},
 	drop = "default:stone", -- Intended
 	groups = {cracky = 1},

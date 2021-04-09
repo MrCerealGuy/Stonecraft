@@ -1,18 +1,4 @@
-
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
-
-frames = {}
+local S = technic.getter
 
 local infinite_stacks = minetest.settings:get_bool("creative_mode")
 	and minetest.get_modpath("unified_inventory") == nil

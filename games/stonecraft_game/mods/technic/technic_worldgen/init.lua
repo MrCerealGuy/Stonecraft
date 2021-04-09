@@ -3,8 +3,6 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-27 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("technic") then return end
@@ -12,10 +10,9 @@ if core.skip_mod("technic") then return end
 local modpath = minetest.get_modpath("technic_worldgen")
 
 technic = rawget(_G, "technic") or {}
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+technic.worldgen = {
+	gettext = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end,
+}
 
 dofile(modpath.."/config.lua")
 dofile(modpath.."/nodes.lua")

@@ -3,19 +3,13 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-15 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- NODES
 minetest.register_node("seagravel:seagravel", {
-	description = S("Sea gravel"),
+	description = "Sea gravel",
 	tiles = {"seagravel_seagravel.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -26,7 +20,7 @@ minetest.register_node("seagravel:seagravel", {
 })
 
 minetest.register_node("seagravel:seagravel_cyan", {
-	description = S("Sea gravel cyan"),
+	description = "Sea gravel cyan",
 	tiles = {"seagravel_seagravel_cyan.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -37,7 +31,7 @@ minetest.register_node("seagravel:seagravel_cyan", {
 })
 
 minetest.register_node("seagravel:seagravel_magenta", {
-	description = S("Sea gravel magenta"),
+	description = "Sea gravel magenta",
 	tiles = {"seagravel_seagravel_magenta.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -48,7 +42,7 @@ minetest.register_node("seagravel:seagravel_magenta", {
 })
 
 minetest.register_node("seagravel:seagravel_lime", {
-	description = S("Sea gravel lime"),
+	description = "Sea gravel lime",
 	tiles = {"seagravel_seagravel_lime.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -59,7 +53,7 @@ minetest.register_node("seagravel:seagravel_lime", {
 })
 
 minetest.register_node("seagravel:seagravel_aqua", {
-	description = S("Sea gravel aqua"),
+	description = "Sea gravel aqua",
 	tiles = {"seagravel_seagravel_aqua.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -70,7 +64,7 @@ minetest.register_node("seagravel:seagravel_aqua", {
 })
 
 minetest.register_node("seagravel:seagravel_skyblue", {
-	description = S("Sea gravel skyblue"),
+	description = "Sea gravel skyblue",
 	tiles = {"seagravel_seagravel_skyblue.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -81,7 +75,7 @@ minetest.register_node("seagravel:seagravel_skyblue", {
 })
 
 minetest.register_node("seagravel:seagravel_redviolet", {
-	description = S("Sea gravel redviolet"),
+	description = "Sea gravel redviolet",
 	tiles = {"seagravel_seagravel_redviolet.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, falling_node=1},
@@ -98,8 +92,8 @@ minetest.register_node("seagravel:seagravel_redviolet", {
 stairs.register_stair_and_slab("seagravel", "seagravel:seagravel",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel.png"},
-		S("Seagravel stair"),
-		S("Seagravel slab"),
+		"Seagravel stair",
+		"Seagravel slab",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -108,8 +102,8 @@ stairs.register_stair_and_slab("seagravel", "seagravel:seagravel",
 stairs.register_stair_and_slab("seagravel_cyan", "seagravel:seagravel_cyan",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_cyan.png"},
-		S("Seagravel stair cyan"),
-		S("Seagravel slab cyan"),
+		"Seagravel stair cyan",
+		"Seagravel slab cyan",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -118,8 +112,8 @@ stairs.register_stair_and_slab("seagravel_cyan", "seagravel:seagravel_cyan",
 stairs.register_stair_and_slab("seagravel_magenta", "seagravel:seagravel_magenta",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_magenta.png"},
-		S("Seagravel stair magenta"),
-		S("Seagravel slab magenta"),
+		"Seagravel stair magenta",
+		"Seagravel slab magenta",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -128,8 +122,8 @@ stairs.register_stair_and_slab("seagravel_magenta", "seagravel:seagravel_magenta
 stairs.register_stair_and_slab("seagravel_lime", "seagravel:seagravel_lime",
 		{cracky=3, stone=2},
 		{"seagravel_seagravel_lime.png"},
-		S("Seagravel stair lime"),
-		S("Seagravel slab lime"),
+		"Seagravel stair lime",
+		"Seagravel slab lime",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -138,8 +132,8 @@ stairs.register_stair_and_slab("seagravel_lime", "seagravel:seagravel_lime",
 stairs.register_stair_and_slab("seagravel_aqua", "seagravel:seagravel_aqua",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_aqua.png"},
-		S("Seagravel stair aqua"),
-		S("Seagravel slab aqua"),
+		"Seagravel stair aqua",
+		"Seagravel slab aqua",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -148,8 +142,8 @@ stairs.register_stair_and_slab("seagravel_aqua", "seagravel:seagravel_aqua",
 stairs.register_stair_and_slab("seagravel_skyblue", "seagravel:seagravel_skyblue",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_skyblue.png"},
-		S("Seagravel stair skyblue"),
-		S("Seagravel slab skyblue"),
+		"Seagravel stair skyblue ",
+		"Seagravel slab skyblue",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
@@ -158,8 +152,8 @@ stairs.register_stair_and_slab("seagravel_skyblue", "seagravel:seagravel_skyblue
 stairs.register_stair_and_slab("seagravel_redviolet", "seagravel:seagravel_redviolet",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_redviolet.png"},
-		S("Seagravel stair redviolet"),
-		S("Seagravel slab redviolet"),
+		"Seagravel stair redviolet",
+		"Seagravel slab redviolet",
 		default.node_sound_dirt_defaults({
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},

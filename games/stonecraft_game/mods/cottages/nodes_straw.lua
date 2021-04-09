@@ -4,28 +4,7 @@
 --  * straw mat - for animals and very poor NPC; also basis for other straw things
 --  * straw bale - well, just a good source for building and decoration
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-local cottages_can_use = function( meta, player )
-	if( not( player) or not( meta )) then
-		return false;
-	end
-	local pname = player:get_player_name();
-	local owner = meta:get_string('owner' );
-	if( not(owner) or owner=="" or owner==pname ) then
-		return true;
-	end
-	return false;
-end
+local S = cottages.S
 
 
 -- an even simpler from of bed - usually for animals 
@@ -146,7 +125,7 @@ minetest.register_node("cottages:threshing_floor", {
 	},
 	on_construct = function(pos)
                	local meta = minetest.get_meta(pos);
-               	meta:set_string("infotext", S("Threshing floor"));
+		meta:set_string("infotext", S("Public threshing floor"));
                	local inv = meta:get_inventory();
                	inv:set_size("harvest", 2);
                	inv:set_size("straw", 4);
@@ -158,10 +137,11 @@ minetest.register_node("cottages:threshing_floor", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Threshing floor (owned by @1)", meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Private threshing floor (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_formspec_treshing_floor..
-				"label[2.5,-0.5;"..S("Owner: @1", meta:get_string("owner") or "").."]" );
+				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string("owner") or "").."]" );
+		meta:set_string("public", "private")
         end,
 
 	on_receive_fields = function(pos, formname, fields, sender)
@@ -401,7 +381,7 @@ minetest.register_node("cottages:handmill", {
 	},
 	on_construct = function(pos)
                	local meta = minetest.get_meta(pos);
-               	meta:set_string("infotext", S("Mill, powered by punching"));
+		meta:set_string("infotext", S("Public mill, powered by punching"));
                	local inv = meta:get_inventory();
                	inv:set_size("seeds", 1);
                	inv:set_size("flour", 4);
@@ -412,10 +392,11 @@ minetest.register_node("cottages:handmill", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Mill, powered by punching (owned by @1)", meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Private mill, powered by punching (owned by %s)"):format(meta:get_string("owner") or ""));
 		meta:set_string("formspec",
 				cottages_handmill_formspec..
-				"label[2.5,-0.5;"..S("Owner: @1",meta:get_string('owner') or "").."]" );
+				"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]" );
+		meta:set_string("public", "private")
         end,
 
 	on_receive_fields = function(pos, formname, fields, sender)
@@ -520,9 +501,9 @@ minetest.register_node("cottages:handmill", {
 
 			local anz_left = found - anz;
 			if( anz_left > 0 ) then
-				minetest.chat_send_player( name, S('You have ground a @1 (@2 are left).', stack1:get_definition().description,(anz_left)));
+				minetest.chat_send_player( name, S('You have ground a %s (%s are left).'):format(stack1:get_definition().description,(anz_left)));
 			else
-				minetest.chat_send_player( name, S('You have ground the last @1.', stack1:get_definition().description));
+				minetest.chat_send_player( name, S('You have ground the last %s.'):format(stack1:get_definition().description));
 			end
 
 			-- if the version of MT is recent enough, rotate the mill a bit

@@ -3,20 +3,14 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-16 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- NODES
 
 minetest.register_node("seaplants:kelpgreen", {
-	description = S("Green Kelp"),
+	description = "Green Kelp",
 	drawtype = "plantlike",
 	tiles = {"seaplants_kelpgreen.png"},
 	inventory_image = "seaplants_kelpgreen.png",
@@ -37,7 +31,7 @@ minetest.register_node("seaplants:kelpgreen", {
 })
 
 minetest.register_node("seaplants:kelpgreenmiddle", {
-	description = S("Green Kelp middle"),
+	description = "Green Kelp middle",
 	drawtype = "plantlike",
 	tiles = {"seaplants_kelpgreenmiddle.png"},
 	inventory_image = "seaplants_kelpgreenmiddle.png",
@@ -58,7 +52,7 @@ minetest.register_node("seaplants:kelpgreenmiddle", {
 })
 
 minetest.register_node("seaplants:kelpbrown", {
-	description = S("Brown Kelp "),
+	description = "Brown Kelp ",
 	drawtype = "plantlike",
 	tiles = {"seaplants_kelpbrown.png"},
 	inventory_image = "seaplants_kelpbrown.png",
@@ -79,7 +73,7 @@ minetest.register_node("seaplants:kelpbrown", {
 })
 
 minetest.register_node("seaplants:kelpbrownmiddle", {
-	description = S("Brown Kelp middle"),
+	description = "Brown Kelp middle",
 	drawtype = "plantlike",
 	tiles = {"seaplants_kelpbrownmiddle.png"},
 	inventory_image = "seaplants_kelpbrownmiddle.png",
@@ -100,7 +94,7 @@ minetest.register_node("seaplants:kelpbrownmiddle", {
 })
 
 minetest.register_node("seaplants:seagrassgreen", {
-	description = S("Green Seagrass"),
+	description = "Green Seagrass",
 	drawtype = "plantlike",
 	tiles = {"seaplants_seagrassgreen.png"},
 	inventory_image = "seaplants_seagrassgreen.png",
@@ -121,7 +115,7 @@ minetest.register_node("seaplants:seagrassgreen", {
 })
 
 minetest.register_node("seaplants:seagrassred", {
-	description = S("Red Seagrass"),
+	description = "Red Seagrass",
 	drawtype = "plantlike",
 	tiles = {"seaplants_seagrassred.png"},
 	inventory_image = "seaplants_seagrassred.png",
@@ -142,7 +136,7 @@ minetest.register_node("seaplants:seagrassred", {
 })
 
 minetest.register_node("seaplants:seaplantssandkelpgreen", {
-	description = S("Sea plants sand kelp green"),
+	description = "Sea plants sand kelp green",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -151,7 +145,7 @@ minetest.register_node("seaplants:seaplantssandkelpgreen", {
 })
 
 minetest.register_node("seaplants:seaplantsdirtkelpgreen", {
-	description = S("Sea plants dirt kelp green"),
+	description = "Sea plants dirt kelp green",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -160,7 +154,7 @@ minetest.register_node("seaplants:seaplantsdirtkelpgreen", {
 })
 
 minetest.register_node("seaplants:seaplantssandkelpbrown", {
-	description = S("Sea plants sand kelp brown"),
+	description = "Sea plants sand kelp brown",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -169,7 +163,7 @@ minetest.register_node("seaplants:seaplantssandkelpbrown", {
 })
 
 minetest.register_node("seaplants:seaplantsdirtkelpbrown", {
-	description = S("Sea plants dirt kelp brown"),
+	description = "Sea plants dirt kelp brown",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -178,7 +172,7 @@ minetest.register_node("seaplants:seaplantsdirtkelpbrown", {
 })
 
 minetest.register_node("seaplants:seaplantssandseagrassgreen", {
-	description = S("Sea plants sand seagrass green"),
+	description = "Sea plants sand seagrass green",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -187,7 +181,7 @@ minetest.register_node("seaplants:seaplantssandseagrassgreen", {
 })
 
 minetest.register_node("seaplants:seaplantsdirtseagrassgreen", {
-	description = S("Sea plants dirt seagrass green"),
+	description = "Sea plants dirt seagrass green",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -196,7 +190,7 @@ minetest.register_node("seaplants:seaplantsdirtseagrassgreen", {
 })
 
 minetest.register_node("seaplants:seaplantssandseagrassred", {
-	description = S("Sea plants sand seagrass red"),
+	description = "Sea plants sand seagrass red",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -205,7 +199,7 @@ minetest.register_node("seaplants:seaplantssandseagrassred", {
 })
 
 minetest.register_node("seaplants:seaplantsdirtseagrassred", {
-	description = S("Sea plants dirt seagrass red"),
+	description = "Sea plants dirt seagrass red",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -218,7 +212,7 @@ minetest.register_node("seaplants:seaplantsdirtseagrassred", {
 
 
 minetest.register_craftitem("seaplants:seasaladmix", {
-	description = S("Sea salad mix"),
+	description = "Sea salad mix",
 	inventory_image = "seaplants_seasaladmix.png",
 	on_use = minetest.item_eat(6)
 })

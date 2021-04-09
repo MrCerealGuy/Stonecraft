@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- The BLINKY_PLANT
 
@@ -35,7 +29,7 @@ local on_timer = function (pos)
 end
 
 mesecon.register_node("mesecons_blinkyplant:blinky_plant", {
-	description=S("Blinky Plant"),
+	description="Blinky Plant",
 	drawtype = "plantlike",
 	inventory_image = "jeija_blinky_plant_off.png",
 	paramtype = "light",

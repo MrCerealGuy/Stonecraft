@@ -1,9 +1,7 @@
 currency.barter = {}
 barter = currency.barter -- Kept as a global variable for compatibility
 
--- internationalization boilerplate
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = minetest.get_translator("currency")
 
 barter.chest = {}
 barter.chest.expire_after = tonumber(minetest.settings:get('barter.chest.expireafter')) or 15 * 60

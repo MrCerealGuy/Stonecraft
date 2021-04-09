@@ -1,15 +1,4 @@
 
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -----------------------------------------------------------------------
 -- xconnected.lua contains the actual code and api for xconnected nodes
 -----------------------------------------------------------------------
@@ -21,29 +10,29 @@ dofile(minetest.get_modpath("xconnected").."/xconnected.lua");
 -----------------------------------------------------------------------
 
 -- for comparison: xpanes
-xconnected.register_pane( 'xconnected:pane_glass',              S('Glass'),					'default_glass.png',			'default:glass');
-xconnected.register_pane( 'xconnected:pane_obsidian_glass',     S('Obsidian Glass'),		'default_obsidian_glass.png',	'default:obsidian_glass');
+xconnected.register_pane( 'xconnected:pane_glass',              'default_glass.png',          'default:glass');
+xconnected.register_pane( 'xconnected:pane_obsidian_glass',     'default_obsidian_glass.png', 'default:obsidian_glass');
 
 -- diffrent types of walls
-xconnected.register_wall( 'xconnected:wall_tree',               S('Tree'),					'default_tree.png',               'default:tree' );
-xconnected.register_wall( 'xconnected:wall_wood',               S('Wood'),					'default_wood.png',               'default:fence_wood' ); 
-xconnected.register_wall( 'xconnected:wall_stone',              S('Stone'),					'default_stone.png',              'default:stone' );
-xconnected.register_wall( 'xconnected:wall_cobble',             S('Cobble'),				'default_cobble.png',             'default:cobble' );
-xconnected.register_wall( 'xconnected:wall_brick',              S('Brick'),					'default_brick.png',              'default:brick' );
-xconnected.register_wall( 'xconnected:wall_stone_brick',        S('Stone Brick'),			'default_stone_brick.png',        'default:stonebrick' );
-xconnected.register_wall( 'xconnected:wall_sandstone_brick',    S('Sandstone Brick'),		'default_sandstone_brick.png',    'default:sandstonebrick' );
-xconnected.register_wall( 'xconnected:wall_desert_stone_brick', S('Desert Stone Brick'),	'default_desert_stone_brick.png', 'default:desert_stonebrick' );
-xconnected.register_wall( 'xconnected:wall_obsidian_brick',     S('Obsidian Brick'),		'default_obsidian_brick.png',     'default:obsidianbrick' );
-xconnected.register_wall( 'xconnected:wall_hedge',              S('Hedge'),					'default_leaves.png',             'default:leaves' );
-xconnected.register_wall( 'xconnected:wall_clay',               S('Clay'),					'default_clay.png',               'default:clay' );
-xconnected.register_wall( 'xconnected:wall_coal_block',         S('Coal Block'),			'default_coal_block.png',         'default:coalblock' );
+xconnected.register_wall( 'xconnected:wall_tree',               'default_tree.png',               'default:tree' );
+xconnected.register_wall( 'xconnected:wall_wood',               'default_wood.png',               'default:fence_wood' ); 
+xconnected.register_wall( 'xconnected:wall_stone',              'default_stone.png',              'default:stone' );
+xconnected.register_wall( 'xconnected:wall_cobble',             'default_cobble.png',             'default:cobble' );
+xconnected.register_wall( 'xconnected:wall_brick',              'default_brick.png',              'default:brick' );
+xconnected.register_wall( 'xconnected:wall_stone_brick',        'default_stone_brick.png',        'default:stonebrick' );
+xconnected.register_wall( 'xconnected:wall_sandstone_brick',    'default_sandstone_brick.png',    'default:sandstonebrick' );
+xconnected.register_wall( 'xconnected:wall_desert_stone_brick', 'default_desert_stone_brick.png', 'default:desert_stonebrick' );
+xconnected.register_wall( 'xconnected:wall_obsidian_brick',     'default_obsidian_brick.png',     'default:obsidianbrick' );
+xconnected.register_wall( 'xconnected:wall_hedge',              'default_leaves.png',             'default:leaves' );
+xconnected.register_wall( 'xconnected:wall_clay',               'default_clay.png',               'default:clay' );
+xconnected.register_wall( 'xconnected:wall_coal_block',         'default_coal_block.png',         'default:coalblock' );
 
 -- xfences can also be emulated
-xconnected.register_fence('xconnected:fence',        			S('Wood'),				'default_wood.png',        'default:wood');
-xconnected.register_fence('xconnected:fence_pine',				S('Pine Wood'),				'default_pine_wood.png',   'default:pine_wood');
-xconnected.register_fence('xconnected:fence_jungle', 			S('Junglewood'),			'default_junglewood.png',  'default:junglewood');
-xconnected.register_fence('xconnected:fence_acacia', 			S('Acacia Wood'),			'default_acacia_wood.png', 'default:acacia_wood');
-xconnected.register_fence('xconnected:fence_aspen',  			S('Aspen Wood'),			'default_aspen_wood.png',  'default:aspen_wood');
+xconnected.register_fence('xconnected:fence',        'default_wood.png',        'default:wood');
+xconnected.register_fence('xconnected:fence_pine',   'default_pine_wood.png',   'default:pine_wood');
+xconnected.register_fence('xconnected:fence_jungle', 'default_junglewood.png',  'default:junglewood');
+xconnected.register_fence('xconnected:fence_acacia', 'default_acacia_wood.png', 'default:acacia_wood');
+xconnected.register_fence('xconnected:fence_aspen',  'default_aspen_wood.png',  'default:aspen_wood');
 
 --[[
 -- this innocent loop creates quite a lot of nodes - but only if you have the stained_glass mod installed

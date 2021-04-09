@@ -2,16 +2,8 @@
 -- TODO: make these chests as chests and indicate that they are owned by npc
 -- TODO: add bags (not for carrying around but for decoration)
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S = cottages.S
 
 cottages_chests = {}
 -- uses default.chest_formspec for now

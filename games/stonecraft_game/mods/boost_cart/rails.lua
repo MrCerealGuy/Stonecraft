@@ -1,14 +1,3 @@
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- Common rail registrations
 
 local regular_rail_itemname = "default:rail"
@@ -18,7 +7,7 @@ if minetest.registered_nodes["carts:rail"] then
 end
 
 boost_cart:register_rail(":"..regular_rail_itemname, {
-	description = S("Rail"),
+	description = "Rail",
 	tiles = {
 		"carts_rail_straight.png", "carts_rail_curved.png",
 		"carts_rail_t_junction.png", "carts_rail_crossing.png"
@@ -43,7 +32,7 @@ if minetest.get_modpath("moreores") then
 end
 if not copperrail_registered then
 	boost_cart:register_rail(":carts:copperrail", {
-		description = S("Copper rail"),
+		description = "Copper rail",
 		tiles = {
 			"carts_rail_straight_cp.png", "carts_rail_curved_cp.png",
 			"carts_rail_t_junction_cp.png", "carts_rail_crossing_cp.png"
@@ -63,7 +52,7 @@ end
 
 -- Power rail
 boost_cart:register_rail(":carts:powerrail", {
-	description = S("Powered rail"),
+	description = "Powered rail",
 	tiles = {
 		"carts_rail_straight_pwr.png", "carts_rail_curved_pwr.png",
 		"carts_rail_t_junction_pwr.png", "carts_rail_crossing_pwr.png"
@@ -97,7 +86,7 @@ minetest.register_craft({
 
 -- Brake rail
 boost_cart:register_rail(":carts:brakerail", {
-	description = S("Brake rail"),
+	description = "Brake rail",
 	tiles = {
 		"carts_rail_straight_brk.png", "carts_rail_curved_brk.png",
 		"carts_rail_t_junction_brk.png", "carts_rail_crossing_brk.png"
@@ -130,7 +119,7 @@ minetest.register_craft({
 })
 
 boost_cart:register_rail("boost_cart:startstoprail", {
-	description = S("Start-stop rail"),
+	description = "Start-stop rail",
 	tiles = {
 		"carts_rail_straight_ss.png", "carts_rail_curved_ss.png",
 		"carts_rail_t_junction_ss.png", "carts_rail_crossing_ss.png"

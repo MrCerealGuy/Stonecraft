@@ -3,17 +3,6 @@
 -- 1 = there is one; 0 = there is none
 -- y always means y+
 
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local box_center = {-1/16, -.5, -1/16, 1/16, -.5+1/16, 1/16}
 local box_bump1 =  { -2/16, -8/16,  -2/16, 2/16, -13/32, 2/16 }
 local box_bump2 =  { -3/32, -13/32, -3/32, 3/32, -12/32, 3/32 }
@@ -47,7 +36,7 @@ for zmy=0, 1 do
 
 	if nodeid == "00000000" then
 		groups = {dig_immediate = 3}
-		wiredesc = S("Digiline")
+		wiredesc = "Digiline"
 	else
 		groups = {dig_immediate = 3, not_in_creative_inventory = 1}
 	end

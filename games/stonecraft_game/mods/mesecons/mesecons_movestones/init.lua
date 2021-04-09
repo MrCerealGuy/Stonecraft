@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- MOVESTONE
 -- Non-sticky:
@@ -143,7 +137,7 @@ mesecon.register_movestone("mesecons_movestones:movestone", {
 		"jeija_movestone_arrows.png",
 	},
 	groups = {cracky = 3},
-    description = S("Movestone"),
+    description = "Movestone",
 	sounds = default.node_sound_stone_defaults()
 }, false, false)
 
@@ -157,7 +151,7 @@ mesecon.register_movestone("mesecons_movestones:sticky_movestone", {
 		"jeija_sticky_movestone.png",
 	},
 	groups = {cracky = 3},
-    description = S("Sticky Movestone"),
+    description = "Sticky Movestone",
 	sounds = default.node_sound_stone_defaults(),
 }, true, false)
 
@@ -171,7 +165,7 @@ mesecon.register_movestone("mesecons_movestones:movestone_vertical", {
 		"jeija_movestone_arrows.png^[transformR90",
 	},
 	groups = {cracky = 3},
-    description = S("Vertical Movestone"),
+    description = "Vertical Movestone",
 	sounds = default.node_sound_stone_defaults()
 }, false, true)
 
@@ -185,7 +179,7 @@ mesecon.register_movestone("mesecons_movestones:sticky_movestone_vertical", {
 		"jeija_movestone_arrows.png^[transformR90",
 	},
 	groups = {cracky = 3},
-    description = S("Vertical Sticky Movestone"),
+    description = "Vertical Sticky Movestone",
 	sounds = default.node_sound_stone_defaults(),
 }, true, true)
 

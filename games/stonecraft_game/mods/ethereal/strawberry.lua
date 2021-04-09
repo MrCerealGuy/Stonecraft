@@ -1,16 +1,5 @@
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 -- Strawberry (can also be planted as seed)
 minetest.register_craftitem("ethereal:strawberry", {

@@ -1,24 +1,15 @@
 --[[
 
-2017-05-16 MrCerealGuy: added intllib support
-
 2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
 
 --]]
 
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 local img = {"eye", "men", "sun"}
-local desc = {S("eye"), S("men"), S("sun")}
 
 for i=1,3 do
 	minetest.register_node("pyramids:deco_stone"..i, {
-		description = S("Sandstone with @1", desc[i]),
+		description = "Sandstone with "..img[i],
 		tiles = {"default_sandstone.png^pyramids_"..img[i]..".png"},
 		is_ground_content = true,
 		groups = {crumbly=2,cracky=3},
@@ -44,7 +35,7 @@ trap_on_timer = function (pos, elapsed)
 end
 
 minetest.register_node("pyramids:trap", {
-	description = S("Cracked sandstone brick"),
+	description = "Cracked sandstone brick",
 	tiles = {"default_sandstone_brick.png^pyramids_crack.png"},
 	is_ground_content = true,
 	groups = {crumbly=2,cracky=3},
@@ -58,7 +49,7 @@ minetest.register_node("pyramids:trap", {
 })
 
 minetest.register_node("pyramids:trap_2", {
-	description = S("Trapstone"),
+	description = "Trapstone",
 	tiles = {"default_sandstone_brick.png^pyramids_crack.png^[transformR90"},
 	is_ground_content = true,
 	groups = {crumbly=2,cracky=3,falling_node=1,not_in_creative_inventory=1},

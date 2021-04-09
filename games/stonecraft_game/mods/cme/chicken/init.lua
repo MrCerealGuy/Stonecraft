@@ -27,15 +27,9 @@
 2019-04-13 modified by MrCerealGuy <mrcerealguy@gmx.de>
   added advanced mod control
 
-2019-05-07 added intllib support
-
 --]]
 
 if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_chicken") == "false" then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- Egg
 dofile(core.get_modpath("chicken") .. "/egg.lua")
@@ -48,13 +42,13 @@ end
 
 -- Flesh
 core.register_craftitem(":creatures:chicken_flesh", {
-	description = S("Raw Chicken Flesh"),
+	description = "Raw Chicken Flesh",
 	inventory_image = "creatures_chicken_flesh.png",
 	on_use = core.item_eat(1)
 })
 
 core.register_craftitem(":creatures:chicken_meat", {
-	description = S("Chicken Meat"),
+	description = "Chicken Meat",
 	inventory_image = "creatures_chicken_meat.png",
 	on_use = core.item_eat(3)
 })
@@ -67,7 +61,7 @@ core.register_craft({
 
 -- Feather
 core.register_craftitem(":creatures:feather", {
-	description = S("Feather"),
+	description = "Feather",
 	inventory_image = "creatures_feather.png",
 })
 
@@ -139,7 +133,7 @@ local def = {
     height_limit = {min = 0, max = 150},
 
     spawn_egg = {
-      description = S("Chicken Spawn-Egg"),
+      description = "Chicken Spawn-Egg",
     },
   },
 

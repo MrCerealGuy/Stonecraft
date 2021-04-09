@@ -1,16 +1,6 @@
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 --Materials
 minetest.register_node("nssb:memoryone", {
-	description = S("Memoryone"),
+	description = "Memoryone",
 	tiles = {"very_mossy_stone_brick.png"},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -18,7 +8,7 @@ minetest.register_node("nssb:memoryone", {
 })
 
 minetest.register_node("nssb:mossy_stone_brick", {
-	description = S("Mossy Stone Brick"),
+	description = "Mossy Stone Brick",
 	tiles = {"mossy_stone_brick.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -27,7 +17,7 @@ minetest.register_node("nssb:mossy_stone_brick", {
 })
 
 minetest.register_node("nssb:stone_brick", {
-	description = S("Stone Brick"),
+	description = "Stone Brick",
 	tiles = {"default_stone_brick.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -36,7 +26,7 @@ minetest.register_node("nssb:stone_brick", {
 })
 
 minetest.register_node("nssb:very_mossy_stone_brick", {
-	description = S("Very Mossy Stone Brick"),
+	description = "Very Mossy Stone Brick",
 	tiles = {"very_mossy_stone_brick.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -45,7 +35,7 @@ minetest.register_node("nssb:very_mossy_stone_brick", {
 })
 
 minetest.register_node("nssb:mossy_stone_column", {
-	description = S("Mossy Stone Column"),
+	description = "Mossy Stone Column",
 	tiles = {"mossy_stone_column.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -54,7 +44,7 @@ minetest.register_node("nssb:mossy_stone_column", {
 })
 
 minetest.register_node("nssb:stone_column", {
-	description = S("Stone Column"),
+	description = "Stone Column",
 	tiles = {"stone_column.png"},
 	is_ground_content = false,
 	groups = {cracky=2, stone=2},
@@ -63,7 +53,7 @@ minetest.register_node("nssb:stone_column", {
 })
 
 minetest.register_node("nssb:marine_stone", {
-	description = S("Seastone"),
+	description = "Seastone",
 	tiles = {"marine_stone.png"},
 	is_ground_content = false,
 	groups = {cracky=1, stone=2},
@@ -71,7 +61,7 @@ minetest.register_node("nssb:marine_stone", {
 })
 
 minetest.register_node("nssb:marine_brick", {
-	description = S("Seastone Brick"),
+	description = "Seastone Brick",
 	tiles = {"marine_brick.png"},
 	is_ground_content = false,
 	groups = {stone=2},
@@ -79,7 +69,7 @@ minetest.register_node("nssb:marine_brick", {
 })
 
 minetest.register_node("nssb:marine_meselamp", {
-	description = S("Sea Meselamp"),
+	description = "Sea Meselamp",
 	tiles = {"marine_meselamp.png"},
 	is_ground_content = false,
 	groups = {cracky=3},
@@ -89,7 +79,7 @@ minetest.register_node("nssb:marine_meselamp", {
 })
 
 minetest.register_node("nssb:morlamp", {
-	description = S("Morlamp"),
+	description = "Morlamp",
 	tiles = {"morlamp.png"},
 	is_ground_content = false,
 	groups = {cracky=3},
@@ -99,7 +89,7 @@ minetest.register_node("nssb:morlamp", {
 })
 
 minetest.register_node("nssb:mantis_clay", {
-	description = S("Mantis Clay"),
+	description = "Mantis Clay",
 	tiles = {"mantis_clay.png"},
 	is_ground_content = false,
 	groups = {cracky=2},
@@ -107,7 +97,7 @@ minetest.register_node("nssb:mantis_clay", {
 })
 
 minetest.register_node("nssb:hardened_mantis_clay", {
-	description = S("Hardened Mantis Clay"),
+	description = "Hardened Mantis Clay",
 	tiles = {"hard_mantis_clay.png"},
 	is_ground_content = false,
 	groups = {cracky=1},
@@ -115,7 +105,7 @@ minetest.register_node("nssb:hardened_mantis_clay", {
 })
 
 minetest.register_node("nssb:ant_stone", {
-	description = S("Ant Stone"),
+	description = "Ant Stone",
 	tiles = {"ant_stone.png"},
 	is_ground_content = false,
 	groups = {cracky=1, stone=1},
@@ -123,7 +113,7 @@ minetest.register_node("nssb:ant_stone", {
 })
 
 minetest.register_node("nssb:vine", {
-	description = S("Vine"),
+	description = "Vine",
 	drawtype = "signlike",
 	tiles = {"climbing_plant.png"},
 	inventory_image = {"vine.png"},
@@ -138,7 +128,7 @@ minetest.register_node("nssb:vine", {
 })
 
 minetest.register_node("nssb:liana", {
-	description = S("Liana"),
+	description = "Liana",
 	drawtype = "plantlike",
 	inventory_image = {"liana.png"},
 	tiles = {"liana.png"},
@@ -150,7 +140,7 @@ minetest.register_node("nssb:liana", {
 })
 
 minetest.register_node("nssb:vertical_web", {
-	description = S("Vertical Web"),
+	description = "Vertical Web",
 	inventory_image = "vertical_web.png",
 	tile_images = {"vertical_web.png"} ,
     drawtype = "plantlike",
@@ -171,7 +161,7 @@ minetest.register_node("nssb:vertical_web", {
 })
 
 minetest.register_node("nssb:web_cone_up", {
-	description = S("Web Cone Up"),
+	description = "Web Cone Up",
 	inventory_image = "web_cone_up.png",
 	tile_images = {"web_cone_up.png"} ,
     drawtype = "plantlike",
@@ -192,7 +182,7 @@ minetest.register_node("nssb:web_cone_up", {
 })
 
 minetest.register_node("nssb:web_cone_down", {
-	description = S("Web Cone Down"),
+	description = "Web Cone Down",
 	inventory_image = "web_cone_down.png",
 	tile_images = {"web_cone_down.png"} ,
     drawtype = "plantlike",
@@ -231,7 +221,7 @@ minetest.register_craft({
 })
 
 minetest.register_node("nssb:web_cocoon", {
-	description = S("Web Cocoon"),
+	description = "Web Cocoon",
 	tiles = {"web_cocoon.png"},
 	drop = {
          max_items = 1,
@@ -338,7 +328,7 @@ night, --if only at night
 lumin) --luminosity parameter of the egg_block
 
 	minetest.register_node("nssb:".. name .."_eggs", {
-		description = descr ..S(" Eggs"),
+		description = descr .." Eggs",
 		tiles = {name .."_eggs.png"},
 		light_source = lumin,
 		is_ground_content = false,
@@ -381,19 +371,19 @@ lumin) --luminosity parameter of the egg_block
 
 end
 
-nssb_register_eggs ('ant_worker', S('Ant Worker'), 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('ant_soldier', S('Ant Soldier'), 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('larva', S('Larva'), 16, 2, 4, "air", false, 5)
-nssb_register_eggs ('crab', S('Crab'), 18, 2, 4, "default:sand", false, 5)
-nssb_register_eggs ('black_widow', S('Black Widow'), 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('uloboros', S('Uloboros'), 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('daddy_long_legs', S('Daddy Long Legs'), 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('xgaloctopus', S('Xgaloctopus'), 18, 2, 4, "default:water_source", false, 5)
-nssb_register_eggs ('bloco', S('Bloco'), 14, 2, 4, "default:gravel", false, 5)
-nssb_register_eggs ('icesnake', S('Icesnake'), 18, 2, 4, "default:ice", false, 5)
-nssb_register_eggs ('snow_biter', S('Snowbiter'), 18, 2, 4, "default:ice", false, 5)
-nssb_register_eggs ('scrausics', S('Scrausics'), 18, 2, 4, "air", false, 5)
-nssb_register_eggs ('moonheron', S('Moonheron'), 18, 2, 4, "air", true, 0)
+nssb_register_eggs ('ant_worker', 'Ant Worker', 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('ant_soldier', 'Ant Soldier', 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('larva', 'Larva', 16, 2, 4, "air", false, 5)
+nssb_register_eggs ('crab', 'Crab', 18, 2, 4, "default:sand", false, 5)
+nssb_register_eggs ('black_widow', 'Black Widow', 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('uloboros', 'Uloboros', 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('daddy_long_legs', 'Daddy Long Legs', 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('xgaloctopus', 'Xgaloctopus', 18, 2, 4, "default:water_source", false, 5)
+nssb_register_eggs ('bloco', 'Bloco', 14, 2, 4, "default:gravel", false, 5)
+nssb_register_eggs ('icesnake', 'Icesnake', 18, 2, 4, "default:ice", false, 5)
+nssb_register_eggs ('snow_biter', 'Snowbiter', 18, 2, 4, "default:ice", false, 5)
+nssb_register_eggs ('scrausics', 'Scrausics', 18, 2, 4, "air", false, 5)
+nssb_register_eggs ('moonheron', 'Moonheron', 18, 2, 4, "air", true, 0)
 
 function nssb_register_eggboss (
 name, -- name of the mobs and the eggs
@@ -406,7 +396,7 @@ night, --if only at night
 lumin) --luminosity parameter of the egg_block
 
 	minetest.register_node("nssb:".. name .."_eggboss", {
-		description = descr ..S(" Eggs"),
+		description = descr .." Eggs",
 		tiles = {name .."_eggs.png"},
 		light_source = lumin,
 		is_ground_content = false,
@@ -449,15 +439,15 @@ lumin) --luminosity parameter of the egg_block
 
 end
 --Bosses of the eggs:
-nssb_register_eggs ('phoenix', S('Phoenix'), 900, 10, 1, "air", false, 15)
-nssb_register_eggs ('tarantula', S('Tarantula'), 900, 2, 1, "air", false, 5)
-nssb_register_eggs ('night_master', S('Night Master'), 900, 10, 1, "air", true, 0)
-nssb_register_eggs ('ant_queen', S('Ant Queen'), 900, 10, 1, "air", false, 5)
-nssb_register_eggs ('icelamander', S('Icelamander'), 900, 10, 1, "air", false, 5)
+nssb_register_eggboss ('phoenix', 'Phoenix', 900, 10, 1, "air", false, 15)
+nssb_register_eggboss ('tarantula', 'Tarantula', 900, 2, 1, "air", false, 5)
+nssb_register_eggboss ('night_master', 'Night Master', 900, 10, 1, "air", true, 0)
+nssb_register_eggboss ('ant_queen', 'Ant Queen', 900, 10, 1, "air", false, 5)
+nssb_register_eggboss ('icelamander', 'Icelamander', 900, 10, 1, "air", false, 5)
 
 
 minetest.register_node("nssb:giant_sandworm_eggs", {
-		description = S("Giant Sandworm Egg"),
+		description = "Giant Sandworm Egg",
 		tiles = {"giant_sandworm_eggs.png"},
 		is_ground_content = false,
 		groups = {choppy=1},
@@ -486,7 +476,7 @@ end
 --Morlavala nodes
 
 minetest.register_node("nssb:morentir", {
-	description = S("Dark Stone"),
+	description = "Dark Stone",
 	tiles = {"morentir.png"},
 	is_ground_content = true,
 	groups = {cracky=1},
@@ -494,7 +484,7 @@ minetest.register_node("nssb:morentir", {
 })
 
 minetest.register_node("nssb:boum_morentir", {
-	description = S("Exploding Dark Stone"),
+	description = "Exploding Dark Stone",
 	tiles = {"morentir.png"},
 	is_ground_content = true,
 	groups = {cracky=1},
@@ -503,7 +493,7 @@ minetest.register_node("nssb:boum_morentir", {
 })
 
 minetest.register_node("nssb:fall_morentir", {
-	description = S("Falling Dark Stone"),
+	description = "Falling Dark Stone",
 	tiles = {"morentir.png"},
 	is_ground_content = true,
 	groups = {cracky=1,falling_node = 1},
@@ -512,7 +502,7 @@ minetest.register_node("nssb:fall_morentir", {
 })
 
 minetest.register_node("nssb:indistructible_morentir", {
-	description = S("Dark Indestructible Stone"),
+	description = "Dark Indistructible Stone",
 	tiles = {"morentir.png"},
 	--groups = {oddly_breakable_by_hand = 2},
 	is_ground_content = false,
@@ -521,7 +511,7 @@ minetest.register_node("nssb:indistructible_morentir", {
 })
 
 minetest.register_node("nssb:morelentir", {
-	description = S("Dark Starred Stone"),
+	description = "Dark Starred Stone",
 	inventory_image = minetest.inventorycube("morelentir.png"),
 	light_source = 10,
 	drop = "nssm:morelentir_dust",
@@ -536,7 +526,7 @@ minetest.register_node("nssb:morelentir", {
 })
 
 minetest.register_node("nssb:morkemen", {
-	description = S("Dark Dirt"),
+	description = "Dark Dirt",
 	tiles = {"morkemen.png"},
 	is_ground_content = true,
 	groups = {crumbly=1},
@@ -544,7 +534,7 @@ minetest.register_node("nssb:morkemen", {
 })
 
 minetest.register_node("nssb:morvilya", {
-	description = S("Dark Air"),
+	description = "Dark Air",
 	drawtype = "airlike",
 	tiles = {"morvilya.png"},
 	paramtype = "light",
@@ -560,7 +550,7 @@ minetest.register_node("nssb:morvilya", {
 })
 
 minetest.register_node("nssb:mornar", {
-	description = S("Black Flame"),
+	description = "Black Flame",
 	drawtype = "firelike",
 	tiles = {{
 		name = "mornar_animated.png",
@@ -577,7 +567,7 @@ minetest.register_node("nssb:mornar", {
 	})
 
 minetest.register_node("nssb:mornen", {
-	description = S("Black Water"),
+	description = "Black Water",
 	inventory_image = minetest.inventorycube("mornen.png"),
 	drawtype = "liquid",
 	tiles = {
@@ -608,7 +598,7 @@ minetest.register_node("nssb:mornen", {
 })
 
 minetest.register_node("nssb:mornen_flowing", {
-	description = S("Flowing Dark Water"),
+	description = "Flowing Dark Water",
 	inventory_image = minetest.inventorycube("mornen.png"),
 	drawtype = "flowingliquid",
 	tiles= {"mornen.png"},
@@ -656,7 +646,7 @@ minetest.register_node("nssb:mornen_flowing", {
 })
 
 minetest.register_node("nssb:portal", {
-	description = S("Morlendor Portal"),
+	description = "Morlendor Portal",
 	inventory_image = minetest.inventorycube("mornen.png"),
 	drawtype = "liquid",
 	tiles = {
@@ -687,7 +677,7 @@ minetest.register_node("nssb:portal", {
 })
 
 minetest.register_node("nssb:portalhome", {
-	description = S("Home Portal"),
+	description = "Home Portal",
 	inventory_image = minetest.inventorycube("portalhome.png"),
 	drawtype = "liquid",
 	tiles = {
@@ -718,7 +708,7 @@ minetest.register_node("nssb:portalhome", {
 })
 
 minetest.register_node("nssb:morlote", {
-	description = S("Morlote"),
+	description = "Morlote",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"morlote.png"},
@@ -738,7 +728,7 @@ minetest.register_node("nssb:morlote", {
 })
 
 minetest.register_node("nssb:moranga", {
-	description = S("Moranga Ore"),
+	description = "Moranga Ore",
 	tiles = {"morentir.png^moranga.png"},
 	groups = {cracky = 1},
 	drop = 'nssb:moranga_lump',
@@ -746,7 +736,7 @@ minetest.register_node("nssb:moranga", {
 })
 
 minetest.register_node("nssb:life_energy_ore", {
-	description = S("Life Energy Ore"),
+	description = "Life Energy Ore",
 	tiles = {"morentir.png^life_energy_ore.png"},
 	groups = {cracky = 1},
 	light_source = 4,
@@ -755,7 +745,7 @@ minetest.register_node("nssb:life_energy_ore", {
 })
 
 minetest.register_craftitem("nssb:moranga_lump", {
-	description = S("Moranga Lump"),
+	description = "Moranga Lump",
 	image = "moranga_lump.png",
 })
 
@@ -767,19 +757,19 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("nssb:moranga_ingot", {
-	description = S("Moranga Ingot"),
+	description = "Moranga Ingot",
 	image = "moranga_ingot.png",
 })
 
 
 minetest.register_node("nssb:morvalar_block", {
-	description = S("Morvalar Block"),
+	description = "Morvalar Block",
 	tiles = {"morvalar_block.png"},
 	light_source = 13,
 })
 
 minetest.register_node("nssb:dis_morvalar_block", {
-	description = S("Disactivated Morvalar Block"),
+	description = "Disactivated Morvalar Block",
 	tiles = {"dis_morvalar_block.png"},
 	on_punch = function(pos, node, puncher)
 		if puncher:get_wielded_item():get_name() == "nssm:superior_energy_globe" then

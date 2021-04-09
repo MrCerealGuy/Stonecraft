@@ -3,20 +3,14 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-16 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- NODES
 
 minetest.register_node("sealamps:torch", {
-	description = S("Sea torch"),
+	description = "Sea torch",
 	drawtype = "torchlike",
 	tiles = {
 		{name="sealamps_torch_on_floor_animated.png", animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=3.0}},
@@ -42,7 +36,7 @@ minetest.register_node("sealamps:torch", {
 })
 
 minetest.register_node("sealamps:lantern", {
-	description = S("Sea lantern"),
+	description = "Sea lantern",
 	drawtype = "torchlike",
 	tiles = {
 		{name="sealamps_lantern_on_floor.png"},

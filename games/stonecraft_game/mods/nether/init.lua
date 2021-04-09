@@ -3,8 +3,6 @@
 2017-09-17 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-09-17 added intllib support
-
 2017-10-10 set nether depth from -20.000 to -30.000 (Morlendor begins at -30.000)
 
 2017-10-10 register_on_generated: added Morlendor depth check
@@ -13,10 +11,6 @@
 --]]
 
 if core.skip_mod("nether") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- Parameters
 
@@ -333,7 +327,7 @@ minetest.register_abm({
 -- Nodes
 
 minetest.register_node("nether:portal", {
-	description = S("Nether Portal"),
+	description = "Nether Portal",
 	tiles = {
 		"nether_transparent.png",
 		"nether_transparent.png",
@@ -382,7 +376,7 @@ minetest.register_node("nether:portal", {
 })
 
 minetest.register_node(":default:obsidian", {
-	description = S("Obsidian"),
+	description = "Obsidian",
 	tiles = {"default_obsidian.png"},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
@@ -444,7 +438,7 @@ minetest.register_node(":default:obsidian", {
 })
 
 minetest.register_node("nether:rack", {
-	description = S("Netherrack"),
+	description = "Netherrack",
 	tiles = {"nether_rack.png"},
 	is_ground_content = true,
 	groups = {cracky = 3, level = 2},
@@ -452,7 +446,7 @@ minetest.register_node("nether:rack", {
 })
 
 minetest.register_node("nether:sand", {
-	description = S("Nethersand"),
+	description = "Nethersand",
 	tiles = {"nether_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly = 3, level = 2, falling_node = 1},
@@ -462,7 +456,7 @@ minetest.register_node("nether:sand", {
 })
 
 minetest.register_node("nether:glowstone", {
-	description = S("Glowstone"),
+	description = "Glowstone",
 	tiles = {"nether_glowstone.png"},
 	is_ground_content = true,
 	light_source = 14,
@@ -472,7 +466,7 @@ minetest.register_node("nether:glowstone", {
 })
 
 minetest.register_node("nether:brick", {
-	description = S("Nether Brick"),
+	description = "Nether Brick",
 	tiles = {"nether_brick.png"},
 	is_ground_content = false,
 	groups = {cracky = 2, level = 2},
@@ -483,7 +477,7 @@ local fence_texture =
 	"default_fence_overlay.png^nether_brick.png^default_fence_overlay.png^[makealpha:255,126,126"
 
 minetest.register_node("nether:fence_nether_brick", {
-	description = S("Nether Brick Fence"),
+	description = "Nether Brick Fence",
 	drawtype = "fencelike",
 	tiles = {"nether_brick.png"},
 	inventory_image = fence_texture,
@@ -507,8 +501,8 @@ stairs.register_stair_and_slab(
 	"nether:brick",
 	{cracky = 2, level = 2},
 	{"nether_brick.png"},
-	S("Nether stair"),
-	S("Nether slab"),
+	"Nether stair",
+	"Nether slab",
 	default.node_sound_stone_defaults()
 )
 
@@ -517,7 +511,7 @@ stairs.register_stair_and_slab(
 if minetest.get_modpath("moreblocks") then
 	stairsplus:register_all(
 		"nether", "brick", "nether:brick", {
-			description = S("Nether Brick"),
+			description = "Nether Brick",
 			groups = {cracky = 2, level = 2},
 			tiles = {"nether_brick.png"},
 			sounds = default.node_sound_stone_defaults(),
@@ -527,7 +521,7 @@ end
 -- Craftitems
 
 minetest.register_craftitem(":default:mese_crystal_fragment", {
-	description = S("Mese Crystal Fragment"),
+	description = "Mese Crystal Fragment",
 	inventory_image = "default_mese_crystal_fragment.png",
 	on_place = function(stack, _, pt)
 		if pt.under and minetest.get_node(pt.under).name == "default:obsidian" then

@@ -3,21 +3,14 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-14 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 -- NODES
 
 minetest.register_node("clams:sandalgae", {
-	description = S("Sandalgae"),
+	description = "Sandalgae",
 	tiles = {"default_sand.png^clams_algae.png"},
 	paramtype = "light",
 	is_ground_content = true,
@@ -36,7 +29,7 @@ minetest.register_node("clams:sandalgae", {
 })
 
 minetest.register_node("clams:dirtalgae", {
-	description = S("Dirtalgae"),
+	description = "Dirtalgae",
 	tiles = {"default_dirt.png^clams_algae.png"},
 	paramtype = "light",
 	is_ground_content = true,
@@ -55,7 +48,7 @@ minetest.register_node("clams:dirtalgae", {
 })
 
 minetest.register_node("clams:sandalgaeused", {
-	description = S("Used sandalgae"),
+	description = "Used sandalgae",
 	tiles = {"default_sand.png^clams_algaeused.png"},
 	inventory_image = {"default_sand.png^clams_algaeused.png"},
 	is_ground_content = true,
@@ -64,7 +57,7 @@ minetest.register_node("clams:sandalgaeused", {
 })
 
 minetest.register_node("clams:dirtalgaeused", {
-	description = S("Used dirtalgae"),
+	description = "Used dirtalgae",
 	tiles = {"default_dirt.png^clams_algaeused.png"},
 	inventory_image = {"default_dirt.png^clams_algaeused.png"},
 	is_ground_content = true,
@@ -80,7 +73,7 @@ minetest.register_node("clams:dirtalgaeused", {
 
 
 minetest.register_entity("clams:whiteshell", {
-	description=S("White shell"),
+	description="White shell",
 	hp_max = 15,
 	physical = true,
 	collisionbox = {-0.2,-0.2,-0.2, 0.2,0.2,0.2},
@@ -156,12 +149,12 @@ minetest.register_entity("clams:whiteshell", {
 
 
 minetest.register_craftitem("clams:collectedalgae", {
-	description = S("Collected algae"),
+	description = "Collected algae",
 	inventory_image = "clams_collectedalgae.png",
 })
 
 minetest.register_craftitem("clams:crushedwhite", {
-	description = S("Crushed white shell"),
+	description = "Crushed white shell",
 	inventory_image = "clams_crushedwhite.png",
 })
 

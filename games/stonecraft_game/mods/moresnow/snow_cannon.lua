@@ -1,13 +1,3 @@
---[[
-
-2017-05-13 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- this function used to be in builtin/game/falling_node.lua, but there it got made local; we need it here
 moresnow.spawn_falling_node = function(p, node)
@@ -321,7 +311,7 @@ for _,v in ipairs( moresnow_snow_cannon_nodebox_common ) do
 	table.insert( moresnow_snow_cannon_nodebox_inactive, v );
 end
 minetest.register_node("moresnow:snow_cannon", {
-	description = S("snow cannon (inactive)"),
+	description = "Snow cannon (inactive)",
 
 	drawtype = "nodebox",
 	node_box = {
@@ -353,7 +343,7 @@ for _,v in ipairs( moresnow_snow_cannon_nodebox_common ) do
 	table.insert( moresnow_snow_cannon_nodebox_active, v );
 end
 minetest.register_node("moresnow:snow_cannon_active", {
-	description = S("snow cannon (active)"),
+	description = "Snow cannon (active)",
 
 	drawtype = "nodebox",
 	node_box = {

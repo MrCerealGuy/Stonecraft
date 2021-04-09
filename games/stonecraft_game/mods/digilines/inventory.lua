@@ -1,14 +1,3 @@
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local pipeworks_enabled = minetest.get_modpath("pipeworks") ~= nil and not core.skip_mod("pipeworks")
 
 -- Sends a message onto the Digilines network.
@@ -64,7 +53,7 @@ local last_inventory_take_index
 
 minetest.register_alias("digilines_inventory:chest", "digilines:chest")
 minetest.register_node("digilines:chest", {
-	description = S("Digiline Chest"),
+	description = "Digiline Chest",
 	tiles = {
 		"default_chest_top.png"..tubeconn,
 		"default_chest_top.png"..tubeconn,

@@ -2,14 +2,9 @@
 
 This fishing routine is inspired by the great work Rootyjr did for MineClone2
 
-2017-05-14 MrCerealGuy: added intllib support
+]]--
 
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 local fish_items = {
 	"ethereal:fish_bluefin",
@@ -470,3 +465,97 @@ minetest.register_craft({
 		{"group:stick","","farming:string"},
 	}
 })
+
+minetest.register_craft({
+	type = "fuel",
+	recipe = "ethereal:fishing_rod",
+	burntime = 15,
+})
+
+
+local fish = {
+	{"Blue Fin", "bluefin", 2},
+	{"Blue Ram", "blueram", 2},
+	{"Catfish", "catfish", 2},
+	{"Clownfish", "clownfish", 2},
+	{"Pike", "pike", 2},
+	{"Flathead", "flathead", 2},
+	{"Plaice", "plaice", 2},
+	{"Pufferfish", "pufferfish", -2},
+	{"Coy", "coy", 2},
+	{"Salmon", "salmon", 2},
+	{"Chichlid", "chichlid", 2},
+	{"Angler", "angler", 2},
+	{"Jellyfish", "jellyfish", 0},
+	{"Seahorse", "seahorse", 0},
+	{"Piranha", "piranha", 2},
+	{"Trout", "trout", 2}
+}
+
+for n = 1, #fish do
+
+	local usage
+	local groups
+
+	if fish[n][3] > 0 then
+		usage = minetest.item_eat(fish[n][3])
+		groups = {food_fish_raw = 1, ethereal_fish = 1}
+	end
+
+	minetest.register_craftitem("ethereal:fish_" .. fish[n][2], {
+		description = S(fish[n][1]),
+		inventory_image = "ethereal_fish_" .. fish[n][2] .. ".png",
+		on_use = usage,
+		groups = groups
+	})
+end
+
+
+-- cooked fish
+minetest.register_craftitem(":ethereal:fish_cooked", {
+	description = S("Cooked Fish"),
+	inventory_image = "ethereal_fish_cooked.png",
+	wield_image = "ethereal_fish_cooked.png",
+	groups = {food_fish = 1, flammable = 3},
+	on_use = minetest.item_eat(5),
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "ethereal:fish_cooked",
+	recipe = "group:ethereal_fish",
+	cooktime = 8,
+})
+
+-- Sashimi (Thanks to Natalia Grosner for letting me use the sashimi image)
+minetest.register_craftitem("ethereal:sashimi", {
+	description = S("Sashimi"),
+	inventory_image = "sashimi.png",
+	wield_image = "sashimi.png",
+	on_use = minetest.item_eat(4)
+})
+
+minetest.register_craft({
+	output = "ethereal:sashimi 2",
+	recipe = {
+		{"group:food_seaweed", "group:food_fish_raw", "group:food_seaweed"},
+	}
+})
+
+-- Worm
+minetest.register_craftitem("ethereal:worm", {
+	description = S("Worm"),
+	inventory_image = "worm.png",
+	wield_image = "worm.png",
+})
+
+minetest.register_craft({
+	output = "ethereal:worm",
+	recipe = {
+		{"default:dirt","default:dirt"},
+	}
+})
+
+-- compatibility
+minetest.register_alias("ethereal:fish_raw", "ethereal:fish_chichlid")
+minetest.register_alias("ethereal:fishing_rod_baited", "ethereal:fishing_rod")

@@ -1,16 +1,3 @@
---[[
-
-2016-05-03 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	removed flying_duck
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]] 
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 --non eatable craftitems
 
 local function nssm_craftitem (name, descr)
@@ -21,69 +8,70 @@ local function nssm_craftitem (name, descr)
 	})
 end
 
-nssm_craftitem ('sky_feather',S('Sky Feather'))
-nssm_craftitem ('snake_scute',S('Snake Scute'))
-nssm_craftitem ('eyed_tentacle',S('Eyed Tentacle'))
---nssm_craftitem ('king_duck_crown',S('King Duck Crown'))
-nssm_craftitem ('great_energy_globe',S('Great Energy Globe'))
-nssm_craftitem ('superior_energy_globe',S('Superior Energy Globe'))
-nssm_craftitem ('ant_queen_abdomen',S('Ant Queen Abdomen'))
---nssm_craftitem ('masticone_skull',S('Masticone Skull'))
-nssm_craftitem ('masticone_skull_fragments',S('Masticone Skull Fragments'))
---nssm_craftitem ('masticone_skull_crowned',S('Masticone Skull Crowned'))
-nssm_craftitem ('tentacle_curly',S('Kraken Tentacle'))
-nssm_craftitem ('lava_titan_eye',S('Lava Titan Eye'))
-nssm_craftitem ('duck_beak',S('Duck Beak'))
-nssm_craftitem ('ice_tooth',S('Ice Tooth'))
-nssm_craftitem ('little_ice_tooth',S('Little Ice Tooth'))
-nssm_craftitem ('digested_sand',S('Digested Sand'))
-nssm_craftitem ('black_ice_tooth',S('Black Ice Tooth'))
-nssm_craftitem ('tarantula_chelicerae',S('Tarantula Chelicerae'))
-nssm_craftitem ('crab_chela',S('Crab Chela'))
-nssm_craftitem ('cursed_pumpkin_seed',S('Cursed Pumpkin Seed'))
-nssm_craftitem ('mantis_claw',S('Mantis Claw'))
-nssm_craftitem ('manticore_fur',S('Manticore Fur'))
-nssm_craftitem ('ant_hard_skin',S('Ant Hard Skin'))
-nssm_craftitem ('bloco_skin',S('Bloco Skin'))
-nssm_craftitem ('crab_carapace_fragment',S('Crab Carapace Fragment'))
-nssm_craftitem ('crocodile_skin',S('Crocodile Skin'))
-nssm_craftitem ('manticore_spine',S('Manticore Spine'))
-nssm_craftitem ('night_feather',S('Night Feather'))
-nssm_craftitem ('sun_feather',S('Sun Feather'))
-nssm_craftitem ('duck_feather',S('Duck Feather'))
-nssm_craftitem ('black_duck_feather',S('Black Duck Feather'))
-nssm_craftitem ('masticone_fang',S('Masticone Fang'))
-nssm_craftitem ('white_wolf_fur',S('White Wolf Fur'))
-nssm_craftitem ('stoneater_mandible',S('Stoneater Mandible'))
-nssm_craftitem ('ant_mandible',S('Ant Mandible'))
-nssm_craftitem ('life_energy',S('Life Energy'))
-nssm_craftitem ('wolf_fur',S('Wolf Fur'))
-nssm_craftitem ('felucco_fur',S('Felucco Fur'))
-nssm_craftitem ('felucco_horn',S('Felucco Horn'))
-nssm_craftitem ('energy_globe',S('Energy Globe'))
-nssm_craftitem ('greedy_soul_fragment',S('Greedy Soul Fragment'))
-nssm_craftitem ('lustful_soul_fragment',S('Lustful Soul Fragment'))
-nssm_craftitem ('wrathful_soul_fragment',S('Wrathful Soul Fragment'))
-nssm_craftitem ('proud_soul_fragment',S('Proud Soul Fragment'))
-nssm_craftitem ('slothful_soul_fragment',S('Slothful Soul Fragment'))
-nssm_craftitem ('envious_soul_fragment',S('Envious Soul Fragment'))
-nssm_craftitem ('gluttonous_soul_fragment',S('Gluttonous Soul Fragment'))
-nssm_craftitem ('gluttonous_moranga',S('Gluttonous Moranga'))
-nssm_craftitem ('envious_moranga',S('Envious Moranga'))
-nssm_craftitem ('proud_moranga',S('Proud Moranga'))
-nssm_craftitem ('slothful_moranga',S('Slothful Moranga'))
-nssm_craftitem ('lustful_moranga',S('Lustful Moranga'))
-nssm_craftitem ('wrathful_moranga',S('Wrathful Moranga'))
-nssm_craftitem ('greedy_moranga',S('Greedy Moranga'))
-nssm_craftitem ('mantis_skin',S('Mantis_skin'))
-nssm_craftitem ('sand_bloco_skin',S('Sand Bloco Skin'))
-nssm_craftitem ('sandworm_skin',S('Sandworm Skin'))
-nssm_craftitem ('sky_iron',S('Sky Iron'))
-nssm_craftitem ('web_string',S('Cobweb String'))
-nssm_craftitem ('dense_web_string',S('Dense Cobweb String'))
-nssm_craftitem ('black_powder',S('Black Powder'))
-nssm_craftitem ('morelentir_dust',S('Dark Starred Stone Dust'))
-nssm_craftitem ('empty_evocation_bomb',S('Empty Evocation Bomb'))
+nssm_craftitem ('sky_feather','Sky Feather')
+nssm_craftitem ('snake_scute','Snake Scute')
+nssm_craftitem ('eyed_tentacle','Eyed Tentacle')
+--nssm_craftitem ('king_duck_crown','King Duck Crown')
+nssm_craftitem ('great_energy_globe','Great Energy Globe')
+nssm_craftitem ('superior_energy_globe','Superior Energy Globe')
+nssm_craftitem ('ant_queen_abdomen','Ant Queen Abdomen')
+--nssm_craftitem ('masticone_skull','Masticone Skull')
+nssm_craftitem ('masticone_skull_fragments','Masticone Skull Fragments')
+--nssm_craftitem ('masticone_skull_crowned','Masticone Skull Crowned')
+nssm_craftitem ('tentacle_curly','Kraken Tentacle')
+nssm_craftitem ('lava_titan_eye','Lava Titan Eye')
+nssm_craftitem ('duck_beak','Duck Beak')
+nssm_craftitem ('ice_tooth','Ice Tooth')
+nssm_craftitem ('little_ice_tooth','Little Ice Tooth')
+nssm_craftitem ('digested_sand',"Digested Sand")
+nssm_craftitem ('black_ice_tooth','Black Ice Tooth')
+nssm_craftitem ('tarantula_chelicerae','Tarantula Chelicerae')
+nssm_craftitem ('crab_chela','Crab Chela')
+nssm_craftitem ('cursed_pumpkin_seed','Cursed Pumpkin Seed')
+nssm_craftitem ('mantis_claw','Mantis Claw')
+nssm_craftitem ('manticore_fur','Manticore Fur')
+nssm_craftitem ('ant_hard_skin','Ant Hard Skin')
+nssm_craftitem ('bloco_skin','Bloco Skin')
+nssm_craftitem ('crab_carapace_fragment','Crab Carapace Fragment')
+nssm_craftitem ('crocodile_skin','Crocodile Skin')
+nssm_craftitem ('manticore_spine','Manticore Spine')
+nssm_craftitem ('night_feather','Night Feather')
+nssm_craftitem ('sun_feather','Sun Feather')
+nssm_craftitem ('duck_feather','Duck Feather')
+nssm_craftitem ('black_duck_feather','Black Duck Feather')
+nssm_craftitem ('masticone_fang','Masticone Fang')
+nssm_craftitem ('white_wolf_fur','White Wolf Fur')
+nssm_craftitem ('stoneater_mandible','Stoneater Mandible')
+nssm_craftitem ('ant_mandible','Ant Mandible')
+nssm_craftitem ('life_energy','Life Energy')
+nssm_craftitem ('wolf_fur','Wolf Fur')
+nssm_craftitem ('felucco_fur','Felucco Fur')
+nssm_craftitem ('felucco_horn','Felucco Horn')
+nssm_craftitem ('energy_globe','Energy Globe')
+nssm_craftitem ('greedy_soul_fragment','Greedy Soul Fragment')
+nssm_craftitem ('lustful_soul_fragment','Lustful Soul Fragment')
+nssm_craftitem ('wrathful_soul_fragment','Wrathful Soul Fragment')
+nssm_craftitem ('proud_soul_fragment','Proud Soul Fragment')
+nssm_craftitem ('slothful_soul_fragment','Slothful Soul Fragment')
+nssm_craftitem ('envious_soul_fragment','Envious Soul Fragment')
+nssm_craftitem ('gluttonous_soul_fragment','Gluttonous Soul Fragment')
+nssm_craftitem ('gluttonous_moranga','Gluttonous Moranga')
+nssm_craftitem ('envious_moranga','Envious Moranga')
+nssm_craftitem ('proud_moranga','Proud Moranga')
+nssm_craftitem ('slothful_moranga','Slothful Moranga')
+nssm_craftitem ('lustful_moranga','Lustful Moranga')
+nssm_craftitem ('wrathful_moranga','Wrathful Moranga')
+nssm_craftitem ('greedy_moranga','Greedy Moranga')
+nssm_craftitem ('mantis_skin','Mantis_skin')
+nssm_craftitem ('sand_bloco_skin','Sand Bloco Skin')
+nssm_craftitem ('sandworm_skin','Sandworm Skin')
+nssm_craftitem ('sky_iron','Sky Iron')
+nssm_craftitem ('web_string','Cobweb String')
+nssm_craftitem ('dense_web_string','Dense Cobweb String')
+nssm_craftitem ('black_powder','Black Powder')
+nssm_craftitem ('morelentir_dust','Dark Starred Stone Dust')
+nssm_craftitem ('empty_evocation_bomb','Empty Evocation Bomb')
+
 
 local function nssm_craftitem_eat (name, descr, gnam)
 
@@ -95,49 +83,49 @@ local function nssm_craftitem_eat (name, descr, gnam)
 	})
 end
 
-nssm_craftitem_eat ('werewolf_leg',S('Werewolf Leg'),3)
-nssm_craftitem_eat ('felucco_steak',S('Felucco Steak'),3)
-nssm_craftitem_eat ('roasted_felucco_steak',S('Roasted Felucco Steak'),6)
-nssm_craftitem_eat ('heron_leg',S('Moonheron Leg'),2)
-nssm_craftitem_eat ('chichibios_heron_leg',S("Chichibio's Moonheron Leg"),4)
-nssm_craftitem_eat ('crocodile_tail',S('Crocodile Tail'),3)
-nssm_craftitem_eat ('roasted_crocodile_tail',S('Roasted Crocodile Tail'),6)
-nssm_craftitem_eat ('roasted_werewolf_leg',S('Roasted Werewolf Leg'),6)
-nssm_craftitem_eat ('duck_legs',S('Duck Legs'),1)
-nssm_craftitem_eat ('roasted_duck_legs',S('Roasted Duck Leg'),3)
-nssm_craftitem_eat ('ant_leg',S('Ant Leg'),-1)
-nssm_craftitem_eat ('roasted_ant_leg',S('Roasted Ant Leg'),4)
-nssm_craftitem_eat ('spider_leg',S('Spider Leg'),-1)
-nssm_craftitem_eat ('roasted_spider_leg',S('Roasted Spider Leg'),4)
+nssm_craftitem_eat ('werewolf_leg','Werewolf Leg',3)
+nssm_craftitem_eat ('felucco_steak','Felucco Steak',3)
+nssm_craftitem_eat ('roasted_felucco_steak','Roasted Felucco Steak',6)
+nssm_craftitem_eat ('heron_leg','Moonheron Leg',2)
+nssm_craftitem_eat ('chichibios_heron_leg',"Chichibio's Moonheron Leg",4)
+nssm_craftitem_eat ('crocodile_tail','Crocodile Tail',3)
+nssm_craftitem_eat ('roasted_crocodile_tail','Roasted Crocodile Tail',6)
+nssm_craftitem_eat ('roasted_werewolf_leg','Roasted_Werewolf Leg',6)
+nssm_craftitem_eat ('duck_legs','Duck Legs',1)
+nssm_craftitem_eat ('roasted_duck_legs','Roasted Duck Leg',3)
+nssm_craftitem_eat ('ant_leg','Ant Leg',-1)
+nssm_craftitem_eat ('roasted_ant_leg','Roasted Ant Leg',4)
+nssm_craftitem_eat ('spider_leg','Spider Leg',-1)
+nssm_craftitem_eat ('roasted_spider_leg','Roasted Spider Leg',4)
 --nssm_craftitem_eat ('brain','Brain',3)
 --nssm_craftitem_eat ('roasted_brain','Roasted Brain',8)
-nssm_craftitem_eat ('tentacle',S('Tentacle'),2)
-nssm_craftitem_eat ('roasted_tentacle',S('Roasted Tentacle'),5)
-nssm_craftitem_eat ('worm_flesh',S('Worm Flesh'),-2)
-nssm_craftitem_eat ('roasted_worm_flesh',S('Roasted Worm Flesh'),4)
-nssm_craftitem_eat ('amphibian_heart',S('Amphibian Heart'),1)
-nssm_craftitem_eat ('roasted_amphibian_heart',S('Roasted Amphibian Heart'),8)
-nssm_craftitem_eat ('raw_scrausics_wing',S('Raw Scrausics Wing'),1)
-nssm_craftitem_eat ('spicy_scrausics_wing',S('Spicy Scrausics Wing'),6)
-nssm_craftitem_eat ('phoenix_nuggets',S('Phoenix Nuggets'),20)
-nssm_craftitem_eat ('phoenix_tear',S('Phoenix Tear'),20)
-nssm_craftitem_eat ('frosted_amphibian_heart',S('Frosted Amphibian Heart'),-1)
-nssm_craftitem_eat ('surimi',S('Surimi'),4)
-nssm_craftitem_eat ('amphibian_ribs',S('Amphibian Ribs'),2)
-nssm_craftitem_eat ('roasted_amphibian_ribs',S('Roasted Amphibian Ribs'),6)
-nssm_craftitem_eat ('dolidrosaurus_fin',S('Dolidrosaurus Fin'),-2)
-nssm_craftitem_eat ('roasted_dolidrosaurus_fin',S('Roasted Dolidrosaurus Fin'),4)
-nssm_craftitem_eat ('larva_meat',S('Larva Meat'),-1)
-nssm_craftitem_eat ('larva_juice',S('Larva Juice'),-3)
-nssm_craftitem_eat ('larva_soup',S('Larva Soup'),10)
-nssm_craftitem_eat ('mantis_meat',S('Mantis Meat'),1)
-nssm_craftitem_eat ('roasted_mantis_meat',S('Roasted Mantis Meat'),4)
-nssm_craftitem_eat ('spider_meat',S('Spider Meat'),-1)
-nssm_craftitem_eat ('roasted_spider_meat',S('Roasted Spider Meat'),3)
-nssm_craftitem_eat ('silk_gland',S('Silk Gland'),-1)
-nssm_craftitem_eat ('roasted_silk_gland',S('Roasted Silk Gland'),3)
-nssm_craftitem_eat ('super_silk_gland',S('Super Silk Gland'),-8)
-nssm_craftitem_eat ('roasted_super_silk_gland',S('Roasted Super Silk Gland'),2)
+nssm_craftitem_eat ('tentacle','Tentacle',2)
+nssm_craftitem_eat ('roasted_tentacle','Roasted Tentacle',5)
+nssm_craftitem_eat ('worm_flesh','Worm Flesh',-2)
+nssm_craftitem_eat ('roasted_worm_flesh','Roasted Worm Flesh',4)
+nssm_craftitem_eat ('amphibian_heart','Amphibian Heart',1)
+nssm_craftitem_eat ('roasted_amphibian_heart','Roasted Amphibian Heart',8)
+nssm_craftitem_eat ('raw_scrausics_wing','Raw Scrausics Wing',1)
+nssm_craftitem_eat ('spicy_scrausics_wing','Spicy Scrausics Wing',6)
+nssm_craftitem_eat ('phoenix_nuggets','Phoenix Nuggets',20)
+nssm_craftitem_eat ('phoenix_tear','Phoenix Tear',20)
+nssm_craftitem_eat ('frosted_amphibian_heart','Frosted Amphibian Heart',-1)
+nssm_craftitem_eat ('surimi','Surimi',4)
+nssm_craftitem_eat ('amphibian_ribs','Amphibian Ribs',2)
+nssm_craftitem_eat ('roasted_amphibian_ribs','Roasted Amphibian Ribs',6)
+nssm_craftitem_eat ('dolidrosaurus_fin','Dolidrosaurus Fin',-2)
+nssm_craftitem_eat ('roasted_dolidrosaurus_fin','Roasted Dolidrosaurus Fin',4)
+nssm_craftitem_eat ('larva_meat','Larva Meat',-1)
+nssm_craftitem_eat ('larva_juice','Larva Juice',-3)
+nssm_craftitem_eat ('larva_soup','Larva Soup',10)
+nssm_craftitem_eat ('mantis_meat','Mantis Meat',1)
+nssm_craftitem_eat ('roasted_mantis_meat','Roasted Mantis Meat',4)
+nssm_craftitem_eat ('spider_meat','Spider Meat',-1)
+nssm_craftitem_eat ('roasted_spider_meat','Roasted Spider Meat',3)
+nssm_craftitem_eat ('silk_gland','Silk Gland',-1)
+nssm_craftitem_eat ('roasted_silk_gland','Roasted Silk Gland',3)
+nssm_craftitem_eat ('super_silk_gland','Super Silk Gland',-8)
+nssm_craftitem_eat ('roasted_super_silk_gland','Roasted Super Silk Gland',2)
 
 --ore generation
 
@@ -236,19 +224,19 @@ minetest.register_ore({
 --nodes
 
 minetest.register_node("nssm:ant_dirt", {
-	description = S("Ant Dirt"),
+	description = "Ant Dirt",
 	tiles = {"ant_dirt.png"},
 	groups = {crumbly=3},
 })
 
 minetest.register_node("nssm:dead_leaves", {
-	description = S("Dead leaves"),
+	description = "Dead leaves",
 	tiles = {"dead_leaves.png"},
 	groups = {snappy=3,leaves=1},
 })
 
 minetest.register_node("nssm:invisible_light", {
-	description = S("Invisible light source"),
+	description = "Invisible light source",
 	tiles = {"transparent.png"},
 	paramtype = "light",
 	drawtype = "airlike",
@@ -264,7 +252,7 @@ minetest.register_node("nssm:invisible_light", {
 })
 
 minetest.register_node("nssm:venomous_gas", {
-	description = S("Venomous Gas"),
+	description = "Venomous Gas",
 	inventory_image = minetest.inventorycube("venomous_gas.png"),
 	drawtype = "airlike",
 	tiles = {
@@ -285,14 +273,14 @@ minetest.register_node("nssm:venomous_gas", {
 })
 
 minetest.register_node("nssm:modders_block", {
-	description = S("Modders Block"),
+	description = "Modders Block",
 	tiles = {"modders_block.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, not_in_creative_inventory =1},
 })
 
 minetest.register_node("nssm:web", {
-	description = S("Web"),
+	description = "Web",
 	inventory_image = "web.png",
 	tiles = {"web.png"} ,
 	drawtype = "plantlike",
@@ -313,7 +301,7 @@ minetest.register_node("nssm:web", {
 })
 
 minetest.register_node("nssm:thick_web", {
-	description = S("Thick Web"),
+	description = "Thick Web",
 	inventory_image = "thick_web.png",
 	tiles = {"thick_web.png"} ,
 	drawtype = "firelike",
@@ -334,7 +322,7 @@ minetest.register_node("nssm:thick_web", {
 })
 
 minetest.register_node("nssm:ink", {
-	description = S("Ink"),
+	description = "Ink",
 	inventory_image = minetest.inventorycube("ink.png"),
 	drawtype = "liquid",
 	tiles = {
@@ -368,7 +356,7 @@ minetest.register_node("nssm:ink", {
 })
 
 minetest.register_node("nssm:mese_meteor", {
-	description = S("Mese Meteor"),
+	description = "Mese Meteor",
 	tiles = {"mese_meteor.png"} ,
 	paramtype = "light",
 	drop = "",
@@ -452,7 +440,7 @@ minetest.register_abm({
 ]]
 
 minetest.register_node("nssm:phoenix_fire", {
-	description = S("Phoenix Fire"),
+	description = "Phoenix Fire",
 	drawtype = "firelike",
 	tiles = {{
 		name = "phoenix_fire_animated.png",
@@ -499,7 +487,7 @@ minetest.register_abm({
 --tools
 
 minetest.register_tool('nssm:sun_sword', {
-	description = S('Sun Sword'),
+	description = 'Sun Sword',
 	inventory_image = 'sun_sword.png',
 	tool_capabilities = {
 		full_punch_interval = 0.6,
@@ -522,7 +510,7 @@ minetest.register_tool('nssm:sun_sword', {
 })
 
 minetest.register_tool("nssm:masticone_fang_sword", {
-	description = S("Masticone Fang Sword"),
+	description = "Masticone Fang Sword",
 	inventory_image = "masticone_fang_sword.png",
 	tool_capabilities = {
 		full_punch_interval =0.7 ,
@@ -536,7 +524,7 @@ minetest.register_tool("nssm:masticone_fang_sword", {
 })
 
 minetest.register_tool("nssm:night_sword", {
-	description = S("Night Sword"),
+	description = "Night Sword",
 	inventory_image = "night_sword.png",
 	tool_capabilities = {
 		full_punch_interval =0.4 ,
@@ -550,7 +538,7 @@ minetest.register_tool("nssm:night_sword", {
 })
 
 minetest.register_tool("nssm:crab_light_mace", {
-	description = S("Light Crab Mace"),
+	description = "Light Crab Mace",
 	inventory_image = "crab_light_mace.png",
 	tool_capabilities = {
 		full_punch_interval =2 ,
@@ -563,7 +551,7 @@ minetest.register_tool("nssm:crab_light_mace", {
 })
 
 minetest.register_tool("nssm:crab_heavy_mace", {
-	description = S("Heavy Crab Mace"),
+	description = "Heavy Crab Mace",
 	inventory_image = "crab_heavy_mace.png",
 	tool_capabilities = {
 		full_punch_interval =4 ,
@@ -576,7 +564,7 @@ minetest.register_tool("nssm:crab_heavy_mace", {
 })
 
 minetest.register_tool("nssm:mantis_battleaxe", {
-	description = S("Mantis Battleaxe"),
+	description = "Mantis Battleaxe",
 	inventory_image = "mantis_battleaxe.png",
 	tool_capabilities = {
 		full_punch_interval =3 ,
@@ -589,7 +577,7 @@ minetest.register_tool("nssm:mantis_battleaxe", {
 })
 
 minetest.register_node("nssm:rope", {
-	description = S("Rope"),
+	description = "Rope",
 	paramtype = "light",
 	walkable = false,
 	climbable = true,
@@ -601,7 +589,7 @@ minetest.register_node("nssm:rope", {
 })
 
 minetest.register_tool("nssm:stoneater_pick", {
-	description = S("Stoneater Pickaxe"),
+	description = "Stoneater Pickaxe",
 	inventory_image = "stoneater_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -614,7 +602,7 @@ minetest.register_tool("nssm:stoneater_pick", {
 })
 
 minetest.register_tool("nssm:mantis_sword", {
-	description = S("Mantis Sword"),
+	description = "Mantis Sword",
 	inventory_image = "mantis_sword.png",
 	tool_capabilities = {
 		full_punch_interval =0.7 ,
@@ -628,7 +616,7 @@ minetest.register_tool("nssm:mantis_sword", {
 })
 
 minetest.register_tool("nssm:little_ice_tooth_knife", {
-	description = S("Little Ice Tooth Knife"),
+	description = "Little Ice Tooth Knife",
 	inventory_image = "little_ice_tooth_knife.png",
 	tool_capabilities = {
 		full_punch_interval =0.3 ,
@@ -642,7 +630,7 @@ minetest.register_tool("nssm:little_ice_tooth_knife", {
 })
 
 minetest.register_tool("nssm:manticore_spine_knife", {
-	description = S("Manticore Spine Knife"),
+	description = "Manticore Spine Knife",
 	inventory_image = "manticore_spine_knife.png",
 	tool_capabilities = {
 		full_punch_interval =0.4 ,
@@ -656,7 +644,7 @@ minetest.register_tool("nssm:manticore_spine_knife", {
 })
 
 minetest.register_tool("nssm:felucco_knife", {
-	description = S("Felucco Knife"),
+	description = "Felucco Knife",
 	inventory_image = "felucco_knife.png",
 	tool_capabilities = {
 		full_punch_interval =0.4 ,
@@ -672,14 +660,14 @@ minetest.register_tool("nssm:felucco_knife", {
 if minetest.get_modpath("farming") then
 
 	farming.register_hoe(":farming:felucco_hoe", {
-		description = S("Felucco Hoe"),
+		description = "Felucco Hoe",
 		inventory_image = "felucco_hoe.png",
 		max_uses = 290,
 		material = "nssm:felucco_horn"
 	})
 
 	farming.register_hoe(":farming:ant_hoe", {
-		description = S("Ant Hoe"),
+		description = "Ant Hoe",
 		inventory_image = "ant_hoe.png",
 		max_uses = 350,
 		material = "nssm:ant_mandible"
@@ -687,7 +675,7 @@ if minetest.get_modpath("farming") then
 end
 
 minetest.register_tool("nssm:ant_sword", {
-	description = S("Ant Sword"),
+	description = "Ant Sword",
 	inventory_image = "ant_sword.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -700,7 +688,7 @@ minetest.register_tool("nssm:ant_sword", {
 })
 
 minetest.register_tool("nssm:ant_shovel", {
-	description = S("Ant Shovel"),
+	description = "Ant Shovel",
 	inventory_image = "ant_shovel.png",
 	wield_image = "ant_shovel.png^[transformR90",
 	tool_capabilities = {
@@ -714,7 +702,7 @@ minetest.register_tool("nssm:ant_shovel", {
 })
 
 minetest.register_tool("nssm:duck_beak_shovel", {
-	description = S("Duck Beak Shovel"),
+	description = "Duck Beak Shovel",
 	inventory_image = "duck_beak_shovel.png",
 	wield_image = "duck_beak_shovel.png^[transformR90",
 	tool_capabilities = {
@@ -728,7 +716,7 @@ minetest.register_tool("nssm:duck_beak_shovel", {
 })
 
 minetest.register_tool("nssm:mantis_axe", {
-	description = S("Mantis Axe"),
+	description = "Mantis Axe",
 	inventory_image = "mantis_axe.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -741,7 +729,7 @@ minetest.register_tool("nssm:mantis_axe", {
 })
 
 minetest.register_tool("nssm:ant_billhook", {
-	description = S("Ant Billhook"),
+	description = "Ant Billhook",
 	inventory_image = "ant_billhook.png",
 	tool_capabilities = {
 		full_punch_interval = 0.8,
@@ -755,7 +743,7 @@ minetest.register_tool("nssm:ant_billhook", {
 })
 
 minetest.register_tool("nssm:duck_beak_pick",{
-	description = S("Duck Beak Pickaxe"),
+	description = "Duck Beak Pickaxe",
 	inventory_image = "duck_beak_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 0.6,
@@ -768,7 +756,7 @@ minetest.register_tool("nssm:duck_beak_pick",{
 })
 
 minetest.register_tool("nssm:ant_pick", {
-	description = S("Ant Pickaxe"),
+	description = "Ant Pickaxe",
 	inventory_image = "ant_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 1.2,
@@ -781,7 +769,7 @@ minetest.register_tool("nssm:ant_pick", {
 })
 
 minetest.register_tool("nssm:mantis_pick", {
-	description = S("Mantis Pickaxe"),
+	description = "Mantis Pickaxe",
 	inventory_image = "mantis_pick.png",
 	tool_capabilities = {
 		full_punch_interval = 1,
@@ -794,7 +782,7 @@ minetest.register_tool("nssm:mantis_pick", {
 })
 
 minetest.register_tool("nssm:tarantula_warhammer", {
-	description = S("Tarantula Warhammer"),
+	description = "Tarantula Warhammer",
 	inventory_image = "tarantula_warhammer.png",
 	wield_scale= {x=2,y=2,z=1.5},
 	tool_capabilities = {
@@ -809,7 +797,7 @@ minetest.register_tool("nssm:tarantula_warhammer", {
 })
 
 minetest.register_tool("nssm:axe_of_pride", {
-	description = S("Axe of Pride"),
+	description = "Axe of Pride",
 	inventory_image = "axe_of_pride.png",
 	wield_scale= {x=2,y=2,z=1.5},
 	tool_capabilities = {
@@ -927,7 +915,7 @@ minetest.register_tool("nssm:axe_of_pride", {
 })
 
 minetest.register_tool("nssm:gratuitousness_battleaxe", {
-	description = S("Gratuitousness Battleaxe"),
+	description = "Gratuitousness Battleaxe",
 	inventory_image = "gratuitousness_battleaxe.png",
 	wield_scale= {x=2.2,y=2.2,z=1.5},
 	tool_capabilities = {
@@ -981,7 +969,7 @@ minetest.register_tool("nssm:gratuitousness_battleaxe", {
 })
 
 minetest.register_tool("nssm:sword_of_eagerness", {
-	description = S("Sword of Eagerness"),
+	description = "Sword of Eagerness",
 	inventory_image = "sword_of_eagerness.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1024,7 +1012,7 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 					end
 
 					if found == 0 then
-						minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
+		minetest.chat_send_player(pname, "You haven't got any Energy Globe!")
 						return
 					else
 						local pos = obj:get_pos()
@@ -1090,7 +1078,7 @@ minetest.register_tool("nssm:sword_of_eagerness", {
 })
 
 minetest.register_tool("nssm:falchion_of_eagerness", {
-	description = S("Falchion of Eagerness"),
+	description = "Falchion of Eagerness",
 	inventory_image = "falchion_of_eagerness.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1182,7 +1170,7 @@ minetest.register_tool("nssm:falchion_of_eagerness", {
 })
 
 minetest.register_tool("nssm:sword_of_envy", {
-	description = S("Sword of Envy"),
+	description = "Sword of Envy",
 	inventory_image = "sword_of_envy.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1255,7 +1243,7 @@ minetest.register_tool("nssm:sword_of_envy", {
 })
 
 minetest.register_tool("nssm:sword_of_gluttony", {
-	description = S("Sword of Gluttony"),
+	description = "Sword of Gluttony",
 	inventory_image = "sword_of_gluttony.png",
 	wield_scale= {x=2,y=2,z=1},
 	tool_capabilities = {
@@ -1350,7 +1338,7 @@ minetest.register_tool("nssm:sword_of_gluttony", {
 })
 
 minetest.register_tool("nssm:death_scythe", {
-	description = S("Death Scythe"),
+	description = "Death Scythe",
 	wield_scale= {x=3,y=3,z=1.3},
 	inventory_image = "death_scythe.png",
 	tool_capabilities = {
@@ -1857,7 +1845,7 @@ end
 
 local function nssm_register_egg (name, descr)
 	minetest.register_craftitem("nssm:".. name, {
-		description = S(descr) .. S(" Egg"),
+		description = descr .. " Egg",
 		image = name.."_egg.png",
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos1=minetest.get_pointed_thing_position(pointed_thing, true)
@@ -1873,7 +1861,7 @@ end
 
 local function nssm_register_egg2 (name, descr) --mobs you can't catch
 	minetest.register_craftitem("nssm:".. name.."_egg", {
-		description = S(descr) .. S(" Egg"),
+		description = descr .. " Egg",
 		image = name.."_egg.png",
 		on_place = function(itemstack, placer, pointed_thing)
 			local pos1=minetest.get_pointed_thing_position(pointed_thing, true)
@@ -1943,7 +1931,7 @@ nssm_register_egg2 ('morwa', 'Morwa')
 --nssm_register_egg ('morvalar', 'Morvalar')
 
 minetest.register_craftitem("nssm:mese_egg", {
-	description = S("Mese Egg"),
+	description = "Mese Egg",
 	image = "mese_egg.png",
 	on_place = function(itemstack, placer, pointed_thing)
 		local pos1=minetest.get_pointed_thing_position(pointed_thing, true)

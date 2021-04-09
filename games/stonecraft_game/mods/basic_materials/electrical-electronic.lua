@@ -1,37 +1,30 @@
---[[
-
-2019-04-19 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- Translation support
+local S = minetest.get_translator("basic_materials")
 
 -- items
 
 minetest.register_craftitem("basic_materials:silicon", {
-	description = "Silicon lump",
+	description = S("Silicon lump"),
 	inventory_image = "basic_materials_silicon.png",
 })
 
 minetest.register_craftitem("basic_materials:ic", {
-	description = "Simple Integrated Circuit",
+	description = S("Simple Integrated Circuit"),
 	inventory_image = "basic_materials_ic.png",
 })
 
 minetest.register_craftitem("basic_materials:motor", {
-	description = "Simple Motor",
+	description = S("Simple Motor"),
 	inventory_image = "basic_materials_motor.png",
 })
 
 minetest.register_craftitem("basic_materials:heating_element", {
-	description = "Heating element",
+	description = S("Heating element"),
 	inventory_image = "basic_materials_heating_element.png",
 })
 
 minetest.register_craftitem("basic_materials:energy_crystal_simple", {
-	description = "Simple energy crystal",
+	description = S("Simple energy crystal"),
 	inventory_image = "basic_materials_energy_crystal.png",
 })
 

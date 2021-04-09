@@ -6,14 +6,6 @@
 
 -- Various settings - most of these probably won't need to be changed
 
---[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
 biome_lib = {}
 biome_lib.air = {name = "air"}
 
@@ -40,9 +32,18 @@ biome_lib.total_no_aircheck_calls = 0
 
 biome_lib.queue_run_ratio = tonumber(minetest.settings:get("biome_lib_queue_run_ratio")) or 100
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- Boilerplate to support localized strings if intllib mod is installed.
+local S
+if minetest.global_exists("intllib") then
+	if intllib.make_gettext_pair then
+		S = intllib.make_gettext_pair()
+	else
+		S = intllib.Getter()
+	end
+else
+	S = function(s) return s end
+end
+biome_lib.intllib = S
 
 local DEBUG = false --... except if you want to spam the console with debugging info :-)
 

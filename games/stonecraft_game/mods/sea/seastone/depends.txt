@@ -4,4 +4,3 @@ stairs
 clams
 whiteshell?
 colormachine?
-intllib?

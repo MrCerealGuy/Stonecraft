@@ -1,14 +1,3 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local function crossover_get_rules(node)
 	return {
 		{--first wire
@@ -30,7 +19,7 @@ local crossover_states = {
 }
 
 minetest.register_node("mesecons_extrawires:crossover_off", {
-	description = S("Insulated Mesecon Crossover"),
+	description = "Insulated Mesecon Crossover",
 	drawtype = "mesh",
 	mesh = "mesecons_extrawires_crossover.b3d",
 	tiles = {
@@ -56,7 +45,7 @@ minetest.register_node("mesecons_extrawires:crossover_off", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_01", {
-	description = S("You hacker you!"),
+	description = "You hacker you!",
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "mesh",
 	mesh = "mesecons_extrawires_crossover.b3d",
@@ -83,7 +72,7 @@ minetest.register_node("mesecons_extrawires:crossover_01", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_10", {
-	description = S("You hacker you!"),
+	description = "You hacker you!",
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "mesh",
 	mesh = "mesecons_extrawires_crossover.b3d",
@@ -110,7 +99,7 @@ minetest.register_node("mesecons_extrawires:crossover_10", {
 })
 
 minetest.register_node("mesecons_extrawires:crossover_on", {
-	description = S("You hacker you!"),
+	description = "You hacker you!",
 	drop = "mesecons_extrawires:crossover_off",
 	drawtype = "mesh",
 	mesh = "mesecons_extrawires_crossover.b3d",

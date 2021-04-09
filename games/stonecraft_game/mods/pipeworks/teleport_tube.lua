@@ -1,14 +1,4 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = minetest.get_translator("pipeworks")
 local filename=minetest.get_worldpath() .. "/teleport_tubes"
 
 local tp_tube_db = nil -- nil forces a read

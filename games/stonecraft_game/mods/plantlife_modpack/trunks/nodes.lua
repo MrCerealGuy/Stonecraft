@@ -42,6 +42,14 @@ for i in pairs(NoDe) do
 		liquids_pointable = true,
 		on_place = function(itemstack, placer, pointed_thing)
 			local pt = pointed_thing
+
+			if not placer then return end
+			local playername = placer:get_player_name()
+			if minetest.is_protected(pt.above, playername) then 
+				minetest.record_protection_violation(pt.above, playername)
+				return
+			end
+
 			local direction = minetest.dir_to_facedir(placer:get_look_dir())
 			if minetest.get_node(pt.above).name=="air" then
 				minetest.swap_node(pt.above, {name="trunks:twig_"..math.random(1,4), param2=direction})
@@ -337,7 +345,7 @@ for i in pairs(TRuNKS) do
 			local des = node.description
 
 			minetest.register_node("trunks:"..TRuNK.."root", {
-				description = des..S(" Root"),	-- MERGEINFO: changed by MrCerealGuy, works better with moretrees de translation
+				description = S("@1 Root", des),
 				paramtype = "light",
 				paramtype2 = "facedir",
 				tiles = {

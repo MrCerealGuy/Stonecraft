@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local GET_COMMAND = "GET"
 
@@ -22,8 +16,8 @@ local GET_COMMAND = "GET"
 local function object_detector_make_formspec(pos)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("formspec", "size[9,2.5]" ..
-		"field[0.3,  0;9,2;scanname;"..S("Name of player to scan for (empty for any)")..":;${scanname}]"..
-		"field[0.3,1.5;4,2;digiline_channel;"..S("Digiline Channel (optional)")..":;${digiline_channel}]"..
+		"field[0.3,  0;9,2;scanname;Name of player to scan for (empty for any):;${scanname}]"..
+		"field[0.3,1.5;4,2;digiline_channel;Digiline Channel (optional):;${digiline_channel}]"..
 		"button_exit[7,0.75;2,3;;Save]")
 end
 
@@ -84,7 +78,7 @@ minetest.register_node("mesecons_detector:object_detector_off", {
 	is_ground_content = false,
 	walkable = true,
 	groups = {cracky=3},
-	description=S("Player Detector"),
+	description="Player Detector",
 	mesecons = {receptor = {
 		state = mesecon.state.off,
 		rules = mesecon.rules.pplate
@@ -277,7 +271,7 @@ minetest.register_node("mesecons_detector:node_detector_off", {
 	is_ground_content = false,
 	walkable = true,
 	groups = {cracky=3},
-	description=S("Node Detector"),
+	description="Node Detector",
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},

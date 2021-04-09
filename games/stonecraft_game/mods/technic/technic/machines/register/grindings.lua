@@ -1,16 +1,10 @@
 --[[
 
-2017-05-26 MrCerealGuy: added intllib support
-
 2018-01-28 added check for moretrees and mesecons mods
 
 --]]
 
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = technic.getter
 local moretrees = minetest.get_modpath("moretrees") and not core.skip_mod("moretrees")
 local mesecons_materials = minetest.get_modpath("mesecons_materials") and not core.skip_mod("mesecons")
 local dye = minetest.get_modpath("dye")
@@ -34,7 +28,7 @@ local function register_tree_grinding(name, tree, wood, extract, grinding_color)
 		inventory_image = inventory_image .. "^[colorize:" .. grinding_color
 	end
 	minetest.register_craftitem(grindings_name, {
-		description = S("@1 Grinding", S(name)),
+		description = S("%s Grinding"):format(S(name)),
 		inventory_image = inventory_image,
 	})
 	minetest.register_craft({

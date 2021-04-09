@@ -3,21 +3,15 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 -- mesecons_switch
 
 mesecon.register_node("mesecons_switch:mesecon_switch", {
 	paramtype2="facedir",
-	description=S("Switch"),
+	description="Switch",
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 	on_rightclick = function (pos, node)

@@ -1,16 +1,9 @@
---[[
-
-2017-10-24 added intllib support
-
---]]
-
+if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_horse") == "false" then return end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S = minetest.get_translator and minetest.get_translator("mob_horse") or
 		dofile(MP .. "/intllib.lua")
-
-if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_horse") == "false" then return end
 
 -- 0.4.17 or 5.0 check
 local y_off = 20

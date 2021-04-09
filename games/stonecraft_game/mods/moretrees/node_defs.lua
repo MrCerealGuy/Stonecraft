@@ -1,15 +1,8 @@
 --[[
 
-2017-05-14 MrCerealGuy: added intllib support
-
 2018-03-21 MrCerealGuy: disallow abms when the server is lagging
 
 --]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 moretrees.avoidnodes = {}
 
@@ -585,7 +578,7 @@ minetest.override_item("moretrees:poplar_leaves", {
 -- Extra nodes for jungle trees:
 
 local jungleleaves = {"yellow","red"}
-local jungleleavesnames = {"Yellow", "Red"}
+local jungleleavesnames = {S("Yellow"), S("Red")}
 for color = 1, #jungleleaves do
 	local leave_name = "moretrees:jungletree_leaves_"..jungleleaves[color]
 

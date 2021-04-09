@@ -1,14 +1,4 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = minetest.get_translator("pipeworks")
 if pipeworks.enable_sand_tube then
 	pipeworks.register_tube("pipeworks:sand_tube", {
 		description = S("Vacuuming Pneumatic Tube Segment"),
@@ -117,7 +107,7 @@ end
 minetest.register_abm({nodenames = {"group:vacuum_tube"},
 	interval = 1,
 	chance = 1,
-	label = S("Vacuum tubes"),
+	label = "Vacuum tubes",
 	action = function(pos, node, active_object_count, active_object_count_wider)
 		if node.name:find("pipeworks:sand_tube") then
 			vacuum(pos, 2)

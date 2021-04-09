@@ -7,6 +7,11 @@
 
 if core.skip_mod("boost_cart") then return end
 
+if not minetest.features.object_use_texture_alpha then
+	error("[boost_cart] Your Minetest version is no longer supported."
+		.. " (Version < 5.0.0)")
+end
+
 boost_cart = {}
 boost_cart.modpath = minetest.get_modpath("boost_cart")
 boost_cart.MESECONS = minetest.global_exists("mesecon") and not core.skip_mod("mesecons")

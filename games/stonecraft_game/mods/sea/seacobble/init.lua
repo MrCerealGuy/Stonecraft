@@ -3,19 +3,13 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-13 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- NODES
 minetest.register_node("seacobble:seacobble", {
-	description = S("Sea cobblestone"),
+	description = "Sea cobblestone",
 	tiles = {"seacobble_seacobble.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -23,7 +17,7 @@ minetest.register_node("seacobble:seacobble", {
 })
 
 minetest.register_node("seacobble:seacobble_cyan", {
-	description = S("Sea cobblestone cyan"),
+	description = "Sea cobblestone cyan",
 	tiles = {"seacobble_seacobble_cyan.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -31,7 +25,7 @@ minetest.register_node("seacobble:seacobble_cyan", {
 })
 
 minetest.register_node("seacobble:seacobble_magenta", {
-	description = S("Sea cobblestone magenta"),
+	description = "Sea cobblestone magenta",
 	tiles = {"seacobble_seacobble_magenta.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -39,7 +33,7 @@ minetest.register_node("seacobble:seacobble_magenta", {
 })
 
 minetest.register_node("seacobble:seacobble_lime", {
-	description = S("Sea cobblestone lime"),
+	description = "Sea cobblestone lime",
 	tiles = {"seacobble_seacobble_lime.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -47,7 +41,7 @@ minetest.register_node("seacobble:seacobble_lime", {
 })
 
 minetest.register_node("seacobble:seacobble_aqua", {
-	description = S("Sea cobblestone aqua"),
+	description = "Sea cobblestone aqua",
 	tiles = {"seacobble_seacobble_aqua.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -55,7 +49,7 @@ minetest.register_node("seacobble:seacobble_aqua", {
 })
 
 minetest.register_node("seacobble:seacobble_skyblue", {
-	description = S("Sea cobblestone skyblue"),
+	description = "Sea cobblestone skyblue",
 	tiles = {"seacobble_seacobble_skyblue.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -63,7 +57,7 @@ minetest.register_node("seacobble:seacobble_skyblue", {
 })
 
 minetest.register_node("seacobble:seacobble_redviolet", {
-	description = S("Sea cobblestone redviolet"),
+	description = "Sea cobblestone redviolet",
 	tiles = {"seacobble_seacobble_redviolet.png"},
 	is_ground_content = true,
 	groups = {cracky=3, stone=2},
@@ -77,50 +71,50 @@ minetest.register_node("seacobble:seacobble_redviolet", {
 stairs.register_stair_and_slab("seacobble", "seacobble:seacobble",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble.png"},
-		S("Seacobble stair"),
-		S("Seacobble slab"),
+		"Seacobble stair",
+		"Seacobble slab",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_cyan", "seacobble:seacobble_cyan",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_cyan.png"},
-		S("Seacobble stair cyan"),
-		S("Seacobble slab cyan"),
+		"Seacobble stair cyan",
+		"Seacobble slab cyan",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_magenta", "seacobble:seacobble_magenta",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_magenta.png"},
-		S("Seacobble stair magenta"),
-		S("Seacobble slab magenta"),
+		"Seacobble stair magenta",
+		"Seacobble slab magenta",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_lime", "seacobble:seacobble_lime",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_lime.png"},
-		S("Seacobble stair lime"),
-		S("Seacobble slab lime"),
+		"Seacobble stair lime",
+		"Seacobble slab lime",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_aqua", "seacobble:seacobble_aqua",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_aqua.png"},
-		S("Seacobble stair aqua"),
-		S("Seacobble slab aqua"),
+		"Seacobble stair aqua",
+		"Seacobble slab aqua",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_skyblue", "seacobble:seacobble_skyblue",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_skyblue.png"},
-		S("Seacobble stair skyblue"),
-		S("Seacobble slab skyblue"),
+		"Seacobble stair skyblue ",
+		"Seacobble slab skyblue",
 		default.node_sound_stone_defaults())
 
 stairs.register_stair_and_slab("seacobble_redviolet", "seacobble:seacobble_redviolet",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_redviolet.png"},
-		S("Seacobble stair redviolet"),
-		S("Seacobble slab redviolet"),
+		"Seacobble stair redviolet",
+		"Seacobble slab redviolet",
 		default.node_sound_stone_defaults())
 
 

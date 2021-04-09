@@ -1,13 +1,4 @@
--- CaveRealms nodes.lua
-
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
+-- internationalization boilerplate
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
 
@@ -535,7 +526,7 @@ minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {
-	description = S("Treasure chest placement block"),
+	description = "Treasure chest placement block",
 	tiles = {"default_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {choppy=3,oddly_breakable_by_hand=2,cavechest=1, not_in_creative_inventory=1},
@@ -549,7 +540,7 @@ minetest.register_node("caverealms:s_chest", {
 --hacky schematic placers
 
 minetest.register_node("caverealms:s_fountain", {
-	description = S("Fountain placement block"),
+	description = "Fountain placement block",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -560,7 +551,7 @@ minetest.register_node("caverealms:s_fountain", {
 })
 
 minetest.register_node("caverealms:s_fortress", {
-	description = S("Fortress placement block"),
+	description = "Fortress placement block",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

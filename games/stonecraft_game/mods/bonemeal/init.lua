@@ -6,8 +6,8 @@ local min, max, random = math.min, math.max, math.random
 
 
 -- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP .. "/intllib.lua")
+local S = minetest.get_translator and minetest.get_translator("bonemeal") or
+		dofile(path .. "/intllib.lua")
 
 
 -- creative check

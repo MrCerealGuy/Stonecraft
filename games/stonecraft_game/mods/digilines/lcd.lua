@@ -2,18 +2,6 @@
 
 -- Font: 04.jp.org
 
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 -- load characters map
 local chars_file = io.open(minetest.get_modpath("digilines").."/characters", "r")
 local charmap = {}
@@ -282,7 +270,7 @@ local lcd_box = {
 minetest.register_alias("digilines_lcd:lcd", "digilines:lcd")
 minetest.register_node("digilines:lcd", {
 	drawtype = "nodebox",
-	description = S("Digiline LCD"),
+	description = "Digiline LCD",
 	inventory_image = "lcd_lcd.png",
 	wield_image = "lcd_lcd.png",
 	tiles = {"lcd_anyside.png"},

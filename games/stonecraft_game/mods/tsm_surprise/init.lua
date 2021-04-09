@@ -10,21 +10,22 @@
 	otherwise, the questinon mark blocks stay empty.
 	Refer to the documentation of the “treasurer” mod to learn more.
 ]]
+local S
+if (minetest.get_modpath("intllib")) then
+	S = intllib.Getter()
+else
+	S = function ( s ) return s end
+end
 
 --[[
 
 2017-01-16 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-27 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("surprise") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 --[[ here are some configuration variables ]]
 local blocks_per_chunk = 1	-- number of blocks per chunk.

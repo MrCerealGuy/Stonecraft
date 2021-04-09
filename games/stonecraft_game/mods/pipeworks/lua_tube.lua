@@ -28,17 +28,6 @@
 -- (see where local env is defined)
 -- Something nice to play is appending minetest.env to it.
 
---[[
-
-2018-08-23 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local BASENAME = "pipeworks:lua_tube"
 
 local rules = {
@@ -915,7 +904,7 @@ for white  = 0, 1 do
 	}
 
 	minetest.register_node(node_name, {
-		description = S("Lua controlled Tube"),
+		description = "Lua controlled Tube",
 		drawtype = "nodebox",
 		tiles = tiles,
 		use_texture_alpha = texture_alpha_mode,

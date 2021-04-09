@@ -184,7 +184,7 @@ minetest.register_on_generated(function(minp, maxp)
 	end
 	end
 	end
-	
+
 	vm:save_data_from_heap(data)
 	vm:write_to_map(true)
 end)

@@ -1,13 +1,4 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = minetest.get_translator("pipeworks")
 
 if not minetest.get_modpath("auto_tree_tap") and
   minetest.get_modpath("technic") then

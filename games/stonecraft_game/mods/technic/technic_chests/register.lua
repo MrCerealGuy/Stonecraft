@@ -1,12 +1,4 @@
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
 
 local pipeworks = rawget(_G, "pipeworks")
 local fs_helpers = rawget(_G, "fs_helpers")
@@ -232,7 +224,7 @@ function technic.chests:definition(name, data)
 	local locked_after_place = nil
 	local front = {"technic_"..lname.."_chest_front.png"}
 	data.base_formspec = "size["..data.ovwidth..","..data.ovheight.."]"..
-			"label[0,0;"..S("@1 Chest", name).."]"..
+			"label[0,0;"..S("%s Chest"):format(name).."]"..
 			"list[context;main;"..data.hileft..",1;"..data.width..","..data.height..";]"..
 			"list[current_player;main;"..data.loleft..","..data.lotop..";8,4;]"..
 			"background[-0.19,-0.25;"..(data.ovwidth+0.4)..","..(data.ovheight+0.75)..";technic_chest_form_bg.png]"..
@@ -252,7 +244,8 @@ function technic.chests:definition(name, data)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("owner", placer:get_player_name() or "")
 			meta:set_string("infotext",
-					S("@1 Locked Chest (owned by @2)", name, meta:get_string("owner")))
+					S("%s Locked Chest (owned by %s)")
+					:format(name, meta:get_string("owner")))
 			pipeworks.after_place(pos)
 		end
 		table.insert(front, "technic_"..lname.."_chest_lock_overlay.png")
@@ -262,9 +255,9 @@ function technic.chests:definition(name, data)
 
 	local desc
 	if data.locked then
-		desc = S("@1 Locked Chest", name)
+		desc = S("%s Locked Chest"):format(name)
 	else
-		desc = S("@1 Chest", name)
+		desc = S("%s Chest"):format(name)
 	end
 
 	local tentry = tube_entry
@@ -295,7 +288,7 @@ function technic.chests:definition(name, data)
 
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("infotext", S("@1 Chest", name))
+			meta:set_string("infotext", S("%s Chest"):format(name))
 			set_formspec(pos, data, "main")
 			local inv = meta:get_inventory()
 			inv:set_size("main", data.width * data.height)

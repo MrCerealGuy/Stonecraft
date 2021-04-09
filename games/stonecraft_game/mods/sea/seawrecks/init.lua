@@ -3,21 +3,14 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-16 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("seaplants") then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
 -- NODES
 
 minetest.register_node("seawrecks:woodship", {
-	description = S("Sand for the wooden ship"),
+	description = "Sand for the wooden ship",
 	tiles = {"default_sand.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
@@ -25,7 +18,7 @@ minetest.register_node("seawrecks:woodship", {
 })
 
 minetest.register_node("seawrecks:uboot", {
-	description = S("Dirt for the U-boot"),
+	description = "Dirt for the U-boot",
 	tiles = {"default_dirt.png"},
 	is_ground_content = true,
 	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
@@ -33,7 +26,7 @@ minetest.register_node("seawrecks:uboot", {
 })
 
 minetest.register_node("seawrecks:woodshipchest", {
-	description = S("Wooden ship chest"),
+	description = "Wooden ship chest",
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 	paramtype2 = "facedir",
@@ -85,7 +78,7 @@ meta:from_table({
 })
 
 minetest.register_node("seawrecks:ubootchest", {
-	description = S("U-boot chest"),
+	description = "U-boot chest",
 	tiles = {"default_chest_top.png", "default_chest_top.png", "default_chest_side.png",
 		"default_chest_side.png", "default_chest_side.png", "default_chest_front.png"},
 	paramtype2 = "facedir",
@@ -113,7 +106,7 @@ meta:from_table({
 	formspec = "size[8,9;]list[context;main;0,0;8,4;]list[current_player;main;0,5;8,4;]" ..
 			"listring[context;main]" ..
 			"listring[current_player;main]",
-	infotext = S("Normal chest")
+	infotext = "Normal chest"
 	}
 })
 	end,

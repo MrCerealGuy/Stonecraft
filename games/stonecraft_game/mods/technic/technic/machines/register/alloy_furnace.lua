@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 function technic.insert_object_unique_stack(pos, node, incoming_stack, direction)
 	local meta = minetest.get_meta(pos)

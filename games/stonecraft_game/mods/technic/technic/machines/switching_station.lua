@@ -1,9 +1,3 @@
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
 -- See also technic/doc/api.md
 
 technic.networks = {}
@@ -22,9 +16,7 @@ if minetest.get_modpath("digilines") and not core.skip_mod("digilines") then
 	digilines_path = minetest.get_modpath("digilines")
 end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 
@@ -373,7 +365,7 @@ minetest.register_abm({
 		end
 		--dprint("Total BA demand:"..BA_eu_demand)
 
-		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
+		meta:set_string("infotext", S("@1. Supply: @2 Demand: @3",
 				machine_name, technic.EU_string(PR_eu_supply),
 				technic.EU_string(RE_eu_demand)))
 
@@ -490,7 +482,7 @@ minetest.register_abm({
 				end
 				if nodedef then
 					local meta = minetest.get_meta(pos)
-					meta:set_string("infotext", S("@1 Has No Network", nodedef.description))
+					meta:set_string("infotext", S("%s Has No Network"):format(nodedef.description))
 				end
 			end
 		end

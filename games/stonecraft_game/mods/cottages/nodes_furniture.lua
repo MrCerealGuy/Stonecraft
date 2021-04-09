@@ -13,16 +13,7 @@
 ---------------------------------------------------------------------------------------
 -- TODO: change the textures of the bed (make the clothing white, foot path not entirely covered with cloth)
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = cottages.S
 
 -- a bed without functionality - just decoration
 minetest.register_node("cottages:bed_foot", {

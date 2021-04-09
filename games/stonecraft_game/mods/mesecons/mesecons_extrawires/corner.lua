@@ -1,14 +1,3 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local screwdriver_exists = minetest.global_exists("screwdriver")
 
 local corner_selectionbox = {

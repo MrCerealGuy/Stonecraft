@@ -5,22 +5,14 @@ Copyright © 2011-2020 Hugo Locurcio and contributors.
 Licensed under the zlib license. See LICENSE.md for more information.
 --]]
 
---[[
-
-2018-08-21 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = moreblocks.S
 
 local descriptions = {
-	["micro"] = "@1 Microblock",
-	["slab"] = "@1 Slab",
-	["slope"] = "@1 Slope",
-	["panel"] = "@1 Panel",
-	["stair"] = "@1 Stairs",
+	["micro"] = S("%s Microblock"),
+	["slab"] = S("%s Slab"),
+	["slope"] = S("%s Slope"),
+	["panel"] = S("%s Panel"),
+	["stair"] = S("%s Stairs"),
 }
 
 -- Extends the standad rotate_node placement so that it takes into account
@@ -168,7 +160,7 @@ stairsplus.register_single = function(category, alternate, info, modname, subnam
 				type = "fixed",
 				fixed = info,
 			}
-			def.description = desc_base .. S(alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return a:upper() .. b end))
+			def.description = desc_base .. alternate:gsub("_", " "):gsub("(%a)(%S*)", function(a, b) return a:upper() .. b end)
 		end
 	else
 		def.description = desc_base

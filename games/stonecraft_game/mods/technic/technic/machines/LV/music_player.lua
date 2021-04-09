@@ -1,16 +1,7 @@
 -- LV Music player.
 -- The player can play music. But it is high ampage!
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 minetest.register_alias("music_player", "technic:music_player")
 minetest.register_craft({
@@ -32,8 +23,7 @@ end
 local run = function(pos, node)
 	local meta         = minetest.get_meta(pos)
 	local eu_input     = meta:get_int("LV_EU_input")
-	local machine_name = S("@1 Music Player", "LV")
-	local machine_node = "technic:music_player"
+	local machine_name = S("%s Music Player"):format("LV")
 	local demand       = 150
 
 	local current_track = meta:get_int("current_track")
@@ -48,19 +38,19 @@ local run = function(pos, node)
 	end
 
 	if meta:get_int("active") == 0 then
-		meta:set_string("infotext", S("@1 Idle", machine_name))
+		meta:set_string("infotext", S("%s Idle"):format(machine_name))
 		meta:set_int("LV_EU_demand", 0)
 		return
 	end
 
 	if eu_input < demand then
-		meta:set_string("infotext", S("@1 Unpowered", machine_name))
+		meta:set_string("infotext", S("%s Unpowered"):format(machine_name))
 		if music_handle then
 			minetest.sound_stop(music_handle)
 			music_handle = nil
 		end
 	elseif eu_input >= demand then
-		meta:set_string("infotext", S("@1 Active", machine_name))
+		meta:set_string("infotext", S("%s Active"):format(machine_name))
 		if not music_handle then
 			music_handle = play_track(pos, current_track)
 		end
@@ -82,7 +72,7 @@ local function set_display(meta)
 	meta:set_string("formspec",
 			"size[4,4.5]"..
 			"item_image[0,0;1,1;technic:music_player]"..
-			"label[1,0;"..S("@1 Music Player", "LV").."]"..
+			"label[1,0;"..S("%s Music Player"):format("LV").."]"..
 			"button[0,1;1,1;track1;1]"..
 			"button[1,1;1,1;track2;2]"..
 			"button[2,1;1,1;track3;3]"..
@@ -96,11 +86,11 @@ local function set_display(meta)
 			"label[0,4;"..minetest.formspec_escape(
 				meta:get_int("active") == 0 and
 					S("Stopped") or
-					S("Current track @1", meta:get_int("current_track"))).."]")
+					S("Current track %s"):format(meta:get_int("current_track"))).."]")
 end
 
 minetest.register_node("technic:music_player", {
-	description = S("@1 Music Player", "LV"),
+	description = S("%s Music Player"):format("LV"),
 	tiles = {"technic_music_player_top.png", "technic_machine_bottom.png", "technic_music_player_side.png",
 	         "technic_music_player_side.png", "technic_music_player_side.png", "technic_music_player_side.png"},
 	groups = {snappy=2, choppy=2, oddly_breakable_by_hand=2,
@@ -109,7 +99,7 @@ minetest.register_node("technic:music_player", {
 	sounds = default.node_sound_wood_defaults(),
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", S("@1 Music Player", "LV"))
+		meta:set_string("infotext", S("%s Music Player"):format("LV"))
 		set_display(meta)
 	end,
 	on_receive_fields = function(pos, formanme, fields, sender)

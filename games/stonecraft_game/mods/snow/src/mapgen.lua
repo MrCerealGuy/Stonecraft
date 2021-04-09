@@ -113,7 +113,7 @@ function snow.make_pine(pos,snow,xmas)
 		local n = minetest.get_node(p).name
 		if n == "air"
 		or n == "ignore" then
-			minetest.add_node(pos, node)
+			minetest.add_node(p, node)
 		end
 	end
 	if xmas then

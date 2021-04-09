@@ -2,18 +2,6 @@
 
 -- Copyright (c) 2012 cornernote, Dean Montgomery
 -- License: GPLv3
-
---[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 u_skins = {}
 u_skins.type = { SPRITE=0, MODEL=1 }
 u_skins.pages = {}
@@ -62,8 +50,8 @@ unified_inventory.register_page("u_skins", {
 			formspec = formspec
 				.. "image[0,.75;1,2;"..u_skins.u_skins[name].."_preview.png]"
 				.. "image[1,.75;1,2;"..u_skins.u_skins[name].."_preview_back.png]"
-				--[[.. "label[6,.5;Raw texture:]"
-				.. "image[6,1;2,1;"..u_skins.u_skins[name]..".png]"--]]
+				.. "label[6,.5;Raw texture:]"
+				.. "image[6,1;2,1;"..u_skins.u_skins[name]..".png]"
 			
 		else
 			formspec = formspec
@@ -73,10 +61,10 @@ unified_inventory.register_page("u_skins", {
 		local meta = u_skins.meta[u_skins.u_skins[name]]
 		if meta then
 			if meta.name then
-				formspec = formspec .. "label[2,.5;"..S("Name:").." "..meta.name.."]"
+				formspec = formspec .. "label[2,.5;Name: "..meta.name.."]"
 			end
 			if meta.author then
-				formspec = formspec .. "label[2,1;"..S("Author:").." "..meta.author.."]"
+				formspec = formspec .. "label[2,1;Author: "..meta.author.."]"
 			end
 			if meta.description then
 				formspec = formspec .. "label[2,1.5;"..meta.description.."]"
@@ -86,7 +74,7 @@ unified_inventory.register_page("u_skins", {
 			end
 		end
 
-		formspec = formspec .. "button[.75,3;6.5,.5;u_skins_page_0;"..S("Change").."]"
+		formspec = formspec .. "button[.75,3;6.5,.5;u_skins_page_0;Change]"
 		return {formspec=formspec}
 	end,
 })

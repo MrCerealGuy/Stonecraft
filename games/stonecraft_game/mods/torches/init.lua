@@ -3,19 +3,8 @@
 -- 3d torch part
 --
 
---[[
-
-2017-05-20 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 minetest.register_node(":default:torch", {
-	description = S("Torch"),
+	description = "Torch",
 	drawtype = "mesh",
 	mesh = "torch_floor.obj",
 	inventory_image = "default_torch_on_floor.png",

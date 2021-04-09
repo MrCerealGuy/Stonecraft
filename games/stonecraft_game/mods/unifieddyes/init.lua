@@ -29,20 +29,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 --=====================================================================
 
---[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
 unifieddyes = {}
 
 local creative_mode = minetest.settings:get_bool("creative_mode")
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = minetest.get_translator("unifieddyes")
 local modpath=minetest.get_modpath(minetest.get_current_modname())
 
 dofile(modpath.."/color-tables.lua")

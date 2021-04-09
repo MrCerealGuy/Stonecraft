@@ -2,15 +2,7 @@
 -- The power monitor can be used to monitor how much power is available on a network,
 -- similarly to the old "slave" switching stations.
 
---[[
-
-2017-06-106 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 local cable_entry = "^technic_cable_connection_overlay.png"
 

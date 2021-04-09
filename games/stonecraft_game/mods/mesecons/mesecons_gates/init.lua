@@ -3,16 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 
 local selection_box = {
 	type = "fixed",
@@ -81,7 +74,7 @@ end
 local function register_gate(name, inputnumber, assess, recipe, description)
 	local get_inputrules = inputnumber == 2 and gate_get_input_rules_twoinputs or
 		gate_get_input_rules_oneinput
-	description = S("Logic Gate: ")..name
+	description = "Logic Gate: "..name
 
 	local basename = "mesecons_gates:"..name
 	mesecon.register_node(basename, {

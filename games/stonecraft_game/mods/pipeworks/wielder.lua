@@ -1,17 +1,4 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
-2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = minetest.get_translator("pipeworks")
 local assumed_eye_pos = vector.new(0, 1.5, 0)
 
 local function delay(x)

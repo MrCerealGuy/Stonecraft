@@ -1,19 +1,12 @@
 --These nodes used to be defined by subterrane but were pulled due to not wanting to force all mods that use it to create these nodes.
 --For backwards compatibility they can still be defined here, however.
 
---[[
-
-2018-08-20 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local enable_legacy = minetest.settings:get_bool("subterrane_enable_legacy_dripstone", false)
 
 if enable_legacy then
+
+local modname = minetest.get_current_modname()
+local S = minetest.get_translator(modname)
 
 subterrane.register_stalagmite_nodes("subterrane:dry_stal", {
 	description = S("Dry Dripstone"),

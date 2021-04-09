@@ -1,12 +1,4 @@
---[[
 
-2018-01-28 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 ---------------------------------------------------------------------------------------
 -- a rope that is of use to the mines
@@ -14,7 +6,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- the rope can only be digged if there is no further rope above it;
 -- Note: This rope also counts as a rail node; thus, carts can move through it
 minetest.register_node("cottages:rope", {
-        description = S("Rope for climbing"),
+        description = "Rope for climbing",
         tiles = {"cottages_rope.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1},--connect_to_raillike=minetest.raillike_group("rail")},
         walkable = false,
@@ -46,7 +38,7 @@ minetest.register_craft({
 
 -- Note: This rope also counts as a rail node; thus, carts can move through it
 minetest.register_node("cottages:ladder_with_rope_and_rail", {
-	description = S("Ladder with rail support"),
+	description = "Ladder with rail support",
 	drawtype = "signlike",
 	tiles = {"default_ladder_wood.png^carts_rail_straight.png^cottages_rope.png"},
 	inventory_image = "default_ladder_wood.png",

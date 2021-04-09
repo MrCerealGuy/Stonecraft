@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 minetest.register_chatcommand("say", {
 	params = "<text>",
@@ -62,14 +56,14 @@ local function initialize_data(meta)
 	local commands = minetest.formspec_escape(meta:get_string("commands"))
 	meta:set_string("formspec",
 		"invsize[9,5;]" ..
-		"textarea[0.5,0.5;8.5,4;commands;"..S("Commands")..";"..commands.."]" ..
-		"label[1,3.8;"..S("@nearest, @farthest, and @random are replaced by the respective player names").."]" ..
+		"textarea[0.5,0.5;8.5,4;commands;Commands;"..commands.."]" ..
+		"label[1,3.8;@nearest, @farthest, and @random are replaced by the respective player names]" ..
 		"button_exit[3.3,4.5;2,1;submit;Submit]")
 	local owner = meta:get_string("owner")
 	if owner == "" then
-		owner = S("not owned")
+		owner = "not owned"
 	else
-		owner = S("owned by ") .. owner
+		owner = "owned by " .. owner
 	end
 	meta:set_string("infotext", "Command Block\n" ..
 		"(" .. owner .. ")\n" ..
@@ -79,7 +73,7 @@ end
 local function construct(pos)
 	local meta = minetest.get_meta(pos)
 
-	meta:set_string("commands", S("tell @nearest Commandblock unconfigured"))
+	meta:set_string("commands", "tell @nearest Commandblock unconfigured")
 
 	meta:set_string("owner", "")
 
@@ -195,7 +189,7 @@ local function can_dig(pos, player)
 end
 
 minetest.register_node("mesecons_commandblock:commandblock_off", {
-	description = S("Command Block"),
+	description = "Command Block",
 	tiles = {"jeija_commandblock_off.png"},
 	inventory_image = minetest.inventorycube("jeija_commandblock_off.png"),
 	is_ground_content = false,

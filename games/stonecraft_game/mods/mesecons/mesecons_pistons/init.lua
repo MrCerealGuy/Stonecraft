@@ -3,18 +3,12 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
 
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local specs = {
 	normal = {
@@ -284,7 +278,7 @@ local piston_on_box = {
 -- Normal (non-sticky) Pistons:
 -- offstate
 minetest.register_node("mesecons_pistons:piston_normal_off", {
-	description = S("Piston"),
+	description = "Piston",
 	tiles = {
 		"mesecons_piston_top.png",
 		"mesecons_piston_bottom.png",
@@ -309,7 +303,7 @@ minetest.register_node("mesecons_pistons:piston_normal_off", {
 
 -- onstate
 minetest.register_node("mesecons_pistons:piston_normal_on", {
-	description = S("Activated Piston Base"),
+	description = "Activated Piston Base",
 	drawtype = "nodebox",
 	tiles = {
 		"mesecons_piston_top.png",
@@ -363,7 +357,7 @@ minetest.register_node("mesecons_pistons:piston_pusher_normal", {
 -- Sticky ones
 -- offstate
 minetest.register_node("mesecons_pistons:piston_sticky_off", {
-	description = S("Sticky Piston"),
+	description = "Sticky Piston",
 	tiles = {
 		"mesecons_piston_top.png",
 		"mesecons_piston_bottom.png",

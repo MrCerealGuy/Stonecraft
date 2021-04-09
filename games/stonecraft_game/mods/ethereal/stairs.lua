@@ -1,13 +1,6 @@
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- language support
+local S = ethereal.intllib
 
 -- stair mods active
 local stairs_redo = stairs and stairs.mod and stairs.mod == "redo"

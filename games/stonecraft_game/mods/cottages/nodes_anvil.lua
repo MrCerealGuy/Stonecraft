@@ -7,16 +7,7 @@
 -- License of the hammer picture: CC-by-SA; done by GloopMaster; source:
 --   https://github.com/GloopMaster/glooptest/blob/master/glooptest/textures/glooptest_tool_steelhammer.png
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = cottages.S
 
 -- the hammer for the anvil
 minetest.register_tool("cottages:hammer", {
@@ -98,10 +89,10 @@ minetest.register_node("cottages:anvil", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos);
 		meta:set_string("owner", placer:get_player_name() or "");
-		meta:set_string("infotext", S("Anvil (owned by @1)",meta:get_string("owner") or ""));
+		meta:set_string("infotext", S("Anvil (owned by %s)"):format((meta:get_string("owner") or "")));
                 meta:set_string("formspec",
 					cottages_anvil_formspec,
-					"label[2.5,-0.5;"..S("Owner: @1", meta:get_string('owner') or "").."]");
+					"label[2.5,-0.5;"..S("Owner: %s"):format(meta:get_string('owner') or "").."]");
         end,
 
         can_dig = function(pos,player)

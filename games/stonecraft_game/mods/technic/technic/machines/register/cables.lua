@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 local cable_tier = {}
 
@@ -158,7 +149,7 @@ function technic.register_cable(tier, size)
 	}
 
 	minetest.register_node("technic:"..ltier.."_cable", {
-		description = S("@1 Cable", tier),
+		description = S("%s Cable"):format(tier),
 		tiles = {"technic_"..ltier.."_cable.png"},
 		inventory_image = "technic_"..ltier.."_cable_wield.png",
 		wield_image = "technic_"..ltier.."_cable_wield.png",
@@ -200,7 +191,7 @@ function technic.register_cable(tier, size)
 	end
 	for p, i in pairs(xyz) do
 		local def = {
-			description = S("@1 Cable Plate", tier),
+			description = S("%s Cable Plate"):format(tier),
 			tiles = {"technic_"..ltier.."_cable.png"},
 			groups = table.copy(groups),
 			sounds = default.node_sound_wood_defaults(),

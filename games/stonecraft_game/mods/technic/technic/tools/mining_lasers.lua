@@ -6,16 +6,7 @@ local mining_lasers_list = {
 }
 local allow_entire_discharging = true
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 minetest.register_craft({
 	output = "technic:laser_mk1",
@@ -103,7 +94,7 @@ end
 for _, m in pairs(mining_lasers_list) do
 	technic.register_power_tool("technic:laser_mk"..m[1], m[3])
 	minetest.register_tool("technic:laser_mk"..m[1], {
-		description = S("Mining Laser Mk@1", m[1]),
+		description = S("Mining Laser Mk%d"):format(m[1]),
 		inventory_image = "technic_mining_laser_mk"..m[1]..".png",
 		range = 0,
 		stack_max = 1,

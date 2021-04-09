@@ -1,15 +1,4 @@
 --[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
---[[
 minetest.register_craft({
 	output = 'teleporter:teleporter_pad',
 	recipe = {
@@ -41,7 +30,7 @@ minetest.register_craft({
 --TELEPORTER
 
 minetest.register_node("teleporter:teleporter", {
-	description = S("Teleporter Pad"),
+	description = "Teleporter Pad",
 	tiles = {
 		"teleporter.png",
 		"default_stone.png"
@@ -67,7 +56,7 @@ minetest.register_node("teleporter:teleporter", {
 })
 
 minetest.register_node("teleporter:teleporter_active", {
-	description = S("Teleporter Pad (cheater!)"),
+	description = "Teleporter Pad (cheater!)",
 	tiles = {
 		"teleporter_active.png",
 		"default_stone.png"
@@ -113,7 +102,7 @@ minetest.register_node("teleporter:teleporter_active", {
 --RECEIVER
 
 minetest.register_node("teleporter:receiver", {
-	description = S("Receiver Pad"),
+	description = "Receiver Pad",
 	tiles = {
 		"teleporter_receiver.png",
 		"default_stone.png"
@@ -137,7 +126,7 @@ minetest.register_node("teleporter:receiver", {
 })
 
 minetest.register_node("teleporter:receiver_active", {
-	description = S("Receiver Pad (cheater!)"),
+	description = "Receiver Pad (cheater!)",
 	tiles = {
 		"teleporter_receiver_active.png",
 		"default_stone.png"

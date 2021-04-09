@@ -7,8 +7,6 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-26 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("technic") then return end
@@ -22,9 +20,14 @@ technic.creative_mode = minetest.settings:get_bool("creative_mode")
 local modpath = minetest.get_modpath("technic")
 technic.modpath = modpath
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+
+-- Boilerplate to support intllib
+if rawget(_G, "intllib") then
+	technic.getter = intllib.Getter()
+else
+	technic.getter = function(s,a,...)if a==nil then return s end a={a,...}return s:gsub("(@?)@(%(?)(%d+)(%)?)",function(e,o,n,c)if e==""then return a[tonumber(n)]..(o==""and c or"")else return"@"..o..n..c end end) end
+end
+local S = technic.getter
 
 -- Read configuration file
 dofile(modpath.."/config.lua")
@@ -54,6 +57,6 @@ dofile(modpath.."/tools/init.lua")
 dofile(modpath.."/legacy.lua")
 
 if minetest.settings:get_bool("log_mods") then
-	print(S("[Technic] Loaded in @1 seconds", os.clock() - load_start))
+	print(S("[Technic] Loaded in %f seconds"):format(os.clock() - load_start))
 end
 

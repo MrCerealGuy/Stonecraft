@@ -1,21 +1,17 @@
 --[[
 
-2017-05-15 MrCerealGuy: added intllib support
-
 2017-09-21 replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
 
 --]]
 
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+
 
 -- NODES
 
 -- Pine Needles
 local nodedef = {
-	description = S("Pine Needles"),
+	description = "Pine Needles",
 	drawtype = "allfaces_optional",
 	visual_scale = 1.3,
 	tiles = {"snow_needles.png"},
@@ -87,7 +83,7 @@ end
 
 -- Decorated Pine Leaves
 
-nodedef.description = S("Decorated @1", nodedef.description)
+nodedef.description ="Decorated "..nodedef.description
 nodedef.light_source = 5
 nodedef.waving = nil
 if snow.disable_deco_needle_ani then
@@ -109,7 +105,7 @@ minetest.register_node("snow:needles_decorated", nodedef)
 -- Saplings
 
 nodedef = {
-	description = S("Pine Sapling"),
+	description = "Pine Sapling",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"snow_sapling_pine.png"},
@@ -126,7 +122,7 @@ nodedef = {
 minetest.register_node("snow:sapling_pine", table.copy(nodedef))
 
 -- Xmas Tree Sapling
-nodedef.description = S("Christmas Tree")
+nodedef.description = "Christmas Tree"
 nodedef.tiles = {"snow_xmas_tree.png"}
 nodedef.inventory_image = "snow_xmas_tree.png"
 nodedef.wield_image = "snow_xmas_tree.png"
@@ -135,7 +131,7 @@ minetest.register_node("snow:xmas_tree", nodedef)
 
 
 nodedef = {
-	description = S("Star"),
+	description = "Star",
 	drawtype = "plantlike",
 	tiles = {"snow_star.png"},
 	inventory_image = "snow_star.png",
@@ -160,7 +156,7 @@ nodedef = {
 minetest.register_node("snow:star", table.copy(nodedef))
 
 -- Star (Lit Version) on Xmas Trees
-nodedef.description = S("@1 Lighted", nodedef.description)
+nodedef.description = nodedef.description.." Lighted"
 nodedef.light_source = minetest.LIGHT_MAX
 nodedef.tiles = {"snow_star_lit.png"}
 nodedef.drop = "snow:star"
@@ -178,7 +174,7 @@ minetest.register_node("snow:star_lit", nodedef)
 
 -- Moss
 minetest.register_node("snow:moss", {
-	description = S("Moss"),
+	description = "Moss",
 	inventory_image = "snow_moss.png",
 	tiles = {"snow_moss.png"},
 	drawtype = "signlike",
@@ -195,7 +191,7 @@ minetest.register_node("snow:moss", {
 
 -- Shrub(s)
 nodedef = {
-	description = S("Snow Shrub"),
+	description = "Snow Shrub",
 	tiles = {"snow_shrub.png"},
 	inventory_image = "snow_shrub.png",
 	wield_image = "snow_shrub.png",
@@ -251,7 +247,7 @@ end
 -- Leaves
 local leaves = minetest.registered_nodes["default:leaves"]
 nodedef = {
-	description = S("Snow Leaves"),
+	description = "Snow Leaves",
 	tiles = {"snow_leaves.png"},
 	waving = 1,
 	visual_scale = leaves.visual_scale,
@@ -268,7 +264,7 @@ snow.known_plants[minetest.get_content_id("default:leaves")] = minetest.get_cont
 
 local apple = minetest.registered_nodes["default:apple"]
 nodedef = {
-	description = S("Snow Apple"),
+	description = "Snow Apple",
 	drawtype = "plantlike",
 	tiles = {"snow_apple.png"},
 	paramtype = "light",
@@ -313,7 +309,7 @@ end
 -- Bricks
 
 nodedef = {
-	description = S("Snow Brick"),
+	description = "Snow Brick",
 	tiles = {"snow_snow_brick.png"},
 	is_ground_content = true,
 	--freezemelt = "default:water_source", -- deprecated
@@ -339,7 +335,7 @@ minetest.register_node("snow:snow_brick", table.copy(nodedef))
 
 -- hard Ice Brick, original texture from LazyJ
 local ibdef = table.copy(nodedef)
-ibdef.description = S("Ice Brick")
+ibdef.description = "Ice Brick"
 ibdef.tiles = {"snow_ice_brick.png"}
 ibdef.use_texture_alpha = "blend"
 ibdef.drawtype = "glasslike"
@@ -351,7 +347,7 @@ minetest.register_node("snow:ice_brick", ibdef)
 
 -- Snow Cobble  ~ LazyJ
 -- Described as Icy Snow
-nodedef.description = S("Icy Snow")
+nodedef.description = "Icy Snow"
 nodedef.tiles = {"snow_snow_cobble.png"}
 
 minetest.register_node("snow:snow_cobble", nodedef)

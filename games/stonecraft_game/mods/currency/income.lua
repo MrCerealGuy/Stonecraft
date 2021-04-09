@@ -6,10 +6,6 @@ local income_item = minetest.settings:get("currency.income_item") or "currency:m
 local income_count = tonumber(minetest.settings:get("currency.income_count")) or 1
 local income_period = tonumber(minetest.settings:get("currency.income_period")) or 720
 
--- internationalization boilerplate
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 if income_enabled then
 	local timer = 0
 	if creative_income_enabled then

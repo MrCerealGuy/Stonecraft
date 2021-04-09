@@ -9,21 +9,13 @@ shield to work.  This is checked now and then and if the casing is not
 intact the reactor will melt down!
 --]]
 
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
 local burn_ticks = 7 * 24 * 60 * 60  -- Seconds
 local power_supply = 100000  -- EUs
 local fuel_type = "technic:uranium_fuel"  -- The reactor burns this
 local digiline_meltdown = technic.config:get_bool("enable_nuclear_reactor_digiline_selfdestruct")
 local digiline_remote_path = minetest.get_modpath("digiline_remote")
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 local reactor_desc = S("@1 Nuclear Reactor Core", S("HV"))
 local cable_entry = "^technic_cable_connection_overlay.png"
@@ -305,7 +297,7 @@ local function run(pos, node)
 		end
 		meta:set_int("HV_EU_supply", 0)
 		meta:set_int("burn_time", 0)
-		meta:set_string("infotext", S("@1 Idle", reactor_desc))
+		meta:set_string("infotext", S("%s Idle"):format(reactor_desc))
 		technic.swap_node(pos, "technic:hv_nuclear_reactor_core")
 		meta:set_int("structure_accumulated_badness", 0)
 		siren_clear(pos, meta)

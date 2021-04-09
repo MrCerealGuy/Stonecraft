@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 -- sakura trunk
 minetest.register_node("ethereal:sakura_trunk", {

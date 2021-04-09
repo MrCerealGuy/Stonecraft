@@ -10,17 +10,7 @@
 --                   abm that opens/closes the window shutters is called. Anything less than 10 minutes
 --                   (600 seconds) ought to be ok.
 -----------------------------------------------------------------------------------------------------------
-
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = cottages.S
 
 -----------------------------------------------------------------------------------------------------------
 -- small window shutters for single-node-windows; they open at day and close at night if the abm is working
@@ -367,8 +357,8 @@ end
 
 
 -- further alternate hatch materials: wood, tree, copper_block
-cottages.register_hatch( 'cottages:hatch_wood',  S('Wooden hatch'), 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
-cottages.register_hatch( 'cottages:hatch_steel', S('Metal hatch'),  'cottages_steel_block.png',   cottages.craftitem_steel );
+cottages.register_hatch( 'cottages:hatch_wood',  'Wooden hatch', 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
+cottages.register_hatch( 'cottages:hatch_steel', 'Metal hatch',  'cottages_steel_block.png',   cottages.craftitem_steel );
 
 
 

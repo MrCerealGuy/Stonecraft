@@ -43,17 +43,6 @@ than I originally planned. :p  ~ LazyJ
 
 --]]
 
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 
 
 --=============================================================
@@ -138,7 +127,7 @@ local function sled_rightclick(self, player)
 		position = {x=0.5, y=0.89},
 		name = "sled",
 		scale = {x=2, y=2},
-		text = S("You are on the sled! Hold the sneak key to get off the sled."), -- LazyJ
+		text = "You are on the sled! Hold the sneak key to get off the sled.", -- LazyJ
 		direction = 0,
 	})
 -- End part 1
@@ -220,7 +209,7 @@ minetest.register_entity("snow:sled", sled)
 
 
 minetest.register_craftitem("snow:sled", {
-	description = S("Sled"),
+	description = "Sled",
 	inventory_image = "snow_sled.png",
 	wield_image = "snow_sled.png",
 	wield_scale = {x=2, y=2, z=1},

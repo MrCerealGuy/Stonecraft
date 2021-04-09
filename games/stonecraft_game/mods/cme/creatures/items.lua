@@ -19,25 +19,15 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
-
-2017-05-10 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 
 core.register_craftitem("creatures:flesh", {
-	description = S("Flesh"),
+	description = "Flesh",
 	inventory_image = "creatures_flesh.png",
 	on_use = core.item_eat(2),
 })
 
 core.register_craftitem("creatures:meat", {
-	description = S("Cooked Meat"),
+	description = "Cooked Meat",
 	inventory_image = "creatures_meat.png",
 	on_use = core.item_eat(4),
 })

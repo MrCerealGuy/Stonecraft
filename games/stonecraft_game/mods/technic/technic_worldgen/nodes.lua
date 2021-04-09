@@ -1,14 +1,5 @@
 
---[[
-
-2017-05-27 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.worldgen.gettext
 
 minetest.register_node( ":technic:mineral_uranium", {
 	description = S("Uranium Ore"),

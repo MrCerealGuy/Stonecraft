@@ -1,16 +1,7 @@
---[[
-
-2019-05-07 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- contains hay_mat, hay and hay bale
 -- (gives the pitchfork some work)
+--
+local S = cottages.S
 
 -- If default:dirt_with_grass is digged while wielding a pitchfork, it will
 -- turn into dirt and get some hay placed above it.

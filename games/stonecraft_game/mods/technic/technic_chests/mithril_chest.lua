@@ -1,14 +1,3 @@
---[[
-
-2017-05-26 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 if minetest.get_modpath("moreores") then
 	minetest.register_craft({
 		output = 'technic:mithril_chest 1',

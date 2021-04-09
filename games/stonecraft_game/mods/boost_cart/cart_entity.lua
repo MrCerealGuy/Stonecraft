@@ -1,13 +1,3 @@
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 function boost_cart:on_rail_step(entity, pos, distance)
 	-- Play rail sound
@@ -430,7 +420,7 @@ minetest.register_entity(":carts:cart", cart_entity)
 -- Register item to place the entity
 if not boost_cart.MTG_CARTS then
 	minetest.register_craftitem(":carts:cart", {
-		description = S("Cart (Sneak+Click to pick up)"),
+		description = "Cart (Sneak+Click to pick up)",
 		inventory_image = minetest.inventorycube(
 			"cart_top.png",
 			"cart_side.png",

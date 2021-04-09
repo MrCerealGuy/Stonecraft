@@ -27,19 +27,13 @@
 2019-04-13 modified by MrCerealGuy <mrcerealguy@gmx.de>
   added advanced mod control
 
-2019-05-07 added intllib support
-
 --]]
 
 if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_sheep") == "false" then return end
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- shears
 core.register_tool(":creatures:shears", {
-	description = S("Shears"),
+	description = "Shears",
 	inventory_image = "creatures_shears.png",
 })
 
@@ -157,12 +151,12 @@ local def = {
 		height_limit = {min = 0, max = 25},
 
 		spawn_egg = {
-			description = S("Sheep Spawn-Egg"),
+			description = "Sheep Spawn-Egg",
 			texture = "creatures_egg_sheep.png",
 		},
 
 		spawner = {
-			description = S("Sheep Spawner"),
+			description = "Sheep Spawner",
 			range = 8,
 			player_range = 20,
 			number = 6,

@@ -1,13 +1,5 @@
---[[
-
-2017-09-17 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for i18n
+local S = armor_i18n.gettext
 
 local skin_previews = {}
 local use_player_monoids = minetest.global_exists("player_monoids")

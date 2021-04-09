@@ -1,13 +1,5 @@
---[[
-
-2017-05-15 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- support for i18n
+local S = armor_i18n.gettext
 
 local disable_sounds = minetest.settings:get_bool("shields_disable_sounds")
 local use_moreores = minetest.get_modpath("moreores")

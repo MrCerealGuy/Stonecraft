@@ -1,13 +1,5 @@
---[[
 
-2017-05-14 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = ethereal.intllib
 
 -- Crystal Spike (Hurts if you touch it - thanks to ZonerDarkRevention for his DokuCraft DeviantArt crystal texture)
 minetest.register_node("ethereal:crystal_spike", {
@@ -249,7 +241,7 @@ end
 
 
 minetest.register_tool("ethereal:shovel_crystal", {
-	description = S("Crystal Shovel"),
+	description = "Crystal Shovel",
 	inventory_image = "crystal_shovel.png",
 	wield_image = "crystal_shovel.png^[transformR90",
 	tool_capabilities = {

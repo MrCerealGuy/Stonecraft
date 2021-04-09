@@ -1,35 +1,23 @@
 
 -- Baked Clay by TenPlus1
 
---[[
-
-2017-05-13 added intllib support
-
---]]
-
-
--- Load support for intllib.
--- Baked Clay by TenPlus1
-
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local clay = {
-	{"white", S("White")},
-	{"grey", S("Grey")},
-	{"black", S("Black")},
-	{"red", S("Red")},
-	{"yellow", S("Yellow")},
-	{"green", S("Green")},
-	{"cyan", S("Cyan")},
-	{"blue", S("Blue")},
-	{"magenta", S("Magenta")},
-	{"orange", S("Orange")},
-	{"violet", S("Violet")},
-	{"brown", S("Brown")},
-	{"pink", S("Pink")},
-	{"dark_grey", S("Dark Grey")},
-	{"dark_green", S("Dark Green")},
+	{"natural", "Natural"},
+	{"white", "White"},
+	{"grey", "Grey"},
+	{"black", "Black"},
+	{"red", "Red"},
+	{"yellow", "Yellow"},
+	{"green", "Green"},
+	{"cyan", "Cyan"},
+	{"blue", "Blue"},
+	{"magenta", "Magenta"},
+	{"orange", "Orange"},
+	{"violet", "Violet"},
+	{"brown", "Brown"},
+	{"pink", "Pink"},
+	{"dark_grey", "Dark Grey"},
+	{"dark_green", "Dark Green"},
 }
 
 local techcnc_mod = minetest.get_modpath("technic_cnc")
@@ -42,7 +30,7 @@ for _, clay in pairs(clay) do
 	-- node definition
 
 	minetest.register_node("bakedclay:" .. clay[1], {
-		description = clay[2] .. S(" Baked Clay"),
+		description = clay[2] .. " Baked Clay",
 		tiles = {"baked_clay_" .. clay[1] ..".png"},
 		groups = {cracky = 3, bakedclay = 1},
 		sounds = default.node_sound_stone_defaults(),
@@ -64,7 +52,7 @@ for _, clay in pairs(clay) do
 	if stairsplus_mod then
 
 		stairsplus:register_all("bakedclay", "baked_clay_" .. clay[1], "bakedclay:" .. clay[1], {
-			description = clay[2] .. S(" Baked Clay"),
+			description = clay[2] .. " Baked Clay",
 			tiles = {"baked_clay_" .. clay[1] .. ".png"},
 			groups = {cracky = 3},
 			sounds = default.node_sound_stone_defaults(),
@@ -80,7 +68,7 @@ for _, clay in pairs(clay) do
 		stairs.register_all("bakedclay_" .. clay[1], "bakedclay:" .. clay[1],
 			{cracky = 3},
 			{"baked_clay_" .. clay[1] .. ".png"},
-			clay[2] .. S(" Baked Clay"),
+			clay[2] .. " Baked Clay",
 			default.node_sound_stone_defaults())
 
 	-- register stair and slab using default stairs
@@ -89,8 +77,8 @@ for _, clay in pairs(clay) do
 		stairs.register_stair_and_slab("bakedclay_".. clay[1], "bakedclay:".. clay[1],
 			{cracky = 3},
 			{"baked_clay_" .. clay[1] .. ".png"},
-			clay[2] .. S(" Baked Clay Stair"),
-			clay[2] .. S(" Baked Clay Slab"),
+			clay[2] .. " Baked Clay Stair",
+			clay[2] .. " Baked Clay Slab",
 			default.node_sound_stone_defaults())
 	end
 
@@ -188,10 +176,10 @@ local function add_simple_flower(name, desc, box, f_groups)
 end
 
 local flowers = {
-	{"delphinium", S("Blue Delphinium"), {-0.15, -0.5, -0.15, 0.15, 0.3, 0.15}, {color_cyan = 1}},
-	{"thistle", S("Thistle"), {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_magenta = 1}},
-	{"lazarus", S("Lazarus Bell"), {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_pink = 1}},
-	{"mannagrass", S("Reed Mannagrass"), {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_dark_green = 1}},
+	{"delphinium", "Blue Delphinium", {-0.15, -0.5, -0.15, 0.15, 0.3, 0.15}, {color_cyan = 1}},
+	{"thistle", "Thistle", {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_magenta = 1}},
+	{"lazarus", "Lazarus Bell", {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_pink = 1}},
+	{"mannagrass", "Reed Mannagrass", {-0.15, -0.5, -0.15, 0.15, 0.2, 0.15}, {color_dark_green = 1}},
 }
 
 for _,item in pairs(flowers) do

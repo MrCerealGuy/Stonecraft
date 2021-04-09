@@ -3,15 +3,9 @@
 2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
 	exit if mod is deactivated
 
-2017-05-17 MrCerealGuy: added intllib support
-
 --]]
 
 if core.skip_mod("mesecons") then return end
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 --MESECON TORCHES
 
@@ -96,7 +90,7 @@ minetest.register_node("mesecons_torch:mesecon_torch_on", {
 	selection_box = torch_selectionbox,
 	groups = {dig_immediate=3},
 	light_source = minetest.LIGHT_MAX-5,
-	description=S("Mesecon Torch"),
+	description="Mesecon Torch",
 	sounds = default.node_sound_defaults(),
 	mesecons = {receptor = {
 		state = mesecon.state.on,

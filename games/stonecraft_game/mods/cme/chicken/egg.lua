@@ -19,15 +19,7 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
 
-2019-05-07 added intllib support
-
---]]
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
 
 local function timer(step, entity)
 	if not entity then
@@ -66,7 +58,7 @@ function throw_egg(player, strength)
 end
 
 core.register_craftitem(":creatures:egg", {
-	description = S("Egg"),
+	description = "Egg",
 	inventory_image = "creatures_egg.png",
 	on_use = function(itemstack, user, pointed_thing)
 		--if pointed_thing.type ~= "none" then
@@ -80,7 +72,7 @@ core.register_craftitem(":creatures:egg", {
 })
 
 core.register_craftitem(":creatures:fried_egg", {
-	description = S("Fried Egg"),
+	description = "Fried Egg",
 	inventory_image = "creatures_fried_egg.png",
 	on_use = core.item_eat(2)
 })

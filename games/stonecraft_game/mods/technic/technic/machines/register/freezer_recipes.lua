@@ -1,13 +1,5 @@
---[[
 
-2019-02-11 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+local S = technic.getter
 
 technic.register_recipe_type("freezing", { description = S("Freezing") })
 

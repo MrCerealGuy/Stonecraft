@@ -1,15 +1,4 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
-
+local S = minetest.get_translator("pipeworks")
 minetest.register_node("pipeworks:trashcan", {
 	description = S("Trash Can"),
 	drawtype = "normal",

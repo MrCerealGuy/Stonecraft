@@ -1,14 +1,3 @@
---[[
-
-2017-05-17 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local screwdriver_exists = minetest.global_exists("screwdriver")
 
 local tjunction_nodebox = {
@@ -68,7 +57,7 @@ minetest.register_node("mesecons_extrawires:tjunction_on", {
 
 minetest.register_node("mesecons_extrawires:tjunction_off", {
 	drawtype = "nodebox",
-	description = S("Insulated Mesecon T-junction"),
+	description = "Insulated Mesecon T-junction",
 	tiles = {
 		"jeija_insulated_wire_tjunction_tb_off.png",
 		"jeija_insulated_wire_tjunction_tb_off.png^[transformR180",

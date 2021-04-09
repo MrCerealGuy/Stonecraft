@@ -7,13 +7,11 @@ local timer = 0
 
 -- support for i18n
 armor_i18n = { }
-local MP = minetest.get_modpath(minetest.get_current_modname())
-armor_i18n.gettext, armor_i18n.ngettext = dofile(MP.."/intllib.lua")
--- escaping formspec
-armor_i18n.fgettext = function(...) return minetest.formspec_escape(armor_i18n.gettext(...)) end
+armor_i18n.gettext, armor_i18n.ngettext = dofile(modpath.."/intllib.lua")
+
 -- local functions
 local S = armor_i18n.gettext
-local F = armor_i18n.fgettext
+local F = minetest.formspec_escape
 
 dofile(modpath.."/api.lua")
 
