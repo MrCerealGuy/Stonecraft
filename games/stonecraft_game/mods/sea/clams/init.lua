@@ -44,13 +44,13 @@ minetest.register_node("clams:dirtalgae", {
 			}
 		}
 	},
-	sounds = default.node_sound_dirt_defaults,	
+	sounds = default.node_sound_dirt_defaults(),	
 })
 
 minetest.register_node("clams:sandalgaeused", {
 	description = "Used sandalgae",
 	tiles = {"default_sand.png^clams_algaeused.png"},
-	inventory_image = {"default_sand.png^clams_algaeused.png"},
+	inventory_image = "default_sand.png^clams_algaeused.png",
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1},
 	sounds = default.node_sound_sand_defaults(),
@@ -59,7 +59,7 @@ minetest.register_node("clams:sandalgaeused", {
 minetest.register_node("clams:dirtalgaeused", {
 	description = "Used dirtalgae",
 	tiles = {"default_dirt.png^clams_algaeused.png"},
-	inventory_image = {"default_dirt.png^clams_algaeused.png"},
+	inventory_image = "default_dirt.png^clams_algaeused.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_dirt_defaults(),

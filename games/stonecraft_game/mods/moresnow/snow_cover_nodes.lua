@@ -306,7 +306,7 @@ end
 
 -- only add these if either technic (with its cnc machine) or homedecor (with shingles) are installed
 if(    minetest.get_modpath( 'homedecor' )
-    or minetest.get_modpath( 'technic' )) then
+    or (minetest.get_modpath( 'technic' )) and not core.skip_mod("technic")) then
 	moresnow.register_shape( 1, 'ramp_top' );
 	moresnow.register_shape( 2, 'ramp_outer_top');
 	moresnow.register_shape( 3, 'ramp_inner_top');
