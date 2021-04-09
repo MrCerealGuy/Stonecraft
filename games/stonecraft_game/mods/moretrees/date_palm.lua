@@ -17,6 +17,8 @@
 
 --]]
 
+local S = minetest.get_translator("moretrees")
+
 -- Some constants
 
 local dates_drop_ichance = 4

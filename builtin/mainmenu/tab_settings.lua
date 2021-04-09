@@ -17,13 +17,6 @@
 
 --------------------------------------------------------------------------------
 
---[[
-
-2017-05-18 MrCerealGuy: added language combobox
-
---]]
-
-
 local labels = {
 	leaves = {
 		fgettext("Opaque Leaves"),
@@ -50,10 +43,6 @@ local labels = {
 		fgettext("2x"),
 		fgettext("4x"),
 		fgettext("8x")
-	},
-	language = {
-		fgettext("English"),
-		fgettext("German")
 	}
 }
 
@@ -77,10 +66,6 @@ local dd_options = {
 	antialiasing = {
 		table.concat(labels.antialiasing, ","),
 		{"0", "2", "4", "8"}
-	},
-	language = {
-		table.concat(labels.language, ","),
-		{"en", "de"}
 	}
 }
 
@@ -121,15 +106,6 @@ local getSettingIndex = {
 		local antialiasing_setting = core.settings:get("fsaa")
 		for i = 1, #dd_options.antialiasing[2] do
 			if antialiasing_setting == dd_options.antialiasing[2][i] then
-				return i
-			end
-		end
-		return 1
-	end,
-	Language = function()
-		local language_setting = core.settings:get("language")
-		for i = 1, #dd_options.language[2] do
-			if language_setting == dd_options.language[2][i] then
 				return i
 			end
 		end
@@ -196,10 +172,6 @@ local function formspec(tabview, name, tabdata)
 			"label[8.38,0.2;" .. core.colorize("#888888",
 					fgettext("Shaders (unavailable)")) .. "]"
 	end
-		tab_string = tab_string ..
-			"label[3.85,3.4;" .. fgettext("Language:") .. "]" ..
-			"dropdown[3.85,3.86;3.65;dd_language;" .. dd_options.language[1] .. ";"
-				.. getSettingIndex.Language() .. "]"
 
 	tab_string = tab_string ..
 		"button[8,4.75;3.95,1;btn_change_keys;"
@@ -356,13 +328,6 @@ local function handle_settings_buttons(this, fields, tabname, tabdata)
 	if fields["dd_antialiasing"] then
 		core.settings:set("fsaa",
 			antialiasing_fname_to_name(fields["dd_antialiasing"]))
-		ddhandled = true
-	end
-	if fields["dd_language"] == labels.language[1] then
-		core.settings:set("language", "en")
-		ddhandled = true
-	elseif fields["dd_language"] == labels.language[2] then
-		core.settings:set("language", "de")
 		ddhandled = true
 	end
 	if fields["dd_touchthreshold"] then

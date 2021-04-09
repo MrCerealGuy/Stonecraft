@@ -116,7 +116,7 @@ minetest.register_node("nssb:vine", {
 	description = "Vine",
 	drawtype = "signlike",
 	tiles = {"climbing_plant.png"},
-	inventory_image = {"vine.png"},
+	inventory_image = "vine.png",
 	walkable = false,
 	climbable = true,
 	paramtype = "light",
@@ -130,7 +130,7 @@ minetest.register_node("nssb:vine", {
 minetest.register_node("nssb:liana", {
 	description = "Liana",
 	drawtype = "plantlike",
-	inventory_image = {"liana.png"},
+	inventory_image = "liana.png",
 	tiles = {"liana.png"},
 	paramtype = "light",
 	walkable = false,

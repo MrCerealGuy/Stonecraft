@@ -1,14 +1,3 @@
---[[
-
-2018-01-28 added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 local function above_or_under(placer, pointed_thing)
 	if placer:get_player_control().sneak then
 		return pointed_thing.above

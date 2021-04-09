@@ -283,7 +283,6 @@ local function place_slope(vm,data,prm2,vpos,m)
 	box.u = vm:get_data_from_heap(data, vpos+cube3[0][1][0]) == dpstn[m]
 	box.s = vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn[m]
 	box.n = vm:get_data_from_heap(data, vpos+cube3[0][0][1]) == dpstn[m]
-	
 	if box.w or	box.e or box.d or box.u or box.s or box.n then
 		box.t = (box.w and 1 or 0)+(box.e and 1 or 0)+(box.d and 1 or 0)+(box.u and 1 or 0)+(box.s and 1 or 0)+(box.n and 1 or 0)
 		if box.t == 2 then
@@ -303,7 +302,7 @@ local function place_slope(vm,data,prm2,vpos,m)
 				--data[vpos],prm2[vpos] = dpstn["slp_"..m],box.f
 				vm:set_data_from_heap(data, vpos, dpstn["slp_"..m])
 				vm:set_param2_data_from_heap(prm2, vpos, box.f)
-				
+
 				if not box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
 				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
 				and vpos%cube3[0][0][1]~=1 then

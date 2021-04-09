@@ -61,7 +61,7 @@ local brush_on_use = function(itemstack, placer)
 end
 
 minetest.register_tool(":worldedit:brush", {
-	description = S("WorldEdit Brush"),
+	description = "WorldEdit Brush",
 	inventory_image = "worldedit_brush.png",
 	stack_max = 1, -- no need to stack these (metadata prevents this anyway)
 	range = 0,

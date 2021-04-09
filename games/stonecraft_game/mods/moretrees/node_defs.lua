@@ -4,6 +4,8 @@
 
 --]]
 
+local S = minetest.get_translator("moretrees")
+
 moretrees.avoidnodes = {}
 
 moretrees.treelist = {

@@ -38,7 +38,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 
 	if( moresnow.enable_autumnleaves ) then
 	   minetest.register_node( 'moresnow:autumnleaves_'..node_name, {
-		description = "Fallen leaves",
+		description = "fallen leaves",
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -64,7 +64,7 @@ moresnow.register_snow_top = function( node_name, fixed_nodebox, wool_nodebox )
 	if( wool_nodebox and moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
            for _,v in ipairs( moresnow.wool_dyes ) do
 		minetest.register_node( "moresnow:wool_"..v.."_"..node_name, {
-			description = "Layers of wool ("..v..")",
+			description = "layers of wool ("..v..")",
 			tiles = {"wool_"..v..".png"},
 --			inventory_image = "moresnow_autumnleaves.png",
 --			wield_image = "moresnow_autumnleaves.png",
@@ -91,7 +91,7 @@ end
 -- define the leaves
 if( moresnow.enable_autumnleaves ) then
 	minetest.register_node( "moresnow:autumnleaves", {
-		description = "Fallen leaves",
+		description = "fallen leaves",
 		tiles = {"moresnow_autumnleaves.png"},
 		inventory_image = "moresnow_autumnleaves.png",
 		wield_image = "moresnow_autumnleaves.png",
@@ -151,7 +151,7 @@ if( moresnow.wool_dyes and minetest.get_modpath( 'wool' )) then
         for _,v in ipairs( moresnow.wool_dyes ) do
                 table.insert( moresnow.nodetypes, 'wool_'..v );
 		minetest.register_node( "moresnow:wool_"..v, {
-			description = "Layers of wool ("..v..")",
+			description = "layers of wool ("..v..")",
 			tiles = {"wool_"..v..".png"},
 			is_ground_content = true,
 			paramtype = "light",
@@ -314,7 +314,7 @@ end
 
 
 minetest.register_node( 'moresnow:autumnleaves_tree', {
-	description = "Autumn leaves",
+	description = "autumn leaves",
 	tiles = {"moresnow_autumnleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
@@ -326,7 +326,7 @@ minetest.register_node( 'moresnow:autumnleaves_tree', {
 })
 
 minetest.register_node( 'moresnow:winterleaves_tree', {
-	description = "Winter leaves",
+	description = "winter leaves",
 	tiles = {"moresnow_winterleaves.png"},
 	drawtype = "allfaces_optional",
 	waving = 1,
