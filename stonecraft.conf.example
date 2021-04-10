@@ -1682,7 +1682,7 @@
 
 #    Set the language. Leave empty to use the system language.
 #    A restart is required after changing this.
-#    type: enum values: , de, en
+#    type: enum values: , en
 # language =
 
 #    Level of logging to be written to debug.txt:
