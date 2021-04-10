@@ -17,28 +17,32 @@ moresnow.identify_special_slopes = function( new_name, homedecor_prefix, technic
 
 	local homedecor_materials = {'terracotta','wood','asphalt'};
 	local technic_materials   = {'dirt','wood','stone','cobble','brick','sandstone','leaves',
-					'tree','steelblock','bronzeblock','stainless_steel','marble','granite'};
+					'tree','steelblock','bronzeblock','stainless_steel_block','marble','granite'};
 
-	for _,v in ipairs( homedecor_materials ) do
-		local id = minetest.get_content_id( homedecor_prefix..v );
-		-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
-		if( id and id ~= moresnow.c_ignore ) then
-			moresnow.snow_cover[ id ] = c_new_snow_node;
+	if minetest.get_modpath('homedecor') then
+		for _,v in ipairs( homedecor_materials ) do
+			local id = minetest.get_content_id( homedecor_prefix..v );
+			-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
+			if( id and id ~= moresnow.c_ignore ) then
+				moresnow.snow_cover[ id ] = c_new_snow_node;
+			end
 		end
 	end
-	for _,v in ipairs( technic_materials ) do
-		local prefix = 'default:';
-		if( v=='stainless_steel' or v=='marble' or v=='granite' ) then
-			prefix = 'technic:';
-		end
+	if minetest.get_modpath('technic') and not core.skip_mod("technic") then
+		for _,v in ipairs( technic_materials ) do
+			local prefix = 'default:';
+			if( v=='stainless_steel_block' or v=='marble' or v=='granite' ) then
+				prefix = 'technic:';
+			end
 
-		local id = minetest.get_content_id( prefix..v..technic_postfix );
-		-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
-		if( id and id ~= moresnow.c_ignore ) then
-			moresnow.snow_cover[                 id ] = c_new_snow_node;
-			-- homedecor and technic use diffrent param2 for the same shape
-			if( param2_offset ) then
-				moresnow.snow_param2_offset[ id ] = param2_offset;
+			local id = minetest.get_content_id( prefix..v..technic_postfix );
+			-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
+			if( id and id ~= moresnow.c_ignore ) then
+				moresnow.snow_cover[                 id ] = c_new_snow_node;
+				-- homedecor and technic use diffrent param2 for the same shape
+				if( param2_offset ) then
+					moresnow.snow_param2_offset[ id ] = param2_offset;
+				end
 			end
 		end
 	end

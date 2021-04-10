@@ -12,9 +12,9 @@ moresnow.build_translation_table = function()
 		moresnow.translation_table[ t ] = {};
 
 		for _,v in ipairs( shapes ) do
-			local id1 = minetest.get_content_id( 'moresnow:snow_'..v );
-			local id2 = minetest.get_content_id( 'moresnow:'..t..'_'..v );
-			if( id1 ) then 
+			if( minetest.registered_nodes['moresnow:snow_'..v] and minetest.registered_nodes['moresnow:'..t..'_'..v] ) then 
+				local id1 = minetest.get_content_id( 'moresnow:snow_'..v );
+				local id2 = minetest.get_content_id( 'moresnow:'..t..'_'..v );
 				moresnow.translation_table[ t ][ id1 ] = id2;
 			end
 		end
@@ -186,7 +186,7 @@ moresnow.on_construct_select_shape = function( pos, falling_node_name, default_n
 			-- in such a case it helps to drop the snow and let it fall until it hits something
 			if( node2 and node2.name == 'air' ) then
 				-- let the snow continue to fall
-				spawn_falling_node( {x=pos.x, y=pos.y-2, z=pos.z}, {name= default_name})
+				moresnow.spawn_falling_node( {x=pos.x, y=pos.y-2, z=pos.z}, {name= default_name})
 			end
 			return { remove_node = true};
 		end

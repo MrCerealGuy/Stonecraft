@@ -20,12 +20,18 @@ moresnow.enable_autumnleaves = true
 moresnow.wool_dyes           =  {"white", "grey", "black", "red", "yellow", "green", "cyan", "blue",
                                 "magenta", "orange", "violet", "brown", "pink", "dark_grey", "dark_green"};
 -- the snow cannon allows to create snow
-moresnow.enable_snow_cannon  = true
+moresnow.enable_snow_cannon  = false
 -- with this set, the snow cannon can *shoot* snowballs - which will fly a long way;
 -- on servers, set this to false
-moresnow.crazy_mode          = true 
+moresnow.crazy_mode          = true
 -- end of configuration
 --------------------------------------------------------------------------------
+
+-- this function used to be in builtin/game/falling_node.lua, but there it got made local; we need it here
+moresnow.spawn_falling_node = function(p, node)
+        local obj = core.add_entity(p, "__builtin:falling_node")
+        obj:get_luaentity():set_node(node)
+end
 
 -- defines the on_construct function for falling/placed snow(balls)
 dofile(minetest.get_modpath("moresnow")..'/snow_on_construct.lua');
@@ -34,6 +40,7 @@ moresnow.nodetypes = {'snow','autumnleaves'};
 -- devines the 8 types of snow covers: general nodebox snow cover, stairs, slabs,
 -- outer edge stair, inner edge stair, 3x homedecor shingles/technic cnc shapes
 dofile(minetest.get_modpath("moresnow")..'/snow_cover_nodes.lua');
+minetest.register_alias('moresnow:snow', 'default:snow') -- dirty fix for minetest 5.2
 moresnow.build_translation_table();
 
 -- some defines which fascilitate identification of nodes

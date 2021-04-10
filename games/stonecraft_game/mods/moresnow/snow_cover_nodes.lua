@@ -205,12 +205,11 @@ moresnow.register_snow_top( "fence_top", {{-0.5, -1.5, -0.5,  0.5, -1.5+moresnow
 moresnow.register_snow_top( "stair_top", {
 				{-0.5,      -1.0,      -0.5,       0.5, -1.0+moresnow.snow_ground_height,  0},
 				{-0.5,      -0.5,       0,         0.5, -0.5+moresnow.snow_ground_height,  0.5},
-				{-0.5,      -1.0+moresnow.snow_ground_height,    0-1/32,  0.5, -0.5,       0  },
-				{-0.5,      -1.5,      -0.5-1/32,  0.5, -1.0,      -0.5},
-		},{ -- the wool version does not have the wool covering the legs
+		},{ -- the wool version has wool covering the legs
 				{-0.5,      -1.0,      -0.5,       0.5, -1.0+moresnow.wool_ground_height,  0},
 				{-0.5,      -0.5,       0,         0.5, -0.5+moresnow.wool_ground_height,  0.5},
 				{-0.5,      -1.0+moresnow.wool_ground_height,    0-1/32,  0.5, -0.5,       0  },
+				{-0.5,      -1.5,      -0.5-1/32,  0.5, -1.0,      -0.5},
 		});
 moresnow.register_snow_top( "slab_top", { {-0.5, -1.0, -0.5, 0.5, -1.0+moresnow.snow_ground_height, 0.5}},
                                         { {-0.5, -1.0, -0.5, 0.5, -1.0+moresnow.wool_ground_height, 0.5}}); -- same for wool
@@ -220,37 +219,35 @@ if( minetest.get_modpath( 'moreblocks' )) then
 	moresnow.register_snow_top( "panel_top", {
 				{-0.5,      -1.5,      -0.5,       0.5, -1.5+moresnow.snow_ground_height,  0},
 				{-0.5,      -1.0,       0,         0.5, -1.0+moresnow.snow_ground_height,  0.5},
-				{-0.5,      -1.5+moresnow.snow_ground_height,    0-1/32,  0.5, -1.0,       0  },
-		},{ -- the wool version does not have the wool covering the legs
+		},{ -- the wool version has wool covering the legs
+				{-0.5,      -1.5,      -0.5,       0.5, -1.5+moresnow.snow_ground_height,  0},
 				{-0.5,      -1.0,       0,         0.5, -1.0+moresnow.wool_ground_height,  0.5},
+				{-0.5,      -1.5+moresnow.snow_ground_height,    0-1/32,  0.5, -1.0,       0  },
 		});
 	moresnow.register_snow_top( "micro_top", {
+				{-0.5,      -1.0,       0,           0, -1.0+moresnow.wool_ground_height,  0.5},
+		},{ -- the wool version has wool covering the legs
 			        {-0.5, -1.5, -0.5,   0, -1.5+moresnow.snow_ground_height, 0  },
 			        {-0.5, -1.0,    0,   0, -1.0+moresnow.snow_ground_height, 0.5},
 			        {   0, -1.5, -0.5, 0.5, -1.5+moresnow.snow_ground_height, 0.5},
 
 				{-0.5,      -1.5+moresnow.snow_ground_height,    0-1/32,  0,   -1.0,       0  },
 				{0,         -1.5+moresnow.snow_ground_height,    0,    0+1/32, -1.0,       0.5},
-		},{ -- the wool version does not have the wool covering the legs
-				{-0.5,      -1.0,       0,           0, -1.0+moresnow.wool_ground_height,  0.5},
 		});
 	moresnow.register_snow_top( "outer_stair_top", {
 			        {-0.5, -1.0, -0.5,   0, -1.0+moresnow.snow_ground_height, 0  },
 			        {-0.5, -0.5,    0,   0, -0.5+moresnow.snow_ground_height, 0.5},
 			        {   0, -1.0, -0.5, 0.5, -1.0+moresnow.snow_ground_height, 0.5},
 
-				{-0.5,      -1.0+moresnow.snow_ground_height,    0-1/32,  0,   -0.5,       0  },
-				{-0.5,      -1.5,      -0.5-1/32,  0.5, -1.0,      -0.5},
-
-				{0,         -1.0+moresnow.snow_ground_height,    0,    0+1/32, -0.5,       0.5},
-				{0.5,       -1.5,      -0.5,  0.5+1/32, -1.0,       0.5},
-		}, { -- the wool version does not cover the lower legs
+		}, { -- the wool version covers the lower legs
 			        {-0.5, -1.0, -0.5,   0, -1.0+moresnow.wool_ground_height, 0  },
 			        {-0.5, -0.5,    0,   0, -0.5+moresnow.wool_ground_height, 0.5},
 			        {   0, -1.0, -0.5, 0.5, -1.0+moresnow.wool_ground_height, 0.5},
 
 				{-0.5,      -1.0+moresnow.wool_ground_height,    0-1/32,  0,   -0.5,       0  },
+				{-0.5,      -1.5,      -0.5-1/32,  0.5, -1.0,      -0.5},
 				{0,         -1.0+moresnow.wool_ground_height,    0,    0+1/32, -0.5,       0.5},
+				{0.5,       -1.5,      -0.5,  0.5+1/32, -1.0,       0.5},
 		});
 	moresnow.register_snow_top( "inner_stair_top", {
 			        {   0, -1.0, -0.5, 0.5, -1.0+moresnow.snow_ground_height, 0  },
@@ -258,9 +255,7 @@ if( minetest.get_modpath( 'moreblocks' )) then
 			        {   0, -0.5,    0, 0.5, -0.5+moresnow.snow_ground_height, 0.5},
 			        {-0.5, -0.5, -0.5, 0,   -0.5+moresnow.snow_ground_height, 0.5},
 
-				{   0,      -1.0+moresnow.snow_ground_height,  0-1/32, 0.5,    -0.5,       0 },
-				{   0,      -1.0+moresnow.snow_ground_height, -0.5,    0+1/32, -0.5,        0},
-		}, { -- the wool version does not cover the lower legs
+		}, { -- the wool version covers the lower legs
 			        {   0, -1.0, -0.5, 0.5, -1.0+moresnow.wool_ground_height, 0  },
 
 			        {   0, -0.5,    0, 0.5, -0.5+moresnow.wool_ground_height, 0.5},

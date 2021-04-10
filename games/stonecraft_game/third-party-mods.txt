@@ -8,7 +8,7 @@ bedrock						https://github.com/Calinou/bedrock.git
 biome_lib					https://gitlab.com/VanessaE/biome_lib.git
 bonemeal					https://notabug.org/TenPlus1/bonemeal.git
 boost_cart					https://github.com/SmallJoker/boost_cart
-caverealms					https://github.com/FaceDeer/minetest-caverealms.git
+caverealms					https://github.com/HeroOfTheWinds/minetest-caverealms
 cme							https://github.com/BlockMen/cme.git
 cottages					https://github.com/Sokomine/cottages.git
 currency					https://gitlab.com/VanessaE/currency.git
@@ -36,7 +36,7 @@ mobs_npc					https://notabug.org/TenPlus1/mobs_npc.git
 mobs_redo					https://notabug.org/TenPlus1/mobs_redo.git
 moreblocks					https://github.com/minetest-mods/moreblocks.git
 moreores					https://github.com/minetest-mods/moreores
-moresnow					https://github.com/Sokomine/moresnow.git
+moresnow					https://git.minie.re/minetest/moresnow.git
 moretrees					https://gitlab.com/VanessaE/moretrees.git
 nether						https://github.com/PilzAdam/nether.git
 nssb						https://github.com/NPXcoot/nssb.git

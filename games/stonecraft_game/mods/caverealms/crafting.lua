@@ -1,12 +1,10 @@
--- internationalization boilerplate
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+--CaveRealms crafting.lua
 
 --CRAFT ITEMS--
 
 --mycena powder
 minetest.register_craftitem("caverealms:mycena_powder", {
-	description = S("Mycena Powder"),
+	description = "Mycena Powder",
 	inventory_image = "caverealms_mycena_powder.png",
 })
 

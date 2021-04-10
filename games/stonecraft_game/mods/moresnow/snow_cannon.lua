@@ -1,10 +1,3 @@
-
--- this function used to be in builtin/game/falling_node.lua, but there it got made local; we need it here
-moresnow.spawn_falling_node = function(p, node)
-        local obj = core.add_entity(p, "__builtin:falling_node")
-        obj:get_luaentity():set_node(node)
-end
-
 moresnow.throw_snowball = function( pos, dir, player )
 	local snowball_GRAVITY=9
 	local snowball_VELOCITY=19

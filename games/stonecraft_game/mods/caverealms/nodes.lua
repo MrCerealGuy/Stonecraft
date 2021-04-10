@@ -1,6 +1,4 @@
--- internationalization boilerplate
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
+-- CaveRealms nodes.lua
 
 --NODES--
 
@@ -11,7 +9,7 @@ local DM_TOP = caverealms.config.dm_top -- -4000 --level at which Dungeon Master
 
 --glowing crystal
 minetest.register_node("caverealms:glow_crystal", {
-	description = S("Glow Crystal"),
+	description = "Glow Crystal",
 	tiles = {"caverealms_glow_crystal.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -25,7 +23,7 @@ minetest.register_node("caverealms:glow_crystal", {
 
 --glowing emerald
 minetest.register_node("caverealms:glow_emerald", {
-	description = S("Glow Emerald"),
+	description = "Glow Emerald",
 	tiles = {"caverealms_glow_emerald.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -39,7 +37,7 @@ minetest.register_node("caverealms:glow_emerald", {
 
 --glowing mese crystal blocks
 minetest.register_node("caverealms:glow_mese", {
-	description = S("Mese Crystal Block"),
+	description = "Mese Crystal Block",
 	tiles = {"caverealms_glow_mese.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -53,7 +51,7 @@ minetest.register_node("caverealms:glow_mese", {
 
 --glowing ruby
 minetest.register_node("caverealms:glow_ruby", {
-	description = S("Glow Ruby"),
+	description = "Glow Ruby",
 	tiles = {"caverealms_glow_ruby.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -67,7 +65,7 @@ minetest.register_node("caverealms:glow_ruby", {
 
 --glowing amethyst
 minetest.register_node("caverealms:glow_amethyst", {
-	description = S("Glow Amethyst"),
+	description = "Glow Amethyst",
 	tiles = {"caverealms_glow_amethyst.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -81,7 +79,7 @@ minetest.register_node("caverealms:glow_amethyst", {
 
 --embedded crystal
 minetest.register_node("caverealms:glow_ore", {
-	description = S("Glow Crystal Ore"),
+	description = "Glow Crystal Ore",
 	tiles = {"caverealms_glow_ore.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -92,7 +90,7 @@ minetest.register_node("caverealms:glow_ore", {
 
 --embedded emerald
 minetest.register_node("caverealms:glow_emerald_ore", {
-	description = S("Glow Emerald Ore"),
+	description = "Glow Emerald Ore",
 	tiles = {"caverealms_glow_emerald_ore.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -103,7 +101,7 @@ minetest.register_node("caverealms:glow_emerald_ore", {
 
 --embedded ruby
 minetest.register_node("caverealms:glow_ruby_ore", {
-	description = S("Glow Ruby Ore"),
+	description = "Glow Ruby Ore",
 	tiles = {"caverealms_glow_ruby_ore.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -114,7 +112,7 @@ minetest.register_node("caverealms:glow_ruby_ore", {
 
 --embedded amethyst
 minetest.register_node("caverealms:glow_amethyst_ore", {
-	description = S("Glow Amethyst Ore"),
+	description = "Glow Amethyst Ore",
 	tiles = {"caverealms_glow_amethyst_ore.png"},
 	is_ground_content = true,
 	groups = {cracky=2},
@@ -125,10 +123,10 @@ minetest.register_node("caverealms:glow_amethyst_ore", {
 
 --thin (transparent) ice
 minetest.register_node("caverealms:thin_ice", {
-	description = S("Thin Ice"),
+	description = "Thin Ice",
 	tiles = {"caverealms_thin_ice.png"},
 	is_ground_content = true,
-	groups = {cracky=3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
+	groups = {cracky=3},
 	sounds = default.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	drawtype = "glasslike",
@@ -139,7 +137,7 @@ minetest.register_node("caverealms:thin_ice", {
 
 --salt crystal
 minetest.register_node("caverealms:salt_crystal", {
-	description = S("Salt Crystal"),
+	description = "Salt Crystal",
 	tiles = {"caverealms_salt_crystal.png"},
 	is_ground_content = true,
 	groups = {cracky=3},
@@ -153,10 +151,10 @@ minetest.register_node("caverealms:salt_crystal", {
 
 --alternate version for stalactites
 minetest.register_node("caverealms:hanging_thin_ice", {
-	description = S("Thin Ice"),
+	description = "Thin Ice",
 	tiles = {"caverealms_thin_ice.png"},
 	is_ground_content = true,
-	groups = {cracky=3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
+	groups = {cracky=3},
 	sounds = default.node_sound_glass_defaults(),
 	use_texture_alpha = true,
 	drawtype = "glasslike",
@@ -204,7 +202,7 @@ for i in ipairs(glow_gem_size) do
 	vs = glow_gem_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Glow Gem"),
+		description = "Glow Gem",
 		tiles = {"caverealms_glow_gem.png"},
 		inventory_image = "caverealms_glow_gem.png",
 		wield_image = "caverealms_glow_gem.png",
@@ -237,7 +235,7 @@ for i in ipairs(salt_gem_size) do
 	vs = salt_gem_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Salt Gem"),
+		description = "Salt Gem",
 		tiles = {"caverealms_salt_gem.png"},
 		inventory_image = "caverealms_salt_gem.png",
 		wield_image = "caverealms_salt_gem.png",
@@ -270,7 +268,7 @@ for i in ipairs(spike_size) do
 	vs = spike_size[i]
 
 	minetest.register_node(nodename, {
-		description = S("Stone Spike"),
+		description = "Stone Spike",
 		tiles = {"caverealms_spike.png"},
 		inventory_image = "caverealms_spike.png",
 		wield_image = "caverealms_spike.png",
@@ -292,7 +290,7 @@ end
 
 --upward pointing icicle
 minetest.register_node("caverealms:icicle_up", {
-	description = S("Icicle"),
+	description = "Icicle",
 	tiles = {"caverealms_icicle_up.png"},
 	inventory_image = "caverealms_icicle_up.png",
 	wield_image = "caverealms_icicle_up.png",
@@ -313,7 +311,7 @@ minetest.register_node("caverealms:icicle_up", {
 
 --downward pointing icicle
 minetest.register_node("caverealms:icicle_down", {
-	description = S("Icicle"),
+	description = "Icicle",
 	tiles = {"caverealms_icicle_down.png"},
 	inventory_image = "caverealms_icicle_down.png",
 	wield_image = "caverealms_icicle_down.png",
@@ -334,7 +332,7 @@ minetest.register_node("caverealms:icicle_down", {
 
 --cave mossy cobble - bluish?
 minetest.register_node("caverealms:stone_with_moss", {
-	description = S("Cave Stone with Moss"),
+	description = "Cave Stone with Moss",
 	tiles = {"default_cobble.png^caverealms_moss.png", "default_cobble.png", "default_cobble.png^caverealms_moss_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
@@ -346,7 +344,7 @@ minetest.register_node("caverealms:stone_with_moss", {
 
 --cave lichen-covered cobble - purple-ish
 minetest.register_node("caverealms:stone_with_lichen", {
-	description = S("Cave Stone with Lichen"),
+	description = "Cave Stone with Lichen",
 	tiles = {"default_cobble.png^caverealms_lichen.png", "default_cobble.png", "default_cobble.png^caverealms_lichen_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
@@ -358,7 +356,7 @@ minetest.register_node("caverealms:stone_with_lichen", {
 
 --cave algae-covered cobble - yellow-ish
 minetest.register_node("caverealms:stone_with_algae", {
-	description = S("Cave Stone with Algae"),
+	description = "Cave Stone with Algae",
 	tiles = {"default_cobble.png^caverealms_algae.png", "default_cobble.png", "default_cobble.png^caverealms_algae_side.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
@@ -370,7 +368,7 @@ minetest.register_node("caverealms:stone_with_algae", {
 
 --tiny-salt-crystal-covered cobble - pink-ish
 minetest.register_node("caverealms:stone_with_salt", {
-	description = S("Cave Stone with Salt"),
+	description = "Cave Stone with Salt",
 	tiles = {"caverealms_salty2.png"},--{"caverealms_salty2.png^caverealms_salty.png", "caverealms_salty2.png", "caverealms_salty2.png^caverealms_salty_side.png"},
 	light_source = 9,
 	paramtype = "light",
@@ -384,7 +382,7 @@ minetest.register_node("caverealms:stone_with_salt", {
 
 --Hot Cobble - cobble with lava instead of mortar XD
 minetest.register_node("caverealms:hot_cobble", {
-	description = S("Hot Cobble"),
+	description = "Hot Cobble",
 	tiles = {"caverealms_hot_cobble.png"},
 	is_ground_content = true,
 	groups = {crumbly=2, hot=1},
@@ -397,7 +395,7 @@ minetest.register_node("caverealms:hot_cobble", {
 
 --Glow Obsidian
 minetest.register_node("caverealms:glow_obsidian", {
-	description = S("Glowing Obsidian"),
+	description = "Glowing Obsidian",
 	tiles = {"caverealms_glow_obsidian.png"},
 	is_ground_content = true,
 	groups = {crumbly=1},
@@ -409,7 +407,7 @@ minetest.register_node("caverealms:glow_obsidian", {
 
 --Glow Obsidian 2 - has traces of lava
 minetest.register_node("caverealms:glow_obsidian_2", {
-	description = S("Hot Glow Obsidian"),
+	description = "Hot Glow Obsidian",
 	tiles = {"caverealms_glow_obsidian2.png"},
 	is_ground_content = true,
 	groups = {crumbly=1, hot=1},
@@ -422,7 +420,7 @@ minetest.register_node("caverealms:glow_obsidian_2", {
 
 --Coal Dust
 minetest.register_node("caverealms:coal_dust", {
-	description = S("Coal Dust"),
+	description = "Coal Dust",
 	tiles = {"caverealms_coal_dust.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1},
@@ -431,7 +429,7 @@ minetest.register_node("caverealms:coal_dust", {
 
 --glow worms
 minetest.register_node("caverealms:glow_worm", {
-	description = S("Glow Worms"),
+	description = "Glow Worms",
 	tiles = {"caverealms_glow_worm.png"},
 	inventory_image = "caverealms_glow_worm.png",
 	wield_image = "caverealms_glow_worm.png",
@@ -453,12 +451,12 @@ minetest.register_node("caverealms:glow_worm", {
 
 --glowing fungi
 minetest.register_node("caverealms:fungus", {
-	description = S("Glowing Fungus"),
+	description = "Glowing Fungus",
 	tiles = {"caverealms_fungi.png"},
 	inventory_image = "caverealms_fungi.png",
 	wield_image = "caverealms_fungi.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3, flammable = 1},
+	groups = {oddly_breakable_by_hand=3},
 	light_source = 5,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -473,12 +471,12 @@ minetest.register_node("caverealms:fungus", {
 
 --mycena mushroom
 minetest.register_node("caverealms:mycena", {
-	description = S("Mycena Mushroom"),
+	description = "Mycena Mushroom",
 	tiles = {"caverealms_mycena.png"},
 	inventory_image = "caverealms_mycena.png",
 	wield_image = "caverealms_mycena.png",
 	is_ground_content = true,
-	groups = {oddly_breakable_by_hand=3, flammable = 1},
+	groups = {oddly_breakable_by_hand=3},
 	light_source = 6,
 	paramtype = "light",
 	drawtype = "plantlike",
@@ -494,29 +492,26 @@ minetest.register_node("caverealms:mycena", {
 --giant mushroom
 --stem
 minetest.register_node("caverealms:mushroom_stem", {
-	description = S("Giant Mushroom Stem"),
+	description = "Giant Mushroom Stem",
 	tiles = {"caverealms_mushroom_stem.png"},
 	is_ground_content = true,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	sounds = default.node_sound_wood_defaults(),
+	groups = {oddly_breakable_by_hand=1},
 })
 
 --cap
 minetest.register_node("caverealms:mushroom_cap", {
-	description = S("Giant Mushroom Cap"),
+	description = "Giant Mushroom Cap",
 	tiles = {"caverealms_mushroom_cap.png"},
 	is_ground_content = true,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
-	sounds = default.node_sound_wood_defaults(),
+	groups = {oddly_breakable_by_hand=1},
 })
 
 --gills
 minetest.register_node("caverealms:mushroom_gills", {
-	description = S("Giant Mushroom Gills"),
+	description = "Giant Mushroom Gills",
 	tiles = {"caverealms_mushroom_gills.png"},
 	is_ground_content = true,
-	groups = {snappy = 3, leafdecay = 3, flammable = 2, leaves = 1},
-	sounds = default.node_sound_leaves_defaults(),
+	groups = {oddly_breakable_by_hand=1},
 	drawtype = "plantlike",
 	paramtype = "light",
 })
@@ -526,7 +521,7 @@ minetest.register_alias("caverealms:constant_flame", "fire:permanent_flame")
 
 --node to create a treasure chest in DM Forts.
 minetest.register_node("caverealms:s_chest", {
-	description = "Treasure chest placement block",
+	description = "Trying to rob the bank before it's opened, eh?",
 	tiles = {"default_chest_front.png"},
 	paramtype2 = "facedir",
 	groups = {choppy=3,oddly_breakable_by_hand=2,cavechest=1, not_in_creative_inventory=1},
@@ -540,7 +535,7 @@ minetest.register_node("caverealms:s_chest", {
 --hacky schematic placers
 
 minetest.register_node("caverealms:s_fountain", {
-	description = "Fountain placement block",
+	description = "A Hack like you should know what this does...",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -551,7 +546,7 @@ minetest.register_node("caverealms:s_fountain", {
 })
 
 minetest.register_node("caverealms:s_fortress", {
-	description = "Fortress placement block",
+	description = "A Hack like you should know what this does...",
 	tiles = {"caverealms_stone_eyes.png"},
 	groups = {crumbly=3, schema=1, not_in_creative_inventory=1},
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
