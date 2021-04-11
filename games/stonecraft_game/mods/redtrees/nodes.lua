@@ -1,18 +1,7 @@
---[[
-
-2017-05-16 MrCerealGuy: added intllib support
-
---]]
-
-
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 --Akai ki
 --Miki
 minetest.register_node("redtrees:rtree", {
-	description = S("Fiery Tree"),
+	description = "Fiery Tree",
 	tiles = {"redtrees_tree_top.png", "redtrees_tree_top.png", "redtrees_tree.png"},
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -23,7 +12,7 @@ minetest.register_node("redtrees:rtree", {
 
 --Mokuzai
 minetest.register_node("redtrees:rwood", {
-	description = S("Fiery Wooden Planks"),
+	description = "Fiery Wooden Planks",
 	tiles = {"redtrees_wood.png"},
 	groups = {choppy=2,oddly_breakable_by_hand=2,flammable=10,wood=1},
 	sounds = default.node_sound_wood_defaults(),
@@ -32,17 +21,17 @@ minetest.register_node("redtrees:rwood", {
 --Karai youfun
 	minetest.register_craftitem("redtrees:treechillipowder", {
 		inventory_image = "redtrees_powder.png",
-		description = S("Tree Chilli Powder"),
+		description = "Tree Chilli Powder",
 	})
 
 	minetest.register_craftitem("redtrees:treechillitreat", {
 		inventory_image = "redtrees_treat.png",
-		description = S("Tree Chilli Treat"),
+		description = "Tree Chilli Treat",
 		on_use = minetest.item_eat(5),
 	})
 --Wakagi
 minetest.register_node("redtrees:rsapling", {
-	description = S("Fiery Tree Sapling"),
+	description = "Fiery Tree Sapling",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"redtrees_sapling.png"},
@@ -61,7 +50,7 @@ minetest.register_node("redtrees:rsapling", {
 
 --Kinoha
 minetest.register_node("redtrees:rleaves", {
-	description = S("Fiery Leaves"),
+	description = "Fiery Leaves",
 	drawtype = "allfaces_optional",
 	waving = 1,
 	visual_scale = 1.3,
@@ -88,18 +77,18 @@ minetest.register_node("redtrees:rleaves", {
 --Kaidan
 stairs.register_stair('rwood', 'redtrees:rwood',
 	{choppy=2,oddly_breakable_by_hand=2,flammable=10,wood=1},
-	{"redtrees_wood.png"}, S("Fiery Wooden Stairs"),
+	{"redtrees_wood.png"}, "Fiery Wooden Stairs",
 	default.node_sound_wood_defaults())
 
 --Ita
 stairs.register_slab('rwood', 'redtrees:rwood',
 	{choppy=2,oddly_breakable_by_hand=2,flammable=10,wood=1},
-	{"redtrees_wood.png"}, S("Fiery Wooden Slab"),
+	{"redtrees_wood.png"}, "Fiery Wooden Slab",
 	default.node_sound_wood_defaults())
 
 --Kashana Tobira
 doors.register_door("redtrees:rdoor_wood", {
-	description = S("Luxurious Door"),
+	description = "Luxurious Door",
 	inventory_image = "redtrees_door_wood.png",
 	groups = {snappy=1,choppy=2,oddly_breakable_by_hand=2,flammable=2,door=1},
 	tiles_bottom = {"redtrees_door_wood_bottom.png", "redtrees_door_wood_side.png"},
@@ -110,7 +99,7 @@ doors.register_door("redtrees:rdoor_wood", {
 
 --Akai Bonsai
 minetest.register_node("redtrees:rbonsai", {
-	description = S("Akai Bonsai"),
+	description = "Akai Bonsai",
 	drawtype = "plantlike",
 	visual_scale = 1.0,
 	tiles = {"redtrees_bonsai.png"},

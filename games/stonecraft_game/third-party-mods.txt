@@ -55,6 +55,8 @@ subterrane					https://github.com/minetest-mods/subterrane.git
 sumpf						https://github.com/HybridDog/sumpf.git
 technic						https://github.com/minetest-mods/technic.git
 teleporter					https://bitbucket.org/kingarthursteam/teleporter
+throwing					https://github.com/minetest-mods/throwing.git
+throwing_arrows				https://github.com/minetest-mods/throwing_arrows.git
 torches						https://github.com/minetest-mods/torches
 treasurer					https://forum.minetest.net/viewtopic.php?id=7292
 trm_default					https://forum.minetest.net/viewtopic.php?pid=113052
