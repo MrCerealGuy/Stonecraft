@@ -91,9 +91,6 @@ Most controls are settable in the configuration file, see the section below.
 --config <path-to-file>
 ```
 
-Command-line options:
----------------------
-- Use `--help`
 
 ## Command-line options
 
@@ -244,7 +241,7 @@ Library specific options:
 
 # Building Windows on GNU/Linux (cross-compiling)
 
-Please install source and dependencies like above. I've used **MinGW-w64 7.3-win32 20180312** for cross-compiling. My host system is Ubuntu 18.04.1 LTS (Bionic Beaver).
+Please install source and dependencies like above. I'm using **MinGW-w64 9.3-posix 20200320** for cross-compiling. My host system is Ubuntu 20.04.2 LTS.
 
 **Download libraries**  
 
@@ -256,16 +253,6 @@ $ mv ./libdev-win/* ../
 $ rm -Rf ./libdev-win
 ```
 
-**Win 32-Bit** (no longer supported)
-
-Note: Uses LuaJIT without GC64 enabled, so it is not recommendable for Stonecraft.
-
-```
-$ <stonecraft-folder>/build/build_win32_client.sh
-```
-
-You'll find the build in &lt;stonecraft-folder&gt;/build/win-i686 and the ZIP-package in the subdirectory _build.
-
 **Win 64-Bit**
 
 Note: Uses LuaJIT with enabled GC64, see https://github.com/MrCerealGuy/LuaJIT-2.1.0-beta3-GC64.
@@ -276,109 +263,7 @@ $ <stonecraft-folder>/build/build_win64_client.sh
 
 You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-package in the subdirectory _build.
 
-**Create Windows package with InstallForge**
 
-```
-$ sudo apt-get install wine-stable
-```
-
-Download InstallForge for Windows:
-```
-https://installforge.net/
-```
-
-Install InstallForge with Wine:
-```
-$ wine IFSetup.exe
-```
-
-Now you can run InstallForge:
-```
-$ wine /home/<USER>/.wine/drive_c/Program Files (x86)/solicus/InstallForge/InstallForge.exe
-```
-
-Now select a InstallForge project file from this directory
-```
-<stonecraft-folder>/util/InstallForge/
-```
-and build the windows package. Make sure to extract the correct Windows build zip-package in this folder.
-
-
-# Building Android on GNU/Linux
-
-This is a simple guide on how to build Stonecraft for Android on a Debian-based 64 bit system. Building on 32 bit systems should work too when the URLs and paths are replaced accordingly. This guide covers all preparation needed. Once everything is set up, Stonecraft only needs cd build/android && make to compile.
-
-**Required packages**  
-Git, Make, and other basic tools are neccessary: 
-
-```
-$ sudo apt-get update
-$ sudo apt-get install make m4 subversion git-core build-essential realpath openjdk-8-jdk 
-$ sudo apt-get install libc6-i386 lib32stdc++6 lib32gcc1 lib32ncurses5
-```
-
-Gradle is required as well. If your distribution gives you gradle 2.10 or later (like Ubuntu 16.04 does), you may simply do:
-
-```
-$ sudo apt-get install gradle
-```
-
-If your distribution ships with an older version of gradle, you may grab a recent version of gradle via a PPA:
-
-```
-$ sudo add-apt-repository ppa:cwchien/gradle
-$ sudo apt-get install gradle-2.13 
-```
-
-As your architecture is 64 bit, you need additional packages.
-
-On newer systems do: (Ubuntu 16.04-ish): 
-
-```
-$ sudo apt-get install lib32z1 
-```
-
-On older systems do:
-
-```
-$ sudo apt-get install --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch
-```
-
-**Getting the SDK and NDK**  
-Both SDK and NDK are needed:
-
-```
-$ wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz 
-$ wget https://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip 
-```
-```
-$ tar xf android-sdk_r24.4.1-linux.tgz 
-$ unzip android-ndk-r11c-linux-x86_64.zip 
-```
-
-```
-$ android-sdk-linux/tools/android update sdk --no-ui -a --filter platform-tool,android-25,build-tools-25.0.1 
-```
-
-The last line will ask for your confirmation multiple times.
-
-**Obtaining and building Stonecraft**  
-Clone Stonecraft, and build it:
-
-```
-$ git clone --depth 1 https://github.com/mrcerealguy/stonecraft.git
-$ cd stonecraft/build/android 
-$ make 
-```
-
-To install Stonecraft to your android device, type:
-
-```
-$ make install_debug
-```
-
-
-The make file will ask you for the paths to your SDK and NDK. It will then download and build all required libraries. Finally it will build Stonecraft and the Java sources and pack everything into a debug-signed APK.
 	
 # License of Stonecraft textures and sounds
 

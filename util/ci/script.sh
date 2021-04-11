@@ -57,9 +57,7 @@ elif [[ $PLATFORM == Win* ]]; then
 	cd ..
 	export EXISTING_STONECRAFT_DIR=$OLDDIR
 	export NO_STONECRAFT_GAME=1
-	if [[ $PLATFORM == "Win32" ]]; then
-		"$OLDDIR/util/buildbot/buildwin32.sh" win-i686 && exit 0
-	elif [[ $PLATFORM == "Win64" ]]; then
+	if [[ $PLATFORM == "Win64" ]]; then
 		"$OLDDIR/util/buildbot/buildwin64.sh" win-x86_64 && exit 0
 	fi
 else
