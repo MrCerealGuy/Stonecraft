@@ -1,13 +1,6 @@
 -- Metals mod.
 -- Jordan Snelling, jordach@blokkeren.co.cc / jordach.snelling@gmail.com / http://twitter.com/jordansnelling
 
---[[
-
-2017-05-18 MrCerealGuy: added intllib support
-
---]]
-
-
 -- Load support for intllib.
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local S, NS = dofile(MP.."/intllib.lua")
@@ -15,7 +8,7 @@ local S, NS = dofile(MP.."/intllib.lua")
 -- Nodes
 
 minetest.register_node("metals:cross_girders", {
-	description = S("Girders"),
+	description = "Girders",
 	drawtype = "glasslike",
 	tiles ={"metals_girders_a.png"},
 	inventory_image = minetest.inventorycube("metals_girders_a.png"),
@@ -26,7 +19,7 @@ minetest.register_node("metals:cross_girders", {
 })
 
 minetest.register_node("metals:cross_girders_warning", {
-	description = S("Girders"),
+	description = "Girders",
 	drawtype = "glasslike",
 	tiles ={"metals_girders_b.png"},
 	inventory_image = minetest.inventorycube("metals_girders_b.png"),
@@ -37,7 +30,7 @@ minetest.register_node("metals:cross_girders_warning", {
 })
 
 minetest.register_node("metals:warning", {
-	description = S("Warning Marker"),
+	description = "Warning Marker",
 	tiles ={"metals_warning.png"},
 	inventory_image = minetest.inventorycube("metals_warning.png"),
 	is_ground_content = true,
@@ -45,14 +38,14 @@ minetest.register_node("metals:warning", {
 })
 
 minetest.register_node("metals:pipe_ud", {
-	description = S("Pipe"),
+	description = "Pipe",
 	tiles ={"metals_pipe_ud_join.png", "metals_pipe_ud_join.png", "metals_pipe_ud.png"},
 	is_ground_content = true,
 	groups = {snappy=1,bendy=2},
 })
 
 minetest.register_node("metals:pipe_lr", {
-	description = S("Pipe"),
+	description = "Pipe",
 	tiles = { 'metals_pipe_lr.png',
 			'metals_pipe_lr.png',
 			'metals_pipe_lr.png',
@@ -65,7 +58,7 @@ minetest.register_node("metals:pipe_lr", {
 })
 
 minetest.register_node("metals:pipe_cover", {
-	description = S("Pipe Cap"),
+	description = "Pipe Cap",
 	drawtype = "nodebox",
 	tiles = {"metals_pipe_cover.png"},
 	inventory_image = "metals_pipe_cover.png",
@@ -87,7 +80,7 @@ minetest.register_node("metals:pipe_cover", {
 })
 
 minetest.register_node("metals:metal_rails", {
-	description = S("Metal Railings"),
+	description = "Metal Railings",
 	drawtype = "fencelike",
 	tiles ={"metals_fence.png"},
 	inventory_image = "metals_fence_icon.png",
@@ -102,7 +95,7 @@ minetest.register_node("metals:metal_rails", {
 })
 
 minetest.register_node("metals:corregated_iron", {
-	description = S("Corregated Iron"),
+	description = "Corregated Iron",
 	tiles ={"metals_corregated_iron.png"},
 	inventory_image = minetest.inventorycube("metals_corregated_iron.png"),
 	is_ground_content = true,
@@ -112,7 +105,7 @@ minetest.register_node("metals:corregated_iron", {
 --Register Special
 
 minetest.register_craftitem("metals:half_ingot", {
-	description = S("Half Ingot"),
+	description = "Half Ingot",
 	inventory_image = "metals_half_ingot.png",
 })
 

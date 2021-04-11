@@ -1,7 +1,0 @@
-default
-farming
-dye
-bucket?
-fire?
-tnt?
-intllib?
