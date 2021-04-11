@@ -1,10 +1,6 @@
 -- Metals mod.
 -- Jordan Snelling, jordach@blokkeren.co.cc / jordach.snelling@gmail.com / http://twitter.com/jordansnelling
 
--- Load support for intllib.
-local MP = minetest.get_modpath(minetest.get_current_modname())
-local S, NS = dofile(MP.."/intllib.lua")
-
 -- Nodes
 
 minetest.register_node("metals:cross_girders", {
