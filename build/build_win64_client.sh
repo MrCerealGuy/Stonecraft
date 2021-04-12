@@ -48,13 +48,6 @@ if [ "$antwort" -eq "0" ]
     $stonecraftdir/util/remove_generated_cmakefiles.sh
 fi
 
-
-# Generate doc/Manual.html from doc/Manual.md with Pandoc
-echo -e "\E[34;47mGenerate Manual.html with Pandoc..."
-
-cd $stonecraftdir/util/
-./convert_manual-md2html.sh
-
 echo -e "\E[34;47mdone!"
 
 
