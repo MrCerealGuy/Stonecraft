@@ -21,7 +21,7 @@ ethereal					https://notabug.org/TenPlus1/ethereal.git
 farming						https://notabug.org/TenPlus1/Farming.git
 fence_registration			https://github.com/HybridDog/fence_registration.git
 habitat						https://github.com/bas080/habitat.git
-hud							https://github.com/BlockMen/hud.git
+hudbars						https://repo.or.cz/minetest_hudbars.git
 hunger						https://github.com/BlockMen/hunger.git
 intllib						https://github.com/minetest-mods/intllib.git
 luacmd						https://github.com/prestidigitator/minetest-mod-luacmd.git
