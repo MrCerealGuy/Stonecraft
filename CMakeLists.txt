@@ -191,7 +191,6 @@ install(FILES "README.md" DESTINATION "${DOCDIR}" COMPONENT "Docs")
 install(FILES "LICENSE" DESTINATION "${DOCDIR}" COMPONENT "Docs")
 
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc/github-wiki" DESTINATION "${DOCDIR}" COMPONENT "Docs")
-install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/doc/html-wiki" DESTINATION "${DOCDIR}" COMPONENT "Docs")
 
 install(FILES "doc/lua_api.txt" DESTINATION "${DOCDIR}" COMPONENT "Docs")
 install(FILES "doc/client_lua_api.txt" DESTINATION "${DOCDIR}" COMPONENT "Docs")
