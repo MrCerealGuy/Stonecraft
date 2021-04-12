@@ -10,6 +10,8 @@ unified_inventory = {
 	alternate = {},
 	current_page = {},
 	current_searchbox = {},
+	current_category = {},
+	current_category_scroll = {},
 	current_index = {},
 	current_item = {},
 	current_craft_direction = {},
@@ -33,6 +35,9 @@ unified_inventory = {
 	-- "Lite" mode
 	lite_mode = minetest.settings:get_bool("unified_inventory_lite"),
 
+	-- Items automatically added to categories based on item definitions
+	automatic_categorization = (minetest.settings:get_bool("unified_inventory_automatic_categorization") ~= false),
+
 	-- Trash enabled
 	trash_enabled = (minetest.settings:get_bool("unified_inventory_trash") ~= false),
 	imgscale = 1.25,
@@ -52,9 +57,9 @@ ui.style_full = {
 	formw = 17.75,
 	formh = 12.25,
 	pagecols = 8,
-	pagerows = 10,
+	pagerows = 9,
 	page_x = 10.75,
-	page_y = 1.45,
+	page_y = 2.30,
 	craft_x = 2.8,
 	craft_y = 1.15,
 	craftresult_x = 7.8,
@@ -85,9 +90,9 @@ ui.style_lite = {
 	formw = 14,
 	formh = 9.75,
 	pagecols = 4,
-	pagerows = 6,
+	pagerows = 5,
 	page_x = 10.5,
-	page_y = 1.25,
+	page_y = 2.15,
 	craft_x = 2.6,
 	craft_y = 0.75,
 	craftresult_x = 5.75,
@@ -100,9 +105,9 @@ ui.style_lite = {
 	craft_guide_resultstr_y = 0.35,
 	give_btn_x = 0.15,
 	main_button_x = 10.5,
-	main_button_y = 7.9,
+	main_button_y = 8.15,
 	page_buttons_x = 10.5,
-	page_buttons_y = 6.3,
+	page_buttons_y = 6.15,
 	searchwidth = 1.6,
 	form_header_x =  0.2,
 	form_header_y =  0.2,
@@ -149,6 +154,8 @@ if sfinv then
 end
 
 dofile(modpath.."/group.lua")
+dofile(modpath.."/category.lua")
+dofile(modpath.."/default-categories.lua")
 dofile(modpath.."/internal.lua")
 dofile(modpath.."/callbacks.lua")
 dofile(modpath.."/match_craft.lua")

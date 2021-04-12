@@ -25,6 +25,20 @@ function ui.get_per_player_formspec(player_name)
 	return table.copy(draw_lite_mode and ui.style_lite or ui.style_full), draw_lite_mode
 end
 
+local function formspec_button(ui_peruser, name, image, offset, pos, scale, label)
+	local element = 'image_button'
+	if minetest.registered_items[image] then
+		element = 'item_image_button'
+	end
+	local spc = (1-scale)*ui_peruser.btn_size/2
+	local size = ui_peruser.btn_size*scale
+	return string.format("%s[%f,%f;%f,%f;%s;%s;]", element,
+		(offset.x or offset[1]) + ( ui_peruser.btn_spc * (pos.x or pos[1]) ) + spc,
+		(offset.y or offset[2]) + ( ui_peruser.btn_spc * (pos.y or pos[2]) ) + spc,
+		size, size, image, name) ..
+		string.format("tooltip[%s;%s]", name, F(label or name))
+end
+
 function ui.get_formspec(player, page)
 
 	if not player then
@@ -105,6 +119,48 @@ function ui.get_formspec(player, page)
 
 	if fsdata.draw_item_list == false then
 		return table.concat(formspec, "")
+	end
+
+	-- Category filters
+
+	local categories_pos = { ui_peruser.page_x, ui_peruser.page_y-ui_peruser.btn_spc-0.5 }
+	local categories_scroll_pos = { ui_peruser.page_x, ui_peruser.form_header_y-(draw_lite_mode and 0 or 0.2) }
+
+	formspec[n] = string.format("background9[%f,%f;%f,%f;%s;false;3]",
+		ui_peruser.page_x-0.1, categories_scroll_pos[2],
+		(ui_peruser.btn_spc * ui_peruser.pagecols) + 0.13, 1.4+(draw_lite_mode and 0 or 0.2),
+		"ui_smallbg_9_sliced.png")
+	n = n + 1
+
+	formspec[n] = string.format("label[%f,%f;%s]", ui_peruser.page_x, ui_peruser.form_header_y+(draw_lite_mode and 0.3 or 0.2), "Category:")
+	n = n + 1
+
+	local scroll_offset = 0
+	local category_count = #unified_inventory.category_list
+	if category_count > ui_peruser.pagecols then
+		scroll_offset = unified_inventory.current_category_scroll[player_name]
+	end
+
+	for index, category in ipairs(unified_inventory.category_list) do
+		local column = index - scroll_offset
+		if column > 0 and column <= ui_peruser.pagecols then
+			local scale = 0.8
+			if unified_inventory.current_category[player_name] == category.name then
+				scale = 1
+			end
+			formspec[n] = formspec_button(ui_peruser, "category_"..category.name, category.symbol, categories_pos, {column-1, 0}, scale, category.label)
+			n = n + 1
+		end
+	end
+	if category_count > ui_peruser.pagecols and scroll_offset > 0 then
+		-- prev
+		formspec[n] = formspec_button(ui_peruser, "prev_category", "ui_left_icon.png", categories_scroll_pos, {ui_peruser.pagecols - 2, 0}, 0.8, S("Scroll categories left"))
+		n = n + 1
+	end
+	if category_count > ui_peruser.pagecols and category_count - scroll_offset > ui_peruser.pagecols then
+		-- next
+		formspec[n] = formspec_button(ui_peruser, "next_category", "ui_right_icon.png", categories_scroll_pos, {ui_peruser.pagecols - 1, 0}, 0.8, S("Scroll categories right"))
+		n = n + 1
 	end
 
 	-- Search box
@@ -205,16 +261,16 @@ function ui.get_formspec(player, page)
 			end
 		end
 		formspec[n] = string.format("label[%f,%f;%s: %s]",
-			ui_peruser.page_x, ui_peruser.form_header_y,
+			ui_peruser.page_buttons_x + ui_peruser.btn_spc * (draw_lite_mode and 1 or 2),
+			ui_peruser.page_buttons_y + 0.1 + ui_peruser.btn_spc * 2,
 			F(S("Page")), S("@1 of @2",page2,pagemax))
 	end
 	n= n+1
 
 	if ui.activefilter[player_name] ~= "" then
-		formspec[n] = string.format("label[%f,%f;%s:]",
-			ui_peruser.page_x, ui_peruser.page_y - 0.65, F(S("Filter")))
-		formspec[n+1] = string.format("label[%f,%f;%s]",
-			ui_peruser.page_x, ui_peruser.page_y - 0.25, F(ui.activefilter[player_name]))
+		formspec[n] = string.format("label[%f,%f;%s: %s]",
+			ui_peruser.page_x, ui_peruser.page_y - 0.25,
+			F(S("Filter")), F(ui.activefilter[player_name]))
 	end
 	return table.concat(formspec, "")
 end
@@ -223,6 +279,13 @@ function ui.set_inventory_formspec(player, page)
 	if player then
 		player:set_inventory_formspec(ui.get_formspec(player, page))
 	end
+end
+
+local function valid_def(def)
+	return (not def.groups.not_in_creative_inventory
+			or def.groups.not_in_creative_inventory == 0)
+		and def.description
+		and def.description ~= ""
 end
 
 --apply filter to the inventory list (create filtered copy of full one)
@@ -256,13 +319,30 @@ function ui.apply_filter(player, filter, search_dir)
 		end
 	end
 	ui.filtered_items_list[player_name]={}
-	for name, def in pairs(minetest.registered_items) do
-		if (not def.groups.not_in_creative_inventory
-			or def.groups.not_in_creative_inventory == 0)
-		and def.description
-		and def.description ~= ""
-		and ffilter(name, def) then
-			table.insert(ui.filtered_items_list[player_name], name)
+	local category = ui.current_category[player_name] or 'all'
+	if category == 'all' then
+		for name, def in pairs(minetest.registered_items) do
+			if valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
+			end
+		end
+	elseif category == 'uncategorized' then
+		for name, def in pairs(minetest.registered_items) do
+			if (not ui.find_category(name))
+			and valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
+			end
+		end
+	else
+		for name,exists in pairs(ui.registered_category_items[category]) do
+			local def = minetest.registered_items[name]
+			if exists and def
+			and valid_def(def)
+			and ffilter(name, def) then
+				table.insert(ui.filtered_items_list[player_name], name)
+			end
 		end
 	end
 	table.sort(ui.filtered_items_list[player_name])

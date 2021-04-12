@@ -103,8 +103,7 @@ armor:register_on_destroy(function(player, index, stack)
 	local name = player:get_player_name()
 	local def = stack:get_definition()
 	if name and def and def.description then
-		minetest.chat_send_player(name, S("Your").." "..def.description.." "..
-			S("got destroyed").."!")
+		minetest.chat_send_player(name, S("Your @1 got destroyed!", def.description))
 	end
 end)
 
