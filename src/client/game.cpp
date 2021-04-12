@@ -154,6 +154,12 @@ struct LocalFormspecHandler : public TextDest
 				return;
 			}
 
+			
+			if (fields.find("btn_open_wiki") != fields.end()) {
+				porting::open_url("https://github.com/MrCerealGuy/Stonecraft/wiki");
+				return;
+			}
+
 			if (fields.find("btn_exit_menu") != fields.end()) {
 				g_gamecallback->disconnect();
 				return;
@@ -587,9 +593,9 @@ public:
 };
 
 #ifdef __ANDROID__
-#define SIZE_TAG "size[11,5.5]"
+#define SIZE_TAG "size[11,6.5]"
 #else
-#define SIZE_TAG "size[11,5.5,true]" // Fixed size on desktop
+#define SIZE_TAG "size[11,6.5,true]" // Fixed size on desktop
 #endif
 
 /****************************************************************************
@@ -4166,6 +4172,8 @@ void Game::showPauseMenu()
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_key_config;"
 		<< strgettext("Change Keys")  << "]";
 #endif
+	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_open_wiki;"
+		<< strgettext("Open Wiki") << "]";
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_menu;"
 		<< strgettext("Exit to Menu") << "]";
 	os		<< "button_exit[4," << (ypos++) << ";3,0.5;btn_exit_os;"

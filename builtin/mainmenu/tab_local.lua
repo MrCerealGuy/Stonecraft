@@ -151,6 +151,7 @@ local function get_formspec(tabview, name, tabdata)
 		end
 	else
 		retval = retval ..
+				"button[0.3,4.75;2.1,1;wiki;" .. fgettext("Open Wiki") .. "]" ..
 				"button[7.9,4.75;4.1,1;play;" .. fgettext("Play Game") .. "]"
 	end
 
@@ -247,6 +248,10 @@ local function main_button_handler(this, fields, name, tabdata)
 
 		core.start()
 		return true
+	end
+
+	if fields["wiki"] ~=nil then
+		core.open_url("https://github.com/MrCerealGuy/Stonecraft/wiki")
 	end
 
 	if fields["world_create"] ~= nil then
