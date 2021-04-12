@@ -29,7 +29,6 @@ lucky_block					https://notabug.org/TenPlus1/lucky_block
 mapgen_helper				https://github.com/minetest-mods/mapgen_helper.git
 mesecons					https://github.com/minetest-mods/mesecons.git
 metals						https://forum.minetest.net/viewtopic.php?id=2526
-minetest-u_skinsdb			https://github.com/dmonty2/minetest-u_skinsdb.git
 mob_horse					https://notabug.org/TenPlus1/mob_horse.git
 mobs_animal					https://notabug.org/TenPlus1/mobs_animal.git
 mobs_monster				https://notabug.org/TenPlus1/mobs_monster.git
@@ -49,6 +48,7 @@ redtrees					https://forum.minetest.net/viewtopic.php?f=11&t=13102
 riesenpilz					https://github.com/HybridDog/riesenpilz.git
 ropes						https://github.com/minetest-mods/ropes.git
 sea							https://bitbucket.org/minetest_gamers/minetest-mod-sea.git
+skinsdb						https://github.com/minetest-mods/skinsdb
 snow						https://github.com/Splizard/minetest-mod-snow.git
 steel						https://gitlab.com/VanessaE/steel.git
 subterrane					https://github.com/minetest-mods/subterrane.git
