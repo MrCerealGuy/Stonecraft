@@ -407,7 +407,7 @@ void set_default_settings()
 	settings->setDefault("remote_media", "");
 	settings->setDefault("debug_log_level", "error");
 	settings->setDefault("debug_log_size_max", "50");
-	settings->setDefault("chat_log_level", "error");
+	settings->setDefault("chat_log_level", "none");
 	settings->setDefault("emergequeue_limit_total", "1024");
 	settings->setDefault("emergequeue_limit_diskonly", "128");
 	settings->setDefault("emergequeue_limit_generate", "128");
