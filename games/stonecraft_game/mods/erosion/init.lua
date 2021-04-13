@@ -384,6 +384,7 @@ local function erosion_slope_gen(minp,maxp,vm,emin,emax)
 end
 minetest.register_on_generated(function(minp,maxp)
 	if minp.y > 256 then return end
+	if minetest.get_mapgen_object("heightmap") == nil then return end	-- MERGINFO: MrCerealGuy
 	local vm,emin,emax = minetest.get_mapgen_object("voxelmanip")
 	local data,prm2,vxa = erosion_slope_gen(minp,maxp,vm,emin,emax)
 	if maxp.y > 2 then
