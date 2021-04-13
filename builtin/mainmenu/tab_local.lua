@@ -310,7 +310,7 @@ if enable_gamebar then
 
 			if game then
 				menudata.worldlist:set_filtercriteria(game.id)
-				core.set_topleft_text(game.name)
+				--core.set_topleft_text(game.name)
 				mm_texture.update("singleplayer",game)
 			end
 
