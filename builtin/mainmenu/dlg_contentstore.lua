@@ -682,13 +682,12 @@ function store.sort_packages()
 		end
 	end
 
-	store.packages = ret
+	store.packages_full = ret
 end
 
 function store.filter_packages(query)
 	if query == "" and filter_type == 1 then
-		-- MERGEINFO: MrCerealGuy
-		--store.packages = store.packages_full
+		store.packages = store.packages_full
 		return
 	end
 
