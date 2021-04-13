@@ -26,7 +26,8 @@
 
 local stonecraft_developers = {
 	"Andreas Zahnleiter (MrCerealGuy) <mrcerealguy@gmx.de>",
-	"Web: http://mrcerealguy.github.io/stonecraft",
+	"Web: https://mrcerealguy.itch.io/stonecraft",
+	"Github: https://github.com/MrCerealGuy/Stonecraft",
 }
 
 local core_developers = {
@@ -114,8 +115,10 @@ return {
 	cbf_formspec = function(tabview, name, tabdata)
 		local logofile = defaulttexturedir .. "logo.png"
 		local version = core.get_version()
-		local fs = "image[0.5,1;" .. core.formspec_escape(logofile) .. "]" ..
-			"label[0.5,3.2;" .. version.project .. " " .. version.string .. "]" ..
+		local fs = "image[0.75,0.5;2.2,2.2;" .. core.formspec_escape(logofile) .. "]" ..
+			"style[label_button;border=false]" ..
+			"button[0.5,2;2.5,2;label_button;" .. version.project .. " " .. version.string .. "]" ..
+			"button[0.75,2.75;2,2;homepage;Homepage]" ..
 			"tablecolumns[color;text]" ..
 			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
 			"table[3.5,-0.25;8.5,6.05;list_credits;" ..
@@ -143,7 +146,7 @@ return {
 	end,
 	cbf_button_handler = function(this, fields, name, tabdata)
 		if fields.homepage then
-			core.open_url("http://mrcerealguy.github.io/stonecraft")
+			core.open_url("https://mrcerealguy.itch.io/stonecraft")
 		end
 
 		if fields.userdata then
