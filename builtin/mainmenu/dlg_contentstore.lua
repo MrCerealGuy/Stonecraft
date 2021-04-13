@@ -671,11 +671,24 @@ function store.sort_packages()
 	end
 
 	store.packages_full = ret
+	ret = {}
+
+	-- MERGEINFO: MrCerealGuy
+	-- Remove excluded content
+	for i=1, #store.packages_full do
+		local package = store.packages_full[i]
+		if package.exclude == "false" then
+			ret[#ret + 1] = package
+		end
+	end
+
+	store.packages = ret
 end
 
 function store.filter_packages(query)
 	if query == "" and filter_type == 1 then
-		store.packages = store.packages_full
+		-- MERGEINFO: MrCerealGuy
+		--store.packages = store.packages_full
 		return
 	end
 
@@ -701,12 +714,14 @@ function store.filter_packages(query)
 
 	store.packages = {}
 	for _, package in pairs(store.packages_full) do
-		if (query == "" or matches_keywords(package)) and
-			-- MERGEINFO: MrCerealGuy: removed filter_type == 1 (All packages)
+		if (query == "" or matches_keywords(package)) and	-- MERGEINFO: MrCerealGuy: removed filter_type == 1 (All packages)
 			(package.type == filter_types_type[filter_type]) then
 
+
 			-- MERGEINFO: MrCerealGuy: Filter all packages installed in Stonecraft
-			if package.exclude == "false" then store.packages[#store.packages + 1] = package end
+			if package.exclude == "false" then 				
+				store.packages[#store.packages + 1] = package
+			end
 		end
 	end
 end
