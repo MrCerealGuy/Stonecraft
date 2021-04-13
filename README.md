@@ -40,7 +40,7 @@ Some can be changed in the key config dialog in the settings tab.
 | Left mouse button             | Dig/punch/take item                                            |
 | Right mouse button            | Place/use                                                      |
 | Shift + right mouse button    | Build (without using)                                          |
-| I                             | Inventory menu                                                 |
+| Tabulator                     | Inventory menu                                                 |
 | Mouse wheel                   | Select item                                                    |
 | 0-9                           | Select item                                                    |
 | Z                             | Zoom (needs zoom privilege)                                    |

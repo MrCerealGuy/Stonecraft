@@ -341,20 +341,22 @@ Most of these can be changed in the "Change Keys" menu. The default and most imp
 
 | Control | Description |
 | ------------- | ------------- |
-|**W/A/S/D**| move|
-|**Space**| jump|
+|**W/A/S/D**| Move|
+|**Space**| Jump|
+|**Ctrl**| Sneak/move down|
+|**Shift**| Descend on ladders or sneak (walk slower, prevents falling off ledges)|
 |**Left mouse button**| Punch, mine blocks, move an item stack in an inventory|
-|**Right mouse button**| use (e.g. open chest or furnace), place blocks, move one item or split items in an inventory|
-|**Shift+Right mouse button**| place blocks|
-|**Middle mouse button**| move 10 items in an inventory|
-|**Mouse wheel**| select item in the hotbar|
-|**0-9**| select item in the hotbar|
-|**Q**| drop block, item or tool in hand|
-|**I**| open or close the inventory menu|
-|**T**| open the chat window|
-|**Strg**| descend on ladders or sneak (walk slower, prevents falling off ledges)|
-|**F9**| Cycle through minimap modes|
-|**Shift + F9**| Change minimap orientation|
+|**Right mouse button**| Use (e.g. open chest or furnace), place blocks, move one item or split items in an inventory|
+|**Shift+Right mouse button**| Place blocks|
+|**Middle mouse button**| Move 10 items in an inventory|
+|**Mouse wheel**| Select item in the hotbar|
+|**0-9**| Select item in the hotbar|
+|**Q**| Drop block, item or tool in hand|
+|**Tabulator**| Open or close the inventory menu|
+|**T**| Open the chat window|
+|**V**| Cycle through minimap modes|
+|**Shift + V**| Change minimap orientation|
+|**F10**| Show/hide console|
 |**F12**| Take screenshot|
 |**Esc**| Pause menu/abort/exit (pauses only singleplayer game)|
 
