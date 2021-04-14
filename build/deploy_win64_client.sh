@@ -5,7 +5,7 @@
 #
 # Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de>
 
-VERSION=1.3.0-3f67a39
+VERSION=1.3.1-6cf357d
 CHANNEL=windows-stable
 
 ../util/butler/butler push ./win-x86_64/_build/stonecraft-$VERSION-win64.zip mrcerealguy/stonecraft:$CHANNEL --userversion $VERSION
