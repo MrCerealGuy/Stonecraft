@@ -200,20 +200,6 @@ build:fedora-28:
     paths:
       - stonecraft-win-*/*
 
-build:win32:
-  extends: .build_win_template
-  script:
-    - ./util/buildbot/buildwin32.sh build
-  variables:
-    WIN_ARCH: "i686"
-
-package:win32:
-  extends: .package_win_template
-  needs:
-    - build:win32
-  variables:
-    WIN_ARCH: "i686"
-
 
 build:win64:
   extends: .build_win_template

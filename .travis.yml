@@ -31,16 +31,6 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-trusty-7
 
-    - env: PLATFORM=Win32
-      compiler: gcc
-      os: linux
-      addons:
-        apt:
-          packages: ['gcc-mingw-w64-i686', 'g++-mingw-w64-i686', 'binutils-mingw-w64-i686']
-          sources: &sources
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb http://mirrors.kernel.org/ubuntu xenial main universe'
-
     - env: PLATFORM=Win64
       compiler: gcc
       os: linux
