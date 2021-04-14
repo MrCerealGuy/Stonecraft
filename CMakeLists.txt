@@ -16,7 +16,7 @@ set(MINGW32_VERSION "9.3-posix")
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 3)
 set(VERSION_PATCH 1)
-set(VERSION_EXTRA "dev" CACHE STRING "Stuff to append to version string")
+set(VERSION_EXTRA "" CACHE STRING "Stuff to append to version string")
 
 # Change to false for releases
 set(DEVELOPMENT_BUILD FALSE)
