@@ -8,13 +8,13 @@
 
 If you wish to make your own mod for Stonecraft, I recommend to learn how the engine works and to become familiar with the Lua API. The following links can be useful:
 
-1. Learn the structure of the **Minetest engine**
+1. Learn the structure of the **Minetest engine**  
 http://dev.minetest.net/Main_Page
 
-2. Learn the **Lua programming language**
+2. Learn the **Lua programming language**  
 https://www.lua.org/pil/contents.html
 
-3. Learn the **Lua Mod API**
+3. Learn the **Lua Mod API**  
 http://rubenwardy.com/minetest_modding_book/
 
 ## Installing mods

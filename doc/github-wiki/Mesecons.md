@@ -9,9 +9,9 @@
 
 This guide gives you a small overview. Please check these links for more information and tutorials:
 
-[Mesecons Items](https://mesecons.net/items.html)
-[Mesecons Luacontroller](https://mesecons.net/luacontroller/)
-[Mesecons Digilines](https://mesecons.net/digilines.html)
+[Mesecons Items](https://mesecons.net/items.html)  
+[Mesecons Luacontroller](https://mesecons.net/luacontroller/)  
+[Mesecons Digilines](https://mesecons.net/digilines.html)  
 
 ## Mesecons Basic
 
