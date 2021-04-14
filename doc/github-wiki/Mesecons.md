@@ -7,6 +7,12 @@
 
 # Mesecons
 
+This guide gives you a small overview. Please check these links for more information and tutorials:
+
+[Mesecons Items](https://mesecons.net/items.html)
+[Mesecons Luacontroller](https://mesecons.net/luacontroller/)
+[Mesecons Digilines](https://mesecons.net/digilines.html)
+
 ## Mesecons Basic
 
 So far we've already looked at a couple of machines, but not at Mesecons itself. That won't do! This is a usage guide for new Mesecon users, including those without Redstone experience.

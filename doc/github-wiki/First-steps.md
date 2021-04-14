@@ -341,19 +341,19 @@ Most of these can be changed in the "Change Keys" menu. The default and most imp
 
 | Control | Description |
 | ------------- | ------------- |
+|**Move mouse**| Look around|
 |**W/A/S/D**| Move|
-|**Space**| Jump|
+|**Space**| Jump/move up|
 |**Ctrl**| Sneak/move down|
-|**Shift**| Descend on ladders or sneak (walk slower, prevents falling off ledges)|
-|**Left mouse button**| Punch, mine blocks, move an item stack in an inventory|
-|**Right mouse button**| Use (e.g. open chest or furnace), place blocks, move one item or split items in an inventory|
-|**Shift+Right mouse button**| Place blocks|
-|**Middle mouse button**| Move 10 items in an inventory|
-|**Mouse wheel**| Select item in the hotbar|
-|**0-9**| Select item in the hotbar|
-|**Q**| Drop block, item or tool in hand|
-|**Tabulator**| Open or close the inventory menu|
-|**T**| Open the chat window|
+|**Q**| Drop itemstack|
+|**Shift + Q**| Drop single item |
+|**Left mouse button**| Dig/punch/take item |
+|**Right mouse button**| Place/use|
+|**Shift + right mouse button**| Build (without using)|
+|**Mouse wheel**| Select item|
+|**0-9**| Select item|
+|**Tabulator**| Inventory menu|
+|**T**| Chat|
 |**V**| Cycle through minimap modes|
 |**Shift + V**| Change minimap orientation|
 |**F10**| Show/hide console|
