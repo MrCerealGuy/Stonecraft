@@ -7,6 +7,8 @@ An InfiniMiner/Minecraft inspired game powered by Minetest 5.4.0
 
 Copyright (c) 2016-2021 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
+![Screenshot Stonecraft](screenshot.jpg)
+
 
 ## Further documentation
 
