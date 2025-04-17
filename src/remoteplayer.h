@@ -1,28 +1,14 @@
-/*
-Minetest
-Copyright (C) 2010-2016 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2014-2016 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2016 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Copyright (C) 2014-2016 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
 #pragma once
 
 #include "player.h"
-#include "cloudparams.h"
 #include "skyparams.h"
+#include "lighting.h"
+#include "network/networkprotocol.h" // session_t
 
 class PlayerSAO;
 
@@ -41,13 +27,13 @@ class RemotePlayer : public Player
 	friend class PlayerDatabaseFiles;
 
 public:
-	RemotePlayer(const char *name, IItemDefManager *idef);
-	virtual ~RemotePlayer() = default;
+	RemotePlayer(const std::string &name, IItemDefManager *idef);
+	virtual ~RemotePlayer();
 
 	PlayerSAO *getPlayerSAO() { return m_sao; }
 	void setPlayerSAO(PlayerSAO *sao) { m_sao = sao; }
 
-	const RemotePlayerChatResult canSendChatMessage();
+	RemotePlayerChatResult canSendChatMessage();
 
 	void setHotbarItemcount(s32 hotbar_itemcount)
 	{
@@ -112,27 +98,30 @@ public:
 
 	inline void setModified(const bool x) { m_dirty = x; }
 
-	void setLocalAnimations(v2s32 frames[4], float frame_speed)
+	void setLocalAnimations(v2f frames[4], float frame_speed)
 	{
 		for (int i = 0; i < 4; i++)
 			local_animations[i] = frames[i];
 		local_animation_speed = frame_speed;
 	}
 
-	void getLocalAnimations(v2s32 *frames, float *frame_speed)
+	void getLocalAnimations(v2f *frames, float *frame_speed)
 	{
 		for (int i = 0; i < 4; i++)
 			frames[i] = local_animations[i];
 		*frame_speed = local_animation_speed;
 	}
 
+	void setLighting(const Lighting &lighting) { m_lighting = lighting; }
+
+	const Lighting& getLighting() const { return m_lighting; }
+
 	void setDirty(bool dirty) { m_dirty = true; }
 
 	u16 protocol_version = 0;
+	u16 formspec_version = 0;
 
-	// v1 for clients older than 5.1.0-dev
-	u16 formspec_version = 1;
-
+	/// returns PEER_ID_INEXISTENT when PlayerSAO is not ready
 	session_t getPeerId() const { return m_peer_id; }
 
 	void setPeerId(session_t peer_id) { m_peer_id = peer_id; }
@@ -162,6 +151,8 @@ private:
 	SunParams m_sun_params;
 	MoonParams m_moon_params;
 	StarParams m_star_params;
+
+	Lighting m_lighting;
 
 	session_t m_peer_id = PEER_ID_INEXISTENT;
 };

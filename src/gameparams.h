@@ -1,27 +1,11 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
 #include "irrlichttypes.h"
-
-struct SubgameSpec;
+#include "content/subgames.h"
 
 // Information provided from "main"
 struct GameParams
@@ -32,6 +16,12 @@ struct GameParams
 	std::string world_path;
 	SubgameSpec game_spec;
 	bool is_dedicated_server;
+};
+
+enum class ELoginRegister {
+	Any = 0,
+	Login,
+	Register
 };
 
 // Information processed by main menu
@@ -45,6 +35,8 @@ struct GameStartData : GameParams
 	std::string password;
 	std::string address;
 	bool local_server;
+
+	ELoginRegister allow_login_or_register = ELoginRegister::Any;
 
 	// "world_path" must be kept in sync!
 	WorldSpec world_spec;

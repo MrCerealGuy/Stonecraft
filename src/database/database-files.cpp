@@ -1,32 +1,17 @@
-/*
-Minetest
-Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-#include <cassert>
-#include <json/json.h>
-#include "convert_json.h"
 #include "database-files.h"
+#include "convert_json.h"
 #include "remoteplayer.h"
 #include "settings.h"
 #include "porting.h"
 #include "filesys.h"
 #include "server/player_sao.h"
 #include "util/string.h"
+#include <json/json.h>
+#include <cassert>
 
 // !!! WARNING !!!
 // This backend is intended to be used on Minetest 0.4.16 only for the transition backend
@@ -48,8 +33,7 @@ void PlayerDatabaseFiles::deSerialize(RemotePlayer *p, std::istream &is,
 
 	p->m_dirty = true;
 	//args.getS32("version"); // Version field value not used
-	const std::string &name = args.get("name");
-	strlcpy(p->m_name, name.c_str(), PLAYERNAME_SIZE);
+	p->m_name = args.get("name");
 
 	if (sao) {
 		try {
@@ -59,7 +43,7 @@ void PlayerDatabaseFiles::deSerialize(RemotePlayer *p, std::istream &is,
 		}
 
 		try {
-			sao->setBasePosition(args.getV3F("position"));
+			sao->setBasePosition(args.getV3F("position").value_or(v3f()));
 		} catch (SettingNotFoundException &e) {}
 
 		try {
@@ -96,7 +80,7 @@ void PlayerDatabaseFiles::deSerialize(RemotePlayer *p, std::istream &is,
 		p->inventory.deSerialize(is);
 	} catch (SerializationError &e) {
 		errorstream << "Failed to deserialize player inventory. player_name="
-			<< name << " " << e.what() << std::endl;
+			<< p->getName() << " " << e.what() << std::endl;
 	}
 
 	if (!p->inventory.getList("craftpreview") && p->inventory.getList("craftresult")) {
@@ -119,7 +103,7 @@ void PlayerDatabaseFiles::serialize(RemotePlayer *p, std::ostream &os)
 	// Utilize a Settings object for storing values
 	Settings args("PlayerArgsEnd");
 	args.setS32("version", 1);
-	args.set("name", p->m_name);
+	args.set("name", p->getName());
 
 	PlayerSAO *sao = p->getPlayerSAO();
 	// This should not happen
@@ -165,15 +149,13 @@ void PlayerDatabaseFiles::savePlayer(RemotePlayer *player)
 		}
 
 		// Open and deserialize file to check player name
-		std::ifstream is(path.c_str(), std::ios_base::binary);
-		if (!is.good()) {
-			errorstream << "Failed to open " << path << std::endl;
+		auto is = open_ifstream(path.c_str(), true);
+		if (!is.good())
 			return;
-		}
 
 		deSerialize(&testplayer, is, path, NULL);
 		is.close();
-		if (strcmp(testplayer.getName(), player->getName()) == 0) {
+		if (testplayer.getName() == player->getName()) {
 			path_found = true;
 			continue;
 		}
@@ -205,7 +187,7 @@ bool PlayerDatabaseFiles::removePlayer(const std::string &name)
 	RemotePlayer temp_player("", NULL);
 	for (u32 i = 0; i < PLAYER_FILE_ALTERNATE_TRIES; i++) {
 		// Open file and deserialize
-		std::ifstream is(path.c_str(), std::ios_base::binary);
+		auto is = open_ifstream(path.c_str(), false);
 		if (!is.good())
 			continue;
 
@@ -231,7 +213,7 @@ bool PlayerDatabaseFiles::loadPlayer(RemotePlayer *player, PlayerSAO *sao)
 	const std::string player_to_load = player->getName();
 	for (u32 i = 0; i < PLAYER_FILE_ALTERNATE_TRIES; i++) {
 		// Open file and deserialize
-		std::ifstream is(path.c_str(), std::ios_base::binary);
+		auto is = open_ifstream(path.c_str(), false);
 		if (!is.good())
 			continue;
 
@@ -260,7 +242,7 @@ void PlayerDatabaseFiles::listPlayers(std::vector<std::string> &res)
 
 		const std::string &filename = it->name;
 		std::string full_path = m_savedir + DIR_DELIM + filename;
-		std::ifstream is(full_path.c_str(), std::ios_base::binary);
+		auto is = open_ifstream(full_path.c_str(), true);
 		if (!is.good())
 			continue;
 
@@ -332,7 +314,7 @@ void AuthDatabaseFiles::reload()
 bool AuthDatabaseFiles::readAuthFile()
 {
 	std::string path = m_savedir + DIR_DELIM + "auth.txt";
-	std::ifstream file(path, std::ios::binary);
+	auto file = open_ifstream(path.c_str(), false);
 	if (!file.good()) {
 		return false;
 	}
@@ -375,4 +357,170 @@ bool AuthDatabaseFiles::writeAuthFile()
 		return false;
 	}
 	return true;
+}
+
+ModStorageDatabaseFiles::ModStorageDatabaseFiles(const std::string &savedir):
+	m_storage_dir(savedir + DIR_DELIM + "mod_storage")
+{
+}
+
+void ModStorageDatabaseFiles::getModEntries(const std::string &modname, StringMap *storage)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta)
+		return;
+
+	const Json::Value::Members attr_list = meta->getMemberNames();
+	for (const auto &it : attr_list) {
+		Json::Value attr_value = (*meta)[it];
+		(*storage)[it] = attr_value.asString();
+	}
+}
+
+void ModStorageDatabaseFiles::getModKeys(const std::string &modname,
+		std::vector<std::string> *storage)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta)
+		return;
+
+	std::vector<std::string> keys = meta->getMemberNames();
+	storage->reserve(storage->size() + keys.size());
+	for (std::string &key : keys)
+		storage->push_back(std::move(key));
+}
+
+bool ModStorageDatabaseFiles::getModEntry(const std::string &modname,
+	const std::string &key, std::string *value)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta)
+		return false;
+
+	if (meta->isMember(key)) {
+		*value = (*meta)[key].asString();
+		return true;
+	}
+	return false;
+}
+
+bool ModStorageDatabaseFiles::hasModEntry(const std::string &modname, const std::string &key)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	return meta && meta->isMember(key);
+}
+
+bool ModStorageDatabaseFiles::setModEntry(const std::string &modname,
+	const std::string &key, std::string_view value)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta)
+		return false;
+
+	Json::Value value_v(value.data(), value.data() + value.size());
+	(*meta)[key] = std::move(value_v);
+	m_modified.insert(modname);
+
+	return true;
+}
+
+bool ModStorageDatabaseFiles::removeModEntry(const std::string &modname,
+		const std::string &key)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta)
+		return false;
+
+	Json::Value removed;
+	if (meta->removeMember(key, &removed)) {
+		m_modified.insert(modname);
+		return true;
+	}
+	return false;
+}
+
+bool ModStorageDatabaseFiles::removeModEntries(const std::string &modname)
+{
+	Json::Value *meta = getOrCreateJson(modname);
+	if (!meta || meta->empty())
+		return false;
+
+	meta->clear();
+	m_modified.insert(modname);
+	return true;
+}
+
+void ModStorageDatabaseFiles::beginSave()
+{
+}
+
+void ModStorageDatabaseFiles::endSave()
+{
+	if (m_modified.empty())
+		return;
+
+	if (!fs::CreateAllDirs(m_storage_dir)) {
+		errorstream << "ModStorageDatabaseFiles: Unable to save. '"
+				<< m_storage_dir << "' cannot be created." << std::endl;
+		return;
+	}
+	if (!fs::IsDir(m_storage_dir)) {
+		errorstream << "ModStorageDatabaseFiles: Unable to save. '"
+				<< m_storage_dir << "' is not a directory." << std::endl;
+		return;
+	}
+
+	for (auto it = m_modified.begin(); it != m_modified.end();) {
+		const std::string &modname = *it;
+
+		const Json::Value &json = m_mod_storage[modname];
+
+		if (!fs::safeWriteToFile(m_storage_dir + DIR_DELIM + modname, fastWriteJson(json))) {
+			errorstream << "ModStorageDatabaseFiles[" << modname
+					<< "]: failed to write file." << std::endl;
+			++it;
+			continue;
+		}
+
+		it = m_modified.erase(it);
+	}
+}
+
+void ModStorageDatabaseFiles::listMods(std::vector<std::string> *res)
+{
+	// List in-memory metadata first.
+	for (const auto &pair : m_mod_storage) {
+		res->push_back(pair.first);
+	}
+
+	// List other metadata present in the filesystem.
+	for (const auto &entry : fs::GetDirListing(m_storage_dir)) {
+		if (!entry.dir && m_mod_storage.count(entry.name) == 0)
+			res->push_back(entry.name);
+	}
+}
+
+Json::Value *ModStorageDatabaseFiles::getOrCreateJson(const std::string &modname)
+{
+	auto found = m_mod_storage.find(modname);
+	if (found != m_mod_storage.end())
+		return &found->second;
+
+	Json::Value meta(Json::objectValue);
+
+	std::string path = m_storage_dir + DIR_DELIM + modname;
+	if (fs::PathExists(path)) {
+		auto is = open_ifstream(path.c_str(), true);
+		Json::CharReaderBuilder builder;
+		builder.settings_["collectComments"] = false;
+		std::string errs;
+
+		if (!Json::parseFromStream(builder, is, &meta, &errs)) {
+			errorstream << "ModStorageDatabaseFiles[" << modname
+					<< "]: failed to decode data: " << errs << std::endl;
+			return nullptr;
+		}
+	}
+
+	return &(m_mod_storage[modname] = std::move(meta));
 }

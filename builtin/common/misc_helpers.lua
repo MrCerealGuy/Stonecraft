@@ -1,8 +1,7 @@
--- Minetest: builtin/misc_helpers.lua
-
 --------------------------------------------------------------------------------
 -- Localize functions to avoid table lookups (better performance).
 local string_sub, string_find = string.sub, string.find
+local math = math
 
 --------------------------------------------------------------------------------
 local function basic_dump(o)
@@ -170,6 +169,9 @@ end
 --------------------------------------------------------------------------------
 function string.split(str, delim, include_empty, max_splits, sep_is_pattern)
 	delim = delim or ","
+	if delim == "" then
+		error("string.split separator is empty", 2)
+	end
 	max_splits = max_splits or -2
 	local items = {}
 	local pos, len = 1, #str
@@ -203,56 +205,41 @@ function table.indexof(list, val)
 end
 
 --------------------------------------------------------------------------------
+function table.keyof(tb, val)
+	for k, v in pairs(tb) do
+		if v == val then
+			return k
+		end
+	end
+	return nil
+end
+
+--------------------------------------------------------------------------------
 function string:trim()
-	return (self:gsub("^%s*(.-)%s*$", "%1"))
+	return self:match("^%s*(.-)%s*$")
 end
 
---------------------------------------------------------------------------------
-function math.hypot(x, y)
-	local t
-	x = math.abs(x)
-	y = math.abs(y)
-	t = math.min(x, y)
-	x = math.max(x, y)
-	if x == 0 then return 0 end
-	t = t / x
-	return x * math.sqrt(1 + t * t)
-end
-
---------------------------------------------------------------------------------
-function math.sign(x, tolerance)
-	tolerance = tolerance or 0
-	if x > tolerance then
-		return 1
-	elseif x < -tolerance then
-		return -1
-	end
-	return 0
-end
-
---------------------------------------------------------------------------------
-function math.factorial(x)
-	assert(x % 1 == 0 and x >= 0, "factorial expects a non-negative integer")
-	if x >= 171 then
-		-- 171! is greater than the biggest double, no need to calculate
-		return math.huge
-	end
-	local v = 1
-	for k = 2, x do
-		v = v * k
-	end
-	return v
-end
-
+local formspec_escapes = {
+	["\\"] = "\\\\",
+	["["] = "\\[",
+	["]"] = "\\]",
+	[";"] = "\\;",
+	[","] = "\\,",
+	["$"] = "\\$",
+}
 function core.formspec_escape(text)
-	if text ~= nil then
-		text = string.gsub(text,"\\","\\\\")
-		text = string.gsub(text,"%]","\\]")
-		text = string.gsub(text,"%[","\\[")
-		text = string.gsub(text,";","\\;")
-		text = string.gsub(text,",","\\,")
-	end
-	return text
+	-- Use explicit character set instead of dot here because it doubles the performance
+	return text and string.gsub(text, "[\\%[%];,$]", formspec_escapes)
+end
+
+
+local hypertext_escapes = {
+	["\\"] = "\\\\",
+	["<"] = "\\<",
+	[">"] = "\\>",
+}
+function core.hypertext_escape(text)
+	return text and text:gsub("[\\<>]", hypertext_escapes)
 end
 
 
@@ -263,18 +250,21 @@ function core.wrap_text(text, max_length, as_table)
 		return as_table and {text} or text
 	end
 
-	for word in text:gmatch('%S+') do
-		local cur_length = #table.concat(line, ' ')
-		if cur_length > 0 and cur_length + #word + 1 >= max_length then
+	local line_length = 0
+	for word in text:gmatch("%S+") do
+		if line_length > 0 and line_length + #word + 1 >= max_length then
 			-- word wouldn't fit on current line, move to next line
-			table.insert(result, table.concat(line, ' '))
-			line = {}
+			table.insert(result, table.concat(line, " "))
+			line = {word}
+			line_length = #word
+		else
+			table.insert(line, word)
+			line_length = line_length + 1 + #word
 		end
-		table.insert(line, word)
 	end
 
-	table.insert(result, table.concat(line, ' '))
-	return as_table and result or table.concat(result, '\n')
+	table.insert(result, table.concat(line, " "))
+	return as_table and result or table.concat(result, "\n")
 end
 
 --------------------------------------------------------------------------------
@@ -423,55 +413,49 @@ function core.string_to_pos(value)
 		return nil
 	end
 
-	local p = {}
-	p.x, p.y, p.z = string.match(value, "^([%d.-]+)[, ] *([%d.-]+)[, ] *([%d.-]+)$")
-	if p.x and p.y and p.z then
-		p.x = tonumber(p.x)
-		p.y = tonumber(p.y)
-		p.z = tonumber(p.z)
-		return p
+	value = value:match("^%((.-)%)$") or value -- strip parentheses
+
+	local x, y, z = value:trim():match("^([%d.-]+)[,%s]%s*([%d.-]+)[,%s]%s*([%d.-]+)$")
+	if x and y and z then
+		x = tonumber(x)
+		y = tonumber(y)
+		z = tonumber(z)
+		return vector.new(x, y, z)
 	end
-	p = {}
-	p.x, p.y, p.z = string.match(value, "^%( *([%d.-]+)[, ] *([%d.-]+)[, ] *([%d.-]+) *%)$")
-	if p.x and p.y and p.z then
-		p.x = tonumber(p.x)
-		p.y = tonumber(p.y)
-		p.z = tonumber(p.z)
-		return p
-	end
+
 	return nil
 end
 
 
 --------------------------------------------------------------------------------
-function core.string_to_area(value)
-	local p1, p2 = unpack(value:split(") ("))
-	if p1 == nil or p2 == nil then
-		return nil
+
+do
+	local rel_num_cap = "(~?-?%d*%.?%d*)" -- may be overly permissive as this will be tonumber'ed anyways
+	local num_delim = "[,%s]%s*"
+	local pattern = "^" .. table.concat({rel_num_cap, rel_num_cap, rel_num_cap}, num_delim) .. "$"
+
+	local function parse_area_string(pos, relative_to)
+		local pp = {}
+		pp.x, pp.y, pp.z = pos:trim():match(pattern)
+		return core.parse_coordinates(pp.x, pp.y, pp.z, relative_to)
 	end
 
-	p1 = core.string_to_pos(p1 .. ")")
-	p2 = core.string_to_pos("(" .. p2)
-	if p1 == nil or p2 == nil then
-		return nil
+	function core.string_to_area(value, relative_to)
+		local p1, p2 = value:match("^%((.-)%)%s*%((.-)%)$")
+		if not p1 then
+			return
+		end
+
+		p1 = parse_area_string(p1, relative_to)
+		p2 = parse_area_string(p2, relative_to)
+
+		if p1 == nil or p2 == nil then
+			return
+		end
+
+		return p1, p2
 	end
-
-	return p1, p2
 end
-
-local function test_string_to_area()
-	local p1, p2 = core.string_to_area("(10.0, 5, -2) (  30.2,   4, -12.53)")
-	assert(p1.x == 10.0 and p1.y == 5 and p1.z == -2)
-	assert(p2.x == 30.2 and p2.y == 4 and p2.z == -12.53)
-
-	p1, p2 = core.string_to_area("(10.0, 5, -2  30.2,   4, -12.53")
-	assert(p1 == nil and p2 == nil)
-
-	p1, p2 = core.string_to_area("(10.0, 5,) -2  fgdf2,   4, -12.53")
-	assert(p1 == nil and p2 == nil)
-end
-
-test_string_to_area()
 
 --------------------------------------------------------------------------------
 function table.copy(t, seen)
@@ -487,6 +471,9 @@ end
 
 
 function table.insert_all(t, other)
+	if table.move then -- LuaJIT
+		return table.move(other, 1, #other, #t + 1, t)
+	end
 	for i=1, #other do
 		t[#t + 1] = other[i]
 	end
@@ -520,19 +507,7 @@ end
 --------------------------------------------------------------------------------
 -- mainmenu only functions
 --------------------------------------------------------------------------------
-if INIT == "mainmenu" then
-	function core.get_game(index)
-		local games = core.get_games()
-
-		if index > 0 and index <= #games then
-			return games[index]
-		end
-
-		return nil
-	end
-end
-
-if INIT == "client" or INIT == "mainmenu" then
+if core.gettext then -- for client and mainmenu
 	function fgettext_ne(text, ...)
 		text = core.gettext(text)
 		local arg = {n=select('#', ...), ...}
@@ -597,12 +572,14 @@ function core.strip_colors(str)
 	return (str:gsub(ESCAPE_CHAR .. "%([bc]@[^)]+%)", ""))
 end
 
-function core.translate(textdomain, str, ...)
+local function translate(textdomain, str, num, ...)
 	local start_seq
-	if textdomain == "" then
+	if textdomain == "" and num == "" then
 		start_seq = ESCAPE_CHAR .. "T"
-	else
+	elseif num == "" then
 		start_seq = ESCAPE_CHAR .. "(T@" .. textdomain .. ")"
+	else
+		start_seq = ESCAPE_CHAR .. "(T@" .. textdomain .. "@" .. num .. ")"
 	end
 	local arg = {n=select('#', ...), ...}
 	local end_seq = ESCAPE_CHAR .. "E"
@@ -633,8 +610,31 @@ function core.translate(textdomain, str, ...)
 	return start_seq .. translated .. end_seq
 end
 
+function core.translate(textdomain, str, ...)
+	return translate(textdomain, str, "", ...)
+end
+
+function core.translate_n(textdomain, str, str_plural, n, ...)
+	assert (type(n) == "number")
+	assert (n >= 0)
+	assert (math.floor(n) == n)
+
+	-- Truncate n if too large
+	local max = 1000000
+	if n >= 2 * max then
+		n = n % max + max
+	end
+	if n == 1 then
+		return translate(textdomain, str, "1", ...)
+	else
+		return translate(textdomain, str_plural, tostring(n), ...)
+	end
+end
+
 function core.get_translator(textdomain)
-	return function(str, ...) return core.translate(textdomain or "", str, ...) end
+	return
+		(function(str, ...) return core.translate(textdomain or "", str, ...) end),
+		(function(str, str_plural, n, ...) return core.translate_n(textdomain or "", str, str_plural, n, ...) end)
 end
 
 --------------------------------------------------------------------------------
@@ -695,9 +695,78 @@ function core.privs_to_string(privs, delim)
 			list[#list + 1] = priv
 		end
 	end
+	table.sort(list)
 	return table.concat(list, delim)
 end
 
 function core.is_nan(number)
 	return number ~= number
+end
+
+--[[ Helper function for parsing an optionally relative number
+of a chat command parameter, using the chat command tilde notation.
+
+Parameters:
+* arg: String snippet containing the number; possible values:
+    * "<number>": return as number
+    * "~<number>": return relative_to + <number>
+    * "~": return relative_to
+    * Anything else will return `nil`
+* relative_to: Number to which the `arg` number might be relative to
+
+Returns:
+A number or `nil`, depending on `arg.
+
+Examples:
+* `core.parse_relative_number("5", 10)` returns 5
+* `core.parse_relative_number("~5", 10)` returns 15
+* `core.parse_relative_number("~", 10)` returns 10
+]]
+function core.parse_relative_number(arg, relative_to)
+	if not arg then
+		return nil
+	elseif arg == "~" then
+		return relative_to
+	elseif string.sub(arg, 1, 1) == "~" then
+		local number = tonumber(string.sub(arg, 2))
+		if not number then
+			return nil
+		end
+		if core.is_nan(number) or number == math.huge or number == -math.huge then
+			return nil
+		end
+		return relative_to + number
+	else
+		local number = tonumber(arg)
+		if core.is_nan(number) or number == math.huge or number == -math.huge then
+			return nil
+		end
+		return number
+	end
+end
+
+--[[ Helper function to parse coordinates that might be relative
+to another position; supports chat command tilde notation.
+Intended to be used in chat command parameter parsing.
+
+Parameters:
+* x, y, z: Parsed x, y, and z coordinates as strings
+* relative_to: Position to which to compare the position
+
+Syntax of x, y and z:
+* "<number>": return as number
+* "~<number>": return <number> + player position on this axis
+* "~": return player position on this axis
+
+Returns: a vector or nil for invalid input or if player does not exist
+]]
+function core.parse_coordinates(x, y, z, relative_to)
+	if not relative_to then
+		x, y, z = tonumber(x), tonumber(y), tonumber(z)
+		return x and y and z and { x = x, y = y, z = z }
+	end
+	local rx = core.parse_relative_number(x, relative_to.x)
+	local ry = core.parse_relative_number(y, relative_to.y)
+	local rz = core.parse_relative_number(z, relative_to.z)
+	return rx and ry and rz and { x = rx, y = ry, z = rz }
 end

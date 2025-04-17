@@ -1,28 +1,13 @@
-/*
-Minetest
-Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2017 red-001 <red-001@outlook.ie>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+// Copyright (C) 2017 red-001 <red-001@outlook.ie>
 
 #pragma once
 
-#include "irrlichttypes_extrabloated.h"
+#include "irrlichttypes_bloated.h"
 #include <string>
-#include "common/c_types.h"
+#include "util/enum_string.h"
 
 #define HUD_DIR_LEFT_RIGHT 0
 #define HUD_DIR_RIGHT_LEFT 1
@@ -32,6 +17,10 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define HUD_CORNER_UPPER  0
 #define HUD_CORNER_LOWER  1
 #define HUD_CORNER_CENTER 2
+
+#define HUD_STYLE_BOLD   1
+#define HUD_STYLE_ITALIC 2
+#define HUD_STYLE_MONO   4
 
 // Note that these visibility flags do not determine if the hud items are
 // actually drawn, but rather, whether to draw the item should the rest
@@ -43,6 +32,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #define HUD_FLAG_BREATHBAR_VISIBLE     (1 << 4)
 #define HUD_FLAG_MINIMAP_VISIBLE       (1 << 5)
 #define HUD_FLAG_MINIMAP_RADAR_VISIBLE (1 << 6)
+#define HUD_FLAG_BASIC_DEBUG           (1 << 7)
+#define HUD_FLAG_CHAT_VISIBLE          (1 << 8)
 
 #define HUD_PARAM_HOTBAR_ITEMCOUNT 1
 #define HUD_PARAM_HOTBAR_IMAGE 2
@@ -61,10 +52,11 @@ enum HudElementType {
 	HUD_ELEM_WAYPOINT  = 4,
 	HUD_ELEM_IMAGE_WAYPOINT = 5,
 	HUD_ELEM_COMPASS   = 6,
-	HUD_ELEM_MINIMAP   = 7
+	HUD_ELEM_MINIMAP   = 7,
+	HUD_ELEM_HOTBAR    = 8,
 };
 
-enum HudElementStat {
+enum HudElementStat : u8 {
 	HUD_STAT_POS = 0,
 	HUD_STAT_NAME,
 	HUD_STAT_SCALE,
@@ -78,6 +70,8 @@ enum HudElementStat {
 	HUD_STAT_SIZE,
 	HUD_STAT_Z_INDEX,
 	HUD_STAT_TEXT2,
+	HUD_STAT_STYLE,
+	HudElementStat_END // Dummy for validity check
 };
 
 enum HudCompassDir {
@@ -102,6 +96,7 @@ struct HudElement {
 	v2s32 size;
 	s16 z_index = 0;
 	std::string text2;
+	u32 style;
 };
 
 extern const EnumString es_HudElementType[];

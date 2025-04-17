@@ -1,44 +1,13 @@
-/*
-Minetest
-Copyright (C) 2018 nerzhul, Loic BLOT <loic.blot@unix-experience.fr>
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2018 nerzhul, Loic BLOT <loic.blot@unix-experience.fr>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-#include <server.h>
 #include "test.h"
+
+#include "mock_server.h"
 
 #include "util/string.h"
 #include "util/serialize.h"
-
-class FakeServer : public Server
-{
-public:
-	// clang-format off
-	FakeServer() : Server("fakeworld", SubgameSpec("fakespec", "fakespec"), true,
-					Address(), true, nullptr)
-	{
-	}
-	// clang-format on
-
-private:
-	void SendChatMessage(session_t peer_id, const ChatMessage &message)
-	{
-		// NOOP
-	}
-};
 
 class TestServerShutdownState : public TestBase
 {
@@ -95,10 +64,10 @@ void TestServerShutdownState::testTrigger()
 
 void TestServerShutdownState::testTick()
 {
-	std::unique_ptr<FakeServer> fakeServer(new FakeServer());
+	auto server = std::make_unique<MockServer>();
 	Server::ShutdownState ss;
 	ss.trigger(28.0f, "testtrigger", true);
-	ss.tick(0.0f, fakeServer.get());
+	ss.tick(0.0f, server.get());
 
 	// Tick with no time should not change anything
 	UASSERT(!ss.is_requested);
@@ -107,14 +76,14 @@ void TestServerShutdownState::testTick()
 	UASSERT(ss.m_timer == 28.0f);
 
 	// Tick 2 seconds
-	ss.tick(2.0f, fakeServer.get());
+	ss.tick(2.0f, server.get());
 	UASSERT(!ss.is_requested);
 	UASSERT(ss.should_reconnect);
 	UASSERT(ss.message == "testtrigger");
 	UASSERT(ss.m_timer == 26.0f);
 
 	// Tick remaining seconds + additional expire
-	ss.tick(26.1f, fakeServer.get());
+	ss.tick(26.1f, server.get());
 	UASSERT(ss.is_requested);
 	UASSERT(ss.should_reconnect);
 	UASSERT(ss.message == "testtrigger");

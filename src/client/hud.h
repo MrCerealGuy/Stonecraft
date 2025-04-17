@@ -1,27 +1,15 @@
-/*
-Minetest
-Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2017 red-001 <red-001@outlook.ie>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+// Copyright (C) 2017 red-001 <red-001@outlook.ie>
 
 #pragma once
 
 #include <vector>
 #include <IGUIFont.h>
+#include <SMaterial.h>
+#include <SMeshBuffer.h>
+#include "irr_ptr.h"
 #include "irr_aabb3d.h"
 #include "../hud.h"
 
@@ -32,16 +20,26 @@ class InventoryList;
 class LocalPlayer;
 struct ItemStack;
 
+namespace irr::scene
+{
+	class IMesh;
+}
+
+namespace irr::video
+{
+	class ITexture;
+	class IVideoDriver;
+}
+
 class Hud
 {
 public:
-	video::IVideoDriver *driver;
-	scene::ISceneManager *smgr;
-	gui::IGUIEnvironment *guienv;
-	Client *client;
-	LocalPlayer *player;
-	Inventory *inventory;
-	ITextureSource *tsrc;
+	enum BlockBoundsMode
+	{
+		BLOCK_BOUNDS_OFF,
+		BLOCK_BOUNDS_CURRENT,
+		BLOCK_BOUNDS_NEAR,
+	} m_block_bounds_mode = BLOCK_BOUNDS_OFF;
 
 	video::SColor crosshair_argb;
 	video::SColor selectionbox_argb;
@@ -55,11 +53,16 @@ public:
 
 	bool pointing_at_object = false;
 
-	Hud(gui::IGUIEnvironment *guienv, Client *client, LocalPlayer *player,
+	Hud(Client *client, LocalPlayer *player,
 			Inventory *inventory);
+	void readScalingSetting();
 	~Hud();
 
-	void drawHotbar(u16 playeritem);
+	enum BlockBoundsMode toggleBlockBounds();
+	void disableBlockBounds();
+	void drawBlockBounds();
+
+	void drawHotbar(const v2s32 &pos, const v2f &offset, u16 direction, const v2f &align);
 	void resizeHotbar();
 	void drawCrosshair();
 	void drawSelectionMesh();
@@ -70,6 +73,10 @@ public:
 	void setSelectionPos(const v3f &pos, const v3s16 &camera_offset);
 
 	v3f getSelectionPos() const { return m_selection_pos; }
+
+	void setSelectionRotation(v3f rotation) { m_selection_rotation = rotation; }
+
+	v3f getSelectionRotation() const { return m_selection_rotation; }
 
 	void setSelectionMeshColor(const video::SColor &color)
 	{
@@ -91,9 +98,9 @@ private:
 			const std::string &texture, const std::string& bgtexture,
 			s32 count, s32 maxcount, v2s32 offset, v2s32 size = v2s32());
 
-	void drawItems(v2s32 upperleftpos, v2s32 screen_offset, s32 itemcount,
+	void drawItems(v2s32 screen_pos, v2s32 screen_offset, s32 itemcount, v2f alignment,
 			s32 inv_offset, InventoryList *mainlist, u16 selectitem,
-			u16 direction);
+			u16 direction, bool is_hotbar);
 
 	void drawItem(const ItemStack &item, const core::rect<s32> &rect, bool selected);
 
@@ -102,6 +109,12 @@ private:
 
 	void drawCompassRotate(HudElement *e, video::ITexture *texture,
 			const core::rect<s32> &rect, int way);
+
+	Client *client = nullptr;
+	video::IVideoDriver *driver = nullptr;
+	LocalPlayer *player = nullptr;
+	Inventory *inventory = nullptr;
+	ITextureSource *tsrc = nullptr;
 
 	float m_hud_scaling; // cached minetest setting
 	float m_scale_factor;
@@ -116,14 +129,16 @@ private:
 	std::vector<aabb3f> m_halo_boxes;
 	v3f m_selection_pos;
 	v3f m_selection_pos_with_offset;
+	v3f m_selection_rotation;
 
 	scene::IMesh *m_selection_mesh = nullptr;
 	video::SColor m_selection_mesh_color;
 	v3f m_selected_face_normal;
 
 	video::SMaterial m_selection_material;
+	video::SMaterial m_block_bounds_material;
 
-	scene::SMeshBuffer m_rotation_mesh_buffer;
+	irr_ptr<scene::SMeshBuffer> m_rotation_mesh_buffer;
 
 	enum
 	{

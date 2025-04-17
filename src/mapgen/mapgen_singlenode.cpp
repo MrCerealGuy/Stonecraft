@@ -1,23 +1,8 @@
-/*
-Minetest
-Copyright (C) 2013-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2013-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2018 paramat
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Copyright (C) 2013-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+// Copyright (C) 2015-2018 paramat
 
 #include "mapgen_singlenode.h"
 #include "voxel.h"
@@ -32,14 +17,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 MapgenSinglenode::MapgenSinglenode(MapgenParams *params, EmergeParams *emerge)
 	: Mapgen(MAPGEN_SINGLENODE, params, emerge)
 {
-	const NodeDefManager *ndef = emerge->ndef;
-
 	c_node = ndef->getId("mapgen_singlenode");
 	if (c_node == CONTENT_IGNORE)
 		c_node = CONTENT_AIR;
 
 	MapNode n_node(c_node);
-	set_light = (ndef->get(n_node).sunlight_propagates) ? LIGHT_SUN : 0x00;
+	set_light = (ndef->getLightingFlags(n_node).sunlight_propagates) ? LIGHT_SUN : 0x00;
 }
 
 
@@ -76,8 +59,8 @@ void MapgenSinglenode::makeChunk(BlockMakeData *data)
 		}
 	}
 
-	// Add top and bottom side of water to transforming_liquid queue
-	updateLiquid(&data->transforming_liquid, node_min, node_max);
+	if (ndef->get(n_node).isLiquid())
+		updateLiquid(&data->transforming_liquid, node_min, node_max);
 
 	// Set lighting
 	if ((flags & MG_LIGHT) && set_light == LIGHT_SUN)

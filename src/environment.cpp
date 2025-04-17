@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include <fstream>
 #include "environment.h"
@@ -32,7 +17,6 @@ Environment::Environment(IGameDef *gamedef):
 	m_day_count(0),
 	m_gamedef(gamedef)
 {
-	m_cache_enable_shaders = g_settings->getBool("enable_shaders");
 	m_cache_active_block_mgmt_interval = g_settings->getFloat("active_block_mgmt_interval");
 	m_cache_abm_interval = g_settings->getFloat("abm_interval");
 	m_cache_nodetimer_interval = g_settings->getFloat("nodetimer_interval");
@@ -44,10 +28,10 @@ Environment::Environment(IGameDef *gamedef):
 
 u32 Environment::getDayNightRatio()
 {
-	MutexAutoLock lock(this->m_time_lock);
+	MutexAutoLock lock(m_time_lock);
 	if (m_enable_day_night_ratio_override)
 		return m_day_night_ratio_override;
-	return time_to_daynight_ratio(m_time_of_day_f * 24000, m_cache_enable_shaders);
+	return time_to_daynight_ratio(m_time_of_day_f * 24000, true);
 }
 
 void Environment::setTimeOfDaySpeed(float speed)
@@ -57,14 +41,14 @@ void Environment::setTimeOfDaySpeed(float speed)
 
 void Environment::setDayNightRatioOverride(bool enable, u32 value)
 {
-	MutexAutoLock lock(this->m_time_lock);
+	MutexAutoLock lock(m_time_lock);
 	m_enable_day_night_ratio_override = enable;
 	m_day_night_ratio_override = value;
 }
 
 void Environment::setTimeOfDay(u32 time)
 {
-	MutexAutoLock lock(this->m_time_lock);
+	MutexAutoLock lock(m_time_lock);
 	if (m_time_of_day > time)
 		++m_day_count;
 	m_time_of_day = time;
@@ -73,13 +57,13 @@ void Environment::setTimeOfDay(u32 time)
 
 u32 Environment::getTimeOfDay()
 {
-	MutexAutoLock lock(this->m_time_lock);
+	MutexAutoLock lock(m_time_lock);
 	return m_time_of_day;
 }
 
 float Environment::getTimeOfDayF()
 {
-	MutexAutoLock lock(this->m_time_lock);
+	MutexAutoLock lock(m_time_lock);
 	return m_time_of_day_f;
 }
 
@@ -102,27 +86,35 @@ bool Environment::line_of_sight(v3f pos1, v3f pos2, v3s16 *p)
 }
 
 /*
-	Check if a node is pointable
+	Check how a node can be pointed at
 */
-inline static bool isPointableNode(const MapNode &n,
-	const NodeDefManager *nodedef , bool liquids_pointable)
+inline static PointabilityType isPointableNode(const MapNode &n,
+	const NodeDefManager *nodedef, bool liquids_pointable,
+	const std::optional<Pointabilities> &pointabilities)
 {
 	const ContentFeatures &features = nodedef->get(n);
-	return features.pointable ||
-	       (liquids_pointable && features.isLiquid());
+	if (pointabilities) {
+		std::optional<PointabilityType> match =
+				pointabilities->matchNode(features.name, features.groups);
+		if (match)
+			return match.value();
+	}
+
+	if (features.isLiquid() && liquids_pointable)
+		return PointabilityType::POINTABLE;
+	return features.pointable;
 }
 
-void Environment::continueRaycast(RaycastState *state, PointedThing *result)
+void Environment::continueRaycast(RaycastState *state, PointedThing *result_p)
 {
 	const NodeDefManager *nodedef = getMap().getNodeDefManager();
 	if (state->m_initialization_needed) {
 		// Add objects
 		if (state->m_objects_pointable) {
 			std::vector<PointedThing> found;
-			getSelectedActiveObjects(state->m_shootline, found);
-			for (const PointedThing &pointed : found) {
-				state->m_found.push(pointed);
-			}
+			getSelectedActiveObjects(state->m_shootline, found, state->m_pointabilities);
+			for (auto &pointed : found)
+				state->m_found.push(std::move(pointed));
 		}
 		// Set search range
 		core::aabbox3d<s16> maximal_exceed = nodedef->getSelectionBoxIntUnion();
@@ -141,14 +133,10 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 	}
 
 	Map &map = getMap();
-	// If a node is found, this is the center of the
-	// first nodebox the shootline meets.
-	v3f found_boxcenter(0, 0, 0);
-	// The untested nodes are in this range.
-	core::aabbox3d<s16> new_nodes;
+	std::vector<aabb3f> boxes;
 	while (state->m_iterator.m_current_index <= lastIndex) {
 		// Test the nodes around the current node in search_range.
-		new_nodes = state->m_search_range;
+		core::aabbox3d<s16> new_nodes = state->m_search_range;
 		new_nodes.MinEdge += state->m_iterator.m_current_node_pos;
 		new_nodes.MaxEdge += state->m_iterator.m_current_node_pos;
 
@@ -169,23 +157,34 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 			new_nodes.MaxEdge.Z = new_nodes.MinEdge.Z;
 		}
 
+		if (new_nodes.MaxEdge.X == S16_MAX ||
+			new_nodes.MaxEdge.Y == S16_MAX ||
+			new_nodes.MaxEdge.Z == S16_MAX) {
+			break; // About to go out of bounds
+		}
+
 		// For each untested node
-		for (s16 x = new_nodes.MinEdge.X; x <= new_nodes.MaxEdge.X; x++)
+		for (s16 z = new_nodes.MinEdge.Z; z <= new_nodes.MaxEdge.Z; z++)
 		for (s16 y = new_nodes.MinEdge.Y; y <= new_nodes.MaxEdge.Y; y++)
-		for (s16 z = new_nodes.MinEdge.Z; z <= new_nodes.MaxEdge.Z; z++) {
+		for (s16 x = new_nodes.MinEdge.X; x <= new_nodes.MaxEdge.X; x++) {
 			MapNode n;
 			v3s16 np(x, y, z);
 			bool is_valid_position;
 
 			n = map.getNode(np, &is_valid_position);
-			if (!(is_valid_position && isPointableNode(n, nodedef,
-					state->m_liquids_pointable))) {
+			if (!is_valid_position)
 				continue;
-			}
+
+			PointabilityType pointable = isPointableNode(n, nodedef,
+					state->m_liquids_pointable,
+					state->m_pointabilities);
+			// If it can be pointed through skip
+			if (pointable == PointabilityType::POINTABLE_NOT)
+				continue;
 
 			PointedThing result;
 
-			std::vector<aabb3f> boxes;
+			boxes.clear();
 			n.getSelectionBoxes(nodedef, &boxes,
 				n.getNeighbors(np, &map));
 
@@ -195,22 +194,25 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 			float min_distance_sq = 10000000;
 			// ID of the current box (loop counter)
 			u16 id = 0;
+			// If a node is found, this is the center of the
+			// first nodebox the shootline meets.
+			v3f found_boxcenter(0, 0, 0);
 
+			// Do calculations relative to the node center
+			// to translate the ray rather than the boxes
 			v3f npf = intToFloat(np, BS);
-			// This loop translates the boxes to their in-world place.
+			v3f rel_start = state->m_shootline.start - npf;
 			for (aabb3f &box : boxes) {
-				box.MinEdge += npf;
-				box.MaxEdge += npf;
-
 				v3f intersection_point;
-				v3s16 intersection_normal;
-				if (!boxLineCollision(box, state->m_shootline.start,
+				v3f intersection_normal;
+				if (!boxLineCollision(box, rel_start,
 						state->m_shootline.getVector(), &intersection_point,
 						&intersection_normal)) {
 					++id;
 					continue;
 				}
 
+				intersection_point += npf; // translate back to world coords
 				f32 distanceSq = (intersection_point
 					- state->m_shootline.start).getLengthSQ();
 				// If this is the nearest collision, save it
@@ -228,12 +230,14 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 			if (!is_colliding) {
 				continue;
 			}
+			result.pointability = pointable;
 			result.type = POINTEDTHING_NODE;
 			result.node_undersurface = np;
 			result.distanceSq = min_distance_sq;
 			// Set undersurface and abovesurface nodes
-			f32 d = 0.002 * BS;
+			const f32 d = 0.002 * BS;
 			v3f fake_intersection = result.intersection_point;
+			found_boxcenter += npf; // translate back to world coords
 			// Move intersection towards its source block.
 			if (fake_intersection.X < found_boxcenter.X) {
 				fake_intersection.X += d;
@@ -253,9 +257,10 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 			result.node_real_undersurface = floatToInt(
 				fake_intersection, BS);
 			result.node_abovesurface = result.node_real_undersurface
-				+ result.intersection_normal;
+				+ floatToInt(result.intersection_normal, 1.0f);
+
 			// Push found PointedThing
-			state->m_found.push(result);
+			state->m_found.push(std::move(result));
 			// If this is nearer than the old nearest object,
 			// the search can be shorter
 			s16 newIndex = state->m_iterator.getIndex(
@@ -268,12 +273,15 @@ void Environment::continueRaycast(RaycastState *state, PointedThing *result)
 		state->m_previous_node = state->m_iterator.m_current_node_pos;
 		state->m_iterator.next();
 	}
-	// Return empty PointedThing if nothing left on the ray
+
+	// Return empty PointedThing if nothing left on the ray or it is blocking pointable
 	if (state->m_found.empty()) {
-		result->type = POINTEDTHING_NOTHING;
+		result_p->type = POINTEDTHING_NOTHING;
 	} else {
-		*result = state->m_found.top();
+		*result_p = state->m_found.top();
 		state->m_found.pop();
+		if (result_p->pointability == PointabilityType::POINTABLE_BLOCKING)
+			result_p->type = POINTEDTHING_NOTHING;
 	}
 }
 

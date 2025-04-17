@@ -1,7 +1,9 @@
 _G.core = {}
 _G.unpack = table.unpack
+_G.check_cache_age = function() return false end
 _G.serverlistmgr = {}
 
+dofile("builtin/common/vector.lua")
 dofile("builtin/common/misc_helpers.lua")
 dofile("builtin/mainmenu/serverlistmgr.lua")
 

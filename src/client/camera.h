@@ -1,35 +1,24 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
-#include "irrlichttypes_extrabloated.h"
+#include "irrlichttypes.h"
 #include "inventory.h"
-#include "client/tile.h"
+#include "util/numeric.h"
+#include "client/localplayer.h"
 #include <ICameraSceneNode.h>
 #include <ISceneNode.h>
+#include <plane3d.h>
+#include <array>
 #include <list>
-#include "util/Optional.h"
+#include <optional>
 
 class LocalPlayer;
 struct MapDrawControl;
 class Client;
+class RenderingEngine;
 class WieldMeshSceneNode;
 
 struct Nametag
@@ -37,13 +26,13 @@ struct Nametag
 	scene::ISceneNode *parent_node;
 	std::string text;
 	video::SColor textcolor;
-	Optional<video::SColor> bgcolor;
+	std::optional<video::SColor> bgcolor;
 	v3f pos;
 
 	Nametag(scene::ISceneNode *a_parent_node,
 			const std::string &text,
 			const video::SColor &textcolor,
-			const Optional<video::SColor> &bgcolor,
+			const std::optional<video::SColor> &bgcolor,
 			const v3f &pos):
 		parent_node(a_parent_node),
 		text(text),
@@ -59,7 +48,7 @@ struct Nametag
 			return bgcolor.value();
 		else if (!use_fallback)
 			return video::SColor(0, 0, 0, 0);
-		else if (textcolor.getLuminance() > 186)
+		else if (textcolor.getBrightness() > 186)
 			// Dark background for light text
 			return video::SColor(50, 50, 50, 50);
 		else
@@ -78,8 +67,11 @@ enum CameraMode {CAMERA_MODE_FIRST, CAMERA_MODE_THIRD, CAMERA_MODE_THIRD_FRONT};
 class Camera
 {
 public:
-	Camera(MapDrawControl &draw_control, Client *client);
+	Camera(MapDrawControl &draw_control, Client *client, RenderingEngine *rendering_engine);
 	~Camera();
+
+	static void settingChangedCallback(const std::string &name, void *data);
+	void readSettings();
 
 	// Get camera scene node.
 	// It has the eye transformation, pitch and view bobbing applied.
@@ -132,19 +124,34 @@ public:
 		return MYMAX(m_fov_x, m_fov_y);
 	}
 
+	// Returns a lambda that when called with an object's position and bounding-sphere
+	// radius (both in BS space) returns true if, and only if the object should be
+	// frustum-culled.
+	auto getFrustumCuller() const
+	{
+		return [planes = getFrustumCullPlanes(),
+				camera_offset = intToFloat(m_camera_offset, BS)
+				](v3f position, f32 radius) {
+			v3f pos_camspace = position - camera_offset;
+			for (auto &plane : planes) {
+				if (plane.getDistanceTo(pos_camspace) > radius)
+					return true;
+			}
+			return false;
+		};
+	}
+
 	// Notify about new server-sent FOV and initialize smooth FOV transition
 	void notifyFovChange();
-
-	// Checks if the constructor was able to create the scene nodes
-	bool successfullyCreated(std::string &error_message);
 
 	// Step the camera: updates the viewing range and view bobbing.
 	void step(f32 dtime);
 
 	// Update the camera from the local player's position.
-	// busytime is used to adjust the viewing range.
-	void update(LocalPlayer* player, f32 frametime, f32 busytime,
-			f32 tool_reload_ratio);
+	void update(LocalPlayer* player, f32 frametime, f32 tool_reload_ratio);
+
+	// Adjust the camera offset when needed
+	void updateOffset();
 
 	// Update render distance
 	void updateViewingRange();
@@ -185,7 +192,7 @@ public:
 
 	Nametag *addNametag(scene::ISceneNode *parent_node,
 		const std::string &text, video::SColor textcolor,
-		Optional<video::SColor> bgcolor, const v3f &pos);
+		std::optional<video::SColor> bgcolor, const v3f &pos);
 
 	void removeNametag(Nametag *nametag);
 
@@ -194,6 +201,10 @@ public:
 	inline void addArmInertia(f32 player_yaw);
 
 private:
+	// Use getFrustumCuller().
+	// This helper just exists to decrease the header's number of includes.
+	std::array<core::plane3d<f32>, 4> getFrustumCullPlanes() const;
+
 	// Nodes
 	scene::ISceneNode *m_playernode = nullptr;
 	scene::ISceneNode *m_headnode = nullptr;
@@ -217,9 +228,11 @@ private:
 	// Camera offset
 	v3s16 m_camera_offset;
 
+	bool m_stepheight_smooth_active = false;
+
 	// Server-sent FOV variables
 	bool m_server_sent_fov = false;
-	f32 m_curr_fov_degrees, m_old_fov_degrees, m_target_fov_degrees;
+	f32 m_curr_fov_degrees, m_target_fov_degrees;
 
 	// FOV transition variables
 	bool m_fov_transition_active = false;
@@ -266,4 +279,7 @@ private:
 
 	std::list<Nametag *> m_nametags;
 	bool m_show_nametag_backgrounds;
+
+	// Last known light color of the player
+	video::SColor m_player_light_color;
 };

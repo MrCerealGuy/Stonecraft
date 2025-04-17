@@ -1,27 +1,25 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
-#include "irrlichttypes_extrabloated.h"
+#include "IGUIElement.h"
+#include "irrlichttypes_bloated.h"
 #include "irr_ptr.h"
+
 #include "util/string.h"
+#ifdef __ANDROID__
+	#include <porting_android.h>
+#endif
+
+struct PointerAction {
+	v2s32 pos;
+	u64 time; // ms
+
+	static PointerAction fromEvent(const SEvent &event);
+	bool isRelated(PointerAction other);
+};
 
 class GUIModalMenu;
 
@@ -47,7 +45,6 @@ public:
 	bool canTakeFocus(gui::IGUIElement *e);
 	void draw();
 	void quitMenu();
-	void removeChildren();
 
 	virtual void regenerateGui(v2u32 screensize) = 0;
 	virtual void drawMenu() = 0;
@@ -55,58 +52,59 @@ public:
 	virtual bool OnEvent(const SEvent &event) { return false; };
 	virtual bool pausesGame() { return false; } // Used for pause menu
 #ifdef __ANDROID__
-	virtual bool getAndroidUIInput() { return false; }
-	bool hasAndroidUIInput();
+	virtual void getAndroidUIInput() {};
+	porting::AndroidDialogState getAndroidUIInputState();
 #endif
 
 protected:
 	virtual std::wstring getLabelByID(s32 id) = 0;
 	virtual std::string getNameByID(s32 id) = 0;
 
-	/**
-	 * check if event is part of a double click
-	 * @param event event to evaluate
-	 * @return true/false if a doubleclick was detected
-	 */
-	bool DoubleClickDetection(const SEvent &event);
-
+	// Stores the last known pointer position.
+	// If the last input event was a mouse event, it's the cursor position.
+	// If the last input event was a touch event, it's the finger position.
 	v2s32 m_pointer;
 	v2s32 m_old_pointer;  // Mouse position after previous mouse event
+
 	v2u32 m_screensize_old;
 	float m_gui_scale;
 #ifdef __ANDROID__
-	v2s32 m_down_pos;
 	std::string m_jni_field_name;
 #endif
-#ifdef HAVE_TOUCHSCREENGUI
-	bool m_touchscreen_visible = true;
-#endif
+
+	struct ScalingInfo {
+		f32 scale;
+		core::rect<s32> rect;
+	};
+	ScalingInfo getScalingInfo(v2u32 screensize, v2u32 base_size);
+
+	// This is set to true if the menu is currently processing a second-touch event.
+	bool m_second_touch = false;
 
 private:
-	struct clickpos
-	{
-		v2s32 pos;
-		s64 time;
-	};
-	clickpos m_doubleclickdetect[2];
-
 	IMenuManager *m_menumgr;
-	/* If true, remap a double-click (or double-tap) action to ESC. This is so
-	 * that, for example, Android users can double-tap to close a formspec.
-	*
-	 * This value can (currently) only be set by the class constructor
-	 * and the default value for the setting is true.
+	/* If true, remap a click outside the formspec to ESC. This is so that, for
+	 * example, touchscreen users can close formspecs.
+	 * The default for this setting is true. Currently, it's set to false for
+	 * the mainmenu to prevent Minetest from closing unexpectedly.
 	 */
-	bool m_remap_dbl_click;
+	bool m_remap_click_outside;
+	bool remapClickOutside(const SEvent &event);
+	PointerAction m_last_click_outside{};
+
 	// This might be necessary to expose to the implementation if it
 	// wants to launch other menus
 	bool m_allow_focus_removal = false;
 
-#ifdef __ANDROID__
-	irr_ptr<gui::IGUIElement> m_hovered;
+	// Stuff related to touchscreen input
 
-	bool simulateMouseEvent(gui::IGUIElement *target, ETOUCH_INPUT_EVENT touch_event);
+	irr_ptr<gui::IGUIElement> m_touch_hovered;
+
+	// Converts touches into clicks.
+	bool simulateMouseEvent(ETOUCH_INPUT_EVENT touch_event, bool second_try=false);
 	void enter(gui::IGUIElement *element);
 	void leave();
-#endif
+
+	// Used to detect double-taps and convert them into double-click events.
+	PointerAction m_last_touch{};
 };

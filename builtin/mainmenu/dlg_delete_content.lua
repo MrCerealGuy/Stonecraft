@@ -1,4 +1,4 @@
---Minetest
+--Luanti
 --Copyright (C) 2014 sapier
 --
 --This program is free software; you can redistribute it and/or modify
@@ -18,15 +18,10 @@
 --------------------------------------------------------------------------------
 
 local function delete_content_formspec(dialogdata)
-	local retval =
-		"size[11.5,4.5,true]" ..
-		"label[2,2;" ..
-		fgettext("Are you sure you want to delete \"$1\"?", dialogdata.content.name) .. "]"..
-		"style[dlg_delete_content_confirm;bgcolor=red]" ..
-		"button[3.25,3.5;2.5,0.5;dlg_delete_content_confirm;" .. fgettext("Delete") .. "]" ..
-		"button[5.75,3.5;2.5,0.5;dlg_delete_content_cancel;" .. fgettext("Cancel") .. "]"
-
-	return retval
+	return confirmation_formspec(
+		fgettext("Are you sure you want to delete \"$1\"?", dialogdata.content.name),
+		'dlg_delete_content_confirm', fgettext("Delete"),
+		'dlg_delete_content_cancel', fgettext("Cancel"))
 end
 
 --------------------------------------------------------------------------------
@@ -39,16 +34,12 @@ local function delete_content_buttonhandler(this, fields)
 				this.data.content.path ~= core.get_gamepath() and
 				this.data.content.path ~= core.get_texturepath() then
 			if not core.delete_dir(this.data.content.path) then
-				gamedata.errormessage = fgettext("pkgmgr: failed to delete \"$1\"", this.data.content.path)
+				gamedata.errormessage = fgettext_ne("pkgmgr: failed to delete \"$1\"", this.data.content.path)
 			end
 
-			if this.data.content.type == "game" then
-				pkgmgr.update_gamelist()
-			else
-				pkgmgr.refresh_globals()
-			end
+			pkgmgr.reload_by_type(this.data.content.type)
 		else
-			gamedata.errormessage = fgettext("pkgmgr: invalid path \"$1\"", this.data.content.path)
+			gamedata.errormessage = fgettext_ne("pkgmgr: invalid path \"$1\"", this.data.content.path)
 		end
 		this:delete()
 		return true

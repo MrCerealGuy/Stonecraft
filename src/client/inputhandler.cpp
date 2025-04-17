@@ -1,27 +1,16 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
+#include "settings.h"
 #include "util/numeric.h"
 #include "inputhandler.h"
 #include "gui/mainmenumanager.h"
+#include "gui/touchcontrols.h"
 #include "hud.h"
+#include "log_internal.h"
+#include "client/renderingengine.h"
 
 void KeyCache::populate_nonchanging()
 {
@@ -35,7 +24,7 @@ void KeyCache::populate()
 	key[KeyType::LEFT] = getKeySetting("keymap_left");
 	key[KeyType::RIGHT] = getKeySetting("keymap_right");
 	key[KeyType::JUMP] = getKeySetting("keymap_jump");
-	key[KeyType::SPECIAL1] = getKeySetting("keymap_special1");
+	key[KeyType::AUX1] = getKeySetting("keymap_aux1");
 	key[KeyType::SNEAK] = getKeySetting("keymap_sneak");
 	key[KeyType::DIG] = getKeySetting("keymap_dig");
 	key[KeyType::PLACE] = getKeySetting("keymap_place");
@@ -60,6 +49,7 @@ void KeyCache::populate()
 	key[KeyType::DEC_VOLUME] = getKeySetting("keymap_decrease_volume");
 	key[KeyType::CINEMATIC] = getKeySetting("keymap_cinematic");
 	key[KeyType::SCREENSHOT] = getKeySetting("keymap_screenshot");
+	key[KeyType::TOGGLE_BLOCK_BOUNDS] = getKeySetting("keymap_toggle_block_bounds");
 	key[KeyType::TOGGLE_HUD] = getKeySetting("keymap_toggle_hud");
 	key[KeyType::TOGGLE_CHAT] = getKeySetting("keymap_toggle_chat");
 	key[KeyType::TOGGLE_FOG] = getKeySetting("keymap_toggle_fog");
@@ -91,27 +81,68 @@ void KeyCache::populate()
 			handler->listenForKey(k);
 		}
 		handler->listenForKey(EscapeKey);
-		handler->listenForKey(CancelKey);
 	}
 }
 
 bool MyEventReceiver::OnEvent(const SEvent &event)
 {
-	/*
-		React to nothing here if a menu is active
-	*/
-	if (isMenuActive()) {
-#ifdef HAVE_TOUCHSCREENGUI
-		if (m_touchscreengui) {
-			m_touchscreengui->Toggle(false);
+	if (event.EventType == irr::EET_LOG_TEXT_EVENT) {
+		static const LogLevel irr_loglev_conv[] = {
+			LL_VERBOSE, // ELL_DEBUG
+			LL_INFO,    // ELL_INFORMATION
+			LL_WARNING, // ELL_WARNING
+			LL_ERROR,   // ELL_ERROR
+			LL_NONE,    // ELL_NONE
+		};
+		assert(event.LogEvent.Level < ARRLEN(irr_loglev_conv));
+		g_logger.log(irr_loglev_conv[event.LogEvent.Level],
+				std::string("Irrlicht: ") + event.LogEvent.Text);
+		return true;
+	}
+
+	if (event.EventType == EET_APPLICATION_EVENT &&
+			event.ApplicationEvent.EventType == EAET_DPI_CHANGED) {
+		// This is a fake setting so that we can use (de)registerChangedCallback
+		// not only to listen for gui/hud_scaling changes, but also for DPI changes.
+		g_settings->setU16("dpi_change_notifier",
+				g_settings->getU16("dpi_change_notifier") + 1);
+		return true;
+	}
+
+	// This is separate from other keyboard handling so that it also works in menus.
+	if (event.EventType == EET_KEY_INPUT_EVENT) {
+		const KeyPress keyCode(event.KeyInput);
+		if (keyCode == getKeySetting("keymap_fullscreen")) {
+			if (event.KeyInput.PressedDown && !fullscreen_is_down) {
+				IrrlichtDevice *device = RenderingEngine::get_raw_device();
+
+				bool new_fullscreen = !device->isFullscreen();
+				// Only update the setting if toggling succeeds - it always fails
+				// if Minetest was built without SDL.
+				if (device->setFullscreen(new_fullscreen)) {
+					g_settings->setBool("fullscreen", new_fullscreen);
+				}
+			}
+			fullscreen_is_down = event.KeyInput.PressedDown;
+			return true;
 		}
-#endif
+	}
+
+	if (event.EventType == EET_MOUSE_INPUT_EVENT && !event.MouseInput.Simulated)
+		last_pointer_type = PointerType::Mouse;
+	else if (event.EventType == EET_TOUCH_INPUT_EVENT)
+		last_pointer_type = PointerType::Touch;
+
+	// Let the menu handle events, if one is active.
+	if (isMenuActive()) {
+		if (g_touchcontrols)
+			g_touchcontrols->setVisible(false);
 		return g_menumgr.preprocessEvent(event);
 	}
 
 	// Remember whether each key is down or up
 	if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
-		const KeyPress &keyCode = event.KeyInput;
+		const KeyPress keyCode(event.KeyInput);
 		if (keysListenedFor[keyCode]) {
 			if (event.KeyInput.PressedDown) {
 				if (!IsKeyDown(keyCode))
@@ -129,76 +160,92 @@ bool MyEventReceiver::OnEvent(const SEvent &event)
 			return true;
 		}
 
-#ifdef HAVE_TOUCHSCREENGUI
-	} else if (m_touchscreengui && event.EventType == irr::EET_TOUCH_INPUT_EVENT) {
-		// In case of touchscreengui, we have to handle different events
-		m_touchscreengui->translateEvent(event);
+	} else if (g_touchcontrols && event.EventType == irr::EET_TOUCH_INPUT_EVENT) {
+		// In case of touchcontrols, we have to handle different events
+		g_touchcontrols->translateEvent(event);
 		return true;
-#endif
-
 	} else if (event.EventType == irr::EET_JOYSTICK_INPUT_EVENT) {
-		/* TODO add a check like:
-		if (event.JoystickEvent != joystick_we_listen_for)
-			return false;
-		*/
-		return joystick->handleEvent(event.JoystickEvent);
+		// joystick may be nullptr if game is launched with '--random-input' parameter
+		return joystick && joystick->handleEvent(event.JoystickEvent);
 	} else if (event.EventType == irr::EET_MOUSE_INPUT_EVENT) {
 		// Handle mouse events
-		KeyPress key;
 		switch (event.MouseInput.Event) {
 		case EMIE_LMOUSE_PRESSED_DOWN:
-			key = "KEY_LBUTTON";
-			keyIsDown.set(key);
-			keyWasDown.set(key);
-			keyWasPressed.set(key);
+			keyIsDown.set(LMBKey);
+			keyWasDown.set(LMBKey);
+			keyWasPressed.set(LMBKey);
 			break;
 		case EMIE_MMOUSE_PRESSED_DOWN:
-			key = "KEY_MBUTTON";
-			keyIsDown.set(key);
-			keyWasDown.set(key);
-			keyWasPressed.set(key);
+			keyIsDown.set(MMBKey);
+			keyWasDown.set(MMBKey);
+			keyWasPressed.set(MMBKey);
 			break;
 		case EMIE_RMOUSE_PRESSED_DOWN:
-			key = "KEY_RBUTTON";
-			keyIsDown.set(key);
-			keyWasDown.set(key);
-			keyWasPressed.set(key);
+			keyIsDown.set(RMBKey);
+			keyWasDown.set(RMBKey);
+			keyWasPressed.set(RMBKey);
 			break;
 		case EMIE_LMOUSE_LEFT_UP:
-			key = "KEY_LBUTTON";
-			keyIsDown.unset(key);
-			keyWasReleased.set(key);
+			keyIsDown.unset(LMBKey);
+			keyWasReleased.set(LMBKey);
 			break;
 		case EMIE_MMOUSE_LEFT_UP:
-			key = "KEY_MBUTTON";
-			keyIsDown.unset(key);
-			keyWasReleased.set(key);
+			keyIsDown.unset(MMBKey);
+			keyWasReleased.set(MMBKey);
 			break;
 		case EMIE_RMOUSE_LEFT_UP:
-			key = "KEY_RBUTTON";
-			keyIsDown.unset(key);
-			keyWasReleased.set(key);
+			keyIsDown.unset(RMBKey);
+			keyWasReleased.set(RMBKey);
 			break;
 		case EMIE_MOUSE_WHEEL:
 			mouse_wheel += event.MouseInput.Wheel;
 			break;
-		default: break;
+		default:
+			break;
 		}
-	} else if (event.EventType == irr::EET_LOG_TEXT_EVENT) {
-		static const LogLevel irr_loglev_conv[] = {
-				LL_VERBOSE, // ELL_DEBUG
-				LL_INFO,    // ELL_INFORMATION
-				LL_WARNING, // ELL_WARNING
-				LL_ERROR,   // ELL_ERROR
-				LL_NONE,    // ELL_NONE
-		};
-		assert(event.LogEvent.Level < ARRLEN(irr_loglev_conv));
-		g_logger.log(irr_loglev_conv[event.LogEvent.Level],
-				std::string("Irrlicht: ") + event.LogEvent.Text);
-		return true;
 	}
-	/* always return false in order to continue processing events */
+
+	// tell Irrlicht to continue processing this event
 	return false;
+}
+
+/*
+ * RealInputHandler
+ */
+float RealInputHandler::getJoystickSpeed()
+{
+	if (g_touchcontrols && g_touchcontrols->getJoystickSpeed())
+		return g_touchcontrols->getJoystickSpeed();
+	return joystick.getMovementSpeed();
+}
+
+float RealInputHandler::getJoystickDirection()
+{
+	// `getJoystickDirection() == 0` means forward, so we cannot use
+	// `getJoystickDirection()` as a condition.
+	if (g_touchcontrols && g_touchcontrols->getJoystickSpeed())
+		return g_touchcontrols->getJoystickDirection();
+	return joystick.getMovementDirection();
+}
+
+v2s32 RealInputHandler::getMousePos()
+{
+	auto control = RenderingEngine::get_raw_device()->getCursorControl();
+	if (control) {
+		return control->getPosition();
+	}
+
+	return m_mousepos;
+}
+
+void RealInputHandler::setMousePos(s32 x, s32 y)
+{
+	auto control = RenderingEngine::get_raw_device()->getCursorControl();
+	if (control) {
+		control->setPosition(x, y);
+	} else {
+		m_mousepos = v2s32(x, y);
+	}
 }
 
 /*
@@ -219,7 +266,7 @@ void RandomInputHandler::step(float dtime)
 {
 	static RandomInputHandlerSimData rnd_data[] = {
 		{ "keymap_jump", 0.0f, 40 },
-		{ "keymap_special1", 0.0f, 40 },
+		{ "keymap_aux1", 0.0f, 40 },
 		{ "keymap_forward", 0.0f, 40 },
 		{ "keymap_left", 0.0f, 40 },
 		{ "keymap_dig", 0.0f, 30 },
@@ -242,4 +289,25 @@ void RandomInputHandler::step(float dtime)
 		}
 	}
 	mousepos += mousespeed;
+	static bool useJoystick = false;
+	{
+		static float counterUseJoystick = 0;
+		counterUseJoystick -= dtime;
+		if (counterUseJoystick < 0.0) {
+			counterUseJoystick = 5.0; // switch between joystick and keyboard direction input
+			useJoystick = !useJoystick;
+		}
+	}
+	if (useJoystick) {
+		static float counterMovement = 0;
+		counterMovement -= dtime;
+		if (counterMovement < 0.0) {
+			counterMovement = 0.1 * Rand(1, 40);
+			joystickSpeed = Rand(0,100)*0.01;
+			joystickDirection = Rand(-100, 100)*0.01 * M_PI;
+		}
+	} else {
+		joystickSpeed = 0.0f;
+		joystickDirection = 0.0f;
+	}
 }

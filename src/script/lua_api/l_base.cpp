@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "lua_api/l_base.h"
 #include "lua_api/l_internal.h"
@@ -25,6 +10,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "server.h"
 #include <algorithm>
 #include <cmath>
+#include <sstream>
 
 ScriptApiBase *ModApiBase::getScriptApiBase(lua_State *L)
 {
@@ -50,7 +36,7 @@ ServerInventoryManager *ModApiBase::getServerInventoryMgr(lua_State *L)
 	return getScriptApiBase(L)->getServer()->getInventoryMgr();
 }
 
-#ifndef SERVER
+#if CHECK_CLIENT_BUILD()
 Client *ModApiBase::getClient(lua_State *L)
 {
 	return getScriptApiBase(L)->getClient();
@@ -67,17 +53,21 @@ Environment *ModApiBase::getEnv(lua_State *L)
 	return getScriptApiBase(L)->getEnv();
 }
 
-#ifndef SERVER
+#if CHECK_CLIENT_BUILD()
 GUIEngine *ModApiBase::getGuiEngine(lua_State *L)
 {
 	return getScriptApiBase(L)->getGuiEngine();
 }
 #endif
 
+EmergeThread *ModApiBase::getEmergeThread(lua_State *L)
+{
+	return getScriptApiBase(L)->getEmergeThread();
+}
+
 std::string ModApiBase::getCurrentModPath(lua_State *L)
 {
-	lua_rawgeti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_CURRENT_MOD_NAME);
-	std::string current_mod_name = readParam<std::string>(L, -1, "");
+	std::string current_mod_name = ScriptApiBase::getCurrentModNameInsecure(L);
 	if (current_mod_name.empty())
 		return ".";
 
@@ -98,6 +88,29 @@ bool ModApiBase::registerFunction(lua_State *L, const char *name,
 	lua_setfield(L, top, name);
 
 	return true;
+}
+
+void ModApiBase::registerClass(lua_State *L, const char *name,
+		const luaL_Reg *methods,
+		const luaL_Reg *metamethods)
+{
+	luaL_newmetatable(L, name);
+	luaL_register(L, NULL, metamethods);
+	int metatable = lua_gettop(L);
+
+	lua_newtable(L);
+	luaL_register(L, NULL, methods);
+	int methodtable = lua_gettop(L);
+
+	lua_pushvalue(L, methodtable);
+	lua_setfield(L, metatable, "__index");
+
+	// Protect the real metatable.
+	lua_pushvalue(L, methodtable);
+	lua_setfield(L, metatable, "__metatable");
+
+	// Pop methodtable and metatable.
+	lua_pop(L, 2);
 }
 
 int ModApiBase::l_deprecated_function(lua_State *L, const char *good, const char *bad, lua_CFunction func)
@@ -124,11 +137,14 @@ int ModApiBase::l_deprecated_function(lua_State *L, const char *good, const char
 			== deprecated_logged.end()) {
 
 		deprecated_logged.emplace_back(hash);
-		warningstream << "Call to deprecated function '"  << bad << "', please use '"
-			<< good << "' at " << backtrace << std::endl;
+
+		std::stringstream msg;
+		msg << "Call to deprecated function '"  << bad << "', use '" << good << "' instead";
+
+		warningstream << msg.str() << " at " << backtrace << std::endl;
 
 		if (dep_mode == DeprecatedHandlingMode::Error)
-			script_error(L, LUA_ERRRUN, NULL, NULL);
+			throw LuaError(msg.str());
 	}
 
 	u64 end_time = porting::getTimeUs();

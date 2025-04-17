@@ -20,13 +20,14 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include "guiVolumeChange.h"
 #include "debug.h"
 #include "guiButton.h"
+#include "guiScrollBar.h"
 #include "serialization.h"
 #include <string>
 #include <IGUICheckBox.h>
 #include <IGUIButton.h>
-#include <IGUIScrollBar.h>
 #include <IGUIStaticText.h>
 #include <IGUIFont.h>
+#include <IVideoDriver.h>
 #include "settings.h"
 
 #include "gettext.h"
@@ -45,42 +46,18 @@ GUIVolumeChange::GUIVolumeChange(gui::IGUIEnvironment* env,
 {
 }
 
-GUIVolumeChange::~GUIVolumeChange()
-{
-	removeChildren();
-}
-
-void GUIVolumeChange::removeChildren()
-{
-	if (gui::IGUIElement *e = getElementFromId(ID_soundText))
-		e->remove();
-
-	if (gui::IGUIElement *e = getElementFromId(ID_soundExitButton))
-		e->remove();
-
-	if (gui::IGUIElement *e = getElementFromId(ID_soundSlider))
-		e->remove();
-
-	if (gui::IGUIElement *e = getElementFromId(ID_soundMuteButton))
-		e->remove();
-}
-
 void GUIVolumeChange::regenerateGui(v2u32 screensize)
 {
 	/*
 		Remove stuff
 	*/
-	removeChildren();
+	removeAllChildren();
 	/*
 		Calculate new sizes and positions
 	*/
-	const float s = m_gui_scale;
-	DesiredRect = core::rect<s32>(
-		screensize.X / 2 - 380 * s / 2,
-		screensize.Y / 2 - 200 * s / 2,
-		screensize.X / 2 + 380 * s / 2,
-		screensize.Y / 2 + 200 * s / 2
-	);
+	ScalingInfo info = getScalingInfo(screensize, v2u32(380, 200));
+	const float s = info.scale;
+	DesiredRect = info.rect;
 	recalculateAbsolutePosition(false);
 
 	v2s32 size = DesiredRect.getSize();
@@ -90,39 +67,31 @@ void GUIVolumeChange::regenerateGui(v2u32 screensize)
 		Add stuff
 	*/
 	{
-		core::rect<s32> rect(0, 0, 160 * s, 20 * s);
-		rect = rect + v2s32(size.X / 2 - 80 * s, size.Y / 2 - 70 * s);
+		core::rect<s32> rect(0, 0, 300 * s, 20 * s);
+		rect = rect + v2s32(size.X / 2 - 150 * s, size.Y / 2 - 70 * s);
 
-		const wchar_t *text = wgettext("Sound Volume: ");
-		core::stringw volume_text = text;
-		delete [] text;
-
-		volume_text += core::stringw(volume) + core::stringw("%");
-		Environment->addStaticText(volume_text.c_str(), rect, false,
-				true, this, ID_soundText);
+		StaticText::add(Environment, fwgettext("Sound Volume: %d%%", volume),
+				rect, false, true, this, ID_soundText);
 	}
 	{
-		core::rect<s32> rect(0, 0, 80 * s, 30 * s);
-		rect = rect + v2s32(size.X / 2 - 80 * s / 2, size.Y / 2 + 55 * s);
-		const wchar_t *text = wgettext("Exit");
-		GUIButton::addButton(Environment, rect, m_tsrc, this, ID_soundExitButton, text);
-		delete[] text;
+		core::rect<s32> rect(0, 0, 100 * s, 30 * s);
+		rect = rect + v2s32(size.X / 2 - 100 * s / 2, size.Y / 2 + 55 * s);
+		GUIButton::addButton(Environment, rect, m_tsrc, this, ID_soundExitButton,
+				wstrgettext("Exit").c_str());
 	}
 	{
 		core::rect<s32> rect(0, 0, 300 * s, 20 * s);
 		rect = rect + v2s32(size.X / 2 - 150 * s, size.Y / 2);
-		gui::IGUIScrollBar *e = Environment->addScrollBar(true,
-			rect, this, ID_soundSlider);
+		auto e = make_irr<GUIScrollBar>(Environment, this,
+				ID_soundSlider, rect, true, false, m_tsrc);
 		e->setMax(100);
 		e->setPos(volume);
 	}
 	{
-		core::rect<s32> rect(0, 0, 160 * s, 20 * s);
-		rect = rect + v2s32(size.X / 2 - 80 * s, size.Y / 2 - 35 * s);
-		const wchar_t *text = wgettext("Muted");
+		core::rect<s32> rect(0, 0, 300 * s, 20 * s);
+		rect = rect + v2s32(size.X / 2 - 150 * s, size.Y / 2 - 35 * s);
 		Environment->addCheckBox(g_settings->getBool("mute_sound"), rect, this,
-				ID_soundMuteButton, text);
-		delete[] text;
+				ID_soundMuteButton, wstrgettext("Muted").c_str());
 	}
 }
 
@@ -179,16 +148,11 @@ bool GUIVolumeChange::OnEvent(const SEvent& event)
 		}
 		if (event.GUIEvent.EventType == gui::EGET_SCROLL_BAR_CHANGED) {
 			if (event.GUIEvent.Caller->getID() == ID_soundSlider) {
-				s32 pos = ((gui::IGUIScrollBar*)event.GUIEvent.Caller)->getPos();
+				s32 pos = static_cast<GUIScrollBar *>(event.GUIEvent.Caller)->getPos();
 				g_settings->setFloat("sound_volume", (float) pos / 100);
 
 				gui::IGUIElement *e = getElementFromId(ID_soundText);
-				const wchar_t *text = wgettext("Sound Volume: ");
-				core::stringw volume_text = text;
-				delete [] text;
-
-				volume_text += core::stringw(pos) + core::stringw("%");
-				e->setText(volume_text.c_str());
+				e->setText(fwgettext("Sound Volume: %d%%", pos).c_str());
 				return true;
 			}
 		}

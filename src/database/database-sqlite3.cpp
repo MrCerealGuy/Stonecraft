@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 /*
 SQLite format specification:
@@ -34,6 +19,7 @@ SQLite format specification:
 #include "porting.h"
 #include "util/string.h"
 #include "remoteplayer.h"
+#include "irrlicht_changes/printing.h"
 #include "server/player_sao.h"
 
 #include <cassert>
@@ -228,11 +214,7 @@ void MapDatabaseSQLite3::createDatabase()
 void MapDatabaseSQLite3::initStatements()
 {
 	PREPARE_STATEMENT(read, "SELECT `data` FROM `blocks` WHERE `pos` = ? LIMIT 1");
-#ifdef __ANDROID__
-	PREPARE_STATEMENT(write,  "INSERT INTO `blocks` (`pos`, `data`) VALUES (?, ?)");
-#else
 	PREPARE_STATEMENT(write, "REPLACE INTO `blocks` (`pos`, `data`) VALUES (?, ?)");
-#endif
 	PREPARE_STATEMENT(delete, "DELETE FROM `blocks` WHERE `pos` = ?");
 	PREPARE_STATEMENT(list, "SELECT `pos` FROM `blocks`");
 
@@ -256,27 +238,14 @@ bool MapDatabaseSQLite3::deleteBlock(const v3s16 &pos)
 
 	if (!good) {
 		warningstream << "deleteBlock: Block failed to delete "
-			<< PP(pos) << ": " << sqlite3_errmsg(m_database) << std::endl;
+			<< pos << ": " << sqlite3_errmsg(m_database) << std::endl;
 	}
 	return good;
 }
 
-bool MapDatabaseSQLite3::saveBlock(const v3s16 &pos, const std::string &data)
+bool MapDatabaseSQLite3::saveBlock(const v3s16 &pos, std::string_view data)
 {
 	verifyDatabase();
-
-#ifdef __ANDROID__
-	/**
-	 * Note: For some unknown reason SQLite3 fails to REPLACE blocks on Android,
-	 * deleting them and then inserting works.
-	 */
-	bindPos(m_stmt_read, pos);
-
-	if (sqlite3_step(m_stmt_read) == SQLITE_ROW) {
-		deleteBlock(pos);
-	}
-	sqlite3_reset(m_stmt_read);
-#endif
 
 	bindPos(m_stmt_write, pos);
 	SQLOK(sqlite3_bind_blob(m_stmt_write, 2, data.data(), data.size(), NULL),
@@ -299,10 +268,8 @@ void MapDatabaseSQLite3::loadBlock(const v3s16 &pos, std::string *block)
 		return;
 	}
 
-	const char *data = (const char *) sqlite3_column_blob(m_stmt_read, 0);
-	size_t len = sqlite3_column_bytes(m_stmt_read, 0);
-
-	*block = (data) ? std::string(data, len) : "";
+	auto data = sqlite_to_blob(m_stmt_read, 0);
+	block->assign(data);
 
 	sqlite3_step(m_stmt_read);
 	// We should never get more than 1 row, so ok to reset
@@ -490,9 +457,10 @@ void PlayerDatabaseSQLite3::savePlayer(RemotePlayer *player)
 	sqlite3_vrfy(sqlite3_step(m_stmt_player_remove_inventory_items), SQLITE_DONE);
 	sqlite3_reset(m_stmt_player_remove_inventory_items);
 
-	std::vector<const InventoryList*> inventory_lists = sao->getInventory()->getLists();
+	const auto &inventory_lists = sao->getInventory()->getLists();
+	std::ostringstream oss;
 	for (u16 i = 0; i < inventory_lists.size(); i++) {
-		const InventoryList* list = inventory_lists[i];
+		const InventoryList *list = inventory_lists[i];
 
 		str_to_sqlite(m_stmt_player_add_inventory, 1, player->getName());
 		int_to_sqlite(m_stmt_player_add_inventory, 2, i);
@@ -503,9 +471,10 @@ void PlayerDatabaseSQLite3::savePlayer(RemotePlayer *player)
 		sqlite3_reset(m_stmt_player_add_inventory);
 
 		for (u32 j = 0; j < list->getSize(); j++) {
-			std::ostringstream os;
-			list->getItem(j).serialize(os);
-			std::string itemStr = os.str();
+			oss.str("");
+			oss.clear();
+			list->getItem(j).serialize(oss);
+			std::string itemStr = oss.str();
 
 			str_to_sqlite(m_stmt_player_add_inventory_items, 1, player->getName());
 			int_to_sqlite(m_stmt_player_add_inventory_items, 2, i);
@@ -564,7 +533,7 @@ bool PlayerDatabaseSQLite3::loadPlayer(RemotePlayer *player, PlayerSAO *sao)
 		int_to_sqlite(m_stmt_player_load_inventory_items, 2, invId);
 		while (sqlite3_step(m_stmt_player_load_inventory_items) == SQLITE_ROW) {
 			const std::string itemStr = sqlite_to_string(m_stmt_player_load_inventory_items, 1);
-			if (itemStr.length() > 0) {
+			if (!itemStr.empty()) {
 				ItemStack stack;
 				stack.deSerialize(itemStr);
 				invList->changeItem(sqlite_to_uint(m_stmt_player_load_inventory_items, 0), stack);
@@ -578,7 +547,7 @@ bool PlayerDatabaseSQLite3::loadPlayer(RemotePlayer *player, PlayerSAO *sao)
 	str_to_sqlite(m_stmt_player_metadata_load, 1, sao->getPlayer()->getName());
 	while (sqlite3_step(m_stmt_player_metadata_load) == SQLITE_ROW) {
 		std::string attr = sqlite_to_string(m_stmt_player_metadata_load, 0);
-		std::string value = sqlite_to_string(m_stmt_player_metadata_load, 1);
+		auto value = sqlite_to_string_view(m_stmt_player_metadata_load, 1);
 
 		sao->getMeta().setString(attr, value);
 	}
@@ -603,7 +572,7 @@ void PlayerDatabaseSQLite3::listPlayers(std::vector<std::string> &res)
 	verifyDatabase();
 
 	while (sqlite3_step(m_stmt_player_list) == SQLITE_ROW)
-		res.push_back(sqlite_to_string(m_stmt_player_list, 0));
+		res.emplace_back(sqlite_to_string_view(m_stmt_player_list, 0));
 
 	sqlite3_reset(m_stmt_player_list);
 }
@@ -680,14 +649,14 @@ bool AuthDatabaseSQLite3::getAuth(const std::string &name, AuthEntry &res)
 		return false;
 	}
 	res.id = sqlite_to_uint(m_stmt_read, 0);
-	res.name = sqlite_to_string(m_stmt_read, 1);
-	res.password = sqlite_to_string(m_stmt_read, 2);
+	res.name = sqlite_to_string_view(m_stmt_read, 1);
+	res.password = sqlite_to_string_view(m_stmt_read, 2);
 	res.last_login = sqlite_to_int64(m_stmt_read, 3);
 	sqlite3_reset(m_stmt_read);
 
 	int64_to_sqlite(m_stmt_read_privs, 1, res.id);
 	while (sqlite3_step(m_stmt_read_privs) == SQLITE_ROW) {
-		res.privileges.emplace_back(sqlite_to_string(m_stmt_read_privs, 0));
+		res.privileges.emplace_back(sqlite_to_string_view(m_stmt_read_privs, 0));
 	}
 	sqlite3_reset(m_stmt_read_privs);
 
@@ -752,7 +721,7 @@ void AuthDatabaseSQLite3::listNames(std::vector<std::string> &res)
 	verifyDatabase();
 
 	while (sqlite3_step(m_stmt_list_names) == SQLITE_ROW) {
-		res.push_back(sqlite_to_string(m_stmt_list_names, 0));
+		res.emplace_back(sqlite_to_string_view(m_stmt_list_names, 0));
 	}
 	sqlite3_reset(m_stmt_list_names);
 }
@@ -772,5 +741,185 @@ void AuthDatabaseSQLite3::writePrivileges(const AuthEntry &authEntry)
 		str_to_sqlite(m_stmt_write_privs, 2, privilege);
 		sqlite3_vrfy(sqlite3_step(m_stmt_write_privs), SQLITE_DONE);
 		sqlite3_reset(m_stmt_write_privs);
+	}
+}
+
+ModStorageDatabaseSQLite3::ModStorageDatabaseSQLite3(const std::string &savedir):
+	Database_SQLite3(savedir, "mod_storage"), ModStorageDatabase()
+{
+}
+
+ModStorageDatabaseSQLite3::~ModStorageDatabaseSQLite3()
+{
+	FINALIZE_STATEMENT(m_stmt_remove_all)
+	FINALIZE_STATEMENT(m_stmt_remove)
+	FINALIZE_STATEMENT(m_stmt_set)
+	FINALIZE_STATEMENT(m_stmt_has)
+	FINALIZE_STATEMENT(m_stmt_get)
+	FINALIZE_STATEMENT(m_stmt_get_keys)
+	FINALIZE_STATEMENT(m_stmt_get_all)
+}
+
+void ModStorageDatabaseSQLite3::createDatabase()
+{
+	assert(m_database); // Pre-condition
+
+	SQLOK(sqlite3_exec(m_database,
+		"CREATE TABLE IF NOT EXISTS `entries` (\n"
+			"	`modname` TEXT NOT NULL,\n"
+			"	`key` BLOB NOT NULL,\n"
+			"	`value` BLOB NOT NULL,\n"
+			"	PRIMARY KEY (`modname`, `key`)\n"
+			");\n",
+		NULL, NULL, NULL),
+		"Failed to create database table");
+}
+
+void ModStorageDatabaseSQLite3::initStatements()
+{
+	PREPARE_STATEMENT(get_all, "SELECT `key`, `value` FROM `entries` WHERE `modname` = ?");
+	PREPARE_STATEMENT(get_keys, "SELECT `key` FROM `entries` WHERE `modname` = ?");
+	PREPARE_STATEMENT(get,
+		"SELECT `value` FROM `entries` WHERE `modname` = ? AND `key` = ? LIMIT 1");
+	PREPARE_STATEMENT(has,
+		"SELECT 1 FROM `entries` WHERE `modname` = ? AND `key` = ? LIMIT 1");
+	PREPARE_STATEMENT(set,
+		"REPLACE INTO `entries` (`modname`, `key`, `value`) VALUES (?, ?, ?)");
+	PREPARE_STATEMENT(remove, "DELETE FROM `entries` WHERE `modname` = ? AND `key` = ?");
+	PREPARE_STATEMENT(remove_all, "DELETE FROM `entries` WHERE `modname` = ?");
+}
+
+void ModStorageDatabaseSQLite3::getModEntries(const std::string &modname, StringMap *storage)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_get_all, 1, modname);
+	while (sqlite3_step(m_stmt_get_all) == SQLITE_ROW) {
+		auto key = sqlite_to_blob(m_stmt_get_all, 0);
+		auto value = sqlite_to_blob(m_stmt_get_all, 1);
+		(*storage)[std::string(key)].assign(value);
+	}
+	sqlite3_vrfy(sqlite3_errcode(m_database), SQLITE_DONE);
+
+	sqlite3_reset(m_stmt_get_all);
+}
+
+void ModStorageDatabaseSQLite3::getModKeys(const std::string &modname,
+		std::vector<std::string> *storage)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_get_keys, 1, modname);
+	while (sqlite3_step(m_stmt_get_keys) == SQLITE_ROW) {
+		auto key = sqlite_to_blob(m_stmt_get_keys, 0);
+		storage->emplace_back(key);
+	}
+	sqlite3_vrfy(sqlite3_errcode(m_database), SQLITE_DONE);
+
+	sqlite3_reset(m_stmt_get_keys);
+}
+
+bool ModStorageDatabaseSQLite3::getModEntry(const std::string &modname,
+	const std::string &key, std::string *value)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_get, 1, modname);
+	SQLOK(sqlite3_bind_blob(m_stmt_get, 2, key.data(), key.size(), NULL),
+		"Internal error: failed to bind query at " __FILE__ ":" TOSTRING(__LINE__));
+	bool found = sqlite3_step(m_stmt_get) == SQLITE_ROW;
+	if (found) {
+		auto sv = sqlite_to_blob(m_stmt_get, 0);
+		value->assign(sv);
+		sqlite3_step(m_stmt_get);
+	}
+
+	sqlite3_reset(m_stmt_get);
+
+	return found;
+}
+
+bool ModStorageDatabaseSQLite3::hasModEntry(const std::string &modname,
+		const std::string &key)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_has, 1, modname);
+	SQLOK(sqlite3_bind_blob(m_stmt_has, 2, key.data(), key.size(), NULL),
+		"Internal error: failed to bind query at " __FILE__ ":" TOSTRING(__LINE__));
+	bool found = sqlite3_step(m_stmt_has) == SQLITE_ROW;
+	if (found)
+		sqlite3_step(m_stmt_has);
+
+	sqlite3_reset(m_stmt_has);
+
+	return found;
+}
+
+bool ModStorageDatabaseSQLite3::setModEntry(const std::string &modname,
+	const std::string &key, std::string_view value)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_set, 1, modname);
+	SQLOK(sqlite3_bind_blob(m_stmt_set, 2, key.data(), key.size(), NULL),
+		"Internal error: failed to bind query at " __FILE__ ":" TOSTRING(__LINE__));
+	SQLOK(sqlite3_bind_blob(m_stmt_set, 3, value.data(), value.size(), NULL),
+		"Internal error: failed to bind query at " __FILE__ ":" TOSTRING(__LINE__));
+	SQLRES(sqlite3_step(m_stmt_set), SQLITE_DONE, "Failed to set mod entry")
+
+	sqlite3_reset(m_stmt_set);
+
+	return true;
+}
+
+bool ModStorageDatabaseSQLite3::removeModEntry(const std::string &modname,
+		const std::string &key)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_remove, 1, modname);
+	SQLOK(sqlite3_bind_blob(m_stmt_remove, 2, key.data(), key.size(), NULL),
+		"Internal error: failed to bind query at " __FILE__ ":" TOSTRING(__LINE__));
+	sqlite3_vrfy(sqlite3_step(m_stmt_remove), SQLITE_DONE);
+	int changes = sqlite3_changes(m_database);
+
+	sqlite3_reset(m_stmt_remove);
+
+	return changes > 0;
+}
+
+bool ModStorageDatabaseSQLite3::removeModEntries(const std::string &modname)
+{
+	verifyDatabase();
+
+	str_to_sqlite(m_stmt_remove_all, 1, modname);
+	sqlite3_vrfy(sqlite3_step(m_stmt_remove_all), SQLITE_DONE);
+	int changes = sqlite3_changes(m_database);
+
+	sqlite3_reset(m_stmt_remove_all);
+
+	return changes > 0;
+}
+
+void ModStorageDatabaseSQLite3::listMods(std::vector<std::string> *res)
+{
+	verifyDatabase();
+
+	char *errmsg;
+	int status = sqlite3_exec(m_database,
+		"SELECT `modname` FROM `entries` GROUP BY `modname`;",
+		[](void *res_vp, int n_col, char **cols, char **col_names) noexcept -> int {
+			try {
+				((decltype(res)) res_vp)->emplace_back(cols[0]);
+			} catch (...) {
+				return 1;
+			}
+			return 0;
+		}, (void *) res, &errmsg);
+	if (status != SQLITE_OK) {
+		auto msg = std::string("Error trying to list mods with metadata: ") + errmsg;
+		sqlite3_free(errmsg);
+		throw DatabaseException(msg);
 	}
 }

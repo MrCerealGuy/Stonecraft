@@ -1,8 +1,17 @@
-set(sound_SRCS  ${CMAKE_CURRENT_SOURCE_DIR}/sound.cpp)
+set(sound_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/sound.cpp)
 
 if(USE_SOUND)
-	set(sound_SRCS ${sound_SRCS}
-		${CMAKE_CURRENT_SOURCE_DIR}/sound_openal.cpp)
+	list(APPEND sound_SRCS
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/al_extensions.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/al_helpers.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/ogg_file.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/playing_sound.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/proxy_sound_manager.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/sound_data.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/sound_manager.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/sound_openal.cpp
+		${CMAKE_CURRENT_SOURCE_DIR}/sound/sound_singleton.cpp
+	)
 	set(SOUND_INCLUDE_DIRS
 		${OPENAL_INCLUDE_DIR}
 		${VORBIS_INCLUDE_DIR}
@@ -21,10 +30,11 @@ set(client_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/render/core.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/render/factory.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/render/interlaced.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/render/pageflip.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/render/plain.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/render/sidebyside.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/render/stereo.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/render/secondstage.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/render/pipeline.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/activeobjectmgr.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/camera.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/client.cpp
@@ -41,6 +51,7 @@ set(client_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/fontengine.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/game.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/gameui.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/game_formspec.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/guiscalingfilter.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/hud.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/imagefilters.cpp
@@ -57,6 +68,13 @@ set(client_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/shader.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/sky.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/tile.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/texturepaths.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/texturesource.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/imagesource.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/wieldmesh.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/shadows/dynamicshadows.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/shadows/dynamicshadowsrender.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/shadows/shadowsshadercallbacks.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/shadows/shadowsScreenQuad.cpp
 	PARENT_SCOPE
 )

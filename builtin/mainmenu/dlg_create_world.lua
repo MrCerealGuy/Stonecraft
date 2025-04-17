@@ -1,4 +1,4 @@
---Minetest
+--Luanti
 --Copyright (C) 2014 sapier
 --
 --This program is free software; you can redistribute it and/or modify
@@ -15,332 +15,318 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
---[[
-2017-06-11 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	added option Minecraft-like item drop/pick-up
-2017-07-13 redesigned dialog
-2017-09-10 added advanced world options
---]]
-
-local FILENAME = "worldoptions.txt"
-
--- include dlg_settings_helper.lua
-local basepath = core.get_builtin_path()
-dofile(basepath .. DIR_DELIM .. "common" .. DIR_DELIM .. "dlg_settings_helper.lua")
-
-local full_settings = parse_config_file(false, false, FILENAME)
-local search_string = ""
-local worldoptions = full_settings
-local selected_setting = 1
-
-local function create_change_setting_formspec(dialogdata)
-	local setting = worldoptions[selected_setting]
-	local formspec = "size[10,5.2,true]" ..
-			"button[5,4.5;2,1;btn_done;" .. fgettext("Save") .. "]" ..
-			"button[3,4.5;2,1;btn_cancel;" .. fgettext("Cancel") .. "]" ..
-			"tablecolumns[color;text]" ..
-			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
-			"table[0,0;10,3;info;"
-
-	if setting.readable_name then
-		formspec = formspec .. "#FFFF00," .. fgettext(setting.readable_name)
-				.. " (" .. core.formspec_escape(setting.name) .. "),"
-	else
-		formspec = formspec .. "#FFFF00," .. core.formspec_escape(setting.name) .. ","
+local function table_to_flags(ftable)
+	-- Convert e.g. { jungles = true, caves = false } to "jungles,nocaves"
+	local str = {}
+	for flag, is_set in pairs(ftable) do
+		str[#str + 1] = is_set and flag or ("no" .. flag)
 	end
-
-	formspec = formspec .. ",,"
-
-	local comment_text = ""
-
-	if setting.comment == "" then
-		comment_text = fgettext_ne("(No description of setting given)")
-	else
-		comment_text = fgettext_ne(setting.comment)
-	end
-	for _, comment_line in ipairs(comment_text:split("\n", true)) do
-		formspec = formspec .. "," .. core.formspec_escape(comment_line) .. ","
-	end
-
-	if setting.type == "flags" then
-		formspec = formspec .. ",,"
-				.. "," .. fgettext("Please enter a comma seperated list of flags.") .. ","
-				.. "," .. fgettext("Possible values are: ")
-				.. core.formspec_escape(setting.possible:gsub(",", ", ")) .. ","
-	elseif setting.type == "noise_params" then
-		formspec = formspec .. ",,"
-				.. "," .. fgettext("Format:") .. ","
-				.. "," .. fgettext("<offset>, <scale>, (<spreadX>, <spreadY>, <spreadZ>),") .. ","
-				.. "," .. fgettext("<seed>, <octaves>, <persistence>, <lacunarity>") .. ","
-	elseif setting.type == "v3f" then
-		formspec = formspec .. ",,"
-				.. "," .. fgettext_ne("Format is 3 numbers separated by commas and inside brackets.") .. ","
-	end
-
-	formspec = formspec:sub(1, -2) -- remove trailing comma
-
-	formspec = formspec .. ";1]"
-
-	if setting.type == "bool" then
-		local selected_index
-		if core.is_yes(get_current_value(setting)) then
-			selected_index = 2
-		else
-			selected_index = 1
-		end
-		formspec = formspec .. "dropdown[0.5,3.5;3,1;dd_setting_value;"
-				.. fgettext("Disabled") .. "," .. fgettext("Enabled") .. ";"
-				.. selected_index .. "]"
-
-	elseif setting.type == "enum" then
-		local selected_index = 0
-		formspec = formspec .. "dropdown[0.5,3.5;3,1;dd_setting_value;"
-		for index, value in ipairs(setting.values) do
-			-- translating value is not possible, since it's the value
-			--  that we set the setting to
-			formspec = formspec ..  core.formspec_escape(value) .. ","
-			if get_current_value(setting) == value then
-				selected_index = index
-			end
-		end
-		if #setting.values > 0 then
-			formspec = formspec:sub(1, -2) -- remove trailing comma
-		end
-		formspec = formspec .. ";" .. selected_index .. "]"
-
-	elseif setting.type == "path" or setting.type == "filepath" then
-		local current_value = dialogdata.selected_path
-		if not current_value then
-			current_value = get_current_value(setting)
-		end
-		formspec = formspec .. "field[0.5,4;7.5,1;te_setting_value;;"
-				.. core.formspec_escape(current_value) .. "]"
-				.. "button[8,3.75;2,1;btn_browser_" .. setting.type .. ";" .. fgettext("Browse") .. "]"
-
-	else
-		-- TODO: fancy input for float, int, flags, noise_params, v3f
-		local width = 10
-		local text = get_current_value(setting)
-		if dialogdata.error_message then
-			formspec = formspec .. "tablecolumns[color;text]" ..
-			"tableoptions[background=#00000000;highlight=#00000000;border=false]" ..
-			"table[5,3.9;5,0.6;error_message;#FF0000,"
-					.. core.formspec_escape(dialogdata.error_message) .. ";0]"
-			width = 5
-			if dialogdata.entered_text then
-				text = dialogdata.entered_text
-			end
-		end
-		formspec = formspec .. "field[0.5,4;" .. width .. ",1;te_setting_value;;"
-				.. core.formspec_escape(text) .. "]"
-	end
-	return formspec
+	return table.concat(str, ",")
 end
 
-local function handle_change_setting_buttons(this, fields)
-	if fields["btn_done"] or fields["key_enter"] then
-		local setting = worldoptions[selected_setting]
-		if setting.type == "bool" then
-			local new_value = fields["dd_setting_value"]
-			-- Note: new_value is the actual (translated) value shown in the dropdown
-			core.settings:set_bool(setting.name, new_value == fgettext("Enabled"))
-
-		elseif setting.type == "enum" then
-			local new_value = fields["dd_setting_value"]
-			core.settings:set(setting.name, new_value)
-
-		elseif setting.type == "int" then
-			local new_value = tonumber(fields["te_setting_value"])
-			if not new_value or math.floor(new_value) ~= new_value then
-				this.data.error_message = fgettext_ne("Please enter a valid integer.")
-				this.data.entered_text = fields["te_setting_value"]
-				core.update_formspec(this:get_formspec())
-				return true
-			end
-			if setting.min and new_value < setting.min then
-				this.data.error_message = fgettext_ne("The value must be at least $1.", setting.min)
-				this.data.entered_text = fields["te_setting_value"]
-				core.update_formspec(this:get_formspec())
-				return true
-			end
-			if setting.max and new_value > setting.max then
-				this.data.error_message = fgettext_ne("The value must not be larger than $1.", setting.max)
-				this.data.entered_text = fields["te_setting_value"]
-				core.update_formspec(this:get_formspec())
-				return true
-			end
-			core.settings:set(setting.name, new_value)
-
-		elseif setting.type == "float" then
-			local new_value = tonumber(fields["te_setting_value"])
-			if not new_value then
-				this.data.error_message = fgettext_ne("Please enter a valid number.")
-				this.data.entered_text = fields["te_setting_value"]
-				core.update_formspec(this:get_formspec())
-				return true
-			end
-			core.settings:set(setting.name, new_value)
-
-		elseif setting.type == "flags" then
-			local new_value = fields["te_setting_value"]
-			for _,value in ipairs(new_value:split(",", true)) do
-				value = value:trim()
-				local possible = "," .. setting.possible .. ","
-				if not possible:find("," .. value .. ",", 0, true) then
-					this.data.error_message = fgettext_ne("\"$1\" is not a valid flag.", value)
-					this.data.entered_text = fields["te_setting_value"]
-					core.update_formspec(this:get_formspec())
-					return true
-				end
-			end
-			core.settings:set(setting.name, new_value)
-
-		else
-			local new_value = fields["te_setting_value"]
-			core.settings:set(setting.name, new_value)
-		end
-		core.settings:write()
-		this:delete()
-		return true
-	end
-
-	if fields["btn_cancel"] then
-		this:delete()
-		return true
-	end
-
-	if fields["btn_browser_path"] then
-		core.show_path_select_dialog("dlg_browse_path",
-			fgettext_ne("Select directory"), false)
-	end
-
-	if fields["btn_browser_filepath"] then
-		core.show_path_select_dialog("dlg_browse_path",
-			fgettext_ne("Select file"), true)
-	end
-
-	if fields["dlg_browse_path_accepted"] then
-		this.data.selected_path = fields["dlg_browse_path_accepted"]
-		core.update_formspec(this:get_formspec())
-	end
-
-	return false
+-- Same as check_flag but returns a string
+local function strflag(flags, flag)
+	return (flags[flag] == true) and "true" or "false"
 end
+
+local cb_caverns = { "caverns", fgettext("Caverns"),
+	fgettext("Very large caverns deep in the underground") }
+
+local flag_checkboxes = {
+	v5 = {
+		cb_caverns,
+	},
+	v7 = {
+		cb_caverns,
+		{ "ridges", fgettext("Rivers"), fgettext("Sea level rivers") },
+		{ "mountains", fgettext("Mountains") },
+		{ "floatlands", fgettext("Floatlands (experimental)"),
+		fgettext("Floating landmasses in the sky") },
+	},
+	carpathian = {
+		cb_caverns,
+		{ "rivers", fgettext("Rivers"), fgettext("Sea level rivers") },
+	},
+	valleys = {
+		{ "altitude_chill", fgettext("Altitude chill"),
+		fgettext("Reduces heat with altitude") },
+		{ "altitude_dry", fgettext("Altitude dry"),
+		fgettext("Reduces humidity with altitude") },
+		{ "humid_rivers", fgettext("Humid rivers"),
+		fgettext("Increases humidity around rivers") },
+		{ "vary_river_depth", fgettext("Vary river depth"),
+		fgettext("Low humidity and high heat causes shallow or dry rivers") },
+	},
+	flat = {
+		cb_caverns,
+		{ "hills", fgettext("Hills") },
+		{ "lakes", fgettext("Lakes") },
+	},
+	fractal = {
+		{ "terrain", fgettext("Additional terrain"),
+		fgettext("Generate non-fractal terrain: Oceans and underground") },
+	},
+	v6 = {
+		{ "trees", fgettext("Trees and jungle grass") },
+		{ "flat", fgettext("Flat terrain") },
+		{ "mudflow", fgettext("Mud flow"), fgettext("Terrain surface erosion") },
+		{ "temples", fgettext("Desert temples"),
+		fgettext("Different dungeon variant generated in desert biomes (only if dungeons enabled)") },
+		-- Biome settings are in mgv6_biomes below
+	},
+}
+
+local mgv6_biomes = {
+	{
+		fgettext("Temperate, Desert, Jungle, Tundra, Taiga"),
+		{jungles = true, snowbiomes = true}
+	},
+	{
+		fgettext("Temperate, Desert, Jungle"),
+		{jungles = true, snowbiomes = false}
+	},
+	{
+		fgettext("Temperate, Desert"),
+		{jungles = false, snowbiomes = false}
+	},
+}
 
 local function create_world_formspec(dialogdata)
+
+	local current_mg = dialogdata.mg
 	local mapgens = core.get_mapgen_names()
 
-	local current_worldname = core.settings:get("worldname") or ""
-	local current_seed = core.settings:get("fixed_map_seed") or ""
-	local current_mg   = core.settings:get("mg_name")
+	local flags = dialogdata.flags
+
+	local game = pkgmgr.find_by_gameid(core.settings:get("menu_last_game"))
+	if game == nil then
+		-- should never happen but just pick the first game
+		game = pkgmgr.games[1]
+		core.settings:set("menu_last_game", game.id)
+	end
+
+	local disallowed_mapgen_settings = {}
+	if game ~= nil then
+		local gameconfig = Settings(game.path.."/game.conf")
+
+		local allowed_mapgens = (gameconfig:get("allowed_mapgens") or ""):split()
+		for key, value in pairs(allowed_mapgens) do
+			allowed_mapgens[key] = value:trim()
+		end
+
+		local disallowed_mapgens = (gameconfig:get("disallowed_mapgens") or ""):split()
+		for key, value in pairs(disallowed_mapgens) do
+			disallowed_mapgens[key] = value:trim()
+		end
+
+		if #allowed_mapgens > 0 then
+			for i = #mapgens, 1, -1 do
+				if table.indexof(allowed_mapgens, mapgens[i]) == -1 then
+					table.remove(mapgens, i)
+				end
+			end
+		end
+
+		if #disallowed_mapgens > 0 then
+			for i = #mapgens, 1, -1 do
+				if table.indexof(disallowed_mapgens, mapgens[i]) > 0 then
+					table.remove(mapgens, i)
+				end
+			end
+		end
+
+		local ds = (gameconfig:get("disallowed_mapgen_settings") or ""):split()
+		for _, value in pairs(ds) do
+			disallowed_mapgen_settings[value:trim()] = true
+		end
+	end
 
 	local mglist = ""
-	local selindex = 1
-	local i = 1
-	for k,v in pairs(mapgens) do
-		if current_mg == v then
-			selindex = i
+	local selindex
+	do -- build the list of mapgens
+		local i = 1
+		local first_mg
+		for k, v in pairs(mapgens) do
+			if not first_mg then
+				first_mg = v
+			end
+			if current_mg == v then
+				selindex = i
+			end
+			i = i + 1
+			mglist = mglist .. core.formspec_escape(v) .. ","
 		end
-		i = i + 1
-		mglist = mglist .. v .. ","
-	end
-	mglist = mglist:sub(1, -2)
-
-	local gameid = core.settings:get("menu_last_game")
-
-	local game, gameidx = nil , 0
-	if gameid ~= nil then
-		game, gameidx = pkgmgr.find_by_gameid(gameid)
-
-		if gameidx == nil then
-			gameidx = 0
+		if not selindex then
+			selindex = 1
+			current_mg = first_mg
 		end
+		mglist = mglist:sub(1, -2)
 	end
 
-	current_seed = core.formspec_escape(current_seed)
-	local retval = ""
+	-- The logic of the flag element IDs is as follows:
+	-- "flag_main_foo-bar-baz" controls dialogdata.flags["main"]["foo_bar_baz"]
+	-- see the buttonhandler for the implementation of this
 
-	if game ~= nil and game.id == "stonecraft" then
-		retval = retval .. "size[15.5,8.0,true]"
+	local mg_main_flags = function(mapgen, y)
+		if mapgen == "singlenode" then
+			return "", y
+		end
+		if disallowed_mapgen_settings["mg_flags"] then
+			return "", y
+		end
+
+		local form = "checkbox[0," .. y .. ";flag_main_caves;" ..
+			fgettext("Caves") .. ";"..strflag(flags.main, "caves").."]"
+		y = y + 0.5
+
+		form = form .. "checkbox[0,"..y..";flag_main_dungeons;" ..
+			fgettext("Dungeons") .. ";"..strflag(flags.main, "dungeons").."]"
+		y = y + 0.5
+
+		local d_name = fgettext("Decorations")
+		local d_tt
+		if mapgen == "v6" then
+			d_tt = fgettext("Structures appearing on the terrain (no effect on trees and jungle grass created by v6)")
+		else
+			d_tt = fgettext("Structures appearing on the terrain, typically trees and plants")
+		end
+		form = form .. "checkbox[0,"..y..";flag_main_decorations;" ..
+			d_name .. ";" ..
+			strflag(flags.main, "decorations").."]" ..
+			"tooltip[flag_mg_decorations;" ..
+			d_tt ..
+			"]"
+		y = y + 0.5
+
+		form = form .. "tooltip[flag_main_caves;" ..
+		fgettext("Network of tunnels and caves")
+		.. "]"
+		return form, y
+	end
+
+	local mg_specific_flags = function(mapgen, y)
+		if not flag_checkboxes[mapgen] then
+			return "", y
+		end
+		if disallowed_mapgen_settings["mg"..mapgen.."_spflags"] then
+			return "", y
+		end
+		local form = ""
+		for _, tab in pairs(flag_checkboxes[mapgen]) do
+			local id = "flag_"..mapgen.."_"..tab[1]:gsub("_", "-")
+			form = form .. ("checkbox[0,%f;%s;%s;%s]"):
+				format(y, id, tab[2], strflag(flags[mapgen], tab[1]))
+
+			if tab[3] then
+				form = form .. "tooltip["..id..";"..tab[3].."]"
+			end
+			y = y + 0.5
+		end
+
+		if mapgen ~= "v6" then
+			-- No special treatment
+			return form, y
+		end
+		-- Special treatment for v6 (add biome widgets)
+
+		-- Biome type (jungles, snowbiomes)
+		local biometype
+		if flags.v6.snowbiomes == true then
+			biometype = 1
+		elseif flags.v6.jungles == true  then
+			biometype = 2
+		else
+			biometype = 3
+		end
+		y = y + 0.3
+
+		form = form .. "label[0,"..(y+0.1)..";" .. fgettext("Biomes") .. "]"
+		y = y + 0.6
+
+		form = form .. "dropdown[0,"..y..";6.3;mgv6_biomes;"
+		for b=1, #mgv6_biomes do
+			form = form .. mgv6_biomes[b][1]
+			if b < #mgv6_biomes then
+				form = form .. ","
+			end
+		end
+		form = form .. ";" .. biometype.. "]"
+
+		-- biomeblend
+		y = y + 0.55
+		form = form .. "checkbox[0,"..y..";flag_v6_biomeblend;" ..
+			fgettext("Biome blending") .. ";"..strflag(flags.v6, "biomeblend").."]" ..
+			"tooltip[flag_v6_biomeblend;" ..
+			fgettext("Smooth transition between biomes") .. "]"
+
+		return form, y
+	end
+
+	local y_start = 0.0
+	local y = y_start
+	local str_flags, str_spflags
+	local label_flags, label_spflags = "", ""
+	y = y + 0.3
+	str_flags, y = mg_main_flags(current_mg, y)
+	if str_flags ~= "" then
+		label_flags = "label[0,"..y_start..";" .. fgettext("Mapgen flags") .. "]"
+		y_start = y + 0.4
 	else
-		retval = retval .. "size[11.5,3.0,true]label[1.25,1;" ..
-			fgettext("Cannot find Stonecraft game data! Download from mrcerealguy.github.io/stonecraft.") .. "]" ..
-			"button[1.25,2.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
+		y_start = 0.0
+	end
+	y = y_start + 0.3
+	str_spflags = mg_specific_flags(current_mg, y)
+	if str_spflags ~= "" then
+		label_spflags = "label[0,"..y_start..";" .. fgettext("Mapgen-specific flags") .. "]"
+	end
 
-		return retval
+	local retval =
+		"size[12.25,7.4,true]" ..
+
+		-- Left side
+		"container[0,0]"..
+		"field[0.3,0.6;6,0.5;te_world_name;" ..
+		fgettext("World name") ..
+		";" .. core.formspec_escape(dialogdata.worldname) .. "]" ..
+		"set_focus[te_world_name;false]"
+
+	if not disallowed_mapgen_settings["seed"] then
+
+		retval = retval .. "field[0.3,1.7;6,0.5;te_seed;" ..
+				fgettext("Seed") ..
+				";".. core.formspec_escape(dialogdata.seed) .. "]"
+
 	end
 
 	retval = retval ..
-		"label[2,0;" .. fgettext("World name") .. "]"..
-		"field[4.5,0.4;6,0.5;te_world_name;;".. current_worldname .."]" ..
+		"label[0,2;" .. fgettext("Mapgen") .. "]"..
+		"dropdown[0,2.5;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]"
 
-		"label[2,1;" .. fgettext("Seed-Code") .. "]"..
-		"field[4.5,1.4;6,0.5;te_seed;;".. current_seed .. "]" ..
-
-		"label[2,2;" .. fgettext("Mapgen") .. "]"..
-		"dropdown[4.2,2;6.3;dd_mapgen;" .. mglist .. ";" .. selindex .. "]" ..
-
-		"textlist[-10,3;7,2.3;games;" .. pkgmgr.gamelist() ..
-		";" .. gameidx .. ";true]"
-
-	retval = retval .. "size[14,5.5,true]" ..
-		"tablecolumns[color;tree;text,width=48;text]" ..
-		"tableoptions[background=#00000000;border=false]" ..
-		"table[0.25,3.50;14,3.5;list_world_options;"
-
-	-- loop all world otions and add to formspec table
-	local current_level = 0
-	for _, entry in ipairs(worldoptions) do
-
-		local name
-
-		if entry.readable_name then
-			name = fgettext_ne(entry.readable_name)
-		else
-			name = entry.name
-		end
-
-		if entry.type == "category" then
-			current_level = entry.level
-			retval = retval .. "#FFFF00," .. current_level .. "," .. fgettext(name) .. ",,"
-
-		elseif entry.type == "bool" then
-			local value = get_current_value(entry)
-			if core.is_yes(value) then
-				value = fgettext("Enabled")
-			else
-				value = fgettext("Disabled")
-			end
-			retval = retval .. "," .. (current_level + 1) .. "," .. core.formspec_escape(name) .. ","
-					.. value .. ","
-
-		elseif entry.type == "key" then
-			-- ignore key worldoptions, since we have a special dialog for them
-
-		else
-			retval = retval .. "," .. (current_level + 1) .. "," .. core.formspec_escape(name) .. ","
-					.. core.formspec_escape(get_current_value(entry)) .. ","
-		end
+	-- Warning when making a devtest world
+	if game.id == "devtest" then
+		retval = retval ..
+			"container[0,3.5]" ..
+			"box[0,0;5.8,1.7;#ff8800]" ..
+			"textarea[0.4,0.1;6,1.8;;;"..
+			fgettext("Development Test is meant for developers.") .. "]" ..
+			"button[1,1;4,0.5;world_create_open_cdb;" .. fgettext("Install another game") .. "]" ..
+			"container_end[]"
 	end
 
-	if #worldoptions > 0 then
-		retval = retval:sub(1, -2) -- remove trailing comma
-	end
+	retval = retval ..
+		"container_end[]" ..
 
-	retval = retval .. ";" .. selected_setting .. "]"
+		-- Right side
+		"container[6.2,0]"..
+		label_flags .. str_flags ..
+		label_spflags .. str_spflags ..
+		"container_end[]"..
 
-	retval = retval .. "button[4.5,7.5;2.5,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
-		"button[7.0,7.5;2.5,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]"
-
-	if #pkgmgr.games == 0 then
-		retval = retval .. "box[2,4;8,1;#ff8800]label[2.25,4;" ..
-				fgettext("You have no games installed.") .. "]label[2.25,4.4;" ..
-				fgettext("Download one from mrcerealguy.github.io/stonecraft") .. "]"
-	elseif #pkgmgr.games == 1 and pkgmgr.games[1].id == "minimal" then
-		retval = retval .. "box[1.75,4;8.7,1;#ff8800]label[2,4;" ..
-				fgettext("Warning: The minimal development test is meant for developers.") .. "]label[2,4.4;" ..
-				fgettext("Download a game, such as stonecraft_game, from mrcerealguy.github.io/stonecraft") .. "]"
-	end
+		-- Menu buttons
+		"container[0,6.9]"..
+		"button[3.25,0;3,0.5;world_create_confirm;" .. fgettext("Create") .. "]" ..
+		"button[6.25,0;3,0.5;world_create_cancel;" .. fgettext("Cancel") .. "]" ..
+		"container_end[]"
 
 	return retval
 
@@ -348,236 +334,104 @@ end
 
 local function create_world_buttonhandler(this, fields)
 
-	local world_options_dependencies = {
-		["enable_mobs_animals"]					=
-		{
-			["enable_cme"]						= true,
-			["enable_mobs_animals"]				= true,
-			["enable_mobs_redo"]				= true
-		},
-
-		["enable_mobs_monster"]					=
-		{
-			["enable_cme"]						= true,
-			["enable_mobs_monster"]				= true,
-			["enable_mobs_redo"]				= true
-		},
-
-		["enable_mobs_npc"]						=
-		{
-			["enable_mobs_npc"]					= true,
-			["enable_mobs_redo"]				= true
-		},
-		["enable_forests"]						=
-		{
-			["enable_forests"]	 				= true,
-			["enable_redtrees"]	 				= true
-		},
-
-		["enable_caverealms"]					=
-		{
-			["enable_caverealms"]	 			= true,
-			["enable_subterrane"]	 			= true
-		},
-
-		["enable_technic"]						=
-		{
-			["enable_technic"]	 				= true,
-			["enable_pipeworks"]	 			= true
-		},
-
-		["enable_mesecons"]						=
-		{
-			["enable_mesecons"]	 				= true,
-			["enable_digilines"]				= true
-		},
-
-		["enable_nssm"]							=
-		{
-			["enable_nssm"]						= true,
-			["enable_nssb"]	 					= true,
-			["enable_mobs_redo"]				= true
-		},
-
-		["enable_pyramids"]						=
-		{
-			["enable_pyramids"]					= true,
-			["enable_spawners"]					= true
-		},
-
-		["enable_snow"]							=
-		{
-			["enable_snow"]	 					= true,
-			["enable_moresnow"]					= true
-		},
-
-		["enable_woodsoils_vines"]				=
-		{
-			["enable_woodsoils"] 				= true,
-			["enable_vines"]	 				= true
-		},
-
-		["enable_mines"]						=
-		{
-			["enable_carts"]					= true,
-			["enable_boost_carts"]				= true,
-			["enable_railcorridors"]			= true,
-			["enable_treasurer"]				= true
-		},
-
-		["enable_surprise"]						=
-		{
-			["enable_surprise"]					= true,
-			["enable_treasurer"]				= true,
-			["enable_trm_default"]				= true,
-			["enable_trm_farming"]				= true,
-			["enable_trm_screwdriver"]			= true,
-			["enable_trm_tnt"]					= true,
-			["enable_trm_vessels"]				= true
-		}
-	}
-
-	-- handle Stonecraft selected world options
-	local list_enter = false
-	if fields["list_world_options"] then
-
-		-- cache worldname/seeds/mapgen
-		core.settings:set("worldname", fields["te_world_name"])
-		core.settings:set("fixed_map_seed", fields["te_seed"])
-		core.settings:set("mg_name", fields["dd_mapgen"])
-
-		selected_setting = core.get_table_index("list_world_options")
-		if core.explode_table_event(fields["list_world_options"]).type == "DCL" then
-			-- Directly toggle booleans
-			local setting = worldoptions[selected_setting]
-			if setting and setting.type == "bool" then
-				local current_value = get_current_value(setting)
-				core.settings:set_bool(setting.name, not core.is_yes(current_value))
-				return true
-			else
-				list_enter = true
-			end
-		else
-			return true
-		end
-	end
-
-	if list_enter then
-		local setting = worldoptions[selected_setting]
-
-		if setting and setting.type ~= "category" then
-			local edit_dialog = dialog_create("change_setting", create_change_setting_formspec,
-					handle_change_setting_buttons)
-			edit_dialog:set_parent(this)
-			this:hide()
-			edit_dialog:show()
-		end
+	if fields["world_create_open_cdb"] then
+		local dlg = create_contentdb_dlg("game")
+		dlg:set_parent(this.parent)
+		this:delete()
+		this.parent:hide()
+		dlg:show()
 		return true
 	end
 
 	if fields["world_create_confirm"] or
 		fields["key_enter"] then
 
-		local worldname = fields["te_world_name"]
-		local worlduid
-		local gameindex = core.get_textlist_index("games")
-
-		-- save changed world settings
-		core.settings:write()
-
-		if gameindex ~= nil then
-			if worldname == "" then
-				local random_number = math.random(10000, 99999)
-				local random_world_name = "Unnamed" .. random_number
-				worldname = random_world_name
-			end
-
-			local message = nil
-
-			core.settings:set("fixed_map_seed", fields["te_seed"])
-
-			if not menudata.worldlist:uid_exists_raw(worldname) then
-				core.settings:set("mg_name",fields["dd_mapgen"])
-				message = core.create_world(worldname,gameindex)
-			else
-				message = fgettext("A world named \"$1\" already exists", worldname)
-			end
-
-			if message ~= nil then
-				gamedata.errormessage = message
-			else
-				core.settings:set("menu_last_game",pkgmgr.games[gameindex].id)
-				if this.data.update_worldlist_filter then
-					menudata.worldlist:set_filtercriteria(pkgmgr.games[gameindex].id)
-					mm_texture.update("singleplayer", pkgmgr.games[gameindex].id)
-				end
-				menudata.worldlist:refresh()
-				worlduid = menudata.worldlist:raw_index_by_uid(worldname)
-				core.settings:set("mainmenu_last_selected_world", worlduid)
-
-				local world = menudata.worldlist.m_raw_list[worlduid]
-
-				if world then
-					local filename = world.path .. DIR_DELIM .. "world.mt"
-					local world_conf = Settings(filename)
-
-					-- loop all world options, copy entries to world.mt
-					local current_level = 0
-					for _, entry in ipairs(worldoptions) do
-
-						local name
-						name = entry.name
-
-						if entry.type ~= "category" then
-							if entry.type == "bool" then
-								local value = get_current_value(entry)
-								if core.is_yes(value) then
-									world_conf:set(name, "true")
-								else
-									world_conf:set(name, "false")
-								end
-							else
-								world_conf:set(name, core.formspec_escape(get_current_value(entry)))
-							end
-
-							-- copy changed world option from stonecraft.conf to world.mt
-							if core.settings:get(name) ~= nil then
-								world_conf:set(name, core.settings:get(name))
-							end
-
-							-- loop all world options, look up for world option dependencies
-							for k,v in pairs(world_options_dependencies) do
-								if k == name and core.settings:get(name) == "true" then
-									for k2,v2 in pairs(v) do
-										-- copy world option dependency to world.mt
-										world_conf:set(k2, tostring(v2))
-									end
-								end
-							end
-						end
-					end
-
-					if not world_conf:write() then
-						gamedata.errormessage = fgettext("Failed to write world config file")
-					end
-
-				else
-					gamedata.errormessage = fgettext("Invalid world uid")
-				end
-			end
-		else
-			gamedata.errormessage = fgettext("No game selected")
+		if fields["key_enter"] then
+			-- HACK: This timestamp prevents double-triggering when pressing Enter on an input box
+			-- and releasing it on a button[] or textlist[] due to instant formspec updates.
+			this.parent.dlg_create_world_closed_at = core.get_us_time()
 		end
 
-		-- save changed world settings
-		core.settings:write()
-		this:delete()
+		local worldname = fields["te_world_name"]
+		local game, _ = pkgmgr.find_by_gameid(core.settings:get("menu_last_game"))
 
+		local message
+		if game == nil then
+			message = fgettext_ne("No game selected")
+		end
+
+		if message == nil then
+			-- For unnamed worlds use the generated name 'world<number>',
+			-- where the number increments: it is set to 1 larger than the largest
+			-- generated name number found.
+			if worldname == "" then
+				local worldnum_max = 0
+				for _, world in ipairs(menudata.worldlist:get_list()) do
+					if world.name:match("^world%d+$") then
+						local worldnum = tonumber(world.name:sub(6))
+						worldnum_max = math.max(worldnum_max, worldnum)
+					end
+				end
+				worldname = "world" .. worldnum_max + 1
+			end
+
+			if menudata.worldlist:uid_exists_raw(worldname) then
+				message = fgettext_ne("A world named \"$1\" already exists", worldname)
+			end
+		end
+
+		if message == nil then
+			this.data.seed = fields["te_seed"] or ""
+			this.data.mg = fields["dd_mapgen"]
+
+			-- actual names as used by engine
+			local settings = {
+				fixed_map_seed = this.data.seed,
+				mg_name = this.data.mg,
+				mg_flags = table_to_flags(this.data.flags.main),
+				mgv5_spflags = table_to_flags(this.data.flags.v5),
+				mgv6_spflags = table_to_flags(this.data.flags.v6),
+				mgv7_spflags = table_to_flags(this.data.flags.v7),
+				mgfractal_spflags = table_to_flags(this.data.flags.fractal),
+				mgcarpathian_spflags = table_to_flags(this.data.flags.carpathian),
+				mgvalleys_spflags = table_to_flags(this.data.flags.valleys),
+				mgflat_spflags = table_to_flags(this.data.flags.flat),
+			}
+			message = core.create_world(worldname, game.id, settings)
+		end
+
+		if message == nil then
+			core.settings:set("menu_last_game", game.id)
+			menudata.worldlist:set_filtercriteria(game.id)
+			menudata.worldlist:refresh()
+			core.settings:set("mainmenu_last_selected_world",
+					menudata.worldlist:raw_index_by_uid(worldname))
+		end
+
+		gamedata.errormessage = message
+		this:delete()
 		return true
 	end
 
+	this.data.worldname = fields["te_world_name"]
+	this.data.seed = fields["te_seed"] or ""
+
 	if fields["games"] then
+		local gameindex = core.get_textlist_index("games")
+		core.settings:set("menu_last_game", pkgmgr.games[gameindex].id)
 		return true
+	end
+
+	for k,v in pairs(fields) do
+		local split = string.split(k, "_", nil, 3)
+		if split and split[1] == "flag" then
+			-- We replaced the underscore of flag names with a dash.
+			local flag = string.gsub(split[3], "-", "_")
+			local ftable = this.data.flags[split[2]]
+			assert(ftable)
+			ftable[flag] = v == "true"
+			return true
+		end
 	end
 
 	if fields["world_create_cancel"] then
@@ -585,19 +439,48 @@ local function create_world_buttonhandler(this, fields)
 		return true
 	end
 
+	if fields["mgv6_biomes"] then
+		local entry = core.formspec_escape(fields["mgv6_biomes"])
+		for b=1, #mgv6_biomes do
+			if entry == mgv6_biomes[b][1] then
+				local ftable = this.data.flags.v6
+				ftable.jungles = mgv6_biomes[b][2].jungles
+				ftable.snowbiomes = mgv6_biomes[b][2].snowbiomes
+				return true
+			end
+		end
+	end
+
+	if fields["dd_mapgen"] then
+		this.data.mg = fields["dd_mapgen"]
+		return true
+	end
+
 	return false
 end
 
-function create_create_world_dlg(update_worldlistfilter)
 
-	core.settings:set("worldname", "")
-	core.settings:set("fixed_map_seed", "")
-
-	local dlg = dialog_create("sp_create_world",
+function create_create_world_dlg()
+	local retval = dialog_create("sp_create_world",
 					create_world_formspec,
 					create_world_buttonhandler,
 					nil)
-	dlg.update_worldlist_filter = update_worldlistfilter
-	
-	return dlg
+	retval.data = {
+		worldname = "",
+		-- settings the world is created with:
+		seed = core.settings:get("fixed_map_seed") or "",
+		mg = core.settings:get("mg_name"),
+		flags = {
+			main = core.settings:get_flags("mg_flags"),
+			v5 = core.settings:get_flags("mgv5_spflags"),
+			v6 = core.settings:get_flags("mgv6_spflags"),
+			v7 = core.settings:get_flags("mgv7_spflags"),
+			fractal = core.settings:get_flags("mgfractal_spflags"),
+			carpathian = core.settings:get_flags("mgcarpathian_spflags"),
+			valleys = core.settings:get_flags("mgvalleys_spflags"),
+			flat = core.settings:get_flags("mgflat_spflags"),
+		}
+	}
+
+	return retval
 end

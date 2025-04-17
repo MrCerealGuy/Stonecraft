@@ -1,66 +1,82 @@
-FROM alpine:3.11
+ARG DOCKER_IMAGE=alpine:3.19
+FROM $DOCKER_IMAGE AS dev
 
-ENV STONECRAFT_GAME_VERSION master
+ENV LUAJIT_VERSION v2.1
 
-COPY .git /usr/src/stonecraft/.git
-COPY CMakeLists.txt /usr/src/stonecraft/CMakeLists.txt
-COPY README.md /usr/src/stonecraft/README.md
-COPY stonecraft.conf.example /usr/src/stonecraft/stonecraft.conf.example
-COPY builtin /usr/src/stonecraft/builtin
-COPY cmake /usr/src/stonecraft/cmake
-COPY doc /usr/src/stonecraft/doc
-COPY fonts /usr/src/stonecraft/fonts
-COPY lib /usr/src/stonecraft/lib
-COPY misc /usr/src/stonecraft/misc
-COPY po /usr/src/stonecraft/po
-COPY src /usr/src/stonecraft/src
-COPY textures /usr/src/stonecraft/textures
-
-WORKDIR /usr/src/stonecraft
-
-RUN apk add --no-cache git build-base irrlicht-dev cmake bzip2-dev libpng-dev \
-		jpeg-dev libxxf86vm-dev mesa-dev sqlite-dev libogg-dev \
-		libvorbis-dev openal-soft-dev curl-dev freetype-dev zlib-dev \
-		gmp-dev jsoncpp-dev postgresql-dev luajit-dev ca-certificates && \
+RUN apk add --no-cache git build-base cmake curl-dev zlib-dev zstd-dev \
+		sqlite-dev postgresql-dev hiredis-dev leveldb-dev \
+		gmp-dev jsoncpp-dev ninja ca-certificates
 
 WORKDIR /usr/src/
-RUN git clone --recursive https://github.com/jupp0r/prometheus-cpp/ && \
-	mkdir prometheus-cpp/build && \
-	cd prometheus-cpp/build && \
-	cmake .. \
-		-DCMAKE_INSTALL_PREFIX=/usr/local \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DENABLE_TESTING=0 && \
-	make -j2 && \
-	make install
+RUN git clone --recursive https://github.com/jupp0r/prometheus-cpp && \
+		cd prometheus-cpp && \
+		cmake -B build \
+			-DCMAKE_INSTALL_PREFIX=/usr/local \
+			-DCMAKE_BUILD_TYPE=Release \
+			-DENABLE_TESTING=0 \
+			-GNinja && \
+		cmake --build build && \
+		cmake --install build && \
+	cd /usr/src/ && \
+	git clone --recursive https://github.com/libspatialindex/libspatialindex && \
+		cd libspatialindex && \
+		cmake -B build \
+			-DCMAKE_INSTALL_PREFIX=/usr/local && \
+		cmake --build build && \
+		cmake --install build && \
+	cd /usr/src/ && \
+	git clone --recursive https://luajit.org/git/luajit.git -b ${LUAJIT_VERSION} && \
+		cd luajit && \
+		make amalg && make install && \
+	cd /usr/src/
 
-WORKDIR /usr/src/stonecraft
-RUN mkdir build && \
-	cd build && \
-	cmake .. \
+FROM dev as builder
+
+COPY .git /usr/src/luanti/.git
+COPY CMakeLists.txt /usr/src/luanti/CMakeLists.txt
+COPY README.md /usr/src/luanti/README.md
+COPY minetest.conf.example /usr/src/luanti/minetest.conf.example
+COPY builtin /usr/src/luanti/builtin
+COPY cmake /usr/src/luanti/cmake
+COPY doc /usr/src/luanti/doc
+COPY fonts /usr/src/luanti/fonts
+COPY lib /usr/src/luanti/lib
+COPY misc /usr/src/luanti/misc
+COPY po /usr/src/luanti/po
+COPY src /usr/src/luanti/src
+COPY irr /usr/src/luanti/irr
+COPY textures /usr/src/luanti/textures
+
+WORKDIR /usr/src/luanti
+RUN cmake -B build \
 		-DCMAKE_INSTALL_PREFIX=/usr/local \
 		-DCMAKE_BUILD_TYPE=Release \
 		-DBUILD_SERVER=TRUE \
 		-DENABLE_PROMETHEUS=TRUE \
-		-DBUILD_UNITTESTS=FALSE \
-		-DBUILD_CLIENT=FALSE && \
-	make -j2 && \
-	make install
+		-DBUILD_UNITTESTS=FALSE -DBUILD_BENCHMARKS=FALSE \
+		-DBUILD_CLIENT=FALSE \
+		-GNinja && \
+	cmake --build build && \
+	cmake --install build
 
-FROM alpine:3.11
+FROM $DOCKER_IMAGE AS runtime
 
-RUN apk add --no-cache sqlite-libs curl gmp libstdc++ libgcc libpq luajit && \
-	adduser -D stonecraft --uid 30000 -h /var/lib/stonecraft && \
-	chown -R stonecraft:stonecraft /var/lib/stonecraft
+RUN apk add --no-cache curl gmp libstdc++ libgcc libpq jsoncpp zstd-libs \
+				sqlite-libs postgresql hiredis leveldb && \
+	adduser -D minetest --uid 30000 -h /var/lib/minetest && \
+	chown -R minetest:minetest /var/lib/minetest
 
 WORKDIR /var/lib/minetest
 
-COPY --from=0 /usr/local/share/stonecraft /usr/local/share/stonecraft
-COPY --from=0 /usr/local/bin/stonecraftserver /usr/local/bin/stonecraftserver
-COPY --from=0 /usr/local/share/doc/stonecraft/stonecraft.conf.example /etc/stonecraft/stonecraft.conf
-
-USER stonecraft:stonecraft
+COPY --from=builder /usr/local/share/luanti /usr/local/share/luanti
+COPY --from=builder /usr/local/bin/luantiserver /usr/local/bin/luantiserver
+COPY --from=builder /usr/local/share/doc/luanti/minetest.conf.example /etc/minetest/minetest.conf
+COPY --from=builder /usr/local/lib/libspatialindex* /usr/local/lib/
+COPY --from=builder /usr/local/lib/libluajit* /usr/local/lib/
+USER minetest:minetest
 
 EXPOSE 30000/udp 30000/tcp
+VOLUME /var/lib/minetest/ /etc/minetest/
 
-CMD ["/usr/local/bin/stonecraftserver", "--config", "/etc/stonecraft/stonecraft.conf"]
+ENTRYPOINT ["/usr/local/bin/luantiserver"]
+CMD ["--config", "/etc/minetest/minetest.conf"]

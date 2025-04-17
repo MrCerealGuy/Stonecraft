@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
 
 #pragma once
 
@@ -23,7 +8,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <mutex>
 #include "network/networkprotocol.h"
 #include "irr_v3d.h"
-#include "util/container.h"
+#include "util/metricsbackend.h"
 #include "mapgen/mapgen.h" // for MapgenParams
 #include "map.h"
 
@@ -38,17 +23,19 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 class EmergeThread;
 class NodeDefManager;
 class Settings;
-
+class MapSettingsManager;
 class BiomeManager;
 class OreManager;
 class DecorationManager;
 class SchematicManager;
 class Server;
 class ModApiMapgen;
+struct MapDatabaseAccessor;
 
 // Structure containing inputs/outputs for chunk generation
 struct BlockMakeData {
 	MMVManip *vmanip = nullptr;
+	// Global map seed
 	u64 seed = 0;
 	v3s16 blockpos_min;
 	v3s16 blockpos_max;
@@ -67,6 +54,14 @@ enum EmergeAction {
 	EMERGE_FROM_MEMORY,
 	EMERGE_FROM_DISK,
 	EMERGE_GENERATED,
+};
+
+constexpr const char *emergeActionStrs[] = {
+	"cancelled",
+	"errored",
+	"from_memory",
+	"from_disk",
+	"generated",
 };
 
 // Callback
@@ -98,14 +93,22 @@ public:
 
 	u32 gen_notify_on;
 	const std::set<u32> *gen_notify_on_deco_ids; // shared
+	const std::set<std::string> *gen_notify_on_custom; // shared
 
+	BiomeGen *biomegen;
 	BiomeManager *biomemgr;
 	OreManager *oremgr;
 	DecorationManager *decomgr;
 	SchematicManager *schemmgr;
 
+	inline GenerateNotifier createNotifier() const {
+		return GenerateNotifier(gen_notify_on, gen_notify_on_deco_ids,
+			gen_notify_on_custom);
+	}
+
 private:
-	EmergeParams(EmergeManager *parent, const BiomeManager *biomemgr,
+	EmergeParams(EmergeManager *parent, const BiomeGen *biomegen,
+		const BiomeManager *biomemgr,
 		const OreManager *oremgr, const DecorationManager *decomgr,
 		const SchematicManager *schemmgr);
 };
@@ -123,6 +126,7 @@ public:
 	// Generation Notify
 	u32 gen_notify_on = 0;
 	std::set<u32> gen_notify_on_deco_ids;
+	std::set<std::string> gen_notify_on_custom;
 
 	// Parameters passed to mapgens owned by ServerMap
 	// TODO(hmmmm): Remove this after mapgen helper methods using them
@@ -136,9 +140,11 @@ public:
 	MapSettingsManager *map_settings_mgr;
 
 	// Methods
-	EmergeManager(Server *server);
+	EmergeManager(Server *server, MetricsBackend *mb);
 	~EmergeManager();
 	DISABLE_CLASS_COPY(EmergeManager);
+
+	const BiomeGen *getBiomeGen() const { return biomegen; }
 
 	// no usage restrictions
 	const BiomeManager *getBiomeManager() const { return biomemgr; }
@@ -152,6 +158,10 @@ public:
 	SchematicManager *getWritableSchematicManager();
 
 	void initMapgens(MapgenParams *mgparams);
+	/// @param holder non-owned reference that must stay alive
+	void initMap(MapDatabaseAccessor *holder);
+	/// resets the reference
+	void resetMap();
 
 	void startThreads();
 	void stopThreads();
@@ -170,13 +180,13 @@ public:
 		EmergeCompletionCallback callback,
 		void *callback_param);
 
-	v3s16 getContainingChunk(v3s16 blockpos);
+	size_t getQueueSize();
+	bool isBlockInQueue(v3s16 pos);
 
 	Mapgen *getCurrentMapgen();
 
 	// Mapgen helpers methods
 	int getSpawnLevelAtPoint(v2s16 p);
-	int getGroundLevelAtPoint(v2s16 p);
 	bool isBlockUnderground(v3s16 blockpos);
 
 	static v3s16 getContainingChunk(v3s16 blockpos, s16 chunksize);
@@ -186,16 +196,23 @@ private:
 	std::vector<EmergeThread *> m_threads;
 	bool m_threads_active = false;
 
+	// The map database
+	MapDatabaseAccessor *m_db = nullptr;
+
 	std::mutex m_queue_mutex;
 	std::map<v3s16, BlockEmergeData> m_blocks_enqueued;
-	std::unordered_map<u16, u16> m_peer_queue_count;
+	std::unordered_map<u16, u32> m_peer_queue_count;
 
-	u16 m_qlimit_total;
-	u16 m_qlimit_diskonly;
-	u16 m_qlimit_generate;
+	u32 m_qlimit_total;
+	u32 m_qlimit_diskonly;
+	u32 m_qlimit_generate;
+
+	// Emerge metrics
+	MetricCounterPtr m_completed_emerge_counter[5];
 
 	// Managers of various map generation-related components
 	// Note that each Mapgen gets a copy(!) of these to work with
+	BiomeGen *biomegen;
 	BiomeManager *biomemgr;
 	OreManager *oremgr;
 	DecorationManager *decomgr;
@@ -213,6 +230,8 @@ private:
 		bool *entry_already_exists);
 
 	bool popBlockEmergeData(v3s16 pos, BlockEmergeData *bedata);
+
+	void reportCompletedEmerge(EmergeAction action);
 
 	friend class EmergeThread;
 };

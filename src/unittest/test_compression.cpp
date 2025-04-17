@@ -1,27 +1,11 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "test.h"
 
 #include <sstream>
 
-#include "irrlichttypes_extrabloated.h"
 #include "log.h"
 #include "serialization.h"
 #include "nodedef.h"
@@ -37,6 +21,7 @@ public:
 	void testRLECompression();
 	void testZlibCompression();
 	void testZlibLargeData();
+	void testZstdLargeData();
 	void testZlibLimit();
 	void _testZlibLimit(u32 size, u32 limit);
 };
@@ -48,6 +33,7 @@ void TestCompression::runTests(IGameDef *gamedef)
 	TEST(testRLECompression);
 	TEST(testZlibCompression);
 	TEST(testZlibLargeData);
+	TEST(testZstdLargeData);
 	TEST(testZlibLimit);
 }
 
@@ -55,7 +41,7 @@ void TestCompression::runTests(IGameDef *gamedef)
 
 void TestCompression::testRLECompression()
 {
-	SharedBuffer<u8> fromdata(4);
+	Buffer<u8> fromdata(4);
 	fromdata[0]=1;
 	fromdata[1]=5;
 	fromdata[2]=5;
@@ -104,14 +90,14 @@ void TestCompression::testRLECompression()
 
 void TestCompression::testZlibCompression()
 {
-	SharedBuffer<u8> fromdata(4);
+	Buffer<u8> fromdata(4);
 	fromdata[0]=1;
 	fromdata[1]=5;
 	fromdata[2]=5;
 	fromdata[3]=1;
 
 	std::ostringstream os(std::ios_base::binary);
-	compress(fromdata, os, SER_FMT_VER_HIGHEST_READ);
+	compressZlib(*fromdata, fromdata.getSize(), os);
 
 	std::string str_out = os.str();
 
@@ -124,7 +110,7 @@ void TestCompression::testZlibCompression()
 	std::istringstream is(str_out, std::ios_base::binary);
 	std::ostringstream os2(std::ios_base::binary);
 
-	decompress(is, os2, SER_FMT_VER_HIGHEST_READ);
+	decompressZlib(is, os2);
 	std::string str_out2 = os2.str();
 
 	infostream << "decompress: ";
@@ -162,6 +148,42 @@ void TestCompression::testZlibLargeData()
 	std::ostringstream os_decompressed(std::ios::binary);
 	decompressZlib(is_compressed, os_decompressed);
 	infostream << "Test: Output size of large decompressZlib is "
+		<< os_decompressed.str().size() << std::endl;
+
+	std::string str_decompressed = os_decompressed.str();
+	UASSERTEQ(size_t, str_decompressed.size(), data_in.size());
+
+	for (u32 i = 0; i < size && i < str_decompressed.size(); i++) {
+		UTEST(str_decompressed[i] == data_in[i],
+				"index out[%i]=%i differs from in[%i]=%i",
+				i, str_decompressed[i], i, data_in[i]);
+	}
+}
+
+void TestCompression::testZstdLargeData()
+{
+	infostream << "Test: Testing zstd wrappers with a large amount "
+		"of pseudorandom data" << std::endl;
+
+	u32 size = 500000;
+	infostream << "Test: Input size of large compressZstd is "
+		<< size << std::endl;
+
+	std::string data_in;
+	data_in.resize(size);
+	PseudoRandom pseudorandom(9420);
+	for (u32 i = 0; i < size; i++)
+		data_in[i] = pseudorandom.range(0, 255);
+
+	std::ostringstream os_compressed(std::ios::binary);
+	compressZstd(data_in, os_compressed, 0);
+	infostream << "Test: Output size of large compressZstd is "
+		<< os_compressed.str().size()<<std::endl;
+
+	std::istringstream is_compressed(os_compressed.str(), std::ios::binary);
+	std::ostringstream os_decompressed(std::ios::binary);
+	decompressZstd(is_compressed, os_decompressed);
+	infostream << "Test: Output size of large decompressZstd is "
 		<< os_decompressed.str().size() << std::endl;
 
 	std::string str_decompressed = os_decompressed.str();

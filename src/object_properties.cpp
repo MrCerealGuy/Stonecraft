@@ -1,48 +1,34 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "object_properties.h"
+#include "irrlicht_changes/printing.h"
 #include "irrlichttypes_bloated.h"
 #include "exceptions.h"
+#include "log.h"
 #include "util/serialize.h"
-#include "util/basic_macros.h"
 #include <sstream>
+#include <tuple>
 
 static const video::SColor NULL_BGCOLOR{0, 1, 1, 1};
 
 ObjectProperties::ObjectProperties()
 {
-	textures.emplace_back("unknown_object.png");
-	colors.emplace_back(255,255,255,255);
+	textures.emplace_back("no_texture.png");
 }
 
-std::string ObjectProperties::dump()
+std::string ObjectProperties::dump() const
 {
 	std::ostringstream os(std::ios::binary);
 	os << "hp_max=" << hp_max;
 	os << ", breath_max=" << breath_max;
 	os << ", physical=" << physical;
 	os << ", collideWithObjects=" << collideWithObjects;
-	os << ", collisionbox=" << PP(collisionbox.MinEdge) << "," << PP(collisionbox.MaxEdge);
+	os << ", collisionbox=" << collisionbox.MinEdge << "," << collisionbox.MaxEdge;
 	os << ", visual=" << visual;
 	os << ", mesh=" << mesh;
-	os << ", visual_size=" << PP(visual_size);
+	os << ", visual_size=" << visual_size;
 	os << ", textures=[";
 	for (const std::string &texture : textures) {
 		os << "\"" << texture << "\" ";
@@ -54,8 +40,8 @@ std::string ObjectProperties::dump()
 			<< color.getGreen() << "," << color.getBlue() << "\" ";
 	}
 	os << "]";
-	os << ", spritediv=" << PP2(spritediv);
-	os << ", initial_sprite_basepos=" << PP2(initial_sprite_basepos);
+	os << ", spritediv=" << spritediv;
+	os << ", initial_sprite_basepos=" << initial_sprite_basepos;
 	os << ", is_visible=" << is_visible;
 	os << ", makes_footstep_sound=" << makes_footstep_sound;
 	os << ", automatic_rotate="<< automatic_rotate;
@@ -71,8 +57,9 @@ std::string ObjectProperties::dump()
 	else
 		os << ", nametag_bgcolor=null ";
 
-	os << ", selectionbox=" << PP(selectionbox.MinEdge) << "," << PP(selectionbox.MaxEdge);
-	os << ", pointable=" << pointable;
+	os << ", selectionbox=" << selectionbox.MinEdge << "," << selectionbox.MaxEdge;
+	os << ", rotate_selectionbox=" << rotate_selectionbox;
+	os << ", pointable=" << Pointabilities::toStringPointabilityType(pointable);
 	os << ", static_save=" << static_save;
 	os << ", eye_height=" << eye_height;
 	os << ", zoom_fov=" << zoom_fov;
@@ -81,6 +68,60 @@ std::string ObjectProperties::dump()
 	os << ", shaded=" << shaded;
 	os << ", show_on_minimap=" << show_on_minimap;
 	return os.str();
+}
+
+static auto tie(const ObjectProperties &o)
+{
+	// Make sure to add new members to this list!
+	return std::tie(
+	o.textures, o.colors, o.collisionbox, o.selectionbox, o.visual, o.mesh,
+	o.damage_texture_modifier, o.nametag, o.infotext, o.wield_item, o.visual_size,
+	o.nametag_color, o.nametag_bgcolor, o.spritediv, o.initial_sprite_basepos,
+	o.stepheight, o.automatic_rotate, o.automatic_face_movement_dir_offset,
+	o.automatic_face_movement_max_rotation_per_sec, o.eye_height, o.zoom_fov,
+	o.hp_max, o.breath_max, o.glow, o.pointable, o.physical, o.collideWithObjects,
+	o.rotate_selectionbox, o.is_visible, o.makes_footstep_sound,
+	o.automatic_face_movement_dir, o.backface_culling, o.static_save, o.use_texture_alpha,
+	o.shaded, o.show_on_minimap
+	);
+}
+
+bool ObjectProperties::operator==(const ObjectProperties &other) const
+{
+	return tie(*this) == tie(other);
+}
+
+bool ObjectProperties::validate()
+{
+	const char *func = "ObjectProperties::validate(): ";
+	bool ret = true;
+
+	// cf. where serializeString16 is used below
+	for (u32 i = 0; i < textures.size(); i++) {
+		if (textures[i].size() > U16_MAX) {
+			warningstream << func << "texture " << (i+1) << " has excessive length, "
+				"clearing it." << std::endl;
+			textures[i].clear();
+			ret = false;
+		}
+	}
+	if (nametag.length() > U16_MAX) {
+		warningstream << func << "nametag has excessive length, clearing it." << std::endl;
+		nametag.clear();
+		ret = false;
+	}
+	if (infotext.length() > U16_MAX) {
+		warningstream << func << "infotext has excessive length, clearing it." << std::endl;
+		infotext.clear();
+		ret = false;
+	}
+	if (wield_item.length() > U16_MAX) {
+		warningstream << func << "wield_item has excessive length, clearing it." << std::endl;
+		wield_item.clear();
+		ret = false;
+	}
+
+	return ret;
 }
 
 void ObjectProperties::serialize(std::ostream &os) const
@@ -93,7 +134,7 @@ void ObjectProperties::serialize(std::ostream &os) const
 	writeV3F32(os, collisionbox.MaxEdge);
 	writeV3F32(os, selectionbox.MinEdge);
 	writeV3F32(os, selectionbox.MaxEdge);
-	writeU8(os, pointable);
+	Pointabilities::serializePointabilityType(os, pointable);
 	os << serializeString16(visual);
 	writeV3F32(os, visual_size);
 	writeU16(os, textures.size());
@@ -105,7 +146,6 @@ void ObjectProperties::serialize(std::ostream &os) const
 	writeU8(os, is_visible);
 	writeU8(os, makes_footstep_sound);
 	writeF32(os, automatic_rotate);
-	// Added in protocol version 14
 	os << serializeString16(mesh);
 	writeU16(os, colors.size());
 	for (video::SColor color : colors) {
@@ -137,6 +177,7 @@ void ObjectProperties::serialize(std::ostream &os) const
 	else
 		writeARGB8(os, nametag_bgcolor.value());
 
+	writeU8(os, rotate_selectionbox);
 	// Add stuff only at the bottom.
 	// Never remove anything, because we don't want new versions of this
 }
@@ -154,7 +195,7 @@ void ObjectProperties::deSerialize(std::istream &is)
 	collisionbox.MaxEdge = readV3F32(is);
 	selectionbox.MinEdge = readV3F32(is);
 	selectionbox.MaxEdge = readV3F32(is);
-	pointable = readU8(is);
+	pointable = Pointabilities::deSerializePointabilityType(is);
 	visual = deSerializeString16(is);
 	visual_size = readV3F32(is);
 	textures.clear();
@@ -203,6 +244,11 @@ void ObjectProperties::deSerialize(std::istream &is)
 		if (bgcolor != NULL_BGCOLOR)
 			nametag_bgcolor = bgcolor;
 		else
-			nametag_bgcolor = nullopt;
+			nametag_bgcolor = std::nullopt;
+
+		tmp = readU8(is);
+		if (is.eof())
+			return;
+		rotate_selectionbox = tmp;
 	} catch (SerializationError &e) {}
 }

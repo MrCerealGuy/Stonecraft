@@ -1,22 +1,7 @@
-/*
-Minetest
-Copyright (C) 2014-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-Copyright (C) 2015-2018 paramat
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2014-2018 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
+// Copyright (C) 2015-2018 paramat
 
 #include "mg_decoration.h"
 #include "mg_schematic.h"
@@ -27,6 +12,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/numeric.h"
 #include <algorithm>
 #include <vector>
+#include "mapgen/treegen.h"
 
 
 FlagDesc flagdesc_deco[] = {
@@ -87,6 +73,9 @@ void Decoration::resolveNodeNames()
 
 bool Decoration::canPlaceDecoration(MMVManip *vm, v3s16 p)
 {
+	// Note that `p` refers to the node the decoration will be placed ontop of,
+	// not to the decoration itself.
+
 	// Check if the decoration can be placed on this node
 	u32 vi = vm->m_area.index(p);
 	if (!CONTAINS(c_place_on, vm->m_data[vi].getContent()))
@@ -97,16 +86,7 @@ bool Decoration::canPlaceDecoration(MMVManip *vm, v3s16 p)
 		return true;
 
 	int nneighs = 0;
-	static const v3s16 dirs[16] = {
-		v3s16( 0, 0,  1),
-		v3s16( 0, 0, -1),
-		v3s16( 1, 0,  0),
-		v3s16(-1, 0,  0),
-		v3s16( 1, 0,  1),
-		v3s16(-1, 0,  1),
-		v3s16(-1, 0, -1),
-		v3s16( 1, 0, -1),
-
+	static const v3s16 dirs[8] = {
 		v3s16( 0, 1,  1),
 		v3s16( 0, 1, -1),
 		v3s16( 1, 1,  0),
@@ -117,7 +97,8 @@ bool Decoration::canPlaceDecoration(MMVManip *vm, v3s16 p)
 		v3s16( 1, 1, -1)
 	};
 
-	// Check these 16 neighbouring nodes for enough spawnby nodes
+
+	// Check these 16 neighboring nodes for enough spawnby nodes
 	for (size_t i = 0; i != ARRLEN(dirs); i++) {
 		u32 index = vm->m_area.index(p + dirs[i]);
 		if (!vm->m_area.contains(index))
@@ -127,6 +108,19 @@ bool Decoration::canPlaceDecoration(MMVManip *vm, v3s16 p)
 			nneighs++;
 	}
 
+	if (check_offset != 0) {
+		const v3s16 dir_offset(0, check_offset,  0);
+
+		for (size_t i = 0; i != ARRLEN(dirs); i++) {
+			u32 index = vm->m_area.index(p + dirs[i] + dir_offset);
+			if (!vm->m_area.contains(index))
+				continue;
+
+			if (CONTAINS(c_spawnby, vm->m_data[index].getContent()))
+				nneighs++;
+		}
+
+	}
 	if (nneighs < nspawnby)
 		return false;
 
@@ -228,8 +222,7 @@ size_t Decoration::placeDeco(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax)
 
 						v3s16 pos(x, y, z);
 						if (generate(mg->vm, &ps, pos, false))
-							mg->gennotify.addEvent(
-									GENNOTIFY_DECORATION, pos, index);
+							mg->gennotify.addDecorationEvent(pos, index);
 					}
 				}
 
@@ -241,8 +234,7 @@ size_t Decoration::placeDeco(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax)
 
 						v3s16 pos(x, y, z);
 						if (generate(mg->vm, &ps, pos, true))
-							mg->gennotify.addEvent(
-									GENNOTIFY_DECORATION, pos, index);
+							mg->gennotify.addDecorationEvent(pos, index);
 					}
 				}
 			} else { // Heightmap decorations
@@ -265,7 +257,7 @@ size_t Decoration::placeDeco(Mapgen *mg, u32 blockseed, v3s16 nmin, v3s16 nmax)
 
 				v3s16 pos(x, y, z);
 				if (generate(mg->vm, &ps, pos, false))
-					mg->gennotify.addEvent(GENNOTIFY_DECORATION, pos, index);
+					mg->gennotify.addDecorationEvent(pos, index);
 			}
 		}
 	}
@@ -280,6 +272,7 @@ void Decoration::cloneTo(Decoration *def) const
 	def->flags = flags;
 	def->mapseed = mapseed;
 	def->c_place_on = c_place_on;
+	def->check_offset = check_offset;
 	def->sidelen = sidelen;
 	def->y_min = y_min;
 	def->y_max = y_max;
@@ -353,7 +346,7 @@ size_t DecoSimple::generate(MMVManip *vm, PcgRandom *pr, v3s16 p, bool ceiling)
 		pr->range(deco_param2, deco_param2_max) : deco_param2;
 	bool force_placement = (flags & DECO_FORCE_PLACEMENT);
 
-	const v3s16 &em = vm->m_area.getExtent();
+	const v3s32 &em = vm->m_area.getExtent();
 	u32 vi = vm->m_area.index(p);
 
 	if (ceiling) {
@@ -464,4 +457,25 @@ size_t DecoSchematic::generate(MMVManip *vm, PcgRandom *pr, v3s16 p, bool ceilin
 	schematic->blitToVManip(vm, p, rot, force_placement);
 
 	return 1;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+ObjDef *DecoLSystem::clone() const
+{
+	auto def = new DecoLSystem();
+	Decoration::cloneTo(def);
+
+	def->tree_def = tree_def;
+	return def;
+}
+
+
+size_t DecoLSystem::generate(MMVManip *vm, PcgRandom *pr, v3s16 p, bool ceiling)
+{
+	if (!canPlaceDecoration(vm, p))
+		return 0;
+
+	// Make sure that tree_def can't be modified, since it is shared.
+	const auto &ref = *tree_def;
+	return treegen::make_ltree(*vm, p, ref);
 }

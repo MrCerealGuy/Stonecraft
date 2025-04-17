@@ -1,24 +1,20 @@
-/*
-Copyright (C) 2015 Aaron Suen <warr1024@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2015 Aaron Suen <warr1024@gmail.com>
 
 #pragma once
 
-#include "irrlichttypes_extrabloated.h"
+#include "irrlichttypes.h"
+#include <path.h>
+#include <rect.h>
+#include <SColor.h>
+
+namespace irr::video
+{
+	class IImage;
+	class ITexture;
+	class IVideoDriver;
+}
 
 /* Manually insert an image into the cache, useful to avoid texture-to-image
  * conversion whenever we can intercept it.
@@ -46,13 +42,13 @@ video::ITexture *guiScalingImageButton(video::IVideoDriver *driver, video::IText
  */
 void draw2DImageFilterScaled(video::IVideoDriver *driver, video::ITexture *txr,
 		const core::rect<s32> &destrect, const core::rect<s32> &srcrect,
-		const core::rect<s32> *cliprect = 0, const video::SColor *const colors = 0,
-		bool usealpha = false);
+		const core::rect<s32> *cliprect = nullptr,
+		const video::SColor *const colors = nullptr, bool usealpha = false);
 
 /*
  * 9-slice / segment drawing
  */
 void draw2DImage9Slice(video::IVideoDriver *driver, video::ITexture *texture,
-		const core::rect<s32> &rect, const core::rect<s32> &middle,
-		const core::rect<s32> *cliprect = nullptr,
+		const core::rect<s32> &destrect, const core::rect<s32> &srcrect,
+		const core::rect<s32> &middlerect, const core::rect<s32> *cliprect = nullptr,
 		const video::SColor *const colors = nullptr);

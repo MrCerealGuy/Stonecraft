@@ -1,26 +1,12 @@
-/*
-Minetest
-Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2017 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
 #pragma once
 
 #include <string>
-#include "irrlichttypes_bloated.h"
+#include "irrlichttypes.h"
+#include "client/hud.h" // HudElementStat
 
 struct ParticleParameters;
 struct ParticleSpawnerParameters;
@@ -34,9 +20,10 @@ enum ClientEventType : u8
 	CE_NONE,
 	CE_PLAYER_DAMAGE,
 	CE_PLAYER_FORCE_MOVE,
-	CE_DEATHSCREEN,
+	CE_DEATHSCREEN_LEGACY,
 	CE_SHOW_FORMSPEC,
-	CE_SHOW_LOCAL_FORMSPEC,
+	CE_SHOW_CSM_FORMSPEC,
+	CE_SHOW_PAUSE_MENU_FORMSPEC,
 	CE_SPAWN_PARTICLE,
 	CE_ADD_PARTICLESPAWNER,
 	CE_DELETE_PARTICLESPAWNER,
@@ -52,6 +39,31 @@ enum ClientEventType : u8
 	CLIENTEVENT_MAX,
 };
 
+struct ClientEventHudAdd
+{
+	u32 server_id;
+	u8 type;
+	v2f pos, scale;
+	std::string name;
+	std::string text, text2;
+	u32 number, item, dir, style;
+	v2f align, offset;
+	v3f world_pos;
+	v2s32 size;
+	s16 z_index;
+};
+
+struct ClientEventHudChange
+{
+	u32 id;
+	HudElementStat stat;
+	v2f v2fdata;
+	std::string sdata;
+	u32 data;
+	v3f v3fdata;
+	v2s32 v2s32data;
+};
+
 struct ClientEvent
 {
 	ClientEventType type;
@@ -62,19 +74,13 @@ struct ClientEvent
 		struct
 		{
 			u16 amount;
+			bool effect;
 		} player_damage;
 		struct
 		{
 			f32 pitch;
 			f32 yaw;
 		} player_force_move;
-		struct
-		{
-			bool set_camera_point_target;
-			f32 camera_point_target_x;
-			f32 camera_point_target_y;
-			f32 camera_point_target_z;
-		} deathscreen;
 		struct
 		{
 			std::string *formspec;
@@ -93,38 +99,12 @@ struct ClientEvent
 		{
 			u32 id;
 		} delete_particlespawner;
-		struct
-		{
-			u32 server_id;
-			u8 type;
-			v2f *pos;
-			std::string *name;
-			v2f *scale;
-			std::string *text;
-			u32 number;
-			u32 item;
-			u32 dir;
-			v2f *align;
-			v2f *offset;
-			v3f *world_pos;
-			v2s32 *size;
-			s16 z_index;
-			std::string *text2;
-		} hudadd;
+		ClientEventHudAdd *hudadd;
 		struct
 		{
 			u32 id;
 		} hudrm;
-		struct
-		{
-			u32 id;
-			HudElementStat stat;
-			v2f *v2fdata;
-			std::string *sdata;
-			u32 data;
-			v3f *v3fdata;
-			v2s32 *v2s32data;
-		} hudchange;
+		ClientEventHudChange *hudchange;
 		SkyboxParams *set_sky;
 		struct
 		{
@@ -136,6 +116,7 @@ struct ClientEvent
 			f32 density;
 			u32 color_bright;
 			u32 color_ambient;
+			u32 color_shadow;
 			f32 height;
 			f32 thickness;
 			f32 speed_x;

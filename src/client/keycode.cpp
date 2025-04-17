@@ -1,37 +1,14 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "keycode.h"
-#include "exceptions.h"
 #include "settings.h"
 #include "log.h"
 #include "debug.h"
 #include "util/hex.h"
 #include "util/string.h"
 #include "util/basic_macros.h"
-
-class UnknownKeycode : public BaseException
-{
-public:
-	UnknownKeycode(const char *s) :
-		BaseException(s) {};
-};
 
 struct table_key {
 	const char *Name;
@@ -99,29 +76,31 @@ static const struct table_key table[] = {
 	// Keys without a Char
 	DEFINEKEY1(KEY_LBUTTON, N_("Left Button"))
 	DEFINEKEY1(KEY_RBUTTON, N_("Right Button"))
-	DEFINEKEY1(KEY_CANCEL, N_("Cancel"))
+	//~ Usually paired with the Pause key
+	DEFINEKEY1(KEY_CANCEL, N_("Break Key"))
 	DEFINEKEY1(KEY_MBUTTON, N_("Middle Button"))
 	DEFINEKEY1(KEY_XBUTTON1, N_("X Button 1"))
 	DEFINEKEY1(KEY_XBUTTON2, N_("X Button 2"))
 	DEFINEKEY1(KEY_BACK, N_("Backspace"))
 	DEFINEKEY1(KEY_TAB, N_("Tab"))
-	DEFINEKEY1(KEY_CLEAR, N_("Clear"))
-	DEFINEKEY1(KEY_RETURN, N_("Return"))
-	DEFINEKEY1(KEY_SHIFT, N_("Shift"))
-	DEFINEKEY1(KEY_CONTROL, N_("Control"))
+	DEFINEKEY1(KEY_CLEAR, N_("Clear Key"))
+	DEFINEKEY1(KEY_RETURN, N_("Return Key"))
+	DEFINEKEY1(KEY_SHIFT, N_("Shift Key"))
+	DEFINEKEY1(KEY_CONTROL, N_("Control Key"))
 	//~ Key name, common on Windows keyboards
-	DEFINEKEY1(KEY_MENU, N_("Menu"))
-	DEFINEKEY1(KEY_PAUSE, N_("Pause"))
+	DEFINEKEY1(KEY_MENU, N_("Menu Key"))
+	//~ Usually paired with the Break key
+	DEFINEKEY1(KEY_PAUSE, N_("Pause Key"))
 	DEFINEKEY1(KEY_CAPITAL, N_("Caps Lock"))
 	DEFINEKEY1(KEY_SPACE, N_("Space"))
-	DEFINEKEY1(KEY_PRIOR, N_("Page up"))
-	DEFINEKEY1(KEY_NEXT, N_("Page down"))
+	DEFINEKEY1(KEY_PRIOR, N_("Page Up"))
+	DEFINEKEY1(KEY_NEXT, N_("Page Down"))
 	DEFINEKEY1(KEY_END, N_("End"))
 	DEFINEKEY1(KEY_HOME, N_("Home"))
-	DEFINEKEY1(KEY_LEFT, N_("Left"))
-	DEFINEKEY1(KEY_UP, N_("Up"))
-	DEFINEKEY1(KEY_RIGHT, N_("Right"))
-	DEFINEKEY1(KEY_DOWN, N_("Down"))
+	DEFINEKEY1(KEY_LEFT, N_("Left Arrow"))
+	DEFINEKEY1(KEY_UP, N_("Up Arrow"))
+	DEFINEKEY1(KEY_RIGHT, N_("Right Arrow"))
+	DEFINEKEY1(KEY_DOWN, N_("Down Arrow"))
 	//~ Key name
 	DEFINEKEY1(KEY_SELECT, N_("Select"))
 	//~ "Print screen" key
@@ -129,7 +108,7 @@ static const struct table_key table[] = {
 	DEFINEKEY1(KEY_EXECUT, N_("Execute"))
 	DEFINEKEY1(KEY_SNAPSHOT, N_("Snapshot"))
 	DEFINEKEY1(KEY_INSERT, N_("Insert"))
-	DEFINEKEY1(KEY_DELETE, N_("Delete"))
+	DEFINEKEY1(KEY_DELETE, N_("Delete Key"))
 	DEFINEKEY1(KEY_HELP, N_("Help"))
 	DEFINEKEY1(KEY_LWIN, N_("Left Windows"))
 	DEFINEKEY1(KEY_RWIN, N_("Right Windows"))
@@ -197,7 +176,6 @@ static const struct table_key table[] = {
 	DEFINEKEY1(KEY_MODECHANGE, N_("IME Mode Change"))
 	DEFINEKEY1(KEY_APPS, N_("Apps"))
 	DEFINEKEY1(KEY_SLEEP, N_("Sleep"))
-#if !(IRRLICHT_VERSION_MAJOR <= 1 && IRRLICHT_VERSION_MINOR <= 7 && IRRLICHT_VERSION_REVISION < 3)
 	DEFINEKEY1(KEY_OEM_1, "OEM 1") // KEY_OEM_[0-9] and KEY_OEM_102 are assigned to multiple
 	DEFINEKEY1(KEY_OEM_2, "OEM 2") // different chars (on different platforms too) and thus w/o char
 	DEFINEKEY1(KEY_OEM_3, "OEM 3")
@@ -208,13 +186,12 @@ static const struct table_key table[] = {
 	DEFINEKEY1(KEY_OEM_8, "OEM 8")
 	DEFINEKEY1(KEY_OEM_AX, "OEM AX")
 	DEFINEKEY1(KEY_OEM_102, "OEM 102")
-#endif
 	DEFINEKEY1(KEY_ATTN, "Attn")
 	DEFINEKEY1(KEY_CRSEL, "CrSel")
 	DEFINEKEY1(KEY_EXSEL, "ExSel")
 	DEFINEKEY1(KEY_EREOF, N_("Erase EOF"))
 	DEFINEKEY1(KEY_PLAY, N_("Play"))
-	DEFINEKEY1(KEY_ZOOM, N_("Zoom"))
+	DEFINEKEY1(KEY_ZOOM, N_("Zoom Key"))
 	DEFINEKEY1(KEY_PA1, "PA1")
 	DEFINEKEY1(KEY_OEM_CLEAR, N_("OEM Clear"))
 
@@ -247,7 +224,7 @@ static const struct table_key table[] = {
 #undef N_
 
 
-struct table_key lookup_keyname(const char *name)
+static const table_key &lookup_keyname(const char *name)
 {
 	for (const auto &table_key : table) {
 		if (strcmp(table_key.Name, name) == 0)
@@ -257,7 +234,7 @@ struct table_key lookup_keyname(const char *name)
 	throw UnknownKeycode(name);
 }
 
-struct table_key lookup_keykey(irr::EKEY_CODE key)
+static const table_key &lookup_keykey(irr::EKEY_CODE key)
 {
 	for (const auto &table_key : table) {
 		if (table_key.Key == key)
@@ -269,7 +246,7 @@ struct table_key lookup_keykey(irr::EKEY_CODE key)
 	throw UnknownKeycode(os.str().c_str());
 }
 
-struct table_key lookup_keychar(wchar_t Char)
+static const table_key &lookup_keychar(wchar_t Char)
 {
 	for (const auto &table_key : table) {
 		if (table_key.Char == Char)
@@ -295,7 +272,7 @@ KeyPress::KeyPress(const char *name)
 		int chars_read = mbtowc(&Char, name, 1);
 		FATAL_ERROR_IF(chars_read != 1, "Unexpected multibyte character");
 		try {
-			struct table_key k = lookup_keychar(Char);
+			auto &k = lookup_keychar(Char);
 			m_name = k.Name;
 			Key = k.Key;
 			return;
@@ -304,7 +281,7 @@ KeyPress::KeyPress(const char *name)
 		// Lookup by name
 		m_name = name;
 		try {
-			struct table_key k = lookup_keyname(name);
+			auto &k = lookup_keyname(name);
 			Key = k.Key;
 			Char = k.Char;
 			return;
@@ -334,7 +311,7 @@ KeyPress::KeyPress(const irr::SEvent::SKeyInput &in, bool prefer_character)
 		else
 			m_name = lookup_keychar(Char).Name;
 	} catch (UnknownKeycode &e) {
-		m_name = "";
+		m_name.clear();
 	};
 }
 
@@ -356,25 +333,27 @@ const char *KeyPress::name() const
 }
 
 const KeyPress EscapeKey("KEY_ESCAPE");
-const KeyPress CancelKey("KEY_CANCEL");
+
+const KeyPress LMBKey("KEY_LBUTTON");
+const KeyPress MMBKey("KEY_MBUTTON");
+const KeyPress RMBKey("KEY_RBUTTON");
 
 /*
 	Key config
 */
 
 // A simple cache for quicker lookup
-std::unordered_map<std::string, KeyPress> g_key_setting_cache;
+static std::unordered_map<std::string, KeyPress> g_key_setting_cache;
 
-KeyPress getKeySetting(const char *settingname)
+const KeyPress &getKeySetting(const char *settingname)
 {
-	std::unordered_map<std::string, KeyPress>::iterator n;
-	n = g_key_setting_cache.find(settingname);
+	auto n = g_key_setting_cache.find(settingname);
 	if (n != g_key_setting_cache.end())
 		return n->second;
 
-	KeyPress k(g_settings->get(settingname).c_str());
-	g_key_setting_cache[settingname] = k;
-	return k;
+	auto &ref = g_key_setting_cache[settingname];
+	ref = g_settings->get(settingname).c_str();
+	return ref;
 }
 
 void clearKeyCache()

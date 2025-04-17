@@ -1,4 +1,5 @@
--- Minetest: builtin/misc_register.lua
+local builtin_shared = ...
+local S = core.get_translator("__builtin")
 
 --
 -- Make raw registration functions inaccessible to anyone except this file
@@ -77,8 +78,22 @@ local function check_modname_prefix(name)
 	end
 end
 
+local function check_node_list(list, field)
+	local t = type(list)
+	if t == "table" then
+		for _, entry in pairs(list) do
+			assert(type(entry) == "string",
+				"Field '" .. field .. "' contains non-string entry")
+		end
+	elseif t ~= "string" and t ~= "nil" then
+		error("Field '" .. field .. "' has invalid type " .. t)
+	end
+end
+
 function core.register_abm(spec)
 	-- Add to core.registered_abms
+	check_node_list(spec.nodenames, "nodenames")
+	check_node_list(spec.neighbors, "neighbors")
 	assert(type(spec.action) == "function", "Required field 'action' of type function")
 	core.registered_abms[#core.registered_abms + 1] = spec
 	spec.mod_origin = core.get_current_modname() or "??"
@@ -87,7 +102,13 @@ end
 function core.register_lbm(spec)
 	-- Add to core.registered_lbms
 	check_modname_prefix(spec.name)
-	assert(type(spec.action) == "function", "Required field 'action' of type function")
+	check_node_list(spec.nodenames, "nodenames")
+	local have = spec.action ~= nil
+	local have_bulk = spec.bulk_action ~= nil
+	assert(not have or type(spec.action) == "function", "Field 'action' must be a function")
+	assert(not have_bulk or type(spec.bulk_action) == "function", "Field 'bulk_action' must be a function")
+	assert(have ~= have_bulk, "Either 'action' or 'bulk_action' must be present")
+
 	core.registered_lbms[#core.registered_lbms + 1] = spec
 	spec.mod_origin = core.get_current_modname() or "??"
 end
@@ -301,14 +322,16 @@ end
 
 function core.on_craft(itemstack, player, old_craft_list, craft_inv)
 	for _, func in ipairs(core.registered_on_crafts) do
-		itemstack = func(itemstack, player, old_craft_list, craft_inv) or itemstack
+		-- cast to ItemStack since func() could return a string
+		itemstack = ItemStack(func(itemstack, player, old_craft_list, craft_inv) or itemstack)
 	end
 	return itemstack
 end
 
 function core.craft_predict(itemstack, player, old_craft_list, craft_inv)
 	for _, func in ipairs(core.registered_craft_predicts) do
-		itemstack = func(itemstack, player, old_craft_list, craft_inv) or itemstack
+		-- cast to ItemStack since func() could return a string
+		itemstack = ItemStack(func(itemstack, player, old_craft_list, craft_inv) or itemstack)
 	end
 	return itemstack
 end
@@ -326,7 +349,7 @@ end
 
 core.register_item(":unknown", {
 	type = "none",
-	description = "Unknown Item",
+	description = S("Unknown Item"),
 	inventory_image = "unknown_item.png",
 	on_place = core.item_place,
 	on_secondary_use = core.item_secondary_use,
@@ -336,7 +359,7 @@ core.register_item(":unknown", {
 })
 
 core.register_node(":air", {
-	description = "Air",
+	description = S("Air"),
 	inventory_image = "air.png",
 	wield_image = "air.png",
 	drawtype = "airlike",
@@ -353,7 +376,7 @@ core.register_node(":air", {
 })
 
 core.register_node(":ignore", {
-	description = "Ignore",
+	description = S("Ignore"),
 	inventory_image = "ignore.png",
 	wield_image = "ignore.png",
 	drawtype = "airlike",
@@ -366,11 +389,12 @@ core.register_node(":ignore", {
 	air_equivalent = true,
 	drop = "",
 	groups = {not_in_creative_inventory=1},
+	node_placement_prediction = "",
 	on_place = function(itemstack, placer, pointed_thing)
 		core.chat_send_player(
 				placer:get_player_name(),
 				core.colorize("#FF0000",
-				"You can't place 'ignore' nodes!"))
+				S("You can't place 'ignore' nodes!")))
 		return ""
 	end,
 })
@@ -383,7 +407,7 @@ core.register_item(":", {
 })
 
 
-function core.override_item(name, redefinition)
+function core.override_item(name, redefinition, del_fields)
 	if redefinition.name ~= nil then
 		error("Attempt to redefine name of "..name.." to "..dump(redefinition.name), 2)
 	end
@@ -397,52 +421,10 @@ function core.override_item(name, redefinition)
 	for k, v in pairs(redefinition) do
 		rawset(item, k, v)
 	end
+	for _, field in ipairs(del_fields or {}) do
+		rawset(item, field, nil)
+	end
 	register_item_raw(item)
-end
-
-
-core.callback_origins = {}
-
-function core.run_callbacks(callbacks, mode, ...)
-	assert(type(callbacks) == "table")
-	local cb_len = #callbacks
-	if cb_len == 0 then
-		if mode == 2 or mode == 3 then
-			return true
-		elseif mode == 4 or mode == 5 then
-			return false
-		end
-	end
-	local ret = nil
-	for i = 1, cb_len do
-		local origin = core.callback_origins[callbacks[i]]
-		if origin then
-			core.set_last_run_mod(origin.mod)
-		end
-		local cb_ret = callbacks[i](...)
-
-		if mode == 0 and i == 1 then
-			ret = cb_ret
-		elseif mode == 1 and i == cb_len then
-			ret = cb_ret
-		elseif mode == 2 then
-			if not cb_ret or i == 1 then
-				ret = cb_ret
-			end
-		elseif mode == 3 then
-			if cb_ret then
-				return cb_ret
-			end
-			ret = cb_ret
-		elseif mode == 4 then
-			if (cb_ret and not ret) or i == 1 then
-				ret = cb_ret
-			end
-		elseif mode == 5 and cb_ret then
-			return cb_ret
-		end
-	end
-	return ret
 end
 
 function core.run_priv_callbacks(name, priv, caller, method)
@@ -460,34 +442,6 @@ end
 --
 -- Callback registration
 --
-
-local function make_registration()
-	local t = {}
-	local registerfunc = function(func)
-		t[#t + 1] = func
-		core.callback_origins[func] = {
-			mod = core.get_current_modname() or "??",
-			name = debug.getinfo(1, "n").name or "??"
-		}
-		--local origin = core.callback_origins[func]
-		--print(origin.name .. ": " .. origin.mod .. " registering cbk " .. tostring(func))
-	end
-	return t, registerfunc
-end
-
-local function make_registration_reverse()
-	local t = {}
-	local registerfunc = function(func)
-		table.insert(t, 1, func)
-		core.callback_origins[func] = {
-			mod = core.get_current_modname() or "??",
-			name = debug.getinfo(1, "n").name or "??"
-		}
-		--local origin = core.callback_origins[func]
-		--print(origin.name .. ": " .. origin.mod .. " registering cbk " .. tostring(func))
-	end
-	return t, registerfunc
-end
 
 local function make_registration_wrap(reg_fn_name, clear_fn_name)
 	local list = {}
@@ -576,6 +530,9 @@ core.registered_decorations = make_registration_wrap("register_decoration", "cle
 core.unregister_biome = make_wrap_deregistration(core.register_biome,
 		core.clear_registered_biomes, core.registered_biomes)
 
+local make_registration = builtin_shared.make_registration
+local make_registration_reverse = builtin_shared.make_registration_reverse
+
 core.registered_on_chat_messages, core.register_on_chat_message = make_registration()
 core.registered_on_chatcommands, core.register_on_chatcommand = make_registration()
 core.registered_globalsteps, core.register_globalstep = make_registration()
@@ -598,6 +555,7 @@ core.registered_on_crafts, core.register_on_craft = make_registration()
 core.registered_craft_predicts, core.register_craft_predict = make_registration()
 core.registered_on_protection_violation, core.register_on_protection_violation = make_registration()
 core.registered_on_item_eats, core.register_on_item_eat = make_registration()
+core.registered_on_item_pickups, core.register_on_item_pickup = make_registration()
 core.registered_on_punchplayers, core.register_on_punchplayer = make_registration()
 core.registered_on_priv_grant, core.register_on_priv_grant = make_registration()
 core.registered_on_priv_revoke, core.register_on_priv_revoke = make_registration()
@@ -607,6 +565,18 @@ core.registered_on_modchannel_message, core.register_on_modchannel_message = mak
 core.registered_on_player_inventory_actions, core.register_on_player_inventory_action = make_registration()
 core.registered_allow_player_inventory_actions, core.register_allow_player_inventory_action = make_registration()
 core.registered_on_rightclickplayers, core.register_on_rightclickplayer = make_registration()
+core.registered_on_liquid_transformed, core.register_on_liquid_transformed = make_registration()
+core.registered_on_mapblocks_changed, core.register_on_mapblocks_changed = make_registration()
+
+core.register_on_mods_loaded(function()
+	core.after(0, function()
+		setmetatable(core.registered_on_mapblocks_changed, {
+			__newindex = function()
+				error("on_mapblocks_changed callbacks must be registered at load time")
+			end,
+		})
+	end)
+end)
 
 --
 -- Compatibility for on_mapgen_init()

@@ -117,7 +117,7 @@ Use --help
 
 **Install dependencies for Debian/Ubuntu**
 ```
-$ sudo apt-get install git-core build-essential libirrlicht-dev cmake libstdc++6 libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses5-dev liblua5.2-dev dialog libluajit-5.1-dev
+$ sudo apt install git-core build-essential libirrlicht-dev cmake libstdc++6 libbz2-dev libpng-dev libjpeg-dev libxxf86vm-dev libgl1-mesa-dev libsqlite3-dev libogg-dev libvorbis-dev libopenal-dev libcurl4-gnutls-dev libfreetype6-dev zlib1g-dev libgmp-dev libjsoncpp-dev doxygen mingw-w64 libgd-dev libleveldb-dev libhiredis-dev libncurses5-dev liblua5.2-dev dialog libluajit-5.1-dev
 ```
 
 **Download source** (this is the URL to the latest of source repository, which might not work at all times) using git:

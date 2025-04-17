@@ -1,22 +1,7 @@
-/*
-Minetest
-Copyright (C) 2010-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2015-2018 paramat
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2018 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Copyright (C) 2015-2018 paramat
 
 #include "dungeongen.h"
 #include <cmath>
@@ -71,7 +56,7 @@ DungeonGen::DungeonGen(const NodeDefManager *ndef,
 		dp.num_dungeons        = 1;
 		dp.notifytype          = GENNOTIFY_DUNGEON;
 
-		dp.np_alt_wall = 
+		dp.np_alt_wall =
 			NoiseParams(-0.4, 1.0, v3f(40.0, 40.0, 40.0), 32474, 6, 1.1, 2.0);
 	}
 }
@@ -91,7 +76,7 @@ void DungeonGen::generate(MMVManip *vm, u32 bseed, v3s16 nmin, v3s16 nmax)
 	random.seed(bseed + 2);
 
 	// Dungeon generator doesn't modify places which have this set
-	vm->clearFlag(VMANIP_FLAG_DUNGEON_INSIDE | VMANIP_FLAG_DUNGEON_PRESERVE);
+	vm->clearFlags(vm->m_area, VMANIP_FLAG_DUNGEON_INSIDE | VMANIP_FLAG_DUNGEON_PRESERVE);
 
 	if (dp.only_in_ground) {
 		// Set all air and liquid drawtypes to be untouchable to make dungeons generate
@@ -142,7 +127,7 @@ void DungeonGen::generate(MMVManip *vm, u32 bseed, v3s16 nmin, v3s16 nmax)
 
 void DungeonGen::makeDungeon(v3s16 start_padding)
 {
-	const v3s16 &areasize = vm->m_area.getExtent();
+	const v3s32 &areasize = vm->m_area.getExtent();
 	v3s16 roomsize;
 	v3s16 roomplace;
 

@@ -1,29 +1,14 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
-
-#include "irrlichttypes_extrabloated.h"
+#include "irrlichttypes_bloated.h"
 #include "mapnode.h"
 #include "porting.h"
 #include "nodedef.h"
 #include "map.h"
 #include "content_mapnode.h" // For mapnode_translate_*_internal
-#include "serialization.h" // For ser_ver_supported
+#include "serialization.h" // For ser_ver_supported_*
 #include "util/serialize.h"
 #include "log.h"
 #include "util/directiontables.h"
@@ -53,95 +38,6 @@ void MapNode::getColor(const ContentFeatures &f, video::SColor *color) const
 	*color = f.color;
 }
 
-void MapNode::setLight(LightBank bank, u8 a_light, const ContentFeatures &f) noexcept
-{
-	// If node doesn't contain light data, ignore this
-	if(f.param_type != CPT_LIGHT)
-		return;
-	if(bank == LIGHTBANK_DAY)
-	{
-		param1 &= 0xf0;
-		param1 |= a_light & 0x0f;
-	}
-	else if(bank == LIGHTBANK_NIGHT)
-	{
-		param1 &= 0x0f;
-		param1 |= (a_light & 0x0f)<<4;
-	}
-	else
-		assert("Invalid light bank" == NULL);
-}
-
-void MapNode::setLight(LightBank bank, u8 a_light, const NodeDefManager *nodemgr)
-{
-	setLight(bank, a_light, nodemgr->get(*this));
-}
-
-bool MapNode::isLightDayNightEq(const NodeDefManager *nodemgr) const
-{
-	const ContentFeatures &f = nodemgr->get(*this);
-	bool isEqual;
-
-	if (f.param_type == CPT_LIGHT) {
-		u8 day   = MYMAX(f.light_source, param1 & 0x0f);
-		u8 night = MYMAX(f.light_source, (param1 >> 4) & 0x0f);
-		isEqual = day == night;
-	} else {
-		isEqual = true;
-	}
-
-	return isEqual;
-}
-
-u8 MapNode::getLight(LightBank bank, const NodeDefManager *nodemgr) const
-{
-	// Select the brightest of [light source, propagated light]
-	const ContentFeatures &f = nodemgr->get(*this);
-
-	u8 light;
-	if(f.param_type == CPT_LIGHT)
-		light = bank == LIGHTBANK_DAY ? param1 & 0x0f : (param1 >> 4) & 0x0f;
-	else
-		light = 0;
-
-	return MYMAX(f.light_source, light);
-}
-
-u8 MapNode::getLightRaw(LightBank bank, const ContentFeatures &f) const noexcept
-{
-	if(f.param_type == CPT_LIGHT)
-		return bank == LIGHTBANK_DAY ? param1 & 0x0f : (param1 >> 4) & 0x0f;
-	return 0;
-}
-
-u8 MapNode::getLightNoChecks(LightBank bank, const ContentFeatures *f) const noexcept
-{
-	return MYMAX(f->light_source,
-	             bank == LIGHTBANK_DAY ? param1 & 0x0f : (param1 >> 4) & 0x0f);
-}
-
-bool MapNode::getLightBanks(u8 &lightday, u8 &lightnight,
-	const NodeDefManager *nodemgr) const
-{
-	// Select the brightest of [light source, propagated light]
-	const ContentFeatures &f = nodemgr->get(*this);
-	if(f.param_type == CPT_LIGHT)
-	{
-		lightday = param1 & 0x0f;
-		lightnight = (param1>>4)&0x0f;
-	}
-	else
-	{
-		lightday = 0;
-		lightnight = 0;
-	}
-	if(f.light_source > lightday)
-		lightday = f.light_source;
-	if(f.light_source > lightnight)
-		lightnight = f.light_source;
-	return f.param_type == CPT_LIGHT || f.light_source != 0;
-}
-
 u8 MapNode::getFaceDir(const NodeDefManager *nodemgr,
 	bool allow_wallmounted) const
 {
@@ -149,9 +45,14 @@ u8 MapNode::getFaceDir(const NodeDefManager *nodemgr,
 	if (f.param_type_2 == CPT2_FACEDIR ||
 			f.param_type_2 == CPT2_COLORED_FACEDIR)
 		return (getParam2() & 0x1F) % 24;
+	if (f.param_type_2 == CPT2_4DIR ||
+			f.param_type_2 == CPT2_COLORED_4DIR)
+		return getParam2() & 0x03;
 	if (allow_wallmounted && (f.param_type_2 == CPT2_WALLMOUNTED ||
-			f.param_type_2 == CPT2_COLORED_WALLMOUNTED))
-		return wallmounted_to_facedir[getParam2() & 0x07];
+			f.param_type_2 == CPT2_COLORED_WALLMOUNTED)) {
+		u8 wmountface = MYMIN(getParam2() & 0x07, DWM_COUNT - 1);
+		return wallmounted_to_facedir[wmountface];
+	}
 	return 0;
 }
 
@@ -160,7 +61,12 @@ u8 MapNode::getWallMounted(const NodeDefManager *nodemgr) const
 	const ContentFeatures &f = nodemgr->get(*this);
 	if (f.param_type_2 == CPT2_WALLMOUNTED ||
 			f.param_type_2 == CPT2_COLORED_WALLMOUNTED)
-		return getParam2() & 0x07;
+		return MYMIN(getParam2() & 0x07, DWM_COUNT - 1);
+	else if (f.drawtype == NDT_SIGNLIKE || f.drawtype == NDT_TORCHLIKE ||
+			f.drawtype == NDT_PLANTLIKE ||
+			f.drawtype == NDT_PLANTLIKE_ROOTED) {
+		return 1;
+	}
 	return 0;
 }
 
@@ -174,14 +80,27 @@ v3s16 MapNode::getWallMountedDir(const NodeDefManager *nodemgr) const
 	case 3: return v3s16(-1,0,0);
 	case 4: return v3s16(0,0,1);
 	case 5: return v3s16(0,0,-1);
+	case 6: return v3s16(0,1,0);
+	case 7: return v3s16(0,-1,0);
 	}
+}
+
+u8 MapNode::getDegRotate(const NodeDefManager *nodemgr) const
+{
+	const ContentFeatures &f = nodemgr->get(*this);
+	if (f.param_type_2 == CPT2_DEGROTATE)
+		return getParam2() % 240;
+	if (f.param_type_2 == CPT2_COLORED_DEGROTATE)
+		return 10 * ((getParam2() & 0x1F) % 24);
+	return 0;
 }
 
 void MapNode::rotateAlongYAxis(const NodeDefManager *nodemgr, Rotation rot)
 {
 	ContentParamType2 cpt2 = nodemgr->get(*this).param_type_2;
 
-	if (cpt2 == CPT2_FACEDIR || cpt2 == CPT2_COLORED_FACEDIR) {
+	if (cpt2 == CPT2_FACEDIR || cpt2 == CPT2_COLORED_FACEDIR ||
+			cpt2 == CPT2_4DIR || cpt2 == CPT2_COLORED_4DIR) {
 		static const u8 rotate_facedir[24 * 4] = {
 			// Table value = rotated facedir
 			// Columns: 0, 90, 180, 270 degrees rotation around vertical axis
@@ -217,19 +136,37 @@ void MapNode::rotateAlongYAxis(const NodeDefManager *nodemgr, Rotation rot)
 			22, 21, 20, 23,
 			23, 22, 21, 20
 		};
-		u8 facedir = (param2 & 31) % 24;
-		u8 index = facedir * 4 + rot;
-		param2 &= ~31;
-		param2 |= rotate_facedir[index];
+		if (cpt2 == CPT2_FACEDIR || cpt2 == CPT2_COLORED_FACEDIR) {
+			u8 facedir = (param2 & 31) % 24;
+			u8 index = facedir * 4 + rot;
+			param2 &= ~31;
+			param2 |= rotate_facedir[index];
+		} else if (cpt2 == CPT2_4DIR || cpt2 == CPT2_COLORED_4DIR) {
+			u8 fourdir = param2 & 3;
+			u8 index = fourdir * 4 + rot;
+			param2 &= ~3;
+			param2 |= rotate_facedir[index];
+		}
 	} else if (cpt2 == CPT2_WALLMOUNTED ||
 			cpt2 == CPT2_COLORED_WALLMOUNTED) {
-		u8 wmountface = (param2 & 7);
+		u8 wmountface = MYMIN(param2 & 0x07, DWM_COUNT - 1);
 		if (wmountface <= 1)
 			return;
 
 		Rotation oldrot = wallmounted_to_rot[wmountface - 2];
 		param2 &= ~7;
 		param2 |= rot_to_wallmounted[(oldrot - rot) & 3];
+	} else if (cpt2 == CPT2_DEGROTATE) {
+		int angle = param2; // in 1.5°
+		angle += 60 * rot; // don’t do that on u8
+		angle %= 240;
+		param2 = angle;
+	} else if (cpt2 == CPT2_COLORED_DEGROTATE) {
+		int angle = param2 & 0x1F; // in 15°
+		int color = param2 & 0xE0;
+		angle += 6 * rot;
+		angle %= 24;
+		param2 = color | angle;
 	}
 }
 
@@ -240,130 +177,54 @@ void transformNodeBox(const MapNode &n, const NodeBox &nodebox,
 	std::vector<aabb3f> &boxes = *p_boxes;
 
 	if (nodebox.type == NODEBOX_FIXED || nodebox.type == NODEBOX_LEVELED) {
-		const std::vector<aabb3f> &fixed = nodebox.fixed;
+		const auto &fixed = nodebox.fixed;
 		int facedir = n.getFaceDir(nodemgr, true);
-		u8 axisdir = facedir>>2;
-		facedir&=0x03;
+		u8 axisdir = facedir >> 2;
+		facedir &= 0x03;
+
+		boxes.reserve(boxes.size() + fixed.size());
 		for (aabb3f box : fixed) {
 			if (nodebox.type == NODEBOX_LEVELED)
 				box.MaxEdge.Y = (-0.5f + n.getLevel(nodemgr) / 64.0f) * BS;
 
+			if(facedir == 1) {
+				box.MinEdge.rotateXZBy(-90);
+				box.MaxEdge.rotateXZBy(-90);
+			} else if(facedir == 2) {
+				box.MinEdge.rotateXZBy(180);
+				box.MaxEdge.rotateXZBy(180);
+			} else if(facedir == 3) {
+				box.MinEdge.rotateXZBy(90);
+				box.MaxEdge.rotateXZBy(90);
+			}
+
 			switch (axisdir) {
 			case 0:
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateXZBy(-90);
-					box.MaxEdge.rotateXZBy(-90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateXZBy(180);
-					box.MaxEdge.rotateXZBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateXZBy(90);
-					box.MaxEdge.rotateXZBy(90);
-				}
 				break;
 			case 1: // z+
 				box.MinEdge.rotateYZBy(90);
 				box.MaxEdge.rotateYZBy(90);
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateXYBy(90);
-					box.MaxEdge.rotateXYBy(90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateXYBy(180);
-					box.MaxEdge.rotateXYBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateXYBy(-90);
-					box.MaxEdge.rotateXYBy(-90);
-				}
 				break;
 			case 2: //z-
 				box.MinEdge.rotateYZBy(-90);
 				box.MaxEdge.rotateYZBy(-90);
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateXYBy(-90);
-					box.MaxEdge.rotateXYBy(-90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateXYBy(180);
-					box.MaxEdge.rotateXYBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateXYBy(90);
-					box.MaxEdge.rotateXYBy(90);
-				}
 				break;
 			case 3:  //x+
 				box.MinEdge.rotateXYBy(-90);
 				box.MaxEdge.rotateXYBy(-90);
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateYZBy(90);
-					box.MaxEdge.rotateYZBy(90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateYZBy(180);
-					box.MaxEdge.rotateYZBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateYZBy(-90);
-					box.MaxEdge.rotateYZBy(-90);
-				}
 				break;
 			case 4:  //x-
 				box.MinEdge.rotateXYBy(90);
 				box.MaxEdge.rotateXYBy(90);
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateYZBy(-90);
-					box.MaxEdge.rotateYZBy(-90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateYZBy(180);
-					box.MaxEdge.rotateYZBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateYZBy(90);
-					box.MaxEdge.rotateYZBy(90);
-				}
 				break;
 			case 5:
 				box.MinEdge.rotateXYBy(-180);
 				box.MaxEdge.rotateXYBy(-180);
-				if(facedir == 1)
-				{
-					box.MinEdge.rotateXZBy(90);
-					box.MaxEdge.rotateXZBy(90);
-				}
-				else if(facedir == 2)
-				{
-					box.MinEdge.rotateXZBy(180);
-					box.MaxEdge.rotateXZBy(180);
-				}
-				else if(facedir == 3)
-				{
-					box.MinEdge.rotateXZBy(-90);
-					box.MaxEdge.rotateXZBy(-90);
-				}
 				break;
 			default:
 				break;
 			}
+
 			box.repair();
 			boxes.push_back(box);
 		}
@@ -371,16 +232,45 @@ void transformNodeBox(const MapNode &n, const NodeBox &nodebox,
 	else if(nodebox.type == NODEBOX_WALLMOUNTED)
 	{
 		v3s16 dir = n.getWallMountedDir(nodemgr);
+		u8 wall = n.getWallMounted(nodemgr);
 
 		// top
 		if(dir == v3s16(0,1,0))
 		{
-			boxes.push_back(nodebox.wall_top);
+			if (wall == DWM_S1) {
+				v3f vertices[2] =
+				{
+					nodebox.wall_top.MinEdge,
+					nodebox.wall_top.MaxEdge
+				};
+				for (v3f &vertex : vertices) {
+					vertex.rotateXZBy(90);
+				}
+				aabb3f box = aabb3f(vertices[0]);
+				box.addInternalPoint(vertices[1]);
+				boxes.push_back(box);
+			} else {
+				boxes.push_back(nodebox.wall_top);
+			}
 		}
 		// bottom
 		else if(dir == v3s16(0,-1,0))
 		{
-			boxes.push_back(nodebox.wall_bottom);
+			if (wall == DWM_S2) {
+				v3f vertices[2] =
+				{
+					nodebox.wall_bottom.MinEdge,
+					nodebox.wall_bottom.MaxEdge
+				};
+				for (v3f &vertex : vertices) {
+					vertex.rotateXZBy(-90);
+				}
+				aabb3f box = aabb3f(vertices[0]);
+				box.addInternalPoint(vertices[1]);
+				boxes.push_back(box);
+			} else {
+				boxes.push_back(nodebox.wall_bottom);
+			}
 		}
 		// side
 		else
@@ -411,95 +301,87 @@ void transformNodeBox(const MapNode &n, const NodeBox &nodebox,
 	{
 		size_t boxes_size = boxes.size();
 		boxes_size += nodebox.fixed.size();
+		const auto &c = nodebox.getConnected();
+
 		if (neighbors & 1)
-			boxes_size += nodebox.connect_top.size();
+			boxes_size += c.connect_top.size();
 		else
-			boxes_size += nodebox.disconnected_top.size();
+			boxes_size += c.disconnected_top.size();
 
 		if (neighbors & 2)
-			boxes_size += nodebox.connect_bottom.size();
+			boxes_size += c.connect_bottom.size();
 		else
-			boxes_size += nodebox.disconnected_bottom.size();
+			boxes_size += c.disconnected_bottom.size();
 
 		if (neighbors & 4)
-			boxes_size += nodebox.connect_front.size();
+			boxes_size += c.connect_front.size();
 		else
-			boxes_size += nodebox.disconnected_front.size();
+			boxes_size += c.disconnected_front.size();
 
 		if (neighbors & 8)
-			boxes_size += nodebox.connect_left.size();
+			boxes_size += c.connect_left.size();
 		else
-			boxes_size += nodebox.disconnected_left.size();
+			boxes_size += c.disconnected_left.size();
 
 		if (neighbors & 16)
-			boxes_size += nodebox.connect_back.size();
+			boxes_size += c.connect_back.size();
 		else
-			boxes_size += nodebox.disconnected_back.size();
+			boxes_size += c.disconnected_back.size();
 
 		if (neighbors & 32)
-			boxes_size += nodebox.connect_right.size();
+			boxes_size += c.connect_right.size();
 		else
-			boxes_size += nodebox.disconnected_right.size();
+			boxes_size += c.disconnected_right.size();
 
 		if (neighbors == 0)
-			boxes_size += nodebox.disconnected.size();
+			boxes_size += c.disconnected.size();
 
 		if (neighbors < 4)
-			boxes_size += nodebox.disconnected_sides.size();
+			boxes_size += c.disconnected_sides.size();
 
 		boxes.reserve(boxes_size);
 
-#define BOXESPUSHBACK(c) \
-		for (std::vector<aabb3f>::const_iterator \
-				it = (c).begin(); \
-				it != (c).end(); ++it) \
-			(boxes).push_back(*it);
+		auto boxes_insert = [&](const std::vector<aabb3f> &boxes_src) {
+			boxes.insert(boxes.end(), boxes_src.begin(), boxes_src.end());
+		};
 
-		BOXESPUSHBACK(nodebox.fixed);
+		boxes_insert(nodebox.fixed);
 
-		if (neighbors & 1) {
-			BOXESPUSHBACK(nodebox.connect_top);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_top);
-		}
+		if (neighbors & 1)
+			boxes_insert(c.connect_top);
+		else
+			boxes_insert(c.disconnected_top);
 
-		if (neighbors & 2) {
-			BOXESPUSHBACK(nodebox.connect_bottom);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_bottom);
-		}
+		if (neighbors & 2)
+			boxes_insert(c.connect_bottom);
+		else
+			boxes_insert(c.disconnected_bottom);
 
-		if (neighbors & 4) {
-			BOXESPUSHBACK(nodebox.connect_front);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_front);
-		}
+		if (neighbors & 4)
+			boxes_insert(c.connect_front);
+		else
+			boxes_insert(c.disconnected_front);
 
-		if (neighbors & 8) {
-			BOXESPUSHBACK(nodebox.connect_left);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_left);
-		}
+		if (neighbors & 8)
+			boxes_insert(c.connect_left);
+		else
+			boxes_insert(c.disconnected_left);
 
-		if (neighbors & 16) {
-			BOXESPUSHBACK(nodebox.connect_back);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_back);
-		}
+		if (neighbors & 16)
+			boxes_insert(c.connect_back);
+		else
+			boxes_insert(c.disconnected_back);
 
-		if (neighbors & 32) {
-			BOXESPUSHBACK(nodebox.connect_right);
-		} else {
-			BOXESPUSHBACK(nodebox.disconnected_right);
-		}
+		if (neighbors & 32)
+			boxes_insert(c.connect_right);
+		else
+			boxes_insert(c.disconnected_right);
 
-		if (neighbors == 0) {
-			BOXESPUSHBACK(nodebox.disconnected);
-		}
+		if (neighbors == 0)
+			boxes_insert(c.disconnected);
 
-		if (neighbors < 4) {
-			BOXESPUSHBACK(nodebox.disconnected_sides);
-		}
+		if (neighbors < 4)
+			boxes_insert(c.disconnected_sides);
 
 	}
 	else // NODEBOX_REGULAR
@@ -596,7 +478,7 @@ u8 MapNode::getLevel(const NodeDefManager *nodemgr) const
 		return LIQUID_LEVEL_SOURCE;
 	if (f.param_type_2 == CPT2_FLOWINGLIQUID)
 		return getParam2() & LIQUID_LEVEL_MASK;
-	if(f.liquid_type == LIQUID_FLOWING) // can remove if all param_type_2 setted
+	if(f.liquid_type == LIQUID_FLOWING) // can remove if all param_type_2 set
 		return getParam2() & LIQUID_LEVEL_MASK;
 	if (f.param_type_2 == CPT2_LEVELED) {
 		u8 level = getParam2() & LEVELED_MASK;
@@ -650,7 +532,7 @@ s8 MapNode::addLevel(const NodeDefManager *nodemgr, s16 add)
 
 u32 MapNode::serializedLength(u8 version)
 {
-	if(!ser_ver_supported(version))
+	if (!ser_ver_supported_read(version))
 		throw VersionMismatchException("ERROR: MapNode format not supported");
 
 	if (version == 0)
@@ -666,7 +548,7 @@ u32 MapNode::serializedLength(u8 version)
 }
 void MapNode::serialize(u8 *dest, u8 version) const
 {
-	if(!ser_ver_supported(version))
+	if (!ser_ver_supported_write(version))
 		throw VersionMismatchException("ERROR: MapNode format not supported");
 
 	// Can't do this anymore; we have 16-bit dynamically allocated node IDs
@@ -681,7 +563,7 @@ void MapNode::serialize(u8 *dest, u8 version) const
 }
 void MapNode::deSerialize(u8 *source, u8 version)
 {
-	if(!ser_ver_supported(version))
+	if (!ser_ver_supported_read(version))
 		throw VersionMismatchException("ERROR: MapNode format not supported");
 
 	if(version <= 21)
@@ -704,42 +586,31 @@ void MapNode::deSerialize(u8 *source, u8 version)
 		}
 	}
 }
-void MapNode::serializeBulk(std::ostream &os, int version,
+
+Buffer<u8> MapNode::serializeBulk(int version,
 		const MapNode *nodes, u32 nodecount,
-		u8 content_width, u8 params_width, int compression_level)
+		u8 content_width, u8 params_width)
 {
-	if (!ser_ver_supported(version))
+	if (!ser_ver_supported_write(version))
 		throw VersionMismatchException("ERROR: MapNode format not supported");
 
 	sanity_check(content_width == 2);
 	sanity_check(params_width == 2);
 
-	// Can't do this anymore; we have 16-bit dynamically allocated node IDs
-	// in memory; conversion just won't work in this direction.
-	if (version < 24)
-		throw SerializationError("MapNode::serializeBulk: serialization to "
-				"version < 24 not possible");
+	Buffer<u8> databuf(nodecount * (content_width + params_width));
 
-	size_t databuf_size = nodecount * (content_width + params_width);
-	u8 *databuf = new u8[databuf_size];
+	// Writing to the buffer linearly is faster
+	u8 *p = &databuf[0];
+	for (u32 i = 0; i < nodecount; i++, p += 2)
+		writeU16(p, nodes[i].param0);
 
-	u32 start1 = content_width * nodecount;
-	u32 start2 = (content_width + 1) * nodecount;
+	for (u32 i = 0; i < nodecount; i++, p++)
+		writeU8(p, nodes[i].param1);
 
-	// Serialize content
-	for (u32 i = 0; i < nodecount; i++) {
-		writeU16(&databuf[i * 2], nodes[i].param0);
-		writeU8(&databuf[start1 + i], nodes[i].param1);
-		writeU8(&databuf[start2 + i], nodes[i].param2);
-	}
+	for (u32 i = 0; i < nodecount; i++, p++)
+		writeU8(p, nodes[i].param2);
 
-	/*
-		Compress data to output stream
-	*/
-
-	compressZlib(databuf, databuf_size, os, compression_level);
-
-	delete [] databuf;
+	return databuf;
 }
 
 // Deserialize bulk node data
@@ -747,23 +618,18 @@ void MapNode::deSerializeBulk(std::istream &is, int version,
 		MapNode *nodes, u32 nodecount,
 		u8 content_width, u8 params_width)
 {
-	if(!ser_ver_supported(version))
+	if (!ser_ver_supported_read(version))
 		throw VersionMismatchException("ERROR: MapNode format not supported");
 
 	if (version < 22
 			|| (content_width != 1 && content_width != 2)
 			|| params_width != 2)
-		FATAL_ERROR("Deserialize bulk node data error");
+		throw SerializationError("Deserialize bulk node data error");
 
-	// Uncompress or read data
-	u32 len = nodecount * (content_width + params_width);
-	std::ostringstream os(std::ios_base::binary);
-	decompressZlib(is, os);
-	std::string s = os.str();
-	if(s.size() != len)
-		throw SerializationError("deSerializeBulkNodes: "
-				"decompress resulted in invalid size");
-	const u8 *databuf = reinterpret_cast<const u8*>(s.c_str());
+	// read data
+	const u32 len = nodecount * (content_width + params_width);
+	Buffer<u8> databuf(len);
+	is.read(reinterpret_cast<char*>(*databuf), len);
 
 	// Deserialize content
 	if(content_width == 1)

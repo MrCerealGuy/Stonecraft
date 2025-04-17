@@ -1,4 +1,4 @@
---Minetest
+--Luanti
 --Copyright (C) 2014 sapier
 --
 --This program is free software; you can redistribute it and/or modify
@@ -15,18 +15,20 @@
 --with this program; if not, write to the Free Software Foundation, Inc.,
 --51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
---[[
-
-2016-12-07 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	changed default_game
-
---]]
-
 mt_color_grey  = "#AAAAAA"
 mt_color_blue  = "#6389FF"
+mt_color_lightblue  = "#99CCFF"
 mt_color_green = "#72FF63"
 mt_color_dark_green = "#25C191"
 mt_color_orange  = "#FF8800"
+mt_color_red = "#FF3300"
+
+MAIN_TAB_W = 15.5
+MAIN_TAB_H = 7.1
+TABHEADER_H = 0.85
+GAMEBAR_H = 1.25
+GAMEBAR_OFFSET_DESKTOP = 0.375
+GAMEBAR_OFFSET_TOUCH = 0.15
 
 local menupath = core.get_mainmenu_path()
 local basepath = core.get_builtin_path()
@@ -40,25 +42,28 @@ dofile(basepath .. "fstk" .. DIR_DELIM .. "tabview.lua")
 dofile(basepath .. "fstk" .. DIR_DELIM .. "ui.lua")
 dofile(menupath .. DIR_DELIM .. "async_event.lua")
 dofile(menupath .. DIR_DELIM .. "common.lua")
-dofile(menupath .. DIR_DELIM .. "pkgmgr.lua")
 dofile(menupath .. DIR_DELIM .. "serverlistmgr.lua")
-dofile(menupath .. DIR_DELIM .. "textures.lua")
+dofile(menupath .. DIR_DELIM .. "game_theme.lua")
+dofile(menupath .. DIR_DELIM .. "content" .. DIR_DELIM .. "init.lua")
 
 dofile(menupath .. DIR_DELIM .. "dlg_config_world.lua")
-dofile(menupath .. DIR_DELIM .. "dlg_settings_advanced.lua")
-dofile(menupath .. DIR_DELIM .. "dlg_contentstore.lua")
+dofile(basepath .. "common" .. DIR_DELIM .. "settings" .. DIR_DELIM .. "init.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_create_world.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_delete_content.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_delete_world.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_register.lua")
 dofile(menupath .. DIR_DELIM .. "dlg_rename_modpack.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_version_info.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_reinstall_mtg.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_clients_list.lua")
+dofile(menupath .. DIR_DELIM .. "dlg_server_list_mods.lua")
 
-local tabs = {}
-
-tabs.settings = dofile(menupath .. DIR_DELIM .. "tab_settings.lua")
-tabs.content  = dofile(menupath .. DIR_DELIM .. "tab_content.lua")
-tabs.credits  = dofile(menupath .. DIR_DELIM .. "tab_credits.lua")
-tabs.local_game = dofile(menupath .. DIR_DELIM .. "tab_local.lua")
-tabs.play_online = dofile(menupath .. DIR_DELIM .. "tab_online.lua")
+local tabs = {
+	content  = dofile(menupath .. DIR_DELIM .. "tab_content.lua"),
+	about = dofile(menupath .. DIR_DELIM .. "tab_about.lua"),
+	local_game = dofile(menupath .. DIR_DELIM .. "tab_local.lua"),
+	play_online = dofile(menupath .. DIR_DELIM .. "tab_online.lua")
+}
 
 --------------------------------------------------------------------------------
 local function main_event_handler(tabview, event)
@@ -89,23 +94,17 @@ local function init_globals()
 	menudata.worldlist:add_sort_mechanism("alphabetic", sort_worlds_alphabetic)
 	menudata.worldlist:set_sortmode("alphabetic")
 
-	if not core.settings:get("menu_last_game") then
-		local default_game = core.settings:get("default_game") or "minetest"
-		core.settings:set("menu_last_game", default_game)
-	end
-
-	mm_texture.init()
+	mm_game_theme.init()
+	mm_game_theme.set_engine() -- This is just a fallback.
 
 	-- Create main tabview
-	local tv_main = tabview_create("maintab", {x = 12, y = 5.4}, {x = 0, y = 0})
+	local tv_main = tabview_create("maintab", {x = MAIN_TAB_W, y = MAIN_TAB_H}, {x = 0, y = 0})
 
 	tv_main:set_autosave_tab(true)
 	tv_main:add(tabs.local_game)
 	tv_main:add(tabs.play_online)
-
 	tv_main:add(tabs.content)
-	tv_main:add(tabs.settings)
-	tv_main:add(tabs.credits)
+	tv_main:add(tabs.about)
 
 	tv_main:set_global_event_handler(main_event_handler)
 	tv_main:set_fixed_size(false)
@@ -115,20 +114,26 @@ local function init_globals()
 		tv_main:set_tab(last_tab)
 	end
 
-	-- In case the folder of the last selected game has been deleted,
-	-- display "Minetest" as a header
-	if tv_main.current_tab == "local" then
-		local game = pkgmgr.find_by_gameid(core.settings:get("menu_last_game"))
-		if game == nil then
-			mm_texture.reset()
-		end
-	end
+	tv_main:set_end_button({
+		icon = defaulttexturedir .. "settings_btn.png",
+		label = fgettext("Settings"),
+		name = "open_settings",
+		on_click = function(tabview)
+			local dlg = create_settings_dlg()
+			dlg:set_parent(tabview)
+			tabview:hide()
+			dlg:show()
+			return true
+		end,
+	})
 
 	ui.set_default("maintab")
 	tv_main:show()
-
 	ui.update()
 
+	check_reinstall_mtg()
+	check_new_version()
 end
 
+assert(os.execute == nil)
 init_globals()

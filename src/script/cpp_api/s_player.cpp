@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "cpp_api/s_player.h"
 #include "cpp_api/s_internal.h"
@@ -60,7 +45,7 @@ bool ScriptApiPlayer::on_punchplayer(ServerActiveObject *player,
 		float time_from_last_punch,
 		const ToolCapabilities *toolcap,
 		v3f dir,
-		s16 damage)
+		s32 damage)
 {
 	SCRIPTAPI_PRECHECKHEADER
 	// Get core.registered_on_punchplayers
@@ -68,7 +53,10 @@ bool ScriptApiPlayer::on_punchplayer(ServerActiveObject *player,
 	lua_getfield(L, -1, "registered_on_punchplayers");
 	// Call callbacks
 	objectrefGetOrCreate(L, player);
-	objectrefGetOrCreate(L, hitter);
+	if (hitter)
+		objectrefGetOrCreate(L, hitter);
+	else
+		lua_pushnil(L);
 	lua_pushnumber(L, time_from_last_punch);
 	push_tool_capabilities(L, *toolcap);
 	push_v3f(L, dir);
@@ -78,7 +66,7 @@ bool ScriptApiPlayer::on_punchplayer(ServerActiveObject *player,
 }
 
 void ScriptApiPlayer::on_rightclickplayer(ServerActiveObject *player,
-                ServerActiveObject *clicker)
+		ServerActiveObject *clicker)
 {
 	SCRIPTAPI_PRECHECKHEADER
 	// Get core.registered_on_rightclickplayers

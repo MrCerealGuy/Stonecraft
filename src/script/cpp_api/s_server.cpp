@@ -1,25 +1,11 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "cpp_api/s_server.h"
 #include "cpp_api/s_internal.h"
 #include "common/c_converter.h"
+#include "util/numeric.h" // myrand
 
 bool ScriptApiServer::getAuth(const std::string &playername,
 		std::string *dst_password,
@@ -195,4 +181,67 @@ std::string ScriptApiServer::formatChatMessage(const std::string &name,
 	lua_pop(L, 1);
 
 	return ret;
+}
+
+u32 ScriptApiServer::allocateDynamicMediaCallback(lua_State *L, int f_idx)
+{
+	if (f_idx < 0)
+		f_idx = lua_gettop(L) + f_idx + 1;
+
+	lua_getglobal(L, "core");
+	lua_getfield(L, -1, "dynamic_media_callbacks");
+	luaL_checktype(L, -1, LUA_TTABLE);
+
+	// Find a randomly generated token that doesn't exist yet
+	int tries = 100;
+	u32 token;
+	while (1) {
+		token = myrand();
+		lua_rawgeti(L, -2, token);
+		bool is_free = lua_isnil(L, -1);
+		lua_pop(L, 1);
+		if (is_free)
+			break;
+		if (--tries < 0)
+			FATAL_ERROR("Ran out of callbacks IDs?!");
+	}
+
+	// core.dynamic_media_callbacks[token] = callback_func
+	lua_pushvalue(L, f_idx);
+	lua_rawseti(L, -2, token);
+
+	lua_pop(L, 2);
+
+	verbosestream << "allocateDynamicMediaCallback() = " << token << std::endl;
+	return token;
+}
+
+void ScriptApiServer::freeDynamicMediaCallback(u32 token)
+{
+	SCRIPTAPI_PRECHECKHEADER
+
+	verbosestream << "freeDynamicMediaCallback(" << token << ")" << std::endl;
+
+	// core.dynamic_media_callbacks[token] = nil
+	lua_getglobal(L, "core");
+	lua_getfield(L, -1, "dynamic_media_callbacks");
+	luaL_checktype(L, -1, LUA_TTABLE);
+	lua_pushnil(L);
+	lua_rawseti(L, -2, token);
+	lua_pop(L, 2);
+}
+
+void ScriptApiServer::on_dynamic_media_added(u32 token, const std::string &playername)
+{
+	SCRIPTAPI_PRECHECKHEADER
+
+	int error_handler = PUSH_ERROR_HANDLER(L);
+	lua_getglobal(L, "core");
+	lua_getfield(L, -1, "dynamic_media_callbacks");
+	luaL_checktype(L, -1, LUA_TTABLE);
+	lua_rawgeti(L, -1, token);
+	luaL_checktype(L, -1, LUA_TFUNCTION);
+
+	lua_pushstring(L, playername.c_str());
+	PCALL_RES(lua_pcall(L, 1, 0, error_handler));
 }

@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "cpp_api/s_base.h"
 #include "cpp_api/s_internal.h"
@@ -28,15 +13,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "porting.h"
 #include "util/string.h"
 #include "server.h"
-#ifndef SERVER
+#if CHECK_CLIENT_BUILD()
 #include "client/client.h"
 #endif
 
+#if BUILD_WITH_TRACY
+	#include "tracy/TracyLua.hpp"
+#endif
 
 extern "C" {
 #include "lualib.h"
 #if USE_LUAJIT
 	#include "luajit.h"
+#else
+	#include "bit.h"
 #endif
 }
 
@@ -88,6 +78,16 @@ ScriptApiBase::ScriptApiBase(ScriptingType type):
 	else
 		luaL_openlibs(m_luastack);
 
+	// Load bit library
+	lua_pushcfunction(m_luastack, luaopen_bit);
+	lua_pushstring(m_luastack, LUA_BITLIBNAME);
+	lua_call(m_luastack, 1, 0);
+
+#if BUILD_WITH_TRACY
+	// Load tracy lua bindings
+	tracy::LuaRegister(m_luastack);
+#endif
+
 	// Make the ScriptApiBase* accessible to ModApiBase
 #if INDIRECT_SCRIPTAPI_RIDX
 	*(void **)(lua_newuserdata(m_luastack, sizeof(void *))) = this;
@@ -96,22 +96,50 @@ ScriptApiBase::ScriptApiBase(ScriptingType type):
 #endif
 	lua_rawseti(m_luastack, LUA_REGISTRYINDEX, CUSTOM_RIDX_SCRIPTAPI);
 
-	// Add and save an error handler
-	lua_getglobal(m_luastack, "debug");
-	lua_getfield(m_luastack, -1, "traceback");
-	lua_rawseti(m_luastack, LUA_REGISTRYINDEX, CUSTOM_RIDX_BACKTRACE);
-	lua_pop(m_luastack, 1); // pop debug
+	lua_pushcfunction(m_luastack, script_error_handler);
+	lua_rawseti(m_luastack, LUA_REGISTRYINDEX, CUSTOM_RIDX_ERROR_HANDLER);
 
-	// If we are using LuaJIT add a C++ wrapper function to catch
-	// exceptions thrown in Lua -> C++ calls
+	// Add a C++ wrapper function to catch exceptions thrown in Lua -> C++ calls
 #if USE_LUAJIT
 	lua_pushlightuserdata(m_luastack, (void*) script_exception_wrapper);
 	luaJIT_setmode(m_luastack, -1, LUAJIT_MODE_WRAPCFUNC | LUAJIT_MODE_ON);
 	lua_pop(m_luastack, 1);
+#else
+	// (This is a custom API from the bundled Lua.)
+	lua_atccall(m_luastack, script_exception_wrapper);
 #endif
 
 	// Add basic globals
+
+	// "core" table:
 	lua_newtable(m_luastack);
+	// Populate with some internal functions which will be removed in Lua:
+	lua_pushcfunction(m_luastack, [](lua_State *L) -> int {
+		lua_rawseti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_READ_VECTOR);
+		return 0;
+	});
+	lua_setfield(m_luastack, -2, "set_read_vector");
+	lua_pushcfunction(m_luastack, [](lua_State *L) -> int {
+		lua_rawseti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_PUSH_VECTOR);
+		return 0;
+	});
+	lua_setfield(m_luastack, -2, "set_push_vector");
+	lua_pushcfunction(m_luastack, [](lua_State *L) -> int {
+		lua_rawseti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_READ_NODE);
+		return 0;
+	});
+	lua_setfield(m_luastack, -2, "set_read_node");
+	lua_pushcfunction(m_luastack, [](lua_State *L) -> int {
+		lua_rawseti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_PUSH_NODE);
+		return 0;
+	});
+	lua_setfield(m_luastack, -2, "set_push_node");
+	lua_pushcfunction(m_luastack, [](lua_State *L) -> int {
+		lua_rawseti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_PUSH_MOVERESULT1);
+		return 0;
+	});
+	lua_setfield(m_luastack, -2, "set_push_moveresult1");
+	// Finally, put the table into the global environment:
 	lua_setglobal(m_luastack, "core");
 
 	if (m_type == ScriptingType::Client)
@@ -142,6 +170,7 @@ int ScriptApiBase::luaPanic(lua_State *L)
 	return 0;
 }
 
+#if CHECK_CLIENT_BUILD()
 void ScriptApiBase::clientOpenLibs(lua_State *L)
 {
 	static const std::vector<std::pair<std::string, lua_CFunction>> m_libs = {
@@ -156,11 +185,48 @@ void ScriptApiBase::clientOpenLibs(lua_State *L)
 #endif
 	};
 
-	for (const std::pair<std::string, lua_CFunction> &lib : m_libs) {
+	for (const auto &lib : m_libs) {
 	    lua_pushcfunction(L, lib.second);
 	    lua_pushstring(L, lib.first.c_str());
 	    lua_call(L, 1, 0);
 	}
+}
+#endif
+
+#define CHECK(ridx, name) do { \
+	lua_rawgeti(L, LUA_REGISTRYINDEX, ridx); \
+	FATAL_ERROR_IF(lua_type(L, -1) != LUA_TFUNCTION, "missing " name); \
+	lua_pop(L, 1); \
+	} while (0)
+
+void ScriptApiBase::checkSetByBuiltin()
+{
+	lua_State *L = getStack();
+
+	CHECK(CUSTOM_RIDX_READ_VECTOR, "read_vector");
+	CHECK(CUSTOM_RIDX_PUSH_VECTOR, "push_vector");
+
+	if (getType() == ScriptingType::Server ||
+			(getType() == ScriptingType::Async && m_gamedef) ||
+			getType() == ScriptingType::Emerge ||
+			getType() == ScriptingType::Client) {
+		CHECK(CUSTOM_RIDX_READ_NODE, "read_node");
+		CHECK(CUSTOM_RIDX_PUSH_NODE, "push_node");
+	}
+
+	if (getType() == ScriptingType::Server) {
+		CHECK(CUSTOM_RIDX_PUSH_MOVERESULT1, "push_moveresult1");
+	}
+}
+
+#undef CHECK
+
+std::string ScriptApiBase::getCurrentModNameInsecure(lua_State *L)
+{
+	lua_rawgeti(L, LUA_REGISTRYINDEX, CUSTOM_RIDX_CURRENT_MOD_NAME);
+	auto ret = lua_isstring(L, -1) ? readParam<std::string>(L, -1) : "";
+	lua_pop(L, 1);
+	return ret;
 }
 
 void ScriptApiBase::loadMod(const std::string &script_path,
@@ -180,7 +246,7 @@ void ScriptApiBase::loadScript(const std::string &script_path)
 	int error_handler = PUSH_ERROR_HANDLER(L);
 
 	bool ok;
-	if (m_secure) {
+	if (ScriptApiSecurity::isSecure(L)) {
 		ok = ScriptApiSecurity::safeLoadFile(L, script_path.c_str());
 	} else {
 		ok = !luaL_loadfile(L, script_path.c_str());
@@ -197,7 +263,7 @@ void ScriptApiBase::loadScript(const std::string &script_path)
 	lua_pop(L, 1); // Pop error handler
 }
 
-#ifndef SERVER
+#if CHECK_CLIENT_BUILD()
 void ScriptApiBase::loadModFromMemory(const std::string &mod_name)
 {
 	ModNameStorer mod_name_storer(getStack(), mod_name);
@@ -243,7 +309,7 @@ void ScriptApiBase::loadModFromMemory(const std::string &mod_name)
 void ScriptApiBase::runCallbacksRaw(int nargs,
 		RunCallbacksMode mode, const char *fxn)
 {
-#ifndef SERVER
+#if CHECK_CLIENT_BUILD()
 	// Hard fail for bad guarded callbacks
 	// Only run callbacks when the scripting enviroment is loaded
 	FATAL_ERROR_IF(m_type == ScriptingType::Client &&
@@ -331,13 +397,9 @@ void ScriptApiBase::setOriginDirect(const char *origin)
 
 void ScriptApiBase::setOriginFromTableRaw(int index, const char *fxn)
 {
-#ifdef SCRIPTAPI_DEBUG
 	lua_State *L = getStack();
-
 	m_last_run_mod = lua_istable(L, index) ?
 		getstringfield_default(L, index, "mod_origin", "") : "";
-	//printf(">>>> running %s for mod: %s\n", fxn, m_last_run_mod.c_str());
-#endif
 }
 
 /*
@@ -357,7 +419,7 @@ void ScriptApiBase::setOriginFromTableRaw(int index, const char *fxn)
 void ScriptApiBase::addObjectReference(ServerActiveObject *cobj)
 {
 	SCRIPTAPI_PRECHECKHEADER
-	//infostream<<"scriptapi_add_object_reference: id="<<cobj->getId()<<std::endl;
+	assert(getType() == ScriptingType::Server);
 
 	// Create object on stack
 	ObjectRef::create(L, cobj); // Puts ObjectRef (as userdata) on stack
@@ -370,7 +432,7 @@ void ScriptApiBase::addObjectReference(ServerActiveObject *cobj)
 	int objectstable = lua_gettop(L);
 
 	// object_refs[id] = object
-	lua_pushnumber(L, cobj->getId()); // Push id
+	lua_pushinteger(L, cobj->getId()); // Push id
 	lua_pushvalue(L, object); // Copy object to top of stack
 	lua_settable(L, objectstable);
 }
@@ -378,7 +440,7 @@ void ScriptApiBase::addObjectReference(ServerActiveObject *cobj)
 void ScriptApiBase::removeObjectReference(ServerActiveObject *cobj)
 {
 	SCRIPTAPI_PRECHECKHEADER
-	//infostream<<"scriptapi_rm_object_reference: id="<<cobj->getId()<<std::endl;
+	assert(getType() == ScriptingType::Server);
 
 	// Get core.object_refs table
 	lua_getglobal(L, "core");
@@ -387,23 +449,29 @@ void ScriptApiBase::removeObjectReference(ServerActiveObject *cobj)
 	int objectstable = lua_gettop(L);
 
 	// Get object_refs[id]
-	lua_pushnumber(L, cobj->getId()); // Push id
+	lua_pushinteger(L, cobj->getId()); // Push id
 	lua_gettable(L, objectstable);
 	// Set object reference to NULL
-	ObjectRef::set_null(L);
+	ObjectRef::set_null(L, cobj);
 	lua_pop(L, 1); // pop object
 
 	// Set object_refs[id] = nil
-	lua_pushnumber(L, cobj->getId()); // Push id
+	lua_pushinteger(L, cobj->getId()); // Push id
 	lua_pushnil(L);
 	lua_settable(L, objectstable);
 }
 
-// Creates a new anonymous reference if cobj=NULL or id=0
-void ScriptApiBase::objectrefGetOrCreate(lua_State *L,
-		ServerActiveObject *cobj)
+void ScriptApiBase::objectrefGetOrCreate(lua_State *L, ServerActiveObject *cobj)
 {
-	if (cobj == NULL || cobj->getId() == 0) {
+	assert(getType() == ScriptingType::Server);
+	if (!cobj) {
+		ObjectRef::create(L, nullptr); // dummy reference
+	} else if (cobj->getId() == 0) {
+		// TODO after 5.10.0: convert this to a FATAL_ERROR
+		errorstream << "ScriptApiBase::objectrefGetOrCreate(): "
+				<< "Pushing orphan ObjectRef. Please open a bug report for this."
+				<< std::endl;
+		assert(0);
 		ObjectRef::create(L, cobj);
 	} else {
 		push_objectRef(L, cobj->getId());
@@ -416,6 +484,7 @@ void ScriptApiBase::objectrefGetOrCreate(lua_State *L,
 
 void ScriptApiBase::pushPlayerHPChangeReason(lua_State *L, const PlayerHPChangeReason &reason)
 {
+	assert(getType() == ScriptingType::Server);
 	if (reason.hasLuaReference())
 		lua_rawgeti(L, LUA_REGISTRYINDEX, reason.lua_reference);
 	else
@@ -439,14 +508,22 @@ void ScriptApiBase::pushPlayerHPChangeReason(lua_State *L, const PlayerHPChangeR
 	if (!reason.node.empty()) {
 		lua_pushstring(L, reason.node.c_str());
 		lua_setfield(L, -2, "node");
+
+		push_v3s16(L, reason.node_pos);
+		lua_setfield(L, -2, "node_pos");
 	}
 }
 
 Server* ScriptApiBase::getServer()
 {
+	// Since the gamedef is the server it's still possible to retrieve it in
+	// e.g. the async environment, but this isn't meant to happen.
+	// TODO: still needs work
+	//assert(getType() == ScriptingType::Server);
 	return dynamic_cast<Server *>(m_gamedef);
 }
-#ifndef SERVER
+
+#if CHECK_CLIENT_BUILD()
 Client* ScriptApiBase::getClient()
 {
 	return dynamic_cast<Client *>(m_gamedef);

@@ -7,6 +7,8 @@
 
 #include "guiEditBox.h"
 
+class ISimpleTextureSource;
+
 class GUIEditBoxWithScrollBar : public GUIEditBox
 {
 public:
@@ -14,7 +16,7 @@ public:
 	//! constructor
 	GUIEditBoxWithScrollBar(const wchar_t* text, bool border, IGUIEnvironment* environment,
 		IGUIElement* parent, s32 id, const core::rect<s32>& rectangle,
-		bool writable = true, bool has_vscrollbar = true);
+		ISimpleTextureSource *tsrc, bool writable = true, bool has_vscrollbar = true);
 
 	//! destructor
 	virtual ~GUIEditBoxWithScrollBar() {}
@@ -30,12 +32,6 @@ public:
 
 	//! Change the background color
 	virtual void setBackgroundColor(const video::SColor &bg_color);
-
-	//! Writes attributes of the element.
-	virtual void serializeAttributes(io::IAttributes* out, io::SAttributeReadWriteOptions* options) const;
-
-	//! Reads attributes of the element
-	virtual void deserializeAttributes(io::IAttributes* in, io::SAttributeReadWriteOptions* options);
 
 	virtual bool isDrawBackgroundEnabled() const;
 	virtual bool isDrawBorderEnabled() const;
@@ -62,6 +58,8 @@ protected:
 
 	bool m_bg_color_used;
 	video::SColor m_bg_color;
+
+	ISimpleTextureSource *m_tsrc;
 };
 
 

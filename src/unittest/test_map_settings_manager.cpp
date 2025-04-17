@@ -1,28 +1,13 @@
- /*
-Minetest
-Copyright (C) 2010-2014 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2014 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
 
 #include "test.h"
 
 #include "noise.h"
 #include "settings.h"
 #include "mapgen/mapgen_v5.h"
-#include "util/sha1.h"
+#include "util/hashing.h"
 #include "map_settings_manager.h"
 
 class TestMapSettingsManager : public TestBase {
@@ -127,7 +112,7 @@ void TestMapSettingsManager::testMapSettingsManager()
 	UASSERT(mgr.getMapSetting("water_level", &value));
 	UASSERT(value == "20");
 
-    // Pretend we have some mapgen settings configured from the scripting
+	// Pretend we have some mapgen settings configured from the scripting
 	UASSERT(mgr.setMapSetting("water_level", "15"));
 	UASSERT(mgr.setMapSetting("seed", "02468"));
 	UASSERT(mgr.setMapSetting("mg_flags", "nolight", true));
@@ -144,9 +129,14 @@ void TestMapSettingsManager::testMapSettingsManager()
 
 	{
 		NoiseParams dummy;
-		mgr.getMapSettingNoiseParams("mgv5_np_factor", &dummy);
+		mgr.getNoiseParams("mgv5_np_factor", &dummy);
 		check_noise_params(&dummy, &script_np_factor);
 	}
+
+	// The settings manager MUST leave user settings alone
+	mgr.setMapSetting("testname", "1");
+	mgr.setMapSetting("testname", "1", true);
+	UASSERT(!Settings::getLayer(SL_GLOBAL)->exists("testname"));
 
 	// Now make our Params and see if the values are correctly sourced
 	MapgenParams *params = mgr.makeMapgenParams();
@@ -181,13 +171,10 @@ void TestMapSettingsManager::testMapSettingsManager()
 		0x78, 0x56, 0x95, 0x2d, 0xdc, 0x6a, 0xf7, 0x61, 0x36, 0x5f
 	};
 
-	SHA1 ctx;
 	std::string metafile_contents;
 	UASSERT(fs::ReadFile(test_mapmeta_path, metafile_contents));
-	ctx.addBytes(&metafile_contents[0], metafile_contents.size());
-	unsigned char *sha1_result = ctx.getDigest();
-	int resultdiff = memcmp(sha1_result, expected_contents_hash, 20);
-	free(sha1_result);
+	std::string sha1_result = hashing::sha1(metafile_contents);
+	int resultdiff = memcmp(sha1_result.data(), expected_contents_hash, 20);
 
 	UASSERT(!resultdiff);
 #endif

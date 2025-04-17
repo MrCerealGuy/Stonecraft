@@ -1,22 +1,7 @@
-/*
-Minetest
-Copyright (C) 2010-2016 celeron55, Perttu Ahola <celeron55@gmail.com>
-Copyright (C) 2014-2016 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2016 celeron55, Perttu Ahola <celeron55@gmail.com>
+// Copyright (C) 2014-2016 nerzhul, Loic Blot <loic.blot@unix-experience.fr>
 
 #include "remoteplayer.h"
 #include <json/json.h>
@@ -31,12 +16,13 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 /*
 	RemotePlayer
 */
+
 // static config cache for remoteplayer
 bool RemotePlayer::m_setting_cache_loaded = false;
 float RemotePlayer::m_setting_chat_message_limit_per_10sec = 0.0f;
 u16 RemotePlayer::m_setting_chat_message_limit_trigger_kick = 0;
 
-RemotePlayer::RemotePlayer(const char *name, IItemDefManager *idef):
+RemotePlayer::RemotePlayer(const std::string &name, IItemDefManager *idef):
 	Player(name, idef)
 {
 	if (!RemotePlayer::m_setting_cache_loaded) {
@@ -46,6 +32,7 @@ RemotePlayer::RemotePlayer(const char *name, IItemDefManager *idef):
 			g_settings->getU16("chat_message_limit_trigger_kick");
 		RemotePlayer::m_setting_cache_loaded = true;
 	}
+
 	movement_acceleration_default   = g_settings->getFloat("movement_acceleration_default")   * BS;
 	movement_acceleration_air       = g_settings->getFloat("movement_acceleration_air")       * BS;
 	movement_acceleration_fast      = g_settings->getFloat("movement_acceleration_fast")      * BS;
@@ -59,32 +46,21 @@ RemotePlayer::RemotePlayer(const char *name, IItemDefManager *idef):
 	movement_liquid_sink            = g_settings->getFloat("movement_liquid_sink")            * BS;
 	movement_gravity                = g_settings->getFloat("movement_gravity")                * BS;
 
-	// copy defaults
-	m_cloud_params.density = 0.4f;
-	m_cloud_params.color_bright = video::SColor(229, 240, 240, 255);
-	m_cloud_params.color_ambient = video::SColor(255, 0, 0, 0);
-	m_cloud_params.height = 120.0f;
-	m_cloud_params.thickness = 16.0f;
-	m_cloud_params.speed = v2f(0.0f, -2.0f);
-
 	// Skybox defaults:
-
-	SkyboxDefaults sky_defaults;
-
-	m_skybox_params.sky_color = sky_defaults.getSkyColorDefaults();
-	m_skybox_params.type = "regular";
-	m_skybox_params.clouds = true;
-	m_skybox_params.fog_sun_tint = video::SColor(255, 244, 125, 29);
-	m_skybox_params.fog_moon_tint = video::SColorf(0.5, 0.6, 0.8, 1).toSColor();
-	m_skybox_params.fog_tint_type = "default";
-
-	m_sun_params = sky_defaults.getSunDefaults();
-	m_moon_params = sky_defaults.getMoonDefaults();
-	m_star_params = sky_defaults.getStarDefaults();
+	m_cloud_params  = SkyboxDefaults::getCloudDefaults();
+	m_skybox_params = SkyboxDefaults::getSkyDefaults();
+	m_sun_params    = SkyboxDefaults::getSunDefaults();
+	m_moon_params   = SkyboxDefaults::getMoonDefaults();
+	m_star_params   = SkyboxDefaults::getStarDefaults();
 }
 
+RemotePlayer::~RemotePlayer()
+{
+	if (m_sao)
+		m_sao->setPlayer(nullptr);
+}
 
-const RemotePlayerChatResult RemotePlayer::canSendChatMessage()
+RemotePlayerChatResult RemotePlayer::canSendChatMessage()
 {
 	// Rate limit messages
 	u32 now = time(NULL);

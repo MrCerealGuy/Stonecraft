@@ -1,4 +1,6 @@
 _G.core = {}
+dofile("builtin/common/math.lua")
+dofile("builtin/common/vector.lua")
 dofile("builtin/common/misc_helpers.lua")
 
 describe("string", function()
@@ -37,6 +39,12 @@ describe("string", function()
 			assert.same({ "one", "two" }, string.split("one,two", ",", false, -1, true))
 			assert.same({ "one", "two", "three" }, string.split("one2two3three", "%d", false, -1, true))
 		end)
+
+		it("rejects empty separator", function()
+			assert.has.errors(function()
+				string.split("", "")
+			end)
+		end)
 	end)
 end)
 
@@ -55,8 +63,8 @@ end)
 
 describe("pos", function()
 	it("from string", function()
-		assert.same({ x = 10, y = 5.1, z = -2}, core.string_to_pos("10.0, 5.1, -2"))
-		assert.same({ x = 10, y = 5.1, z = -2}, core.string_to_pos("( 10.0, 5.1, -2)"))
+		assert.equal(vector.new(10, 5.1, -2), core.string_to_pos("10.0, 5.1, -2"))
+		assert.equal(vector.new(10, 5.1, -2), core.string_to_pos("( 10.0, 5.1, -2)"))
 		assert.is_nil(core.string_to_pos("asd, 5, -2)"))
 	end)
 
@@ -65,9 +73,131 @@ describe("pos", function()
 	end)
 end)
 
+describe("area parsing", function()
+	describe("valid inputs", function()
+		it("accepts absolute numbers", function()
+			local p1, p2 = core.string_to_area("(10.0, 5, -2) (  30.2 4 -12.53)")
+			assert(p1.x == 10 and p1.y == 5 and p1.z == -2)
+			assert(p2.x == 30.2 and p2.y == 4 and p2.z == -12.53)
+		end)
+
+		it("accepts relative numbers", function()
+			local p1, p2 = core.string_to_area("(1,2,3) (~5,~-5,~)", {x=10,y=10,z=10})
+			assert(type(p1) == "table" and type(p2) == "table")
+			assert(p1.x == 1 and p1.y == 2 and p1.z == 3)
+			assert(p2.x == 15 and p2.y == 5 and p2.z == 10)
+
+			p1, p2 = core.string_to_area("(1 2 3) (~5 ~-5 ~)", {x=10,y=10,z=10})
+			assert(type(p1) == "table" and type(p2) == "table")
+			assert(p1.x == 1 and p1.y == 2 and p1.z == 3)
+			assert(p2.x == 15 and p2.y == 5 and p2.z == 10)
+		end)
+	end)
+	describe("invalid inputs", function()
+		it("rejects too few numbers", function()
+			local p1, p2 = core.string_to_area("(1,1) (1,1,1,1)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+		end)
+
+		it("rejects too many numbers", function()
+			local p1, p2 = core.string_to_area("(1,1,1,1) (1,1,1,1)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+		end)
+
+		it("rejects nan & inf", function()
+			local p1, p2 = core.string_to_area("(1,1,1) (1,1,nan)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(1,1,1) (1,1,~nan)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(1,1,1) (1,~nan,1)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(1,1,1) (1,1,inf)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(1,1,1) (1,1,~inf)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(1,1,1) (1,~inf,1)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(nan,nan,nan) (nan,nan,nan)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(nan,nan,nan) (nan,nan,nan)")
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(inf,inf,inf) (-inf,-inf,-inf)", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(inf,inf,inf) (-inf,-inf,-inf)")
+			assert(p1 == nil and p2 == nil)
+		end)
+
+		it("rejects words", function()
+			local p1, p2 = core.string_to_area("bananas", {x=1,y=1,z=1})
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("bananas", "foobar")
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("bananas")
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(bananas,bananas,bananas)")
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(bananas,bananas,bananas) (bananas,bananas,bananas)")
+			assert(p1 == nil and p2 == nil)
+		end)
+
+		it("requires parenthesis & valid numbers", function()
+			local p1, p2 = core.string_to_area("(10.0, 5, -2  30.2,   4, -12.53")
+			assert(p1 == nil and p2 == nil)
+
+			p1, p2 = core.string_to_area("(10.0, 5,) -2  fgdf2,   4, -12.53")
+			assert(p1 == nil and p2 == nil)
+		end)
+	end)
+end)
+
 describe("table", function()
 	it("indexof()", function()
 		assert.equal(1, table.indexof({"foo", "bar"}, "foo"))
 		assert.equal(-1, table.indexof({"foo", "bar"}, "baz"))
+		assert.equal(-1, table.indexof({[2] = "foo", [3] = "bar"}, "foo"))
+		assert.equal(-1, table.indexof({[1] = "foo", [3] = "bar"}, "bar"))
+	end)
+
+	it("keyof()", function()
+		assert.equal("a", table.keyof({a = "foo", b = "bar"}, "foo"))
+		assert.equal(nil, table.keyof({a = "foo", b = "bar"}, "baz"))
+		assert.equal(1, table.keyof({"foo", "bar"}, "foo"))
+		assert.equal(2, table.keyof({[2] = "foo", [3] = "bar"}, "foo"))
+		assert.equal(3, table.keyof({[1] = "foo", [3] = "bar"}, "bar"))
+	end)
+end)
+
+describe("formspec_escape", function()
+	it("escapes", function()
+		assert.equal(nil, core.formspec_escape(nil))
+		assert.equal("", core.formspec_escape(""))
+		assert.equal("\\[Hello\\\\\\[", core.formspec_escape("[Hello\\["))
+	end)
+end)
+
+describe("math", function()
+	it("round()", function()
+		assert.equal(0, math.round(0))
+		assert.equal(10, math.round(10.3))
+		assert.equal(11, math.round(10.5))
+		assert.equal(11, math.round(10.7))
+		assert.equal(-10, math.round(-10.3))
+		assert.equal(-11, math.round(-10.5))
+		assert.equal(-11, math.round(-10.7))
+		assert.equal(0, math.round(0.49999999999999994))
+		assert.equal(0, math.round(-0.49999999999999994))
 	end)
 end)

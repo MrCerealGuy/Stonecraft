@@ -1,28 +1,11 @@
-/*
-Minetest
-Copyright (C) 2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 kwolekr, Ryan Kwolek <kwolekr@minetest.net>
 
 #pragma once
 
-#include <map>
 #include "irr_v3d.h"
 #include "lua_api/l_base.h"
-#include <vector>
 
 class Map;
 class MapBlock;
@@ -34,17 +17,8 @@ class MMVManip;
 class LuaVoxelManip : public ModApiBase
 {
 private:
-	std::map<v3s16, MapBlock *> modified_blocks;
 	bool is_mapgen_vm = false;
 
-	static bool is_heap_reserved;
-
-	static std::vector<std::vector<lua_Integer>> data_heap;
-	static std::vector<std::vector<lua_Integer>> param2_data_heap;
-
-	static void reserveHeap(MMVManip *vm);
-
-	static const char className[];
 	static const luaL_Reg methods[];
 
 	static int gc_object(lua_State *L);
@@ -53,16 +27,6 @@ private:
 	static int l_get_data(lua_State *L);
 	static int l_set_data(lua_State *L);
 	static int l_write_to_map(lua_State *L);
-
-	static int l_load_data_into_heap(lua_State *L);
-	static int l_save_data_from_heap(lua_State *L);
-	static int l_get_data_from_heap(lua_State *L);
-	static int l_set_data_from_heap(lua_State *L);
-
-	static int l_load_param2_data_into_heap(lua_State *L);
-	static int l_save_param2_data_from_heap(lua_State *L);
-	static int l_get_param2_data_from_heap(lua_State *L);
-	static int l_set_param2_data_from_heap(lua_State *L);
 
 	static int l_get_node_at(lua_State *L);
 	static int l_set_node_at(lua_State *L);
@@ -85,17 +49,19 @@ public:
 	MMVManip *vm = nullptr;
 
 	LuaVoxelManip(MMVManip *mmvm, bool is_mapgen_vm);
-	LuaVoxelManip(Map *map, v3s16 p1, v3s16 p2);
 	LuaVoxelManip(Map *map);
 	~LuaVoxelManip();
-
-	static void deleteHeap(void);
 
 	// LuaVoxelManip()
 	// Creates a LuaVoxelManip and leaves it on top of stack
 	static int create_object(lua_State *L);
+	// Not callable from Lua
+	static void create(lua_State *L, MMVManip *mmvm, bool is_mapgen_vm);
 
-	static LuaVoxelManip *checkobject(lua_State *L, int narg);
+	static void *packIn(lua_State *L, int idx);
+	static void packOut(lua_State *L, void *ptr);
 
 	static void Register(lua_State *L);
+
+	static const char className[];
 };

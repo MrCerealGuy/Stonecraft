@@ -1,28 +1,12 @@
-/*
-Minetest
-Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "rollback_interface.h"
 #include <sstream>
 #include "util/serialize.h"
 #include "util/string.h"
 #include "util/numeric.h"
-#include "util/basic_macros.h"
 #include "map.h"
 #include "gamedef.h"
 #include "nodedef.h"
@@ -31,6 +15,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "log.h"
 #include "inventorymanager.h"
 #include "inventory.h"
+#include "irrlicht_changes/printing.h"
 #include "mapblock.h"
 
 
@@ -55,7 +40,7 @@ std::string RollbackAction::toString() const
 	std::ostringstream os(std::ios::binary);
 	switch (type) {
 	case TYPE_SET_NODE:
-		os << "set_node " << PP(p);
+		os << "set_node " << p;
 		os << ": (" << serializeJsonString(n_old.name);
 		os << ", " << itos(n_old.param1);
 		os << ", " << itos(n_old.param2);
@@ -65,6 +50,7 @@ std::string RollbackAction::toString() const
 		os << ", " << itos(n_new.param2);
 		os << ", " << serializeJsonString(n_new.meta);
 		os << ')';
+		break;
 	case TYPE_MODIFY_INVENTORY_STACK:
 		os << "modify_inventory_stack (";
 		os << serializeJsonString(inventory_location);
@@ -73,6 +59,7 @@ std::string RollbackAction::toString() const
 		os << ", " << (inventory_add ? "add" : "remove");
 		os << ", " << serializeJsonString(inventory_stack.getItemString());
 		os << ')';
+		break;
 	default:
 		return "<unknown action>";
 	}
@@ -150,7 +137,7 @@ bool RollbackAction::applyRevert(Map *map, InventoryManager *imgr, IGameDef *gam
 				if (!map->addNodeWithEvent(p, n)) {
 					infostream << "RollbackAction::applyRevert(): "
 						<< "AddNodeWithEvent failed at "
-						<< PP(p) << " for " << n_old.name
+						<< p << " for " << n_old.name
 						<< std::endl;
 					return false;
 				}
@@ -164,7 +151,7 @@ bool RollbackAction::applyRevert(Map *map, InventoryManager *imgr, IGameDef *gam
 							delete meta;
 							infostream << "RollbackAction::applyRevert(): "
 								<< "setNodeMetadata failed at "
-								<< PP(p) << " for " << n_old.name
+								<< p << " for " << n_old.name
 								<< std::endl;
 							return false;
 						}
@@ -175,7 +162,7 @@ bool RollbackAction::applyRevert(Map *map, InventoryManager *imgr, IGameDef *gam
 				// Inform other things that the meta data has changed
 				MapEditEvent event;
 				event.type = MEET_BLOCK_NODE_METADATA_CHANGED;
-				event.p = p;
+				event.setPositionModified(p);
 				map->dispatchEvent(event);
 			} catch (InvalidPositionException &e) {
 				infostream << "RollbackAction::applyRevert(): "

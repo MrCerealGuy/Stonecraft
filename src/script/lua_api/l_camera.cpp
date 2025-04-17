@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #include "l_camera.h"
 #include <cmath>
@@ -165,17 +150,6 @@ int LuaCamera::l_get_aspect_ratio(lua_State *L)
 	return 1;
 }
 
-LuaCamera *LuaCamera::checkobject(lua_State *L, int narg)
-{
-	luaL_checktype(L, narg, LUA_TUSERDATA);
-
-	void *ud = luaL_checkudata(L, narg, className);
-	if (!ud)
-		luaL_typerror(L, narg, className);
-
-	return *(LuaCamera **)ud;
-}
-
 Camera *LuaCamera::getobject(LuaCamera *ref)
 {
 	return ref->m_camera;
@@ -183,12 +157,9 @@ Camera *LuaCamera::getobject(LuaCamera *ref)
 
 Camera *LuaCamera::getobject(lua_State *L, int narg)
 {
-	LuaCamera *ref = checkobject(L, narg);
+	LuaCamera *ref = checkObject<LuaCamera>(L, narg);
 	assert(ref);
-	Camera *camera = getobject(ref);
-	if (!camera)
-		return NULL;
-	return camera;
+	return getobject(ref);
 }
 
 int LuaCamera::gc_object(lua_State *L)
@@ -200,30 +171,13 @@ int LuaCamera::gc_object(lua_State *L)
 
 void LuaCamera::Register(lua_State *L)
 {
-	lua_newtable(L);
-	int methodtable = lua_gettop(L);
-	luaL_newmetatable(L, className);
-	int metatable = lua_gettop(L);
-
-	lua_pushliteral(L, "__metatable");
-	lua_pushvalue(L, methodtable);
-	lua_settable(L, metatable);
-
-	lua_pushliteral(L, "__index");
-	lua_pushvalue(L, methodtable);
-	lua_settable(L, metatable);
-
-	lua_pushliteral(L, "__gc");
-	lua_pushcfunction(L, gc_object);
-	lua_settable(L, metatable);
-
-	lua_pop(L, 1);
-
-	luaL_openlib(L, 0, methods, 0);
-	lua_pop(L, 1);
+	static const luaL_Reg metamethods[] = {
+		{"__gc", gc_object},
+		{0, 0}
+	};
+	registerClass(L, className, methods, metamethods);
 }
 
-// clang-format off
 const char LuaCamera::className[] = "Camera";
 const luaL_Reg LuaCamera::methods[] = {
 	luamethod(LuaCamera, set_camera_mode),
@@ -238,4 +192,3 @@ const luaL_Reg LuaCamera::methods[] = {
 
 	{0, 0}
 };
-// clang-format on

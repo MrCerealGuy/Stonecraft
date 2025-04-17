@@ -1,22 +1,7 @@
-/*
-Minetest
-Copyright (C) 2013 sapier, sapier at gmx dot net
-Copyright (C) 2016 est31, <MTest31@outlook.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2013 sapier, sapier at gmx dot net
+// Copyright (C) 2016 est31, <MTest31@outlook.com>
 
 /******************************************************************************/
 /* Includes                                                                   */
@@ -25,6 +10,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "pathfinder.h"
 #include "map.h"
 #include "nodedef.h"
+#include "irrlicht_changes/printing.h"
 
 //#define PATHFINDER_DEBUG
 //#define PATHFINDER_CALC_TIME
@@ -38,6 +24,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifdef PATHFINDER_CALC_TIME
 	#include <sys/time.h>
 #endif
+
+#include <queue>
 
 /******************************************************************************/
 /* Typedefs and macros                                                        */
@@ -133,7 +121,7 @@ public:
 	                                        * s = surface (walkable node)
 	                                        * - = non-walkable node (e.g. air) above surface
 	                                        * g = other non-walkable node
-                                                */
+	                                        */
 };
 
 class Pathfinder;
@@ -205,7 +193,7 @@ private:
 
 	/**
 	 * transform index pos to mappos
-	 * @param ipos a index position
+	 * @param ipos an index position
 	 * @return map position
 	 */
 	v3s16          getRealPos(v3s16 ipos);
@@ -238,7 +226,7 @@ private:
 	v3s16          invert(v3s16 pos);
 
 	/**
-	 * check if a index is within current search area
+	 * check if an index is within current search area
 	 * @param index position to validate
 	 * @return true/false
 	 */
@@ -314,7 +302,7 @@ private:
 	v3s16 m_start;                /**< source position                          */
 	v3s16 m_destination;          /**< destination position                     */
 
-	core::aabbox3d<s16> m_limits; /**< position limits in real map coordinates  */
+	core::aabbox3d<s16> m_limits{{0, 0, 0}}; /**< position limits in real map coordinates  */
 
 	/** contains all map data already collected and analyzed.
 		Access it via the getIndexElement/getIdxElem methods. */
@@ -524,25 +512,25 @@ void GridNodeContainer::initNode(v3s16 ipos, PathGridnode *p_node)
 
 	if ((current.param0 == CONTENT_IGNORE) ||
 			(below.param0 == CONTENT_IGNORE)) {
-		DEBUG_OUT("Pathfinder: " << PP(realpos) <<
+		DEBUG_OUT("Pathfinder: " << realpos <<
 			" current or below is invalid element" << std::endl);
 		if (current.param0 == CONTENT_IGNORE) {
 			elem.type = 'i';
-			DEBUG_OUT(PP(ipos) << ": " << 'i' << std::endl);
+			DEBUG_OUT(ipos << ": " << 'i' << std::endl);
 		}
 		return;
 	}
 
 	//don't add anything if it isn't an air node
 	if (ndef->get(current).walkable || !ndef->get(below).walkable) {
-			DEBUG_OUT("Pathfinder: " << PP(realpos)
+			DEBUG_OUT("Pathfinder: " << realpos
 				<< " not on surface" << std::endl);
 			if (ndef->get(current).walkable) {
 				elem.type = 's';
-				DEBUG_OUT(PP(ipos) << ": " << 's' << std::endl);
+				DEBUG_OUT(ipos << ": " << 's' << std::endl);
 			} else {
 				elem.type = '-';
-				DEBUG_OUT(PP(ipos) << ": " << '-' << std::endl);
+				DEBUG_OUT(ipos << ": " << '-' << std::endl);
 			}
 			return;
 	}
@@ -550,7 +538,7 @@ void GridNodeContainer::initNode(v3s16 ipos, PathGridnode *p_node)
 	elem.valid = true;
 	elem.pos   = realpos;
 	elem.type  = 'g';
-	DEBUG_OUT(PP(ipos) << ": " << 'a' << std::endl);
+	DEBUG_OUT(ipos << ": " << 'a' << std::endl);
 
 	if (m_pathf->m_prefetch) {
 		elem.directions[DIR_XP] = m_pathf->calcCost(realpos, v3s16( 1, 0, 0));
@@ -667,13 +655,13 @@ std::vector<v3s16> Pathfinder::getPath(v3s16 source,
 	MapNode node_at_pos = m_map->getNode(destination);
 	if (m_ndef->get(node_at_pos).walkable) {
 		VERBOSE_TARGET << "Destination is walkable. " <<
-				"Pos: " << PP(destination) << std::endl;
+				"Pos: " << destination << std::endl;
 		return retval;
 	}
 	node_at_pos = m_map->getNode(source);
 	if (m_ndef->get(node_at_pos).walkable) {
 		VERBOSE_TARGET << "Source is walkable. " <<
-				"Pos: " << PP(source) << std::endl;
+				"Pos: " << source << std::endl;
 		return retval;
 	}
 
@@ -701,14 +689,14 @@ std::vector<v3s16> Pathfinder::getPath(v3s16 source,
 
 	if (!startpos.valid) {
 		VERBOSE_TARGET << "Invalid startpos " <<
-				"Index: " << PP(StartIndex) <<
-				"Realpos: " << PP(getRealPos(StartIndex)) << std::endl;
+				"Index: " << StartIndex <<
+				"Realpos: " << getRealPos(StartIndex) << std::endl;
 		return retval;
 	}
 	if (!endpos.valid) {
 		VERBOSE_TARGET << "Invalid stoppos " <<
-				"Index: " << PP(EndIndex) <<
-				"Realpos: " << PP(getRealPos(EndIndex)) << std::endl;
+				"Index: " << EndIndex <<
+				"Realpos: " << getRealPos(EndIndex) << std::endl;
 		return retval;
 	}
 
@@ -833,7 +821,7 @@ PathCost Pathfinder::calcCost(v3s16 pos, v3s16 dir)
 
 	//check limits
 	if (!m_limits.isPointInside(pos2)) {
-		DEBUG_OUT("Pathfinder: " << PP(pos2) <<
+		DEBUG_OUT("Pathfinder: " << pos2 <<
 				" no cost -> out of limits" << std::endl);
 		return retval;
 	}
@@ -843,7 +831,7 @@ PathCost Pathfinder::calcCost(v3s16 pos, v3s16 dir)
 	//did we get information about node?
 	if (node_at_pos2.param0 == CONTENT_IGNORE ) {
 			VERBOSE_TARGET << "Pathfinder: (1) area at pos: "
-					<< PP(pos2) << " not loaded";
+					<< pos2 << " not loaded";
 			return retval;
 	}
 
@@ -854,7 +842,7 @@ PathCost Pathfinder::calcCost(v3s16 pos, v3s16 dir)
 		//did we get information about node?
 		if (node_below_pos2.param0 == CONTENT_IGNORE ) {
 				VERBOSE_TARGET << "Pathfinder: (2) area at pos: "
-					<< PP((pos2 + v3s16(0, -1, 0))) << " not loaded";
+					<< (pos2 + v3s16(0, -1, 0)) << " not loaded";
 				return retval;
 		}
 
@@ -864,7 +852,7 @@ PathCost Pathfinder::calcCost(v3s16 pos, v3s16 dir)
 			retval.valid = true;
 			retval.value = 1;
 			retval.y_change = 0;
-			DEBUG_OUT("Pathfinder: "<< PP(pos)
+			DEBUG_OUT("Pathfinder: "<< pos
 					<< " cost same height found" << std::endl);
 		}
 		else {
@@ -1040,8 +1028,8 @@ bool Pathfinder::updateAllCosts(v3s16 ipos,
 				v3s16 ipos2 = ipos + direction;
 
 				if (!isValidIndex(ipos2)) {
-					DEBUG_OUT(LVL " Pathfinder: " << PP(ipos2) <<
-						" out of range, max=" << PP(m_limits.MaxEdge) << std::endl);
+					DEBUG_OUT(LVL " Pathfinder: " << ipos2 <<
+						" out of range, max=" << m_limits.MaxEdge << std::endl);
 					continue;
 				}
 
@@ -1049,7 +1037,7 @@ bool Pathfinder::updateAllCosts(v3s16 ipos,
 
 				if (!g_pos2.valid) {
 					VERBOSE_TARGET << LVL "Pathfinder: no data for new position: "
-												<< PP(ipos2) << std::endl;
+												<< ipos2 << std::endl;
 					continue;
 				}
 
@@ -1066,7 +1054,7 @@ bool Pathfinder::updateAllCosts(v3s16 ipos,
 				if ((g_pos2.totalcost < 0) ||
 						(g_pos2.totalcost > new_cost)) {
 					DEBUG_OUT(LVL "Pathfinder: updating path at: "<<
-							PP(ipos2) << " from: " << g_pos2.totalcost << " to "<<
+							ipos2 << " from: " << g_pos2.totalcost << " to "<<
 							new_cost << std::endl);
 					if (updateAllCosts(ipos2, invert(direction),
 											new_cost, level)) {
@@ -1076,13 +1064,13 @@ bool Pathfinder::updateAllCosts(v3s16 ipos,
 				else {
 					DEBUG_OUT(LVL "Pathfinder:"
 							" already found shorter path to: "
-							<< PP(ipos2) << std::endl);
+							<< ipos2 << std::endl);
 				}
 			}
 			else {
 				DEBUG_OUT(LVL "Pathfinder:"
 						" not moving to invalid direction: "
-						<< PP(directions[i]) << std::endl);
+						<< directions[i] << std::endl);
 			}
 		}
 	}
@@ -1145,8 +1133,8 @@ bool Pathfinder::updateCostHeuristic(v3s16 isource, v3s16 idestination)
 
 		// check if node is inside searchdistance and valid
 		if (!isValidIndex(ipos)) {
-			DEBUG_OUT(LVL " Pathfinder: " << PP(current_pos) <<
-				" out of search distance, max=" << PP(m_limits.MaxEdge) << std::endl);
+			DEBUG_OUT(LVL " Pathfinder: " << current_pos <<
+				" out of search distance, max=" << m_limits.MaxEdge << std::endl);
 			continue;
 		}
 
@@ -1258,8 +1246,8 @@ v3s16 Pathfinder::walkDownwards(v3s16 pos, unsigned int max_down) {
 		}
 		else {
 			VERBOSE_TARGET << "Pos too far above ground: " <<
-				"Index: " << PP(getIndexPos(pos)) <<
-				"Realpos: " << PP(getRealPos(getIndexPos(pos))) << std::endl;
+				"Index: " << getIndexPos(pos) <<
+				"Realpos: " << getRealPos(getIndexPos(pos)) << std::endl;
 		}
 	} else {
 		DEBUG_OUT("Pathfinder: no surface found below pos" << std::endl);
@@ -1428,12 +1416,12 @@ std::string Pathfinder::dirToName(PathDirections dir)
 }
 
 /******************************************************************************/
-void Pathfinder::printPath(std::vector<v3s16> path)
+void Pathfinder::printPath(const std::vector<v3s16> &path)
 {
 	unsigned int current = 0;
 	for (std::vector<v3s16>::iterator i = path.begin();
 			i != path.end(); ++i) {
-		std::cout << std::setw(3) << current << ":" << PP((*i)) << std::endl;
+		std::cout << std::setw(3) << current << ":" << *i << std::endl;
 		current++;
 	}
 }

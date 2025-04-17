@@ -1,20 +1,6 @@
-/*
-Copyright (C) 2015 Aaron Suen <warr1024@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2015 Aaron Suen <warr1024@gmail.com>
 
 #include "guiscalingfilter.h"
 #include "imagefilters.h"
@@ -23,19 +9,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "util/numeric.h"
 #include <cstdio>
 #include "client/renderingengine.h"
-#include "client/tile.h" // hasNPotSupport()
+#include <IImage.h>
+#include <ITexture.h>
+#include <IVideoDriver.h>
 
 /* Maintain a static cache to store the images that correspond to textures
  * in a format that's manipulable by code.  Some platforms exhibit issues
  * converting textures back into images repeatedly, and some don't even
  * allow it at all.
  */
-std::map<io::path, video::IImage *> g_imgCache;
+static std::map<io::path, video::IImage *> g_imgCache;
 
 /* Maintain a static cache of all pre-scaled textures.  These need to be
  * cleared as well when the cached images.
  */
-std::map<io::path, video::ITexture *> g_txrCache;
+static std::map<io::path, video::ITexture *> g_txrCache;
 
 /* Manually insert an image into the cache, useful to avoid texture-to-image
  * conversion whenever we can intercept it.
@@ -44,6 +32,10 @@ void guiScalingCache(const io::path &key, video::IVideoDriver *driver, video::II
 {
 	if (!g_settings->getBool("gui_scaling_filter"))
 		return;
+
+	if (g_imgCache.find(key) != g_imgCache.end())
+		return; // Already cached.
+
 	video::IImage *copied = driver->createImage(value->getColorFormat(),
 			value->getDimension());
 	value->copyTo(copied);
@@ -75,6 +67,7 @@ video::ITexture *guiScalingResizeCached(video::IVideoDriver *driver,
 {
 	if (src == NULL)
 		return src;
+
 	if (!g_settings->getBool("gui_scaling_filter"))
 		return src;
 
@@ -91,33 +84,41 @@ video::ITexture *guiScalingResizeCached(video::IVideoDriver *driver,
 	io::path scalename = origname + "@guiScalingFilter:" + rectstr;
 
 	// Search for existing scaled texture.
-	video::ITexture *scaled = g_txrCache[scalename];
+	auto it_txr = g_txrCache.find(scalename);
+	video::ITexture *scaled = (it_txr != g_txrCache.end()) ? it_txr->second : nullptr;
 	if (scaled)
 		return scaled;
 
 	// Try to find the texture converted to an image in the cache.
 	// If the image was not found, try to extract it from the texture.
-	video::IImage* srcimg = g_imgCache[origname];
-	if (srcimg == NULL) {
-		if (!g_settings->getBool("gui_scaling_filter_txr2img"))
-			return src;
+	auto it_img = g_imgCache.find(origname);
+	video::IImage *srcimg = (it_img != g_imgCache.end()) ? it_img->second : nullptr;
+	if (!srcimg) {
+		// Download image from GPU
 		srcimg = driver->createImageFromData(src->getColorFormat(),
-			src->getSize(), src->lock(), false);
+			src->getSize(), src->lock(video::ETLM_READ_ONLY), false);
 		src->unlock();
 		g_imgCache[origname] = srcimg;
 	}
 
 	// Create a new destination image and scale the source into it.
 	imageCleanTransparent(srcimg, 0);
+
+	if (destrect.getWidth() <= 0 || destrect.getHeight() <= 0) {
+		errorstream << "Attempted to scale texture to invalid size " << scalename.c_str() << std::endl;
+		// Avoid log spam by reusing and displaying the original texture
+		src->grab();
+		g_txrCache[scalename] = src;
+		return src;
+	}
 	video::IImage *destimg = driver->createImage(src->getColorFormat(),
 			core::dimension2d<u32>((u32)destrect.getWidth(),
 			(u32)destrect.getHeight()));
 	imageScaleNNAA(srcimg, srcrect, destimg);
 
-#if ENABLE_GLES
 	// Some platforms are picky about textures being powers of 2, so expand
 	// the image dimensions to the next power of 2, if necessary.
-	if (!hasNPotSupport()) {
+	if (!driver->queryFeature(video::EVDF_TEXTURE_NPOT)) {
 		video::IImage *po2img = driver->createImage(src->getColorFormat(),
 				core::dimension2d<u32>(npot2((u32)destrect.getWidth()),
 				npot2((u32)destrect.getHeight())));
@@ -126,10 +127,9 @@ video::ITexture *guiScalingResizeCached(video::IVideoDriver *driver,
 		destimg->drop();
 		destimg = po2img;
 	}
-#endif
 
 	// Convert the scaled image back into a texture.
-	scaled = driver->addTexture(scalename, destimg, NULL);
+	scaled = driver->addTexture(scalename, destimg);
 	destimg->drop();
 	g_txrCache[scalename] = scaled;
 
@@ -157,6 +157,10 @@ void draw2DImageFilterScaled(video::IVideoDriver *driver, video::ITexture *txr,
 		const core::rect<s32> *cliprect, const video::SColor *const colors,
 		bool usealpha)
 {
+	// 9-sliced images might calculate negative texture dimensions. Skip them.
+	if (destrect.getWidth() <= 0 || destrect.getHeight() <= 0)
+		return;
+
 	// Attempt to pre-scale image in software in high quality.
 	video::ITexture *scaled = guiScalingResizeCached(driver, txr, srcrect, destrect);
 	if (scaled == NULL)
@@ -171,52 +175,61 @@ void draw2DImageFilterScaled(video::IVideoDriver *driver, video::ITexture *txr,
 }
 
 void draw2DImage9Slice(video::IVideoDriver *driver, video::ITexture *texture,
-		const core::rect<s32> &rect, const core::rect<s32> &middle,
-		const core::rect<s32> *cliprect, const video::SColor *const colors)
+		const core::rect<s32> &destrect, const core::rect<s32> &srcrect,
+		const core::rect<s32> &middlerect, const core::rect<s32> *cliprect,
+		const video::SColor *const colors)
 {
-	auto originalSize = texture->getOriginalSize();
-	core::vector2di lowerRightOffset = core::vector2di(originalSize.Width, originalSize.Height) - middle.LowerRightCorner;
+	// `-x` is interpreted as `w - x`
+	core::rect<s32> middle = middlerect;
+
+	if (middlerect.LowerRightCorner.X < 0)
+		middle.LowerRightCorner.X += srcrect.getWidth();
+	if (middlerect.LowerRightCorner.Y < 0)
+		middle.LowerRightCorner.Y += srcrect.getHeight();
+
+	core::vector2di lower_right_offset = core::vector2di(srcrect.getWidth(),
+			srcrect.getHeight()) - middle.LowerRightCorner;
 
 	for (int y = 0; y < 3; ++y) {
 		for (int x = 0; x < 3; ++x) {
-			core::rect<s32> src({0, 0}, originalSize);
-			core::rect<s32> dest = rect;
+			core::rect<s32> src = srcrect;
+			core::rect<s32> dest = destrect;
 
 			switch (x) {
 			case 0:
-				dest.LowerRightCorner.X = rect.UpperLeftCorner.X + middle.UpperLeftCorner.X;
-				src.LowerRightCorner.X = middle.UpperLeftCorner.X;
+				dest.LowerRightCorner.X = destrect.UpperLeftCorner.X + middle.UpperLeftCorner.X;
+				src.LowerRightCorner.X = srcrect.UpperLeftCorner.X + middle.UpperLeftCorner.X;
 				break;
 
 			case 1:
 				dest.UpperLeftCorner.X += middle.UpperLeftCorner.X;
-				dest.LowerRightCorner.X -= lowerRightOffset.X;
-				src.UpperLeftCorner.X = middle.UpperLeftCorner.X;
-				src.LowerRightCorner.X = middle.LowerRightCorner.X;
+				dest.LowerRightCorner.X -= lower_right_offset.X;
+				src.UpperLeftCorner.X += middle.UpperLeftCorner.X;
+				src.LowerRightCorner.X -= lower_right_offset.X;
 				break;
 
 			case 2:
-				dest.UpperLeftCorner.X = rect.LowerRightCorner.X - lowerRightOffset.X;
-				src.UpperLeftCorner.X = middle.LowerRightCorner.X;
+				dest.UpperLeftCorner.X = destrect.LowerRightCorner.X - lower_right_offset.X;
+				src.UpperLeftCorner.X = srcrect.LowerRightCorner.X - lower_right_offset.X;
 				break;
 			}
 
 			switch (y) {
 			case 0:
-				dest.LowerRightCorner.Y = rect.UpperLeftCorner.Y + middle.UpperLeftCorner.Y;
-				src.LowerRightCorner.Y = middle.UpperLeftCorner.Y;
+				dest.LowerRightCorner.Y = destrect.UpperLeftCorner.Y + middle.UpperLeftCorner.Y;
+				src.LowerRightCorner.Y = srcrect.UpperLeftCorner.Y + middle.UpperLeftCorner.Y;
 				break;
 
 			case 1:
 				dest.UpperLeftCorner.Y += middle.UpperLeftCorner.Y;
-				dest.LowerRightCorner.Y -= lowerRightOffset.Y;
-				src.UpperLeftCorner.Y = middle.UpperLeftCorner.Y;
-				src.LowerRightCorner.Y = middle.LowerRightCorner.Y;
+				dest.LowerRightCorner.Y -= lower_right_offset.Y;
+				src.UpperLeftCorner.Y += middle.UpperLeftCorner.Y;
+				src.LowerRightCorner.Y -= lower_right_offset.Y;
 				break;
 
 			case 2:
-				dest.UpperLeftCorner.Y = rect.LowerRightCorner.Y - lowerRightOffset.Y;
-				src.UpperLeftCorner.Y = middle.LowerRightCorner.Y;
+				dest.UpperLeftCorner.Y = destrect.LowerRightCorner.Y - lower_right_offset.Y;
+				src.UpperLeftCorner.Y = srcrect.LowerRightCorner.Y - lower_right_offset.Y;
 				break;
 			}
 

@@ -1,5 +1,3 @@
--- Minetest: builtin/features.lua
-
 core.features = {
 	glasslike_framed = true,
 	nodebox_as_selectionbox = true,
@@ -19,6 +17,34 @@ core.features = {
 	object_step_has_moveresult = true,
 	direct_velocity_on_players = true,
 	use_texture_alpha_string_modes = true,
+	degrotate_240_steps = true,
+	abm_min_max_y = true,
+	particlespawner_tweenable = true,
+	dynamic_add_media_table = true,
+	get_sky_as_table = true,
+	get_light_data_buffer = true,
+	mod_storage_on_disk = true,
+	compress_zstd = true,
+	sound_params_start_time = true,
+	physics_overrides_v2 = true,
+	hud_def_type_field = true,
+	random_state_restore = true,
+	after_order_expiry_registration = true,
+	wallmounted_rotate = true,
+	item_specific_pointabilities = true,
+	blocking_pointability_type = true,
+	dynamic_add_media_startup = true,
+	dynamic_add_media_filepath = true,
+	lsystem_decoration_type = true,
+	item_meta_range = true,
+	node_interaction_actor = true,
+	moveresult_new_pos = true,
+	override_item_remove_fields = true,
+	hotbar_hud_element = true,
+	bulk_lbms = true,
+	abm_without_neighbors = true,
+	biome_weights = true,
+	particle_blend_clip = true,
 }
 
 function core.has_feature(arg)

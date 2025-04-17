@@ -1,26 +1,10 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
 #include "nodedef.h"
-#include <IMeshManipulator.h>
 
 struct MeshMakeData;
 struct MeshCollector;
@@ -61,26 +45,26 @@ struct LightFrame {
 class MapblockMeshGenerator
 {
 public:
-	MeshMakeData *data;
-	MeshCollector *collector;
+	MapblockMeshGenerator(MeshMakeData *input, MeshCollector *output);
+	void generate();
 
-	const NodeDefManager *nodedef;
-	scene::IMeshManipulator *meshmanip;
+private:
+	MeshMakeData *const data;
+	MeshCollector *const collector;
 
-// options
-	bool enable_mesh_cache;
+	const NodeDefManager *const nodedef;
+
+	const v3s16 blockpos_nodes;
 
 // current node
-	v3s16 blockpos_nodes;
-	v3s16 p;
-	v3f origin;
-	MapNode n;
-	const ContentFeatures *f;
-	LightPair light;
-	LightFrame frame;
-	video::SColor color;
-	TileSpec tile;
-	float scale;
+	struct {
+		v3s16 p; // relative to blockpos_nodes
+		v3f origin; // p in BS space
+		MapNode n;
+		const ContentFeatures *f;
+		LightFrame lframe; // smooth lighting
+		video::SColor lcolor; // unsmooth lighting
+	} cur_node;
 
 // lighting
 	void getSmoothLightFrame();
@@ -88,44 +72,50 @@ public:
 	video::SColor blendLightColor(const v3f &vertex_pos);
 	video::SColor blendLightColor(const v3f &vertex_pos, const v3f &vertex_normal);
 
-	void useTile(int index = 0, u8 set_flags = MATERIAL_FLAG_CRACK_OVERLAY,
+	void useTile(TileSpec *tile_ret, int index = 0, u8 set_flags = MATERIAL_FLAG_CRACK_OVERLAY,
 		u8 reset_flags = 0, bool special = false);
-	void getTile(int index, TileSpec *tile);
-	void getTile(v3s16 direction, TileSpec *tile);
-	void getSpecialTile(int index, TileSpec *tile, bool apply_crack = false);
+	void getTile(int index, TileSpec *tile_ret);
+	void getTile(v3s16 direction, TileSpec *tile_ret);
+	void getSpecialTile(int index, TileSpec *tile_ret, bool apply_crack = false);
 
 // face drawing
-	void drawQuad(v3f *vertices, const v3s16 &normal = v3s16(0, 0, 0),
+	void drawQuad(const TileSpec &tile, v3f *vertices, const v3s16 &normal = v3s16(0, 0, 0),
 		float vertical_tiling = 1.0);
 
 // cuboid drawing!
-	void drawCuboid(const aabb3f &box, TileSpec *tiles, int tilecount,
-		const LightInfo *lights , const f32 *txc);
+	template <typename Fn>
+	void drawCuboid(const aabb3f &box, const TileSpec *tiles, int tilecount,
+			const f32 *txc, u8 mask, Fn &&face_lighter);
 	void generateCuboidTextureCoords(aabb3f const &box, f32 *coords);
-	void drawAutoLightedCuboid(aabb3f box, const f32 *txc = NULL,
-		TileSpec *tiles = NULL, int tile_count = 0);
+	void drawAutoLightedCuboid(aabb3f box, const TileSpec &tile, f32 const *txc	= nullptr, u8 mask = 0);
+	void drawAutoLightedCuboid(aabb3f box, const TileSpec *tiles, int tile_count, f32 const *txc = nullptr, u8 mask = 0);
+	u8 getNodeBoxMask(aabb3f box, u8 solid_neighbors, u8 sametype_neighbors) const;
 
 // liquid-specific
-	bool top_is_same_liquid;
-	bool draw_liquid_bottom;
-	TileSpec tile_liquid;
-	TileSpec tile_liquid_top;
-	content_t c_flowing;
-	content_t c_source;
-	video::SColor color_liquid_top;
-	struct NeighborData {
-		f32 level;
-		content_t content;
-		bool is_same_liquid;
+	struct LiquidData {
+		struct NeighborData {
+			f32 level;
+			content_t content;
+			bool is_same_liquid;
+			bool top_is_same_liquid;
+		};
+
 		bool top_is_same_liquid;
+		bool draw_bottom;
+		TileSpec tile;
+		TileSpec tile_top;
+		content_t c_flowing;
+		content_t c_source;
+		video::SColor color_top;
+		NeighborData neighbors[3][3];
+		f32 corner_levels[2][2];
 	};
-	NeighborData liquid_neighbors[3][3];
-	f32 corner_levels[2][2];
+	LiquidData cur_liquid;
 
 	void prepareLiquidNodeDrawing();
 	void getLiquidNeighborhood();
 	void calculateCornerLevels();
-	f32 getCornerLevel(int i, int k);
+	f32 getCornerLevel(int i, int k) const;
 	void drawLiquidSides();
 	void drawLiquidTop();
 	void drawLiquidBottom();
@@ -133,26 +123,34 @@ public:
 // raillike-specific
 	// name of the group that enables connecting to raillike nodes of different kind
 	static const std::string raillike_groupname;
-	int raillike_group;
+	struct RaillikeData {
+		int raillike_group;
+	};
+	RaillikeData cur_rail;
 	bool isSameRail(v3s16 dir);
 
 // plantlike-specific
-	PlantlikeStyle draw_style;
-	v3f offset;
-	int rotate_degree;
-	bool random_offset_Y;
-	int face_num;
-	float plant_height;
+	struct PlantlikeData {
+		PlantlikeStyle draw_style;
+		v3f offset;
+		float scale;
+		float rotate_degree;
+		bool random_offset_Y;
+		int face_num;
+		float plant_height;
+	};
+	PlantlikeData cur_plant;
 
-	void drawPlantlikeQuad(float rotation, float quad_offset = 0,
+	void drawPlantlikeQuad(const TileSpec &tile, float rotation, float quad_offset = 0,
 		bool offset_top_only = false);
-	void drawPlantlike();
+	void drawPlantlike(const TileSpec &tile, bool is_rooted = false);
 
 // firelike-specific
-	void drawFirelikeQuad(float rotation, float opening_angle,
+	void drawFirelikeQuad(const TileSpec &tile, float rotation, float opening_angle,
 		float offset_h, float offset_v = 0.0);
 
 // drawtypes
+	void drawSolidNode();
 	void drawLiquidNode();
 	void drawGlasslikeNode();
 	void drawGlasslikeFramedNode();
@@ -170,9 +168,4 @@ public:
 // common
 	void errorUnknownDrawtype();
 	void drawNode();
-
-public:
-	MapblockMeshGenerator(MeshMakeData *input, MeshCollector *output);
-	void generate();
-	void renderSingle(content_t node, u8 param2 = 0x00);
 };

@@ -1,31 +1,25 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
-#include <map>
-#include "irrlichttypes_extrabloated.h"
-#include "clientobject.h"
+#include "EMaterialTypes.h"
+#include "IDummyTransformationSceneNode.h"
+#include "irrlichttypes.h"
+
 #include "object_properties.h"
-#include "itemgroup.h"
+#include "clientobject.h"
 #include "constants.h"
+#include "itemgroup.h"
 #include <cassert>
+#include <map>
+#include <memory>
+
+namespace irr::scene {
+	class IMeshSceneNode;
+	class IBillboardSceneNode;
+}
 
 class Camera;
 class Client;
@@ -98,15 +92,15 @@ private:
 	v2s16 m_tx_basepos;
 	bool m_initial_tx_basepos_set = false;
 	bool m_tx_select_horiz_by_yawpitch = false;
-	v2s32 m_animation_range;
+	v2f m_animation_range;
 	float m_animation_speed = 15.0f;
 	float m_animation_blend = 0.0f;
 	bool m_animation_loop = true;
 	// stores position and rotation for each bone name
-	std::unordered_map<std::string, core::vector2d<v3f>> m_bone_position;
+	BoneOverrideMap m_bone_override;
 
-	int m_attachment_parent_id = 0;
-	std::unordered_set<int> m_attachment_child_ids;
+	object_t m_attachment_parent_id = 0;
+	std::unordered_set<object_t> m_attachment_child_ids;
 	std::string m_attachment_bone = "";
 	v3f m_attachment_position;
 	v3f m_attachment_rotation;
@@ -125,13 +119,11 @@ private:
 	std::string m_current_texture_modifier = "";
 	bool m_visuals_expired = false;
 	float m_step_distance_counter = 0.0f;
-	u8 m_last_light = 255;
+	video::SColor m_last_light = video::SColor(0xFFFFFFFF);
 	bool m_is_visible = false;
-	s8 m_glow = 0;
 	// Material
 	video::E_MATERIAL_TYPE m_material_type;
-	// Settings
-	bool m_enable_shaders = false;
+	f32 m_material_type_param;
 
 	bool visualExpiryRequired(const ObjectProperties &newprops) const;
 
@@ -140,12 +132,12 @@ public:
 
 	~GenericCAO();
 
-	static ClientActiveObject* create(Client *client, ClientEnvironment *env)
+	static std::unique_ptr<ClientActiveObject> create(Client *client, ClientEnvironment *env)
 	{
-		return new GenericCAO(client, env);
+		return std::make_unique<GenericCAO>(client, env);
 	}
 
-	inline ActiveObjectType getType() const
+	inline ActiveObjectType getType() const override
 	{
 		return ACTIVEOBJECT_TYPE_GENERIC;
 	}
@@ -153,30 +145,31 @@ public:
 	{
 		return m_armor_groups;
 	}
-	void initialize(const std::string &data);
+	void initialize(const std::string &data) override;
 
 	void processInitData(const std::string &data);
 
-	bool getCollisionBox(aabb3f *toset) const;
+	bool getCollisionBox(aabb3f *toset) const override;
 
-	bool collideWithObjects() const;
+	bool collideWithObjects() const override;
 
-	virtual bool getSelectionBox(aabb3f *toset) const;
+	virtual bool getSelectionBox(aabb3f *toset) const override;
 
-	const v3f getPosition() const;
+	const v3f getPosition() const override final;
 
-	void setPosition(const v3f &pos)
-	{
-		pos_translator.val_current = pos;
-	}
+	const v3f getVelocity() const override final { return m_velocity; }
 
 	inline const v3f &getRotation() const { return m_rotation; }
 
-	const bool isImmortal();
+	bool isImmortal() const;
 
-	scene::ISceneNode *getSceneNode() const;
+	inline const ObjectProperties &getProperties() const { return m_prop; }
 
-	scene::IAnimatedMeshSceneNode *getAnimatedMeshSceneNode() const;
+	inline const std::string &getName() const { return m_name; }
+
+	scene::ISceneNode *getSceneNode() const override;
+
+	scene::IAnimatedMeshSceneNode *getAnimatedMeshSceneNode() const override;
 
 	// m_matrixnode controls the position and rotation of the child node
 	// for all scene nodes, as a workaround for an Irrlicht problem with
@@ -203,9 +196,14 @@ public:
 		return m_prop.stepheight;
 	}
 
-	inline bool isLocalPlayer() const
+	inline bool isLocalPlayer() const override
 	{
 		return m_is_local_player;
+	}
+
+	inline bool isPlayer() const
+	{
+		return m_is_player;
 	}
 
 	inline bool isVisible() const
@@ -219,31 +217,30 @@ public:
 	}
 
 	void setChildrenVisible(bool toset);
-	void setAttachment(int parent_id, const std::string &bone, v3f position,
-			v3f rotation, bool force_visible);
-	void getAttachment(int *parent_id, std::string *bone, v3f *position,
-			v3f *rotation, bool *force_visible) const;
-	void clearChildAttachments();
-	void clearParentAttachment();
-	void addAttachmentChild(int child_id);
-	void removeAttachmentChild(int child_id);
-	ClientActiveObject *getParent() const;
-	const std::unordered_set<int> &getAttachmentChildIds() const
+	void setAttachment(object_t parent_id, const std::string &bone, v3f position,
+			v3f rotation, bool force_visible) override;
+	void getAttachment(object_t *parent_id, std::string *bone, v3f *position,
+			v3f *rotation, bool *force_visible) const override;
+	void clearChildAttachments() override;
+	void addAttachmentChild(object_t child_id) override;
+	void removeAttachmentChild(object_t child_id) override;
+	ClientActiveObject *getParent() const override;
+	const std::unordered_set<object_t> &getAttachmentChildIds() const override
 	{ return m_attachment_child_ids; }
-	void updateAttachments();
+	void updateAttachments() override;
 
-	void removeFromScene(bool permanent);
+	void removeFromScene(bool permanent) override;
 
-	void addToScene(ITextureSource *tsrc);
+	void addToScene(ITextureSource *tsrc, scene::ISceneManager *smgr) override;
 
 	inline void expireVisuals()
 	{
 		m_visuals_expired = true;
 	}
 
-	void updateLight(u32 day_night_ratio);
+	void updateLight(u32 day_night_ratio) override;
 
-	void setNodeLight(u8 light);
+	void setNodeLight(const video::SColor &light);
 
 	/* Get light position(s).
 	 * returns number of positions written into pos[], which must have space
@@ -256,7 +253,7 @@ public:
 
 	void updateNodePos();
 
-	void step(float dtime, ClientEnvironment *env);
+	void step(float dtime, ClientEnvironment *env) override;
 
 	void updateTexturePos();
 
@@ -268,16 +265,16 @@ public:
 
 	void updateAnimationSpeed();
 
-	void updateBonePosition();
+	void updateBones(f32 dtime);
 
-	void processMessage(const std::string &data);
+	void processMessage(const std::string &data) override;
 
 	bool directReportPunch(v3f dir, const ItemStack *punchitem=NULL,
-			float time_from_last_punch=1000000);
+			float time_from_last_punch=1000000) override;
 
-	std::string debugInfoText();
+	std::string debugInfoText() override;
 
-	std::string infoText()
+	std::string infoText() override
 	{
 		return m_prop.infotext;
 	}

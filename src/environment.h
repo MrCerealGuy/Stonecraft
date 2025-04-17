@@ -1,21 +1,6 @@
-/*
-Minetest
-Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU Lesser General Public License as published by
-the Free Software Foundation; either version 2.1 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public License along
-with this program; if not, write to the Free Software Foundation, Inc.,
-51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-*/
+// Luanti
+// SPDX-License-Identifier: LGPL-2.1-or-later
+// Copyright (C) 2010-2013 celeron55, Perttu Ahola <celeron55@gmail.com>
 
 #pragma once
 
@@ -34,14 +19,16 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <map>
 #include <atomic>
 #include <mutex>
+#include <optional>
 #include "irr_v3d.h"
-#include "network/networkprotocol.h" // for AccessDeniedCode
 #include "util/basic_macros.h"
+#include "line3d.h"
 
 class IGameDef;
 class Map;
 struct PointedThing;
 class RaycastState;
+struct Pointabilities;
 
 class Environment
 {
@@ -97,7 +84,8 @@ public:
 	 * @param[out] objects          found objects
 	 */
 	virtual void getSelectedActiveObjects(const core::line3d<f32> &shootline_on_map,
-			std::vector<PointedThing> &objects) = 0;
+			std::vector<PointedThing> &objects,
+			const std::optional<Pointabilities> &pointabilities) = 0;
 
 	/*!
 	 * Returns the next node or object the shootline meets.
@@ -143,7 +131,6 @@ protected:
 	 *       (as opposed to the this local caching). This can be addressed in
 	 *       a later release.
 	 */
-	bool m_cache_enable_shaders;
 	float m_cache_active_block_mgmt_interval;
 	float m_cache_abm_interval;
 	float m_cache_nodetimer_interval;

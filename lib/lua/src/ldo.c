@@ -274,7 +274,7 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
     CallInfo *ci;
     StkId st, base;
     Proto *p = cl->p;
-    luaD_checkstack(L, p->maxstacksize);
+    luaD_checkstack(L, p->maxstacksize + p->numparams);
     func = restorestack(L, funcr);
     if (!p->is_vararg) {  /* no varargs? */
       base = func + 1;
@@ -317,7 +317,11 @@ int luaD_precall (lua_State *L, StkId func, int nresults) {
     if (L->hookmask & LUA_MASKCALL)
       luaD_callhook(L, LUA_HOOKCALL, -1);
     lua_unlock(L);
-    n = (*curr_func(L)->c.f)(L);  /* do the actual call */
+    /* MINETEST-SPECIFIC CHANGE: Let custom code wrap C function calls. */
+    if (G(L)->wrapcf)
+      n = G(L)->wrapcf(L, *curr_func(L)->c.f);
+    else
+      n = (*curr_func(L)->c.f)(L);
     lua_lock(L);
     if (n < 0)  /* yielding? */
       return PCRYIELD;
@@ -366,7 +370,7 @@ int luaD_poscall (lua_State *L, StkId firstResult) {
 ** The arguments are on the stack, right after the function.
 ** When returns, all the results are on the stack, starting at the original
 ** function position.
-*/ 
+*/
 void luaD_call (lua_State *L, StkId func, int nResults) {
   if (++L->nCcalls >= LUAI_MAXCCALLS) {
     if (L->nCcalls == LUAI_MAXCCALLS)
