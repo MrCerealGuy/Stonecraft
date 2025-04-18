@@ -70,14 +70,14 @@ For Void users:
 
 Download source (this is the URL to the latest of source repository, which might not work at all times) using Git:
 
-    git clone --depth 1 https://github.com/luanti-org/luanti
-    cd luanti
+    git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft.git
+    cd stonecraft
 
 Download source, without using Git:
 
-    wget https://github.com/luanti-org/luanti/archive/master.tar.gz
+    wget https://github.com/MrCerealGuy/archive/master.tar.gz
     tar xf master.tar.gz
-    cd luanti-master
+    cd stonecraft-master
 
 ## Build
 
@@ -88,7 +88,7 @@ Build a version that runs directly from the source directory:
 
 Run it:
 
-    ./bin/luanti
+    ./bin/stonecraft
 
 - Use `cmake . -LH` to see all CMake options and their current state.
 - If you want to install it system-wide (or are making a distribution package),

@@ -1,12 +1,12 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the luanti package.
+# This file is distributed under the same license as the stonecraft package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: luanti\n"
+"Project-Id-Version: stonecraft\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-09 13:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -383,7 +383,7 @@ msgid "Failed to download $1"
 msgstr ""
 
 #: builtin/mainmenu/content/dlg_contentdb.lua
-msgid "ContentDB is not available when Luanti was compiled without cURL"
+msgid "ContentDB is not available when Stonecraft was compiled without cURL"
 msgstr ""
 
 #: builtin/mainmenu/content/dlg_contentdb.lua
@@ -919,8 +919,8 @@ msgstr ""
 
 #: builtin/mainmenu/dlg_reinstall_mtg.lua
 msgid ""
-"For a long time, Luanti shipped with a default game called \"Minetest "
-"Game\". Since version 5.8.0, Luanti ships without a default game."
+"For a long time, Stonecraft shipped with a default game called \"Minetest "
+"Game\". Since version 5.8.0, Stonecraft ships without a default game."
 msgstr ""
 
 #: builtin/mainmenu/dlg_reinstall_mtg.lua

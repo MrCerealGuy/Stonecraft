@@ -261,7 +261,7 @@ install(FILES "doc/world_format.md" DESTINATION "${DOCDIR}" COMPONENT "Docs")
 install(FILES "stonecraft.conf.example" DESTINATION "${EXAMPLE_CONF_DIR}")
 
 if(UNIX AND NOT APPLE)
-	install(FILES "doc/luanti.6" "doc/luantiserver.6" DESTINATION "${MANDIR}/man6")
+	install(FILES "doc/stonecraft.6" "doc/stonecraftserver.6" DESTINATION "${MANDIR}/man6")
 	install(FILES "misc/net.stonecraft.stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
 	install(FILES "misc/net.stonecraft.stonecraft.metainfo.xml" DESTINATION "${METAINFODIR}")
 	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
