@@ -132,7 +132,9 @@ local function init_globals()
 	ui.update()
 
 	check_reinstall_mtg()
-	check_new_version()
+
+	-- MERGEINFO: MrCerealGuy
+	-- check_new_version()
 end
 
 assert(os.execute == nil)

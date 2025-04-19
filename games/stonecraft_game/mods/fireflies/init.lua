@@ -1,19 +1,5 @@
 -- firefly/init.lua
 
---[[
-
-2018-03-21 MrCerealGuy: added intllib support
-
-2019-04-14 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2019-04-14 modified by MrCerealGuy <mrcerealguy@gmx.de>
-  added advanced mod control
-
---]]
-
-if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_firelies") == "false" then return end
-
 -- Load support for MT game translation.
 local S = minetest.get_translator("fireflies")
 
@@ -122,7 +108,7 @@ minetest.register_tool("fireflies:bug_net", {
 			end
 		end
 		if not minetest.is_creative_enabled(player_name) then
-			itemstack:add_wear(256)
+			itemstack:add_wear_by_uses(256)
 			return itemstack
 		end
 	end

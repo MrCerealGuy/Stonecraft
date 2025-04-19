@@ -1,5 +1,10 @@
 {
 	"#": "https://github.com/orgs/luanti-org/teams/engine/members",
+	"stonecraft_developers": [
+		"Andreas Zahnleiter (MrCerealGuy) <mrcerealguy@gmx.de>",
+		"Web: https://mrcerealguy.itch.io/stonecraft",
+		"Github: https://github.com/MrCerealGuy/Stonecraft"
+	],
 	"core_developers": [
 		"Perttu Ahola (celeron55) <celeron55@gmail.com> [Project founder]",
 		"sfan5 <sfan5@live.de>",

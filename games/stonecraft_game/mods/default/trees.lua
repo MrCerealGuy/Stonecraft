@@ -26,6 +26,10 @@ function default.can_grow(pos)
 	return true
 end
 
+function default.on_grow_failed(pos)
+	minetest.get_node_timer(pos):start(300)
+end
+
 
 -- 'is snow nearby' function
 
@@ -34,84 +38,6 @@ local function is_snow_nearby(pos)
 end
 
 
--- Grow sapling
-
-function default.grow_sapling(pos)
-	if not default.can_grow(pos) then
-		-- try again 5 min later
-		minetest.get_node_timer(pos):start(300)
-		return
-	end
-
-	local mg_name = minetest.get_mapgen_setting("mg_name")
-	local node = minetest.get_node(pos)
-	if node.name == "default:sapling" then
-		minetest.log("action", "A sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		if mg_name == "v6" then
-			default.grow_tree(pos, random(1, 4) == 1)
-		else
-			default.grow_new_apple_tree(pos)
-		end
-	elseif node.name == "default:junglesapling" then
-		minetest.log("action", "A jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		if mg_name == "v6" then
-			default.grow_jungle_tree(pos)
-		else
-			default.grow_new_jungle_tree(pos)
-		end
-	elseif node.name == "default:pine_sapling" then
-		minetest.log("action", "A pine sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		local snow = is_snow_nearby(pos)
-		if mg_name == "v6" then
-			default.grow_pine_tree(pos, snow)
-		elseif snow then
-			default.grow_new_snowy_pine_tree(pos)
-		else
-			default.grow_new_pine_tree(pos)
-		end
-	elseif node.name == "default:acacia_sapling" then
-		minetest.log("action", "An acacia sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		default.grow_new_acacia_tree(pos)
-	elseif node.name == "default:aspen_sapling" then
-		minetest.log("action", "An aspen sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		default.grow_new_aspen_tree(pos)
-	elseif node.name == "default:bush_sapling" then
-		minetest.log("action", "A bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		default.grow_bush(pos)
-	elseif node.name == "default:blueberry_bush_sapling" then
-		minetest.log("action", "A blueberry bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		default.grow_blueberry_bush(pos)
-	elseif node.name == "default:acacia_bush_sapling" then
-		minetest.log("action", "An acacia bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		default.grow_acacia_bush(pos)
-	elseif node.name == "default:pine_bush_sapling" then
-		minetest.log("action", "A pine bush sapling grows into a bush at "..
-			minetest.pos_to_string(pos))
-		default.grow_pine_bush(pos)
-	elseif node.name == "default:emergent_jungle_sapling" then
-		minetest.log("action", "An emergent jungle sapling grows into a tree at "..
-			minetest.pos_to_string(pos))
-		default.grow_new_emergent_jungle_tree(pos)
-	end
-end
-
-minetest.register_lbm({
-	name = "default:convert_saplings_to_node_timer",
-	nodenames = {"default:sapling", "default:junglesapling",
-			"default:pine_sapling", "default:acacia_sapling",
-			"default:aspen_sapling"},
-	action = function(pos)
-		minetest.get_node_timer(pos):start(math.random(300, 1500))
-	end
-})
 
 --
 -- Tree generation
@@ -119,7 +45,7 @@ minetest.register_lbm({
 
 -- Apple tree and jungle tree trunk and leaves function
 
-local function add_trunk_and_leaves(vm, data, a, pos, tree_cid, leaves_cid,
+local function add_trunk_and_leaves(data, a, pos, tree_cid, leaves_cid,
 		height, size, iters, is_apple_tree)
 	local x, y, z = pos.x, pos.y, pos.z
 	local c_air = minetest.get_content_id("air")
@@ -127,12 +53,12 @@ local function add_trunk_and_leaves(vm, data, a, pos, tree_cid, leaves_cid,
 	local c_apple = minetest.get_content_id("default:apple")
 
 	-- Trunk
-	vm:set_data_from_heap(data, a:index(x, y, z), tree_cid) -- Force-place lowest trunk node to replace sapling
+	data[a:index(x, y, z)] = tree_cid -- Force-place lowest trunk node to replace sapling
 	for yy = y + 1, y + height - 1 do
 		local vi = a:index(x, yy, z)
-		local node_id = vm:get_data_from_heap(data, vi)
+		local node_id = data[vi]
 		if node_id == c_air or node_id == c_ignore or node_id == leaves_cid then
-			vm:set_data_from_heap(data, vi, tree_cid)
+			data[vi] = tree_cid
 		end
 	end
 
@@ -141,11 +67,11 @@ local function add_trunk_and_leaves(vm, data, a, pos, tree_cid, leaves_cid,
 	for y_dist = -size, 1 do
 		local vi = a:index(x - 1, y + height + y_dist, z + z_dist)
 		for x_dist = -1, 1 do
-			if vm:get_data_from_heap(data, vi) == c_air or vm:get_data_from_heap(data, vi) == c_ignore then
+			if data[vi] == c_air or data[vi] == c_ignore then
 				if is_apple_tree and random(1, 8) == 1 then
-					vm:set_data_from_heap(data, vi, c_apple)
+					data[vi] = c_apple
 				else
-					vm:set_data_from_heap(data, vi, leaves_cid)
+					data[vi] = leaves_cid
 				end
 			end
 			vi = vi + 1
@@ -163,11 +89,11 @@ local function add_trunk_and_leaves(vm, data, a, pos, tree_cid, leaves_cid,
 		for yi = 0, 1 do
 		for zi = 0, 1 do
 			local vi = a:index(clust_x + xi, clust_y + yi, clust_z + zi)
-			if vm:get_data_from_heap(data, i) == c_air or vm:get_data_from_heap(data, vi) == c_ignore then
+			if data[vi] == c_air or data[vi] == c_ignore then
 				if is_apple_tree and random(1, 8) == 1 then
-					vm:set_data_from_heap(data, vi, c_apple)
+					data[vi] = c_apple
 				else
-					vm:set_data_from_heap(data, vi, leaves_cid)
+					data[vi] = leaves_cid
 				end
 			end
 		end
@@ -200,15 +126,14 @@ function default.grow_tree(pos, is_apple_tree, bad)
 		{x = x + 2, y = y + height + 1, z = z + 2}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data()
 
-	add_trunk_and_leaves(vm, data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
+	add_trunk_and_leaves(data, a, pos, c_tree, c_leaves, height, 2, 8, is_apple_tree)
 
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
 end
-
 
 -- Jungle tree
 
@@ -235,9 +160,9 @@ function default.grow_jungle_tree(pos, bad)
 		{x = x + 3, y = y + height + 1, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data()
 
-	add_trunk_and_leaves(vm, data, a, pos, c_jungletree, c_jungleleaves,
+	add_trunk_and_leaves(data, a, pos, c_jungletree, c_jungleleaves,
 		height, 3, 30, false)
 
 	-- Roots
@@ -246,10 +171,10 @@ function default.grow_jungle_tree(pos, bad)
 		local vi_2 = a:index(x - 1, y, z + z_dist)
 		for x_dist = -1, 1 do
 			if random(1, 3) >= 2 then
-				if vm:get_data_from_heap(data, vi_1) == c_air or vm:get_data_from_heap(data, vi_1) == c_ignore then
-					vm:set_data_from_heap(data, vi_1, c_jungletree)
-				elseif vm:get_data_from_heap(data, vi_2) == c_air or vm:get_data_from_heap(data, vi_2) == c_ignore then
-					vm:set_data_from_heap(data, vi_2, c_jungletree)
+				if data[vi_1] == c_air or data[vi_1] == c_ignore then
+					data[vi_1] = c_jungletree
+				elseif data[vi_2] == c_air or data[vi_2] == c_ignore then
+					data[vi_2] = c_jungletree
 				end
 			end
 			vi_1 = vi_1 + 1
@@ -257,7 +182,7 @@ function default.grow_jungle_tree(pos, bad)
 		end
 	end
 
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
 end
@@ -265,17 +190,17 @@ end
 
 -- Pine tree from mg mapgen mod, design by sfan5, pointy top added by paramat
 
-local function add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow, c_pine_needles)
-	local node_id = vm:get_data_from_heap(data, vi)
+local function add_pine_needles(data, vi, c_air, c_ignore, c_snow, c_pine_needles)
+	local node_id = data[vi]
 	if node_id == c_air or node_id == c_ignore or node_id == c_snow then
-		vm:set_data_from_heap(data, vi, c_pine_needles)
+		data[vi] = c_pine_needles
 	end
 end
 
-local function add_snow(vm, data, vi, c_air, c_ignore, c_snow)
-	local node_id = vm:get_data_from_heap(data, vi)
+local function add_snow(data, vi, c_air, c_ignore, c_snow)
+	local node_id = data[vi]
 	if node_id == c_air or node_id == c_ignore then
-		vm:set_data_from_heap(data, vi, c_snow)
+		data[vi] = c_snow
 	end
 end
 
@@ -295,7 +220,7 @@ function default.grow_pine_tree(pos, snow)
 		{x = x + 3, y = maxy + 3, z = z + 3}
 	)
 	local a = VoxelArea:new({MinEdge = minp, MaxEdge = maxp})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data()
 
 	-- Upper branches layer
 	local dev = 3
@@ -305,10 +230,10 @@ function default.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
+					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
 						c_pine_needles)
 					if snow then
-						add_snow(vm, data, via, c_air, c_ignore, c_snow)
+						add_snow(data, via, c_air, c_ignore, c_snow)
 					end
 				end
 				vi  = vi + 1
@@ -319,12 +244,12 @@ function default.grow_pine_tree(pos, snow)
 	end
 
 	-- Centre top nodes
-	add_pine_needles(vm, data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow,
+	add_pine_needles(data, a:index(x, maxy + 1, z), c_air, c_ignore, c_snow,
 		c_pine_needles)
-	add_pine_needles(vm, data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow,
+	add_pine_needles(data, a:index(x, maxy + 2, z), c_air, c_ignore, c_snow,
 		c_pine_needles) -- Paramat added a pointy top node
 	if snow then
-		add_snow(vm, data, a:index(x, maxy + 3, z), c_air, c_ignore, c_snow)
+		add_snow(data, a:index(x, maxy + 3, z), c_air, c_ignore, c_snow)
 	end
 
 	-- Lower branches layer
@@ -340,10 +265,10 @@ function default.grow_pine_tree(pos, snow)
 			local vi = a:index(xi, yy, zz)
 			local via = a:index(xi, yy + 1, zz)
 			for xx = xi, xi + 1 do
-				add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
+				add_pine_needles(data, vi, c_air, c_ignore, c_snow,
 					c_pine_needles)
 				if snow then
-					add_snow(vm, data, via, c_air, c_ignore, c_snow)
+					add_snow(data, via, c_air, c_ignore, c_snow)
 				end
 				vi  = vi + 1
 				via = via + 1
@@ -358,10 +283,10 @@ function default.grow_pine_tree(pos, snow)
 			local via = a:index(x - dev, yy + 1, zz)
 			for xx = x - dev, x + dev do
 				if random() < 0.95 - dev * 0.05 then
-					add_pine_needles(vm, data, vi, c_air, c_ignore, c_snow,
+					add_pine_needles(data, vi, c_air, c_ignore, c_snow,
 						c_pine_needles)
 					if snow then
-						add_snow(vm, data, via, c_air, c_ignore, c_snow)
+						add_snow(data, via, c_air, c_ignore, c_snow)
 					end
 				end
 				vi  = vi + 1
@@ -373,17 +298,17 @@ function default.grow_pine_tree(pos, snow)
 
 	-- Trunk
 	-- Force-place lowest trunk node to replace sapling
-	vm:set_data_from_heap(data, a:index(x, y, z), c_pine_tree)
+	data[a:index(x, y, z)] = c_pine_tree
 	for yy = y + 1, maxy do
 		local vi = a:index(x, yy, z)
-		local node_id = vm:get_data_from_heap(data, vi)
+		local node_id = data[vi]
 		if node_id == c_air or node_id == c_ignore or
 				node_id == c_pine_needles or node_id == c_snow then
-			vm:set_data_from_heap(data, vi, c_pine_tree)
+			data[vi] = c_pine_tree
 		end
 	end
 
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	vm:write_to_map()
 	vm:update_map()
 end
@@ -572,8 +497,7 @@ function default.sapling_on_place(itemstack, placer, pointed_thing,
 		return itemstack
 	end
 
-	minetest.log("action", player_name .. " places node "
-			.. sapling_name .. " at " .. minetest.pos_to_string(pos))
+	default.log_player_action(placer, "places node", sapling_name, "at", pos)
 
 	local take_item = not minetest.is_creative_enabled(player_name)
 	local newnode = {name = sapling_name}
@@ -605,3 +529,78 @@ function default.sapling_on_place(itemstack, placer, pointed_thing,
 
 	return itemstack
 end
+
+-- Grow sapling
+
+default.sapling_growth_defs = {}
+
+function default.register_sapling_growth(name, def)
+	default.sapling_growth_defs[name] = {
+		can_grow = def.can_grow or default.can_grow,
+		on_grow_failed = def.on_grow_failed or default.on_grow_failed,
+		grow = assert(def.grow)
+	}
+end
+
+function default.grow_sapling(pos)
+	local node = minetest.get_node(pos)
+	local sapling_def = default.sapling_growth_defs[node.name]
+
+	if not sapling_def then
+		minetest.log("warning", "default.grow_sapling called on undefined sapling " .. node.name)
+		return
+	end
+
+	if not sapling_def.can_grow(pos) then
+		sapling_def.on_grow_failed(pos)
+		return
+	end
+
+	minetest.log("action", "Growing sapling " .. node.name .. " at " .. minetest.pos_to_string(pos))
+	sapling_def.grow(pos)
+end
+
+local function register_sapling_growth(nodename, grow)
+	default.register_sapling_growth("default:" .. nodename, {grow = grow})
+end
+
+if minetest.get_mapgen_setting("mg_name") == "v6" then
+	register_sapling_growth("sapling", function(pos)
+		default.grow_tree(pos, random(1, 4) == 1)
+	end)
+	register_sapling_growth("junglesapling", default.grow_jungle_tree)
+	register_sapling_growth("pine_sapling", function(pos)
+		local snow = is_snow_nearby(pos)
+		default.grow_pine_tree(pos, snow)
+	end)
+else
+	register_sapling_growth("sapling", default.grow_new_apple_tree)
+	register_sapling_growth("junglesapling", default.grow_new_jungle_tree)
+	register_sapling_growth("pine_sapling", function(pos)
+		local snow = is_snow_nearby(pos)
+		if snow then
+			default.grow_new_snowy_pine_tree(pos)
+		else
+			default.grow_new_pine_tree(pos)
+		end
+	end)
+end
+
+register_sapling_growth("acacia_sapling", default.grow_new_acacia_tree)
+register_sapling_growth("aspen_sapling", default.grow_new_aspen_tree)
+register_sapling_growth("bush_sapling", default.grow_bush)
+register_sapling_growth("blueberry_bush_sapling", default.grow_blueberry_bush)
+register_sapling_growth("acacia_bush_sapling", default.grow_acacia_bush)
+register_sapling_growth("pine_bush_sapling", default.grow_pine_bush)
+register_sapling_growth("emergent_jungle_sapling", default.grow_new_emergent_jungle_tree)
+
+-- Backwards compatibility for saplings that used to use ABMs; does not need to include newer saplings.
+minetest.register_lbm({
+	name = "default:convert_saplings_to_node_timer",
+	nodenames = {"default:sapling", "default:junglesapling",
+			"default:pine_sapling", "default:acacia_sapling",
+			"default:aspen_sapling"},
+	action = function(pos)
+		minetest.get_node_timer(pos):start(math.random(300, 1500))
+	end
+})

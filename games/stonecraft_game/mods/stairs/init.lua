@@ -32,7 +32,13 @@ local function rotate_and_place(itemstack, placer, pointed_thing)
 	if placer then
 		local placer_pos = placer:get_pos()
 		if placer_pos then
-			param2 = minetest.dir_to_facedir(vector.subtract(p1, placer_pos))
+			local diff = vector.subtract(p1, placer_pos)
+			param2 = minetest.dir_to_facedir(diff)
+			-- The player places a node on the side face of the node he is standing on
+			if p0.y == p1.y and math.abs(diff.x) <= 0.5 and math.abs(diff.z) <= 0.5 and diff.y < 0 then
+				-- reverse node direction
+				param2 = (param2 + 2) % 4
+			end
 		end
 
 		local finepos = minetest.pointed_thing_to_face_pos(placer, pointed_thing)
@@ -57,35 +63,28 @@ local function warn_if_exists(nodename)
 	end
 end
 
+-- Set backface culling and world-aligned textures
+local function set_textures(images, worldaligntex)
+	local stair_images = {}
+	for i, image in ipairs(images) do
+		stair_images[i] = type(image) == "string" and {name = image} or table.copy(image)
+		if stair_images[i].backface_culling == nil then
+			stair_images[i].backface_culling = true
+		end
+		if worldaligntex and stair_images[i].align_style == nil then
+			stair_images[i].align_style = "world"
+		end
+	end
+	return stair_images
+end
 
 -- Register stair
 -- Node will be called stairs:stair_<subname>
 
 function stairs.register_stair(subname, recipeitem, groups, images, description,
 		sounds, worldaligntex)
-	local src_def = minetest.registered_nodes[recipeitem]
-
-	-- Set backface culling and world-aligned textures
-	local stair_images = {}
-	for i, image in ipairs(images) do
-		if type(image) == "string" then
-			stair_images[i] = {
-				name = image,
-				backface_culling = true,
-			}
-			if worldaligntex then
-				stair_images[i].align_style = "world"
-			end
-		else
-			stair_images[i] = table.copy(image)
-			if stair_images[i].backface_culling == nil then
-				stair_images[i].backface_culling = true
-			end
-			if worldaligntex and stair_images[i].align_style == nil then
-				stair_images[i].align_style = "world"
-			end
-		end
-	end
+	local def = minetest.registered_nodes[recipeitem] or {}
+	local stair_images = set_textures(images, worldaligntex)
 	local new_groups = table.copy(groups)
 	new_groups.stair = 1
 	warn_if_exists("stairs:stair_" .. subname)
@@ -93,12 +92,14 @@ function stairs.register_stair(subname, recipeitem, groups, images, description,
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
-		use_texture_alpha = src_def and src_def.use_texture_alpha,
+		use_texture_alpha = def.use_texture_alpha,
+		sunlight_propagates = def.sunlight_propagates,
+		light_source = def.light_source,
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		groups = new_groups,
-		sounds = sounds,
+		sounds = sounds or def.sounds,
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -165,25 +166,8 @@ end
 
 function stairs.register_slab(subname, recipeitem, groups, images, description,
 		sounds, worldaligntex)
-	local src_def = minetest.registered_nodes[recipeitem]
-
-	-- Set world-aligned textures
-	local slab_images = {}
-	for i, image in ipairs(images) do
-		if type(image) == "string" then
-			slab_images[i] = {
-				name = image,
-			}
-			if worldaligntex then
-				slab_images[i].align_style = "world"
-			end
-		else
-			slab_images[i] = table.copy(image)
-			if worldaligntex and image.align_style == nil then
-				slab_images[i].align_style = "world"
-			end
-		end
-	end
+	local def = minetest.registered_nodes[recipeitem] or {}
+	local slab_images = set_textures(images, worldaligntex)
 	local new_groups = table.copy(groups)
 	new_groups.slab = 1
 	warn_if_exists("stairs:slab_" .. subname)
@@ -191,12 +175,14 @@ function stairs.register_slab(subname, recipeitem, groups, images, description,
 		description = description,
 		drawtype = "nodebox",
 		tiles = slab_images,
-		use_texture_alpha = src_def and src_def.use_texture_alpha,
+		use_texture_alpha = def.use_texture_alpha,
+		sunlight_propagates = def.sunlight_propagates,
+		light_source = def.light_source,
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		groups = new_groups,
-		sounds = sounds,
+		sounds = sounds or def.sounds,
 		node_box = {
 			type = "fixed",
 			fixed = {-0.5, -0.5, -0.5, 0.5, 0, 0.5},
@@ -303,29 +289,8 @@ end
 
 function stairs.register_stair_inner(subname, recipeitem, groups, images,
 		description, sounds, worldaligntex, full_description)
-	local src_def = minetest.registered_nodes[recipeitem]
-
-	-- Set backface culling and world-aligned textures
-	local stair_images = {}
-	for i, image in ipairs(images) do
-		if type(image) == "string" then
-			stair_images[i] = {
-				name = image,
-				backface_culling = true,
-			}
-			if worldaligntex then
-				stair_images[i].align_style = "world"
-			end
-		else
-			stair_images[i] = table.copy(image)
-			if stair_images[i].backface_culling == nil then
-				stair_images[i].backface_culling = true
-			end
-			if worldaligntex and stair_images[i].align_style == nil then
-				stair_images[i].align_style = "world"
-			end
-		end
-	end
+	local def = minetest.registered_nodes[recipeitem] or {}
+	local stair_images = set_textures(images, worldaligntex)
 	local new_groups = table.copy(groups)
 	new_groups.stair = 1
 	if full_description then
@@ -338,12 +303,14 @@ function stairs.register_stair_inner(subname, recipeitem, groups, images,
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
-		use_texture_alpha = src_def and src_def.use_texture_alpha,
+		use_texture_alpha = def.use_texture_alpha,
+		sunlight_propagates = def.sunlight_propagates,
+		light_source = def.light_source,
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		groups = new_groups,
-		sounds = sounds,
+		sounds = sounds or def.sounds,
 		node_box = {
 			type = "fixed",
 			fixed = {
@@ -393,29 +360,8 @@ end
 
 function stairs.register_stair_outer(subname, recipeitem, groups, images,
 		description, sounds, worldaligntex, full_description)
-	local src_def = minetest.registered_nodes[recipeitem]
-
-	-- Set backface culling and world-aligned textures
-	local stair_images = {}
-	for i, image in ipairs(images) do
-		if type(image) == "string" then
-			stair_images[i] = {
-				name = image,
-				backface_culling = true,
-			}
-			if worldaligntex then
-				stair_images[i].align_style = "world"
-			end
-		else
-			stair_images[i] = table.copy(image)
-			if stair_images[i].backface_culling == nil then
-				stair_images[i].backface_culling = true
-			end
-			if worldaligntex and stair_images[i].align_style == nil then
-				stair_images[i].align_style = "world"
-			end
-		end
-	end
+	local def = minetest.registered_nodes[recipeitem] or {}
+	local stair_images = set_textures(images, worldaligntex)
 	local new_groups = table.copy(groups)
 	new_groups.stair = 1
 	if full_description then
@@ -428,12 +374,14 @@ function stairs.register_stair_outer(subname, recipeitem, groups, images,
 		description = description,
 		drawtype = "nodebox",
 		tiles = stair_images,
-		use_texture_alpha = src_def and src_def.use_texture_alpha,
+		use_texture_alpha = def.use_texture_alpha,
+		sunlight_propagates = def.sunlight_propagates,
+		light_source = def.light_source,
 		paramtype = "light",
 		paramtype2 = "facedir",
 		is_ground_content = false,
 		groups = new_groups,
-		sounds = sounds,
+		sounds = sounds or def.sounds,
 		node_box = {
 			type = "fixed",
 			fixed = {
