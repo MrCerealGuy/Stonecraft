@@ -1,15 +1,15 @@
 -- support for i18n
 local S = minetest.get_translator(minetest.get_current_modname())
 local F = minetest.formspec_escape
-local has_technic = minetest.get_modpath("technic") ~= nil and not core.skip_mod("technic")
-local ui = unified_inventory
+local has_technic = minetest.get_modpath("technic") ~= nil
 
 if not minetest.global_exists("unified_inventory") then
-	minetest.log("warning", S("3d_armor_ui: Mod loaded but unused."))
+	minetest.log("warning", "3d_armor_ui: Mod loaded but unused.")
 	return
 end
 
-if unified_inventory.sfinv_compat_layer then
+local ui = unified_inventory
+if ui.sfinv_compat_layer then
 	return
 end
 
@@ -23,7 +23,7 @@ end)
 unified_inventory.register_button("armor", {
 	type = "image",
 	image = "inventory_plus_armor.png",
-	tooltip = S("3d Armor")
+	tooltip = S("3D Armor")
 })
 
 unified_inventory.register_page("armor", {
@@ -33,9 +33,6 @@ unified_inventory.register_page("armor", {
 		local gridy = 0.6
 
 		local name = player:get_player_name()
-		if armor.def[name].init_time == 0 then
-			return {formspec="label[0,0;"..F(S("Armor not initialized!")).."]"}
-		end
 		local formspec = perplayer_formspec.standard_inv_bg..
 			perplayer_formspec.standard_inv..
 			ui.make_inv_img_grid(gridx, gridy, 2, 3)..
@@ -49,7 +46,7 @@ unified_inventory.register_page("armor", {
 			"listring[current_player;main]"..
 			"listring[detached:"..name.."_armor;armor]"
 		if armor.config.fire_protect then
-			formspec = formspec.."label[5.0,"..(fy + 1.0)..";"..
+			formspec = formspec.."label[6.0,"..(fy + 1.0)..";"..
 				F(S("Fire"))..":  "..armor.def[name].fire.."]"
 		end
 		if has_technic then

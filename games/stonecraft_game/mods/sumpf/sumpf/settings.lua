@@ -1,13 +1,3 @@
---[[
-
-2016-05-04 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	increased mapgen_rarity
-
-2017-09-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	added advanced mod control
-
---]]
-
 local default_settings = {
 	enable_mapgen = true,
 	always_generate = false,
@@ -37,13 +27,3 @@ for name,dv in pairs(default_settings) do
 		sumpf[name] = setting
 	end
 end
-
---Generate swamps everywhere
-if core.get_mod_setting("swamp_biome_always_generate") ~= "false" then default_settings.always_generate = true else default_settings.always_generate = false end
-
---Enables smooth transition of biomes.
-if core.get_mod_setting("swamp_biome_smooth") ~= "false" then default_settings.smooth = true else default_settings.smooth = false end
-
---Enables swampwater - it might be a bit buggy with mapgen v6.
-if core.get_mod_setting("swamp_biome_swampwater") ~= "false" then default_settings.swampwater = true else default_settings.swampwater = false end
-

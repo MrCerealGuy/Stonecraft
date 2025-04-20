@@ -1,15 +1,7 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
-
 -- WALL BUTTON
 -- A button that when pressed emits power for 1 second
 -- and then turns off again
+local S = minetest.get_translator(minetest.get_current_modname())
 
 mesecon.button_turnoff = function (pos)
 	local node = minetest.get_node(pos)
@@ -22,16 +14,19 @@ mesecon.button_turnoff = function (pos)
 	mesecon.receptor_off(pos, rules)
 end
 
+local use_texture_alpha = minetest.features.use_texture_alpha_string_modes and "opaque" or nil
+
 minetest.register_node("mesecons_button:button_off", {
 	drawtype = "nodebox",
 	tiles = {
-	"jeija_wall_button_sides.png",
-	"jeija_wall_button_sides.png",
-	"jeija_wall_button_sides.png",
-	"jeija_wall_button_sides.png",
-	"jeija_wall_button_sides.png",
-	"jeija_wall_button_off.png"
+		"jeija_wall_button_sides.png",
+		"jeija_wall_button_sides.png",
+		"jeija_wall_button_sides.png",
+		"jeija_wall_button_sides.png",
+		"jeija_wall_button_sides.png",
+		"jeija_wall_button_off.png"
 	},
+	use_texture_alpha = use_texture_alpha,
 	paramtype = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -51,14 +46,14 @@ minetest.register_node("mesecons_button:button_off", {
 	}
 	},
 	groups = {dig_immediate=2, mesecon_needs_receiver = 1},
-	description = "Button",
+	description = S("Button"),
 	on_rightclick = function (pos, node)
 		minetest.swap_node(pos, {name = "mesecons_button:button_on", param2=node.param2})
 		mesecon.receptor_on(pos, mesecon.rules.buttonlike_get(node))
 		minetest.sound_play("mesecons_button_push", { pos = pos }, true)
 		minetest.get_node_timer(pos):start(1)
 	end,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {receptor = {
 		state = mesecon.state.off,
 		rules = mesecon.rules.buttonlike_get
@@ -75,7 +70,8 @@ minetest.register_node("mesecons_button:button_on", {
 		"jeija_wall_button_sides.png",
 		"jeija_wall_button_sides.png",
 		"jeija_wall_button_on.png"
-		},
+	},
+	use_texture_alpha = use_texture_alpha,
 	paramtype = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -97,8 +93,8 @@ minetest.register_node("mesecons_button:button_on", {
     },
 	groups = {dig_immediate=2, not_in_creative_inventory=1, mesecon_needs_receiver = 1},
 	drop = 'mesecons_button:button_off',
-	description = "Button",
-	sounds = default.node_sound_stone_defaults(),
+	description = S("Button"),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {receptor = {
 		state = mesecon.state.on,
 		rules = mesecon.rules.buttonlike_get
@@ -110,6 +106,6 @@ minetest.register_node("mesecons_button:button_on", {
 minetest.register_craft({
 	output = "mesecons_button:button_off 2",
 	recipe = {
-		{"group:mesecon_conductor_craftable","default:stone"},
+		{"group:mesecon_conductor_craftable","mesecons_gamecompat:stone"},
 	}
 })

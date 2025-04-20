@@ -2,48 +2,61 @@ local S = minetest.get_translator("unified_inventory")
 local F = minetest.formspec_escape
 local ui = unified_inventory
 
+local function is_recipe_craftable(recipe)
+	-- Ensure the ingedients exist
+	for _, itemname in pairs(recipe.items) do
+		local groups = string.find(itemname, "group:")
+		if groups then
+			if not ui.get_group_item(string.sub(groups, 8)).item then
+				return false
+			end
+		else
+			-- Possibly an item
+			local itemname_cleaned = ItemStack(itemname):get_name()
+			if not minetest.registered_items[itemname_cleaned]
+					or minetest.get_item_group(itemname_cleaned, "not_in_craft_guide") ~= 0 then
+				return false
+			end
+		end
+	end
+	return true
+end
+
 -- Create detached creative inventory after loading all mods
 minetest.after(0.01, function()
 	local rev_aliases = {}
-	for source, target in pairs(minetest.registered_aliases) do
-		if not rev_aliases[target] then rev_aliases[target] = {} end
-		table.insert(rev_aliases[target], source)
+	for original, newname in pairs(minetest.registered_aliases) do
+		if not rev_aliases[newname] then
+			rev_aliases[newname] = {}
+		end
+		table.insert(rev_aliases[newname], original)
 	end
+
+	-- Filtered item list
 	ui.items_list = {}
 	for name, def in pairs(minetest.registered_items) do
-		if (not def.groups.not_in_creative_inventory or
-		   def.groups.not_in_creative_inventory == 0) and
-		   def.description and def.description ~= "" then
+		if ui.is_itemdef_listable(def) then
 			table.insert(ui.items_list, name)
+
+			-- Alias processing: Find recipes that belong to the current item name
 			local all_names = rev_aliases[name] or {}
 			table.insert(all_names, name)
-			for _, player_name in ipairs(all_names) do
-				local recipes = minetest.get_all_craft_recipes(player_name)
-				if recipes then
-					for _, recipe in ipairs(recipes) do
-
-						local unknowns
-
-						for _,chk in pairs(recipe.items) do
-							local groupchk = string.find(chk, "group:")
-							if (not groupchk and not minetest.registered_items[chk])
-							  or (groupchk and not ui.get_group_item(string.gsub(chk, "group:", "")).item)
-							  or minetest.get_item_group(chk, "not_in_craft_guide") ~= 0 then
-								unknowns = true
-							end
-						end
-
-						if not unknowns then
-							ui.register_craft(recipe)
-						end
+			for _, itemname in ipairs(all_names) do
+				local recipes = minetest.get_all_craft_recipes(itemname)
+				for _, recipe in ipairs(recipes or {}) do
+					if is_recipe_craftable(recipe) then
+						ui.register_craft(recipe)
 					end
 				end
 			end
 		end
 	end
+
 	table.sort(ui.items_list)
 	ui.items_list_size = #ui.items_list
-	print("Unified Inventory. inventory size: "..ui.items_list_size)
+	print("Unified Inventory. Inventory size: "..ui.items_list_size)
+
+	-- Analyse dropped items -> custom "digging" recipes
 	for _, name in ipairs(ui.items_list) do
 		local def = minetest.registered_items[name]
 		-- Simple drops
@@ -133,29 +146,82 @@ minetest.after(0.01, function()
 			end
 		end
 	end
-	for _, recipes in pairs(ui.crafts_for.recipe) do
+
+	-- Step 1: Initialize cache for looking up groups
+	unified_inventory.init_matching_cache()
+
+	-- Step 2: Find all matching items for the given spec (groups)
+	local get_matching_spec_items = unified_inventory.get_matching_items
+
+	for outputitemname, recipes in pairs(ui.crafts_for.recipe) do
+		-- List of crafts that return this item string (variable "_")
+
+		-- Problem: The group cache must be initialized after all mods finished loading
+		-- thus, invalid recipes might be indexed. Hence perform filtering with `new_recipe_list`
+		local new_recipe_list = {}
 		for _, recipe in ipairs(recipes) do
 			local ingredient_items = {}
 			for _, spec in pairs(recipe.items) do
-				local matches_spec = ui.canonical_item_spec_matcher(spec)
-				for _, name in ipairs(ui.items_list) do
-					if matches_spec(name) then
-						ingredient_items[name] = true
-					end
+				-- Get items that fit into this spec (group or item name)
+				local specname = ItemStack(spec):get_name()
+				for item_name, _ in pairs(get_matching_spec_items(specname)) do
+					ingredient_items[item_name] = true
 				end
 			end
 			for name, _ in pairs(ingredient_items) do
-				if ui.crafts_for.usage[name] == nil then
+				if not ui.crafts_for.usage[name] then
 					ui.crafts_for.usage[name] = {}
 				end
 				table.insert(ui.crafts_for.usage[name], recipe)
 			end
+
+			if next(ingredient_items) then
+				-- There's at least one known ingredient: mark as good recipe
+				-- PS: What whatll be done about partially incomplete recipes?
+				table.insert(new_recipe_list, recipe)
+			end
 		end
+		ui.crafts_for.recipe[outputitemname] = new_recipe_list
+	end
+
+	-- Remove unknown items from all categories
+	local total_removed = 0
+	for cat_name, cat_def in pairs(ui.registered_category_items) do
+		for itemname, _ in pairs(cat_def) do
+			local idef = minetest.registered_items[itemname]
+			if not idef then
+				total_removed = total_removed + 1
+				--[[
+				-- For analysis
+				minetest.log("warning", "[unified_inventory] Removed item '"
+					.. itemname .. "' from category '" .. cat_name
+					.. "'. Reason: item not registered")
+				]]
+				cat_def[itemname] = nil
+			elseif not ui.is_itemdef_listable(idef) then
+				total_removed = total_removed + 1
+				--[[
+				-- For analysis
+				minetest.log("warning", "[unified_inventory] Removed item '"
+					.. itemname .. "' from category '" .. cat_name
+					.. "'. Reason: item is in 'not_in_creative_inventory' group")
+				]]
+				cat_def[itemname] = nil
+			end
+		end
+	end
+	if total_removed > 0 then
+		minetest.log("info", "[unified_inventory] Removed " .. total_removed ..
+			" items from the categories.")
+	end
+
+	for _, callback in ipairs(ui.initialized_callbacks) do
+		callback()
 	end
 end)
 
+---------------- Home API ----------------
 
--- load_home
 local function load_home()
 	local input = io.open(ui.home_filename, "r")
 	if not input then
@@ -172,13 +238,20 @@ local function load_home()
 	end
 	io.close(input)
 end
+
 load_home()
 
 function ui.set_home(player, pos)
 	local player_name = player:get_player_name()
 	ui.home_pos[player_name] = vector.round(pos)
+
 	-- save the home data from the table to the file
 	local output = io.open(ui.home_filename, "w")
+	if not output then
+		minetest.log("warning", "[unified_inventory] Failed to save file: "
+			.. ui.home_filename)
+		return
+	end
 	for k, v in pairs(ui.home_pos) do
 		output:write(v.x.." "..v.y.." "..v.z.." "..k.."\n")
 	end
@@ -194,7 +267,8 @@ function ui.go_home(player)
 	return false
 end
 
--- register_craft
+---------------- Crafting API ----------------
+
 function ui.register_craft(options)
 	if not options.output then
 		return
@@ -206,19 +280,22 @@ function ui.register_craft(options)
 	if options.type == "normal" and options.width == 0 then
 		options = { type = "shapeless", items = options.items, output = options.output, width = 0 }
 	end
-	if not ui.crafts_for.recipe[itemstack:get_name()] then
-		ui.crafts_for.recipe[itemstack:get_name()] = {}
+	local item_name = itemstack:get_name()
+	if not ui.crafts_for.recipe[item_name] then
+		ui.crafts_for.recipe[item_name] = {}
 	end
-	table.insert(ui.crafts_for.recipe[itemstack:get_name()],options)
-end
+	table.insert(ui.crafts_for.recipe[item_name],options)
 
+	for _, callback in ipairs(ui.craft_registered_callbacks) do
+		callback(item_name, options)
+	end
+end
 
 local craft_type_defaults = {
 	width = 3,
 	height = 3,
 	uses_crafting_grid = false,
 }
-
 
 function ui.craft_type_defaults(name, options)
 	if not options.description then
@@ -230,8 +307,7 @@ end
 
 
 function ui.register_craft_type(name, options)
-	ui.registered_craft_types[name] =
-			ui.craft_type_defaults(name, options)
+	ui.registered_craft_types[name] = ui.craft_type_defaults(name, options)
 end
 
 
@@ -288,6 +364,8 @@ ui.register_craft_type("digging_chance", {
 	height = 1,
 })
 
+---------------- GUI registrations ----------------
+
 function ui.register_page(name, def)
 	ui.pages[name] = def
 end
@@ -303,10 +381,44 @@ function ui.register_button(name, def)
 	table.insert(ui.buttons, def)
 end
 
+---------------- Callback registrations ----------------
+
+function ui.register_on_initialized(callback)
+	if type(callback) ~= "function" then
+		error(("Initialized callback must be a function, %s given."):format(type(callback)))
+	end
+	table.insert(ui.initialized_callbacks, callback)
+end
+
+function ui.register_on_craft_registered(callback)
+	if type(callback) ~= "function" then
+		error(("Craft registered callback must be a function, %s given."):format(type(callback)))
+	end
+	table.insert(ui.craft_registered_callbacks, callback)
+end
+
+---------------- List getters ----------------
+
+function ui.get_recipe_list(output)
+	return ui.crafts_for.recipe[output]
+end
+
+function ui.get_registered_outputs()
+	local outputs = {}
+	for item_name, _ in pairs(ui.crafts_for.recipe) do
+		table.insert(outputs, item_name)
+	end
+	return outputs
+end
+
+---------------- Player utilities ----------------
+
 function ui.is_creative(playername)
 	return minetest.check_player_privs(playername, {creative=true})
 		or minetest.settings:get_bool("creative_mode")
 end
+
+---------------- Formspec helpers ----------------
 
 function ui.single_slot(xpos, ypos, bright)
 	return string.format("background9[%f,%f;%f,%f;ui_single_slot%s.png;false;16]",

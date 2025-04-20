@@ -116,7 +116,7 @@ minetest.register_node("nssb:vine", {
 	description = "Vine",
 	drawtype = "signlike",
 	tiles = {"climbing_plant.png"},
-	inventory_image = "vine.png",
+	inventory_image = {"vine.png"},
 	walkable = false,
 	climbable = true,
 	paramtype = "light",
@@ -130,7 +130,7 @@ minetest.register_node("nssb:vine", {
 minetest.register_node("nssb:liana", {
 	description = "Liana",
 	drawtype = "plantlike",
-	inventory_image = "liana.png",
+	inventory_image = {"liana.png"},
 	tiles = {"liana.png"},
 	paramtype = "light",
 	walkable = false,
@@ -342,10 +342,6 @@ lumin) --luminosity parameter of the egg_block
 	interval = int,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local pos1 = {x=pos.x+math.random(-wide,wide), y=pos.y+0.5, z=pos.z+math.random(-wide,wide)}
 		local n = minetest.env:get_node(pos1).name
 		if n ~= "air" and n ~= "default:water_source" then
@@ -410,10 +406,6 @@ lumin) --luminosity parameter of the egg_block
 	interval = int,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local pos1 = {x=pos.x+math.random(-wide,wide), y=pos.y+0.5, z=pos.z+math.random(-wide,wide)}
 		local n = minetest.env:get_node(pos1).name
 		if n ~= "air" and n ~= "default:water_source" then
@@ -459,10 +451,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 		local n = minetest.env:get_node(pos1).name
 		if n ~= "air" then
@@ -784,10 +772,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-		
 		minetest.remove_node(pos)
 		minetest.add_entity(pos, "nssm:morvalar")
 	end

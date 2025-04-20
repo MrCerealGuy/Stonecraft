@@ -1,12 +1,3 @@
---[[
-
-2017-09-21 replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
-
-
-
 -- NODES
 
 -- Pine Needles

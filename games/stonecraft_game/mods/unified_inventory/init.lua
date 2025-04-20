@@ -1,4 +1,10 @@
--- Unified Inventory for Minetest >= 0.4.16
+-- Unified Inventory
+
+if not minetest.features.formspec_version_element then
+	-- At least formspec_version[] is the minimal feature requirement
+	error("Unified Inventory requires Minetest version 5.4.0 or newer.\n" ..
+		" Please update Minetest or use an older version of Unified Inventory.")
+end
 
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 local worldpath = minetest.get_worldpath()
@@ -24,6 +30,8 @@ unified_inventory = {
 	filtered_items_list = {},
 	pages = {},
 	buttons = {},
+	initialized_callbacks = {},
+	craft_registered_callbacks = {},
 
 	-- Homepos stuff
 	home_pos = {},
@@ -42,8 +50,12 @@ unified_inventory = {
 	trash_enabled = (minetest.settings:get_bool("unified_inventory_trash") ~= false),
 	imgscale = 1.25,
 	list_img_offset = 0.13,
-	standard_background = "background9[0,0;1,1;ui_formbg_9_sliced.png;true;16]",
-	version = 2
+	standard_background = "bgcolor[#0000]background9[0,0;1,1;ui_formbg_9_sliced.png;true;16]",
+
+	hide_disabled_buttons = minetest.settings:get_bool("unified_inventory_hide_disabled_buttons", false),
+	hide_uncraftable_items = minetest.settings:get_bool("unified_inventory_hide_uncraftable_items", false),
+
+	version = 5
 }
 
 local ui = unified_inventory
@@ -56,10 +68,16 @@ ui.style_full = {
 	formspec_y = 1,
 	formw = 17.75,
 	formh = 12.25,
+	-- Item browser size, pos
 	pagecols = 8,
 	pagerows = 9,
 	page_x = 10.75,
 	page_y = 2.30,
+	-- Item browser controls
+	page_buttons_x = 11.60,
+	page_buttons_y = 10.15,
+	searchwidth = 3.4,
+	-- Crafting grid positions
 	craft_x = 2.8,
 	craft_y = 1.15,
 	craftresult_x = 7.8,
@@ -71,13 +89,15 @@ ui.style_full = {
 	craft_guide_resultstr_x = 0.3,
 	craft_guide_resultstr_y = 0.6,
 	give_btn_x = 0.25,
+	-- Tab switching buttons
 	main_button_x = 0.4,
 	main_button_y = 11.0,
-	page_buttons_x = 11.60,
-	page_buttons_y = 10.15,
-	searchwidth = 3.4,
+	main_button_cols = 12,
+	main_button_rows = 1,
+	-- Tab title position
 	form_header_x = 0.4,
 	form_header_y = 0.4,
+	-- Generic sizes
 	btn_spc = 0.85,
 	btn_size = 0.75,
 	std_inv_x = 0.3,
@@ -89,10 +109,16 @@ ui.style_lite = {
 	formspec_y =  0.6,
 	formw = 14,
 	formh = 9.75,
+	-- Item browser size, pos
 	pagecols = 4,
 	pagerows = 5,
 	page_x = 10.5,
 	page_y = 2.15,
+	-- Item browser controls
+	page_buttons_x = 10.5,
+	page_buttons_y = 6.15,
+	searchwidth = 1.6,
+	-- Crafting grid positions
 	craft_x = 2.6,
 	craft_y = 0.75,
 	craftresult_x = 5.75,
@@ -104,13 +130,15 @@ ui.style_lite = {
 	craft_guide_resultstr_x = 0.15,
 	craft_guide_resultstr_y = 0.35,
 	give_btn_x = 0.15,
+	-- Tab switching buttons
 	main_button_x = 10.5,
 	main_button_y = 8.15,
-	page_buttons_x = 10.5,
-	page_buttons_y = 6.15,
-	searchwidth = 1.6,
+	main_button_cols = 4,
+	main_button_rows = 2,
+	-- Tab title position
 	form_header_x =  0.2,
 	form_header_y =  0.2,
+	-- Generic sizes
 	btn_spc = 0.8,
 	btn_size = 0.7,
 	std_inv_x = 0.1,
@@ -164,9 +192,10 @@ dofile(modpath.."/register.lua")
 if minetest.settings:get_bool("unified_inventory_bags") ~= false then
 	dofile(modpath.."/bags.lua")
 end
-
-dofile(modpath.."/item_names.lua")
-
-if minetest.get_modpath("datastorage") then
+if minetest.settings:get_bool("unified_inventory_item_names") ~= false then
+	dofile(modpath.."/item_names.lua")
+end
+if minetest.settings:get_bool("unified_inventory_waypoints") ~= false then
 	dofile(modpath.."/waypoints.lua")
 end
+dofile(modpath.."/legacy.lua") -- mod compatibility

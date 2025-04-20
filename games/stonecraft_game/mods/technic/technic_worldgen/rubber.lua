@@ -77,10 +77,6 @@ minetest.register_abm({
 	interval = 60,
 	chance = 20,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-		
 		minetest.remove_node(pos)
 		minetest.spawn_tree(pos, technic.rubber_tree_model)
 	end

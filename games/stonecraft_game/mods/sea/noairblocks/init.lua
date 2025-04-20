@@ -1,12 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("seaplants") then return end
-
 -- NODES
 
 minetest.register_node("noairblocks:water_flowingx", {
@@ -88,10 +79,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local xn = {x = pos.x - 1, y = pos.y, z = pos.z}
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	local xnyp= {x = pos.x - 1, y = pos.y + 1, z = pos.z}
@@ -114,10 +101,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local xp = {x = pos.x + 1, y = pos.y, z = pos.z}
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	local xpyp= {x = pos.x + 1, y = pos.y + 1, z = pos.z}
@@ -140,10 +123,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local zn = {x = pos.x, y = pos.y, z = pos.z - 1}
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	local znyp= {x = pos.x, y = pos.y + 1, z = pos.z - 1}
@@ -166,10 +145,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local zp = {x = pos.x, y = pos.y, z = pos.z + 1}
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	local zpyp= {x = pos.x, y = pos.y + 1, z = pos.z + 1}
@@ -192,10 +167,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	if minetest.get_node(yp).name == "default:water_source" then 
 			minetest.add_node(yp, {name = "noairblocks:water_sourcex"}) else
@@ -212,10 +183,6 @@ nodenames = {"group:sea"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
 	local yn = {x = pos.x, y = pos.y - 1, z = pos.z}
 	local yp= {x = pos.x, y = pos.y + 1, z = pos.z}
 	if minetest.get_node(yn).name == "default:water_source" and
@@ -239,12 +206,8 @@ nodenames = {"noairblocks:water_sourcex"},
 interval = 1,
 chance = 1,
 action = function(pos, node, active_object_count, active_object_count_wider)
-	if not abm_allowed.yes then
-   		return
-	end
-
-	local pos0 = {x=pos.x-1,y=pos.y-1,z=pos.z-1}
-	local pos1 = {x=pos.x+1,y=pos.y+1,z=pos.z+1}
+local pos0 = {x=pos.x-1,y=pos.y-1,z=pos.z-1}
+local pos1 = {x=pos.x+1,y=pos.y+1,z=pos.z+1}
 	if #minetest.find_nodes_in_area(pos0, pos1, "group:sea") < 1 then
 	minetest.add_node(pos, {name = "default:water_source"}) else
 	return

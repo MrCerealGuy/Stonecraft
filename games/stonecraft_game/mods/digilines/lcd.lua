@@ -1,3 +1,6 @@
+local S = digilines.S
+local FS = digilines.FS
+
 --* parts are currently not possible because you cannot set the pitch of an entity from lua
 
 -- Font: 04.jp.org
@@ -174,14 +177,17 @@ local lcds = {
 	-- on ground
 	--* [1] = {delta = {x = 0, y =-0.4, z = 0}, pitch = math.pi /  2},
 	-- sides
-	[2] = {delta = {x =  0.437, y = 0, z = 0}, yaw = math.pi / -2},
-	[3] = {delta = {x = -0.437, y = 0, z = 0}, yaw = math.pi /  2},
-	[4] = {delta = {x = 0, y = 0, z =  0.437}, yaw = 0},
-	[5] = {delta = {x = 0, y = 0, z = -0.437}, yaw = math.pi},
+
+	-- Note: 0.437 is on the surface but we need some space to avoid
+	--       z-fighting in distant places (e.g. 30000,10,0)
+	[2] = {delta = {x =  0.43, y = 0, z = 0}, yaw = math.pi / -2},
+	[3] = {delta = {x = -0.43, y = 0, z = 0}, yaw = math.pi /  2},
+	[4] = {delta = {x = 0, y = 0, z =  0.43}, yaw = 0},
+	[5] = {delta = {x = 0, y = 0, z = -0.43}, yaw = math.pi},
 }
 
 local reset_meta = function(pos)
-	minetest.get_meta(pos):set_string("formspec", "field[channel;Channel;${channel}]")
+	minetest.get_meta(pos):set_string("formspec", "field[channel;"..FS("Channel")..";${channel}]")
 end
 
 local clearscreen = function(pos)
@@ -254,6 +260,8 @@ local on_digiline_receive = function(pos, _, channel, msg)
 	local setchan = meta:get_string("channel")
 	if setchan ~= channel then return end
 
+	if type(msg) ~= "string" and type(msg) ~= "number" then return end
+
 	meta:set_string("text", msg)
 	meta:set_string("infotext", msg)
 
@@ -270,7 +278,7 @@ local lcd_box = {
 minetest.register_alias("digilines_lcd:lcd", "digilines:lcd")
 minetest.register_node("digilines:lcd", {
 	drawtype = "nodebox",
-	description = "Digiline LCD",
+	description = S("Digiline LCD"),
 	inventory_image = "lcd_lcd.png",
 	wield_image = "lcd_lcd.png",
 	tiles = {"lcd_anyside.png"},
@@ -281,6 +289,9 @@ minetest.register_node("digilines:lcd", {
 	node_box = lcd_box,
 	selection_box = lcd_box,
 	groups = {choppy = 3, dig_immediate = 2},
+	is_ground_content = false,
+	_mcl_blast_resistance = 1,
+	_mcl_hardness = 0.8,
 	after_place_node = function(pos)
 		local param2 = minetest.get_node(pos).param2
 		if param2 == 0 or param2 == 1 then
@@ -305,7 +316,6 @@ minetest.register_node("digilines:lcd", {
 	on_receive_fields = function(pos, _, fields, sender)
 		local name = sender:get_player_name()
 		if minetest.is_protected(pos, name) and not minetest.check_player_privs(name, {protection_bypass=true}) then
-			minetest.record_protection_violation(pos, name)
 			return
 		end
 		if (fields.channel) then
@@ -329,20 +339,29 @@ minetest.register_lbm({
 })
 
 minetest.register_entity(":digilines_lcd:text", {
-	collisionbox = { 0, 0, 0, 0, 0, 0 },
-	visual = "upright_sprite",
-	textures = {},
+	initial_properties = {
+		collisionbox = { 0, 0, 0, 0, 0, 0 },
+		visual = "upright_sprite",
+		textures = {},
+	},
 	on_activate = set_texture,
 })
+
+local steel_ingot = "default:steel_ingot"
+local glass = "default:glass"
+local lightstone = "mesecons_lightstone:lightstone_green_off"
+
+if digilines.mcl then
+	steel_ingot = "mcl_core:iron_ingot"
+	glass = "mcl_core:glass"
+	lightstone = "mesecons_lightstone:lightstone_off"
+end
 
 minetest.register_craft({
 	output = "digilines:lcd 2",
 	recipe = {
-		{"default:steel_ingot", "digilines:wire_std_00000000", "default:steel_ingot"},
-		{"mesecons_lightstone:lightstone_green_off",
-		"mesecons_lightstone:lightstone_green_off",
-		"mesecons_lightstone:lightstone_green_off"},
-
-		{"default:glass","default:glass","default:glass"}
+		{steel_ingot, "digilines:wire_std_00000000", steel_ingot},
+		{lightstone, lightstone, lightstone},
+		{glass, glass, glass}
 	}
 })

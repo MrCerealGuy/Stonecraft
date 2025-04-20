@@ -1,10 +1,3 @@
---[[
-
-2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
 local img = {"eye", "men", "sun"}
 
 for i=1,3 do
@@ -25,8 +18,7 @@ trap_on_timer = function (pos, elapsed)
 			if n and n.name then
 				if minetest.registered_nodes[n.name].crack and minetest.registered_nodes[n.name].crack < 2 then
 					minetest.set_node(pos, {name="pyramids:trap_2"})
-					--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
-					minetest.check_for_falling(pos)
+					nodeupdate(pos)
 				end
 			end
 		end
@@ -49,7 +41,7 @@ minetest.register_node("pyramids:trap", {
 })
 
 minetest.register_node("pyramids:trap_2", {
-	description = "Trapstone",
+	description = "trapstone",
 	tiles = {"default_sandstone_brick.png^pyramids_crack.png^[transformR90"},
 	is_ground_content = true,
 	groups = {crumbly=2,cracky=3,falling_node=1,not_in_creative_inventory=1},

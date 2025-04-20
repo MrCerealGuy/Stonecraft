@@ -4,20 +4,6 @@
 -- Depends default
 -- License: code WTFPL
 
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2017-05-02 Added Voxmanip heap api functions
-
-2017-10-10 register_on_generated: added call collectgarbage()
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
-if core.skip_mod("caverealms") then return end
 
 caverealms = {} --create a container for functions and constants
 

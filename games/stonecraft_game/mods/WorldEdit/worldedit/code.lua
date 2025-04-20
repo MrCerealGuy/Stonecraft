@@ -2,17 +2,29 @@
 -- @module worldedit.code
 
 --- Executes `code` as a Lua chunk in the global namespace.
--- @return An error message if the code fails, or nil on success.
-function worldedit.lua(code)
-	local func, err = loadstring(code)
-	if not func then  -- Syntax error
+-- the code will be encapsulated into a function with parameters
+--  * name (the name of the player issuing the //lua command)
+--  * player (the player object of the player)
+--  * pos (the position of the player rounded to integers)
+-- @return string in case of error, tuple of nil, return of code as string in case of success
+function worldedit.lua(code, name)
+	local factory, err = loadstring("return function(name, player, pos)\n" .. code .. "\nend")
+	if not factory then -- Syntax error
 		return err
 	end
-	local good, err = pcall(func)
-	if not good then  -- Runtime error
-		return err
+	local func = factory()
+	local player, pos
+	if name then
+		player = minetest.get_player_by_name(name)
+		if player then
+			pos = vector.round(player:get_pos())
+		end
 	end
-	return nil
+	local good, err = pcall(func, name, player, pos)
+	if not good then -- Runtime error
+		return tostring(err)
+	end
+	return nil, dump(err)
 end
 
 
@@ -31,7 +43,7 @@ function worldedit.luatransform(pos1, pos2, code)
 
 	worldedit.keep_loaded(pos1, pos2)
 
-	local pos = {x=pos1.x, y=0, z=0}
+	local pos = vector.new(pos1.x, 0, 0)
 	while pos.x <= pos2.x do
 		pos.y = pos1.y
 		while pos.y <= pos2.y do
@@ -39,7 +51,7 @@ function worldedit.luatransform(pos1, pos2, code)
 			while pos.z <= pos2.z do
 				local good, err = pcall(func, pos)
 				if not good then -- Runtime error
-					return err
+					return tostring(err)
 				end
 				pos.z = pos.z + 1
 			end

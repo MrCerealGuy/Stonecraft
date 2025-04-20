@@ -31,7 +31,7 @@ end
 wikilib.name_to_filename = name_to_filename
 
 local function get_page_path(name, player) --> path, is_file, allow_save
-
+	local path
 	local allow_save = minetest.check_player_privs(player, {wiki=true})
 
 	if name:sub(1, 1) == "." then

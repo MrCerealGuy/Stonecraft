@@ -359,7 +359,7 @@ local cottages_handmill_formspec = "size[8,8]"..
                                 "list[current_player;main;0,4;8,4;]";
 
 minetest.register_node("cottages:handmill", {
-	description = S("Mill, powered by punching"),
+	description = S("mill, powered by punching"),
 	drawtype = "mesh",
 	mesh = "cottages_handmill.obj",
 	tiles = {"cottages_stone.png"},

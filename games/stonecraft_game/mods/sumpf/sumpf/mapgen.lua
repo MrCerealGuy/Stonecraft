@@ -101,7 +101,7 @@ local function define_contents()
 		end
 
 		--tests if swampwater is allowed to generate at this position
-		function water_allowed(vm, data, area, x, y, z)
+		function water_allowed(data, area, x, y, z)
 			local vi = area:index(x, y, z) + 1
 			local offsets = {
 				-2,
@@ -110,7 +110,7 @@ local function define_contents()
 				0
 			}
 			for i = 1,4 do
-				local id = vm:get_data_from_heap(data, vi)
+				local id = data[vi]
 				if id ~= c.dirtywater
 				and not hard_node(id) then
 					return false
@@ -177,13 +177,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	local data = vm:load_data_into_heap()
+	vm:get_data(data)
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
 	for vi in area:iterp(minp, maxp) do	--remove tree stuff
-		if vm:get_data_from_heap(data, vi) ~= c.air
-		and c.TREE_STUFF[vm:get_data_from_heap(data, vi)] then
-			vm:set_data_from_heap(data, vi, c.air)
+		if data[vi] ~= c.air
+		and c.TREE_STUFF[data[vi]] then
+			data[vi] = c.air
 		end
 	end
 
@@ -242,7 +242,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local ytop = math.min(heightmap[hmi]+20, maxp.y)
 				local vi = area:index(x, ytop, z)
 				for y = ytop,ymin,-1 do
-					if vm:get_data_from_heap(data, vi) ~= c.air then
+					if data[vi] ~= c.air then
 						ground = y
 						break
 					end
@@ -252,9 +252,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local ground_y
 				if ground then
 					for y = ground,ymin,-1 do
-						local id = vm:get_data_from_heap(data, vi)
+						local id = data[vi]
 						if c.USUAL_STUFF[id] then --remove usual stuff
-							vm:set_data_from_heap(data, vi, c.air)
+							data[vi] = c.air
 						elseif is_ground(id) then --else search ground_y
 							ground_y = y
 							break
@@ -272,7 +272,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						hut.y = hut.y + 1
 					end
 
-					if vm:get_data_from_heap(data, vi) == c.water then	--Dreckseen:
+					if data[vi] == c.water then	--Dreckseen:
 						local h
 						if smooth then
 							h = pr:next(4, 5)
@@ -287,31 +287,31 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							for _ = 0, math.min(pr:next(16, 20),
 								ground_y - minp.y + 16
 							) do
-								if vm:get_data_from_heap(data, vi) == c.water then
-									vm:set_data_from_heap(data, vi, c.dirtywater)
+								if data[vi] == c.water then
+									data[vi] = c.dirtywater
 								else
-									vm:set_data_from_heap(data, vi, c.peat)
+									data[vi] = c.peat
 								end
 								vi = vi - area.ystride
 							end
 						end
 					else
 						local p_boden = vi + area.ystride
-						local d_p_boden = vm:get_data_from_heap(data, p_boden)
+						local d_p_boden = data[p_boden]
 						local plant_allowed = plants_enabled
 						if swampwater
 						and ground_y ~= 1
 						and d_p_boden == c.air
 						and pr:next(1,2) == 2
-						and water_allowed(vm, data, area, x, ground_y, z) then
+						and water_allowed(data, area, x, ground_y, z) then
 							plant_allowed = false --disable plants on swampwater
 							for _ = 0, math.min(pr:next(1, 9) + 10,
 								ground_y - minp.y + 16
 							) do
-								if vm:get_data_from_heap(data, vi) == c.air then
+								if data[vi] == c.air then
 									break
 								end
-								vm:set_data_from_heap(data, vi, c.dirtywater)
+								data[vi] = c.dirtywater
 								vi = vi - area.ystride
 							end
 						else
@@ -322,30 +322,30 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							and pr:next(1,3) == 1 then
 								-- disable plants on swampwater
 								plant_allowed = false
-								vm:set_data_from_heap(data, vi, c.dirtywater)
+								data[vi] = c.dirtywater
 								if pr:next(1,3) == 1 then
-									vm:set_data_from_heap(data, p_uground, c.dirtywater)
+									data[p_uground] = c.dirtywater
 								else
-									vm:set_data_from_heap(data, p_uground, c.peat)
+									data[p_uground] = c.peat
 								end
-								vm:set_data_from_heap(data, p_uground - area.ystride, c.peat)
+								data[p_uground - area.ystride] = c.peat
 							else --Sumpfboden:
-								vm:set_data_from_heap(data, vi, c.sumpfg)
-								vm:set_data_from_heap(data, p_uground, c.sumpfg)
-								vm:set_data_from_heap(data, p_uground - area.ystride, c.sumpf2)
+								data[vi] = c.sumpfg
+								data[p_uground] = c.sumpfg
+								data[p_uground - area.ystride] = c.sumpf2
 							end
 							vi = vi - 3 * area.ystride
 							for _ = 0,math.min(27, ground_y-minp.y+13) do
-								local id = vm:get_data_from_heap(data, vi)
+								local id = data[vi]
 								if id == c.air then
 									break
 								end
 								if id == c.coal then
-									vm:set_data_from_heap(data, vi, c.sumpfcoal)
+									data[vi] = c.sumpfcoal
 								elseif id == c.iron then
-									vm:set_data_from_heap(data, vi, c.sumpfiron)
+									data[vi] = c.sumpfiron
 								else
-									vm:set_data_from_heap(data, vi, c.sumpfstone)
+									data[vi] = c.sumpfstone
 								end
 								vi = vi - area.ystride
 							end
@@ -360,15 +360,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 								tab[num] = {2, {x=x, y=ground_y+1, z=z}}
 								num = num+1
 							elseif pr:next(1,50) == 1 then
-								vm:set_data_from_heap(data, p_boden, c.brown_shroom)
+								data[p_boden] = c.brown_shroom
 							elseif pr:next(1,100) == 1 then
-								vm:set_data_from_heap(data, p_boden, c.red_shroom)
+								data[p_boden] = c.red_shroom
 							elseif pr:next(1,200) == 1 then
-								vm:set_data_from_heap(data, p_boden, c.fly_agaric)
+								data[p_boden] = c.fly_agaric
 							elseif pr:next(1,4) == 1 then
-								vm:set_data_from_heap(data, p_boden, c.sumpfgrass)
+								data[p_boden] = c.sumpfgrass
 							elseif pr:next(1,6) == 1 then
-								vm:set_data_from_heap(data, p_boden, c.junglegrass)
+								data[p_boden] = c.junglegrass
 							end
 						end
 					end
@@ -385,10 +385,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		local t2 = minetest.get_us_time()
 		for _,v in pairs(tab) do
 			if v[1] == 1 then
-				param2s = param2s or vm:load_param2_data_into_heap()
-				sumpf.generate_birch(vm, v[2], area, data, pr, param2s)
+				param2s = param2s or vm:get_param2_data()
+				sumpf.generate_birch(v[2], area, data, pr, param2s)
 			else
-				sumpf.generate_jungletree(vm, v[2], area, data, pr, maxp.y)
+				sumpf.generate_jungletree(v[2], area, data, pr, maxp.y)
 			end
 		end
 		sumpf.inform("trees made", 2, t2)
@@ -397,15 +397,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	if hut
 	and hut.y then
 		local t2 = minetest.get_us_time()
-		sumpf.generate_hut(vm, {x=hut.x, y=hut.y, z=hut.z}, area, data, hut.rmin,
+		sumpf.generate_hut({x=hut.x, y=hut.y, z=hut.z}, area, data, hut.rmin,
 			hut.rmax, hut.ruin)
 		sumpf.inform("hut made", 2, t2)
 	end
 
 	local t2 = minetest.get_us_time()
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	if param2s then
-		vm:save_param2_data_from_heap(param2s)
+		vm:set_param2_data(param2s)
 	end
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()

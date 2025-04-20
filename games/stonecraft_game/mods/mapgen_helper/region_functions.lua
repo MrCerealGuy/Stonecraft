@@ -4,7 +4,7 @@ local mapgen_chunksize = tonumber(minetest.get_mapgen_setting("chunksize"))
 -- For some reason, map chunks generate with -32, -32, -32 as the "origin" minp. To make the large-scale grid align with map chunks it needs to be offset like this.
 mapgen_helper.get_region_minp_xz = function(pos_xz, mapblocks)
 	local region_size = mapblocks * mapgen_chunksize * 16
-	return {x = math.floor((pos.x+32) / region_size) * region_size - 32, y = 0, z = math.floor((pos.z+32) / region_size) * region_size - 32}
+	return {x = math.floor((pos_xz.x+32) / region_size) * region_size - 32, y = 0, z = math.floor((pos_xz.z+32) / region_size) * region_size - 32}
 end
 
 -- Given a position and a region scale, returns the minp corners of the four regions that the player is closest to.

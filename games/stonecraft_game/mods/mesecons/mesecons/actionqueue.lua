@@ -29,7 +29,7 @@ local queue = mesecon.queue
 queue.actions = {} -- contains all ActionQueue actions
 
 function queue:add_function(name, func)
-	queue.funcs[name] = func
+	self.funcs[name] = func
 end
 
 -- If add_action with twice the same overwritecheck and same position are called, the first one is overwritten
@@ -51,17 +51,17 @@ function queue:add_action(pos, func, params, time, overwritecheck, priority)
 
 	 -- check if old action has to be overwritten / removed:
 	if overwritecheck then
-		for i, ac in ipairs(queue.actions) do
+		for i, ac in ipairs(self.actions) do
 			if vector.equals(pos, ac.pos)
 					and mesecon.cmpAny(overwritecheck, ac.owcheck) then
 				-- remove the old action
-				table.remove(queue.actions, i)
+				table.remove(self.actions, i)
 				break
 			end
 		end
 	end
 
-	table.insert(queue.actions, action)
+	table.insert(self.actions, action)
 end
 
 -- execute the stored functions on a globalstep
@@ -70,7 +70,17 @@ end
 -- However, even that does not work in some cases, that's why we delay the time the globalsteps
 -- start to be execute by 4 seconds
 
+local m_time = 0
+local resumetime = mesecon.setting("resumetime", 4)
+
 local function globalstep_func(dtime)
+	-- don't even try if server has not been running for XY seconds; resumetime = time to wait
+	-- after starting the server before processing the ActionQueue, don't set this too low
+	if m_time < resumetime then
+		m_time = m_time + dtime
+		return
+	end
+
 	local actions = queue.actions
 	-- split into two categories:
 	-- actions_now: actions to execute now
@@ -112,29 +122,13 @@ local function globalstep_func(dtime)
 	end
 end
 
--- delay the time the globalsteps start to be execute by 4 seconds
-do
-	local m_time = 0
-	local resumetime = mesecon.setting("resumetime", 4)
-	local globalstep_func_index = #minetest.registered_globalsteps + 1
-
-	minetest.register_globalstep(function(dtime)
-		m_time = m_time + dtime
-		-- don't even try if server has not been running for XY seconds; resumetime = time to wait
-		-- after starting the server before processing the ActionQueue, don't set this too low
-		if m_time < resumetime then
-			return
-		end
-		-- replace this globalstep function
-		minetest.registered_globalsteps[globalstep_func_index] = globalstep_func
-	end)
-end
+minetest.register_globalstep(globalstep_func)
 
 function queue:execute(action)
 	-- ignore if action queue function name doesn't exist,
 	-- (e.g. in case the action queue savegame was written by an old mesecons version)
-	if queue.funcs[action.func] then
-		queue.funcs[action.func](action.pos, unpack(action.params))
+	if self.funcs[action.func] then
+		self.funcs[action.func](action.pos, unpack(action.params))
 	end
 end
 

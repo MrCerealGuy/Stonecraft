@@ -66,7 +66,7 @@ function worldedit.serialize(pos1, pos2)
 		has_meta[hash_node_position(meta_positions[i])] = true
 	end
 
-	local pos = {x=pos1.x, y=0, z=0}
+	local pos = vector.new(pos1.x, 0, 0)
 	local count = 0
 	local result = {}
 	while pos.x <= pos2.x do
@@ -114,12 +114,15 @@ function worldedit.serialize(pos1, pos2)
 	return LATEST_SERIALIZATION_HEADER .. result, count
 end
 
--- Contains code based on [table.save/table.load](http://lua-users.org/wiki/SaveTableToFile)
--- by ChillCode, available under the MIT license.
 local function deserialize_workaround(content)
-	local nodes
-	if not jit then
-		nodes = minetest.deserialize(content, true)
+	local nodes, err
+	if not minetest.global_exists("jit") then
+		nodes, err = minetest.deserialize(content, true)
+	elseif not content:match("^%s*return%s*{") then
+		-- The data doesn't look like we expect it to so we can't apply the workaround.
+		-- hope for the best
+		minetest.log("warning", "WorldEdit: deserializing data but can't apply LuaJIT workaround")
+		nodes, err = minetest.deserialize(content, true)
 	else
 		-- XXX: This is a filthy hack that works surprisingly well
 		-- in LuaJIT, `minetest.deserialize` will fail due to the register limit
@@ -129,18 +132,27 @@ local function deserialize_workaround(content)
 		local escaped = content:gsub("\\\\", "@@"):gsub("\\\"", "@@"):gsub("(\"[^\"]*\")", function(s) return string.rep("@", #s) end)
 		local startpos, startpos1 = 1, 1
 		local endpos
+		local entry
 		while true do -- go through each individual node entry (except the last)
-			startpos, endpos = escaped:find("},%s*{", startpos)
+			startpos, endpos = escaped:find("}%s*,%s*{", startpos)
 			if not startpos then
 				break
 			end
 			local current = content:sub(startpos1, startpos)
-			local entry = minetest.deserialize("return " .. current, true)
+			entry, err = minetest.deserialize("return " .. current, true)
+			if not entry then
+				break
+			end
 			table.insert(nodes, entry)
 			startpos, startpos1 = endpos, endpos
 		end
-		local entry = minetest.deserialize("return " .. content:sub(startpos1), true) -- process the last entry
-		table.insert(nodes, entry)
+		if not err then
+			entry = minetest.deserialize("return " .. content:sub(startpos1), true) -- process the last entry
+			table.insert(nodes, entry)
+		end
+	end
+	if err then
+		minetest.log("warning", "WorldEdit: deserialize: " .. err)
 	end
 	return nodes
 end
@@ -148,7 +160,7 @@ end
 --- Loads the schematic in `value` into a node list in the latest format.
 -- @return A node list in the latest format, or nil on failure.
 local function load_schematic(value)
-	local version, header, content = worldedit.read_header(value)
+	local version, _, content = worldedit.read_header(value)
 	local nodes = {}
 	if version == 1 or version == 2 then -- Original flat table format
 		local tables = minetest.deserialize(content, true)
@@ -223,9 +235,7 @@ function worldedit.allocate_with_nodes(origin_pos, nodes)
 		if y > pos2y then pos2y = y end
 		if z > pos2z then pos2z = z end
 	end
-	local pos1 = {x=pos1x, y=pos1y, z=pos1z}
-	local pos2 = {x=pos2x, y=pos2y, z=pos2z}
-	return pos1, pos2, #nodes
+	return vector.new(pos1x, pos1y, pos1z), vector.new(pos2x, pos2y, pos2z), #nodes
 end
 
 
@@ -240,14 +250,16 @@ function worldedit.deserialize(origin_pos, value)
 	worldedit.keep_loaded(pos1, pos2)
 
 	local origin_x, origin_y, origin_z = origin_pos.x, origin_pos.y, origin_pos.z
-	local count = 0
 	local add_node, get_meta = minetest.add_node, minetest.get_meta
+	local registered_nodes = minetest.registered_nodes
 	for i, entry in ipairs(nodes) do
-		entry.x, entry.y, entry.z = origin_x + entry.x, origin_y + entry.y, origin_z + entry.z
-		-- Entry acts as both position and node
-		add_node(entry, entry)
-		if entry.meta then
-			get_meta(entry):from_table(entry.meta)
+		if registered_nodes[entry.name] then
+			entry.x, entry.y, entry.z = origin_x + entry.x, origin_y + entry.y, origin_z + entry.z
+			-- Entry acts as both position and node
+			add_node(entry, entry)
+			if entry.meta then
+				get_meta(entry):from_table(entry.meta)
+			end
 		end
 	end
 	return #nodes

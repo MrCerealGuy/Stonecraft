@@ -152,7 +152,7 @@ local sulfur_noise
 minetest.register_on_generated(function(minp, maxp)
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local a = VoxelArea:new({MinEdge=emin, MaxEdge=emax})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data(sulfur_buf)
 	local pr = PseudoRandom(17 * minp.x + 42 * minp.y + 101 * minp.z)
 	sulfur_noise = sulfur_noise or minetest.get_perlin(9876, 3, 0.5, 100)
 
@@ -165,7 +165,7 @@ minetest.register_on_generated(function(minp, maxp)
 	for x = minp.x + math.floor(grid_size / 2), maxp.x, grid_size do
 	for y = minp.y + math.floor(grid_size / 2), maxp.y, grid_size do
 	for z = minp.z + math.floor(grid_size / 2), maxp.z, grid_size do
-		local c = vm:get_data_from_heap(data, a:index(x, y, z))
+		local c = data[a:index(x, y, z)]
 		if (c == c_lava or c == c_lava_flowing)
 		and sulfur_noise:get3d({x = x, y = z, z = z}) >= 0.4 then
 			for i in a:iter(
@@ -176,8 +176,8 @@ minetest.register_on_generated(function(minp, maxp)
 				math.min(maxp.y, y + grid_size),
 				math.min(maxp.z, z + grid_size)
 			) do
-				if vm:get_data_from_heap(data, i) == c_stone and pr:next(1, 10) <= 7 then
-					vm:set_data_from_heap(data, i, c_sulfur)
+				if data[i] == c_stone and pr:next(1, 10) <= 7 then
+					data[i] = c_sulfur
 				end
 			end
 		end
@@ -185,8 +185,8 @@ minetest.register_on_generated(function(minp, maxp)
 	end
 	end
 
-	vm:save_data_from_heap(data)
-	vm:write_to_map(true)
+	vm:set_data(data)
+	vm:write_to_map(data)
 end)
 
 

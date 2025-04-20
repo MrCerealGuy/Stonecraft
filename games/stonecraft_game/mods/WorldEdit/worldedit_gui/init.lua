@@ -4,10 +4,10 @@ worldedit = worldedit or {}
 Example:
 
     worldedit.register_gui_function("worldedit_gui_hollow_cylinder", {
-    	name = "Make Hollow Cylinder",
-    	privs = {worldedit=true},
-    	get_formspec = function(name) return "some formspec here" end,
-    	on_select = function(name) print(name .. " clicked the button!") end,
+		name = "Make Hollow Cylinder",
+		privs = {worldedit=true},
+		get_formspec = function(name) return "some formspec here" end,
+		on_select = function(name) print(name .. " clicked the button!") end,
     })
 
 Use `nil` for the `options` parameter to unregister the function associated with the given identifier.
@@ -35,14 +35,14 @@ end
 Example:
 
     worldedit.register_gui_handler("worldedit_gui_hollow_cylinder", function(name, fields)
-    	print(minetest.serialize(fields))
+		print(minetest.serialize(fields))
     end)
 ]]
 
 worldedit.register_gui_handler = function(identifier, handler)
 	local enabled = true
 	minetest.register_on_player_receive_fields(function(player, formname, fields)
-		if not enabled then return false end
+		if not enabled or formname ~= "" or fields.worldedit_gui then return false end
 		enabled = false
 		minetest.after(0.2, function() enabled = true end)
 		local name = player:get_player_name()
@@ -80,6 +80,7 @@ if minetest.global_exists("unified_inventory") then -- unified inventory install
 	unified_inventory.register_button("worldedit_gui", {
 		type = "image",
 		image = "inventory_plus_worldedit_gui.png",
+		tooltip = "Edit your World!",
 		condition = function(player)
 			return minetest.check_player_privs(player:get_player_name(), {worldedit=true})
 		end,
@@ -193,7 +194,8 @@ elseif minetest.global_exists("sfinv") then -- sfinv installed
 		get = function(self, player, context)
 			local can_worldedit = minetest.check_player_privs(player, {worldedit=true})
 			local fs = orig_get(self, player, context)
-			return fs .. (can_worldedit and "image_button[0,0;1,1;inventory_plus_worldedit_gui.png;worldedit_gui;]" or "")
+			return fs .. (can_worldedit and "image_button[0,0;1,1;inventory_plus_worldedit_gui.png;worldedit_gui;]" ..
+				"tooltip[worldedit_gui;Edit your World!]" or "")
 		end
 	})
 
@@ -216,7 +218,7 @@ elseif minetest.global_exists("sfinv") then -- sfinv installed
 		end
 	end
 else
-	error(
+	return minetest.log("error",
 		"worldedit_gui requires a supported gui management mod to be installed.\n"..
 		"To use the it you need to either:\n"..
 		"* use minetest_game or another sfinv-compatible subgame\n"..
@@ -262,7 +264,7 @@ worldedit.register_gui_handler("worldedit_gui", function(name, fields)
 			--ensure player has permission to perform action
 			local has_privs, missing_privs = minetest.check_player_privs(name, entry.privs)
 			if not has_privs then
-				worldedit.player_notify(name, "you are not allowed to use this function (missing privileges: " .. table.concat(missing_privs, ", ") .. ")")
+				worldedit.player_notify(name, "you are not allowed to use this function (missing privileges: " .. table.concat(missing_privs, ", ") .. ")", "error")
 				return false
 			end
 			if entry.on_select then

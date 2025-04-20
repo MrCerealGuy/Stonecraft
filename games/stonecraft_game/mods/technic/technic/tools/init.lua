@@ -16,7 +16,7 @@ dofile(path.."/sonic_screwdriver.lua")
 dofile(path.."/prospector.lua")
 dofile(path.."/vacuum.lua")
 
-if minetest.get_modpath("screwdriver") and not core.skip_mod("technic") then
+if minetest.get_modpath("screwdriver") then
 	-- compatibility alias
 	minetest.register_alias("technic:screwdriver", "screwdriver:screwdriver")
 end

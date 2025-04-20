@@ -44,7 +44,7 @@ end
 
 -- window shutters - they cover half a node to each side
 minetest.register_node("cottages:window_shutter_open", {
-		description = S("Opened window shutters"),
+		description = S("opened window shutters"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"cottages_minimal_wood.png"},
@@ -73,7 +73,7 @@ minetest.register_node("cottages:window_shutter_open", {
 })
 
 minetest.register_node("cottages:window_shutter_closed", {
-		description = S("Closed window shutters"),
+		description = S("closed window shutters"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"cottages_minimal_wood.png"},
@@ -140,7 +140,7 @@ minetest.register_abm({
 -- a half door; can be combined to a full door where the upper part can be operated seperately; usually found in barns/stables
 ------------------------------------------------------------------------------------------------------------------------------
 minetest.register_node("cottages:half_door", {
-		description = S("Half door"),
+		description = S("half door"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"cottages_minimal_wood.png"},
@@ -181,7 +181,7 @@ minetest.register_node("cottages:half_door", {
 
 
 minetest.register_node("cottages:half_door_inverted", {
-		description = S("Half door inverted"),
+		description = S("half door inverted"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {"cottages_minimal_wood.png"},
@@ -225,7 +225,7 @@ minetest.register_node("cottages:half_door_inverted", {
 -- this gate for fences solves the "where to store the opened gate" problem by dropping it to the floor in optened state
 ------------------------------------------------------------------------------------------------------------------------------
 minetest.register_node("cottages:gate_closed", {
-		description = S("Closed fence gate"),
+		description = S("closed fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {cottages.texture_furniture},
@@ -257,7 +257,7 @@ minetest.register_node("cottages:gate_closed", {
 
 
 minetest.register_node("cottages:gate_open", {
-		description = S("Opened fence gate"),
+		description = S("opened fence gate"),
 		drawtype = "nodebox",
                 -- top, bottom, side1, side2, inner, outer
 		tiles = {cottages.texture_furniture},
@@ -357,8 +357,8 @@ end
 
 
 -- further alternate hatch materials: wood, tree, copper_block
-cottages.register_hatch( 'cottages:hatch_wood',  'Wooden hatch', 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
-cottages.register_hatch( 'cottages:hatch_steel', 'Metal hatch',  'cottages_steel_block.png',   cottages.craftitem_steel );
+cottages.register_hatch( 'cottages:hatch_wood',  'wooden hatch', 'cottages_minimal_wood.png',  cottages.craftitem_slab_wood );
+cottages.register_hatch( 'cottages:hatch_steel', 'metal hatch',  'cottages_steel_block.png',   cottages.craftitem_steel );
 
 
 

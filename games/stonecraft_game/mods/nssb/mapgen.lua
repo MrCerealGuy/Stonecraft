@@ -1,11 +1,3 @@
---[[
-
-2018-03-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replace default:stone_with_tin
-	changed nodeupdate(pos) to minetest.check_for_falling(pos)
-
---]]
-
 local moreores
 if minetest.get_modpath("moreores") then
 	moreores=true
@@ -243,7 +235,7 @@ for i=1,9 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "nssb:indistructible_morentir",
-		wherein        = {"default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin","nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick"},
+		wherein        = {"default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
@@ -291,7 +283,6 @@ replace2("default:stone_with_mese", "nssb:morelentir")
 replace2("default:stone_with_diamond", "nssb:morelentir")
 replace2("default:stone_with_gold", "nssb:morelentir")
 replace2("default:stone_with_copper", "nssb:morelentir")
-replace2("default:stone_with_tin", "nssb:morelentir")
 replace2("default:gravel", "nssb:morelentir")
 replace2("default:dirt", "nssb:morelentir")
 replace2("default:sand", "nssb:morelentir")
@@ -343,7 +334,7 @@ for i=1,32 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "air",
-		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin"},
+		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
@@ -523,7 +514,6 @@ replace4("default:stone_with_mese", "air")
 replace4("default:stone_with_diamond", "air")
 replace4("default:stone_with_gold", "air")
 replace4("default:stone_with_copper", "air")
-replace4("default:stone_with_tin", "air")
 replace4("default:gravel", "nssb:morkemen")
 replace4("default:dirt", "nssb:morkemen")
 replace4("default:sand", "nssb:morkemen")
@@ -613,7 +603,6 @@ replace5("default:stone_with_mese", "nssb:morentir")
 replace5("default:stone_with_diamond", "nssb:life_energy_ore")
 replace5("default:stone_with_gold", "nssb:life_energy_ore")
 replace5("default:stone_with_copper", "nssb:morentir")
-replace5("default:stone_with_tin", "nssb:morentir")
 replace5("default:gravel", "nssb:morkemen")
 replace5("default:dirt", "nssb:morkemen")
 replace5("default:sand", "nssb:morkemen")
@@ -652,7 +641,6 @@ replace6("default:stone_with_mese", "nssb:moranga")
 replace6("default:stone_with_diamond", "nssb:life_energy_ore")
 replace6("default:stone_with_gold", "nssb:life_energy_ore")
 replace6("default:stone_with_copper", "nssb:moranga")
-replace6("default:stone_with_tin", "nssb:moranga")
 replace6("default:gravel", "nssb:morkemen")
 replace6("default:dirt", "nssb:morkemen")
 replace6("default:sand", "nssb:morkemen")
@@ -685,7 +673,7 @@ for i=1,9 do
 	minetest.register_ore({
 		ore_type       = "scatter",
 		ore            = "nssb:indistructible_morentir",
-		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper","default:stone_with_tin"},
+		wherein        = {"nssb:ant_dirt","default:stone","default:cobble","default:stonebrick","default:mossycobble","default:desert_stone","default:desert_cobble","default:desert_stonebrick","default:sandstone","default:sandstonebrick","default:water_source","default:water_flowing","default:gravel", "default:dirt", "default:sand", "default:lava_source", "default:lava_flowing", "default:mese_block", "default:stone","air","default:stone_with_coal","default:stone_with_iron","default:stone_with_mese","default:stone_with_diamond","default:stone_with_gold","default:stone_with_copper"},
 		clust_scarcity = 1,
 		clust_num_ores = 1,
 		clust_size     = 1,
@@ -778,10 +766,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
-
 			--minetest.chat_send_all("Ciao ciao pirloni")
 			minetest.place_schematic(posarena, minetest.get_modpath("nssb").."/schems/arena51.mts", "0", {}, true)
 			minetest.place_schematic({x=posarena.x, y=-30096, z=posarena.z-9}, minetest.get_modpath("nssb").."/schems/arena52.mts", "0", {}, true)
@@ -814,9 +798,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			if pos.y < -30000 then
 				minetest.remove_node(pos)
 			end
@@ -859,9 +840,6 @@ minetest.register_abm({
 	interval = 1.0,
 	chance = 1,
 	action = function(pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			minetest.set_node({x = pos.x, y = pos.y , z = pos.z}, {name = "nssb:mornar"})
 		end
 })
@@ -873,9 +851,6 @@ minetest.register_abm({
 	chance = 100,
 	action =
 	function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
 		local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 		local n = minetest.env:get_node(pos1).name
 		if n ~= "air" then
@@ -893,12 +868,9 @@ minetest.register_abm({
 	chance = 1,
 	action =
 	function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
 		for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 7)) do
 			if obj:is_player() then
-				minetest.check_for_falling(pos)
+				nodeupdate(pos)
 			end
 		end
 	end
@@ -912,9 +884,6 @@ minetest.register_abm({
 	chance = 1,
 	action =
 	function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
 		for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 5)) do
 			if obj:is_player() then
 				explosion(pos, 3, 0, 1)
@@ -931,9 +900,6 @@ minetest.register_abm({
 	chance = 5,
 	action =
 		function (pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			minetest.add_particlespawner({
 				amount = 1,
 				time = 2,
@@ -961,9 +927,6 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			minetest.add_particlespawner({
 				amount = 3,
 				time = 1,
@@ -990,9 +953,6 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 				if obj:is_player() then
 					local pos1 = posmemory
@@ -1020,9 +980,6 @@ minetest.register_abm({
 	chance = 1,
 	action =
 		function (pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			minetest.add_particlespawner({
 				amount = 3,
 				time = 1,
@@ -1050,9 +1007,6 @@ minetest.register_abm({
 	chance = 2,
 	action =
 		function (pos, node)
-			if not abm_allowed.yes then
-   				return
-			end
 			for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
 				if obj:is_player() then
 					local pos1 = posmemory

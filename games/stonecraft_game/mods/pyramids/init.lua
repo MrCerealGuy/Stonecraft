@@ -1,12 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("pyramids") then return end
-
 pyramids = {}
 
 dofile(minetest.get_modpath("pyramids").."/mummy.lua")

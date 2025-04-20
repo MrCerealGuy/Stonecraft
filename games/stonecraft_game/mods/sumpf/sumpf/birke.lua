@@ -1,9 +1,3 @@
---[[
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
 local sumpf_birch_seed = 113
 
 local function get_random(pos)
@@ -124,45 +118,45 @@ local function soft_node(id)
 end
 
 
-local function tree_branch(manip, pos, dir, area, nodes, pr, param2s)
+local function tree_branch(pos, dir, area, nodes, pr, param2s)
 
-	local vi = area:indexp(pos)
-	manip:set_data_from_heap(nodes, vi, sumpf_c_tree)
+	local vi_pos = area:indexp(pos)
+	nodes[vi_pos] = sumpf_c_tree
 	if dir == 0 then
-		manip:set_param2_data_from_heap(param2s, vi, 4)
+		param2s[vi_pos] = 4
 	else
-		manip:set_param2_data_from_heap(param2s, vi, 12)
+		param2s[vi_pos] = 12
 	end
 
 	for i = pr:next(1,2), -pr:next(1,2), -1 do
 		for k = pr:next(1,2), -pr:next(1,2), -1 do
 			local vi = area:index(pos.x+i, pos.y, pos.z+k)
-			if soft_node(manip:get_data_from_heap(nodes, vi)) then
-				manip:set_data_from_heap(nodes, vi, sumpf_c_leaves)
+			if soft_node(nodes[vi]) then
+				nodes[vi] = sumpf_c_leaves
 			end
 			if math.abs(i + k) < 1 then
 				vi = vi + area.ystride
-				if soft_node(manip:get_data_from_heap(nodes, vi)) then
-					manip:set_data_from_heap(nodes, vi, sumpf_c_leaves)
+				if soft_node(nodes[vi]) then
+					nodes[vi] = sumpf_c_leaves
 				end
 			end
 		end
 	end
 end
 
-local function birch(manip, pos, height, area, nodes, pr, param2s)
-	local vi = area:indexp(pos)	
-	manip:set_data_from_heap(nodes, vi, sumpf_c_mossytree)
+local function birch(pos, height, area, nodes, pr, param2s)
+	local vi = area:indexp(pos)
+	nodes[vi] = sumpf_c_mossytree
 	for _ = 1, height do
 		vi = vi + area.ystride
-		manip:set_data_from_heap(nodes, vi, sumpf_c_tree)
-		manip:set_param2_data_from_heap(param2s, vi, 0)
+		nodes[vi] = sumpf_c_tree
+		param2s[vi] = 0
 	end
 
 	for i = height, 4, -1 do
 		if math.sin(i*i/height) < 0.2
 		and pr:next(0,2) < 1.5 then
-			tree_branch(manip,
+			tree_branch(
 				{x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
 				pr:next(0,1),
 			area, nodes, pr, param2s)
@@ -177,12 +171,12 @@ local function birch(manip, pos, height, area, nodes, pr, param2s)
 		{{x=pos.x, y=pos.y+height-pr:next(1,2), z=pos.z+1}, 0},
 		{{x=pos.x, y=pos.y+height-pr:next(1,2), z=pos.z-1}, 0},
 	}) do
-		tree_branch(manip, i[1], i[2], area, nodes, pr, param2s)
+		tree_branch(i[1], i[2], area, nodes, pr, param2s)
 	end
 end
 
-function sumpf.generate_birch(manip, pos, area, nodes, pr, param2s)
-	birch(manip, pos, 3+pr:next(1,2), area, nodes, pr, param2s)
+function sumpf.generate_birch(pos, area, nodes, pr, param2s)
+	birch(pos, 3+pr:next(1,2), area, nodes, pr, param2s)
 end
 
 function spawn_birch(pos)
@@ -199,14 +193,14 @@ function spawn_birch(pos)
 		{x = pos.x - vwidth, y = pos.y, z = pos.z - vwidth},
 		{x = pos.x + vwidth, y = pos.y + vheight, z = pos.z + vwidth}
 	)
-	local area = VoxelArea:new({MinEdge=emerged_pos1, MaxEdge=emerged_pos2})
-	local nodes = manip:load_data_into_heap()
-	local param2s = manip:load_param2_data_into_heap()
+	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
+	local nodes = manip:get_data()
+	local param2s = manip:get_param2_data()
 
-	birch(manip, pos, height, area, nodes, pr, param2s)
+	birch(pos, height, area, nodes, pr, param2s)
 
-	manip:save_data_from_heap(nodes)
-	manip:save_param2_data_from_heap(param2s)
+	manip:set_data(nodes)
+	manip:set_param2_data(param2s)
 	manip:write_to_map()
 	sumpf.inform("a birch grew at " .. minetest.pos_to_string(pos), 2, t1)
 end
@@ -217,9 +211,6 @@ minetest.register_abm({
 	interval = 20,
 	chance = 8,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
 		if sumpf.tree_allowed(pos, 8) then
 			spawn_birch(pos)
 		end

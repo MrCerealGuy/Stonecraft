@@ -12,14 +12,6 @@ local function set_can_wear(itemstack, level, max_level)
 	itemstack:set_wear(temp)
 end
 
-local function get_can_level(itemstack)
-	if itemstack:get_metadata() == "" then
-		return 0
-	else
-		return tonumber(itemstack:get_metadata())
-	end
-end
-
 function technic.register_can(d)
 	local data = {}
 	for k, v in pairs(d) do data[k] = v end
@@ -33,15 +25,19 @@ function technic.register_can(d)
 			if pointed_thing.type ~= "node" then return end
 			local node = minetest.get_node(pointed_thing.under)
 			if node.name ~= data.liquid_source_name then return end
-			local charge = get_can_level(itemstack)
+			local meta = technic.get_stack_meta_cans(itemstack)
+			local charge = meta:get_int("can_level")
 			if charge == data.can_capacity then return end
 			if minetest.is_protected(pointed_thing.under, user:get_player_name()) then
-				minetest.log("action", user:get_player_name().." tried to take "..node.name.." at protected position "..minetest.pos_to_string(pointed_thing.under).." with a "..data.can_name)
+				minetest.log("action", user:get_player_name()..
+					" tried to take "..node.name..
+					" at protected position "..minetest.pos_to_string(pointed_thing.under)..
+					" with a "..data.can_name)
 				return
 			end
 			minetest.remove_node(pointed_thing.under)
 			charge = charge + 1
-			itemstack:set_metadata(tostring(charge))
+			meta:set_int("can_level", charge)
 			set_can_wear(itemstack, charge, data.can_capacity)
 			return itemstack
 		end,
@@ -60,20 +56,25 @@ function technic.register_can(d)
 				-- Try to place node above the pointed source, or abort.
 				if not def.buildable_to or node_name == data.liquid_source_name then return end
 			end
-			local charge = get_can_level(itemstack)
+			local meta = technic.get_stack_meta_cans(itemstack)
+			local charge = meta:get_int("can_level")
 			if charge == 0 then return end
 			if minetest.is_protected(pos, user:get_player_name()) then
-				minetest.log("action", user:get_player_name().." tried to place "..data.liquid_source_name.." at protected position "..minetest.pos_to_string(pos).." with a "..data.can_name)
+				minetest.log("action", user:get_player_name()..
+					" tried to place "..data.liquid_source_name..
+					" at protected position "..minetest.pos_to_string(pos)..
+					" with a "..data.can_name)
 				return
 			end
 			minetest.set_node(pos, {name=data.liquid_source_name})
 			charge = charge - 1
-			itemstack:set_metadata(tostring(charge))
+			meta:set_int("can_level", charge)
 			set_can_wear(itemstack, charge, data.can_capacity)
 			return itemstack
 		end,
 		on_refill = function(stack)
-			stack:set_metadata(tostring(data.can_capacity))
+			local meta = technic.get_stack_meta_cans(stack)
+			meta:set_int("can_level", data.can_capacity)
 			set_can_wear(stack, data.can_capacity, data.can_capacity)
 			return stack
 		end,

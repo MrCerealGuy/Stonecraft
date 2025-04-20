@@ -15,16 +15,17 @@ world. A few notable features:
   * Minetest 5.0.0 or newer
   * [Minetest Game](https://github.com/minetest/minetest_game/)
   * [mesecons](https://github.com/minetest-mods/mesecons) -> signalling events
-  * [pipeworks](https://gitlab.com/VanessaE/pipeworks/) -> automation of item transport
+  * [pipeworks](https://github.com/mt-mods/pipeworks) -> automation of item transport
   * [moreores](https://github.com/minetest-mods/moreores/) -> additional ores
-  * [basic_materials](https://gitlab.com/VanessaE/basic_materials) -> basic craft items
-  * Supports [moretrees](https://gitlab.com/VanessaE/moretrees) -> rubber trees
+  * [basic_materials](https://github.com/mt-mods/basic_materials) -> basic craft items
+  * Supports [moretrees](https://github.com/mt-mods/moretrees) -> rubber trees
   * Consult `depends.txt` or `mod.conf` of each mod for further dependency information.
 
 
 ## FAQ
 
-The modpack is explained in the [Manual](manual.md) included in this repository.
+The modpack is explained in the **[Manual](manual.md)** included in this repository.
+Machine and tool descriptions can be found on the **[GitHub Wiki](https://github.com/minetest-mods/technic/wiki)**.
 
 1. My technic circuit doesn't work. No power is distributed.
     * Make sure you have a switching station connected.
@@ -32,13 +33,13 @@ The modpack is explained in the [Manual](manual.md) included in this repository.
     * Each machine type requires its own cable type. If you do not have a
       matching circuit, consider using a "Supply Converter" for simplicity.
 
-The API documentation can be found here: [Technic API](technic/doc/api.md)
+For modders: **[Technic Lua API](technic/doc/api.md)**
 
 
 ## License
 
 Unless otherwise stated, all components of this modpack are licensed under the
-LGPLv2 or later. See also the individual mod folders for their
+[LGPLv2 or later](LICENSE.txt). See also the individual mod folders for their
 secondary/alternate licenses, if any.
 
 

@@ -13,13 +13,15 @@ circular_saw = {}
 circular_saw.known_stairs = setmetatable({}, {
 	__newindex = function(k, v)
 		local modname = minetest.get_current_modname()
-		print(("WARNING: mod %s tried to add node %s to the circular saw"
-				.. " manually."):format(modname, v))
+		print(("WARNING: mod %s tried to add node %s to the circular saw manually."):format(modname, v))
 	end,
 })
 
 -- This is populated by stairsplus:register_all:
 circular_saw.known_nodes = {}
+
+-- This is populated by stairsplus:register_micro:
+circular_saw.microblocks = {}
 
 -- How many microblocks does this shape at the output inventory cost:
 -- It may cause slight loss, but no gain.
@@ -131,17 +133,20 @@ function circular_saw:reset(pos)
 	local owned_by = meta:get_string("owner")
 
 	if owned_by and owned_by ~= "" then
-		owned_by = (" (%s)"):format(S("owned by @1", meta:get_string("owner")))
+		owned_by = (" ("..S("owned by @1", meta:get_string("owner"))..")")
 	else
 		owned_by = ""
 	end
 
 	inv:set_list("input",  {})
-	inv:set_list("micro",  {})
-	inv:set_list("output", {})
+	--inv:set_list("micro",  {})
 
-	meta:set_int("anz", 0)
-	meta:set_string("infotext", S("Circular Saw is empty") .. owned_by)
+	local microblockcount = inv:get_stack("micro",1):get_count()
+	meta:set_int("anz", microblockcount)
+	if microblockcount == 0 then
+		meta:set_string("infotext", S("Circular Saw is empty") .. owned_by)
+		inv:set_list("output", {})
+	end
 end
 
 
@@ -162,23 +167,26 @@ function circular_saw:update_inventory(pos, amount)
 	end
 
 	local stack = inv:get_stack("input",  1)
+	local microstack = inv:get_stack("micro",1)
+
 	-- At least one "normal" block is necessary to see what kind of stairs are requested.
-	if stack:is_empty() then
+	if stack:is_empty() and microstack:is_empty() then
 		-- Any microblocks not taken out yet are now lost.
 		-- (covers material loss in the machine)
 		self:reset(pos)
 		return
 
 	end
-	local node_name = stack:get_name() or ""
+
+	local node_name = stack:get_name() or "" -- planned to extract from microblock TODO
 	local node_def = stack:get_definition()
 	local name_parts = circular_saw.known_nodes[node_name] or ""
-	local modname  = name_parts[1] or ""
-	local material = name_parts[2] or ""
+	local modname  = name_parts[1] or circular_saw.microblocks[microstack:get_name()][1]
+	local material = name_parts[2] or circular_saw.microblocks[microstack:get_name()][2]
 	local owned_by = meta:get_string("owner")
 
 	if owned_by and owned_by ~= "" then
-		owned_by = (" (%s)"):format(S("owned by @1", meta:get_string("owner")))
+		owned_by = (" ("..S("owned by @1", meta:get_string("owner"))..")")
 	else
 		owned_by = ""
 	end
@@ -198,6 +206,7 @@ function circular_saw:update_inventory(pos, amount)
 	inv:set_list("micro", {
 		modname .. ":micro_" .. material .. " " .. (amount % 8)
 	})
+
 	-- Display:
 	inv:set_list("output",
 		self:get_output_inv(modname, material, amount,
@@ -337,6 +346,10 @@ function circular_saw.on_metadata_inventory_take(
 	local input_stack = inv:get_stack(listname,  index)
 	if not input_stack:is_empty() and input_stack:get_name()~=stack:get_name() then
 		local player_inv = player:get_inventory()
+
+		-- Prevent arbitrary item duplication.
+		inv:remove_item(listname, input_stack)
+
 		if player_inv:room_for_item("main", input_stack) then
 			player_inv:add_item("main", input_stack)
 		end
@@ -351,7 +364,6 @@ function circular_saw.on_metadata_inventory_take(
 		-- We do know how much each block at each position costs:
 		local cost = circular_saw.cost_in_microblocks[index]
 				* stack:get_count()
-
 		circular_saw:update_inventory(pos, -cost)
 	elseif listname == "micro" then
 		-- Each microblock costs 1 microblock:
@@ -363,19 +375,26 @@ function circular_saw.on_metadata_inventory_take(
 	-- The recycle field plays no role here since it is processed immediately.
 end
 
+local has_default_mod = minetest.get_modpath("default")
+
 function circular_saw.on_construct(pos)
 	local meta = minetest.get_meta(pos)
-	local fancy_inv = default.gui_bg..default.gui_bg_img..default.gui_slots
+	local fancy_inv = ""
+	if has_default_mod then
+		-- prepend background and slot styles from default if available
+		fancy_inv = default.gui_bg..default.gui_bg_img..default.gui_slots
+	end
 	meta:set_string(
+		--FIXME Not work with @n in this part bug in minetest/minetest#7450.
 		"formspec", "size[11,10]"..fancy_inv..
-		"label[0,0;" ..F(S("Input\nmaterial")).. "]" ..
-		"list[current_name;input;1.5,0;1,1;]" ..
+		"label[0,0;" ..S("Input material").. "]" ..
+		"list[current_name;input;1.7,0;1,1;]" ..
 		"label[0,1;" ..F(S("Left-over")).. "]" ..
-		"list[current_name;micro;1.5,1;1,1;]" ..
-		"label[0,2;" ..F(S("Recycle\noutput")).. "]" ..
-		"list[current_name;recycle;1.5,2;1,1;]" ..
+		"list[current_name;micro;1.7,1;1,1;]" ..
+		"label[0,2;" ..F(S("Recycle output")).. "]" ..
+		"list[current_name;recycle;1.7,2;1,1;]" ..
 		"field[0.3,3.5;1,1;max_offered;" ..F(S("Max")).. ":;${max_offered}]" ..
-		"button[1,3.2;1,1;Set;" ..F(S("Set")).. "]" ..
+		"button[1,3.2;1.7,1;Set;" ..F(S("Set")).. "]" ..
 		"list[current_name;output;2.8,0;8,6;]" ..
 		"list[current_player;main;1.5,6.25;8,4;]" ..
 		"listring[current_name;output]" ..
@@ -437,7 +456,8 @@ minetest.register_node("moreblocks:circular_saw",  {
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy = 2,oddly_breakable_by_hand = 2},
-	sounds = default.node_sound_wood_defaults(),
+	is_ground_content = false,
+	sounds = moreblocks.node_sound_wood_defaults(),
 	on_construct = circular_saw.on_construct,
 	can_dig = circular_saw.can_dig,
 	-- Set the owner of this circular saw.

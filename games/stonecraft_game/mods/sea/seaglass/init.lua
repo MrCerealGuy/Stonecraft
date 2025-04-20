@@ -1,14 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2017-09-21 replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
-if core.skip_mod("seaplants") then return end
-
 -- NODES
 
 
@@ -337,404 +326,403 @@ register_seaglass_craft("stairs:slab_seaglassoff_black", {'stairsshine:slab_seag
 local on_lamp_puncher = function (pos, node, puncher)
 	if node.name == "seaglass:seaglass" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff"})
-		--nodeupdate(pos)  MrCerealGuy: nodeupdate is deprecated
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "seaglass:seaglassoff" then
 			minetest.add_node(pos, {name="seaglass:seaglass"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "seaglass:seaglass_yellow" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff_yellow"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 	elseif node.name == "seaglass:seaglassoff_yellow" then
 			minetest.add_node(pos, {name="seaglass:seaglass_yellow"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "seaglass:seaglass_red" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff_red"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 	elseif node.name == "seaglass:seaglassoff_red" then
 			minetest.add_node(pos, {name="seaglass:seaglass_red"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "seaglass:seaglass_blue" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff_blue"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 	elseif node.name == "seaglass:seaglassoff_blue" then
 			minetest.add_node(pos, {name="seaglass:seaglass_blue"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "seaglass:seaglass_white" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff_white"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 	elseif node.name == "seaglass:seaglassoff_white" then
 			minetest.add_node(pos, {name="seaglass:seaglass_white"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "seaglass:seaglass_black" then
 		minetest.add_node(pos, {name="seaglass:seaglassoff_black"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 	elseif node.name == "seaglass:seaglassoff_black" then
 			minetest.add_node(pos, {name="seaglass:seaglass_black"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 0})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 1})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 2})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 3})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 22})
-		nminetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff", param2 = 23})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 0})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 1})
-			nminetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 2})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 3})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 22})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_yellow" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_yellow", param2 = 23})
-		nminetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_yellow" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_yellow", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 0})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 1})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 2})
-		nminetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 3})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 22})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_red" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_red", param2 = 23})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_red" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_red", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 0})
-		nminetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 1})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 2})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 3})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 22})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_blue" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_blue", param2 = 23})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_blue" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_blue", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 0})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 1})
-			nminetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 2})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 3})
-		nminetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 22})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_white" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_white", param2 = 23})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_white" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_white", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 0 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 0})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 0 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 0})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 1 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 1})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 1 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 1})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 2 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 2})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 2 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 2})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 3 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 3})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 3 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 3})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 21 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 21})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 21 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 21})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 22 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 22})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 22 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 22})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:stair_seaglass_black" and node.param2 == 23 then
 		minetest.add_node(pos, {name="stairs:stair_seaglassoff_black", param2 = 23})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:stair_seaglassoff_black" and node.param2 == 23 then
 			minetest.add_node(pos, {name="stairsshine:stair_seaglass_black", param2 = 23})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 
 	elseif node.name == "stairsshine:slab_seaglass" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_yellow" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_yellow", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_yellow" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_yellow", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_yellow" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_yellow"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_yellow" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_yellow"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_red" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_red", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_red" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_red", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_red" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_red"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_red" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_red"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_blue" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_blue", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_blue" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_blue", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_blue" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_blue"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_blue" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_blue"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_white" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_white", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_white" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_white", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_white" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_white"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_white" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_white"})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_black" and node.param2 == 20 then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_black", param2 = 20})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_black" and node.param2 == 20 then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_black", param2 = 20})
-			minetest.check_for_falling(pos)
+			nodeupdate(pos)
 	elseif node.name == "stairsshine:slab_seaglass_black" then
 		minetest.add_node(pos, {name="stairs:slab_seaglassoff_black"})
-		minetest.check_for_falling(pos)
+		nodeupdate(pos)
 			elseif node.name == "stairs:slab_seaglassoff_black" then
 			minetest.add_node(pos, {name="stairsshine:slab_seaglass_black"})
-			minetest.check_for_falling(pos) else
+			nodeupdate(pos) else
 			return
 	end
 end

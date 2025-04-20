@@ -63,8 +63,16 @@ end)
 
 minetest.register_on_leaveplayer(function(player)
 	skins.ui_context[player:get_player_name()] = nil
+	player:get_inventory():set_size("hand", 0)
 end)
 
+minetest.register_on_shutdown(function()
+	for _, player in pairs(minetest.get_connected_players()) do
+		player:get_inventory():set_size("hand", 0)
+	end
+end)
+
+-- See also: 3d_armor/init.lua
 player_api.register_model("skinsdb_3d_armor_character_5.b3d", {
 	animation_speed = 30,
 	textures = {
@@ -75,12 +83,21 @@ player_api.register_model("skinsdb_3d_armor_character_5.b3d", {
 	},
 	animations = {
 		stand = {x=0, y=79},
-		lay = {x=162, y=166},
+		lay = {x=162, y=166, eye_height = 0.3, override_local = true,
+			collisionbox = {-0.6, 0.0, -0.6, 0.6, 0.3, 0.6}},
 		walk = {x=168, y=187},
 		mine = {x=189, y=198},
 		walk_mine = {x=200, y=219},
-		sit = {x=81, y=160},
+		sit = {x=81, y=160, eye_height = 0.8, override_local = true,
+			collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.0, 0.3}},
+		-- compatibility w/ the emote mod
+		wave = {x = 192, y = 196, override_local = true},
+		point = {x = 196, y = 196, override_local = true},
+		freeze = {x = 205, y = 205, override_local = true},
 	},
+	collisionbox = {-0.3, 0.0, -0.3, 0.3, 1.7, 0.3},
+	-- stepheight: use default
+	eye_height = 1.47,
 })
 
 -- Register default character.png if not part of this mod
@@ -91,4 +108,15 @@ if not default_skin_obj then
 	default_skin_obj:set_meta("format", '1.0')
 	default_skin_obj:set_meta("_sort_id", 0)
 	default_skin_obj:set_meta("name", "Sam")
+	default_skin_obj:set_hand_from_texture()
 end
+
+-- Secure hand inventory slot
+minetest.register_allow_player_inventory_action(function(player, action, inv, data)
+	if data.to_list == "hand" or data.from_list == "hand" or data.listname == "hand" then
+		return 0
+	end
+end)
+
+--dofile(skins.modpath.."/unittest.lua")
+

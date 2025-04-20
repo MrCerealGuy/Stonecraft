@@ -3,6 +3,8 @@
 local item_names = {} -- [player_name] = { hud, dtime, itemname }
 local dlimit = 3  -- HUD element will be hidden after this many seconds
 local hudbars_mod = minetest.get_modpath("hudbars")
+local only_names = minetest.settings:get_bool("unified_inventory_only_names", true)
+local max_length = tonumber(minetest.settings:get("unified_inventory_max_item_name_length")) or 80
 
 local function set_hud(player)
 	local player_name = player:get_player_name()
@@ -16,7 +18,8 @@ local function set_hud(player)
 
 	item_names[player_name] = {
 		hud = player:hud_add({
-			hud_elem_type = "text",
+			-- TODO: remove compatibility code when 5.8.0 is no longer used
+			[minetest.features.hud_def_type_field and "type" or "hud_elem_type"] = "text",
 			position = {x=0.5, y=1},
 			offset = off,
 			alignment = {x=0, y=-1},
@@ -60,6 +63,7 @@ minetest.register_globalstep(function(dtime)
 			data.itemname = itemname
 			data.index = index
 			data.dtime = 0
+			local lang_code = minetest.get_player_information(player:get_player_name()).lang_code
 
 			local desc = stack.get_meta
 				and stack:get_meta():get_string("description")
@@ -68,6 +72,14 @@ minetest.register_globalstep(function(dtime)
 				-- Try to use default description when none is set in the meta
 				local def = minetest.registered_items[itemname]
 				desc = def and def.description or ""
+			end
+			if only_names and desc and string.find(desc, "\n") then
+				desc = string.match(desc, "([^\n]*)")
+			end
+			desc = minetest.get_translated_string(lang_code, desc)
+			desc = minetest.strip_colors(desc)
+			if string.len(desc) > max_length and max_length > 0 then
+				desc = string.sub(desc, 1, max_length) .. " [...]"
 			end
 			player:hud_change(data.hud, 'text', desc)
 		end

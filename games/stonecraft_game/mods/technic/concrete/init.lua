@@ -1,15 +1,6 @@
 --Minetest 0.4.7 mod: concrete
 --(c) 2013 by RealBadAngel <mk@realbadangel.pl>
 
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("technic") then return end
-
 local technic = rawget(_G, "technic") or {}
 technic.concrete_posts = {}
 
@@ -23,13 +14,6 @@ end
 for i = 32, 63 do
 	minetest.register_alias("technic:concrete_post"..i,
 			"technic:concrete_post_with_platform")
-end
-
-local steel_ingot
-if minetest.get_modpath("technic_worldgen") and not core.skip_mod("technic") then
-	steel_ingot = "technic:carbon_steel_ingot"
-else
-	steel_ingot = "default:steel_ingot"
 end
 
 minetest.register_craft({

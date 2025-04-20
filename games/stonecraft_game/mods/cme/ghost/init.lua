@@ -19,17 +19,6 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2017-09-04 modified by MrCerealGuy <mrcerealguy@gmx.de>
-  added advanced mod control
-
---]]
-
-if core.skip_mod("mobs_monster") or core.get_mod_setting("mobs_monster_ghost") == "false" then return end
 
 local def = {
   -- general

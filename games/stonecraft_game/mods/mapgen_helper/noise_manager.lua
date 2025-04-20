@@ -12,12 +12,12 @@ end
 local get_buffer = function(name, sidelen, perlin_params)
 	perlin_buffers[name] = perlin_buffers[name] or {}
 	local buffer = perlin_buffers[name]
-	
+
 	if buffer.sidelen ~= nil and buffer.sidelen ~= sidelen then
 		buffer.nobj_perlin = nil -- parameter changed, force regenerate of object
 	end
 	buffer.sidelen = sidelen
-	
+
 	if perlin_params then
 		if buffer.perlin_params then
 			for k, v in pairs(buffer.perlin_params) do
@@ -33,46 +33,42 @@ local get_buffer = function(name, sidelen, perlin_params)
 	else
 		perlin_params = buffer.perlin_params -- retrieve recorded parameters
 	end
-	
+
 	buffer.last_used = minetest.get_gametime()
 	return buffer, perlin_params
 end
 
 mapgen_helper.perlin3d = function(name, minp, maxp, perlin_params)
-	local minx = minp.x
-	local minz = minp.z
 	local sidelen = maxp.x - minp.x + 1 --length of a mapblock
 	local chunk_lengths = {x = sidelen, y = sidelen, z = sidelen} --table of chunk edges
 
-	local buffer, perlin_params = get_buffer(name, sidelen, perlin_params)
-	
+	local buffer, params = get_buffer(name, sidelen, perlin_params)
+
 	buffer.nvals_perlin_buffer = buffer.nvals_perlin_buffer or {}
-	buffer.nobj_perlin = buffer.nobj_perlin or minetest.get_perlin_map(perlin_params, chunk_lengths)
+	buffer.nobj_perlin = buffer.nobj_perlin or minetest.get_perlin_map(params, chunk_lengths)
 	if buffer.nobj_perlin.get_3d_map_flat then
 		return buffer.nobj_perlin:get_3d_map_flat(minp, buffer.nvals_perlin_buffer), VoxelArea:new{MinEdge=minp, MaxEdge=maxp}
 	else
 		return buffer.nobj_perlin:get3dMap_flat(minp, buffer.nvals_perlin_buffer), VoxelArea:new{MinEdge=minp, MaxEdge=maxp}
-	end	
+	end
 end
 
 mapgen_helper.perlin2d = function(name, minp, maxp, perlin_params)
-	local minx = minp.x
-	local minz = minp.z
 	local sidelen = maxp.x - minp.x + 1 --length of a mapblock
 	local chunk_lengths = {x = sidelen, y = sidelen, z = sidelen} --table of chunk edges
 
-	local buffer, perlin_params = get_buffer(name, sidelen, perlin_params)
-	
+	local buffer, params = get_buffer(name, sidelen, perlin_params)
+
 	buffer.nvals_perlin_buffer = perlin_buffers[name].nvals_perlin_buffer or {}
-	buffer.nobj_perlin = perlin_buffers[name].nobj_perlin or minetest.get_perlin_map(perlin_params, chunk_lengths)
+	buffer.nobj_perlin = perlin_buffers[name].nobj_perlin or minetest.get_perlin_map(params, chunk_lengths)
 	if buffer.nobj_perlin.get_2d_map_flat then
 		return buffer.nobj_perlin:get_2d_map_flat({x=minp.x, y=minp.z}, perlin_buffers[name].nvals_perlin_buffer)
 	else
 		return buffer.nobj_perlin:get2dMap_flat({x=minp.x, y=minp.z}, perlin_buffers[name].nvals_perlin_buffer)
-	end	
+	end
 end
 
-mapgen_helper.index2d = function(minp, maxp, x, z) 
+mapgen_helper.index2d = function(minp, maxp, x, z)
 	return x - minp.x +
 		(maxp.x - minp.x + 1) -- sidelen
 		*(z - minp.z)

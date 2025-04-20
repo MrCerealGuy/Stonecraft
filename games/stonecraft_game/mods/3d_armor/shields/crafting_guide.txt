@@ -17,6 +17,7 @@ Shields -- Crafting Guide
 [shields:shield_gold] X = [default:gold_ingot]
 [shields:shield_mithril] X = [moreores:mithril_ingot]
 [shields:shield_crystal] X = [ethereal:crystal_ingot]
+[shields:shield_nether] X = [ethereal:nether_ingot]
 
 Enhanced Shields
 ----------------

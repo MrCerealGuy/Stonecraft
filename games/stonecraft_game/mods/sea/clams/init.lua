@@ -1,12 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("seaplants") then return end
-
 -- NODES
 
 minetest.register_node("clams:sandalgae", {
@@ -44,13 +35,13 @@ minetest.register_node("clams:dirtalgae", {
 			}
 		}
 	},
-	sounds = default.node_sound_dirt_defaults(),	
+	sounds = default.node_sound_dirt_defaults,	
 })
 
 minetest.register_node("clams:sandalgaeused", {
 	description = "Used sandalgae",
 	tiles = {"default_sand.png^clams_algaeused.png"},
-	inventory_image = "default_sand.png^clams_algaeused.png",
+	inventory_image = {"default_sand.png^clams_algaeused.png"},
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1},
 	sounds = default.node_sound_sand_defaults(),
@@ -59,7 +50,7 @@ minetest.register_node("clams:sandalgaeused", {
 minetest.register_node("clams:dirtalgaeused", {
 	description = "Used dirtalgae",
 	tiles = {"default_dirt.png^clams_algaeused.png"},
-	inventory_image = "default_dirt.png^clams_algaeused.png",
+	inventory_image = {"default_dirt.png^clams_algaeused.png"},
 	is_ground_content = true,
 	groups = {crumbly=3},
 	sounds = default.node_sound_dirt_defaults(),
@@ -232,10 +223,6 @@ minetest.register_abm({
 	interval = 30,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
 		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if minetest.get_node(y).name == "default:water_source" or
@@ -254,10 +241,6 @@ minetest.register_abm({
 	interval = 30,
 	chance = 20,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
 		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if minetest.get_node(y).name == "default:water_source" or
@@ -276,12 +259,8 @@ minetest.register_abm({
 	interval = 40,
 	chance = 40,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-
-		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
-		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
+	local y = {x = pos.x, y = pos.y + 1, z = pos.z }
+	local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if (active_object_count_wider + active_object_count_wider) > 40 then
 		return
 			elseif (minetest.get_node(y).name == "default:water_source" or
@@ -300,11 +279,8 @@ minetest.register_abm({
 	interval = 40,
 	chance = 40,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed.yes then
-   			return
-		end
-		local y = {x = pos.x, y = pos.y + 1, z = pos.z }
-		local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
+	local y = {x = pos.x, y = pos.y + 1, z = pos.z }
+	local yy = {x = pos.x, y = pos.y + 2, z = pos.z }
 		if (active_object_count_wider + active_object_count_wider) > 40 then
 		return
 			elseif (minetest.get_node(y).name == "default:water_source" or

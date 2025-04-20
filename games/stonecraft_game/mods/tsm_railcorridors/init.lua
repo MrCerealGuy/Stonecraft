@@ -1,18 +1,9 @@
---[[
-
-2017-02-05 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("railcorridors") then return end
-
 tsm_railcorridors = {}
 
 -- Load node names
 dofile(minetest.get_modpath(minetest.get_current_modname()).."/gameconfig.lua")
 
-local treasurer_supported = minetest.get_modpath("treasurer") ~= nil and not core.skip_mod("treasurer")
+local treasurer_supported = minetest.get_modpath("treasurer") ~= nil
 
 -- Settings
 local setting

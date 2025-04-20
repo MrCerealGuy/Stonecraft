@@ -1,7 +1,7 @@
 -- similar to iter_xyz, but iterates first along the y axis. Useful in mapgens that want to detect a vertical transition (eg, finding ground level)
 function VoxelArea:iter_yxz(minx, miny, minz, maxx, maxy, maxz)
 	local i = self:index(minx, miny, minz) - self.ystride
-	
+
 	local x = minx
 	local y = miny - 1
 	local z = minz
@@ -13,18 +13,18 @@ function VoxelArea:iter_yxz(minx, miny, minz, maxx, maxy, maxz)
 			i = i + self.ystride
 			return i, x, y, z
 		end
-		
+
 		y = miny
 		x = x + 1
-		
+
 		if x <= maxx then
 			i = self:index(x, y, z)
 			return i, x, y, z
 		end
-		
+
 		x = minx
 		z = z + 1
-		
+
 		if z <= maxz then
 			i = self:index(x, y, z)
 			return i, x, y, z

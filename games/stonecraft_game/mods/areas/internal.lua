@@ -4,26 +4,38 @@ function areas:player_exists(name)
 	return minetest.get_auth_handler().get_auth(name) ~= nil
 end
 
-local safe_file_write = minetest.safe_file_write
-if safe_file_write == nil then
-	function safe_file_write(path, content)
-		local file, err = io.open(path, "w")
-		if err then
-			return err
-		end
-		file:write(content)
-		file:close()
-	end
-end
+-- When saving is done in an async thread, the function will not be present in this global namespace.
+if not areas._internal_do_save then
+	local saving_requested = false
+	local saving_locked = false
 
--- Save the areas table to a file
-function areas:save()
-	local datastr = minetest.write_json(self.areas)
-	if not datastr then
-		minetest.log("error", "[areas] Failed to serialize area data!")
-		return
+	-- Required cuz we are referring to _G.areas._internal_do_save *inside*
+	-- async env (it does not exist in the main thread)
+	local function async_func(...)
+		return areas._internal_do_save(...)
 	end
-	return safe_file_write(self.config.filename, datastr)
+
+	local function done_callback()
+		saving_locked = false
+		if saving_requested == true then
+			saving_requested = false
+			return areas:save()
+		end
+	end
+
+	function areas:save()
+		if saving_locked == true then
+			saving_requested = true
+		else
+			saving_locked = true
+			return core.handle_async(async_func, done_callback, self.areas, self.config.filename)
+		end
+	end
+else
+	-- Save the areas table to a file
+	function areas:save()
+		return areas._internal_do_save(self.areas, self.config.filename)
+	end
 end
 
 -- Load the areas table from the save file
@@ -83,19 +95,19 @@ function areas:populateStore()
 	self.store_ids = store_ids
 end
 
--- Finds the first usable index in a table
--- Eg: {[1]=false,[4]=true} -> 2
-local function findFirstUnusedIndex(t)
-	local i = 0
-	repeat i = i + 1
-	until t[i] == nil
-	return i
+-- Guarentees returning an unused index in areas.areas
+local index_cache = 0
+local function findFirstUnusedIndex()
+	local t = areas.areas
+	repeat index_cache = index_cache + 1
+	until t[index_cache] == nil
+	return index_cache
 end
 
---- Add a area.
+--- Add an area.
 -- @return The new area's ID.
 function areas:add(owner, name, pos1, pos2, parent)
-	local id = findFirstUnusedIndex(self.areas)
+	local id = findFirstUnusedIndex()
 	self.areas[id] = {
 		name = name,
 		pos1 = pos1,
@@ -118,8 +130,8 @@ function areas:add(owner, name, pos1, pos2, parent)
 	return id
 end
 
---- Remove a area, and optionally it's children recursively.
--- If a area is deleted non-recursively the children will
+--- Remove an area, and optionally its children recursively.
+-- If an area is deleted non-recursively the children will
 -- have the removed area's parent as their new parent.
 function areas:remove(id, recurse)
 	if recurse then
@@ -136,7 +148,6 @@ function areas:remove(id, recurse)
 			-- The subarea parent will be niled out if the
 			-- removed area does not have a parent
 			self.areas[cid].parent = parent
-
 		end
 	end
 
@@ -172,7 +183,7 @@ function areas:move(id, area, pos1, pos2)
 	end
 end
 
--- Checks if a area between two points is entirely contained by another area.
+-- Checks if an area between two points is entirely contained by another area.
 -- Positions must be sorted.
 function areas:isSubarea(pos1, pos2, id)
 	local area = self.areas[id]
@@ -195,7 +206,7 @@ function areas:isSubarea(pos1, pos2, id)
 	end
 end
 
--- Returns a table (list) of children of an area given it's identifier
+-- Returns a table (list) of children of an area given its identifier
 function areas:getChildren(id)
 	local children = {}
 	for cid, area in pairs(self.areas) do
@@ -206,62 +217,92 @@ function areas:getChildren(id)
 	return children
 end
 
--- Checks if the user has sufficient privileges.
--- If the player is not a administrator it also checks
--- if the area intersects other areas that they do not own.
--- Also checks the size of the area and if the user already
--- has more than max_areas.
+-- checks all possible restrictions registered with
+-- areas:registerProtectionCondition
+-- builtin callbacks below
 function areas:canPlayerAddArea(pos1, pos2, name)
+	local allowed = true
+	local errMsg
+	for i=1, #areas.registered_protection_conditions do
+		local res, msg = areas.registered_protection_conditions[i](pos1, pos2, name)
+		if res == true then
+			-- always allow to protect, no matter of other conditions
+			return true
+		elseif res == false then
+			-- there might be another callback that returns true, so we can't break here
+			allowed = false
+			-- save the first error that occurred
+			errMsg = errMsg or msg
+		elseif res ~= nil then
+			local origin = areas.callback_origins[areas.registered_protection_conditions[i]]
+			error("\n[Mod] areas: Invalid api usage from mod '" ..
+					origin.mod .. "' in callback registerProtectionCondition() at " ..
+					origin.source .. ":" .. origin.line)
+		end
+	end
+
+	return allowed, errMsg
+end
+
+-- Checks if the user has sufficient privileges.
+areas:registerProtectionCondition(function(pos1, pos2, name)
 	local privs = minetest.get_player_privs(name)
 	if privs.areas then
+		-- always allow administrators to create areas
 		return true
 	end
 
-	-- Check self protection privilege, if it is enabled,
-	-- and if the area is too big.
-	if not self.config.self_protection or
+	-- Check self protection privilege
+	if not areas.config.self_protection or
 			not privs[areas.config.self_protection_privilege] then
 		return false, S("Self protection is disabled or you do not have"
 				.." the necessary privilege.")
 	end
+end)
 
+-- check if the area is too big
+areas:registerProtectionCondition(function(pos1, pos2, name)
+	local privs = minetest.get_player_privs(name)
 	local max_size = privs.areas_high_limit and
-			self.config.self_protection_max_size_high or
-			self.config.self_protection_max_size
+			areas.config.self_protection_max_size_high or
+			areas.config.self_protection_max_size
 	if
-			(pos2.x - pos1.x) > max_size.x or
-			(pos2.y - pos1.y) > max_size.y or
-			(pos2.z - pos1.z) > max_size.z then
+			(pos2.x - pos1.x + 1) > max_size.x or
+			(pos2.y - pos1.y + 1) > max_size.y or
+			(pos2.z - pos1.z + 1) > max_size.z then
 		return false, S("Area is too big.")
 	end
+end)
 
-	-- Check number of areas the user has and make sure it not above the max
+-- Check number of areas the user has and make sure it not above the max
+areas:registerProtectionCondition(function(pos1, pos2, name)
+	local privs = minetest.get_player_privs(name)
 	local count = 0
-	for _, area in pairs(self.areas) do
+	for _, area in pairs(areas.areas) do
 		if area.owner == name then
 			count = count + 1
 		end
 	end
 	local max_areas = privs.areas_high_limit and
-			self.config.self_protection_max_areas_high or
-			self.config.self_protection_max_areas
+			areas.config.self_protection_max_areas_high or
+			areas.config.self_protection_max_areas
 	if count >= max_areas then
 		return false, S("You have reached the maximum amount of"
 				.." areas that you are allowed to protect.")
 	end
+end)
 
-	-- Check intersecting areas
-	local can, id = self:canInteractInArea(pos1, pos2, name)
+-- checks if the area intersects other areas that the player do not own.
+areas:registerProtectionCondition(function(pos1, pos2, name)
+	local can, id = areas:canInteractInArea(pos1, pos2, name)
 	if not can then
-		local area = self.areas[id]
+		local area = areas.areas[id]
 		return false, S("The area intersects with @1 [@2] (@3).",
 				area.name, id, area.owner)
 	end
+end)
 
-	return true
-end
-
--- Given a id returns a string in the format:
+-- Given an id returns a string in the format:
 -- "name [id]: owner (x1, y1, z1) (x2, y2, z2) -> children"
 function areas:toString(id)
 	local area = self.areas[id]

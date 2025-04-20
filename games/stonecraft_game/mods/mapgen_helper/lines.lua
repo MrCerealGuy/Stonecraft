@@ -34,7 +34,7 @@ mapgen_helper.distance_to_segment = function(v, a, b)
     if dot(bv, ab) >= 0.0 then -- Point is advanced past the end of the segment, so perpendicular distance is not viable.
         return modulus(bv) -- Use distance to end of the segment instead.
 	end
-	
+
 	return modulus( cross(ab, av )) / modulus(ab) -- Perpendicular distance of point to segment.
 end
 
@@ -57,20 +57,20 @@ end
 
 -- For digging out straight lines
 
-local dist_sq = function(x1, y1, z1, x2, y2, z2)
-	return (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2
-end
-local constrain = function(n, min_n, max_n)
-	if n < min_n then return min_n
-	elseif n > max_n then return max_n
-	else return n end
-end
-local dist_to_segment_squared = function(px, py, pz, lx1, ly1, lz1, lx2, ly2, lz2)
-	local line_dist = dist_sq(lx1, ly1, lz1, lx2, ly2, lz2)
-	if (line_dist == 0) then 
-		return dist_sq(px, py, pz, lx1, ly1, lz1)
-	end
-	local t = ((px - lx1) * (lx2 - lx1) + (py - ly1) * (ly2 - ly1) + (pz - lz1) * (lz2 - lz1)) / line_dist
-	t = constrain(t, 0, 1)
-	return dist_sq(px, py, pz, lx1 + t * (lx2 - lx1), ly1 + t * (ly2 - ly1), lz1 + t * (lz2 - lz1))
-end
+--local dist_sq = function(x1, y1, z1, x2, y2, z2)
+--	return (x2-x1)^2 + (y2-y1)^2 + (z2-z1)^2
+--end
+--local constrain = function(n, min_n, max_n)
+--	if n < min_n then return min_n
+--	elseif n > max_n then return max_n
+--	else return n end
+--end
+--local dist_to_segment_squared = function(px, py, pz, lx1, ly1, lz1, lx2, ly2, lz2)
+--	local line_dist = dist_sq(lx1, ly1, lz1, lx2, ly2, lz2)
+--	if (line_dist == 0) then
+--		return dist_sq(px, py, pz, lx1, ly1, lz1)
+--	end
+--	local t = ((px - lx1) * (lx2 - lx1) + (py - ly1) * (ly2 - ly1) + (pz - lz1) * (lz2 - lz1)) / line_dist
+--	t = constrain(t, 0, 1)
+--	return dist_sq(px, py, pz, lx1 + t * (lx2 - lx1), ly1 + t * (ly2 - ly1), lz1 + t * (lz2 - lz1))
+--end

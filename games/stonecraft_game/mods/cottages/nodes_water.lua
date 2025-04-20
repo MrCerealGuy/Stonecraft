@@ -117,7 +117,7 @@ minetest.register_node("cottages:water_gen", {
 	paramtype  = "light",
 	paramtype2 = "facedir",
 	is_ground_content = false,
-	groups = {tree = 1, choppy = 2, oddly_breakable_by_hand = 1, flammable = 2},
+	groups = {tree = 1, choppy = 2, cracky = 1, flammable = 2},
 	sounds = cottages.sounds.wood,
 	node_box = {
 		type = "fixed",
@@ -178,8 +178,14 @@ minetest.register_node("cottages:water_gen", {
 	can_dig = function(pos,player)
 		local meta = minetest.get_meta(pos);
 		local inv = meta:get_inventory()
-		return inv:is_empty("main") and
-				default.can_interact_with_node(player, pos)
+		local bucket = meta:get_string("bucket")
+		local start = meta:get_string("fillstarttime")
+		return inv:is_empty("main")
+			and default.can_interact_with_node(player, pos)
+			and (not(bucket) or bucket == "")
+			and ((not(start) or start == "" or
+				(minetest.get_us_time()/1000000) - tonumber(start)
+					>= cottages.water_fill_time -2))
 	end,
 	-- no inventory move allowed
 	allow_metadata_inventory_move = function(pos, from_list, from_index,
@@ -213,7 +219,7 @@ minetest.register_node("cottages:water_gen", {
 		cottages.switch_public(pos, formname, fields, sender, 'tree trunk well')
 	end,
 	-- punch to place and retrieve bucket
-	on_punch = function(pos, node, puncher)
+	on_punch = function(pos, node, puncher, pointed_thing)
 		if( not( pos ) or not( node ) or not( puncher )) then
 			return
 		end
@@ -223,7 +229,8 @@ minetest.register_node("cottages:water_gen", {
 		local owner = meta:get_string("owner")
 		local public = meta:get_string("public")
 		if( name ~= owner and public~="public") then
-			minetest.chat_send_player( name, S("This tree trunk well is owned by %s. You can't use it."):format(name))
+			minetest.chat_send_player( name,
+				S("This tree trunk well is owned by %s. You can't use it."):format(owner))
 			return
 		end
 
@@ -233,13 +240,18 @@ minetest.register_node("cottages:water_gen", {
 		-- is the well working on something? (either empty or full bucket)
 		local bucket = meta:get_string("bucket")
 		-- there is a bucket loaded - either empty or full
-		if( bucket and bucket~="") then
+		if( bucket and bucket~="" and bucket ~= "bucket:bucket_empty") then
 			if( not(pinv:room_for_item("main", bucket))) then
 				minetest.chat_send_player( puncher:get_player_name(),
 					S("Sorry. You have no room for the bucket. Please free some "..
 					"space in your inventory first!"))
 				return
 			end
+		elseif( bucket and bucket == "bucket:bucket_empty") then
+			minetest.chat_send_player( puncher:get_player_name(),
+				S("Please wait until your bucket has been filled."))
+			-- do not give the empty bucket back immediately
+			return
 		end
 
 		-- remove the old entity (either a bucket will be placed now or a bucket taken)
@@ -267,8 +279,6 @@ minetest.register_node("cottages:water_gen", {
 		if(    wielded
 		    and wielded:get_name()
 		    and wielded:get_name() == "bucket:bucket_empty") then
-			-- remove the bucket from the players inventory
-			pinv:remove_item( "main", "bucket:bucket_empty")
 			-- remember that we got a bucket loaded
 			meta:set_string("bucket", "bucket:bucket_empty")
 			-- create the entity
@@ -280,6 +290,8 @@ minetest.register_node("cottages:water_gen", {
 			minetest.after(cottages.water_fill_time, cottages.water_gen_fill_bucket, pos)
 			-- the bucket will only be filled if the water ran long enough
 			meta:set_string("fillstarttime", tostring(minetest.get_us_time()/1000000)) 
+			-- remove the bucket from the players inventory
+			pinv:remove_item( "main", "bucket:bucket_empty")
  			return;
 		end
 		-- buckets can also be emptied here

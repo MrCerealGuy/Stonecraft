@@ -98,7 +98,7 @@ ui.register_button("misc_set_day", {
 	action = function(player)
 		local player_name = player:get_player_name()
 		if minetest.check_player_privs(player_name, {settime=true}) then
-			minetest.sound_play("birds",
+			minetest.sound_play("ui_morning",
 					{to_player=player_name, gain = 1.0})
 			minetest.set_timeofday((6000 % 24000) / 24000)
 			minetest.chat_send_player(player_name,
@@ -122,7 +122,7 @@ ui.register_button("misc_set_night", {
 	action = function(player)
 		local player_name = player:get_player_name()
 		if minetest.check_player_privs(player_name, {settime=true}) then
-			minetest.sound_play("owl",
+			minetest.sound_play("ui_owl",
 					{to_player=player_name, gain = 1.0})
 			minetest.set_timeofday((21000 % 24000) / 24000)
 			minetest.chat_send_player(player_name,
@@ -183,14 +183,14 @@ ui.register_page("craft", {
 		local n=#formspec+1
 
 		if ui.trash_enabled or ui.is_creative(player_name) or minetest.get_player_privs(player_name).give then
-			formspec[n] = string.format("label[%f,%f;%s]", craftx + 6.45, crafty + 2.4, F(S("Trash:")))
+			formspec[n] = string.format("label[%f,%f;%s]", craftx + 6.35, crafty + 2.3, F(S("Trash:")))
 			formspec[n+1] = ui.make_trash_slot(craftx + 6.25, crafty + 2.5)
 			n=n + 2
 		end
 
 		if ui.is_creative(player_name) then
 			formspec[n] = ui.single_slot(craftx - 2.5, crafty + 2.5)
-			formspec[n+1] = string.format("label[%f,%f;%s]", craftx - 2.3, crafty + 2.4,F(S("Refill:")))
+			formspec[n+1] = string.format("label[%f,%f;%s]", craftx - 2.4, crafty + 2.3, F(S("Refill:")))
 			formspec[n+2] = string.format("list[detached:%srefill;main;%f,%f;1,1;]",
 				F(player_name), craftx - 2.5 + ui.list_img_offset, crafty + 2.5 + ui.list_img_offset)
 		end
@@ -207,19 +207,21 @@ ui.register_page("craft", {
 
 local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 	local name = item:get_name()
-	local count = item:get_count()
+	local description = item:get_meta():get_string("description")
 	local show_is_group = false
-	local displayitem = name.." "..count
+	local displayitem = item:to_string()
 	local selectitem = name
 	if name:sub(1, 6) == "group:" then
 		local group_name = name:sub(7)
 		local group_item = ui.get_group_item(group_name)
 		show_is_group = not group_item.sole
-		displayitem = group_item.item or "unknown"
+		displayitem = group_item.item or name
 		selectitem = group_item.sole and displayitem or name
 	end
 	local label = show_is_group and "G" or ""
-	local buttonname = F(buttonname_prefix..ui.mangle_for_formspec(selectitem))
+	-- Unique id to prevent tooltip being overridden
+	local id = string.format("%i%i_", x*10, y*10)
+	local buttonname = F(id..buttonname_prefix..ui.mangle_for_formspec(selectitem))
 	local button = string.format("item_image_button[%f,%f;%f,%f;%s;%s;%s]",
 			x, y, w, h,
 			F(displayitem), buttonname, label)
@@ -235,10 +237,15 @@ local function stack_image_button(x, y, w, h, buttonname_prefix, item)
 		if andcount >= 1 then
 			button = button  .. string.format("tooltip[%s;%s]", buttonname, grouptip)
 		end
+	elseif description ~= "" then
+		button = button  .. string.format("tooltip[%s;%s]", buttonname, F(description))
 	end
 	return button
 end
 
+-- The recipe text contains parameters, hence they can yet not be translated.
+-- Instead, use a dummy translation call so that it can be picked up by the
+-- static parsing of the translation string update script
 local recipe_text = {
 	recipe = NS("Recipe @1 of @2"),
 	usage = NS("Usage @1 of @2"),
@@ -291,11 +298,10 @@ ui.register_page("craftguide", {
 
 		local n = 4
 
+		local item_def = minetest.registered_items[item_name]
 		local item_name_shown
-		if minetest.registered_items[item_name]
-				and minetest.registered_items[item_name].description then
-			item_name_shown = S("@1 (@2)",
-				minetest.registered_items[item_name].description, item_name)
+		if item_def and item_def.description then
+			item_name_shown = S("@1 (@2)", item_def.description, item_name)
 		else
 			item_name_shown = item_name
 		end
@@ -320,12 +326,14 @@ ui.register_page("craftguide", {
 				F(role_text[dir]), item_name_shown)
 		n = n + 2
 
-		local giveme_form = table.concat({
-			"label[".. (give_x+0.1)..",".. (craftguidey + 2.7) .. ";" .. F(S("Give me:")) .. "]",
-			"button["..(give_x)..","..     (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_1;1]",
-			"button["..(give_x+0.8)..",".. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_10;10]",
-			"button["..(give_x+1.6)..",".. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_99;99]"
-		})
+		local giveme_form =
+			"label[" .. (give_x + 0.1) .. "," .. (craftguidey + 2.7) .. ";" .. F(S("Give me:")) .. "]" ..
+			"button[" .. (give_x) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_1;1]"
+		if item_def and item_def.type ~= "tool" then
+			giveme_form = giveme_form ..
+				"button[" .. (give_x + 0.8) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_10;10]" ..
+				"button[" .. (give_x + 1.6) .. "," .. (craftguidey + 2.9) .. ";0.75,0.5;craftguide_giveme_99;99]"
+		end
 
 		if not craft then
 			-- No craft recipes available for this item.
@@ -493,6 +501,14 @@ local function craftguide_craft(player, formname, fields)
 	local alternate = ui.alternate[player_name]
 
 	local craft = crafts[alternate]
+	if not craft.width then
+		if not craft.output then
+			minetest.log("warning", "[unified_inventory] Craft has no output.")
+		else
+			minetest.log("warning", ("[unified_inventory] Craft for '%s' has no width."):format(craft.output))
+		end
+		return
+	end
 	if craft.width > 3 then return end
 
 	ui.craftguide_match_craft(player, "main", "craft", craft, amount)

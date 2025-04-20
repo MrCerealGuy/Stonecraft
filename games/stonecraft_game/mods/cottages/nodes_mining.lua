@@ -6,7 +6,7 @@
 -- the rope can only be digged if there is no further rope above it;
 -- Note: This rope also counts as a rail node; thus, carts can move through it
 minetest.register_node("cottages:rope", {
-        description = "Rope for climbing",
+        description = "rope for climbing",
         tiles = {"cottages_rope.png"},
 	groups = {snappy=3,choppy=3,oddly_breakable_by_hand=3,rail=1,connect_to_raillike=1},--connect_to_raillike=minetest.raillike_group("rail")},
         walkable = false,

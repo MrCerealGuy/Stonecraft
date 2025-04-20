@@ -27,6 +27,31 @@ Get all allowed skins for player. All public and all player's private skins. If 
 Get all skins with metadata key is set to value. Example:
 skins.get_skinlist_with_meta("playername", playername) - Get all private skins (w.o. public) for playername
 
+## skins.register_skin(path, filename)
+Registers a new skin based on the texture file path specified by `path` and `filename`.
+
+ * `path` (string): points to the parent directory of the texture `filename`.
+   Generally, this should be in the format `mymod.modpath .. "/textures"`.
+ * `filename` (string): full file name, without any path specifications.
+   The file name must adhere to [one of the accepted naming formats](textures/readme.txt).
+
+Note: this function takes the following files into consideration:
+
+1. `<path>/<filename>` (required)
+    * Main skin texture
+2. `<path>/<filenamestem><separator>preview.png` (optional)
+    * Pre-generated preview image
+3. `<path>/../meta/<filenamestem>.txt` (optional)
+    * Metadata regarding the skin
+
+Return values:
+
+ * On failure: `false, reason`
+    * `reason` (string): human readable reason string (similar to `io.open` errors)
+ * On success: `true, key`
+    * `key`: unique skins key for use with e.g. `skins.get(key)` for subsequent
+      fine-tuning of the skin registration.
+
 
 ## skins.new(key, object)
 Create and register a new skin object for given key
@@ -55,6 +80,17 @@ Get the skin texture for any reason. Note to apply them the skin:set_skin() shou
 
 Could be redefined for dynamic texture generation
 
+## skin:set_hand(hand_node)
+Set the hand node to be used with this skin
+
+## skin:set_hand_from_texture()
+Register and set hand node based on skin texture.
+Uses different model depending on get_meta("format") ("1.0" or "1.8")
+Only works on mod load
+
+## skin:get_hand()
+Get hand node. Returns ItemStack
+
 ## skin:set_preview(texture)
 Set the skin preview - usually at the init time only
 
@@ -67,7 +103,7 @@ Could be redefined for dynamic preview texture generation
 Hook for dynamic skins updates on select. Is called in skins.set_player_skin()
 In skinsdb the default implementation for this function is empty.
 
-skin:apply_skin_to_player(player)
+## skin:apply_skin_to_player(player)
 Apply the skin to the player. Called in skins.update_player_skin() to update visuals
 
 ## skin:set_meta(key, value)
@@ -80,7 +116,7 @@ The next metadata keys are filled or/and used interally in skinsdb framework
   - name - A name for the skin
   - author - The skin author
   - license - THe skin texture license
-  - assignment - (obsolete) is "player:playername" in case the skin is assigned to be privat for a player
+  - assignment - (obsolete) is "player:playername" in case the skin is assigned to be private for a player
   - playername - Player assignment for private skin. Set false for skins not usable by all players (like NPC-Skins), true or nothing for all player skins
   - in_inventory_list - If set to false the skin is not visible in inventory skins selection but can be still applied to the player
   - _sort_id - Thi skins lists are sorted by this field for output (internal key)

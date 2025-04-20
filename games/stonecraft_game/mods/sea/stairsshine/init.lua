@@ -5,15 +5,6 @@
 -- Minetest 0.4 mod: stairs
 -- See README.txt for licensing and other information.
 
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("seaplants") then return end
-
 stairsshine = {}
 
 -- Node will be called stairsshine:stair_<subname>
@@ -210,10 +201,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		node.name = minetest.registered_nodes[node.name].replace_name
 		node.param2 = node.param2 + 20
 		if node.param2 == 21 then

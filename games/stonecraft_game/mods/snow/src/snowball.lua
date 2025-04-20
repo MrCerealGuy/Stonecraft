@@ -40,10 +40,10 @@ function snow.shoot_snowball(item, player)
 	local dif = 2*math.sqrt(dir.z*dir.z+dir.x*dir.x)
 	addp.x = dir.z/dif -- + (math.random()-0.5)/5
 	addp.z = -dir.x/dif -- + (math.random()-0.5)/5
-	local pos = vector.add(player:getpos(), addp)
+	local pos = vector.add(player:get_pos(), addp)
 	local obj = minetest.add_entity(pos, "snow:snowball_entity")
-	obj:setvelocity(vector.multiply(dir, snowball_velocity))
-	obj:setacceleration({x=dir.x*-3, y=-get_gravity(), z=dir.z*-3})
+	obj:set_velocity(vector.multiply(dir, snowball_velocity))
+	obj:set_acceleration({x=dir.x*-3, y=-get_gravity(), z=dir.z*-3})
 	obj:get_luaentity().thrower = player:get_player_name()
 	if creative_mode then
 		if not someone_throwing then
@@ -103,13 +103,13 @@ local snow_snowball_ENTITY = {
 
 function snow_snowball_ENTITY.on_activate(self)
 	self.object:set_properties({textures = {"default_snowball.png^[transform"..math.random(0,7)}})
-	self.object:setacceleration({x=0, y=-get_gravity(), z=0})
-	self.lastpos = self.object:getpos()
+	self.object:set_acceleration({x=0, y=-get_gravity(), z=0})
+	self.lastpos = self.object:get_pos()
 	minetest.after(0.1, function(obj)
 		if not obj then
 			return
 		end
-		local vel = obj:getvelocity()
+		local vel = obj:get_velocity()
 		if vel
 		and vel.y ~= 0 then
 			return
@@ -118,7 +118,7 @@ function snow_snowball_ENTITY.on_activate(self)
 			if not object then
 				return
 			end
-			local vel_obj = object:getvelocity()
+			local vel_obj = object:get_velocity()
 			if not vel_obj
 			or vel_obj.y == 0 then
 				object:remove()
@@ -137,7 +137,7 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 	end
 
 	if self.physical then
-		local vel = self.object:getvelocity()
+		local vel = self.object:get_velocity()
 		local fell = vel.y == 0
 		if not fell then
 			if self.probably_stuck then
@@ -155,7 +155,7 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 			self.probably_stuck = nil
 			return
 		end
-		local pos = vector.round(self.object:getpos())
+		local pos = vector.round(self.object:get_pos())
 		if minetest.get_node(pos).name == "air" then
 			pos.y = pos.y-1
 			if minetest.get_node(pos).name == "air" then
@@ -171,16 +171,16 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 		return
 	end
 
-	local pos = vector.round(self.object:getpos())
+	local pos = vector.round(self.object:get_pos())
 	if vector.equals(pos, self.lastpos) then
 		return
 	end
 	if minetest.get_node(pos).name ~= "air" then
-		self.object:setacceleration({x=0, y=-get_gravity(), z=0})
-		--self.object:setvelocity({x=0, y=0, z=0})
+		self.object:set_acceleration({x=0, y=-get_gravity(), z=0})
+		--self.object:set_velocity({x=0, y=0, z=0})
 		pos = self.lastpos
 		self.object:setpos(pos)
-		minetest.sound_play("default_snow_footstep", {pos=pos, gain=vector.length(self.object:getvelocity())/30})
+		minetest.sound_play("default_snow_footstep", {pos=pos, gain=vector.length(self.object:get_velocity())/30})
 		self.object:set_properties({physical = true})
 		self.physical = true
 		return
@@ -199,8 +199,8 @@ function snow_snowball_ENTITY.on_step(self, dtime)
 			or (entity_name ~= "snow:snowball_entity"
 			and entity_name ~= "__builtin:item"
 			and entity_name ~= "gauges:hp_bar") then
-				local vvel = v:getvelocity() or v:get_player_velocity()
-				local veldif = self.object:getvelocity()
+				local vvel = v:get_velocity() or v:get_player_velocity()
+				local veldif = self.object:get_velocity()
 				if vvel then
 					veldif = vector.subtract(veldif, vvel)
 				end

@@ -15,7 +15,7 @@ local function register_micro(modname, subname, recipeitem, groups, images, desc
 		description = description,
 		drop = drop,
 		light_source = light,
-		sounds = default.node_sound_stone_defaults(),
+		sounds = moreblocks.node_sound_stone_defaults(),
 	})
 end
 
@@ -40,4 +40,5 @@ function stairsplus:register_micro(modname, subname, recipeitem, fields)
 	end
 
 	circular_saw.known_nodes[recipeitem] = {modname, subname}
+	circular_saw.microblocks[modname.. ":micro_" .. subname] = {modname, subname}
 end

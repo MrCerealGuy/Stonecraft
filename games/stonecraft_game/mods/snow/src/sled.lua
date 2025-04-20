@@ -81,7 +81,7 @@ local sled = {
 
 local players_sled = {}
 local function join_sled(self, player)
-	local pos = self.object:getpos()
+	local pos = self.object:get_pos()
 	player:setpos(pos)
 	local name = player:get_player_name()
 	players_sled[name] = true
@@ -89,7 +89,7 @@ local function join_sled(self, player)
 	default.player_set_animation(player, "sit" , 30)
 	self.driver = name
 	self.object:set_attach(player, "", {x=0,y=-9,z=0}, {x=0,y=90,z=0})
-	self.object:setyaw(player:get_look_yaw())-- - math.pi/2)
+	self.object:set_yaw(player:get_look_yaw())-- - math.pi/2)
 end
 
 local function leave_sled(self, player)
@@ -156,7 +156,7 @@ end
 
 function sled:on_activate(staticdata)
 	self.object:set_armor_groups({immortal=1})
-	self.object:setacceleration({x=0, y=-10, z=0})
+	self.object:set_acceleration({x=0, y=-10, z=0})
 	if staticdata then
 		self.v = tonumber(staticdata)
 	end
@@ -200,7 +200,7 @@ function sled:on_step(dtime)
 		return
 	end
 	if player:get_player_control().sneak
-	or not accelerating_possible(vector.round(self.object:getpos())) then
+	or not accelerating_possible(vector.round(self.object:get_pos())) then
 		leave_sled(self, player)
 	end
 end
@@ -220,7 +220,7 @@ minetest.register_craftitem("snow:sled", {
 		if players_sled[placer:get_player_name()] then
 			return
 		end
-		local pos = placer:getpos()
+		local pos = placer:get_pos()
 		if accelerating_possible(vector.round(pos)) then
 			pos.y = pos.y+0.5
 

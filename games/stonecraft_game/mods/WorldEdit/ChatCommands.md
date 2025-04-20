@@ -409,14 +409,15 @@ Load nodes from "(world folder)/schems/`<file>`.we" with position 1 of the curre
 
 ### `//lua <code>`
 
-Executes `<code>` as a Lua chunk in the global namespace.
+Executes `<code>` as a Lua chunk in the global namespace with the variables `name`, `player` and `pos` (= player position) available.
 
-    //lua worldedit.pos1["singleplayer"] = {x=0, y=0, z=0}
-    //lua worldedit.rotate(worldedit.pos1["singleplayer"], worldedit.pos2["singleplayer"], "y", 90)
+    //lua worldedit.pos1[name] = vector.new(0, 0, 0)
+    //lua worldedit.rotate(worldedit.pos1["jones"], worldedit.pos2["jones"], "y", 90)
+    //lua player:set_pos(worldedit.pos2[name])
 
 ### `//luatransform <code>`
 
-Executes `<code>` as a Lua chunk in the global namespace with the variable pos available, for each node in the current WorldEdit region.
+Executes `<code>` as a Lua chunk in the global namespace with the variable `pos` available, for each node in the current WorldEdit region.
 
     //luatransform minetest.swap_node(pos, {name="default:stone"})
     //luatransform if minetest.get_node(pos).name == "air" then minetest.add_node(pos, {name="default:water_source"}) end
@@ -428,11 +429,12 @@ Save the current WorldEdit region using the Minetest Schematic format to "(world
     //mtschemcreate some random filename
     //mtschemcreate huge_base
 
-### `//mtschemplace <file>`
+### `//mtschemplace <file> [rotation]`
 
 Load nodes from "(world folder)/schems/`<file>`.mts" with position 1 of the current WorldEdit region as the origin.
+Valid values for `[rotation]` are 0, 90, 180 and 270.
 
-    //mtschemplace some random filename
+    //mtschemplace a_tree 270
     //mtschemplace huge_base
 
 ### `//mtschemprob start/finish/get`

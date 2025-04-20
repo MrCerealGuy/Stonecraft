@@ -17,16 +17,6 @@ else
 	S = function ( s ) return s end
 end
 
---[[
-
-2017-01-16 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("surprise") then return end
-
-
 --[[ here are some configuration variables ]]
 local blocks_per_chunk = 1	-- number of blocks per chunk.
 local height_min = -30000		-- minimum spawning height 

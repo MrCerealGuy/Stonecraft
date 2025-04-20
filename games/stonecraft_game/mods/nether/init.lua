@@ -1,22 +1,6 @@
---[[
-
-2017-09-17 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2017-10-10 set nether depth from -20.000 to -30.000 (Morlendor begins at -30.000)
-
-2017-10-10 register_on_generated: added Morlendor depth check
-		   make_portal: added Morlendor depth check
-
---]]
-
-if core.skip_mod("nether") then return end
-
 -- Parameters
 
-local NETHER_DEPTH = -20000	-- MERGEINFO: changed by MrCerealGuy
-local MORLENDOR_DEPTH = -30000
-
+local NETHER_DEPTH = -5000
 local TCAVE = 0.6
 local BLEND = 128
 local DEBUG = false
@@ -70,13 +54,13 @@ local function volume_is_natural(minp, maxp)
 	local pos2 = {x = maxp.x, y = maxp.y, z = maxp.z}
 	local emin, emax = vm:read_from_map(pos1, pos2)
 	local area = VoxelArea:new({MinEdge = emin, MaxEdge = emax})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data()
 
 	for z = pos1.z, pos2.z do
 	for y = pos1.y, pos2.y do
 		local vi = area:index(pos1.x, y, z)
 		for x = pos1.x, pos2.x do
-			local id = vm:get_data_from_heap(data, vi) -- Existing node
+			local id = data[vi] -- Existing node
 			if id ~= c_air and id ~= c_ignore then -- These are natural
 				local name = minetest.get_name_from_content_id(id)
 				if not minetest.registered_nodes[name].is_ground_content then
@@ -226,7 +210,7 @@ local function make_portal(pos)
 
 	local target = {x = p1.x, y = p1.y, z = p1.z}
 	target.x = target.x + 1
-	if target.y < NETHER_DEPTH and target.y > MORLENDOR_DEPTH then  -- MERGEINFO: added by MrCerealGuy
+	if target.y < NETHER_DEPTH then
 		target.y = find_surface_target_y(target.x, target.z, -16)
 	else
 		local start_y = NETHER_DEPTH - math.random(500, 1500) -- Search start
@@ -262,10 +246,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 2,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		minetest.add_particlespawner(
 			32, --amount
 			4, --time
@@ -501,8 +481,8 @@ stairs.register_stair_and_slab(
 	"nether:brick",
 	{cracky = 2, level = 2},
 	{"nether_brick.png"},
-	"Nether stair",
-	"Nether slab",
+	"nether stair",
+	"nether slab",
 	default.node_sound_stone_defaults()
 )
 
@@ -598,7 +578,7 @@ local c_netherrack = minetest.get_content_id("nether:rack")
 -- On-generated function
 
 minetest.register_on_generated(function(minp, maxp, seed)
-	if minp.y > NETHER_DEPTH or maxp.y < MORLENDOR_DEPTH then	-- MERGEINFO: changed by MrCerealGuy
+	if minp.y > NETHER_DEPTH then
 		return
 	end
 
@@ -613,7 +593,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
 	local area = VoxelArea:new{MinEdge = emin, MaxEdge = emax}
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data(dbuf)
 
 	local x11 = emax.x -- Limits of mapchunk plus mapblock shell
 	local y11 = emax.y
@@ -654,7 +634,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 				local in_chunk_yzx = in_chunk_yz and x >= x0 and x <= x1 -- In mapchunk
 
-				local id = vm:get_data_from_heap(data, vi) -- Existing node
+				local id = data[vi] -- Existing node
 				-- Cave air, cave liquids and dungeons are overgenerated,
 				-- convert these throughout mapchunk plus shell
 				if id == c_air or -- Air and liquids to air
@@ -662,30 +642,30 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						id == c_lava_flowing or
 						id == c_water_source or
 						id == c_water_flowing then
-					vm:set_data_from_heap(data, vi, c_air)
+					data[vi] = c_air
 				-- Dungeons are preserved so we don't need
 				-- to check for cavern in the shell
 				elseif id == c_cobble or -- Dungeons (preserved) to netherbrick
 						id == c_mossycobble or
 						id == c_stair_cobble then
-					vm:set_data_from_heap(data, vi, c_netherbrick)
+					data[vi] = c_netherbrick
 				end
 
 				if in_chunk_yzx then -- In mapchunk
 					if nvals_cave[ni] > tcave then -- Only excavate cavern in mapchunk
-						vm:set_data_from_heap(data, vi, c_air)
+						data[vi] = c_air
 					elseif id == c_mese then -- Mese block to lava
-						vm:set_data_from_heap(data, vi, c_lava_source)
+						data[vi] = c_lava_source
 					elseif id == c_stone_with_gold or -- Precious ores to glowstone
 							id == c_stone_with_mese or
 							id == c_stone_with_diamond then
-						vm:set_data_from_heap(data, vi, c_glowstone)
+						data[vi] = c_glowstone
 					elseif id == c_gravel or -- Blob ore to nethersand
 							id == c_dirt or
 							id == c_sand then
-						vm:set_data_from_heap(data, vi, c_nethersand)
+						data[vi] = c_nethersand
 					else -- All else to netherstone
-						vm:set_data_from_heap(data, vi, c_netherrack)
+						data[vi] = c_netherrack
 					end
 
 					ni = ni + 1 -- Only increment noise index in mapchunk
@@ -696,11 +676,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 	end
 
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	vm:set_lighting({day = 0, night = 0})
 	vm:calc_lighting()
 	vm:update_liquids()
-	vm:write_to_map(true)
+	vm:write_to_map()
 
 	if DEBUG then
 		local chugent = math.ceil((os.clock() - t1) * 1000)

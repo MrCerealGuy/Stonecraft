@@ -9,6 +9,12 @@
 
 local S = cottages.S
 
+-- disable repair with anvil by setting a message for the item in question
+cottages.forbid_repair = {}
+-- example for hammer no longer beeing able to repair the hammer
+--cottages.forbid_repair["cottages:hammer"] = 'The hammer is too complex for repairing.'
+
+
 -- the hammer for the anvil
 minetest.register_tool("cottages:hammer", {
         description = S("Steel hammer for repairing tools on the anvil"),
@@ -50,7 +56,7 @@ local cottages_anvil_formspec =
 
 minetest.register_node("cottages:anvil", {
 	drawtype = "nodebox",
-	description = S("Anvil"),
+	description = S("anvil"),
 	tiles = {"cottages_stone.png"}, -- TODO default_steel_block.png,  default_obsidian.png are also nice
 	paramtype  = "light",
         paramtype2 = "facedir",
@@ -138,6 +144,12 @@ minetest.register_node("cottages:anvil", {
 				S('The workpiece slot is for damaged tools only.'));
 			return 0;
 		end
+		if(   listname=='input'
+                 and  cottages.forbid_repair[ stack:get_name() ]) then
+			minetest.chat_send_player( player:get_player_name(),
+				S(cottages.forbid_repair[ stack:get_name() ]));
+			return 0;
+		end
 		return stack:get_count()
 	end,
 
@@ -180,6 +192,14 @@ minetest.register_node("cottages:anvil", {
 
 		-- 65535 is max damage
 		local damage_state = 40-math.floor(input:get_wear()/1638);
+
+		-- just to make sure that it really can't get repaired if it should not
+		-- (if the check of placing the item in the input slot failed somehow)
+		if( puncher and name and cottages.forbid_repair[ input:get_name() ]) then
+			minetest.chat_send_player( name,
+				S(cottages.forbid_repair[ input:get_name() ]));
+			return;
+		end
 
 		local tool_name = input:get_name();
 		local hud_image = "";

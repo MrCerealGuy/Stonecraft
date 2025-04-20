@@ -2,7 +2,7 @@ WorldEdit v1.3
 ==============
 The ultimate in-game world editing tool for [Minetest](http://minetest.net/)! Tons of functionality to help with building, fixing, and more.
 
-For more information, see the [forum topic](https://forum.minetest.net/viewtopic.php?id=572) at the Minetest forums.
+For more information, see the [forum topic](https://forum.minetest.net/viewtopic.php?t=572) at the Minetest forums.
 
 # New users should see the [tutorial](Tutorial.md).
 
@@ -23,7 +23,7 @@ There is a nice installation guide over at the [Minetest Wiki](http://wiki.minet
 8. You should have a mod selection screen. Select the one named something like `Minetest-WorldEdit` by left clicking once and press the **Enable Modpack** button.
 9. Press the **Save** button. You can now use WorldEdit in that world. Repeat steps 7 to 9 to enable WorldEdit for other worlds too.
 
-If you are having trouble, try asking for help in the [IRC channel](https://webchat.freenode.net/?channels=#minetest) (faster but may not always have helpers online)
+If you are having trouble, try asking for help in the [IRC channel](https://web.libera.chat/#minetest) (faster but may not always have helpers online)
 or ask on the [forum topic](https://forum.minetest.net/viewtopic.php?id=572) (slower but more likely to get help).
 
 Usage

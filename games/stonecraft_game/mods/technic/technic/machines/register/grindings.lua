@@ -1,12 +1,5 @@
---[[
-
-2018-01-28 added check for moretrees and mesecons mods
-
---]]
-
 local S = technic.getter
-local moretrees = minetest.get_modpath("moretrees") and not core.skip_mod("moretrees")
-local mesecons_materials = minetest.get_modpath("mesecons_materials") and not core.skip_mod("mesecons")
+local moretrees = minetest.get_modpath("moretrees")
 local dye = minetest.get_modpath("dye")
 
 -- sawdust, the finest wood/tree grinding

@@ -2,7 +2,7 @@
 local S = minetest.get_translator(minetest.get_current_modname())
 
 if not minetest.global_exists("sfinv") then
-	minetest.log("warning", S("3d_armor_sfinv: Mod loaded but unused."))
+	minetest.log("warning", "3d_armor_sfinv: Mod loaded but unused.")
 	return
 end
 

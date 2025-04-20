@@ -1,14 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
-if core.skip_mod("swamps") then return end
-
 sumpf = rawget(_G, "sumpf") or {}
 
 local jungletree_seed = 112
@@ -95,7 +84,7 @@ local function soft_node(id)
 	return false
 end
 
-local function tree_branch(manip, pos, area, nodes, pr)
+local function tree_branch(pos, area, nodes, pr)
 
 	--choose random leaves
 	--green leaves are more common
@@ -104,17 +93,17 @@ local function tree_branch(manip, pos, area, nodes, pr)
 		leaf = pr:next(1,3)
 	end
 
-	manip:set_data_from_heap(nodes, area:indexp(pos), c_jungletree)
+	nodes[area:indexp(pos)] = c_jungletree
 	for i = pr:next(1,2), -pr:next(1,2), -1 do
 		for k = pr:next(1,2), -pr:next(1,2), -1 do
 			local vi = area:index(pos.x+i, pos.y, pos.z+k)
-			if soft_node(manip:get_data_from_heap(nodes, vi)) then
-				manip:set_data_from_heap(nodes, vi, ndtable[leaf])
+			if soft_node(nodes[vi]) then
+				nodes[vi] = ndtable[leaf]
 			end
 			if math.abs(i+k) < 1 then
 				vi = vi + area.ystride
-				if soft_node(manip:get_data_from_heap(nodes, vi)) then
-					manip:set_data_from_heap(nodes, vi, ndtable[leaf])
+				if soft_node(nodes[vi]) then
+					nodes[vi] = ndtable[leaf]
 				end
 			end
 		end
@@ -122,7 +111,7 @@ local function tree_branch(manip, pos, area, nodes, pr)
 end
 
 
-local function small_jungletree(manip, pos, height, area, nodes, pr)
+local function small_jungletree(pos, height, area, nodes, pr)
 	for _,p in ipairs({
 		{x=pos.x, y=pos.y+height+pr:next(0,1), z=pos.z},
 		{x=pos.x, y=pos.y+height+pr:next(0,1), z=pos.z},
@@ -132,33 +121,33 @@ local function small_jungletree(manip, pos, height, area, nodes, pr)
 		{x=pos.x, y=pos.y+height-pr:next(1,2), z=pos.z+1},
 		{x=pos.x, y=pos.y+height-pr:next(1,2), z=pos.z-1},
 	}) do
-		tree_branch(manip, p, area, nodes, pr)
+		tree_branch(p, area, nodes, pr)
 	end
 
 	local vi = area:index(pos.x, pos.y-1, pos.z)
 	for _ = -1, height do
-		manip:set_data_from_heap(nodes, vi, c_jungletree)
+		nodes[vi] = c_jungletree
 		vi = vi + area.ystride
 	end
 
 	for i = height, 4, -1 do
 		if math.sin(i*i/height) < 0.2
 		and pr:next(0,2) ~= 2 then -- < 1.5
-			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
+			tree_branch({x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
 				area, nodes, pr)
 		end
 	end
 end
 
-local function big_jungletree(manip, pos, height, area, nodes, pr)
+local function big_jungletree(pos, height, area, nodes, pr)
 	local h_root = pr:next(0,1)-1
 	local vi = area:index(pos.x, pos.y-2, pos.z)
 	for _ = -2, h_root do
-		manip:set_data_from_heap(nodes, vi + area.zstride + 1, c_jungletree)
-		manip:set_data_from_heap(nodes, vi - area.zstride + 2, c_jungletree)
-		manip:set_data_from_heap(nodes, vi - 2 * area.zstride, c_jungletree)
+		nodes[vi + area.zstride + 1] = c_jungletree
+		nodes[vi - area.zstride + 2] = c_jungletree
+		nodes[vi - 2 * area.zstride] = c_jungletree
 
-		manip:set_data_from_heap(nodes, vi - 1, c_jungletree)
+		nodes[vi - 1] = c_jungletree
 
 		vi = vi + area.ystride
 	end
@@ -166,7 +155,7 @@ local function big_jungletree(manip, pos, height, area, nodes, pr)
 		if i > 3
 		and math.sin(i*i/height) < 0.2
 		and pr:next(0,2) < 1.5 then
-			tree_branch(manip, {x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
+			tree_branch({x=pos.x+pr:next(0,1), y=pos.y+i, z=pos.z-pr:next(0,1)},
 				area, nodes, pr)
 		end
 
@@ -187,7 +176,7 @@ local function big_jungletree(manip, pos, height, area, nodes, pr)
 				{x=pos.x, y=pos.y+i, z=pos.z-1},
 				{x=pos.x, y=pos.y+i, z=pos.z},
 			}) do
-				tree_branch(manip, p, area, nodes, pr)
+				tree_branch(p, area, nodes, pr)
 			end
 		else
 			for _,p in pairs({
@@ -196,13 +185,13 @@ local function big_jungletree(manip, pos, height, area, nodes, pr)
 				{pos.x, pos.y+i, pos.z-1},
 				{pos.x, pos.y+i, pos.z},
 			}) do
-				manip:set_data_from_heap(nodes, area:index(p[1], p[2], p[3]), c_jungletree)
+				nodes[area:index(p[1], p[2], p[3])] = c_jungletree
 			end
 		end
 	end
 end
 
-function sumpf.generate_jungletree(manip, pos, area, nodes, pr, ymax)
+function sumpf.generate_jungletree(pos, area, nodes, pr, ymax)
 	local h_max = 15
 	-- should fix trees on upper chunk corners
 	local max_heigth = ymax+16-pos.y
@@ -213,9 +202,9 @@ function sumpf.generate_jungletree(manip, pos, area, nodes, pr, ymax)
 	local height = 5 + pr:next(1,h_max)
 
 	if height < 10 then
-		small_jungletree(manip, pos, height, area, nodes, pr)
+		small_jungletree(pos, height, area, nodes, pr)
 	else
-		big_jungletree(manip, pos, height, area, nodes, pr)
+		big_jungletree(pos, height, area, nodes, pr)
 	end
 end
 
@@ -243,16 +232,15 @@ function spawn_jungletree(pos)
 		{x = pos.x - vwidth, y = pos.y + vdepth, z = pos.z - vwidth},
 		{x = pos.x + vwidth, y = pos.y + vheight, z = pos.z + vwidth})
 	local area = VoxelArea:new{MinEdge=emerged_pos1, MaxEdge=emerged_pos2}
-	local nodes = manip:load_data_into_heap()
-
+	local nodes = manip:get_data()
 
 	if small then
-		small_jungletree(manip, pos, height, area, nodes, pr)
+		small_jungletree(pos, height, area, nodes, pr)
 	else
-		big_jungletree(manip, pos, height, area, nodes, pr)
+		big_jungletree(pos, height, area, nodes, pr)
 	end
 
-	manip:save_data_from_heap(nodes)
+	manip:set_data(nodes)
 	manip:write_to_map()
 	sumpf.inform("a jungletree grew at " .. minetest.pos_to_string(pos), 2, t1)
 end
@@ -263,9 +251,6 @@ minetest.register_abm({
 	interval = 40,
 	chance = 5,
 	action = function(pos)
-		if not abm_allowed.yes then
-			return
-		end
 		if sumpf.tree_allowed(pos, 7) then
 			spawn_jungletree(pos)
 		end

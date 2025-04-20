@@ -1,10 +1,3 @@
---[[
-
-2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
 -- Added to change dirt_with_snow to dirt if covered with blocks that don't let
 -- light through (sunlight_propagates) or have a light paramtype and
 -- liquidtype combination. ~ LazyJ, 2014_03_08
@@ -14,10 +7,6 @@ minetest.register_abm({
 	interval = 2,
 	chance = 20,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local name = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z}).name
 		local nodedef = minetest.registered_nodes[name]
 		if name ~= "ignore"
@@ -46,10 +35,6 @@ minetest.register_abm({
 	interval = 10,
 	chance = 2,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		local intensity = minetest.get_item_group(node.name,"melts")
 		if intensity == 1 then
 			minetest.set_node(pos, {name="default:water_source"})
@@ -100,10 +85,6 @@ minetest.register_abm({
 	interval = 20,
 	chance = 4,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		minetest.add_node(pos,{name="default:ice"})
 	end,
 })
@@ -115,10 +96,6 @@ minetest.register_abm({
 	interval = 20,
 	chance = 4,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		if node.param2 == 0 then
 			return
 		end
@@ -159,10 +136,6 @@ minetest.register_abm({
 	chance = 6,
 	catch_up = false,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		node.name = "default:mossycobble"
 		minetest.add_node(pos, node)
 	end,
@@ -177,9 +150,6 @@ minetest.register_abm({
 	interval = 10,
 	chance = 50,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
 
 -- Check if there is enough vertical-space for the sapling to grow without
 -- hitting anything else.  ~ LazyJ, 2014_04_10
@@ -213,9 +183,6 @@ minetest.register_abm({
 	interval = 10,
 	chance = 50,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
 
 		-- 'If' there is air in each of the 8 nodes dirctly above the sapling,... ~LazyJ
 		for i = 1,8 do
@@ -243,10 +210,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-		
 		minetest.add_node(pos, {name="default:snow"})
 		minetest.set_node_level(pos, 7*(tonumber(node.name:sub(-1))))
 	end,

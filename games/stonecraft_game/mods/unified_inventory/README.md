@@ -15,7 +15,8 @@ Unified Inventory replaces the default survival and creative inventory.
     * Recipe search function by ingredients
  * Up to four bags with up to 24 slots each
  * Home function to teleport
- * Trash slot
+ * Trash slot and refill slot for creative
+ * Waypoints to keep track of important locations
  * Lite mode: reduces the item browser width
     * `minetest.conf` setting `unified_inventory_lite = true`
  * Mod API for modders: see [mod_api.txt](doc/mod_api.txt)
@@ -25,6 +26,10 @@ Unified Inventory replaces the default survival and creative inventory.
 ## Requirements
 
  * Minetest 5.4.0+
+ * Mod `default` for category filters (contained in Minetest Game)
+ * Mod `farming` for craftable bags (contained in Minetest Game)
+ * For waypoint migration: `datastorage`
+
 
 # Licenses
 
@@ -66,6 +71,9 @@ From http://www.clker.com (Public Domain, CC-BY-4.0):
   * [`ui_pencil_icon.pnc`](http://www.clker.com/clipart-2256.html)
   * [`ui_waypoint_set_icon.png`](http://www.clker.com/clipart-larger-flag.html)
 
+From https://www.svgrepo.com (CC-BY)
+  * [`ui_teleport.png`](https://www.svgrepo.com/svg/321565/teleport)
+
 Everaldo Coelho (YellowIcon) (LGPL v2.1+):
 
   * [`ui_craftguide_icon.png` / `ui_craft_icon.png`](http://commons.wikimedia.org/wiki/File:Advancedsettings.png)
@@ -97,3 +105,16 @@ Other files from Wikimedia Commons:
 RealBadAngel: (CC-BY-4.0)
 
   * Everything else.
+
+
+## Sounds
+
+ * [`bell.ogg`](https://freesound.org/people/bennstir/sounds/81072/) by bennstir, CC 4.0
+ * [`electricity.ogg`](https://freesound.org/people/Halleck/sounds/19486/) by Halleck, CC 4.0 (cut)
+ * [`pageflip1.ogg`](https://freesound.org/people/themfish/sounds/45823/) by themfish, CC 4.0 (cut, slowed down)
+ * `pageflip2.ogg` (derived from `pageflip1.ogg`)
+ * [`trash.ogg`](https://freesound.org/people/OwlStorm/sounds/151231/) by OwlStorm, CC 0 (speed up)
+ * [`trash_all.ogg`](https://freesound.org/people/abel_K/sounds/68280/) by abel_K, Sampling Plus 1.0 (speed up)
+ * [`ui_click.ogg`](https://freesound.org/people/lartti/sounds/527569/) by lartti, CC 0 (cut)
+ * [`ui_morning.ogg`](https://freesound.org/people/InspectorJ/sounds/439472/) by InspectorJ, CC 4.0
+ * [`ui_owl.ogg`](https://freesound.org/people/manda_g/sounds/54987/) by manda_g, Sampling Plus 1.0 (cut)

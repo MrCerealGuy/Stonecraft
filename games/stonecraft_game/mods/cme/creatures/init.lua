@@ -19,14 +19,6 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("cme") then return end
 
 creatures = {}
 

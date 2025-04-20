@@ -1,11 +1,4 @@
 -- This is inspired by the landrush mod by Bremaweb
-
---[[
-
-2017-05-13 MrCerealGuy: do not show "Areas: " string if no area is available
-
---]]
-
 local S = minetest.get_translator("areas")
 areas.hud = {}
 areas.hud.refresh = 0
@@ -67,15 +60,13 @@ minetest.register_globalstep(function(dtime)
 		if #areaStrings > 0 then
 			areaString = areaString.."\n"..
 				table.concat(areaStrings, "\n")
-		else
-			areaString = ""		-- MERGEINFO: added by MrCerealGuy
 		end
 		local hud = areas.hud[name]
 		if not hud then
 			hud = {}
 			areas.hud[name] = hud
 			hud.areasId = player:hud_add({
-				hud_elem_type = "text",
+				[minetest.features.hud_def_type_field and "type" or "hud_elem_type"] = "text", -- compatible with older versions
 				name = "Areas",
 				number = 0xFFFFFF,
 				position = {x=0, y=1},

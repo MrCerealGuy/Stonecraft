@@ -49,7 +49,7 @@ local function update_forcefield(pos, meta, active)
 	local MinEdge, MaxEdge = vm:read_from_map(vector.subtract(pos, range),
 			vector.add(pos, range))
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local data = vm:load_data_into_heap()
+	local data = vm:get_data()
 
 	local c_air = minetest.get_content_id("air")
 	local c_field = minetest.get_content_id("technic:forcefield")
@@ -71,11 +71,11 @@ local function update_forcefield(pos, meta, active)
 				z == -range or z == range
 		end
 		if relevant then
-			local cid = vm:get_data_from_heap(data, vi)
+			local cid = data[vi]
 			if active and replaceable_cids[cid] then
-				vm:set_data_from_heap(data, vi, c_field)
+				data[vi] = c_field
 			elseif not active and cid == c_field then
-				vm:set_data_from_heap(data, vi, c_air)
+				data[vi] = c_air
 			end
 		end
 		vi = vi + 1
@@ -83,7 +83,7 @@ local function update_forcefield(pos, meta, active)
 	end
 	end
 
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	vm:update_liquids()
 	vm:write_to_map()
 end
@@ -112,10 +112,13 @@ local function set_forcefield_formspec(meta)
 	else
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
+	-- TODO: String replacement with %s will stop working with client-side translations
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;enable;"..
+			S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec.."button[0,1.75;5,1;disable;"..
+			S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -368,7 +371,7 @@ minetest.register_node("technic:forcefield", {
 })
 
 
-if minetest.get_modpath("mesecons_mvps") and not core.skip_mod("mesecons") then
+if minetest.get_modpath("mesecons_mvps") then
 	mesecon.register_mvps_stopper("technic:forcefield")
 end
 

@@ -93,7 +93,7 @@ mapgen_helper.get_schematic_bounding_box = function(pos, schematic, rotation, fl
 	local size_y = size.y
 	local size_z = size.z
 	local center_pos = schematic.center_pos
-	
+
 	if center_pos and rotation ~= nil and rotation ~= 0 then
 		center_pos = vector.new(center_pos) -- make a copy so we can mess with it without damaging the schematic
 		if rotation == 90 then
@@ -109,9 +109,9 @@ mapgen_helper.get_schematic_bounding_box = function(pos, schematic, rotation, fl
 	if rotation == 90 or rotation == 270 then
 		size_x, size_z = swap(size_x, size_z)
 	end
-	
+
 	local minpos = vector.new(pos)
-	
+
 	if center_pos then
 		if not flags.place_center_x then
 			minpos.x = minpos.x - center_pos.x
@@ -122,7 +122,7 @@ mapgen_helper.get_schematic_bounding_box = function(pos, schematic, rotation, fl
 		if not flags.place_center_z then
 			minpos.z = minpos.z - center_pos.z
 		end
-	end	
+	end
 	if flags.place_center_x then
 		minpos.x = math.floor(minpos.x - (size_x - 1) / 2)
 	end
@@ -132,7 +132,7 @@ mapgen_helper.get_schematic_bounding_box = function(pos, schematic, rotation, fl
 	if flags.place_center_z then
 		minpos.z = math.floor(minpos.z - (size_z - 1) / 2)
 	end
-	
+
 	local maxpos = vector.add(minpos, {x=size_x-1, y=size_y-1, z=size_z-1})
 
 	return minpos, maxpos
@@ -157,10 +157,10 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 	end
 	local center_pos = schematic.center_pos
 	if rotation == "random" then rotation = random_rotations[math.random(1,4)] end
-	
+
 	local schemdata = schematic.data
 	local slice_probs = schematic.yslice_prob or {}
-	
+
 	local size = schematic.size
 	local size_x = size.x
 	local size_y = size.y
@@ -181,7 +181,7 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 			center_pos.x, center_pos.z = swap(center_pos.x, size_z - center_pos.z - 1)
 		end
 	end
-	
+
 	local i_start, i_step_x, i_step_z
 	if rotation == 90 then
 		i_start  = size_x
@@ -214,7 +214,7 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 		if not flags.place_center_z then
 			pos.z = pos.z - center_pos.z
 		end
-	end	
+	end
 	if flags.place_center_x then
 		pos.x = math.floor(pos.x - (size_x - 1) / 2)
 	end
@@ -224,7 +224,7 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 	if flags.place_center_z then
 		pos.z = math.floor(pos.z - (size_z - 1) / 2)
 	end
-	
+
 	local maxpos = vector.add(pos, {x=size_x-1, y=size_y-1, z=size_z-1})
 	local minEdge = area.MinEdge
 	local maxEdge = area.MaxEdge
@@ -232,11 +232,11 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 			pos.z <= maxEdge.z and maxpos.z >= minEdge.z and
 			pos.y <= maxEdge.y and maxpos.y >= minEdge.y) then
 		return false -- the bounding boxes of the area and the schematic don't overlap at all
-	end	
-	
+	end
+
 	local contained_in_area = true
 	local on_place_callbacks = {}
-	
+
 	local y_map = pos.y
 	for y = 0, size_y-1 do
 		if slice_probs[y] == nil or slice_probs[y] == 255 or slice_probs[y] <= math.random(1, 255) then
@@ -244,7 +244,7 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 				local i = z * i_step_z + y * ystride + i_start
 				for x = 0, size_x-1 do
 					local vi = area:index(pos.x + x, y_map, pos.z + z)
-					if area:containsi(vi) then						
+					if area:containsi(vi) then
 						local node_def = schemdata[i]
 						local node_name = replacements[node_def.name] or node_def.name
 						if node_name ~= "ignore" then
@@ -266,7 +266,7 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 										local paramtype2 = registered_def.paramtype2
 										data[vi] = minetest.get_content_id(node_name)
 										data_param2[vi] = rotate_param2(node_def.param2, paramtype2, rotation)
-										
+
 										if on_place then
 											table.insert(on_place_callbacks, {on_place, vi})
 										end
@@ -285,11 +285,11 @@ mapgen_helper.place_schematic_on_data = function(data, data_param2, area, pos, s
 		end
 		y_map = y_map + 1
 	end
-	
+
 	for k, callback in pairs(on_place_callbacks) do
 		callback[1](callback[2], data, data_param2, area, pos, schematic, rotation, replacements, force_placement, flags)
 	end
-	
+
 	return contained_in_area
 end
 

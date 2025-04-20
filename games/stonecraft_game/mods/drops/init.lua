@@ -1,12 +1,3 @@
---[[
-
-2017-06-11 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("itemdrop") then return end
-
 local age                   = 1 --how old an item has to be before collecting
 local radius_magnet         = 2.5 --radius of item magnet
 local player_collect_height = 1.3 --added to their pos y value

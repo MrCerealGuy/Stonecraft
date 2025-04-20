@@ -1,3 +1,0 @@
-pri :3
-jorda
-CC BY-NC-SA 3.0

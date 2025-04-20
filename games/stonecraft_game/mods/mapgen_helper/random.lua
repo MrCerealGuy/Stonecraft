@@ -4,7 +4,7 @@
 mapgen_helper.get_random_points = function(minp, maxp, min_output_size, max_output_size)
 	local next_seed = math.random(1, 2^21) -- should be 2^31, but I've had a report that this causes a crash in the Lua interpreter on some systems.
 	math.randomseed(minetest.hash_node_position(minp) + mapgen_helper.mapgen_seed)
-	
+
 	local count = math.random(min_output_size, max_output_size)
 	local result = {}
 	while count > 0 do
@@ -15,7 +15,7 @@ mapgen_helper.get_random_points = function(minp, maxp, min_output_size, max_outp
 		table.insert(result, point)
 		count = count - 1
 	end
-	
+
 	math.randomseed(next_seed)
 	return result
 end

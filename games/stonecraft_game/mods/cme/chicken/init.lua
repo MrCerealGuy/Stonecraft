@@ -19,17 +19,7 @@
 -- 3. This notice may not be removed or altered from any source distribution.
 --
 
---[[
 
-2019-04-13 modified by MrCerealGuy <mrcerealguy@gmx.de>
-  exit if mod is deactivated
-
-2019-04-13 modified by MrCerealGuy <mrcerealguy@gmx.de>
-  added advanced mod control
-
---]]
-
-if core.skip_mod("mobs_animals") or core.get_mod_setting("mobs_animal_chicken") == "false" then return end
 
 -- Egg
 dofile(core.get_modpath("chicken") .. "/egg.lua")

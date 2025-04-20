@@ -4,24 +4,20 @@
 -- Depends default
 -- License: code MIT
 
---[[
+subterrane = {} --create a container for functions and constants
 
-2018-08-20 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
+local modpath = minetest.get_modpath(minetest.get_current_modname())
 
---]]
+dofile(modpath.."/dependencies.lua")
 
-if core.skip_mod("subterrane") then return end
-
-local c_stone = minetest.get_content_id("default:stone")
-local c_clay = minetest.get_content_id("default:clay")
-local c_desert_stone = minetest.get_content_id("default:desert_stone")
-local c_sandstone = minetest.get_content_id("default:sandstone")
+local c_stone = minetest.get_content_id(subterrane.dependencies.stone)
+local c_clay = minetest.get_content_id(subterrane.dependencies.clay)
+local c_desert_stone = minetest.get_content_id(subterrane.dependencies.desert_stone)
+local c_sandstone = minetest.get_content_id(subterrane.dependencies.sandstone)
 
 local c_air = minetest.get_content_id("air")
-local c_water = minetest.get_content_id("default:water_source")
 
-local c_obsidian = minetest.get_content_id("default:obsidian")
+local c_obsidian = minetest.get_content_id(subterrane.dependencies.obsidian)
 
 local c_cavern_air = c_air
 local c_warren_air = c_air
@@ -37,25 +33,20 @@ local c_lava_set -- will be populated with a set of nodes that count as lava
 -- Performance instrumentation
 local t_start = os.clock()
 
-subterrane = {} --create a container for functions and constants
-
 subterrane.registered_layers = {}
 
---grab a shorthand for the filepath of the mod
-local modpath = minetest.get_modpath(minetest.get_current_modname())
-
---load companion lua files
 dofile(modpath.."/defaults.lua")
 dofile(modpath.."/features.lua") -- some generic cave features useful for a variety of mapgens
 dofile(modpath.."/player_spawn.lua") -- Function for spawning a player in a giant cavern
+dofile(modpath.."/test_pos.lua") -- Function other mapgens can use to test if a position is inside a cavern
 dofile(modpath.."/legacy.lua") -- contains old node definitions and functions, will be removed at some point in the future.
 
 local disable_mapgen_caverns = function()
 	local mg_name = minetest.get_mapgen_setting("mg_name")
 	local flags_name
 	local default_flags
-	
-	if mg_name == "v7" then 
+
+	if mg_name == "v7" then
 		flags_name = "mgv7_spflags"
 		default_flags = "mountains,ridges,nofloatlands"
 	elseif mg_name == "v5" then
@@ -64,14 +55,14 @@ local disable_mapgen_caverns = function()
 	else
 		return
 	end
-	
+
 	local function split(source, delimiters)
 		local elements = {}
 		local pattern = '([^'..delimiters..']+)'
 		string.gsub(source, pattern, function(value) elements[#elements + 1] = value; end);
 		return elements
 	end
-	
+
 	local flags_setting = minetest.get_mapgen_setting(flags_name) or default_flags
 	local new_flags = {}
 	local flags = split(flags_setting, ", ")
@@ -96,8 +87,8 @@ disable_mapgen_caverns()
 
 local grid_size = mapgen_helper.block_size * 4
 
-subterrane.get_column_points = function(minp, maxp, column_def)
-	local grids = mapgen_helper.get_nearest_regions(minp, grid_size)
+subterrane.get_column_points = function(minp_param, maxp_param, column_def)
+	local grids = mapgen_helper.get_nearest_regions(minp_param, grid_size)
 	local points = {}
 	for _, grid in ipairs(grids) do
 		--The y value of the returned point will be the radius of the column
@@ -110,7 +101,7 @@ subterrane.get_column_points = function(minp, maxp, column_def)
 				and point.z > minp.z - point.y
 				and point.z < maxp.z + point.y then
 				table.insert(points, point)
-			end			
+			end
 		end
 	end
 	return points
@@ -123,12 +114,12 @@ subterrane.get_column_value = function(pos, points)
 		local radius = point.y
 		if (pos.x >= axis_point.x-radius and pos.x <= axis_point.x+radius
 			and pos.z >= axis_point.z-radius and pos.z <= axis_point.z+radius) then
-			
+
 			local dist = vector.distance(pos, axis_point)
 			if dist < radius then
 				heat = math.max(heat, 1 - dist/radius)
 			end
-			
+
 		end
 	end
 	return heat
@@ -205,7 +196,7 @@ local clear_node_arrays = function()
 	cavern_data.tunnel_ceiling_count = 0
 	cavern_data.tunnel_floor_count = 0
 	cavern_data.column_count = 0
-	
+
 --	for k,v in pairs(cavern_ceiling_nodes) do cavern_ceiling_nodes[k] = nil end
 --	for k,v in pairs(cavern_floor_nodes) do cavern_floor_nodes[k] = nil end
 --	for k,v in pairs(warren_ceiling_nodes) do warren_ceiling_nodes[k] = nil end
@@ -213,7 +204,7 @@ local clear_node_arrays = function()
 --	for k,v in pairs(tunnel_ceiling_nodes) do tunnel_ceiling_nodes[k] = nil end
 --	for k,v in pairs(tunnel_floor_nodes) do tunnel_floor_nodes[k] = nil end
 --	for k,v in pairs(column_nodes) do column_nodes[k] = nil end
-	
+
 	close_node_arrays()
 end
 
@@ -284,32 +275,35 @@ subterrane.register_layer = function(cave_layer_def)
 		error_out = true
 	end
 	if error_out then return end
-	
-	local cave_name = cave_layer_def.name
 
 	subterrane.set_defaults(cave_layer_def)
-	
+
 	local YMIN = cave_layer_def.y_min
 	local YMAX = cave_layer_def.y_max
-	
+
 	if cave_layer_def.name == nil then
 		cave_layer_def.name = tostring(YMIN) .. " to " .. tostring(YMAX)
 	end
-	
-	table.insert(subterrane.registered_layers, cave_layer_def)
+
+	local cave_name = cave_layer_def.name
+
+	if subterrane.registered_layers[cave_name] ~= nil then
+		minetest.log("warning", "[subterrane] cave layer def " .. tostring(cave_name) .. " has already been registered. Overriding with new definition.")
+	end
+	subterrane.registered_layers[cave_name] = cave_layer_def
 
 	local block_size = mapgen_helper.block_size
-	
+
 	if (YMAX+32+1)%block_size ~= 0 then
 		local boundary = YMAX -(YMAX+32+1)%block_size
 		minetest.log("warning", "[subterrane] The y_max setting "..tostring(YMAX)..
-			" for cavern layer " .. cave_layer_def.name .. " is not aligned with map chunk boundaries. Consider "..
+			" for cavern layer " .. cave_name .. " is not aligned with map chunk boundaries. Consider "..
 			tostring(boundary) .. " or " .. tostring(boundary+block_size) .. " for maximum mapgen efficiency.")
 	end
 	if (YMIN+32)%block_size ~= 0 then
 		local boundary = YMIN - (YMIN+32)%block_size
 		minetest.log("warning", "[subterrane] The y_min setting "..tostring(YMIN)..
-			" for cavern layer " .. cave_layer_def.name .. " is not aligned with map chunk boundaries. Consider "..
+			" for cavern layer " .. cave_name .. " is not aligned with map chunk boundaries. Consider "..
 			tostring(boundary) .. " or " .. tostring(boundary+block_size) .. " for maximum mapgen efficiency.")
 	end
 
@@ -321,15 +315,15 @@ subterrane.register_layer = function(cave_layer_def)
 	local warren_threshold = cave_layer_def.warren_threshold -- determines narrowness of warrens themselves
 
 	local solidify_lava = cave_layer_def.solidify_lava
-	
+
 	local np_cave = cave_layer_def.perlin_cave
 	local np_wave = cave_layer_def.perlin_wave
 	local np_warren_area = cave_layer_def.perlin_warren_area
 	local np_warrens = cave_layer_def.perlin_warrens
-	
+
 	local y_blend_min = YMIN + BLEND * 1.5
-	local y_blend_max = YMAX - BLEND * 1.5	
-	
+	local y_blend_max = YMAX - BLEND * 1.5
+
 	local column_def = cave_layer_def.columns
 	local c_column
 	local c_warren_column
@@ -342,7 +336,7 @@ subterrane.register_layer = function(cave_layer_def)
 	end
 
 	local double_frequency = cave_layer_def.double_frequency
-		
+
 	local decorate = cave_layer_def.decorate
 
 	if subterrane_enable_singlenode_mapping_mode then
@@ -350,12 +344,12 @@ subterrane.register_layer = function(cave_layer_def)
 		c_column = c_air
 		c_warren_column = nil
 	end
-	
+
 	local is_ground_content = cave_layer_def.is_ground_content
 	if is_ground_content == nil then
 		is_ground_content = mapgen_helper.is_ground_content
 	end
-	
+
 -- On generated
 ----------------------------------------------------------------------------------
 
@@ -374,7 +368,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 		end
 	end
-	
+
 	local vm, data, data_param2, area = mapgen_helper.mapgen_vm_data_param2()
 	local emin = area.MinEdge
 	local emax = area.MaxEdge
@@ -386,26 +380,26 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	for vi, value in ipairs(nvals_cave) do
 		nvals_cave[vi] = (value + nvals_wave[vi])/2
 	end
-	
+
 	local warren_area_uninitialized = true
 	local nvals_warren_area
 	local warrens_uninitialized = true
 	local nvals_warrens
 
 	local previous_y = emin.y
-	local previous_node_state = outside_region
+	local previous_node_state
 	local this_node_state = outside_region
-	
+
 	local column_points = nil
 	local column_weight = nil
-	
+
 	-- This information might be of use to the decorate function.
 	cavern_data.contains_cavern = false
 	cavern_data.contains_warren = false
 	cavern_data.nvals_cave = nvals_cave
 	cavern_data.cave_area = cave_area
 	cavern_data.cavern_def = cave_layer_def
-	
+
 	-- The interp_yxz iterator iterates upwards in columns along the y axis.
 	-- starts at miny, goes to maxy, then switches to a new x,z and repeats.
 	for vi, x, y, z in area:iterp_yxz(emin, emax) do
@@ -413,7 +407,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		-- can slop over the boundaries of the mapblock without being cut off.
 		-- We only want to add vi to the various decoration node lists if we're actually within the mapblock.
 		local is_within_current_mapblock = mapgen_helper.is_pos_within_box({x=x, y=y, z=z}, minp, maxp)
-		
+
 		if y < previous_y then
 			-- we've switched to a new column
 			previous_node_state = outside_region
@@ -422,7 +416,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 		previous_y = y
 		this_node_state = inside_ground
-			
+
 		local cave_local_threshold
 		if y < y_blend_min then
 			cave_local_threshold = TCAVE + ((y_blend_min - y) / BLEND) ^ 2
@@ -446,9 +440,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						c_warren_air = c_clay
 				end
 
-			end			
+			end
 		end
-		
+
 		-- inside a giant cavern
 		if cave_value > cave_local_threshold then
 			local column_value = 0
@@ -459,7 +453,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 				column_value = subterrane.get_column_value({x=x, y=y, z=z}, column_points)
 			end
-			
+
 			if column_value > 0 and cave_value - column_value * column_weight < cave_local_threshold then
 				-- only add column nodes if we're within the current mapblock because
 				-- otherwise we're adding column nodes that the decoration loop won't know about
@@ -477,37 +471,37 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 			end
 		end
-		
+
 		-- If there's lava near the edges of the cavern, solidify it.
 		if solidify_lava and cave_value > cave_local_threshold - 0.05 and c_lava_set[data[vi]] then
 			data[vi] = c_obsidian
 		end
-			
+
 		--borderlands of a giant cavern, possible warren area
 		if cave_value <= cave_local_threshold and cave_value > warren_area_threshold then
-		
+
 			if warren_area_uninitialized then
 				nvals_warren_area = mapgen_helper.perlin3d("subterrane:warren_area", emin, emax, np_warren_area) -- determine which areas are spongey with warrens
 				warren_area_uninitialized = false
 			end
-			
+
 			local warren_area_value = nvals_warren_area[vi]
 			if warren_area_value > warren_area_variability_threshold then
 				-- we're in a warren-containing area
 				if solidify_lava and c_lava_set[data[vi]] then
-					data[vi] = c_obsidian					
+					data[vi] = c_obsidian
 				end
-				
+
 				if warrens_uninitialized then
 					nvals_warrens = mapgen_helper.perlin3d("subterrane:warrens", emin, emax, np_warrens) --spongey warrens
 					warrens_uninitialized = false
 				end
-				
+
 				-- we don't want warrens "cutting off" abruptly at the large-scale boundary noise thresholds, so turn these into gradients
 				-- that can be applied to choke off the warren gradually.
 				local cave_value_edge = math.min(1, (cave_value - warren_area_threshold) * 20) -- make 0.3 = 0 and 0.25 = 1 to produce a border gradient
 				local warren_area_value_edge = math.min(1, warren_area_value * 50) -- make 0 = 0 and 0.02 = 1 to produce a border gradient
-				
+
 				local warren_value = nvals_warrens[vi]
 				local warren_local_threshold = warren_threshold + (2 - warren_area_value_edge - cave_value_edge)
 				if warren_value > warren_local_threshold then
@@ -540,7 +534,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				end
 			end
 		end
-		
+
 		-- If decorate is defined, we want to track all this stuff
 		if decorate ~= nil then
 			local c_current_node = data[vi]
@@ -549,7 +543,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				-- we're in a preexisting open space (tunnel).
 				this_node_state = inside_tunnel
 			end
-			
+
 			if is_within_current_mapblock then
 				if this_node_state == inside_column then
 					cavern_data.column_count = cavern_data.column_count + 1
@@ -588,13 +582,13 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 		end
 	end
-	
+
 	if decorate then
 		close_node_arrays() -- inserts nil after the last node so that ipairs will function correctly
 		decorate(minp, maxp, seed, vm, cavern_data, area, data)
 		clear_node_arrays() -- if decorate is not defined these arrays will never have anything added to them, so it's safe to not call this in that case
 	end
-	
+
 	--send data back to voxelmanip
 	vm:set_data(data)
 	--calc lighting
@@ -603,7 +597,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	vm:update_liquids()
 	--write it to world
 	vm:write_to_map()
-	
+
 	local time_taken = os.clock() - t_start -- how long this chunk took, in seconds
 	mapgen_helper.record_time(cave_name, time_taken)
 end)

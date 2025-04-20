@@ -14,31 +14,26 @@ local mh = worldedit.manip_helpers
 -- @return The number of nodes added.
 function worldedit.cube(pos, width, height, length, node_name, hollow)
 	-- Set up voxel manipulator
-	local basepos = vector.subtract(pos, {x=math.floor(width/2), y=0, z=math.floor(length/2)})
-	local manip, area = mh.init(basepos, vector.add(basepos, {x=width, y=height, z=length}))
+	local basepos = vector.subtract(pos,
+		vector.new(math.floor(width / 2), 0, math.floor(length / 2)))
+	local endpos = vector.add(basepos,
+		vector.new(width - 1, height - 1, length - 1))
+	local manip, area = mh.init(basepos, endpos)
 	local data = mh.get_empty_data(area)
 
 	-- Add cube
 	local node_id = minetest.get_content_id(node_name)
-	local stride = {x=1, y=area.ystride, z=area.zstride}
-	local offset = vector.subtract(basepos, area.MinEdge)
 	local count = 0
+	local iterfunc
+	if hollow then
+		iterfunc = mh.iterp_hollowcuboid(area, basepos, endpos)
+	else
+		iterfunc = area:iterp(basepos, endpos)
+	end
 
-	for z = 0, length-1 do
-		local index_z = (offset.z + z) * stride.z + 1 -- +1 for 1-based indexing
-		for y = 0, height-1 do
-			local index_y = index_z + (offset.y + y) * stride.y
-			for x = 0, width-1 do
-				local is_wall = z == 0 or z == length-1
-					or y == 0 or y == height-1
-					or x == 0 or x == width-1
-				if not hollow or is_wall then
-					local i = index_y + (offset.x + x)
-					data[i] = node_id
-					count = count + 1
-				end
-			end
-		end
+	for vi in iterfunc do
+		data[vi] = node_id
+		count = count + 1
 	end
 
 	mh.finish(manip, data)
@@ -149,7 +144,7 @@ function worldedit.cylinder(pos, axis, length, radius1, radius2, node_name, holl
 	end
 
 	-- Handle negative lengths
-	local current_pos = {x=pos.x, y=pos.y, z=pos.z}
+	local current_pos = vector.new(pos)
 	if length < 0 then
 		length = -length
 		current_pos[axis] = current_pos[axis] - length
@@ -162,12 +157,8 @@ function worldedit.cylinder(pos, axis, length, radius1, radius2, node_name, holl
 
 	-- Add desired shape (anything inbetween cylinder & cone)
 	local node_id = minetest.get_content_id(node_name)
-	local stride = {x=1, y=area.ystride, z=area.zstride}
-	local offset = {
-		x = current_pos.x - area.MinEdge.x,
-		y = current_pos.y - area.MinEdge.y,
-		z = current_pos.z - area.MinEdge.z,
-	}
+	local stride = vector.new(1, area.ystride, area.zstride)
+	local offset = vector.subtract(current_pos, area.MinEdge)
 	local count = 0
 	for i = 0, length - 1 do
 		-- Calulate radius for this "height" in the cylinder
@@ -225,12 +216,8 @@ function worldedit.pyramid(pos, axis, height, node_name, hollow)
 
 	-- Add pyramid
 	local node_id = minetest.get_content_id(node_name)
-	local stride = {x=1, y=area.ystride, z=area.zstride}
-	local offset = {
-		x = pos.x - area.MinEdge.x,
-		y = pos.y - area.MinEdge.y,
-		z = pos.z - area.MinEdge.z,
-	}
+	local stride = vector.new(1, area.ystride, area.zstride)
+	local offset = vector.subtract(pos, area.MinEdge)
 	local size = math.abs(height * step)
 	local count = 0
 	-- For each level of the pyramid
@@ -242,8 +229,8 @@ function worldedit.pyramid(pos, axis, height, node_name, hollow)
 			for index3 = -size, size do
 				local i = new_index2 + (index3 + offset[other2]) * stride[other2]
 				if (not hollow or size - math.abs(index2) < 2 or size - math.abs(index3) < 2) then
-				       data[i] = node_id
-				       count = count + 1
+					data[i] = node_id
+					count = count + 1
 				end
 			end
 		end
@@ -271,9 +258,9 @@ function worldedit.spiral(pos, length, height, spacer, node_name)
 
 	-- Set up variables
 	local node_id = minetest.get_content_id(node_name)
-	local stride = {x=1, y=area.ystride, z=area.zstride}
-	local offset_x, offset_y, offset_z = pos.x - area.MinEdge.x, pos.y - area.MinEdge.y, pos.z - area.MinEdge.z
-	local i = offset_z * stride.z + offset_y * stride.y + offset_x + 1
+	local stride = vector.new(1, area.ystride, area.zstride)
+	local offset = vector.subtract(pos, area.MinEdge)
+	local i = offset.z * stride.z + offset.y * stride.y + offset.x + 1
 
 	-- Add first column
 	local count = height

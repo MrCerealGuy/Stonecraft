@@ -46,20 +46,27 @@ local mining_drill_mode_text = {
 	{S("3x3 nodes.")},
 }
 
-local function drill_dig_it0 (pos,player)
+local function drill_dig_it0(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		minetest.record_protection_violation(pos, player:get_player_name())
 		return
 	end
 	local node = minetest.get_node(pos)
-	if node.name == "air" or node.name == "ignore" then return end
-	if node.name == "default:lava_source" then return end
-	if node.name == "default:lava_flowing" then return end
-	if node.name == "default:water_source" then minetest.remove_node(pos) return end
-	if node.name == "default:water_flowing" then minetest.remove_node(pos) return end
-	local def = minetest.registered_nodes[node.name]
-	if not def then return end
-	def.on_dig(pos, node, player)
+	local ndef = minetest.registered_nodes[node.name]
+	if not ndef or ndef.drawtype == "airlike" then
+		-- Covers "air", "ignore", unknown nodes and more.
+		return
+	end
+	local groups = ndef and ndef.groups or {}
+
+	if groups.lava then
+		return
+	end
+	if groups.water then
+		minetest.remove_node(pos)
+		return
+	end
+	ndef.on_dig(pos, node, player)
 end
 
 local function drill_dig_it1 (player)
@@ -239,97 +246,60 @@ local function pos_is_pointable(pos)
 	return nodedef and nodedef.pointable
 end
 
-local function mining_drill_mk2_setmode(user,itemstack)
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local mode = nil
-	local meta=minetest.deserialize(item["metadata"])
-	if meta==nil then
-		meta={}
-		mode=0
+local function mining_drill_mkX_setmode(user, itemstack, drill_type, max_modes)
+	local player_name = user:get_player_name()
+	local meta = technic.get_stack_meta(itemstack)
+
+	if not meta:contains("mode") then
+		minetest.chat_send_player(player_name,
+			S("Use while sneaking to change Mining Drill Mk%d modes."):format(drill_type))
 	end
-	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(2))
-		meta["mode"]=0
-		mode=0
-	end
-	mode=(meta["mode"])
-	mode=mode+1
-	if mode>=5 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(2, mode)..": "..mining_drill_mode_text[mode][1])
-    itemstack:set_name("technic:mining_drill_mk2_"..mode);
-	meta["mode"]=mode
-    itemstack:set_metadata(minetest.serialize(meta))
+	local mode = meta:get_int("mode") + 1
+	if mode > max_modes then mode = 1 end
+
+	minetest.chat_send_player(player_name,
+		S("Mining Drill Mk%d Mode %d"):format(2, mode)..
+		": "..mining_drill_mode_text[mode][1])
+    itemstack:set_name(("technic:mining_drill_mk%d_%s"):format(drill_type, mode))
+	meta:set_int("mode", mode)
 	return itemstack
 end
 
-local function mining_drill_mk3_setmode(user,itemstack)
-	local player_name=user:get_player_name()
-	local item=itemstack:to_table()
-	local meta=minetest.deserialize(item["metadata"])
-	if meta==nil then
-		meta={}
-		mode=0
-	end
-	if meta["mode"]==nil then
-		minetest.chat_send_player(player_name, S("Use while sneaking to change Mining Drill Mk%d modes."):format(3))
-		meta["mode"]=0
-		mode=0
-	end
-	mode=(meta["mode"])
-	mode=mode+1
-	if mode>=6 then mode=1 end
-	minetest.chat_send_player(player_name, S("Mining Drill Mk%d Mode %d"):format(3, mode)..": "..mining_drill_mode_text[mode][1])
-    itemstack:set_name("technic:mining_drill_mk3_"..mode);
-	meta["mode"]=mode
-    itemstack:set_metadata(minetest.serialize(meta))
-	return itemstack
-end
-
-
-local function mining_drill_mk2_handler(itemstack, user, pointed_thing)
+local function mining_drill_mkX_handler(itemstack, user, pointed_thing, drill_type, max_modes)
 	local keys = user:get_player_control()
-	local meta = minetest.deserialize(itemstack:get_metadata())
-	if not meta or not meta.mode or keys.sneak then
-		return mining_drill_mk2_setmode(user, itemstack)
-	end
-	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) or not meta.charge then
-		return
-	end
-	local charge_to_take = cost_to_use(2, meta.mode)
-	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-		drill_dig_it(pos, user, meta.mode)
-		if not technic.creative_mode then
-			meta.charge = meta.charge - charge_to_take
-			itemstack:set_metadata(minetest.serialize(meta))
-			technic.set_RE_wear(itemstack, meta.charge, max_charge[2])
+	local meta = technic.get_stack_meta(itemstack)
+
+	-- Mode switching (if possible)
+	if max_modes > 1 then
+		if not meta:contains("mode") or keys.sneak then
+			return mining_drill_mkX_setmode(user, itemstack, drill_type, max_modes)
 		end
 	end
+	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) then
+		return
+	end
+
+	local charge = meta:get_int("technic:charge")
+	local mode = meta:contains("mode") and meta:get_int("mode") or 1
+
+	-- Check whether the tool has enough charge
+	local charge_to_take = cost_to_use(drill_type, mode)
+	if charge < charge_to_take then
+		return
+	end
+
+	-- Do the actual shoorting action
+	local pos = minetest.get_pointed_thing_position(pointed_thing, false)
+	drill_dig_it(pos, user, mode)
+	if not technic.creative_mode then
+		charge = charge - charge_to_take
+		meta:set_int("technic:charge", charge)
+		technic.set_RE_wear(itemstack, charge, max_charge[drill_type])
+	end
 	return itemstack
 end
 
-local function mining_drill_mk3_handler(itemstack, user, pointed_thing)
-	local keys = user:get_player_control()
-	local meta = minetest.deserialize(itemstack:get_metadata())
-	if not meta or not meta.mode or keys.sneak then
-		return mining_drill_mk3_setmode(user, itemstack)
-	end
-	if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) or not meta.charge then
-		return
-	end
-	local charge_to_take = cost_to_use(3, meta.mode)
-	if meta.charge >= charge_to_take then
-		local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-		drill_dig_it(pos, user, meta.mode)
-		if not technic.creative_mode then
-			meta.charge = meta.charge - charge_to_take
-			itemstack:set_metadata(minetest.serialize(meta))
-			technic.set_RE_wear(itemstack, meta.charge, max_charge[3])
-		end
-	end
-	return itemstack
-end
+-- Simple mining drill registration
 
 technic.register_power_tool("technic:mining_drill", max_charge[1])
 
@@ -340,26 +310,12 @@ minetest.register_tool("technic:mining_drill", {
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
-		if pointed_thing.type ~= "node" or not pos_is_pointable(pointed_thing.under) then
-			return itemstack
-		end
-		local meta = minetest.deserialize(itemstack:get_metadata())
-		if not meta or not meta.charge then
-			return
-		end
-		local charge_to_take = cost_to_use(1, 1)
-		if meta.charge >= charge_to_take then
-			local pos = minetest.get_pointed_thing_position(pointed_thing, false)
-			drill_dig_it(pos, user, 1)
-			if not technic.creative_mode then
-				meta.charge = meta.charge - charge_to_take
-				itemstack:set_metadata(minetest.serialize(meta))
-				technic.set_RE_wear(itemstack, meta.charge, max_charge[1])
-			end
-		end
+		mining_drill_mkX_handler(itemstack, user, pointed_thing, 1, 1)
 		return itemstack
 	end,
 })
+
+-- Mk2 registration
 
 minetest.register_tool("technic:mining_drill_mk2", {
 	description = S("Mining Drill Mk%d"):format(2),
@@ -367,7 +323,7 @@ minetest.register_tool("technic:mining_drill_mk2", {
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
-		mining_drill_mk2_handler(itemstack, user, pointed_thing)
+		mining_drill_mkX_handler(itemstack, user, pointed_thing, 2, 4)
 		return itemstack
 	end,
 })
@@ -384,11 +340,13 @@ for i = 1, 4 do
 		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory=1},
 		on_use = function(itemstack, user, pointed_thing)
-			mining_drill_mk2_handler(itemstack, user, pointed_thing)
+			mining_drill_mkX_handler(itemstack, user, pointed_thing, 2, 4)
 			return itemstack
 		end,
 	})
 end
+
+-- Mk3 registration
 
 minetest.register_tool("technic:mining_drill_mk3", {
 	description = S("Mining Drill Mk%d"):format(3),
@@ -396,8 +354,8 @@ minetest.register_tool("technic:mining_drill_mk3", {
 	wear_represents = "technic_RE_charge",
 	on_refill = technic.refill_RE_charge,
 	on_use = function(itemstack, user, pointed_thing)
-	mining_drill_mk3_handler(itemstack,user,pointed_thing)
-	return itemstack
+		mining_drill_mkX_handler(itemstack, user, pointed_thing, 3, 5)
+		return itemstack
 	end,
 })
 
@@ -413,8 +371,8 @@ for i=1,5,1 do
 		on_refill = technic.refill_RE_charge,
 		groups = {not_in_creative_inventory=1},
 		on_use = function(itemstack, user, pointed_thing)
-		mining_drill_mk3_handler(itemstack,user,pointed_thing)
-		return itemstack
+			mining_drill_mkX_handler(itemstack, user, pointed_thing, 3, 5)
+			return itemstack
 		end,
 	})
 end

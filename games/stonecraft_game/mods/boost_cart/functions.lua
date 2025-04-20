@@ -10,19 +10,26 @@ function boost_cart:manage_attachment(player, obj)
 	if not player then
 		return
 	end
-	local wants_attach = obj ~= nil
-	local attached = player:get_attach() ~= nil
+	local do_attach = obj ~= nil
 
-	if attached == wants_attach then
+	if obj and player:get_attach() == obj then
 		return
 	end
 
-	local player_name = player:get_player_name()
-	boost_cart.player_attached[player_name] = wants_attach
+	if boost_cart.PLAYER_API then
+		local player_name = player:get_player_name()
+		player_api.player_attached[player_name] = do_attach
+	end
 
-	if wants_attach then
+	if do_attach then
 		player:set_attach(obj, "", {x=0, y=-4, z=0}, {x=0, y=0, z=0})
 		player:set_eye_offset({x=0, y=-4, z=0},{x=0, y=-4, z=0})
+
+		if boost_cart.PLAYER_API then
+			-- player_api does not update the animation
+			-- when the player is attached, reset to default animation
+			player_api.set_animation(player, "stand")
+		end
 	else
 		player:set_detach()
 		player:set_eye_offset({x=0, y=0, z=0},{x=0, y=0, z=0})
@@ -50,9 +57,9 @@ function boost_cart:is_rail(pos, railtype)
 			MinEdge = emin,
 			MaxEdge = emax,
 		}
-		local data = vm:load_data_into_heap()
+		local data = vm:get_data()
 		local vi = area:indexp(pos)
-		node = minetest.get_name_from_content_id(vm:get_data_from_heap(data, vi))
+		node = minetest.get_name_from_content_id(data[vi])
 	end
 	if get_item_group(node, "rail") == 0 then
 		return false

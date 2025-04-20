@@ -12,10 +12,14 @@ If you got ideas or found bugs, please tell them to me.
 
 
 TODO:
-* add more giant mushrooms
-* finish supporting the mushrooms mod
-* add lava suit
-* use visual_scale → crop textures and change nodeboxes (maybe automatically)
-* make the growingtool craftable
-* mapgen: do not use fixed tree stuff
-* add settingtypes.txt
+* Mapgen: Do not use a fixed table of tree nodes; instead use a more flexible
+  way to remove trees.
+* Add a settingtypes.txt
+* Make the growingtool craftable
+* Test if visual_scale is useful for the small mushroom nodes,
+  e.g. to make textures smaller or to use power-of-two sized textures.
+  Nodeboxes would need to be changed accordingly (maybe automatically).
+* Add new features:
+  * Add more giant mushrooms
+  * Add more content from the mushrooms mod
+  * Add a lava suit

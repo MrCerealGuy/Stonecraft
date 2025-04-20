@@ -1,16 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
-if core.skip_mod("swamps") then return end
-
-local abm_allowed = true
-
 local load_time_start = minetest.get_us_time()
 
 minetest.register_craft({
@@ -265,15 +252,6 @@ end
 
 minetest.register_alias("sumpf:pilz", "riesenpilz:brown")
 
--- disallow abms when the server is lagging
-minetest.register_globalstep(function(dtime)
-   if dtime > 0.5
-   and abm_allowed then
-      abm_allowed = false
-      minetest.after(2, function() abm_allowed = true end)
-      --minetest.chat_send_all(dtime)
-   end
-end)
 
 local time = (minetest.get_us_time() - load_time_start) / 1000000
 local msg = "[sumpf] loaded after ca. " .. time .. " seconds."

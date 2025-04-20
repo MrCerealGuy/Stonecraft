@@ -380,6 +380,10 @@ function throwing.register_bow(name, def)
 		def.strength = 20
 	end
 
+	local throw_sound = def.sound
+	-- Reserved field by Minetest. Prevent leaking irrelevant data to the registration API
+	def.sound = nil
+
 	def.on_use = function(itemstack, user, pointed_thing)
 		-- Cooldown
 		local meta = itemstack:get_meta()
@@ -398,8 +402,8 @@ function throwing.register_bow(name, def)
 		end
 
 		-- Sound
-		if def.sound then
-			minetest.sound_play(def.sound, {to_player=user:get_player_name()})
+		if throw_sound then
+			minetest.sound_play(throw_sound, {to_player=user:get_player_name()})
 		end
 
 		meta:set_int("delay", os.time() + (def.delay or 0))

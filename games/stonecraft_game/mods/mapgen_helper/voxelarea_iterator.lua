@@ -23,7 +23,7 @@
 
 function VoxelArea:iter_xyz(minx, miny, minz, maxx, maxy, maxz)
 	local i = self:index(minx, miny, minz) - 1
-	
+
 	local x = minx - 1 -- subtracting one because x gets incremented before it gets returned the first time.
 	local xrange = maxx - minx + 1
 	local nextaction = i + 1 + xrange

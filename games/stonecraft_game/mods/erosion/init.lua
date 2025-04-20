@@ -1,19 +1,5 @@
 -- Terrain erosion mechanics using moreblocks' slope blocks
 
---[[
-
-2016-11-28 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	some modifications
-	
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
-if core.skip_mod("erosion") then return end
-
 if not rawget(_G,"stairsplus") then
 	minetest.log("info", "erosion: stairsplus not found")
 	return
@@ -27,7 +13,6 @@ local nntbl,eroding_lut,eroded_lut,eroding_nodes = {},{},{},{--mod defining slop
 	sandstone = {"moreblocks:","sand"},
 	dirt = {"erosion:","dirt"},
 	dirt_with_grass = {"erosion:","dirt"},
-	--dirt_with_grass_footsteps = {"erosion:","dirt"},	MERGEINFO: MrCerealGuy: causes error
 	dirt_with_dry_grass = {"erosion:","dirt"},
 	dirt_with_snow = {"erosion:","dirt"},
 	sand = {"erosion:","sand"},
@@ -270,19 +255,13 @@ for k,v in pairs(eroding_nodes) do dpstn[k] = minetest.get_content_id("default:"
 	for s,_ in pairs(slopes) do dpstn["slp_"..k..s] = minetest.get_content_id(eroding_nodes[k][1].."slope_"..k..s) end
 end
 dpstn.air = minetest.get_content_id("air")
-
---local function place_slope(data,prm2,vpos,m)
-local function place_slope(vm,data,prm2,vpos,m)
-	if data == nil or prm2 == nil or vm == nil then
-		return
-	end
-
-	box.w = vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn[m]
-	box.e = vm:get_data_from_heap(data, vpos+cube3[1][0][0]) == dpstn[m]
-	box.d = vm:get_data_from_heap(data, vpos+cube3[0][-1][0]) == dpstn[m]
-	box.u = vm:get_data_from_heap(data, vpos+cube3[0][1][0]) == dpstn[m]
-	box.s = vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn[m]
-	box.n = vm:get_data_from_heap(data, vpos+cube3[0][0][1]) == dpstn[m]
+local function place_slope(data,prm2,vpos,m)
+	box.w = data[vpos+cube3[-1][0][0]] == dpstn[m]
+	box.e = data[vpos+cube3[1][0][0]] == dpstn[m]
+	box.d = data[vpos+cube3[0][-1][0]] == dpstn[m]
+	box.u = data[vpos+cube3[0][1][0]] == dpstn[m]
+	box.s = data[vpos+cube3[0][0][-1]] == dpstn[m]
+	box.n = data[vpos+cube3[0][0][1]] == dpstn[m]
 	if box.w or	box.e or box.d or box.u or box.s or box.n then
 		box.t = (box.w and 1 or 0)+(box.e and 1 or 0)+(box.d and 1 or 0)+(box.u and 1 or 0)+(box.s and 1 or 0)+(box.n and 1 or 0)
 		if box.t == 2 then
@@ -298,30 +277,21 @@ local function place_slope(vm,data,prm2,vpos,m)
 			or box.w and box.s and 7
 			or box.e and box.n and 9
 			or box.w and box.n and 12
-			if box.f then
-				--data[vpos],prm2[vpos] = dpstn["slp_"..m],box.f
-				vm:set_data_from_heap(data, vpos, dpstn["slp_"..m])
-				vm:set_param2_data_from_heap(prm2, vpos, box.f)
-
-				if not box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
-				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
+			if box.f then data[vpos],prm2[vpos] = dpstn["slp_"..m],box.f
+				if not box.e and data[vpos+cube3[-1][0][0]] == dpstn.air
+				and data[vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]] == dpstn[m]
 				and vpos%cube3[0][0][1]~=1 then
-					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
+					data[vpos+cube3[-1][0][0]],prm2[vpos+cube3[-1][0][0]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
-				
-				if not box.u and vm:get_data_from_heap(data, vpos+cube3[0][-1][0]) == dpstn.air
-				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][-1][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
+				if not box.u and data[vpos+cube3[0][-1][0]] == dpstn.air
+				and data[vpos+cube3[box.e and 1 or box.w and -1 or 0][-1][box.n and 1 or box.s and -1 or 0]] == dpstn[m]
 				and vpos>cube3[0][1][0] then
-					vm:set_data_from_heap(data, vpos+cube3[0][-1][0], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][-1][0], box.f)
+					data[vpos+cube3[0][-1][0]],prm2[vpos+cube3[0][-1][0]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
-				
-				if not box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
-				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
+				if not box.n and data[vpos+cube3[0][0][-1]] == dpstn.air
+				and data[vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]] == dpstn[m]
 				and vpos%cube3[0][1][0]~=cube3[0][0][1] then
-					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
+					data[vpos+cube3[0][0][-1]],prm2[vpos+cube3[0][0][-1]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
 			end
 		elseif box.t == 3 then
@@ -333,28 +303,19 @@ local function place_slope(vm,data,prm2,vpos,m)
 			or box.u and box.w and box.n and 21
 			or box.u and box.s and box.w and 22
 			or box.u and box.e and box.s and 23
-			
-			if box.f then
-				vm:set_data_from_heap(data, vpos, dpstn["slp_"..m.."_inner_cut"])
-				vm:set_param2_data_from_heap(prm2, vpos, box.f)
-				
-				if box.e and vm:get_data_from_heap(data, vpos+cube3[-1][0][0]) == dpstn.air
-				and vm:get_data_from_heap(data, vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]) == dpstn[m]
+			if box.f then data[vpos],prm2[vpos] = dpstn["slp_"..m.."_inner_cut"],box.f
+				if box.e and data[vpos+cube3[-1][0][0]] == dpstn.air
+				and data[vpos+cube3[-1][box.u and 1 or box.d and -1 or 0][box.n and 1 or box.s and -1 or 0]] == dpstn[m]
 				and vpos%cube3[0][0][1]~=1 then
-					vm:set_data_from_heap(data, vpos+cube3[-1][0][0], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[-1][0][0], box.f)
+					data[vpos+cube3[-1][0][0]],prm2[vpos+cube3[-1][0][0]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
-				
-				if box.u and vm:get_data_from_heap(data, vpos+cube3[0][-1][0]) == dpstn.air and vpos>cube3[0][1][0] then
-					vm:set_data_from_heap(data, vpos+cube3[0][-1][0], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][-1][0], box.f)
+				if box.u and data[vpos+cube3[0][-1][0]] == dpstn.air and vpos>cube3[0][1][0] then
+					data[vpos+cube3[0][-1][0]],prm2[vpos+cube3[0][-1][0]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
-				
-				if box.n and vm:get_data_from_heap(data, vpos+cube3[0][0][-1]) == dpstn.air
-				and vm:get_data_from_heap(data, vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]) == dpstn[m]
+				if box.n and data[vpos+cube3[0][0][-1]] == dpstn.air
+				and data[vpos+cube3[box.e and 1 or box.w and -1 or 0][box.u and 1 or box.d and -1 or 0][-1]] == dpstn[m]
 				and vpos%cube3[0][1][0]~=cube3[0][0][1] then
-					vm:set_data_from_heap(data, vpos+cube3[0][0][-1], dpstn["slp_"..m.."_outer_cut"])
-					vm:set_param2_data_from_heap(prm2, vpos+cube3[0][0][-1], box.f)
+					data[vpos+cube3[0][0][-1]],prm2[vpos+cube3[0][0][-1]] = dpstn["slp_"..m.."_outer_cut"],box.f
 				end
 			end
 		end
@@ -362,44 +323,29 @@ local function place_slope(vm,data,prm2,vpos,m)
 end
 local function erosion_slope_gen(minp,maxp,vm,emin,emax)
 	local vxa = VoxelArea:new{MinEdge=emin,MaxEdge=emax}
-	local data = vm:load_data_into_heap()
-	local prm2 = vm:load_param2_data_into_heap()
-
-	for x=-1,1 do 
-		for y=-1,1 do
-			for z=-1,1 do
-				cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride
-			end
-		end
-	end
-	
+	local data,prm2 = vm:get_data(),vm:get_param2_data()
+	for x=-1,1 do for y=-1,1 do	for z=-1,1 do cube3[x][y][z]=x+y*vxa.ystride+z*vxa.zstride end end end
 	for vpos=vxa:index(minp.x,minp.y,minp.z),vxa:index(maxp.x,maxp.y,maxp.z) do
-		 if vm:get_data_from_heap(data, vpos) == dpstn.air then
-			for i=1,#gen_nodes do 
-				place_slope(vm,data,prm2,vpos,gen_nodes[i])
-			end
-		end
+		 if data[vpos] == dpstn.air then for i=1,#gen_nodes do place_slope(data,prm2,vpos,gen_nodes[i]) end end
 	end
 	return data,prm2,vxa
 end
 minetest.register_on_generated(function(minp,maxp)
 	if minp.y > 256 then return end
-	if minetest.get_mapgen_object("heightmap") == nil then return end	-- MERGINFO: MrCerealGuy
 	local vm,emin,emax = minetest.get_mapgen_object("voxelmanip")
 	local data,prm2,vxa = erosion_slope_gen(minp,maxp,vm,emin,emax)
 	if maxp.y > 2 then
 		local heightmap,hndx,vpos = minetest.get_mapgen_object("heightmap"),1
 		for z=minp.z,maxp.z do for x=minp.x,maxp.x do
 			vpos = vxa:index(x,heightmap[hndx]+1,z)
-			if vm:get_data_from_heap(data, vpos) == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(vm,data,prm2,vpos,k) end end
+			if data[vpos] == dpstn.air then for k,_ in pairs(eroding_nodes) do place_slope(data,prm2,vpos,k) end end
 			hndx = hndx+1
 		end end
 	end
-
-	vm:save_data_from_heap(data)
-	vm:save_param2_data_from_heap(prm2)
+	vm:set_data(data)
+	vm:set_param2_data(prm2)
 	vm:calc_lighting()
-	vm:write_to_map(true)
+	vm:write_to_map(data)
 end)
 minetest.register_chatcommand("erosion_slope_gen",{
 	description = "Generate erosion slopes in player's current mapchunk",
@@ -422,13 +368,7 @@ minetest.register_chatcommand("erosion_slope_gen",{
 		return true,"Done."
 	end
 })
-local function wwthrngCL(p,n) 
-
-	if not abm_allowed.yes then
-		return
-	end
-
-	p.y = p.y+1
+local function wwthrngCL(p,n) p.y = p.y+1
 	local k = minetest.get_node(p).name
 	if k == "air" then
 		p.y = p.y-1

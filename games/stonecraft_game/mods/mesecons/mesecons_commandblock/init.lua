@@ -1,15 +1,9 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
+local param_maxlen = mesecon.setting("commandblock_param_maxlen", 10000)
 
 minetest.register_chatcommand("say", {
 	params = "<text>",
-	description = "Say <text> as the server",
+	description = S("Say <text> as the server"),
 	privs = {server=true},
 	func = function(name, param)
 		minetest.chat_send_all(name .. ": " .. param)
@@ -18,7 +12,7 @@ minetest.register_chatcommand("say", {
 
 minetest.register_chatcommand("tell", {
 	params = "<name> <text>",
-	description = "Say <text> to <name> privately",
+	description = S("Say <text> to <name> privately"),
 	privs = {shout=true},
 	func = function(name, param)
 		local found, _, target, message = param:find("^([^%s]+)%s+(.*)$")
@@ -35,7 +29,7 @@ minetest.register_chatcommand("tell", {
 
 minetest.register_chatcommand("hp", {
 	params = "<name> <value>",
-	description = "Set health of <name> to <value> hitpoints",
+	description = S("Set health of <name> to <value> hitpoints"),
 	privs = {ban=true},
 	func = function(name, param)
 		local found, _, target, value = param:find("^([^%s]+)%s+(%d+)$")
@@ -55,7 +49,7 @@ minetest.register_chatcommand("hp", {
 local function initialize_data(meta)
 	local commands = minetest.formspec_escape(meta:get_string("commands"))
 	meta:set_string("formspec",
-		"invsize[9,5;]" ..
+		"size[9,5]" ..
 		"textarea[0.5,0.5;8.5,4;commands;Commands;"..commands.."]" ..
 		"label[1,3.8;@nearest, @farthest, and @random are replaced by the respective player names]" ..
 		"button_exit[3.3,4.5;2,1;submit;Submit]")
@@ -88,7 +82,7 @@ local function after_place(pos, placer)
 	end
 end
 
-local function receive_fields(pos, formname, fields, sender)
+local function receive_fields(pos, _, fields, sender)
 	if not fields.submit then
 		return
 	end
@@ -163,6 +157,11 @@ local function commandblock_action_on(pos, node)
 			minetest.chat_send_player(owner, "The command "..cmd.." does not exist")
 			return
 		end
+		if #param > param_maxlen then
+			minetest.chat_send_player(owner, "Command parameters are limited to max. " ..
+				param_maxlen .. " bytes.")
+			return
+		end
 		local has_privs, missing_privs = minetest.check_player_privs(owner, cmddef.privs)
 		if not has_privs then
 			minetest.chat_send_player(owner, "You don't have permission "
@@ -189,7 +188,7 @@ local function can_dig(pos, player)
 end
 
 minetest.register_node("mesecons_commandblock:commandblock_off", {
-	description = "Command Block",
+	description = S("Command Block"),
 	tiles = {"jeija_commandblock_off.png"},
 	inventory_image = minetest.inventorycube("jeija_commandblock_off.png"),
 	is_ground_content = false,
@@ -198,7 +197,7 @@ minetest.register_node("mesecons_commandblock:commandblock_off", {
 	after_place_node = after_place,
 	on_receive_fields = receive_fields,
 	can_dig = can_dig,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {effector = {
 		action_on = commandblock_action_on
 	}},
@@ -215,7 +214,7 @@ minetest.register_node("mesecons_commandblock:commandblock_on", {
 	after_place_node = after_place,
 	on_receive_fields = receive_fields,
 	can_dig = can_dig,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {effector = {
 		action_off = commandblock_action_off
 	}},

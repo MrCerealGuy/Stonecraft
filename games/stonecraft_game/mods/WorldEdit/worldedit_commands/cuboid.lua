@@ -1,6 +1,9 @@
+local S = minetest.get_translator("worldedit_commands")
+
 worldedit.register_command("outset", {
 	params = "[h/v] <amount>",
-	description = "Outset the selected region.",
+	description = S("Outset the selected region."),
+	category = S("Region operations"),
 	privs = {worldedit=true},
 	require_pos = 2,
 	parse = function(param)
@@ -11,7 +14,7 @@ worldedit.register_command("outset", {
 
 		local hv_test = dir:find("[^hv]+")
 		if hv_test ~= nil then
-			return false, "Invalid direction."
+			return false, S("Invalid direction: @1", dir)
 		end
 
 		return true, dir, tonumber(amount)
@@ -28,18 +31,19 @@ worldedit.register_command("outset", {
 			assert(worldedit.cuboid_linear_expand(name, 'y', 1, amount))
 			assert(worldedit.cuboid_linear_expand(name, 'y', -1, amount))
 		else
-			return false, "Invalid number of arguments"
+			return false, S("Invalid number of arguments")
 		end
 
 		worldedit.marker_update(name)
-		return true, "Region outset by " .. amount .. " blocks"
+		return true, S("Region outset by @1 nodes", amount)
       end,
 })
 
 
 worldedit.register_command("inset", {
 	params = "[h/v] <amount>",
-	description = "Inset the selected region.",
+	description = S("Inset the selected region."),
+	category = S("Region operations"),
 	privs = {worldedit=true},
 	require_pos = 2,
 	parse = function(param)
@@ -48,7 +52,7 @@ worldedit.register_command("inset", {
 			return false
 		end
 		if dir:find("[^hv]") ~= nil then
-			return false, "Invalid direction."
+			return false, S("Invalid direction: @1", dir)
 		end
 
 		return true, dir, tonumber(amount)
@@ -65,18 +69,19 @@ worldedit.register_command("inset", {
 			assert(worldedit.cuboid_linear_expand(name, 'y', 1, -amount))
 			assert(worldedit.cuboid_linear_expand(name, 'y', -1, -amount))
 		else
-			return false, "Invalid number of arguments"
+			return false, S("Invalid number of arguments")
 		end
 
 		worldedit.marker_update(name)
-		return true, "Region inset by " .. amount .. " blocks"
+		return true, S("Region inset by @1 nodes", amount)
       end,
 })
 
 
 worldedit.register_command("shift", {
 	params = "x/y/z/?/up/down/left/right/front/back [+/-]<amount>",
-	description = "Shifts the selection area without moving its contents",
+	description = S("Shifts the selection area without moving its contents"),
+	category = S("Region operations"),
 	privs = {worldedit=true},
 	require_pos = 2,
 	parse = function(param)
@@ -98,20 +103,21 @@ worldedit.register_command("shift", {
 		end
 
 		if axis == nil or dir == nil then
-			return false, "Invalid if looking straight up or down"
+			return false, S("Invalid if looking straight up or down")
 		end
 
 		assert(worldedit.cuboid_shift(name, axis, amount * dir))
 		worldedit.marker_update(name)
 
-		return true, "Region shifted by " .. amount .. " nodes"
+		return true, S("Region shifted by @1 nodes", amount)
       end,
 })
 
 
 worldedit.register_command("expand", {
 	params = "[+/-]x/y/z/?/up/down/left/right/front/back <amount> [reverse amount]",
-	description = "Expands the selection in the selected absolute or relative axis",
+	description = S("Expands the selection in the selected absolute or relative axis"),
+	category = S("Region operations"),
 	privs = {worldedit=true},
 	require_pos = 2,
 	parse = function(param)
@@ -135,7 +141,7 @@ worldedit.register_command("expand", {
 			axis, dir = worldedit.translate_direction(name, direction)
 
 			if axis == nil or dir == nil then
-				return false, "Invalid if looking straight up or down"
+				return false, S("Invalid if looking straight up or down")
 			end
 		else
 			if direction == "?" then
@@ -153,14 +159,15 @@ worldedit.register_command("expand", {
 		worldedit.cuboid_linear_expand(name, axis, dir, amount)
 		worldedit.cuboid_linear_expand(name, axis, -dir, rev_amount)
 		worldedit.marker_update(name)
-		return true, "Region expanded by " .. (amount + rev_amount) .. " nodes"
+		return true, S("Region expanded by @1 nodes", amount + rev_amount)
 	end,
 })
 
 
 worldedit.register_command("contract", {
 	params = "[+/-]x/y/z/?/up/down/left/right/front/back <amount> [reverse amount]",
-	description = "Contracts the selection in the selected absolute or relative axis",
+	description = S("Contracts the selection in the selected absolute or relative axis"),
+	category = S("Region operations"),
 	privs = {worldedit=true},
 	require_pos = 2,
 	parse = function(param)
@@ -184,7 +191,7 @@ worldedit.register_command("contract", {
 			axis, dir = worldedit.translate_direction(name, direction)
 
 			if axis == nil or dir == nil then
-				return false, "Invalid if looking straight up or down"
+				return false, S("Invalid if looking straight up or down")
 			end
 		else
 			if direction == "?" then
@@ -202,13 +209,13 @@ worldedit.register_command("contract", {
 		worldedit.cuboid_linear_expand(name, axis, dir, -amount)
 		worldedit.cuboid_linear_expand(name, axis, -dir, -rev_amount)
 		worldedit.marker_update(name)
-		return true, "Region contracted by " .. (amount + rev_amount) .. " nodes"
+		return true, S("Region contracted by @1 nodes", amount + rev_amount)
 	end,
 })
 
 worldedit.register_command("cubeapply", {
 	params = "<size>/(<sizex> <sizey> <sizez>) <command> [parameters]",
-	description = "Select a cube with side length <size> around position 1 and run <command> on region",
+	description = S("Select a cube with side length <size> around position 1 and run <command> on region"),
 	privs = {worldedit=true},
 	require_pos = 1,
 	parse = function(param)
@@ -230,7 +237,8 @@ worldedit.register_command("cubeapply", {
 		end
 		local cmddef = worldedit.registered_commands[cmd]
 		if cmddef == nil or cmddef.require_pos ~= 2 then
-			return false, "invalid usage: //" .. cmd .. " cannot be used with cubeapply"
+			return false, S("invalid usage: @1 cannot be used with cubeapply",
+				minetest.colorize("#00ffff", "//"..cmd))
 		end
 		-- run parsing of target command
 		local parsed = {cmddef.parse(args)}
@@ -241,15 +249,14 @@ worldedit.register_command("cubeapply", {
 	end,
 	nodes_needed = function(name, sidex, sidey, sidez, cmd, parsed)
 		-- its not possible to defer to the target command at this point
+		-- FIXME: why not?
 		return sidex * sidey * sidez
 	end,
 	func = function(name, sidex, sidey, sidez, cmd, parsed)
 		local cmddef = assert(worldedit.registered_commands[cmd])
 		local success, missing_privs = minetest.check_player_privs(name, cmddef.privs)
 		if not success then
-			worldedit.player_notify(name, "Missing privileges: " ..
-				table.concat(missing_privs, ", "))
-			return
+			return false, S("Missing privileges: @1", table.concat(missing_privs, ", "))
 		end
 
 		-- update region to be the cuboid the user wanted

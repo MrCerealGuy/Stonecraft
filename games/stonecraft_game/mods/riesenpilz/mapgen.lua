@@ -1,9 +1,3 @@
---[[
-
-2017-10-18 Added Voxmanip heap api functions
-
---]]
-
 local minetest = minetest	--Should make things a bit faster.
 
 local c
@@ -40,7 +34,7 @@ end
 
 
 local grounds = {}
-function is_ground(id)
+local function is_ground(id)
 	local is = grounds[id]
 	if is ~= nil then
 		return is
@@ -62,7 +56,7 @@ function is_ground(id)
 end
 
 local toremoves = {}
-function is_toremove(id)
+local function is_toremove(id)
 	local is = toremoves[id]
 	if is ~= nil then
 		return is
@@ -82,16 +76,17 @@ function is_toremove(id)
 	return false
 end
 
-local data
+
+local data = {}
 local area, pr
-function riesenpilz_circle(vm, data, area, nam, pos, radius, chance)
-	local circle = vector.circle(radius)	
-	for i = 1,#circle do
+local function make_circle(nam, pos, radius, chance)
+	local circle = riesenpilz.circle(radius)
+	for i = 1, #circle do
 		if pr:next(1, chance) == 1 then
 			local vi = area:indexp(vector.add(pos, circle[i]))
-			if (vm:get_data_from_heap(data, vi) == c.air
-			and is_ground(vm:get_data_from_heap(data, vi - area.ystride)) then
-				vm:set_data_from_heap(data, vi, nam)
+			if data[vi] == c.air
+			and is_ground(data[vi - area.ystride]) then
+				data[vi] = nam
 			end
 		end
 	end
@@ -133,7 +128,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	local t1 = os.clock()
-	riesenpilz.inform("tries to generate a giant mushroom biome at: x=["..minp.x.."; "..maxp.x.."]; y=["..minp.y.."; "..maxp.y.."]; z=["..minp.z.."; "..maxp.z.."]", 2)
+	riesenpilz.inform(("tries to generate a giant mushroom biome at: " ..
+		"x=[%d; %d]; y=[%d; %d]; z=[%d; %d]"):format(minp.x, maxp.x, minp.y,
+		maxp.y, minp.z, maxp.z), 2)
 
 	if not contents_defined then
 		define_contents()
@@ -150,17 +147,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	local hm_zstride = divs+1
 
 	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
-	local data = vm:load_data_into_heap()
+	vm:get_data(data)
 	area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
 
-	riesenpilz.vm = vm
-	riesenpilz.data = data
-
 	for p_pos in area:iterp(minp, maxp) do	--remove tree stuff
-		local d_p_pos = vm:get_data_from_heap(data, p_pos)
+		local d_p_pos = data[p_pos]
 		for _,nam in ipairs(c.TREE_STUFF) do
 			if d_p_pos == nam then
-				vm:set_data_from_heap(data, p_pos, c.air)
+				data[p_pos] = c.air
 				break
 			end
 		end
@@ -176,7 +170,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			--smooth mapgen
 			if riesenpilz.always_generate then
 				in_biome = true
-			elseif smooth then
+			elseif riesenpilz.smooth then
 				if test >= smooth_rarity_max
 				or (
 					test > smooth_rarity_min
@@ -197,7 +191,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local ground
 				local vi = area:index(x, ymax, z)
 				for y = ymax, ymin, -1 do
-					if vm:get_data_from_heap(data, vi) ~= c.air then
+					if data[vi] ~= c.air then
 						ground = y
 						break
 					end
@@ -207,10 +201,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				local ground_y
 				if ground then
 					for y = ground, ymin, -1 do
-						local d_p_pos = vm:get_data_from_heap(data, vi)						
+						local d_p_pos = data[vi]
 						if is_toremove(d_p_pos) then
 							-- remove trees etc.
-							vm:set_data_from_heap(data, vi, c.air)
+							data[vi] = c.air
 						else
 							if is_ground(d_p_pos) then
 								ground_y = y
@@ -224,11 +218,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 				if ground_y then
 					-- add ground and dirt below if needed
-					vm:set_data_from_heap(data, vi, c.ground)
-					for i = -1,-5,-1 do
-						local p_pos = vi + i * area.ystride
-						if not is_ground(vm:get_data_from_heap(data, p_pos))
-						or vm:get_data_from_heap(data, p_pos) == c.dirt then
+					data[vi] = c.ground
+					for off = -1,-5,-1 do
+						local p_pos = vi + off * area.ystride
+						if not is_ground(data[p_pos])
+						or data[p_pos] == c.dirt then
 							break
 						end
 						data[p_pos] = c.dirt
@@ -237,15 +231,15 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					local bigtype
 					local boden = {x=x,y=ground_y+1,z=z}
 					if pr:next(1,15) == 1 then
-						vm:set_data_from_heap(data, vi + area.ystride, c.dry_shrub)
+						data[vi + area.ystride] = c.dry_shrub
 					elseif pr:next(1,80) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_brown, boden, pr:next(3,4), 3)
+						make_circle(c.riesenpilz_brown, boden, pr:next(3,4), 3)
 					elseif pr:next(1,85) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_parasol, boden, pr:next(3,5), 3)
+						make_circle(c.riesenpilz_parasol, boden, pr:next(3,5), 3)
 					elseif pr:next(1,90) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_red, boden, pr:next(4,5), 3)
+						make_circle(c.riesenpilz_red, boden, pr:next(4,5), 3)
 					elseif pr:next(1,100) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_fly_agaric, boden, 4, 3)
+						make_circle(c.riesenpilz_fly_agaric, boden, 4, 3)
 					elseif pr:next(1,340) == 10 then
 						bigtype = 2
 					elseif pr:next(1,380) == 1 then
@@ -255,9 +249,9 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					elseif pr:next(1,800) == 7 then
 						bigtype = 5
 					elseif pr:next(1,4000) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_lavashroom, boden, pr:next(5,6), 3)
+						make_circle(c.riesenpilz_lavashroom, boden, pr:next(5,6), 3)
 					elseif pr:next(1,5000) == 1 then
-						riesenpilz_circle(vm, data, area, c.riesenpilz_glowshroom, boden, 3, 3)
+						make_circle(c.riesenpilz_glowshroom, boden, 3, 3)
 					elseif pr:next(1,6000) == 2 then
 						if pr:next(1,200) == 15 then
 							bigtype = 4
@@ -311,20 +305,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			if not found_border then
 				local m = v[1]
 				if m == 1 then
-					riesenpilz.red(vm, p, data, area)
+					riesenpilz.red(p, data, area)
 				elseif m == 2 then
-					riesenpilz.brown(vm, p, data, area)
+					riesenpilz.brown(p, data, area)
 				elseif m == 3 then
 					if not param2s then
-						param2s = vm:load_param2_data_into_heap()
+						param2s = vm:get_param2_data()
 					end
-					riesenpilz.fly_agaric(vm, p, data, area, param2s)
+					riesenpilz.fly_agaric(p, data, area, param2s)
 				elseif m == 4 then
-					riesenpilz.lavashroom(vm, p, data, area)
+					riesenpilz.lavashroom(p, data, area)
 				elseif m == 5 then
-					riesenpilz.parasol(vm, p, data, area)
+					riesenpilz.parasol(p, data, area)
 				elseif m == 6 then
-					riesenpilz.red45(vm, p, data, area)
+					riesenpilz.red45(p, data, area)
 				end
 			end
 		end
@@ -332,20 +326,14 @@ minetest.register_on_generated(function(minp, maxp, seed)
 	end
 
 	local t2 = os.clock()
-	vm:save_data_from_heap(data)
+	vm:set_data(data)
 	if param2s then
 		vm:set_param2_data(param2s)
 	end
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
-	vm:write_to_map(true)
-	
-	data = nil
+	vm:write_to_map()
 	area = nil
-	riesenpilz.vm = nil
-	riesenpilz.data = nil
-	riesenpilz.param2s = nil
-
 	riesenpilz.inform("data set", 2, t2)
 
 	riesenpilz.inform("done", 1, t1)

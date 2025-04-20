@@ -1,3 +1,5 @@
+local S = minetest.get_translator("worldedit_commands")
+
 local function above_or_under(placer, pointed_thing)
 	if placer:get_player_control().sneak then
 		return pointed_thing.above
@@ -9,10 +11,17 @@ end
 local punched_air_time = {}
 
 minetest.register_tool(":worldedit:wand", {
-	description = "WorldEdit Wand tool\nLeft-click to set 1st position, right-click to set 2nd",
+	description = S("WorldEdit Wand tool\nLeft-click to set 1st position, right-click to set 2nd"),
 	inventory_image = "worldedit_wand.png",
 	stack_max = 1, -- there is no need to have more than one
 	liquids_pointable = true, -- ground with only water on can be selected as well
+
+	-- ignore marker cube so the clicking on the position markers works reliably
+	pointabilities = {
+		objects = {
+			["worldedit:region_cube"] = false
+		}
+	},
 
 	on_use = function(itemstack, placer, pointed_thing)
 		if placer == nil or pointed_thing == nil then return end
@@ -32,7 +41,7 @@ minetest.register_tool(":worldedit:wand", {
 			local entity = pointed_thing.ref:get_luaentity()
 			if entity and entity.name == "worldedit:pos2" then
 				-- set pos1 = pos2
-				worldedit.pos1[name] = worldedit.pos2[name]
+				worldedit.pos1[name] = vector.copy(worldedit.pos2[name])
 				worldedit.mark_pos1(name)
 			end
 		end
@@ -57,7 +66,7 @@ minetest.register_tool(":worldedit:wand", {
 		local entity = pointed_thing.ref:get_luaentity()
 		if entity and entity.name == "worldedit:pos1" then
 			-- set pos2 = pos1
-			worldedit.pos2[name] = worldedit.pos1[name]
+			worldedit.pos2[name] = vector.copy(worldedit.pos1[name])
 			worldedit.mark_pos2(name)
 		end
 		return itemstack -- nothing consumed, nothing changed

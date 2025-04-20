@@ -20,7 +20,7 @@ if not ie or not http then
 end
 
 minetest.register_chatcommand("skinsdb_download_skins", {
-	params = "<skindb start page> <amount of pages>",
+	params = S("<skindb start page> <amount of pages>"),
 	description = S("Downloads the specified range of skins and shuts down the server"),
 	privs = {server=true},
 	func = function(name, param)
@@ -47,13 +47,12 @@ if #internal.errors > 0 then
 end
 
 -- http://minetest.fensta.bplaced.net/api/apidoku.md
-local root_url = "http://minetest.fensta.bplaced.net"
-local page_url = root_url .. "/api/v2/get.json.php?getlist&page=%i&outformat=base64" -- [1] = Page#
-local preview_url = root_url .. "/skins/1/%i.png" -- [1] = ID
+local root_url = "http://skinsdb.terraqueststudios.net"
+local page_url = root_url .. "/api/v1/content?client=mod&page=%i" -- [1] = Page#
 
-local mod_path = skins.modpath
-local meta_path = mod_path .. "/meta/"
-local skins_path = mod_path .. "/textures/"
+local download_path = skins.modpath
+local meta_path = download_path .. "/meta/"
+local skins_path = download_path .. "/textures/"
 
 -- Fancy debug wrapper to download an URL
 local function fetch_url(url, callback)
@@ -81,14 +80,22 @@ local function unsafe_file_write(path, contents)
 end
 
 -- Takes a valid skin table from the Skins Database and saves it
-local function safe_single_skin(skin)
+local function save_single_skin(skin)
 	local meta = {
 		skin.name,
 		skin.author,
 		skin.license
 	}
 
-	local name =  "character_" .. skin.id
+	local name = "character." .. skin.id
+	do
+		local legacy_name = "character_" .. skin.id
+		local fh = ie.io.open(skins_path .. legacy_name .. ".png", "r")
+		-- Use the old name if either the texture ...
+		if fh then
+			name = legacy_name
+		end
+	end
 
 	-- core.safe_file_write does not work here
 	unsafe_file_write(
@@ -100,9 +107,6 @@ local function safe_single_skin(skin)
 		skins_path .. name .. ".png",
 		core.decode_base64(skin.img)
 	)
-	fetch_url(preview_url:format(skin.id), function(preview)
-		unsafe_file_write(skins_path .. name .. "_preview.png", preview)
-	end)
 	core.log("action", ("%s: Completed skin %s"):format(_ID_, name))
 end
 
@@ -115,7 +119,7 @@ internal.get_pages_count = function(callback, ...)
 		callback(math.ceil(list.pages / 20), unpack(vars))
 	end)
 end
-	
+
 -- Function to fetch a range of pages
 internal.fetch_function = function(pages_total, start_page, len)
 	start_page = math.max(start_page, 1)
@@ -132,7 +136,7 @@ internal.fetch_function = function(pages_total, start_page, len)
 				assert(skin.id ~= "")
 
 				if skin.id ~= 1 then -- Skin 1 is bundled with skinsdb
-					safe_single_skin(skin)
+					save_single_skin(skin)
 				end
 			end
 

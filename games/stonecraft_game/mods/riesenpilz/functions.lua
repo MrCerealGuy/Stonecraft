@@ -17,3 +17,21 @@ else
 	function riesenpilz.inform()
 	end
 end
+
+local circle_tables = {}
+function riesenpilz.circle(r)
+	local circle = circle_tables[r]
+	if circle then
+		return circle
+	end
+	circle = {}
+	for i = -r, r do
+		for j = -r, r do
+			if math.floor(math.sqrt(i * i + j * j) + 0.5) == r then
+				circle[#circle+1] = {x=i, y=0, z=j}
+			end
+		end
+	end
+	circle_tables[r] = circle
+	return circle
+end

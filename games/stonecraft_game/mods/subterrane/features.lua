@@ -43,7 +43,7 @@ local stal_on_place = function(itemstack, placer, pointed_thing)
 
 	-- add the node and remove 1 item from the itemstack
 	minetest.add_node(pt.above, {name = itemstack:get_name(), param2 = new_param2})
-	if not minetest.settings:get_bool("creative_mode", false) then
+	if not minetest.is_creative_enabled(placer:get_player_name()) then
 		itemstack:take_item()
 	end
 	return itemstack
@@ -76,7 +76,7 @@ subterrane.register_stalagmite_nodes = function(base_name, base_node_def, drop_b
 	base_node_def.paramtype = "light"
 	base_node_def.paramtype2 = "facedir"
 	base_node_def.node_box = {type = "fixed"}
-	
+
 	local def1 = deep_copy(base_node_def)
 	def1.groups.fall_damage_add_percent = 100
 	def1.node_box.fixed = stal_box_1
@@ -110,7 +110,7 @@ subterrane.register_stalagmite_nodes = function(base_name, base_node_def, drop_b
 		def4.drop = drop_base_name.."_4"
 	end
 	minetest.register_node(base_name.."_4", def4)
-	
+
 	return {
 		minetest.get_content_id(base_name.."_1"),
 		minetest.get_content_id(base_name.."_2"),
@@ -126,7 +126,7 @@ end
 function subterrane.stalagmite(vi, area, data, param2_data, param2, height, stalagmite_id)
 	if height == nil then height = math.random(1,4) end
 	if param2 == nil then param2 = math.random(0,3) end
-	
+
 	local sign, id_modifier
 	if height > 0 then
 		sign = 1
@@ -135,14 +135,14 @@ function subterrane.stalagmite(vi, area, data, param2_data, param2, height, stal
 		sign = -1
 		id_modifier = 0
 	end
-	
+
 	for i = 1, math.abs(height) do
 		local svi = vi + (height - i * sign) * area.ystride
-		if vm:get_data_from_heap(data, svi) == c_air then -- test for air because we don't want these poking into water
-			vm:set_data_from_heap(data, svi, stalagmite_id[math.min(i+id_modifier,4)])
-			vm:set_param2_data_from_heap(param2_data, svi, param2)
+		if data[svi] == c_air then -- test for air because we don't want these poking into water
+			data[svi] = stalagmite_id[math.min(i+id_modifier,4)]
+			param2_data[svi] = param2
 		end
-	end	
+	end
 end
 
 function subterrane.stalactite(vi, area, data, param2_data, param2, height, stalagmite_id)
@@ -153,8 +153,8 @@ end
 -- Builds very large stalactites and stalagmites
 
 --giant stalagmite spawner
-function subterrane.big_stalagmite(vm, vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
-	local pos = area:position(vi)
+function subterrane.big_stalagmite(vi_spawn, area, data, min_height, max_height, base_material, root_material, shaft_material)
+	local pos = area:position(vi_spawn)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
@@ -166,21 +166,21 @@ function subterrane.big_stalagmite(vm, vi, area, data, min_height, max_height, b
 				if j <= 0 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l)
-						if mapgen_helper.buildable_to(vm:get_data_from_heap(data, vi)) then vm:set_data_from_heap(data, vi, base_material) end
+						if mapgen_helper.buildable_to(data[vi]) then data[vi] = base_material end
 					end
 				elseif j <= top/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l)
-						vm:set_data_from_heap(data, vi, root_material)
+						data[vi] = root_material
 					end
 				elseif j <= top/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l)
-						vm:set_data_from_heap(data, vi, shaft_material)
+						data[vi] = shaft_material
 					end
 				else
 					local vi = area:index(x, y+j, z)
-					vm:set_data_from_heap(data, vi, shaft_material)
+					data[vi] = shaft_material
 				end
 			end
 		end
@@ -188,8 +188,8 @@ function subterrane.big_stalagmite(vm, vi, area, data, min_height, max_height, b
 end
 
 --giant stalactite spawner
-function subterrane.big_stalactite(vm, vi, area, data, min_height, max_height, base_material, root_material, shaft_material)
-	local pos = area:position(vi)
+function subterrane.big_stalactite(vi_spawn, area, data, min_height, max_height, base_material, root_material, shaft_material)
+	local pos = area:position(vi_spawn)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
@@ -201,21 +201,21 @@ function subterrane.big_stalactite(vm, vi, area, data, min_height, max_height, b
 				if j >= -1 then
 					if k*k + l*l <= 9 then
 						local vi = area:index(x+k, y+j, z+l)
-						if mapgen_helper.buildable_to(vm:get_data_from_heap(data, vi)) then vm:set_data_from_heap(data, vi, base_material) end
+						if mapgen_helper.buildable_to(data[vi]) then data[vi] = base_material end
 					end
 				elseif j >= bot/5 then
 					if k*k + l*l <= 4 then
 						local vi = area:index(x+k, y+j, z+l)
-						vm:set_data_from_heap(data, vi, root_material)
+						data[vi] = root_material
 					end
 				elseif j >= bot/5 * 3 then
 					if k*k + l*l <= 1 then
 						local vi = area:index(x+k, y+j, z+l)
-						vm:set_data_from_heap(data, vi, shaft_material)
+						data[vi] = shaft_material
 					end
 				else
 					local vi = area:index(x, y+j, z)
-					vm:set_data_from_heap(data, vi, shaft_material)
+					data[vi] = shaft_material
 				end
 			end
 		end
@@ -227,15 +227,15 @@ end
 
 --function to create giant 'shrooms. Cap radius works well from about 2-6
 --if ignore_bounds is true this function will place the mushroom even if it overlaps the edge of the voxel area.
-function subterrane.giant_mushroom(vm, vi, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius, ignore_bounds)
+function subterrane.giant_mushroom(vi_spawn, area, data, stem_material, cap_material, gill_material, stem_height, cap_radius, ignore_bounds)
 
-	if not ignore_bounds and 
-		not (area:containsi(vi - cap_radius - area.zstride*cap_radius) and 
-		area:containsi(vi + cap_radius + stem_height*area.ystride + area.zstride*cap_radius)) then
+	if not ignore_bounds and
+		not (area:containsi(vi_spawn - cap_radius - area.zstride*cap_radius) and
+		area:containsi(vi_spawn + cap_radius + stem_height*area.ystride + area.zstride*cap_radius)) then
 			return false -- mushroom overlaps the bounds of the voxel area, abort.
 	end
 
-	local pos = area:position(vi)
+	local pos = area:position(vi_spawn)
 	local x = pos.x
 	local y = pos.y
 	local z = pos.z
@@ -245,21 +245,21 @@ function subterrane.giant_mushroom(vm, vi, area, data, stem_material, cap_materi
 	for l = -cap_radius, cap_radius do
 		if k*k + l*l <= cap_radius*cap_radius then
 			local vi = area:index(x+k, y+stem_height, z+l)
-			if mapgen_helper.buildable_to(vm:get_data_from_heap(data, vi)) then vm:set_data_from_heap(data, vi, cap_material) end
+			if mapgen_helper.buildable_to(data[vi]) then data[vi] = cap_material end
 		end
 		if k*k + l*l <= (cap_radius-1)*(cap_radius-1) and (cap_radius-1) > 0 then
 			local vi = area:index(x+k, y+stem_height+1, z+l)
-			vm:set_data_from_heap(data, vi, cap_material)
+			data[vi] = cap_material
 			vi = area:index(x+k, y+stem_height, z+l)
-			if vm:get_data_from_heap(data, vi) == cap_material then vm:set_data_from_heap(data, vi, gill_material) end
+			if data[vi] == cap_material then data[vi] = gill_material end
 		end
 		if k*k + l*l <= (cap_radius-2)*(cap_radius-2) and (cap_radius-2) > 0 then
 			local vi = area:index(x+k, y+stem_height+2, z+l)
-			if mapgen_helper.buildable_to(vm:get_data_from_heap(data, vi)) then vm:set_data_from_heap(data, vi, cap_material) end
+			if mapgen_helper.buildable_to(data[vi]) then data[vi] = cap_material end
 		end
 		if k*k + l*l <= (cap_radius-3)*(cap_radius-3) and (cap_radius-3) > 0 then
 			local vi = area:index(x+k, y+stem_height+3, z+l)
-			if mapgen_helper.buildable_to(vm:get_data_from_heap(data, vi)) then vm:set_data_from_heap(data, vi, cap_material) end
+			if mapgen_helper.buildable_to(data[vi]) then data[vi] = cap_material end
 		end
 	end
 	end
@@ -267,16 +267,16 @@ function subterrane.giant_mushroom(vm, vi, area, data, stem_material, cap_materi
 	for j = -2, stem_height do -- going down to -2 to ensure the stem is flush with the ground
 		local vi = area:index(x, y+j, z)
 		if j >= 0 or area:containsi(vi) then -- since -2 puts us below the bounds we've already tested, add a contains check here.
-			vm:set_data_from_heap(data, vi, stem_material)
+			if mapgen_helper.buildable_to(data[vi]) or data[vi] == gill_material then data[vi] = stem_material end
 			if cap_radius > 3 then
 				local ai = area:index(x, y+j, z+1)
-				if mapgen_helper.buildable_to(vm:get_data_from_heap(data, ai)) or vm:get_data_from_heap(data, ai) == gill_material then vm:set_data_from_heap(data, ai, stem_material) end
+				if mapgen_helper.buildable_to(data[ai]) or data[ai] == gill_material then data[ai] = stem_material end
 				ai = area:index(x, y+j, z-1)
-				if mapgen_helper.buildable_to(vm:get_data_from_heap(data, ai)) or vm:get_data_from_heap(data, ai) == gill_material then vm:set_data_from_heap(data, ai, stem_material) end
+				if mapgen_helper.buildable_to(data[ai]) or data[ai] == gill_material then data[ai] = stem_material end
 				ai = area:index(x+1, y+j, z)
-				if mapgen_helper.buildable_to(vm:get_data_from_heap(data, ai)) or vm:get_data_from_heap(data, ai) == gill_material then vm:set_data_from_heap(data, ai, stem_material) end
+				if mapgen_helper.buildable_to(data[ai]) or data[ai] == gill_material then data[ai] = stem_material end
 				ai = area:index(x-1, y+j, z)
-				if mapgen_helper.buildable_to(vm:get_data_from_heap(data, ai)) or vm:get_data_from_heap(data, ai) == gill_material then vm:set_data_from_heap(data, ai, stem_material) end
+				if mapgen_helper.buildable_to(data[ai]) or data[ai] == gill_material then data[ai] = stem_material end
 			end
 		end
 	end

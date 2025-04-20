@@ -3,7 +3,7 @@ local S = minetest.get_translator(minetest.get_current_modname())
 local F = minetest.formspec_escape
 
 if not minetest.global_exists("inventory_plus") then
-	minetest.log("warning", S("3d_armor_ip: Mod loaded but unused."))
+	minetest.log("warning", "3d_armor_ip: Mod loaded but unused.")
 	return
 end
 

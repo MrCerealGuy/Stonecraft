@@ -11,7 +11,7 @@ mapgen_helper.intersect = function(minpos1, maxpos1, minpos2, maxpos2)
 	if minpos1.x <= maxpos2.x and maxpos1.x >= minpos2.x and
 		minpos1.z <= maxpos2.z and maxpos1.z >= minpos2.z and
 		minpos1.y <= maxpos2.y and maxpos1.y >= minpos2.y then
-		
+
 		return {
 				x = math.max(minpos1.x, minpos2.x),
 				y = math.max(minpos1.y, minpos2.y),

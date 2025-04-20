@@ -201,18 +201,18 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		define_contents()
 	end
 
-	local vm, emin, emax = minetest.get_mapgen_object("voxelmanip")
+	local vm, emin, emax = minetest.get_mapgen_object"voxelmanip"
 	local area = VoxelArea:new{MinEdge=emin, MaxEdge=emax}
-	local data = vm:load_data_into_heap()
-	local param2s = vm:load_param2_data_into_heap()
+	local data = vm:get_data()
+	local param2s = vm:get_param2_data()
 
-	local heightmap = minetest.get_mapgen_object("heightmap")
+	local heightmap = minetest.get_mapgen_object"heightmap"
 
 	local snow_tab,num = {},1
 	local pines_tab,pnum = {},1
 
 	get_perlins(x1 - x0 + 1)
-	local nvals_default = perlin_objs.default:get2dMap_flat({x=x0+150, y=z0+50}, nbuf_default)
+	local nvals_default = perlin_objs.default:get_2dMap_flat({x=x0+150, y=z0+50}, nbuf_default)
 	local nvals_cold, nvals_ice, ndia
 
 	-- Choose biomes
@@ -239,7 +239,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		local in_biome = false
 		local test
 		if nvals_default[ni] < 0.35 then
-			nvals_cold = nvals_cold or perlin_objs.cold:get2dMap_flat({x=x0, y=z0}, nbuf_cold)
+			nvals_cold = nvals_cold or perlin_objs.cold:get_2dMap_flat({x=x0, y=z0}, nbuf_cold)
 			test = math.min(nvals_cold[ni], 1)
 			if is_smooth then
 				if test >= smooth_rarity_max
@@ -260,11 +260,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			and test > (is_smooth and smooth_rarity_min or nosmooth_rarity) then
 				-- remove trees near alpine
 				local ground_y
-				if vm:get_data_from_heap(data, area:index(x, maxp.y, z)) == c.air then
+				if data[area:index(x, maxp.y, z)] == c.air then
 					local ytop = math.min(heightmap[ni]+20, maxp.y)
 					local vi = area:index(x, ytop, z)
 					for y = ytop, math.max(minp.y, heightmap[ni]-5), -1 do
-						if vm:get_data_from_heap(data, vi) ~= c.air then
+						if data[vi] ~= c.air then
 							ground_y = y
 							break
 						end
@@ -275,12 +275,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 				if ground_y then
 					local vi = area:index(x, ground_y, z)
 					for _ = minp.y - 16, ground_y do
-						local id = vm:get_data_from_heap(data, vi)
+						local id = data[vi]
 						if id == c.leaves
 						or id == c.jungleleaves
 						or id == c.tree
 						or id == c.apple then
-							vm:set_data_from_heap(data, vi, c.air)
+							data[vi] = c.air
 							nodes_added = true
 						else
 							break
@@ -291,7 +291,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 			end
 		else
 			if not nvals_ice then
-				nvals_ice = perlin_objs.ice:get2dMap_flat({x=x0, y=z0}, nbuf_ice)
+				nvals_ice = perlin_objs.ice:get_2dMap_flat({x=x0, y=z0}, nbuf_ice)
 
 				nodes_added = true
 				write_to_map = true
@@ -306,12 +306,12 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 			local ground_y
 			-- avoid generating underground
-			if vm:get_data_from_heap(data, area:index(x, maxp.y, z)) == c.air then
+			if data[area:index(x, maxp.y, z)] == c.air then
 				-- search for non air node from 20 m above ground down to 5 m below ground (confined by minp and maxp)
 				local ytop = math.min(heightmap[ni]+20, maxp.y)
 				local vi = area:index(x, ytop, z)
 				for y = ytop, math.max(minp.y, heightmap[ni]-5), -1 do
-					if vm:get_data_from_heap(data, vi) ~= c.air then
+					if data[vi] ~= c.air then
 						ground_y = y
 						break
 					end
@@ -321,7 +321,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 
 			if ground_y then
 				local node = area:index(x, ground_y, z)
-				local c_ground = vm:get_data_from_heap(data, node)
+				local c_ground = data[node]
 
 				if c_ground == c.dirt_with_grass then
 					if alpine
@@ -331,10 +331,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						-- generate stone ground
 						local vi = area:index(x, ground_y, z)
 						for _ = math.max(-6, minp.y-6), ground_y do
-							if vm:get_data_from_heap(data, vi) == c.stone then
+							if data[vi] == c.stone then
 								break
 							end
-							vm:set_data_from_heap(data, vi, c.stone)
+							data[vi] = c.stone
 							vi = vi - area.ystride
 						end
 					elseif pines
@@ -343,16 +343,16 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						pnum = pnum+1
 					elseif shrubs
 					and pr:next(1,928) == 1 then
-						vm:set_data_from_heap(data, node, c.dirt_with_snow)
-						vm:set_data_from_heap(data, area:index(x, ground_y+1, z), c.dry_shrub)
+						data[node] = c.dirt_with_snow
+						data[area:index(x, ground_y+1, z)] = c.dry_shrub
 					else
 						if snowy
-						or test > (smooth and smooth_rarity_max or
+						or test > (is_smooth and smooth_rarity_max or
 								nosmooth_rarity) then
 							-- more, deeper snow
-							vm:set_data_from_heap(data, node, c.snow_block)
+							data[node] = c.snow_block
 						else
-							vm:set_data_from_heap(data, node, c.dirt_with_snow)
+							data[node] = c.dirt_with_snow
 						end
 						snow_tab[num] = {ground_y, z, x, test}
 						num = num+1
@@ -361,7 +361,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					if not icesheet
 					and not icecave
 					and not icehole then
-						local y = vm:get_data_from_heap(data, node - area.ystride)
+						local y = data[node - area.ystride]
 						local ice = y ~= c.water and y ~= c.ice
 
 						if not ice then
@@ -375,7 +375,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							}
 							local vi = node + 1
 							for n = 1,6 do
-								local i = vm:get_data_from_heap(data, vi)
+								local i = data[vi]
 								if i ~= c.water
 								and i ~= c.ice
 								and i ~= c.air
@@ -390,33 +390,33 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							and (cool or icebergs)
 							and pr:next(1,4) == 1 then
 
-								local vi = node + 1
+								local vi_ice = node + 1
 								for i = 1,6 do
-									if vm:get_data_from_heap(data, vi) == c.ice then
+									if data[vi_ice] == c.ice then
 										ice = true
 										break
 									end
-									vi = vi + ndia[i]
+									vi_ice = vi_ice + ndia[i]
 								end
 							end
 						end
 						if ice
 						or (icebergs and pr:next(1,6) == 1) then
-							vm:set_data_from_heap(data, node, c.ice)
+							data[node] = c.ice
 						end
 					else
 						if icesheet
 						or icecave
 						or (icehole and pr:next(1,10) > 1) then
-							vm:set_data_from_heap(data, node, c.ice)
+							data[node] = c.ice
 						end
 						if icecave then
 							local vi = area:index(x, ground_y-1, z)
 							for _ = math.max(minp.y-16, -33), ground_y-1 do
-								if vm:get_data_from_heap(data, vi) ~= c.water then
+								if data[vi] ~= c.water then
 									break
 								end
-								vm:set_data_from_heap(data, vi, c.air)
+								data[vi] = c.air
 								vi = vi - area.ystride
 							end
 						end
@@ -428,7 +428,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					end
 				elseif c_ground == c.sand then
 					if icy then
-						vm:get_data_from_heap(data, node, c.ice)
+						data[node] = c.ice
 					end
 					snow_tab[num] = {ground_y, z, x, test}
 					num = num+1
@@ -438,20 +438,20 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					-- replace papyrus plants with snowblocks
 					local vi = area:index(x, ground_y, z)
 					for _ = 1,7 do
-						if vm:get_data_from_heap(data, vi) ~= c.papyrus then
+						if data[vi] ~= c.papyrus then
 							break
 						end
-						vm:set_data_from_heap(data, vi, c.snow_block)
+						data[vi] = c.snow_block
 						vi = vi - area.ystride
 					end
 				elseif alpine then
 					-- make stone pillars out of trees and other stuff
 					local vi = area:index(x, ground_y, z)
 					for _ = 0, ground_y - math.max(-6, minp.y-6) do
-						if vm:get_data_from_heap(data, vi) == c.stone then
+						if data[vi] == c.stone then
 							break
 						end
-						vm:get_data_from_heap(data, vi, c.stone)
+						data[vi] = c.stone
 						vi = vi - area.ystride
 					end
 					-- put snow onto it
@@ -465,23 +465,23 @@ minetest.register_on_generated(function(minp, maxp, seed)
 					end
 					local vi = area:index(x, ground_y, z)
 					for _ = 0, 12 do
-						local nd = vm:get_data_from_heap(data, vi)
+						local nd = data[vi]
 						local plantlike = is_plantlike(nd)
 						if replacements[nd] then
-							vm:set_data_from_heap(data, vi, replacements[nd])
+							data[vi] = replacements[nd]
 							if plantlike then
-								vm:set_param2_data_from_heap(param2s, vi, pr:next(0,179))
+								param2s[vi] = pr:next(0,179)
 							end
 						elseif nd == c.dirt_with_grass then
-							vm:set_data_from_heap(data, vi, c.dirt_with_snow)
+							data[vi] = c.dirt_with_snow
 							break
 						elseif plantlike then
 							local under = vi - area.ystride
-							if vm:get_data_from_heap(data, under) == c.dirt_with_grass then
+							if data[under] == c.dirt_with_grass then
 								-- replace other plants with shrubs
-								vm:set_data_from_heap(data, vi, c.snow_shrub)
-								vm:set_param2_data_from_heap(param2s, vi, pr:next(0,179))
-								vm:set_data_from_heap(data, under, c.dirt_with_snow)
+								data[vi] = c.snow_shrub
+								param2s[vi] = pr:next(0,179)
+								data[under] = c.dirt_with_snow
 								break
 							end
 						elseif nd == c.stone then
@@ -505,10 +505,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		for i = 1, num-1 do
 			i = snow_tab[i]
 			-- set snow
-			vm:set_data_from_heap(data, area:index(i[3], i[1]+1, i[2]), c.snow)
+			data[area:index(i[3], i[1]+1, i[2])] = c.snow
 		end
-		for i = 1, num-1 do
-			i = snow_tab[i]
+		for k = 1, num-1 do
+			local i = snow_tab[k]
 			local y,z,x,test = unpack(i)
 			test = (test-nosmooth_rarity)/(1-nosmooth_rarity) -- /(1-0.53)
 			if test > 0 then
@@ -520,7 +520,7 @@ minetest.register_on_generated(function(minp, maxp, seed)
 						y = y+1
 						for off = -1,1,2 do
 							for _,cord in pairs({{x+off,z}, {x,z+off}}) do
-								local nd = vm:get_data_from_heap(data, area:index(cord[1], y, cord[2]))
+								local nd = data[area:index(cord[1], y, cord[2])]
 								if nd == c.air
 								or is_plantlike(nd) then
 									h = h/2
@@ -537,10 +537,10 @@ minetest.register_on_generated(function(minp, maxp, seed)
 							local vi = area:index(x, y, z)
 							if h == 9 then
 								-- replace the snow with a snowblock because its a full node
-								vm:get_data_from_heap(data, vi, c.snow_block)
+								data[vi] = c.snow_block
 							else
 								-- set a specific snow height
-								vm:set_param2_data_from_heap(param2s, vi, h*7)
+								param2s[vi] = h*7
 							end
 						end
 					end
@@ -558,11 +558,11 @@ minetest.register_on_generated(function(minp, maxp, seed)
 		end
 	end
 
-	vm:save_data_from_heap(data)
-	vm:save_param2_data_from_heap(param2s)
+	vm:set_data(data)
+	vm:set_param2_data(param2s)
 	vm:set_lighting({day=0, night=0})
 	vm:calc_lighting()
-	vm:write_to_map(true)
+	vm:write_to_map()
 
 	if write_to_map
 	and mg_debug then -- print if any column of mapchunk was snow biome

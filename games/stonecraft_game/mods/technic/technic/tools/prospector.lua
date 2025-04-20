@@ -2,14 +2,16 @@ local S = technic.getter
 
 technic.register_power_tool("technic:prospector", 300000)
 
-local function get_metadata(toolstack)
-	local m = minetest.deserialize(toolstack:get_metadata())
-	if not m then m = {} end
-	if not m.charge then m.charge = 0 end
-	if not m.target then m.target = "" end
-	if not m.look_depth then m.look_depth = 7 end
-	if not m.look_radius then m.look_radius = 1 end
-	return m
+-- Helper function to consolidate ItemStackMetaRef access and initialize
+local function meta_to_table(meta)
+	local t = {}
+	local mt = meta:to_table()
+
+	t.charge = tonumber(mt.fields["technic:charge"]) or 0
+	t.target = mt.fields.target or ""
+	t.look_depth = tonumber(mt.fields.look_depth) or 7
+	t.look_radius = tonumber(mt.fields.look_radius) or 1
+	return t
 end
 
 minetest.register_tool("technic:prospector", {
@@ -20,7 +22,8 @@ minetest.register_tool("technic:prospector", {
 	on_use = function(toolstack, user, pointed_thing)
 		if not user or not user:is_player() or user.is_fake_player then return end
 		if pointed_thing.type ~= "node" then return end
-		local toolmeta = get_metadata(toolstack)
+		local meta = technic.get_stack_meta(toolstack)
+		local toolmeta = meta_to_table(meta)
 		local look_diameter = toolmeta.look_radius * 2 + 1
 		local charge_to_take = toolmeta.look_depth * (toolmeta.look_depth + 1) * look_diameter * look_diameter
 		if toolmeta.charge < charge_to_take then return end
@@ -30,9 +33,10 @@ minetest.register_tool("technic:prospector", {
 		end
 		if not technic.creative_mode then
 			toolmeta.charge = toolmeta.charge - charge_to_take
-			toolstack:set_metadata(minetest.serialize(toolmeta))
+			meta:set_int("technic:charge", toolmeta.charge)
 			technic.set_RE_wear(toolstack, toolmeta.charge, technic.power_tools[toolstack:get_name()])
 		end
+		-- What in the heaven's name is this evil sorcery ?
 		local start_pos = pointed_thing.under
 		local forward = minetest.facedir_to_dir(minetest.dir_to_facedir(user:get_look_dir(), true))
 		local right = forward.x ~= 0 and { x=0, y=1, z=0 } or (forward.y ~= 0 and { x=0, y=0, z=1 } or { x=1, y=0, z=0 })
@@ -42,18 +46,42 @@ minetest.register_tool("technic:prospector", {
 		for f = 0, toolmeta.look_depth-1 do
 			for r = 0, look_diameter-1 do
 				for u = 0, look_diameter-1 do
-					if minetest.get_node(vector.add(vector.add(vector.add(base_pos, vector.multiply(forward, f)), vector.multiply(right, r)), vector.multiply(up, u))).name == toolmeta.target then found = true end
+					if minetest.get_node(
+							vector.add(
+								vector.add(
+									vector.add(base_pos,
+										vector.multiply(forward, f)),
+									vector.multiply(right, r)),
+								vector.multiply(up, u))
+							).name == toolmeta.target then
+						found = true
+						break
+					end
 				end
+				if found then break end
 			end
+			if found then break end
 		end
-		if math.random() < 0.02 then found = not found end
-		minetest.chat_send_player(user:get_player_name(), minetest.registered_nodes[toolmeta.target].description.." is "..(found and "present" or "absent").." in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
-		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), { pos = vector.add(user:get_pos(), { x = 0, y = 1, z = 0 }), gain = 1.0, max_hear_distance = 10 })
+		if math.random() < 0.02 then
+			found = not found
+		end
+
+		local ndef = minetest.registered_nodes[toolmeta.target]
+		minetest.chat_send_player(user:get_player_name(),
+			ndef.description.." is "..(found and "present" or "absent")..
+			" in "..look_diameter.."x"..look_diameter.."x"..toolmeta.look_depth.." region")
+
+		minetest.sound_play("technic_prospector_"..(found and "hit" or "miss"), {
+			pos = vector.add(user:get_pos(), { x = 0, y = 1, z = 0 }),
+			gain = 1.0,
+			max_hear_distance = 10
+		})
 		return toolstack
 	end,
 	on_place = function(toolstack, user, pointed_thing)
 		if not user or not user:is_player() or user.is_fake_player then return end
-		local toolmeta = get_metadata(toolstack)
+		local meta = technic.get_stack_meta(toolstack)
+		local toolmeta = meta_to_table(meta)
 		local pointed
 		if pointed_thing.type == "node" then
 			local pname = minetest.get_node(pointed_thing.under).name
@@ -101,19 +129,16 @@ minetest.register_on_player_receive_fields(function(user, formname, fields)
 	if not user or not user:is_player() or user.is_fake_player then return end
 	local toolstack = user:get_wielded_item()
 	if toolstack:get_name() ~= "technic:prospector" then return true end
-	local toolmeta = get_metadata(toolstack)
+	local meta = technic.get_stack_meta(toolstack)
 	for field, value in pairs(fields) do
 		if field:sub(1, 7) == "target_" then
-			toolmeta.target = field:sub(8)
-		end
-		if field:sub(1, 12) == "look_radius_" then
-			toolmeta.look_radius = field:sub(13)
-		end
-		if field:sub(1, 11) == "look_depth_" then
-			toolmeta.look_depth = field:sub(12)
+			meta:set_string("target", field:sub(8))
+		elseif field:sub(1, 12) == "look_radius_" then
+			meta:set_string("look_radius", field:sub(13))
+		elseif field:sub(1, 11) == "look_depth_" then
+			meta:set_string("look_depth", field:sub(12))
 		end
 	end
-	toolstack:set_metadata(minetest.serialize(toolmeta))
 	user:set_wielded_item(toolstack)
 	return true
 end)

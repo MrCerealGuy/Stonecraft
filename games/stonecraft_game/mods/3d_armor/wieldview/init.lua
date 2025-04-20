@@ -4,31 +4,20 @@ if not update_time then
 	update_time = 2
 	minetest.settings:set("wieldview_update_time", tostring(update_time))
 end
-local node_tiles = minetest.settings:get_bool("wieldview_node_tiles")
-if not node_tiles then
-	node_tiles = false
-	minetest.settings:set("wieldview_node_tiles", "false")
-end
 
 wieldview = {
 	wielded_item = {},
 	transform = {},
 }
 
+dofile(minetest.get_modpath(minetest.get_current_modname()).."/get_texture.lua")
 dofile(minetest.get_modpath(minetest.get_current_modname()).."/transform.lua")
 
 wieldview.get_item_texture = function(self, item)
-	local texture = "3d_armor_trans.png"
+	local texture = "blank.png"
 	if item ~= "" then
-		if minetest.registered_items[item] then
-			if minetest.registered_items[item].inventory_image ~= "" then
-				texture = minetest.registered_items[item].inventory_image
-			elseif node_tiles == true and minetest.registered_items[item].tiles
-					and type(minetest.registered_items[item].tiles[1]) == "string"
-					and minetest.registered_items[item].tiles[1] ~= "" then
-				texture = minetest.inventorycube(minetest.registered_items[item].tiles[1])
-			end
-		end
+		texture = armor.get_wield_image(item)
+
 		-- Get item image transformation, first from group, then from transform.lua
 		local transform = minetest.get_item_group(item, "wieldview_transform")
 		if transform == 0 then
@@ -69,12 +58,12 @@ end
 minetest.register_on_joinplayer(function(player)
 	local name = player:get_player_name()
 	wieldview.wielded_item[name] = ""
-	minetest.after(0, function()
-		local pplayer = minetest.get_player_by_name(name)
-		if player then
+	minetest.after(0, function(pname)
+		local pplayer = minetest.get_player_by_name(pname)
+		if pplayer then
 			wieldview:update_wielded_item(pplayer)
 		end
-	end)
+	end, name)
 end)
 
 minetest.register_globalstep(function(dtime)

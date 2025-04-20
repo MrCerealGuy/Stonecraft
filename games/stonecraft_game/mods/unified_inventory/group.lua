@@ -1,29 +1,5 @@
 local S = minetest.get_translator("unified_inventory")
-
-function unified_inventory.canonical_item_spec_matcher(spec)
-	local specname = ItemStack(spec):get_name()
-	if specname:sub(1, 6) ~= "group:" then
-		return function (itemname)
-			return itemname == specname
-		end
-	end
-
-	local group_names = specname:sub(7):split(",")
-	return function (itemname)
-		local itemdef = minetest.registered_items[itemname]
-		for _, group_name in ipairs(group_names) do
-			if (itemdef.groups[group_name] or 0) == 0 then
-				return false
-			end
-		end
-		return true
-	end
-end
-
-function unified_inventory.item_matches_spec(item, spec)
-	local itemname = ItemStack(item):get_name()
-	return unified_inventory.canonical_item_spec_matcher(spec)(itemname)
-end
+local ui = unified_inventory
 
 function unified_inventory.extract_groupnames(groupname)
 	local specname = ItemStack(groupname):get_name()
@@ -32,22 +8,6 @@ function unified_inventory.extract_groupnames(groupname)
 	end
 	local group_names = specname:sub(7):split(",")
 	return table.concat(group_names, S(" and ")), #group_names
-end
-
-unified_inventory.registered_group_items = {
-	mesecon_conductor_craftable = "mesecons:wire_00000000_off",
-	stone = "default:cobble",
-	wood = "default:wood",
-	book = "default:book",
-	sand = "default:sand",
-	leaves = "default:leaves",
-	tree = "default:tree",
-	vessel = "vessels:glass_bottle",
-	wool = "wool:white",
-}
-
-function unified_inventory.register_group_item(groupname, itemname)
-	unified_inventory.registered_group_items[groupname] = itemname
 end
 
 
@@ -67,6 +27,7 @@ end
 -- It may be a comma-separated list of group names.  This is really a
 -- "group:..." ingredient specification, minus the "group:" prefix.
 
+-- TODO Replace this with the more efficient spec matcher (below)
 local function compute_group_item(group_name_list)
 	local group_names = group_name_list:split(",")
 	local candidate_items = {}
@@ -125,3 +86,61 @@ function unified_inventory.get_group_item(group_name)
 	return group_item_cache[group_name]
 end
 
+
+--[[
+This is for filtering known items by groups
+e.g. find all items that match "group:flower,yellow" (flower AND yellow groups)
+]]
+local spec_matcher = {}
+function unified_inventory.init_matching_cache()
+	for _, name in ipairs(ui.items_list) do
+		-- we only need to care about groups, exact items are handled separately
+		for group, value in pairs(minetest.registered_items[name].groups) do
+			if value and value ~= 0 then
+				if not spec_matcher[group] then
+					spec_matcher[group] = {}
+				end
+				spec_matcher[group][name] = true
+			end
+		end
+	end
+end
+
+--[[
+Retrieves all matching items
+
+Arguments:
+	specname (string): Item name or group(s) to filter
+
+Output:
+	{
+		matchingitem1 = true,
+		...
+	}
+]]
+function unified_inventory.get_matching_items(specname)
+	if specname:sub(1,6) ~= "group:" then
+		return { [specname] = true }
+	end
+
+	local accepted = {}
+	for i, group in ipairs(specname:sub(7):split(",")) do
+		if i == 1 then
+			-- First step: Copy all possible item names in this group
+			for name, _ in pairs(spec_matcher[group] or {}) do
+				accepted[name] = true
+			end
+		else
+			-- Perform filtering
+			if spec_matcher[group] then
+				for name, _ in pairs(accepted) do
+					accepted[name] = spec_matcher[group][name]
+				end
+			else
+				-- No matching items
+				return {}
+			end
+		end
+	end
+	return accepted
+end
