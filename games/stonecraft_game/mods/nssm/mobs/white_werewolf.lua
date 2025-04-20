@@ -15,19 +15,20 @@ mobs:register_mob("nssm:white_werewolf", {
 	fear_height = 4,
 	run_velocity = 5,
 	sounds = {
-		random = "werewolf",
+		random = "werewolf"
 	},
 	damage = 5,
 	jump = true,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 3, max = 4},
 		{name = "nssm:werewolf_leg", chance = 2, min = 1, max = 2},
-		{name = "nssm:white_wolf_fur", chance = 2, min = 1, max = 1},
+		{name = "nssm:white_wolf_fur", chance = 2, min = 1, max = 1}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 2,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -45,6 +46,6 @@ mobs:register_mob("nssm:white_werewolf", {
 		run_start = 140,
 		run_end = 160,
 		punch_start = 170,
-		punch_end = 193,
+		punch_end = 193
 	}
 })

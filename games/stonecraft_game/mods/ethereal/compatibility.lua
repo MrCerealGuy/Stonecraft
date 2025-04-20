@@ -1,5 +1,6 @@
 
--- add compatibility for ethereal nodes already in default game or name changed
+-- add compatibility for ethereal nodes already added to default game or name changed
+
 minetest.register_alias("ethereal:acacia_trunk", "default:acacia_tree")
 minetest.register_alias("ethereal:acacia_wood", "default:acacia_wood")
 
@@ -22,7 +23,7 @@ minetest.register_alias("ethereal:strawberry_bush", "ethereal:strawberry_7")
 minetest.register_alias("ethereal:seed_strawberry", "ethereal:strawberry")
 
 for i = 1, 5 do
-	minetest.register_alias("ethereal:wild_onion_"..i, "ethereal:onion_"..i)
+	minetest.register_alias("ethereal:wild_onion_" .. i, "ethereal:onion_" .. i)
 end
 
 minetest.register_alias("ethereal:onion_7", "ethereal:onion_4")

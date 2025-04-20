@@ -11,7 +11,7 @@ mobs:register_mob("nssm:octopus", {
 	visual_size = {x = 4, y = 4},
 	view_range = 25,
 	fly = true,
-	fly_in = "default:water_source",
+	fly_in = {"default:water_source", "default:water_flowing"},
 	fall_speed = -20,
 	walk_velocity = 1.5,
 	run_velocity = 3,
@@ -26,12 +26,13 @@ mobs:register_mob("nssm:octopus", {
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 2, max = 3},
-		{name = "nssm:tentacle", chance = 1, min = 1, max = 8},
+		{name = "nssm:tentacle", chance = 1, min = 1, max = 8}
 	},
 	armor = 70,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 10,
+	fire_damage = 10,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -48,7 +49,7 @@ mobs:register_mob("nssm:octopus", {
 		run_start = 60,
 		run_end = 100,
 		punch_start = 120,
-		punch_end = 160,
+		punch_end = 160
 	}
 })
 
@@ -65,7 +66,7 @@ mobs:register_mob("nssm:xgaloctopus", {
 	visual_size = {x = 1, y = 1},
 	view_range = 25,
 	fly = true,
-	fly_in = "default:water_source",
+	fly_in = {"default:water_source", "default:water_flowing"},
 	fall_speed = -20,
 	walk_velocity = 1.5,
 	run_velocity = 3,
@@ -76,16 +77,17 @@ mobs:register_mob("nssm:xgaloctopus", {
 	jump_chance = 0,
 	jump_height = 0,
 	sounds = {
-		random = "octopus",
+		random = "octopus"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 2, max = 3},
-		{name = "nssm:tentacle", chance = 1, min = 1, max = 8},
+		{name = "nssm:tentacle", chance = 1, min = 1, max = 8}
 	},
 	armor = 60,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 10,
+	fire_damage = 10,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -102,10 +104,10 @@ mobs:register_mob("nssm:xgaloctopus", {
 		run_start = 60,
 		run_end = 100,
 		punch_start = 120,
-		punch_end = 160,
+		punch_end = 160
 	},
 	replace_rate = 1,
 	replace_what = {"default:torch"},
 	replace_with = "default:water_source",
-	replace_offset = 0,
+	replace_offset = 0
 })

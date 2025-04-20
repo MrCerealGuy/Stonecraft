@@ -16,7 +16,7 @@ mobs:register_mob("nssm:spiderduck", {
 	walk_velocity = 2,
 	run_velocity = 4,
 	sounds = {
-		random = "duck",
+		random = "duck"
 	},
 	damage = 6,
 	jump = true,
@@ -25,12 +25,13 @@ mobs:register_mob("nssm:spiderduck", {
 		{name = "nssm:duck_legs", chance = 1, min = 1, max = 8},
 		{name = "nssm:silk_gland", chance = 2, min = 1, max = 2},
 		{name = "nssm:black_duck_feather", chance = 3, min = 1, max = 4},
-		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1},
+		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 2,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -41,7 +42,7 @@ mobs:register_mob("nssm:spiderduck", {
 	attack_type = "dogshoot",
 	arrow = "nssm:webball",
 	reach = 2,
-	shoot_interval = 2,
+	shoot_interval = 5,
 	shoot_offset = 2,
 	animation = {
 		speed_normal = 25,
@@ -55,6 +56,6 @@ mobs:register_mob("nssm:spiderduck", {
 		punch_start = 20,
 		punch_end = 46,
 		shoot_start = 150,
-		shoot_end = 200,
+		shoot_end = 200
 	}
 })

@@ -20,13 +20,72 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-mobs.fireball.png was originally made by Sapier and edited by Benrob:
+Textures created by wwar (CC0)
+  mobs_dungeon_master_nether.png
+  mobs_dungeon_master_netherdeep.png
+  mobs_stone_monster.png
+  mobs_dungeon_master2.png
+  mobs_land_guard.png
+  mobs_land_guard2.png
+  mobs_land_guard3.png
 
--- Animals Mod by Sapier
---
--- You may copy, use, modify or do nearly anything except removing this
--- copyright notice.
--- And of course you are NOT allow to pretend you have written it.
---
--- (c) Sapier
--- Contact sapier a t gmx net
+Textures by AMMOnym (WTFPL)
+  mobs_stone_monster2.png
+
+Textures by TenPlus1 (MIT)
+  mobs_stone_monster3.png
+  mobs_fireball.png
+  mobs_obsidian_flan.png
+
+Textures by Sirrobzeroone (CC0 1.0 Universal)
+  mobs_stone_monster4.png
+  mobs_sand_monster.png
+
+Textures and Model created by SirrobZeroone (CC0)
+  mobs_mese_monster_red.png
+  mobs_mese_monster_blue.png
+  mobs_mese_monster_green.png
+  mobs_mese_monster_purple.png
+  mobs_mese_arrow.png
+  mobs_mese_monster.b3d
+
+Pavel_S and PilzAdam (WTFPL)
+  mobs_dirt_monster.png
+  mobs_dirt_monster2.png
+  mobs_dirt_monster3.png
+  mobs_dungeon_master.b3d
+  mobs_dungeon_master.png
+  mobs_dungeon_master.ogg
+  mobs_fireball.ogg
+  mobs_oerkki.b3d
+  mobs_oerkki.png
+  mobs_sand_monster.b3d [edited by SirrobZeroone]
+  mobs_sand_monster2.png
+  mobs_stone_monster.b3d [edited by SirrobZeroone]
+  mobs_tree_monster.b3d
+  mobs_tree_monster*.png (edited by TenPlus1)
+
+AspireMint (CC BY-SA 3.0)
+  mobs_spider.b3d
+  mobs_spider_mese.png
+  mobs_spider_orange.png
+  mobs_spider_snowy.png
+  mobs_spider_grey.png
+  mobs_spider_crystal.png
+  zmobs_lava_flan.b3d
+  zmobs_lava_flan.png
+  zmobs_lava_flan2.png
+  zmobs_lava_flan3.png
+
+Zeg9 (CC BY-SA 3.0)
+  zmobs_lava_orb.png
+
+Sounds by Cyberpangolin (WTFPL) https://forum.minetest.net/viewtopic.php?t=10798
+  mobs_dirtmonster.ogg
+  mobs_dungeonmaster.ogg
+  mobs_lavaflan.ogg
+  mobs_mesemonster.ogg
+  mobs_oerkki.ogg
+  mobs_sandmonster.ogg
+  mobs_stonemonster.ogg
+  mobs_treemonster.ogg

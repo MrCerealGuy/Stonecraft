@@ -3,6 +3,7 @@ local _ = {name = "air", prob = 0}
 local L = {name = "ethereal:willow_twig", prob = 255}
 local T = {name = "ethereal:willow_trunk", prob = 255}
 local t = {name = "ethereal:willow_trunk", prob = 127}
+local M = {name = "ethereal:willow_trunk", prob = 255, force_place = true}
 
 ethereal.willow = {
 
@@ -10,7 +11,7 @@ ethereal.willow = {
 
 	yslice_prob = {
 		{ypos = 0, prob = 127},
-		{ypos = 1, prob = 127},
+		{ypos = 1, prob = 127}
 	},
 
 	data = {
@@ -90,9 +91,9 @@ ethereal.willow = {
 	_,_,_,_,L,T,L,L,_,_,_,_,
 	_,_,_,_,_,L,_,_,_,_,_,_,
 
-	_,_,_,_,_,T,T,T,T,t,_,_,
-	_,_,_,_,_,T,T,_,_,_,_,_,
-	_,_,_,_,_,T,T,_,_,_,_,_,
+	_,_,_,_,_,M,M,M,M,t,_,_,
+	_,_,_,_,_,M,M,_,_,_,_,_,
+	_,_,_,_,_,M,M,_,_,_,_,_,
 	_,L,_,_,_,T,T,_,_,_,_,_,
 	_,L,L,_,_,T,_,_,_,L,L,_,
 	_,L,L,L,_,T,L,L,L,L,L,L,
@@ -105,9 +106,9 @@ ethereal.willow = {
 	_,_,_,L,L,L,L,L,_,_,_,_,
 	_,_,_,_,L,L,L,_,_,_,_,_,
 
-	_,_,t,T,T,T,T,T,_,_,_,_,
-	_,_,_,_,_,T,T,T,_,_,_,_,
-	_,_,_,_,_,T,T,_,_,_,_,_,
+	_,_,t,M,M,M,M,M,_,_,_,_,
+	_,_,_,_,_,M,M,M,_,_,_,_,
+	_,_,_,_,_,M,M,_,_,_,_,_,
 	_,_,_,_,_,T,T,_,_,_,_,_,
 	_,L,_,_,_,T,T,_,_,_,_,_,
 	L,L,L,L,L,T,T,T,L,L,L,L,

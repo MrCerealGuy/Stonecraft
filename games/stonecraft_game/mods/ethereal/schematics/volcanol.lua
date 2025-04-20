@@ -2,7 +2,7 @@
 local _ = {name = "air", prob = 0}
 local d = {name = "ethereal:fiery_dirt", prob = 245}
 local s = {name = "default:stone", prob = 255}
-local l = {name = "default:lava_source", prob = 255}
+local l = {name = "default:lava_source", prob = 255, force_place = true}
 local f = {name = "default:lava_flowing", prob = 255}
 local o = {name = "default:obsidian", prob = 215}
 
@@ -13,7 +13,6 @@ ethereal.volcanol = {
 	yslice_prob = {
 		{ypos = 0, prob = 127},
 		{ypos = 1, prob = 127},
-		{ypos = 2, prob = 127},
 	},
 
 	data = {

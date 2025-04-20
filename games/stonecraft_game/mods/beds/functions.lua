@@ -97,7 +97,7 @@ local function lay_down(player, pos, bed_pos, state, skip)
 		end
 
 		-- Check if player is moving
-		if vector.length(player:get_velocity()) > 0.001 then
+		if vector.length(player:get_velocity()) > 0.05 then
 			minetest.chat_send_player(name, S("You have to stop moving before going to bed!"))
 			return false
 		end
@@ -244,10 +244,9 @@ end
 -- Callbacks
 -- Only register respawn callback if respawn enabled
 if enable_respawn then
-	-- respawn player at bed if enabled and valid position is found
-	minetest.register_on_respawnplayer(function(player)
-		local name = player:get_player_name()
-		local pos = beds.spawn[name]
+	-- Respawn player at bed if valid position is found
+	spawn.register_on_spawn(function(player, is_new)
+		local pos = beds.spawn[player:get_player_name()]
 		if pos then
 			player:set_pos(pos)
 			return true

@@ -1,3 +1,5 @@
+minetest_game               https://github.com/luanti-org/minetest_game.git
+
 3d_armor					https://github.com/minetest-mods/3d_armor
 abm_allowed					https://github.com/MrCerealGuy/abm_allowed.git
 ambience					https://notabug.org/TenPlus1/ambience.git

@@ -11,6 +11,11 @@ mesecon.cooldown_granularity (Cooldown step length) float 0.5 0.0 1.0
 mesecon.blinky_plant_interval (Plant blinking interval) int 3 1 5
 
 
+[mesecons_commandblock]
+
+mesecon.commandblock_param_maxlen (Maximum command parameter length) int 10000 100 1000000
+
+
 [mesecons_detector]
 
 mesecon.detector_radius (Player detector scanning radius) int 6 3 16
@@ -27,6 +32,10 @@ mesecon.luacontroller_memsize (Controller memory limit) int 100000 10000 1000000
 # Use node timer for interrupts (runs in active blocks only).
 # IID is ignored and at most one interrupt may be queued if this setting is enabled.
 mesecon.luacontroller_lightweight_interrupts (Lightweight interrupts) bool false
+
+# Behavior of print() inside a luacontroller. By default, this emits a message into actionstream.
+# Set it to noop if you wish to disable that behavior.
+mesecon.luacontroller_print_behavior (Behavior of print) enum log log,noop
 
 [mesecons_mvps]
 

@@ -16,7 +16,7 @@ mobs:register_mob("nssm:sand_bloco", {
 	run_velocity = 2,
 	rotate = 270,
 	sounds = {
-		random = "bloco",
+		random = "bloco"
 	},
 	damage = 4,
 	reach = 1.5,
@@ -24,12 +24,13 @@ mobs:register_mob("nssm:sand_bloco", {
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 1},
 		{name = "default:sandstone", chance = 1, min = 2, max = 3},
-		{name = "nssm:sand_bloco_skin", chance = 2, min = 1, max = 3},
+		{name = "nssm:sand_bloco_skin", chance = 2, min = 1, max = 3}
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 10,
 	lava_damage = 1,
+	fire_damage = 1,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -46,6 +47,6 @@ mobs:register_mob("nssm:sand_bloco", {
 		run_start = 190,
 		run_end = 200,
 		punch_start = 100,
-		punch_end = 130,
+		punch_end = 130
 	}
 })

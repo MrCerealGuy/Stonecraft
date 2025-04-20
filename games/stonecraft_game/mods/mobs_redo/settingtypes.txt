@@ -1,3 +1,12 @@
+#    Enable setting so that Mobs Redo mobs can attack Creatura mobs
+mobs_attack_creatura (Attack Creatura Mobs) bool false
+
+#    How often mobs get nodes around them (default is 0.25, 1/4 second)
+mob_node_timer_interval (Mob Node Timer Interval) float 0.25
+
+#    How often mobs run main functions (default is 1.00, 1 second)
+mob_main_timer_interval (Mob Node Timer Interval) float 1.00
+
 #    If false then mobs no longer spawn in world without spawner or spawn egg
 mobs_spawn (Spawn Mobs) bool true
 
@@ -7,20 +16,23 @@ only_peaceful_mobs (Only spawn peaceful Mobs) bool false
 #   If enabled then punching mobs no longer shows blood effects
 mobs_disable_blood (Disable Mob blood) bool false
 
+#   If enabled the mobs will be highlighted when hit
+mob_hit_effect (Highlight Mob when Hit) bool false
+
 #    If disabled then Mobs no longer destroy world blocks
 mobs_griefing (Griefing Mobs) bool true
 
 #    If false then Mobs no longer spawn inside player protected areas
 mobs_spawn_protected (Spawn Mobs in protected areas) bool true
 
+#    If false then Monsters no longer spawn inside player protected areas
+mobs_spawn_monster_protected (Spawn Monsters in protected areas) bool true
+
 #    If true Mobs will be removed once a map chunk is out of view
 remove_far_mobs (Remove far Mobs) bool true
 
 #    Sets Mob difficulty level by multiplying punch damage
 mob_difficulty (Mob difficulty) float 1.0
-
-#    If disabled health status no longer appears above Mob when punched
-mob_show_health (Show Mob health) bool true
 
 #    Contains a value used to multiply Mob spawn values
 mob_chance_multiplier (Mob chance multiplier) float 1.0
@@ -39,3 +51,43 @@ mob_area_spawn (Mob Area Spawn) bool false
 
 #    Enable peaceful player attack prevention
 enable_peaceful_player (Mobs do not attack peaceful player without reason) bool false
+
+#    Enable mobs smooth rotation
+mob_smooth_rotate (Smooth rotation for mobs) bool true
+
+#   Fix Mob Height if too low so they cannot escape through specific nodes
+mob_height_fix (Fix Mob Height) bool false
+
+mob_log_spawn (Log Mob Spawning) bool false
+
+#   Mob hearing, when enabled will override minetest.sound_play for mobs to hear
+mobs_can_hear (Enable Mob hearing) bool true
+
+#   Node hearing, when enabled will allow nodes to hear nearby sounds
+mobs_can_hear_node (Enable Node hearing) bool false
+
+#   By default mobs are dealt knockback from damage, this lets you disable it
+mobs_disable_damage_kb (Disable knockback from damage only) bool false
+
+[Pathfinding]
+#    Enable pathfinding (default Enabled)
+mob_pathfinding_enable (Enable pathfinding) bool true
+#    How long before stuck mobs starts searching (default 3.0)
+mob_pathfinding_stuck_timeout (How long before stuck mobs start searching) float 3.0
+#    How long will mob follow path before giving up (default 5.0)
+mob_pathfinding_stuck_path_timeout (How long will mob follow path before giving up) float 5.0
+#    Which pathfinding algorithm to use
+#      - Dijkstra (default)
+#      - A*_noprefetch (AStar_noprefetch)
+#      - A* (AStar)
+#      (A* names differ cause Minetest doesn´t allow "*" in settings)
+mob_pathfinding_algorithm (pathfinding algorithm) enum Dijkstra Dijkstra,AStar_noprefetch,AStar
+# max search distance from search positions (default 16)
+mob_pathfinding_searchdistance (path search distance) int 16
+# max jump height for pathfinding (default 4)
+mob_pathfinding_max_jump (path max jump height) int 4
+# max drop height for pathfinding (default 6)
+mob_pathfinding_max_drop (path max drop height) int 6
+
+#   Enable mob infotext on hover
+mob_infotext (Enable mob infotext on hover) bool true

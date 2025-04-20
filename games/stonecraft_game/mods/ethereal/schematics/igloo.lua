@@ -1,5 +1,5 @@
 
-local _ = {name = "air", prob = 0}
+local _ = {name = "air", prob = 255, force_place = true}
 local S = {name = "default:snowblock", prob = 255}
 local P = {name = "default:pine_bush_stem", prob = 50}
 local C = {name = "ethereal:coconut", prob = 50}

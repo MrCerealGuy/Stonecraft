@@ -19,3 +19,18 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+Textures by TenPlus1 (CC0) unless listed below
+
+Textures by Amara2_MK (Creative Commons)
+https://www.curseforge.com/minecraft/texture-packs/glazed-terracotta-revamp
+  baked_clay_terracotta*.png
+
+Missing gray, light gray, black and green textures re-coloured by Firefox.
+
+Textures by Timbits (CC-BY-SA 3.0)
+  baked_clay_lazarus.png
+  baked_clay_delphinium.png
+  baked_clay_mannagrass.png
+  baked_clay_thistle.png

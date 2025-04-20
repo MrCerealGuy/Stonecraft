@@ -10,7 +10,7 @@ mobs:register_mob("nssm:crab", {
 		{"crab2.png"}
 	},
 	sounds = {
-		random = "crab",
+		random = "crab"
 	},
 	visual_size = {x = 3, y = 3},
 	makes_footstep_sound = true,
@@ -27,12 +27,13 @@ mobs:register_mob("nssm:crab", {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 		{name = "nssm:surimi", chance = 1, min = 1, max = 2},
 		{name = "nssm:crab_chela", chance = 4, min = 1, max = 2},
-		{name = "nssm:crab_carapace_fragment", chance = 4, min = 1, max = 1},
+		{name = "nssm:crab_carapace_fragment", chance = 4, min = 1, max = 1}
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 10,
+	fire_damage = 10,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -50,6 +51,6 @@ mobs:register_mob("nssm:crab", {
 		run_start = 120,
 		run_end = 140,
 		punch_start = 90,
-		punch_end = 110,
+		punch_end = 110
 	}
 })

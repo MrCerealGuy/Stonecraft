@@ -1,2 +1,5 @@
 #    If enabled will play a random music file from ./minetest/sounds at midnight
 ambience_music (Ambience music) bool true
+
+#    If enabled then ambience will take over sounds when moving in water
+ambience_water_move (Ambience water movement) bool true

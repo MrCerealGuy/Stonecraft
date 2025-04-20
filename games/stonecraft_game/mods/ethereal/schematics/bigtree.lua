@@ -3,6 +3,7 @@ local _ = {name = "air", prob = 0}
 local L = {name = "default:leaves", prob = 255}
 local T = {name = "default:tree", prob = 255}
 local t = {name = "default:tree", prob = 127}
+local M = {name = "default:tree", prob = 255, force_place = true}
 
 ethereal.bigtree = {
 
@@ -10,7 +11,7 @@ ethereal.bigtree = {
 
 	yslice_prob = {
 		{ypos = 0, prob = 127},
-		{ypos = 1, prob = 127},
+		{ypos = 1, prob = 127}
 	},
 
 	data = {
@@ -51,9 +52,9 @@ ethereal.bigtree = {
 	_,_,_,L,L,L,_,_,_,
 	_,_,_,_,_,_,_,_,_,
 
-	_,_,t,T,T,T,t,_,_,
-	_,_,_,T,T,T,_,_,_,
-	_,_,_,T,T,T,_,_,_,
+	_,_,t,T,M,T,t,_,_,
+	_,_,_,T,M,T,_,_,_,
+	_,_,_,T,M,T,_,_,_,
 	_,_,_,T,T,T,_,_,_,
 	L,L,L,L,T,L,L,L,L,
 	_,L,L,L,T,L,L,L,_,

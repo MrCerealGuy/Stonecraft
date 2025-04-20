@@ -6,6 +6,17 @@ Welcome to the world of mobs in minetest and hopefully an easy guide to defining
 your own mobs and having them appear in your worlds.
 
 
+Quick Note
+----------
+
+Since the mobs redo api checks for nodes around the mob to function, it relies on a
+default node incase anything goes wrong, so in the default game this is default:dirt
+but for any custom game please make sure the following line is registered with your
+preferred dirt node of choice:
+
+minetest.register_alias("mapgen_dirt", "mymod:my_dirt_node")
+
+
 Registering Mobs
 ----------------
 
@@ -21,7 +32,6 @@ by it's own name e.g.
 ... and the 'definition' is a table which holds all of the settings and
 functions needed for the mob to work properly which contains the following:
 
-   'nametag'       contains the name which is shown above mob.
    'type'          holds the type of mob that inhabits your world e.g.
       "animal"     usually docile and walking around.
       "monster"    attacks player or npc on sight.
@@ -40,8 +50,10 @@ functions needed for the mob to work properly which contains the following:
                    set to 0 for jumping mobs only.
    'randomly_turn' if set to false then mob will not turn to face player or
                    randomly turn while walking or standing.
-   'jump'          when true allows your mob to jump updwards.
+   'jump'          when true allows your mob to jump updwards[DEPRECATED].
    'jump_height'   holds the height your mob can jump, 0 to disable jumping.
+   'can_leap'      when true obstacles like fences or pits wont stop a mob
+                   from trying to jump out.
    'stepheight'    height of a block that your mob can easily walk up onto,
                    defaults to 1.1.
    'fly'           when true allows your mob to fly around instead of walking.
@@ -56,6 +68,9 @@ functions needed for the mob to work properly which contains the following:
    'view_range'    how many nodes in distance the mob can see a player.
    'damage'        how many health points the mob does to a player or another
                    mob when melee attacking.
+   'damage_group'  group in which damage is dealt, dedaults to "fleshy".
+   'damage_texture_modifier' applies texture modifier on hit e.g "^[brighten"
+                   or default when enabled is "^[colorize:#c9900070".
    'knock_back'    when true has mobs falling backwards when hit, the greater
                    the damage the more they move back.
    'fear_height'   is how high a cliff or edge has to be before the mob stops
@@ -66,14 +81,18 @@ functions needed for the mob to work properly which contains the following:
                    water.
    'air_damage'    holds damage per second inflicted to mob when standing in air.
    'lava_damage'   holds the damage per second inflicted to mobs when standing
-                   in lava or fire or an ignition source.
+                   in lava.
+   'fire_damage'   holds the damage per second inflicted to mobs when standing
+   'node_damage'   True by default, will harm mobs when inside damage_per_second
+                   nodes.
    'light_damage'  holds the damage per second inflicted to mobs when light
                    level is between the min and max values below
    'light_damage_min' minimum light value when mob is affected (default: 14)
    'light_damage_max' maximum light value when mob is affected (default: 15)
+                      When set to 16 then only natural light will kill mob.
    'suffocation'   when > 0 mobs will suffocate inside solid blocks and will be
                    hurt by the value given every second (0 to disable).
-   'floats'        when set to 1 mob will float in water, 0 has them sink.
+   'floats'        when True mob will float in water, otherwise they sink.
    'follow'        mobs follow player when holding any of the items which appear
                    on this table, the same items can be fed to a mob to tame or
                    breed e.g. {"farming:wheat", "default:apple", "group:fish"}
@@ -84,10 +103,13 @@ functions needed for the mob to work properly which contains the following:
                          hours and only attacking player at night or when
                          provoked.
    'attack_chance'       0 to 100 chance the mob will attack (default is 5).
+   'attack_patience'     Time in seconds before mob gives up attacking if
+                         player isn't seen (Defaults to 11).
    'attack_monsters'     when true mob will attack monsters.
    'attack_animals'      when true mob will attack animals.
    'attack_npcs'         when true mob will attack npcs within range.
    'attack_players'      when true mob will attack players nearby.
+   'attack_ignore'       string or table of mob names not to attack.
    'owner_loyal'         when true non-docile tamed mobs attack anything player
                          punches when nearby.
    'group_attack'        when true has same mob type grouping together to attack
@@ -118,6 +140,8 @@ functions needed for the mob to work properly which contains the following:
                          continue chasing.
    'arrow'               holds the pre-defined arrow object to shoot when
                          attacking.
+   'arrow_override'      function that allows tweaking of arrow entity from
+                         inside mob definition (self) passed to function.
    'dogshoot_switch'     allows switching between attack types by using timers
                          (1 for shoot, 2 for dogfight)
    'dogshoot_count_max'  contains how many seconds before switching from
@@ -125,12 +149,16 @@ functions needed for the mob to work properly which contains the following:
    'dogshoot_count2_max' contains how many seconds before switching from shoot
                          to dogfight.
    'shoot_interval'      has the number of seconds between shots.
-   'shoot_offset'        holds the y position added as to where the
+   'shoot_offset'         holds the y position added as to where the
                          arrow/fireball appears on mob.
+   'homing'              When True arrows will follow player when visible.
    'specific_attack'     has a table of entity names that mob can also attack
                          e.g. {"player", "mobs_animal:chicken"}.
-   'runaway_from'        contains a table with mob names to run away from, add
-                         "player" to list to runaway from player also.
+   'friendly_fire`       when set to false, mobs will not be able to harm other
+                         mobs of the same type with friendly fire arrows.
+                         Defaults to true.
+   'runaway_from'        contains a table with mob names or nodesto run away
+                         from, add "player" to list to runaway from player also.
    'ignore_invisibility' When true mob will still be able to see and attack
                          player even if invisible (invisibility mod only).
    'blood_amount'        contains the number of blood droplets to appear when
@@ -148,6 +176,9 @@ functions needed for the mob to work properly which contains the following:
       {"default:gold_lump", -10} -- heals by 10 health points.
       {"default:coal_block", 20} -- 20 damage when hit on head with coal blocks.
       {"all"} -- stops all weapons causing damage apart from those on list.
+                         nodes can also be added so that node_per_second damage
+                         does not affect the mob either e.g.
+      {"ethereal:crystal_spike", 0} -- causes no damage.
 
    'makes_footstep_sound' when true you can hear mobs walking.
    'sounds'               this is a table with sounds of the mob
@@ -199,8 +230,6 @@ functions needed for the mob to work properly which contains the following:
    'rotate'            custom model rotation, 0 = front, 90 = side, 180 = back,
                        270 = other side.
    'glow'              has mob glow without light source, 0 to 15 or nil to disable
-   'double_melee_attack' when true has the api choose between 'punch' and
-                      'punch2' animations. [DEPRECATED]
 
    'animation'       holds a table containing animation names and settings for use with
                      mesh models:
@@ -216,6 +245,9 @@ functions needed for the mob to work properly which contains the following:
       'fly_start'    when a mob is flying.
       'fly_end'
       'fly_speed'
+      'jump_start'   when a mob is jumping
+      'jump_end'
+      'jump_speed'
       'punch_start'  when a mob melee attacks.
       'punch_end'
       'punch_speed'
@@ -225,6 +257,9 @@ functions needed for the mob to work properly which contains the following:
       'shoot_start'  shooting animation.
       'shoot_end'
       'shoot_speed'
+      'injured_start' when hit or damaged > 1 hp (if not set then 'walk' is used)
+      'injured_end'
+      'injured_speed'
       'die_start'    death animation
       'die_end'
       'die_speed'
@@ -253,11 +288,12 @@ eating.
                     y offset by using this instead:
                     {
                        {"group:grass", "air", 0},
-                       {"default:dirt_with_grass", "default:dirt", -1}
+                       {"default:dirt_with_grass", "default:dirt", -1, 0}
                     }
    'replace_with'   replace with what e.g. "air" or in chickens case "mobs:egg"
    'replace_rate'   how random should the replace rate be (typically 10)
-   'replace_offset' +/- value to check specific node to replace
+   'replace_offset' +/- y offset value to check specific node to replace
+   'reach'          horizontal reach around mob for replace, default is 0
 
    'on_replace(self, pos, oldnode, newnode)' is called when mob is about to
                                              replace a node.
@@ -272,17 +308,34 @@ eating.
        properties. (DEPRECATED, use on_replace to make changes).
 
 
+Pickup Items
+------------
+
+   'pick_up'            table of itemstrings the mob will pick up.
+   'on_pick_up'         function that will be called on item pickup - arguments are
+                        (self, itemstring) and can return nil or a a modified itemstack e.g.
+
+on_pick_up = function(self, itemstring)
+
+		local istack = ItemStack(entity.itemstring)
+
+		print("-- took", istack:get_name())
+
+		istack:take_item(1)
+
+		return istack
+end,
+
+
 Custom Definition Functions
 ---------------------------
 
 Along with the above mob registry settings we can also use custom functions to
 enhance mob functionality and have them do many interesting things:
 
-   'on_die'         a function that is called when the mob is killed the
-                    parameters are (self, pos)
    'on_rightclick'  its same as in minetest.register_entity()
    'on_blast'       is called when an explosion happens near mob when using TNT
-                    functions, parameters are (object, damage) and returns
+                    functions, parameters are (damage) and returns
                     (do_damage, do_knockback, drops)
    'on_spawn'       is a custom function that runs on mob spawn with 'self' as
                     variable, return true at end of function to run only once.
@@ -295,13 +348,16 @@ enhance mob functionality and have them do many interesting things:
    'on_grown'       is called when a child mob has grown up, only paramater is
                     (self).
    'do_punch'       called when mob is punched with paramaters (self, hitter,
-                    time_from_last_punch, tool_capabilities, direction), return
-                    false to stop punch damage and knockback from taking place.
+                    time_from_last_punch, tool_capabilities, direction, damage),
+                    return false to stop punch damage and knockback from taking
+                    place.
    'custom_attack'  when set this function is called instead of the normal mob
                     melee attack, parameters are (self, to_attack) and if true
                     is returned normal attack function continued.
    'on_die'         a function that is called when mob is killed (self, pos), also
                     has access to self.cause_of_death table.
+   'on_death'       Official engine version of above when mob killed (self, killer),
+                    'killer' is only returned if player killed the mob.
    'on_flop'        function called when flying or swimmimng mob is no longer in
                     air/water, (self) paramater and return true to skip the built
                     in api flop feature.
@@ -309,6 +365,24 @@ enhance mob functionality and have them do many interesting things:
                     active and which has access to all of the self.* variables
                     e.g. (self.health for health or self.standing_in for node
                     status), return with 'false' to skip remainder of mob API.
+   'on_sound'       (self, def) called when mob is inside the hearing distance of
+                    a sound, passes a def table containing:
+      'sound'       the sound being played,
+      'pos'         position the sound originated (only sounds with pos detected),
+      'gain'        original gain of sound,
+      'distance'    distance of mob from sound source,
+      'loudness'    how loud sound is to mob (percentage of gain heard at distance)
+      'player'      player name sound originated, [NOT IN USE]
+      'object'      object reference sound originated, [NOT IN USE]
+      'max_hear_distance' max distance sound can be heard from source.
+
+
+Hearing Nodes
+-------------
+
+If a node has the {on_sound = 1} group and an on_sound() function set as above then
+nodes within 8 blocks of a sound will be activated and the function run.  Check the
+"mobs:hearing_vines" node as an example which has mesecons support when active.
 
 
 Internal Variables
@@ -317,12 +391,15 @@ Internal Variables
 The mob api also has some preset variables and functions that it will remember
 for each mob.
 
+   'self._cmi_is_mob'   Used to determine wether entity is a mobs redo mob when True.
    'self.health'        contains current health of mob (cannot exceed
                         self.hp_max)
    'self.texture_list'  contains list of all mob textures
    'self.child_texture' contains mob child texture when growing up
    'self.base_texture'  contains current skin texture which was randomly
                         selected from textures list
+   'self.texture_mods'  contains a list of textures to overlay above the mobs
+                        base texture (used for horse saddle)
    'self.gotten'        this is used for obtaining milk from cow and wool from
                         sheep
    'self.horny'         when animal fed enough it is set to true and animal can
@@ -335,7 +412,11 @@ for each mob.
                         dogs
    'self.order'         set to "follow" or "stand" so that npc will follow owner
                         or stand it's ground
-   'self.nametag'       contains the name of the mob which it can show above
+   'self._nametag'      contains the name of the mob which it can show above
+   'self.pause_timer'   used to stop mob thinking when punched so that knockback
+                        can take effect.
+   'self.disable_falling' currently used on spider mob when climbing walls, stops
+                          the mob from experiencing gravity when true.
    'self.state'         Current mob state.
                         "stand": no movement (except turning around)
                         "walk": walk or move around aimlessly
@@ -344,6 +425,42 @@ for each mob.
                         "flop": bounce around aimlessly
                                 (for swimming mobs that have stranded)
                         "die": during death
+    'self.standing_on'  Node name mob is standing on.
+    'self.standing_in'  Node name mob is standing inside.
+    'self.looking_at'   Node name in front of mob.
+    'self.looking_above'Node name in front/above mob.
+    'self.facing_fence' True if mob facing node containing "wall", "fence", "gate"
+                        in it's name.
+
+
+Internal Functions
+------------------
+
+Each mob contains a set of functions that can be called for use internally or from
+another mod entirely, replace mob_class with the mob entity variable:
+
+mob_class:mob_sound(sound) -- play sound at mob position
+mob_class:do_attack(player [, force]) -- if not already attacking, attack object given,
+forced being true stops attacking current target and focuses on one given
+mob_class:stop_attack() -- stops mob attacking
+mob_class:collision() -- checks for player collision with mob and returns {x, z} vector
+mob_class:set_velocity(velocity) -- move at velocity in the facing direction
+mob_class:get_velocity() -- returns mob speed value
+mob_class:set_yaw(yaw, delay) -- change mob yaw, delay is for smooth rotation (default:0)
+mob_class:yaw_to_pos(pos, delay) -- rotates mod to look at position and returns new yaw
+mob_class:set_animation(animation, force) -- set mob animation
+mob_class:line_of_sight(pos1, pos2) -- internal line of sight function
+mob_class:attempt_flight_correction(override) -- check for stuck flying mobs and fix
+mob_class:update_tag(newname) -- update nametag or give new name
+mob_class:do_jump() -- check if mob can jump then jump
+mob_class:follow_holding(clicker) -- return True if mob likes what player is holding
+mob_class:day_docile() -- return True if mob docile during current daytime
+mob_class:mob_expire(pos, dtime) -- check if mob is to despawn
+mob_class:get_nodes() -- get specific nodes around mob
+mob_class:on_blast(damage) -- function called when mob in blast area
+mob_class:is_inside(itemtable) -- returns True is mob collisionbox inside any node/group
+in table
+mob_class:go_to(pos) -- makes mob go to that position or nearby
 
 
 Adding Mobs in World
@@ -408,7 +525,7 @@ the mobs:spawn, so it is recommended to use the above instead.
 mobs:register_spawn(name, nodes, max_light, min_light, chance,
    active_object_count, max_height, day_toggle)
 
-mobs:spawn_specfic(name, nodes, neighbors, min_light, max_light, interval,
+mobs:spawn_specific(name, nodes, neighbors, min_light, max_light, interval,
    chance, active_object_count, min_height, max_height, day_toggle, on_spawn)
 
 A simpler way to handle mob spawns has been added with the mobs:spawn(def)
@@ -430,6 +547,12 @@ true the mob will not spawn.
     'pos'    holds the position of the spawning mob
     'node'   contains the node the mob is spawning on top of
     'name'   is the name of the animal/monster
+
+
+mobs:node_ok(pos, fallback)
+
+This global function gets the node at pos and if not registered will return the
+fallback node instead.
 
 
 Particle Effects
@@ -461,9 +584,13 @@ This function registers a arrow for mobs with the attack type shoot.
     'definition'      is a table with the following values:
        'visual'       same is in minetest.register_entity()
        'visual_size'  same is in minetest.register_entity()
+       'mesh'         same is in minetest.register_entity()
        'textures'     same is in minetest.register_entity()
+       'collide_with_objects'       same as above
        'velocity'     the velocity of the arrow
-       'drop'         if set to true any arrows hitting a node will drop as item
+       'drop'         if set to true any arrows hitting a node will drop as item,
+                      if number given then chance (1/num) of item dropping will
+                      be used.  arrow "mymob:myarrow" will use item of same name.
        'hit_player'   a function that is called when the arrow hits a player;
                       this function should hurt the player, the parameters are
                       (self, player)
@@ -483,7 +610,7 @@ This function registers a arrow for mobs with the attack type shoot.
                       0 for no glow)
        'rotate'       integer value in degrees to rotate arrow
        'on_step'      is a custom function when arrow is active, nil for
-                      default.
+                      default. (self, dtime, moveresult)
        'on_punch'     is a custom function when arrow is punched, nil by default
        'collisionbox' is hitbox table for arrow, {-.1,-.1,-.1,.1,.1,.1} by default.
        'lifetime'     contains float value for how many seconds arrow exists in
@@ -512,10 +639,12 @@ Explosion Function
 
 mobs:explosion(pos, radius) -- DEPRECATED!!!  use mobs:boom() instead
 
-mobs:boom(self, pos, radius)
+mobs:boom(self, pos, damage_radius, entity_radius, texture)
    'self' mob entity
    'pos' centre position of explosion
-   'radius' radius of explosion (typically set to 3)
+   'damage_radius' radius of node damage (typically 3)
+   'entity_radius' radius of explosion to players and mobs
+   'texture' particle texture during explosion, defaults to "tnt_smoke.png"
 
 This function generates an explosion which removes nodes in a specific radius
 and damages any entity caught inside the blast radius.  Protection will limit
@@ -672,7 +801,7 @@ returns true if a mob can see the player or victim.
 
 Use this instead:
 
-    mob_class:line_of_sight(pos1, pos2, stepsize)
+    entity:line_of_sight(pos1, pos2, stepsize)
 
 
 mobs:can_spawn(pos, name)
@@ -682,24 +811,46 @@ space to spawn mob [name], if so then a new position is returned for use,
 otherwise nil is returned.
 
 
+mobs:is_node_dangerous(mob_object, nodename)
+
+This function returns true if the node name given is harmful to the mob (mob_object),
+it is mainly used when a mob is near a node it has to avoid.
+
+
+Looting Level
+-------------
+
+If a tool is used with 'looting_level' defined under tool_capabilities then mobs can drop
+extra items per level up to a maximum of 3 levels.  'looting_level' can also be read from
+the tools own meta to override the default.
+
+
 External Settings for "minetest.conf"
 ------------------------------------
 
+   'mob_log_spawn'           When True will log spawning position of mobs.
+   'mob_node_timer_interval' How often mobs get nodes around them (0.25 is default)
+                             for every 1/4 second.
+   'mob_main_timer_interval' How often mobs run main functions (1.0 is default) for
+                             every one second.
    'enable_damage'          if true monsters will attack players (default is true)
    'only_peaceful_mobs'     if true only animals will spawn in game (default is
                             false)
+   'mobs_attack_creatura'   When True mobs redo mobs will attack Creatura mod mobs.
    'mobs_disable_blood'     if false blood effects appear when mob is hit (default
                             is false)
+   'mob_hit_effect'         False by default, when True and mobs are hit then
+                            damage_texture_modifier is used to highlight mob.
    'mobs_spawn_protected'   if set to false then mobs will not spawn in protected
                             areas (default is true)
+   'mobs_spawn_monster_protected'   if set to false then monsters will not spawn in
+                            protected areas (default is true)
    'remove_far_mobs'        if true then untamed mobs that are outside players
                              visual range will be removed (default is true)
    'mobname'                can change specific mob chance rate (0 to disable) and
                             spawn number e.g. mobs_animal:cow = 1000,5
    'mob_difficulty'         sets difficulty level (health and hit damage
                             multiplied by this number), defaults to 1.0.
-   'mob_show_health'        if false then punching mob will not show health status
-                            (true by default)
    'mob_chance_multiplier'  multiplies chance of all mobs spawning and can be set
                             to 0.5 to have mobs spawn more or 2.0 to spawn less.
                             e.g.  1 in 7000 * 0.5 = 1 in 3500 so better odds of
@@ -709,12 +860,31 @@ External Settings for "minetest.conf"
    'mobs_drop_items'        when false mobs no longer drop items when they die.
    'mobs_griefing'          when false mobs cannot break blocks when using either
                             pathfinding level 2, replace functions or mobs:boom
+   'mobs_can_hear'          True by default, allows mobs to hear sound around them.
                             function.
    'mob_nospawn_range'      Minimum range a mob can spawn near player (def: 12)
    'mob_active_limit'       Number of active mobs in game, 0 for unlimited
    'mob_area_spawn'         When true will check surrounding area the size of the
                             mob for obstructions before spawning, otherwise it
                             defaults to checking the height of the mob only.
+   'mob_smooth_rotate'      Enables smooth rotation when mobs turn by default.
+   'mob_height_fix'         Disabled by default, increases smaller mob heights so they
+                            cannot glitch through certain nodes.
+   'mob_pathfinding_enable'     Enable pathfinding.
+   'mob_pathfinding_stuck_timeout'      How long before stuck mobs start searching. (default 3.0)
+   'mob_pathfinding_stuck_path_timeout'     How long will mob follow path before giving up. (default 5.0)
+   'mob_pathfinding_algorithm'  Which pathfinding algorithm to use Dijkstra (default), A*_noprefetch (AStar_noprefetch) or A* (AStar)
+                            (A* names differ cause Minetest doesn´t allow "*" in settings)
+   'mob_pathfinding_searchdistance'     max search distance from search positions (default 16)
+   'mob_pathfinding_max_jump'   max jump height for pathfinding (default 4)
+   'mob_pathfinding_max_drop'   max drop height for pathfinding (default 6)
+   'mobs_can_hear'          Enabled by default, overrides minetest.sound_play and enables
+                            nearby mobs to run a custom on_sound function.
+   'mobs_can_hear_node'     Disabled by default, allows nearby nodes to hear and run a
+                            custom on_sound function.
+   'mobs_disable_damage_kb' Knockback is calculated by hit damage or uses knockback value
+                            from the weapon used, this setting lets you disable the former.
+   'mob_infotext'          True by default, shows mob information when you hover over one.
 
 Players can override the spawn chance for each mob registered by adding a line
 to their minetest.conf file with a new value, the lower the value the more each
@@ -730,130 +900,42 @@ mobs_animal:cow = 8000,4            <-- 4 cows per mapblock at 8000 spawn chance
 mobs_monster:dirt_monster = ,20     <-- 20 dirt monsters per mapblock
 
 
+Node Sounds
+-----------
+
+Mobs Redo will detect wether the Default mod or MineClone/VoxeLibre mod is active and
+store whichever sound set is available inside the following to save any mob mobs
+having to detect it themselves:
+
+mobs.node_sound_defaults()
+mobs.node_sound_stone_defaults()
+mobs.node_sound_dirt_defaults()
+mobs.node_sound_sand_defaults()
+mobs.node_sound_gravel_defaults()
+mobs.node_sound_wood_defaults()
+mobs.node_sound_leaves_defaults()
+mobs.node_sound_ice_defaults()
+mobs.node_sound_metal_defaults()
+mobs.node_sound_water_defaults()
+mobs.node_sound_snow_defaults()
+mobs.node_sound_glass_defaults()
+
+
 Rideable Horse Example Mob
 --------------------------
 
-mobs:register_mob("mob_horse:horse", {
-	type = "animal",
-	visual = "mesh",
-	visual_size = {x = 1.20, y = 1.20},
-	mesh = "mobs_horse.x",
-	collisionbox = {-0.4, -0.01, -0.4, 0.4, 1.25, 0.4},
-	animation = {
-		speed_normal = 15,
-		speed_run = 30,
-		stand_start = 25,
-		stand_end = 75,
-		walk_start = 75,
-		walk_end = 100,
-		run_start = 75,
-		run_end = 100,
-	},
-	textures = {
-		{"mobs_horse.png"},
-		{"mobs_horsepeg.png"},
-		{"mobs_horseara.png"}
-	},
-	fear_height = 3,
-	runaway = true,
-	fly = false,
-	walk_chance = 60,
-	view_range = 5,
-	follow = {"farming:wheat"},
-	passive = true,
-	hp_min = 12,
-	hp_max = 16,
-	armor = 200,
-	lava_damage = 5,
-	fall_damage = 5,
-	water_damage = 1,
-	makes_footstep_sound = true,
-	drops = {
-		{name = "mobs:meat_raw", chance = 1, min = 2, max = 3}
-	},
-	sounds = {
-		random = "horse_neigh.ogg",
-		damage = "horse_whinney.ogg",
-	},
+See mob_horse mod https://codeberg.org/tenplus1/mob_horse
 
-	do_custom = function(self, dtime)
 
-		-- set needed values if not already present
-		if not self.v2 then
-			self.v2 = 0
-			self.max_speed_forward = 6
-			self.max_speed_reverse = 2
-			self.accel = 6
-			self.terrain_type = 3
-			self.driver_attach_at = {x = 0, y = 20, z = -2}
-			self.driver_eye_offset = {x = 0, y = 3, z = 0}
-			self.driver_scale = {x = 1, y = 1}
-		end
+External Functions
+------------------
 
-		-- if driver present allow control of horse
-		if self.driver then
+These are a list of utility functions that can be called from 3rd party mods.
 
-			mobs.drive(self, "walk", "stand", false, dtime)
-
-			return false -- skip rest of mob functions
-		end
-
-		return true
-	end,
-
-	on_die = function(self, pos)
-
-		-- drop saddle when horse is killed while riding
-		-- also detach from horse properly
-		if self.driver then
-			minetest.add_item(pos, "mobs:saddle")
-			mobs.detach(self.driver, {x = 1, y = 0, z = 1})
-		end
-
-	end,
-
-	on_rightclick = function(self, clicker)
-
-		-- make sure player is clicking
-		if not clicker or not clicker:is_player() then
-			return
-		end
-
-		-- feed, tame or heal horse
-		if mobs:feed_tame(self, clicker, 10, true, true) then
-			return
-		end
-
-		-- make sure tamed horse is being clicked by owner only
-		if self.tamed and self.owner == clicker:get_player_name() then
-
-			local inv = clicker:get_inventory()
-
-			-- detatch player already riding horse
-			if self.driver and clicker == self.driver then
-
-				mobs.detach(clicker, {x = 1, y = 0, z = 1})
-
-				-- add saddle back to inventory
-				if inv:room_for_item("main", "mobs:saddle") then
-					inv:add_item("main", "mobs:saddle")
-				else
-					minetest.add_item(clicker.get_pos(), "mobs:saddle")
-				end
-
-			-- attach player to horse
-			elseif not self.driver
-			and clicker:get_wielded_item():get_name() == "mobs:saddle" then
-
-				self.object:set_properties({stepheight = 1.1})
-				mobs.attach(self, clicker)
-
-				-- take saddle from inventory
-				inv:remove_item("main", "mobs:saddle")
-			end
-		end
-
-		-- used to capture horse with magic lasso
-		mobs:capture_mob(self, clicker, 0, 0, 80, false, nil)
-	end
-})
+mobs:alias_mob(old_name, new_name)
+mobs:is_invisible(self, player_name)
+mobs:is_dangerous(self, nodename)
+mobs:yaw_to_pos(self, target, rotation_steps)
+mobs:line_of_sight(self, pos1, pos2)
+mobs:set_animation(self, animation)
+mobs:yaw(self, yaw, rotation_steps)

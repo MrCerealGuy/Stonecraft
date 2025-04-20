@@ -19,3 +19,20 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+Textures by TenPlus1 (CC0) unless listed below:
+
+Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+  tnt_smoke.png
+
+Sound by TV_LING (CC0) https://freesound.org/people/TV_LING/sounds/523467/
+  fart1.ogg
+
+Sound by Grant Evans (Attribution 3.0) https://soundbible.com/2053-Thunder-Sound-FX.html
+  lightning.ogg
+
+Sound https://freesound.org/people/deleted_user_4389770/sounds/241258/ (CC0)
+  wolf-whistle.ogg
+
+Sound https://freesound.org/people/TheDCHeck/sounds/379378/ (CC0)
+  ocarina.ogg

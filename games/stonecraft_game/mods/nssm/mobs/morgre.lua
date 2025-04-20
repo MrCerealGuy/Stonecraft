@@ -17,19 +17,20 @@ mobs:register_mob("nssm:morgre", {
 	walk_velocity = 0.5,
 	run_velocity = 3.5,
 	sounds = {
-	explode = "tnt_explode",
-	random = "morgre1",
+		explode = "tnt_explode",
+		random = "morgre1"
 	},
 	damage = 1,
 	jump = true,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
-		{name = "nssm:greedy_soul_fragment", chance = 5, min = 1, max = 1},
+		{name = "nssm:greedy_soul_fragment", chance = 5, min = 1, max = 1}
 	},
 	armor = 60,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -47,6 +48,6 @@ mobs:register_mob("nssm:morgre", {
 		run_start = 120,
 		run_end = 140,
 		punch_start = 100,
-		punch_end = 110,
+		punch_end = 110
 	}
 })

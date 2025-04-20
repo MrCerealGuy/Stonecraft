@@ -18,11 +18,11 @@ mobs:register_mob("nssm:morde", {
 	damage = 6,
 	jump = true,
 	sounds = {
-		random = "morde",
+		random = "morde"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 2, max = 4},
-		{name = "nssm:proud_soul_fragment", chance = 3, min = 1, max = 1},
+		{name = "nssm:proud_soul_fragment", chance = 3, min = 1, max = 1}
 	},
 	armor = 60,
 	drawtype = "front",
@@ -30,6 +30,7 @@ mobs:register_mob("nssm:morde", {
 	fear_height = 4,
 	floats = 1,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -47,7 +48,7 @@ mobs:register_mob("nssm:morde", {
 		run_start = 100,
 		run_end = 120,
 		punch_start = 130,
-		punch_end = 160,
+		punch_end = 160
 	},
 
 	custom_attack = function (self)
@@ -61,7 +62,7 @@ mobs:register_mob("nssm:morde", {
 			local s = self.object:get_pos()
 			local p = self.attack:get_pos()
 
-			mobs:set_animation(self, "punch")
+			self:set_animation("punch")
 
 			self.health = self.health + (self.damage * 2)
 
@@ -76,7 +77,7 @@ mobs:register_mob("nssm:morde", {
 					minetest.sound_play(self.sounds.attack, {
 						object = self.object,
 						max_hear_distance = self.sounds.distance
-					})
+					}, true)
 				end
 
 				-- punch player
@@ -85,22 +86,30 @@ mobs:register_mob("nssm:morde", {
 					damage_groups = {fleshy = self.damage}
 				}, nil)
 
-				minetest.add_particlespawner(
-					6, --amount
-					1, --time
-					{x=p.x-0.5, y=p.y-0.5, z=p.z-0.5}, --minpos
-					{x=p.x+0.5, y=p.y+0.5, z=p.z+0.5}, --maxpos
-					{x=(s.x-p.x)*m, y=(s.y-p.y+1)*m, z=(s.z-p.z)*m}, --minvel
-					{x=(s.x-p.x)*m, y=(s.y-p.y+1)*m, z=(s.z-p.z)*m}, --maxvel
-					{x=s.x-p.x, y=s.y-p.y+1, z=s.z-p.z}, --minacc
-					{x=s.x-p.x, y=s.y-p.y+1, z=s.z-p.z}, --maxacc
-					0.2, --minexptime
-					0.3, --maxexptime
-					2, --minsize
-					3, --maxsize
-					false, --collisiondetection
-					"morparticle.png" --texture
-				)
+				minetest.add_particlespawner({
+					amount = 6,
+					time = 1,
+					minpos = {x = p.x - 0.5, y = p.y - 0.5, z = p.z - 0.5},
+					maxpos = {x = p.x + 0.5, y = p.y + 0.5, z = p.z + 0.5},
+					minvel = {
+						x = (s.x - p.x) * m,
+						y = (s.y - p.y + 1) * m,
+						z = (s.z - p.z) * m
+					},
+					maxvel = {
+						x = (s.x - p.x) * m,
+						y = (s.y - p.y + 1) * m,
+						z = (s.z - p.z) * m
+					},
+					minacc = {x = s.x - p.x, y = s.y - p.y + 1, z = s.z - p.z},
+					maxacc = {x = s.x - p.x, y = s.y - p.y + 1, z = s.z - p.z},
+					minexptime = 0.2,
+					maxexptime = 0.3,
+					minsize = 2,
+					maxsize = 3,
+					collisiondetection = false,
+					texture = "morparticle.png"
+				})
 			end
 		end
 	end,
@@ -112,17 +121,22 @@ mobs:register_mob("nssm:morde", {
 		self.object:remove()
 
 		minetest.add_entity(pos, "nssm:mortick")
-	end,
+	end
 })
 
 minetest.register_entity("nssm:mortick", {
-	textures = {"mortick.png"},
-	hp_min = 10000,
-	hp_max = 10000,
-	armor = 100,
-	visual = "mesh",
-	mesh = "mortick.x",
-	visual_size = {x = 3, y = 3},
+
+	initial_properties = {
+		textures = {"mortick.png"},
+		hp_min = 10000,
+		hp_max = 10000,
+		armor = 100,
+		visual = "mesh",
+		mesh = "mortick.x",
+		collisionbox = {-0.2, -0.2, -0.2, 0.2, 0.2, 0.2},
+		visual_size = {x = 3, y = 3}
+	},
+
 	--lifetime = 10,
 	damage = 1,
 
@@ -133,7 +147,7 @@ minetest.register_entity("nssm:mortick", {
 		self.timer = self.timer + dtime
 
 		local s = self.object:get_pos()
-		local s1 = {x=s.x, y = s.y-1, z = s.z}
+		local s1 = {x=s.x, y = s.y - 1, z = s.z}
 
 		--[[
 		if (os.time()-self.mortick_timer > self.lifetime) then
@@ -145,7 +159,10 @@ minetest.register_entity("nssm:mortick", {
 		local name = minetest.get_node(s1).name
 
 		if name == "fire:basic_flame"
-		or name == "fire:permanent_flame" then
+		or name == "fire:permanent_flame"
+		or name == "nssm:phoenix_fire"
+		or name == "default:lava_source"
+		or name == "default:lava_flowing" then
 			self.object:remove()
 		end
 
@@ -155,7 +172,8 @@ minetest.register_entity("nssm:mortick", {
 		local objects = minetest.get_objects_inside_radius(s, 8)
 
 		for _,obj in ipairs(objects) do
-			if (obj:is_player()) then
+
+			if obj:is_player() then
 				self.attack = obj
 			end
 		end
@@ -164,7 +182,14 @@ minetest.register_entity("nssm:mortick", {
 		if self.attack ~= 0 then
 
 			local p = self.attack:get_pos()
-			local yawp = self.attack:get_look_yaw()
+
+			-- Just incase player teleports away or leaves game
+			if not p then
+				self.attack = nil
+				return
+			end
+
+			local yawp = self.attack:get_look_horizontal() + math.pi / 2
 			local pi = math.pi
 
 			p.y = p.y + 1
@@ -184,7 +209,7 @@ minetest.register_entity("nssm:mortick", {
 			self.object:set_yaw(yaws)
 
 			--damage player every ten seconds:
-			if (self.timer > 10) then
+			if self.timer > 10 then
 				self.timer = 0
 				self.attack:set_hp(self.attack:get_hp() - self.damage)
 			end

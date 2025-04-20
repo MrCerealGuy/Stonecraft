@@ -1,15 +1,8 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- Solar Panel
 mesecon.register_node("mesecons_solarpanel:solar_panel", {
-	description = "Solar Panel",
+	description = S("Solar Panel"),
 	drawtype = "nodebox",
 	tiles = {"mesecons_solarpanel.png"},
 	inventory_image = "mesecons_solarpanel.png",
@@ -24,7 +17,7 @@ mesecon.register_node("mesecons_solarpanel:solar_panel", {
 		wall_top    = {-7/16,  7/16, -7/16,  7/16,  8/16, 7/16},
 		wall_side   = {-8/16, -7/16, -7/16, -7/16,  7/16, 7/16},
 	},
-	sounds = default.node_sound_glass_defaults(),
+	sounds = mesecon.node_sound.glass,
 	on_blast = mesecon.on_blastnode,
 },{
 	groups = {dig_immediate = 3},

@@ -1,1 +1,0 @@
-Adds lucky blocks into the game which may give good, bad, hurtful items when open :)

@@ -1,17 +1,10 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- WALL LEVER
 -- Basically a switch that can be attached to a wall
 -- Powers the block 2 nodes behind (using a receiver)
 mesecon.register_node("mesecons_walllever:wall_lever", {
-	description="Lever",
+	description = S("Lever"),
 	drawtype = "mesh",
 	inventory_image = "jeija_wall_lever_inv.png",
 	wield_image = "jeija_wall_lever_inv.png",
@@ -24,7 +17,7 @@ mesecon.register_node("mesecons_walllever:wall_lever", {
 		type = "fixed",
 		fixed = { -8/16, -8/16, 3/16, 8/16, 8/16, 8/16 },
 	},
-	sounds = default.node_sound_wood_defaults(),
+	sounds = mesecon.node_sound.wood,
 	on_rightclick = function (pos, node)
 		if(mesecon.flipstate(pos, node) == "on") then
 			mesecon.receptor_on(pos, mesecon.rules.buttonlike_get(node))
@@ -67,7 +60,7 @@ minetest.register_craft({
 	output = "mesecons_walllever:wall_lever_off 2",
 	recipe = {
 	    {"group:mesecon_conductor_craftable"},
-		{"default:stone"},
-		{"default:stick"},
+		{"mesecons_gamecompat:stone"},
+		{"group:stick"},
 	}
 })

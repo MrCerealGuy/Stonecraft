@@ -19,3 +19,54 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+
+MirceaKitsune (CC BY-SA 3.0)
+  mobs_character.b3d
+
+Dokimi (CC BY-SA 4.0)
+  mobs_npc_baby.png [Exile Player]
+
+Sdzen (CC BY-SA 3.0)
+  mobs_npc.png [Farmer 2]
+  mobs_npc2.png [Farmer 7]
+  mobs_npc3.png [Farmer 5]
+  mobs_npc4.png [Bartender]
+
+Astrobe (CC0)
+  mobs_npc5.png
+  mobs_npc6.png
+  mobs_trader4.png
+
+fishyWET (CC BY-SA 3.0)
+  mobs_trader.png [dwarf]
+
+CatNinja (CC BY-SA 3.0)
+  mobs_trader2.png [dwarf1]
+
+Gabo (CC BY-SA 3.0)
+  mobs_trader3.png [dwarf2]
+
+TenPlus1 (CC0)
+  mobs_igor.png
+
+UnKnOwN (CC BY-SA 3.0)
+  mobs_igor2.png [Green Dino]
+
+LoveHart (CC BY-SA 3.0)
+  mobs_igor3.png [Dead Man]
+
+I-Dont-Know (CC BY-SA 4.0)
+  mobs_igor4.png [Skeleton]
+
+Pithy (CC BY-SA 3.0)
+  mobs_igor5.png [Doctor Pumpkin]
+
+Cme (CC BY-SA 3.0)
+  mobs_igor6.png [Zombie]
+
+Jose (CC BY-SA 3.0)
+  mobs_igor7.png [Max]
+
+Bajanhgk (CC BY-SA 3.0)
+  mobs_igor8.png [Dante]

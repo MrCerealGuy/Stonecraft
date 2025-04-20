@@ -1,14 +1,7 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
-
 -- The POWER_PLANT
 -- Just emits power. always.
+
+local S = minetest.get_translator(minetest.get_current_modname())
 
 minetest.register_node("mesecons_powerplant:power_plant", {
 	drawtype = "plantlike",
@@ -20,12 +13,12 @@ minetest.register_node("mesecons_powerplant:power_plant", {
 	walkable = false,
 	groups = {dig_immediate=3, mesecon = 2},
 	light_source = minetest.LIGHT_MAX-9,
-    	description="Power Plant",
+	description=S("Power Plant"),
 	selection_box = {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, -0.5+0.7, 0.3},
 	},
-	sounds = default.node_sound_leaves_defaults(),
+	sounds = mesecon.node_sound.leaves,
 	mesecons = {receptor = {
 		state = mesecon.state.on
 	}},

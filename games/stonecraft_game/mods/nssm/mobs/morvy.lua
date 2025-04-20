@@ -17,12 +17,12 @@ mobs:register_mob("nssm:morvy", {
 	rotate = 270,
 	damage = 4,
 	sounds = {
-		random = "morvy",
+		random = "morvy"
 	},
 	jump = true,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 5, max = 7},
-		{name = "nssm:envious_soul_fragment", chance = 3, min = 1, max = 1},
+		{name = "nssm:envious_soul_fragment", chance = 3, min = 1, max = 1}
 	},
 	reach = 8,
 	armor = 60,
@@ -30,6 +30,7 @@ mobs:register_mob("nssm:morvy", {
 	water_damage = 0,
 	lava_damage = 0,
 	light_damage = 0,
+	fire_damage = 0,
 	group_attack = true,
 	attack_animals = true,
 	knock_back = 1,
@@ -46,18 +47,18 @@ mobs:register_mob("nssm:morvy", {
 		run_start = 50,
 		run_end = 90,
 		punch_start = 100,
-		punch_end = 130,
+		punch_end = 130
 	},
 
 	custom_attack = function(self)
 
-		mobs:set_animation(self, "stand")
+		self:set_animation("stand")
 
 		self.morvy_counter = (self.morvy_counter or 0) + 1
 
 		if self.morvy_counter == 4 then
 
-			mobs:set_animation(self, "punch")
+			self:set_animation("punch")
 
 			self.morvy_counter = 0
 
@@ -99,7 +100,7 @@ mobs:register_mob("nssm:morvy", {
 				and counter < 5 then
 
 					local bat
-					local which = math.random(1,3)
+					local which = math.random(1, 3)
 
 					if which == 1 then
 						bat = "nssm:morbat1"
@@ -115,28 +116,27 @@ mobs:register_mob("nssm:morvy", {
 
 					minetest.add_entity(pos1, bat)
 
-					minetest.add_particlespawner(
-						20, --amount
-						0.1, --time
-						{x=pos1.x-0.2, y=pos1.y-0.2, z=pos1.z-0.2}, --minpos
-						{x=pos1.x+0.2, y=pos1.y+0.2, z=pos1.z+0.2}, --maxpos
-						{x=0, y=0, z=0}, --minvel
-						{x=0.1, y=0.3, z=0.1}, --maxvel
-						{x=-0.5,y=1,z=-0.5}, --minacc
-						{x=0.5,y=1,z=0.5}, --maxacc
-						0.1, --minexptime
-						4, --maxexptime
-						2, --minsize
-						6, --maxsize
-						false, --collisiondetection
-						"morparticle.png" --texture
-						)
+					minetest.add_particlespawner({
+						amount = 20,
+						time = 0.1,
+						minpos = {x = pos1.x - 0.2, y = pos1.y - 0.2, z = pos1.z - 0.2},
+						maxpos = {x = pos1.x + 0.2, y = pos1.y + 0.2, z = pos1.z + 0.2},
+						minvel = {x = 0, y = 0, z = 0},
+						maxvel = {x = 0.1, y = 0.3, z = 0.1},
+						minacc = {x = -0.5, y = 1, z = -0.5},
+						maxacc = {x = 0.5, y = 1, z = 0.5},
+						minexptime = 0.1,
+						maxexptime = 4,
+						minsize = 2,
+						maxsize = 6,
+						collisiondetection = false,
+						texture = "morparticle.png"
+					})
 				end
 			end
 		end
 	end
 })
-
 
 --Morbats
 
@@ -164,12 +164,13 @@ mobs:register_mob("nssm:morbat1", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	blood_texture="morparticle.png",
 	fly = true,
@@ -184,7 +185,7 @@ mobs:register_mob("nssm:morbat1", {
 		run_start = 10,
 		run_end = 50,
 		punch_start = 100,
-		punch_end = 115,
+		punch_end = 115
 	}
 })
 
@@ -212,12 +213,13 @@ mobs:register_mob("nssm:morbat2", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2}
 	},
 	armor = 100,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	blood_texture="morparticle.png",
 	fly = true,
@@ -233,7 +235,7 @@ mobs:register_mob("nssm:morbat2", {
 		run_start = 10,
 		run_end = 50,
 		punch_start = 100,
-		punch_end = 115,
+		punch_end = 115
 	}
 })
 
@@ -262,12 +264,13 @@ mobs:register_mob("nssm:morbat3", {
 	jump = true,
 	rotate = 270,
 	drops = {
-		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
+		{name = "nssm:life_energy", chance = 1, min = 1, max = 2}
 	},
 	armor = 100,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	blood_texture = "morparticle.png",
 	fly = true,
@@ -284,6 +287,6 @@ mobs:register_mob("nssm:morbat3", {
 		run_start = 10,
 		run_end = 50,
 		punch_start = 100,
-		punch_end = 115,
+		punch_end = 115
 	}
 })

@@ -138,7 +138,7 @@ Place Node
 This command will place a node in place of the lucky block or at the players
 standing position.
 
-{"nod", "node name", position, chest items}
+{"nod", "node name", position[0 for lb, 1 for player], chest items}
 
 e.g.
 
@@ -150,11 +150,12 @@ Place a chest containing random items from default chest items list
 
 	{"nod", "default:chest", 0}
 
-Place chest as above only add up to 5 roses and a 1/5 chance of mese also
+Place chest with a 1/5 chance of adding roses, up to 10x dirt and a worn shovel
 
 	{"nod", "default:chest", 0, {
-		{name = "flowers:rose", max = 5},
-		{name = "default:mese", max = 1, chance = 5},
+		{name = "default:dirt", max = 10},
+		{name = "flowers:rose", max = 5, chance = 5},
+		{name = "default:shovel_wood", max = 1, min_wear = 20000, max_wear = 65535},
 	}}
 
 Place fire at player position
@@ -181,6 +182,9 @@ Drop 10x randomly coloured wool (colour name added to end of item string)
 Drop 1x random tool from list
 	{"dro", {"default:pick_mese", "default:shovel_steel", "default:axe_diamond"}, 1}
 
+Drop 1x coal lump with nametag
+	{"dro", {"default:coal_lump"}, 1, false, "All you're getting for Xmas!"}
+
 
 Place Schematic
 ---------------
@@ -188,7 +192,7 @@ Place Schematic
 This command lets you place a pre-added schematic file or definition in place
 of the lucky block or at the player position.
 
-{"sch", "schematic name", position, force placement, replacements}
+{"sch", "schematic name", position[0 for lb, 1 for player], force placement, replacements}
 
 e.g.
 
@@ -226,7 +230,7 @@ Falling Blocks
 
 This command allows for a tower of blocks or blocks falling within a set area.
 
-{"fal", {"node list"}, position, spread, range}
+{"fal", {"node list"}, position[0 for lb, 1 for player], spread, range}
 
 e.g.
 
@@ -331,22 +335,31 @@ Custom Function
 ---------------
 
 This allows mod makers to use there own functions when opening lucky blocks and
-passes the block position and player opening it.
+passes the block position, the player opening it and a def table with anything
+else the function needs.
 
-{"cus", myfunction}
+{"cus", myfunction, def}
 
 e.g.
 
 Punch player and deal 5 damage points (function first then line to add l.block)
 
-local function punchy(pos, player)
+local function punchy(pos, player, def)
 	player:punch(player, 1.0, {
 		full_punch_interval = 1.0,
-		damage_groups = {fleshy = 5}
+		damage_groups = {fleshy = def.damage}
 	}, nil)
 end
 
-	{"cus", punchy}
+	{"cus", punchy, {damage = 5} }
+
+
+Void Pick
+---------
+
+This is a special item that can be dropped and allows the user to dig cracky grouped
+blocks as they are e.g. stone with copper is picked up as stone with copper, not copper
+ore.  Adding {no_silktouch=1} group to a block prevents it from being dug in this way.
 
 
 Final Words

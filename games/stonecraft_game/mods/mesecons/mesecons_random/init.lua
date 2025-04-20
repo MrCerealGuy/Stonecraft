@@ -1,11 +1,4 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- REMOVESTONE
 
@@ -14,8 +7,8 @@ minetest.register_node("mesecons_random:removestone", {
 	is_ground_content = false,
 	inventory_image = minetest.inventorycube("jeija_removestone_inv.png"),
 	groups = {cracky=3},
-	description="Removestone",
-	sounds = default.node_sound_stone_defaults(),
+	description = S("Removestone"),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {effector = {
 		action_on = function (pos, node)
 			minetest.remove_node(pos)
@@ -29,21 +22,21 @@ minetest.register_node("mesecons_random:removestone", {
 minetest.register_craft({
 	output = 'mesecons_random:removestone 4',
 	recipe = {
-		{"", "default:cobble", ""},
-		{"default:cobble", "group:mesecon_conductor_craftable", "default:cobble"},
-		{"", "default:cobble", ""},
+		{"", "mesecons_gamecompat:cobble", ""},
+		{"mesecons_gamecompat:cobble", "group:mesecon_conductor_craftable", "mesecons_gamecompat:cobble"},
+		{"", "mesecons_gamecompat:cobble", ""},
 	}
 })
 
 -- GHOSTSTONE
 
 minetest.register_node("mesecons_random:ghoststone", {
-	description="Ghoststone",
+	description = S("Ghoststone"),
 	tiles = {"jeija_ghoststone.png"},
 	is_ground_content = false,
 	inventory_image = minetest.inventorycube("jeija_ghoststone_inv.png"),
 	groups = {cracky=3},
-	sounds = default.node_sound_stone_defaults(),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {conductor = {
 		state = mesecon.state.off,
 		rules = mesecon.rules.alldirs,
@@ -68,7 +61,7 @@ minetest.register_node("mesecons_random:ghoststone_active", {
 	}},
 	on_construct = function(pos)
 		-- remove shadow
-		shadowpos = vector.add(pos, vector.new(0, 1, 0))
+		local shadowpos = vector.add(pos, vector.new(0, 1, 0))
 		if (minetest.get_node(shadowpos).name == "air") then
 			minetest.dig_node(shadowpos)
 		end
@@ -80,8 +73,8 @@ minetest.register_node("mesecons_random:ghoststone_active", {
 minetest.register_craft({
 	output = 'mesecons_random:ghoststone 4',
 	recipe = {
-		{"default:steel_ingot", "default:cobble", "default:steel_ingot"},
-		{"default:cobble", "group:mesecon_conductor_craftable", "default:cobble"},
-		{"default:steel_ingot", "default:cobble", "default:steel_ingot"},
+		{"mesecons_gamecompat:steel_ingot", "mesecons_gamecompat:cobble", "mesecons_gamecompat:steel_ingot"},
+		{"mesecons_gamecompat:cobble", "group:mesecon_conductor_craftable", "mesecons_gamecompat:cobble"},
+		{"mesecons_gamecompat:steel_ingot", "mesecons_gamecompat:cobble", "mesecons_gamecompat:steel_ingot"},
 	}
 })

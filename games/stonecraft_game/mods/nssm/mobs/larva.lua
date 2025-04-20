@@ -18,18 +18,19 @@ mobs:register_mob("nssm:larva", {
 	walk_velocity = 0.4,
 	run_velocity = 0.4,
 	sounds = {
-		random = "sand",
+		random = "sand"
 	},
 	damage = 1,
 	reach = 1,
 	drops = {
 		{name = "nssm:life_energy", chance = 3, min = 1, max = 1},
-		{name = "nssm:larva_meat", chance = 2, min = 1, max = 2},
+		{name = "nssm:larva_meat", chance = 2, min = 1, max = 2}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 2,
 	lava_damage = 4,
+	fire_damage = 4,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -46,7 +47,7 @@ mobs:register_mob("nssm:larva", {
 		run_start = 100,
 		run_end = 160,
 		punch_start = 180,
-		punch_end = 230,
+		punch_end = 230
 	},
 
 	do_custom = function (self)
@@ -55,8 +56,7 @@ mobs:register_mob("nssm:larva", {
 
 		if os.time() - self.metatimer > 20 then
 
-			minetest.log("action",
-				"metatimer expired, metamorphosis! ")
+			minetest.log("action", "metatimer expired, metamorphosis!")
 
 			local pos = self.object:get_pos()
 
@@ -75,7 +75,7 @@ mobs:register_mob("nssm:larva", {
 				maxexptime = 1,
 				minsize = 3,
 				maxsize = 4,
-				collisiondetection  =false,
+				collisiondetection = false,
 				texture = "tnt_smoke.png"
 			})
 

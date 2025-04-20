@@ -18,7 +18,7 @@ mobs:register_mob("nssm:snow_biter", {
 	walk_velocity = 0.8,
 	run_velocity = 3,
 	sounds = {
-		random = "snow_biter",
+		random = "snow_biter"
 	},
 	damage = 4,
 	jump = true,
@@ -26,12 +26,13 @@ mobs:register_mob("nssm:snow_biter", {
 		{name = "nssm:life_energy", chance = 1, min = 2, max = 3},
 		{name = "nssm:frosted_amphibian_heart", chance = 2, min = 1, max = 1},
 		{name = "nssm:amphibian_ribs", chance = 2, min = 1, max = 1},
-		{name = "nssm:little_ice_tooth", chance = 2, min = 0, max = 4},
+		{name = "nssm:little_ice_tooth", chance = 2, min = 0, max = 4}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 30,
+	fire_damage = 20,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -54,7 +55,8 @@ mobs:register_mob("nssm:snow_biter", {
 		punch2_start = 200,
 		punch2_end = 215
 	},
+
 	do_custom = function(self)
-		putting_ability(self, "default:ice", self.run_velocity)
-	end,
+		nssm:putting_ability(self, "default:ice", self.run_velocity)
+	end
 })

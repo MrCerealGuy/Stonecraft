@@ -1,11 +1,9 @@
 
-if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
+-- add lucky blocks
 
-	lucky_block:add_blocks({
-		{"spw", "mobs:npc", 1, true, true},
-		{"spw", "mobs:igor", 1, true, true, 5, "Igor"},
-		{"spw", "mobs:trader", 1, false, false},
-		{"lig", "fire:permanent_flame"},
-	})
-
-end
+lucky_block:add_blocks({
+	{"spw", "mobs:npc", 1, true, true},
+	{"spw", "mobs:igor", 1, true, true, 5, "Igor"},
+	{"spw", "mobs:trader", 1, false, false},
+	{"lig", "fire:permanent_flame"}
+})

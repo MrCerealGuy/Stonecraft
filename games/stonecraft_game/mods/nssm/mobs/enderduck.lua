@@ -16,7 +16,7 @@ mobs:register_mob("nssm:enderduck", {
 	run_velocity = 3.9,
 	rotate = 270,
 	sounds = {
-		random = "duck",
+		random = "duck"
 	},
 	damage = 5,
 	reach = 2,
@@ -25,7 +25,7 @@ mobs:register_mob("nssm:enderduck", {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 		{name = "nssm:duck_legs", chance = 1, min = 1, max = 2},
 		{name = "nssm:black_duck_feather", chance = 3, min = 1, max = 4},
-		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1},
+		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1}
 	},
 	armor = 80,
 	drawtype = "front",
@@ -33,6 +33,7 @@ mobs:register_mob("nssm:enderduck", {
 	floats = 1,
 	lava_damage = 5,
 	light_damage = 0,
+	fire_damage = 4,
 	group_attack = true,
 	attack_animals = true,
 	knock_back = 4,
@@ -50,6 +51,6 @@ mobs:register_mob("nssm:enderduck", {
 		run_start = 100,
 		run_end = 130,
 		punch_start = 60,
-		punch_end = 90,
+		punch_end = 90
 	}
 })

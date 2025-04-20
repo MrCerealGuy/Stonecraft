@@ -1,92 +1,124 @@
 
-local S = ethereal.intllib
+local S = minetest.get_translator("ethereal")
+
+-- Thin Ice
+
+local math_random = math.random
+
+minetest.register_node("ethereal:thin_ice", {
+	description = S("Thin Ice"),
+	tiles = {"default_ice.png^[opacity:80"},
+	inventory_image = "default_ice.png^[opacity:80",
+	wield_image = "default_ice.png^[opacity:80",
+	use_texture_alpha = "blend",
+	is_ground_content = false,
+	paramtype = "light",
+	drawtype = "nodebox",
+	drop = {},
+	node_box = {
+		type = "fixed", fixed = {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}},
+	},
+	collision_box = {
+		type = "fixed", fixed = {{-0.5, -0.5, -0.5, 0.5, -0.25, 0.5}},
+	},
+	groups = {cracky = 3, crumbly = 3, cools_lava = 1, slippery = 3},
+	sounds = default.node_sound_glass_defaults(),
+
+	on_walk_over = function(pos, node, player)
+
+		if math_random(13) == 1 then -- ice breaks if player unlucky
+
+			minetest.sound_play("default_ice_dug",
+					{pos = pos, gain = 0.5, pitch = 1.4, max_hear_distance = 5}, true)
+
+			minetest.remove_node(pos)
+		end
+	end
+})
 
 -- Ice Brick
+
 minetest.register_node("ethereal:icebrick", {
 	description = S("Ice Brick"),
-	tiles = {"brick_ice.png"},
+	tiles = {"ethereal_brick_ice.png"},
 	paramtype = "light",
-	freezemelt = "default:water_source",
 	is_ground_content = false,
-	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1},
-	sounds = default.node_sound_glass_defaults(),
+	groups = {cracky = 3, puts_out_fire = 1, cools_lava = 1, slippery = 3},
+	sounds = default.node_sound_glass_defaults()
 })
 
 minetest.register_craft({
 	output = "ethereal:icebrick 4",
 	recipe = {
 		{"default:ice", "default:ice"},
-		{"default:ice", "default:ice"},
+		{"default:ice", "default:ice"}
 	}
 })
 
 -- Snow Brick
+
 minetest.register_node("ethereal:snowbrick", {
 	description = S("Snow Brick"),
-	tiles = {"brick_snow.png"},
+	tiles = {"ethereal_brick_snow.png"},
 	paramtype = "light",
-	freezemelt = "default:water_source",
 	is_ground_content = false,
 	groups = {crumbly = 3, puts_out_fire = 1, cools_lava = 1},
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_snow_footstep", gain = 0.15},
 		dug = {name = "default_snow_footstep", gain = 0.2},
-		dig = {name = "default_snow_footstep", gain = 0.2},
-	}),
+		dig = {name = "default_snow_footstep", gain = 0.2}
+	})
 })
 
 minetest.register_craft({
 	output = "ethereal:snowbrick 4",
 	recipe = {
 		{"default:snowblock", "default:snowblock"},
-		{"default:snowblock", "default:snowblock"},
+		{"default:snowblock", "default:snowblock"}
 	}
 })
 
--- If Crystal Spike, Crystal Dirt, Snow near Water, change Water to Ice
+-- If Crystal Spike or Snowblock near Water, change Water to Ice
+
 minetest.register_abm({
 	label = "Ethereal freeze water",
 	nodenames = {
-		"ethereal:crystal_spike", "default:snow", "default:snowblock",
-		"ethereal:snowbrick"
+		"ethereal:crystal_spike", "default:snowblock", "ethereal:snowbrick"
 	},
 	neighbors = {"default:water_source", "default:river_water_source"},
 	interval = 15,
 	chance = 4,
 	catch_up = false,
+
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
 
 		local near = minetest.find_node_near(pos, 1,
-			{"default:water_source", "default:river_water_source"})
+				{"default:water_source", "default:river_water_source"})
 
 		if near then
 			minetest.swap_node(near, {name = "default:ice"})
 		end
-	end,
+	end
 })
 
 -- If Heat Source near Ice or Snow then melt.
+
 minetest.register_abm({
 	label = "Ethereal melt snow/ice",
 	nodenames = {
-		"default:ice", "default:snowblock", "default:snow",
+		"default:ice", "default:snowblock", "default:snow", "ethereal:thin_ice",
 		"default:dirt_with_snow", "ethereal:snowbrick", "ethereal:icebrick"
 	},
 	neighbors = {
-		"fire:basic_fire", "default:lava_source", "default:lava_flowing",
+		"fire:basic_flame", "default:lava_source", "default:lava_flowing",
 		"default:furnace_active", "default:torch", "default:torch_wall",
-		"default:torch_ceiling"
+		"default:torch_ceiling", "fire:permanent_flame"
 	},
-	interval = 5,
+	interval = 7,
 	chance = 4,
 	catch_up = false,
+
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
 
 		local water_node = "default:water"
 
@@ -98,20 +130,22 @@ minetest.register_abm({
 		or node.name == "default:snowblock"
 		or node.name == "ethereal:icebrick"
 		or node.name == "ethereal:snowbrick" then
-			minetest.swap_node(pos, {name = water_node.."_source"})
+			minetest.swap_node(pos, {name = water_node .. "_source"})
 
-		elseif node.name == "default:snow" then
-			minetest.swap_node(pos, {name = water_node.."_flowing"})
+		elseif node.name == "default:snow"
+		or node.name == "ethereal:thin_ice" then
+			minetest.swap_node(pos, {name = water_node .. "_flowing"})
 
 		elseif node.name == "default:dirt_with_snow" then
 			minetest.swap_node(pos, {name = "default:dirt_with_grass"})
 		end
 
 		ethereal.check_falling(pos)
-	end,
+	end
 })
 
 -- If Water Source near Dry Dirt, change to normal Dirt
+
 minetest.register_abm({
 	label = "Ethereal wet dry dirt",
 	nodenames = {
@@ -120,69 +154,45 @@ minetest.register_abm({
 	},
 	neighbors = {"group:water"},
 	interval = 15,
-	chance = 2,
+	chance = 3,
 	catch_up = false,
+
 	action = function(pos, node)
 
-		if node.name == "ethereal:dry_dirt"
-		or node.name == "default:dry_dirt" then
+		if node.name == "ethereal:dry_dirt" or node.name == "default:dry_dirt" then
 			minetest.swap_node(pos, {name = "default:dirt"})
+		elseif node.name == "default:dirt_with_dry_grass" then
+			minetest.swap_node(pos, {name = "default:dirt_with_grass"})
 		else
 			minetest.swap_node(pos, {name = "default:dirt_with_dry_grass"})
 		end
-	end,
+	end
 })
 
--- If torch touching water then drop as item (when enabled)
-if ethereal.torchdrop == true then
+-- when enabled, override torches so they drop when touching water
 
-local torch_drop = "default:torch"
-local drop_sound = "fire_extinguish_flame"
+if ethereal.torchdrop == true and not minetest.get_modpath("real_torch") then
 
-if minetest.get_modpath("real_torch") then
-	torch_drop = "real_torch:torch"
-	drop_sound = "real_torch_extinguish"
-end
+	local function on_flood(pos, oldnode, newnode)
 
-minetest.register_abm({
-	label = "Ethereal drop torch",
-	nodenames = {"default:torch", "default:torch_wall", "default:torch_ceiling",
-	"real_torch:torch", "real_torch:torch_wall", "real_torch:torch_ceiling"},
-	neighbors = {"group:water"},
-	interval = 5,
-	chance = 1,
-	catch_up = false,
-	action = function(pos, node)
+		minetest.add_item(pos, ItemStack("default:torch 1"))
 
-		local num = #minetest.find_nodes_in_area(
-			{x = pos.x - 1, y = pos.y, z = pos.z},
-			{x = pos.x + 1, y = pos.y, z = pos.z},
-			{"group:water"})
+		local def = minetest.registered_items[newnode.name]
 
-		if num == 0 then
-			num = num + #minetest.find_nodes_in_area(
-				{x = pos.x, y = pos.y, z = pos.z - 1},
-				{x = pos.x, y = pos.y, z = pos.z + 1},
-				{"group:water"})
+		if def and def.groups and def.groups.water and def.groups.water > 0 then
+
+			minetest.sound_play("default_cool_lava",
+					{pos = pos, max_hear_distance = 10, gain = 0.1}, true)
 		end
 
-		if num == 0 then
-			num = num + #minetest.find_nodes_in_area(
-				{x = pos.x, y = pos.y + 1, z = pos.z},
-				{x = pos.x, y = pos.y + 1, z = pos.z},
-				{"group:water"})
-		end
+		return false -- remove node
+	end
 
-		if num > 0 then
+	local function torch_override(name)
+		minetest.override_item("default:" .. name, {on_flood = on_flood})
+	end
 
-			minetest.set_node(pos, {name = "air"})
-
-			minetest.sound_play({name = drop_sound, gain = 0.2},
-				{pos = pos, max_hear_distance = 10})
-
-			minetest.add_item(pos, {name = torch_drop})
-		end
-	end,
-})
-
+	torch_override("torch")
+	torch_override("torch_wall")
+	torch_override("torch_ceiling")
 end

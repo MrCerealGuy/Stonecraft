@@ -1,23 +1,16 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- Glue and fiber
 minetest.register_craftitem("mesecons_materials:glue", {
 	image = "mesecons_glue.png",
 	on_place_on_ground = minetest.craftitem_place_item,
-    	description="Glue",
+	description = S("Glue"),
 })
 
 minetest.register_craftitem("mesecons_materials:fiber", {
 	image = "mesecons_fiber.png",
 	on_place_on_ground = minetest.craftitem_place_item,
-    	description="Fiber",
+	description = S("Fiber"),
 })
 
 minetest.register_craft({
@@ -38,13 +31,13 @@ minetest.register_craft({
 minetest.register_craftitem("mesecons_materials:silicon", {
 	image = "mesecons_silicon.png",
 	on_place_on_ground = minetest.craftitem_place_item,
-    	description="Silicon",
+	description = S("Silicon"),
 })
 
 minetest.register_craft({
 	output = "mesecons_materials:silicon 4",
 	recipe = {
 		{"group:sand", "group:sand"},
-		{"group:sand", "default:steel_ingot"},
+		{"group:sand", "mesecons_gamecompat:steel_ingot"},
 	}
 })

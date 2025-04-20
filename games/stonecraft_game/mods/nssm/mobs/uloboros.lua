@@ -16,7 +16,7 @@ mobs:register_mob("nssm:uloboros", {
 	run_velocity = 2.5,
 	rotate = 270,
 	sounds = {
-		random = "uloboros",
+		random = "uloboros"
 	},
 	damage = 5,
 	reach = 2,
@@ -25,12 +25,13 @@ mobs:register_mob("nssm:uloboros", {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 4},
 		{name = "nssm:spider_leg", chance = 2, min = 1, max = 8},
 		{name = "nssm:silk_gland", chance = 4, min = 1, max = 3},
-		{name = "nssm:spider_meat", chance = 4, min = 1, max = 2},
+		{name = "nssm:spider_meat", chance = 4, min = 1, max = 2}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 1,
 	lava_damage = 7,
+	fire_damage = 7,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -48,9 +49,17 @@ mobs:register_mob("nssm:uloboros", {
 		run_start = 120,
 		run_end = 160,
 		punch_start = 80,
-		punch_end = 110,
+		punch_end = 110
 	},
-	do_custom = function(self)
-		webber_ability(self, "nssm:web", 2)
-	end,
+
+	do_custom = function(self, dtime)
+
+		self.web_timer = (self.web_timer or 0) + dtime
+		if self.web_timer < 5 then return end
+		self.web_timer = 0
+
+		if nssm.spiders_litter_web then
+			nssm:webber_ability(self, "nssm:web", 2)
+		end
+	end
 })

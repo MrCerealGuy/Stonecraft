@@ -19,7 +19,7 @@ mobs:register_mob("nssm:night_master", {
 	stepheight = 3,
 	sounds = {
 		random = "night_master",
-		distance = 45,
+		distance = 45
 	},
 	damage = 10,
 	jump = false,
@@ -27,6 +27,7 @@ mobs:register_mob("nssm:night_master", {
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	blood_texture = "nssm_blood.png",
 	blood_amount = 50,
@@ -42,32 +43,32 @@ mobs:register_mob("nssm:night_master", {
 		run_start = 20,
 		run_end = 50,
 		punch_start = 130,
-		punch_end = 160,
+		punch_end = 160
 	},
 
 	on_die = function(self, pos)
 
-		minetest.add_particlespawner(
-			200, --amount
-			0.1, --time
-			{x=pos.x-1, y=pos.y-1, z=pos.z-1}, --minpos
-			{x=pos.x+1, y=pos.y+1, z=pos.z+1}, --maxpos
-			{x=-0, y=-0, z=-0}, --minvel
-			{x=1, y=1, z=1}, --maxvel
-			{x=-0.5,y=5,z=-0.5}, --minacc
-			{x=0.5,y=5,z=0.5}, --maxacc
-			0.1, --minexptime
-			1, --maxexptime
-			3, --minsize
-			4, --maxsize
-			false, --collisiondetection
-			"tnt_smoke.png" --texture
-		)
+		minetest.add_particlespawner({
+			amount = 200,
+			time = 0.1,
+			minpos = {x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
+			maxpos = {x = pos.x + 1, y = pos.y + 1, z = pos.z + 1},
+			minvel = {x = -0, y = -0, z = -0},
+			maxvel = {x = 1, y = 1, z = 1},
+			minacc = {x = -0.5, y = 5, z = -0.5},
+			maxacc = {x = 0.5, y = 5, z = 0.5},
+			minexptime = 0.1,
+			maxexptime = 1,
+			minsize = 3,
+			maxsize = 4,
+			collisiondetection = false,
+			texture = "tnt_smoke.png"
+		})
 
 		self.object:remove()
 
 		minetest.add_entity(pos, "nssm:night_master_2")
-	end,
+	end
 })
 
 mobs:register_mob("nssm:night_master_2", {
@@ -91,7 +92,7 @@ mobs:register_mob("nssm:night_master_2", {
 	stepheight = 3,
 	sounds = {
 		random = "night_master",
-		distance = 45,
+		distance = 45
 	},
 	damage = 10,
 	jump = false,
@@ -99,6 +100,7 @@ mobs:register_mob("nssm:night_master_2", {
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	fly = true,
 	attack_type = "dogfight",
@@ -112,32 +114,32 @@ mobs:register_mob("nssm:night_master_2", {
 		run_start = 20,
 		run_end = 50,
 		punch_start = 130,
-		punch_end = 160,
+		punch_end = 160
 	},
 
 	on_die = function(self, pos)
 
-		minetest.add_particlespawner(
-			200, --amount
-			0.1, --time
-			{x=pos.x-1, y=pos.y-1, z=pos.z-1}, --minpos
-			{x=pos.x+1, y=pos.y+1, z=pos.z+1}, --maxpos
-			{x=-0, y=-0, z=-0}, --minvel
-			{x=1, y=1, z=1}, --maxvel
-			{x=-0.5,y=5,z=-0.5}, --minacc
-			{x=0.5,y=5,z=0.5}, --maxacc
-			0.1, --minexptime
-			1, --maxexptime
-			3, --minsize
-			4, --maxsize
-			false, --collisiondetection
-			"tnt_smoke.png" --texture
-		)
+		minetest.add_particlespawner({
+			amount = 200,
+			time = 0.1,
+			minpos = {x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
+			maxpos = {x = pos.x + 1, y = pos.y + 1, z = pos.z + 1},
+			minvel = {x = -0, y = -0, z = -0},
+			maxvel = {x = 1, y = 1, z = 1},
+			minacc = {x = -0.5, y = 5, z = -0.5},
+			maxacc = {x = 0.5, y = 5, z = 0.5},
+			minexptime = 0.1,
+			maxexptime = 1,
+			minsize = 3,
+			maxsize = 4,
+			collisiondetection = false,
+			texture = "tnt_smoke.png"
+		})
 
 		self.object:remove()
 
 		minetest.add_entity(pos, "nssm:night_master_1")
-	end,
+	end
 })
 
 mobs:register_mob("nssm:night_master_1", {
@@ -161,19 +163,20 @@ mobs:register_mob("nssm:night_master_1", {
 	stepheight = 3,
 	sounds = {
 		random = "night_master",
-		distance = 45,
+		distance = 45
 	},
 	damage = 12,
 	jump = false,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 6, max = 7},
 		{name = "nssm:heron_leg", chance = 1, min = 1, max = 1},
-		{name = "nssm:night_feather", chance = 1, min = 1, max = 1},
+		{name = "nssm:night_feather", chance = 1, min = 1, max = 1}
 	},
 	armor = 50,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	fly = true,
 	attack_type = "dogfight",
@@ -187,6 +190,6 @@ mobs:register_mob("nssm:night_master_1", {
 		run_start = 20,
 		run_end = 50,
 		punch_start = 130,
-		punch_end = 160,
+		punch_end = 160
 	}
 })

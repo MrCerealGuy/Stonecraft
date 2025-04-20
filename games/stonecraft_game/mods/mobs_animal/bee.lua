@@ -1,5 +1,5 @@
 
-local S = mobs.intllib
+local S = minetest.get_translator("mobs_animal")
 
 -- Bee by KrupnoPavel (.b3d model by sirrobzeroone)
 
@@ -8,23 +8,19 @@ mobs:register_mob("mobs_animal:bee", {
 	passive = true,
 	hp_min = 1,
 	hp_max = 2,
-	armor = 200,
+	armor = 100,
 	collisionbox = {-0.2, -0.01, -0.2, 0.2, 0.5, 0.2},
 	visual = "mesh",
 	mesh = "mobs_bee.b3d",
-	textures = {
-		{"mobs_bee.png"},
-	},
+	textures = { {"mobs_bee.png"} },
 	blood_texture = "mobs_bee_inv.png",
 	blood_amount = 1,
 	makes_footstep_sound = false,
-	sounds = {
-		random = "mobs_bee",
-	},
+	sounds = { random = "mobs_bee" },
 	walk_velocity = 1,
 	jump = true,
 	drops = {
-		{name = "mobs:honey", chance = 2, min = 1, max = 2},
+		{name = "mobs:honey", chance = 2, min = 1, max = 2}
 	},
 	water_damage = 1,
 	lava_damage = 2,
@@ -33,46 +29,56 @@ mobs:register_mob("mobs_animal:bee", {
 	fall_speed = -3,
 	animation = {
 		speed_normal = 15,
-		stand_start = 0,
-		stand_end = 30,
-		walk_start = 35,
-		walk_end = 65,
+		stand_start = 0, stand_end = 30,
+		walk_start = 35, walk_end = 65
 	},
+
 	on_rightclick = function(self, clicker)
 		mobs:capture_mob(self, clicker, 50, 90, 0, true, "mobs_animal:bee")
 	end,
+
 --	after_activate = function(self, staticdata, def, dtime)
 --		print ("------", self.name, dtime, self.health)
 --	end,
 })
 
+-- where to spawn
+
 if not mobs.custom_spawn_animal then
-mobs:spawn({
-	name = "mobs_animal:bee",
-	nodes = {"group:flower"},
-	min_light = 14,
-	interval = 60,
-	chance = 7000,
-	min_height = 3,
-	max_height = 200,
-	day_toggle = true,
-})
+
+	mobs:spawn({
+		name = "mobs_animal:bee",
+		nodes = {"group:flower"},
+		min_light = 14,
+		interval = 60,
+		chance = 7000,
+		min_height = 3,
+		max_height = 200,
+		day_toggle = true
+	})
 end
+
+-- spawn egg
 
 mobs:register_egg("mobs_animal:bee", S("Bee"), "mobs_bee_inv.png")
 
--- compatibility
+-- compatibility (only required if moving from old mobs to mobs_redo)
+
 mobs:alias_mob("mobs:bee", "mobs_animal:bee")
 
 -- honey
+
 minetest.register_craftitem(":mobs:honey", {
 	description = S("Honey"),
 	inventory_image = "mobs_honey_inv.png",
 	on_use = minetest.item_eat(4),
-	groups = {food_honey = 1, food_sugar = 1, flammable = 1},
+	groups = {food_honey = 1, food_sugar = 1}
 })
 
--- beehive (when placed spawns bee)
+mobs.add_eatable("mobs:honey", 4)
+
+-- beehive (1 in 4 chance of spawning bee when placed)
+
 minetest.register_node(":mobs:beehive", {
 	description = S("Beehive"),
 	drawtype = "plantlike",
@@ -82,14 +88,16 @@ minetest.register_node(":mobs:beehive", {
 	sunlight_propagates = true,
 	walkable = true,
 	groups = {oddly_breakable_by_hand = 3, flammable = 1, disable_suffocation = 1},
-	sounds = default.node_sound_defaults(),
+	is_ground_content = false,
+	sounds = mobs.node_sound_defaults(),
 
 	on_construct = function(pos)
 
 		local meta = minetest.get_meta(pos)
+		local gui_bg = default and default.gui_bg .. default.gui_bg_img .. default.gui_slots or ""
 
 		meta:set_string("formspec", "size[8,6]"
-			..default.gui_bg..default.gui_bg_img..default.gui_slots
+			.. gui_bg
 			.. "image[3,0.8;0.8,0.8;mobs_bee_inv.png]"
 			.. "list[current_name;beehive;4,0.5;1,1;]"
 			.. "list[current_player;main;0,2.35;8,4;]"
@@ -104,7 +112,7 @@ minetest.register_node(":mobs:beehive", {
 
 			minetest.set_node(pos, {name = "mobs:beehive", param2 = 1})
 
-			if math.random(1, 4) == 1 then
+			if math.random(4) == 1 then
 				minetest.add_entity(pos, "mobs_animal:bee")
 			end
 		end
@@ -113,41 +121,44 @@ minetest.register_node(":mobs:beehive", {
 	on_punch = function(pos, node, puncher)
 
 		-- yep, bee's don't like having their home punched by players
-		puncher:set_hp(puncher:get_hp() - 4)
+		minetest.after(0.2, function()
+
+			local hp = puncher and puncher:get_hp()
+
+			if hp then puncher:set_hp(hp - 4) end
+		end)
 	end,
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 
-		if listname == "beehive" then
-			return 0
-		end
+		if listname == "beehive" then return 0 end
 
 		return stack:get_count()
 	end,
 
-	can_dig = function(pos,player)
+	can_dig = function(pos,player) -- can only dig when no honey inside
 
 		local meta = minetest.get_meta(pos)
 
-		-- only dig beehive if no honey inside
 		return meta:get_inventory():is_empty("beehive")
-	end,
-
+	end
 })
+
+-- beehive recipe
 
 minetest.register_craft({
 	output = "mobs:beehive",
-	recipe = {
-		{"mobs:bee","mobs:bee","mobs:bee"},
-	}
+	recipe = {{"mobs:bee","mobs:bee","mobs:bee"}}
 })
 
--- honey block
+-- honey block and craft recipes
+
 minetest.register_node(":mobs:honey_block", {
 	description = S("Honey Block"),
 	tiles = {"mobs_honey_block.png"},
 	groups = {snappy = 3, flammable = 2},
-	sounds = default.node_sound_dirt_defaults(),
+	is_ground_content = false,
+	sounds = mobs.node_sound_dirt_defaults()
 })
 
 minetest.register_craft({
@@ -155,48 +166,42 @@ minetest.register_craft({
 	recipe = {
 		{"mobs:honey", "mobs:honey", "mobs:honey"},
 		{"mobs:honey", "mobs:honey", "mobs:honey"},
-		{"mobs:honey", "mobs:honey", "mobs:honey"},
+		{"mobs:honey", "mobs:honey", "mobs:honey"}
 	}
 })
 
 minetest.register_craft({
 	output = "mobs:honey 9",
 	recipe = {
-		{"mobs:honey_block"},
+		{"mobs:honey_block"}
 	}
 })
 
 -- beehive workings
+
 minetest.register_abm({
 	nodenames = {"mobs:beehive"},
 	interval = 12,
 	chance = 6,
 	catch_up = false,
+
 	action = function(pos, node)
 
 		-- bee's only make honey during the day
 		local tod = (minetest.get_timeofday() or 0) * 24000
 
-		if tod < 5500 or tod > 18500 then
-			return
-		end
+		if tod < 5500 or tod > 18500 then return end
 
-		-- is hive full?
-		local meta = minetest.get_meta(pos)
-		if not meta then return end -- for older beehives
+		local meta = minetest.get_meta(pos) ; if not meta then return end
 		local inv = meta:get_inventory()
 		local honey = inv:get_stack("beehive", 1):get_count()
 
-		-- is hive full?
-		if honey > 11 then
-			return
-		end
+		if honey > 11 then return end -- return if hive full
 
 		-- no flowers no honey, nuff said!
 		if #minetest.find_nodes_in_area_under_air(
-			{x = pos.x - 4, y = pos.y - 3, z = pos.z - 4},
-			{x = pos.x + 4, y = pos.y + 3, z = pos.z + 4},
-			"group:flower") > 3 then
+				{x = pos.x - 4, y = pos.y - 3, z = pos.z - 4},
+				{x = pos.x + 4, y = pos.y + 3, z = pos.z + 4}, "group:flower") > 3 then
 
 			inv:add_item("beehive", "mobs:honey")
 		end

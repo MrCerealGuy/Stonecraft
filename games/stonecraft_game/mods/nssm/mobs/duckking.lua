@@ -21,20 +21,21 @@ mobs:register_mob("nssm:duckking", {
 	jump = true,
 	sounds = {
 		random = "duckking",
-		attack = "duckking",
+		attack = "duckking"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 7, max = 8},
 		{name = "nssm:duck_legs", chance = 1, min = 40, max = 50},
 		{name = "nssm:helmet_crown", chance = 1, min = 1, max = 1},
 		{name = "nssm:duck_beak", chance = 4, min = 10, max = 20},
-		{name = "nssm:duck_feather", chance = 3, min = 20, max = 40},
+		{name = "nssm:duck_feather", chance = 3, min = 20, max = 40}
 	},
 	armor = 50,
 	drawtype = "front",
 	water_damage = 0,
 	floats = 1,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
@@ -59,6 +60,6 @@ mobs:register_mob("nssm:duckking", {
 		punch_start = 190,
 		punch_end = 220,
 		shoot_start = 160,
-		shoot_end = 180,
+		shoot_end = 180
 	}
 })

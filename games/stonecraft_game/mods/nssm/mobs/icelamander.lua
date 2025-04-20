@@ -16,7 +16,7 @@ mobs:register_mob("nssm:icelamander", {
 	walk_velocity = 2,
 	run_velocity = 4,
 	sounds = {
-		random = "icelamander",
+		random = "icelamander"
 	},
 	damage = 12,
 	jump = true,
@@ -25,12 +25,13 @@ mobs:register_mob("nssm:icelamander", {
 		{name = "nssm:frosted_amphibian_heart", chance = 1, min = 1, max = 1},
 		{name = "nssm:ice_tooth", chance = 1, min = 1, max = 1},
 		{name = "nssm:little_ice_tooth", chance = 1, min = 0, max = 20},
-		{name = "nssm:amphibian_ribs", chance = 2, min = 1, max = 1},
+		{name = "nssm:amphibian_ribs", chance = 2, min = 1, max = 1}
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 30,
+	fire_damage = 20,
 	light_damage = 0,
 	attack_type = "dogshoot",
 	dogshoot_switch = true,
@@ -54,9 +55,10 @@ mobs:register_mob("nssm:icelamander", {
 		punch_start = 160,
 		punch_end = 190,
 		shoot_start = 190,
-		shoot_end = 210,
+		shoot_end = 210
 	},
+
 	do_custom = function(self)
-		midas_ability(self, "default:ice", self.run_velocity, 1, 3)
-	end,
+		nssm:midas_ability(self, "default:ice", self.run_velocity, 1, 3)
+	end
 })

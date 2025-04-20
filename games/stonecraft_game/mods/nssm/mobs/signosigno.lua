@@ -21,12 +21,13 @@ mobs:register_mob("nssm:signosigno", {
 	jump = true,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
-		{name = "nssm:slothful_soul_fragment", chance = 20, min = 1, max = 1},
+		{name = "nssm:slothful_soul_fragment", chance = 20, min = 1, max = 1}
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 1,
 	lava_damage = 2,
+	fire_damage = 2,
 	light_damage = 1,
 	group_attack = true,
 	attack_animals = true,
@@ -43,6 +44,6 @@ mobs:register_mob("nssm:signosigno", {
 		run_start = 200,
 		run_end = 220,
 		punch_start = 160,
-		punch_end = 190,
+		punch_end = 190
 	}
 })

@@ -1,10 +1,3 @@
---[[
-
-2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
 mobs:register_mob("nssm:mese_dragon", {
 	type = "monster",
 	hp_max = 666,
@@ -25,19 +18,20 @@ mobs:register_mob("nssm:mese_dragon", {
 	sounds = {
 		shoot_attack = "mesed",
 		attack = "mese_dragon",
-		distance = 60,
+		distance = 60
 	},
 	damage = 18,
 	jump = true,
 	jump_height = 10,
 	drops = {
 		{name = "nssm:rainbow_staff", chance = 1, min = 1, max = 1},
-		{name = "nssm:energy_globe", chance = 1, min = 99, max = 99},
+		{name = "nssm:energy_globe", chance = 1, min = 99, max = 99}
 	},
 	armor = 30,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	on_rightclick = nil,
 	attack_type = "dogshoot",
@@ -66,11 +60,11 @@ mobs:register_mob("nssm:mese_dragon", {
 		punch2_start = 330,
 		punch2_end = 370,
 		dattack_start = 120,
-		dattack_end = 160,
+		dattack_end = 160
 	},
 
 	do_custom = function(self)
-		midas_ability(self, "default:mese_block", self.run_velocity, 2, 3)
+		nssm:midas_ability(self, "default:mese_block", self.run_velocity, 2, 3)
 	end,
 
 	custom_attack = function(self)
@@ -99,11 +93,11 @@ mobs:register_mob("nssm:mese_dragon", {
 					minetest.sound_play(self.sounds.attack, {
 						object = self.object,
 						max_hear_distance = self.sounds.distance
-					})
+					}, true)
 				end
 
 				-- punch player
-				self.attack:punch(self.object, 1.0,  {
+				self.attack:punch(self.object, 1.0, {
 					full_punch_interval = 1.0,
 					damage_groups = {fleshy = self.damage}
 				}, nil)
@@ -113,7 +107,7 @@ mobs:register_mob("nssm:mese_dragon", {
 
 				self.attack_rip = 0
 
-				mobs:set_animation("punch1")
+				self:set_animation("punch1")
 
 				for dx = -17, 17 do
 					for dz = -17, 17 do
@@ -121,9 +115,9 @@ mobs:register_mob("nssm:mese_dragon", {
 						local k = {x = s.x + dx, y = s.y + 20, z = s.z + dz}
 						local n = minetest.get_node(k).name
 
-						if n == "air" and math.random(1, 23) == 1 then
+						if n == "air" and math.random(23) == 1 then
 							minetest.set_node(k, {name="nssm:mese_meteor"})
-							minetest.check_for_falling(k)
+							minetest.check_single_for_falling(k)
 						end
 					end
 				end

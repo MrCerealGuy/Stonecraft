@@ -12,12 +12,6 @@ if enable_tnt == nil then
 	enable_tnt = minetest.is_singleplayer()
 end
 
--- loss probabilities array (one in X will be lost)
-local loss_prob = {}
-
-loss_prob["default:cobble"] = 3
-loss_prob["default:dirt"] = 4
-
 local tnt_radius = tonumber(minetest.settings:get("tnt_radius") or 3)
 
 -- Fill a list with data for content IDs, after all nodes are registered
@@ -27,11 +21,19 @@ minetest.register_on_mods_loaded(function()
 		cid_data[minetest.get_content_id(name)] = {
 			name = name,
 			drops = def.drops,
-			flammable = def.groups.flammable,
+			flammable = def.groups and (def.groups.flammable or 0) ~= 0,
 			on_blast = def.on_blast,
 		}
 	end
 end)
+
+local function particle_texture(name)
+	local ret = {name = name}
+	if minetest.features.particle_blend_clip then
+		ret.blend = "clip"
+	end
+	return ret
+end
 
 local function rand_pos(center, pos, radius)
 	local def
@@ -76,11 +78,14 @@ end
 
 local function add_drop(drops, item)
 	item = ItemStack(item)
-	local name = item:get_name()
-	if loss_prob[name] ~= nil and math.random(1, loss_prob[name]) == 1 then
+	-- Note that this needs to be set on the dropped item, not the node.
+	-- Value represents "one in X will be lost"
+	local lost = item:get_definition()._tnt_loss or 0
+	if lost > 0 and (lost == 1 or math.random(1, lost) == 1) then
 		return
 	end
 
+	local name = item:get_name()
 	local drop = drops[name]
 	if drop == nil then
 		drops[name] = item
@@ -159,6 +164,7 @@ local function entity_physics(pos, radius, drops)
 	local objs = minetest.get_objects_inside_radius(pos, radius)
 	for _, obj in pairs(objs) do
 		local obj_pos = obj:get_pos()
+		if obj_pos then
 		local dist = math.max(1, vector.distance(pos, obj_pos))
 
 		local damage = (4 / dist) * radius
@@ -200,6 +206,7 @@ local function entity_physics(pos, radius, drops)
 				end
 			end
 		end
+		end
 	end
 end
 
@@ -212,7 +219,7 @@ local function add_effects(pos, radius, drops)
 		size = radius * 10,
 		collisiondetection = false,
 		vertical = false,
-		texture = "tnt_boom.png",
+		texture = particle_texture("tnt_boom.png"),
 		glow = 15,
 	})
 	minetest.add_particlespawner({
@@ -228,12 +235,12 @@ local function add_effects(pos, radius, drops)
 		maxexptime = 2.5,
 		minsize = radius * 3,
 		maxsize = radius * 5,
-		texture = "tnt_smoke.png",
+		texture = particle_texture("tnt_smoke.png"),
 	})
 
-	-- we just dropped some items. Look at the items entities and pick
-	-- one of them to use as texture
-	local texture = "tnt_blast.png" --fallback texture
+	-- we just dropped some items. Look at the items and pick
+	-- one of them to use as texture.
+	local texture = "tnt_blast.png" -- fallback
 	local node
 	local most = 0
 	for name, stack in pairs(drops) do
@@ -343,6 +350,13 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast, owne
 	local on_construct_queue = {}
 	basic_flame_on_construct = minetest.registered_nodes["fire:basic_flame"].on_construct
 
+	-- Used to efficiently remove metadata of nodes that were destroyed.
+	-- Metadata is probably sparse, so this may save us some work.
+	local has_meta = {}
+	for _, p in ipairs(minetest.find_nodes_with_meta(p1, p2)) do
+		has_meta[a:indexp(p)] = true
+	end
+
 	local c_fire = minetest.get_content_id("fire:basic_flame")
 	for z = -radius, radius do
 	for y = -radius, radius do
@@ -353,9 +367,16 @@ local function tnt_explode(pos, radius, ignore_protection, ignore_on_blast, owne
 			local cid = data[vi]
 			local p = {x = pos.x + x, y = pos.y + y, z = pos.z + z}
 			if cid ~= c_air and cid ~= c_ignore then
-				data[vi] = destroy(drops, p, cid, c_air, c_fire,
+				local new_cid = destroy(drops, p, cid, c_air, c_fire,
 					on_blast_queue, on_construct_queue,
 					ignore_protection, ignore_on_blast, owner)
+
+				if new_cid ~= data[vi] then
+					data[vi] = new_cid
+					if has_meta[vi] then
+						minetest.get_meta(p):from_table(nil)
+					end
+				end
 			end
 		end
 		vi = vi + 1
@@ -625,7 +646,7 @@ function tnt.register_tnt(def)
 			groups = {dig_immediate = 2, mesecon = 2, tnt = 1, flammable = 5},
 			sounds = default.node_sound_wood_defaults(),
 			after_place_node = function(pos, placer)
-				if placer:is_player() then
+				if placer and placer:is_player() then
 					local meta = minetest.get_meta(pos)
 					meta:set_string("owner", placer:get_player_name())
 				end

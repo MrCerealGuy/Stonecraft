@@ -1,7 +1,8 @@
 
 local _ = {name = "air", prob = 0}
 local M = {name = "ethereal:mushroom", prob = 255}
-local T = {name = "ethereal:mushroom_trunk", prob = 255}
+local t = {name = "ethereal:mushroom_trunk", prob = 255}
+local T = {name = "ethereal:mushroom_trunk", prob = 255, force_place = true}
 local P = {name = "ethereal:mushroom_pore", prob = 255}
 
 ethereal.mushroomone = {
@@ -9,9 +10,9 @@ ethereal.mushroomone = {
 	size = {x = 8, y = 11, z = 8},
 
 	yslice_prob = {
-		{ypos = 0, prob = 127},
-		{ypos = 1, prob = 127},
-		{ypos = 7, prob = 127},
+		{ypos = 3, prob = 127},
+		{ypos = 4, prob = 127},
+		{ypos = 7, prob = 127}
 	},
 
 	data = {
@@ -55,24 +56,24 @@ ethereal.mushroomone = {
 	_,_,_,T,T,_,_,_,
 	_,_,_,T,T,_,_,_,
 	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	M,_,_,T,T,_,_,M,
-	M,_,_,T,T,_,_,M,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	M,_,_,t,t,_,_,M,
+	M,_,_,t,t,_,_,M,
 	_,M,P,P,P,P,M,_,
 	_,_,M,M,M,M,_,_,
 
 	_,_,_,T,T,_,_,_,
 	_,_,_,T,T,_,_,_,
 	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	_,_,_,T,T,_,_,_,
-	M,_,_,T,T,_,_,M,
-	M,_,_,T,T,_,_,M,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	_,_,_,t,t,_,_,_,
+	M,_,_,t,t,_,_,M,
+	M,_,_,t,t,_,_,M,
 	_,M,P,P,P,P,M,_,
 	_,_,M,M,M,M,_,_,
 

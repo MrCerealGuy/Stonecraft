@@ -1,5 +1,7 @@
 
-local S = mobs.intllib
+-- translation and mod check
+local S = minetest.get_translator("mobs_npc")
+local mcl = minetest.get_modpath("mcl_core") ~= nil
 
 -- define table containing names for use and shop items for sale
 
@@ -7,41 +9,60 @@ mobs.human = {
 
 	names = {
 		"Bob", "Duncan", "Bill", "Tom", "James", "Ian", "Lenny",
-		"Dylan", "Ethan"
+		"Dylan", "Ethan", "Sam", "Aubrey"
 	},
 
 	items = {
 		--{item for sale, price, chance of appearing in trader's inventory}
-		{"default:apple 10", "default:gold_ingot 2", 10},
-		{"farming:bread 10", "default:gold_ingot 4", 5},
-		{"default:clay 10", "default:gold_ingot 2", 12},
-		{"default:brick 10", "default:gold_ingot 4", 17},
-		{"default:glass 10", "default:gold_ingot 4", 17},
-		{"default:obsidian 10", "default:gold_ingot 15", 50},
-		{"default:diamond 1", "default:gold_ingot 5", 40},
-		{"farming:wheat 10", "default:gold_ingot 2", 17},
-		{"default:tree 5", "default:gold_ingot 4", 20},
-		{"default:stone 10", "default:gold_ingot 8", 17},
-		{"default:desert_stone 10", "default:gold_ingot 8", 27},
-		{"default:sapling 1", "default:gold_ingot 1", 7},
-		{"default:pick_steel 1", "default:gold_ingot 2", 7},
-		{"default:sword_steel 1", "default:gold_ingot 2", 17},
-		{"default:shovel_steel 1", "default:gold_ingot 1", 17},
-		{"default:cactus 2", "default:gold_ingot 2", 40},
-		{"default:papyrus 2", "default:gold_ingot 2", 40},
-		{"default:mese_crystal_fragment 1", "default:dirt_with_grass 10", 90},
-		{"default:mese_crystal_fragment 1", "default:gold_ingot 5", 90},
+		{mcl and "mcl_core:apple 10" or "default:apple 10",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 10},
+		{mcl and "mcl_farming:bread 10" or "farming:bread 10",
+				mcl and "mcl_core:gold_ingot 4" or "default:gold_ingot 4", 5},
+		{mcl and "mcl_core:clay 10" or "default:clay 10",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 12},
+		{mcl and "mcl_core:stonebrick 10" or "default:brick 10",
+				mcl and "mcl_core:gold_ingot 4" or "default:gold_ingot 4", 17},
+		{mcl and "mcl_core:glass 10" or "default:glass 10",
+				mcl and "mcl_core:gold_ingot 4" or "default:gold_ingot 4", 17},
+		{mcl and "mcl_core:obsidian 10" or "default:obsidian 10",
+				mcl and "mcl_core:gold_ingot 15" or "default:gold_ingot 15", 50},
+		{mcl and "mcl_core:diamond 1" or "default:diamond 1",
+				mcl and "mcl_core:gold_ingot 5" or "default:gold_ingot 5", 40},
+		{mcl and "mcl_farming:wheat_item 10" or "farming:wheat 10",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 17},
+		{mcl and "mcl_core:tree 5" or "default:tree 5",
+				mcl and "mcl_core:gold_ingot 4" or "default:gold_ingot 4", 20},
+		{mcl and "mcl_core:stone 10" or "default:stone 10",
+				mcl and "mcl_core:gold_ingot 8" or "default:gold_ingot 8", 17},
+		{mcl and "mcl_core:stonebrick 10" or "default:desert_stone 10",
+				mcl and "mcl_core:gold_ingot 8" or "default:gold_ingot 8", 27},
+		{mcl and "mcl_core:sapling 1" or "default:sapling 1",
+				mcl and "mcl_core:gold_ingot 1" or "default:gold_ingot 1", 7},
+		{mcl and "mcl_tools:pick_iron 1" or "default:pick_steel 1",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 7},
+		{mcl and "mcl_tools:sword_iron 1" or "default:sword_steel 1",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 17},
+		{mcl and "mcl_tools:shovel_iron 1" or "default:shovel_steel 1",
+				mcl and "mcl_core:gold_ingot 1" or "default:gold_ingot 1", 17},
+		{mcl and "mcl_core:cactus 2" or "default:cactus 2",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 40},
+		{mcl and "mcl_core:paper 2" or "default:papyrus 2",
+				mcl and "mcl_core:gold_ingot 2" or "default:gold_ingot 2", 40},
+		{mcl and "mcl_core:iron_nugget 1" or "default:mese_crystal_fragment 1",
+				mcl and "mcl_core:dirt_with_grass 10" or "default:dirt_with_grass 10", 90},
+		{mcl and "mcl_copper:raw_copper 1" or "default:mese_crystal_fragment 1",
+				mcl and "mcl_core:gold_ingot 5" or "default:gold_ingot 5", 90}
 	}
 }
 
--- Trader ( same as NPC but with right-click shop )
+-- Trader (same as NPC but with right-click shop)
 
 mobs:register_mob("mobs_npc:trader", {
 	type = "npc",
 	passive = false,
 	damage = 3,
 	attack_type = "dogfight",
-	attacks_monsters = true,
+	attack_monsters = true,
 	attack_animals = false,
 	attack_npcs = false,
 	pathfinding = false,
@@ -55,6 +76,7 @@ mobs:register_mob("mobs_npc:trader", {
 		{"mobs_trader.png"}, -- by Frerin
 		{"mobs_trader2.png"},
 		{"mobs_trader3.png"},
+		{"mobs_trader4.png"} -- female by Astrobe
 	},
 	makes_footstep_sound = true,
 	sounds = {},
@@ -65,29 +87,56 @@ mobs:register_mob("mobs_npc:trader", {
 	water_damage = 0,
 	lava_damage = 4,
 	light_damage = 0,
-	follow = {"default:diamond"},
-	view_range = 15,
+	follow = {
+		mcl and "mcl_farming:bread" or "farming:bread",
+		mcl and "mcl_mobitems:cooked_beef"or "group:food_meat", --"mobs:meat",
+		mcl and "mcl_core:diamond" or "default:diamond"
+	},
+	view_range = 7,
 	owner = "",
 	order = "stand",
 	fear_height = 3,
 	animation = {
-		speed_normal = 30,
-		speed_run = 30,
-		stand_start = 0,
-		stand_end = 79,
-		walk_start = 168,
-		walk_end = 187,
-		run_start = 168,
-		run_end = 187,
-		punch_start = 200,
-		punch_end = 219,
+		speed_normal = 30, speed_run = 30,
+		stand_start = 0, stand_end = 79,
+		walk_start = 168, walk_end = 187,
+		run_start = 168, run_end = 187,
+		punch_start = 189, punch_end = 198 -- was 200 and 219
 	},
 
+	-- stop attacking on right-click and open shop
 	on_rightclick = function(self, clicker)
+
+		-- feed to heal npc
+		if mobs:feed_tame(self, clicker, 8, false, false) then return end
+
+		-- protect npc with mobs:protector
+		if mobs:protect(self, clicker) then return end
+
+		-- stop trader from moving or attacking
 		self.attack = nil
-		mobs_trader(self, clicker, mobs.human)
+		self:set_velocity(0)
+		self:set_animation("stand")
+
+		-- owner can right-click with stick to show control formspec
+		local item = clicker:get_wielded_item()
+		local name = clicker:get_player_name()
+
+		if item:get_name() == (mcl and "mcl_core:stick" or "default:stick")
+		and (self.owner == name or
+		minetest.check_player_privs(clicker, {protection_bypass = true}) )then
+
+			minetest.show_formspec(name, "mobs_npc:controls",
+					mobs_npc.get_controls_formspec(name, self))
+
+			return
+		end
+
+		-- open shop
+		mobs_npc.shop_trade(self, clicker, mobs.human)
 	end,
 
+	-- show that npc is a trader once spawned
 	on_spawn = function(self)
 
 		self.nametag = S("Trader")
@@ -98,207 +147,135 @@ mobs:register_mob("mobs_npc:trader", {
 		})
 
 		return true -- return true so on_spawn is run once only
-	end,
+	end
 })
 
---This code comes almost exclusively from the trader and inventory of mobf, by Sapier.
---The copyright notice below is from mobf:
--------------------------------------------------------------------------------
--- Mob Framework Mod by Sapier
---
--- You may copy, use, modify or do nearly anything except removing this
--- copyright notice.
--- And of course you are NOT allow to pretend you have written it.
---
---! @file inventory.lua
---! @brief component containing mob inventory related functions
---! @copyright Sapier
---! @author Sapier
---! @date 2013-01-02
---
---! @defgroup Inventory Inventory subcomponent
---! @brief Component handling mob inventory
---! @ingroup framework_int
---! @{
---
--- Contact sapier a t gmx net
--------------------------------------------------------------------------------
+-- spawn egg
 
--- This code has been heavily modified by isaiah658.
--- Trades are saved in entity metadata so they always stay the same after
--- initially being chosen.  Also the formspec uses item image buttons instead of
--- inventory slots.
+mobs:register_egg("mobs_npc:trader", S("Trader"),
+		mcl and "mcl_core_sandstone_top.png" or "default_sandstone.png", 1)
 
-function mobs.add_goods(self, race)
-
-	local trade_index = 1
-	local trades_already_added = {}
-	local trader_pool_size = 10
-	local item_pool_size = #race.items -- get number of items on list
-
-	self.trades = {}
-
-	if item_pool_size < trader_pool_size then
-		trader_pool_size = item_pool_size
-	end
-
-	for i = 1, trader_pool_size do
-
-		-- If there are more trades than the amount being added, they are
-		-- randomly selected.  If they are equal, there is no reason to randomly
-		-- select them
-		local random_trade = nil
-
-		if item_pool_size == trader_pool_size then
-			random_trade = i
-		else
-			while random_trade == nil do
-
-				local num = math.random(item_pool_size)
-
-				if trades_already_added[num] == nil then
-					trades_already_added[num] = true
-					random_trade = num
-				end
-			end
-		end
-
-		if math.random(0, 100) > race.items[random_trade][3] then
-
-			self.trades[trade_index] = {
-				race.items[random_trade][1],
-				race.items[random_trade][2]
-			}
-
-			trade_index = trade_index + 1
-		end
-	end
-end
-
-
-function mobs_trader(self, clicker, race)
-
-	if not self.id then
-		self.id = (math.random(1, 1000) * math.random(1, 10000))
-			.. self.name .. (math.random(1, 1000) ^ 2)
-	end
-
-	if not self.game_name then
-
-		self.game_name = tostring(race.names[math.random(1, #race.names)])
-		self.nametag = S("Trader @1", self.game_name)
-
-		self.object:set_properties({
-			nametag = self.nametag,
-			nametag_color = "#00FF00"
-		})
-	end
-
-	if self.trades == nil then
-		mobs.add_goods(self, race)
-	end
-
-	local player = clicker:get_player_name() or ""
-
-	minetest.chat_send_player(player,
-		S("[NPC] <Trader @1> Hello, @2, have a look at my wares.",
-		self.game_name, player))
-
-	-- Make formspec trade list
-	local formspec_trade_list = ""
-	local x, y
-
-	for i = 1, 10 do
-
-		if self.trades[i] and self.trades[i] ~= "" then
-
-			if i < 6 then
-				x = 0.5
-				y = i - 0.5
-			else
-				x = 4.5
-				y = i - 5.5
-			end
-
-			formspec_trade_list = formspec_trade_list
-			.. "item_image_button[".. x ..",".. y ..";1,1;"
-				.. self.trades[i][2] .. ";prices#".. i .."#".. self.id ..";]"
-			.. "item_image_button[".. x + 2 ..",".. y ..";1,1;"
-				.. self.trades[i][1] .. ";goods#".. i .."#".. self.id ..";]"
-			.. "image[".. x + 1 ..",".. y ..";1,1;gui_arrow_blank.png]"
-		end
-	end
-
-	minetest.show_formspec(player, "mobs_npc:trade", "size[8,10]"
-		.. default.gui_bg_img
-		.. default.gui_slots
-		.. "label[0.5,-0.1;" .. S("Trader @1's stock:", self.game_name) .. "]"
-		.. formspec_trade_list
-		.. "list[current_player;main;0,6;8,4;]"
-	)
-end
-
-
-minetest.register_on_player_receive_fields(function(player, formname, fields)
-
-	if formname ~= "mobs_npc:trade" then return end
-
-	if fields then
-
-		local trade = ""
-
-		for k, v in pairs(fields) do
-			trade = tostring(k)
-		end
-
-		local id = trade:split("#")[3]
-		local self = nil
-
-		if id ~= nil then
-
-			for k, v in pairs(minetest.luaentities) do
-
-				if v.object and v.id and v.id == id then
-					self = v
-					break
-				end
-			end
-		end
-
-		if self ~= nil then
-
-			local trade_number = tonumber(trade:split("#")[2])
-
-			if trade_number ~= nil and self.trades[trade_number] ~= nil then
-
-				local price = self.trades[trade_number][2]
-				local goods = self.trades[trade_number][1]
-				local inv = player:get_inventory()
-
-				if inv:contains_item("main", price) then
-
-					inv:remove_item("main", price)
-
-					local leftover = inv:add_item("main", goods)
-
-					if leftover:get_count() > 0 then
-
-						-- drop item(s) in front of player
-						local droppos = player:get_pos()
-						local dir = player:get_look_dir()
-
-						droppos.x = droppos.x + dir.x
-						droppos.z = droppos.z + dir.z
-
-						minetest.add_item(droppos, leftover)
-					end
-				end
-			end
-		end
-	end
-end)
-
-mobs:register_egg("mobs_npc:trader", S("Trader"), "default_sandstone.png", 1)
-
--- compatibility
+-- compatibility with older mobs mod
 mobs:alias_mob("mobs:trader", "mobs_npc:trader")
+
+-- make global and add functions and list
+
+local trader_lists = {}
+
+mobs_npc.add_trader_list = function(def)
+	table.insert(trader_lists, def)
+end
+
+mobs_npc.add_trader_list({
+	block = mcl and "mcl_core:ironblock" or "default:tinblock",
+	nametag = "Castro",
+	textures = {"mobs_trader2.png"},
+	item_list = {
+		{mcl and "mcl_raw_ores:raw_gold 2" or "default:gold_lump 2",
+				mcl and "mcl_core:gold_ingot 3" or "default:gold_ingot 3"},
+		{mcl and "mcl_raw_ores:raw_iron 2" or "default:iron_lump 2",
+				mcl and "mcl_core:iron_ingot 2" or "default:steel_ingot 2"},
+		{mcl and "mcl_copper:raw_copper 2" or "default:copper_lump 2",
+				mcl and "mcl_copper:copper_ingot 3" or "default:copper_ingot 3"},
+		{mcl and "mcl_core:iron_nugget 2" or "default:tin_lump 2",
+				mcl and "mcl_core:iron_ingot 3" or "default:tin_ingot 3"}
+	}
+})
+
+-- helper function
+
+local function place_trader(pos, node)
+
+	local face = node.param2
+	local pos2, def
+
+	-- find which way block is facing
+	if face == 0 then
+		pos2 = {x = pos.x, y = pos.y, z = pos.z - 1}
+	elseif face == 1 then
+		pos2 = {x = pos.x - 1, y = pos.y, z = pos.z}
+	elseif face == 2 then
+		pos2 = {x = pos.x, y = pos.y, z = pos.z + 1}
+	elseif face == 3 then
+		pos2 = {x = pos.x + 1, y = pos.y, z = pos.z}
+	else
+		return
+	end
+
+	-- do we already have a trader spawned?
+	local objs = minetest.get_objects_inside_radius(pos2, 1)
+
+	if objs and #objs > 0 then
+		return
+	end
+
+	-- get block below
+	local bnode = minetest.get_node({x = pos2.x, y = pos2.y - 1, z = pos2.z})
+
+	pos2.y = pos2.y + 0.5
+
+	-- add new trader
+	local obj = minetest.add_entity(pos2, "mobs_npc:trader")
+	local ent = obj and obj:get_luaentity()
+
+	if not ent then return end -- nil check
+
+	for n = 1, #trader_lists do
+
+		def = trader_lists[n]
+
+		if bnode.name == def.block then
+
+			ent.trades = def.item_list
+			ent.nametag = def.nametag
+			ent.game_name = def.nametag
+			ent.base_texture = def.textures
+			ent.textures = def.textures
+
+			obj:set_properties({
+				textures = ent.textures
+			})
+
+			break
+		end
+	end
+
+	-- pop sound
+	minetest.sound_play("default_place_node_hard", {
+			pos = pos, gain = 1.0, max_hear_distance = 5, pitch = 2.0}, true)
+end
+
+-- trader block (punch to spawn trader)
+
+minetest.register_node(":mobs:trader_block", {
+	description = S("Place this and punch to spawn Trader"),
+	groups = {cracky = 3},
+	paramtype = "light",
+	paramtype2 = "facedir",
+	tiles = {
+		"default_stone.png", "default_stone.png", "default_stone.png",
+		"default_stone.png", "default_stone.png", "default_stone.png^mobs_npc_shop_icon.png"
+	},
+
+	-- punch block to spawn trader
+	on_punch = function(pos, node, puncher, pointed_thing)
+		place_trader(pos, node)
+	end,
+
+	on_rotate = screwdriver and screwdriver.rotate_simple,
+	on_blast = function() end
+})
+
+-- trader block recipe
+
+local db = mcl and "mcl_core:diamondblock" or "default:diamondblock"
+local tb = mcl and "mcl_core:ironblock" or "default:tinblock"
+
+minetest.register_craft({
+	output = "mobs:trader_block",
+	recipe = {
+		{"group:stone", "group:stone", "group:stone"},
+		{"group:stone", db, "group:stone"},
+		{"group:stone", tb, "group:stone"}
+	}
+})

@@ -1,6 +1,0 @@
-default
-mobs
-farming?
-3d_armor?
-fire
-tnt

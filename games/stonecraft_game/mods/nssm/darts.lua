@@ -9,22 +9,22 @@ local function duck_explosion(pos)
 	minetest.add_particlespawner({
 		amount = 10,
 		time = 0.2,
-		minpos = {x=pos.x-1, y=pos.y-1, z=pos.z-1},
-		maxpos = {x=pos.x+1, y=pos.y+4, z=pos.z+1},
-		minvel = {x=0, y=0, z=0},
-		maxvel = {x=1, y=1, z=1},
-		minacc = {x=-0.5,y=5,z=-0.5},
-		maxacc = {x=0.5,y=5,z=0.5},
+		minpos = {x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
+		maxpos = {x = pos.x + 1, y = pos.y + 4, z = pos.z + 1},
+		minvel = {x = 0, y = 0, z = 0},
+		maxvel = {x = 1, y = 1, z = 1},
+		minacc = {x = -0.5, y = 5, z = -0.5},
+		maxacc = {x = 0.5, y = 5, z = 0.5},
 		minexptime = 1,
 		maxexptime = 3,
 		minsize = 4,
 		maxsize = 6,
 		collisiondetection = false,
 		vertical = false,
-		texture = "duck_egg_fragments.png",
+		texture = "duck_egg_fragments.png"
 	})
 
-	core.after(0.4, function()
+	minetest.after(0.4, function()
 
 		for dx = -1, 1 do
 
@@ -33,25 +33,26 @@ local function duck_explosion(pos)
 			minetest.add_particlespawner({
 				amount = 100,
 				time = 0.2,
-				minpos = {x=pos.x-1, y=pos.y-1, z=pos.z-1},
-				maxpos = {x=pos.x+1, y=pos.y+4, z=pos.z+1},
-				minvel = {x=0, y=0, z=0},
-				maxvel = {x=1, y=5, z=1},
-				minacc = {x=-0.5,y=5,z=-0.5},
-				maxacc = {x=0.5,y=5,z=0.5},
+				minpos = {x = pos.x - 1, y = pos.y - 1, z = pos.z - 1},
+				maxpos = {x = pos.x + 1, y = pos.y + 4, z = pos.z + 1},
+				minvel = {x = 0, y = 0, z = 0},
+				maxvel = {x = 1, y = 5, z = 1},
+				minacc = {x = -0.5, y = 5, z = -0.5},
+				maxacc = {x = 0.5, y = 5, z = 0.5},
 				minexptime = 1,
 				maxexptime = 3,
 				minsize = 2,
 				maxsize = 4,
 				collisiondetection = false,
 				vertical = false,
-				texture = "tnt_smoke.png",
+				texture = "tnt_smoke.png"
 			})
 
 			minetest.add_entity(pos, "nssm:duck")
 		end
 	end)
 end
+
 
 -- arrow (duck_arrow)
 mobs:register_arrow("nssm:duck_father", {
@@ -62,18 +63,22 @@ mobs:register_arrow("nssm:duck_father", {
 
 	-- direct hit
 	hit_player = function(self, player)
+
 		local pos = self.object:get_pos()
+
 		duck_explosion(pos)
 	end,
 
 	hit_mob = function(self, player)
+
 		local pos = self.object:get_pos()
+
 		duck_explosion(pos)
 	end,
 
 	hit_node = function(self, pos, node)
 		duck_explosion(pos)
-	end,
+	end
 })
 
 
@@ -83,7 +88,7 @@ local function ice_explosion(pos)
 
 		for j = pos.y - 1, pos.y + 4, 1 do
 
-			for k = pos.z-math.random(0, 1), pos.z + math.random(0, 1), 1 do
+			for k = pos.z - math.random(0, 1), pos.z + math.random(0, 1), 1 do
 
 				local p = {x = i, y = j, z = k}
 				local n = minetest.get_node(p).name
@@ -99,27 +104,32 @@ local function ice_explosion(pos)
 	end
 end
 
+
 -- snow_arrow
 mobs:register_arrow("nssm:snow_arrow", {
 	visual = "sprite",
 	visual_size = {x = 1, y = 1},
 	textures = {"transparent.png"},
-	velocity =20,
+	velocity = 20,
 
 	-- direct hit
 	hit_player = function(self, player)
+
 		local pos = self.object:get_pos()
+
 		ice_explosion(pos)
 	end,
 
 	hit_mob = function(self, player)
+
 		local pos = self.object:get_pos()
+
 		ice_explosion(pos)
 	end,
 
 	hit_node = function(self, pos, node)
 		ice_explosion(pos)
-	end,
+	end
 })
 
 
@@ -132,16 +142,18 @@ mobs:register_arrow("nssm:spine", {
 
 	-- direct hit
 	hit_player = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 2},
+			damage_groups = {fleshy = 2}
 		}, nil)
 	end,
 
 	hit_mob = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 2},
+			damage_groups = {fleshy = 2}
 		}, nil)
 	end,
 
@@ -150,17 +162,18 @@ mobs:register_arrow("nssm:spine", {
 })
 
 
---morbat arrow
+-- morbat arrow
 mobs:register_arrow("nssm:morarrow", {
 	visual = "sprite",
-	visual_size = {x=0.5, y=0.5},
+	visual_size = {x = 0.5, y = 0.5},
 	textures = {"morarrow.png"},
 	velocity= 13,
 
 	hit_player = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 3},
+			damage_groups = {fleshy = 3}
 		}, nil)
 	end,
 
@@ -169,9 +182,9 @@ mobs:register_arrow("nssm:morarrow", {
 })
 
 
-local function explosion_web(pos)
+local function explosion_web(pos, webnode)
 
-	pos.y = round(pos.y)
+	pos = vector.round(pos)
 
 	if minetest.is_protected(pos, "") then
 		return
@@ -186,12 +199,12 @@ local function explosion_web(pos)
 				local current = minetest.get_node(p).name
 				local ontop  = minetest.get_node(k).name
 
-				if (current ~= "air") and
-					(current ~= "nssm:web") and
-					(ontop == "air") and not
-					minetest.is_protected(p,"") and not
-					minetest.is_protected(k,"") then
-						minetest.set_node(k, {name="nssm:web"})
+				if current ~= "air"
+				and current ~= webnode
+				and ontop == "air"
+				and not minetest.is_protected(p, "")
+				and not minetest.is_protected(k, "") then
+					minetest.set_node(k, {name = webnode})
 				end
 			end
 		end
@@ -208,51 +221,25 @@ mobs:register_arrow("nssm:webball", {
 
 	-- direct hit
 	hit_player = function(self, player)
+
 		local p = player:get_pos()
-		explosion_web(p)
+
+		explosion_web(p, "nssm:web")
 	end,
 
 	hit_mob = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 1},
+			damage_groups = {fleshy = 1}
 		}, nil)
 	end,
 
 	hit_node = function(self, pos, node)
-		explosion_web(pos)
+		explosion_web(pos, "nssm:web")
 	end
 })
 
-
-function explosion_thickweb(pos)
-
-	pos.y = round(pos.y)
-
-	if minetest.is_protected(pos, "") then
-		return
-	end
-
-	for i = pos.x + 0, pos.x + 0, 1 do
-		for j = pos.y - 2, pos.y, 1 do
-			for k = pos.z + 0, pos.z + 0, 1 do
-
-				local p = {x = i, y = j, z = k}
-				local k = {x = i, y = j + 1, z = k}
-				local current = minetest.get_node(p).name
-				local ontop  = minetest.get_node(k).name
-
-				if (current ~= "air") and
-					(current ~= "nssm:thick_web") and
-					(ontop == "air") and not
-					minetest.is_protected(p,"") and not
-					minetest.is_protected(k,"") then
-						minetest.set_node(k, {name="nssm:thick_web"})
-				end
-			end
-		end
-	end
-end
 
 -- thick_web arrow
 mobs:register_arrow("nssm:thickwebball", {
@@ -264,18 +251,18 @@ mobs:register_arrow("nssm:thickwebball", {
 	-- direct hit
 	hit_player = function(self, player)
 		local p = player:get_pos()
-		explosion_thickweb(p)
+		explosion_web(p, "nssm:thick_web")
 	end,
 
 	hit_mob = function(self, player)
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 6},
+			damage_groups = {fleshy = 6}
 		}, nil)
 	end,
 
 	hit_node = function(self, pos, node)
-		explosion_thickweb(pos)
+		explosion_web(pos, "nssm:thick_web")
 	end
 })
 
@@ -310,11 +297,11 @@ mobs:register_arrow("nssm:phoenix_arrow", {
 			self.object:remove()
 		end
 
-		if math.random(1, 2) == 2 then
+		if math.random(2) == 2 then
 			minetest.set_node(pos, {name = "nssm:phoenix_fire"})
 		end
 
-		if math.random(1, 6) == 1 then
+		if math.random(6) == 1 then
 
 			local p = {
 				x = pos.x + math.random(-1, 1),
@@ -328,11 +315,11 @@ mobs:register_arrow("nssm:phoenix_arrow", {
 				minetest.set_node(p, {name = "nssm:phoenix_fire"})
 			end
 		end
-	end,
+	end
 })
 
 
-function gas_explosion(pos)
+local function gas_explosion(pos)
 
 	if minetest.is_protected(pos, "") then
 		return
@@ -358,6 +345,7 @@ function gas_explosion(pos)
 	end
 end
 
+
 mobs:register_arrow("nssm:super_gas", {
 	visual = "sprite",
 	visual_size = {x = 1, y = 1},
@@ -366,7 +354,9 @@ mobs:register_arrow("nssm:super_gas", {
 
 	-- direct hit
 	hit_player = function(self, player)
+
 		local p = player:get_pos()
+
 		gas_explosion(p)
 	end,
 
@@ -385,7 +375,6 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 	on_step = function(self, dtime)
 
 		local pos = self.object:get_pos()
-
 		local n = minetest.get_node(pos).name
 
 		if self.timer == 0 then
@@ -400,9 +389,10 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 
 		for _,obj in ipairs(objects) do
 
-			local name = obj:get_entity_name()
+			local ent = obj and obj:get_luaentity()
+			local name = ent and ent.name
 
-			if name ~= "nssm:roar_of_the_dragon"
+			if name and name ~= "nssm:roar_of_the_dragon"
 			and name ~= "nssm:mese_dragon" then
 
 				obj:set_hp(obj:get_hp() - 0.05)
@@ -419,7 +409,7 @@ mobs:register_arrow("nssm:roar_of_the_dragon", {
 
 		minetest.set_node(pos, {name = "air"})
 
-		if math.random(1, 2) == 1 then
+		if math.random(2) == 1 then
 
 			local p = {
 				x = pos.x + math.random(-1, 1),

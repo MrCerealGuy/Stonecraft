@@ -14,7 +14,7 @@ mobs:register_mob("nssm:kraken", {
 	inker = false,
 	view_range = 50,
 	fly = true,
-	fly_in = "default:water_source",
+	fly_in = {"default:water_source", "default:water_flowing"},
 	fall_speed = -1,
 	walk_velocity = 3.5,
 	run_velocity = 4.5,
@@ -24,17 +24,18 @@ mobs:register_mob("nssm:kraken", {
 	jump_chance = 0,
 	jump_height = 0,
 	sounds = {
-		random = "kraken",
+		random = "kraken"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 6, max = 7},
 		{name = "nssm:tentacle", chance = 1, min = 30, max = 40},
-		{name = "nssm:tentacle_curly", chance = 1, min = 1, max = 1},
+		{name = "nssm:tentacle_curly", chance = 1, min = 1, max = 1}
 	},
 	armor = 50,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 10,
+	fire_damage = 10,
 	light_damage = 0,
 	blood_texture = "nssm_blood_blue.png",
 	blood_amount = 100,
@@ -51,6 +52,6 @@ mobs:register_mob("nssm:kraken", {
 		run_start = 60,
 		run_end = 100,
 		punch_start = 120,
-		punch_end = 150,
+		punch_end = 150
 	}
 })

@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2016 TenPlus1
+Copyright (c) 2025 TenPlus1
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +19,25 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
+Textures borrowed from minetest_game (CC BY-SA 3.0):
+  mobs_tnt_smoke.png
+  mobs_bubble_particle.png
+  mobs_heart_particle.png
+
+Textures under CC0 license by TenPlus1
+
+mobs_fallback.png is dirt texture from original Minetest (CC-BY SA 3.0)
+
+
+ShadowNinja (CC BY-SA 3.0):
+  tnt_smoke.png
+
+mobs_swing.ogg by qubodup (CC0)
+ - http://freesound.org/people/qubodup/sounds/60012/
+
+mobs_spell.ogg by littlerobotsoundfactory (CC0)
+ - http://freesound.org/people/LittleRobotSoundFactory/sounds/270396/
+
+mobs_punch.ogg by Merrick079 (CC0)
+ - https://freesound.org/people/Merrick079/sounds/566436/

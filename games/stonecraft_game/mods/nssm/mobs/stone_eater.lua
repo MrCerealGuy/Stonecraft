@@ -14,7 +14,7 @@ mobs:register_mob("nssm:stone_eater", {
 	rotate = 270,
 	fear_height = 4,
 	jump = false,
-	jump_height =0,
+	jump_height = 0,
 	walk_velocity = 1,
 	run_velocity = 1.5,
 	damage = 5,
@@ -22,23 +22,24 @@ mobs:register_mob("nssm:stone_eater", {
 	drops = {
 		{name = "default:stone", chance = 2, min = 1, max = 3},
 		{name = "nssm:life_energy", chance = 1, min = 2, max = 3},
-		{name = "nssm:stoneater_mandible", chance = 2, min = 1, max = 4},
+		{name = "nssm:stoneater_mandible", chance = 2, min = 1, max = 4}
 	},
 	armor = 40,
 	drawtype = "front",
 	water_damage = 1,
 	lava_damage = 1,
+	fire_damage = 1,
 	group_attack = true,
 	attack_animals = true,
 	knock_back = 0,
 	blood_texture = "stone_blood.png",
 	immune_to={
-		{'default:sword_stone', -2},
-		{'default:stone', -2},
-		{'default:cobble', -2},
-		{'default:axe_stone', -2},
-		{'default:shovel_stone', -2},
-		{'default:pick_stone', -2}
+		{"default:sword_stone", -2},
+		{"default:stone", -2},
+		{"default:cobble", -2},
+		{"default:axe_stone", -2},
+		{"default:shovel_stone", -2},
+		{"default:pick_stone", -2}
 	},
 	light_damage = 0,
 	attack_type = "dogfight",
@@ -52,10 +53,10 @@ mobs:register_mob("nssm:stone_eater", {
 		run_start = 130,
 		run_end = 150,
 		punch_start = 160,
-		punch_end = 185,
+		punch_end = 185
 	},
+
 	do_custom = function(self)
-		--digging_ability(self, "stone", self.run_velocity, {x=0, y=2, z=0})
-		digging_attack(self, "stone", self.run_velocity, {x = 0, y = 1, z = 0})
-	end,
+		nssm:digging_attack(self, "stone", self.run_velocity, {x = 0, y = 1, z = 0})
+	end
 })

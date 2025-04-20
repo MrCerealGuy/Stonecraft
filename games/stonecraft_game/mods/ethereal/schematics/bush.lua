@@ -9,7 +9,7 @@ ethereal.bush = {
 
 	yslice_prob = {
 		{ypos = 0, prob = 127},
-		{ypos = 2, prob = 127},
+		{ypos = 2, prob = 127}
 	},
 
 	data = {

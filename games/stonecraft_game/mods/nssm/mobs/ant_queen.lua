@@ -5,9 +5,7 @@ mobs:register_mob("nssm:ant_queen", {
 	collisionbox = {-0.6, 0.00, -0.6, 0.6, 1, 0.6},
 	visual = "mesh",
 	mesh = "ant_queen.x",
-	textures = {
-		{"ant_queen.png"}
-	},
+	textures = {{"ant_queen.png"}},
 	visual_size = {x = 6, y = 6},
 	makes_footstep_sound = true,
 	view_range = 30,
@@ -18,7 +16,7 @@ mobs:register_mob("nssm:ant_queen", {
 	rotate = 270,
 	sounds = {
 		random = "ant",
-		attack = "ant",
+		attack = "ant"
 	},
 	damage = 4,
 	jump = true,
@@ -33,6 +31,7 @@ mobs:register_mob("nssm:ant_queen", {
 	drawtype = "front",
 	water_damage = 2,
 	lava_damage = 7,
+	fire_damage = 7,
 	light_damage = 0,
 	blood_texture = "nssm_blood_blue.png",
 	blood_amount = 50,
@@ -50,7 +49,7 @@ mobs:register_mob("nssm:ant_queen", {
 		run_start = 120,
 		run_end = 160,
 		punch_start = 170,
-		punch_end = 190,
+		punch_end = 190
 	},
 
 	custom_attack = function(self)
@@ -75,7 +74,7 @@ mobs:register_mob("nssm:ant_queen", {
 					minetest.sound_play(self.sounds.attack, {
 						object = self.object,
 						max_hear_distance = self.sounds.distance
-					})
+					}, true)
 				end
 
 				local pos1 = {
@@ -94,11 +93,11 @@ mobs:register_mob("nssm:ant_queen", {
 					end
 				end
 
-				if ((pos1.x~=s.x) and (pos1.z~=s.z))
-				and (minetest.get_node(pos1).name == "air")
-				and (counter < 4) then
+				if pos1.x ~= s.x and pos1.z ~= s.z
+				and minetest.get_node(pos1).name == "air"
+				and counter < 4 then
 
-					explosion_particles(pos1, 1)
+					nssm:explosion_particles(pos1, 1)
 
 					minetest.add_entity(pos1, "nssm:ant_soldier")
 				end

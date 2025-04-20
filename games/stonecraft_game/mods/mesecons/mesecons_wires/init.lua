@@ -1,12 +1,3 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
-
 -- naming scheme: wire:(xp)(zp)(xm)(zm)(xpyp)(zpyp)(xmyp)(zmyp)_on/off
 -- where x= x direction, z= z direction, y= y direction, p = +1, m = -1, e.g. xpym = {x=1, y=-1, z=0}
 -- The (xp)/(zpyp)/.. statements shall be replaced by either 0 or 1
@@ -17,14 +8,16 @@ if core.skip_mod("mesecons") then return end
 -- ## Update wire looks ##
 -- #######################
 
+local S = minetest.get_translator(minetest.get_current_modname())
+
 -- self_pos = pos of any mesecon node, from_pos = pos of conductor to getconnect for
 local wire_getconnect = function (from_pos, self_pos)
 	local node = minetest.get_node(self_pos)
-	if minetest.registered_nodes[node.name]
-	and minetest.registered_nodes[node.name].mesecons then
+	local def = minetest.registered_nodes[node.name]
+	if def and def.mesecons then
 		-- rules of node to possibly connect to
-		local rules = {}
-		if (minetest.registered_nodes[node.name].mesecon_wire) then
+		local rules
+		if def.mesecon_wire then
 			rules = mesecon.rules.default
 		else
 			rules = mesecon.get_any_rules(node)
@@ -75,16 +68,18 @@ end
 
 local update_on_place_dig = function (pos, node)
 	-- Update placed node (get_node again as it may have been dug)
-	local nn = minetest.get_node(pos)
-	if (minetest.registered_nodes[nn.name])
-	and (minetest.registered_nodes[nn.name].mesecon_wire) then
-		wire_updateconnect(pos)
+	do
+		local nn = minetest.get_node(pos)
+		local def = minetest.registered_nodes[nn.name]
+		if def and def.mesecon_wire then
+			wire_updateconnect(pos)
+		end
 	end
 
 	-- Update nodes around it
-	local rules = {}
-	if minetest.registered_nodes[node.name]
-	and minetest.registered_nodes[node.name].mesecon_wire then
+	local rules
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef and ndef.mesecon_wire then
 		rules = mesecon.rules.default
 	else
 		rules = mesecon.get_any_rules(node)
@@ -93,8 +88,8 @@ local update_on_place_dig = function (pos, node)
 
 	for _, r in ipairs(mesecon.flattenrules(rules)) do
 		local np = vector.add(pos, r)
-		if minetest.registered_nodes[minetest.get_node(np).name]
-		and minetest.registered_nodes[minetest.get_node(np).name].mesecon_wire then
+		local rdef = minetest.registered_nodes[minetest.get_node(np).name]
+		if rdef and rdef.mesecon_wire then
 			wire_updateconnect(np)
 		end
 	end
@@ -204,14 +199,15 @@ local function register_wires()
 		}}
 
 		local groups_on = {dig_immediate = 3, mesecon_conductor_craftable = 1,
-			not_in_creative_inventory = 1}
+			not_in_creative_inventory = 1, not_in_craft_guide = 1}
 		local groups_off = {dig_immediate = 3, mesecon_conductor_craftable = 1}
 		if nodeid ~= "00000000" then
 			groups_off["not_in_creative_inventory"] = 1
+			groups_off["not_in_craft_guide"] = 1
 		end
 
 		mesecon.register_node(":mesecons:wire_"..nodeid, {
-			description = "Mesecon",
+			description = S("Mesecon"),
 			drawtype = "nodebox",
 			inventory_image = "mesecons_wire_inv.png",
 			wield_image = "mesecons_wire_inv.png",
@@ -224,7 +220,7 @@ local function register_wires()
 			walkable = false,
 			drop = "mesecons:wire_00000000_off",
 			mesecon_wire = true,
-			sounds = default.node_sound_defaults(),
+			sounds = mesecon.node_sound.default,
 			on_rotate = false,
 		}, {tiles = tiles_off, mesecons = meseconspec_off, groups = groups_off},
 		{tiles = tiles_on, mesecons = meseconspec_on, groups = groups_on})
@@ -237,23 +233,31 @@ register_wires()
 -- ##############
 -- ## Crafting ##
 -- ##############
-minetest.register_craft({
-	type = "cooking",
-	output = "mesecons:wire_00000000_off 2",
-	recipe = "default:mese_crystal_fragment",
-	cooktime = 3,
-})
+-- (Resolve aliases to avoid bug with cooking/fuel recipes.)
 
-minetest.register_craft({
-	type = "cooking",
-	output = "mesecons:wire_00000000_off 18",
-	recipe = "default:mese_crystal",
-	cooktime = 15,
-})
+if minetest.registered_aliases["mesecons_gamecompat:mese_crystal_fragment"] then
+	minetest.register_craft({
+		type = "cooking",
+		output = "mesecons:wire_00000000_off 2",
+		recipe = minetest.registered_aliases["mesecons_gamecompat:mese_crystal_fragment"],
+		cooktime = 3,
+	})
+end
 
-minetest.register_craft({
-	type = "cooking",
-	output = "mesecons:wire_00000000_off 162",
-	recipe = "default:mese",
-	cooktime = 30,
-})
+if minetest.registered_aliases["mesecons_gamecompat:mese_crystal"] then
+	minetest.register_craft({
+		type = "cooking",
+		output = "mesecons:wire_00000000_off 18",
+		recipe = minetest.registered_aliases["mesecons_gamecompat:mese_crystal"],
+		cooktime = 15,
+	})
+end
+
+if minetest.registered_aliases["mesecons_gamecompat:mese"] then
+	minetest.register_craft({
+		type = "cooking",
+		output = "mesecons:wire_00000000_off 162",
+		recipe = minetest.registered_aliases["mesecons_gamecompat:mese"],
+		cooktime = 30,
+	})
+end

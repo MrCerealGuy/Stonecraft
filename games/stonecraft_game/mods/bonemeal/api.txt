@@ -15,7 +15,7 @@ Adding Crops
 ------------
 
 bonemeal:add_crop({
-	{ nodename_start, growing_steps, seed_name }
+	{ nodename_start, growing_steps, seed_name, ignore_light }
 })
 
 This command is used to add new crops for bonemeal to work on.
@@ -25,6 +25,7 @@ e.g.
 bonemeal:add_crop({
 	{"farming:cotton_", 8, "farming:seed_cotton"},
 	{"farming:wheat_", 8, "farming:seed_wheat"},
+	{"mymod:dark_wheat_", 8, "mymod:dark_wheat_seed", true}, -- can grow in darkness
 })
 
 
@@ -32,7 +33,7 @@ Adding Saplings
 ---------------
 
 bonemeal:add_sapling({
-	{ sapling_node, function, soil_type[sand, dirt, nodename] }
+	{ sapling_node, function, soil_type["sand", "dirt", nodename, "group:"], ignore_light }
 })
 
 This command will add new saplings for bonemeal to grow on sand, soil or a
@@ -41,6 +42,7 @@ specified node type.
 bonemeal:add_sapling({
 	{"ethereal:palm_sapling", ethereal.grow_palm_tree, "soil"},
 	{"ethereal:palm_sapling", ethereal.grow_palm_tree, "sand"},
+	{"mymod:dark_tree", mymod.dark_tree, "group:soil", true}, -- can grow in darkness
 })
 
 

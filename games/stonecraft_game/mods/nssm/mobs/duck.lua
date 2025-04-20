@@ -17,13 +17,13 @@ mobs:register_mob("nssm:duck", {
 	damage = 2,
 	jump = true,
 	sounds = {
-		random = "duck",
+		random = "duck"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 1},
 		{name = "nssm:duck_legs", chance = 1, min = 1, max = 2},
 		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1},
-		{name = "nssm:duck_feather", chance = 3, min = 2, max = 4},
+		{name = "nssm:duck_feather", chance = 3, min = 2, max = 4}
 	},
 	armor = 100,
 	drawtype = "front",
@@ -31,6 +31,7 @@ mobs:register_mob("nssm:duck", {
 	fear_height = 5,
 	floats = 1,
 	lava_damage = 5,
+	fire_damage = 5,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -47,6 +48,6 @@ mobs:register_mob("nssm:duck", {
 		run_start = 20,
 		run_end = 40,
 		punch_start = 40,
-		punch_end = 60,
+		punch_end = 60
 	}
 })

@@ -1,11 +1,4 @@
---[[
-
-2018-08-18 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 local plg = {}
 plg.rules = {}
@@ -27,10 +20,10 @@ plg.register_nodes = function(template)
 
 		-- build top texture string
 		local texture = "jeija_fpga_top.png"
-		if a == 1 then texture = texture .. "^jeija_microcontroller_LED_A.png" end
-		if b == 1 then texture = texture .. "^jeija_microcontroller_LED_B.png" end
-		if c == 1 then texture = texture .. "^jeija_microcontroller_LED_C.png" end
-		if d == 1 then texture = texture .. "^jeija_microcontroller_LED_D.png" end
+		if a == 1 then texture = texture .. "^jeija_luacontroller_LED_A.png" end
+		if b == 1 then texture = texture .. "^jeija_luacontroller_LED_B.png" end
+		if c == 1 then texture = texture .. "^jeija_luacontroller_LED_C.png" end
+		if d == 1 then texture = texture .. "^jeija_luacontroller_LED_D.png" end
 		ndef.tiles[1] = texture
 		ndef.inventory_image = texture
 
@@ -68,7 +61,7 @@ plg.register_nodes = function(template)
 end
 
 plg.register_nodes({
-	description = "FPGA",
+	description = S("FPGA"),
 	drawtype = "nodebox",
 	tiles = {
 		"", -- replaced later
@@ -105,7 +98,7 @@ plg.register_nodes({
 		meta:set_int("valid", 0)
 		meta:set_string("infotext", "FPGA")
 	end,
-	on_rightclick = function(pos, node, clicker)
+	on_rightclick = function(pos, _, clicker)
 		if not minetest.is_player(clicker) then
 			return
 		end
@@ -118,13 +111,14 @@ plg.register_nodes({
 		local is = lcore.deserialize(meta:get_string("instr"))
 		minetest.show_formspec(name, "mesecons:fpga", plg.to_formspec_string(is, nil))
 	end,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = mesecon.node_sound.stone,
 	mesecons = {
 		effector = {
 			rules = {}, -- replaced later
-			action_change = function(pos, node, rule, newstate)
-				plg.ports_changed(pos, rule, newstate)
-				plg.update(pos)
+			action_change = function(pos, _, rule, newstate)
+				if plg.ports_changed(pos, rule, newstate) then
+					plg.update(pos)
+				end
 			end
 		}
 	},
@@ -138,7 +132,7 @@ plg.register_nodes({
 		end
 	end,
 	on_blast = mesecon.on_blastnode,
-	on_rotate = function(pos, node, user, mode)
+	on_rotate = function(pos, _, user, mode)
 		local abcd1 = {"A", "B", "C", "D"}
 		local abcd2 = {A = 1, B = 2, C = 3, D = 4}
 		local ops = {"op1", "op2", "dst"}
@@ -335,8 +329,10 @@ plg.update = function(pos)
 	plg.setports(pos, A, B, C, D)
 end
 
+-- Updates the port states according to the signal change.
+-- Returns whether the port states actually changed.
 plg.ports_changed = function(pos, rule, newstate)
-	if rule == nil then return end
+	if rule == nil then return false end
 	local meta = minetest.get_meta(pos)
 	local states
 
@@ -356,10 +352,14 @@ plg.ports_changed = function(pos, rule, newstate)
 	local portno = ({4, 1, nil, 3, 2})[3 + rule.x + 2*rule.z]
 	states[portno] = (newstate == "on")
 
-	meta:set_string("portstates",
+	local new_portstates =
 			(states[1] and "1" or "0") .. (states[2] and "1" or "0") ..
 			(states[3] and "1" or "0") .. (states[4] and "1" or "0")
-	)
+	if new_portstates ~= s then
+		meta:set_string("portstates", new_portstates)
+		return true
+	end
+	return false
 end
 
 plg.getports = function(pos) -- gets merged states of INPUT & OUTPUT

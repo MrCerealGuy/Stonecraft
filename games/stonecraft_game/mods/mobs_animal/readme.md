@@ -17,7 +17,7 @@ Wanders around eating grass/wheat and can be right-clicked with empty bucket to 
 
 ---
 ### Kitten
-Found on green grass these cute cats walk around and can be picked up and placed in inventory as pets or right-clicked with 4x live rats or raw fish (found in ethereal) and tamed.  They can sometimes leave you little gifts of a hairball.
+Found on green grass these cute cats walk around and can be picked up and placed in inventory as pets or right-clicked with 4x live rats or raw fish (found in ethereal) and tamed.  They can sometimes leave you little gifts of a hairball, remember to check just incase it contains an item.
 
 ---
 ### Rat
@@ -25,7 +25,7 @@ Typically found around stone they can be picked up and cooked for eating.
 
 ---
 ### Sheep
-Green grass and wheat munchers that can be clipped using shears to give 1-3 wool. Feed sheep 8x wheat to regrow wool, tame and breed.  Right-click a tamed sheep with dye to change it's colour.  Will drop 1-3 raw mutton when killed.
+Green grass and wheat munchers that can be clipped using shears to give 1-3 wool when tamed. Feed sheep 8x wheat to regrow wool, tame and breed.  Right-click a tamed sheep with dye to change it's colour.  Will drop 1-3 raw mutton when killed.
 
 ---
 ### Warthog

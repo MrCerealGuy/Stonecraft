@@ -1,16 +1,10 @@
+local S = minetest.get_translator(minetest.get_current_modname())
+
 return function(plg)
 
---[[
-
-2018-08-23 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
---]]
-
-if core.skip_mod("mesecons") then return end
 
 minetest.register_tool("mesecons_fpga:programmer", {
-	description = "FPGA Programmer",
+	description = S("FPGA Programmer"),
 	inventory_image = "jeija_fpga_programmer.png",
 	stack_max = 1,
 	on_place = function(itemstack, placer, pointed_thing)
@@ -29,7 +23,7 @@ minetest.register_tool("mesecons_fpga:programmer", {
 			minetest.sound_play("mesecons_fpga_fail", { pos = placer:get_pos(), gain = 0.1, max_hear_distance = 4 }, true)
 			return itemstack
 		end
-		itemstack:set_metadata(meta:get_string("instr"))
+		itemstack:get_meta():set_string("", meta:get_string("instr"))
 		minetest.chat_send_player(placer:get_player_name(), "FPGA gate configuration was successfully copied!")
 		minetest.sound_play("mesecons_fpga_copy", { pos = placer:get_pos(), gain = 0.1, max_hear_distance = 4 }, true)
 
@@ -50,7 +44,7 @@ minetest.register_tool("mesecons_fpga:programmer", {
 			return itemstack
 		end
 
-		local imeta = itemstack:get_metadata()
+		local imeta = itemstack:get_meta():get_string("")
 		if imeta == "" then
 			minetest.chat_send_player(player_name, "Use shift+right-click to copy a gate configuration first.")
 			minetest.sound_play("mesecons_fpga_fail", { pos = user:get_pos(), gain = 0.1, max_hear_distance = 4 }, true)

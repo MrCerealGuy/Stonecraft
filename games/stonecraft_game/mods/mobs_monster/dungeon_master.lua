@@ -1,6 +1,17 @@
 
-local S = mobs.intllib
+local S = minetest.get_translator("mobs_monster")
 
+-- custom dungeon master types
+
+local master_types = {
+
+	{	nodes = {"nether:rack"},
+		skins = {"mobs_dungeon_master_nether.png"},
+	},
+	{	nodes = {"nether:rack_deep"},
+		skins = {"mobs_dungeon_master_netherdeep.png"},
+	}
+}
 
 -- Dungeon Master by PilzAdam
 
@@ -15,6 +26,7 @@ mobs:register_mob("mobs_monster:dungeon_master", {
 	reach = 3,
 	shoot_interval = 2.2,
 	arrow = "mobs_monster:fireball",
+	friendly_fire = false,
 	shoot_offset = 1,
 	hp_min = 42,
 	hp_max = 75,
@@ -25,12 +37,12 @@ mobs:register_mob("mobs_monster:dungeon_master", {
 	textures = {
 		{"mobs_dungeon_master.png"},
 		{"mobs_dungeon_master2.png"},
-		{"mobs_dungeon_master3.png"},
+		{"mobs_dungeon_master3.png"}
 	},
 	makes_footstep_sound = true,
 	sounds = {
 		random = "mobs_dungeonmaster",
-		shoot_attack = "mobs_fireball",
+		shoot_attack = "mobs_fireball"
 	},
 	walk_velocity = 1,
 	run_velocity = 3,
@@ -41,46 +53,70 @@ mobs:register_mob("mobs_monster:dungeon_master", {
 		{name = "mobs:leather", chance = 2, min = 0, max = 2},
 		{name = "default:mese_crystal", chance = 3, min = 0, max = 2},
 		{name = "default:diamond", chance = 4, min = 0, max = 1},
-		{name = "default:diamondblock", chance = 30, min = 0, max = 1},
+		{name = "default:diamondblock", chance = 30, min = 0, max = 1}
 	},
 	water_damage = 1,
 	lava_damage = 1,
 	light_damage = 0,
 	fear_height = 3,
 	animation = {
-		stand_start = 0,
-		stand_end = 19,
-		walk_start = 20,
-		walk_end = 35,
-		punch_start = 36,
-		punch_end = 48,
-		shoot_start = 36,
-		shoot_end = 48,
-		speed_normal = 15,
-		speed_run = 15,
+		stand_start = 0, stand_end = 19,
+		walk_start = 20, walk_end = 35,
+		punch_start = 36, punch_end = 48,
+		shoot_start = 36, shoot_end = 48,
+		speed_normal = 15, speed_run = 15
 	},
+
+	-- check surrounding nodes and spawn a specific monster
+	on_spawn = function(self)
+
+		local pos = self.object:get_pos() ; pos.y = pos.y - 1
+		local tmp
+
+		for n = 1, #master_types do
+
+			tmp = master_types[n]
+
+			if minetest.find_node_near(pos, 1, tmp.nodes) then
+
+				self.base_texture = tmp.skins
+				self.object:set_properties({textures = tmp.skins})
+
+				if tmp.drops then self.drops = tmp.drops end
+
+				return true
+			end
+		end
+
+		return true -- run only once, false/nil runs every activation
+	end
 })
 
+-- where to spawn
 
 if not mobs.custom_spawn_monster then
-mobs:spawn({
-	name = "mobs_monster:dungeon_master",
-	nodes = {"default:stone"},
-	max_light = 5,
-	chance = 9000,
-	active_object_count = 1,
-	max_height = -70,
-})
+
+	mobs:spawn({
+		name = "mobs_monster:dungeon_master",
+		nodes = {"default:stone", "nether:rack", "nether:rack_deep"},
+		max_light = 5,
+		chance = 9000,
+		active_object_count = 1,
+		max_height = -70
+	})
 end
 
+-- spawn egg
 
-mobs:register_egg("mobs_monster:dungeon_master", S("Dungeon Master"), "fire_basic_flame.png", 1, true)
+mobs:register_egg("mobs_monster:dungeon_master", S("Dungeon Master"),
+		"fire_basic_flame.png", 1, true)
 
+-- old mobs mod compatibility
 
-mobs:alias_mob("mobs:dungeon_master", "mobs_monster:dungeon_master") -- compatibility
+mobs:alias_mob("mobs:dungeon_master", "mobs_monster:dungeon_master")
 
+-- fireball arrow
 
--- fireball (weapon)
 mobs:register_arrow("mobs_monster:fireball", {
 	visual = "sprite",
 	visual_size = {x = 1, y = 1},
@@ -113,7 +149,7 @@ mobs:register_arrow("mobs_monster:fireball", {
 				self.object:set_velocity({
 					x = dir.x * self.velocity,
 					y = dir.y * self.velocity,
-					z = dir.z * self.velocity,
+					z = dir.z * self.velocity
 				})
 			end
 		end
@@ -121,16 +157,18 @@ mobs:register_arrow("mobs_monster:fireball", {
 
 	-- direct hit, no fire... just plenty of pain
 	hit_player = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 8},
+			damage_groups = {fleshy = 8}
 		}, nil)
 	end,
 
 	hit_mob = function(self, player)
+
 		player:punch(self.object, 1.0, {
 			full_punch_interval = 1.0,
-			damage_groups = {fleshy = 8},
+			damage_groups = {fleshy = 8}
 		}, nil)
 	end,
 

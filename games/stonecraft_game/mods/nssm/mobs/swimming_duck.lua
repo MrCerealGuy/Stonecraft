@@ -19,18 +19,19 @@ mobs:register_mob("nssm:swimming_duck", {
 	jump_chance = 0,
 	jump_height = 0,
 	sounds = {
-		random = "duck",
+		random = "duck"
 	},
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 1, max = 2},
 		{name = "nssm:duck_legs", chance = 1, min = 1, max = 2},
 		{name = "nssm:duck_beak", chance = 5, min = 1, max = 1},
-		{name = "nssm:duck_feather", chance = 6, min = 1, max = 2},
+		{name = "nssm:duck_feather", chance = 6, min = 1, max = 2}
 	},
 	armor = 80,
 	drawtype = "front",
 	water_damage = 0,
 	lava_damage = 10,
+	fire_damage = 10,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -47,6 +48,6 @@ mobs:register_mob("nssm:swimming_duck", {
 		run_start = 80,
 		run_end = 120,
 		punch_start = 140,
-		punch_end = 160,
+		punch_end = 160
 	}
 })

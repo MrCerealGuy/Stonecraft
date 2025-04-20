@@ -1,21 +1,14 @@
-local screwdriver_exists = minetest.global_exists("screwdriver")
+local S = minetest.get_translator(minetest.get_current_modname())
 
 local corner_selectionbox = {
 		type = "fixed",
 		fixed = { -16/32, -16/32, -16/32, 5/32, -12/32, 5/32 },
 }
 
-local corner_get_rules = function (node)
-	local rules =
-	{{x = 1,  y = 0,  z =  0},
-	 {x = 0,  y = 0,  z = -1}}
-
-	for i = 0, node.param2 do
-		rules = mesecon.rotate_rules_left(rules)
-	end
-
-	return rules
-end
+local corner_get_rules = mesecon.horiz_rules_getter({
+	{x = 0, y = 0, z = -1},
+	{x = -1, y = 0, z = 0},
+})
 
 minetest.register_node("mesecons_extrawires:corner_on", {
 	drawtype = "mesh",
@@ -32,7 +25,7 @@ minetest.register_node("mesecons_extrawires:corner_on", {
 	selection_box = corner_selectionbox,
 	groups = {dig_immediate = 3, not_in_creative_inventory = 1},
 	drop = "mesecons_extrawires:corner_off",
-	sounds = default.node_sound_defaults(),
+	sounds = mesecon.node_sound.default,
 	mesecons = {conductor =
 	{
 		state = mesecon.state.on,
@@ -40,12 +33,12 @@ minetest.register_node("mesecons_extrawires:corner_on", {
 		offstate = "mesecons_extrawires:corner_off"
 	}},
 	on_blast = mesecon.on_blastnode,
-	on_rotate = screwdriver_exists and screwdriver.rotate_simple,
+	on_rotate = mesecon.on_rotate_horiz,
 })
 
 minetest.register_node("mesecons_extrawires:corner_off", {
 	drawtype = "mesh",
-	description = "Insulated Mesecon Corner",
+	description = S("Insulated Mesecon Corner"),
 	mesh = "mesecons_extrawires_corner.obj",
 	tiles = {
 		{ name = "jeija_insulated_wire_sides_off.png", backface_culling = true },
@@ -58,7 +51,7 @@ minetest.register_node("mesecons_extrawires:corner_off", {
 	sunlight_propagates = true,
 	selection_box = corner_selectionbox,
 	groups = {dig_immediate = 3},
-	sounds = default.node_sound_defaults(),
+	sounds = mesecon.node_sound.default,
 	mesecons = {conductor =
 	{
 		state = mesecon.state.off,
@@ -66,7 +59,7 @@ minetest.register_node("mesecons_extrawires:corner_off", {
 		onstate = "mesecons_extrawires:corner_on"
 	}},
 	on_blast = mesecon.on_blastnode,
-	on_rotate = screwdriver_exists and screwdriver.rotate_simple,
+	on_rotate = mesecon.on_rotate_horiz,
 })
 
 minetest.register_craft({
@@ -75,4 +68,10 @@ minetest.register_craft({
 		{"mesecons_insulated:insulated_off", "mesecons_insulated:insulated_off"},
 		{"", "mesecons_insulated:insulated_off"},
 	}
+})
+
+minetest.register_craft({
+	output = "mesecons_insulated:insulated_off",
+	type = "shapeless",
+	recipe = {"mesecons_extrawires:corner_off"}
 })

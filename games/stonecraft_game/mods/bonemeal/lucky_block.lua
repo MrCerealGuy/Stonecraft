@@ -11,19 +11,15 @@ local function growy(pos, player)
 end
 
 
-if minetest.get_modpath("lucky_block") and not core.skip_mod("lucky_block") then
-
-	lucky_block:add_blocks({
-		{"lig"},
-		{"dro", {"bonemeal:mulch"}, 10},
-		{"dro", {"bonemeal:bonemeal"}, 10},
-		{"dro", {"bonemeal:fertiliser"}, 10},
-		{"cus", growy},
-		{"nod", "default:chest", 0, {
-			{name = "bonemeal:mulch", max = 20},
-			{name = "bonemeal:bonemeal", max = 15},
-			{name = "bonemeal:fertiliser", max = 10},
-		}},
-	})
-
-end
+lucky_block:add_blocks({
+	{"lig"},
+	{"dro", {"bonemeal:mulch"}, 10},
+	{"dro", {"bonemeal:bonemeal"}, 10},
+	{"dro", {"bonemeal:fertiliser"}, 10},
+	{"cus", growy},
+	{"nod", "default:chest", 0, {
+		{name = "bonemeal:mulch", max = 20},
+		{name = "bonemeal:bonemeal", max = 15},
+		{name = "bonemeal:fertiliser", max = 10}
+	}}
+})

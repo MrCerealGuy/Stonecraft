@@ -15,13 +15,13 @@ mobs:register_mob("nssm:morwa", {
 	walk_velocity = 0.5,
 	run_velocity = 4,
 	sounds = {
-		random = "morwa",
+		random = "morwa"
 	},
 	damage = 8,
 	jump = true,
 	drops = {
 		{name = "nssm:life_energy", chance = 1, min = 3, max = 4},
-		{name = "nssm:wrathful_soul_fragment", chance = 3, min = 1, max = 1},
+		{name = "nssm:wrathful_soul_fragment", chance = 3, min = 1, max = 1}
 	},
 	armor = 50,
 	drawtype = "front",
@@ -29,6 +29,7 @@ mobs:register_mob("nssm:morwa", {
 	reach = 4,
 	rotate = 270,
 	lava_damage = 0,
+	fire_damage = 0,
 	light_damage = 0,
 	group_attack = true,
 	attack_animals = true,
@@ -52,18 +53,18 @@ mobs:register_mob("nssm:morwa", {
 		punch_start = 130,
 		punch_end = 160,
 		shoot_start =176,
-		shoot_end=226,
+		shoot_end=226
 	},
 
 	do_custom = function (self)
 
 		local pos = self.object:get_pos()
-		local light = minetest.get_node_light(pos)
+		local light = minetest.get_node_light(pos) or 0
 
 		--minetest.chat_send_all("Luce: "..light)
 		if light < 8 then
 			self.object:remove()
 			minetest.set_node(pos, {name = "nssm:morwa_statue"})
 		end
-	end,
+	end
 })

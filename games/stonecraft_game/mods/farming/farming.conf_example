@@ -6,41 +6,46 @@
 --]]
 
 -- true to enable crop/food in-game and on mapgen set spawn rarety
-farming.carrot = 0.001
-farming.potato = 0.001
-farming.tomato = 0.001
-farming.cucumber = 0.001
-farming.corn = 0.001
-farming.coffee = 0.001
-farming.melon = 0.001
-farming.pumpkin = 0.001
+farming.asparagus = 0.002
+farming.eggplant = 0.002
+farming.spinach = 0.002
+farming.carrot = 0.002
+farming.potato = 0.002
+farming.tomato = 0.002
+farming.cucumber = 0.002
+farming.corn = 0.002
+farming.coffee = 0.002
+farming.melon = 0.009
+farming.pumpkin = 0.009
 farming.cocoa = true -- true or false only
-farming.raspberry = 0.001
-farming.blueberry = 0.001
-farming.rhubarb = 0.001
-farming.beans = 0.001
-farming.grapes = 0.001
+farming.raspberry = 0.002
+farming.blueberry = 0.002
+farming.rhubarb = 0.002
+farming.beans = 0.002
+farming.grapes = 0.002
 farming.barley = true -- true or false only
 farming.chili = 0.003
 farming.hemp = 0.003
-farming.garlic = 0.001
-farming.onion = 0.001
+farming.garlic = 0.002
+farming.onion = 0.002
 farming.pepper = 0.002
-farming.pineapple = 0.001
-farming.peas = 0.001
-farming.beetroot = 0.001
+farming.pineapple = 0.003
+farming.peas = 0.002
+farming.beetroot = 0.002
 farming.mint = 0.005
-farming.cabbage = 0.001
+farming.cabbage = 0.002
 farming.blackberry = 0.002
-farming.lettuce = 0.001
-farming.soy = 0.001
-farming.vanilla = 0.001
-farming.artichoke = 0.001
+farming.lettuce = 0.002
+farming.soy = 0.002
+farming.vanilla = 0.002
+farming.artichoke = 0.002
 farming.parsley = 0.002
+farming.sunflower = 0.002
+farming.ginger = 0.002
+farming.cotton = 0.003
+farming.strawberry = 0.002
 farming.grains = true -- true or false only
-
--- default rarety of crops on map (higher number = more crops)
-farming.rarety = 0.002
+farming.rice = true
 
 -- default minimum and maximum light levels crops need to grow
 farming.min_light = 12

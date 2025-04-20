@@ -1,3 +1,7 @@
+
+All my models (K Pavel) and change code on valid license The MIT License
+
+
 The MIT License (MIT)
 
 Copyright (c) 2014 Krupnov Pavel and 2016 TenPlus1
@@ -20,10 +24,79 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-Chicken sounds from freesounds.org under CC0
+Honey block, cheese and Cheese block by TenPlus1 under CC0
+
+Chicken/Cow/Panda/Pig/Sheep sounds from freesounds.org under CC0
 
 Mutton, Pork and Rabbit meat textures by Piezo_ under CC0
 
-Cow textures by sirrobzeroone under CC0
-
 mobs_panda_viking.png by Zlo under CC0
+
+Models/Textures/Media by Krupnov Pavel (WTFPL)
+  mobs_rat.b3d
+  mobs_rat.png
+  mobs_sheep.b3d (converted to .b3d by sirrobzerrone)
+  mobs_stone_monster.b3d
+  mobs_stone_monster.png
+  mobs_dirt_monster.png
+  mobs_sand_monster.png
+  mobs_tree_monster.b3d
+  mobs_tree_monster.png
+  mobs_oerkki.b3d
+  mobs_oerkki.png
+  mobs_dungeon_master.b3d
+  mobs_dungeon_master.png
+  mobs_fireball.ogg
+
+Models/Textures by Krupno Pavel (MIT)
+  mobs_bee.b3d (converted to .b3d by sirrobzerrone)
+  mobs_pumba.b3d (converted to .b3d by sirrobzerrone)
+  mobs_pumba.png
+
+Models/Textures by ExeterDad (CC0)
+  mobs_bunny.b3d
+  mobs_bunny_grey.png
+  mobs_bunny_brown.png
+  mobs_bunny_white.png
+
+Models/Textures by JK Murray (CC0)
+  mobs_chicken.b3d (converted to .b3d by sirrobzerrone)
+  mobs_chicken.png
+  mobs_chicken_brown.png
+  mobs_chicken_black.png
+  mobs_chick.png
+
+Models/Textures by sirrobzerrone (CC0)
+  mobs_bee.png
+  mobs_cow.b3d
+  mobs_cow.png
+  mobs_cow2.png
+
+Models/Textures by Jordach/BFD (WTFPL)
+  mobs_kitten.b3d
+  mobs_kitten_striped.png
+  mobs_kitten_splotchy.png
+  mobs_kitten_ginger.png
+  mobs_kitten_sandy.png
+
+Sounds by lolamadeus (CC0) http://freesound.org/people/lolamadeus/sounds/196251/
+  mobs_kitten.ogg
+
+Models/Textures by AspireMint (CC BY-SA 3.0)
+  mobs_panda.b3d
+  mobs_panda.png
+
+Models/Textures by D00Med (CC BY-SA 3.0)
+  mobs_penguin.b3d
+  mobs_penguin.png
+
+Textures by LithiumSound's Summer Field Texture Pack (CC BY-SA 4.0 NC ShareAlike International)
+  mobs_sheep_base.png
+  mobs_sheep_horns.png
+  mobs_sheep_shaved.png
+  mobs_sheep_wool.png [all edited by sirrobzeroone]
+
+Sounds by Cyberpangolin (WTFPL) https://forum.minetest.net/viewtopic.php?t=10798
+  mobs_bee.ogg
+  mobs_spider.ogg
+  mobs_rat.ogg

@@ -1,14 +1,4 @@
---[[
-
-2017-01-06 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	exit if mod is deactivated
-
-2017-09-21 modified by MrCerealGuy <mrcerealguy@gmx.de>
-	replaced nodeupdate(pos) (deprecated) with minetest.check_for_falling(pos)
-
---]]
-
-if core.skip_mod("mesecons") then return end
+local S = minetest.get_translator(minetest.get_current_modname())
 
 -- HYDRO_TURBINE
 -- Water turbine:
@@ -24,17 +14,18 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_off", {
 		"jeija_hydro_turbine_turbine_top_bottom_off.png",
 		"jeija_hydro_turbine_turbine_misc_off.png"
 	},
+	use_texture_alpha = minetest.features.use_texture_alpha_string_modes and "opaque" or nil,
 	inventory_image = "jeija_hydro_turbine_inv.png",
 	is_ground_content = false,
 	wield_scale = {x=0.75, y=0.75, z=0.75},
 	groups = {dig_immediate=2},
-	description="Water Turbine",
+	description = S("Water Turbine"),
 	paramtype = "light",
 	selection_box = {
 		type = "fixed",
 		fixed = { -0.5, -0.5, -0.5, 0.5, 1.5, 0.5 },
 	},
-	sounds = default.node_sound_metal_defaults(),
+	sounds = mesecon.node_sound.metal,
 	mesecons = {receptor = {
 		state = mesecon.state.off
 	}},
@@ -54,16 +45,17 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_on", {
 		{ name = "jeija_hydro_turbine_turbine_misc_on.png",
 		    animation = {type = "vertical_frames", aspect_w = 256, aspect_h = 32, length = 0.4} }
 	},
+	use_texture_alpha = minetest.features.use_texture_alpha_string_modes and "clip" or nil,
 	inventory_image = "jeija_hydro_turbine_inv.png",
 	drop = "mesecons_hydroturbine:hydro_turbine_off 1",
 	groups = {dig_immediate=2,not_in_creative_inventory=1},
-	description="Water Turbine",
+	description = S("Water Turbine"),
 	paramtype = "light",
 	selection_box = {
 		type = "fixed",
 		fixed = { -0.5, -0.5, -0.5, 0.5, 1.5, 0.5 },
 	},
-	sounds = default.node_sound_metal_defaults(),
+	sounds = mesecon.node_sound.metal,
 	mesecons = {receptor = {
 		state = mesecon.state.on
 	}},
@@ -74,15 +66,15 @@ minetest.register_node("mesecons_hydroturbine:hydro_turbine_on", {
 local function is_flowing_water(pos)
 	local name = minetest.get_node(pos).name
 	local is_water = minetest.get_item_group(name, "water") > 0
-	local is_flowing = minetest.registered_items[name].liquidtype == "flowing"
-	return (is_water and is_flowing)
+	local def = minetest.registered_items[name]
+	return is_water and (def and def.liquidtype == "flowing")
 end
 
 minetest.register_abm({
 nodenames = {"mesecons_hydroturbine:hydro_turbine_off"},
 	interval = 1,
 	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
+	action = function(pos)
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if is_flowing_water(waterpos) then
 			minetest.set_node(pos, {name="mesecons_hydroturbine:hydro_turbine_on"})
@@ -95,7 +87,7 @@ minetest.register_abm({
 nodenames = {"mesecons_hydroturbine:hydro_turbine_on"},
 	interval = 1,
 	chance = 1,
-	action = function(pos, node, active_object_count, active_object_count_wider)
+	action = function(pos)
 		local waterpos={x=pos.x, y=pos.y+1, z=pos.z}
 		if not is_flowing_water(waterpos) then
 			minetest.set_node(pos, {name="mesecons_hydroturbine:hydro_turbine_off"})
@@ -107,9 +99,8 @@ nodenames = {"mesecons_hydroturbine:hydro_turbine_on"},
 minetest.register_craft({
 	output = "mesecons_hydroturbine:hydro_turbine_off 2",
 	recipe = {
-	{"","default:stick", ""},
-	{"default:stick", "default:steel_ingot", "default:stick"},
-	{"","default:stick", ""},
+	{"","group:stick", ""},
+	{"group:stick", "mesecons_gamecompat:steel_ingot", "group:stick"},
+	{"","group:stick", ""},
 	}
 })
-

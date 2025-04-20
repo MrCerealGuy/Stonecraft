@@ -1,6 +1,5 @@
 
-local S = mobs.intllib
-
+local S = minetest.get_translator("mobs_monster")
 
 -- Oerkki by PilzAdam
 
@@ -20,35 +19,28 @@ mobs:register_mob("mobs_monster:oerkki", {
 	textures = {
 		{"mobs_oerkki.png"},
 		{"mobs_oerkki2.png"},
-		{"mobs_oerkki3.png"},
+		{"mobs_oerkki3.png"}
 	},
 	makes_footstep_sound = false,
-	sounds = {
-		random = "mobs_oerkki",
-	},
+	sounds = {random = "mobs_oerkki"},
 	walk_velocity = 1,
 	run_velocity = 3,
 	view_range = 10,
 	jump = true,
 	drops = {
 		{name = "default:obsidian", chance = 3, min = 0, max = 2},
-		{name = "default:gold_lump", chance = 2, min = 0, max = 2},
+		{name = "default:gold_lump", chance = 2, min = 0, max = 2}
 	},
 	water_damage = 2,
 	lava_damage = 4,
 	light_damage = 1,
 	fear_height = 4,
 	animation = {
-		stand_start = 0,
-		stand_end = 23,
-		walk_start = 24,
-		walk_end = 36,
-		run_start = 37,
-		run_end = 49,
-		punch_start = 37,
-		punch_end = 49,
-		speed_normal = 15,
-		speed_run = 15,
+		stand_start = 0, stand_end = 23,
+		walk_start = 24, walk_end = 36,
+		run_start = 37, run_end = 49,
+		punch_start = 37, punch_end = 49,
+		speed_normal = 15, speed_run = 15
 	},
 	replace_rate = 5,
 	replace_what = {"default:torch"},
@@ -56,23 +48,27 @@ mobs:register_mob("mobs_monster:oerkki", {
 	replace_offset = -1,
 	immune_to = {
 		{"default:sword_wood", 0}, -- no damage
-		{"default:gold_lump", -10}, -- heals by 10 points
+		{"default:gold_lump", -10} -- heals by 10 points
 	},
 })
 
+-- where to spawn
 
 if not mobs.custom_spawn_monster then
-mobs:spawn({
-	name = "mobs_monster:oerkki",
-	nodes = {"default:stone"},
-	max_light = 7,
-	chance = 7000,
-	max_height = -10,
-})
+
+	mobs:spawn({
+		name = "mobs_monster:oerkki",
+		nodes = {"default:stone"},
+		max_light = 7,
+		chance = 7000,
+		max_height = -10
+	})
 end
 
+-- spawn egg
 
 mobs:register_egg("mobs_monster:oerkki", S("Oerkki"), "default_obsidian.png", 1)
 
+-- compatibility with older mobs mod
 
-mobs:alias_mob("mobs:oerkki", "mobs_monster:oerkki") -- compatiblity
+mobs:alias_mob("mobs:oerkki", "mobs_monster:oerkki")

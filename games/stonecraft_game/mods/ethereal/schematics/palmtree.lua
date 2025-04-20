@@ -4,6 +4,7 @@ local L = {name = "ethereal:palmleaves", param = 255}
 local l = {name = "ethereal:palmleaves", param = 191}
 local T = {name = "ethereal:palm_trunk", param = 255}
 local t = {name = "ethereal:palm_trunk", param = 191}
+local M = {name = "ethereal:palm_trunk", param = 255, force_place = true}
 local C = {name = "ethereal:coconut", param = 127}
 
 ethereal.palmtree = {
@@ -11,7 +12,7 @@ ethereal.palmtree = {
 	size = {x = 9, y = 9, z = 9},
 
 	yslice_prob = {
-		{ypos = 3, prob = 127},
+		{ypos = 3, prob = 127}
 	},
 
 	data = {
@@ -56,9 +57,9 @@ ethereal.palmtree = {
 	_,_,_,_,_,L,_,_,_,
 	_,_,_,_,_,_,_,_,_,
 
-	_,_,_,_,T,_,_,_,_,
-	_,_,_,_,T,_,_,_,_,
-	_,_,_,_,T,_,_,_,_,
+	_,_,_,_,M,_,_,_,_,
+	_,_,_,_,M,_,_,_,_,
+	_,_,_,_,M,_,_,_,_,
 	_,_,_,_,T,t,_,_,_,
 	_,_,_,_,_,T,_,_,_,
 	_,_,l,_,_,T,_,_,l,
