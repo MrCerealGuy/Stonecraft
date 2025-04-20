@@ -1073,7 +1073,8 @@ if(BUILD_CLIENT AND NOT ANDROID)
 		BUNDLE DESTINATION .
 	)
 	if(UNIX)
-		CreateLegacyAlias(stonecraft_alias "${EXECUTABLE_OUTPUT_PATH}/stonecraft" ${PROJECT_NAME})
+# MERGEINFO: MrCerealGuy
+#		CreateLegacyAlias(stonecraft_alias "${EXECUTABLE_OUTPUT_PATH}/stonecraft" ${PROJECT_NAME})
 	endif()
 
 	if(APPLE)
@@ -1099,7 +1100,8 @@ endif()
 if(BUILD_SERVER)
 	install(TARGETS ${PROJECT_NAME}server DESTINATION ${BINDIR})
 	if(UNIX)
-		CreateLegacyAlias(stonecraftserver_alias "${EXECUTABLE_OUTPUT_PATH}/stonecraftserver" ${PROJECT_NAME}server)
+# MERGEINFO: MrCerealGuy
+#		CreateLegacyAlias(stonecraftserver_alias "${EXECUTABLE_OUTPUT_PATH}/stonecraftserver" ${PROJECT_NAME}server)
 	endif()
 endif()
 

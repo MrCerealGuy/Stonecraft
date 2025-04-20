@@ -1,4 +1,4 @@
-stonecraftdir="$( cd .. && pwd)"
+stonecraftdir="$(cd .. && pwd)"
 
 dialog --backtitle "Stonecraft Build" --title "Stonecraft Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
 antwort=${?}
@@ -22,5 +22,5 @@ fi
 echo -e "\E[34;47mdone!"
 
 cd ../
-cmake . -DBUILD_CLIENT=1 -DENABLE_GETTEXT=1 -DENABLE_FREETYPE=1 -DENABLE_LEVELDB=0 -DENABLE_REDIS=0 -DRUN_IN_PLACE=1
-make package -j$(grep -c processor /proc/cpuinfo)
+cmake . -DRUN_IN_PLACE=TRUE -DBUILD_CLIENT=TRUE
+make -j$(nproc)
