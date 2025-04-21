@@ -17,7 +17,7 @@ minetest.register_node("noairblocks:water_flowingx", {
 			animation={type="vertical_frames", aspect_w=16, aspect_h=16, length=0.8}
 		},
 	},
-	alpha = 0,
+	use_texture_alpha = "blend",
 	paramtype = "light",
 	paramtype2 = "flowingliquid",
 	walkable = false,
@@ -50,7 +50,7 @@ minetest.register_node("noairblocks:water_sourcex", {
 			backface_culling = false,
 		}
 	},
-	alpha = 0,
+	use_texture_alpha = "blend",
 	paramtype = "light",
 	walkable = false,
 	pointable = false,
@@ -228,3 +228,5 @@ local pos1 = {x=pos.x+1,y=pos.y+1,z=pos.z+1}
 	end
 end,
 })
+
+minetest.log("action", "[sea - noairblocks] loaded.")

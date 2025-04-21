@@ -60,56 +60,74 @@ minetest.register_node("seacobble:seacobble_redviolet", {
 
 -- STAIRS
 
+local colors = {"", "cyan", "magenta", "lime", "aqua", "skyblue", "redviolet"}
 
-stairs.register_stair_and_slab("seacobble", "seacobble:seacobble",
+if minetest.get_modpath("moreblocks") then
+	for i, color in ipairs(colors) do
+		local c = "_"..color
+		if i == 1 then c = "" end
+		local nodename = "seacobble:seacobble"..c
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
+		ndef.place_param2 = nil
+
+		stairsplus:register_all(
+			"seacobble",
+			"seacobble"..c,
+			nodename,
+			ndef
+		)
+	end
+else
+	stairs.register_stair_and_slab("seacobble", "seacobble:seacobble",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble.png"},
 		"Seacobble stair",
 		"Seacobble slab",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_cyan", "seacobble:seacobble_cyan",
+	stairs.register_stair_and_slab("seacobble_cyan", "seacobble:seacobble_cyan",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_cyan.png"},
 		"Seacobble stair cyan",
 		"Seacobble slab cyan",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_magenta", "seacobble:seacobble_magenta",
+	stairs.register_stair_and_slab("seacobble_magenta", "seacobble:seacobble_magenta",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_magenta.png"},
 		"Seacobble stair magenta",
 		"Seacobble slab magenta",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_lime", "seacobble:seacobble_lime",
+	stairs.register_stair_and_slab("seacobble_lime", "seacobble:seacobble_lime",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_lime.png"},
 		"Seacobble stair lime",
 		"Seacobble slab lime",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_aqua", "seacobble:seacobble_aqua",
+	stairs.register_stair_and_slab("seacobble_aqua", "seacobble:seacobble_aqua",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_aqua.png"},
 		"Seacobble stair aqua",
 		"Seacobble slab aqua",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_skyblue", "seacobble:seacobble_skyblue",
+	stairs.register_stair_and_slab("seacobble_skyblue", "seacobble:seacobble_skyblue",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_skyblue.png"},
 		"Seacobble stair skyblue ",
 		"Seacobble slab skyblue",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seacobble_redviolet", "seacobble:seacobble_redviolet",
+	stairs.register_stair_and_slab("seacobble_redviolet", "seacobble:seacobble_redviolet",
 		{cracky=3, stone=2},
 		{"seacobble_seacobble_redviolet.png"},
 		"Seacobble stair redviolet",
 		"Seacobble slab redviolet",
 		default.node_sound_stone_defaults())
-
+end
 
 -- CRAFTING
 
@@ -137,3 +155,5 @@ register_seacobble_craft("seacobble:seacobble_lime", {'clams:crushedwhite', 'def
 register_seacobble_craft("seacobble:seacobble_aqua", {'clams:crushedwhite', 'default:cobble','dye:aqua'})
 register_seacobble_craft("seacobble:seacobble_skyblue", {'clams:crushedwhite', 'default:cobble','dye:skyblue'})
 register_seacobble_craft("seacobble:seacobble_redviolet", {'clams:crushedwhite', 'default:cobble','dye:redviolet'})
+
+minetest.log("action", "[sea - seacobble] loaded.")

@@ -51,7 +51,7 @@ and unhidden on a per-player basis.
 Note this does not yet display the HUD bar.
 
 The HUD bars will be displayed in a “first come, first serve” order. This API does not allow fow a custom order or a way to set it
-manually in a reliable way. However, you can use the setting `hudbars_sorting` for this. See the advanced setting menu in Minetest
+manually in a reliable way. However, you can use the setting `hudbars_sorting` for this. See the advanced setting menu in Luanti
 for more information.
 
 
@@ -68,7 +68,7 @@ for more information.
 * `default_start_hidden`: The HUD bar will be initially start hidden by default when added to a player. Use `hb.unhide_hudbar` to unhide it.
 * `format_string`: Optional; You can specify an alternative format string to use for the final text on the HUD bar. The default format string is “`@1: @2/@3`” (The “@” numbers are placeholders that have a meaning in this order: @1 = Label, @2 = current value, @3 = maximum value). Do *not* use minetest.translator on this string, the string will be translated by `hudbars`, but you still must put this string into the translation catalogue file.
 * `format_string_config`: Required if `format_string` is set. This allows to change which parameters to use in the format string. It's a table with these fields:
- * `textdomain`: Text domain of the format string, used by `minetest.translate`
+* `textdomain`: Text domain of the format string, used by `minetest.translate` if missing or set to `nil` will use `minetest.get_translator`
  * `order`: Table that contains the order of the placeholders. It's also possible to remove placeholders. Default order: `{ "label", "value", "max_value" }`
  * `format_value`: Format string to apply when displaying `value`. Syntax is same as in `string.format`. Default: `"%d"`
  * `format_max_value`: Same as `format_value` but is applied to `max_value`
@@ -130,7 +130,7 @@ for players.
 `nil`; if one of them is `nil`, that means the value is unchanged. If all those values are `nil`, this
 function is a no-op.
 
-This function tries to minimize the amount of calls to `hud_change` of the Minetest Lua API
+This function tries to minimize the amount of calls to `hud_change` of the Luanti Lua API
 (and thus, network traffic), when you only change the value and/or  maximum value. In this case,
 `hud_change` is only called if it is actually needed, e.g. when the actual length of the bar
 or the displayed string changed, so you do not have to worry about it. There is, however, no
@@ -187,7 +187,7 @@ Makes a previously hidden HUD bar visible again to a player.
 It is also possible to read information about existing HUD bars.
 
 ### `hb.get_hudbar_state(player, identifier)`
-Returns the current state of the active player's HUD bar.
+Returns the current state of the active player's HUD bar. Will return `nil` if the hudbar is not initialized.
 
 #### Parameters
 * `player`: `ObjectRef` of the player to which the HUD bar belongs to

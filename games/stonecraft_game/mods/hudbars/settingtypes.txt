@@ -1,12 +1,12 @@
 [Appearance]
 # Specifies how the value indicators (i.e. health, breah, etc.) look. There are 3 styles
 # available. You can choose between the default progress-bar-like bars and the good
-# old statbars like you know from vanilla Minetest.
+# old statbars like you know from vanilla Luanti.
 # These values are possible:
 #   - progress_bar:    A horizontal progress-bar-like bar with a label, showing numerical value
 #                      (current, maximum), and an icon. These bars usually convey the most
 #                      information. This is the default and recommended value.
-#   - statbar_classic: Classic statbar, like in vanilla Minetest. Made out of up to 20
+#   - statbar_classic: Classic statbar, like in vanilla Luanti. Made out of up to 20
 #                      half-symbols. Those bars represent the vague ratio between
 #                      the current value and the maximum value. 1 half-symbol stands for
 #                      approximately 5% of the maximum value.
@@ -56,6 +56,9 @@ hudbars_alignment_pattern (HUD bars alignment pattern) enum zigzag zigzag,stack_
 # This makes the breath bar first and the health bar second, which is the opposite order
 # of the default one.
 hudbars_sorting (HUD bars order) string
+
+# If enabled, hide the labels over the bars
+hudbars_hide_labels (Hide bar labels) bool false
 
 [Positions and offsets]
 # Horizontal (x) main position of the HUD bars over the entire screen.

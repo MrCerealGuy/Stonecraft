@@ -67,56 +67,74 @@ minetest.register_node("seastone:seastone_redviolet", {
 
 -- STAIRS
 
+local colors = {"", "cyan", "magenta", "lime", "aqua", "skyblue", "redviolet"}
 
-stairs.register_stair_and_slab("seastone", "seastone:seastone",
+if minetest.get_modpath("moreblocks") then
+	for i, color in ipairs(colors) do
+		local c = "_"..color
+		if i == 1 then c = "" end
+		local nodename = "seastone:seastone"..c
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
+		ndef.place_param2 = nil
+
+		stairsplus:register_all(
+			"seastone",
+			"seastone"..c,
+			nodename,
+			ndef
+		)
+	end
+else
+	stairs.register_stair_and_slab("seastone", "seastone:seastone",
 		{cracky=3, stone=1},
 		{"seastone_seastone.png"},
 		"Seastone stair",
 		"Seastone slab",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_cyan", "seastone:seastone_cyan",
+	stairs.register_stair_and_slab("seastone_cyan", "seastone:seastone_cyan",
 		{cracky=3, stone=1},
 		{"seastone_seastone_cyan.png"},
 		"Seastone stair cyan",
 		"Seastone slab cyan",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_magenta", "seastone:seastone_magenta",
+	stairs.register_stair_and_slab("seastone_magenta", "seastone:seastone_magenta",
 		{cracky=3, stone=1},
 		{"seastone_seastone_magenta.png"},
 		"Seastone stair magenta",
 		"Seastone slab magenta",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_lime", "seastone:seastone_lime",
+	stairs.register_stair_and_slab("seastone_lime", "seastone:seastone_lime",
 		{cracky=3, stone=1},
 		{"seastone_seastone_lime.png"},
 		"Seastone stair lime",
 		"Seastone slab lime",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_aqua", "seastone:seastone_aqua",
+	stairs.register_stair_and_slab("seastone_aqua", "seastone:seastone_aqua",
 		{cracky=3, stone=1},
 		{"seastone_seastone_aqua.png"},
 		"Seastone stair aqua",
 		"Seastone slab aqua",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_skyblue", "seastone:seastone_skyblue",
+	stairs.register_stair_and_slab("seastone_skyblue", "seastone:seastone_skyblue",
 		{cracky=3, stone=1},
 		{"seastone_seastone_skyblue.png"},
 		"Seastone stair skyblue ",
 		"Seastone slab skyblue",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastone_redviolet", "seastone:seastone_redviolet",
+	stairs.register_stair_and_slab("seastone_redviolet", "seastone:seastone_redviolet",
 		{cracky=3, stone=1},
 		{"seastone_seastone_redviolet.png"},
 		"Seastone stair redviolet",
 		"Seastone slab redviolet",
 		default.node_sound_stone_defaults())
-
+end
 
 -- CRAFTING
 
@@ -163,3 +181,5 @@ register_smoothblock_cooking("seastone:seastone_lime", "seacobble:seacobble_lime
 register_smoothblock_cooking("seastone:seastone_aqua", "seacobble:seacobble_aqua")
 register_smoothblock_cooking("seastone:seastone_skyblue", "seacobble:seacobble_skyblue")
 register_smoothblock_cooking("seastone:seastone_redviolet", "seacobble:seacobble_redviolet")
+
+minetest.log("action", "[sea - seastone] loaded.")

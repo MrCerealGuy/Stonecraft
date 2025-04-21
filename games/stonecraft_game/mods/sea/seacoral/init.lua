@@ -1,639 +1,196 @@
+local function add_group(name, group, value)
+	local node = minetest.registered_nodes[name]
+
+	if node then
+		local groups = node.groups
+		if not groups then
+			groups = {}
+		end
+		groups[group] = value
+
+		minetest.log("action", "[seacoral] Add group "..group.."="..value.." to "..name)
+		minetest.override_item(name, {groups = groups})
+	end
+end
+
+if minetest.get_modpath("nalc_lib") then
+	add_group = nalc.add_group
+end
+
 -- NODES
 
+-- Add magenta, aqua, skyblue seacorals
+for color, cname in pairs({magenta = "Magenta", aqua = "Aqua", skyblue = "Skyblue"}) do
+	minetest.register_node(
+		"seacoral:coral_"..color, {
+			description = cname.." Coral",
+			drawtype = "plantlike_rooted",
+			waving = 1,
+			paramtype = "light",
+			tiles = {"default_coral_skeleton.png"},
+			special_tiles = {{name = "seacoral_coral"..color..".png", tileable_vertical = true}},
+			inventory_image = "seacoral_coral"..color..".png",
+			groups = {snappy = 3, seacoral = 1},
+			selection_box = {
+				type = "fixed",
+				fixed = {
+					{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+					{-4/16, 0.5, -4/16, 4/16, 1.5, 4/16},
+				},
+			},
+			node_dig_prediction = "default:coral_skeleton",
+			node_placement_prediction = "",
+			sounds = default.node_sound_stone_defaults(
+				{
+					dig = {name = "default_dig_snappy", gain = 0.2},
+					dug = {name = "default_grass_footstep", gain = 0.25},
+				}),
 
-minetest.register_node("seacoral:coralcyan", {
-	description = "Cyan Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_coralcyan.png"},
-	inventory_image = "seacoral_coralcyan.png",
-	wield_image = "seacoral_coralcyan.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.3, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,basecolor_cyan=1},
-	sounds = default.node_sound_dirt_defaults(),
+			on_place = function(itemstack, placer, pointed_thing)
+				if pointed_thing.type ~= "node" or not placer then
+					return itemstack
+				end
+
+				local player_name = placer:get_player_name()
+				local pos_under = pointed_thing.under
+				local pos_above = pointed_thing.above
+
+				if minetest.get_node(pos_under).name ~= "default:coral_skeleton" or
+				minetest.get_node(pos_above).name ~= "default:water_source" then
+					return itemstack
+				end
+
+				if minetest.is_protected(pos_under, player_name) or
+				minetest.is_protected(pos_above, player_name) then
+					minetest.chat_send_player(player_name, "Node is protected")
+					minetest.record_protection_violation(pos_under, player_name)
+					return itemstack
+				end
+
+				minetest.set_node(pos_under, {name = "seacoral:coral"..color})
+				if not (creative and creative.is_enabled_for(player_name)) then
+					itemstack:take_item()
+				end
+
+				return itemstack
+			end,
+
+			after_destruct = function(pos, oldnode)
+				minetest.set_node(pos, {name = "default:coral_skeleton"})
+			end,
 })
 
-minetest.register_node("seacoral:coralmagenta", {
-	description = "Magenta Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_coralmagenta.png"},
-	inventory_image = "seacoral_coralmagenta.png",
-	wield_image = "seacoral_coralmagenta.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,basecolor_magenta=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
+	-- Replace Old seacorals with new defined ones
+	minetest.register_alias("seacoral:coral"..color, "default:water_source")
+	minetest.register_alias("seacoral:seacoralsand"..color, "seacoral:coral_"..color)
+	minetest.register_alias("seacoral:seacoraldirt"..color, "seacoral:coral_"..color)
+end
 
-minetest.register_node("seacoral:coralaqua", {
-	description = "Aqua Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_coralaqua.png"},
-	inventory_image = "seacoral_coralaqua.png",
-	wield_image = "seacoral_coralaqua.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.3, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,excolor_aqua=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
+-- Replace cyan, redviolet, lime seacorals with default Minetest's ones
+minetest.register_alias("seacoral:coralcyan", "default:water_source")
+minetest.register_alias("seacoral:seacoralsandcyan", "default:coral_cyan")
+minetest.register_alias("seacoral:seacoraldirtcyan", "default:coral_cyan")
+add_group("default:coral_cyan", "seacoral", 1)
 
-minetest.register_node("seacoral:corallime", {
-	description = "Lime Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_corallime.png"},
-	inventory_image = "seacoral_corallime.png",
-	wield_image = "seacoral_corallime.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,excolor_lime=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
+minetest.register_alias("seacoral:coralredviolet", "default:water_source")
+minetest.register_alias("seacoral:seacoralsandredviolet", "default:coral_pink")
+minetest.register_alias("seacoral:seacoraldirtredviolet", "default:coral_pink")
+add_group("default:coral_pink", "seacoral", 1)
 
-minetest.register_node("seacoral:coralskyblue", {
-	description = "Skyblue Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_coralskyblue.png"},
-	inventory_image = "seacoral_coralskyblue.png",
-	wield_image = "seacoral_coralskyblue.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,excolor_skyblue=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:coralredviolet", {
-	description = "Redviolet Coral",
-	drawtype = "plantlike",
-	tiles = {"seacoral_coralredviolet.png"},
-	inventory_image = "seacoral_coralredviolet.png",
-	wield_image = "seacoral_coralredviolet.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seacoral=1, sea=1,excolor_redviolet=1},
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandcyan", {
-	description = "Sea coral sand cyan",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtcyan", {
-	description = "Sea coral dirt cyan",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandmagenta", {
-	description = "Sea coral sand magenta",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtmagenta", {
-	description = "Sea coral dirt magenta",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandaqua", {
-	description = "Sea coral sand aqua",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtaqua", {
-	description = "Sea coral dirt aqua",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandlime", {
-	description = "Sea coral sand lime",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtlime", {
-	description = "Sea coral dirt lime",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandskyblue", {
-	description = "Sea coral sand skyblue",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtskyblue", {
-	description = "Sea coral dirt skyblue",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
-minetest.register_node("seacoral:seacoralsandredviolet", {
-	description = "Sea coral sand redviolet",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
-
-minetest.register_node("seacoral:seacoraldirtredviolet", {
-	description = "Sea coral dirt redviolet",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
-
+minetest.register_alias("seacoral:corallime", "default:water_source")
+minetest.register_alias("seacoral:seacoralsandlime", "default:coral_green")
+minetest.register_alias("seacoral:seacoraldirtlime", "default:coral_green")
+add_group("default:coral_green", "seacoral", 1)
 
 -- CRAFTING
 
-
-if( minetest.get_modpath( "colormachine") == nil ) then
-	register_seacoral_craft = function(output,recipe)
-    	minetest.register_craft({
-        type = 'shapeless',
-        output = output,
-        recipe = recipe,
-	})
+if not minetest.get_modpath( "colormachine") then
+	local register_seacoral_craft = function(output,recipe)
+		minetest.register_craft(
+			{
+				type = 'shapeless',
+				output = output,
+				recipe = recipe,
+			})
 	end
 
-register_seacoral_craft('dye:cyan 4', {'seacoral:coralcyan'})
-register_seacoral_craft('dye:magenta 4', {'seacoral:coralmagenta'})
-register_seacoral_craft('dye:lime 4', {'seacoral:corallime'})
-register_seacoral_craft('dye:aqua 4', {'seacoral:coralaqua'})
-register_seacoral_craft('dye:skyblue 4', {'seacoral:coralskyblue'})
-register_seacoral_craft('dye:redviolet 4', {'seacoral:coralredviolet'})
+	register_seacoral_craft('dye:cyan 4', {'default:coral_cyan'})
+	register_seacoral_craft('dye:magenta 4', {'seacoral:coral_magenta'})
+	register_seacoral_craft('dye:pink 4', {'default:coral_pink'})
+
+	if minetest.get_modpath("unifieddyes") then
+		register_seacoral_craft('dye:lime 4', {'default:coral_green'})
+		register_seacoral_craft('dye:spring 4', {'seacoral:coral_aqua'})
+		register_seacoral_craft('dye:azure 4', {'seacoral:coral_skyblue'})
+	end
 end
 
 -- SEACORAL SAND AND DIRT GENERATION
 
+-- Coral reef
 
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandcyan",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtcyan",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandmagenta",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtmagenta",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandaqua",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtaqua",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandlime",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtlime",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandskyblue",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtskyblue",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoralsandredviolet",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seacoral:seacoraldirtredviolet",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -4,
-	y_min     = -8,
-})
-
-local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, chunk_size, ore_per_chunk, y_min, y_max)
-	if maxp.y < y_min or minp.y > y_max then
-		return
-	end
-	local y_min = math.max(minp.y, y_min)
-	local y_max = math.min(maxp.y, y_max)
-	if chunk_size >= y_max - y_min + 1 then
-		return
-	end
-	local volume = (maxp.x-minp.x+1)*(y_max-y_min+1)*(maxp.z-minp.z+1)
-	local pr = PseudoRandom(seed)
-	local num_chunks = math.floor(chunks_per_volume * volume)
-	local inverse_chance = math.floor(chunk_size*chunk_size*chunk_size / ore_per_chunk)
-	for i=1,num_chunks do
-		local y0 = pr:next(y_min, y_max-chunk_size+1)
-		if y0 >= y_min and y0 <= y_max then
-			local x0 = pr:next(minp.x, maxp.x-chunk_size+1)
-			local z0 = pr:next(minp.z, maxp.z-chunk_size+1)
-			local p0 = {x=x0, y=y0, z=z0}
-			for x1=0,chunk_size-1 do
-			for y1=0,chunk_size-1 do
-			for z1=0,chunk_size-1 do
-				if pr:next(1,inverse_chance) == 1 then
-					local x2 = x0+x1
-					local y2 = y0+y1
-					local z2 = z0+z1
-					local p2 = {x=x2, y=y2, z=z2}
-					if minetest.get_node(p2).name == wherein then
-						minetest.set_node(p2, {name=name})
-					end
-				end
-			end
-			end
-			end
-		end
-	end
-end
-
+minetest.register_decoration(
+	{
+		name = "seacoral:corals",
+		deco_type = "simple",
+		place_on = {"default:sand"},
+		place_offset_y = -1,
+		sidelen = 4,
+		noise_params = {
+			offset = -4,
+			scale = 4,
+			spread = {x = 50, y = 50, z = 50},
+			seed = 7014,
+			octaves = 3,
+			persist = 0.7,
+		},
+		biomes = {
+			"desert_ocean",
+			"savanna_ocean",
+			"rainforest_ocean",
+		},
+		y_max = -2,
+		y_min = -8,
+		flags = "force_placement",
+		decoration = {
+			"seacoral:coral_magenta", "default:coral_orange",
+			"seacoral:coral_aqua", "default:coral_brown",
+			"seacoral:coral_skyblue", "default:coral_skeleton",
+			"default:coral_green", "default:coral_pink",
+			"default:coral_cyan"
+		},
+	})
 
 -- ABM'S
 
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtcyan"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralcyan"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandcyan"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralcyan"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtmagenta"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralmagenta"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandmagenta"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralmagenta"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtaqua"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralaqua"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandaqua"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralaqua"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtlime"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:corallime"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandlime"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:corallime"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtskyblue"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralskyblue"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandskyblue"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralskyblue"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoraldirtredviolet"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralredviolet"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seacoral:seacoralsandredviolet"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seacoral:coralredviolet"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"group:seacoral"},
-interval = 3,
-chance = 1,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
-	if ((minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") and
-	(minetest.get_node(yyp).name == "default:water_source" or
-	minetest.get_node(yyp).name == "noairblocks:water_sourcex")) then
-		local objs = minetest.get_objects_inside_radius(pos, 2)
-		for k, obj in pairs(objs) do
-			obj:set_hp(obj:get_hp()+ 1)
+minetest.register_abm(
+	{
+		nodenames = {"group:seacoral"},
+		interval = 3,
+		chance = 1,
+		action = function(pos, node, active_object_count, active_object_count_wider)
+			local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
+			local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
+			if ((minetest.get_node(yp).name == "default:water_source" or
+					  minetest.get_node(yp).name == "noairblocks:water_sourcex") and
+					 (minetest.get_node(yyp).name == "default:water_source" or
+					  minetest.get_node(yyp).name == "noairblocks:water_sourcex")) then
+				local objs = minetest.get_objects_inside_radius(pos, 2)
+				for k, obj in pairs(objs) do
+					obj:set_hp(obj:get_hp()+ 1)
+				end
+			else
+				return
+			end
 		end
-	else
-	return
-	end
-end
-})
+	})
 
 
 -- OPTIONAL DEPENDENCY
 
 
-if( minetest.get_modpath( "colormachine") ~= nil ) then
-	colormachine.basic_dye_sources  = { "flowers:rose", "flowers:tulip", "flowers:dandelion_yellow", "seacoral:corallime", "default:cactus", "seacoral:coralaqua", "seacoral:coralcyan", "seacoral:coralskyblue", "flowers:geranium", "flowers:viola", "seacoral:coralmagenta", "seacoral:coralredviolet", "default:stone", "", "", "", "default:coal_lump" };
+if minetest.get_modpath( "colormachine") then
+	colormachine.basic_dye_sources  = { "flowers:rose", "flowers:tulip", "flowers:dandelion_yellow", "default:coral_green", "default:cactus", "seacoral:coral_aqua", "default::coral_cyan", "seacoral:coral_skyblue", "flowers:geranium", "flowers:viola", "seacoral:coral_magenta", "default:coral_pink", "default:stone", "", "", "", "default:coal_lump" };
 	else
 	return
 end
@@ -645,6 +202,8 @@ end
 minetest.register_alias("seadye:cyan","dye:cyan")
 minetest.register_alias("seadye:magenta","dye:magenta")
 minetest.register_alias("seadye:lime","dye:lime")
-minetest.register_alias("seadye:aqua","dye:aqua")
-minetest.register_alias("seadye:skyblue","dye:skyblue")
-minetest.register_alias("seadye:redviolet","dye:redviolet")
+minetest.register_alias("seadye:aqua","dye:spring")
+minetest.register_alias("seadye:skyblue","dye:azure")
+minetest.register_alias("seadye:redviolet","dye:pink")
+
+minetest.log("action", "[sea - seacoral] loaded.")

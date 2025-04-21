@@ -1,202 +1,155 @@
 -- NODES
 
-minetest.register_node("seaplants:kelpgreen", {
-	description = "Green Kelp",
-	drawtype = "plantlike",
-	tiles = {"seaplants_kelpgreen.png"},
-	inventory_image = "seaplants_kelpgreen.png",
-	wield_image = "seaplants_kelpgreen.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	sounds = default.node_sound_leaves_defaults(),
-	on_use = minetest.item_eat(1)
-})
+for color, cname in pairs({green = "Green", brown = "Brown"}) do
+	minetest.register_node(
+		"seaplants:sand_with_kelp_"..color, {
+			description = cname.." Kelp",
+			drawtype = "plantlike_rooted",
+			waving = 1,
+			tiles = {"default_sand.png"},
+			special_tiles = {{name = "seaplants_kelp"..color.."middle.png", tileable_vertical = true}},
+			inventory_image = "seaplants_kelp"..color..".png",
+			paramtype = "light",
+			paramtype2 = "leveled",
+			groups = {snappy = 3},
+			selection_box = {
+				type = "fixed",
+				fixed = {
+					{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+					{-2/16, 0.5, -2/16, 2/16, 3.5, 2/16},
+				},
+			},
+			node_dig_prediction = "default:sand",
+			node_placement_prediction = "",
+			sounds = default.node_sound_sand_defaults(
+				{
+					dig = {name = "default_dig_snappy", gain = 0.2},
+					dug = {name = "default_grass_footstep", gain = 0.25},
+				}),
+			
+			on_use = minetest.item_eat(1),
+			
+			on_place = function(itemstack, placer, pointed_thing)
+				-- Call on_rightclick if the pointed node defines it
+				if pointed_thing.type == "node" and placer and
+				not placer:get_player_control().sneak then
+					local node_ptu = minetest.get_node(pointed_thing.under)
+					local def_ptu = minetest.registered_nodes[node_ptu.name]
+					if def_ptu and def_ptu.on_rightclick then
+						return def_ptu.on_rightclick(pointed_thing.under, node_ptu, placer,
+															  itemstack, pointed_thing)
+					end
+				end
 
-minetest.register_node("seaplants:kelpgreenmiddle", {
-	description = "Green Kelp middle",
-	drawtype = "plantlike",
-	tiles = {"seaplants_kelpgreenmiddle.png"},
-	inventory_image = "seaplants_kelpgreenmiddle.png",
-	wield_image = "seaplants_kelpgreenmiddle.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	drop = "seaplants:kelpgreen",
-	sounds = default.node_sound_leaves_defaults(),
-})
+				local pos = pointed_thing.under
+				if minetest.get_node(pos).name ~= "default:sand" then
+					return itemstack
+				end
 
-minetest.register_node("seaplants:kelpbrown", {
-	description = "Brown Kelp ",
-	drawtype = "plantlike",
-	tiles = {"seaplants_kelpbrown.png"},
-	inventory_image = "seaplants_kelpbrown.png",
-	wield_image = "seaplants_kelpbrown.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	sounds = default.node_sound_leaves_defaults(),
-	on_use = minetest.item_eat(1)
-})
+				local height = math.random(4, 6)
+				local pos_top = {x = pos.x, y = pos.y + height, z = pos.z}
+				local node_top = minetest.get_node(pos_top)
+				local def_top = minetest.registered_nodes[node_top.name]
+				local player_name = placer:get_player_name()
 
-minetest.register_node("seaplants:kelpbrownmiddle", {
-	description = "Brown Kelp middle",
-	drawtype = "plantlike",
-	tiles = {"seaplants_kelpbrownmiddle.png"},
-	inventory_image = "seaplants_kelpbrownmiddle.png",
-	wield_image = "seaplants_kelpbrownmiddle.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.5, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	drop = "seaplants:kelpbrown",
-	sounds = default.node_sound_leaves_defaults(),
-})
+				if def_top and def_top.liquidtype == "source" and
+				minetest.get_item_group(node_top.name, "water") > 0 then
+					if not minetest.is_protected(pos, player_name) and
+					not minetest.is_protected(pos_top, player_name) then
+						minetest.set_node(pos, {name = "seaplants:sand_with_kelp_"..color,
+														param2 = height * 16})
+						if not (creative and creative.is_enabled_for
+								  and creative.is_enabled_for(player_name)) then
+							itemstack:take_item()
+						end
+					else
+						minetest.chat_send_player(player_name, "Node is protected")
+						minetest.record_protection_violation(pos, player_name)
+					end
+				end
 
-minetest.register_node("seaplants:seagrassgreen", {
-	description = "Green Seagrass",
-	drawtype = "plantlike",
-	tiles = {"seaplants_seagrassgreen.png"},
-	inventory_image = "seaplants_seagrassgreen.png",
-	wield_image = "seaplants_seagrassgreen.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	sounds = default.node_sound_leaves_defaults(),
-	on_use = minetest.item_eat(1)
-})
+				return itemstack
+			end,
 
-minetest.register_node("seaplants:seagrassred", {
-	description = "Red Seagrass",
-	drawtype = "plantlike",
-	tiles = {"seaplants_seagrassred.png"},
-	inventory_image = "seaplants_seagrassred.png",
-	wield_image = "seaplants_seagrassred.png",
-	paramtype = "light",
-	walkable = false,
-	climbable = true,
-	drowning = 1,
-	is_ground_content = true,
-	selection_box = {
-		type = "fixed",
-		fixed = {-0.3, -0.5, -0.3, 0.3, 0.3, 0.3}
-	},
-	post_effect_color = {a=64, r=100, g=100, b=200},
-	groups = {snappy=3, seaplants=1, sea=1},
-	sounds = default.node_sound_leaves_defaults(),
-	on_use = minetest.item_eat(1)
-})
+			after_destruct  = function(pos, oldnode)
+				minetest.set_node(pos, {name = "default:sand"})
+			end
+	})
 
-minetest.register_node("seaplants:seaplantssandkelpgreen", {
-	description = "Sea plants sand kelp green",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
+	-- Replace Old Kelps by new ones
+	minetest.register_alias("seaplants:kelp"..color, "default:water_source")
+	minetest.register_alias("seaplants:kelp"..color.."middle", "default:water_source")
+	minetest.register_alias("seaplants:seaplantssandkelp"..color, "seaplants:sand_with_kelp_"..color)
+	minetest.register_alias("seaplants:seaplantsdirtkelp"..color, "seaplants:sand_with_kelp_"..color)
+end
 
-minetest.register_node("seaplants:seaplantsdirtkelpgreen", {
-	description = "Sea plants dirt kelp green",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
+for color, cname in pairs({green = "Green", red = "Red"}) do
+	minetest.register_node(
+		"seaplants:seagrass_"..color, {
+			description = cname.." Seagrass",
+			drawtype = "plantlike_rooted",
+			waving = 1,
+			paramtype = "light",
+			tiles = {"default_sand.png"},
+			special_tiles = {{name = "seaplants_seagrass"..color..".png", tileable_vertical = true}},
+			inventory_image = "seaplants_seagrass"..color..".png",
+			groups = {snappy = 3},
+			selection_box = {
+				type = "fixed",
+				fixed = {
+					{-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
+					{-4/16, 0.5, -4/16, 4/16, 1.5, 4/16},
+				},
+			},
+			node_dig_prediction = "default:sand",
+			node_placement_prediction = "",
+			sounds = default.node_sound_sand_defaults(
+				{
+					dig = {name = "default_dig_snappy", gain = 0.2},
+					dug = {name = "default_grass_footstep", gain = 0.25},
+				}),
 
-minetest.register_node("seaplants:seaplantssandkelpbrown", {
-	description = "Sea plants sand kelp brown",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
+			on_use = minetest.item_eat(1),
 
-minetest.register_node("seaplants:seaplantsdirtkelpbrown", {
-	description = "Sea plants dirt kelp brown",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
+			on_place = function(itemstack, placer, pointed_thing)
+				if pointed_thing.type ~= "node" or not placer then
+					return itemstack
+				end
 
-minetest.register_node("seaplants:seaplantssandseagrassgreen", {
-	description = "Sea plants sand seagrass green",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
+				local player_name = placer:get_player_name()
+				local pos_under = pointed_thing.under
+				local pos_above = pointed_thing.above
 
-minetest.register_node("seaplants:seaplantsdirtseagrassgreen", {
-	description = "Sea plants dirt seagrass green",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
+				if minetest.get_node(pos_under).name ~= "default:sand" or
+				minetest.get_node(pos_above).name ~= "default:water_source" then
+					return itemstack
+				end
 
-minetest.register_node("seaplants:seaplantssandseagrassred", {
-	description = "Sea plants sand seagrass red",
-	tiles = {"default_sand.png"},
-	is_ground_content = true,
-	groups = {crumbly=3, falling_node=1, sand=1, soil=1, not_in_creative_inventory=1},
-	drop = 'default:sand',
-	sounds = default.node_sound_sand_defaults(),
-})
+				if minetest.is_protected(pos_under, player_name) or
+				minetest.is_protected(pos_above, player_name) then
+					minetest.chat_send_player(player_name, "Node is protected")
+					minetest.record_protection_violation(pos_under, player_name)
+					return itemstack
+				end
 
-minetest.register_node("seaplants:seaplantsdirtseagrassred", {
-	description = "Sea plants dirt seagrass red",
-	tiles = {"default_dirt.png"},
-	is_ground_content = true,
-	groups = {crumbly=3,soil=1, not_in_creative_inventory=1},
-	drop = 'default:dirt',
-	sounds = default.node_sound_dirt_defaults(),
-})
+				minetest.set_node(pos_under, {name = "seaplants:seagrass_"..color})
+				if not (creative and creative.is_enabled_for(player_name)) then
+					itemstack:take_item()
+				end
+
+				return itemstack
+			end,
+
+			after_destruct = function(pos, oldnode)
+				minetest.set_node(pos, {name = "default:sand"})
+			end,
+	})
+
+	-- Replace Old seagrasses by new ones
+	minetest.register_alias("seaplants:seagrass"..color, "default:water_source")
+	minetest.register_alias("seaplants:seaplantssandseagrass"..color, "seaplants:seagrass_"..color)
+	minetest.register_alias("seaplants:seaplantsdirtseagrass"..color, "seaplants:seagrass_"..color)
+end
 
 
 -- CRAFT ITEMS
@@ -214,326 +167,61 @@ minetest.register_craftitem("seaplants:seasaladmix", {
 minetest.register_craft({
 	type = "shapeless",
 	output = "seaplants:seasaladmix",
-	recipe = {"seaplants:kelpgreen", "seaplants:kelpbrown", "seaplants:seagrassgreen", "seaplants:seagrassred"}
+	recipe = {"seaplants:sand_with_kelp_green", "seaplants:sand_with_kelp_brown", "seaplants:seagrass_green", "seaplants:seagrass_red"}
 })
 
 
--- SEAPLANTS SAND AND DIRT GENERATION
+-- SEAPLANTS GENERATION
 
+-- Kelp
 
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantssandkelpgreen",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantsdirtkelpgreen",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantssandkelpbrown",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantsdirtkelpbrown",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantssandseagrassgreen",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantsdirtseagrassgreen",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantssandseagrassred",
-	wherein        = "default:sand",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-minetest.register_ore({
-	ore_type       = "scatter",
-	ore            = "seaplants:seaplantsdirtseagrassred",
-	wherein        = "default:dirt",
-	clust_scarcity = 10*10*10,
-	clust_num_ores = 24,
-	clust_size     = 4,
-	y_max     = -14,
-	y_min     = -31000,
-})
-
-local function generate_ore(name, wherein, minp, maxp, seed, chunks_per_volume, chunk_size, ore_per_chunk, y_min, y_max)
-	if maxp.y < y_min or minp.y > y_max then
-		return
-	end
-	local y_min = math.max(minp.y, y_min)
-	local y_max = math.min(maxp.y, y_max)
-	if chunk_size >= y_max - y_min + 1 then
-		return
-	end
-	local volume = (maxp.x-minp.x+1)*(y_max-y_min+1)*(maxp.z-minp.z+1)
-	local pr = PseudoRandom(seed)
-	local num_chunks = math.floor(chunks_per_volume * volume)
-	local inverse_chance = math.floor(chunk_size*chunk_size*chunk_size / ore_per_chunk)
-	for i=1,num_chunks do
-		local y0 = pr:next(y_min, y_max-chunk_size+1)
-		if y0 >= y_min and y0 <= y_max then
-			local x0 = pr:next(minp.x, maxp.x-chunk_size+1)
-			local z0 = pr:next(minp.z, maxp.z-chunk_size+1)
-			local p0 = {x=x0, y=y0, z=z0}
-			for x1=0,chunk_size-1 do
-			for y1=0,chunk_size-1 do
-			for z1=0,chunk_size-1 do
-				if pr:next(1,inverse_chance) == 1 then
-					local x2 = x0+x1
-					local y2 = y0+y1
-					local z2 = z0+z1
-					local p2 = {x=x2, y=y2, z=z2}
-					if minetest.get_node(p2).name == wherein then
-						minetest.set_node(p2, {name=name})
-					end
-				end
-			end
-			end
-			end
-		end
-	end
-end
-
-
--- ABM'S
-
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantsdirtkelpgreen"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:kelpgreen"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantssandkelpgreen"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:kelpgreen"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:kelpgreen"},
-interval = 6,
-chance = 3,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
-	local yyyp = {x = pos.x, y = pos.y + 3, z = pos.z}
-	if minetest.get_node(pos).name == "seaplants:kelpgreen" and
-		(minetest.get_node(yp).name == "default:water_source" or
-		minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-			if (minetest.get_node(yyp).name == "default:water_source" or
-			minetest.get_node(yyp).name == "noairblocks:water_sourcex") then
-				if (minetest.get_node(yyyp).name == "default:water_source" or
-				minetest.get_node(yyyp).name == "noairblocks:water_sourcex") then
-					minetest.add_node(pos, {name = "seaplants:kelpgreenmiddle"}) 
-					pos.y = pos.y + 1
-					minetest.add_node(pos, {name = "seaplants:kelpgreen"}) 
-				else
-				return
-			end
-		end
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantsdirtkelpbrown"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:kelpbrown"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantssandkelpbrown"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:kelpbrown"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:kelpbrown"},
-interval = 6,
-chance = 3,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	local yyp = {x = pos.x, y = pos.y + 2, z = pos.z}
-	local yyyp = {x = pos.x, y = pos.y + 3, z = pos.z}
-	if minetest.get_node(pos).name == "seaplants:kelpbrown" and
-		(minetest.get_node(yp).name == "default:water_source" or
-		minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-			if (minetest.get_node(yyp).name == "default:water_source" or
-			minetest.get_node(yyp).name == "noairblocks:water_sourcex") then
-				if (minetest.get_node(yyyp).name == "default:water_source" or
-				minetest.get_node(yyyp).name == "noairblocks:water_sourcex") then
-					minetest.add_node(pos, {name = "seaplants:kelpbrownmiddle"}) 
-					pos.y = pos.y + 1
-					minetest.add_node(pos, {name = "seaplants:kelpbrown"}) 
-				else
-				return
-			end
-		end
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantsdirtseagrassgreen"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:seagrassgreen"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantssandseagrassgreen"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:seagrassgreen"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantsdirtseagrassred"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:seagrassred"}) else
-		return
-	end
-end
-})
-
-minetest.register_abm({
-nodenames = {"seaplants:seaplantssandseagrassred"},
-interval = 12,
-chance = 12,
-action = function(pos, node, active_object_count, active_object_count_wider)
-	local yp = {x = pos.x, y = pos.y + 1, z = pos.z}
-	if (minetest.get_node(yp).name == "default:water_source" or
-	minetest.get_node(yp).name == "noairblocks:water_sourcex") then
-		pos.y = pos.y + 1
-		minetest.add_node(pos, {name = "seaplants:seagrassred"}) else
-		return
-	end
-end
-})
+minetest.register_decoration(
+	{
+		name = "seaplants:seaplants",
+		deco_type = "simple",
+		place_on = {"default:sand"},
+		place_offset_y = -1,
+		sidelen = 16,
+		noise_params = {
+			offset = -0.04,
+			scale = 0.1,
+			spread = {x = 200, y = 200, z = 200},
+			seed = 87113,
+			octaves = 3,
+			persist = 0.7
+		},
+		biomes = {
+			"taiga_ocean",
+			"snowy_grassland_ocean",
+			"grassland_ocean",
+			"coniferous_forest_ocean",
+			"deciduous_forest_ocean",
+			"sandstone_desert_ocean",
+			"cold_desert_ocean"},
+		y_max = -5,
+		y_min = -10,
+		flags = "force_placement",
+		decoration = {
+			"default:sand_with_kelp", "seaplants:sand_with_kelp_green",
+			"seaplants:sand_with_kelp_brown", "seaplants:seagrass_green",
+			"seaplants:seagrass_red"
+		},
+		param2 = 48,
+		param2_max = 96,
+	})
 
 
 -- ALIASES
-
 
 minetest.register_alias("seaplants:stemsgreen","default:sand")
 minetest.register_alias("seaplants:stemsbrown","default:dirt")
 minetest.register_alias("seaplants:leafyblue","default:sand")
 minetest.register_alias("seaplants:leafygreen","default:dirt")
 
-minetest.register_alias("seaplants:chewstickgreen","seaplants:kelpgreen")
-minetest.register_alias("seaplants:chewstickbrown","seaplants:kelpbrown")
-minetest.register_alias("seaplants:leavysnackgreen","seaplants:seagrassgreen")
-minetest.register_alias("seaplants:leavysnackblue","seaplants:seagrassred")
+minetest.register_alias("seaplants:chewstickgreen","seaplants:sand_with_kelp_green")
+minetest.register_alias("seaplants:chewstickbrown","seaplants:sand_with_kelp_brown")
+minetest.register_alias("seaplants:leavysnackgreen","seaplants:seagrass_green")
+minetest.register_alias("seaplants:leavysnackblue","seaplants:seagrass_red")
 minetest.register_alias("seaplants:seasalad","seaplants:seasaladmix")
+
+minetest.log("action", "[sea - seaplants] loaded.")

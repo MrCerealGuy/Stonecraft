@@ -1,7 +1,13 @@
+v2.1 - 3rd Feb 2022 (Edited by TenPlus1)
+ - Switch to new functions
+ - Add configurable level in settings (nssb.morlendor_level)
+ - Replace registered_ore iterations with "stratum" feature for speed increase
+ - Fix any errors
+
 v2.0 - 22-11-16
  - added the Morlendor dimension and all its materials;
  - added the compatibility with the mapgen v7 and valleys (and also fractal and flat);
  - added the portals to go to Morlendor and come back.
- 
+
 v1.0 - 22-03-16
 First stable release

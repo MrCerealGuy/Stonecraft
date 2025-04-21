@@ -72,3 +72,5 @@ minetest.register_craft({
 		{'default:steel_ingot', 'default:bronze_ingot', 'default:glass'},
 	},
 })
+
+minetest.log("action", "[sea - sealamps] loaded.")

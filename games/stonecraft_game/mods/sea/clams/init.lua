@@ -1,3 +1,6 @@
+local sand_sounds = minetest.registered_nodes["default:sand"].sounds
+local dirt_sounds = minetest.registered_nodes["default:dirt"].sounds
+
 -- NODES
 
 minetest.register_node("clams:sandalgae", {
@@ -9,14 +12,14 @@ minetest.register_node("clams:sandalgae", {
 	drop = {
 		items = {
 			{
-				items = {'"clams:collectedalgae" 4'},
+				items = {"clams:collectedalgae 4"},
 			},
 			{
 				items = {'clams:sandalgaeused'},
 			}
 		}
 	},
-	sounds = default.node_sound_sand_defaults(),
+	sounds = sand_sounds,
 })
 
 minetest.register_node("clams:dirtalgae", {
@@ -28,32 +31,32 @@ minetest.register_node("clams:dirtalgae", {
 	drop = {
 		items = {
 			{
-				items = {'"clams:collectedalgae" 4'},
+				items = {"clams:collectedalgae 4"},
 			},
 			{
 				items = {'clams:dirtalgaeused'},
 			}
 		}
 	},
-	sounds = default.node_sound_dirt_defaults,	
+	sounds = dirt_sounds,
 })
 
 minetest.register_node("clams:sandalgaeused", {
 	description = "Used sandalgae",
 	tiles = {"default_sand.png^clams_algaeused.png"},
-	inventory_image = {"default_sand.png^clams_algaeused.png"},
+	inventory_image = "default_sand.png^clams_algaeused.png",
 	is_ground_content = true,
 	groups = {crumbly=3, falling_node=1, sand=1},
-	sounds = default.node_sound_sand_defaults(),
+	sounds = sand_sounds,
 })
 
 minetest.register_node("clams:dirtalgaeused", {
 	description = "Used dirtalgae",
 	tiles = {"default_dirt.png^clams_algaeused.png"},
-	inventory_image = {"default_dirt.png^clams_algaeused.png"},
+	inventory_image = "default_dirt.png^clams_algaeused.png",
 	is_ground_content = true,
 	groups = {crumbly=3},
-	sounds = default.node_sound_dirt_defaults(),
+	sounds = dirt_sounds,
 })
 
 
@@ -92,7 +95,7 @@ minetest.register_entity("clams:whiteshell", {
 			if self.phase >= 3 then
 				self.phase = 0
 			end
-			self.object:setsprite({x=0, y=self.phase})
+			self.object:set_sprite({x=0, y=self.phase})
 			local phasearmor = {
 				[0]={fleshy=0},
 				[1]={fleshy=30},
@@ -390,3 +393,5 @@ minetest.register_alias("shells_dye:redlightglass","clams:redlightglass")
 minetest.register_alias("shells_dye:bluelightglass","clams:bluelightglass")
 minetest.register_alias("shells_dye:whitelightglass","clams:whitelightglass")
 minetest.register_alias("shells_dye:blacklightglass","clams:blacklightglass")
+
+minetest.log("action", "[sea - clams] loaded.")

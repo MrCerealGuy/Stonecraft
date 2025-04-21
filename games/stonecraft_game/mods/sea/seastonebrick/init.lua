@@ -61,56 +61,74 @@ minetest.register_node("seastonebrick:seastonebrick_redviolet", {
 
 -- STAIRS
 
+local colors = {"", "cyan", "magenta", "lime", "aqua", "skyblue", "redviolet"}
 
-stairs.register_stair_and_slab("seastonebrick", "seastonebrick:seastonebrick",
+if minetest.get_modpath("moreblocks") then
+	for i, color in ipairs(colors) do
+		local c = "_"..color
+		if i == 1 then c = "" end
+		local nodename = "seastonebrick:seastonebrick"..c
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
+		ndef.place_param2 = nil
+
+		stairsplus:register_all(
+			"seastonebrick",
+			"seastonebrick"..c,
+			nodename,
+			ndef
+		)
+	end
+else
+	stairs.register_stair_and_slab("seastonebrick", "seastonebrick:seastonebrick",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick.png"},
 		"Seastonebrick stair",
 		"Seastonebrick slab",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_cyan", "seastonebrick:seastonebrick_cyan",
+	stairs.register_stair_and_slab("seastonebrick_cyan", "seastonebrick:seastonebrick_cyan",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_cyan.png"},
 		"Seastonebrick stair cyan",
 		"Seastonebrick slab cyan",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_magenta", "seastonebrick:seastonebrick_magenta",
+	stairs.register_stair_and_slab("seastonebrick_magenta", "seastonebrick:seastonebrick_magenta",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_magenta.png"},
 		"Seastonebrick stair magenta",
 		"Seastonebrick slab magenta",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_lime", "seastonebrick:seastonebrick_lime",
+	stairs.register_stair_and_slab("seastonebrick_lime", "seastonebrick:seastonebrick_lime",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_lime.png"},
 		"Seastonebrick stair lime",
 		"Seastonebrick slab lime",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_aqua", "seastonebrick:seastonebrick_aqua",
+	stairs.register_stair_and_slab("seastonebrick_aqua", "seastonebrick:seastonebrick_aqua",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_aqua.png"},
 		"Seastonebrick stair aqua",
 		"Seastonebrick slab aqua",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_skyblue", "seastonebrick:seastonebrick_skyblue",
+	stairs.register_stair_and_slab("seastonebrick_skyblue", "seastonebrick:seastonebrick_skyblue",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_skyblue.png"},
 		"Seastonebrick stair skyblue ",
 		"Seastonebrick slab skyblue",
 		default.node_sound_stone_defaults())
 
-stairs.register_stair_and_slab("seastonebrick_redviolet", "seastonebrick:seastonebrick_redviolet",
+	stairs.register_stair_and_slab("seastonebrick_redviolet", "seastonebrick:seastonebrick_redviolet",
 		{cracky=3, stone=1},
 		{"seastonebrick_seastonebrick_redviolet.png"},
 		"Seastonebrick stair redviolet",
 		"Seastonebrick slab redviolet",
 		default.node_sound_stone_defaults())
-
+end
 
 -- CRAFTING
 
@@ -129,3 +147,5 @@ register_blockbrick_craft("seastonebrick:seastonebrick_lime", {{'seastone:seasto
 register_blockbrick_craft("seastonebrick:seastonebrick_aqua", {{'seastone:seastone_aqua', 'seastone:seastone_aqua'}, {'seastone:seastone_aqua', 'seastone:seastone_aqua'}})
 register_blockbrick_craft("seastonebrick:seastonebrick_skyblue", {{'seastone:seastone_skyblue', 'seastone:seastone_skyblue'}, {'seastone:seastone_skyblue', 'seastone:seastone_skyblue'}})
 register_blockbrick_craft("seastonebrick:seastonebrick_redviolet", {{'seastone:seastone_redviolet', 'seastone:seastone_redviolet'}, {'seastone:seastone_redviolet', 'seastone:seastone_redviolet'}})
+
+minetest.log("action", "[sea - seastonebrick] loaded.")

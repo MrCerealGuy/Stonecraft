@@ -217,3 +217,5 @@ function stairsshine.register_stair_and_slab(subname, recipeitem, groups, images
 	stairsshine.register_stair(subname, recipeitem, groups, images, desc_stair, sounds)
 	stairsshine.register_slab(subname, recipeitem, groups, images, desc_slab, sounds)
 end
+
+minetest.log("action", "[sea - stairsshine] loaded.")

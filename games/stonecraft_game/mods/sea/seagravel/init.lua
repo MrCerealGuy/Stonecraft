@@ -81,8 +81,26 @@ minetest.register_node("seagravel:seagravel_redviolet", {
 
 -- STAIRS
 
+local colors = {"", "cyan", "magenta", "lime", "aqua", "skyblue", "redviolet"}
 
-stairs.register_stair_and_slab("seagravel", "seagravel:seagravel",
+if minetest.get_modpath("moreblocks") then
+	for i, color in ipairs(colors) do
+		local c = "_"..color
+		if i == 1 then c = "" end
+		local nodename = "seagravel:seagravel"..c
+		local ndef = table.copy(minetest.registered_nodes[nodename])
+		ndef.sunlight_propagates = true
+		ndef.place_param2 = nil
+
+		stairsplus:register_all(
+			"seagravel",
+			"seagravel"..c,
+			nodename,
+			ndef
+		)
+	end
+else
+	stairs.register_stair_and_slab("seagravel", "seagravel:seagravel",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel.png"},
 		"Seagravel stair",
@@ -92,7 +110,7 @@ stairs.register_stair_and_slab("seagravel", "seagravel:seagravel",
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_cyan", "seagravel:seagravel_cyan",
+	stairs.register_stair_and_slab("seagravel_cyan", "seagravel:seagravel_cyan",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_cyan.png"},
 		"Seagravel stair cyan",
@@ -102,7 +120,7 @@ stairs.register_stair_and_slab("seagravel_cyan", "seagravel:seagravel_cyan",
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_magenta", "seagravel:seagravel_magenta",
+	stairs.register_stair_and_slab("seagravel_magenta", "seagravel:seagravel_magenta",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_magenta.png"},
 		"Seagravel stair magenta",
@@ -112,7 +130,7 @@ stairs.register_stair_and_slab("seagravel_magenta", "seagravel:seagravel_magenta
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_lime", "seagravel:seagravel_lime",
+	stairs.register_stair_and_slab("seagravel_lime", "seagravel:seagravel_lime",
 		{cracky=3, stone=2},
 		{"seagravel_seagravel_lime.png"},
 		"Seagravel stair lime",
@@ -122,7 +140,7 @@ stairs.register_stair_and_slab("seagravel_lime", "seagravel:seagravel_lime",
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_aqua", "seagravel:seagravel_aqua",
+	stairs.register_stair_and_slab("seagravel_aqua", "seagravel:seagravel_aqua",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_aqua.png"},
 		"Seagravel stair aqua",
@@ -132,7 +150,7 @@ stairs.register_stair_and_slab("seagravel_aqua", "seagravel:seagravel_aqua",
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_skyblue", "seagravel:seagravel_skyblue",
+	stairs.register_stair_and_slab("seagravel_skyblue", "seagravel:seagravel_skyblue",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_skyblue.png"},
 		"Seagravel stair skyblue ",
@@ -142,7 +160,7 @@ stairs.register_stair_and_slab("seagravel_skyblue", "seagravel:seagravel_skyblue
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
 
-stairs.register_stair_and_slab("seagravel_redviolet", "seagravel:seagravel_redviolet",
+	stairs.register_stair_and_slab("seagravel_redviolet", "seagravel:seagravel_redviolet",
 		{crumbly=2, falling_node=1},
 		{"seagravel_seagravel_redviolet.png"},
 		"Seagravel stair redviolet",
@@ -151,7 +169,7 @@ stairs.register_stair_and_slab("seagravel_redviolet", "seagravel:seagravel_redvi
 		footstep = {name="default_gravel_footstep", gain=0.5},
 		dug = {name="default_gravel_footstep", gain=1.0},
 		}))
-
+end
 
 -- CRAFTING
 
@@ -179,3 +197,5 @@ register_seagravel_craft("seagravel:seagravel_lime", {'clams:crushedwhite', 'def
 register_seagravel_craft("seagravel:seagravel_aqua", {'clams:crushedwhite', 'default:gravel','dye:aqua'})
 register_seagravel_craft("seagravel:seagravel_skyblue", {'clams:crushedwhite', 'default:gravel','dye:skyblue'})
 register_seagravel_craft("seagravel:seagravel_redviolet", {'clams:crushedwhite', 'default:gravel','dye:redviolet'})
+
+minetest.log("action", "[sea - seagravel] loaded.")
