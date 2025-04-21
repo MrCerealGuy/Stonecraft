@@ -75,3 +75,27 @@ pipeworks_drop_on_routing_fail (Drop On Routing Fail) bool false
 
 #Delete item on clearobject.
 pipeworks_delete_item_on_clearobject (Delete Item On Clearobject) bool true
+
+#Use real visible entities in tubes within active areas.
+#When disabled, tubes are made opaque.
+pipeworks_use_real_entities (Use Real Entities) bool true
+
+#Target interval between tube entity steps.
+#A high value may cause issues with tube entity visuals.
+#A value 0.2 or above may cause issues with accelerator tubes.
+pipeworks_entity_update_interval (Entity Update Interval) float 0 0 0.8
+
+# Use the default rules from the digilines mod.
+# If enabled the following devices will connect to digiline networks in the vertical direction:
+# digiline filter injector, deployer, dispenser, node breaker, autocrafter
+# This breaks expected behavior with digiline conducting tubes.
+# If disabled, the devices will not be able to send or recieve digiline signals from the top
+# or bottom faces, regardless of the node rotation.
+enable_vertical_digilines_connectivity (Use the default rules from the digilines mod) bool false
+
+# if set to true, items passing through teleport tubes will log log where they came from and where they went.
+pipeworks_log_teleport_tubes (Log Teleport Tubes) bool false
+
+# Behavior of print() inside a lua tube. By default, this emits a message into actionstream.
+# Set it to noop if you wish to disable that behavior.
+pipeworks_lua_tube_print_behavior (Behavior of print in Lua Tube) enum log log,noop

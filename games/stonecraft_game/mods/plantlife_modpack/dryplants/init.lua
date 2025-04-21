@@ -1,33 +1,15 @@
------------------------------------------------------------------------------------------------
-local title		= "Grasses" -- former "Dry plants"
-local version	= "0.1.5"
-local mname		= "dryplants"
------------------------------------------------------------------------------------------------
--- by Mossmanikin
--- textures & ideas partly by Neuromancer
-
--- Contains code from:		default, farming
--- Looked at code from:		darkage, sickle, stairs
--- Dependencies:			default, farming, biome_lib
--- Supports:
------------------------------------------------------------------------------------------------
-abstract_dryplants = {}
-
 -- support for i18n
 local S = minetest.get_translator("dryplants")
 
+abstract_dryplants = {}
+
 dofile(minetest.get_modpath("dryplants").."/crafting.lua")
-dofile(minetest.get_modpath("dryplants").."/settings.txt")
 dofile(minetest.get_modpath("dryplants").."/reed.lua")
-if REEDMACE_GENERATES == true then
+
 dofile(minetest.get_modpath("dryplants").."/reedmace.lua")
-end
-if SMALL_JUNCUS_GENERATES == true then
 dofile(minetest.get_modpath("dryplants").."/juncus.lua")
-end
-if EXTRA_TALL_GRASS_GENERATES == true then
 dofile(minetest.get_modpath("dryplants").."/moregrass.lua")
-end
+
 --dofile(minetest.get_modpath("dryplants").."/meadowvariation.lua")
 
 -----------------------------------------------------------------------------------------------
@@ -130,12 +112,14 @@ minetest.register_node("dryplants:grass", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	tiles = {"dryplants_grass.png"},
+	use_texture_alpha = "clip",
 	drawtype = "nodebox",
 	node_box = {
 	    type = "fixed",
         fixed = {-0.5   , -0.5   , -0.5   ,   0.5   , -0.4375,  0.5   },
     },
 	groups = {snappy=3, flammable=2},
+	is_ground_content = false,
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -144,13 +128,9 @@ minetest.register_node("dryplants:grass", {
 -----------------------------------------------------------------------------------------------
 minetest.register_abm({
 	nodenames = {"dryplants:grass"},
-	interval = HAY_DRYING_TIME, --1200, -- 20 minutes: a minetest-day/night-cycle
+	interval = 3600, --1200, -- 20 minutes: a minetest-day/night-cycle
 	chance = 1,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		minetest.swap_node(pos, {name="dryplants:hay"})
 	end,
 })
@@ -165,12 +145,14 @@ minetest.register_node("dryplants:hay", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	tiles = {"dryplants_hay.png"},
+	use_texture_alpha = "clip",
 	drawtype = "nodebox",
 	node_box = {
 	    type = "fixed",
         fixed = {-0.5   , -0.5   , -0.5   ,   0.5   , -0.4375,  0.5   },
     },
 	groups = {snappy=3, flammable=2},
+	is_ground_content = false,
 	sounds = default.node_sound_leaves_defaults(),
 })
 
@@ -193,13 +175,9 @@ minetest.register_node("dryplants:grass_short", {
 -----------------------------------------------------------------------------------------------
 minetest.register_abm({
 	nodenames = {"dryplants:grass_short"},
-	interval = GRASS_REGROWING_TIME, --1200, -- 20 minutes: a minetest-day/night-cycle
-	chance = 100/GRASS_REGROWING_CHANCE,
+	interval = 1200, --1200, -- 20 minutes: a minetest-day/night-cycle
+	chance = 100/1200,
 	action = function(pos)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		-- Only become dirt with grass if no cut grass or hay lies on top
 		local above = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 		if above.name ~= "dryplants:grass" and above.name ~= "dryplants:hay" then
@@ -207,7 +185,3 @@ minetest.register_abm({
 		end
 	end,
 })
-
------------------------------------------------------------------------------------------------
-print("[Mod] "..title.." ["..version.."] ["..mname.."] Loaded...")
------------------------------------------------------------------------------------------------

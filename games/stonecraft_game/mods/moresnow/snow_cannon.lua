@@ -1,9 +1,16 @@
+
+-- this function used to be in builtin/game/falling_node.lua, but there it got made local; we need it here
+moresnow.spawn_falling_node = function(p, node)
+        local obj = core.add_entity(p, "__builtin:falling_node")
+        obj:get_luaentity():set_node(node)
+end
+
 moresnow.throw_snowball = function( pos, dir, player )
 	local snowball_GRAVITY=9
 	local snowball_VELOCITY=19
 
 	if( player ) then
-		pos = player:getpos();
+		pos = player:get_pos();
 		dir = player:get_look_dir();
 		pos.y = pos.y + 1.5;
 	elseif( not( dir )) then
@@ -18,8 +25,8 @@ moresnow.throw_snowball = function( pos, dir, player )
 	local obj = core.add_entity( pos, "__builtin:falling_node")
 	obj:get_luaentity():set_node( { name = 'default:snow'});
 
-	obj:setvelocity({x=dir.x*snowball_VELOCITY, y=dir.y*snowball_VELOCITY, z=dir.z*snowball_VELOCITY})
-	obj:setacceleration({x=dir.x*-3, y=-snowball_GRAVITY, z=dir.z*-3})
+	obj:set_velocity({x=dir.x*snowball_VELOCITY, y=dir.y*snowball_VELOCITY, z=dir.z*snowball_VELOCITY})
+	obj:set_acceleration({x=dir.x*-3, y=-snowball_GRAVITY, z=dir.z*-3})
 end
 
 
@@ -369,22 +376,8 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		moresnow.snow_cannon_fire( pos );
 	end
-})
-
-
-minetest.register_craft({
-        output = 'moresnow:snow_cannon',
-        recipe = {
-                { 'default:steel_ingot', '',                   'default:steel_ingot' },
-                { 'default:steel_ingot', 'default:mese',       'default:steel_ingot' },
-                { 'default:copper_ingot','default:steelblock', 'default:copper_ingot' },
-        }
 })
 
 

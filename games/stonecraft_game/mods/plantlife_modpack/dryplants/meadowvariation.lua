@@ -1,25 +1,12 @@
------------------------------------------------------------------------------------------------
--- Grasses - Meadow Variation 0.0.1
------------------------------------------------------------------------------------------------
--- by Mossmanikin
-
--- Contains code from:		biome_lib
--- Looked at code from:		default
------------------------------------------------------------------------------------------------
-
-abstract_dryplants.grow_grass_variation = function(pos)
-	local right_here = {x=pos.x, y=pos.y, z=pos.z}
-	minetest.swap_node(right_here, {name="dryplants:grass_short"})
-end
-
-biome_lib:register_generate_plant({
-    surface = {
+-- @reviewer: couldn't even find using biome_lib
+minetest.register_decoration({
+	decoration = {"dryplants:grass_short"},
+	fill_ratio = 0.8,
+	y_min = 1,
+	y_max = 40,
+	place_on = {
 		"default:dirt_with_grass",
 	},
-    max_count = 4800,
-    rarity = 25,
-    min_elevation = 1, -- above sea level
-	plantlife_limit = -0.9,
-  },
-  abstract_dryplants.grow_grass_variation
-)
+	deco_type = "simple",
+	flags = "all_floors"
+})

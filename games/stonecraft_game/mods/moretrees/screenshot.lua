@@ -145,7 +145,8 @@ minetest.register_chatcommand("make-scene", {
 The following is a search/replace command suitable for vi (/vim) or sed, to convert minetest log
 messages to equivalent lua commands:
 
-s/.*\(\(moretrees\|default\)[^ ]*\) at (\([-0-9]\+\),\([-0-9]\+\),\([-0-9]\+\)).*/\t\tminetest.place_node({x=\3, y=\4, z=\5}, {name="\1"})/
+s/.*\(\(moretrees\|default\)[^ ]*\) at
+	(\([-0-9]\+\),\([-0-9]\+\),\([-0-9]\+\)).*/\t\tminetest.place_node({x=\3, y=\4, z=\5}, {name="\1"})/
 
 E.g. a minetest log line of the following kind:
 		2016-07-03 11:30:50: ACTION[Server]: singleplayer places node moretrees:rubber_tree_sapling at  (760,5,-223)

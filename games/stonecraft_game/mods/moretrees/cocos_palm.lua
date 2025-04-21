@@ -32,7 +32,7 @@ ftrunk.after_destruct = function(pos, oldnode)
 		-- minetest.dig_node(coconutpos) does not cause nearby coconuts to be dropped :-( ...
 		--minetest.dig_node(coconutpos)
 		local items = minetest.get_node_drops(minetest.get_node(coconutpos).name)
-		minetest.swap_node(coconutpos, biome_lib.air)
+		minetest.swap_node(coconutpos, {name = "air"})
 		for _, itemname in pairs(items) do
 			minetest.add_item(coconutpos, itemname)
 		end
@@ -50,10 +50,6 @@ local coconut_regrow_abm_spec = {
 	interval = moretrees.coconut_flower_interval,
 	chance = moretrees.coconut_flower_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-		   return
-		end
-
 		local coconuts = minetest.find_nodes_in_area(
 			{x=pos.x-1, y=pos.y, z=pos.z-1},
 			{x=pos.x+1, y=pos.y, z=pos.z+1},
@@ -84,13 +80,12 @@ end
 --  ABM converts the trunk to a regular fruit trunk, and spawns some coconuts)
 minetest.register_abm({
 	nodenames = { "moretrees:palm_fruit_trunk_gen" },
-	interval = 1,
+	interval = 6,
 	chance = 1,
+	min_y = -16,
+	max_y = 48,
+	label = "converts palm trunk to a regular fruit trunk, and spawns some coconuts",
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-		   return
-		end
-
 		minetest.swap_node(pos, {name="moretrees:palm_fruit_trunk"})
 		local poslist = minetest.find_nodes_in_area(
 			{x=pos.x-1, y=pos.y, z=pos.z-1},
@@ -135,7 +130,7 @@ local coconut_growfn = function(pos, elapsed)
 					minetest.add_item(pos, itemname)
 				end
 			end
-			minetest.swap_node(pos, biome_lib.air)
+			minetest.swap_node(pos, {name = "air"})
 		end
 	else
 		-- Grow coconuts to the next stage
@@ -182,10 +177,11 @@ for _,suffix in ipairs({"_0", "_1", "_2", "_3", ""}) do
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
+		is_ground_content = false,
 		groups = { fleshy=3, dig_immediate=3, flammable=2, moretrees_coconut=coco_group },
 		inventory_image = tile.."^[transformR180",
 		wield_image = tile.."^[transformR180",
-		sounds = default.node_sound_defaults(),
+		sounds = xcompat.sounds.node_sound_default(),
 		drop = drop,
 		selection_box = {
 			type = "fixed",
@@ -205,10 +201,6 @@ if moretrees.coconuts_convert_existing_palms then
 		name = "moretrees:convert_existing_cocos_palms_to_regrow_coconuts",
 		nodenames = "moretrees:coconut",
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			if not abm_allowed then
-   				return
-			end
-
 			local trunks
 			local cvtrunks
 			local leaves
@@ -324,10 +316,6 @@ if moretrees.coconuts_regrow then
 		name = "moretrees:restart_coconut_regrow_timer",
 		nodenames = "group:moretrees_coconut",
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			if not abm_allowed.yes then
-   				return
-			end
-			
 			local timer = minetest.get_node_timer(pos)
 			if not timer:is_started() then
 				coconut_starttimer(pos)

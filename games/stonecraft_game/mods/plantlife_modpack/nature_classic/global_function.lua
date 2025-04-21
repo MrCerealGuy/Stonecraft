@@ -2,7 +2,7 @@
 
 local function process_blossom_queue_item()
 	local pos  = nature.blossomqueue[1][1]
-	local node = nature.blossomqueue[1][2]
+	-- local node = nature.blossomqueue[1][2]
 	local replace = nature.blossomqueue[1][3]
 	if (nature.blossomqueue[1][3] == nature.blossom_node and not nature:is_near_water(pos)) then
 		table.remove(nature.blossomqueue, 1) -- don't grow if it's not near water, pop from queue.
@@ -32,7 +32,7 @@ end)
 function nature.enqueue_node(pos, node, replace)
 	local idx = #nature.blossomqueue
 	if idx < nature.blossomqueue_max then
-		local enqueue_prob = 0
+		local enqueue_prob
 		if idx < nature.blossomqueue_max * 0.8 then
 			enqueue_prob = 1
 		else

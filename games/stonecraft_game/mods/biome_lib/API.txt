@@ -1,34 +1,32 @@
 This document describes the Plantlife mod API.
 
-Last revision: 2015-02-16
+Last revision: 2021-04-20
 
 
 =========
 Functions
 =========
 
-There are three main functions defined by the main "biome_lib" mod:
+There are two main functions defined by this mod:
 
-spawn_on_surfaces()
-register_generate_plant()
-grow_plants()
+biome_lib.register_active_spawner()
+biome_lib.register_on_generate()
 
 There are also several internal, helper functions that can be called if so
 desired, but they are not really intended for use by other mods and may change
 at any time.  They are briefly described below these main functions, but see
 init.lua for details.
 
-Most functions in plants lib are declared locally to avoid namespace
-collisions with other mods.  They are accessible via the "biome_lib" method,
-e.g. biome_lib:spawn_on_surfaces() and so forth.
+Most functions in biome_lib are either declared locally or kept within its
+own namespace to avoid collisions/conflicts with other mods.
 
 =====
-spawn_on_surfaces(biome)
-spawn_on_surfaces(sdelay, splant, sradius, schance, ssurface, savoid)
+biome_lib.register_active_spawner(biome)
+biome_lib.register_active_spawner(sdelay, splant, sradius, schance, ssurface, savoid)
 
 This first function is an ABM-based spawner function originally created as
 part of Ironzorg's flowers mod.  It has since been largely extended and
-expanded.  There are two ways to call this function:  You can either pass it 
+expanded.  There are two ways to call this function:  You can either pass it
 several individual string and number parameters to use the legacy interface,
 or you can pass a single biome definition as a table, with all of your options
 spelled out nicely.  This is the preferred method.
@@ -112,9 +110,9 @@ biome = {
 	depth_max = num,	-- If the object spawns on top of a water source, the
 						-- water must be at most this deep.  Defaults to 1.
 	min_elevation = num, -- Surface must be at this altitude or higher to
-						-- spawn at all.  Defaults to -31000...
-	max_elevation = num, -- ...but must be no higher than this altitude.
-						-- Defaults to +31000.
+						 -- spawn at all.  Defaults to -16 meters.
+	max_elevation = num, -- Surface must be no higher than this altitude.
+						 -- Defaults to +48.
 	near_nodes = {table}, -- List of nodes that must be somewhere in the
 						-- vicinity in order for the plant to spawn. Can also
 						-- be a string with a single node name.  If not
@@ -137,7 +135,7 @@ biome = {
 						-- radius.  Defaults to 1 but is ignored if near_nodes
 						-- isn't set.  Bear in mind that the total area to be
 						-- checked is equal to:
-						-- (near_nodes_size^2)*near_nodes_vertical*2 
+						-- (near_nodes_size^2)*near_nodes_vertical*2
 						-- For example, if size is 10 and vertical is 4, then
 						-- the area is (10^2)*8 = 800 nodes in size, so you'll
 						-- want to make sure you specify a value appropriate
@@ -204,7 +202,7 @@ biome = {
 }
 
 [*] spawn_plants must be either a table or a string.  If it's a table, the
-values therein are treated as a list of nodenames to pick from randomly on 
+values therein are treated as a list of nodenames to pick from randomly on
 each application of the ABM code. The more nodes you can pack into this
 parameter to avoid making too many calls to this function, the lower the CPU
 load will likely be.
@@ -220,14 +218,14 @@ checking is disabled.  Same holds true for the nneighbors bit above that.
 
 
 =====
-biome_lib:register_generate_plant(biome, nodes_or_function_or_treedef)
+biome_lib.register_on_generate(biome, nodes_or_function_or_treedef)
 
 To register an object to be spawned at mapgen time rather than via an ABM,
 call this function with two parameters:  a table with your object's biome
 information, and a string, function, or table describing what to do if the
 engine finds a suitable surface node (see below).
 
-The biome table contains quite a number of options, though there are fewer 
+The biome table contains quite a number of options, though there are fewer
 here than are available in the ABM-based spawner, as some stuff doesn't make
 sense at map-generation time.
 
@@ -252,12 +250,21 @@ biome = {
 						-- skipped.  Avoid using excessively large radii.
 	rarity = num,		-- How rare should this object be in its biome? Larger
 						-- values make objects more rare, via:
-						-- math.random(1,100) > this
+						-- math.random() * 100 > this
+	rarity_fertility	-- The amount that the rarity is reduced by fertility.
+		= num,			-- This makes the rarity field the upper bound for
+						-- rarity, and (rarity - rarity_fertility) the lower
+						-- bound. Defaults to 0.
 	max_count = num,	-- The absolute maximum number of your object that
 						-- should be allowed to spawn in a 5x5x5 mapblock area
 						-- (80x80x80 nodes).  Defaults to 5, but be sure you
 						-- set this to some reasonable value depending on your
 						-- object and its size if 5 is insufficient.
+	tries = num,		-- the number of attempts that will be made to spawn
+						-- an object, defaults to 2. This means if the first
+						-- attempt fails due to something blocking the object
+						-- for example, another attempt will be made in
+						-- another random location.
 	seed_diff = num,	-- Perlin seed-diff value.  Defaults to 0, which
 						-- causes the function to inherit the global value of
 						-- 329.
@@ -270,8 +277,8 @@ biome = {
 	depth = num,		-- How deep/thick of a layer the spawned-on node must
 						-- be.  Typically used for water.
 	min_elevation = num, -- Minimum elevation in meters/nodes.  Defaults to
-						-- -31000 (unlimited).
-	max_elevation = num, -- Max elevation.  Defaults to +31000 (unlimited).
+						-- -16 meters.
+	max_elevation = num, -- Max elevation.  Defaults to +48m.
 	near_nodes = {table}, -- what nodes must be in the general vicinity of the
 						-- object being spawned.
 	near_nodes_size = num, -- how wide of a search area to look for the nodes
@@ -334,18 +341,17 @@ will be called in the form:
 
 	somefunction(pos)
 
-
 =====
-biome_lib:grow_plants(options)
+biome_lib.update_plant(options)
 
-The third function, grow_plants() is used to turn the spawned nodes above
-into something else over time.  This function has no return value, and accepts
-a biome definition table as the only parameter.  These are defined like so:
+This third function is used to turn the spawned nodes above into something
+else over time.  This function has no return value, and accepts a biome
+definition table as the only parameter.  These are defined like so:
 
 options = {
 	label = string,		-- set this to identify the ABM for Minetest's
-						-- profiler.  If not set, biome_lib will set it to 
-						-- "biome_lib grow_plants(): " appended with the node
+						-- profiler.  If not set, biome_lib will set it to
+						-- "biome_lib.update_plant(): " appended with the node
 						-- in grow_plant (or the first item if it's a table)
 	grow_plant = "string" or {table}, -- Name(s) of the node(s) to be grown
 						-- into something else.  This value is passed to the
@@ -409,7 +415,7 @@ If this value is set to a simple string, this is treated as the name of the
 function to use to grow the plant.  In this case, all of the usual growing
 code is executeed, but then instead of a plant being simply added to the
 world, grow_result is ignored and the named function is executed and passed a
-few parmeters in the following general form: 
+few parmeters in the following general form:
 
 	somefunction(pos, perlin1, perlin2)
 
@@ -426,7 +432,7 @@ and grow_result is ignored.
 
 
 =====
-find_adjacent_wall(pos, verticals, randomflag)
+biome_lib.find_adjacent_wall(pos, verticals, randomflag)
 
 Of the few helper functions, this one expects a position parameter and a table
 with the list of nodes that should be considered as walls.  The code will
@@ -434,11 +440,11 @@ search around the given position for a neighboring wall, returning the first
 one it finds as a facedir value, or nil if there are no adjacent walls.
 
 If randomflag is set to true, the function will just return the facedir of any
-random wall it finds adjacent to the target position.  Defaults to false if 
+random wall it finds adjacent to the target position.  Defaults to false if
 not specified.
 
 =====
-is_node_loaded(pos)
+biome_lib.is_node_loaded(pos)
 
 This acts as a wrapper for the minetest.get_node_or_nil(node_pos)
 function and accepts a single position parameter.  Returns true if the node in
@@ -446,29 +452,39 @@ question is already loaded, or false if not.
 
 
 =====
-dbg(string)
+biome_lib.dbg(string, level)
 
 This is a simple debug output function which takes one string parameter.  It
 just checks if DEBUG is true and outputs the phrase "[Plantlife] " followed by
 the supplied string, via the print() function, if so.
 
-=====
-biome_lib:generate_tree(pos, treemodel)
-biome_lib:grow_tree(pos, treemodel)
+'level' is a number that, if supplied, dictates the lowest 'biome_lib_debug'
+can be set to in minetest.conf for this message to be displayed.  Both the
+default log level and the default message level are 0, thus always showing the
+supplied message.
 
-In the case of the growing code and the mapgen-based tree generator code, 
+Although it's not set in stone, a good practice is to use a level of 0 (or
+just omit the value) for anything that generally important enough that it
+ought always be shown, 1 for errors, 2 for warnings, 3 for info, 4 for verbose
+spammy stuff.
+
+=====
+biome_lib.generate_ltree(pos, treemodel)
+biome_lib.grow_ltree(pos, treemodel)
+
+In the case of the growing code and the mapgen-based tree generator code,
 generating a tree is done via the above two calls, which in turn immediately
 call the usual spawn_tree() functions.  This rerouting exists as a way for
 other mods to hook into biome_lib's tree-growing functions in general,
 perhaps to execute something extra whenever a tree is spawned.
 
-biome_lib:generate_tree(pos, treemodel) is called any time a tree is spawned
+biome_lib.generate_ltree(pos, treemodel) is called any time a tree is spawned
 at map generation time.  'pos' is the position of the block on which the tree
 is to be placed.  'treemodel' is the standard L-Systems tree definition table
 expected by the spawn_tree() function.  Refer to the 'trunk' field in that
 table to derive the name of the tree being spawned.
 
-biome_lib:grow_tree(pos, treemodel) does the same sort of thing whenever a 
+biome_lib.grow_ltree(pos, treemodel) does the same sort of thing whenever a
 tree is spawned within the abm-based growing code, for example when growing a
 sapling into a tree.
 
@@ -476,22 +492,6 @@ sapling into a tree.
 =====
 There are other, internal helper functions that are not meant for use by other
 mods.  Don't rely on them, as they are subject to change without notice.
-
-
-===============
-Global Settings
-===============
-
-Set this to true if you want the mod to spam your console with debug info :-)
-
-	plantlife_debug = false
-
-To slow down the playback of the queue (e.g. for really slow machines where
-the 0.2 second max limiter isn't enough), set:
-
-	biome_lib_queue_run_ratio = <some value 1 to 100>
-
-Default is 100 (basically percent of maximum runtime)
 
 ======================
 Fertile Ground Mapping
@@ -504,7 +504,6 @@ Perlin noise used.
 The first one is for a "fertile ground" layer, which I tend to refer to as the
 generic "stuff can potentially grow here" layer.  Its values are hard-coded:
 
-	biome_lib.plantlife_seed_diff = 329
 	perlin_octaves = 3
 	perlin_persistence = 0.6
 	perlin_scale = 100
@@ -528,7 +527,7 @@ appears to be the standard now.  Those values are:
 	temperature_persistence = 0.5
 	temperature_scale = 150
 
-The way Perlin values are used by this mod, in keeping with the snow mod's 
+The way Perlin values are used by this mod, in keeping with the snow mod's
 apparent methods, larger values returned by the Perlin function represent
 *colder* temperatures.  In this mod, the following table gives a rough
 approximation of how temperature maps to these values, normalized to
@@ -552,7 +551,7 @@ Perlin		Approx. Temperature
 
 Included in this table are even 0.25 steps in Perlin values along with some
 common temperatures on both the Centigrade and Fahrenheit scales.  Note that
-unless you're trying to model the Moon or perhaps Mercury in your mods/maps, 
+unless you're trying to model the Moon or perhaps Mercury in your mods/maps,
 you probably won't need to bother with Perlin values of less than -0.56 or so.
 
 
@@ -588,3 +587,79 @@ And this particular one is mapped slightly differently from the others:
 
 (Note the +150 and +50 offsets)
 
+
+==================
+Default game nodes
+==================
+
+Although this project was intended to be used with minetest_game, it can be
+configured to work with something else instead.  All you need to do is provide
+the names of the nodes in your game you want biome_lib's internals to use.
+
+See settingtypes.txt for a list.  Any item listed there can be changed either
+by adding it to your minetest.conf, or by using the "all settings" menu in
+Minetest, whatever's appropriate for your particular setup.
+
+==================
+Engine Decorations
+==================
+
+If a call to biome_lib.register_on_generate() contains items and biome
+definition settings that are suitable, biome_lib will pass that call on to the
+engine instead, to use its built-in decorations feature, since it'll be much
+faster than Lua.
+
+For this to work, first the item to be added must either be a node, or a
+table with a list of nodes that biome_lib would normally pick from randomly.
+That is to say, you cannot specify an L-tree or a function here, as the engine
+does not support that sort of thing (biome_lib will just switch to its normal
+handling if you do).
+
+Second, these biome definition items must not be present:
+
+* below_nodes
+* avoid_nodes
+* avoid_radius
+* neighbors
+* ncount
+* depth
+* near_nodes_size
+* near_nodes_vertical
+* temp_min
+* temp_max
+* verticals_list
+* delete_above
+* delete_above_surround
+
+The plantlife_limit definition item is ignored when checking if a particular
+call can be routed to the engine.
+
+The call given to the engine will use the remaining biome definition items in
+the following manner:
+
+deco_type =		"simple",
+flags =			"all_floors"
+decoration =	node or table with node list
+place_on =		surface
+y_min =			min_elevation
+y_max =			max_elevation
+spawn_by =		near_nodes
+num_spawn_by = 	near_nodes_count
+param2 = 		\_ set to the range specified by the biome definition's
+param2_max = 	/  random_facedir table, if present, otherwise omitted
+noise_params = {
+	octaves = biome_lib.fertile_perlin_octaves,
+	persist = biome_lib.fertile_perlin_persistence * (250/biome_lib.fertile_perlin_scale),
+	scale = ((100-biome.rarity)/100) * (math.min(biome.max_count, 6400)/6400),
+	seed = biome.seed_diff,
+	offset = 0,
+	spread = {x = 100, y = 100, z = 100},
+	lacunarity = 2,
+	flags = "absvalue"
+}
+
+If the biome definition's check_air setting is false, "force_placement" is
+added to the decoration's flags setting.
+
+If the biome def's spawn_replace_node is set to true, the decoration's
+place_offset_y is set to -1 (otherwise it is omitted).

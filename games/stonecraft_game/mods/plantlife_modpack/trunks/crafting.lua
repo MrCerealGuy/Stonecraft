@@ -6,7 +6,7 @@ minetest.register_craft({ -- *leaves --> twigs
 	output = "trunks:twig_1 2",
 	recipe = {{"group:leafdecay"}}
 })
-if minetest.get_modpath("moretrees") ~= nil and not core.skip_mod("moretrees") then
+if minetest.get_modpath("moretrees") ~= nil then
 minetest.register_craft({ -- moretrees_leaves --> twigs
 	output = "trunks:twig_1 2",
 	recipe = {{"group:moretrees_leaves"}}
@@ -35,11 +35,11 @@ minetest.register_craft({
 })
 minetest.register_craft({
 	output = "trunks:twig_1 4",
-	recipe = {{"bushes:bushbranches2"}}
+	recipe = {{"bushes:bushbranches3"}}
 })
 minetest.register_craft({
 	output = "trunks:twig_1 4",
-	recipe = {{"bushes:bushbranches3"}}
+	recipe = {{"bushes:bushbranches4"}}
 })
 end
 minetest.register_craft({ -- twigs block --> twigs

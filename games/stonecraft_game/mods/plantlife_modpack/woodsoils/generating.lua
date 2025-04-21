@@ -73,7 +73,7 @@ abstract_woodsoils.place_soil = function(pos)
 	end
 end
 
-biome_lib:register_generate_plant({
+biome_lib.register_on_generate({
     surface = {
 		"group:tree",
 		"ferns:fern_03",
@@ -94,7 +94,7 @@ biome_lib:register_generate_plant({
   "abstract_woodsoils.place_soil"
 )
 
-biome_lib:register_generate_plant({
+biome_lib.register_on_generate({
     surface = {
 		"moretrees:apple_tree_sapling_ongen",
 		"moretrees:beech_sapling_ongen",
@@ -129,10 +129,6 @@ minetest.register_abm({
 	interval = 50,
 	chance = 20,
 	action = function(pos, node)
-		if not abm_allowed.yes then
-   			return
-		end
-
 		pos.y = pos.y-1
 		local name = minetest.get_node(pos).name
 		if string.find(name, "_with_leaves_") then

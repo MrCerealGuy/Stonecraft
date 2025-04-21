@@ -3,24 +3,24 @@
 moresnow.translation_table = {}
 
 moresnow.build_translation_table = function()
-	local shapes    = {'top', 'fence_top', 'stair_top', 'slab_top',
-				'panel_top', 'micro_top', 'outer_stair_top', 'inner_stair_top',
-				'ramp_top', 'ramp_outer_top', 'ramp_inner_top' };
-
 	for _,t in ipairs(moresnow.nodetypes) do 
 
 		moresnow.translation_table[ t ] = {};
 
-		for _,v in ipairs( shapes ) do
-			if( minetest.registered_nodes['moresnow:snow_'..v] and minetest.registered_nodes['moresnow:'..t..'_'..v] ) then 
-				local id1 = minetest.get_content_id( 'moresnow:snow_'..v );
-				local id2 = minetest.get_content_id( 'moresnow:'..t..'_'..v );
+		for _,v in ipairs( moresnow.shapes ) do
+			local suffix = '_top'
+			if(v == 'top') then
+				suffix = ''
+			end
+			local id1 = moresnow.get_cid( 'moresnow:snow_'..v..suffix )
+			local id2 = moresnow.get_cid( 'moresnow:'..t..'_'..v..suffix )
+			if( id1 ) then 
 				moresnow.translation_table[ t ][ id1 ] = id2;
 			end
 		end
 
-		local id1 = minetest.get_content_id( 'default:snow' );
-		local id2 = minetest.get_content_id( 'moresnow:'..t );
+		local id1 = moresnow.get_cid( 'default:snow' )
+		local id2 = moresnow.get_cid( 'moresnow:'..t )
 		if( id1 ) then
 			moresnow.translation_table[ t ][ id1 ] = id2;
 		end
@@ -62,6 +62,16 @@ moresnow.on_construct_wool = function(   pos, falling_node_name, color )
 	local res = moresnow.on_construct( pos, falling_node_name, 'moresnow:wool_'..color, 'wool_'..color );
 	if( res ) then
 		minetest.swap_node( pos, res );
+	end
+end
+
+moresnow.on_construct_wool_multicolor = function(pos, node)
+	local falling_node_name = 'moresnow:wool_multicolor'
+	local color = "multicolor"
+	local res = moresnow.on_construct( pos, falling_node_name, 'moresnow:wool_'..color, 'wool_'..color );
+	if(res) then
+		local p2 = node.param2 - (node.param2 % 4) + res.param2
+		minetest.swap_node(pos, {name=res.name, param2=p2})
 	end
 end
 
@@ -168,7 +178,7 @@ moresnow.on_construct_select_shape = function( pos, falling_node_name, default_n
 		return;
 	end
 
-	local res  = moresnow.suggest_snow_type( minetest.get_content_id( node1.name ), node1.param2 );
+	local res  = moresnow.suggest_snow_type( moresnow.get_cid( node1.name ), node1.param2 )
 
 	-- snow_top is a special node suitable for nodeboxes; BUT: it only looks acceptable if the
 	-- node below that nodebox/torch/fence/etc is a solid one
@@ -190,7 +200,7 @@ moresnow.on_construct_select_shape = function( pos, falling_node_name, default_n
 			end
 			return { remove_node = true};
 		end
-		local new_id2 = moresnow.snow_cover[ minetest.get_content_id( node2.name )];
+		local new_id2 = moresnow.snow_cover[ moresnow.get_cid( node2.name )]
 		-- if the node below this one can't handle a normal snow cover, we can't put a snow top on our node either
 		if( not( new_id2 ) or new_id2 ~= moresnow.c_snow) then
 			return { remove_node = true};

@@ -6,8 +6,6 @@
 local current_mod_name = minetest.get_current_modname()
 
 nature = {}
--- support for i18n
-local S = minetest.get_translator("nature_classic")
 
 nature.blossomqueue = {}
 nature.blossomqueue_max = 1000
@@ -19,13 +17,13 @@ nature.blossom_leaves = "default:leaves"
 nature.blossom_textures = { "default_leaves.png^nature_blossom.png" }
 nature.blossom_groups = { snappy = 3, leafdecay = 1, leaves = 1, flammable = 2 }
 
-if minetest.get_modpath("moretrees") and not core.skip_mod("moretrees") then
+if minetest.get_modpath("moretrees") then
 	nature.blossom_decay = moretrees.leafdecay_radius
 	nature.blossom_trunk = "moretrees:apple_tree_trunk"
 	nature.blossom_node = "moretrees:apple_blossoms"
 	nature.blossom_leaves = "moretrees:apple_tree_leaves"
 	nature.blossom_textures = { "moretrees_apple_tree_leaves.png^nature_blossom.png" }
-    nature.blossom_groups = { snappy = 3, leafdecay = 1, leaves = 1, flammable = 2, moretrees_leaves = 1 },
+    nature.blossom_groups = { snappy = 3, leafdecay = 1, leaves = 1, flammable = 2, moretrees_leaves = 1 }
 	minetest.register_alias("nature:blossom", "default:leaves")
 end
 
@@ -39,12 +37,6 @@ nature.apple_spread = 2
 nature.meta_blossom_time = "blossom_time"
 nature.blossom_duration = nature.blossom_delay
 
-function dumppos(pos)
-	return "("..pos.x..","..pos.y..","..pos.z..")"
-end
-
 dofile(minetest.get_modpath(current_mod_name) .. "/config.lua")
 dofile(minetest.get_modpath(current_mod_name) .. "/global_function.lua")
 dofile(minetest.get_modpath(current_mod_name) .. "/blossom.lua")
-
-minetest.log("info", S("[Nature Classic] loaded!"))

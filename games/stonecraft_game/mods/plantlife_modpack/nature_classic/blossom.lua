@@ -19,6 +19,7 @@ minetest.register_node(":"..nature.blossom_node, {
     tiles = nature.blossom_textures,
     paramtype = "light",
     groups = nature.blossom_groups,
+	is_ground_content = false,
     sounds = default.node_sound_leaves_defaults(),
 	waving = 1
 })

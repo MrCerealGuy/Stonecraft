@@ -14,38 +14,68 @@ local function set_filter_formspec(data, meta)
 
 	local formspec
 	if data.digiline then
-		formspec = "size[8,2.7]"..
-			"item_image[0,0;1,1;pipeworks:"..data.name.."]"..
-			"label[1,0;"..minetest.formspec_escape(itemname).."]"..
-			"field[0.3,1.5;8.0,1;channel;"..S("Channel")..";${channel}]"..
-			fs_helpers.cycling_button(meta, "button[0,2;4,1", "slotseq_mode",
+		local form_height = 3
+		if pipeworks.enable_item_tags then
+			form_height = 4
+		end
+		formspec =
+			("size[8.5,%f]"):format(form_height) ..
+			"item_image[0.2,0;1,1;pipeworks:"..data.name.."]"..
+			"label[1.2,0.2;"..minetest.formspec_escape(itemname).."]"..
+			"field[0.5,1.6;4.6,1;channel;"..S("Channel")..";${channel}]"..
+			"button[4.8,1.3;1.5,1;set_channel;"..S("Set").."]"..
+			fs_helpers.cycling_button(meta, ("button[0.2,%f;4.05,1"):format(form_height - 0.7), "slotseq_mode",
 				{S("Sequence slots by Priority"),
 				 S("Sequence slots Randomly"),
 				 S("Sequence slots by Rotation")})..
-			fs_helpers.cycling_button(meta, "button[4,2;4,1", "exmatch_mode",
+			fs_helpers.cycling_button(meta, ("button[4.25,%f;4.05,1"):format(form_height - 0.7), "exmatch_mode",
 				{S("Exact match - off"),
-				 S("Exact match - on")})
+				 S("Exact match - on")})..
+			("button_exit[6.3,%f;2,1;close;" .. S("Close") .. "]"):format(form_height - 1.7)
+		if pipeworks.enable_item_tags then
+			formspec = formspec ..
+				("field[0.5,%f;4.6,1;item_tags;"):format(form_height - 1.4) .. S("Item Tags") .. ";${item_tags}]" ..
+				("button[4.8,%f;1.5,1;set_item_tags;"):format(form_height - 1.7) .. S("Set") .. "]"
+		end
 	else
 		local exmatch_button = ""
 		if data.stackwise then
 			exmatch_button =
-				fs_helpers.cycling_button(meta, "button[4,3.5;4,1", "exmatch_mode",
+				fs_helpers.cycling_button(meta, "button["..(10.2-(0.22)-4)..",4.5;4,1", "exmatch_mode",
 					{S("Exact match - off"),
 					 S("Exact match - on")})
 		end
-
-		formspec = "size[8,8.5]"..
-			"item_image[0,0;1,1;pipeworks:"..data.name.."]"..
-			"label[1,0;"..minetest.formspec_escape(itemname).."]"..
-			"label[0,1;"..S("Prefer item types:").."]"..
-			"list[context;main;0,1.5;8,2;]"..
-			fs_helpers.cycling_button(meta, "button[0,3.5;4,1", "slotseq_mode",
+		local size = "10.2,11"
+		local list_backgrounds = ""
+		if minetest.get_modpath("i3") or minetest.get_modpath("mcl_formspec") then
+			list_backgrounds = "style_type[box;colors=#666]"
+			for i=0, 7 do
+				for j=0, 1 do
+					list_backgrounds = list_backgrounds .. "box[".. 0.22+(i*1.25) ..",".. 1.75+(j*1.25) ..";1,1;]"
+				end
+			end
+		end
+		formspec =
+			"formspec_version[2]"..
+			"size["..size.."]"..
+			pipeworks.fs_helpers.get_prepends(size)..
+			"item_image[0.22,0.22;1,1;pipeworks:"..data.name.."]"..
+			"label[1.22,0.72;"..minetest.formspec_escape(itemname).."]"..
+			"label[0.22,1.5;"..S("Prefer item types:").."]"..
+			list_backgrounds..
+			"list[context;main;0.22,1.75;8,2;]"..
+			fs_helpers.cycling_button(meta, "button[0.22,4.5;4,1", "slotseq_mode",
 				{S("Sequence slots by Priority"),
 				 S("Sequence slots Randomly"),
 				 S("Sequence slots by Rotation")})..
 			exmatch_button..
-			"list[current_player;main;0,4.5;8,4;]" ..
+			pipeworks.fs_helpers.get_inv(6)..
 			"listring[]"
+		if pipeworks.enable_item_tags then
+			formspec = formspec ..
+				"field[5.8,0.5;3,0.8;item_tags;" .. S("Item Tags") .. ";${item_tags}]" ..
+				"button[9,0.3;1,1.1;set_item_tags;" .. S("Set") .. "]"
+		end
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -54,16 +84,14 @@ local function punch_filter(data, filtpos, filtnode, msg)
 	local filtmeta = minetest.get_meta(filtpos)
 	local filtinv = filtmeta:get_inventory()
 	local owner = filtmeta:get_string("owner")
-	local fakePlayer = pipeworks.create_fake_player({
-		name = owner
-	})
+	local fakeplayer = fakelib.create_player(owner)
 	local dir = pipeworks.facedir_to_right_dir(filtnode.param2)
 	local frompos = vector.subtract(filtpos, dir)
 	local fromnode = minetest.get_node(frompos)
 	if not fromnode then return end
 	local fromdef = minetest.registered_nodes[fromnode.name]
-	if not fromdef then return end
-	local fromtube = fromdef.tube
+	if not fromdef or not fromdef.tube then return end
+	local fromtube = table.copy(fromdef.tube)
 	local input_special_cases = {
 		["technic:mv_electric_furnace"] = "dst",
 		["technic:mv_electric_furnace_active"] = "dst",
@@ -107,6 +135,7 @@ local function punch_filter(data, filtpos, filtnode, msg)
 	local slotseq_mode
 	local exmatch_mode
 
+	local item_tags = pipeworks.sanitize_tags(filtmeta:get_string("item_tags"))
 	local filters = {}
 	if data.digiline then
 		local function add_filter(name, group, count, wear, metadata)
@@ -168,6 +197,14 @@ local function punch_filter(data, filtpos, filtnode, msg)
 
 			if slotseq_mode ~= nil or exmatch_mode ~= nil then
 				set_filter_formspec(data, filtmeta)
+			end
+
+			if pipeworks.enable_item_tags then
+				if type(msg.tags) == "table" or type(msg.tags) == "string" then
+					item_tags = pipeworks.sanitize_tags(msg.tags)
+				elseif type(msg.tag) == "string" then
+					item_tags = pipeworks.sanitize_tags({msg.tag})
+				end
 			end
 
 			if msg.nofire then
@@ -283,7 +320,7 @@ local function punch_filter(data, filtpos, filtnode, msg)
 			if fromtube.can_remove then
 				doRemove = fromtube.can_remove(frompos, fromnode, stack, dir, frominvname, spos)
 			elseif fromdef.allow_metadata_inventory_take then
-				doRemove = fromdef.allow_metadata_inventory_take(frompos, frominvname,spos, stack, fakePlayer)
+				doRemove = fromdef.allow_metadata_inventory_take(frompos, frominvname, spos, stack, fakeplayer)
 			end
 			-- stupid lack of continue statements grumble
 			if doRemove > 0 then
@@ -317,13 +354,13 @@ local function punch_filter(data, filtpos, filtnode, msg)
 					item = stack:take_item(count)
 					frominv:set_stack(frominvname, spos, stack)
 					if fromdef.on_metadata_inventory_take then
-						fromdef.on_metadata_inventory_take(frompos, frominvname, spos, item, fakePlayer)
+						fromdef.on_metadata_inventory_take(frompos, frominvname, spos, item, fakeplayer)
 					end
 				end
 				local pos = vector.add(frompos, vector.multiply(dir, 1.4))
 				local start_pos = vector.add(frompos, dir)
 				pipeworks.tube_inject_item(pos, start_pos, dir, item,
-					fakePlayer:get_player_name())
+					fakeplayer:get_player_name(), item_tags)
 				return true -- only fire one item, please
 			end
 		end
@@ -372,9 +409,13 @@ for _, data in ipairs({
 			"pipeworks_"..data.name.."_top.png",
 		},
 		paramtype2 = "facedir",
-		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2},
+		groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 2, mesecon = 2, axey=1, handy=1, pickaxey=1},
+		is_ground_content = false,
+		_mcl_hardness=0.8,
 		legacy_facedir_simple = true,
-		sounds = default.node_sound_wood_defaults(),
+		_sound_def = {
+			key = "node_sound_wood_defaults",
+		},
 		on_construct = function(pos)
 			local meta = minetest.get_meta(pos)
 			set_filter_formspec(data, meta)
@@ -410,11 +451,6 @@ for _, data in ipairs({
 			if not pipeworks.may_configure(pos, player) then return 0 end
 			return count
 		end,
-		can_dig = function(pos, player)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return inv:is_empty("main")
-		end,
 		tube = {connect_sides = {right = 1}},
 	}
 
@@ -425,14 +461,22 @@ for _, data in ipairs({
 		end
 
 		node.on_receive_fields = function(pos, formname, fields, sender)
-			if not pipeworks.may_configure(pos, sender) then return end
+			if (fields.quit and not fields.key_enter_field)
+			or not pipeworks.may_configure(pos, sender) then
+				return
+			end
+
 			fs_helpers.on_receive_fields(pos, fields)
 
-			if fields.channel then
+			if fields.channel and (fields.key_enter_field == "channel" or fields.set_channel) then
 				minetest.get_meta(pos):set_string("channel", fields.channel)
 			end
 
 			local meta = minetest.get_meta(pos)
+			if pipeworks.enable_item_tags and fields.item_tags and (fields.key_enter_field == "item_tags" or fields.set_item_tags) then
+				local tags = pipeworks.sanitize_tags(fields.item_tags)
+				meta:set_string("item_tags", table.concat(tags, ","))
+			end
 			--meta:set_int("slotseq_index", 1)
 			set_filter_formspec(data, meta)
 			set_filter_infotext(data, meta)
@@ -454,6 +498,10 @@ for _, data in ipairs({
 			fs_helpers.on_receive_fields(pos, fields)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("slotseq_index", 1)
+			if pipeworks.enable_item_tags and fields.item_tags and (fields.key_enter_field == "item_tags" or fields.set_item_tags) then
+				local tags = pipeworks.sanitize_tags(fields.item_tags)
+				meta:set_string("item_tags", table.concat(tags, ","))
+			end
 			set_filter_formspec(data, meta)
 			set_filter_infotext(data, meta)
 		end
@@ -472,35 +520,7 @@ for _, data in ipairs({
 
 
 	minetest.register_node("pipeworks:"..data.name, node)
-end
-
-minetest.register_craft( {
-	output = "pipeworks:filter 2",
-	recipe = {
-	        { "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" },
-	        { "group:stick", "default:mese_crystal", "basic_materials:plastic_sheet" },
-	        { "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" }
-	},
-})
-
-minetest.register_craft( {
-	output = "pipeworks:mese_filter 2",
-	recipe = {
-	        { "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" },
-	        { "group:stick", "default:mese", "basic_materials:plastic_sheet" },
-	        { "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" }
-	},
-})
-
-if minetest.get_modpath("digilines") then
-	minetest.register_craft( {
-		output = "pipeworks:digiline_filter 2",
-		recipe = {
-			{ "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" },
-			{ "group:stick", "digilines:wire_std_00000000", "basic_materials:plastic_sheet" },
-			{ "default:steel_ingot", "default:steel_ingot", "basic_materials:plastic_sheet" }
-		},
-	})
+	pipeworks.ui_cat_tube_list[#pipeworks.ui_cat_tube_list+1] = "pipeworks:"..data.name
 end
 
 --[[

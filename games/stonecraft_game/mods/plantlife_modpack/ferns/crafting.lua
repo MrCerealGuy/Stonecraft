@@ -30,7 +30,7 @@ minetest.register_craft({
 -----------------------------------------------------------------------------------------------
 -- FIDDLEHEAD
 -----------------------------------------------------------------------------------------------
-minetest.register_alias("archaeplantae:fiddlehead",      "ferns:fiddlehead")
+minetest.register_alias("archaeplantae:fiddlehead", "ferns:fiddlehead")
 
 minetest.register_craftitem("ferns:fiddlehead", {
 	description = S("Fiddlehead"),
@@ -51,7 +51,7 @@ minetest.register_craftitem("ferns:fiddlehead_roasted", {
 -----------------------------------------------------------------------------------------------
 -- FERN TUBER
 -----------------------------------------------------------------------------------------------
-minetest.register_alias("archaeplantae:ferntuber",      "ferns:ferntuber")
+minetest.register_alias("archaeplantae:ferntuber", "ferns:ferntuber")
 
 minetest.register_craftitem("ferns:ferntuber", {
 	description = S("Fern Tuber"),
@@ -64,7 +64,7 @@ minetest.register_craft({
 	cooktime = 3,
 })
 
-minetest.register_alias("archaeplantae:ferntuber_roasted",      "ferns:ferntuber_roasted")
+minetest.register_alias("archaeplantae:ferntuber_roasted", "ferns:ferntuber_roasted")
 
 minetest.register_craftitem("ferns:ferntuber_roasted", {
 	description = S("Roasted Fern Tuber"),

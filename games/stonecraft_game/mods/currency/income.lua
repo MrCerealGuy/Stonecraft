@@ -41,10 +41,10 @@ if income_enabled then
 		if not player or player.is_fake_player then return end
 		local name = player:get_player_name()
 
-		local income_count = players_income[name]
-		if income_count and income_count > 0 then
+		local ic = players_income[name]
+		if ic and ic > 0 then
 			local inv = player:get_inventory()
-			inv:add_item("main", {name=income_item, count=income_count})
+			inv:add_item("main", {name=income_item, count=ic})
 			players_income[name] = nil
 			minetest.log("info", "[Currency] added basic income for "..name.." to inventory")
 		end

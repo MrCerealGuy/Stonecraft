@@ -11,6 +11,25 @@ local S = minetest.get_translator("ferns")
 
 assert(abstract_ferns.config.enable_treefern == true)
 
+function abstract_ferns.can_grow_tree_fern(pos)
+	local node_name = minetest.get_node(pos).name
+	if node_name ~= "air" and node_name ~= "ferns:sapling_tree_fern" and node_name ~= "default:junglegrass" then
+		return false
+	end
+
+	local below_name = minetest.get_node(vector.new(pos.x, pos.y - 1, pos.z)).name
+	if minetest.get_item_group(below_name, "soil") == 0 and minetest.get_item_group(below_name, "sand") == 0 then
+		return false
+	end
+
+	local light = minetest.get_node_light(pos, 0.5)
+	if light <= 8 then
+		return false
+	end
+
+	return true
+end
+
 abstract_ferns.grow_tree_fern = function(pos)
 
 	local pos_aux = {x = pos.x, y = pos.y + 1, z = pos.z}
@@ -61,6 +80,7 @@ minetest.register_node("ferns:tree_fern_leaves", {
 	inventory_image = "ferns_fern_tree_inv.png",
 	walkable = false,
 	groups = {snappy=3,flammable=2,attached_node=1},
+	is_ground_content = false,
 	drop = {
 		max_items = 2,
 		items = {
@@ -92,6 +112,7 @@ minetest.register_node("ferns:tree_fern_leaves_02", {
 	tiles = {"ferns_fern_big.png"},
 	walkable = false,
 	groups = {snappy=3,flammable=2,attached_node=1,not_in_creative_inventory=1},
+	is_ground_content = false,
 	drop = {
 		max_items = 2,
 		items = {
@@ -128,6 +149,7 @@ minetest.register_node("ferns:fern_trunk", {
 		"ferns_fern_trunk_top.png",
 		"ferns_fern_trunk.png"
 	},
+	use_texture_alpha = "clip",
 	node_box = {
 		type = "fixed",
 		fixed = {-1/8, -1/2, -1/8, 1/8, 1/2, 1/8},
@@ -137,6 +159,7 @@ minetest.register_node("ferns:fern_trunk", {
 		fixed = {-1/7, -1/2, -1/7, 1/7, 1/2, 1/7},
 	},
 	groups = {tree=1,choppy=2,oddly_breakable_by_hand=2,flammable=3,wood=1},
+	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 	after_destruct = function(pos,oldnode)
         local node = minetest.get_node({x=pos.x,y=pos.y+1,z=pos.z})
@@ -158,7 +181,7 @@ minetest.register_node("ferns:sapling_tree_fern", {
 	tiles = {"ferns_sapling_tree_fern.png"},
 	inventory_image = "ferns_sapling_tree_fern.png",
 	walkable = false,
-	groups = {snappy=3,flammable=2,flora=1,attached_node=1},
+	groups = {snappy=3,flammable=2,flora=1,attached_node=1,sapling=1},
 	sounds = default.node_sound_leaves_defaults(),
 	selection_box = {
 		type = "fixed",
@@ -171,11 +194,9 @@ minetest.register_abm({
 	interval = 1000,
 	chance = 4,
 	action = function(pos, node, _, _)
-		if not abm_allowed.yes then
-   			return
+		if abstract_ferns.can_grow_tree_fern(pos) then
+			abstract_ferns.grow_tree_fern({x = pos.x, y = pos.y-1, z = pos.z})
 		end
-
-		abstract_ferns.grow_tree_fern({x = pos.x, y = pos.y-1, z = pos.z})
     end
 })
 
@@ -185,7 +206,7 @@ minetest.register_abm({
 
 -- in jungles
 if abstract_ferns.config.enable_treeferns_in_jungle == true then
-	biome_lib:register_generate_plant({
+	biome_lib.register_on_generate({
 		surface = {
 			"default:dirt_with_grass",
 			"default:dirt_with_rainforest_litter", -- minetest >= 0.4.16
@@ -214,7 +235,7 @@ end
 
 -- for oases & tropical beaches
 if abstract_ferns.config.enable_treeferns_in_oases == true then
-	biome_lib:register_generate_plant({
+	biome_lib.register_on_generate({
 		surface = {
 			"default:sand"--,
 			--"default:desert_sand"

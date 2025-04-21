@@ -42,7 +42,7 @@ local check_for_liquids_v2 = function(pos, limit)
 	for _, tpos in ipairs(coords) do
 		if total >= limit then break end
 		local name = minetest.get_node(tpos).name
-		if name == "default:water_source" then
+		if name == pipeworks.liquids.water.source then
 			minetest.remove_node(tpos)
 			total = total + 1
 		end
@@ -247,9 +247,9 @@ flowlogic.helpers.make_neighbour_output_fixed = function(neighbours)
 			-- in non-finite mode, pressure has to be sustained to keep the sources there.
 			-- so in non-finite mode, placing water is dependent on the target node;
 			-- draining pressure is not.
-			local canplace = (name == "air") or (name == "default:water_flowing")
+			local canplace = (name == "air") or (name == pipeworks.liquids.water.flowing)
 			if canplace then
-				minetest.swap_node(npos, {name="default:water_source"})
+				minetest.swap_node(npos, {name=pipeworks.liquids.water.source})
 			end
 			if (not finitemode) or canplace then
 				taken = taken + 1
@@ -268,7 +268,7 @@ flowlogic.helpers.make_neighbour_cleanup_fixed = function(neighbours)
 		for _, offset in pairs(neighbours) do
 			local npos = vector.add(pos, offset)
 			local name = minetest.get_node(npos).name
-			if (name == "default:water_source") then
+			if (name == pipeworks.liquids.water.source) then
 				--pipeworks.logger("neighbour_cleanup_fixed removing "..formatvec(npos))
 				minetest.remove_node(npos)
 			end
@@ -353,7 +353,7 @@ end
 flowlogic.run_transition_post = function(pos, node)
 	local mesecons_def = minetest.registered_nodes[node.name].mesecons
 	local mesecons_rules = pipeworks.flowables.transitions.mesecons[node.name]
-	if minetest.global_exists("mesecon") and (mesecons_def ~= nil) and mesecons_rules then
+	if minetest.get_modpath("mesecons") and (mesecons_def ~= nil) and mesecons_rules then
 		if type(mesecons_def) ~= "table" then
 			pipeworks.logger("flowlogic.run_transition_post() BUG mesecons def for "..node.name.."not a table: got "..tostring(mesecons_def))
 		else

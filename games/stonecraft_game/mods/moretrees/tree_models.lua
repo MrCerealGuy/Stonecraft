@@ -1,5 +1,6 @@
 moretrees.beech_model={
 	axiom="FFFFFBFB",
+	-- luacheck: no max line length
 	rules_a="[&&&GGF[++^Fd][--&Fd]//Fd[+^Fd][--&Fd]]////[&&&GGF[++^Fd][--&Fd]//Fd[+^Fd][--&Fd]]////[&&&GGF[++^Fd][--&Fd]//Fd[+^Fd][--&Fdd]]",
 	rules_b="[&&&F[++^Fd][--&d]//d[+^d][--&d]]////[&&&F[++^Fd][--&d]//d[+^d][--&d]]////[&&&F[++^Fd][--&Fd]//d[+^d][--&d]]",
 	rules_c="/",
@@ -24,8 +25,8 @@ moretrees.apple_tree_model={
 	random_level=0,
 	trunk_type="single",
 	thin_branches=true,
-	fruit="default:apple",
-	fruit_chance=15,
+	fruit=minetest.get_modpath("default") and "default:apple" or nil,
+	fruit_chance=minetest.get_modpath("default") and 15 or nil,
 }
 
 moretrees.oak_model={
@@ -75,6 +76,7 @@ moretrees.poplar_small_model={
 
 moretrees.sequoia_model={
 	axiom="FFFFFFFFFFddccA///cccFddcFA///ddFcFA/cFFddFcdBddd/A/ccdcddd/ccAddddcFBcccAccFdFcFBcccc/BFdFFcFFdcccc/B",
+	-- luacheck: no max line length
 	rules_a="[&&&GGF[++^FFdd][--&Fddd]//Fdd[+^Fd][--&Fdd]]////[&&&GGF[++^FFdd][--&Fddd]//Fdd[+^Fd][--&Fdd]]////[&&&GGF[++^FFdd][--&Fddd]//Fdd[+^Fd][--&Fdd]]",
 	rules_b="[&&&GGF[++^Fdd][--&Fdd]//dd[+^d][--&Fd]]////[&&&GGF[++^Fdd][--&Fdd]//dd[+^d][--&Fd]]////[&&&GGF[++^Fdd][--&Fdd]//dd[+^d][--&Fd]]",
 	rules_c="/",
@@ -146,7 +148,7 @@ moretrees.palm_model={
 -- So, a generic fruit trunk is spawned. An ABM will convert it to a male
 -- or female fruit trunk, and generate the actual dates.
 moretrees.date_palm_model={
-	axiom="TTTTddddddddddccccccccccRT[TGGGGT]"..
+	axiom="TTTTddddddddddccccccccccRT[TTT]"..
 		"ccccc[&&a]ccccc[&&a]ccccc[&&a]ccccc[&&a]ccccc[&&a]ccccc[&&a]"..
 		"GGccccc[&a]ccccc[&a]ccccc[&a]ccccc[&a]ccccc[&a]ccccc[&a]"..
 		"GGccccc[a]ccccc[a]ccccc[a]ccccc[a]ccccc[a]ccccc[a]",
@@ -166,6 +168,7 @@ moretrees.date_palm_model={
 }
 
 moretrees.spruce_model1={
+	-- luacheck: no max line length
 	axiom="FFFFFAFFFFFFBFFFFFFCFFFFFFDFFFFFF[&&&F^^FF][&&&++F^^FF][&&&++++F^^FF][&&&++++++F^^FF][&&&--F^^FF][&&&----F^^FF][FFFFf]",
 	rules_a="[&&&FFFFFF^^FFF][&&&++FFFFFF^^FFF][&&&++++FFFFFF^^FFF][&&&++++++FFFFFF^^FFF][&&&--FFFFFF^^FFF][&&&----FFFFFF^^FFF]",
 	rules_b="[&&&FFFFF^^FFF][&&&++FFFFF^^FFF][&&&++++FFFFF^^FFF][&&&++++++FFFFF^^FFF][&&&--FFFFF^^FFF][&&&----FFFFF^^FFF]",
@@ -183,6 +186,7 @@ moretrees.spruce_model1={
 }
 
 moretrees.spruce_model2={
+	-- luacheck: no max line length
 	axiom="FFFFFFBFFFFFFCFFFFFFDFFFFFF[&&&F^^FF][&&&++F^^FF][&&&++++F^^FF][&&&++++++F^^FF][&&&--F^^FF][&&&----F^^FF][FFFFf]",
 	rules_b="[&&&FFFFF^^FFF][&&&++FFFFF^^FFF][&&&++++FFFFF^^FFF][&&&++++++FFFFF^^FFF][&&&--FFFFF^^FFF][&&&----FFFFF^^FFF]",
 	rules_c="[&&&FFFF^^FFF][&&&++FFFF^^FFF][&&&++++FFFF^^FFF][&&&++++++FFFF^^FFF][&&&--FFFF^^FFF][&&&----FFFF^^FFF]",
@@ -217,6 +221,7 @@ moretrees.cedar_model={
 
 moretrees.willow_model={
 	axiom="FFFFFFFFccA",
+	-- luacheck: no max line length
 	rules_a="[&FF&FFFF&&F&FFFFFFFdddd][**&FF&FFFF&&F&FFFFFFFdddd][//&FF&FFFF&&F&FFFFFFFdddd][////&FF&FFFF&&F&FFFFFFFdddd][//////&FF&FFFF&&F&FFFFFFFdddd][////////&FF&FFFF&&F&FFFFFFFdddd]",
 	rules_c="/",
 	rules_d="F",
@@ -247,7 +252,7 @@ moretrees.jungletree_model={
 	rules_a=nil,
 	rules_b=nil,
 	trunk="moretrees:jungletree_trunk",
-	leaves="default:jungleleaves",
+	leaves=xcompat.materials.jungle_leaves,
 	leaves2=nil,
 	leaves2_chance=nil,
 	angle=45,

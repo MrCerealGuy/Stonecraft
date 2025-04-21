@@ -1,21 +1,12 @@
------------------------------------------------------------------------------------------------
-local title		= "Mole Hills"
-local version	= "0.0.3"
-local mname		= "molehills"
------------------------------------------------------------------------------------------------
 -- Idea by Sokomine
 -- Code & textures by Mossmanikin
 
-abstract_molehills = {}
-
-dofile(minetest.get_modpath("molehills").."/molehills_settings.txt")
-
 -- support for i18n
 local S = minetest.get_translator("molehills")
------------------------------------------------------------------------------------------------
--- NoDe
------------------------------------------------------------------------------------------------
 
+local molehill_rarity = minetest.settings:get("molehills.molehill_rarity") or 0.002
+
+-- Node
 local mh_cbox = {
 	type = "fixed",
 	fixed = { -0.5, -0.5, -0.5, 0.5, -0.125, 0.5}
@@ -27,6 +18,7 @@ minetest.register_node("molehills:molehill",{
 	description = S("Mole Hill"),
 	inventory_image = "molehills_side.png",
 	tiles = { "molehills_dirt.png" },
+	use_texture_alpha = "clip",
 	paramtype = "light",
 	selection_box = mh_cbox,
 	collision_box = mh_cbox,
@@ -34,9 +26,7 @@ minetest.register_node("molehills:molehill",{
 	sounds = default.node_sound_dirt_defaults(),
 })
 
------------------------------------------------------------------------------------------------
--- CRaFTiNG
------------------------------------------------------------------------------------------------
+-- Crafting
 minetest.register_craft({ -- molehills --> dirt
 	output = "default:dirt",
 	recipe = {
@@ -45,36 +35,19 @@ minetest.register_craft({ -- molehills --> dirt
 	}
 })
 
------------------------------------------------------------------------------------------------
--- GeNeRaTiNG
------------------------------------------------------------------------------------------------
-abstract_molehills.place_molehill = function(pos)
-	local right_here	= {x=pos.x  , y=pos.y+1, z=pos.z  }
-	if  minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z  }).name ~= "air"
-	and minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z  }).name ~= "air"
-	and minetest.get_node({x=pos.x  , y=pos.y, z=pos.z+1}).name ~= "air"
-	and minetest.get_node({x=pos.x  , y=pos.y, z=pos.z-1}).name ~= "air"
-	and minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z+1}).name ~= "air"
-	and minetest.get_node({x=pos.x+1, y=pos.y, z=pos.z-1}).name ~= "air"
-	and minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z+1}).name ~= "air"
-	and minetest.get_node({x=pos.x-1, y=pos.y, z=pos.z-1}).name ~= "air" then
-		minetest.swap_node(right_here, {name="molehills:molehill"})
-	end
-end
-
-biome_lib:register_generate_plant({
-    surface = {"default:dirt_with_grass"},
-    max_count = Molehills_Max_Count,
-    rarity = Molehills_Rarity,
-    min_elevation = 1,
-	max_elevation = 40,
-	avoid_nodes = {"group:tree","group:liquid","group:stone","group:falling_node"--[[,"air"]]},
-	avoid_radius = 4,
-    plantlife_limit = -0.3,
-  },
-  abstract_molehills.place_molehill
-)
-
------------------------------------------------------------------------------------------------
-print("[Mod] "..title.." ["..version.."] ["..mname.."]".."Loaded...")
------------------------------------------------------------------------------------------------
+-- Generating
+minetest.register_decoration({
+	decoration = {
+		"molehills:molehill"
+	},
+	fill_ratio = molehill_rarity,
+	y_min = 1,
+	y_max = 40,
+	place_on = {
+		"default:dirt_with_grass"
+	},
+	spawn_by = "air",
+	num_spawn_by = 3,
+	deco_type = "simple",
+	flags = "all_floors",
+})

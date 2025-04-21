@@ -33,7 +33,7 @@ minetest.register_craft({
 		{"default:junglegrass"},
 	}
 })
-if minetest.get_modpath("sumpf") ~= nil and not core.skip_mod("swamps") then
+if minetest.get_modpath("sumpf") ~= nil then
 	minetest.register_craft({
 		output = "dryplants:grass",
 		recipe = {
@@ -53,7 +53,7 @@ minetest.register_craft({
 		{"default:stick",""}
 	}
 })
-if minetest.get_modpath("flint") ~= nil then
+if minetest.get_modpath("flint") then
 	minetest.register_craft({
 		output = "dryplants:sickle",
 		recipe = {
@@ -63,7 +63,7 @@ if minetest.get_modpath("flint") ~= nil then
 		}
 	})
 end
-if minetest.get_modpath("stoneage") ~= nil then
+if minetest.get_modpath("stoneage") then
 	minetest.register_craft({
 		output = "dryplants:sickle",
 		recipe = {

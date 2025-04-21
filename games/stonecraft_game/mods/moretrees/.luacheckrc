@@ -1,17 +1,28 @@
 unused_args = false
 allow_defined_top = true
 
-read_globals = {
-	"DIR_DELIM",
-	"minetest", "core",
-	"dump",
-	"vector", "nodeupdate",
-	"VoxelManip", "VoxelArea",
-	"PseudoRandom", "ItemStack",
-	"intllib",
+exclude_files = {".luacheckrc"}
+
+
+globals = {
+	"minetest",
+	"vector",
+	"VoxelManip",
+	"VoxelArea",
+	"PseudoRandom",
+	"ItemStack",
 	"default",
-	table = { fields = { "copy", "getn" } },
-	"biome_lib",
-	"stairs", "stairsplus",
+	"dump",
+	"moretrees",
+	"ethereal",
 }
 
+read_globals = {
+	string = {fields = {"split"}},
+    table = {fields = {"copy", "getn"}},
+
+	"stairsplus",
+	"stairs",
+	"doors",
+	"xcompat",
+}

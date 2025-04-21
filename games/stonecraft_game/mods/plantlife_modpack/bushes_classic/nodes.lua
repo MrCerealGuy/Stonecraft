@@ -63,7 +63,7 @@ plantlife_bushes.after_dig_node = function(pos, oldnode, oldmetadata, digger)
 
 		-- with a chance of 1/3, return 2 bushes
 		local amount
-		if math.random(1,3) == 1 then
+		if can_harvest and math.random(1,3) == 1 then
 			amount = "2"
 		else
 			amount = "1"
@@ -159,19 +159,21 @@ for i, bush_name in ipairs(bushes_classic.bushes) do
 		paramtype2 = "facedir",
 		on_use = minetest.item_eat(18),
 		groups = { dig_immediate = 3 },
+		is_ground_content = false,
 	})
 
-	local texture_top, texture_bottom
 
 	local groups = {snappy = 3, bush = 1, flammable = 2, attached_node=1}
 	if bush_name == "mixed_berry" then
 		bush_name = "fruitless";
-		texture_top = "bushes_fruitless_bush_top.png"
-		texture_bottom = "bushes_fruitless_bush_bottom.png"
 		groups.not_in_creative_inventory = 1
-	else
-		texture_top = "bushes_bush_top.png"
-		texture_bottom = "bushes_bush_bottom.png"
+	end
+
+	local node_dig_prediction
+	local node_placement_prediction
+	if bush_name ~= "fruitless" then
+		node_dig_prediction = "bushes:fruitless_bush"
+		node_placement_prediction = "bushes:fruitless_bush"
 	end
 
 	minetest.register_node(":bushes:" .. bush_name .. "_bush", {
@@ -185,6 +187,8 @@ for i, bush_name in ipairs(bushes_classic.bushes) do
 		groups = groups,
 		sounds = default.node_sound_leaves_defaults(),
 		drop = "",
+		node_dig_prediction = node_dig_prediction,
+		node_placement_prediction = node_placement_prediction,
 		after_dig_node = function( pos, oldnode, oldmetadata, digger )
 			return plantlife_bushes.after_dig_node(pos, oldnode, oldmetadata, digger);
 		end,
@@ -207,4 +211,5 @@ minetest.register_node(":bushes:basket_empty", {
 	paramtype = "light",
 	paramtype2 = "facedir",
     groups = { dig_immediate = 3 },
+	is_ground_content = false,
 })

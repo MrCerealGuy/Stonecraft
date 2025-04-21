@@ -10,39 +10,35 @@ moresnow.snow_param2_offset = {};
 -- homedecor 3d shingles and technic cnc items are handled here
 moresnow.identify_special_slopes = function( new_name, homedecor_prefix, technic_postfix, param2_offset )
 	-- these nodes are only supported if homedecor and/or technic are installed
-	local c_new_snow_node = minetest.get_content_id( new_name );
+	local c_new_snow_node = moresnow.get_cid( new_name )
 	if( not( c_new_snow_node )) then
 		return;
 	end
 
-	local homedecor_materials = {'terracotta','wood','asphalt'};
+	local homedecor_materials = {'terracotta','wood','asphalt','glass'};
 	local technic_materials   = {'dirt','wood','stone','cobble','brick','sandstone','leaves',
-					'tree','steelblock','bronzeblock','stainless_steel_block','marble','granite'};
+					'tree','steelblock','bronzeblock','stainless_steel','marble','granite'};
 
-	if minetest.get_modpath('homedecor') then
-		for _,v in ipairs( homedecor_materials ) do
-			local id = minetest.get_content_id( homedecor_prefix..v );
-			-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
-			if( id and id ~= moresnow.c_ignore ) then
-				moresnow.snow_cover[ id ] = c_new_snow_node;
-			end
+	for _,v in ipairs( homedecor_materials ) do
+		local id = moresnow.get_cid( homedecor_prefix..v )
+		-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
+		if( id and id ~= moresnow.c_ignore ) then
+			moresnow.snow_cover[ id ] = c_new_snow_node;
 		end
 	end
-	if minetest.get_modpath('technic') and not core.skip_mod("technic") then
-		for _,v in ipairs( technic_materials ) do
-			local prefix = 'default:';
-			if( v=='stainless_steel_block' or v=='marble' or v=='granite' ) then
-				prefix = 'technic:';
-			end
+	for _,v in ipairs( technic_materials ) do
+		local prefix = 'default:';
+		if( v=='stainless_steel' or v=='marble' or v=='granite' ) then
+			prefix = 'technic:';
+		end
 
-			local id = minetest.get_content_id( prefix..v..technic_postfix );
-			-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
-			if( id and id ~= moresnow.c_ignore ) then
-				moresnow.snow_cover[                 id ] = c_new_snow_node;
-				-- homedecor and technic use diffrent param2 for the same shape
-				if( param2_offset ) then
-					moresnow.snow_param2_offset[ id ] = param2_offset;
-				end
+		local id = moresnow.get_cid( prefix..v..technic_postfix )
+		-- the node has to be registered at this point; thus, the soft-dependency on homedecor and technic
+		if( id and id ~= moresnow.c_ignore ) then
+			moresnow.snow_cover[                 id ] = c_new_snow_node;
+			-- homedecor and technic use diffrent param2 for the same shape
+			if( param2_offset ) then
+				moresnow.snow_param2_offset[ id ] = param2_offset;
 			end
 		end
 	end
@@ -57,7 +53,7 @@ moresnow.identify_stairs_and_slabs = function()
 
 	for n,v in pairs( minetest.registered_nodes ) do
 
-		local id = minetest.get_content_id( n );
+		local id = moresnow.get_cid( n )
 
 		if( not( id ) or moresnow.snow_cover[ id ] ) then
 
@@ -67,8 +63,11 @@ moresnow.identify_stairs_and_slabs = function()
 		elseif(( v.drawtype and v.drawtype == 'fencelike' )
                     or ( v.groups and v.groups.fence and v.groups.fence > 0))  then
 
+			-- raillike fences; they have no post on which we may put snow
+			if(string.find(n, "rail")) then
+				moresnow.snow_cover[ id ] = moresnow.c_snow_top;
 			-- new fences
-			if( not( v.on_rightclick)) then
+			elseif( not( v.on_rightclick)) then
 				moresnow.snow_cover[ id ] = moresnow.c_snow_fence;
 			-- gates; they only get snow at the bottom
 			else
@@ -172,6 +171,26 @@ moresnow.identify_stairs_and_slabs = function()
 				moresnow.snow_cover[ id ] = moresnow.c_snow_top;
 			end
 
+		-- slopes - shingles from homedecor and/or slopes for roofs from moreblocks
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_inner.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_inner
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_outer.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_outer
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_half.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_half
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_half_raised.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_half_raised
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_inner_half.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_inner_half
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_inner_half_raised.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_inner_half_raised
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_outer_half.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_outer_half
+		elseif(v and v.drawtype == "mesh" and v.mesh and v.mesh == "moreblocks_slope_outer_half_raised.obj") then
+			moresnow.snow_cover[ id ] = moresnow.c_snow_ramp_outer_half_raised
+
 		-- add snow to the bottom of the node below; it will look acceptable, provided there is a solid node below
 		elseif( v and v.drawtype
 		          and (   v.drawtype == 'fencelike' or v.drawtype=='plantlike'
@@ -195,8 +214,10 @@ end
 -- search for stairs and slabs after all nodes have been generated
 minetest.after( 0, moresnow.identify_stairs_and_slabs );
 
--- no snow on lava or flowing water
-moresnow.snow_cover[ minetest.get_content_id( 'default:lava_source')        ] = moresnow.c_air;
-moresnow.snow_cover[ minetest.get_content_id( 'default:lava_flowing')       ] = moresnow.c_air;
-moresnow.snow_cover[ minetest.get_content_id( 'default:water_flowing')      ] = moresnow.c_air;
-moresnow.snow_cover[ minetest.get_content_id( 'default:river_water_flowing')] = moresnow.c_air;
+-- no snow on lava or flowing water (usually handled automaticly - but we want to be on the safe side)
+local liquids = {'default:lava_source', 'default:lava_flowing', 'default:water_flowing', 'default:river_water_flowing'}
+for _, v in ipairs(liquids) do
+	if(minetest.registered_nodes[v] and moresnow.get_cid(v)) then
+		moresnow.snow_cover[ moresnow.get_cid(v) ] = moresnow.c_air
+	end
+end

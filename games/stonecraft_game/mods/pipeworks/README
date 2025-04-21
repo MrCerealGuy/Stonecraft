@@ -1,7 +1,7 @@
 This mod uses nodeboxes to supply a complete set of 3D pipes and tubes, 
 along devices that work with them.
 
-See https://gitlab.com/VanessaE/pipeworks/wikis/ for detailed information about usage of this mod.
+See https://github.com/mt-mods/pipeworks/wiki/ for detailed information about usage of this mod.
 
 Unlike the previous version of this mod, these pipes are rounded, and when 
 placed, they'll automatically join together as needed.  Pipes can go vertically 
@@ -20,3 +20,7 @@ This mod is a work in progress.
 
 Please note that owing to the nature of this mod, I have opted to use 64px 
 textures.  Anything less just looks terrible.
+
+The teleport tube database used to be kept in a file named 'teleport_tubes'.
+The database is now kept in mod storage. The migration from 'teleport_tubes' is
+automatic. The old file is then kept around but is not used at all.

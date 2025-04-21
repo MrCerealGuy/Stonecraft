@@ -11,7 +11,7 @@ local function nodeside(node, tubedir)
 	end
 
 	local backdir = minetest.facedir_to_dir(node.param2)
-	local back = pipeworks.vector_dot(backdir, tubedir)
+	local back = vector.dot(backdir, tubedir)
 	if back == 1 then
 		return "back"
 	elseif back == -1 then
@@ -19,7 +19,7 @@ local function nodeside(node, tubedir)
 	end
 
 	local topdir = pipeworks.facedir_to_top_dir(node.param2)
-	local top = pipeworks.vector_dot(topdir, tubedir)
+	local top = vector.dot(topdir, tubedir)
 	if top == 1 then
 		return "top"
 	elseif top == -1 then
@@ -27,7 +27,7 @@ local function nodeside(node, tubedir)
 	end
 
 	local rightdir = pipeworks.facedir_to_right_dir(node.param2)
-	local right = pipeworks.vector_dot(rightdir, tubedir)
+	local right = vector.dot(rightdir, tubedir)
 	if right == 1 then
 		return "right"
 	else

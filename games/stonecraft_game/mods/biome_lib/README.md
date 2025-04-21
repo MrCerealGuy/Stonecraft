@@ -12,10 +12,10 @@ Both mapgen-based spawning and ABM-based spawning is supported. Growing code is 
 
 It is primarily intended for mapgen v6, but it should work fine when used with mapgen v7.
 
-**Dependencies**: default from minetest_game
+**Dependencies:** nothing, but if you don't use `minetest_game`, you'll need to supply some settings (see API.txt).
 
-**Recommends**: [Plantlife Modpack](https://github.com/minetest-mods/plantlife_modpack), 
-[More Trees](https://github.com/minetest-mods/moretrees)
+**Recommends**: [Plantlife Modpack](https://github.com/mt-mods/plantlife_modpack), 
+[More Trees](https://github.com/mt-mods/moretrees)
 
 **API**: This mod supplies a small number of very powerful functions. They are, briefly:
 
@@ -25,4 +25,6 @@ It is primarily intended for mapgen v6, but it should work fine when used with m
 * biome_lib:find_valid_wall()
 * biome_lib:is_node_loaded()
 
-For a complete description of these functions as well as several of the internal variables within the mod, [read the API.txt document](https://raw.githubusercontent.com/minetest-mods/biome_lib/master/API.txt) included in this package.
+For a complete description of these functions as well as several of the internal variables within the mod, see `API.txt`.
+
+**Configuration:** This mod has several variables you can set in your `minetest.conf` to change things a bit, from the default nodes it uses, to the debug log level and the block queue behavior.  For a list with complete descriptions, see `settingtypes.txt`.

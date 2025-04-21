@@ -13,4 +13,4 @@ Install: Unzip the distribution file, rename the resultant folder to just "unifi
 
 Usage: for detailed usage information, please see [the Unified Dyes Thread](https://forum.minetest.net/viewtopic.php?f=11&t=2178&p=28399) on the Minetest forum.
 
-API: the full API is documented here: https://github.com/minetest-mods/unifieddyes/blob/master/API.md
+API: the full API is documented here: https://github.com/mt-mods/unifieddyes/blob/master/API.md

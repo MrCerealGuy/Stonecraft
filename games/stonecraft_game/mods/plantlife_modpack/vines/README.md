@@ -1,6 +1,6 @@
 # Vines Mod by Bas80 (Edited by TenPlus1)
 
-### License: MIT for code, CC for textures
+### License: MIT for code, CC0 for textures
 
 ## Features
 - Rope block for spawning rope that slowly drops into the deep.

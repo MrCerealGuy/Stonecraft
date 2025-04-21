@@ -11,12 +11,6 @@
 
 -- © 2016, Rogier <rogier777@gmail.com>
 
---[[
-
-2018-03-21 MrCerealGuy: disallow abms when the server is lagging
-
---]]
-
 local S = minetest.get_translator("moretrees")
 
 -- Some constants
@@ -58,7 +52,7 @@ ftrunk.after_destruct = function(pos, oldnode)
 	for _,datespos in pairs(dates) do
 		-- minetest.dig_node(datespos) does not cause nearby dates to be dropped :-( ...
 		local items = minetest.get_node_drops(minetest.get_node(datespos).name)
-		minetest.swap_node(datespos, biome_lib.air)
+		minetest.swap_node(datespos, {name = "air"})
 		for _, itemname in pairs(items) do
 			minetest.add_item(datespos, itemname)
 		end
@@ -89,11 +83,10 @@ local date_regrow_abm_spec = {
 	interval = moretrees.dates_flower_interval,
 	chance = moretrees.dates_flower_chance,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-   			return
-		end
-
-		local dates = minetest.find_nodes_in_area({x=pos.x-2, y=pos.y, z=pos.z-2}, {x=pos.x+2, y=pos.y, z=pos.z+2}, "group:moretrees_dates")
+		local dates = minetest.find_nodes_in_area(
+			{x=pos.x-2, y=pos.y, z=pos.z-2}, {x=pos.x+2, y=pos.y, z=pos.z+2},
+			"group:moretrees_dates"
+		)
 
 		-- New blossom interval increases exponentially with number of dates already hanging
 		-- In addition: if more dates are hanging, the chance of picking an empty spot decreases as well...
@@ -126,10 +119,6 @@ minetest.register_abm({
 	interval = 1,
 	chance = 1,
 	action = function(pos, node, active_object_count, active_object_count_wider)
-		if not abm_allowed then
-   			return
-		end
-
 		local type
 		if math.random(100) <= moretrees.dates_female_percent then
 			type = "f"
@@ -242,7 +231,8 @@ local function find_fruit_trunks_near(ftpos, sect)
 	-- Skip the search if it is consuming too much CPU time
 	if sect_search_stats.count > 0 and moretrees.dates_blossom_search_iload > 0
 			and sect_search_stats.sum / sect_search_stats.count > moretrees.dates_blossom_search_time_treshold
-			and t0us - sect_search_stats.last_us < moretrees.dates_blossom_search_iload * (sect_search_stats.sum / sect_search_stats.count) then
+			and t0us - sect_search_stats.last_us < moretrees.dates_blossom_search_iload
+			* (sect_search_stats.sum / sect_search_stats.count) then
 		sect_search_stats.skip = sect_search_stats.skip + 1
 		return nil
 	end
@@ -495,7 +485,10 @@ local function find_male_blossom_with_ftrunk(fbpos,ftpos)
 		end
 		-- Else do a new search
 		if not mpalms.sect[sect_old] then
-			mpalms.sect[sect_old], fpalms_list, all_mpalms_list = find_fruit_trunks_near(ftpos, {x = (sect_old + 4) % 3 - 1, z = (sect_old + 4) / 3 - 1})
+			mpalms.sect[sect_old], fpalms_list, all_mpalms_list = find_fruit_trunks_near(
+				ftpos,
+				{x = (sect_old + 4) % 3 - 1, z = (sect_old + 4) / 3 - 1}
+			)
 			cache_changed = true
 			if sect_old == 0 then
 				-- Save the results if it is sector 0
@@ -561,7 +554,7 @@ local dates_growfn = function(pos, elapsed)
 		elseif string.find(node.name, "moretrees:dates_m") then
 			minetest.swap_node(pos, {name="moretrees:dates_n"})
 		else
-			minetest.swap_node(pos, biome_lib.air)
+			minetest.swap_node(pos, {name = "air"})
 		end
 		return
 	elseif node.name == "moretrees:dates_f0" and math.random(100) <= 100 * dates_regrow_prob then
@@ -601,7 +594,7 @@ local dates_growfn = function(pos, elapsed)
 	elseif string.match(node.name, "n$") then
 		-- Remove stems.
 		if math.random(stems_drop_ichance) == 1 then
-			minetest.swap_node(pos, biome_lib.air)
+			minetest.swap_node(pos, {name = "air"})
 			return "stemdrop"
 		end
 		action = "nostemdrop"
@@ -730,10 +723,11 @@ for _,suffix in ipairs({"f0", "f1", "f2", "f3", "f4", "m0", "fn", "n"}) do
 		paramtype = "light",
 		sunlight_propagates = true,
 		walkable = false,
+		is_ground_content = false,
 		groups = { fleshy=3, dig_immediate=3, flammable=2, moretrees_dates=1 },
 		inventory_image = "moretrees_dates_"..suffix..".png^[transformR0",
 		wield_image = "moretrees_dates_"..suffix..".png^[transformR90",
-		sounds = default.node_sound_defaults(),
+		sounds = xcompat.sounds.node_sound_default(),
 		drop = dropfn,
 		selection_box = {
 			type = "fixed",
@@ -753,10 +747,6 @@ if moretrees.dates_regrow_pollinated or moretrees.dates_regrow_unpollinated_perc
 		name = "moretrees:restart_dates_regrow_timer",
 		nodenames = "group:moretrees_dates",
 		action = function(pos, node, active_object_count, active_object_count_wider)
-			if not abm_allowed then
-   				return
-			end
-
 			local timer = minetest.get_node_timer(pos)
 			if not timer:is_started() then
 				dates_starttimer(pos)

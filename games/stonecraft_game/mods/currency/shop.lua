@@ -41,7 +41,7 @@ currency.shop.formspec = {
 
 local have_pipeworks = minetest.global_exists("pipeworks")
 
-currency.shop.check_privilege = function(listname,playername,meta)
+currency.shop.check_privilege = function(listname, playername, meta)
 	--[[if listname == "pl1" then
 		if playername ~= meta:get_string("pl1") then
 			return false
@@ -60,12 +60,12 @@ currency.shop.check_privilege = function(listname,playername,meta)
 end
 
 
-currency.shop.give_inventory = function(inv,list,playername)
-	player = minetest.get_player_by_name(playername)
+currency.shop.give_inventory = function(inv, list, playername)
+	local player = minetest.get_player_by_name(playername)
 	if player then
-		for k,v in ipairs(inv:get_list(list)) do
-			player:get_inventory():add_item("main",v)
-			inv:remove_item(list,v)
+		for k, v in ipairs(inv:get_list(list)) do
+			player:get_inventory():add_item("main", v)
+			inv:remove_item(list, v)
 		end
 	end
 end
@@ -88,87 +88,57 @@ currency.shop.exchange = function(meta)
 	meta:set_int("pl2step",0)]]
 end
 
-local check_stock = function(
-	pos
-)
-	local meta = minetest.get_meta(
-		pos
-	)
-	local minv = meta:get_inventory(
-	)
-	local gives = minv:get_list(
-		"owner_gives"
-	)
+local check_stock = function(pos)
+	local meta = minetest.get_meta(pos)
+	local minv = meta:get_inventory()
+	local gives = minv:get_list("owner_gives")
 	local can_exchange = true
-	for i, item in pairs(
-		gives
-	) do
-		if not minv:contains_item(
-			"stock",
-			item
-		) then
+	for i, item in pairs(gives) do
+		if not minv:contains_item("stock", item) then
 			can_exchange = false
 		end
 	end
-	local owner = meta:get_string(
-		"owner"
-	)
+	local owner = meta:get_string("owner")
 	if can_exchange then
-		meta:set_string(
-			"infotext",
-			S(
-				"Exchange shop (owned by @1)",
-				owner
-			)
+		meta:set_string("infotext",
+			S("Exchange shop (owned by @1)", owner)
 		)
 		local applicable = "currency:shop"
-		local node = minetest.get_node(
-			pos
-		)
+		local node = minetest.get_node(pos)
 		if node.name == applicable then
 			return
 		end
 		node.name = applicable
-		minetest.swap_node(
-			pos,
-			node
-		)
+		minetest.swap_node(pos, node)
 	else
-		meta:set_string(
-			"infotext",
-			S(
-				"Exchange shop (owned by @1)",
-				owner
-			) .. ", " .. S(
-				"out of stock"
-			)
+		meta:set_string("infotext",
+			S("Exchange shop (owned by @1)", owner)
+			.. ", " .. S("out of stock")
 		)
 		local applicable = "currency:shop_empty"
-		local node = minetest.get_node(
-			pos
-		)
+		local node = minetest.get_node(pos)
 		if node.name == applicable then
 			return
 		end
 		node.name = applicable
-		minetest.swap_node(
-			pos,
-			node
-		)
+		minetest.swap_node(pos,	node)
 	end
 end
 
 minetest.register_node("currency:shop", {
 	description = S("Shop"),
 	paramtype2 = "facedir",
-	tiles = {"shop_top.png",
-			"shop_top.png",
-			"shop_side.png",
-			"shop_side.png",
-			"shop_side.png",
-			"shop_front.png"},
+	tiles = {
+		"shop_top.png",
+		"shop_top.png",
+		"shop_side.png",
+		"shop_side.png",
+		"shop_side.png",
+		"shop_front.png"
+	},
 	inventory_image = "shop_front.png",
 	groups = {choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1},
+	is_ground_content = false,
 	sounds = currency.node_sound_wood_defaults(),
 	after_place_node = function(pos, placer, itemstack)
 		local owner = placer:get_player_name()
@@ -183,22 +153,18 @@ minetest.register_node("currency:shop", {
 		inv:set_size("owner_wants", 3*2)
 		inv:set_size("owner_gives", 3*2)
 		if have_pipeworks then pipeworks.after_place(pos) end
-		check_stock(
-			pos
-		)
+		check_stock(pos)
 	end,
 	after_dig_node = (have_pipeworks and pipeworks and pipeworks.after_dig),
 	tube = {
 		insert_object = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			local result = inv:add_item("stock",stack)
-			check_stock(
-				pos
-			)
+			local result = inv:add_item("stock", stack)
+			check_stock(pos)
 			return result
 		end,
-		can_insert = function(pos,node,stack,direction)
+		can_insert = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return inv:room_for_item("stock", stack)
@@ -238,31 +204,35 @@ minetest.register_node("currency:shop", {
 	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return inv:is_empty("stock") and inv:is_empty("customers_gave") and inv:is_empty("owner_wants") and inv:is_empty("owner_gives")
+		return inv:is_empty("stock") and
+			inv:is_empty("customers_gave") and
+			inv:is_empty("owner_wants") and
+			inv:is_empty("owner_gives")
 	end
 })
 
 minetest.register_node("currency:shop_empty", {
 	description = S("Shop") .. " (" .. S("out of stock") .. ")",
 	paramtype2 = "facedir",
-	tiles = {"shop_top.png",
-			"shop_top.png",
-			"shop_side_empty.png",
-			"shop_side_empty.png",
-			"shop_side_empty.png",
-			"shop_front_empty.png"},
+	tiles = {
+		"shop_top.png",
+		"shop_top.png",
+		"shop_side_empty.png",
+		"shop_side_empty.png",
+		"shop_side_empty.png",
+		"shop_front_empty.png"
+	},
 	drop = "currency:shop",
 	groups = {choppy=2,oddly_breakable_by_hand=2,tubedevice=1,tubedevice_receiver=1,not_in_creative_inventory=1},
+	is_ground_content = false,
 	sounds = currency.node_sound_wood_defaults(),
 	after_dig_node = (have_pipeworks and pipeworks and pipeworks.after_dig),
 	tube = {
 		insert_object = function(pos, node, stack, direction)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			local result = inv:add_item("stock",stack)
-			check_stock(
-				pos
-			)
+			local result = inv:add_item("stock", stack)
+			check_stock(pos)
 			return result
 		end,
 		can_insert = function(pos,node,stack,direction)
@@ -305,7 +275,10 @@ minetest.register_node("currency:shop_empty", {
 	can_dig = function(pos, player)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return inv:is_empty("stock") and inv:is_empty("customers_gave") and inv:is_empty("owner_wants") and inv:is_empty("owner_gives")
+		return inv:is_empty("stock") and
+			inv:is_empty("customers_gave") and
+			inv:is_empty("owner_wants") and
+			inv:is_empty("owner_gives")
 	end
 })
 
@@ -333,29 +306,28 @@ minetest.register_on_player_receive_fields(function(sender, formname, fields)
 			local can_exchange = true
 			local owners_fault = false
 			for i, item in pairs(wants) do
-				if not pinv:contains_item("customer_gives",item) then
+				if not pinv:contains_item("customer_gives", item) then
 					can_exchange = false
 				end
 			end
 			for i, item in pairs(gives) do
-				if not minv:contains_item("stock",item) then
+				if not minv:contains_item("stock", item) then
 					can_exchange = false
 					owners_fault = true
 				end
 			end
 			if can_exchange then
+				local it
 				for i, item in pairs(wants) do
-					pinv:remove_item("customer_gives",item)
-					minv:add_item("customers_gave",item)
+					it = pinv:remove_item("customer_gives", item)
+					minv:add_item("customers_gave", it)
 				end
 				for i, item in pairs(gives) do
-					minv:remove_item("stock",item)
-					pinv:add_item("customer_gets",item)
+					it = minv:remove_item("stock", item)
+					pinv:add_item("customer_gets", it)
 				end
 				minetest.chat_send_player(name, S("Exchanged!"))
-				check_stock(
-					pos
-				)
+				check_stock(pos)
 			else
 				if owners_fault then
 					minetest.chat_send_player(name, S("Exchange can not be done, contact the shop owner."))

@@ -211,7 +211,7 @@ function pipeworks.scan_pipe_surroundings(pos)
 		pzm = 1
 	end
 
-	print("stage 2 returns "..pxm+8*pxp+2*pym+16*pyp+4*pzm+32*pzp..
+	minetest.log("info", "stage 2 returns "..pxm+8*pxp+2*pym+16*pyp+4*pzm+32*pzp..
 		" for nodes surrounding "..minetest.get_node(pos).name.." at "..minetest.pos_to_string(pos))
 	return pxm+8*pxp+2*pym+16*pyp+4*pzm+32*pzp
 end

@@ -1,32 +1,20 @@
------------------------------------------------------------------------------------------------
--- Grasses - More Tall Grass 0.0.2
------------------------------------------------------------------------------------------------
--- by Mossmanikin
-
--- Contains code from:		biome_lib
--- Looked at code from:		default
------------------------------------------------------------------------------------------------
-
-abstract_dryplants.grow_grass = function(pos)
-	local right_here = {x=pos.x, y=pos.y+1, z=pos.z}
-	local grass_size = math.random(1,5)
-	if minetest.get_node(right_here).name == "air"  -- instead of check_air = true,
-	or minetest.get_node(right_here).name == "default:junglegrass" then
-		minetest.swap_node(right_here, {name="default:grass_"..grass_size})
-	end
-end
-
-biome_lib:register_generate_plant({
-    surface = {
+minetest.register_decoration({
+	decoration = {
+		"default:grass_1",
+		"default:grass_2",
+		"default:grass_3",
+		"default:grass_4",
+		"default:grass_5"
+	},
+	fill_ratio = 0.8,
+	y_min = 1,
+	y_max = 40,
+	place_on = {
 		"default:dirt_with_grass",
 		"stoneage:grass_with_silex",
 		"sumpf:peat",
 		"sumpf:sumpf"
 	},
-    max_count = TALL_GRASS_PER_MAPBLOCK,
-    rarity = 101 - TALL_GRASS_RARITY,
-    min_elevation = 1, -- above sea level
-	plantlife_limit = -0.9,
-  },
-  abstract_dryplants.grow_grass
-)
+	deco_type = "simple",
+	flags = "all_floors"
+})

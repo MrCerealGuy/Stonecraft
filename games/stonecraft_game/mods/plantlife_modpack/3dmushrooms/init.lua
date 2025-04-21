@@ -1,7 +1,5 @@
 -- 3D Mushroom mod by VanessaE
 
-mushroom = {}
-
 minetest.override_item("flowers:mushroom_fertile_brown", {
 	drawtype = "mesh",
 	mesh = "3dmushrooms.obj",
@@ -10,7 +8,8 @@ minetest.override_item("flowers:mushroom_fertile_brown", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.3}
 	},
-	inventory_image = "3dmushrooms_brown_inv.png"
+	inventory_image = "3dmushrooms_brown_inv.png",
+	wield_image = "3dmushrooms_brown_inv.png"
 })
 
 minetest.override_item("flowers:mushroom_brown", {
@@ -21,7 +20,8 @@ minetest.override_item("flowers:mushroom_brown", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.3}
 	},
-	inventory_image = "3dmushrooms_brown_inv.png"
+	inventory_image = "3dmushrooms_brown_inv.png",
+	wield_image = "3dmushrooms_brown_inv.png"
 })
 
 minetest.override_item("flowers:mushroom_fertile_red", {
@@ -32,7 +32,8 @@ minetest.override_item("flowers:mushroom_fertile_red", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.3}
 	},
-	inventory_image = "3dmushrooms_red_inv.png"
+	inventory_image = "3dmushrooms_red_inv.png",
+	wield_image = "3dmushrooms_red_inv.png"
 })
 
 minetest.override_item("flowers:mushroom_red", {
@@ -43,7 +44,8 @@ minetest.override_item("flowers:mushroom_red", {
 		type = "fixed",
 		fixed = {-0.3, -0.5, -0.3, 0.3, 0, 0.3}
 	},
-	inventory_image = "3dmushrooms_red_inv.png"
+	inventory_image = "3dmushrooms_red_inv.png",
+	wield_image = "3dmushrooms_red_inv.png"
 })
 
 -- aliases to the default mushrooms
@@ -61,5 +63,3 @@ minetest.register_alias("mushroom:spore1", "flowers:mushroom_spores_red")
 minetest.register_alias("mushroom:poison", "flowers:mushroom_red")
 
 minetest.register_alias("mushroom:identifier", "default:mese_crystal_fragment")
-
-print("[3D Mushrooms] loaded.")
