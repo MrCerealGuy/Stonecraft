@@ -20,18 +20,18 @@ local workshop_demand = {5000, 3500, 2000}
 
 local workshop_formspec =
 	"size[8,9;]"..
-	"list[current_name;src;3,1;1,1;]"..
+	"list[context;src;3,1;1,1;]"..
 	"label[0,0;"..S("%s Tool Workshop"):format("MV").."]"..
-	"list[current_name;upgrade1;1,3;1,1;]"..
-	"list[current_name;upgrade2;2,3;1,1;]"..
+	"list[context;upgrade1;1,3;1,1;]"..
+	"list[context;upgrade2;2,3;1,1;]"..
 	"label[1,4;"..S("Upgrade Slots").."]"..
 	"list[current_player;main;0,5;8,4;]"..
 	"listring[current_player;main]"..
-	"listring[current_name;src]"..
+	"listring[context;src]"..
 	"listring[current_player;main]"..
-	"listring[current_name;upgrade1]"..
+	"listring[context;upgrade1]"..
 	"listring[current_player;main]"..
-	"listring[current_name;upgrade2]"..
+	"listring[context;upgrade2]"..
 	"listring[current_player;main]"
 
 local run = function(pos, node)
@@ -60,9 +60,9 @@ local run = function(pos, node)
 			repairable = true
 		end
 	end
-	technic.handle_machine_pipeworks(pos, tube_upgrade, function (pos, x_velocity, z_velocity)
+	technic.handle_machine_pipeworks(pos, tube_upgrade, function(pos2, x_velocity, z_velocity)
 		if not repairable then
-			technic.send_items(pos, x_velocity, z_velocity, "src")
+			technic.send_items(pos2, x_velocity, z_velocity, "src")
 		end
 	end)
 	if not repairable then

@@ -20,3 +20,10 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
+
+# Release export attributes
+technic/spec/** export-ignore
+.github/** export-ignore
+.luacheckrc export-ignore
+.mailmap export-ignore
+integration-test.sh export-ignore

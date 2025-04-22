@@ -18,6 +18,7 @@ wrench = {}
 local modpath = minetest.get_modpath(minetest.get_current_modname())
 dofile(modpath.."/support.lua")
 dofile(modpath.."/technic.lua")
+dofile(modpath.."/drawers.lua")
 
 -- Boilerplate to support localized strings if intllib mod is installed.
 local S = rawget(_G, "intllib") and intllib.Getter() or function(s) return s end
@@ -32,63 +33,68 @@ local function get_pickup_name(name)
 end
 
 local function restore(pos, placer, itemstack)
+	local itemname = itemstack:get_name()
+	local node = minetest.get_node(pos)
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
 	local data = itemstack:get_meta():get_string("data")
 	data = (data ~= "" and data) or	itemstack:get_metadata()
 	data = minetest.deserialize(data)
-
 	if not data then
 		minetest.remove_node(pos)
 		minetest.log("error", placer:get_player_name().." wanted to place "..
-				itemstack:get_name().." at "..minetest.pos_to_string(pos)..
+				itemname.." at "..minetest.pos_to_string(pos)..
 				", but it had no data.")
 		minetest.log("verbose", "itemstack: "..itemstack:to_string())
 		return true
 	end
-
-	local node = minetest.get_node(pos)
 	minetest.set_node(pos, {name = data.name, param2 = node.param2})
-
-	-- Apply stored metadata to the current node
-	local meta = minetest.get_meta(pos)
-	local inv = meta:get_inventory()
-	for key, value in pairs(data.metas) do
-		local meta_type = get_meta_type(data.name, key)
+	for name, value in pairs(data.metas) do
+		local meta_type = get_meta_type(data.name, name)
 		if meta_type == wrench.META_TYPE_INT then
-			meta:set_int(key, value)
+			meta:set_int(name, value)
 		elseif meta_type == wrench.META_TYPE_FLOAT then
-			meta:set_float(key, value)
+			meta:set_float(name, value)
 		elseif meta_type == wrench.META_TYPE_STRING then
-			meta:set_string(key, value)
+			meta:set_string(name, value)
 		end
 	end
-
-	for listname, list in pairs(data.lists) do
+	local lists = data.lists
+	for listname, list in pairs(lists) do
 		inv:set_list(listname, list)
 	end
 	itemstack:take_item()
 	return itemstack
 end
 
-minetest.register_on_mods_loaded(function()
-	-- Delayed registration for foreign mod support
-	for name, info in pairs(wrench.registered_nodes) do
-		local olddef = minetest.registered_nodes[name]
-		if olddef then
-			local newdef = {}
-			for key, value in pairs(olddef) do
-				newdef[key] = value
-			end
-			newdef.stack_max = 1
-			newdef.description = S("%s with items"):format(newdef.description)
-			newdef.groups = {}
-			newdef.groups.not_in_creative_inventory = 1
-			newdef.on_construct = nil
-			newdef.on_destruct = nil
-			newdef.after_place_node = restore
-			minetest.register_node(":"..get_pickup_name(name), newdef)
+for name, info in pairs(wrench.registered_nodes) do
+	local olddef = minetest.registered_nodes[name]
+	if olddef then
+		local newdef = {}
+		for key, value in pairs(olddef) do
+			newdef[key] = value
 		end
+		newdef.stack_max = 1
+		newdef.description = S("%s with items"):format(newdef.description)
+		newdef.groups = {}
+		newdef.groups.not_in_creative_inventory = 1
+		newdef.on_construct = nil
+		newdef.on_destruct = nil
+		newdef.after_place_node = function(pos, placer, itemstack)
+
+			-- call restoration function with on_plcae callbacks
+			local new_stack = restore(pos, placer, itemstack)
+
+			if type(info.after_place) == "function" then
+				-- call custom after_place function
+				info.after_place(pos)
+			end
+
+			return new_stack
+		end
+		minetest.register_node(":"..get_pickup_name(name), newdef)
 	end
-end)
+end
 
 minetest.register_tool("wrench:wrench", {
 	description = S("Wrench"),
@@ -114,15 +120,15 @@ minetest.register_tool("wrench:wrench", {
 			minetest.record_protection_violation(pos, player_name)
 			return
 		end
-		local node_name = minetest.get_node(pos).name
-		local def = wrench.registered_nodes[node_name]
+		local nname = minetest.get_node(pos).name
+		local def = wrench.registered_nodes[nname]
 		if not def then
 			return
 		end
 
-		local stack_pickup = ItemStack(get_pickup_name(node_name))
+		local stack = ItemStack(get_pickup_name(nname))
 		local player_inv = placer:get_inventory()
-		if not player_inv:room_for_item("main", stack_pickup) then
+		if not player_inv:room_for_item("main", stack) then
 			return
 		end
 		local meta = minetest.get_meta(pos)
@@ -137,40 +143,37 @@ minetest.register_tool("wrench:wrench", {
 			end
 		end
 
-		-- Do the actual pickup:
 		local metadata = {}
-		metadata.name = node_name
+		metadata.name = nname
 		metadata.version = LATEST_SERIALIZATION_VERSION
 
-		-- Serialize inventory lists + items
 		local inv = meta:get_inventory()
 		local lists = {}
 		for _, listname in pairs(def.lists or {}) do
 			local list = inv:get_list(listname)
-			for i, stack in pairs(list) do
-				list[i] = stack:to_string()
+			for i, s in pairs(list) do
+				list[i] = s:to_string()
 			end
 			lists[listname] = list
 		end
 		metadata.lists = lists
 
-		-- Serialize node metadata fields
-		local item_meta = stack_pickup:get_meta()
+		local item_meta = stack:get_meta()
 		metadata.metas = {}
-		for key, meta_type in pairs(def.metas or {}) do
+		for name, meta_type in pairs(def.metas or {}) do
 			if meta_type == wrench.META_TYPE_INT then
-				metadata.metas[key] = meta:get_int(key)
+				metadata.metas[name] = meta:get_int(name)
 			elseif meta_type == wrench.META_TYPE_FLOAT then
-				metadata.metas[key] = meta:get_float(key)
+				metadata.metas[name] = meta:get_float(name)
 			elseif meta_type == wrench.META_TYPE_STRING then
-				metadata.metas[key] = meta:get_string(key)
+				metadata.metas[name] = meta:get_string(name)
 			end
 		end
 
 		item_meta:set_string("data", minetest.serialize(metadata))
 		minetest.remove_node(pos)
 		itemstack:add_wear(65535 / 20)
-		player_inv:add_item("main", stack_pickup)
+		player_inv:add_item("main", stack)
 		return itemstack
 	end,
 })

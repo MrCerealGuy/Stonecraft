@@ -88,22 +88,15 @@ local function pos_in_list(l, pos)
 	return false
 end
 
-local function table_empty(what)
-	for _ in pairs(what) do
-		return false
-	end
-	return true
-end
-
-local function add_table(what, toadd)
+local function add_table(table, toadd)
 	local i = 1
 	while true do
-		local o = what[i]
+		local o = table[i]
 		if o == toadd then return end
 		if o == nil then break end
 		i = i + 1
 	end
-	what[i] = toadd
+	table[i] = toadd
 end
 
 local function move_nodes_vect(poslist, vect, must_not_move, owner)
@@ -324,7 +317,6 @@ for zp = 0, 1 do
 
 		on_rightclick = function(pos, node, placer, itemstack, pointed_thing)
 			if is_supported_node(itemstack:get_name()) then
-				-- Stripped down version of "core.item_place_node"
 				if minetest.is_protected(pos, placer:get_player_name()) then
 					minetest.log("action", placer:get_player_name()
 						.. " tried to place " .. itemstack:get_name()
@@ -348,7 +340,8 @@ for zp = 0, 1 do
 				end
 
 				-- Run script hook
-				for _, callback in ipairs(minetest.registered_on_placenodes) do
+				local callback = nil
+				for _, _ in ipairs(minetest.registered_on_placenodes) do
 					-- Copy pos and node because callback can modify them
 					local pos_copy = { x = pos.x, y = pos.y, z = pos.z }
 					local newnode_copy = { name = def.name, param1 = 0, param2 = 0 }
@@ -398,6 +391,23 @@ minetest.register_entity("technic:frame_entity", {
 		local pos = vector.round(self.object:getpos())
 		frames_pos[pos_to_string(pos)] = node.name
 
+-- This code does nothing currently, so it is disabled to stop luacheck warnings
+--[[
+		local stack = ItemStack(node.name)
+		local itemtable = stack:to_table()
+		local itemname = nil
+
+		if itemtable then
+			itemname = stack:to_table().name
+		end
+
+		local item_texture = nil
+		local item_type = ""
+		if minetest.registered_items[itemname] then
+			item_texture = minetest.registered_items[itemname].inventory_image
+			item_type = minetest.registered_items[itemname].type
+		end
+--]]
 		local prop = {
 			is_visible = true,
 			textures = { node.name },
@@ -565,8 +575,8 @@ local function connected(pos, c, adj)
 				minetest.registered_nodes[nodename].frames_can_connect(pos1, vect)) then
 			c[#c + 1] = pos1
 			if minetest.registered_nodes[nodename].frame == 1 then
-				local adj = minetest.registered_nodes[nodename].frame_connect_all(nodename)
-				connected(pos1, c, adj)
+				local adj2 = minetest.registered_nodes[nodename].frame_connect_all(nodename)
+				connected(pos1, c, adj2)
 			end
 		end
 	end
@@ -784,7 +794,7 @@ local function template_drops(pos, node, oldmeta, digger)
 			drops = { "technic:template 1" }
 		else
 			local dcc = minetest.deserialize(cc)
-			if not table_empty(dcc) then
+			if next(dcc) ~= nil then
 				drops = {}
 				for sp, _ in pairs(dcc) do
 					local ssp = pos_from_string(sp)
@@ -904,9 +914,9 @@ minetest.register_tool("technic:template_tool", {
 -- Template motor
 local function get_template_nodes(pos)
 	local meta = minetest.get_meta(pos)
-	local connected = meta:get_string("connected")
-	if connected == "" then return {} end
-	local adj = minetest.deserialize(connected)
+	local connected_to = meta:get_string("connected")
+	if connected_to == "" then return {} end
+	local adj = minetest.deserialize(connected_to)
 	local c = {}
 	for _, vect in ipairs(adj) do
 		local pos1 = vector.add(pos, vect)

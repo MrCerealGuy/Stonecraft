@@ -38,6 +38,9 @@ local function set_supply_converter_formspec(meta)
 end
 
 local supply_converter_receive_fields = function(pos, formname, fields, sender)
+	if not sender or minetest.is_protected(pos, sender:get_player_name()) then
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	local power = nil
 	if fields.power then
@@ -69,8 +72,12 @@ local mesecons = {
 
 
 local digiline_def = {
-	receptor = {action = function() end},
+	receptor = {
+		rules = technic.digilines.rules,
+		action = function() end
+	},
 	effector = {
+		rules = technic.digilines.rules,
 		action = function(pos, node, channel, msg)
 			if type(msg) ~= "string" then
 				return
@@ -81,7 +88,7 @@ local digiline_def = {
 			end
 			msg = msg:lower()
 			if msg == "get" then
-				digilines.receptor_send(pos, digilines.rules.default, channel, {
+				digilines.receptor_send(pos, technic.digilines.rules, channel, {
 					enabled      = meta:get_int("enabled"),
 					power        = meta:get_int("power"),
 					mesecon_mode = meta:get_int("mesecon_mode")
@@ -120,19 +127,14 @@ local run = function(pos, node, run_stage)
 		return
 	end
 
-	local efficiency = 0.9
+	local remain = 0.9
 	-- Machine information
 	local machine_name  = S("Supply Converter")
 	local meta          = minetest.get_meta(pos)
-	local enabled       = meta:get_string("enabled")
-	if enabled == "" then
-		-- Backwards compatibility
-		minetest.registered_nodes["technic:supply_converter"].on_construct(pos)
-		enabled = true
-	else
-		enabled = enabled == "1"
-	end
-	enabled = enabled and (meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
+	local enabled       = meta:get_int("enabled") == 1 and
+		(meta:get_int("mesecon_mode") == 0 or meta:get_int("mesecon_effect") ~= 0)
+
+	local demand = enabled and meta:get_int("power") or 0
 
 	local pos_up        = {x=pos.x, y=pos.y+1, z=pos.z}
 	local pos_down      = {x=pos.x, y=pos.y-1, z=pos.z}
@@ -143,37 +145,18 @@ local run = function(pos, node, run_stage)
 	local to   = technic.get_cable_tier(name_down)
 
 	if from and to then
-		-- Get the "to" network switching station for EU demand calculation
-		local network_hash = technic.cables[minetest.hash_node_position(pos_down)]
-		local network = network_hash and minetest.get_position_from_hash(network_hash)
-		local sw_pos = network and {x=network.x,y=network.y+1,z=network.z}
-		local timeout = 0
-		for tier in pairs(technic.machines) do
-			-- Supply converter must be connected to a network
-			timeout = math.max(meta:get_int(tier.."_EU_timeout"), timeout)
+		local input = meta:get_int(from.."_EU_input")
+		if (technic.get_timeout(from, pos) <= 0) or (technic.get_timeout(to, pos) <= 0) then
+			-- Supply converter timed out, either RE or PR network is not running anymore
+			input = 0
 		end
-		if timeout > 0 and sw_pos and minetest.get_node(sw_pos).name == "technic:switching_station" then
-			local sw_meta = minetest.get_meta(sw_pos)
-			local demand = 0
-			if enabled then
-				-- Reverse evaluate the required machine and round to a nice number
-				demand = sw_meta:get_int("ba_demand") + sw_meta:get_int("demand")
-				demand = 100 * math.ceil(demand / efficiency / 100)
-				-- Do not draw more than the limit
-				demand = math.min(demand, meta:get_int("power"))
-			end
-
-			local input = meta:get_int(from.."_EU_input") -- actual input
-			meta:set_int(from.."_EU_demand", demand) -- desired input
-			meta:set_int(from.."_EU_supply", 0)
-			meta:set_int(to.."_EU_demand", 0)
-			meta:set_int(to.."_EU_supply", input * efficiency)
-			meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name,
-				technic.EU_string(input), from,
-				technic.EU_string(input * efficiency), to))
-		else
-			meta:set_string("infotext",S("%s Has No Network"):format(machine_name))
-		end
+		meta:set_int(from.."_EU_demand", demand)
+		meta:set_int(from.."_EU_supply", 0)
+		meta:set_int(to.."_EU_demand", 0)
+		meta:set_int(to.."_EU_supply", input * remain)
+		meta:set_string("infotext", S("@1 (@2 @3 -> @4 @5)", machine_name,
+			technic.EU_string(input), from,
+			technic.EU_string(input * remain), to))
 	else
 		meta:set_string("infotext", S("%s Has Bad Cabling"):format(machine_name))
 		if to then

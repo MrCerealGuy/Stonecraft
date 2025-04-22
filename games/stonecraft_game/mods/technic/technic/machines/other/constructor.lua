@@ -5,6 +5,8 @@ local function deploy_node(inv, slot_name, pos, node, machine_node)
 	if node.param2 > 3 then return end
 	if node.name ~= "air" then
 		if node.name == "ignore" or
+		   node.name == "default:chest_open" or
+		   node.name == "default:chest_locked_open" or
 		   node.name == "default:lava_source" or
 		   node.name == "default:lava_flowing" or
 		   node.name == "default:water_source" or
@@ -147,12 +149,13 @@ local function make_constructor(mark, length)
 			local meta = minetest.get_meta(pos)
 			local formspec = "size[8,9;]"..
 				"label[0,0;"..S("Constructor Mk%d"):format(mark).."]"..
-				"list[current_player;main;0,5;8,4;]"
+				"list[current_player;main;0,5;8,4;]"..
+				"listring[current_player;main]"
 			for i = 1, length do
-				formspec = formspec
-					.."label[5,"..(i - 1)..";"..S("Slot %d"):format(i).."]"
-					.."list[current_name;slot"..i
-						..";6,"..(i - 1)..";1,1;]"
+				formspec = formspec..
+					"label[5,"..(i - 1)..";"..S("Slot %d"):format(i).."]"..
+					"list[context;slot"..i..";6,"..(i - 1)..";1,1;]"..
+					"listring[context;slot"..i.."]"
 			end
 			meta:set_string("formspec", formspec)
 			meta:set_string("infotext", S("Constructor Mk%d"):format(mark))
@@ -205,4 +208,3 @@ end
 make_constructor(1, 1)
 make_constructor(2, 2)
 make_constructor(3, 4)
-

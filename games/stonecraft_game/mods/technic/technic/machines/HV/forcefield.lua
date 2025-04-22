@@ -43,6 +43,14 @@ end)
 --   \___/\___/
 
 local function update_forcefield(pos, meta, active)
+
+	if active then
+		-- rate limit by chance
+		if math.floor(math.random()*4) ~= 0 then
+			return
+		end
+	end
+
 	local shape = meta:get_int("shape")
 	local range = meta:get_int("range")
 	local vm = VoxelManip()
@@ -112,13 +120,12 @@ local function set_forcefield_formspec(meta)
 	else
 		formspec = formspec.."button[0,1;5,1;mesecon_mode_0;"..S("Controlled by Mesecon Signal").."]"
 	end
-	-- TODO: String replacement with %s will stop working with client-side translations
 	if meta:get_int("enabled") == 0 then
-		formspec = formspec.."button[0,1.75;5,1;enable;"..
-			S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec..
+			"button[0,1.75;5,1;enable;"..S("%s Disabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	else
-		formspec = formspec.."button[0,1.75;5,1;disable;"..
-			S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
+		formspec = formspec..
+			"button[0,1.75;5,1;disable;"..S("%s Enabled"):format(S("%s Forcefield Emitter"):format("HV")).."]"
 	end
 	meta:set_string("formspec", formspec)
 end
@@ -167,8 +174,12 @@ local mesecons = {
 }
 
 local digiline_def = {
-	receptor = {action = function() end},
+	receptor = {
+		rules = technic.digilines.rules,
+		action = function() end
+	},
 	effector = {
+		rules = technic.digilines.rules,
 		action = function(pos, node, channel, msg)
 			local meta = minetest.get_meta(pos)
 			if channel ~= meta:get_string("channel") then
@@ -198,7 +209,7 @@ local digiline_def = {
 				return
 			end
 			if msg.command == "get" then
-				digilines.receptor_send(pos, digilines.rules.default, channel, {
+				digilines.receptor_send(pos, technic.digilines.rules, channel, {
 					enabled = meta:get_int("enabled"),
 					range   = meta:get_int("range"),
 					shape   = meta:get_int("shape")
@@ -377,4 +388,3 @@ end
 
 technic.register_machine("HV", "technic:forcefield_emitter_on",  technic.receiver)
 technic.register_machine("HV", "technic:forcefield_emitter_off", technic.receiver)
-

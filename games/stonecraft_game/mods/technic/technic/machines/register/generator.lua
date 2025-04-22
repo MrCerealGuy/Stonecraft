@@ -37,7 +37,7 @@ function technic.register_generator(data)
 	local generator_formspec =
 		"size[8,9;]"..
 		"label[0,0;"..S("Fuel-Fired %s Generator"):format(tier).."]"..
-		"list[current_name;src;3,1;1,1;]"..
+		"list[context;src;3,1;1,1;]"..
 		"image[4,1;1,1;default_furnace_fire_bg.png]"..
 		"list[current_player;main;0,5;8,4;]"..
 		"listring[]"
@@ -99,7 +99,7 @@ function technic.register_generator(data)
 		meta:set_string("formspec",
 			"size[8, 9]"..
 			"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-			"list[current_name;src;3, 1;1, 1;]"..
+			"list[context;src;3, 1;1, 1;]"..
 			"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 			(percent)..":default_furnace_fire_fg.png]"..
 			"list[current_player;main;0, 5;8, 4;]"..
@@ -205,12 +205,12 @@ function technic.register_generator(data)
 			local timer = minetest.get_node_timer(pos)
 			timer:start(1)
 		end,
-		on_timer = function(pos, node)
+		on_timer = function(pos)
+			-- Connected back?
+			if technic.get_timeout(tier, pos) > 0 then return false end
+
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
-
-			-- Connected back?
-			if meta:get_int(tier.."_EU_timeout") > 0 then return false end
 
 			local burn_time = meta:get_int("burn_time") or 0
 
@@ -242,7 +242,7 @@ function technic.register_generator(data)
 			meta:set_string("formspec",
 				"size[8, 9]"..
 				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-				"list[current_name;src;3, 1;1, 1;]"..
+				"list[context;src;3, 1;1, 1;]"..
 				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
@@ -276,7 +276,7 @@ function technic.register_generator(data)
 			meta:set_string("formspec",
 				"size[8, 9]"..
 				"label[0, 0;"..minetest.formspec_escape(desc).."]"..
-				"list[current_name;src;3, 1;1, 1;]"..
+				"list[context;src;3, 1;1, 1;]"..
 				"image[4, 1;1, 1;default_furnace_fire_bg.png^[lowpart:"..
 				(percent)..":default_furnace_fire_fg.png]"..
 				"list[current_player;main;0, 5;8, 4;]"..
