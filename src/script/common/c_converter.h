@@ -14,6 +14,9 @@
 #include <vector>
 #include <string_view>
 
+// MERGEINFO: MrCerealGuy
+#include <string>
+
 #include "irrlichttypes_bloated.h"
 
 extern "C" {

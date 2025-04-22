@@ -13,6 +13,9 @@
 
 #include <string_view>
 
+// MERGEINFO: MrCerealGuy
+#include <string>
+
 extern "C" {
 #include <lua.h>
 #include <lauxlib.h>
