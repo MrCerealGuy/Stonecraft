@@ -1,0 +1,13 @@
+# Português (Brasileiro)
+# Para sakuragi (bordojapones)
+# por koshikii
+Cherry Blossom Tree = Madeira de Bordo
+Cherry Blossom Wood Planks = Lenha de Bordo
+Cherry Blossom Tree Sapling = Muda de Bordo
+Cherry Blossom Leaves = Folhas de Bordo
+Cherry Blossom Wood Stair = Escada de Madeira de Bordo
+Cherry Blossom Wood Slab = Degrau de Madeira de Bordo
+Japanese Tobira = Tobíra Japonesa
+Cherry Blossom Wood Fence = Cerca de Madeira de Bordo
+Cherry Blossom Wood Fence Gate = Porteira de Madeira de Bordo
+Cherry = Cereja

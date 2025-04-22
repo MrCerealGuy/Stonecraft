@@ -1,0 +1,10 @@
+# textdomain: trunks
+Twig=
+Moss=
+Moss with Fungus=
+Twigs Block=
+Twigs Slab=
+Twigs Roof=
+Twigs Roof Corner 1=
+Twigs Roof Corner 2=
+@1 Root=

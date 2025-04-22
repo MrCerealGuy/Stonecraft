@@ -1,0 +1,119 @@
+# textdomain: pipeworks
+
+# License: CC-by-SA 4.0
+# Author: Louis Royer <4259825-lroyer@users.noreply.gitlab.com>
+
+## generic interaction
+Set=Fixer
+Close=Fermer
+
+## digilines interfacing
+Channel=Canal
+
+## init
+Allow splitting incoming stacks from tubes=Séparer les piles venant des tubes
+
+## autocrafter
+Unknown item=Item inconnu
+unconfigured Autocrafter: unknown recipe=Autocrafteur non-configuré : recette inconnue
+unconfigured Autocrafter=Autocrafteur non-configuré
+'@1' Autocrafter (@2)=Autocrafteur de '@1' (@2)
+Save=Valider
+paused '@1' Autocrafter=Autocrafteur de '@1' en pause
+Autocrafter=Autocrafteur
+
+## compat-furnaces
+Allow splitting incoming material (not fuel) stacks from tubes=Séparer les piles (sauf le carburant) venant des tubes
+
+## decorative tubes
+Airtight steelblock embedded tube=Tube hermétique intégré à un bloc d’acier
+Airtight panel embedded tube=Tube hermétique intégré à un panneau
+
+## devices
+Pump/Intake Module=Module de pompage et d’admission
+Valve=Vanne
+Decorative grating=Grillage décoratif
+Spigot outlet=Sortie de robinet
+Airtight Pipe entry/exit=Extrémité de tube hermétique
+Flow Sensor=Détecteur de débit
+Flow sensor (on)=Détecteur de débit (actif)
+empty=vide
+@1% full=plein à @1 %
+Expansion Tank (@1)=Réservoir d’expansion (@1)
+Fluid Storage Tank (@1)=Réservoir de liquides (@1)
+Fountainhead=Tête de fontaine
+Straight-only Pipe=Tuyau droit
+
+## filter-injector
+(slot #@1 next)=(slot suivant : #@1)
+@1 Filter-Injector=Filtre-injecteur @1
+Sequence slots by Priority=Ordonner par priorité
+Sequence slots Randomly=Ordonner aléatoirement
+Sequence slots by Rotation=Ordonner en rotation
+Exact match - off=Filtrage inactif
+Exact match - on=Filtrage actif
+Prefer item types:=Items à filtrer :
+Itemwise=par item
+Stackwise=par piles d’items
+Digiline=digiline
+
+## legacy
+Auto-Tap=Robinet d’arbre automatique
+
+## pipes
+Pipe Segment=Segment de tuyau
+Pipe Segment (legacy)=Segment de tuyau (obsolète)
+
+
+## routing tubes
+Pneumatic tube segment=Segment de tuyau pneumatique
+Broken Tube=Tuyau cassé
+High Priority Tube Segment=Segment de tuyau haute priorité
+Accelerating Pneumatic Tube Segment=Segment de tuyau pneumatique accélérante
+Crossing Pneumatic Tube Segment=Intersection de tuyau pneumatique
+One way tube=Tuyau unidirectionnel
+
+## signal tubes
+Detecting Pneumatic Tube Segment on=Segment de tuyau pneumatique avec détecteur (actif)
+Detecting Pneumatic Tube Segment=Segment de tuyau pneumatique avec détecteur
+Digiline Detecting Pneumatic Tube Segment=Segment de tuyau pneumatique avec détecteur digiline
+Digiline Detecting Tube=Tuyau avec détecteur digiline
+Conducting Pneumatic Tube Segment=Segment de tuyau pneumatique conducteur
+Conducting Pneumatic Tube Segment on=Segment de tuyau pneumatique conducteur actif
+Digiline Conducting Pneumatic Tube Segment=Segment de tuyau pneumatique conducteur digiline
+Mesecon and Digiline Conducting Pneumatic Tube Segment=Segment de tuyau pneumatique conducteur mesecon et digiline
+Mesecon and Digiline Conducting Pneumatic Tube Segment on=Segment de tuyau pneumatique conducteur mesecon et digiline (actif)
+
+## sorting tubes
+Sorting Pneumatic Tube Segment=Segment de tuyau pneumatique triant
+Sorting pneumatic tube=Tuyau pneumatique triant
+
+## teleport tube
+Receive=Reception
+Channels are public by default=Les canaux sont publics par défaut
+Use <player>:<channel> for fully private channels=Utilisez <joueur>:<canal> pour un canal entièrement privé
+Use <player>;<channel> for private receivers=Utilisez <joueur>;<canal> pour une réception privée
+Teleporting Pneumatic Tube Segment=Segment de tuyau pneumatique téléporteur
+Teleporting Tube=Tuyau pneumatique téléporteur
+Unconfigured Teleportation Tube=Tuyau téléporteur non-configuré
+Sorry, channel '@1' is reserved for exclusive use by @2=Désolé, le canal '@1' est réservé exclusivement à l’utilisateur @2.
+Sorry, receiving from channel '@1' is reserved for @2=Désolé, la réception depuis le canal '@1' est réservée pour @2.
+Teleportation Tube @1 on '@2'=Tuyau de téléportation @1 sur '@2'
+
+## trashcan
+Trash Can=Poubelle
+
+## tube registration
+Pneumatic tube segment (legacy)=Segment de tuyau pneumatique (obsolète)
+
+## vacuum tubes
+Radius=Rayon
+Vacuuming Pneumatic Tube Segment=Segment de tuyau pneumatique aspirant
+Adjustable Vacuuming Tube=Tuyau pneumatique aspirant réglable
+Adjustable Vacuuming Pneumatic Tube Segment=Segment de tuyau pneumatique aspirant réglable
+Adjustable Vacuuming Pneumatic Tube Segment (@1m)=Segment de tuyau pneumatique aspirant réglable (@1 m)
+
+## wielder
+Node Breaker=Casseur de blocs
+Deployer=Poseur de blocs
+Dispenser=Distributeur

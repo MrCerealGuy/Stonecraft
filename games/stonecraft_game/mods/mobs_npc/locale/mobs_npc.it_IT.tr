@@ -1,0 +1,11 @@
+# textdomain:mobs_npc
+#Igor=
+NPC dropped you an item for gold!=Il PNG ti ha lasciato un oggetto per dell'oro!
+NPC stands still.=Il PNG sta fermo.
+NPC will follow you.=Il PNG ti seguirà.
+Npc=PNG
+Trader=Commerciante
+Trader @1=Commerciante @1
+Trader @1's stock:=Fornitura del commerciante @1
+[MOD] Mobs Redo NPCs loaded=[MOD] Mobs Redo 'NPCs' caricato
+[NPC] <Trader @1> Hello, @2, have a look at my wares.=[PNG] <Commerciante @1> Salute, @2, dà un'occhiata alle mie merci.

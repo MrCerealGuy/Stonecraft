@@ -1,0 +1,2 @@
+# Sunflower rarity (higher number -> higher probability)
+pl_sunflowers.sunflower_rarity (Sunflower rarity) float 0.005 0.0001 1

@@ -1,0 +1,2 @@
+# Morlendor Dimension Level
+nssb.morlendor_level (Morlendor Dimension Level) int -30000

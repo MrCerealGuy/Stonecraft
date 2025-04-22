@@ -1,0 +1,11 @@
+# textdomain:mobs_npc
+Igor=伊戈尔
+NPC dropped you an item for gold!=NPC给你丢了一个金币！
+NPC stands still.=NPC 站住不动。
+NPC will follow you.=NPC 会跟着你。
+#Npc=
+Trader=商人
+Trader @1=商人 @1
+Trader @1's stock:=商人@1的现货：
+[MOD] Mobs Redo NPCs loaded=[模组] Mobs Redo 'NPCs' 已加载
+[NPC] <Trader @1> Hello, @2, have a look at my wares.=[NPC] < 商人 @1 > 你好，@2，来看看我的东西！

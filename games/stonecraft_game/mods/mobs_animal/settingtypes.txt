@@ -1,0 +1,13 @@
+mobs_animal.bee (Enable Bee) bool true
+mobs_animal.bunny (Enable Bunny) bool true
+mobs_animal.chicken (Enable Chicken) bool true
+mobs_animal.cow (Enable Cow) bool true
+mobs_animal.kitten (Enable Kitten) bool true
+mobs_animal.panda (Enable Panda) bool true
+mobs_animal.penguin (Enable Penguin) bool true
+mobs_animal.rat (Enable Rat) bool true
+mobs_animal.sheep (Enable Sheep) bool true
+mobs_animal.warthog (Enable Warthog) bool true
+mobs_animal.hairball (Enable Kitten Hairball drops) bool true
+
+mobs_animal.eat_grass_block (Enable Cow/Sheep eating grass blocks) bool false

@@ -1,0 +1,121 @@
+# textdomain: pipeworks
+
+# License: CC-by-SA 4.0
+# Author: VinAdmin ovvitalik@gmail.com
+
+## generic interaction
+Set=Установить
+Cancel=Отмена
+
+## digilines interfacing
+Channel=Канал
+
+## init
+Allow splitting incoming stacks from tubes=Разрешить разделение входящих стопок из трубок
+
+## autocrafter
+Unknown item=Неизвестный предмет
+unconfigured Autocrafter: unknown recipe=ненастроенный автокрафтер: неизвестный рецепт
+unconfigured Autocrafter=ненастроенный автокрафтер
+'@1' Autocrafter (@2)='@1' Автокрафтер (@2)
+Save=Сохранить
+paused '@1' Autocrafter=приостановлено '@1' Автокрафтер
+Autocrafter=Автокрафтер
+
+## compat-furnaces
+Allow splitting incoming material (not fuel) stacks from tubes=Разрешить разделение стопок поступающего материала (не топлива) из трубок.
+
+## decorative tubes
+Airtight steelblock embedded tube=Герметичная встроенная трубка из стального блока
+Airtight panel embedded tube=Герметичная встроенная в панель трубка
+
+## devices
+Pump/Intake Module=Модуль насоса/впуска
+Valve=Клапан
+Decorative grating=Декоративная решетка
+Spigot outlet=Выходной патрубок
+Airtight Pipe entry/exit=Вход/выход герметичной трубы
+Flow Sensor=Датчик потока
+Flow sensor (on)=Датчик расхода (вкл.)
+empty=пустой
+@1% full=@1% заполнено
+Expansion Tank (@1)=Расширительный бак (@1)
+Fluid Storage Tank (@1)=Резервуар для хранения жидкости (@1)
+Fountainhead=Источник
+Straight-only Pipe=Только прямая труба
+
+## filter-injector
+(slot #@1 next)=(слот #@1 следующий)
+@1 Filter-Injector=@1 фильтр-инжектор
+Sequence slots by Priority=Последовательность слотов по приоритету
+Sequence slots Randomly=Слоты последовательности Случайный
+Sequence slots by Rotation=Последовательность слотов по вращению
+Exact match - off=Точное совпадение – выключено
+Exact match - on=Точное совпадение - включено
+Prefer item types:=Предпочитаете типы предметов:
+Itemwise=По пунктам
+Stackwise=Стекообразно
+Digiline=Диджилайн
+
+## legacy
+Auto-Tap=Авто-нажатие
+
+## pipes
+Pipe Segment=Сегмент трубы
+Pipe Segment (legacy)=Сегмент трубы (устаревший)
+
+
+## routing tubes
+Pneumatic tube segment=Сегмент пневматической трубки
+Broken Tube=Сломанная трубка
+High Priority Tube Segment=Сегмент трубы с высоким приоритетом
+Accelerating Pneumatic Tube Segment=Ускорительный сегмент пневматической трубки
+Crossing Pneumatic Tube Segment=Пересечение сегмента пневматической трубы
+One way tube=Односторонняя трубка
+
+## signal tubes
+Detecting Pneumatic Tube Segment on=Обнаружение сегмента пневматической трубки включено
+Detecting Pneumatic Tube Segment=Обнаружение сегмента пневматической трубки
+Digiline Detecting Pneumatic Tube Segment=Digiline обнаруживает сегмент пневматической трубки
+Digiline Detecting Tube=Детекторная трубка Digiline
+Conducting Pneumatic Tube Segment=Проводящий сегмент пневматической трубки
+Conducting Pneumatic Tube Segment on=Проводящий сегмент пневматической трубки на
+Digiline Conducting Pneumatic Tube Segment=Сегмент проводящей пневматической трубки Digiline
+Mesecon and Digiline Conducting Pneumatic Tube Segment=Сегмент токопроводящей пневматической трубки Mesecon и Digiline
+Mesecon and Digiline Conducting Pneumatic Tube Segment on=Сегмент проводящей пневматической трубки Mesecon и Digiline на
+Tag Sorting Pneumatic Tube Segment=Сегмент пневматической трубки для сортировки тегов
+Lua controlled Tube=Трубка, управляемая Lua
+
+## sorting tubes
+Sorting Pneumatic Tube Segment=Сортировка сегментов пневматической трубки
+Sorting pneumatic tube=Сортировочная пневматическая труба
+
+## teleport tube
+Receive=Получить
+Channels are public by default=По умолчанию каналы являются общедоступными
+Use <player>:<channel> for fully private channels=Используйте <игрок>:<канал> для полностью приватных каналов
+Use <player>;<channel> for private receivers=Используйте <игрок>;<канал> для частных приемников
+Teleporting Pneumatic Tube Segment=Сегмент пневматической трубы для телепортации
+Teleporting Tube=Телепортационная труба
+Unconfigured Teleportation Tube=Неконфигурированная телепортационная труба
+Sorry, channel '@1' is reserved for exclusive use by @2=Извините, канал '@1' зарезервирован исключительно для использования @2
+Sorry, receiving from channel '@1' is reserved for @2=Извините, прием с канала '@1' зарезервирован для @2
+Teleportation Tube @1 on '@2'=Трубка телепортации @1 на '@2'
+
+## trashcan
+Trash Can=Мусорное ведро
+
+## tube registration
+Pneumatic tube segment (legacy)=Сегмент пневматической трубы (устаревший)
+
+## vacuum tubes
+Radius=Радиус
+Vacuuming Pneumatic Tube Segment=Сегмент пневматической трубки для вакуумирования
+Adjustable Vacuuming Tube=Регулируемая вакуумная трубка
+Adjustable Vacuuming Pneumatic Tube Segment=Регулируемый сегмент вакуумной пневматической трубки
+Adjustable Vacuuming Pneumatic Tube Segment (@1m)=Регулируемый сегмент вакуумной пневматической трубки (@1m)
+
+## wielder
+Node Breaker=Разрушитель узла
+Deployer=Развертыватель
+Dispenser=Распылитель

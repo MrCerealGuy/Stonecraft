@@ -1,0 +1,117 @@
+# textdomain: pipeworks
+# License: CC-by-SA 4.0
+# Author: pevernow <3450354617@qq.com>
+
+## generic interaction
+Set=
+Cancel=
+
+## digilines interfacing
+Channel=频道
+
+## init
+Allow splitting incoming stacks from tubes=允许从管道中拆分传入堆栈
+
+## autocrafter
+Unknown item=通道
+unconfigured Autocrafter: unknown recipe=未配置的自动工作台: 未知配方
+unconfigured Autocrafter=未配置的自动工作台
+'@1' Autocrafter (@2)=自动工作台 '@1' (@2)
+Save=保存
+paused '@1' Autocrafter=暂停的自动工作台
+Autocrafter=自动工作台
+
+## compat-furnaces
+Allow splitting incoming material (not fuel) stacks from tubes=允许从管子中分离进来的材料（不是燃料）堆
+
+## decorative tubes
+Airtight steelblock embedded tube=密封嵌入式铁块管道
+Airtight panel embedded tube=密封嵌入式片状管道
+
+## devices
+Pump/Intake Module=泵/进气模块
+Valve=阀门
+Decorative grating=Decorative grating
+Spigot outlet=龙头
+Airtight Pipe entry/exit=密闭管进/出
+Flow Sensor=流量传感器
+Flow sensor (on)=流量传感器（上）
+empty=空的
+@1% full=满的@1 %
+Expansion Tank (@1)=扩展水箱 (@1)
+Fluid Storage Tank (@1)=储液罐 (@1)
+Fountainhead=源泉
+Straight-only Pipe=直管
+## filter-injector
+(slot #@1 next)=(下一个插槽 : #@1)
+@1 Filter-Injector=@1取物器
+Sequence slots by Priority=优先顺序排列
+Sequence slots Randomly=随机排列时隙
+Sequence slots by Rotation=旋转顺序槽
+Exact match - off=完全匹配-关闭
+Exact match - on=完全匹配-开启
+Prefer item types:=偏好物品类型 :
+Itemwise=逐项
+Stackwise=堆叠方式
+Digiline=Digiline
+
+## legacy
+Auto-Tap=自动轴阀
+
+## pipes
+Pipe Segment=管道
+Pipe Segment (legacy)=管道（旧版）
+
+
+## routing tubes
+Pneumatic tube segment=普通管道
+Broken Tube=断管
+High Priority Tube Segment=高优先级管段
+Accelerating Pneumatic Tube Segment=加速管道
+Crossing Pneumatic Tube Segment=定向管道
+One way tube=单向管
+
+## signal tubes
+Detecting Pneumatic Tube Segment on=检测管道（运行中）
+Detecting Pneumatic Tube Segment=检测管道
+Digiline Detecting Pneumatic Tube Segment=Digiline检测管道
+Digiline Detecting Tube=Digiline检测管
+Conducting Pneumatic Tube Segment=传导管道
+Conducting Pneumatic Tube Segment on=传导管道（运行中）
+Digiline Conducting Pneumatic Tube Segment=Digiline传导式气动管道
+Mesecon and Digiline Conducting Pneumatic Tube Segment=Mesecon和Digiline传导管道
+Mesecon and Digiline Conducting Pneumatic Tube Segment on=Mesecon和Digiline传导管道（运行中）
+
+## sorting tubes
+Sorting Pneumatic Tube Segment=分类管道
+Sorting pneumatic tube=分类管道
+
+## teleport tube
+Receive=接收
+Channels are public by default=频道默认为公开
+Use <player>:<channel> for fully private channels=将<player>:<channel>用于完全私人的频道
+Use <player>;<channel> for private receivers=使用<player>;<channel>作为私人接收器
+Teleporting Pneumatic Tube Segment=传送管道
+Teleporting Tube=
+Unconfigured Teleportation Tube=未配置的传送管道
+Sorry, channel '@1' is reserved for exclusive use by @2=抱歉，频道‘@1’保留供‘@2’专用
+Sorry, receiving from channel '@1' is reserved for @2=抱歉，从频道'@1'接收的内容已保留给'@2'
+Teleportation Tube @1 on '@2'=传送管'@1'在'@2'上
+
+## trashcan
+Trash Can=垃圾箱
+
+## tube registration
+Pneumatic tube segment (legacy)=普通管道（旧式）
+
+## vacuum tubes
+Radius=
+Vacuuming Pneumatic Tube Segment=拾取管道
+Adjustable Vacuuming Tube=
+Adjustable Vacuuming Pneumatic Tube Segment=高级拾取管道
+Adjustable Vacuuming Pneumatic Tube Segment (@1m)=高级拾取管道(@1m)
+
+## wielder
+Node Breaker=方块破坏器
+Deployer=放置器
+Dispenser=投掷器

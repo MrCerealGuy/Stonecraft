@@ -1,0 +1,8 @@
+# textdomain: 3d_armor_ui
+3D Armor=
+Armor not initialized!=
+Armor=
+Level=
+Heal=
+Fire=
+Radiation=

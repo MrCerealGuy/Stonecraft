@@ -1,0 +1,10 @@
+mobs_monster.dirt_monster (Enable Dirt Monster) bool true
+mobs_monster.dungeon_master (Enable Dungeon Master) bool true
+mobs_monster.fire_spirit (Enable Fire Spirit) bool true
+mobs_monster.land_guard (Enable Land Guard) bool true
+mobs_monster.lava_flan (Enable Lava Flan) bool true
+mobs_monster.mese_monster (Enable Mese Monster) bool true
+mobs_monster.oerkki (Enable Oerkki) bool true
+mobs_monster.spider (Enable Spider) bool true
+mobs_monster.stone_monster (Enable Stone Monster) bool true
+mobs_monster.tree_monster (Enable Tree Monster) bool true

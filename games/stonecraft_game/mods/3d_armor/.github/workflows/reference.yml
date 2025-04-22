@@ -1,0 +1,31 @@
+name: Build Reference
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Lua
+      uses: leafo/gh-actions-lua@v10.0.0
+      with:
+        luaVersion: 5.4
+    - name: Setup Lua Rocks
+      uses: leafo/gh-actions-luarocks@v4
+    - name: Setup LDoc dependencies
+      run: luarocks install --only-deps https://raw.githubusercontent.com/lunarmodules/ldoc/master/rockspecs/ldoc-1.5.0-1.rockspec
+    - name: Setup LDoc
+      run: git clone --single-branch --branch=custom https://github.com/AntumDeluge/ldoc.git .ldoc/ldoc && chmod +x .ldoc/ldoc/ldoc.lua
+    - name: Generate docs
+      run: chmod +x .ldoc/gendoc.sh && ./.ldoc/gendoc.sh
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./3d_armor/docs

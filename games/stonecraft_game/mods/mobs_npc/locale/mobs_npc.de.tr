@@ -1,0 +1,11 @@
+# textdomain:mobs_npc
+#Igor=
+NPC dropped you an item for gold!=NSC ließ dir für Gold einen Gegenstand fallen!
+NPC stands still.=NSC bleibt stehen.
+NPC will follow you.=NSC wird dir folgen.
+Npc=Nsc
+Trader=Händler
+Trader @1=Händler @1
+Trader @1's stock:=Händler @1s Warenlager
+[MOD] Mobs Redo NPCs loaded=[MOD] Mobs Redo 'NPCs' geladen
+[NPC] <Trader @1> Hello, @2, have a look at my wares.=[NSC] <Händler @1> Hallo, @2, wirf einen Blick auf meine Waren.

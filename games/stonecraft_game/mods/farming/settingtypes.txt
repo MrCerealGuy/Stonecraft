@@ -1,0 +1,6 @@
+#    Contains a value used for speed of crop growth in seconds
+farming_stage_length (Farming Stage Length) float 160.0
+
+farming_use_utensils (Use utensil recipes) bool true
+
+farming_disable_weeds (Disable Weed growth) bool false

@@ -1,0 +1,13 @@
+# 日本語
+# sakuragiのロカール (サクラギ)
+# 著者：koshikii（コシキー）
+Cherry Blossom Tree = 桜の丸太
+Cherry Blossom Wood Planks = 桜の敷板
+Cherry Blossom Tree Sapling = 桜苗木
+Cherry Blossom Leaves = 桜の木の葉
+Cherry Blossom Wood Stair = 桜色な階段
+Cherry Blossom Wood Slab = 桜色な板
+Japanese Tobira = 扉
+Cherry Blossom Wood Fence = 桜色な垣根
+Cherry Blossom Wood Fence Gate = 桜色な垣根の関
+Cherry = 桜ランボ

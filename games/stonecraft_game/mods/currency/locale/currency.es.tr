@@ -1,0 +1,46 @@
+# textdomain: currency
+# author: PsycoJaker
+
+
+### barter.lua ###
+
+Barter Table=Mesa de intercambios
+Cancel=Denegar
+Confirm=Aceptar
+Start=Intercambiar
+
+### shop.lua ###
+
+Exchange=Trato
+
+### craftitems.lua ###
+
+@1 Minegeld Note=Billete de @1 Minegeld
+@1 Minegeld cent coin= Moneda de @1 Minegeld
+Bundle of random Minegeld notes=Monton de dinero
+
+### safe.lua ###
+
+Safe=Caja fuerte
+Safe (owned by @1)=Caja fuerte de @1
+
+### shop.lua ###
+
+Customer gets:=Tu compra:
+Customer gives (pay here!)=Paga aqui
+Customers gave:=Los compradores ofrecieron:
+Exchange can not be done, check if you put all items!=La compra ha fallado, comprueba tu pago
+Exchange can not be done, contact the shop owner.=La compra ha fallado, comunicate con el vendedor
+Exchange shop (owned by @1)=Tienda de @1
+Exchanged!=Comprado
+In exchange, you give:=Vendes:
+out of stock=Sin exsitencias
+Owner gives:=Vendedor ofrece:
+Owner wants:=Vendedor pide:
+
+Owner, Use (E)+Place (right mouse button) for customer interface=Usa, las teclas (especial + boton derecho del raton) para ver a la interfaz del comprador
+
+Shop=Tienda
+This is your own shop, you can't exchange to yourself!=No puedes comprar en tu propia tienda
+You want:=Tu pides:
+Your stock:=Tus existencias:

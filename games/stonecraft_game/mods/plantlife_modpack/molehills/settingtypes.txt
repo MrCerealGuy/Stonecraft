@@ -1,0 +1,2 @@
+# Molehill rarity (higher number -> higher probability)
+molehills.molehill_rarity (Molehill rarity) float 0.002 0.0001 1

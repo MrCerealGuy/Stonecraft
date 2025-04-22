@@ -1,0 +1,2 @@
+# Seaweed rarity (higher number -> higher probability)
+pl_seaweed.seaweed_rarity (Seaweed rarity) float 0.06 0.0001 1

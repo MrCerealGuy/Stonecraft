@@ -1,0 +1,48 @@
+# Comma-separated list of things that a spawned node is allowed to grow
+# through.  Air is always added to whatever else you specify here.
+biome_lib_default_grow_through_nodes (List of things a plant can grow through) string default:snow
+
+# Comma-separated list of nodes that should be treated as water or water-like
+# for the sake of looking for neighboring wet ground.
+biome_lib_default_water_nodes (List of "water-like" sources) string default:water_source,default:water_flowing,default:river_water_source,default:river_water_flowing
+
+# Comma-separated list of nodes that should be considered "wet" if one of
+# the configured "water-like" sources is nearby.
+biome_lib_default_wet_surfaces (List of "wet" nodes) string default:dirt,default:dirt_with_grass,default:sand
+
+# Comma-separated list of nodes that something must be sitting on to be
+# able to actively change from one thing to another (such as a sapling
+# growing into a tree), to be used if the mod that added that growable
+# thing didn't provide its own list of suitable surfaces.
+biome_lib_default_grow_nodes (List of default surfaces a plant can thrive on) string default:dirt_with_grass
+
+# Comma-separated list of nodes to use as the "root" of something that can
+# gradually climb up a wall (such as ivy), to be used if the mod that added
+# the climing thing didn't provide its own list.
+biome_lib_default_ground_nodes (List of default root nodes) string default:dirt_with_grass
+
+# biome_lib divides its workload into "actions", as dictated by the sum
+# total of all mods that use it, and this sets how much of that work is done
+# per globalstep tick.  If positive, a single action is executed on that
+# percentage of ticks, on average. If negative, it becomes positive, and
+# that many actions are executed on every single tick, skipping none.
+# More negative means more throughput, at the expense of lag.  On fast PC's,
+# a setting of between -500 and -2000 might be good.
+biome_lib_queue_ratio (Queue run ratio) int -200
+
+# Minetest's map generator allows neighboring areas to overflow into one
+# another, to create smooth terrain, but it often hands the map blocks that
+# comprise those areas to Lua (and hence, to biome_lib) before that overflow
+# function happens, which causes the mapgen to overwrite whatever Lua does
+# to them.  This setting (in seconds) makes biome_lib wait before adding its
+# normal output to those map blocks, to give the engine plenty of time to
+# run that overflow feature first.
+biome_lib_block_timeout (Deferred block timeout) int 300
+
+# This does just what it sounds like - it shows all debug output that's sent
+# with a level equal to or greater than this value.  A setting of 0 shows only
+# the bare necessities, such as the startup and shutdown messages, 1 adds
+# internal non-fatal errors to what's shown, 2 adds warnings, 3 adds other
+# basic info, 4 adds all the verbose debugging spew. 3 is perhaps the most
+# useful setting.
+biome_lib_debug_log_level (Debug log level) int 0

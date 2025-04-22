@@ -1,0 +1,14 @@
+# Is income enabled?
+currency.income_enabled (Is currency income enabled?) bool true
+
+# Is income enabled for creative players?
+currency.creative_income_enabled (Is income enabled for creative players?) bool true
+
+# Item that is given as income by the currency mod
+currency.income_item (Currency income item) string currency:minegeld_10
+
+# Number of items given as income
+currency.income_count (Currency income item) int 1 1 65535
+
+# Length of time (in seconds) between checking if a user should get income
+currency.income_period (Currency income period) int 720

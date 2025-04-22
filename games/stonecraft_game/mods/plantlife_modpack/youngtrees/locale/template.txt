@@ -1,0 +1,5 @@
+# textdomain: youngtrees
+Young Bamboo Tree=
+Young Tree (top)=
+Young Tree (middle)=
+Young Tree (bottom)=

@@ -1,0 +1,71 @@
+# textdomain: ropes
+
+
+### bridge.lua ###
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Wooden Bridge=Puente de madera
+
+### crafts.lua ###
+
+Rope Segment=Segmento de cuerda
+
+### doc.lua ###
+
+A hanging rope ladder that automatically extends downward.=Una escalera de cuerda colgante que se extiende automáticamente hacia abajo.
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+A ladder for climbing. It can reach greater heights when placed against a supporting block.=Una escalera para subir. Puede alcanzar mayores alturas cuando se coloca contra un bloque de soporte.
+
+A rope can be severed midway using an axe or other similar tool. The section of rope below the cut will collapse and disappear, potentially causing players who were hanging on to it to fall. The remaining rope will not resume descent on its own, but the rope box at the top of the rope "remembers" how long the rope was and if it is deconstructed and replaced it will still have the same maximum length of rope as before - no rope is permanently lost when a rope is severed like this.=Una cuerda puede ser cortada a mitad de camino usando un hacha u otra herramienta similar. La sección de la cuerda debajo del corte se colapsará y desaparecerá, lo que puede causar que los jugadores que estaban colgados de ella se caigan. El resto de la cuerda no volverá a descender por sí sola, pero la caja de la cuerda en la parte superior de la cuerda "recuerda" la longitud de la cuerda y si es deconstruida y reemplazada tendrá la misma longitud máxima de cuerda que antes - ninguna cuerda se pierde permanentemente cuando una cuerda es cortada de esta manera.
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+A wooden platform with support struts useful for bridging gaps.=Una plataforma de madera con puntales de soporte útil para salvar huecos.
+
+After a rope ladder is placed on a vertical wall it will begin extending downward until it reaches its maximum length (@1 meters). If the rope ladder is removed all of the ladder below the point of removal will disappear. A rope ladder can be severed partway down using an axe or similar tool, and the ladder below the point where it is cut will collapse. No rope is actually lost in the process, though, and if the uppermost section of the ladder is removed and replaced the ladder will re-extend to the same maximum length as before.=Después de colocar una escalera de cuerda en una pared vertical, comenzará a extenderse hacia abajo hasta que alcance su longitud máxima (@1 metro). Si se retira la escalera de cuerda, desaparecerá toda la escalera por debajo del punto de extracción. Una escalera de cuerda puede ser cortada hasta la mitad usando un hacha o una herramienta similar, y la escalera por debajo del punto donde es cortada colapsará. Sin embargo, no se pierde ninguna cuerda en el proceso, y si la sección superior de la escalera se retira y se reemplaza, la escalera se volverá a extender a la misma longitud máxima que antes.
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Right-clicking on a ladder with a stack of identical ladder items will automatically add new ladder segments to the top, provided it hasn't extended too far up beyond the last block behind it providing support.=Al hacer clic con el botón derecho en una escalera con una pila de elementos de escalera idénticos, se agregarán automáticamente nuevos segmentos de escalera a la parte superior, siempre que no se haya extendido demasiado más allá del último bloque detrás de ella que brinda soporte.
+
+Rope boxes have a certain amount of rope contained within them specified in the name of the node, and have a limit to how much rope they can support that depends on the material they're made of. The different lengths can be crafted by combining and splitting up rope boxes in the crafting grid. For example, you can craft a @1m rope box by putting a @2m rope box and a rope segment in the crafting grid, or a @3m rope box and two rope segments in the crafting grid. Two rope segments can be recovered by putting the @4m rope box in the crafting grid by itself.=Las cajas de cuerdas tienen una cierta cantidad de cuerda contenida dentro de ellas especificada en el nombre del nodo, y tienen un límite en la cantidad de cuerda que pueden soportar que depende del material del que están hechas. Las diferentes longitudes se pueden realizar combinando y dividiendo las cajas de cuerda en la rejilla de elaboración. Por ejemplo, puedes crear una caja de cuerda de @1m poniendo una caja de cuerda de @2m y un segmento de cuerda en la rejilla de artesanía, o una caja de cuerda de @3m y dos segmentos de cuerda en la rejilla de artesanía. Se pueden recuperar dos segmentos de cable colocando solo la caja de cable de @4m en la rejilla de fabricación.
+
+Rope segments are bundles of fibre twisted into robust cables.=Los segmentos de cable son haces de fibras trenzadas en cables robustos.
+
+Ropes are hung by placing rope boxes, which automatically lower a rope of fixed length below them. They can be climbed and cut.=Las cuerdas se cuelgan colocando cajas de cuerda, que bajan automáticamente una cuerda de longitud fija por debajo de ellas. Se pueden escalar y cortar.
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+This behaves like most structural blocks except in one circumstance: when placed on top of a block with buildable space on the side facing away from you, this block will not be built on top but instead will extend out from that far side of the target block. This allows a platform to be easily built that juts out away from the location you're standing on.=Esto se comporta como la mayoría de los bloques estructurales, excepto en una circunstancia: cuando se coloca encima de un bloque con un espacio edificable en el lado que mira hacia afuera, este bloque no se construirá en la parte superior, sino que se extenderá desde ese lado más alejado del bloque objetivo. . Esto permite construir fácilmente una plataforma que sobresale del lugar en el que se encuentra.
+
+This craft item is useful for creating rope ladders, or for spooling on wooden spindles to hang and climb upon.=Esta objeto es útil para crear escaleras de cuerda, o para enrollar en husillos de madera para colgar y trepar.
+
+When a rope box is placed the rope will immediately begin lowering from it at one meter per second. The rope will only descend when its end is in the vicinity of an active player, suspending its journey when no players are nearby, so a long descent may require a player to climb down the rope as it goes. If you are near the bottom end of a rope that's extending you'll be automatically carried down with it. The rope will stop when it encounters and obstruction, but will resume lowering if the obstruction is removed.=Cuando se coloca una caja de cuerda, la cuerda comienza a descender inmediatamente a un metro por segundo. La cuerda sólo descenderá cuando su final esté cerca de un jugador activo, suspendiendo su viaje cuando no haya jugadores cerca, por lo que un largo descenso puede requerir que el jugador baje por la cuerda a medida que avanza. Si estás cerca del extremo inferior de una cuerda que se está extendiendo, serás arrastrado automáticamente hacia abajo con ella. La cuerda se detendrá cuando se encuentre con una obstrucción, pero volverá a bajar si se retira la obstrucción.
+
+rope boxes can hold @1m of rope.=Las cajas de cuerdas pueden mantener @1m de cuerda.
+rope boxes can hold rope lengths from @1m to @2m.=Las cajas de cuerda pueden contener longitudes de cuerda de @1m a @2m.
+
+### doc.lua ###
+### ropeboxes.lua ###
+
+Copper=cobre
+Steel=acero
+Wood=madera
+
+### extendingladder.lua ###
+
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Steel Extendable Ladder=Escalera extensible de acero
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Steel Ladder=Escalera de acero
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Wooden Extendable Ladder=Escalera extensible de madera
+#WARNING: AUTOTRANSLATED BY GOOGLE TRANSLATE
+Wooden Ladder=Escalera de madera
+
+### ropeboxes.lua ###
+
+@1 Ropebox @2m=Caja de cuerda de @1 de @2m
+Rope=Cuerda
+
+### ropeladder.lua ###
+
+Rope Ladder=Escalera de cuerda

@@ -1,0 +1,7 @@
+# textdomain: ambience
+<svol>=<sgłośność>
+set sound volume (0.1 to 1.0)=ustaw głośność dźwięku (0.1 do 1.0)
+Sound volume set to @1=Głośność dźwięku ustawiona na @1
+<mvol>=<mgłośność>
+set music volume (0.1 to 1.0, 0 to stop music)=ustaw głośność muzyki (0.1 do 1.0, 0 aby zatrzymać muzykę)
+Music volume set to @1=Głośność muzyki ustawiona na @1

@@ -1,0 +1,15 @@
+# 日本語
+# redtreesのロカール (アカイキ)
+# 著者：koshikii（コシキー）
+Fiery Tree = 赤い丸太
+Fiery Wooden Planks = 赤い敷板
+Fiery Tree Sapling = 赤い苗木
+Fiery Leaves = 赤い木ノ葉
+Luxurious Door = 華奢なドア
+Akai Bonsai = 赤い盆栽
+Tree Chilli Powder = 辛い葉粉
+Tree Chilli Treat = 酢っぽい葉トリート
+Fiery Fence = 赤い垣根
+Fiery Fence Gate = 赤い垣根の関
+Fiery Wooden Stairs = 赤い階段
+Fiery Wooden Slab = 赤い板

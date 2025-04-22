@@ -1,0 +1,2 @@
+# Waterlily rarity (higher number -> higher probability)
+pl_waterlilies.waterlily_rarity (Waterlily rarity) float 0.03 0.0001 1

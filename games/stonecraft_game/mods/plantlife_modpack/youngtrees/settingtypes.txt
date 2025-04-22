@@ -1,0 +1,2 @@
+# Youngtree rarity (higher number -> higher probability)
+youngtrees.youngtree_rarity (Youngtree rarity) float 0.0005 0.0001 1

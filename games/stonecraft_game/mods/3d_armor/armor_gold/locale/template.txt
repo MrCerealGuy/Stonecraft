@@ -1,0 +1,5 @@
+# textdomain: armor_gold
+Gold Helmet=
+Gold Chestplate=
+Gold Leggings=
+Gold Boots=

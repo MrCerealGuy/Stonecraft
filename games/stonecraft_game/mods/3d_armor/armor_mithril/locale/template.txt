@@ -1,0 +1,5 @@
+# textdomain: armor_mithril
+Mithril Helmet=
+Mithril Chestplate=
+Mithril Leggings=
+Mithril Boots=

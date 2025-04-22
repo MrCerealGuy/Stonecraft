@@ -1,0 +1,41 @@
+#Enable the vines item
+vines_enable_vines (Enable vines item) bool true
+
+#Enables ropes made of vine.
+vines_enable_rope (Enable vine ropes) bool true
+
+#Enables root vines.
+vines_enable_roots (Enable root vines) bool true
+
+#Rarity of root vines, from 1 to 10, lower numbers are rarer.
+vines_rarity_roots (Rarity of roots vines) float 0.5 1 0
+
+#Enables the standard type of vines.
+vines_enable_standard (Enable standard vines) bool true
+
+#Rarity of standard vines, from 1 to 10, lower numbers are rarer.
+vines_rarity_standard (Rarity of standard vines) float 0.2 1 0
+
+#Enables the type of vines that grow on the sides of leaf blocks.
+vines_enable_side (Enable side vines) bool true
+
+#Rarity of side vines, from 1 to 10, lower numbers are rarer.
+vines_rarity_side (Rarity of side vines) float 0.2 1 0
+
+#Enables jungle style vines.
+vines_enable_jungle (Enable jungle vines) bool true
+
+#Rarity of jungle vines, from 1 to 10, lower numbers are rarer.
+vines_rarity_jungle (Rarity of jungle vines) float 0.2 1 0
+
+#Enables willow vines.
+vines_enable_willow (Enable willow vines) bool true
+
+#Rarity of willow vines, from 1 to 10, lower numbers are rarer.
+vines_rarity_willow (Rarity of willow vines) float 0.2 1 0
+
+#Vine growth speed, minimum number of seconds between each growth.
+vines_growth_min (Minimum number of seconds between growth) int 180 1 3600
+
+#Vine growth speed, maximum number of seconds between each growth.
+vines_growth_max (Maximum number of seconds between growth) int 360 1 3600

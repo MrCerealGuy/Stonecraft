@@ -1,0 +1,5 @@
+# textdomain: armor_wood
+Wood Helmet=
+Wood Chestplate=
+Wood Leggings=
+Wood Boots=

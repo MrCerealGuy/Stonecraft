@@ -1,0 +1,119 @@
+# textdomain: pipeworks
+
+# License: CC-by-SA 4.0
+# Author:
+
+## generic interaction
+Set=
+Cancel=
+
+## digilines interfacing
+Channel=
+
+## init
+Allow splitting incoming stacks from tubes=
+
+## autocrafter
+Unknown item=
+unconfigured Autocrafter: unknown recipe=
+unconfigured Autocrafter=
+'@1' Autocrafter (@2)=
+Save=
+paused '@1' Autocrafter=
+Autocrafter=
+
+## compat-furnaces
+Allow splitting incoming material (not fuel) stacks from tubes=
+
+## decorative tubes
+Airtight steelblock embedded tube=
+Airtight panel embedded tube=
+
+## devices
+Pump/Intake Module=
+Valve=
+Decorative grating=
+Spigot outlet=
+Airtight Pipe entry/exit=
+Flow Sensor=
+Flow sensor (on)=
+empty=
+@1% full=
+Expansion Tank (@1)=
+Fluid Storage Tank (@1)=
+Fountainhead=
+Straight-only Pipe=
+
+## filter-injector
+(slot #@1 next)=
+@1 Filter-Injector=
+Sequence slots by Priority=
+Sequence slots Randomly=
+Sequence slots by Rotation=
+Exact match - off=
+Exact match - on=
+Prefer item types:=
+Itemwise=
+Stackwise=
+Digiline=
+
+## legacy
+Auto-Tap=
+
+## pipes
+Pipe Segment=
+Pipe Segment (legacy)=
+
+
+## routing tubes
+Pneumatic tube segment=
+Broken Tube=
+High Priority Tube Segment=
+Accelerating Pneumatic Tube Segment=
+Crossing Pneumatic Tube Segment=
+One way tube=
+
+## signal tubes
+Detecting Pneumatic Tube Segment on=
+Detecting Pneumatic Tube Segment=
+Digiline Detecting Pneumatic Tube Segment=
+Digiline Detecting Tube=
+Conducting Pneumatic Tube Segment=
+Conducting Pneumatic Tube Segment on=
+Digiline Conducting Pneumatic Tube Segment=
+Mesecon and Digiline Conducting Pneumatic Tube Segment=
+Mesecon and Digiline Conducting Pneumatic Tube Segment on=
+
+## sorting tubes
+Sorting Pneumatic Tube Segment=
+Sorting pneumatic tube=
+
+## teleport tube
+Receive=
+Channels are public by default=
+Use <player>:<channel> for fully private channels=
+Use <player>;<channel> for private receivers=
+Teleporting Pneumatic Tube Segment=
+Teleporting Tube=
+Unconfigured Teleportation Tube=
+Sorry, channel '@1' is reserved for exclusive use by @2=
+Sorry, receiving from channel '@1' is reserved for @2=
+Teleportation Tube @1 on '@2'=
+
+## trashcan
+Trash Can=
+
+## tube registration
+Pneumatic tube segment (legacy)=
+
+## vacuum tubes
+Radius=
+Vacuuming Pneumatic Tube Segment=
+Adjustable Vacuuming Tube=
+Adjustable Vacuuming Pneumatic Tube Segment=
+Adjustable Vacuuming Pneumatic Tube Segment (@1m)=
+
+## wielder
+Node Breaker=
+Deployer=
+Dispenser=

@@ -1,0 +1,155 @@
+# Template
+
+### alias.lua ###
+
+### init.lua ###
+
+### nodes_anvil.lua ###
+Steel hammer for repairing tools on the anvil =
+anvil =
+Anvil =
+The workpiece slot is for damaged tools only. =
+Your tool has been repaired successfully. =
+Your workpiece improves. =
+Anvil (owned by %s) = 
+Workpiece: = 
+Optional = 
+storage for = 
+your hammer = 
+Owner: %s = 
+Punch anvil with hammer to = 
+repair tool in workpiece-slot. = 
+
+### nodes_barrel.lua ###
+Pour: =
+Fill: =
+barrel (closed) =
+barrel (open) =
+barrel (closed), lying somewhere =
+barrel (opened), lying somewhere =
+tub =
+
+### nodes_chests.lua ###
+private NPC chest = 
+chest for work utils and kitchens = 
+storage chest = 
+
+### nodes_doorlike.lua ###
+opened window shutters =
+closed window shutters =
+half door =
+half door inverted =
+closed fence gate =
+opened fence gate =
+wooden hatch =
+metal hatch =
+
+### nodes_fences.lua ###
+small fence =
+small fence corner =
+small fence end =
+
+### nodes_furniture.lua ###
+Bed (foot region) =
+Bed (head region) =
+sleeping mat =
+simple wooden bench =
+table =
+open storage shelf =
+open storage shelf (in use) =
+open storage shelf (empty) =
+stovepipe =
+washing place =
+Sorry. This washing place is out of water. Please place it above water! =
+You feel much cleaner after some washing. = 
+
+### nodes_historic.lua ###
+wagon wheel =
+dirt road =
+loam =
+Dirt Road Stairs =
+Dirt Road, half height =
+Loam Stairs =
+Loam Slab =
+Clay Stairs =
+Clay Slab =
+straw ground for animals =
+simple glass pane =
+
+### nodes_roof.lua ###
+Roof straw = 
+Roof wood =
+Roof black =
+Roof red =
+Roof brown =
+Roof reet =
+Roof slate =
+Roof connector straw =
+Roof connector wood =
+Roof connector black =
+Roof connector red =
+Roof connector brown =
+Roof connector reet =
+Roof connector slate =
+Roof (flat) straw =
+Roof (flat) wood =
+Roof (flat) black =
+Roof (flat) red =
+Roof (flat) brown =
+Roof (flat) reet =
+Roof (flat) slate =
+Vertical Slate =
+Reet for thatching =
+
+### nodes_straw.lua ###
+layer of straw =
+straw bale =
+straw =
+threshing floor =
+Threshing floor =
+Threshing floor (owned by %s) =
+Public threshing floor (owned by %s) =
+Private threshing floor (owned by %s) =
+Harvested wheat: = 
+Straw: = 
+Seeds: = 
+Owner: %s = 
+Punch threshing floor with a stick = 
+to get straw and seeds from wheat. = 
+You have threshed %s wheat (%s are left). =
+You have threshed the last %s wheat. =
+mill, powered by punching =
+Mill, powered by punching =
+Mill, powered by punching (owned by %s) =
+Public mill, powered by punching (owned by %s) =
+Private mill, powered by punching (owned by %s) =
+Wheat seeds: =
+Flour: =
+Mill =
+Owner: %s =
+Punch this hand-driven mill =
+to convert wheat seeds into flour. =
+You have grinded %s wheat seeds (%s are left). =
+You have grinded the last %s wheat seeds. =
+
+Your threshing floor can now be used by other players as well. =
+Your mill, powered by punching can now be used by other players as well. =
+
+Your threshing floor can only be used by yourself. =
+Your mill, powered by punching can only be used by yourself. =
+
+Public? =
+
+Public tree trunk well =
+Public tree trunk well (owned by %s) =
+This tree trunk well is owned by %s. You can't use it. =
+Sorry. You have no room for the bucket. Please free some space in your inventory first! =
+Your tree trunk well can now be used by other players as well. =
+Your tree trunk well can only be used by yourself. =
+
+pitchfork (dig dirt with grass to get hay, place with right-click) =
+pitchfork (for hay and straw) =
+
+Some hay =
+Hay =
+Hay bale =

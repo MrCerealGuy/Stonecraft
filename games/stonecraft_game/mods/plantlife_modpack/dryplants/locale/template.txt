@@ -1,0 +1,21 @@
+# textdomain: dryplants
+Sickle=
+Cut Grass=
+Hay=
+Short Grass=
+Juncus=
+Wet Reed=
+Wet Reed Slab=
+Wet Reed Roof=
+Wet Reed Roof Corner 1=
+Wet Reed Roof Corner 2=
+Reed=
+Reed Slab=
+Reed Roof=
+Reed Roof Corner 1=
+Reed Roof Corner 2=
+Reedmace=
+Reedmace, height: 1=
+Reedmace, height: 2=
+Reedmace, height: 3=
+Reedmace, height: 3 & Spikes=

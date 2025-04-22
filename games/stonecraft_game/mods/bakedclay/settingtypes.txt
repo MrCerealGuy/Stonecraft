@@ -1,0 +1,5 @@
+#    Registers compatibility aliases with the older colored_clay mod
+colored_clay_compatibility (Colored Clay Compatibility) bool false
+
+#    Registers compatibility aliases in older worlds for StairsPlus mod
+stairsplus_clay_compatibility (StairsPlus Stair Compatibility) bool true

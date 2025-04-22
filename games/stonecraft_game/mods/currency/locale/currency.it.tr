@@ -1,0 +1,45 @@
+# textdomain: currency
+# Saturn, 2020-10-23
+
+
+### barter.lua ###
+
+Barter Table=Tavolo di baratto
+Cancel=Annulla
+Confirm=Conferma
+Start=Inizia
+
+### shop.lua ###
+
+Exchange=Scambia
+
+### craftitems.lua ###
+
+@1 Minegeld Note=Banconota da @1 Minegeld
+@1 Minegeld cent coin=Moneta da @1 centesimo/i Minegeld
+Bundle of random Minegeld notes=Pacchetto di banconote Minegeld casuali
+
+### safe.lua ###
+
+Safe=Cassaforte
+Safe (owned by @1)=Cassaforte (di proprietà di @1)
+
+### shop.lua ###
+
+Customer gets:=Il cliente ottiene:
+Customer gives (pay here!)=Il cliente dà (paga qui!)
+Customers gave:=I clienti hanno dato:
+Exchange can not be done, check if you put all items!=Lo scambio non può essere fatto, controlla di avere messo tutti gli oggetti!
+Exchange can not be done, contact the shop owner.=Lo scambio non può essere fatto, contatta il proprietario del negozio.
+Exchange shop (owned by @1)=Negozio di scambio (di proprietà di @1)
+Exchanged!=Scambiato!
+In exchange, you give:=In cambio, tu dai:
+Owner gives:=Il proprietario dà:
+Owner wants:=Il proprietario vuole:
+
+Owner, Use (E)+Place (right mouse button) for customer interface=Proprietario, usa (E)+Posiziona (click destro) per l'UI cliente
+
+Shop=Negozio
+This is your own shop, you can't exchange to yourself!=Questo è il tuo negozio, non puoi fare scambi con te stesso!
+You want:=Tu vuoi:
+Your stock:=La tua scorta:

@@ -1,0 +1,7 @@
+# textdomain: 3d_armor
+Radiation=Radiation
+Level=Niveau
+Heal=Soins
+Fire=Fire
+Your @1 is almost broken!=Une partie de votre armure est presque détruite : @1 !
+Your @1 got destroyed!=Une partie de votre armure a été détruite : @1 !

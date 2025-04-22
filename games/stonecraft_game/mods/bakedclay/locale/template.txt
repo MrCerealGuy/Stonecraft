@@ -1,0 +1,25 @@
+# textdomain: bakedclay
+Blue Delphinium=
+Thistle=
+Lazarus Bell=
+Reed Mannagrass=
+Natural=
+White=
+Grey=
+Black=
+Red=
+Yellow=
+Green=
+Cyan=
+Blue=
+Magenta=
+Orange=
+Violet=
+Brown=
+Pink=
+Dark Grey=
+Dark Green=
+Baked Clay=
+Baked Clay Stair=
+Baked Clay Slab=
+Glazed Terracotta=

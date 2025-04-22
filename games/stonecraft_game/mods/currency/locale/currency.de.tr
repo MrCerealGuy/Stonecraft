@@ -1,0 +1,45 @@
+# textdomain: currency
+# A.C.M. <undertakers_help@yahoo.com>, 2018
+
+### barter.lua ###
+
+Barter Table=Handelstisch
+Cancel=Abbruch
+Confirm=Bestätigen
+Start=Start
+
+### shop.lua ###
+
+Exchange=Tauschen
+
+### craftitems.lua ###
+
+@1 Minegeld Note=@1-Minegeld-Banknote
+@1 Minegeld cent coin=@1-Minegeldcent-Münze
+Bundle of random Minegeld notes=Bündel mit beliebigen Minegeld-Banknoten
+
+### safe.lua ###
+
+Safe=Tresor
+Safe (owned by @1)=Tresor (gehört @1)
+
+### shop.lua ###
+
+Customer gets:=Kunde erhält:
+Customer gives (pay here!)=Kunde gibt (hier bezahlen!)
+Customers gave:=Kunde gab:
+Exchange can not be done, check if you put all items!=Tausch kann nicht abgeschlossen werden. Prüfen, ob alle Gegenstände platziert wurden!
+Exchange can not be done, contact the shop owner.=Tausch kann nicht abgeschlossen werden. Geschäftsinhaber benachrichtigen!
+Exchange shop (owned by @1)=Tauschgeschäft (gehört @1)
+Exchanged!=Getauscht!
+In exchange, you give:=Im Tausch geben Sie:
+out of stock=Ausverkauft
+Owner gives:=Inhaber gibt:
+Owner wants:=Inhaber will:
+
+Owner, Use (E)+Place (right mouse button) for customer interface=Inhaber: (E)+Platzieren (rechte Maustaste) drücken für Kundeninterface ...
+
+Shop=Geschäft
+This is your own shop, you can't exchange to yourself!=Dies ist Ihr eigenes Geschäft, Sie können nicht mit sich selbst tauschen!
+You want:=Sie wollen:
+Your stock:=Ihr Lager:

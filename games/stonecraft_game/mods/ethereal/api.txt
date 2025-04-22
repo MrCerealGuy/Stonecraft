@@ -1,0 +1,41 @@
+Ethereal Fishing Rod API
+
+Usage:
+
+	ethereal.add_item(fish, junk, bonus)
+
+
+Example:
+
+The fish, junk and bonus entries can all be entered or used seperately e.g.
+
+..add fish:
+
+	ethereal.add_item("mymod:myfish", "", "")
+
+..add fish and junk:
+
+	ethereal.add_item("mymod:myfish", "mymod:myjunk", "")
+
+
+You may also use a table that not only adds an item but the biome it can be found in:
+
+..add fish only found in 'grassy_ocean' biome:
+
+	ethereal.add_item({"mymod:myfish", "grassy_ocean"}, "", "")
+
+..add special item only found in 'frost' biome waters:
+
+	ethereal.add_item("", "", {"ethereal:crystal_spike", "frost"})
+
+.. add special item with wear level:
+
+	ethereal.add_item("", "", "default:sword_steel 15000")
+
+
+Please note that only Ethereal biome names can be used for specific finds, unless mod
+specifically adds ethereal as an optional dependency.
+
+
+Crystal Shovel has silk touch ability for digging blocks and returning the actual block
+intact.  The {no_silktouch=1} group can be used to override this.

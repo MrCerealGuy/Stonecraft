@@ -1,0 +1,7 @@
+# textdomain: 3d_armor
+Radiation=
+Level=
+Heal=
+Fire=
+Your @1 is almost broken!=
+Your @1 got destroyed!=

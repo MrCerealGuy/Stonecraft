@@ -1,0 +1,5 @@
+# textdomain: armor_cactus
+Cactus Helmet=
+Cactus Chestplate=
+Cactus Leggings=
+Cactus Boots=

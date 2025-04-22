@@ -1,0 +1,47 @@
+# textdomain: currency
+# Papou30, 2018.
+# Louis Royer, 2020.
+
+### barter.lua ###
+
+Barter Table=Table de troc
+Cancel=Annuler
+Confirm=Valider
+Start=Commencer
+
+### shop.lua ###
+
+Exchange=Troquer
+
+### craftitems.lua ###
+
+@1 Minegeld Note=@1 MineGeld
+@1 Minegeld cent coin=Pièce de @1 centimes de MineGeld
+Bundle of random Minegeld notes=Liasse de Minegeld de diverses valeurs
+
+### safe.lua ###
+
+Safe=Coffre-fort
+Safe (owned by @1)=Coffre-fort (appartenant à @1)
+
+### shop.lua ###
+
+Customer gets:=Client obtient:
+Customer gives (pay here!)=Client donne (payer ici!)
+Customers gave:=Le client a donné:
+Exchange can not be done, check if you put all items!=L'echange ne peut pas être fait, vérifiez que vous avez placé tous les articles!
+Exchange can not be done, contact the shop owner.=L'échange ne peut être fait, contactez le propriétaire du magasin.
+Exchange shop (owned by @1)=Boutique d'échange (appartenant à @1)
+Exchanged!=Échangé!
+In exchange, you give:=En échange, vous donnez :
+Owner gives:=Le propriétaire donne :
+Owner wants:=Le propriétaire veut :
+
+Owner, Use (E)+Place (right mouse button) for customer interface=Propriétaire, utilisez Spécial+clic droit pour l'interface client
+
+Shop=Boutique
+This is your own shop, you can't exchange to yourself!=C'est votre propre boutique, vous ne pouvez pas échanger avec vous-même!
+You want:=Vous voulez :
+Your stock:=Votre stock :
+
+

@@ -1,0 +1,16 @@
+# textdomain: ferns
+Fiddlehead=
+Roasted Fiddlehead=
+Fern Tuber=
+Roasted Fern Tuber=
+Lady-fern (Athyrium)=
+Giant Tree Fern Leaves=
+Giant Tree Fern Leave End=
+Giant Fern Trunk=
+Giant Tree Fern Sapling=
+Tree Fern Crown (Dicksonia)=
+Young Horsetail (Equisetum) @1=
+Horsetail (Equisetum)=
+Horsetail (Equisetum) @1=
+Fern Trunk (Dicksonia)=
+Tree Fern Sapling (Dicksonia)=

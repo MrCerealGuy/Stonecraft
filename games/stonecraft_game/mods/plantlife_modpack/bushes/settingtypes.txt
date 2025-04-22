@@ -1,0 +1,5 @@
+# Bush rarity (higher number -> higher probability)
+bushes.bush_rarity (Bush rarity) float 0.008 0.0001 1
+
+# Youngtree rarity (higher number -> higher probability)
+bushes.youngtree_rarity (Youngtree rarity) float 0.006 0.0001 1

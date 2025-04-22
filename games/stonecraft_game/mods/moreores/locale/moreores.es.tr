@@ -1,0 +1,20 @@
+# textdomain: moreores
+
+# Translation by kaeza
+
+@1 Ore=Mineral de @1
+@1 Lump=Pepita de @1
+@1 Ingot=Lingote de @1
+@1 Block=Bloque de @1
+@1 Pickaxe=Pico de @1
+@1 Shovel=Pala de @1
+@1 Axe=Hacha de @1
+@1 Sword=Espada de @1
+
+Copper=Cobre
+Tin=Estaño
+Bronze=Bronce
+Silver=Plata
+Gold=Oro
+Mithril=Mitrilo
+Copper Rail=Riel de Cobre

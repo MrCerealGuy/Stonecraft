@@ -1,0 +1,72 @@
+Minetest game mods:
+----------------------------------------------------------------------------------------------------
+minetest_game				https://github.com/luanti-org/minetest_game.git
+
+Third-party mods:			URL:															Version:
+----------------------------------------------------------------------------------------------------
+3d_armor					https://github.com/minetest-mods/3d_armor
+abm_allowed					https://github.com/MrCerealGuy/abm_allowed.git
+ambience					https://codeberg.org/tenplus1/ambience.git
+areas						https://github.com/ShadowNinja/areas.git
+bakedclay					https://codeberg.org/tenplus1/bakedclay.git
+basic_materials				https://github.com/mt-mods/basic_materials
+bedrock						https://github.com/Calinou/bedrock.git
+biome_lib					https://github.com/mt-mods/biome_lib.git
+bonemeal					https://codeberg.org/tenplus1/bonemeal.git
+boost_cart					https://github.com/SmallJoker/boost_cart
+caverealms					https://github.com/HeroOfTheWinds/minetest-caverealms
+cme							https://github.com/BlockMen/cme.git
+cottages					https://github.com/Sokomine/cottages.git
+currency					https://github.com/mt-mods/currency.git
+datastorage					https://github.com/minetest-technic/datastorage.git
+digilines					https://github.com/minetest-mods/digilines.git
+drops						https://github.com/jordan4ibanez/drops.git
+erosion						https://github.com/Chiu-ChunLing/Minetest-erosion.git
+ethereal					https://codeberg.org/tenplus1/ethereal.git						master
+fakelib						https://github.com/OgelGames/fakelib.git
+farming						https://codeberg.org/tenplus1/Farming.git
+fence_registration			https://github.com/HybridDog/fence_registration.git
+habitat						https://github.com/bas080/habitat.git
+hudbars						https://codeberg.org/Wuzzy/minetest_hudbars
+intllib						https://github.com/minetest-mods/intllib.git
+luacmd						https://github.com/prestidigitator/minetest-mod-luacmd.git
+lucky_block					https://codeberg.org/tenplus1/lucky_block
+mapgen_helper				https://github.com/minetest-mods/mapgen_helper.git
+mesecons					https://github.com/minetest-mods/mesecons.git
+mob_horse					https://codeberg.org/tenplus1/mob_horse.git
+mobs_animal					https://codeberg.org/tenplus1/mobs_animal.git
+mobs_monster				https://codeberg.org/tenplus1/mobs_monster.git
+mobs_npc					https://codeberg.org/tenplus1/mobs_npc.git
+mobs_redo					https://codeberg.org/tenplus1/mobs_redo.git
+moreblocks					https://github.com/minetest-mods/moreblocks.git
+moreores					https://github.com/minetest-mods/moreores
+moresnow					https://github.com/Sokomine/moresnow.git
+moretrees					https://github.com/mt-mods/moretrees.git
+nether						https://github.com/minetest-mods/nether							v3.6.2
+nssb						https://codeberg.org/tenplus1/nssb
+nssm						https://codeberg.org/tenplus1/nssm.git
+pipeworks					https://github.com/mt-mods/pipeworks.git
+plantlife_modpack			https://github.com/mt-mods/plantlife_modpack.git
+pyramids					https://github.com/BlockMen/pyramids.git
+redtrees					https://github.com/mt-historical/redtrees.git
+riesenpilz					https://github.com/HybridDog/riesenpilz.git
+ropes						https://github.com/minetest-mods/ropes.git
+sea							https://github.com/sys4-fr/minetest-mod-sea
+skinsdb						https://github.com/minetest-mods/skinsdb
+snow						https://github.com/Splizard/minetest-mod-snow.git
+steel						https://github.com/mt-mods/steel.git							v2
+subterrane					https://github.com/minetest-mods/subterrane.git
+sumpf						https://github.com/HybridDog/sumpf.git
+technic						https://github.com/mt-mods/technic								1.3.0
+teleporter					https://bitbucket.org/kingarthursteam/teleporter
+throwing					https://github.com/minetest-mods/throwing.git
+throwing_arrows				https://github.com/minetest-mods/throwing_arrows.git
+toolranks					https://github.com/lisacvuk/minetest-toolranks.git
+torches						https://github.com/minetest-mods/torches
+unifieddyes					https://github.com/mt-mods/unifieddyes.git
+unified_inventory			https://github.com/minetest-mods/unified_inventory.git
+vector_extras				https://github.com/HybridDog/vector_extras.git
+wiki						https://github.com/minetest-mods/wiki.git
+WorldEdit					https://github.com/Uberi/Minetest-WorldEdit.git
+xconnected					https://github.com/Sokomine/xconnected.git
+xcompat						https://github.com/mt-mods/xcompat.git

@@ -1,0 +1,45 @@
+# textdomain: currency
+
+
+### barter.lua ###
+
+Barter Table=Meja Barter
+Cancel=Batal
+Confirm=Sah
+Start=Mulai
+
+### shop.lua ###
+
+Exchange=Tukar
+
+### craftitems.lua ###
+
+@1 Minegeld Note=Uang @1 Minegeld
+@1 Minegeld cent coin=Koin @1 Sen Minegeld
+Bundle of random Minegeld notes=Bundel Uang Minegeld Acak
+
+### safe.lua ###
+
+Safe=Brankas
+Safe (owned by @1)=Brankas (dimiliki oleh @1)
+
+### shop.lua ###
+
+Customer gets:=Pelanggan dapat:
+Customer gives (pay here!)=Pelanggan memberi (bayar di sini!)
+Customers gave:=Pelanggan memberi:
+Exchange can not be done, check if you put all items!=Penukaran tidak dapat diselesaikan. Periksa bahwa Anda menaruh semua yang pemilik inginkan!
+Exchange can not be done, contact the shop owner.=Penukaran tidak dapat diselesaikan. Hubungi pemilik toko.
+Exchange shop (owned by @1)=Toko Penukaran (dimiliki oleh @1)
+Exchanged!=Ditukar!
+In exchange, you give:=Anda memberi:
+out of stock=stok habis
+Owner gives:=Pemilik memberi:
+Owner wants:=Pemilik ingin:
+
+Owner, Use (E)+Place (right mouse button) for customer interface=Pemilik. Tekan (E) + Taruh (klik kanan) untuk tampilan pelanggan
+
+Shop=Toko
+This is your own shop, you can't exchange to yourself!=Ini toko milik Anda. Anda tidak bisa bertukar dengan diri sendiri!
+You want:=Anda ingin:
+Your stock:=Stok Anda:

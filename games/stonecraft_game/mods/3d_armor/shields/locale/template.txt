@@ -1,0 +1,13 @@
+# textdomain: shields
+Admin Shield=
+Wooden Shield=
+Enhanced Wood Shield=
+Cactus Shield=
+Enhanced Cactus Shield=
+Steel Shield=
+Bronze Shield=
+Diamond Shield=
+Gold Shield=
+Mithril Shield=
+Crystal Shield=
+Nether Shield=

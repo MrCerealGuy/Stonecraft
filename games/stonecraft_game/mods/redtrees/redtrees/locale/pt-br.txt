@@ -1,0 +1,16 @@
+# Português (Brasileiro)
+# Para redtrees (arvoresbrasis)
+# Brasil no sentido de fogo, brasa
+# por koshikii
+Fiery Tree = Madeira Brasil
+Fiery Wooden Planks = Lenha Brasil
+Fiery Tree Sapling = Muda Brasil
+Fiery Leaves = Folhas Brasiles
+Luxurious Door = Porta Luxuosa
+Akai Bonsai = Akai Bonsái
+Tree Chilli Powder = Pó de Folhardente
+Tree Chilli Treat = Doce de Folhardente
+Fiery Fence = Cerca Brasil
+Fiery Fence Gate = Porteira Brasil
+Fiery Wooden Stairs = Escada Brasil
+Fiery Wooden Slab = Degrau Brasil

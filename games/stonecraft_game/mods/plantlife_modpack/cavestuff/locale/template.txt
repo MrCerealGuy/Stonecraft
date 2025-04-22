@@ -1,0 +1,4 @@
+# textdomain: cavestuff
+Pebble=
+Desert Pebble=
+Stalactite=

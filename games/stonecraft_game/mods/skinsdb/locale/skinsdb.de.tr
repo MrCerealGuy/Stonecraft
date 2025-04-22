@@ -1,0 +1,19 @@
+# textdomain: skinsdb
+[set] <skin key> | show [<skin key>] | list | list private | list public | [ui]=
+Show, list or set player's skin=Anzeigen oder setzen der Spieler-Skins
+Player not found=Spieler nicht da
+unknown command=unbekannter Befehl
+see /help skinsdb for supported parameters=Lese /help für erlaubte Parameter
+skin set to=Skin ist jetzt
+invalid skin=unbekannter Skin
+Requires skin key=Benötigt Skin-Name
+unknown parameter=unbekannter Parameter
+Raw texture=Rohtextur
+Page=Seite
+Name=Name
+Author=Autor
+License=Lizenz
+<skindb start page> <amount of pages>=
+Downloads the specified range of skins and shuts down the server=
+Change=Wechseln
+Skins=Aussehen

@@ -1,0 +1,5 @@
+# textdomain: woodsoils
+Forest Soil 1=
+Forest Soil 2=
+Forest Soil 3=
+Forest Soil 4=

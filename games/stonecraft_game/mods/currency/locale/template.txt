@@ -1,0 +1,45 @@
+# textdomain: currency
+
+
+### barter.lua ###
+
+Barter Table=
+Cancel=
+Confirm=
+Start=
+
+### shop.lua ###
+
+Exchange=
+
+### craftitems.lua ###
+
+@1 Minegeld Note=
+@1 Minegeld cent coin=
+Bundle of random Minegeld notes=
+
+### safe.lua ###
+
+Safe=
+Safe (owned by @1)=
+
+### shop.lua ###
+
+Customer gets:=
+Customer gives (pay here!)=
+Customers gave:=
+Exchange can not be done, check if you put all items!=
+Exchange can not be done, contact the shop owner.=
+Exchange shop (owned by @1)=
+Exchanged!=
+In exchange, you give:=
+out of stock=
+Owner gives:=
+Owner wants:=
+
+Owner, Use (E)+Place (right mouse button) for customer interface=
+
+Shop=
+This is your own shop, you can't exchange to yourself!=
+You want:=
+Your stock:=

@@ -1,0 +1,23 @@
+{
+    "name": "teleporter",
+    "description": "Teleports Players and Items to other destinations",
+    "keywords": [
+        "teleporter"
+    ],
+    "homepage": "https://bitbucket.org/kingarthursteam/teleporter",
+    "forum": "https://forum.minetest.net/viewtopic.php?t=10620",
+    "screenshots": [
+        "https://bitbucket.org/repo/anzb59/images/685871294-craft_receiver.png",
+        "https://bitbucket.org/repo/anzb59/images/2855559446-craft_teleporter.png",
+        "https://bitbucket.org/repo/anzb59/images/1861039821-setup_teleporter.png"
+    ],
+    "authors": [
+        "kingarthursteam",
+        "addi",
+        "adrido"
+    ],
+    "license":"CC BY 4.0",
+    "dependencies":{
+        "db":"https://bitbucket.org/adrido/db.git"
+    }
+}

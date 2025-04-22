@@ -1,0 +1,11 @@
+# textdomain:mobs_npc
+Igor=Louis
+NPC dropped you an item for gold!=Le PNJ vous échange un objet pour l'or !
+NPC stands still.=Le PNJ est immobile.
+NPC will follow you.=Le PNJ vous suivera.
+Npc=PNJ
+Trader=Marchand
+Trader @1=@1 le marchand
+Trader @1's stock:=Inventaire du marchand @1 : 
+[MOD] Mobs Redo NPCs loaded=[MOD] PNJs «Mobs Redo» chargés
+[NPC] <Trader @1> Hello, @2, have a look at my wares.=[PNJ] <@1 le marchand> Bonjour, @2. Regardez mes marchandises.

@@ -1,0 +1,25 @@
+# textdomain: throwing_arrows
+
+# Translation template (replace this line with credits)
+# Licence: MPL-2.0
+
+## Bows
+Wooden Bow=Arc en bois
+Stone Bow=Arc en pierre
+Steel Bow=Arc en fer
+Bronze Bow=Arc en bronze
+Gold Bow=Arc en or
+Mese Bow=Arc en mese
+Diamond Bow=Arc en diamant
+
+
+## Arrows
+Arrow=Flèche
+Golden Arrow=Flèche en or
+Diamond Arrow=Flèche en diamant
+Dig Arrow=Flèche creuseuse
+Admin Dig Arrow=Flèche creuseuse d’administrateur
+Teleport Arrow=Flèche de téléportation
+Torch Arrow=Flèche-torche
+Build Arrow=Flèche de construction
+Drop Arrow=Flèche de livraison

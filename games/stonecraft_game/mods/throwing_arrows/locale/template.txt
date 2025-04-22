@@ -1,0 +1,25 @@
+# textdomain: throwing_arrows
+
+# Translation template (replace this line with credits)
+# Licence: MPL-2.0
+
+## Bows
+Wooden Bow=
+Stone Bow=
+Steel Bow=
+Bronze Bow=
+Gold Bow=
+Mese Bow=
+Diamond Bow=
+
+
+## Arrows
+Arrow=
+Golden Arrow=
+Diamond Arrow=
+Dig Arrow=
+Admin Dig Arrow=
+Teleport Arrow=
+Torch Arrow=
+Build Arrow=
+Drop Arrow=

@@ -1,0 +1,8 @@
+# textdomain: vines
+Vines=
+Matured=
+Rope=
+Shears=
+Roots=
+Jungle Vines=
+Willow Vines=

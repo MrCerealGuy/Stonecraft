@@ -1,0 +1,7 @@
+# textdomain: throwing
+
+
+### init.lua ###
+
+Arrows thrown=
+bow=

@@ -1,0 +1,32 @@
+# textdomain: lucky_block
+
+## ContentDB
+Craft and break lucky blocks to give something good, bad or painful :)=
+
+## Items
+Lucky Block=
+Super Lucky Block (use pick)=
+Super Lucky Block=
+Super Mega Magenta Ultra Screwdriver 2500@n(left-click to rotate face, right-click to rotates axis)=
+Spar Bag=
+Pint Sized Potion (DRINK ME)=
+Slender Player Potion (DRINK ME)=
+Dry shrub takeover!=
+Wow! So many faux @1!=
+crystals=
+ingots=
+diamonds=
+Lightning Staff=
+Void Mirror (Place to see through solid walls during daytime)=
+Void pick (Silk Touch)=
+Well Block=
+
+## Messages
+Random Teleport!=
+In your Birthday Suit!=
+Stop hitting yourself!=
+Pint Sized Player!=
+Slender Player!=
+Wow! So many faux @1!=
+You suddenly feel sluggish, take 30 seconds!=
+You suddenly feel lighter, wait 30 seconds!=

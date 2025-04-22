@@ -1,0 +1,5 @@
+.* export-ignore
+gendoc.sh export-ignore
+integration-test.sh export-ignore
+preview_gen.py export-ignore
+screenshot.xcf export-ignore

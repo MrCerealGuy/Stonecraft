@@ -1,0 +1,60 @@
+name: mineunit
+
+on: [push, pull_request]
+
+jobs:
+  mineunit:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - id: mineunit
+      uses: mt-mods/mineunit-actions@master
+      with:
+        working-directory: ./technic
+        mineunit-args: --engine-version 5.4.1
+        badge-label: Test coverage
+
+    - uses: RubbaBoy/BYOB@v1.3.0
+      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+      with:
+        NAME: "${{ steps.mineunit.outputs.badge-name }}"
+        LABEL: "${{ steps.mineunit.outputs.badge-label }}"
+        STATUS: "${{ steps.mineunit.outputs.badge-status }}"
+        COLOR: "${{ steps.mineunit.outputs.badge-color }}"
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: KeisukeYamashita/create-comment@v1
+      if: success() && github.event_name == 'pull_request'
+      with:
+        check-only-first-line: true
+        comment: |
+          <details><summary><i>Click for detailed source code test coverage report</i></summary>
+          
+          ### Test coverage report for technic ${{ steps.mineunit.outputs.coverage-total }} in ${{ steps.mineunit.outputs.coverage-files }} files:
+          ```
+          File                                      Hits Missed Coverage
+          --------------------------------------------------------------
+          ${{ steps.mineunit.outputs.mineunit-report }}
+          ```
+          
+          ### Raw test runner output for geeks:
+          ```
+          ${{ steps.mineunit.outputs.mineunit-stdout }}
+          ```
+          </details>
+
+    - uses: KeisukeYamashita/create-comment@v1
+      if: failure() && github.event_name == 'pull_request'
+      with:
+        check-only-first-line: true
+        comment: |
+          <details><summary><i>Mineunit failed regression tests, click for details</i></summary>
+          
+          ### Regression test log for Technic:
+          ```
+          ${{ steps.mineunit.outputs.mineunit-stdout }}
+          ```
+          </details>

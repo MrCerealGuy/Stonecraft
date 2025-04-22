@@ -1,0 +1,2 @@
+# Disable recipe for bones:bones to craft into bonemeal
+bonemeal.disable_deathbones_recipe (Disable recipe for death bones into bonemeal) bool false
