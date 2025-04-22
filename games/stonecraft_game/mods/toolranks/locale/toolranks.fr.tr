@@ -1,0 +1,11 @@
+# textdomain: toolranks
+@1@2@n@3Level @4 @5@n@6Node dug: @7=@1@2@n@3@5 niveau @4@n@6Blocks minés : @7
+pickaxe=pioche
+axe=hache
+shovel=pelle
+hoe=houe
+sword=épée
+tool=outil
+Most used tool is now a @1@2@3 owned by @4 with @5 uses.=L’outil le plus utilisé est désormais @1@2@3 appartenant à @4 avec @5 utilisations.
+Your tool is about to break!=Votre outil va se casser !
+Your @1@2@3 just leveled up!=Votre @1@2@3 a gagné un niveau !

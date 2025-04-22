@@ -1,0 +1,8 @@
+# Number of tool levels
+toolranks_levels (Levels) int 10
+# Number of nodes that need to be dug to reach the next tool level
+toolranks_level_digs (Digs per level) int 500
+# Dig speed multiplier at maximum tool level (1.0 to disable)
+toolranks_speed_multiplier (Dig speed multiplier) float 2.0 1.0 10.0
+# Durability multiplier at maximum tool level (1.0 to disable)
+toolranks_use_multiplier (Durability multiplier) float 2.0 1.0 10.0
