@@ -1,72 +1,72 @@
-Minetest game mods:
-----------------------------------------------------------------------------------------------------
-minetest_game				https://github.com/luanti-org/minetest_game.git
+Minetest game mods:																			Version:
+------------------------------------------------------------------------------------------------------------
+minetest_game				https://github.com/luanti-org/minetest_game.git					master (04-2025)
 
 Third-party mods:			URL:															Version:
-----------------------------------------------------------------------------------------------------
-3d_armor					https://github.com/minetest-mods/3d_armor
-abm_allowed					https://github.com/MrCerealGuy/abm_allowed.git
-ambience					https://codeberg.org/tenplus1/ambience.git
-areas						https://github.com/ShadowNinja/areas.git
-bakedclay					https://codeberg.org/tenplus1/bakedclay.git
-basic_materials				https://github.com/mt-mods/basic_materials
-bedrock						https://github.com/Calinou/bedrock.git
-biome_lib					https://github.com/mt-mods/biome_lib.git
-bonemeal					https://codeberg.org/tenplus1/bonemeal.git
-boost_cart					https://github.com/SmallJoker/boost_cart
-caverealms					https://github.com/HeroOfTheWinds/minetest-caverealms
-cme							https://github.com/BlockMen/cme.git
-cottages					https://github.com/Sokomine/cottages.git
-currency					https://github.com/mt-mods/currency.git
-datastorage					https://github.com/minetest-technic/datastorage.git
-digilines					https://github.com/minetest-mods/digilines.git
-drops						https://github.com/jordan4ibanez/drops.git
-erosion						https://github.com/Chiu-ChunLing/Minetest-erosion.git
-ethereal					https://codeberg.org/tenplus1/ethereal.git						master
-fakelib						https://github.com/OgelGames/fakelib.git
-farming						https://codeberg.org/tenplus1/Farming.git
-fence_registration			https://github.com/HybridDog/fence_registration.git
-habitat						https://github.com/bas080/habitat.git
-hudbars						https://codeberg.org/Wuzzy/minetest_hudbars
-intllib						https://github.com/minetest-mods/intllib.git
-luacmd						https://github.com/prestidigitator/minetest-mod-luacmd.git
-lucky_block					https://codeberg.org/tenplus1/lucky_block
-mapgen_helper				https://github.com/minetest-mods/mapgen_helper.git
-mesecons					https://github.com/minetest-mods/mesecons.git
-mob_horse					https://codeberg.org/tenplus1/mob_horse.git
-mobs_animal					https://codeberg.org/tenplus1/mobs_animal.git
-mobs_monster				https://codeberg.org/tenplus1/mobs_monster.git
-mobs_npc					https://codeberg.org/tenplus1/mobs_npc.git
-mobs_redo					https://codeberg.org/tenplus1/mobs_redo.git
-moreblocks					https://github.com/minetest-mods/moreblocks.git
-moreores					https://github.com/minetest-mods/moreores
-moresnow					https://github.com/Sokomine/moresnow.git
-moretrees					https://github.com/mt-mods/moretrees.git
+------------------------------------------------------------------------------------------------------------
+3d_armor					https://github.com/minetest-mods/3d_armor						master (04-2025)
+abm_allowed					https://github.com/MrCerealGuy/abm_allowed.git					master (04-2025)
+ambience					https://codeberg.org/tenplus1/ambience.git						master (04-2025)
+areas						https://github.com/minetest-mods/areas.git						master (04-2025)
+bakedclay					https://codeberg.org/tenplus1/bakedclay.git						master (04-2025)
+basic_materials				https://github.com/mt-mods/basic_materials						master (04-2025)
+bedrock						https://github.com/Calinou/bedrock.git							master (04-2025)
+biome_lib					https://github.com/mt-mods/biome_lib.git						master (04-2025)
+bonemeal					https://codeberg.org/tenplus1/bonemeal.git						master (04-2025)
+boost_cart					https://github.com/SmallJoker/boost_cart						master (04-2025)
+caverealms					https://github.com/HeroOfTheWinds/minetest-caverealms			master (04-2025)
+cme							https://github.com/BlockMen/cme.git								master (04-2025)
+cottages					https://github.com/Sokomine/cottages.git						master (04-2025)
+currency					https://github.com/mt-mods/currency.git							master (04-2025)
+datastorage					https://github.com/minetest-technic/datastorage.git				master (04-2025)
+digilines					https://github.com/minetest-mods/digilines.git					master (04-2025)
+drops						https://github.com/jordan4ibanez/drops.git						master (04-2025)
+erosion						https://github.com/Chiu-ChunLing/Minetest-erosion.git			master (04-2025)
+ethereal					https://codeberg.org/tenplus1/ethereal.git						master (04-2025)
+fakelib						https://github.com/OgelGames/fakelib.git						master (04-2025)
+farming						https://codeberg.org/tenplus1/Farming.git						master (04-2025)
+fence_registration			https://github.com/HybridDog/fence_registration.git				master (04-2025)
+habitat						https://github.com/bas080/habitat.git							master (04-2025)
+hudbars						https://codeberg.org/Wuzzy/minetest_hudbars						master (04-2025)
+intllib						https://github.com/minetest-mods/intllib.git					master (04-2025)
+luacmd						https://github.com/prestidigitator/minetest-mod-luacmd.git		master (04-2025)
+lucky_block					https://codeberg.org/tenplus1/lucky_block						master (04-2025)
+mapgen_helper				https://github.com/minetest-mods/mapgen_helper.git				master (04-2025)
+mesecons					https://github.com/minetest-mods/mesecons.git					master (04-2025)
+mob_horse					https://codeberg.org/tenplus1/mob_horse.git						master (04-2025)
+mobs_animal					https://codeberg.org/tenplus1/mobs_animal.git					master (04-2025)
+mobs_monster				https://codeberg.org/tenplus1/mobs_monster.git					master (04-2025)
+mobs_npc					https://codeberg.org/tenplus1/mobs_npc.git						master (04-2025)
+mobs_redo					https://codeberg.org/tenplus1/mobs_redo.git						master (04-2025)
+moreblocks					https://github.com/minetest-mods/moreblocks.git					master (04-2025)
+moreores					https://github.com/minetest-mods/moreores.git					master (04-2025)
+moresnow					https://github.com/Sokomine/moresnow.git						master (04-2025)
+moretrees					https://github.com/mt-mods/moretrees.git						master (04-2025)
 nether						https://github.com/minetest-mods/nether							v3.6.2
-nssb						https://codeberg.org/tenplus1/nssb
-nssm						https://codeberg.org/tenplus1/nssm.git
-pipeworks					https://github.com/mt-mods/pipeworks.git
-plantlife_modpack			https://github.com/mt-mods/plantlife_modpack.git
-pyramids					https://github.com/BlockMen/pyramids.git
-redtrees					https://github.com/mt-historical/redtrees.git
-riesenpilz					https://github.com/HybridDog/riesenpilz.git
-ropes						https://github.com/minetest-mods/ropes.git
-sea							https://github.com/sys4-fr/minetest-mod-sea
-skinsdb						https://github.com/minetest-mods/skinsdb
-snow						https://github.com/Splizard/minetest-mod-snow.git
+nssb						https://codeberg.org/tenplus1/nssb.git							master (04-2025)
+nssm						https://codeberg.org/tenplus1/nssm.git							master (04-2025)
+pipeworks					https://github.com/mt-mods/pipeworks.git						master (04-2025)
+plantlife_modpack			https://github.com/mt-mods/plantlife_modpack.git				master (04-2025)
+pyramids					https://codeberg.org/Wuzzy/minetest_tsm_pyramids				master (04-2025)
+redtrees					https://github.com/mt-historical/redtrees.git					master (04-2025)
+riesenpilz					https://github.com/HybridDog/riesenpilz.git						v1.0.1
+ropes						https://github.com/minetest-mods/ropes.git						master (04-2025)
+sea							https://github.com/sys4-fr/minetest-mod-sea						master (04-2025)
+skinsdb						https://github.com/minetest-mods/skinsdb						master (04-2025)
+snow						https://github.com/Splizard/minetest-mod-snow.git				master (04-2025)
 steel						https://github.com/mt-mods/steel.git							v2
-subterrane					https://github.com/minetest-mods/subterrane.git
-sumpf						https://github.com/HybridDog/sumpf.git
-technic						https://github.com/mt-mods/technic								1.3.0
-teleporter					https://bitbucket.org/kingarthursteam/teleporter
-throwing					https://github.com/minetest-mods/throwing.git
-throwing_arrows				https://github.com/minetest-mods/throwing_arrows.git
-toolranks					https://github.com/lisacvuk/minetest-toolranks.git
-torches						https://github.com/minetest-mods/torches
-unifieddyes					https://github.com/mt-mods/unifieddyes.git
-unified_inventory			https://github.com/minetest-mods/unified_inventory.git
-vector_extras				https://github.com/HybridDog/vector_extras.git
-wiki						https://github.com/minetest-mods/wiki.git
-WorldEdit					https://github.com/Uberi/Minetest-WorldEdit.git
-xconnected					https://github.com/Sokomine/xconnected.git
-xcompat						https://github.com/mt-mods/xcompat.git
+subterrane					https://github.com/minetest-mods/subterrane.git					master (04-2025)
+sumpf						https://github.com/HybridDog/sumpf.git							master (04-2025)
+technic						https://github.com/mt-mods/technic.git							1.3.0
+teleporter					https://bitbucket.org/kingarthursteam/teleporter				master (04-2025)
+throwing					https://github.com/minetest-mods/throwing.git					master (04-2025)
+throwing_arrows				https://github.com/minetest-mods/throwing_arrows.git			master (04-2025)
+toolranks					https://github.com/lisacvuk/minetest-toolranks.git				master (04-2025)
+torches						https://github.com/minetest-mods/torches.git					master (04-2025)
+unifieddyes					https://github.com/mt-mods/unifieddyes.git						master (04-2025)
+unified_inventory			https://github.com/minetest-mods/unified_inventory.git			master (04-2025)
+vector_extras				https://github.com/HybridDog/vector_extras.git					master (04-2025)
+wiki						https://github.com/minetest-mods/wiki.git						master (04-2025)
+WorldEdit					https://github.com/Uberi/Minetest-WorldEdit.git					master (04-2025)
+xconnected					https://github.com/Sokomine/xconnected.git						master (04-2025)
+xcompat						https://github.com/mt-mods/xcompat.git							master (04-2025)

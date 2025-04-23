@@ -109,33 +109,6 @@ Use --help
 - [Compiling on MacOS](doc/compiling/macos.md)
 
 
-
-# Building Windows on GNU/Linux (cross-compiling)
-
-Please install source and dependencies like above. I'm using **MinGW-w64 9.3-posix 20200320** for cross-compiling. My host system is Ubuntu 20.04.2 LTS.
-
-**Download libraries**
-
-Please clone the Windows libraries for MinGW via github:
-```
-$ cd <stonecraft-folder>/lib
-$ git clone --depth 1 https://github.com/MrCerealGuy/Stonecraft-libdev-win.git libdev-win
-$ mv ./libdev-win/* ../
-$ rm -Rf ./libdev-win
-```
-
-**Win 64-Bit**
-
-Note: Uses LuaJIT with enabled GC64, see https://github.com/MrCerealGuy/LuaJIT-2.1.0-beta3-GC64.
-
-```
-$ <stonecraft-folder>/build/build_win64_client.sh
-```
-
-You'll find the build in &lt;stonecraft-folder&gt;/build/win-x86_64 and the ZIP-package in the subdirectory _build.
-
-
-
 # License of Stonecraft textures and sounds
 
 This applies to textures and sounds contained in the main Stonecraft distribution.
@@ -145,7 +118,6 @@ http://creativecommons.org/licenses/by-sa/3.0/
 
 
 # Authors of media files
-
 
 See README.txt in each mod/textures directory for information about other authors.
 
