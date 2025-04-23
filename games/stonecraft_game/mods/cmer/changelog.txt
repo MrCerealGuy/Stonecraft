@@ -1,0 +1,32 @@
+
+v1.2-cmer
+---------
+- fixed nil error when clearing entity's nametag on death
+- uses node groups to determine swimming & burning instead of depending on `default`
+
+v1.1-cmer
+---------
+- renamed to "cmer" to discern from other versions.
+- removed built-in items.
+- removed built-in spawnegg support.
+- entities whose lifetime expires do not drop items
+- default sound plays when hit (can be disabled in definition with sounds.play_default_hit = false)
+- entity's lifetime doesn't expire in modes "follow" & "panic"
+- entity's life timer is reset when attacked
+- can set custom on_death method
+- 'has_kockback' deprecated, use 'has_knockback'
+- does not automatically prepend colon (:) when registering a mob name
+- option to set nametag
+- griefing is disabled unless 'mobs_griefing' setting enabled
+- owned entities can be picked up with mobs:lasso
+- owned entities cannot be killed by other players
+
+v1.0-revived
+------------
+- forked from original Creatures MOB-Engine code by BlockMen.
+- updated for Minetest 5.x API.
+- removed built-in modpack mobs (engine only).
+- some nil check fixes.
+- added default combat speed.
+- added "owner" attribute.
+- fixed so owned/tamed mobs don't die.

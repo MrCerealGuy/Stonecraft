@@ -1,0 +1,19 @@
+
+TODO:
+- add debugging messages for missing required fields at registration
+- fix playing default hit sound on last hit when entity dies
+- only spawn if players are nearby (maybe not necessary if ABMs only active near players)
+- add secondary hostile flag for mobs that don't use def.stats.hostile but still "attack" players
+- use following settings for compatibility with mobs mod:
+	- mobs_spawn
+	- mobs_spawn_protected
+	- remove_far_mobs
+	- mobs_drop_items
+	- mobs_griefing
+	- mob_chance_multiplier
+	- enable_peaceful_player
+- add health bars
+- respect "max_objects_per_block" setting
+- inflict variable amount of damage based on damage level of weapon
+- add range attacks
+- add flag for floating

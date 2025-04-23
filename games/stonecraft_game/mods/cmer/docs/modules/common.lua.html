@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Creatures Revived</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>cmer</h1>
+
+
+<ul>
+  <li><a href="../api.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><strong>common.lua</strong></li>
+  <li><a href="../modules/features.lua.html">features.lua</a></li>
+  <li><a href="../modules/register.lua.html">register.lua</a></li>
+  <li><a href="../modules/settings.lua.html">settings.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>common.lua</code></h1>
+<p>
+
+</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#cmer.rnd">cmer.rnd (tab, errval)</a></td>
+	<td class="summary">Returns a weighted random table element.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#cmer.compare_pos">cmer.compare_pos (pos1, pos2)</a></td>
+	<td class="summary">Compares two positions.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#cmer.findTarget">cmer.findTarget (search_obj, pos, radius, search_type, ignore_mob[, xray], no_count)</a></td>
+	<td class="summary">Returns table of found objects (as ObjectRef) and boolean player_near.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#cmer.dropItems">cmer.dropItems (pos, drops)</a></td>
+	<td class="summary">Drops items at position <code>pos</code>.</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "cmer.rnd"></a>
+    <strong>cmer.rnd (tab, errval)</strong>
+    </dt>
+    <dd>
+    Returns a weighted random table element. </p>
+
+<p>  chance_sum of table must be 1.</p>
+
+<p>  Example: cmer.rnd({elem1 = {chance = 0.7}, {elem2 = {chance = 0.3}})
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">tab</span>
+
+
+
+        </li>
+        <li><span class="parameter">errval</span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Weighted random table element.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cmer.compare_pos"></a>
+    <strong>cmer.compare_pos (pos1, pos2)</strong>
+    </dt>
+    <dd>
+    Compares two positions.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos1</span>
+            <span class="types"><span class="type">pos</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">pos2</span>
+            <span class="types"><span class="type">pos</span></span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        <code>true</code> if pos1 == pos2.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cmer.findTarget"></a>
+    <strong>cmer.findTarget (search_obj, pos, radius, search_type, ignore_mob[, xray], no_count)</strong>
+    </dt>
+    <dd>
+    Returns table of found objects (as ObjectRef) and boolean player_near.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">search_obj</span>
+         Searching object. Can be <code>nil</code>.
+        </li>
+        <li><span class="parameter">pos</span>
+            <span class="types"><span class="type">pos</span></span>
+         Starting position for search radius.
+        </li>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">int</span></span>
+         Radius for searching in blocks/node.
+        </li>
+        <li><span class="parameter">search_type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Specifies returned object requirements(One of <strong><em>all</em></strong>, <strong><em>hostile</em></strong> (ignores <code>ignore_mob</code> if specified), <strong><em>nonhostile</em></strong>, <strong><em>player</em></strong>, <strong><em>mates</em></strong> (requires <code>ignore_mob</code> specifies)).
+        </li>
+        <li><span class="parameter">ignore_mob</span>
+         Specifies creature that is ignored or searched, depending on <code>search_type</code>.
+        </li>
+        <li><span class="parameter">xray</span>
+            <span class="types"><span class="type">bool</span></span>
+         Allows searching through blocks/nodes (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">no_count</span>
+         Skips collecting loop and returns just the boolean player_near.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+        Table of found objects (as <code>ObjectRef</code>) and boolean player_near.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cmer.dropItems"></a>
+    <strong>cmer.dropItems (pos, drops)</strong>
+    </dt>
+    <dd>
+    Drops items at position <code>pos</code>.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">pos</span>
+            <span class="types"><span class="type">pos</span></span>
+         Where to drop items.
+        </li>
+        <li><span class="parameter">drops</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         List of item <code>DropDef</code>.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-06-01 20:03:03 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

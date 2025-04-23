@@ -1,0 +1,211 @@
+Creatures MOB-Engine API
+------------------------
+
+cmer.register_mob(#Creature definition)
+ -registers a mob at MOB-Engine; returns true when sucessfull
+
+cmer.register_alias(old_mob, new_mob) -- returns true if sucessfull
+ -registers an alias for other mob, e.g. from other mods or removed ones.
+	existent entities (MOBs), Spawners and Spawn Eggs are converted;
+	returns true when sucessfull
+    ^ old_mob: name as string, e.g. "creatures:oerrki"
+    ^ new_mob: name as string, e.g. "creatures:oerkki"
+    ^ example: cmer.register_alias("creatures:oerrki", "creatures:oerkki")
+
+cmer.rnd(chance_table)
+ -returns a weighted random table element; chance_sum of table must be 1
+    ^ example: cmer.rnd({elem1 = {chance = 0.7}, {elem2 = {chance = 0.3}})
+
+cmer.compare_pos(pos1, pos2)
+ -returns true if pos1 == pos2
+
+cmer.findTarget(search_obj, pos, radius, search_type, mob_name, xray, no_count)
+ -returns table of found objects (as ObjectRef) and boolean player_near
+  ^ search_obj is searching object; can be nil
+  ^ pos is starting position for search radius
+  ^ radius for searching in blocks/node
+  ^ search_type that specifies returned object requirements
+    ^ "all" -- returns every object except dropped Items
+    ^ "hostile" -- returns every object(creature) that has hostile setting or is player
+      ^ ignores "mob_type" if specified
+    ^ "nonhostile" -- returns every object that is not hostile or player
+    ^ "player" -- returns all players
+    ^ "mates" -- returns all objects(creatures) that are of same kind
+      ^ requires "mob_type" specifies
+  ^ mob_type specifies creature that is ignored or searched, depending on search_type
+  ^ xray allows searching through blocks/nodes (default == false)
+  ^ no_count skips collecting loop and returns just the boolean player_near
+    ^ table is empty
+
+cmer.dropItems(pos, drops)
+ -drops items at position pos
+  ^ pos where to drop Items
+  ^ drops table in #ItemDrops format
+
+
+#ItemDrops
+----------
+{
+  {
+    <Itemname>, -- e.g. "default:wood"
+    <amount>,   -- either a <number> or table in format {min = <number>, max = <number>}; optional
+    <rarity>    -- "chance = <value>": <value> between 0.0 and 1.0
+  },
+}
+
+Example:
+Will drop with a chance of 30%  1 to 3 items of type "default:wood"
+and with a chance of 100% 2 items of type "default:stone"
+{
+  {"default:wood", {min = 1, max = 3}, chance = 0.3},
+  {"default:stone", 2}
+}
+
+
+#Creature definition
+--------------------
+{
+  name = "",                 -- e.g. "creatures:sheep"
+  ownable = false,           -- can be owned by player <optional>
+  stats = {
+    hp = 1,                  -- 1 HP = "1/2 player heart"
+    hostile = false,         -- is mob hostile (required for mode "attack") <optional>
+    lifetime = 300,          -- after which time mob despawns, in seconds <optional>
+    dies_when_tamed = false, -- stop despawn when tamed <optional>
+    can_jump = 1,            -- height in nodes <optional>
+    can_swim = false,        -- can mob swim or will it drown <optional>
+    can_fly = false,         -- allows to fly (requires mode "fly") and disable step sounds <optional>
+    can_burn = false,        -- takes damage of lava <optional>
+    can_panic = false,       -- runs fast around when hit (requires mode "walk") <optional>
+    has_falldamage = false,  -- deals damage if falling more than 3 blocks <optional>
+    has_kockback = false,    -- get knocked back when hit <optional>
+    sneaky = false,          -- disables step sounds <optional>
+    light = {min, max},      -- which light level will burn creature (requires can_burn = true) <optional>
+  },
+
+  modes = {
+    idle = {chance = <part of 1.0>, duration = <time>, moving_speed = <number>, update_yaw = <yawtime>},
+      ^ chance  -- number between 0.0 and 1.0 (!!NOTE: sum of all modes MUST be 1.0!!)
+       ^ if chance is 0 then mode is not chosen automatically
+      ^ duration  -- time in seconds until the next mode is chosen (depending on chance)
+      ^ moving_speed  -- moving speed(flying/walking) <optional>
+      ^ update_yaw  -- timer in seconds until the looking dir is changed <optional>
+        ^ if moving_speed > 0 then the moving direction is also changed
+
+    -- special modes
+    attack = {<same as above>}
+    follow = {<same as above>, radius = <number>, timer = <time>, items = <table>},
+      ^ same as above  -- all possible values like specified above
+      ^ radius  -- search distance in blocks/nodes for player
+      ^ timer  -- time in seconds between each check for player
+      ^ items  -- table of items to make mob follow in format {<Itemname>, <Itemname>}; e.g. {"farming:wheat"}
+    eat = {<same as above>, nodes = <table>},
+      ^ same as above  -- all possible values like specified above
+      ^ items  -- eatable nodes in format {<Itemname>, <Itemname>}; e.g. {"default:dirt_with_grass"}
+  },
+
+  model = {
+    mesh = "creatures_sheep.x",          -- mesh name; see Minetest Documentation for supported filetypes
+    textures = {"creatures_sheep.png"},  -- table of textures; see Minetest Documentation
+    collisionbox = <NodeBox>,            -- defines mesh collision box; see Minetest Documentation
+    rotation = 0.0,                      -- sets rotation offset when moving
+    backface_culling = false,            -- set true to enable backface culling
+    animations = {                       -- animation used if defined <optional>
+      idle = {#AnimationDef},            -- see #AnimationDef
+        ... -- depends on modes (must correspond to be used);
+              ^ supported "special modes": eat, follow, attack, death, swim, panic
+    },
+  },
+
+  sounds = {
+      on_damage = {#SoundDef},            -- see #SoundDef <optional>
+      on_death = {#SoundDef},             -- see #SoundDef <optional>
+      swim = {#SoundDef},                 -- see #SoundDef <optional>
+      random = {                          -- depends on mode <optional>
+        idle = {#SoundDef},               -- <optional>
+        ... -- depends on modes (must correspond to be used); supports "special modes": eat, follow, attack
+      },
+  },
+
+  drops = {#ItemDrops},     -- see #ItemDrops definition <optional>
+    ^ can also be a function; receives "self" reference
+
+  combat = {              -- specifies behavior of hostile mobs in "attack" mode
+    attack_damage = 1,       -- how much damage deals each hit
+    attack_speed = 1.0,      -- time in seconds between hits (default: 1.0)
+    attack_radius = 1.1,     -- distance in blocks mob can reach to hit
+
+    search_enemy = true,     -- true to search enemies to attack
+    search_timer = 2,        -- time in seconds to search an enemy (only if none found yet)
+    search_radius = 12,      -- radius in blocks within enemies are searched
+    search_type = "player",  -- what enemy is being searched (see types at cmer.findTarget())
+  }
+
+  spawning = {                  -- defines spawning in world <optional>
+    abm_nodes = {
+      spawn_on = {<table>},     -- on what nodes mob can spawn <optional>
+        ^ table  -- nodes and groups in table format; e.g. {"group:stone", "default:stone"}
+      neighbors = {},           -- what node should be neighbors to spawnnode <optional>
+        ^ can be nil or table as above; "air" is forced always as neighbor
+    },
+    abm_interval = <interval>,  -- time in seconds until Minetest tries to find a node with set specs
+    abm_chance = <chance>,      -- chance is 1/<chance>
+    max_number = <number>,             -- maximum mobs of this kind per mapblock(16x16x16)
+    number = <amount>,          -- how many mobs are spawned if found suitable spawn position
+      ^ amount  -- number or table {min = <value>, max = <value>}
+    time_range = <range>,       -- time range in time of day format (0-24000) <optional>
+      ^ range  -- table {min = <value>, max = <value>}
+    light = <range>,            -- min and max lightvalue at spawn position <optional>
+      ^ range  -- table {min = <value>, max = <value>}
+    height_limit = <range>,     -- min and max height (world Y coordinate) <optional>
+      ^ range  -- table {min = <value>, max = <value>}
+
+    spawn_egg = {           -- is set a spawn_egg is added to creative inventory <optional>
+      description = <desc>, -- Item description as string
+      texture = <name>,     -- texture name as string
+    },
+
+    spawner = {          -- is set a spawner_node is added to creative inventory <optional>
+      range = <number>,  -- defines an area (in blocks/nodes) within mobs are spawned
+      number = <number>, -- maxmimum number of mobs spawned in area defined via range
+      description = <desc>, -- Item description as string <optional>
+      light = <range>,   -- min and max lightvalue at spawn position <optional>
+        ^ range  -- table {min = <value>, max = <value>}
+    }
+  },
+
+  on_rightclick = func(self, clicker) -- called when mob is rightclicked
+    ^ prevents default action when returns boolean true
+
+  on_punch = func(self, puncher) -- called when mob is punched (puncher can be nil)
+    ^ prevents default action when returns boolean true
+
+  on_step = func(self, dtime) -- called each server step
+    ^ prevents default action when returns boolean true
+
+  on_activate = func(self, staticdata) -- called when mob (re-)actived
+    ^ Note: staticdata is deserialized by MOB-Engine (including costum values)
+
+  get_staticdata = func(self) -- called when mob is punched (puncher can be nil)
+    ^ must return a table to save mob data (serialization is done by MOB-Engine)
+    ^ e.g:
+      return {
+        costum_mob_data = self.my_value,
+        }
+}
+
+#AnimationDef {
+  start = 0,    -- animation start frame
+  stop = 80,    -- animation end frame
+  speed = 15,   -- animation speed
+  loop = true,  -- if false, animation if just played once <optional>
+  duration = 1  -- only supported in "death"-Animation, sets time the animation needs until mob is removed <optional>
+}
+
+#SoundDef {
+  name = <name>,        -- sound name as string; see Minetest documentation
+  gain = 1.0,           -- sound gain; see Minetest documentation
+  distance = <number>,  -- hear distance in blocks/nodes <optional>
+  time_min = <time>     -- minimum time in seconds between sounds (random only) <optional>
+  time_max = <time>     -- maximum time in seconds between sounds (random only) <optional>
+}

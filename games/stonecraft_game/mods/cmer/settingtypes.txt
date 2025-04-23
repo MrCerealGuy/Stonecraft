@@ -1,0 +1,14 @@
+
+mobs.particles (Enable particles) bool false
+
+# Displays nametags above mobs.
+mobs.nametags (Enable mob nametags) bool false
+
+# Determines if owned entities can be killed by non-owners.
+mobs.grief_owned (Players can kill owned) bool false
+
+# Only spawn mobs that don't attack players.
+only_peaceful_mobs (Peaceful only) bool false
+
+# Print extra debugging messages.
+debug_mods (Debug mods) bool false

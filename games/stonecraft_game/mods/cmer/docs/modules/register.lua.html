@@ -1,0 +1,1129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Creatures Revived</title>
+    <link rel="stylesheet" href="../ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>cmer</h1>
+
+
+<ul>
+  <li><a href="../api.html">Index</a></li>
+</ul>
+
+<h2>Contents</h2>
+<ul>
+<li><a href="#Functions">Functions</a></li>
+<li><a href="#Tables">Tables</a></li>
+<li><a href="#Definition_Tables">Definition Tables </a></li>
+<li><a href="#Callbacks">Callbacks </a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul class="nowrap">
+  <li><a href="../modules/common.lua.html">common.lua</a></li>
+  <li><a href="../modules/features.lua.html">features.lua</a></li>
+  <li><strong>register.lua</strong></li>
+  <li><a href="../modules/settings.lua.html">settings.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>register.lua</code></h1>
+<p>MOB Registration</p>
+<p>
+
+</p>
+
+
+<h2><a href="#Functions">Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#cmer.register_mob">cmer.register_mob (def)</a></td>
+	<td class="summary">Registers a new mob.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#cmer.register_alias">cmer.register_alias (old_mob, new_mob)</a></td>
+	<td class="summary">Registers an alias for other mob, e.g.</td>
+	</tr>
+</table>
+<h2><a href="#Tables">Tables</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#CreatureDef">CreatureDef</a></td>
+	<td class="summary">Creature definition table.</td>
+	</tr>
+</table>
+<h2><a href="#Definition_Tables">Definition Tables </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#StatsDef">StatsDef</a></td>
+	<td class="summary">Stats definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#ModeDef">ModeDef</a></td>
+	<td class="summary">Modes definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#ModelDef">ModelDef</a></td>
+	<td class="summary">Model definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#AnimationDef">AnimationDef</a></td>
+	<td class="summary">Animations defiintion table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#SoundsDef">SoundsDef</a></td>
+	<td class="summary">Sounds definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#SoundDef">SoundDef</a></td>
+	<td class="summary">Sound definition.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#DropDef">DropDef</a></td>
+	<td class="summary">Item drops definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CombatDef">CombatDef</a></td>
+	<td class="summary">Combat definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#SpawnDef">SpawnDef</a></td>
+	<td class="summary">Spawning definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#ABMNodesDef">ABMNodesDef</a></td>
+	<td class="summary">ABM nodes definition table.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#SpawnerDef">SpawnerDef</a></td>
+	<td class="summary">Spawner definition table.</td>
+	</tr>
+</table>
+<h2><a href="#Callbacks">Callbacks </a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" ><a href="#CreatureDef.on_activate">CreatureDef.on_activate (self, staticdata, dtime_s)</a></td>
+	<td class="summary">Called when mob (re-)activated.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CreatureDef.on_step">CreatureDef.on_step (self, dtime)</a></td>
+	<td class="summary">Called each server step, after movement and collision processing.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CreatureDef.on_punch">CreatureDef.on_punch (self, puncher, time_from_last_punch, tool_capabilities, dir, damage)</a></td>
+	<td class="summary">Called when mob is punched.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CreatureDef.on_rightclick">CreatureDef.on_rightclick (self, clicker)</a></td>
+	<td class="summary">Called when mob is right-clicked.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CreatureDef.on_death">CreatureDef.on_death (self, killer)</a></td>
+	<td class="summary">Called when mob dies.</td>
+	</tr>
+	<tr>
+	<td class="name" ><a href="#CreatureDef.get_staticdata">CreatureDef.get_staticdata (self)</a></td>
+	<td class="summary">Must return a table to save mob data (serialization is done by MOB-Engine).</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2 class="section-header "><a name="Functions"></a>Functions</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "cmer.register_mob"></a>
+    <strong>cmer.register_mob (def)</strong>
+    </dt>
+    <dd>
+    Registers a new mob.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">def</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#CreatureDef">CreatureDef</a></span>
+         Creature definition table.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        <code>true</code> if successfule.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "cmer.register_alias"></a>
+    <strong>cmer.register_alias (old_mob, new_mob)</strong>
+    </dt>
+    <dd>
+    Registers an alias for other mob, e.g.  from other mods or removed ones.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">old_mob</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of mob to be replaced. E.g. "creatures:oerrki"
+        </li>
+        <li><span class="parameter">new_mob</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Name of mob that will replace instances old one. E.g. "creatures:oerkki"
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        <code>true</code> if successful.
+    </ol>
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Tables"></a>Tables</h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "CreatureDef"></a>
+    <strong>CreatureDef</strong>
+    </dt>
+    <dd>
+    Creature definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         E.g. "creatures:sheep".
+        </li>
+        <li><span class="parameter">nametag</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         String to be displayed in entity's nametag.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">ownable</span>
+            <span class="types"><span class="type">bool</span></span>
+         Flag for defining if entity is ownable by players (default: <em>false</em>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">stats</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#StatsDef">StatsDef</a></span>
+         Stats definitions.
+        </li>
+        <li><span class="parameter">modes</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#ModeDef">ModeDef</a></span>
+         Entity bahavior defintions.
+        </li>
+        <li><span class="parameter">model</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#ModelDef">ModelDef</a></span>
+         Model definitions.
+        </li>
+        <li><span class="parameter">sounds</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Table of <a href="../modules/register.lua.html#SoundDef">SoundDef</a>. Additionally, <code>play_default_hit</code> can be set to <code>false</code> here to disable default "hit" sound.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">drops</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         List of item <a href="../modules/register.lua.html#DropDef">DropDef</a>. Can also be a function. receives "self" reference.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">combat</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#CombatDef">CombatDef</a></span>
+         Specifies behavior of hostile mobs in "attack" mode.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">spawning</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#SpawnDef">SpawnDef</a></span>
+         Defines spawning in world.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">on_activate</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.on_activate">CreatureDef.on_activate</a>
+        </li>
+        <li><span class="parameter">on_step</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.on_step">CreatureDef.on_step</a>
+        </li>
+        <li><span class="parameter">on_punch</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.on_punch">CreatureDef.on_punch</a>
+        </li>
+        <li><span class="parameter">on_rightclick</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.on_rightclick">CreatureDef.on_rightclick</a>
+        </li>
+        <li><span class="parameter">on_death</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.on_death">CreatureDef.on_death</a>
+        </li>
+        <li><span class="parameter">get_staticdata</span>
+            <span class="types"><span class="type">callback</span></span>
+         see: <a href="../modules/register.lua.html#CreatureDef.get_staticdata">CreatureDef.get_staticdata</a>
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Definition_Tables"></a>Definition Tables </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "StatsDef"></a>
+    <strong>StatsDef</strong>
+    </dt>
+    <dd>
+    Stats definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">hp</span>
+            <span class="types"><span class="type">int</span></span>
+         Full health level (1 HP = 1/2 player heart).
+        </li>
+        <li><span class="parameter">hostile</span>
+            <span class="types"><span class="type">bool</span></span>
+         Is mob hostile (required for mode "attack") (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">lifetime</span>
+            <span class="types"><span class="type">int</span></span>
+         After which time mob despawns, in seconds.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">dies_when_tamed</span>
+            <span class="types"><span class="type">bool</span></span>
+         Stop despawn when tamed (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">can_jump</span>
+            <span class="types"><span class="type">int</span></span>
+         Height in nodes (default: 0).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">can_swim</span>
+            <span class="types"><span class="type">bool</span></span>
+         Can mob swim or will it drown (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">can_fly</span>
+            <span class="types"><span class="type">bool</span></span>
+         Allows to fly (requires mode "fly") and disable step sounds (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">can_burn</span>
+            <span class="types"><span class="type">bool</span></span>
+         Takes damage of lava (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">can_panic</span>
+            <span class="types"><span class="type">bool</span></span>
+         Runs fast around when hit (requires mode "walk") (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">has_falldamage</span>
+            <span class="types"><span class="type">bool</span></span>
+         Deals damage if falling more than 3 blocks (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">has_knockback</span>
+            <span class="types"><span class="type">bool</span></span>
+         Get knocked back when hit (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">sneaky</span>
+            <span class="types"><span class="type">bool</span></span>
+         Disables step sounds if <code>true</code> (default: <code>false</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">light</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+<p> Which light level will burn creature (requires can_burn = true).</p>
+
+<p>  Example:</p>
+
+<pre><code>light = {min=10, max=15}
+</code></pre>
+
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ModeDef"></a>
+    <strong>ModeDef</strong>
+    </dt>
+    <dd>
+
+<p>Modes definition table. </p>
+
+<p>  Entity behavior definition. Behavior types are <strong><em>idle</em></strong>, <strong><em>walk</em></strong>, <strong><em>attack</em></strong>, <strong><em>follow</em></strong>, <strong><em>eat</em></strong>, <strong><em>death</em></strong>, &amp; <strong><em>panic</em></strong>. The sum of all modes must be 1.0.</p>
+
+<p>  Example:</p>
+
+<pre><code>modes = {
+  idle = {chance=0.3,},
+  walk = {chance=0.7, moving_speed=1,},
+}
+</code></pre>
+
+
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">chance</span>
+            <span class="types"><span class="type">float</span></span>
+         Number between 0.0 and 1.0 (<strong>*NOTE:</strong> sum of all modes MUST be 1.0*). If chance is 0 then mode is not chosen automatically.
+        </li>
+        <li><span class="parameter">duration</span>
+            <span class="types"><span class="type">int</span></span>
+         Time in seconds until the next mode is chosen (depending on chance).
+        </li>
+        <li><span class="parameter">moving_speed</span>
+            <span class="types"><span class="type">int</span></span>
+         Moving speed (walking/flying/swimming).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">update_yaw</span>
+            <span class="types"><span class="type">int</span></span>
+         Timer in seconds until the looking dir is changed. If moving_speed > 0 then the moving direction is also changed.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">radius</span>
+            <span class="types"><span class="type">int</span></span>
+         <em>(follow &amp; eat modes only)</em> Search distance in blocks/nodes for player.
+        </li>
+        <li><span class="parameter">timer</span>
+            <span class="types"><span class="type">int</span></span>
+         <em>(follow &amp; eat modes only)</em> Time in seconds between each check for player.
+        </li>
+        <li><span class="parameter">items</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         <em>(follow &amp; eat modes only)</em> Table of items to make mob follow in format {&lt;Itemname&gt;, &lt;Itemname&gt;}; e.g. {"farming:wheat"}.
+        </li>
+        <li><span class="parameter">nodes</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         <em>(eat mode only)</em> Eatable nodes in format {&lt;Itemname&gt;, &lt;Itemname&gt;}; e.g. {"default:dirt_with_grass"}.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ModelDef"></a>
+    <strong>ModelDef</strong>
+    </dt>
+    <dd>
+    Model definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">mesh</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Mesh name (see Minetest Documentation for supported filetypes).
+        </li>
+        <li><span class="parameter">textures</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Table of textures (see Minetest Documentation).
+        </li>
+        <li><span class="parameter">collisionbox</span>
+            <span class="types"><span class="type">NodeBox</span></span>
+         Defines mesh collision box (see Minetest Documentation).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">scale</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Sets visual scale (default: {x=1, y=1}).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">rotation</span>
+            <span class="types"><span class="type">float</span></span>
+         Sets rotation offset when moving (default: 0.0).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">backface_culling</span>
+            <span class="types"><span class="type">bool</span></span>
+         Set to <code>true</code> to enable backface culling.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">animations</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Table of <a href="../modules/register.lua.html#AnimationDef">AnimationDef</a> used if defined.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">collide_with_objects</span>
+            <span class="types"><span class="type">bool</span></span>
+         Collide with other objects (default: <code>true</code>).
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "AnimationDef"></a>
+    <strong>AnimationDef</strong>
+    </dt>
+    <dd>
+
+<p>Animations defiintion table. </p>
+
+<p>  Animations coincide with modes. E.g. <strong><em>idle</em></strong>, <strong><em>walk</em></strong>, etc.</p>
+
+<p>  Example:</p>
+
+<pre><code>animations = {
+  idle = {start=25, stop=75, speed=15,},
+  walk = {start=75, stop=100, speed=15,},
+}
+</code></pre>
+
+
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">start</span>
+            <span class="types"><span class="type">int</span></span>
+         Start frame.
+        </li>
+        <li><span class="parameter">stop</span>
+            <span class="types"><span class="type">int</span></span>
+         End frame.
+        </li>
+        <li><span class="parameter">speed</span>
+            <span class="types"><span class="type">int</span></span>
+         Animation speed.
+        </li>
+        <li><span class="parameter">loop</span>
+            <span class="types"><span class="type">bool</span></span>
+         If <code>false</code>, animation if just played once (default: <code>true</code>).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">duration</span>
+            <span class="types"><span class="type">int</span></span>
+         <em>(death mode only)</em> Sets time the animation needs until mob is removed.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "SoundsDef"></a>
+    <strong>SoundsDef</strong>
+    </dt>
+    <dd>
+
+<p>Sounds definition table. </p>
+
+<p>  Sounds can be defined for these actions: <strong>*on_damage*</strong>, <strong>*on_death*</strong>, <strong><em>swim</em></strong>, &amp; <strong><em>random</em></strong>.</p>
+
+<p>  <strong><em>random</em></strong> is a table of <a href="../modules/register.lua.html#SoundDef">SoundDef</a> that will be played randomly during the modes for which they are set.</p>
+
+<p>  Example:</p>
+
+<pre><code>sounds = {
+  on_damage = {name="creatures_horse_neigh_02", gain=1.0},
+  on_death = {name="creatures_horse_snort_02", gain=1.0},
+  random = {
+    idle = {name="creatures_horse_snort_01", gain=1.0},
+    follow = {name="creatures_horse_neigh_01", gain=1.0, time_min=10},
+  },
+}
+</code></pre>
+
+
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">on_damage</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#SoundDef">SoundDef</a></span>
+         Sound played when entity is hit.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">on_death</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#SoundDef">SoundDef</a></span>
+         Sound played when entity dies.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">swim</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#SoundDef">SoundDef</a></span>
+         Sound played while entity is swimming.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">Random</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Sounds that will play randomly during specified modes. E.g. <strong><em>idle</em></strong>, <strong><em>walk</em></strong>, etc.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "SoundDef"></a>
+    <strong>SoundDef</strong>
+    </dt>
+    <dd>
+    Sound definition.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">name</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Sound file name without file type extension (e.g. "my<em>sound", not "my</em>sound.ogg") (see Minetest documentation).
+        </li>
+        <li><span class="parameter">gain</span>
+            <span class="types"><span class="type">float</span></span>
+         Sound gain (see Minetest documentation).
+        </li>
+        <li><span class="parameter">distance</span>
+            <span class="types"><span class="type">int</span></span>
+         Distance in blocks/nodes at which sound can be heard.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">time_min</span>
+            <span class="types"><span class="type">int</span></span>
+         <em>(random mode only)</em> Minimum time in seconds between sounds.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">time_max</span>
+            <span class="types"><span class="type">int</span></span>
+         <em>(random mode only)</em> Maximum time in seconds between sounds.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "DropDef"></a>
+    <strong>DropDef</strong>
+    </dt>
+    <dd>
+
+<p>Item drops definition table. </p>
+
+<p>  Example:</p>
+
+<pre><code>drops = {
+  {"default:wood"}, -- 1 item with 100% chance
+  {"default:wool", 1, chance=0.3}, -- 1 item with 30% chance
+  {"default:stick", {min=2, max=3}, chance=0.2}, -- between 2-3 items with 20% chance
+}
+</code></pre>
+
+
+
+    </ul>
+    </ul>
+
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CombatDef"></a>
+    <strong>CombatDef</strong>
+    </dt>
+    <dd>
+    Combat definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">attack_damage</span>
+            <span class="types"><span class="type">int</span></span>
+         How much damage is dealt on each hit.
+        </li>
+        <li><span class="parameter">attack_speed</span>
+            <span class="types"><span class="type">float</span></span>
+         Time in seconds between hits (default: 1.0).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">attack_radius</span>
+            <span class="types"><span class="type">float</span></span>
+         Distance in blocks mob can reach to hit.
+        </li>
+        <li><span class="parameter">search_enemy</span>
+            <span class="types"><span class="type">bool</span></span>
+         <code>true</code> to search enemies to attack.
+        </li>
+        <li><span class="parameter">search_timer</span>
+            <span class="types"><span class="type">int</span></span>
+         Time in seconds to search an enemy (only if none found yet) (default: 2).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">search_radius</span>
+            <span class="types"><span class="type">int</span></span>
+         Radius in blocks within enemies are searched.
+        </li>
+        <li><span class="parameter">search_type</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         What enemy is being searched (see types at <code>cmer.findTarget</code>).
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "SpawnDef"></a>
+    <strong>SpawnDef</strong>
+    </dt>
+    <dd>
+    Spawning definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">abm_nodes</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#ABMNodesDef">ABMNodesDef</a></span>
+         On what nodes mob can spawn.
+        </li>
+        <li><span class="parameter">abm_interval</span>
+            <span class="types"><span class="type">int</span></span>
+         Time in seconds until Minetest tries to find a node with set specs (default: 44).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">abm_chance</span>
+            <span class="types"><span class="type">int</span></span>
+         Chance is 1/&lt;chance&gt; (default: 7000).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">max_number</span>
+            <span class="types"><span class="type">int</span></span>
+         Maximum mobs of this kind per mapblock (16x16x16).
+        </li>
+        <li><span class="parameter">number</span>
+            <span class="types"><span class="type">int</span></span>
+         How many mobs are spawned if found suitable spawn position. Can be <code>int</code> or <a href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a>: number = {min=&lt;value&gt;, max=&lt;value&gt;}
+        </li>
+        <li><span class="parameter">time_range</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Time range in time of day format (0-24000) (table with <em>min</em> &amp; <em>max</em> values).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">light</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Min and max lightvalue at spawn position (table with <em>min</em> &amp; <em>max</em> values).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">height_limit</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Min and max height (world Y coordinate) (table with <em>min</em> &amp; <em>max</em> values).
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">spawner</span>
+            <span class="types"><a class="type" href="../modules/register.lua.html#SpawnerDef">SpawnerDef</a></span>
+         Is set a spawner_node is added to creative inventory.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "ABMNodesDef"></a>
+    <strong>ABMNodesDef</strong>
+    </dt>
+    <dd>
+    ABM nodes definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">spawn_on</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         List of nodes on which the mob can spawn.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">neighbors</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         List of nodes that should be neighbors where mob can spawn. Can be nil or table as above (default: {"air"}).
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "SpawnerDef"></a>
+    <strong>SpawnerDef</strong>
+    </dt>
+    <dd>
+    Spawner definition table.
+
+    </ul>
+    </ul>
+
+    <h3>Fields:</h3>
+    <ul>
+        <li><span class="parameter">range</span>
+            <span class="types"><span class="type">int</span></span>
+         Defines an area (in blocks/nodes) within mobs are spawned.
+        </li>
+        <li><span class="parameter">number</span>
+            <span class="types"><span class="type">int</span></span>
+         Maxmimum number of mobs spawned in area defined via range.
+        </li>
+        <li><span class="parameter">description</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Item description as string.
+         (<em>optional</em>)
+        </li>
+        <li><span class="parameter">light</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         Min and max lightvalue at spawn position.
+         (<em>optional</em>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+</dl>
+    <h2 class="section-header "><a name="Callbacks"></a>Callbacks </h2>
+
+    <dl class="function">
+    <dt>
+    <a name = "CreatureDef.on_activate"></a>
+    <strong>CreatureDef.on_activate (self, staticdata, dtime_s)</strong>
+    </dt>
+    <dd>
+    Called when mob (re-)activated. </p>
+
+<p>  Note: staticdata is deserialized by MOB-Engine (including custom values).
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">staticdata</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.4">string</a></span>
+         Formatted string data to be deserialized.
+        </li>
+        <li><span class="parameter">dtime_s</span>
+            <span class="types"><span class="type">int</span></span>
+         The time passed since the object was unloaded, which can be used for updating the entity state.
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CreatureDef.on_step"></a>
+    <strong>CreatureDef.on_step (self, dtime)</strong>
+    </dt>
+    <dd>
+    Called each server step, after movement and collision processing.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">dtime</span>
+            <span class="types"><span class="type">float</span></span>
+         Usually 0.1 seconds, as per the <code>dedicated_server_step</code> setting in <code>minetest.conf</code>.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Prevents default action when returns <code>true</code>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CreatureDef.on_punch"></a>
+    <strong>CreatureDef.on_punch (self, puncher, time_from_last_punch, tool_capabilities, dir, damage)</strong>
+    </dt>
+    <dd>
+    Called when mob is punched.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">puncher</span>
+            <span class="types"><span class="type">ObjectRef</span></span>
+
+
+
+        </li>
+        <li><span class="parameter">time_from_last_punch</span>
+         Meant for disallowing spamming of clicks.
+        </li>
+        <li><span class="parameter">tool_capabilities</span>
+            <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+         See: http://minetest.gitlab.io/minetest/tools.html
+        </li>
+        <li><span class="parameter">dir</span>
+         Unit vector of direction of punch. Always defined. Points from the puncher to the punched.
+        </li>
+        <li><span class="parameter">damage</span>
+            <span class="types"><span class="type">int</span></span>
+         Damage that will be done to entity.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Prevents default action when returns <code>true</code>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CreatureDef.on_rightclick"></a>
+    <strong>CreatureDef.on_rightclick (self, clicker)</strong>
+    </dt>
+    <dd>
+    Called when mob is right-clicked.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">clicker</span>
+            <span class="types"><span class="type">ObjectRef</span></span>
+         Entity that did the punching.
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><span class="type">bool</span></span>
+        Prevents default action when returns <code>true</code>.
+    </ol>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CreatureDef.on_death"></a>
+    <strong>CreatureDef.on_death (self, killer)</strong>
+    </dt>
+    <dd>
+    Called when mob dies.
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+        <li><span class="parameter">killer</span>
+            <span class="types"><span class="type">ObjectRef</span></span>
+         (can be <code>nil</code>)
+        </li>
+    </ul>
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "CreatureDef.get_staticdata"></a>
+    <strong>CreatureDef.get_staticdata (self)</strong>
+    </dt>
+    <dd>
+
+<p>Must return a table to save mob data (serialization is done by MOB-Engine). </p>
+
+<p>  e.g:</p>
+
+<pre><code>return {
+  custom_mob_data = self.my_value,
+}
+</code></pre>
+
+
+
+    </ul>
+    </ul>
+
+    <h3>Parameters:</h3>
+    <ul>
+        <li><span class="parameter">self</span>
+
+
+
+        </li>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+
+           <span class="types"><a class="type" href="https://www.lua.org/manual/5.3/manual.html#6.6">table</a></span>
+
+
+
+    </ol>
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.6</a></i>
+<i style="float:right;">Last updated 2021-06-01 20:03:03 </i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>
