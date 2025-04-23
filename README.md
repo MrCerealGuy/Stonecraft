@@ -2,9 +2,9 @@
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-An InfiniMiner/Minecraft inspired game powered by Minetest 5.4.0
+An InfiniMiner/Minecraft inspired game powered by Luanti 5.11.0
 
-Copyright (c) 2016-2021 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
+Copyright (c) 2016-2025 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> and contributors
 
 ![Screenshot Stonecraft](screenshot.jpg)
 
@@ -13,8 +13,8 @@ Copyright (c) 2016-2021 Andreas "MrCerealGuy" Zahnleiter <mrcerealguy@gmx.de> an
 
 - Website: http://mrcerealguy.github.io/stonecraft
 - Itch.io: https://mrcerealguy.itch.io/stonecraft
-- Wiki: http://github.com/mrcerealguy/stonecraft/wiki
-- Github: https://github.com/mrcerealguy/stonecraft
+- Wiki:    http://github.com/mrcerealguy/stonecraft/wiki
+- Github:  https://github.com/mrcerealguy/stonecraft
 
 
 ## This game is not finished
