@@ -101,7 +101,7 @@ Use --help
 ```
 
 
-# Building GNU/Linux
+# Compiling
 
 - [Compiling - common information](doc/compiling/README.md)
 - [Compiling on GNU/Linux](doc/compiling/linux.md)
