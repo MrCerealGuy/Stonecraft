@@ -1,0 +1,5 @@
+Licenses
+
+Code: MIT (code re-based)
+Model/Textures: GPL v3
+Author: Team NPX

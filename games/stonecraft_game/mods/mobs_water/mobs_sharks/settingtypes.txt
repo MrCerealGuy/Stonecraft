@@ -1,0 +1,3 @@
+mobs_sharks.enable_large (Enable Large Sharks) bool true
+mobs_sharks.enable_medium (Enable Medium Sharks) bool true
+mobs_sharks.enable_small (Enable Small Sharks) bool true

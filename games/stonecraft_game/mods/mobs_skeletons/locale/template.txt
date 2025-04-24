@@ -1,0 +1,5 @@
+# textdomain:mobs_skeletons
+
+Skeleton=
+Skeleton Archer=
+Dark Skeleton Archer=

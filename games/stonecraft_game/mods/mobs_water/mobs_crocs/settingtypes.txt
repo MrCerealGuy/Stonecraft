@@ -1,0 +1,8 @@
+#    Enable walking crocs
+mobs_crocs.enable_walkers (Enable walking crocs) bool true
+
+#    Enable floating crocs
+mobs_crocs.enable_floaters (Enable floating crocs) bool true
+
+#    Enable swimming crocs
+mobs_crocs.enable_swimmers (Enable swimming crocs) bool true

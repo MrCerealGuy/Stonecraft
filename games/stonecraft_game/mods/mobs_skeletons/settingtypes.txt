@@ -1,0 +1,2 @@
+#    If false then mobs no longer spawn in world without spawner or spawn egg
+mobs_skeletons.sunlight_kill (Only direct sunlight kills skeletons) bool false

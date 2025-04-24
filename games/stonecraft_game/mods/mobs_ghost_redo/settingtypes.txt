@@ -1,0 +1,17 @@
+# ENG: Use the daytime check instead of light damage
+# to despawn ghosts? (runs every 15secs)
+#
+# ITA: Usare il controllo del giorno invece del
+# ferimento da luce per fare scomparire i fantasmi?
+# (eseguito ogni 15sec)
+mobs_ghost_redo_daytime_check	(Ghosts' Daytime Check)	bool	false
+
+# ENG: Whether if ghosts must be spawned from bones only.
+#
+# ITA: Se i fantasmi devono comparire solo dalle ossa.
+mobs_ghost_redo_bones_only	(Ghosts from bones only)	bool	false
+
+# ENG: Whether if ghosts can be hurt only by swords (metal or crystal)
+#
+# ITA: Se i fantasmi possono essere feriti solo da spade (metallo o cristallo)
+mobs_ghost_redo_difficulty	(Only swords hurt ghosts)	bool	false
