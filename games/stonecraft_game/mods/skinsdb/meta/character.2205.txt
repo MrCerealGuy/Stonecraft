@@ -1,0 +1,3 @@
+Manic Digger Mineplayer
+exe
+CC 0 (1.0)
