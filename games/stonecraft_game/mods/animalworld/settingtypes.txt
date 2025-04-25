@@ -1,0 +1,4 @@
+
+animalworld.trophies (Load Animal Trophies) bool true
+
+animalworld.tundravegetation (Load Tundra Vegetation) bool true

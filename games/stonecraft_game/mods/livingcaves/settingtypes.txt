@@ -1,0 +1,10 @@
+#livingcaves settings
+
+#If enabled, will clear all registered biomes.
+livingcaves.clear_biomes (Enable to clear registered biomes.  true / false) bool true
+
+#If enabled, will clear all registered decorations.
+livingcaves.clear_decos (Enable to clear registered decorations.  true / false) bool true
+
+#If enabled, will clear all registered ores.
+livingcaves.clear_ores (Enable to clear registered ores.  true / false) bool false

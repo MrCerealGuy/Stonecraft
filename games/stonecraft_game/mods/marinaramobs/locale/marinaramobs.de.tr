@@ -1,0 +1,31 @@
+# textdomain: marinaramobs
+
+### jellyfish.lua ###
+Jellyfish=Qualle
+
+### nautilus.lua ###
+Nautilusshell=Nautilus Schale
+
+### octopus.lua ###
+Octopus=Oktopus
+Raw Octopus=Roher Oktopus
+Cooked Octopus=Gekochter Oktopus
+
+### parrotfish.lua ###
+Parrotfish=Papageifisch
+Raw Exotic Fish=Roher Exotischer Fisch
+Cooked Exotic Fish=Gekochter Exotischer Fisch
+
+### seamouse.lua ###
+Seamouse=Seemaus
+
+### seaslug.lua ###
+Seaslug=Meeresschnecke
+
+### seaurchin.lua ###
+Seaurchin=Seeigel
+Cooked Seaurchin=Gekochter Seeigel
+
+### starfish.lua ###
+Starfish=Seestern
+Starfish Mobile=Seestern Mobile

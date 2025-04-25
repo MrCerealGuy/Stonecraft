@@ -1,0 +1,6 @@
+default
+livingcaves
+mobs
+tnt
+ethereal?
+naturalbiomes?

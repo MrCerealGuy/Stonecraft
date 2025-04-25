@@ -1,0 +1,3 @@
+mobs
+default
+nether

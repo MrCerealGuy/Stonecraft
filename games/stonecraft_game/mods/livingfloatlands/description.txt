@@ -1,0 +1,1 @@
+Adds various prehistoric animals to your Floatland Zone, if you are using V7 Map Generator. The floating islands can appear at a height of 1280 nodes.

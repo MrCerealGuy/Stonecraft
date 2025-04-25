@@ -1,0 +1,22 @@
+# textdomain: livingcavesmobs
+
+### biter.lua ###
+Biter=Beißer
+
+### explodingbacteria.lua ###
+Giant Bacteria=Riesenbakterie
+
+### flesheatingbacteria.lua ###
+Flesh Eating Bacteria=Fleischfressende Bakterie
+
+### grub.lua ###
+Grub dropped you a string for bush leaves!=Die Larve hat einen Faden für Buschblätter produziert!
+Grub stands still=Larve wartet
+Grub will follow you=Die Larve folgt dir
+Grub=Larve
+Moth Cocoon=Mottenkokon
+Moth Egg=Mottenei
+
+### moth.lua ###
+Moth=Motte
+

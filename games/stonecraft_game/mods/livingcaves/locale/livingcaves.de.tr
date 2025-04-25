@@ -1,0 +1,85 @@
+# textdomain: livingcaves
+
+### cavenodes.lua ###
+Mossy Cave Rock=Moosbewachsener Höhlenstein
+Lichen infested Cave Rock=Flechtenzersetzter Höhlenstein
+Mushroom Infested Rock=Pilzzersetzter Stein
+Dripstone Cave Stone=Tropfstein Höhlenstein
+Bacteria Infested Rock=Bakterienzersetzter Stein
+Dirt With Roots=Dreck mit Wurzeln
+Cave Ice=Höhleneis
+Flesh Eating Bacteria Trapstone=Fleischfressender Bakterien Stein
+Flesh Eating Bacteria Trap=Fleischfressende Bakterien Falle
+Bacteria Poolstone=Bakterien Beckenstein
+Bacteria Nest Foot=Bakterien Nestfuß
+Bacteria Nest Core=Bakteriennest Kern
+Spider Web=Spinnennetz
+
+### crafting.lua ###
+Root Woven=Geflochtene Wurzel
+Root Stair=Wurzeltreppe
+Root Slab=Wurzelplatte
+Root Dirt Stair=Wurzeldreck Treppe
+Root Dirt Slab=Wurzeldreck Platte
+Root Fence Gate=Wurzelzauntor
+Root Fence=Wurzelzaun
+Root Fence Rail=Wurzelzaun Geländer
+Root Door=Wurzeltür
+Root Trapdoor=Wurzelfalltür
+Root Mushroom Lamp=Wurzelpilz Lampe
+Ice Brick Wall=Eisziegelmauer
+Ice Brick Stair=Eisziegeltreppe
+Ice Brick Slab=Eisziegelplatte
+Ice Brick=Eisziegel
+Ice Fence=Eiszaun
+Ice Fence Rail=Eiszaun Geländer
+Ice Door=Eistür
+Ice Trapdoor=Eisfalltür
+Dripstone Brick Wall=Tropfsteinziegelmauer
+Dripstone Brick Stair=Tropfsteinziegeltreppe
+Dripstone Brick Slab=Tropfsteinziegelplatte
+Dripstone Bricks=Tropfsteinziegel
+Dripstone Door=Tropfsteintür
+Dripstone Trapdoor=Tropfsteinfalltür
+Mossy Brick Wall=Bemooste Ziegelmauer
+Mossy Stone Brick Stair=Bemooste Ziegletreppe
+Mossy Stone Brick Slab=Bemooste Ziegelplatte
+Mushcave Mossy Bricks=Bemooste Ziegel
+Healing Soup=Heilende Suppe
+
+### decor.lua ###
+Cave Moss=Höhlenmoos
+Cave Lichen=Höhlenflechte
+Hanging Moss=Hängemoos
+Glowing Mushroom Stem=Leuchtender Pilzstamm
+Glowing Mushroom Hat=Leuchtender Pilzhut
+Large Stalagmite=Großer Stalagmit
+Large Stalagmite Spike=Große Stalagmitenspitze
+Stalagmite=Stalagmit
+Stalagmite Spike=Stalgmitenspitze
+Stalagtite=Stalagtit
+Stalagtite Spike=Stalagtitenspitze
+Large Stalagtite=Großer Stalagtit
+Large Stalagtite Spike=Große Stalagtitenspitze
+Cave Water Source=Höhlenwasser Quelle
+Flowing Cave Water=Fließendes Höhlenwasser
+Empty Cave Bucket=Leerer Höhleneimer
+Cave Water Bucket=Höhlenwassereimer
+Water Bucket=Wassereimer
+River Water Bucket=Flusswassereimer
+Hanging Mold=Hängender Schimmel
+Bacteria with Mold=Bakterien mit Schimmel
+Bacteria Colony=Bakterienkolonie
+Smelly Mushroom=Stinkender Pilz
+Hanging Roots=Hängende Wurzeln
+Small Cave Roots=Kleine Höhlenwurzeln
+Big Cave Roots=Große Höhlenwurzeln
+Large Ice Stalagmite=Großer Eisstalagmit
+Large Ice Stalagmite Spike=Große Eisstalagmitenspitze
+Ice Stalagmite=Eisstalagmit
+Ice Stalagmite Spike=Eisstalagmit Spitze
+Ice Stalagtite=Eisstalagtit
+Stalagtite Ice Spike=Eisstalagtitenspitze
+Large Ice Stalagtite=Großer Eisstalagtit
+Large Ice Stalagtite Spike=Große Eisstalagtitenspitze
+

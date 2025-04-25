@@ -1,0 +1,87 @@
+# textdomain: marinara
+
+### coralnodes.lua ###
+Brown Hard Coral=Braune Steinkoralle
+Hard Coral=Steinkoralle
+Blue Hard Coral=Blaue Steinkoralle
+Green Hard Coral=Grüne Steinkoralle
+Pink Hard Coral=Pinke Steinkoralle
+Red Hard Coral=Rote Steinkoralle
+Violet Hard Coral=Violette Steinkoralle
+Yellow Hard Coral=Gelbe Steinkoralle
+Coastal Rock=Küstenfels
+Coastal Rock with Alage=Algiger Küstenfels
+Sea Pocks=Seepocken
+
+### crafting.lua ###
+Reed Node=Schilfblock
+Reed Node Stair=Schilftreppe
+Reed Node Slab=Schilfplatte
+Bounty Chest=Beutetruhe
+Sand with Seashells=Sand mit Muscheln
+Seashells=Muscheln
+Seashell Mobile=Muschel Mobile
+Coast Bricks=Küstenziegel
+Coast Brick Wall=Küstenziegelmauer
+Coast Rock Brick Stair=Küstenziegel Treppe
+Coast Rock Brick Slab=Küstenziegel Platte
+Coast Brick Wall with Alage=Algige Küstenziegelmauer
+Coast Rock Brick Stair with Alage=Algige Küstenziegel Treppe
+Coast Bricks with Alage=Algige Küstenziegel
+Sand with Seashells Orange=Sand mit orangen Muscheln
+Seashell Mobile=Muschel Mobile
+Seashells Orange=Orange Muscheln
+Seashell Mobile Orange=Muschel Mobile Orange
+Sand with Seashells Broken=Sand mit zerbrochenen Muscheln
+Seashells Broken=Zerbrochene Muscheln
+Seashell Mobile Broken=Muschel Mobile mit Bruchstücken
+Sand with Seashells Pink=Sand mit pinken Muscheln
+Seashells Pink=Pinke Muscheln
+Seashell Mobile Pink=Muschel Mobile Pink
+Sand with Seashells Brown=Sand mit braunen Muscheln
+Seashells Brown=Braune Muscheln
+Seashell Mobile Brown=Muschel Mobile Braun
+Sand with Seashells Yellow=Sand mit gelben Muscheln
+Seashells Yellow=Gelbe Muscheln
+Seashell Mobile Yellow=Muschel Mobile Gelb
+Sand with Seashells White=Sand mit weißen Muscheln
+Seashells White=Weiße Muscheln
+Seashell Mobile White=Muschel Mobile Weiß
+
+### plants.lua ###
+Reed Root=Schilf mit Wurzeln
+Reed=Schilf
+Long Seagrass=Langes Seegras
+Seagrass=Seegras
+Alage=Alge
+Brown Alage=Braunalge
+
+### reefstuff.lua ###
+Yellow Soft Coral=Gelbe Weichkoralle
+White Soft Coral=Weiße Weichkoralle
+Red Soft Coral=Rote Weichkoralle
+Green Soft Coral=Grüne Weichkoralle
+Soft Coral=Weichkoralle
+Brown Soft Coral=Braune Weichkoralle
+Sea Anemone=Seeanemone
+Sea Worm=Fächerwurm
+Mussel Node=Muschelblock
+Cooked Mussels=Gekochte Muscheln
+Oister Bank=Austernbank
+Raw Oisters=Rohe Austern
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
