@@ -76,7 +76,7 @@ AppDir
 /mod_data
 
 ## Configuration/log files
-minetest.conf
+stonecraft.conf
 debug.txt
 debug.txt.1
 
