@@ -25,7 +25,7 @@ namespace
 
 bool getGameConfig(const std::string &game_path, Settings &conf)
 {
-	std::string conf_path = game_path + DIR_DELIM + "minetest.conf";
+	std::string conf_path = game_path + DIR_DELIM + "stonecraft.conf";
 	return conf.readConfigFile(conf_path.c_str());
 }
 

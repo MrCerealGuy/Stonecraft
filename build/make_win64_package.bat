@@ -26,7 +26,6 @@ ROBOCOPY ..\textures              %_dest%\textures                         %_wha
 
 ROBOCOPY ..\ %_dest% README.md
 ROBOCOPY ..\ %_dest% LICENSE.txt
-ROBOCOPY ..\ %_dest% stonecraft.conf
 ROBOCOPY ..\ %_dest% stonecraft.conf.example
 ROBOCOPY ..\ %_dest% stonecraft.conf.example.extra
 
