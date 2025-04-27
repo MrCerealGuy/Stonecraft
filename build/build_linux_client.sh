@@ -1,6 +1,6 @@
 stonecraftdir="$(cd .. && pwd)"
 
-dialog --backtitle "Stonecraft Build" --title "Stonecraft Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
+dialog --backtitle "Stonecraft Client Build" --title "Stonecraft Client Build" --yesno "Start the build process? All previous generated CMake files will be deleted!" 15 60
 antwort=${?}
 
 if [ "$antwort" -eq "255" ]

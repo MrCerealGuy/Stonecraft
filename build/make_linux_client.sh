@@ -1,3 +1,0 @@
-cd ../
-make -j$(nproc)
- 
