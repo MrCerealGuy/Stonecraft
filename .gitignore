@@ -100,6 +100,7 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 CMakeCache.txt
+_CPack_Packages/
 CPackConfig.cmake
 CPackSourceConfig.cmake
 src/cmake_config.h
@@ -128,6 +129,7 @@ CMakeDoxy*
 compile_commands.json
 *.apk
 *.zip
+*.tar.gz
 # Visual Studio
 *.vcxproj*
 *.sln

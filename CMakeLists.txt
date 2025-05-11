@@ -236,6 +236,8 @@ if(RUN_IN_PLACE)
 	install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/textures/texture_packs_here.txt" DESTINATION "${SHAREDIR}/textures")
 endif()
 
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/games/stonecraft_game" DESTINATION "${SHAREDIR}/games/")
+
 set(INSTALL_DEVTEST FALSE CACHE BOOL "Install Development Test")
 
 if(INSTALL_DEVTEST)
@@ -264,7 +266,7 @@ if(UNIX AND NOT APPLE)
 	install(FILES "doc/stonecraft.6" "doc/stonecraftserver.6" DESTINATION "${MANDIR}/man6")
 	install(FILES "misc/net.stonecraft.stonecraft.desktop" DESTINATION "${XDG_APPS_DIR}")
 	install(FILES "misc/net.stonecraft.stonecraft.metainfo.xml" DESTINATION "${METAINFODIR}")
-	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
+#	install(FILES "misc/stonecraft.svg" DESTINATION "${ICONDIR}/hicolor/scalable/apps")
 	install(FILES "misc/stonecraft-xorg-icon-128.png"
 		DESTINATION "${ICONDIR}/hicolor/128x128/apps"
 		RENAME "stonecraft.png")
