@@ -106,4 +106,12 @@ Use --help
 - [Compiling - common information](doc/compiling/README.md)
 - [Compiling on GNU/Linux](doc/compiling/linux.md)
 - [Compiling on Windows](doc/compiling/windows.md)
-- [Compiling on MacOS](doc/compiling/macos.md)
+
+
+# Stonecraft WorldAtlas
+
+A web-based viewer for Stonecraft/Luanti world maps generated with minetestmapper (Linux only).
+
+[WorldAtlas on GitHub](https://github.com/MrCerealGuy/Stonecraft-WorldAtlas)
+
+![Screenshot Stonecraft WorldAtlas](https://raw.githubusercontent.com/MrCerealGuy/Stonecraft-WorldAtlas/master/stonecraft-mapviewer-1000.png)

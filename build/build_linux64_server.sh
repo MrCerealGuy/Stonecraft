@@ -23,5 +23,5 @@ echo -e "\E[34;47mdone!"
 
 cd ../
 cmake . -DBUILD_CLIENT=FALSE -DBUILD_SERVER=TRUE -DRUN_IN_PLACE=TRUE
-make package -j$(grep -c processor /proc/cpuinfo)
+make -j$(grep -c processor /proc/cpuinfo)
  
